@@ -53,6 +53,21 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		//,REQUIRED in later henshin versions
 	}
 	
+
+	/**
+	 * @param rule
+	 * @param nodename
+	 * @param isLhs
+	 * @return
+	 */
+	public static Node getNodeByName(Rule rule, String nodename, boolean isLhs) {
+		for (Node node : (isLhs) ? rule.getLhs().getNodes() : rule.getLhs().getNodes()) {
+			if (nodename.equals(node.getName())) return node;
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Creates a << preserve >> edge for the given rule.
 	 * Expecting one source and one target NodePair
