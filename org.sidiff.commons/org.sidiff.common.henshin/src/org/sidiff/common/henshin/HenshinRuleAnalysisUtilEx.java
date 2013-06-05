@@ -1,30 +1,15 @@
 package org.sidiff.common.henshin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -38,16 +23,12 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
- * Utility methods for analyzing Henshin transformation rules. Extending the
- * original HenshinRuleAnalysisUtil class.
+ * Utility methods for analyzing Henshin transformation rules.
  */
-public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil {
+public class HenshinRuleAnalysisUtilEx {
 
 	
 	public static enum NodeKindSelection{
@@ -191,8 +172,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 */
 	public static Node createCreateNode(Graph graph, String name, EClass type) {
 
-		Node newNode = HenshinFactory.eINSTANCE.createNode(graph, type);
-		newNode.setName(name);
+		Node newNode = HenshinFactory.eINSTANCE.createNode(graph, type, name);
 
 		return newNode;
 	}
@@ -346,7 +326,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 */
 	public static Parameter createParameter(Rule rule, String name) {
 
-		if (rule.getParameterByName(name) == null) {
+		if (rule.getParameter(name) == null) {
 			Parameter parameter = HenshinFactory.eINSTANCE.createParameter();
 			parameter.setName(name);
 			rule.getParameters().add(parameter);
@@ -543,7 +523,8 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 			if(unit instanceof Rule) {
 				ruleList.add((Rule)unit);
 			}
-		}			
+		}
+		return ruleList;
 	}
 	
 	/**
@@ -574,7 +555,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static List<Node> getLHSMinusRHSNodes(Rule rule) {
 		List<Node> res = new LinkedList<Node>();
 		for (Node lhsNode : rule.getLhs().getNodes()) {
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), lhsNode)) {
+			if (!isNodeMapped(rule.getMappings(), lhsNode)) {
 				res.add(lhsNode);
 			}
 		}
@@ -610,7 +591,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static List<Node> getRHSMinusLHSNodes(Rule rule) {
 		List<Node> res = new LinkedList<Node>();
 		for (Node rhsNode : rule.getRhs().getNodes()) {
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), rhsNode)) {
+			if (!isNodeMapped(rule.getMappings(), rhsNode)) {
 				res.add(rhsNode);
 			}
 		}
@@ -646,7 +627,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static List<Node> getLHSIntersectRHSNodes(Rule rule) {
 		List<Node> res = new LinkedList<Node>();
 		for (Node lhsNode : rule.getLhs().getNodes()) {
-			if (ModelHelper.isNodeMapped(rule.getMappings(), lhsNode)) {
+			if (isNodeMapped(rule.getMappings(), lhsNode)) {
 				res.add(lhsNode);
 			}
 		}
@@ -665,7 +646,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		List<NodePair> res = new LinkedList<NodePair>();
 
 		for (Node lhsNode : rule.getLhs().getNodes()) {
-			Node rhsNode = ModelHelper.getRemoteNode(rule.getMappings(), lhsNode);
+			Node rhsNode = getRemoteNode(rule.getMappings(), lhsNode);
 
 			if (rhsNode != null) {
 				res.add(new NodePair(lhsNode, rhsNode));
@@ -802,7 +783,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		List<Attribute> res = new LinkedList<Attribute>();
 
 		for (Node rhsNode : rule.getRhs().getNodes()) {
-			if (ModelHelper.isNodeMapped(rule.getMappings(), rhsNode)) {
+			if (isNodeMapped(rule.getMappings(), rhsNode)) {
 				for (Attribute rhsAttribute : rhsNode.getAttributes()) {
 					Attribute lhsAttribute = getRemoteAttribute(rhsAttribute);
 
@@ -886,7 +867,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 */
 	public static Attribute getRemoteAttribute(Attribute attribute) {
 		Node node = attribute.getNode();
-		Node remoteNode = ModelHelper.getRemoteNode(node.getGraph().getContainerRule().getMappings(), node);
+		Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 
 		if ((node != null) && (remoteNode != null)) {
 			for (Attribute remoteAttribute : remoteNode.getAttributes()) {
@@ -985,30 +966,34 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 * 				if true, only containment relations with abstract children are considered.
 	 * @return the nodes that match.
 	 */
-	public static List<Node> getChildNodesWithinAContainmentRelation(TransformationSystem ts, NodeKindSelection nodeKind, Boolean onlyAbstracts) {
+	public static List<Node> getChildNodesWithinAContainmentRelation(Module module, NodeKindSelection nodeKind, Boolean onlyAbstracts) {
 	
 		ArrayList<Node> nodeList = new ArrayList<Node>();
 		ArrayList<Node> resultList = new ArrayList<Node>();
 		
 		// choose the correct nodeList
-		for(Rule r: ts.getRules()) {
-			switch(nodeKind) {
-				case CREATE: 
-					nodeList.addAll(getRHSMinusLHSNodes(r));
-					break;
-				case DELETE:
-					nodeList.addAll(getLHSMinusRHSNodes(r));
-					break;
-				case PRESERVED:
-					nodeList.addAll(getLHSIntersectRHSNodes(r));
-					break;
-				case FORBID: 
-					nodeList.addAll(getForbidNodes(r));
-					break;
-				case ALL:
-					nodeList.addAll(r.getLhs().getNodes());
-					nodeList.addAll(r.getRhs().getNodes());
-					break;		
+		for(Unit u: module.getUnits()) {
+			if(u instanceof Rule){
+				
+				Rule r = (Rule) u;
+				switch(nodeKind) {
+					case CREATE: 
+						nodeList.addAll(getRHSMinusLHSNodes(r));
+						break;
+					case DELETE:
+						nodeList.addAll(getLHSMinusRHSNodes(r));
+						break;
+					case PRESERVED:
+						nodeList.addAll(getLHSIntersectRHSNodes(r));
+						break;
+					case FORBID: 
+						nodeList.addAll(getForbidNodes(r));
+						break;
+					case ALL:
+						nodeList.addAll(r.getLhs().getNodes());
+						nodeList.addAll(r.getRhs().getNodes());
+						break;		
+				}
 			}
 		}
 
@@ -1040,12 +1025,16 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 * 				the TransformationSystem under which to search.
 	 * @return a list of matched rules.
 	 */
-	public static List<Rule> getRulesByName(String name, TransformationSystem ts) {
+	public static List<Rule> getRulesByName(String name, Module module) {
 		ArrayList<Rule> ruleList = new ArrayList<Rule>();
 		
-		for(Rule r: ts.getRules()) {
-			if(r.getName().equals(name)) {
-				ruleList.add(r);
+		for(Unit u: module.getUnits()) {
+			if(u instanceof Rule){
+				Rule r = (Rule) u;
+			
+				if(r.getName().equals(name)) {
+					ruleList.add(r);
+				}
 			}
 		}
 		return ruleList;
@@ -1066,8 +1055,8 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		Node sourceNode = edge.getSource();
 		Node targetNode = edge.getTarget();
 
-		Node remoteSourceNode = ModelHelper.getRemoteNode(mappings, sourceNode);
-		Node remoteTargetNode = ModelHelper.getRemoteNode(mappings, targetNode);
+		Node remoteSourceNode = getRemoteNode(mappings, sourceNode);
+		Node remoteTargetNode = getRemoteNode(mappings, targetNode);
 
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
@@ -1092,8 +1081,8 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		Node sourceNode = edge.getSource();
 		Node targetNode = edge.getTarget();
 
-		Node remoteSourceNode = ModelHelper.getRemoteNode(mappings, sourceNode);
-		Node remoteTargetNode = ModelHelper.getRemoteNode(mappings, targetNode);
+		Node remoteSourceNode = getRemoteNode(mappings, sourceNode);
+		Node remoteTargetNode = getRemoteNode(mappings, targetNode);
 
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
@@ -1141,7 +1130,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		for (Edge lhsEdge : source.getLhsNode().getOutgoing()) {
 			if (equalReferenceType(lhsEdge.getType(), edgeType)) {
 				nodePair.setLhsNode(lhsEdge.getTarget());
-				nodePair.setRhsNode(ModelHelper.getRemoteNode(lhsEdge.getTarget().getGraph().getContainerRule().getMappings(), lhsEdge.getTarget()));
+				nodePair.setRhsNode(getRemoteNode(lhsEdge.getTarget().getGraph().getRule().getMappings(), lhsEdge.getTarget()));
 				break;
 			}
 		}
@@ -1167,7 +1156,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 
 				NodePair nodePair = new NodePair();
 				nodePair.setLhsNode(lhsEdge.getSource());
-				nodePair.setRhsNode(ModelHelper.getRemoteNode(lhsEdge.getSource().getGraph().getContainerRule().getMappings(), lhsEdge.getSource()));
+				nodePair.setRhsNode(getRemoteNode(lhsEdge.getSource().getGraph().getRule().getMappings(), lhsEdge.getSource()));
 
 				incoming.add(nodePair);
 			}
@@ -1238,7 +1227,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static Mapping findAUMappingByOrigin(List<Mapping> mappings, Node origin, Rule multiRule) {
 		for (Mapping mapping : mappings) {
 			if ((mapping.getOrigin() == origin)
-					&& (mapping.getImage().getGraph().getContainerRule() == multiRule)) {
+					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
 				return mapping;
 			}
 		}
@@ -1259,7 +1248,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static Mapping findAUMappingByImage(List<Mapping> mappings, Node image, Rule multiRule) {
 		for (Mapping mapping : mappings) {
 			if ((mapping.getImage() == image)
-					&& (mapping.getImage().getGraph().getContainerRule() == multiRule)) {
+					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
 				return mapping;
 			}
 		}
@@ -1293,8 +1282,8 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 *            the unit list to search.
 	 * @return the unit with the given name.
 	 */
-	public static TransformationUnit getUnitByName(String name, List<TransformationUnit> units) {
-		for (TransformationUnit unit : units) {
+	public static Unit getUnitByName(String name, List<Unit> units) {
+		for (Unit unit : units) {
 			if ((unit.getName() != null) && unit.getName().equalsIgnoreCase(name)) {
 				return unit;
 			}
@@ -1310,10 +1299,9 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 *            the transformation system.
 	 * @return a list containing all unit of the transformation system.
 	 */
-	public static List<TransformationUnit> getAllTransformationUnits(TransformationSystem ts) {
-		List<TransformationUnit> units = new LinkedList<TransformationUnit>();
-		units.addAll(ts.getRules());
-		units.addAll(ts.getTransformationUnits());
+	public static List<Unit> getAllTransformationUnits(Module module) {
+		List<Unit> units = new LinkedList<Unit>();
+		units = module.getUnits();
 
 		return units;
 	}
@@ -1360,13 +1348,13 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	public static boolean isPreservedEdge(Edge edge) {
 
 		// Edge must be connected and part of Rule
-		if ((edge.getSource() != null) && (edge.getTarget() != null) && (edge.getGraph() != null) && (edge.getGraph().getContainerRule() != null)) {
+		if ((edge.getSource() != null) && (edge.getTarget() != null) && (edge.getGraph() != null) && (edge.getGraph().getRule() != null)) {
 
-			Rule rule = edge.getGraph().getContainerRule();
+			Rule rule = edge.getGraph().getRule();
 
 			// Test if edge is mapped
-			if ((HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings()) != null)
-					|| (HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()) != null)) {
+			if ((getEdgeOrigin(edge, rule.getMappings()) != null)
+					|| (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) != null)) {
 				return true;
 			}
 		}
@@ -1725,8 +1713,8 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		if (isRHS(node.getGraph())) {
 			rhsNode = node;
 		} else {
-			rhsNode = ModelHelper.getRemoteNode(
-					node.getGraph().getContainerRule().getMappings(), node);
+			rhsNode = getRemoteNode(
+					node.getGraph().getRule().getMappings(), node);
 		}
 
 		for (Attribute rhsAttribute : rhsNode.getAttributes()) {
@@ -1757,7 +1745,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		if(isLHSNode(node)) {
 			lhsNode = node;
 		} else {
-			lhsNode = ModelHelper.getRemoteNode(node.getGraph().getContainerRule().getMappings(), node);
+			lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 		}
 		
 		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
@@ -1797,7 +1785,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 *            save temporary amalgamation rule to this path.
 	 * @return the success of the unit.
 	 */
-	public boolean applyAndSaveAmalgamationUnit(TransformationSystem ts, EmfEngine emfEngine,
+	/*public boolean applyAndSaveAmalgamationUnit(TransformationSystem ts, EmfEngine emfEngine,
 			String unitName, String path) {
 
 		TransformationUnit unit = ts.findUnitByName(unitName);
@@ -1828,7 +1816,7 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 			}
 		}
 		return success;
-	}
+	}*/
 	
 	/**
 	 * Returns the {@link TransformationSystem} the given unit is (recursively) 
@@ -1838,9 +1826,9 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 * @param unit
 	 * @return
 	 */
-	public TransformationSystem getContainingTransformationSystem(TransformationUnit unit){
+	public Module getContainingTransformationSystem(Unit unit){
 		EObject parent = unit.eContainer();
-		while ((parent != null) && !(parent instanceof TransformationSystem)){
+		while ((parent != null) && !(parent instanceof Module)){
 			parent = parent.eContainer();
 		}
 		
@@ -1849,6 +1837,189 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 		}
 		
 		// we can be sure that we have a trafo system here
-		return (TransformationSystem) parent;
+		return (Module) parent;
+	}
+	
+	/**
+	 * Checks whether the specified node is part of the mappings.
+	 * 
+	 * @param mappings
+	 *            A list of mappings.
+	 * @param node
+	 *            The node which should be checked for origin or image in one of
+	 *            the mappings.
+	 * @return true, if the node is mapped
+	 */
+	public static boolean isNodeMapped(Collection<Mapping> mappings, Node node) {
+		return getRemoteNode(mappings, node) != null;
+	}
+	
+	/**
+	 * Returns the image or origin of the specified node. If the node is not
+	 * part of a mapping, null will be returned. If the node is part of multiple
+	 * mappings, only the first remote node is returned.
+	 * 
+	 * @param mappings
+	 * @param node
+	 * @return
+	 */
+	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin() == node)
+				return mapping.getImage();
+			if (mapping.getImage() == node)
+				return mapping.getOrigin();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * @param graph
+	 * @return whether the {@link Graph} is a LHS of a {@link Rule}
+	 */
+	public static boolean isLHS(Graph graph) {
+		return (graph.eContainer() != null) && (graph.eContainer() instanceof Rule)
+				&& (graph.getRule().getLhs() == graph);
+		
+	}
+	
+	/**
+	 * @param graph
+	 * @return whether the {@link Graph} is a RHS of a {@link Rule}
+	 */
+	public static boolean isRHS(Graph graph) {
+		return (graph.eContainer() != null) && (graph.eContainer() instanceof Rule)
+				&& (graph.getRule().getRhs() == graph);
+	}
+	
+	/**
+	 * Checks if the given edge represents a 'deletion' edge. This is the case,
+	 * if it is contained in a LHS and if there is no corresponding image edge
+	 * in the RHS.<br>
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'deletion' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isDeletionEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getRule() != null) {
+			Rule rule = edge.getGraph().getRule();
+			return isLHS(edge.getGraph())
+					&& (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
+		} else
+			return false;
+	}// isDeletionEdge
+	
+	/**
+	 * Checks if the given edge represents a 'creation' edge. This is the case,
+	 * if it is contained in a RHS and if there is no corresponding origin edge
+	 * in the LHS.
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'creation' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isCreationEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getRule() != null) {
+			Rule rule = edge.getGraph().getRule();
+			return isRHS(edge.getGraph())
+					&& (getEdgeOrigin(edge, rule.getMappings()) == null);
+		} else
+			return false;
+	}// isCreationEdge
+	
+	/**
+	 * Find the image of an edge.
+	 * @param edge Origin edge.
+	 * @param targetGraph Graph the sought image is contained in
+	 * @param mappings Mappings.
+	 * @return Edge image.
+	 */
+	public static Edge getEdgeImage(Edge edge, Graph targetGraph,
+			List<Mapping> mappings) {
+		if (edge.getSource() == null || edge.getTarget() == null)
+			return null;
+		Node source = getNodeImage(edge.getSource(), targetGraph, mappings);
+		Node target = getNodeImage(edge.getTarget(), targetGraph, mappings);
+		if (source == null || target == null)
+			return null;
+		return source.getOutgoing(edge.getType(), target);
+	}
+	
+	/**
+	 * Find the image of a node with respect to a target graph and a list of
+	 * mappings.
+	 * @param origin Origin node.
+	 * @param targetGraph Target graph.
+	 * @param mappings Mappings.
+	 * @return The image of the node.
+	 */
+	public static Node getNodeImage(Node origin, Graph targetGraph,
+			List<Mapping> mappings) {
+		Mapping mapping = getNodeImageMapping(origin, targetGraph, mappings);
+		return (mapping != null) ? mapping.getImage() : null;
+	}
+	
+	/**
+	 * Find a corresponding mapping for a given origin nodes and target graph.
+	 * @param origin Origin node.
+	 * @param targetGraph Target graph.
+	 * @param mappings Mappings.
+	 * @return Mapping if found, <code>null</code> otherwise.
+	 */
+	public static Mapping getNodeImageMapping(Node origin, Graph targetGraph,
+			List<Mapping> mappings) {
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin() == origin
+					&& mapping.getImage().getGraph() == targetGraph)
+				return mapping;
+		}
+		return null;
+	}
+	
+	/**
+	 * Find the origin of an edge.
+	 * @param edge Image edge.
+	 * @param mappings Mappings.
+	 * @return Edge image.
+	 */
+	public static Edge getEdgeOrigin(Edge edge, List<Mapping> mappings) {
+		if (edge.getSource() == null || edge.getTarget() == null)
+			return null;
+		Node source = getNodeOrigin(edge.getSource(), mappings);
+		Node target = getNodeOrigin(edge.getTarget(), mappings);
+		if (source == null || target == null)
+			return null;
+		return source.getOutgoing(edge.getType(), target);
+	}
+	
+	/**
+	 * Find the corresponding mapping for a given image node.
+	 * @param image Image node.
+	 * @param mappings Mappings.
+	 * @return Mapping if found, <code>null</code> otherwise.
+	 */
+	public static Mapping getNodeOriginMapping(Node image,
+			List<Mapping> mappings) {
+		for (Mapping mapping : mappings) {
+			if (mapping.getImage() == image)
+				return mapping;
+		}
+		return null;
+	}
+	
+	/**
+	 * Find the origin of a node with respect to a list of mappings.
+	 * @param image Image node.
+	 * @param target Target graph.
+	 * @param mappings Mappings.
+	 * @return The image of the node.
+	 */
+	public static Node getNodeOrigin(Node image, List<Mapping> mappings) {
+		Mapping mapping = getNodeOriginMapping(image, mappings);
+		return (mapping != null) ? mapping.getOrigin() : null;
 	}
 }
