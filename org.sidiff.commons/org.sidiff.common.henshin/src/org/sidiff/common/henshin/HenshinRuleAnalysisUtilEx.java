@@ -467,7 +467,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the name for the new TransformationSystem.
 	 * @param description
 	 * 				the description for the new TransformationSystem..
-	 * @param inputTS
+	 * @param inputModule
 	 * 				the Henshin TransformationSystem from which an inverse should be created.
 	 * @return the new TransformationSystem.
 	 */	
