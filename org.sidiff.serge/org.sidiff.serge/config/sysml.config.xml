@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+	<GeneralSettings>
+		<preventInconsistency value="true" />
+		<initialChecks allow="true" />
+		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<disableVariants value="true"/>
+   		<modelUsesProfileMechanism value="true"/>
+	</GeneralSettings>
+	
+	<Transformations>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" />
+		<Sets allow="true" />
+		<Unsets allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<Changes allow="true" />
+	</Transformations>
+
+	<!-- nested=true: means the root element can also appear
+	somewhere in its lower containments (eg. (Sub-)StateMachine)-->
+	<Root name="Model" nested="false"/>
+	
+	<WhiteList>			
+			
+			<!-- some sysml elements -->	
+			<EClass name="Block"/>
+		
+			<!-- some uml elements -->
+    		<EClass name="Operation"/>
+	
+	</WhiteList>
+	
+	<BlackList>
+			
+			<!-- some sysml elements -->
+			<EClass name="ConstraintBlock"/>
+	
+			<!-- some uml elements -->
+		    <EClass name="Constraint"/>
+    		<EClass name="Expression"/>
+    		<EClass name="InputPin"/>
+    		<EClass name="OutputPin"/>
+    		<EClass name="SendSignalAction"/>
+    		<EClass name="Pin"/>
+    		<EClass name="ValuePin"/>
+    		
+	</BlackList>
+	
+</Config>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+  <GeneralSettings>
+    <preventInconsistency value="false"/>
+    <initialChecks allow="true"/>
+  </GeneralSettings>
+  <Transformations>
+    <Creates allow="true"/>
+    <Deletes allow="true"/>
+    <Moves allow="true"/>
+    <Sets allow="true"/>
+    <Unsets allow="true"/>
+    <Adds allow="true"/>
+    <Removes allow="true"/>
+    <Changes allow="true"/>
+  </Transformations>
+  <RootList>
+ 
+  	<!-- Ecore --> 	
+    <EClass name="EPackage"/>
+    
+	<!-- UML2 Class models -->    
+    <EClass name="Model"/>
+    
+    <!-- SiDiff-UML -->
+   <EClass name="UMLModel"/>
+   
+	<!-- JavaAST -->   
+	<EClass name="JPackage"/>
+	    
+  </RootList>
+  <WhiteList>
+  
+    <!-- Ecore -->
+       
+    <!-- UML2 Class models -->    
+    <EClass name="Class"/>
+    <EClass name="Association"/>
+    <EClass name="Property"/>
+    <EClass name="Model"/>
+	
+	<!-- SiDiff-UML -->
+	<EClass name="UMLModel"/>
+   
+  </WhiteList>
+  <BlackList>
+  
+	<!-- Ecore -->
+    <EClass name="EFactory"/>
+    <EClass name="EGenericType"/>
+   
+	<!-- UML class model -->
+	<EClass name="TemplateParameter"/>
+	
+	<!-- SiDiff-UML -->
+   	
+   	<!-- JavaAST -->   
+	<EClass name="JCodeBlock"/>
+	<EClass name="JavaDoc"/>
+	<EClass name="JAdressableFragment"/>
+	<EClass name="JCodeFragment"/>
+	<EClass name="JLocalVariable"/>
+	<EClass name="JStructuralCodeFragment"/>
+	
+  </BlackList>
+</Config>

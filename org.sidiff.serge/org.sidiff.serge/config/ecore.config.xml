@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+	<GeneralSettings>
+		<preventInconsistency value="true" />
+		<initialChecks allow="true" />
+		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
+		<disableVariants value="false"/>
+   		<modelUsesProfileMechanism value="false"/>
+	</GeneralSettings>
+	
+	<Transformations>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" />
+		<Sets allow="true" />
+		<Unsets allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<Changes allow="true" />
+	</Transformations>
+
+	<!-- nested=true: means the root element can also appear
+	somewhere in its lower containments. -->
+	<Root name="EPackage" nested="true"/>
+	
+	<WhiteList>
+	</WhiteList>
+	
+	<BlackList>
+		<EClass name="EFactory" />
+		<EClass name="EGenericType" />
+	</BlackList>
+	
+</Config>

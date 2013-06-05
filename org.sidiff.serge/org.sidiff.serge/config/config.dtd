@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT Config (GeneralSettings+, Transformations+, Root+, WhiteList+, BlackList+)>
+<!ELEMENT GeneralSettings (preventInconsistency+,initialChecks+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
+<!ELEMENT Transformations (Creates+,Deletes+,Moves+,Sets+,Unsets+,Adds+,Removes+,Changes+)>
+<!ELEMENT Root EMPTY>
+<!ELEMENT BlackList (EClass*)>
+<!ELEMENT WhiteList (EClass*)>
+
+<!ELEMENT preventInconsistency EMPTY>
+<!ELEMENT initialChecks EMPTY>
+<!ELEMENT reduceToSuperType EMPTY>
+<!ELEMENT disableVariants EMPTY>
+<!ELEMENT modelUsesProfileMechanism EMPTY>
+
+<!ELEMENT Creates EMPTY>
+<!ELEMENT Deletes EMPTY>
+<!ELEMENT Moves EMPTY>
+<!ELEMENT Sets EMPTY>
+<!ELEMENT Unsets EMPTY>
+<!ELEMENT Adds EMPTY>
+<!ELEMENT Removes EMPTY>
+<!ELEMENT Changes EMPTY>
+
+<!ELEMENT EClass EMPTY>
+
+<!ATTLIST Root name CDATA #REQUIRED>
+<!ATTLIST Root nested CDATA #REQUIRED>
+<!ATTLIST EClass name CDATA #REQUIRED>
+<!ATTLIST preventInconsistency value CDATA #REQUIRED>
+<!ATTLIST initialChecks allow CDATA #REQUIRED>
+<!ATTLIST disableVariants value CDATA #REQUIRED>
+<!ATTLIST modelUsesProfileMechanism value CDATA #REQUIRED>
+<!ATTLIST reduceToSuperType SET_UNSET CDATA #REQUIRED>
+<!ATTLIST reduceToSuperType ADD_REMOVE CDATA #REQUIRED>
+<!ATTLIST reduceToSuperType CHANGE CDATA #REQUIRED>
+
+<!ATTLIST Creates allow CDATA #REQUIRED>
+<!ATTLIST Deletes allow CDATA #REQUIRED>
+<!ATTLIST Moves allow CDATA #REQUIRED>
+<!ATTLIST Sets allow CDATA #REQUIRED>
+<!ATTLIST Unsets allow CDATA #REQUIRED>
+<!ATTLIST Adds allow CDATA #REQUIRED>
+<!ATTLIST Removes allow CDATA #REQUIRED>
+<!ATTLIST Changes allow CDATA #REQUIRED>
