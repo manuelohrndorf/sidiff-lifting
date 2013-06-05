@@ -11,10 +11,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
  * Some common Henshin Utils, mostly used for DEBUGGING purposes.
@@ -28,9 +28,9 @@ public class HenshinUtil {
 	 * 
 	 * @param graph
 	 */
-	public static void printGraph(EmfGraph graph) {
+	public static void printGraph(EGraph graph) {
 		System.out.println("-----------------");
-		for (EObject eObject : graph.geteObjects()) {
+		for (EObject eObject : graph) {
 			System.out.println(eObject);
 		}
 		System.out.println("-----------------");
@@ -43,13 +43,14 @@ public class HenshinUtil {
 	 * @param path
 	 */
 	public static void serializeTempRule(Rule rule, String path) {
-		TransformationSystem newTS = HenshinFactory.eINSTANCE.createTransformationSystem();
-		newTS.getRules().add(rule);
+		Module newModule = HenshinFactory.eINSTANCE.createModule();
+		//TransformationSystem newTS = HenshinFactory.eINSTANCE.createTransformationSystem();
+		newModule.getUnits().add(rule);
 
 		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/temp.henshin");
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
-		resource.getContents().add((EObject) newTS);
+		resource.getContents().add((EObject) newModule);
 
 		Map<String, Boolean> options = new HashMap<String, Boolean>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);

@@ -31,6 +31,7 @@ import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
@@ -39,6 +40,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -366,13 +368,13 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 * 				the TransformationSystem which shall contain the new rule.
 	 * @return the rule.
 	 */
-	public static Rule createRule(String name, String description, Boolean activated, TransformationSystem tsSystem) {
+	public static Rule createRule(String name, String description, Boolean activated, Module module) {
 
 		Rule rule = HenshinFactory.eINSTANCE.createRule();
 		rule.setName(name);
 		rule.setDescription(description);
 		rule.setActivated(activated);
-		tsSystem.getRules().add(rule);		
+		module.getUnits().add(rule);		
 
 		return rule;
 	}
@@ -470,60 +472,62 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	 * 				the Henshin TransformationSystem from which an inverse should be created.
 	 * @return the new TransformationSystem.
 	 */	
-	public static TransformationSystem createInverse(String name, String description, TransformationSystem inputTS) {
+	public static Module createInverse(String name, String description, Module inputModule) {
 		
 		// create inverse
-		TransformationSystem ts = EcoreUtil.copy(inputTS);
-		ts.setName(name);
-		ts.setDescription(description);
-		for(Rule r: ts.getRules()) {
+		Module module = EcoreUtil.copy(inputModule);
+		module.setName(name);
+		module.setDescription(description);
+		for(Unit unit: module.getUnits()) {
+			if(unit instanceof Rule){
+				
+				Rule r = (Rule)unit;
+				Graph lhs = r.getRhs();
+				lhs.setName("LHS");
+				Graph rhs = r.getLhs();
+				rhs.setName("RHS");
+				r.setLhs(lhs);
+				r.setRhs(rhs);
 			
-			Graph lhs = r.getRhs();
-			lhs.setName("LHS");
-			Graph rhs = r.getLhs();
-			rhs.setName("RHS");
-			r.setLhs(lhs);
-			r.setRhs(rhs);
+				for(Mapping m: r.getMappings()) {
+					Node origin = m.getImage();
+					Graph orginGraph = m.getImage().getGraph();
+					origin.setGraph(orginGraph);
+				
+					Node image = m.getOrigin();
+					Graph imageGraph = m.getOrigin().getGraph();
+					image.setGraph(imageGraph);
+				
+					m.setImage(image);
+					m.setOrigin(origin);
+				
+				}
 			
-			for(Mapping m: r.getMappings()) {
-				Node origin = m.getImage();
-				Graph orginGraph = m.getImage().getGraph();
-				origin.setGraph(orginGraph);
+				// remove attributes under <<delete>> nodes and their ParameterMappings
+				// and not used Parameters will be deleted automatically then.
+				for(Node n:r.getLhs().getNodes()) {
+					List<ParameterMapping> removableMappings = new ArrayList<ParameterMapping>();
 				
-				Node image = m.getOrigin();
-				Graph imageGraph = m.getOrigin().getGraph();
-				image.setGraph(imageGraph);
-				
-				m.setImage(image);
-				m.setOrigin(origin);
-				
-			}
-			
-			// remove attributes under <<delete>> nodes and their ParameterMappings
-			// and not used Parameters will be deleted automatically then.
-			for(Node n:r.getLhs().getNodes()) {
-				List<ParameterMapping> removableMappings = new ArrayList<ParameterMapping>();
-				
-				if(isDeletionNode(n)) {
-					for(Attribute a:n.getAttributes()) {
+					if(isDeletionNode(n)) {
+						for(Attribute a:n.getAttributes()) {
 						
-						for(ParameterMapping pm:r.getParameterMappings()) {
-							if(	pm.getTarget().getName().equals(a.getValue()) ||
-								pm.getSource().getName().equals(a.getValue())) {
+							for(ParameterMapping pm:r.getParameterMappings()) {
+								if(	pm.getTarget().getName().equals(a.getValue()) ||
+										pm.getSource().getName().equals(a.getValue())) {
 								
-								removableMappings.add(pm);
+									removableMappings.add(pm);
+								}
 							}
 						}
+						n.getAttributes().clear();
 					}
-					n.getAttributes().clear();
+					r.getParameterMappings().removeAll(removableMappings);
 				}
-				r.getParameterMappings().removeAll(removableMappings);
-			}
-		}
-		
 
-		
-		return ts;
+			}
+
+		}
+		return module;
 		
 	}
 	

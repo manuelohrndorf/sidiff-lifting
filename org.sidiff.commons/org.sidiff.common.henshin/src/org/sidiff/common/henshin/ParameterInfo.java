@@ -11,7 +11,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Utility functions for Henshin parameters.
@@ -108,7 +108,7 @@ public class ParameterInfo {
 		
 		if (lhs){
 			// Check LHS
-			Node node = rule.getNodeByName(oppositeParameter.getName(), true);
+			Node node = rule.getLhs().getNode(oppositeParameter.getName());
 			if (node != null) {
 				return node;
 			}
@@ -138,7 +138,7 @@ public class ParameterInfo {
 		Node node = null;
 
 		// Check LHS
-		node = rule.getNodeByName(oppositeParameter.getName(), true);
+		node = rule.getLhs().getNode(oppositeParameter.getName());
 		if (node != null) {
 			return node.getType();
 		}
@@ -210,7 +210,7 @@ public class ParameterInfo {
 			/** if its an outgoing-parameter (outPort) **/
 			if (mapping.getTarget().equals(parameter)) {
 				oppositeParameter = mapping.getSource();
-				TransformationUnit unit = (TransformationUnit) oppositeParameter.eContainer();
+				Unit unit = (Unit) oppositeParameter.eContainer();
 				
 				return getParameterMappingTail(unit.getParameterMappings(), oppositeParameter);
 			}
@@ -218,7 +218,7 @@ public class ParameterInfo {
 			/** if its an incoming-parameter **/
 			else if (mapping.getSource().equals(parameter)) {
 				oppositeParameter = mapping.getTarget();
-				TransformationUnit unit = (TransformationUnit) oppositeParameter.eContainer();
+				Unit unit = (Unit) oppositeParameter.eContainer();
 				
 				return getParameterMappingTail(unit.getParameterMappings(), oppositeParameter);
 			}

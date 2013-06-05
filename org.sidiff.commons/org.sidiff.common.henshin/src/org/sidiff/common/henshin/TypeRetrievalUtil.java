@@ -87,8 +87,8 @@ public class TypeRetrievalUtil {
 					}
 				}
 				// container == TransformationUnit
-				else if (oppositeParameter.eContainer() instanceof TransformationUnit) {
-					TransformationUnit unit = (TransformationUnit) oppositeParameter.eContainer();
+				else if (!(oppositeParameter.eContainer() instanceof Rule)) {
+					Unit unit = (Unit) oppositeParameter.eContainer();
 					for(EClassifier ec: getRealType(unit.getParameterMappings(), oppositeParameter)) {
 						if(!types.contains(ec)) {
 							types.add(ec);
@@ -103,7 +103,7 @@ public class TypeRetrievalUtil {
 				// container == Rule
 				if (oppositeParameter.eContainer() instanceof Rule) {
 					rule = (Rule) oppositeParameter.eContainer();
-					node = rule.getNodeByName(oppositeParameter.getName(), true);
+					node = HenshinRuleAnalysisUtilEx.getNodeByName(rule, oppositeParameter.getName(), true);
 					if (node != null) {
 						type = node.getType();
 						if(!types.contains(type)) {
@@ -121,8 +121,8 @@ public class TypeRetrievalUtil {
 				}
 
 				// container == TransformationUnit
-				else if (oppositeParameter.eContainer() instanceof TransformationUnit) {
-					TransformationUnit unit = (TransformationUnit) oppositeParameter.eContainer();
+				else if (!(oppositeParameter.eContainer() instanceof Rule)) {
+					Unit unit = (Unit) oppositeParameter.eContainer();
 					for(EClassifier ec: getRealType(unit.getParameterMappings(), oppositeParameter)) {
 						if(!types.contains(ec)) {
 							types.add(ec);
@@ -184,7 +184,7 @@ public class TypeRetrievalUtil {
 		}
 		// container == TransformationSystem
 		else {
-			TransformationUnit unit = (TransformationUnit) oppositeParameter.eContainer();
+			Unit unit = (Unit) oppositeParameter.eContainer();
 			for(EClassifier ec: getRealType(unit.getParameterMappings(), oppositeParameter)) {
 				if(!types.contains(ec)) {
 					types.add(ec);
