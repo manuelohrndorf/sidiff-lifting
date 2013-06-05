@@ -533,6 +533,20 @@ public class HenshinRuleAnalysisUtilEx extends org.eclipse.emf.henshin.model.uti
 	
 	
 	/**
+	 * Retrieves all Rules under a Module.
+	 * @param module
+	 * @return List of Rules
+	 */
+	public static List<Rule> getRulesUnderModule(Module module) {
+		List<Rule> ruleList = new ArrayList<Rule>();
+		for(Unit unit: module.getUnits()) {
+			if(unit instanceof Rule) {
+				ruleList.add((Rule)unit);
+			}
+		}			
+	}
+	
+	/**
 	 * Returns all << delete >> edges of a rule.
 	 * 
 	 * @param rule
