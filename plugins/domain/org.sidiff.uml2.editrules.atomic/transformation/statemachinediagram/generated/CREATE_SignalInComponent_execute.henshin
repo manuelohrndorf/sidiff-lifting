@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_a-wskJ0KEeKYtPnpu-8upg" description="Creates one Signal in Component" name="CREATE_SignalInComponent">
+  <rules xmi:id="_a-wskZ0KEeKYtPnpu-8upg" description="creates one Signal in the context: Component" name="createSignalInComponent">
+    <parameters xmi:id="_a-wskp0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_a-wsk50KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_a-wslJ0KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_a-wslZ0KEeKYtPnpu-8upg" name="Visibility"/>
+    <lhs xmi:id="_a-wslp0KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_a-wsl50KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_a-wsmJ0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_a-wsmZ0KEeKYtPnpu-8upg" name="Selected" outgoing="_a-wsnZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_a-wsmp0KEeKYtPnpu-8upg" name="New" incoming="_a-wsnZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        <attributes xmi:id="_a-wsm50KEeKYtPnpu-8upg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_a-wsnJ0KEeKYtPnpu-8upg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_a-wsnZ0KEeKYtPnpu-8upg" source="_a-wsmZ0KEeKYtPnpu-8upg" target="_a-wsmp0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_a-wsnp0KEeKYtPnpu-8upg" origin="_a-wsl50KEeKYtPnpu-8upg" image="_a-wsmZ0KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_a-wsn50KEeKYtPnpu-8upg" description="Creates one Signal depending on available contexts in model instance" name="mainUnit" subUnits="_a-wskZ0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_a-wsoJ0KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_a-wsoZ0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_a-wsop0KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_a-wso50KEeKYtPnpu-8upg" name="Visibility"/>
+    <parameterMappings xmi:id="_a-wspJ0KEeKYtPnpu-8upg" source="_a-wsoZ0KEeKYtPnpu-8upg" target="_a-wskp0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_a-wspZ0KEeKYtPnpu-8upg" source="_a-wsk50KEeKYtPnpu-8upg" target="_a-wsoJ0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_a-wspp0KEeKYtPnpu-8upg" source="_a-wsop0KEeKYtPnpu-8upg" target="_a-wslJ0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_a-wsp50KEeKYtPnpu-8upg" source="_a-wso50KEeKYtPnpu-8upg" target="_a-wslZ0KEeKYtPnpu-8upg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wOdXUHtGEeKmdsIc0BEVog" description="Deletes one Trigger in State" name="DELETE_TriggerInState">
+  <rules xmi:id="_wOdXUXtGEeKmdsIc0BEVog" description="deletes one Trigger in the context: State" name="deleteTriggerInState">
+    <parameters xmi:id="_wOdXUntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wOdXU3tGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <lhs xmi:id="_wOdXVXtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wOdXVntGEeKmdsIc0BEVog" name="Selected" outgoing="_wOdXWXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_wOdXV3tGEeKmdsIc0BEVog" name="toBeDeleted" incoming="_wOdXWXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+      </nodes>
+      <edges xmi:id="_wOdXWXtGEeKmdsIc0BEVog" source="_wOdXVntGEeKmdsIc0BEVog" target="_wOdXV3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/deferrableTrigger"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wOdXW3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wOdXXHtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wOdXXntGEeKmdsIc0BEVog" origin="_wOdXVntGEeKmdsIc0BEVog" image="_wOdXXHtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wOdXYHtGEeKmdsIc0BEVog" description="Deletes one Trigger depending on available contexts in model instance" name="mainUnit" subUnits="_wOdXUXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wOdXYXtGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <parameters xmi:id="_wOdXYntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameterMappings xmi:id="_wOdXZHtGEeKmdsIc0BEVog" source="_wOdXYntGEeKmdsIc0BEVog" target="_wOdXUntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wOdXZXtGEeKmdsIc0BEVog" source="_wOdXYXtGEeKmdsIc0BEVog" target="_wOdXU3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

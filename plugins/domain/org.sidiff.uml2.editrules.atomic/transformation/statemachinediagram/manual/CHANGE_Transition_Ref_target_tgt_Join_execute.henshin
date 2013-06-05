@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wNqGEHtGEeKmdsIc0BEVog" description="CHANGEs Transition's reference target the target Join" name="CHANGE_Transition_Ref_target_tgt_Join">
+  <rules xmi:id="_wNqGEXtGEeKmdsIc0BEVog" description="Change the EReference target" name="changeTransitionRefTargetToJoin">
+    <parameters xmi:id="_wNqGEntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wNqGE3tGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wNqGFHtGEeKmdsIc0BEVog" name="NewTarget"/>
+    <lhs xmi:id="_wNqGFXtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wNqGFntGEeKmdsIc0BEVog" name="Selected" outgoing="_wNqGGXtGEeKmdsIc0BEVog _ANh7YLMnEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNqGF3tGEeKmdsIc0BEVog" name="OldTarget" incoming="_wNqGGXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_wNqGGHtGEeKmdsIc0BEVog" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_1RUsgLMmEeK6zdAQ0-_Ebg" value="join">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7mLVwLMmEeK6zdAQ0-_Ebg" incoming="_ANh7YLMnEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_wNqGGXtGEeKmdsIc0BEVog" source="_wNqGFntGEeKmdsIc0BEVog" target="_wNqGF3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+      </edges>
+      <edges xmi:id="_ANh7YLMnEeK6zdAQ0-_Ebg" source="_wNqGFntGEeKmdsIc0BEVog" target="_7mLVwLMmEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_2xU3QMLrEeKbJI42i-UjaA">
+        <left xsi:type="henshin:Not" xmi:id="_vGoccMLrEeKbJI42i-UjaA">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_vGocccLrEeKbJI42i-UjaA">
+            <conclusion xmi:id="_vGoccsLrEeKbJI42i-UjaA" name="Trigger">
+              <nodes xmi:id="_tRMk0MLrEeKbJI42i-UjaA" incoming="_v_hMQMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+              </nodes>
+              <nodes xmi:id="_v_ewAMLrEeKbJI42i-UjaA" name="Selected" outgoing="_v_f-IMLrEeKbJI42i-UjaA _v_glMsLrEeKbJI42i-UjaA _v_hMQMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+              </nodes>
+              <nodes xmi:id="_v_fXEcLrEeKbJI42i-UjaA" name="OldTarget" incoming="_v_f-IMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+              </nodes>
+              <nodes xmi:id="_v_glMMLrEeKbJI42i-UjaA" incoming="_v_glMsLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+              </nodes>
+              <edges xmi:id="_v_f-IMLrEeKbJI42i-UjaA" source="_v_ewAMLrEeKbJI42i-UjaA" target="_v_fXEcLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+              </edges>
+              <edges xmi:id="_v_glMsLrEeKbJI42i-UjaA" source="_v_ewAMLrEeKbJI42i-UjaA" target="_v_glMMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+              </edges>
+              <edges xmi:id="_v_hMQMLrEeKbJI42i-UjaA" source="_v_ewAMLrEeKbJI42i-UjaA" target="_tRMk0MLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/trigger"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_v_fXEMLrEeKbJI42i-UjaA" origin="_wNqGFntGEeKmdsIc0BEVog" image="_v_ewAMLrEeKbJI42i-UjaA"/>
+            <mappings xmi:id="_v_fXEsLrEeKbJI42i-UjaA" origin="_wNqGF3tGEeKmdsIc0BEVog" image="_v_fXEcLrEeKbJI42i-UjaA"/>
+            <mappings xmi:id="_v_glMcLrEeKbJI42i-UjaA" origin="_7mLVwLMmEeK6zdAQ0-_Ebg" image="_v_glMMLrEeKbJI42i-UjaA"/>
+          </child>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_2xU3QcLrEeKbJI42i-UjaA">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_2xU3QsLrEeKbJI42i-UjaA">
+            <conclusion xmi:id="_2xU3Q8LrEeKbJI42i-UjaA" name="guard">
+              <nodes xmi:id="_2xVeUMLrEeKbJI42i-UjaA" name="Selected" outgoing="_1LsWMMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+              </nodes>
+              <nodes xmi:id="_zDn2cMLrEeKbJI42i-UjaA" incoming="_1LsWMMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+              </nodes>
+              <edges xmi:id="_1LsWMMLrEeKbJI42i-UjaA" source="_2xVeUMLrEeKbJI42i-UjaA" target="_zDn2cMLrEeKbJI42i-UjaA">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/guard"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_2xWFYMLrEeKbJI42i-UjaA" origin="_wNqGFntGEeKmdsIc0BEVog" image="_2xVeUMLrEeKbJI42i-UjaA"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_wNqGGntGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wNqGG3tGEeKmdsIc0BEVog" name="Selected" outgoing="_wNqtIHtGEeKmdsIc0BEVog _ANkXoLMnEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNqGHHtGEeKmdsIc0BEVog" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_wNqGHXtGEeKmdsIc0BEVog" name="NewTarget" incoming="_wNqtIHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_3Aj1gLMmEeK6zdAQ0-_Ebg" value="join">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7mL80LMmEeK6zdAQ0-_Ebg" incoming="_ANkXoLMnEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_wNqtIHtGEeKmdsIc0BEVog" source="_wNqGG3tGEeKmdsIc0BEVog" target="_wNqGHXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+      </edges>
+      <edges xmi:id="_ANkXoLMnEeK6zdAQ0-_Ebg" source="_wNqGG3tGEeKmdsIc0BEVog" target="_7mL80LMmEeK6zdAQ0-_Ebg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wNqtIXtGEeKmdsIc0BEVog" origin="_wNqGFntGEeKmdsIc0BEVog" image="_wNqGG3tGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNqtIntGEeKmdsIc0BEVog" origin="_wNqGF3tGEeKmdsIc0BEVog" image="_wNqGHHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNqtI3tGEeKmdsIc0BEVog" origin="_wNqGGHtGEeKmdsIc0BEVog" image="_wNqGHXtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_7mMj4LMmEeK6zdAQ0-_Ebg" origin="_7mLVwLMmEeK6zdAQ0-_Ebg" image="_7mL80LMmEeK6zdAQ0-_Ebg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wNqtJHtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wNqGEXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wNqtJXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wNsiUHtGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wNsiUXtGEeKmdsIc0BEVog" name="NewTarget"/>
+    <parameterMappings xmi:id="_wNsiUntGEeKmdsIc0BEVog" source="_wNqtJXtGEeKmdsIc0BEVog" target="_wNqGEntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNsiU3tGEeKmdsIc0BEVog" source="_wNsiUHtGEeKmdsIc0BEVog" target="_wNqGE3tGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNsiVHtGEeKmdsIc0BEVog" source="_wNsiUXtGEeKmdsIc0BEVog" target="_wNqGFHtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

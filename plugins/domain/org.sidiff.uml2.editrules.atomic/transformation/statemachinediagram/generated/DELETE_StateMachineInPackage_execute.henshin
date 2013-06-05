@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bB3D4J0KEeKYtPnpu-8upg" description="Deletes one StateMachine in Package" name="DELETE_StateMachineInPackage">
+  <rules xmi:id="_bB3D4Z0KEeKYtPnpu-8upg" description="deletes one StateMachine in the context: Package" name="deleteStateMachineInPackage">
+    <parameters xmi:id="_bB3D4p0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_bB3D450KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_-00N0KKEEeK6fMtgKheXZw" name="Child"/>
+    <lhs xmi:id="_bB3D5J0KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_bB3D5Z0KEeKYtPnpu-8upg" name="Selected" outgoing="_bB3q8Z0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_bB3D5p0KEeKYtPnpu-8upg" name="toBeDeleted" incoming="_bB3q8Z0KEeKYtPnpu-8upg _bB3q850KEeKYtPnpu-8upg" outgoing="_bB3q8p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_bB3q8J0KEeKYtPnpu-8upg" name="Child" incoming="_bB3q8p0KEeKYtPnpu-8upg" outgoing="_bB3q850KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_bB3q8Z0KEeKYtPnpu-8upg" source="_bB3D5Z0KEeKYtPnpu-8upg" target="_bB3D5p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_bB3q8p0KEeKYtPnpu-8upg" source="_bB3D5p0KEeKYtPnpu-8upg" target="_bB3q8J0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_bB3q850KEeKYtPnpu-8upg" source="_bB3q8J0KEeKYtPnpu-8upg" target="_bB3D5p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bB3q9J0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_bB3q9Z0KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_bB3q9p0KEeKYtPnpu-8upg" origin="_bB3D5Z0KEeKYtPnpu-8upg" image="_bB3q9Z0KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_bB3q950KEeKYtPnpu-8upg" description="Deletes one StateMachine depending on available contexts in model instance" name="mainUnit" subUnits="_bB3D4Z0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_bB3q-J0KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_bB3q-Z0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_bB3q-p0KEeKYtPnpu-8upg" name="Child"/>
+    <parameterMappings xmi:id="_bB3q-50KEeKYtPnpu-8upg" source="_bB3q-Z0KEeKYtPnpu-8upg" target="_bB3D4p0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bB3q_J0KEeKYtPnpu-8upg" source="_bB3q-J0KEeKYtPnpu-8upg" target="_bB3D450KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_BLYckKKFEeK6fMtgKheXZw" source="_bB3q-p0KEeKYtPnpu-8upg" target="_-00N0KKEEeK6fMtgKheXZw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

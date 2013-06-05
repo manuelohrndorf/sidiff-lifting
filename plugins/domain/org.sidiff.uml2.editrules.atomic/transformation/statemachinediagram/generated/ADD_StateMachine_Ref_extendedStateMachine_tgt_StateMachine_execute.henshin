@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wL2vQHtGEeKmdsIc0BEVog" description="Adds to StateMachine's reference extendedStateMachine the target StateMachine" name="ADD_StateMachine_Ref_extendedStateMachine_tgt_StateMachine">
+  <rules xmi:id="_wL2vQXtGEeKmdsIc0BEVog" description="Adds to StateMachine's reference extendedStateMachine the target StateMachine" name="addToStateMachineRefExtendedStateMachineToStateMachine">
+    <parameters xmi:id="_wL2vQntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wL2vQ3tGEeKmdsIc0BEVog" name="NewTarget"/>
+    <lhs xmi:id="_wL2vRHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wL2vRXtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_wL2vRntGEeKmdsIc0BEVog" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_wL2vR3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wL2vSHtGEeKmdsIc0BEVog" name="Selected" outgoing="_wL3WUXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_wL3WUHtGEeKmdsIc0BEVog" name="NewTarget" incoming="_wL3WUXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_wL3WUXtGEeKmdsIc0BEVog" source="_wL2vSHtGEeKmdsIc0BEVog" target="_wL3WUHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine/extendedStateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wL3WUntGEeKmdsIc0BEVog" origin="_wL2vRXtGEeKmdsIc0BEVog" image="_wL2vSHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wL3WU3tGEeKmdsIc0BEVog" origin="_wL2vRntGEeKmdsIc0BEVog" image="_wL3WUHtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wL3WVHtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wL2vQXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wL3WVXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wL3WVntGEeKmdsIc0BEVog" name="NewTarget"/>
+    <parameterMappings xmi:id="_wL3WV3tGEeKmdsIc0BEVog" source="_wL3WVXtGEeKmdsIc0BEVog" target="_wL2vQntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wL3WWHtGEeKmdsIc0BEVog" source="_wL3WVntGEeKmdsIc0BEVog" target="_wL2vQ3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

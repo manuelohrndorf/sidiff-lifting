@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.difference.rulebase.rulebase_extension">
+         <rulebase rulebase="org.sidiff.ecore.recognitionrules.atomic.EcoreAtomicGeneratedRulebase"/>
+   </extension>
+   <extension
+         point="org.sidiff.difference.rulebase.rulebase_extension">
+         <rulebase rulebase="org.sidiff.ecore.recognitionrules.atomic.EcoreAtomicManualRulebase"/>
+   </extension>
+
+  <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="platform:/resource/org.sidiff.ecore.editrules.atomic/"
+       target="platform:/plugin/org.sidiff.ecore.editrules.atomic/">
+    </mapping>
+  </extension>
+  <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="platform:/resource/org.sidiff.ecore.recognitionrules.atomic/"
+       target="platform:/plugin/org.sidiff.ecore.recognitionrules.atomic/">
+    </mapping>
+  </extension>
+</plugin>

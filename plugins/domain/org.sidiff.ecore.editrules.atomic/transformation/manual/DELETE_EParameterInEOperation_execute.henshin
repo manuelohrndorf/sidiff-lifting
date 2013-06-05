@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aPPzkBnWEeKdAq7SOuGfUQ" description="Deletes one EParameter in EOperation" name="DELETE_EParameterInEOperation">
+  <rules xmi:id="_aPPzkRnWEeKdAq7SOuGfUQ" description="deletes one EParameter in the context: EOperation" name="deleteEParameterInEOperation">
+    <parameters xmi:id="_aPPzkhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aPPzkxnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aPPzlBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aPPzlRnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aPPzmBnWEeKdAq7SOuGfUQ" outgoing="_aPPzlxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_aPPzlhnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aPPzlxnWEeKdAq7SOuGfUQ" outgoing="_aPPzmBnWEeKdAq7SOuGfUQ _kiVvQD4NEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+      </nodes>
+      <nodes xmi:id="_j0X2AD4NEeKPjZm3_6xOrQ" incoming="_kiVvQD4NEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_aPPzlxnWEeKdAq7SOuGfUQ" source="_aPPzlRnWEeKdAq7SOuGfUQ" target="_aPPzlhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+      </edges>
+      <edges xmi:id="_aPPzmBnWEeKdAq7SOuGfUQ" source="_aPPzlhnWEeKdAq7SOuGfUQ" target="_aPPzlRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+      </edges>
+      <edges xmi:id="_kiVvQD4NEeKPjZm3_6xOrQ" source="_aPPzlhnWEeKdAq7SOuGfUQ" target="_j0X2AD4NEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aPPzmRnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aPPzmhnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_j0YdED4NEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aPPzmxnWEeKdAq7SOuGfUQ" origin="_aPPzlRnWEeKdAq7SOuGfUQ" image="_aPPzmhnWEeKdAq7SOuGfUQ"/>
+    <mappings xmi:id="_j0ZEID4NEeKPjZm3_6xOrQ" origin="_j0X2AD4NEeKPjZm3_6xOrQ" image="_j0YdED4NEeKPjZm3_6xOrQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aPPznBnWEeKdAq7SOuGfUQ" description="Deletes one EParameter depending on available contexts in model instance" name="mainUnit" subUnits="_aPPzkRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aPPznRnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aPPznhnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aPPznxnWEeKdAq7SOuGfUQ" source="_aPPznhnWEeKdAq7SOuGfUQ" target="_aPPzkhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aPPzoBnWEeKdAq7SOuGfUQ" source="_aPPznRnWEeKdAq7SOuGfUQ" target="_aPPzkxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

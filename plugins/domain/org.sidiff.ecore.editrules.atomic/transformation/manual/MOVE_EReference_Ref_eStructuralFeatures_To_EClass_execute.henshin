@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aP7wEBnWEeKdAq7SOuGfUQ" description="MOVEs EReference with reference eStructuralFeatures to EClass" name="MOVE_EReference_Ref_eStructuralFeatures_To_EClass">
+  <rules xmi:id="_aP7wERnWEeKdAq7SOuGfUQ" description="Moves one EReference with reference eStructuralFeatures to EClass" name="moveEReferenceRefEStructuralFeaturesToEClass">
+    <parameters xmi:id="_aP7wEhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aP7wExnWEeKdAq7SOuGfUQ" name="OldSource"/>
+    <parameters xmi:id="_aP7wFBnWEeKdAq7SOuGfUQ" name="NewSource"/>
+    <lhs xmi:id="_aP7wFRnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aP7wFhnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aP7wGRnWEeKdAq7SOuGfUQ" outgoing="_aP7wGhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_aP7wFxnWEeKdAq7SOuGfUQ" name="OldSource" incoming="_aP7wGhnWEeKdAq7SOuGfUQ" outgoing="_aP7wGRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_aP7wGBnWEeKdAq7SOuGfUQ" name="NewSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_aP7wGRnWEeKdAq7SOuGfUQ" source="_aP7wFxnWEeKdAq7SOuGfUQ" target="_aP7wFhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_aP7wGhnWEeKdAq7SOuGfUQ" source="_aP7wFhnWEeKdAq7SOuGfUQ" target="_aP7wFxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_r19N8G0MEeKfhe-8aXQX9Q">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_r19N8W0MEeKfhe-8aXQX9Q">
+          <conclusion xmi:id="_r19N8m0MEeKfhe-8aXQX9Q" name="default">
+            <nodes xmi:id="_r19N820MEeKfhe-8aXQX9Q" name="S" incoming="_r19N920MEeKfhe-8aXQX9Q" outgoing="_r19N9m0MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <nodes xmi:id="_r19N9G0MEeKfhe-8aXQX9Q" name="r" incoming="_r19N9m0MEeKfhe-8aXQX9Q" outgoing="_r19N920MEeKfhe-8aXQX9Q _r19N-m0MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <nodes xmi:id="_r19N9W0MEeKfhe-8aXQX9Q" name="OS" incoming="_r19N-m0MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            </nodes>
+            <edges xmi:id="_r19N9m0MEeKfhe-8aXQX9Q" source="_r19N820MEeKfhe-8aXQX9Q" target="_r19N9G0MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+            </edges>
+            <edges xmi:id="_r19N920MEeKfhe-8aXQX9Q" source="_r19N9G0MEeKfhe-8aXQX9Q" target="_r19N820MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+            </edges>
+            <edges xmi:id="_r19N-m0MEeKfhe-8aXQX9Q" source="_r19N9G0MEeKfhe-8aXQX9Q" target="_r19N9W0MEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_r19N-20MEeKfhe-8aXQX9Q" origin="_aP7wFhnWEeKdAq7SOuGfUQ" image="_r19N820MEeKfhe-8aXQX9Q"/>
+          <mappings xmi:id="_r19N_G0MEeKfhe-8aXQX9Q" origin="_aP7wFxnWEeKdAq7SOuGfUQ" image="_r19N9W0MEeKfhe-8aXQX9Q"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_aP7wGxnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aP7wHBnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aP7wHxnWEeKdAq7SOuGfUQ" outgoing="_aP7wIBnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_aP7wHRnWEeKdAq7SOuGfUQ" name="OldSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_aP7wHhnWEeKdAq7SOuGfUQ" name="NewSource" incoming="_aP7wIBnWEeKdAq7SOuGfUQ" outgoing="_aP7wHxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_aP7wHxnWEeKdAq7SOuGfUQ" source="_aP7wHhnWEeKdAq7SOuGfUQ" target="_aP7wHBnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_aP7wIBnWEeKdAq7SOuGfUQ" source="_aP7wHBnWEeKdAq7SOuGfUQ" target="_aP7wHhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aP7wIRnWEeKdAq7SOuGfUQ" origin="_aP7wFhnWEeKdAq7SOuGfUQ" image="_aP7wHBnWEeKdAq7SOuGfUQ"/>
+    <mappings xmi:id="_aP7wIhnWEeKdAq7SOuGfUQ" origin="_aP7wFxnWEeKdAq7SOuGfUQ" image="_aP7wHRnWEeKdAq7SOuGfUQ"/>
+    <mappings xmi:id="_aP7wIxnWEeKdAq7SOuGfUQ" origin="_aP7wGBnWEeKdAq7SOuGfUQ" image="_aP7wHhnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_r191AG0MEeKfhe-8aXQX9Q" name="mainUnit" subUnits="_aP7wERnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_r191AW0MEeKfhe-8aXQX9Q" name="selectedEObject"/>
+    <parameters xmi:id="_r191Am0MEeKfhe-8aXQX9Q" name="OldSource"/>
+    <parameters xmi:id="_r191A20MEeKfhe-8aXQX9Q" name="NewSource"/>
+    <parameterMappings xmi:id="_r191BG0MEeKfhe-8aXQX9Q" source="_r191AW0MEeKfhe-8aXQX9Q" target="_aP7wEhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_r191BW0MEeKfhe-8aXQX9Q" source="_r191Am0MEeKfhe-8aXQX9Q" target="_aP7wExnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_r191Bm0MEeKfhe-8aXQX9Q" source="_r191A20MEeKfhe-8aXQX9Q" target="_aP7wFBnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

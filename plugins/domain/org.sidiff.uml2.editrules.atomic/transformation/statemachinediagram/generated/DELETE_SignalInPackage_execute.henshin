@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_a-hcAJ0KEeKYtPnpu-8upg" description="Deletes one Signal in Package" name="DELETE_SignalInPackage">
+  <rules xmi:id="_a-hcAZ0KEeKYtPnpu-8upg" description="deletes one Signal in the context: Package" name="deleteSignalInPackage">
+    <parameters xmi:id="_a-hcAp0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_a-hcA50KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <lhs xmi:id="_a-hcBJ0KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_a-hcBZ0KEeKYtPnpu-8upg" name="Selected" outgoing="_a-hcB50KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_a-hcBp0KEeKYtPnpu-8upg" name="toBeDeleted" incoming="_a-hcB50KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_a-hcB50KEeKYtPnpu-8upg" source="_a-hcBZ0KEeKYtPnpu-8upg" target="_a-hcBp0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_a-hcCJ0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_a-hcCZ0KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_a-hcCp0KEeKYtPnpu-8upg" origin="_a-hcBZ0KEeKYtPnpu-8upg" image="_a-hcCZ0KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_a-hcC50KEeKYtPnpu-8upg" description="Deletes one Signal depending on available contexts in model instance" name="mainUnit" subUnits="_a-hcAZ0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_a-hcDJ0KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_a-hcDZ0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_a-iDEJ0KEeKYtPnpu-8upg" source="_a-hcDZ0KEeKYtPnpu-8upg" target="_a-hcAp0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_a-iDEZ0KEeKYtPnpu-8upg" source="_a-hcDJ0KEeKYtPnpu-8upg" target="_a-hcA50KEeKYtPnpu-8upg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aQGvMBnWEeKdAq7SOuGfUQ" description="Creates one EStringToStringMapEntry in EAnnotation" name="CREATE_EStringToStringMapEntryInEAnnotation">
+  <rules xmi:id="_aQGvMRnWEeKdAq7SOuGfUQ" description="creates one EStringToStringMapEntry in the context: EAnnotation" name="createEStringToStringMapEntryInEAnnotation">
+    <parameters xmi:id="_aQGvMhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aQGvMxnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aQGvNBnWEeKdAq7SOuGfUQ" name="Key"/>
+    <parameters xmi:id="_aQGvNRnWEeKdAq7SOuGfUQ" name="Value"/>
+    <lhs xmi:id="_aQGvNhnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aQGvNxnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aQGvOBnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aQGvORnWEeKdAq7SOuGfUQ" name="Selected" outgoing="_aQGvPRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_aQGvOhnWEeKdAq7SOuGfUQ" name="New" incoming="_aQGvPRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"/>
+        <attributes xmi:id="_aQGvOxnWEeKdAq7SOuGfUQ" value="Key">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry/key"/>
+        </attributes>
+        <attributes xmi:id="_aQGvPBnWEeKdAq7SOuGfUQ" value="Value">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_aQGvPRnWEeKdAq7SOuGfUQ" source="_aQGvORnWEeKdAq7SOuGfUQ" target="_aQGvOhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/details"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aQGvPhnWEeKdAq7SOuGfUQ" origin="_aQGvNxnWEeKdAq7SOuGfUQ" image="_aQGvORnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aQGvPxnWEeKdAq7SOuGfUQ" description="Creates one EStringToStringMapEntry depending on available contexts in model instance" name="mainUnit" subUnits="_aQGvMRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aQGvQBnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aQGvQRnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameters xmi:id="_aQGvQhnWEeKdAq7SOuGfUQ" name="Key"/>
+    <parameters xmi:id="_aQGvQxnWEeKdAq7SOuGfUQ" name="Value"/>
+    <parameterMappings xmi:id="_aQGvRBnWEeKdAq7SOuGfUQ" source="_aQGvQRnWEeKdAq7SOuGfUQ" target="_aQGvMhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aQGvRRnWEeKdAq7SOuGfUQ" source="_aQGvMxnWEeKdAq7SOuGfUQ" target="_aQGvQBnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aQGvRhnWEeKdAq7SOuGfUQ" source="_aQGvQhnWEeKdAq7SOuGfUQ" target="_aQGvNBnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aQGvRxnWEeKdAq7SOuGfUQ" source="_aQGvQxnWEeKdAq7SOuGfUQ" target="_aQGvNRnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

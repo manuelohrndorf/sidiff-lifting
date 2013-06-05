@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_MxQmQHtDEeK1J7uYCpF97w" description="Sets NamedElement Visibility" name="SET_NamedElement_Visibility">
+  <rules xmi:id="_MxQmQXtDEeK1J7uYCpF97w" description="Sets the EAttribute visibility" name="setNamedElementVisibility">
+    <parameters xmi:id="_MxQmQntDEeK1J7uYCpF97w" name="Selected"/>
+    <parameters xmi:id="_MxQmQ3tDEeK1J7uYCpF97w" name="Visibility"/>
+    <lhs xmi:id="_MxQmRHtDEeK1J7uYCpF97w" name="LHS">
+      <nodes xmi:id="_MxQmRXtDEeK1J7uYCpF97w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_MxQmRntDEeK1J7uYCpF97w" name="RHS">
+      <nodes xmi:id="_MxQmR3tDEeK1J7uYCpF97w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+        <attributes xmi:id="_MxQmSHtDEeK1J7uYCpF97w" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_MxQmSXtDEeK1J7uYCpF97w" origin="_MxQmRXtDEeK1J7uYCpF97w" image="_MxQmR3tDEeK1J7uYCpF97w"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_MxQmSntDEeK1J7uYCpF97w" name="mainUnit" subUnits="_MxQmQXtDEeK1J7uYCpF97w">
+    <parameters xmi:id="_MxQmS3tDEeK1J7uYCpF97w" name="selectedEObject"/>
+    <parameters xmi:id="_MxQmTHtDEeK1J7uYCpF97w" name="Visibility"/>
+    <parameterMappings xmi:id="_MxQmTXtDEeK1J7uYCpF97w" source="_MxQmS3tDEeK1J7uYCpF97w" target="_MxQmQntDEeK1J7uYCpF97w"/>
+    <parameterMappings xmi:id="_MxQmTntDEeK1J7uYCpF97w" source="_MxQmTHtDEeK1J7uYCpF97w" target="_MxQmQ3tDEeK1J7uYCpF97w"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

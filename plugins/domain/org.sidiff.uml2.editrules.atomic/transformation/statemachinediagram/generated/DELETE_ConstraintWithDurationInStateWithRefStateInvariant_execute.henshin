@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_Ie5UMKdsEeKu69v35bZbHg" description="Deletes one Constraint with a Duration in State with reference StateInvariant" name="DELETE_ConstraintWithDurationInStateWithRefStateInvariant">
+  <rules xmi:id="_Ie5UMadsEeKu69v35bZbHg" description="deletes one Constraint in the context: State" name="deleteConstraintInState">
+    <parameters xmi:id="_Ie5UMqdsEeKu69v35bZbHg" name="Child"/>
+    <parameters xmi:id="_Ie5UM6dsEeKu69v35bZbHg" name="Selected"/>
+    <parameters xmi:id="_Ie5UNKdsEeKu69v35bZbHg" name="toBeDeleted"/>
+    <lhs xmi:id="_Ie5UNadsEeKu69v35bZbHg" name="LHS">
+      <nodes xmi:id="_Ie5UNqdsEeKu69v35bZbHg" name="Selected" outgoing="_Ie5UOadsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_Ie5UN6dsEeKu69v35bZbHg" name="toBeDeleted" incoming="_Ie5UOadsEeKu69v35bZbHg" outgoing="_Ie5UOqdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Ie5UOKdsEeKu69v35bZbHg" name="Child" incoming="_Ie5UOqdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Duration"/>
+      </nodes>
+      <edges xmi:id="_Ie5UOadsEeKu69v35bZbHg" source="_Ie5UNqdsEeKu69v35bZbHg" target="_Ie5UN6dsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/stateInvariant"/>
+      </edges>
+      <edges xmi:id="_Ie5UOqdsEeKu69v35bZbHg" source="_Ie5UN6dsEeKu69v35bZbHg" target="_Ie5UOKdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ie5UO6dsEeKu69v35bZbHg" name="RHS">
+      <nodes xmi:id="_Ie5UPKdsEeKu69v35bZbHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Ie5UPadsEeKu69v35bZbHg" origin="_Ie5UNqdsEeKu69v35bZbHg" image="_Ie5UPKdsEeKu69v35bZbHg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_Ie5UPqdsEeKu69v35bZbHg" description="Deletes one Constraint depending on available contexts in model instance" name="mainUnit" subUnits="_Ie5UMadsEeKu69v35bZbHg">
+    <parameters xmi:id="_Ie5UP6dsEeKu69v35bZbHg" name="Child"/>
+    <parameters xmi:id="_Ie5UQKdsEeKu69v35bZbHg" name="toBeDeleted"/>
+    <parameters xmi:id="_Ie5UQadsEeKu69v35bZbHg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_Ie5UQqdsEeKu69v35bZbHg" source="_Ie5UP6dsEeKu69v35bZbHg" target="_Ie5UMqdsEeKu69v35bZbHg"/>
+    <parameterMappings xmi:id="_Ie5UQ6dsEeKu69v35bZbHg" source="_Ie5UQadsEeKu69v35bZbHg" target="_Ie5UM6dsEeKu69v35bZbHg"/>
+    <parameterMappings xmi:id="_Ie5URKdsEeKu69v35bZbHg" source="_Ie5UQKdsEeKu69v35bZbHg" target="_Ie5UNKdsEeKu69v35bZbHg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

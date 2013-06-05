@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wSRgUHtGEeKmdsIc0BEVog" description="Creates one Pseudostate (kind: entryPoint) in State" name="CREATE_EntryPointInState">
+  <rules xmi:id="_wSRgUXtGEeKmdsIc0BEVog" description="creates one Pseudostate (kind: entryPoint) in the context: State" name="createEntryPointInState">
+    <parameters xmi:id="_wSRgUntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wSRgU3tGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wSRgVHtGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wSRgVXtGEeKmdsIc0BEVog" name="Visibility"/>
+    <lhs xmi:id="_wSRgVntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wSRgV3tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+        <attributes xmi:id="__FbssKHUEeKWH-saY0ec5Q" value="true">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/isComposite.1"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_wSRgWHtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wSRgWXtGEeKmdsIc0BEVog" name="Selected" incoming="_wSRgXntGEeKmdsIc0BEVog" outgoing="_wSRgXXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+        <attributes xmi:id="_CTVMEKHVEeKWH-saY0ec5Q" value="true">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/isComposite.1"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wSRgWntGEeKmdsIc0BEVog" name="New" incoming="_wSRgXXtGEeKmdsIc0BEVog" outgoing="_wSRgXntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_wSRgW3tGEeKmdsIc0BEVog" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_wSRgXHtGEeKmdsIc0BEVog" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_qyt2cJYYEeKwWNmW5l2QVQ" value="entryPoint">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_wSRgXXtGEeKmdsIc0BEVog" source="_wSRgWXtGEeKmdsIc0BEVog" target="_wSRgWntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_wSRgXntGEeKmdsIc0BEVog" source="_wSRgWntGEeKmdsIc0BEVog" target="_wSRgWXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/state"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wSRgX3tGEeKmdsIc0BEVog" origin="_wSRgV3tGEeKmdsIc0BEVog" image="_wSRgWXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wSRgYHtGEeKmdsIc0BEVog" description="Creates one Pseudostate depending on available contexts in model instance" name="mainUnit" subUnits="_wSRgUXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wSRgYXtGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wSRgYntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wSRgY3tGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wSRgZHtGEeKmdsIc0BEVog" name="Visibility"/>
+    <parameterMappings xmi:id="_wSRgZXtGEeKmdsIc0BEVog" source="_wSRgYntGEeKmdsIc0BEVog" target="_wSRgUntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wSRgZntGEeKmdsIc0BEVog" source="_wSRgU3tGEeKmdsIc0BEVog" target="_wSRgYXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wSRgZ3tGEeKmdsIc0BEVog" source="_wSRgY3tGEeKmdsIc0BEVog" target="_wSRgVHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wSRgaHtGEeKmdsIc0BEVog" source="_wSRgZHtGEeKmdsIc0BEVog" target="_wSRgVXtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

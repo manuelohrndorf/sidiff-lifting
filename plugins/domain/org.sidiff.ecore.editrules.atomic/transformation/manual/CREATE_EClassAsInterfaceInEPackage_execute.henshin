@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aNs7cBnWEeKdAq7SOuGfUQ" description="Creates one EClass as Interface in EPackage" name="CREATE_EClassAsInterfaceInEPackage">
+  <rules xmi:id="_aNs7cRnWEeKdAq7SOuGfUQ" description="creates one EClass as Interface in the context: EPackage" name="createEClassAsInterfaceInEPackage">
+    <parameters xmi:id="_aNs7chnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aNs7cxnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aNs7dBnWEeKdAq7SOuGfUQ" name="Name"/>
+    <parameters xmi:id="_aNs7dRnWEeKdAq7SOuGfUQ" name="InstanceClassName"/>
+    <parameters xmi:id="_aNs7dhnWEeKdAq7SOuGfUQ" name="InstanceTypeName"/>
+    <lhs xmi:id="_aNs7eRnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aNs7ehnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aNs7exnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aNs7fBnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aNs7hBnWEeKdAq7SOuGfUQ" outgoing="_aNs7gxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_aNs7fRnWEeKdAq7SOuGfUQ" name="New" incoming="_aNs7gxnWEeKdAq7SOuGfUQ" outgoing="_aNs7hBnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_aNs7fhnWEeKdAq7SOuGfUQ" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_aNs7fxnWEeKdAq7SOuGfUQ" value="InstanceClassName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceClassName"/>
+        </attributes>
+        <attributes xmi:id="_aNs7gBnWEeKdAq7SOuGfUQ" value="InstanceTypeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceTypeName"/>
+        </attributes>
+        <attributes xmi:id="_aNs7gRnWEeKdAq7SOuGfUQ" value="true">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/abstract"/>
+        </attributes>
+        <attributes xmi:id="_aNs7ghnWEeKdAq7SOuGfUQ" value="true">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/interface"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_aNs7gxnWEeKdAq7SOuGfUQ" source="_aNs7fBnWEeKdAq7SOuGfUQ" target="_aNs7fRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_aNs7hBnWEeKdAq7SOuGfUQ" source="_aNs7fRnWEeKdAq7SOuGfUQ" target="_aNs7fBnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aNs7hRnWEeKdAq7SOuGfUQ" origin="_aNs7ehnWEeKdAq7SOuGfUQ" image="_aNs7fBnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aNs7hhnWEeKdAq7SOuGfUQ" description="Creates one EClass depending on available contexts in model instance" name="mainUnit" subUnits="_aNs7cRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aNs7hxnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aNs7iBnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameters xmi:id="_aNs7iRnWEeKdAq7SOuGfUQ" name="Name"/>
+    <parameters xmi:id="_aNs7ihnWEeKdAq7SOuGfUQ" name="InstanceClassName"/>
+    <parameters xmi:id="_aNs7ixnWEeKdAq7SOuGfUQ" name="InstanceTypeName"/>
+    <parameterMappings xmi:id="_aNs7jhnWEeKdAq7SOuGfUQ" source="_aNs7iBnWEeKdAq7SOuGfUQ" target="_aNs7chnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNs7jxnWEeKdAq7SOuGfUQ" source="_aNs7cxnWEeKdAq7SOuGfUQ" target="_aNs7hxnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNs7kBnWEeKdAq7SOuGfUQ" source="_aNs7iRnWEeKdAq7SOuGfUQ" target="_aNs7dBnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNs7kRnWEeKdAq7SOuGfUQ" source="_aNs7ihnWEeKdAq7SOuGfUQ" target="_aNs7dRnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNs7khnWEeKdAq7SOuGfUQ" source="_aNs7ixnWEeKdAq7SOuGfUQ" target="_aNs7dhnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

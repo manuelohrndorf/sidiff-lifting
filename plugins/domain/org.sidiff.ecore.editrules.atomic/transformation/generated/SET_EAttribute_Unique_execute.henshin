@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aNYLUBnWEeKdAq7SOuGfUQ" description="Sets EAttribute Unique" name="SET_EAttribute_Unique">
+  <rules xmi:id="_aNYLURnWEeKdAq7SOuGfUQ" description="Sets the EAttribute unique" name="setEAttributeUnique">
+    <parameters xmi:id="_aNYLUhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aNYLUxnWEeKdAq7SOuGfUQ" name="Unique"/>
+    <lhs xmi:id="_aNYLVBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aNYLVRnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aNYLVhnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aNYLVxnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_aNYLWBnWEeKdAq7SOuGfUQ" value="Unique">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/unique"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aNYLWRnWEeKdAq7SOuGfUQ" origin="_aNYLVRnWEeKdAq7SOuGfUQ" image="_aNYLVxnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aNYLWhnWEeKdAq7SOuGfUQ" name="mainUnit" subUnits="_aNYLURnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aNYLWxnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameters xmi:id="_aNYLXBnWEeKdAq7SOuGfUQ" name="Unique"/>
+    <parameterMappings xmi:id="_aNYLXRnWEeKdAq7SOuGfUQ" source="_aNYLWxnWEeKdAq7SOuGfUQ" target="_aNYLUhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNYLXhnWEeKdAq7SOuGfUQ" source="_aNYLXBnWEeKdAq7SOuGfUQ" target="_aNYLUxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

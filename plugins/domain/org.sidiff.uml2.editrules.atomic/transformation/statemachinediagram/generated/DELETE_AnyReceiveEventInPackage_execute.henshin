@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9iD1gLSYEeKLe415JnbaLg" description="Deletes one AnyReceiveEvent in Package" name="DELETE_AnyReceiveEventInPackage">
+  <rules xmi:id="_9iD1gbSYEeKLe415JnbaLg" description="deletes one AnyReceiveEvent in the context: Package" name="deleteAnyReceiveEventInPackage">
+    <parameters xmi:id="_9iD1grSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9iD1g7SYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <lhs xmi:id="_9iD1hLSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9iD1hbSYEeKLe415JnbaLg" name="Selected" outgoing="_9iD1h7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_9iD1hrSYEeKLe415JnbaLg" name="toBeDeleted" incoming="_9iD1h7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//AnyReceiveEvent"/>
+      </nodes>
+      <edges xmi:id="_9iD1h7SYEeKLe415JnbaLg" source="_9iD1hbSYEeKLe415JnbaLg" target="_9iD1hrSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9iD1iLSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9iD1ibSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9iD1irSYEeKLe415JnbaLg" origin="_9iD1hbSYEeKLe415JnbaLg" image="_9iD1ibSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9iD1i7SYEeKLe415JnbaLg" description="Deletes one AnyReceiveEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9iD1gbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9iD1jLSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <parameters xmi:id="_9iD1jbSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_9iD1jrSYEeKLe415JnbaLg" source="_9iD1jbSYEeKLe415JnbaLg" target="_9iD1grSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9iD1j7SYEeKLe415JnbaLg" source="_9iD1jLSYEeKLe415JnbaLg" target="_9iD1g7SYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

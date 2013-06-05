@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9ijkwLSYEeKLe415JnbaLg" description="Deletes one TimeExpression in Duration" name="DELETE_TimeExpressionInDuration">
+  <rules xmi:id="_9ijkwbSYEeKLe415JnbaLg" description="deletes one TimeExpression in the context: Duration" name="deleteTimeExpressionInDuration">
+    <parameters xmi:id="_9ijkwrSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9ijkw7SYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <lhs xmi:id="_9ijkxLSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9ijkxbSYEeKLe415JnbaLg" name="Selected" outgoing="_9ijkx7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Duration"/>
+      </nodes>
+      <nodes xmi:id="_9ijkxrSYEeKLe415JnbaLg" name="toBeDeleted" incoming="_9ijkx7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeExpression"/>
+      </nodes>
+      <edges xmi:id="_9ijkx7SYEeKLe415JnbaLg" source="_9ijkxbSYEeKLe415JnbaLg" target="_9ijkxrSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Duration/expr"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9ijkyLSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9ijkybSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Duration"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9ijkyrSYEeKLe415JnbaLg" origin="_9ijkxbSYEeKLe415JnbaLg" image="_9ijkybSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9ijky7SYEeKLe415JnbaLg" description="Deletes one TimeExpression depending on available contexts in model instance" name="mainUnit" subUnits="_9ijkwbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9ijkzLSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <parameters xmi:id="_9ijkzbSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_9ijkzrSYEeKLe415JnbaLg" source="_9ijkzbSYEeKLe415JnbaLg" target="_9ijkwrSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9ijkz7SYEeKLe415JnbaLg" source="_9ijkzLSYEeKLe415JnbaLg" target="_9ijkw7SYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

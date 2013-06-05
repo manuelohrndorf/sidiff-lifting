@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9TdY0LSYEeKLe415JnbaLg" description="MOVEs Behavior with reference doActivity to State" name="MOVE_Behavior_Ref_doActivity_To_State">
+  <rules xmi:id="_9TdY0bSYEeKLe415JnbaLg" description="Moves one Behavior with reference doActivity to State" name="moveBehaviorRefDoActivityToState">
+    <parameters xmi:id="_9TdY0rSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9TdY07SYEeKLe415JnbaLg" name="OldSource"/>
+    <parameters xmi:id="_9TdY1LSYEeKLe415JnbaLg" name="NewSource"/>
+    <lhs xmi:id="_9TdY1bSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9TdY1rSYEeKLe415JnbaLg" name="Selected" incoming="_9TdY2bSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_9TdY17SYEeKLe415JnbaLg" name="OldSource" outgoing="_9TdY2bSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_9TdY2LSYEeKLe415JnbaLg" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_9TdY2bSYEeKLe415JnbaLg" source="_9TdY17SYEeKLe415JnbaLg" target="_9TdY1rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/doActivity"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9TdY2rSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9TdY27SYEeKLe415JnbaLg" name="Selected" incoming="_9TdY3rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_9TdY3LSYEeKLe415JnbaLg" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_9TdY3bSYEeKLe415JnbaLg" name="NewSource" outgoing="_9TdY3rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_9TdY3rSYEeKLe415JnbaLg" source="_9TdY3bSYEeKLe415JnbaLg" target="_9TdY27SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/doActivity"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9TdY37SYEeKLe415JnbaLg" origin="_9TdY1rSYEeKLe415JnbaLg" image="_9TdY27SYEeKLe415JnbaLg"/>
+    <mappings xmi:id="_9TdY4LSYEeKLe415JnbaLg" origin="_9TdY17SYEeKLe415JnbaLg" image="_9TdY3LSYEeKLe415JnbaLg"/>
+    <mappings xmi:id="_9TdY4bSYEeKLe415JnbaLg" origin="_9TdY2LSYEeKLe415JnbaLg" image="_9TdY3bSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9TdY4rSYEeKLe415JnbaLg" name="mainUnit" subUnits="_9TdY0bSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9TdY47SYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameters xmi:id="_9TdY5LSYEeKLe415JnbaLg" name="OldSource"/>
+    <parameters xmi:id="_9TdY5bSYEeKLe415JnbaLg" name="NewSource"/>
+    <parameterMappings xmi:id="_9TdY5rSYEeKLe415JnbaLg" source="_9TdY47SYEeKLe415JnbaLg" target="_9TdY0rSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9TdY57SYEeKLe415JnbaLg" source="_9TdY5LSYEeKLe415JnbaLg" target="_9TdY07SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9TdY6LSYEeKLe415JnbaLg" source="_9TdY5bSYEeKLe415JnbaLg" target="_9TdY1LSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

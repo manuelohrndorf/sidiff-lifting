@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aOlFMBnWEeKdAq7SOuGfUQ" description="Sets EEnumLiteral Name" name="SET_EEnumLiteral_Name">
+  <rules xmi:id="_aOlFMRnWEeKdAq7SOuGfUQ" description="Sets the EAttribute name" name="setEEnumLiteralName">
+    <parameters xmi:id="_aOlFMhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aOlFMxnWEeKdAq7SOuGfUQ" name="Name"/>
+    <lhs xmi:id="_aOlFNBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aOlFNRnWEeKdAq7SOuGfUQ" name="Selected" incoming="//@rules.0/@lhs/@edges.1" outgoing="_uPr0EL4OEeK1EaZ5ynz1Qw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral"/>
+      </nodes>
+      <nodes xmi:id="_rqUUUL4OEeK1EaZ5ynz1Qw" incoming="_uPr0EL4OEeK1EaZ5ynz1Qw" outgoing="//@rules.0/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+      </nodes>
+      <edges xmi:id="_uPr0EL4OEeK1EaZ5ynz1Qw" source="_aOlFNRnWEeKdAq7SOuGfUQ" target="_rqUUUL4OEeK1EaZ5ynz1Qw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral/eEnum"/>
+      </edges>
+      <edges source="_rqUUUL4OEeK1EaZ5ynz1Qw" target="_aOlFNRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum/eLiterals"/>
+      </edges>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion name="default">
+            <nodes incoming="//@rules.0/@lhs/@formula/@child/@conclusion/@edges.1" outgoing="//@rules.0/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+            </nodes>
+            <nodes incoming="//@rules.0/@lhs/@formula/@child/@conclusion/@edges.0" outgoing="//@rules.0/@lhs/@formula/@child/@conclusion/@edges.1">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral"/>
+            </nodes>
+            <edges source="//@rules.0/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@rules.0/@lhs/@formula/@child/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum/eLiterals"/>
+            </edges>
+            <edges source="//@rules.0/@lhs/@formula/@child/@conclusion/@nodes.1" target="//@rules.0/@lhs/@formula/@child/@conclusion/@nodes.0">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral/eEnum"/>
+            </edges>
+          </conclusion>
+          <mappings origin="_rqUUUL4OEeK1EaZ5ynz1Qw" image="//@rules.0/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_aOlFNhnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aOlFNxnWEeKdAq7SOuGfUQ" name="Selected" incoming="//@rules.0/@rhs/@edges.1" outgoing="_uPsbIL4OEeK1EaZ5ynz1Qw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral"/>
+        <attributes xmi:id="_aOlFOBnWEeKdAq7SOuGfUQ" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_rqUUUb4OEeK1EaZ5ynz1Qw" incoming="_uPsbIL4OEeK1EaZ5ynz1Qw" outgoing="//@rules.0/@rhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+      </nodes>
+      <edges xmi:id="_uPsbIL4OEeK1EaZ5ynz1Qw" source="_aOlFNxnWEeKdAq7SOuGfUQ" target="_rqUUUb4OEeK1EaZ5ynz1Qw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnumLiteral/eEnum"/>
+      </edges>
+      <edges source="_rqUUUb4OEeK1EaZ5ynz1Qw" target="_aOlFNxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum/eLiterals"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aOlFORnWEeKdAq7SOuGfUQ" origin="_aOlFNRnWEeKdAq7SOuGfUQ" image="_aOlFNxnWEeKdAq7SOuGfUQ"/>
+    <mappings xmi:id="_rqUUUr4OEeK1EaZ5ynz1Qw" origin="_rqUUUL4OEeK1EaZ5ynz1Qw" image="_rqUUUb4OEeK1EaZ5ynz1Qw"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aOlFOhnWEeKdAq7SOuGfUQ" name="mainUnit" subUnits="_aOlFMRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aOlFOxnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameters xmi:id="_aOlFPBnWEeKdAq7SOuGfUQ" name="Name"/>
+    <parameterMappings xmi:id="_aOlFPRnWEeKdAq7SOuGfUQ" source="_aOlFOxnWEeKdAq7SOuGfUQ" target="_aOlFMhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aOlFPhnWEeKdAq7SOuGfUQ" source="_aOlFPBnWEeKdAq7SOuGfUQ" target="_aOlFMxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

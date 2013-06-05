@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wTgPYHtGEeKmdsIc0BEVog" description="MOVEs Pseudostate with reference connectionPoint to StateMachine" name="MOVE_Pseudostate_Ref_connectionPoint_To_StateMachine">
+  <rules xmi:id="_wTgPYXtGEeKmdsIc0BEVog" description="Moves one Pseudostate with reference connectionPoint to StateMachine" name="movePseudostateRefConnectionPointToStateMachine">
+    <parameters xmi:id="_wTgPYntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wTgPY3tGEeKmdsIc0BEVog" name="OldSource"/>
+    <parameters xmi:id="_wTgPZHtGEeKmdsIc0BEVog" name="NewSource"/>
+    <lhs xmi:id="_wTgPZXtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wTgPZntGEeKmdsIc0BEVog" name="Selected" incoming="_wTgPaXtGEeKmdsIc0BEVog" outgoing="_wTgPantGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_wTgPZ3tGEeKmdsIc0BEVog" name="OldSource" incoming="_wTgPantGEeKmdsIc0BEVog" outgoing="_wTgPaXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_wTgPaHtGEeKmdsIc0BEVog" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_wTgPaXtGEeKmdsIc0BEVog" source="_wTgPZ3tGEeKmdsIc0BEVog" target="_wTgPZntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_wTgPantGEeKmdsIc0BEVog" source="_wTgPZntGEeKmdsIc0BEVog" target="_wTgPZ3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wTgPa3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wTgPbHtGEeKmdsIc0BEVog" name="Selected" incoming="_wTgPb3tGEeKmdsIc0BEVog" outgoing="_wTgPcHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_wTgPbXtGEeKmdsIc0BEVog" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_wTgPbntGEeKmdsIc0BEVog" name="NewSource" incoming="_wTgPcHtGEeKmdsIc0BEVog" outgoing="_wTgPb3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_wTgPb3tGEeKmdsIc0BEVog" source="_wTgPbntGEeKmdsIc0BEVog" target="_wTgPbHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_wTgPcHtGEeKmdsIc0BEVog" source="_wTgPbHtGEeKmdsIc0BEVog" target="_wTgPbntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wTgPcXtGEeKmdsIc0BEVog" origin="_wTgPZntGEeKmdsIc0BEVog" image="_wTgPbHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wTgPcntGEeKmdsIc0BEVog" origin="_wTgPZ3tGEeKmdsIc0BEVog" image="_wTgPbXtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wTgPc3tGEeKmdsIc0BEVog" origin="_wTgPaHtGEeKmdsIc0BEVog" image="_wTgPbntGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wTgPdHtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wTgPYXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wTgPdXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wTg2cHtGEeKmdsIc0BEVog" name="OldSource"/>
+    <parameters xmi:id="_wTg2cXtGEeKmdsIc0BEVog" name="NewSource"/>
+    <parameterMappings xmi:id="_wTg2cntGEeKmdsIc0BEVog" source="_wTgPdXtGEeKmdsIc0BEVog" target="_wTgPYntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wTg2c3tGEeKmdsIc0BEVog" source="_wTg2cHtGEeKmdsIc0BEVog" target="_wTgPY3tGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wTg2dHtGEeKmdsIc0BEVog" source="_wTg2cXtGEeKmdsIc0BEVog" target="_wTgPZHtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

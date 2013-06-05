@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_Ih6L8KdsEeKu69v35bZbHg" description="MOVEs Constraint with reference stateInvariant to State" name="MOVE_Constraint_Ref_stateInvariant_To_State">
+  <rules xmi:id="_Ih6L8adsEeKu69v35bZbHg" description="Moves one Constraint with reference stateInvariant to State" name="moveConstraintRefStateInvariantToState">
+    <parameters xmi:id="_Ih6L8qdsEeKu69v35bZbHg" name="Selected"/>
+    <parameters xmi:id="_Ih6zAKdsEeKu69v35bZbHg" name="OldSource"/>
+    <parameters xmi:id="_Ih6zAadsEeKu69v35bZbHg" name="NewSource"/>
+    <lhs xmi:id="_Ih6zAqdsEeKu69v35bZbHg" name="LHS">
+      <nodes xmi:id="_Ih6zA6dsEeKu69v35bZbHg" name="Selected" incoming="_Ih6zBqdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Ih6zBKdsEeKu69v35bZbHg" name="OldSource" outgoing="_Ih6zBqdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_Ih6zBadsEeKu69v35bZbHg" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_Ih6zBqdsEeKu69v35bZbHg" source="_Ih6zBKdsEeKu69v35bZbHg" target="_Ih6zA6dsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/stateInvariant"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ih6zB6dsEeKu69v35bZbHg" name="RHS">
+      <nodes xmi:id="_Ih6zCKdsEeKu69v35bZbHg" name="Selected" incoming="_Ih6zC6dsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Ih6zCadsEeKu69v35bZbHg" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_Ih6zCqdsEeKu69v35bZbHg" name="NewSource" outgoing="_Ih6zC6dsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_Ih6zC6dsEeKu69v35bZbHg" source="_Ih6zCqdsEeKu69v35bZbHg" target="_Ih6zCKdsEeKu69v35bZbHg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/stateInvariant"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Ih6zDKdsEeKu69v35bZbHg" origin="_Ih6zA6dsEeKu69v35bZbHg" image="_Ih6zCKdsEeKu69v35bZbHg"/>
+    <mappings xmi:id="_Ih6zDadsEeKu69v35bZbHg" origin="_Ih6zBKdsEeKu69v35bZbHg" image="_Ih6zCadsEeKu69v35bZbHg"/>
+    <mappings xmi:id="_Ih6zDqdsEeKu69v35bZbHg" origin="_Ih6zBadsEeKu69v35bZbHg" image="_Ih6zCqdsEeKu69v35bZbHg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_Ih6zD6dsEeKu69v35bZbHg" name="mainUnit" subUnits="_Ih6L8adsEeKu69v35bZbHg">
+    <parameters xmi:id="_Ih6zEKdsEeKu69v35bZbHg" name="selectedEObject"/>
+    <parameters xmi:id="_Ih6zEadsEeKu69v35bZbHg" name="OldSource"/>
+    <parameters xmi:id="_Ih6zEqdsEeKu69v35bZbHg" name="NewSource"/>
+    <parameterMappings xmi:id="_Ih6zE6dsEeKu69v35bZbHg" source="_Ih6zEKdsEeKu69v35bZbHg" target="_Ih6L8qdsEeKu69v35bZbHg"/>
+    <parameterMappings xmi:id="_Ih6zFKdsEeKu69v35bZbHg" source="_Ih6zEadsEeKu69v35bZbHg" target="_Ih6zAKdsEeKu69v35bZbHg"/>
+    <parameterMappings xmi:id="_Ih6zFadsEeKu69v35bZbHg" source="_Ih6zEqdsEeKu69v35bZbHg" target="_Ih6zAadsEeKu69v35bZbHg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

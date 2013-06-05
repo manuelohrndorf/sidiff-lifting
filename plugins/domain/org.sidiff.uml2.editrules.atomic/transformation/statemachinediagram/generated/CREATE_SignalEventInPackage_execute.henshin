@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bOiN8J0KEeKYtPnpu-8upg" description="Creates one SignalEvent in Package" name="CREATE_SignalEventInPackage">
+  <rules xmi:id="_bOiN8Z0KEeKYtPnpu-8upg" description="creates one SignalEvent in the context: Package" name="createSignalEventInPackage">
+    <parameters xmi:id="_bOiN8p0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_bOiN850KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_bOiN9J0KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_bOiN9Z0KEeKYtPnpu-8upg" name="Visibility"/>
+    <parameters xmi:id="_bOiN9p0KEeKYtPnpu-8upg" name="Existing"/>
+    <lhs xmi:id="_bOiN950KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_bOiN-J0KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_bOiN-Z0KEeKYtPnpu-8upg" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_bOiN-p0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_bOiN-50KEeKYtPnpu-8upg" name="Selected" outgoing="_bOiOAJ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_bOiN_J0KEeKYtPnpu-8upg" name="New" incoming="_bOiOAJ0KEeKYtPnpu-8upg" outgoing="_bOiOAZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent"/>
+        <attributes xmi:id="_bOiN_Z0KEeKYtPnpu-8upg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_bOiN_p0KEeKYtPnpu-8upg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bOiN_50KEeKYtPnpu-8upg" name="Existing" incoming="_bOiOAZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_bOiOAJ0KEeKYtPnpu-8upg" source="_bOiN-50KEeKYtPnpu-8upg" target="_bOiN_J0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_bOiOAZ0KEeKYtPnpu-8upg" source="_bOiN_J0KEeKYtPnpu-8upg" target="_bOiN_50KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent/signal"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bOiOAp0KEeKYtPnpu-8upg" origin="_bOiN-J0KEeKYtPnpu-8upg" image="_bOiN-50KEeKYtPnpu-8upg"/>
+    <mappings xmi:id="_bOiOA50KEeKYtPnpu-8upg" origin="_bOiN-Z0KEeKYtPnpu-8upg" image="_bOiN_50KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_bOi1AJ0KEeKYtPnpu-8upg" description="Creates one SignalEvent depending on available contexts in model instance" name="mainUnit" subUnits="_bOiN8Z0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_bOi1AZ0KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_bOi1Ap0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_bOi1A50KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_bOi1BJ0KEeKYtPnpu-8upg" name="Visibility"/>
+    <parameters xmi:id="_bOi1BZ0KEeKYtPnpu-8upg" name="Existing"/>
+    <parameterMappings xmi:id="_bOi1Bp0KEeKYtPnpu-8upg" source="_bOi1Ap0KEeKYtPnpu-8upg" target="_bOiN8p0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bOi1B50KEeKYtPnpu-8upg" source="_bOiN850KEeKYtPnpu-8upg" target="_bOi1AZ0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bOi1CJ0KEeKYtPnpu-8upg" source="_bOi1A50KEeKYtPnpu-8upg" target="_bOiN9J0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bOi1CZ0KEeKYtPnpu-8upg" source="_bOi1BJ0KEeKYtPnpu-8upg" target="_bOiN9Z0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bOi1Cp0KEeKYtPnpu-8upg" source="_bOi1BZ0KEeKYtPnpu-8upg" target="_bOiN9p0KEeKYtPnpu-8upg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

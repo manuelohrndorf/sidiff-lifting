@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9cgAELSYEeKLe415JnbaLg" description="Deletes one SendOperationEvent in Package" name="DELETE_SendOperationEventInPackage">
+  <rules xmi:id="_9cgAEbSYEeKLe415JnbaLg" description="deletes one SendOperationEvent in the context: Package" name="deleteSendOperationEventInPackage">
+    <parameters xmi:id="_9cgAErSYEeKLe415JnbaLg" name="Existing"/>
+    <parameters xmi:id="_9cgAE7SYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9cgAFLSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <lhs xmi:id="_9cgAFbSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9cgAFrSYEeKLe415JnbaLg" name="Selected" outgoing="_9cgAGbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_9cgAF7SYEeKLe415JnbaLg" name="toBeDeleted" incoming="_9cgAGbSYEeKLe415JnbaLg" outgoing="_9cgAGrSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SendOperationEvent"/>
+      </nodes>
+      <nodes xmi:id="_9cgAGLSYEeKLe415JnbaLg" name="Existing" incoming="_9cgAGrSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+      </nodes>
+      <edges xmi:id="_9cgAGbSYEeKLe415JnbaLg" source="_9cgAFrSYEeKLe415JnbaLg" target="_9cgAF7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_9cgAGrSYEeKLe415JnbaLg" source="_9cgAF7SYEeKLe415JnbaLg" target="_9cgAGLSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SendOperationEvent/operation"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9cgAG7SYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9cgAHLSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_9cgAHbSYEeKLe415JnbaLg" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9cgAHrSYEeKLe415JnbaLg" origin="_9cgAFrSYEeKLe415JnbaLg" image="_9cgAHLSYEeKLe415JnbaLg"/>
+    <mappings xmi:id="_9cgAH7SYEeKLe415JnbaLg" origin="_9cgAGLSYEeKLe415JnbaLg" image="_9cgAHbSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9cgAILSYEeKLe415JnbaLg" description="Deletes one SendOperationEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9cgAEbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9cgAIbSYEeKLe415JnbaLg" name="Existing"/>
+    <parameters xmi:id="_9cgAIrSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <parameters xmi:id="_9cgAI7SYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_9cgAJLSYEeKLe415JnbaLg" source="_9cgAIbSYEeKLe415JnbaLg" target="_9cgAErSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9cgAJbSYEeKLe415JnbaLg" source="_9cgAI7SYEeKLe415JnbaLg" target="_9cgAE7SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9cgAJrSYEeKLe415JnbaLg" source="_9cgAIrSYEeKLe415JnbaLg" target="_9cgAFLSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

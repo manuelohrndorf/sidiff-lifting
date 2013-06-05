@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wR6T8HtGEeKmdsIc0BEVog" description="Creates one Pseudostate (kind: entryPoint) in StateMachine" name="CREATE_EntryPointInStateMachine">
+  <rules xmi:id="_wR6T8XtGEeKmdsIc0BEVog" description="creates one Pseudostate (kind: entryPoint) in the context: StateMachine" name="createEntryPointInStateMachine">
+    <parameters xmi:id="_wR6T8ntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wR6T83tGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wR6T9HtGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wR6T9XtGEeKmdsIc0BEVog" name="Visibility"/>
+    <lhs xmi:id="_wR6T9ntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wR6T93tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_wR6T-HtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wR6T-XtGEeKmdsIc0BEVog" name="Selected" incoming="_wR6T_ntGEeKmdsIc0BEVog" outgoing="_wR6T_XtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_wR6T-ntGEeKmdsIc0BEVog" name="New" incoming="_wR6T_XtGEeKmdsIc0BEVog" outgoing="_wR6T_ntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_wR6T-3tGEeKmdsIc0BEVog" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_wR6T_HtGEeKmdsIc0BEVog" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_fBlVQJYZEeKwWNmW5l2QVQ" value="entryPoint">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_wR6T_XtGEeKmdsIc0BEVog" source="_wR6T-XtGEeKmdsIc0BEVog" target="_wR6T-ntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_wR6T_ntGEeKmdsIc0BEVog" source="_wR6T-ntGEeKmdsIc0BEVog" target="_wR6T-XtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wR6T_3tGEeKmdsIc0BEVog" origin="_wR6T93tGEeKmdsIc0BEVog" image="_wR6T-XtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wR6UAHtGEeKmdsIc0BEVog" description="Creates one Pseudostate depending on available contexts in model instance" name="mainUnit" subUnits="_wR6T8XtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wR6UAXtGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wR6UAntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wR6UA3tGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wR6UBHtGEeKmdsIc0BEVog" name="Visibility"/>
+    <parameterMappings xmi:id="_wR6UBXtGEeKmdsIc0BEVog" source="_wR6UAntGEeKmdsIc0BEVog" target="_wR6T8ntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wR6UBntGEeKmdsIc0BEVog" source="_wR6T83tGEeKmdsIc0BEVog" target="_wR6UAXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wR6UB3tGEeKmdsIc0BEVog" source="_wR6UA3tGEeKmdsIc0BEVog" target="_wR6T9HtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wR6UCHtGEeKmdsIc0BEVog" source="_wR6UBHtGEeKmdsIc0BEVog" target="_wR6T9XtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

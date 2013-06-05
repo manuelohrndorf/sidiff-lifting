@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_SHb05WuZEeK0RPDy5I7Luw" description="Removes EReference's reference eKeys the target EAttribute" name="REMOVE_EReference_Ref_eKeys_tgt_EAttribute">
+  <rules xmi:id="_SHb05muZEeK0RPDy5I7Luw" description="Removes from EReference's reference eKeys the target EAttribute" name="removeFromEReferenceRefEKeysToEAttribute">
+    <parameters xmi:id="_SHb052uZEeK0RPDy5I7Luw" name="Selected"/>
+    <parameters xmi:id="_SHb06GuZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <lhs xmi:id="_SHb06WuZEeK0RPDy5I7Luw" name="LHS">
+      <nodes xmi:id="_SHb06muZEeK0RPDy5I7Luw" name="Selected" outgoing="_SHcb8GuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_SHb062uZEeK0RPDy5I7Luw" name="OldTarget" incoming="_SHcb8GuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <edges xmi:id="_SHcb8GuZEeK0RPDy5I7Luw" source="_SHb06muZEeK0RPDy5I7Luw" target="_SHb062uZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eKeys"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_SHcb8WuZEeK0RPDy5I7Luw" name="RHS">
+      <nodes xmi:id="_SHcb8muZEeK0RPDy5I7Luw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_SHcb82uZEeK0RPDy5I7Luw" name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_SHcb9GuZEeK0RPDy5I7Luw" origin="_SHb06muZEeK0RPDy5I7Luw" image="_SHcb8muZEeK0RPDy5I7Luw"/>
+    <mappings xmi:id="_SHcb9WuZEeK0RPDy5I7Luw" origin="_SHb062uZEeK0RPDy5I7Luw" image="_SHcb82uZEeK0RPDy5I7Luw"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_SHcb9muZEeK0RPDy5I7Luw" name="mainUnit" subUnits="_SHb05muZEeK0RPDy5I7Luw">
+    <parameters xmi:id="_SHcb92uZEeK0RPDy5I7Luw" name="selectedEObject"/>
+    <parameters xmi:id="_SHcb-GuZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <parameterMappings xmi:id="_SHcb-WuZEeK0RPDy5I7Luw" source="_SHcb92uZEeK0RPDy5I7Luw" target="_SHb052uZEeK0RPDy5I7Luw"/>
+    <parameterMappings xmi:id="_SHcb-muZEeK0RPDy5I7Luw" source="_SHcb-GuZEeK0RPDy5I7Luw" target="_SHb06GuZEeK0RPDy5I7Luw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

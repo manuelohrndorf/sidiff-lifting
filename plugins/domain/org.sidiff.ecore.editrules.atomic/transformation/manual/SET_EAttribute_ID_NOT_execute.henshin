@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aNNzQBnWEeKdAq7SOuGfUQ" description="Sets EAttribute ID to false" name="SET_EAttribute_ID_NOT">
+  <rules xmi:id="_aNNzQRnWEeKdAq7SOuGfUQ" description="Sets the EAttribute iD to false" name="setEAttributeIDNOT">
+    <parameters xmi:id="_aNNzQhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <lhs xmi:id="_aNNzRBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aNNzRRnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <formula xsi:type="henshin:And" xmi:id="_dCFJ8LPZEeKGA9ig6CEkCQ">
+        <left xsi:type="henshin:Not" xmi:id="_rfn48LPWEeKGA9ig6CEkCQ"/>
+        <right xsi:type="henshin:Not" xmi:id="_dCFJ8bPZEeKGA9ig6CEkCQ"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_aNNzRhnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aNNzRxnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_aNNzSBnWEeKdAq7SOuGfUQ" value="false">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute/iD"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aNNzSRnWEeKdAq7SOuGfUQ" origin="_aNNzRRnWEeKdAq7SOuGfUQ" image="_aNNzRxnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aNNzShnWEeKdAq7SOuGfUQ" name="mainUnit" subUnits="_aNNzQRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aNNzSxnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aNNzTRnWEeKdAq7SOuGfUQ" source="_aNNzSxnWEeKdAq7SOuGfUQ" target="_aNNzQhnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

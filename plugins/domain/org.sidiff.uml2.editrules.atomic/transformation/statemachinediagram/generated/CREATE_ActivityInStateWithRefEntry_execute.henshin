@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wWi8UHtGEeKmdsIc0BEVog" description="Creates one Activity in State with reference Entry" name="CREATE_ActivityInStateWithRefEntry">
+  <rules xmi:id="_wWi8UXtGEeKmdsIc0BEVog" description="creates one Activity in the context: State" name="createActivityInState">
+    <parameters xmi:id="_wWi8UntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wWi8U3tGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wWi8VHtGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wWi8VXtGEeKmdsIc0BEVog" name="Visibility"/>
+    <lhs xmi:id="_wWi8VntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wWi8V3tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_wWi8WHtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wWi8WXtGEeKmdsIc0BEVog" name="Selected" outgoing="_wWi8XXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_wWi8WntGEeKmdsIc0BEVog" name="New" incoming="_wWi8XXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Activity"/>
+        <attributes xmi:id="_wWi8W3tGEeKmdsIc0BEVog" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_wWi8XHtGEeKmdsIc0BEVog" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_wWi8XXtGEeKmdsIc0BEVog" source="_wWi8WXtGEeKmdsIc0BEVog" target="_wWi8WntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/entry"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wWi8XntGEeKmdsIc0BEVog" origin="_wWi8V3tGEeKmdsIc0BEVog" image="_wWi8WXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wWi8X3tGEeKmdsIc0BEVog" description="Creates one Activity depending on available contexts in model instance" name="mainUnit" subUnits="_wWi8UXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wWi8YHtGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wWi8YXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wWi8YntGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wWi8Y3tGEeKmdsIc0BEVog" name="Visibility"/>
+    <parameterMappings xmi:id="_wWi8ZHtGEeKmdsIc0BEVog" source="_wWi8YXtGEeKmdsIc0BEVog" target="_wWi8UntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wWi8ZXtGEeKmdsIc0BEVog" source="_wWi8U3tGEeKmdsIc0BEVog" target="_wWi8YHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wWjjYHtGEeKmdsIc0BEVog" source="_wWi8YntGEeKmdsIc0BEVog" target="_wWi8VHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wWjjYXtGEeKmdsIc0BEVog" source="_wWi8Y3tGEeKmdsIc0BEVog" target="_wWi8VXtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

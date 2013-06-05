@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aOxScBnWEeKdAq7SOuGfUQ" description="Deletes one EOperation in EClass" name="DELETE_EOperationInEClass">
+  <rules xmi:id="_aOxScRnWEeKdAq7SOuGfUQ" description="deletes one EOperation in the context: EClass" name="deleteEOperationInEClass">
+    <parameters xmi:id="_aOxSchnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aOxScxnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aOxSdBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aOxSdRnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aOxSeBnWEeKdAq7SOuGfUQ" outgoing="_aOxSdxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_aOxSdhnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aOxSdxnWEeKdAq7SOuGfUQ" outgoing="_aOxSeBnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <edges xmi:id="_aOxSdxnWEeKdAq7SOuGfUQ" source="_aOxSdRnWEeKdAq7SOuGfUQ" target="_aOxSdhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eOperations"/>
+      </edges>
+      <edges xmi:id="_aOxSeBnWEeKdAq7SOuGfUQ" source="_aOxSdhnWEeKdAq7SOuGfUQ" target="_aOxSdRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eContainingClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aOxSeRnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aOxSehnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aOxSexnWEeKdAq7SOuGfUQ" origin="_aOxSdRnWEeKdAq7SOuGfUQ" image="_aOxSehnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aOxSfBnWEeKdAq7SOuGfUQ" description="Deletes one EOperation depending on available contexts in model instance" name="mainUnit" subUnits="_aOxScRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aOxSfRnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aOxSfhnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aOxSfxnWEeKdAq7SOuGfUQ" source="_aOxSfhnWEeKdAq7SOuGfUQ" target="_aOxSchnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aOxSgBnWEeKdAq7SOuGfUQ" source="_aOxSfRnWEeKdAq7SOuGfUQ" target="_aOxScxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

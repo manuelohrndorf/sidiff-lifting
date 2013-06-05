@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wQSjUHtGEeKmdsIc0BEVog" description="Creates one State in Region" name="CREATE_StateInRegion">
+  <rules xmi:id="_wQSjUXtGEeKmdsIc0BEVog" description="creates one State in the context: Region" name="createStateInRegion">
+    <parameters xmi:id="_wQSjUntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wQSjU3tGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wQSjVHtGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wQSjVXtGEeKmdsIc0BEVog" name="Visibility"/>
+    <lhs xmi:id="_wQSjVntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wQSjV3tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_6yNTwJvQEeK9U-I6Q9x2HA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_mPsO8oOHEeKGwfgfle1GHQ">
+          <conclusion xmi:id="_mPsO84OHEeKGwfgfle1GHQ" name="default">
+            <nodes xmi:id="_mPs2AIOHEeKGwfgfle1GHQ" name="Selected" outgoing="_d3PWQIOHEeKGwfgfle1GHQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+            </nodes>
+            <nodes xmi:id="_WepYEIOHEeKGwfgfle1GHQ" incoming="_d3PWQIOHEeKGwfgfle1GHQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+              <attributes xmi:id="_jQFDMIOHEeKGwfgfle1GHQ" value="Name">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_d3PWQIOHEeKGwfgfle1GHQ" source="_mPs2AIOHEeKGwfgfle1GHQ" target="_WepYEIOHEeKGwfgfle1GHQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_mPs2AYOHEeKGwfgfle1GHQ" origin="_wQSjV3tGEeKmdsIc0BEVog" image="_mPs2AIOHEeKGwfgfle1GHQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_wQSjWHtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wQSjWXtGEeKmdsIc0BEVog" name="Selected" incoming="_wQSjXntGEeKmdsIc0BEVog" outgoing="_wQSjXXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_wQSjWntGEeKmdsIc0BEVog" name="New" incoming="_wQSjXXtGEeKmdsIc0BEVog" outgoing="_wQSjXntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+        <attributes xmi:id="_wQSjW3tGEeKmdsIc0BEVog" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_wQSjXHtGEeKmdsIc0BEVog" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_wQSjXXtGEeKmdsIc0BEVog" source="_wQSjWXtGEeKmdsIc0BEVog" target="_wQSjWntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_wQSjXntGEeKmdsIc0BEVog" source="_wQSjWntGEeKmdsIc0BEVog" target="_wQSjWXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wQSjX3tGEeKmdsIc0BEVog" origin="_wQSjV3tGEeKmdsIc0BEVog" image="_wQSjWXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wQSjYHtGEeKmdsIc0BEVog" description="Creates one State depending on available contexts in model instance" name="mainUnit" subUnits="_wQSjUXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wQSjYXtGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_wQSjYntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wQSjY3tGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_wQSjZHtGEeKmdsIc0BEVog" name="Visibility"/>
+    <parameterMappings xmi:id="_wQSjZXtGEeKmdsIc0BEVog" source="_wQSjYntGEeKmdsIc0BEVog" target="_wQSjUntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wQSjZntGEeKmdsIc0BEVog" source="_wQSjU3tGEeKmdsIc0BEVog" target="_wQSjYXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wQSjZ3tGEeKmdsIc0BEVog" source="_wQSjY3tGEeKmdsIc0BEVog" target="_wQSjVHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wQSjaHtGEeKmdsIc0BEVog" source="_wQSjZHtGEeKmdsIc0BEVog" target="_wQSjVXtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

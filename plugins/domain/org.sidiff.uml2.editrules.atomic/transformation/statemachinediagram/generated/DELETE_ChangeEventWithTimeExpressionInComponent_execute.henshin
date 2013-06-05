@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9gvm4LSYEeKLe415JnbaLg" description="Deletes one ChangeEvent with a TimeExpression in Component" name="DELETE_ChangeEventWithTimeExpressionInComponent">
+  <rules xmi:id="_9gvm4bSYEeKLe415JnbaLg" description="deletes one ChangeEvent in the context: Component" name="deleteChangeEventInComponent">
+    <parameters xmi:id="_9gvm4rSYEeKLe415JnbaLg" name="Child"/>
+    <parameters xmi:id="_9gvm47SYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9gvm5LSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <lhs xmi:id="_9gvm5bSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9gvm5rSYEeKLe415JnbaLg" name="Selected" outgoing="_9gvm6bSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9gvm57SYEeKLe415JnbaLg" name="toBeDeleted" incoming="_9gvm6bSYEeKLe415JnbaLg" outgoing="_9gvm6rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ChangeEvent"/>
+      </nodes>
+      <nodes xmi:id="_9gvm6LSYEeKLe415JnbaLg" name="Child" incoming="_9gvm6rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeExpression"/>
+      </nodes>
+      <edges xmi:id="_9gvm6bSYEeKLe415JnbaLg" source="_9gvm5rSYEeKLe415JnbaLg" target="_9gvm57SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_9gvm6rSYEeKLe415JnbaLg" source="_9gvm57SYEeKLe415JnbaLg" target="_9gvm6LSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ChangeEvent/changeExpression"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9gvm67SYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9gvm7LSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9gvm7bSYEeKLe415JnbaLg" origin="_9gvm5rSYEeKLe415JnbaLg" image="_9gvm7LSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9gvm7rSYEeKLe415JnbaLg" description="Deletes one ChangeEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9gvm4bSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9gvm77SYEeKLe415JnbaLg" name="Child"/>
+    <parameters xmi:id="_9gvm8LSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <parameters xmi:id="_9gvm8bSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_9gvm8rSYEeKLe415JnbaLg" source="_9gvm77SYEeKLe415JnbaLg" target="_9gvm4rSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gvm87SYEeKLe415JnbaLg" source="_9gvm8bSYEeKLe415JnbaLg" target="_9gvm47SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gvm9LSYEeKLe415JnbaLg" source="_9gvm8LSYEeKLe415JnbaLg" target="_9gvm5LSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_C6dvYCLxEeCw8vyzbFJcVA" name="create_super_eclass">
+  <rules xmi:id="_rt0X2iLyEeCw8vyzbFJcVA" name="create_super_EClass">
+    <parameters xmi:id="_rt0X2yLyEeCw8vyzbFJcVA" name="selectedEClass"/>
+    <parameters xmi:id="_rt0X3CLyEeCw8vyzbFJcVA" name="superEClass"/>
+    <parameters xmi:id="_tj0hcCdREeK-dccPjuDyIQ" name="out_superEClass"/>
+    <parameters xmi:id="_I_y5kHePEeKmK9mG1HMjNQ" name="isInterface"/>
+    <parameters xmi:id="_64P2AHzyEeKeeZZ_CmjWLg" name="isAbstract"/>
+    <lhs xmi:id="_rt0X3SLyEeCw8vyzbFJcVA" name="LHS">
+      <nodes xmi:id="_rt0X3iLyEeCw8vyzbFJcVA" name="selectedEClass" incoming="_rt0X4iLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_rt0X3yLyEeCw8vyzbFJcVA" outgoing="_rt0X4iLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_rt0X4iLyEeCw8vyzbFJcVA" source="_rt0X3yLyEeCw8vyzbFJcVA" target="_rt0X3iLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_rt0X5CLyEeCw8vyzbFJcVA" name="RHS">
+      <nodes xmi:id="_rt0X5SLyEeCw8vyzbFJcVA" name="selectedEClass" incoming="_rt0X6SLyEeCw8vyzbFJcVA" outgoing="_4lIoYCLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_rt0X5iLyEeCw8vyzbFJcVA" outgoing="_rt0X6SLyEeCw8vyzbFJcVA _rt0X6iLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_rt0X5yLyEeCw8vyzbFJcVA" name="out_superEClass" incoming="_rt0X6iLyEeCw8vyzbFJcVA _4lIoYCLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_rt0X6CLyEeCw8vyzbFJcVA" value="superEClass">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_CTARcHePEeKmK9mG1HMjNQ" value="isInterface">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/interface"/>
+        </attributes>
+        <attributes xmi:id="_2iJYcHzyEeKeeZZ_CmjWLg" value="isAbstract">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/abstract"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_rt0X6SLyEeCw8vyzbFJcVA" source="_rt0X5iLyEeCw8vyzbFJcVA" target="_rt0X5SLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_rt0X6iLyEeCw8vyzbFJcVA" source="_rt0X5iLyEeCw8vyzbFJcVA" target="_rt0X5yLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_4lIoYCLyEeCw8vyzbFJcVA" source="_rt0X5SLyEeCw8vyzbFJcVA" target="_rt0X5yLyEeCw8vyzbFJcVA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_rt0X6yLyEeCw8vyzbFJcVA" origin="_rt0X3iLyEeCw8vyzbFJcVA" image="_rt0X5SLyEeCw8vyzbFJcVA"/>
+    <mappings xmi:id="_rt0X7CLyEeCw8vyzbFJcVA" origin="_rt0X3yLyEeCw8vyzbFJcVA" image="_rt0X5iLyEeCw8vyzbFJcVA"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_GbaGkCLxEeCw8vyzbFJcVA" description="" name="mainUnit" subUnits="_rt0X2iLyEeCw8vyzbFJcVA">
+    <parameters xmi:id="_HxP4ICLxEeCw8vyzbFJcVA" name="selectedEObject"/>
+    <parameters xmi:id="_J_xlMCLxEeCw8vyzbFJcVA" description="Name of the new EClass" name="eClassName"/>
+    <parameters xmi:id="_peYWECdREeK-dccPjuDyIQ" name="out_superEClass"/>
+    <parameters xmi:id="_LOiCAHePEeKmK9mG1HMjNQ" name="isInterface"/>
+    <parameters xmi:id="_87ijcHzyEeKeeZZ_CmjWLg" name="isAbstract"/>
+    <parameterMappings xmi:id="_bmtUwCLzEeCw8vyzbFJcVA" source="_HxP4ICLxEeCw8vyzbFJcVA" target="_rt0X2yLyEeCw8vyzbFJcVA"/>
+    <parameterMappings xmi:id="_b7FpUCLzEeCw8vyzbFJcVA" source="_J_xlMCLxEeCw8vyzbFJcVA" target="_rt0X3CLyEeCw8vyzbFJcVA"/>
+    <parameterMappings xmi:id="_1dqLgCdREeK-dccPjuDyIQ" source="_tj0hcCdREeK-dccPjuDyIQ" target="_peYWECdREeK-dccPjuDyIQ"/>
+    <parameterMappings xmi:id="_NG3coHePEeKmK9mG1HMjNQ" source="_LOiCAHePEeKmK9mG1HMjNQ" target="_I_y5kHePEeKmK9mG1HMjNQ"/>
+    <parameterMappings xmi:id="_-nXMEHzyEeKeeZZ_CmjWLg" source="_87ijcHzyEeKeeZZ_CmjWLg" target="_64P2AHzyEeKeeZZ_CmjWLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

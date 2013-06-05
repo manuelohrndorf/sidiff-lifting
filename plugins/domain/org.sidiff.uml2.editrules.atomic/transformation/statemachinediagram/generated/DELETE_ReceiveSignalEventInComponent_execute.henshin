@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9eSv0LSYEeKLe415JnbaLg" description="Deletes one ReceiveSignalEvent in Component" name="DELETE_ReceiveSignalEventInComponent">
+  <rules xmi:id="_9eSv0bSYEeKLe415JnbaLg" description="deletes one ReceiveSignalEvent in the context: Component" name="deleteReceiveSignalEventInComponent">
+    <parameters xmi:id="_9eSv0rSYEeKLe415JnbaLg" name="Existing"/>
+    <parameters xmi:id="_9eSv07SYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9eSv1LSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <lhs xmi:id="_9eSv1bSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9eSv1rSYEeKLe415JnbaLg" name="Selected" outgoing="_9eSv2bSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9eSv17SYEeKLe415JnbaLg" name="toBeDeleted" incoming="_9eSv2bSYEeKLe415JnbaLg" outgoing="_9eSv2rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveSignalEvent"/>
+      </nodes>
+      <nodes xmi:id="_9eSv2LSYEeKLe415JnbaLg" name="Existing" incoming="_9eSv2rSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_9eSv2bSYEeKLe415JnbaLg" source="_9eSv1rSYEeKLe415JnbaLg" target="_9eSv17SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_9eSv2rSYEeKLe415JnbaLg" source="_9eSv17SYEeKLe415JnbaLg" target="_9eSv2LSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveSignalEvent/signal"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9eSv27SYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9eSv3LSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9eSv3bSYEeKLe415JnbaLg" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9eSv3rSYEeKLe415JnbaLg" origin="_9eSv1rSYEeKLe415JnbaLg" image="_9eSv3LSYEeKLe415JnbaLg"/>
+    <mappings xmi:id="_9eSv37SYEeKLe415JnbaLg" origin="_9eSv2LSYEeKLe415JnbaLg" image="_9eSv3bSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9eSv4LSYEeKLe415JnbaLg" description="Deletes one ReceiveSignalEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9eSv0bSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9eSv4bSYEeKLe415JnbaLg" name="Existing"/>
+    <parameters xmi:id="_9eSv4rSYEeKLe415JnbaLg" name="toBeDeleted"/>
+    <parameters xmi:id="_9eSv47SYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_9eSv5LSYEeKLe415JnbaLg" source="_9eSv4bSYEeKLe415JnbaLg" target="_9eSv0rSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eSv5bSYEeKLe415JnbaLg" source="_9eSv47SYEeKLe415JnbaLg" target="_9eSv07SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eSv5rSYEeKLe415JnbaLg" source="_9eSv4rSYEeKLe415JnbaLg" target="_9eSv1LSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

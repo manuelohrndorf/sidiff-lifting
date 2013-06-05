@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9eMpMLSYEeKLe415JnbaLg" description="Creates one ReceiveSignalEvent in Component" name="CREATE_ReceiveSignalEventInComponent">
+  <rules xmi:id="_9eMpMbSYEeKLe415JnbaLg" description="creates one ReceiveSignalEvent in the context: Component" name="createReceiveSignalEventInComponent">
+    <parameters xmi:id="_9eMpMrSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9eMpM7SYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9eMpNLSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9eMpNbSYEeKLe415JnbaLg" name="Visibility"/>
+    <parameters xmi:id="_9eMpNrSYEeKLe415JnbaLg" name="Existing"/>
+    <lhs xmi:id="_9eMpN7SYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9eMpOLSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9eMpObSYEeKLe415JnbaLg" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9eMpOrSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9eMpO7SYEeKLe415JnbaLg" name="Selected" outgoing="_9eMpQLSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9eMpPLSYEeKLe415JnbaLg" name="New" incoming="_9eMpQLSYEeKLe415JnbaLg" outgoing="_9eMpQbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveSignalEvent"/>
+        <attributes xmi:id="_9eMpPbSYEeKLe415JnbaLg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9eMpPrSYEeKLe415JnbaLg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9eMpP7SYEeKLe415JnbaLg" name="Existing" incoming="_9eMpQbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_9eMpQLSYEeKLe415JnbaLg" source="_9eMpO7SYEeKLe415JnbaLg" target="_9eMpPLSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_9eMpQbSYEeKLe415JnbaLg" source="_9eMpPLSYEeKLe415JnbaLg" target="_9eMpP7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveSignalEvent/signal"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9eMpQrSYEeKLe415JnbaLg" origin="_9eMpOLSYEeKLe415JnbaLg" image="_9eMpO7SYEeKLe415JnbaLg"/>
+    <mappings xmi:id="_9eMpQ7SYEeKLe415JnbaLg" origin="_9eMpObSYEeKLe415JnbaLg" image="_9eMpP7SYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9eMpRLSYEeKLe415JnbaLg" description="Creates one ReceiveSignalEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9eMpMbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9eMpRbSYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9eMpRrSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameters xmi:id="_9eMpR7SYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9eMpSLSYEeKLe415JnbaLg" name="Visibility"/>
+    <parameters xmi:id="_9eMpSbSYEeKLe415JnbaLg" name="Existing"/>
+    <parameterMappings xmi:id="_9eMpSrSYEeKLe415JnbaLg" source="_9eMpRrSYEeKLe415JnbaLg" target="_9eMpMrSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eMpS7SYEeKLe415JnbaLg" source="_9eMpM7SYEeKLe415JnbaLg" target="_9eMpRbSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eMpTLSYEeKLe415JnbaLg" source="_9eMpR7SYEeKLe415JnbaLg" target="_9eMpNLSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eMpTbSYEeKLe415JnbaLg" source="_9eMpSLSYEeKLe415JnbaLg" target="_9eMpNbSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9eMpTrSYEeKLe415JnbaLg" source="_9eMpSbSYEeKLe415JnbaLg" target="_9eMpNrSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

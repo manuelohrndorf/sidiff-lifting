@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aPfEIBnWEeKdAq7SOuGfUQ" description="Deletes one EReference in EClass" name="DELETE_EReferenceInEClass">
+  <rules xmi:id="_aPfEIRnWEeKdAq7SOuGfUQ" description="deletes one EReference in the context: EClass" name="deleteEReferenceInEClass" injectiveMatching="false">
+    <parameters xmi:id="_aPfEIhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aPfEIxnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aPfEJBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aPfEJRnWEeKdAq7SOuGfUQ" name="Selected" incoming="_zR3wcG0NEeKfhe-8aXQX9Q" outgoing="_aPfEJxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_aPfEJhnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aPfEJxnWEeKdAq7SOuGfUQ" outgoing="_-gUbkD4KEeKPjZm3_6xOrQ _zR3wcG0NEeKfhe-8aXQX9Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_9ZAOMD4KEeKPjZm3_6xOrQ" incoming="_-gUbkD4KEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_aPfEJxnWEeKdAq7SOuGfUQ" source="_aPfEJRnWEeKdAq7SOuGfUQ" target="_aPfEJhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_-gUbkD4KEeKPjZm3_6xOrQ" source="_aPfEJhnWEeKdAq7SOuGfUQ" target="_9ZAOMD4KEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_zR3wcG0NEeKfhe-8aXQX9Q" source="_aPfEJhnWEeKdAq7SOuGfUQ" target="_aPfEJRnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="__6faIGSDEeK8vtsCH2GKaA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="__6faIWSDEeK8vtsCH2GKaA">
+          <conclusion xmi:id="__6faImSDEeK8vtsCH2GKaA" name="default">
+            <nodes xmi:id="__6goQGSDEeK8vtsCH2GKaA" name="toBeDeleted" incoming="_9ekxUGSDEeK8vtsCH2GKaA" outgoing="__FkkUGSDEeK8vtsCH2GKaA">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <nodes xmi:id="_8eRK4GSDEeK8vtsCH2GKaA" name="r" incoming="__FkkUGSDEeK8vtsCH2GKaA _P5Rs02ytEeKfhe-8aXQX9Q" outgoing="_9ekxUGSDEeK8vtsCH2GKaA _P5Rs1mytEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <nodes xmi:id="_P5Rs0GytEeKfhe-8aXQX9Q" name="c" outgoing="_P5Rs02ytEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            </nodes>
+            <nodes xmi:id="_P5Rs0WytEeKfhe-8aXQX9Q" name="s" incoming="_P5Rs1mytEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+            </nodes>
+            <edges xmi:id="__FkkUGSDEeK8vtsCH2GKaA" source="__6goQGSDEeK8vtsCH2GKaA" target="_8eRK4GSDEeK8vtsCH2GKaA">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+            </edges>
+            <edges xmi:id="_9ekxUGSDEeK8vtsCH2GKaA" source="_8eRK4GSDEeK8vtsCH2GKaA" target="__6goQGSDEeK8vtsCH2GKaA">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+            </edges>
+            <edges xmi:id="_P5Rs02ytEeKfhe-8aXQX9Q" source="_P5Rs0GytEeKfhe-8aXQX9Q" target="_8eRK4GSDEeK8vtsCH2GKaA">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+            </edges>
+            <edges xmi:id="_P5Rs1mytEeKfhe-8aXQX9Q" source="_8eRK4GSDEeK8vtsCH2GKaA" target="_P5Rs0WytEeKfhe-8aXQX9Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="__6goQWSDEeK8vtsCH2GKaA" origin="_aPfEJhnWEeKdAq7SOuGfUQ" image="__6goQGSDEeK8vtsCH2GKaA"/>
+          <mappings xmi:id="_P5Rs12ytEeKfhe-8aXQX9Q" origin="_9ZAOMD4KEeKPjZm3_6xOrQ" image="_P5Rs0GytEeKfhe-8aXQX9Q"/>
+          <mappings xmi:id="_P5Rs2GytEeKfhe-8aXQX9Q" origin="_aPfEJRnWEeKdAq7SOuGfUQ" image="_P5Rs0WytEeKfhe-8aXQX9Q"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_aPfEKRnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aPfEKhnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_9ZA1QD4KEeKPjZm3_6xOrQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aPfEKxnWEeKdAq7SOuGfUQ" origin="_aPfEJRnWEeKdAq7SOuGfUQ" image="_aPfEKhnWEeKdAq7SOuGfUQ"/>
+    <mappings xmi:id="_9ZBcUD4KEeKPjZm3_6xOrQ" origin="_9ZAOMD4KEeKPjZm3_6xOrQ" image="_9ZA1QD4KEeKPjZm3_6xOrQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aPfELBnWEeKdAq7SOuGfUQ" description="Deletes one EReference depending on available contexts in model instance" name="mainUnit" subUnits="_aPfEIRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aPfELRnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aPfELhnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aPfELxnWEeKdAq7SOuGfUQ" source="_aPfELhnWEeKdAq7SOuGfUQ" target="_aPfEIhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aPfEMBnWEeKdAq7SOuGfUQ" source="_aPfELRnWEeKdAq7SOuGfUQ" target="_aPfEIxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

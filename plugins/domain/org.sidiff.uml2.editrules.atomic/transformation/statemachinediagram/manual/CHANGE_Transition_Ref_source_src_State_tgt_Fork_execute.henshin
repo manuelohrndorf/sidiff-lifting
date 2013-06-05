@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wNwMsHtGEeKmdsIc0BEVog" description="CHANGEs Transition's reference source the target Fork" name="CHANGE_Transition_Ref_source_src_State_tgt_Fork">
+  <rules xmi:id="_wNwMsXtGEeKmdsIc0BEVog" description="Change the EReference source" name="changeTransitionWithSourceStateRefSourceToFork">
+    <parameters xmi:id="_wNwMsntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wNwMs3tGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wNwMtHtGEeKmdsIc0BEVog" name="NewTarget"/>
+    <lhs xmi:id="_wNwMtXtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wNwMtntGEeKmdsIc0BEVog" name="Selected" outgoing="_wNwMuXtGEeKmdsIc0BEVog _us-l0LMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNwMt3tGEeKmdsIc0BEVog" name="OldTarget" incoming="_wNwMuXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_wNwMuHtGEeKmdsIc0BEVog" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_VCpPoKwBEeKmZ4X_daCeMg" value="fork">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_qUm3YLMSEeKiB7otMmqZgg" incoming="_us-l0LMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_wNwMuXtGEeKmdsIc0BEVog" source="_wNwMtntGEeKmdsIc0BEVog" target="_wNwMt3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_us-l0LMSEeKiB7otMmqZgg" source="_wNwMtntGEeKmdsIc0BEVog" target="_qUm3YLMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_xsXIELMSEeKiB7otMmqZgg">
+        <left xsi:type="henshin:And" xmi:id="_N_BGYLMIEeKiB7otMmqZgg">
+          <left xsi:type="henshin:Not" xmi:id="_JoM3ILMIEeKiB7otMmqZgg">
+            <child xsi:type="henshin:NestedCondition" xmi:id="_JoM3IbMIEeKiB7otMmqZgg">
+              <conclusion xmi:id="_JoM3IrMIEeKiB7otMmqZgg" name="guard">
+                <nodes xmi:id="_HcJ2ULMIEeKiB7otMmqZgg" incoming="_K5uwdLMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+                </nodes>
+                <nodes xmi:id="_K5uJYLMIEeKiB7otMmqZgg" name="Selected" outgoing="_K5uwc7MIEeKiB7otMmqZgg _K5uwdLMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+                </nodes>
+                <nodes xmi:id="_K5uwcbMIEeKiB7otMmqZgg" name="OldTarget" incoming="_K5uwc7MIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+                </nodes>
+                <edges xmi:id="_K5uwc7MIEeKiB7otMmqZgg" source="_K5uJYLMIEeKiB7otMmqZgg" target="_K5uwcbMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+                </edges>
+                <edges xmi:id="_K5uwdLMIEeKiB7otMmqZgg" source="_K5uJYLMIEeKiB7otMmqZgg" target="_HcJ2ULMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/guard"/>
+                </edges>
+              </conclusion>
+              <mappings xmi:id="_K5uwcLMIEeKiB7otMmqZgg" origin="_wNwMtntGEeKmdsIc0BEVog" image="_K5uJYLMIEeKiB7otMmqZgg"/>
+              <mappings xmi:id="_K5uwcrMIEeKiB7otMmqZgg" origin="_wNwMt3tGEeKmdsIc0BEVog" image="_K5uwcbMIEeKiB7otMmqZgg"/>
+            </child>
+          </left>
+          <right xsi:type="henshin:Not" xmi:id="_N_BGYbMIEeKiB7otMmqZgg">
+            <child xsi:type="henshin:NestedCondition" xmi:id="_N_BGYrMIEeKiB7otMmqZgg">
+              <conclusion xmi:id="_N_BGY7MIEeKiB7otMmqZgg" name="trigger">
+                <nodes xmi:id="_MAwC4LMIEeKiB7otMmqZgg" incoming="_O-SLALMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+                </nodes>
+                <nodes xmi:id="_O-Rj8LMIEeKiB7otMmqZgg" name="Selected" outgoing="_O-Rj9LMIEeKiB7otMmqZgg _O-SLALMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+                </nodes>
+                <nodes xmi:id="_O-Rj8rMIEeKiB7otMmqZgg" name="OldTarget" incoming="_O-Rj9LMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+                </nodes>
+                <edges xmi:id="_O-Rj9LMIEeKiB7otMmqZgg" source="_O-Rj8LMIEeKiB7otMmqZgg" target="_O-Rj8rMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+                </edges>
+                <edges xmi:id="_O-SLALMIEeKiB7otMmqZgg" source="_O-Rj8LMIEeKiB7otMmqZgg" target="_MAwC4LMIEeKiB7otMmqZgg">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/trigger"/>
+                </edges>
+              </conclusion>
+              <mappings xmi:id="_O-Rj8bMIEeKiB7otMmqZgg" origin="_wNwMtntGEeKmdsIc0BEVog" image="_O-Rj8LMIEeKiB7otMmqZgg"/>
+              <mappings xmi:id="_O-Rj87MIEeKiB7otMmqZgg" origin="_wNwMt3tGEeKmdsIc0BEVog" image="_O-Rj8rMIEeKiB7otMmqZgg"/>
+            </child>
+          </right>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_xsXIEbMSEeKiB7otMmqZgg">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_xsXIErMSEeKiB7otMmqZgg">
+            <conclusion xmi:id="_xsXIE7MSEeKiB7otMmqZgg" name="sameRegion">
+              <nodes xmi:id="_wvXUULMSEeKiB7otMmqZgg" outgoing="_3cR4QLMSEeKiB7otMmqZgg _4WW64LMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+              </nodes>
+              <nodes xmi:id="_ybQ1cLMSEeKiB7otMmqZgg" incoming="_4WW64LMSEeKiB7otMmqZgg _5nNewLMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+              </nodes>
+              <nodes xmi:id="_z-dtkLMSEeKiB7otMmqZgg" outgoing="_5nNewLMSEeKiB7otMmqZgg _6dHzELMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+              </nodes>
+              <nodes xmi:id="_3cRRMLMSEeKiB7otMmqZgg" name="NewTarget" incoming="_3cR4QLMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+                <attributes xmi:id="_3cRRMbMSEeKiB7otMmqZgg" value="fork">
+                  <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+                </attributes>
+              </nodes>
+              <nodes xmi:id="_6dFW0LMSEeKiB7otMmqZgg" incoming="_6dHMALMSEeKiB7otMmqZgg _6dHzELMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+              </nodes>
+              <nodes xmi:id="_6dF94bMSEeKiB7otMmqZgg" name="Selected" outgoing="_6dHMALMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+              </nodes>
+              <edges xmi:id="_3cR4QLMSEeKiB7otMmqZgg" source="_wvXUULMSEeKiB7otMmqZgg" target="_3cRRMLMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+              </edges>
+              <edges xmi:id="_4WW64LMSEeKiB7otMmqZgg" source="_wvXUULMSEeKiB7otMmqZgg" target="_ybQ1cLMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+              </edges>
+              <edges xmi:id="_5nNewLMSEeKiB7otMmqZgg" source="_z-dtkLMSEeKiB7otMmqZgg" target="_ybQ1cLMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+              </edges>
+              <edges xmi:id="_6dHMALMSEeKiB7otMmqZgg" source="_6dF94bMSEeKiB7otMmqZgg" target="_6dFW0LMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+              </edges>
+              <edges xmi:id="_6dHzELMSEeKiB7otMmqZgg" source="_z-dtkLMSEeKiB7otMmqZgg" target="_6dFW0LMSEeKiB7otMmqZgg">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_3cRRMrMSEeKiB7otMmqZgg" origin="_wNwMuHtGEeKmdsIc0BEVog" image="_3cRRMLMSEeKiB7otMmqZgg"/>
+            <mappings xmi:id="_6dF94LMSEeKiB7otMmqZgg" origin="_qUm3YLMSEeKiB7otMmqZgg" image="_6dFW0LMSEeKiB7otMmqZgg"/>
+            <mappings xmi:id="_6dGk8LMSEeKiB7otMmqZgg" origin="_wNwMtntGEeKmdsIc0BEVog" image="_6dF94bMSEeKiB7otMmqZgg"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_wNwMuntGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wNwMu3tGEeKmdsIc0BEVog" name="Selected" outgoing="_wNwMvntGEeKmdsIc0BEVog _us_z8LMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNwMvHtGEeKmdsIc0BEVog" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_wNwMvXtGEeKmdsIc0BEVog" name="NewTarget" incoming="_wNwMvntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_Y6hgIKwBEeKmZ4X_daCeMg" value="fork">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_qUnecLMSEeKiB7otMmqZgg" incoming="_us_z8LMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_wNwMvntGEeKmdsIc0BEVog" source="_wNwMu3tGEeKmdsIc0BEVog" target="_wNwMvXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_us_z8LMSEeKiB7otMmqZgg" source="_wNwMu3tGEeKmdsIc0BEVog" target="_qUnecLMSEeKiB7otMmqZgg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wNwMv3tGEeKmdsIc0BEVog" origin="_wNwMtntGEeKmdsIc0BEVog" image="_wNwMu3tGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNwMwHtGEeKmdsIc0BEVog" origin="_wNwMt3tGEeKmdsIc0BEVog" image="_wNwMvHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNwMwXtGEeKmdsIc0BEVog" origin="_wNwMuHtGEeKmdsIc0BEVog" image="_wNwMvXtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_qUnecbMSEeKiB7otMmqZgg" origin="_qUm3YLMSEeKiB7otMmqZgg" image="_qUnecLMSEeKiB7otMmqZgg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wNwMwntGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wNwMsXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wNwMw3tGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wNwMxHtGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wNwMxXtGEeKmdsIc0BEVog" name="NewTarget"/>
+    <parameterMappings xmi:id="_wNwMxntGEeKmdsIc0BEVog" source="_wNwMw3tGEeKmdsIc0BEVog" target="_wNwMsntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNwMx3tGEeKmdsIc0BEVog" source="_wNwMxHtGEeKmdsIc0BEVog" target="_wNwMs3tGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNwMyHtGEeKmdsIc0BEVog" source="_wNwMxXtGEeKmdsIc0BEVog" target="_wNwMtHtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

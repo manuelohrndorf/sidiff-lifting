@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aQIkYBnWEeKdAq7SOuGfUQ" description="Deletes one EStringToStringMapEntry in EAnnotation" name="DELETE_EStringToStringMapEntryInEAnnotation">
+  <rules xmi:id="_aQIkYRnWEeKdAq7SOuGfUQ" description="deletes one EStringToStringMapEntry in the context: EAnnotation" name="deleteEStringToStringMapEntryInEAnnotation">
+    <parameters xmi:id="_aQIkYhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aQIkYxnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aQIkZBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aQIkZRnWEeKdAq7SOuGfUQ" name="Selected" outgoing="_aQIkZxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_aQIkZhnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aQIkZxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"/>
+      </nodes>
+      <edges xmi:id="_aQIkZxnWEeKdAq7SOuGfUQ" source="_aQIkZRnWEeKdAq7SOuGfUQ" target="_aQIkZhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/details"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aQIkaBnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aQIkaRnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aQIkahnWEeKdAq7SOuGfUQ" origin="_aQIkZRnWEeKdAq7SOuGfUQ" image="_aQIkaRnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aQIkaxnWEeKdAq7SOuGfUQ" description="Deletes one EStringToStringMapEntry depending on available contexts in model instance" name="mainUnit" subUnits="_aQIkYRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aQIkbBnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aQIkbRnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aQIkbhnWEeKdAq7SOuGfUQ" source="_aQIkbRnWEeKdAq7SOuGfUQ" target="_aQIkYhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aQIkbxnWEeKdAq7SOuGfUQ" source="_aQIkbBnWEeKdAq7SOuGfUQ" target="_aQIkYxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

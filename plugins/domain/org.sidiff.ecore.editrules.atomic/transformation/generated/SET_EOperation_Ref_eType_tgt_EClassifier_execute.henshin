@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_lgg6oBIOEeKG0Ot733b1ww" description="Sets EOperation's reference eType the target EClassifier" name="SET_EOperation_Ref_eType_tgt_EClassifier">
+  <rules xmi:id="_lgg6oRIOEeKG0Ot733b1ww" description="SetEOperationRefeTypeToEClassifier" name="setEOperationRefETypeToEClassifier">
+    <parameters xmi:id="_lghhsBIOEeKG0Ot733b1ww" name="Selected"/>
+    <parameters xmi:id="_lghhsRIOEeKG0Ot733b1ww" name="NewTarget"/>
+    <lhs xmi:id="_lghhshIOEeKG0Ot733b1ww" name="LHS">
+      <nodes xmi:id="_lghhsxIOEeKG0Ot733b1ww" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_lghhtBIOEeKG0Ot733b1ww" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_lghhtRIOEeKG0Ot733b1ww" name="RHS">
+      <nodes xmi:id="_lghhthIOEeKG0Ot733b1ww" name="Selected" outgoing="_lghhuBIOEeKG0Ot733b1ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_lghhtxIOEeKG0Ot733b1ww" name="NewTarget" incoming="_lghhuBIOEeKG0Ot733b1ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_lghhuBIOEeKG0Ot733b1ww" source="_lghhthIOEeKG0Ot733b1ww" target="_lghhtxIOEeKG0Ot733b1ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_lghhuRIOEeKG0Ot733b1ww" origin="_lghhsxIOEeKG0Ot733b1ww" image="_lghhthIOEeKG0Ot733b1ww"/>
+    <mappings xmi:id="_lghhuhIOEeKG0Ot733b1ww" origin="_lghhtBIOEeKG0Ot733b1ww" image="_lghhtxIOEeKG0Ot733b1ww"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_lghhuxIOEeKG0Ot733b1ww" name="mainUnit" subUnits="_lgg6oRIOEeKG0Ot733b1ww">
+    <parameters xmi:id="_lghhvBIOEeKG0Ot733b1ww" name="selectedEObject"/>
+    <parameters xmi:id="_lghhvRIOEeKG0Ot733b1ww" name="NewTarget"/>
+    <parameterMappings xmi:id="_lghhvhIOEeKG0Ot733b1ww" source="_lghhvBIOEeKG0Ot733b1ww" target="_lghhsBIOEeKG0Ot733b1ww"/>
+    <parameterMappings xmi:id="_lghhvxIOEeKG0Ot733b1ww" source="_lghhvRIOEeKG0Ot733b1ww" target="_lghhsRIOEeKG0Ot733b1ww"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

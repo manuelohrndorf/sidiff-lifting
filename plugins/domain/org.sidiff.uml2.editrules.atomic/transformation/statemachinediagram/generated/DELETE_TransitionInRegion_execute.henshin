@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wNZAUHtGEeKmdsIc0BEVog" description="Deletes one Transition in Region" name="DELETE_TransitionInRegion">
+  <rules xmi:id="_wNZAUXtGEeKmdsIc0BEVog" description="deletes one Transition in the context: Region" name="deleteTransitionInRegion">
+    <parameters xmi:id="_wNZAUntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wNZAU3tGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <parameters xmi:id="_wNZAVHtGEeKmdsIc0BEVog" name="Existing"/>
+    <parameters xmi:id="_wNZAVXtGEeKmdsIc0BEVog" name="Existing1"/>
+    <lhs xmi:id="_wNZAVntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wNZAV3tGEeKmdsIc0BEVog" name="Selected" incoming="_wNZAXHtGEeKmdsIc0BEVog" outgoing="_wNZAW3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_wNZAWHtGEeKmdsIc0BEVog" name="toBeDeleted" incoming="_wNZAW3tGEeKmdsIc0BEVog" outgoing="_wNZAXHtGEeKmdsIc0BEVog _wNZnYHtGEeKmdsIc0BEVog _wNZnYXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNZAWXtGEeKmdsIc0BEVog" name="Existing" incoming="_wNZnYHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_wNZAWntGEeKmdsIc0BEVog" name="Existing1" incoming="_wNZnYXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_wNZAW3tGEeKmdsIc0BEVog" source="_wNZAV3tGEeKmdsIc0BEVog" target="_wNZAWHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/transition"/>
+      </edges>
+      <edges xmi:id="_wNZAXHtGEeKmdsIc0BEVog" source="_wNZAWHtGEeKmdsIc0BEVog" target="_wNZAV3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/container"/>
+      </edges>
+      <edges xmi:id="_wNZnYHtGEeKmdsIc0BEVog" source="_wNZAWHtGEeKmdsIc0BEVog" target="_wNZAWXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_wNZnYXtGEeKmdsIc0BEVog" source="_wNZAWHtGEeKmdsIc0BEVog" target="_wNZAWntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/target"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wNZnYntGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wNZnY3tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_wNZnZHtGEeKmdsIc0BEVog" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_wNZnZXtGEeKmdsIc0BEVog" name="Existing1">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wNZnZntGEeKmdsIc0BEVog" origin="_wNZAV3tGEeKmdsIc0BEVog" image="_wNZnY3tGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNZnZ3tGEeKmdsIc0BEVog" origin="_wNZAWXtGEeKmdsIc0BEVog" image="_wNZnZHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNZnaHtGEeKmdsIc0BEVog" origin="_wNZAWntGEeKmdsIc0BEVog" image="_wNZnZXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wNZnaXtGEeKmdsIc0BEVog" description="Deletes one Transition depending on available contexts in model instance" name="mainUnit" subUnits="_wNZAUXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wNZnantGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <parameters xmi:id="_wNZna3tGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wNZnbHtGEeKmdsIc0BEVog" name="Existing"/>
+    <parameters xmi:id="_wNZnbXtGEeKmdsIc0BEVog" name="Existing1"/>
+    <parameterMappings xmi:id="_wNZnbntGEeKmdsIc0BEVog" source="_wNZna3tGEeKmdsIc0BEVog" target="_wNZAUntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNZnb3tGEeKmdsIc0BEVog" source="_wNZnantGEeKmdsIc0BEVog" target="_wNZAU3tGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNZncHtGEeKmdsIc0BEVog" source="_wNZnbHtGEeKmdsIc0BEVog" target="_wNZAVHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNZncXtGEeKmdsIc0BEVog" source="_wNZnbXtGEeKmdsIc0BEVog" target="_wNZAVXtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

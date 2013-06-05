@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_waPJgHtGEeKmdsIc0BEVog" description="Creates one FinalState in Region" name="CREATE_FinalStateInRegion">
+  <rules xmi:id="_waPJgXtGEeKmdsIc0BEVog" description="creates one FinalState in the context: Region" name="createFinalStateInRegion">
+    <parameters xmi:id="_waPJgntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_waPJg3tGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_waPJhHtGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_waPJhXtGEeKmdsIc0BEVog" name="Visibility"/>
+    <lhs xmi:id="_waPJhntGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_waPJh3tGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_waPJiHtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_waPJiXtGEeKmdsIc0BEVog" name="Selected" incoming="_waPJjntGEeKmdsIc0BEVog" outgoing="_waPJjXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_waPJintGEeKmdsIc0BEVog" name="New" incoming="_waPJjXtGEeKmdsIc0BEVog" outgoing="_waPJjntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//FinalState"/>
+        <attributes xmi:id="_waPJi3tGEeKmdsIc0BEVog" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_waPJjHtGEeKmdsIc0BEVog" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_waPJjXtGEeKmdsIc0BEVog" source="_waPJiXtGEeKmdsIc0BEVog" target="_waPJintGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_waPJjntGEeKmdsIc0BEVog" source="_waPJintGEeKmdsIc0BEVog" target="_waPJiXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_waPJj3tGEeKmdsIc0BEVog" origin="_waPJh3tGEeKmdsIc0BEVog" image="_waPJiXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_waPJkHtGEeKmdsIc0BEVog" description="Creates one FinalState depending on available contexts in model instance" name="mainUnit" subUnits="_waPJgXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_waPJkXtGEeKmdsIc0BEVog" name="New"/>
+    <parameters xmi:id="_waPJkntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_waPJk3tGEeKmdsIc0BEVog" name="Name"/>
+    <parameters xmi:id="_waPJlHtGEeKmdsIc0BEVog" name="Visibility"/>
+    <parameterMappings xmi:id="_waPJlXtGEeKmdsIc0BEVog" source="_waPJkntGEeKmdsIc0BEVog" target="_waPJgntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_waPJlntGEeKmdsIc0BEVog" source="_waPJg3tGEeKmdsIc0BEVog" target="_waPJkXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_waPJl3tGEeKmdsIc0BEVog" source="_waPJk3tGEeKmdsIc0BEVog" target="_waPJhHtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_waPJmHtGEeKmdsIc0BEVog" source="_waPJlHtGEeKmdsIc0BEVog" target="_waPJhXtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

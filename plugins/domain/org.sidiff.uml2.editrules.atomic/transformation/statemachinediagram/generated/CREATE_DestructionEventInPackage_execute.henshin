@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9cG-gLSYEeKLe415JnbaLg" description="Creates one DestructionEvent in Package" name="CREATE_DestructionEventInPackage">
+  <rules xmi:id="_9cG-gbSYEeKLe415JnbaLg" description="creates one DestructionEvent in the context: Package" name="createDestructionEventInPackage">
+    <parameters xmi:id="_9cG-grSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9cG-g7SYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9cG-hLSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9cG-hbSYEeKLe415JnbaLg" name="Visibility"/>
+    <lhs xmi:id="_9cG-hrSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9cG-h7SYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9cG-iLSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9cG-ibSYEeKLe415JnbaLg" name="Selected" outgoing="_9cG-jbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_9cG-irSYEeKLe415JnbaLg" name="New" incoming="_9cG-jbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//DestructionEvent"/>
+        <attributes xmi:id="_9cG-i7SYEeKLe415JnbaLg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9cG-jLSYEeKLe415JnbaLg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9cG-jbSYEeKLe415JnbaLg" source="_9cG-ibSYEeKLe415JnbaLg" target="_9cG-irSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9cG-jrSYEeKLe415JnbaLg" origin="_9cG-h7SYEeKLe415JnbaLg" image="_9cG-ibSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9cHlkLSYEeKLe415JnbaLg" description="Creates one DestructionEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9cG-gbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9cHlkbSYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9cHlkrSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameters xmi:id="_9cHlk7SYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9cHllLSYEeKLe415JnbaLg" name="Visibility"/>
+    <parameterMappings xmi:id="_9cHllbSYEeKLe415JnbaLg" source="_9cHlkrSYEeKLe415JnbaLg" target="_9cG-grSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9cHllrSYEeKLe415JnbaLg" source="_9cG-g7SYEeKLe415JnbaLg" target="_9cHlkbSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9cHll7SYEeKLe415JnbaLg" source="_9cHlk7SYEeKLe415JnbaLg" target="_9cG-hLSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9cHlmLSYEeKLe415JnbaLg" source="_9cHllLSYEeKLe415JnbaLg" target="_9cG-hbSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

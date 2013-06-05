@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wN26YHtGEeKmdsIc0BEVog" description="Sets Transition's reference guard the target Constraint" name="SET_Transition_Ref_guard_tgt_Constraint">
+  <rules xmi:id="_wN26YXtGEeKmdsIc0BEVog" description="SetTransitionRefguardToConstraint" name="setTransitionRefGuardToConstraint">
+    <parameters xmi:id="_wN26YntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wN26Y3tGEeKmdsIc0BEVog" name="NewTarget"/>
+    <lhs xmi:id="_wN26ZHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wN26ZXtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wN26ZntGEeKmdsIc0BEVog" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_wN26Z3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wN26aHtGEeKmdsIc0BEVog" name="Selected" outgoing="_wN26antGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wN26aXtGEeKmdsIc0BEVog" name="NewTarget" incoming="_wN26antGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_wN26antGEeKmdsIc0BEVog" source="_wN26aHtGEeKmdsIc0BEVog" target="_wN26aXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/guard"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wN26a3tGEeKmdsIc0BEVog" origin="_wN26ZXtGEeKmdsIc0BEVog" image="_wN26aHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wN26bHtGEeKmdsIc0BEVog" origin="_wN26ZntGEeKmdsIc0BEVog" image="_wN26aXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wN26bXtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wN26YXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wN26bntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wN26b3tGEeKmdsIc0BEVog" name="NewTarget"/>
+    <parameterMappings xmi:id="_wN26cHtGEeKmdsIc0BEVog" source="_wN26bntGEeKmdsIc0BEVog" target="_wN26YntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wN26cXtGEeKmdsIc0BEVog" source="_wN26b3tGEeKmdsIc0BEVog" target="_wN26Y3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

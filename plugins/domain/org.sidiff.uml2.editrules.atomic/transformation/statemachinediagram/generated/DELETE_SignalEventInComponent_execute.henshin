@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bO1v8J0KEeKYtPnpu-8upg" description="Deletes one SignalEvent in Component" name="DELETE_SignalEventInComponent">
+  <rules xmi:id="_bO1v8Z0KEeKYtPnpu-8upg" description="deletes one SignalEvent in the context: Component" name="deleteSignalEventInComponent">
+    <parameters xmi:id="_bO1v8p0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_bO1v850KEeKYtPnpu-8upg" name="Existing"/>
+    <parameters xmi:id="_bO1v9J0KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <lhs xmi:id="_bO1v9Z0KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_bO1v9p0KEeKYtPnpu-8upg" name="Selected" outgoing="_bO1v-Z0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_bO1v950KEeKYtPnpu-8upg" name="toBeDeleted" incoming="_bO1v-Z0KEeKYtPnpu-8upg" outgoing="_bO1v-p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent"/>
+      </nodes>
+      <nodes xmi:id="_bO1v-J0KEeKYtPnpu-8upg" name="Existing" incoming="_bO1v-p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_bO1v-Z0KEeKYtPnpu-8upg" source="_bO1v9p0KEeKYtPnpu-8upg" target="_bO1v950KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_bO1v-p0KEeKYtPnpu-8upg" source="_bO1v950KEeKYtPnpu-8upg" target="_bO1v-J0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent/signal"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bO1v-50KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_bO2XAJ0KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_bO2XAZ0KEeKYtPnpu-8upg" name="Existing">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_bO2XAp0KEeKYtPnpu-8upg" origin="_bO1v9p0KEeKYtPnpu-8upg" image="_bO2XAJ0KEeKYtPnpu-8upg"/>
+    <mappings xmi:id="_bO2XA50KEeKYtPnpu-8upg" origin="_bO1v-J0KEeKYtPnpu-8upg" image="_bO2XAZ0KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_bO2XBJ0KEeKYtPnpu-8upg" description="Deletes one SignalEvent depending on available contexts in model instance" name="mainUnit" subUnits="_bO1v8Z0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_bO2XBZ0KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_bO2XBp0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_bO2XB50KEeKYtPnpu-8upg" name="Existing"/>
+    <parameterMappings xmi:id="_bO2XCJ0KEeKYtPnpu-8upg" source="_bO2XBp0KEeKYtPnpu-8upg" target="_bO1v8p0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bO2XCZ0KEeKYtPnpu-8upg" source="_bO2XB50KEeKYtPnpu-8upg" target="_bO1v850KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bO2XCp0KEeKYtPnpu-8upg" source="_bO2XBZ0KEeKYtPnpu-8upg" target="_bO1v9J0KEeKYtPnpu-8upg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

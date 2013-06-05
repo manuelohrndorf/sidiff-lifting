@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9gwN8LSYEeKLe415JnbaLg" description="Creates one ChangeEvent with a Duration in Component" name="CREATE_ChangeEventWithDurationInComponent">
+  <rules xmi:id="_9gwN8bSYEeKLe415JnbaLg" description="creates one ChangeEvent in the context: Component" name="createChangeEventInComponent">
+    <parameters xmi:id="_9gwN8rSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9gwN87SYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9gwN9LSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9gwN9bSYEeKLe415JnbaLg" name="Visibility"/>
+    <parameters xmi:id="_9gwN9rSYEeKLe415JnbaLg" name="Child"/>
+    <parameters xmi:id="_9gwN97SYEeKLe415JnbaLg" name="Name1"/>
+    <parameters xmi:id="_9gwN-LSYEeKLe415JnbaLg" name="Visibility1"/>
+    <lhs xmi:id="_9gwN-bSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9gwN-rSYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9gwN-7SYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9gwN_LSYEeKLe415JnbaLg" name="Selected" outgoing="_9gwOA7SYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_9gwN_bSYEeKLe415JnbaLg" name="New" incoming="_9gwOA7SYEeKLe415JnbaLg" outgoing="_9gwOBLSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ChangeEvent"/>
+        <attributes xmi:id="_9gwN_rSYEeKLe415JnbaLg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9gwN_7SYEeKLe415JnbaLg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9gwOALSYEeKLe415JnbaLg" name="Child" incoming="_9gwOBLSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Duration"/>
+        <attributes xmi:id="_9gwOAbSYEeKLe415JnbaLg" value="Name1">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9gwOArSYEeKLe415JnbaLg" value="Visibility1">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9gwOA7SYEeKLe415JnbaLg" source="_9gwN_LSYEeKLe415JnbaLg" target="_9gwN_bSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_9gwOBLSYEeKLe415JnbaLg" source="_9gwN_bSYEeKLe415JnbaLg" target="_9gwOALSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ChangeEvent/changeExpression"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9gwOBbSYEeKLe415JnbaLg" origin="_9gwN-rSYEeKLe415JnbaLg" image="_9gwN_LSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9gwOBrSYEeKLe415JnbaLg" description="Creates one ChangeEvent depending on available contexts in model instance" name="mainUnit" subUnits="_9gwN8bSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9gwOB7SYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9gwOCLSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameters xmi:id="_9gwOCbSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9gwOCrSYEeKLe415JnbaLg" name="Visibility"/>
+    <parameters xmi:id="_9gwOC7SYEeKLe415JnbaLg" name="Child"/>
+    <parameters xmi:id="_9gwODLSYEeKLe415JnbaLg" name="Name1"/>
+    <parameters xmi:id="_9gwODbSYEeKLe415JnbaLg" name="Visibility1"/>
+    <parameterMappings xmi:id="_9gwODrSYEeKLe415JnbaLg" source="_9gwOCLSYEeKLe415JnbaLg" target="_9gwN8rSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOD7SYEeKLe415JnbaLg" source="_9gwN87SYEeKLe415JnbaLg" target="_9gwOB7SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOELSYEeKLe415JnbaLg" source="_9gwOCbSYEeKLe415JnbaLg" target="_9gwN9LSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOEbSYEeKLe415JnbaLg" source="_9gwOCrSYEeKLe415JnbaLg" target="_9gwN9bSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOErSYEeKLe415JnbaLg" source="_9gwOC7SYEeKLe415JnbaLg" target="_9gwN9rSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOE7SYEeKLe415JnbaLg" source="_9gwODLSYEeKLe415JnbaLg" target="_9gwN97SYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9gwOFLSYEeKLe415JnbaLg" source="_9gwODbSYEeKLe415JnbaLg" target="_9gwN-LSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

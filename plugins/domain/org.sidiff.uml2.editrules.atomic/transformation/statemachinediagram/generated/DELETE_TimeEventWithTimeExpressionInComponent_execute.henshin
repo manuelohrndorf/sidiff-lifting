@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bVCekJ0KEeKYtPnpu-8upg" description="Deletes one TimeEvent with a TimeExpression in Component" name="DELETE_TimeEventWithTimeExpressionInComponent">
+  <rules xmi:id="_bVCekZ0KEeKYtPnpu-8upg" description="deletes one TimeEvent in the context: Component" name="deleteTimeEventInComponent">
+    <parameters xmi:id="_bVCekp0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_bVCek50KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_KfInQKKCEeK6fMtgKheXZw" name="Child"/>
+    <lhs xmi:id="_bVCelJ0KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_bVCelZ0KEeKYtPnpu-8upg" name="Selected" outgoing="_bVCemJ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_bVCelp0KEeKYtPnpu-8upg" name="toBeDeleted" incoming="_bVCemJ0KEeKYtPnpu-8upg" outgoing="_bVCemZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+      </nodes>
+      <nodes xmi:id="_bVCel50KEeKYtPnpu-8upg" name="Child" incoming="_bVCemZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeExpression"/>
+      </nodes>
+      <edges xmi:id="_bVCemJ0KEeKYtPnpu-8upg" source="_bVCelZ0KEeKYtPnpu-8upg" target="_bVCelp0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component/packagedElement"/>
+      </edges>
+      <edges xmi:id="_bVCemZ0KEeKYtPnpu-8upg" source="_bVCelp0KEeKYtPnpu-8upg" target="_bVCel50KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent/when"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bVCemp0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_bVCem50KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_bVCenJ0KEeKYtPnpu-8upg" origin="_bVCelZ0KEeKYtPnpu-8upg" image="_bVCem50KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_bVCenZ0KEeKYtPnpu-8upg" description="Deletes one TimeEvent depending on available contexts in model instance" name="mainUnit" subUnits="_bVCekZ0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_bVCenp0KEeKYtPnpu-8upg" name="toBeDeleted"/>
+    <parameters xmi:id="_bVCen50KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_bVCeoJ0KEeKYtPnpu-8upg" name="Child"/>
+    <parameterMappings xmi:id="_bVCeoZ0KEeKYtPnpu-8upg" source="_bVCen50KEeKYtPnpu-8upg" target="_bVCekp0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bVCeop0KEeKYtPnpu-8upg" source="_bVCenp0KEeKYtPnpu-8upg" target="_bVCek50KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_MYumIKKCEeK6fMtgKheXZw" source="_bVCeoJ0KEeKYtPnpu-8upg" target="_KfInQKKCEeK6fMtgKheXZw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

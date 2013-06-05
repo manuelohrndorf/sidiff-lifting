@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wZbRMHtGEeKmdsIc0BEVog" description="CHANGEs SignalEvent's reference signal the target Signal" name="CHANGE_SignalEvent_Ref_signal_tgt_Signal">
+  <rules xmi:id="_wZb4QHtGEeKmdsIc0BEVog" description="Change the EReference signal" name="changeSignalEventRefSignalToSignal">
+    <parameters xmi:id="_wZb4QXtGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wZb4QntGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wZb4Q3tGEeKmdsIc0BEVog" name="NewTarget"/>
+    <lhs xmi:id="_wZb4RHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wZb4RXtGEeKmdsIc0BEVog" name="Selected" outgoing="_wZb4SHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent"/>
+      </nodes>
+      <nodes xmi:id="_wZb4RntGEeKmdsIc0BEVog" name="OldTarget" incoming="_wZb4SHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <nodes xmi:id="_wZb4R3tGEeKmdsIc0BEVog" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_wZb4SHtGEeKmdsIc0BEVog" source="_wZb4RXtGEeKmdsIc0BEVog" target="_wZb4RntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent/signal"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wZb4SXtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wZb4SntGEeKmdsIc0BEVog" name="Selected" outgoing="_wZb4TXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent"/>
+      </nodes>
+      <nodes xmi:id="_wZb4S3tGEeKmdsIc0BEVog" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <nodes xmi:id="_wZb4THtGEeKmdsIc0BEVog" name="NewTarget" incoming="_wZb4TXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+      </nodes>
+      <edges xmi:id="_wZb4TXtGEeKmdsIc0BEVog" source="_wZb4SntGEeKmdsIc0BEVog" target="_wZb4THtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent/signal"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wZb4TntGEeKmdsIc0BEVog" origin="_wZb4RXtGEeKmdsIc0BEVog" image="_wZb4SntGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wZb4T3tGEeKmdsIc0BEVog" origin="_wZb4RntGEeKmdsIc0BEVog" image="_wZb4S3tGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wZb4UHtGEeKmdsIc0BEVog" origin="_wZb4R3tGEeKmdsIc0BEVog" image="_wZb4THtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wZb4UXtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wZb4QHtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wZb4UntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wZb4U3tGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameters xmi:id="_wZb4VHtGEeKmdsIc0BEVog" name="NewTarget"/>
+    <parameterMappings xmi:id="_wZb4VXtGEeKmdsIc0BEVog" source="_wZb4UntGEeKmdsIc0BEVog" target="_wZb4QXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wZb4VntGEeKmdsIc0BEVog" source="_wZb4U3tGEeKmdsIc0BEVog" target="_wZb4QntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wZb4V3tGEeKmdsIc0BEVog" source="_wZb4VHtGEeKmdsIc0BEVog" target="_wZb4Q3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

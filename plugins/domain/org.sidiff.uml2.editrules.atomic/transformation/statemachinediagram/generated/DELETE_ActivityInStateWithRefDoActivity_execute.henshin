@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wWWvEHtGEeKmdsIc0BEVog" description="Deletes one Activity in State with reference DoActivity" name="DELETE_ActivityInStateWithRefDoActivity">
+  <rules xmi:id="_wWWvEXtGEeKmdsIc0BEVog" description="deletes one Activity in the context: State" name="deleteActivityInState">
+    <parameters xmi:id="_wWWvEntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wWWvE3tGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <lhs xmi:id="_wWWvFHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wWWvFXtGEeKmdsIc0BEVog" name="Selected" outgoing="_wWWvF3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_wWWvFntGEeKmdsIc0BEVog" name="toBeDeleted" incoming="_wWWvF3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Activity"/>
+      </nodes>
+      <edges xmi:id="_wWWvF3tGEeKmdsIc0BEVog" source="_wWWvFXtGEeKmdsIc0BEVog" target="_wWWvFntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/doActivity"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wWWvGHtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wWWvGXtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wWWvGntGEeKmdsIc0BEVog" origin="_wWWvFXtGEeKmdsIc0BEVog" image="_wWWvGXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wWWvG3tGEeKmdsIc0BEVog" description="Deletes one Activity depending on available contexts in model instance" name="mainUnit" subUnits="_wWWvEXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wWWvHHtGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <parameters xmi:id="_wWWvHXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameterMappings xmi:id="_wWWvHntGEeKmdsIc0BEVog" source="_wWWvHXtGEeKmdsIc0BEVog" target="_wWWvEntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wWWvH3tGEeKmdsIc0BEVog" source="_wWWvHHtGEeKmdsIc0BEVog" target="_wWWvE3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

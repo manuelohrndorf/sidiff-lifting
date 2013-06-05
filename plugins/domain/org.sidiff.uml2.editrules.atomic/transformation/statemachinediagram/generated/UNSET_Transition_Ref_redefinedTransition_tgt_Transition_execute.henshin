@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wNoQ4HtGEeKmdsIc0BEVog" description="Unsets Transition's reference redefinedTransition the target Transition" name="UNSET_Transition_Ref_redefinedTransition_tgt_Transition">
+  <rules xmi:id="_wNoQ4XtGEeKmdsIc0BEVog" description="UnsetTransitionRefredefinedTransitionToTransition" name="unsetTransitionRefRedefinedTransitionToTransition">
+    <parameters xmi:id="_wNoQ4ntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wNoQ43tGEeKmdsIc0BEVog" name="OldTarget"/>
+    <lhs xmi:id="_wNoQ5HtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wNoQ5XtGEeKmdsIc0BEVog" name="Selected" outgoing="_wNoQ53tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNoQ5ntGEeKmdsIc0BEVog" name="OldTarget" incoming="_wNoQ53tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <edges xmi:id="_wNoQ53tGEeKmdsIc0BEVog" source="_wNoQ5XtGEeKmdsIc0BEVog" target="_wNoQ5ntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition/redefinedTransition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wNoQ6HtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wNoQ6XtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_wNoQ6ntGEeKmdsIc0BEVog" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Transition"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wNoQ63tGEeKmdsIc0BEVog" origin="_wNoQ5XtGEeKmdsIc0BEVog" image="_wNoQ6XtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wNoQ7HtGEeKmdsIc0BEVog" origin="_wNoQ5ntGEeKmdsIc0BEVog" image="_wNoQ6ntGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wNoQ7XtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wNoQ4XtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wNoQ7ntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wNoQ73tGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameterMappings xmi:id="_wNoQ8HtGEeKmdsIc0BEVog" source="_wNoQ7ntGEeKmdsIc0BEVog" target="_wNoQ4ntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wNoQ8XtGEeKmdsIc0BEVog" source="_wNoQ73tGEeKmdsIc0BEVog" target="_wNoQ43tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

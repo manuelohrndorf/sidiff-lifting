@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wQZ4EHtGEeKmdsIc0BEVog" description="Deletes one State in Region" name="DELETE_StateInRegion">
+  <rules xmi:id="_wQZ4EXtGEeKmdsIc0BEVog" description="deletes one State in the context: Region" name="deleteStateInRegion">
+    <parameters xmi:id="_wQZ4EntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wQZ4E3tGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <lhs xmi:id="_wQafIHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wQafIXtGEeKmdsIc0BEVog" name="Selected" incoming="_wQafJHtGEeKmdsIc0BEVog" outgoing="_wQafI3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_wQafIntGEeKmdsIc0BEVog" name="toBeDeleted" incoming="_wQafI3tGEeKmdsIc0BEVog" outgoing="_wQafJHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_wQafI3tGEeKmdsIc0BEVog" source="_wQafIXtGEeKmdsIc0BEVog" target="_wQafIntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_wQafJHtGEeKmdsIc0BEVog" source="_wQafIntGEeKmdsIc0BEVog" target="_wQafIXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wQafJXtGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wQafJntGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wQafJ3tGEeKmdsIc0BEVog" origin="_wQafIXtGEeKmdsIc0BEVog" image="_wQafJntGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wQafKHtGEeKmdsIc0BEVog" description="Deletes one State depending on available contexts in model instance" name="mainUnit" subUnits="_wQZ4EXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wQafKXtGEeKmdsIc0BEVog" name="toBeDeleted"/>
+    <parameters xmi:id="_wQafKntGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameterMappings xmi:id="_wQafK3tGEeKmdsIc0BEVog" source="_wQafKntGEeKmdsIc0BEVog" target="_wQZ4EntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wQafLHtGEeKmdsIc0BEVog" source="_wQafKXtGEeKmdsIc0BEVog" target="_wQZ4E3tGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

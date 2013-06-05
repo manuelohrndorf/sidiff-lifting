@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_M7LXQHtDEeK1J7uYCpF97w" description="Unsets FinalState's reference redefinedState the target State" name="UNSET_FinalState_Ref_redefinedState_tgt_State">
+  <rules xmi:id="_M7LXQXtDEeK1J7uYCpF97w" description="UnsetFinalStateRefredefinedStateToState" name="unsetFinalStateRefRedefinedStateToState">
+    <parameters xmi:id="_M7LXQntDEeK1J7uYCpF97w" name="Selected"/>
+    <parameters xmi:id="_M7LXQ3tDEeK1J7uYCpF97w" name="OldTarget"/>
+    <lhs xmi:id="_M7LXRHtDEeK1J7uYCpF97w" name="LHS">
+      <nodes xmi:id="_M7LXRXtDEeK1J7uYCpF97w" name="Selected" outgoing="_M7LXR3tDEeK1J7uYCpF97w">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_M7LXRntDEeK1J7uYCpF97w" name="OldTarget" incoming="_M7LXR3tDEeK1J7uYCpF97w">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_M7LXR3tDEeK1J7uYCpF97w" source="_M7LXRXtDEeK1J7uYCpF97w" target="_M7LXRntDEeK1J7uYCpF97w">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State/redefinedState"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_M7LXSHtDEeK1J7uYCpF97w" name="RHS">
+      <nodes xmi:id="_M7LXSXtDEeK1J7uYCpF97w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_M7LXSntDEeK1J7uYCpF97w" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_M7LXS3tDEeK1J7uYCpF97w" origin="_M7LXRXtDEeK1J7uYCpF97w" image="_M7LXSXtDEeK1J7uYCpF97w"/>
+    <mappings xmi:id="_M7LXTHtDEeK1J7uYCpF97w" origin="_M7LXRntDEeK1J7uYCpF97w" image="_M7LXSntDEeK1J7uYCpF97w"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_M7LXTXtDEeK1J7uYCpF97w" name="mainUnit" subUnits="_M7LXQXtDEeK1J7uYCpF97w">
+    <parameters xmi:id="_M7LXTntDEeK1J7uYCpF97w" name="selectedEObject"/>
+    <parameters xmi:id="_M7LXT3tDEeK1J7uYCpF97w" name="OldTarget"/>
+    <parameterMappings xmi:id="_M7LXUHtDEeK1J7uYCpF97w" source="_M7LXTntDEeK1J7uYCpF97w" target="_M7LXQntDEeK1J7uYCpF97w"/>
+    <parameterMappings xmi:id="_M7LXUXtDEeK1J7uYCpF97w" source="_M7LXT3tDEeK1J7uYCpF97w" target="_M7LXQ3tDEeK1J7uYCpF97w"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aOry4BnWEeKdAq7SOuGfUQ" description="Deletes one EObject in EAnnotation" name="DELETE_EObjectInEAnnotation">
+  <rules xmi:id="_aOry4RnWEeKdAq7SOuGfUQ" description="deletes one EObject in the context: EAnnotation" name="deleteEObjectInEAnnotation">
+    <parameters xmi:id="_aOry4hnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aOry4xnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aOry5BnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aOry5RnWEeKdAq7SOuGfUQ" name="Selected" outgoing="_aOry5xnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_aOry5hnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aOry5xnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <edges xmi:id="_aOry5xnWEeKdAq7SOuGfUQ" source="_aOry5RnWEeKdAq7SOuGfUQ" target="_aOry5hnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aOry6BnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aOry6RnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aOry6hnWEeKdAq7SOuGfUQ" origin="_aOry5RnWEeKdAq7SOuGfUQ" image="_aOry6RnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aOry6xnWEeKdAq7SOuGfUQ" description="Deletes one EObject depending on available contexts in model instance" name="mainUnit" subUnits="_aOry4RnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aOry7BnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aOry7RnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aOry7hnWEeKdAq7SOuGfUQ" source="_aOry7RnWEeKdAq7SOuGfUQ" target="_aOry4hnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aOry7xnWEeKdAq7SOuGfUQ" source="_aOry7BnWEeKdAq7SOuGfUQ" target="_aOry4xnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

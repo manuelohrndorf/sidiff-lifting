@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_waWeQHtGEeKmdsIc0BEVog" description="MOVEs FinalState with reference subvertex to Region" name="MOVE_FinalState_Ref_subvertex_To_Region">
+  <rules xmi:id="_waWeQXtGEeKmdsIc0BEVog" description="Moves one FinalState with reference subvertex to Region" name="moveFinalStateRefSubvertexToRegion">
+    <parameters xmi:id="_waWeQntGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_waWeQ3tGEeKmdsIc0BEVog" name="OldSource"/>
+    <parameters xmi:id="_waWeRHtGEeKmdsIc0BEVog" name="NewSource"/>
+    <lhs xmi:id="_waWeRXtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_waWeRntGEeKmdsIc0BEVog" name="Selected" incoming="_waWeSXtGEeKmdsIc0BEVog" outgoing="_waWeSntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_waWeR3tGEeKmdsIc0BEVog" name="OldSource" incoming="_waWeSntGEeKmdsIc0BEVog" outgoing="_waWeSXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_waWeSHtGEeKmdsIc0BEVog" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_waWeSXtGEeKmdsIc0BEVog" source="_waWeR3tGEeKmdsIc0BEVog" target="_waWeRntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_waWeSntGEeKmdsIc0BEVog" source="_waWeRntGEeKmdsIc0BEVog" target="_waWeR3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_waWeS3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_waWeTHtGEeKmdsIc0BEVog" name="Selected" incoming="_waWeT3tGEeKmdsIc0BEVog" outgoing="_waWeUHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_waWeTXtGEeKmdsIc0BEVog" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_waWeTntGEeKmdsIc0BEVog" name="NewSource" incoming="_waWeUHtGEeKmdsIc0BEVog" outgoing="_waWeT3tGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_waWeT3tGEeKmdsIc0BEVog" source="_waWeTntGEeKmdsIc0BEVog" target="_waWeTHtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_waWeUHtGEeKmdsIc0BEVog" source="_waWeTHtGEeKmdsIc0BEVog" target="_waWeTntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_waWeUXtGEeKmdsIc0BEVog" origin="_waWeRntGEeKmdsIc0BEVog" image="_waWeTHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_waWeUntGEeKmdsIc0BEVog" origin="_waWeR3tGEeKmdsIc0BEVog" image="_waWeTXtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_waWeU3tGEeKmdsIc0BEVog" origin="_waWeSHtGEeKmdsIc0BEVog" image="_waWeTntGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_waWeVHtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_waWeQXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_waWeVXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_waWeVntGEeKmdsIc0BEVog" name="OldSource"/>
+    <parameters xmi:id="_waWeV3tGEeKmdsIc0BEVog" name="NewSource"/>
+    <parameterMappings xmi:id="_waWeWHtGEeKmdsIc0BEVog" source="_waWeVXtGEeKmdsIc0BEVog" target="_waWeQntGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_waWeWXtGEeKmdsIc0BEVog" source="_waWeVntGEeKmdsIc0BEVog" target="_waWeQ3tGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_waWeWntGEeKmdsIc0BEVog" source="_waWeV3tGEeKmdsIc0BEVog" target="_waWeRHtGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

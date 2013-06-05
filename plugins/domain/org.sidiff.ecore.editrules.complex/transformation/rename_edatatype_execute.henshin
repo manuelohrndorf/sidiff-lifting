@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_-1u9USOuEeCHp9tescErbw" name="rename_edatatype">
+  <rules xmi:id="_fhBu0COvEeCHp9tescErbw" name="rename_EDataType">
+    <parameters xmi:id="_mRfWACOvEeCHp9tescErbw" name="selectedEDataType"/>
+    <parameters xmi:id="_gksLQCOvEeCHp9tescErbw" name="newName"/>
+    <lhs xmi:id="_fhBu0SOvEeCHp9tescErbw" name="LHS">
+      <nodes xmi:id="_rYqOsSOwEeCHp9tescErbw" name="selectedEDataType">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_fhBu0iOvEeCHp9tescErbw" name="RHS">
+      <nodes xmi:id="_snKpMSOwEeCHp9tescErbw" name="selectedEDataType">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        <attributes xmi:id="_uCRVQCOwEeCHp9tescErbw" value="newName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_snMeYCOwEeCHp9tescErbw" origin="_rYqOsSOwEeCHp9tescErbw" image="_snKpMSOwEeCHp9tescErbw"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_WKakwCOvEeCHp9tescErbw" description="" name="mainUnit" subUnits="_fhBu0COvEeCHp9tescErbw">
+    <parameters xmi:id="_XX0MACOvEeCHp9tescErbw" name="selectedEObject"/>
+    <parameters xmi:id="_Ykid0COvEeCHp9tescErbw" description="New name of the EDataType" name="newName"/>
+    <parameterMappings xmi:id="_22Qv4COvEeCHp9tescErbw" source="_XX0MACOvEeCHp9tescErbw" target="_mRfWACOvEeCHp9tescErbw"/>
+    <parameterMappings xmi:id="_3J-WECOvEeCHp9tescErbw" source="_Ykid0COvEeCHp9tescErbw" target="_gksLQCOvEeCHp9tescErbw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

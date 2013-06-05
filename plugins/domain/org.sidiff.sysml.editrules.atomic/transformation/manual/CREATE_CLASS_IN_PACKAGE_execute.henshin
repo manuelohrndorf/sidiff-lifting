@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_VLlRILiiEeKu_4_PG81Fjw" description="Creates a Class in Package" name="CREATE_CLASS_IN_PACKAGE">
+  <rules xmi:id="_JDvOcMQ7EeKL3JWGHYo_gg" name="CreateClassInPackage">
+    <parameters xmi:id="_SQB-4MQ7EeKL3JWGHYo_gg" name="Selected"/>
+    <parameters xmi:id="_SQDNAMQ7EeKL3JWGHYo_gg" name="New"/>
+    <parameters xmi:id="_tm1X8MQ7EeKL3JWGHYo_gg" name="Name"/>
+    <parameters xmi:id="_tm1_AMQ7EeKL3JWGHYo_gg" name="Visibility"/>
+    <parameters xmi:id="_tm1_AcQ7EeKL3JWGHYo_gg" name="QualifiedName"/>
+    <parameters xmi:id="_tm2mEMQ7EeKL3JWGHYo_gg" name="IsLeaf"/>
+    <parameters xmi:id="_tm2mEcQ7EeKL3JWGHYo_gg" name="IsAbstract"/>
+    <parameters xmi:id="_tm3NIMQ7EeKL3JWGHYo_gg" name="IsActive"/>
+    <lhs xmi:id="_JDvOccQ7EeKL3JWGHYo_gg" name="LHS">
+      <nodes xmi:id="_QltLEMQ7EeKL3JWGHYo_gg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_JDvOcsQ7EeKL3JWGHYo_gg" name="RHS">
+      <nodes xmi:id="_NuE2oMQ7EeKL3JWGHYo_gg" name="New" incoming="_dNr_QMQ7EeKL3JWGHYo_gg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        <attributes xmi:id="_kwSOAMQ7EeKL3JWGHYo_gg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_lGOBwMQ7EeKL3JWGHYo_gg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_lYDYoMQ7EeKL3JWGHYo_gg" value="QualifiedName">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/qualifiedName"/>
+        </attributes>
+        <attributes xmi:id="_loscsMQ7EeKL3JWGHYo_gg" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_l53sQMQ7EeKL3JWGHYo_gg" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_mN1KEMQ7EeKL3JWGHYo_gg" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QltLEcQ7EeKL3JWGHYo_gg" name="Selected" outgoing="_dNr_QMQ7EeKL3JWGHYo_gg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <edges xmi:id="_dNr_QMQ7EeKL3JWGHYo_gg" source="_QltLEcQ7EeKL3JWGHYo_gg" target="_NuE2oMQ7EeKL3JWGHYo_gg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QltyIMQ7EeKL3JWGHYo_gg" origin="_QltLEMQ7EeKL3JWGHYo_gg" image="_QltLEcQ7EeKL3JWGHYo_gg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_c51ZsMQ8EeKL3JWGHYo_gg" name="mainUnit" subUnits="_JDvOcMQ7EeKL3JWGHYo_gg">
+    <parameters xmi:id="_ixMOoMQ8EeKL3JWGHYo_gg" name="SelectedPackage"/>
+    <parameters xmi:id="_ixM1sMQ8EeKL3JWGHYo_gg" name="NewClass"/>
+    <parameters xmi:id="_ixOD0MQ8EeKL3JWGHYo_gg" name="Name"/>
+    <parameters xmi:id="_ixPR8MQ8EeKL3JWGHYo_gg" name="Visibility"/>
+    <parameters xmi:id="_ixP5AMQ8EeKL3JWGHYo_gg" name="QualifiedName"/>
+    <parameters xmi:id="_ixRHIMQ8EeKL3JWGHYo_gg" name="IsLeaf"/>
+    <parameters xmi:id="_ixRuMMQ8EeKL3JWGHYo_gg" name="IsAbstract"/>
+    <parameters xmi:id="_ixS8UMQ8EeKL3JWGHYo_gg" name="IsActive"/>
+    <parameterMappings xmi:id="_CtBSEMQ9EeKL3JWGHYo_gg" source="_ixRuMMQ8EeKL3JWGHYo_gg" target="_tm2mEcQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_KeiGkMQ9EeKL3JWGHYo_gg" source="_ixRHIMQ8EeKL3JWGHYo_gg" target="_tm2mEMQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_G3WkgMQ9EeKL3JWGHYo_gg" source="_ixS8UMQ8EeKL3JWGHYo_gg" target="_tm3NIMQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_L0udcMQ9EeKL3JWGHYo_gg" source="_ixOD0MQ8EeKL3JWGHYo_gg" target="_tm1X8MQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_Q81mwMQ9EeKL3JWGHYo_gg" source="_SQDNAMQ7EeKL3JWGHYo_gg" target="_ixM1sMQ8EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_TLDKwMQ9EeKL3JWGHYo_gg" source="_ixP5AMQ8EeKL3JWGHYo_gg" target="_tm1_AcQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_Yo2QMMQ9EeKL3JWGHYo_gg" source="_ixMOoMQ8EeKL3JWGHYo_gg" target="_SQB-4MQ7EeKL3JWGHYo_gg"/>
+    <parameterMappings xmi:id="_avIAMMQ9EeKL3JWGHYo_gg" source="_ixPR8MQ8EeKL3JWGHYo_gg" target="_tm1_AMQ7EeKL3JWGHYo_gg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_9ifTULSYEeKLe415JnbaLg" description="Creates one TimeExpression in Package" name="CREATE_TimeExpressionInPackage">
+  <rules xmi:id="_9ifTUbSYEeKLe415JnbaLg" description="creates one TimeExpression in the context: Package" name="createTimeExpressionInPackage">
+    <parameters xmi:id="_9ifTUrSYEeKLe415JnbaLg" name="Selected"/>
+    <parameters xmi:id="_9ifTU7SYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9ifTVLSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9ifTVbSYEeKLe415JnbaLg" name="Visibility"/>
+    <lhs xmi:id="_9ifTVrSYEeKLe415JnbaLg" name="LHS">
+      <nodes xmi:id="_9ifTV7SYEeKLe415JnbaLg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9ifTWLSYEeKLe415JnbaLg" name="RHS">
+      <nodes xmi:id="_9ifTWbSYEeKLe415JnbaLg" name="Selected" outgoing="_9ifTXbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_9ifTWrSYEeKLe415JnbaLg" name="New" incoming="_9ifTXbSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeExpression"/>
+        <attributes xmi:id="_9ifTW7SYEeKLe415JnbaLg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9ifTXLSYEeKLe415JnbaLg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9ifTXbSYEeKLe415JnbaLg" source="_9ifTWbSYEeKLe415JnbaLg" target="_9ifTWrSYEeKLe415JnbaLg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9ifTXrSYEeKLe415JnbaLg" origin="_9ifTV7SYEeKLe415JnbaLg" image="_9ifTWbSYEeKLe415JnbaLg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_9ifTX7SYEeKLe415JnbaLg" description="Creates one TimeExpression depending on available contexts in model instance" name="mainUnit" subUnits="_9ifTUbSYEeKLe415JnbaLg">
+    <parameters xmi:id="_9ifTYLSYEeKLe415JnbaLg" name="New"/>
+    <parameters xmi:id="_9ifTYbSYEeKLe415JnbaLg" name="selectedEObject"/>
+    <parameters xmi:id="_9ifTYrSYEeKLe415JnbaLg" name="Name"/>
+    <parameters xmi:id="_9ifTY7SYEeKLe415JnbaLg" name="Visibility"/>
+    <parameterMappings xmi:id="_9ifTZLSYEeKLe415JnbaLg" source="_9ifTYbSYEeKLe415JnbaLg" target="_9ifTUrSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9ifTZbSYEeKLe415JnbaLg" source="_9ifTU7SYEeKLe415JnbaLg" target="_9ifTYLSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9ifTZrSYEeKLe415JnbaLg" source="_9ifTYrSYEeKLe415JnbaLg" target="_9ifTVLSYEeKLe415JnbaLg"/>
+    <parameterMappings xmi:id="_9ifTZ7SYEeKLe415JnbaLg" source="_9ifTY7SYEeKLe415JnbaLg" target="_9ifTVbSYEeKLe415JnbaLg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

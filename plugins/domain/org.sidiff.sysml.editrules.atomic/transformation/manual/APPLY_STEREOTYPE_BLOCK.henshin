@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_96t4gMbgEeKnC-_7XU1Crw" description="Applies the stereotype block" name="APPLY_STEREOTYPE_BLOCK">
+  <rules xmi:id="_G1QKkMbhEeKnC-_7XU1Crw" description="" name="ApplyStereotypeBlock">
+    <parameters xmi:id="_KAZQ4MbhEeKnC-_7XU1Crw" name="Selected"/>
+    <parameters xmi:id="_KAZQ4cbhEeKnC-_7XU1Crw" name="New"/>
+    <parameters xmi:id="_KAZQ4sbhEeKnC-_7XU1Crw" name="IsEncapsulated"/>
+    <lhs xmi:id="_G1QKkcbhEeKnC-_7XU1Crw" name="LHS">
+      <nodes xmi:id="_eyFXIMbhEeKnC-_7XU1Crw" name="Selected">
+        <type href="../../../../plugin/org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_G1QKksbhEeKnC-_7XU1Crw" name="RHS">
+      <nodes xmi:id="_L5Yy0MbhEeKnC-_7XU1Crw" name="New" outgoing="_lkTR0MbhEeKnC-_7XU1Crw">
+        <type href="../../../../plugin/org.eclipse.papyrus.sysml/model/sysml.ecore#//blocks/Block"/>
+        <attributes xmi:id="_Nzz4IMbhEeKnC-_7XU1Crw" value="IsEncapsulated">
+          <type href="../../../../plugin/org.eclipse.papyrus.sysml/model/sysml.ecore#//blocks/Block/isEncapsulated"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eyHzYMbhEeKnC-_7XU1Crw" name="Selected" incoming="_lkTR0MbhEeKnC-_7XU1Crw">
+        <type href="../../../../plugin/org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+      </nodes>
+      <edges xmi:id="_lkTR0MbhEeKnC-_7XU1Crw" source="_L5Yy0MbhEeKnC-_7XU1Crw" target="_eyHzYMbhEeKnC-_7XU1Crw">
+        <type href="../../../../plugin/org.eclipse.papyrus.sysml/model/sysml.ecore#//blocks/Block/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eyHzYcbhEeKnC-_7XU1Crw" origin="_eyFXIMbhEeKnC-_7XU1Crw" image="_eyHzYMbhEeKnC-_7XU1Crw"/>
+  </rules>
+  <imports href="../../../../plugin/org.eclipse.papyrus.sysml/model/sysml.ecore#/"/>
+  <imports href="../../../../plugin/org.eclipse.uml2.uml/model/UML.ecore#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_QudrYMbhEeKnC-_7XU1Crw" name="CreateBlockInPackage">
+    <parameters xmi:id="_S_M-8MbhEeKnC-_7XU1Crw" name="Selected"/>
+    <parameters xmi:id="_S_NmAMbhEeKnC-_7XU1Crw" name="New"/>
+    <parameters xmi:id="_S_NmAcbhEeKnC-_7XU1Crw" name="IsEncapsulated"/>
+    <parameterMappings xmi:id="_8VH-QMbhEeKnC-_7XU1Crw" target="_KAZQ4MbhEeKnC-_7XU1Crw">
+      <source href="CREATE_CLASS_IN_PACKAGE_execute.henshin#_SQDNAMQ7EeKL3JWGHYo_gg"/>
+    </parameterMappings>
+    <parameterMappings xmi:id="_BjLXgMbiEeKnC-_7XU1Crw" source="_S_NmAMbhEeKnC-_7XU1Crw" target="_KAZQ4cbhEeKnC-_7XU1Crw"/>
+    <parameterMappings xmi:id="_C_iAwMbiEeKnC-_7XU1Crw" source="_S_NmAcbhEeKnC-_7XU1Crw" target="_KAZQ4sbhEeKnC-_7XU1Crw"/>
+    <subUnits xsi:type="henshin:Rule" href="CREATE_CLASS_IN_PACKAGE_execute.henshin#_JDvOcMQ7EeKL3JWGHYo_gg"/>
+    <subUnits xsi:type="henshin:Rule" href="#_G1QKkMbhEeKnC-_7XU1Crw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wSlCUHtGEeKmdsIc0BEVog" description="Changes Pseudostate Kind from initial to deepHistory" name="CHANGE_Pseudostate_Kind_InitialToDeepHistory">
+  <rules xmi:id="_wSlCUXtGEeKmdsIc0BEVog" description="Sets the EAttribute kind" name="changePseudostateKindInitialToDeepHistory">
+    <parameters xmi:id="_wSlCUntGEeKmdsIc0BEVog" name="Selected"/>
+    <lhs xmi:id="_wSlCVHtGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wSlCVXtGEeKmdsIc0BEVog" name="Selected" outgoing="__aHxEKEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_AWjaMJb8EeKOWM7dUIFG4Q" value="initial">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9wgH4KEVEeK_guy_ZVl0sQ" incoming="__aHxEKEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="__aHxEKEVEeK_guy_ZVl0sQ" source="_wSlCVXtGEeKmdsIc0BEVog" target="_9wgH4KEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_JK9ZAKEWEeK_guy_ZVl0sQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_JK9ZAaEWEeK_guy_ZVl0sQ">
+          <conclusion xmi:id="_JK9ZAqEWEeK_guy_ZVl0sQ" name="default">
+            <nodes xmi:id="_JK-AEKEWEeK_guy_ZVl0sQ" incoming="_Hc7w8KEWEeK_guy_ZVl0sQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+            </nodes>
+            <nodes xmi:id="_BIVmYKEWEeK_guy_ZVl0sQ" outgoing="_Hc7w8KEWEeK_guy_ZVl0sQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+              <attributes xmi:id="_DMpAcKEWEeK_guy_ZVl0sQ" value="deepHistory">
+                <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_Hc7w8KEWEeK_guy_ZVl0sQ" source="_BIVmYKEWEeK_guy_ZVl0sQ" target="_JK-AEKEWEeK_guy_ZVl0sQ">
+              <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_JK-AEaEWEeK_guy_ZVl0sQ" origin="_9wgH4KEVEeK_guy_ZVl0sQ" image="_JK-AEKEWEeK_guy_ZVl0sQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_wSlCVntGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wSlCV3tGEeKmdsIc0BEVog" name="Selected" outgoing="__aHxEaEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_wSlCWHtGEeKmdsIc0BEVog" value="deepHistory">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9wikIKEVEeK_guy_ZVl0sQ" incoming="__aHxEaEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="__aHxEaEVEeK_guy_ZVl0sQ" source="_wSlCV3tGEeKmdsIc0BEVog" target="_9wikIKEVEeK_guy_ZVl0sQ">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wSlCWXtGEeKmdsIc0BEVog" origin="_wSlCVXtGEeKmdsIc0BEVog" image="_wSlCV3tGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_9wikIaEVEeK_guy_ZVl0sQ" origin="_9wgH4KEVEeK_guy_ZVl0sQ" image="_9wikIKEVEeK_guy_ZVl0sQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wSlCWntGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wSlCUXtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wSlCW3tGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameterMappings xmi:id="_wSlCXXtGEeKmdsIc0BEVog" source="_wSlCW3tGEeKmdsIc0BEVog" target="_wSlCUntGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

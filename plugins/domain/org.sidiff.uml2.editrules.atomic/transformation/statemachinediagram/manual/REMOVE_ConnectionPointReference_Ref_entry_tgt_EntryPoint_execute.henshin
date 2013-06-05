@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_wRfdMHtGEeKmdsIc0BEVog" description="Removes ConnectionPointReference's reference entry the target Pseudostate" name="REMOVE_ConnectionPointReference_Ref_entry_tgt_Pseudostate">
+  <rules xmi:id="_wRgEQHtGEeKmdsIc0BEVog" description="Removes from ConnectionPointReference's reference entry the target Pseudostate" name="removeFromConnectionPointReferenceRefEntryToEntryPoint">
+    <parameters xmi:id="_wRgEQXtGEeKmdsIc0BEVog" name="Selected"/>
+    <parameters xmi:id="_wRgEQntGEeKmdsIc0BEVog" name="OldTarget"/>
+    <lhs xmi:id="_wRgEQ3tGEeKmdsIc0BEVog" name="LHS">
+      <nodes xmi:id="_wRgERHtGEeKmdsIc0BEVog" name="Selected" outgoing="_wRgERntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ConnectionPointReference"/>
+      </nodes>
+      <nodes xmi:id="_wRgERXtGEeKmdsIc0BEVog" name="OldTarget" incoming="_wRgERntGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_eqqCAJYkEeKwWNmW5l2QVQ" value="entryPoint">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_wRgERntGEeKmdsIc0BEVog" source="_wRgERHtGEeKmdsIc0BEVog" target="_wRgERXtGEeKmdsIc0BEVog">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ConnectionPointReference/entry"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_wRgER3tGEeKmdsIc0BEVog" name="RHS">
+      <nodes xmi:id="_wRgESHtGEeKmdsIc0BEVog" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ConnectionPointReference"/>
+      </nodes>
+      <nodes xmi:id="_wRgESXtGEeKmdsIc0BEVog" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_idKDQJYkEeKwWNmW5l2QVQ" value="entryPoint">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wRgESntGEeKmdsIc0BEVog" origin="_wRgERHtGEeKmdsIc0BEVog" image="_wRgESHtGEeKmdsIc0BEVog"/>
+    <mappings xmi:id="_wRgES3tGEeKmdsIc0BEVog" origin="_wRgERXtGEeKmdsIc0BEVog" image="_wRgESXtGEeKmdsIc0BEVog"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_wRgETHtGEeKmdsIc0BEVog" name="mainUnit" subUnits="_wRgEQHtGEeKmdsIc0BEVog">
+    <parameters xmi:id="_wRgETXtGEeKmdsIc0BEVog" name="selectedEObject"/>
+    <parameters xmi:id="_wRgETntGEeKmdsIc0BEVog" name="OldTarget"/>
+    <parameterMappings xmi:id="_wRgET3tGEeKmdsIc0BEVog" source="_wRgETXtGEeKmdsIc0BEVog" target="_wRgEQXtGEeKmdsIc0BEVog"/>
+    <parameterMappings xmi:id="_wRgEUHtGEeKmdsIc0BEVog" source="_wRgETntGEeKmdsIc0BEVog" target="_wRgEQntGEeKmdsIc0BEVog"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bUx_4J0KEeKYtPnpu-8upg" description="Creates one TimeEvent with a TimeExpression in Package" name="CREATE_TimeEventWithTimeExpressionInPackage">
+  <rules xmi:id="_bUx_4Z0KEeKYtPnpu-8upg" description="creates one TimeEvent in the context: Package" name="createTimeEventInPackage">
+    <parameters xmi:id="_bUym8J0KEeKYtPnpu-8upg" name="Selected"/>
+    <parameters xmi:id="_bUym8Z0KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_bUym8p0KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_bUym850KEeKYtPnpu-8upg" name="Visibility"/>
+    <parameters xmi:id="_bUym9J0KEeKYtPnpu-8upg" name="Child"/>
+    <parameters xmi:id="_bUym9Z0KEeKYtPnpu-8upg" name="Name1"/>
+    <parameters xmi:id="_bUym9p0KEeKYtPnpu-8upg" name="Visibility1"/>
+    <lhs xmi:id="_bUym950KEeKYtPnpu-8upg" name="LHS">
+      <nodes xmi:id="_bUym-J0KEeKYtPnpu-8upg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_bUym-Z0KEeKYtPnpu-8upg" name="RHS">
+      <nodes xmi:id="_bUym-p0KEeKYtPnpu-8upg" name="Selected" outgoing="_bUynAZ0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_bUym-50KEeKYtPnpu-8upg" name="New" incoming="_bUynAZ0KEeKYtPnpu-8upg" outgoing="_bUynAp0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        <attributes xmi:id="_bUym_J0KEeKYtPnpu-8upg" value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_bUym_Z0KEeKYtPnpu-8upg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bUym_p0KEeKYtPnpu-8upg" name="Child" incoming="_bUynAp0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeExpression"/>
+        <attributes xmi:id="_bUym_50KEeKYtPnpu-8upg" value="Name1">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_bUynAJ0KEeKYtPnpu-8upg" value="Visibility1">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_bUynAZ0KEeKYtPnpu-8upg" source="_bUym-p0KEeKYtPnpu-8upg" target="_bUym-50KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_bUynAp0KEeKYtPnpu-8upg" source="_bUym-50KEeKYtPnpu-8upg" target="_bUym_p0KEeKYtPnpu-8upg">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent/when"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bUynA50KEeKYtPnpu-8upg" origin="_bUym-J0KEeKYtPnpu-8upg" image="_bUym-p0KEeKYtPnpu-8upg"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_bUynBJ0KEeKYtPnpu-8upg" description="Creates one TimeEvent depending on available contexts in model instance" name="mainUnit" subUnits="_bUx_4Z0KEeKYtPnpu-8upg">
+    <parameters xmi:id="_bUynBZ0KEeKYtPnpu-8upg" name="New"/>
+    <parameters xmi:id="_bUynBp0KEeKYtPnpu-8upg" name="selectedEObject"/>
+    <parameters xmi:id="_bUynB50KEeKYtPnpu-8upg" name="Name"/>
+    <parameters xmi:id="_bUynCJ0KEeKYtPnpu-8upg" name="Visibility"/>
+    <parameters xmi:id="_bUynCZ0KEeKYtPnpu-8upg" name="Child"/>
+    <parameters xmi:id="_bUynCp0KEeKYtPnpu-8upg" name="Name1"/>
+    <parameters xmi:id="_bUynC50KEeKYtPnpu-8upg" name="Visibility1"/>
+    <parameterMappings xmi:id="_bUynDJ0KEeKYtPnpu-8upg" source="_bUynBp0KEeKYtPnpu-8upg" target="_bUym8J0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynDZ0KEeKYtPnpu-8upg" source="_bUym8Z0KEeKYtPnpu-8upg" target="_bUynBZ0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynDp0KEeKYtPnpu-8upg" source="_bUynB50KEeKYtPnpu-8upg" target="_bUym8p0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynD50KEeKYtPnpu-8upg" source="_bUynCJ0KEeKYtPnpu-8upg" target="_bUym850KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynEJ0KEeKYtPnpu-8upg" source="_bUynCZ0KEeKYtPnpu-8upg" target="_bUym9J0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynEZ0KEeKYtPnpu-8upg" source="_bUynCp0KEeKYtPnpu-8upg" target="_bUym9Z0KEeKYtPnpu-8upg"/>
+    <parameterMappings xmi:id="_bUynEp0KEeKYtPnpu-8upg" source="_bUynC50KEeKYtPnpu-8upg" target="_bUym9p0KEeKYtPnpu-8upg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

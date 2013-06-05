@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_kzA5oKu_EeG91NPmN-51Ww" description="Adds to EClass's reference eSuperTypes the target EClass" name="ADD_EClass_Ref_eSuperTypes_tgt_EClass">
+  <rules xmi:id="_kzA5oau_EeG91NPmN-51Ww" description="Adds to EClass's reference eSuperTypes the target EClass" name="addGeneralization">
+    <parameters xmi:id="_kzA5oqu_EeG91NPmN-51Ww" name="Selected"/>
+    <parameters xmi:id="_kzA5o6u_EeG91NPmN-51Ww" name="NewTarget"/>
+    <lhs xmi:id="_kzA5pKu_EeG91NPmN-51Ww" name="LHS">
+      <nodes xmi:id="_kzA5pau_EeG91NPmN-51Ww" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_kzA5pqu_EeG91NPmN-51Ww" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kzA5p6u_EeG91NPmN-51Ww" name="RHS">
+      <nodes xmi:id="_kzA5qKu_EeG91NPmN-51Ww" name="Selected" outgoing="_kzA5qqu_EeG91NPmN-51Ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_kzA5qau_EeG91NPmN-51Ww" name="NewTarget" incoming="_kzA5qqu_EeG91NPmN-51Ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_kzA5qqu_EeG91NPmN-51Ww" source="_kzA5qKu_EeG91NPmN-51Ww" target="_kzA5qau_EeG91NPmN-51Ww">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kzA5q6u_EeG91NPmN-51Ww" origin="_kzA5pau_EeG91NPmN-51Ww" image="_kzA5qKu_EeG91NPmN-51Ww"/>
+    <mappings xmi:id="_kzA5rKu_EeG91NPmN-51Ww" origin="_kzA5pqu_EeG91NPmN-51Ww" image="_kzA5qau_EeG91NPmN-51Ww"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_kzA5rau_EeG91NPmN-51Ww" name="mainUnit" subUnits="_kzA5oau_EeG91NPmN-51Ww">
+    <parameters xmi:id="_kzA5rqu_EeG91NPmN-51Ww" name="selectedEObject"/>
+    <parameters xmi:id="_kzA5r6u_EeG91NPmN-51Ww" name="NewTarget"/>
+    <parameterMappings xmi:id="_kzA5sKu_EeG91NPmN-51Ww" source="_kzA5rqu_EeG91NPmN-51Ww" target="_kzA5oqu_EeG91NPmN-51Ww"/>
+    <parameterMappings xmi:id="_kzA5sau_EeG91NPmN-51Ww" source="_kzA5r6u_EeG91NPmN-51Ww" target="_kzA5o6u_EeG91NPmN-51Ww"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

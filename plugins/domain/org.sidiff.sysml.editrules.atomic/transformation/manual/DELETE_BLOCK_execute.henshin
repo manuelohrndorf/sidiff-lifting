@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_VLlRILiiEeKu_4_PG81Fjw" name="DELETE_BLOCK">
+  <rules xmi:id="_dYdzALiiEeKu_4_PG81Fjw" name="DeleteBlockInPackage">
+    <parameters xmi:id="_RRvgUL1ZEeK734lsmX5y_g" name="Selected"/>
+    <parameters xmi:id="_RRx8kL1ZEeK734lsmX5y_g" name="toBeDeleted"/>
+    <lhs xmi:id="_dYdzAbiiEeKu_4_PG81Fjw" name="LHS">
+      <nodes xmi:id="_qOfFcLzPEeKnwLAb0AjPFw" name="toBeDeleted" incoming="_2-8gMLzPEeKnwLAb0AjPFw _NjzucL03EeKTwYLv_ug79Q">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_tYs-sLzPEeKnwLAb0AjPFw" outgoing="_2-8gMLzPEeKnwLAb0AjPFw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <nodes xmi:id="_MHYMsL03EeKTwYLv_ug79Q" name="Selected" outgoing="_NjzucL03EeKTwYLv_ug79Q">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <edges xmi:id="_2-8gMLzPEeKnwLAb0AjPFw" source="_tYs-sLzPEeKnwLAb0AjPFw" target="_qOfFcLzPEeKnwLAb0AjPFw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+      <edges xmi:id="_NjzucL03EeKTwYLv_ug79Q" source="_MHYMsL03EeKTwYLv_ug79Q" target="_qOfFcLzPEeKnwLAb0AjPFw">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_dYdzAriiEeKu_4_PG81Fjw" name="RHS">
+      <nodes xmi:id="_MHYzwL03EeKTwYLv_ug79Q" name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_MHYzwb03EeKTwYLv_ug79Q" origin="_MHYMsL03EeKTwYLv_ug79Q" image="_MHYzwL03EeKTwYLv_ug79Q"/>
+  </rules>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_TwESAL1bEeK734lsmX5y_g" name="mainUnit" subUnits="_dYdzALiiEeKu_4_PG81Fjw">
+    <parameters xmi:id="_eKsd0L1bEeK734lsmX5y_g" name="Selected"/>
+    <parameters xmi:id="_eKuTAL1bEeK734lsmX5y_g" name="toBeDeleted"/>
+    <parameterMappings xmi:id="_qI9moL1bEeK734lsmX5y_g" source="_eKuTAL1bEeK734lsmX5y_g" target="_RRx8kL1ZEeK734lsmX5y_g"/>
+    <parameterMappings xmi:id="_nTw7IL1bEeK734lsmX5y_g" source="_eKsd0L1bEeK734lsmX5y_g" target="_RRvgUL1ZEeK734lsmX5y_g"/>
+  </transformationUnits>
+</henshin:TransformationSystem>
