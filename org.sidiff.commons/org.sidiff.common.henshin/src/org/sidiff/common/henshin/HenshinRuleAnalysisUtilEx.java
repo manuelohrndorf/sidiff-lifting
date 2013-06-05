@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -36,6 +39,22 @@ public class HenshinRuleAnalysisUtilEx {
 		//,REQUIRED in later henshin versions
 	}
 	
+	/**
+	 * Get all rules of the module.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @return all Rules contained by the module in an unmodifiable list.
+	 */
+	public static EList<Rule> getRules(Module module) {
+		EList<Rule> rules = new BasicEList<Rule>();
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				rules.add((Rule) unit);
+			}
+		}
+		return ECollections.unmodifiableEList(rules);
+	}
 
 	/**
 	 * @param rule
