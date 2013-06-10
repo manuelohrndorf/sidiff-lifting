@@ -191,6 +191,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Node createCreateNode(Graph graph, String name, EClass type) {
 
 		Node newNode = HenshinFactory.eINSTANCE.createNode(graph, type, name);
+		newNode.setName(name); // only required because of a bug in factory method createNode: name will not be set.
 
 		return newNode;
 	}
