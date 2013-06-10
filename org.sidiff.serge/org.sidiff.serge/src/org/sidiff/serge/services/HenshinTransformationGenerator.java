@@ -655,7 +655,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			//add only ChildX/ExistingX Parameters - everything else is not
 			//necessary for <<delete>>
 			List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
-		//TODO: we definately need a module.getRules() equivalence in sidiff.common.henshin
+
 			for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 				for(Parameter p: r.getParameters()) {
 					
