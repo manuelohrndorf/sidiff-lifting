@@ -221,7 +221,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 					moduleWithStereotype.setDescription(moduleWithStereotype.getDescription().replaceFirst("Creates one "+eClass.getName(), "Creates one stereotype:"+stereotype.getName()));
 					String stereoOutputFileName = outputFileName.replaceFirst(eClass.getName(), stereotype.getName());
 					
-					Rule ruleWithStereotype = moduleWithStereotype.getRules().get(0);
+					Rule ruleWithStereotype = HenshinRuleAnalysisUtilEx.getRulesUnderModule(moduleWithStereotype).get(0);
 					ruleWithStereotype.setName(ruleWithStereotype.getName().replaceFirst(eClass.getName(), stereotype.getName()));
 					ruleWithStereotype.setDescription(ruleWithStereotype.getDescription().replaceFirst("Creates one "+eClass.getName(), "Creates one stereotype:"+stereotype.getName()));
 					//new stereotype node
@@ -402,7 +402,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 					rule.setActivated(true);
 					rule.setName("set"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName()));
 					rule.setDescription("Sets the EAttribute "+ea.getName());
-		//TODO		rule.setTransformationSystem(SET_Module);
+					SET_Module.getUnits().add(rule);
 	
 					// create preserved node for eClass
 					NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
@@ -423,7 +423,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 						// create UNSET from copy of SET and set DefaultValue for the <<create>> parameter
 						Module UNSET_Module = EcoreUtil.copy(SET_Module);
 						String outputFileNameUNSET = outputFileName.replace(SET_prefix, UNSET_prefix);
-						Node unsetRHSNode = UNSET_Module.getRules().get(0).getRhs().getNodes().get(0);
+						Node unsetRHSNode = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getRhs().getNodes().get(0);
 
 						// get the attribute's default value and set it
 						Object defaultValue = ea.getDefaultValue();
@@ -443,15 +443,15 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 						// rename everything from SET to UNSET
 						UNSET_Module.setName(UNSET_Module.getName().replace(SET_prefix, UNSET_prefix));
 						UNSET_Module.setDescription(UNSET_Module.getDescription().replace("Sets", "Unsets"));
-						Rule unsetRule = UNSET_Module.getRules().get(0);
+						Rule unsetRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0);
 						unsetRule.setName(unsetRule.getName().replace("set", "unset"));
 						unsetRule.setDescription(unsetRule.getDescription().replace("Sets", "Sets"));
 						
-						// create mainUnits & put TS in map for later serializing
+						// create mainUnits & put Module in map for later serializing
 				//TODO Test the following: all non-rule-units must be deleted from module
 						removeAllNonRuleUnits(UNSET_Module);
 				//		UNSET_Module.getTransformationUnits().clear(); //remove copied mainUnit form SET_TS
-						UNSET_Module.getRules().get(0).getParameters().clear(); //remove parameters that came from inverse
+						HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
 						mainUnitCreation(UNSET_Module, eClass, OperationType.UNSET);
 						moduleMap.put(UNSET_Module, outputFileNameUNSET);
 					}			
@@ -580,9 +580,6 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 	private void checkModuleFileNameEquality(Module module,
 			String outputFileName) {
 		
-		// We don't allow multiple Rules per mainUnit for our atomics for now
-		assert(module.getUnit("mainUnit").getSubUnits(true).size()==1): "MainUnit has more than one rule " + outputFileName + " " + module.getName();	
-		
 		//name equality assertion
 		String name = outputFileName.replace(EXECUTE_suffix, "");
 		name = name.replace(INITIALCHECK_suffix, "");
@@ -659,7 +656,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			//necessary for <<delete>>
 			List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
 		//TODO: we definately need a module.getRules() equivalence in sidiff.common.henshin
-			for(Rule r: module.getRules()) {
+			for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 				for(Parameter p: r.getParameters()) {
 					
 					if(p.getName().startsWith("Child")
@@ -684,11 +681,11 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			}			
 			
 			//remove unnecessary parameters
-			module.getRules().get(0).getParameters().removeAll(unnecessaryParameters);
+			HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0).getParameters().removeAll(unnecessaryParameters);
 			
 			// Create the required "toBeDeleted"-Parameter under the unit if there is a context to delete EClass from
 			// else selectedEObject-Parameter will directly map to this
-			if(HenshinRuleAnalysisUtilEx.getNodeByName(module.getRules().get(0),"Selected")!=null) {
+			if(HenshinRuleAnalysisUtilEx.getNodeByName(HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0),"Selected",true)!=null) {
 				Parameter newEClassParam = henshinFactory.createParameter("toBeDeleted");
 				if(!prioUnit.getParameters().contains(newEClassParam)) {
 					prioUnit.getParameters().add(newEClassParam);
@@ -705,19 +702,19 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		
 		
 		/** Parameter and Mapping creation **/
-		for(Rule rule: module.getRules()) {
+		for(Rule rule: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 			
 			
 			 //for <<create>> we only need RHS
 			for(Node nInRHS : rule.getRhs().getNodes()) {
 				String name = nInRHS.getName();
 				// Add Parameter for Nodes
-				if(!name.equals("")) {
+				if(name!=null && !name.equals("")) {
 					Parameter pForRule = henshinFactory.createParameter(name);
-					if(rule.getParameterByName(name)==null) {
+					if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, name)==null) {
 						pForRule.setUnit(rule);
 						rule.getParameters().add(pForRule);
-						if(!pForRule.getName().equals("Selected") && prioUnit.getParameterByName(pForRule.getName())==null) {
+						if(!pForRule.getName().equals("Selected") && HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForRule.getName())==null) {
 							Parameter pForUnit = henshinFactory.createParameter(name);
 							prioUnit.getParameters().add(pForUnit);
 						}
@@ -734,12 +731,12 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 					if(a.getValue()!="null" && ((defaultValueName!=null && !a.getValue().equals(defaultValueName)) || defaultValueName==null)) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue());
-						if(rule.getParameterByName(pForRule.getName())==null) {
+						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
 							// ..to rule
 							rule.getParameters().add(pForRule);
 							pForRule.setUnit(rule);
 							// ..to unit
-							if(prioUnit.getParameterByName(pForUnit.getName())==null) {
+							if(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForUnit.getName())==null) {
 								prioUnit.getParameters().add(pForUnit);
 								pForUnit.setUnit(prioUnit);
 							}
@@ -754,12 +751,14 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 				String name = nInLHS.getName();
 				// Add Parameter for Nodes (if there is a name and we have a context)
 				// otherwise no Parameter will be created in Unit and the selectedEObject will map to this
-				if(!name.equals("")) {
+				if(name!=null && !name.equals("")) {
 					Parameter p = henshinFactory.createParameter(name);
-					if(rule.getParameterByName(name)==null) {
+					if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, name)==null) {
 						p.setUnit(rule);
 						rule.getParameters().add(p);
-						if(!p.getName().equals("Selected") && prioUnit.getParameterByName(p.getName())==null && rule.getParameterByName("Selected")!=null) {
+						if(!p.getName().equals("Selected")
+								&& HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName())==null
+								&& HenshinRuleAnalysisUtilEx.getParameterByName(rule, "Selected")!=null) {
 							prioUnit.getParameters().add(p);
 						}
 					}
@@ -771,12 +770,12 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 					if(a.getValue()!="null") {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue()); 
-						if(rule.getParameterByName(pForRule.getName())==null) {
+						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
 							// ..to rule
 							rule.getParameters().add(pForRule);
 							pForRule.setUnit(rule);
 							// ..to unit
-							if(prioUnit.getParameterByName(pForUnit.getName())==null) {
+							if(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForUnit.getName())==null) {
 								prioUnit.getParameters().add(pForUnit);
 								pForUnit.setUnit(prioUnit);
 							}
@@ -797,7 +796,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 					prioUnit.getParameterMappings().add(selEObjectMapping);
 				}
 				// == selected element is the toBeDeleted (in case there is no context to delete from)
-				else if(rule.getParameterByName("Selected")==null && p.getName().equals("toBeDeleted")) {
+				else if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, "Selected")==null && p.getName().equals("toBeDeleted")) {
 					ParameterMapping selEObjectMapping = henshinFactory.createParameterMapping();
 					selEObjectMapping.setSource(selectedEObject);
 					selEObjectMapping.setTarget(p);			
@@ -807,14 +806,14 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 				else if(p.getName().matches("New[0-9]*")) {
 					ParameterMapping pm = henshinFactory.createParameterMapping();
 					pm.setSource(p);
-					pm.setTarget(prioUnit.getParameterByName(p.getName()));
+					pm.setTarget(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
 					if(!prioUnit.getParameterMappings().contains(pm)) {
 						prioUnit.getParameterMappings().add(pm);
 					}
 				}else if(p.getName().matches("NewTarget[0-9]*")|| p.getName().matches("NewSource[0-9]*")) {
 					ParameterMapping pm = henshinFactory.createParameterMapping();
 					pm.setTarget(p);
-					pm.setSource(prioUnit.getParameterByName(p.getName()));
+					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
 					if(!prioUnit.getParameterMappings().contains(pm)) {
 						prioUnit.getParameterMappings().add(pm);
 					}
@@ -822,7 +821,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 				// == every other in-parameter
 				}else{
 					ParameterMapping pm = henshinFactory.createParameterMapping();
-					pm.setSource(prioUnit.getParameterByName(p.getName()));
+					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
 					pm.setTarget(p);
 					if(!prioUnit.getParameterMappings().contains(pm)) {
 						prioUnit.getParameterMappings().add(pm);
@@ -836,8 +835,8 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 						
 		}
 		
-		// Add unit to tsSystem
-		module.getTransformationUnits().add(prioUnit);
+		// Add unit to module
+		module.getUnits().add(prioUnit);
 	}
 	
 	
@@ -1191,7 +1190,8 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			if(context!=null && eRef!=null) {
 				Node contextNode = null;
 				for(Node n: rhs.getNodes()) {
-					if(n.getName().equals(selectedName)) {
+					String nName = n.getName();
+					if(nName!=null && nName.equals(selectedName)) {
 						contextNode = n;
 					}
 				}
@@ -1211,28 +1211,28 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		if(module.getName().startsWith(ADD_prefix)) {
 			name = module.getName().replaceFirst(ADD_prefix, REMOVE_prefix);
 			description = module.getDescription().replaceFirst("Adds to","Removes");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverseModule(name,description,module);
-			Rule firstRule = inverse.getRules().get(0);
+			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
+			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("addTo", "removeFrom"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Adds to", "Removes from"));
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget").setName("OldTarget");  //rename Node in LHS
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget").setName("OldTarget"); //rename Node in RHS
+			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget",true).setName("OldTarget");  //rename Node in LHS
+			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget",false).setName("OldTarget"); //rename Node in RHS
 		}
 		else if(module.getName().startsWith(SET_prefix)) {
 			name = module.getName().replaceFirst(SET_prefix, UNSET_prefix);
 			description = module.getDescription().replaceFirst("Sets","Unsets");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverseModule(name,description,module);
-			Rule firstRule = inverse.getRules().get(0);
+			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
+			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget").setName("OldTarget");  //rename Node in LHS
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget").setName("OldTarget"); //rename Node in RHS
+			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget",true).setName("OldTarget");  //rename Node in LHS
+			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,"NewTarget",false).setName("OldTarget"); //rename Node in RHS
 		}
 		else if(module.getName().startsWith(CREATE_prefix)) {
 			name = module.getName().replaceFirst(CREATE_prefix, DELETE_prefix);
 			description = module.getDescription().replaceFirst("Creates","Deletes");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverseModule(name,description,module);
-			Rule firstRule = inverse.getRules().get(0);
+			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
+			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
 			//TODO speedup DELETEs: remove parameters + node names for all children and existings
@@ -1252,8 +1252,8 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		
 		int count = 0;
 		for(Node node: allNodes) {
-			
-			if(node.getName().startsWith(originalName)) {
+			String nNode = node.getName();
+			if(nNode!=null && node.getName().startsWith(originalName)) {
 				count++;
 			}		
 		}
@@ -1575,7 +1575,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			rule.setActivated(true);
 			rule.setName("addTo"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Adds to "+eClass.getName() +"'s reference "+ eRef.getName() +" the target "+ target.getName());
-	//TODO rule.setTransformationSystem(module);
+			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
@@ -1594,7 +1594,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			rule.setActivated(true);
 			rule.setName("set"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Set"+eClass.getName() + "Ref" +eRef.getName() +"To"+target.getName());
-	//TODO	rule.setTransformationSystem(module);
+			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
@@ -1612,7 +1612,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			rule.setActivated(true);
 			rule.setName("change"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Change the EReference "+eRef.getName());
-	//TODO	rule.setTransformationSystem(module);
+			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
@@ -1631,7 +1631,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 			rule.setActivated(true);
 			rule.setName("move"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Moves one "+eClass.getName()+" with reference "+eRef.getName()+" to "+target.getName());
-	//TODO	rule.setTransformationSystem(module);
+			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
@@ -1676,7 +1676,8 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 				// All sub types of the main child in focus will receive their own
 				// CREATE-module when visited.
 				for(Node origN: originalNodes) {
-					if(origN.getName().equals("New")) {
+					String nOrigN = origN.getName();
+					if(nOrigN!=null && nOrigN.equals("New")) {
 						continue;
 					}
 					EClass typeOfReplacable = origN.getType();
@@ -1710,11 +1711,12 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 						// search for the 1st node with same type as typeOfReplacable and replace
 						for(Node copyNode :copyNodes) {
 							if(copyNode.getType().equals(typeOfReplacable)) {
-
+								
+								String nCopyNode = copyNode.getName();
 
 								// replace the name of typeOfReplacable by the name of the replacement in filename
 								// if current node is really the "New" Node					
-								if(copyNode.getName().equals("New")) {
+								if(nCopyNode!=null && copyNode.getName().equals("New")) {
 
 									//make sure that only the actual file name is edited and not preceding directories
 									fileNamePath = outputFileName.split(sep);

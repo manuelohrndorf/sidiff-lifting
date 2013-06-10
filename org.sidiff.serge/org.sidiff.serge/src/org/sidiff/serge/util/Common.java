@@ -1,11 +1,10 @@
 package org.sidiff.serge.util;
 
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.w3c.dom.Element;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
 
 public class Common {
 
@@ -23,11 +22,12 @@ public class Common {
 		}
 	}
 	
-	public static void replaceNewsWithToBeDeleted(TransformationSystem ts) {
+	public static void replaceNewsWithToBeDeleted(Module module) {
 		
-		for(Rule r: ts.getRules()) {
+		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 			for(Node n: r.getLhs().getNodes()) {
-				if(n.getName().equals("New")) {
+				String nN = n.getName();
+				if(nN!=null && nN.equals("New")) {
 					n.setName("toBeDeleted");
 				}
 			}
