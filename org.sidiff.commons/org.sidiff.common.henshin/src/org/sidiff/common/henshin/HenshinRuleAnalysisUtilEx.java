@@ -29,14 +29,13 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Utility methods for analyzing Henshin transformation rules.
+ * Utility methods for analyzing Henshin Modules, Units and Rules.
  */
 public class HenshinRuleAnalysisUtilEx {
 
 	
 	public static enum NodeKindSelection{
-		CREATE,DELETE,PRESERVED,FORBID,ALL
-		//,REQUIRED in later henshin versions
+		CREATE,DELETE,PRESERVED,FORBID,ALL,REQUIRED
 	}
 	
 	/**
@@ -63,7 +62,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return
 	 */
 	public static Node getNodeByName(Rule rule, String nodename, boolean isLhs) {
-		for (Node node : (isLhs) ? rule.getLhs().getNodes() : rule.getLhs().getNodes()) {
+		for (Node node : (isLhs) ? rule.getLhs().getNodes() : rule.getRhs().getNodes()) {
 			if (nodename.equals(node.getName())) return node;
 		}
 		
@@ -355,7 +354,7 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	/**
-	 * Creates a rule under a given TransformationSystem.
+	 * Creates a rule under a given Module.
 	 * 
 	 * @param name
 	 * 				the name of the rule.
@@ -363,8 +362,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the description of the rule.
 	 * @param activated
 	 * 				== true if rule should be activated.
-	 * @param tsSystem
-	 * 				the TransformationSystem which shall contain the new rule.
+	 * @param module
+	 * 				the module which shall contain the new rule.
 	 * @return the rule.
 	 */
 	public static Rule createRule(String name, String description, Boolean activated, Module module) {
@@ -462,14 +461,14 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Creates a new TransformationSystem that is an inverse of an input TransformationSystem
+	 * Creates a new Module that is an inverse of an input Module
 	 * @param name
-	 * 				the name for the new TransformationSystem.
+	 * 				the name for the new Module.
 	 * @param description
-	 * 				the description for the new TransformationSystem..
+	 * 				the description for the new Module.
 	 * @param inputModule
-	 * 				the Henshin TransformationSystem from which an inverse should be created.
-	 * @return the new TransformationSystem.
+	 * 				the Henshin Module from which an inverse should be created.
+	 * @return the new Module.
 	 */	
 	public static Module createInverse(String name, String description, Module inputModule) {
 		
@@ -1040,8 +1039,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 * Returns a list of rules that equal a given name.
 	 * @param name
 	 * 				the name a rule must have to match.
-	 * @param ts
-	 * 				the TransformationSystem under which to search.
+	 * @param module
+	 * 				the Module under which to search.
 	 * @return a list of matched rules.
 	 */
 	public static List<Rule> getRulesByName(String name, Module module) {
@@ -1057,6 +1056,29 @@ public class HenshinRuleAnalysisUtilEx {
 			}
 		}
 		return ruleList;
+	}
+	
+	/**
+	 * Returns a parameter under a given unit if its name equals the given name.
+	 * A unit can also be a Rule.
+	 * 
+	 * @param unit
+	 * 				the unit/rule under which the parameter is assumed
+	 * @param name
+	 * 				the name a parameter must match
+	 * @return parameter
+	 * 				the matching parameter
+	 */
+	public static Parameter getParameterByName(Unit unit, String name) {
+		
+		for(Parameter p: unit.getParameters()) {
+			String pName = p.getName();
+			
+			if(pName.equals(name)) {
+				return p;
+			}			
+		}
+		return null;	
 	}
 	
 	/**
@@ -1311,14 +1333,14 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	/**
-	 * Returns a list containing all unit of the transformation system
+	 * Returns a list containing all unit of the module
 	 * (including all rules).
 	 * 
-	 * @param ts
-	 *            the transformation system.
-	 * @return a list containing all unit of the transformation system.
+	 * @param module
+	 *            the module.
+	 * @return a list containing all unit of the module.
 	 */
-	public static List<Unit> getAllTransformationUnits(Module module) {
+	public static List<Unit> getAllUnits(Module module) {
 		List<Unit> units = new LinkedList<Unit>();
 		units = module.getUnits();
 
