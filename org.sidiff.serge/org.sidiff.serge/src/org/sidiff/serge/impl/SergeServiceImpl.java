@@ -17,11 +17,11 @@ import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
-import org.sidiff.serge.EditRulesGeneratingService;
+import org.sidiff.serge.SergeService;
 import org.sidiff.serge.services.HenshinTransformationGenerator;
 import org.sidiff.serge.util.Common;
 
-public class EditRulesGeneratingServiceImpl implements EditRulesGeneratingService{
+public class SergeServiceImpl implements SergeService{
 
 	@Override
 	public void generate(Class<?> service, String outputFolderPath, Resource metaModel, String config, String workspace_loc) {

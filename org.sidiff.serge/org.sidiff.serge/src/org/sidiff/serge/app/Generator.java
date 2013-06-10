@@ -6,7 +6,7 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.services.ServiceHelper;
-import org.sidiff.serge.EditRulesGeneratingService;
+import org.sidiff.serge.SergeService;
 import org.sidiff.serge.impl.Activator;
 import org.sidiff.serge.services.HenshinTransformationGenerator;
 
@@ -31,7 +31,7 @@ public class Generator implements IApplication {
 		
 		/*** Start generating rules*********************************************************************/
 		
-		EditRulesGeneratingService generatingService = ServiceHelper.getService(Activator.getContext(), EditRulesGeneratingService.class);
+		SergeService generatingService = ServiceHelper.getService(Activator.getContext(), SergeService.class);
 		generatingService.generate(HenshinTransformationGenerator.class, OUTPUT_FOLDER_PATH, metaModel, INPUT_CONFIG_PATH, INPUT_WORKSPACE_LOC);
 		
 				

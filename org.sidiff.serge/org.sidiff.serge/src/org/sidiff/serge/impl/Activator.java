@@ -6,7 +6,7 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.common.xml.XMLResolver;
-import org.sidiff.serge.EditRulesGeneratingService;
+import org.sidiff.serge.SergeService;
 
 public class Activator implements BundleActivator {
 
@@ -25,7 +25,7 @@ public class Activator implements BundleActivator {
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
 		 
-		ServiceHelper.registerService(context, EditRulesGeneratingService.class, new EditRulesGeneratingServiceImpl(), null, ServiceHelper.DEFAULT);
+		ServiceHelper.registerService(context, SergeService.class, new SergeServiceImpl(), null, ServiceHelper.DEFAULT);
 
 	}
 

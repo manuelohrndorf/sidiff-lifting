@@ -2055,7 +2055,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		org.w3c.dom.Node currentNode = null;
 		NodeList currentChildNodes = null;
 		
-		// retrieve and set global parameters	
+		// retrieve and set general settings	
 		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
 		preventInconsistencyThroughSkipping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("initialChecks").item(0);		
@@ -2068,6 +2068,12 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		reduceToSuperType_SETUNSET = Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
 		reduceToSuperType_ADDREMOVE = Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
 		reduceToSuperType_CHANGE = Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
+		
+		// retrieve and set meta-model parameters		
+		currentNode = doc.getElementsByTagName("MainModel").item(0);
+		
+		
+		// retrieve and set operation types
 		currentNode = doc.getElementsByTagName("Creates").item(0);
 		createCREATES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Deletes").item(0);
