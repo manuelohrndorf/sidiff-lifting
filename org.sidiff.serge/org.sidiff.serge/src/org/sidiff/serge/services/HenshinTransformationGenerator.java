@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -16,7 +15,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -24,29 +22,23 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
-import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.xml.XMLParser;
 import org.sidiff.serge.util.Common;
 import org.sidiff.serge.util.EClassInfo;
-import org.sidiff.serge.util.EClassInfoManagement;
 import org.sidiff.serge.util.ModuleFilenamePair;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-public class HenshinTransformationGenerator extends AbstractHenshinTransformationGenerator {
+public class HenshinTransformationGenerator extends AbstractGenerator {
 	
 	/** Next tasks and ideas:
 	 * - initials and finals for stereotype
@@ -63,92 +55,9 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 	 * - variant matrix with bitsets to avoid semantically equal trafos
 	 **/ 
 	
-	/** General settings **************************************************************************/
-	
-	private final String CREATE_prefix 			= "CREATE_";
-	private final String DELETE_prefix			= "DELETE_";
-	private final String SET_prefix 			= "SET_";
-	private final String UNSET_prefix 			= "UNSET_";
-	private final String ADD_prefix 			= "ADD_";
-	private final String REMOVE_prefix 			= "REMOVE_";
-	private final String CHANGE_prefix 			= "CHANGE_";
-	private final String MOVE_prefix 			= "MOVE_";
-	private final String EXECUTE_suffix			= "_execute.henshin";
-	private final String INITIALCHECK_suffix	= "_initialcheck.henshin";
-
-	private static final String REQ_IS			= "InheritingSupertypes";
-	
-	private String outputFolderPath  = null;
-	private static List<EPackage> ePackages = null;
-	
-	private static EClassInfoManagement eClassInfoManagement = null;
-	
-	private static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
-	
-	/** Configuration *****************************************************************************/
-
-	private static boolean createCREATES						= true;
-	private static boolean createDELETES						= true; // CREATES are required
-	private static boolean createMOVES							= true;
-	private static boolean createADDS							= true;
-	private static boolean createREMOVES						= true; // ADDS are required
-	private static boolean createSETS							= true;
-	private static boolean createUNSETS							= true; // SETS are required
-	private static boolean createCHANGES						= true;
-	
-	private static boolean createINITIALS						= true;
-	private static boolean createNotRequiredAndNotIDAttributes	= true;
-	private static boolean preventInconsistencyThroughSkipping  = false;
-	private static boolean reduceToSuperType_SETUNSET			= true;
-	private static boolean reduceToSuperType_ADDREMOVE			= true;
-	private static boolean reduceToSuperType_CHANGE				= true;
-	
-	private static ArrayList<String> blackList					= new ArrayList<String>();
-	private static ArrayList<EClass> unfoldedBlackList			= new ArrayList<EClass>();
-	
-	private static ArrayList<String> whiteList					= new ArrayList<String>();
-	private static ArrayList<EClass> unfoldedWhiteList			= new ArrayList<EClass>();
-	
-	private static HashMap<String,ArrayList<EClass>> implicitRequirements	= new HashMap<String,ArrayList<EClass>>();
-	
-	private static String rootName								= null;
-	private static EClass root									= null;
-	private static Boolean rootEClassCanBeNested				= false;
-	
-	private static Boolean profileApplicationInUse				= false;
-	private static Boolean disableVariants						= true;
-	
 	/** Henshin access ****************************************************************************/
 	
 	private static HenshinFactory henshinFactory = HenshinFactory.eINSTANCE;
-			
-
-	public HenshinTransformationGenerator(String outputFolderPath, List<EPackage> ePackages, String config) {
-		
-		this.outputFolderPath 	= outputFolderPath;
-		this.ePackages			= ePackages;
-
-		LogUtil.log(LogEvent.NOTICE, "Generation service for henshin edit rules initialized.");
-		
-		// load configuration from xml
-		loadConfiguration(config);
-		
-		LogUtil.log(LogEvent.NOTICE, "Analysing meta model...");
-		
-		implicitRequirements.put(REQ_IS, new ArrayList<EClass>());	
-		eClassInfoManagement = new EClassInfoManagement(profileApplicationInUse);	
-		eClassInfoManagement.mapConcreteEClassesToAbstractSuperTypes(ePackages);
-		eClassInfoManagement.gatherAllEClassInfos(ePackages);
-		eClassInfoManagement.linkSubTypesToSuperTypes(ePackages);		
-		
-		// unfold lists
-		unfoldBlackList();
-		unfoldWhiteList();
-		
-
-		
-	}
-
 
 
 	@Override
@@ -555,17 +464,6 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		// create option map for saving
 		Map<String,Boolean> options = new HashMap<String, Boolean>();
 		options.put (XMIResource.OPTION_SCHEMA_LOCATION, true);
-
-		// convert every local ePackage URL into ePackage nsURI
-		for(EPackage ePackage : ePackages){
-			Resource eResource = ePackage.eResource();
-			URI uri = URI.createURI(ePackage.getNsURI());
-			ePackage.getNsPrefix();
-			if(!URIConverter.URI_MAP.containsValue(uri)){
-				URIConverter.URI_MAP.put(eResource.getURI(), uri);
-			}
-			eResource.setURI(URIConverter.INSTANCE.normalize(uri));    
-		}
 
 		try {
 			resource.save(options);
@@ -1796,135 +1694,6 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 	}
 	
 	/**
-	 * This fills the actual blackList with real EClasses.
-	 * If preventInconsistencyThroughSkipping is set to TRUE, then
-	 * it will additionally be checked if other model elements have mandatory
-	 * dependencies to the skippable elements. If so, they will be skipped, too.
-	 * Recursively.
-	 */
-	private static void unfoldBlackList() {
-		
-		for(String eClassName: blackList) {
-			for(EPackage ePackage: ePackages) {				
-				EClass skip = (EClass) ePackage.getEClassifier(eClassName);
-				if(skip!=null) {
-					unfoldedBlackList.add(skip);
-				}
-			}
-		}
-		
-		if(preventInconsistencyThroughSkipping) {
-			unfoldedBlackList = findMoreSkips(unfoldedBlackList);
-		}	
-	}
-	
-	
-	/**
-	 * This fills the actual whiteList with real EClasses.
-	 * It will additionally be checked recursively if EClasses in the WhiteList require
-	 * further EClasses to prevent model inconsistency.
-	 */
-	private static void unfoldWhiteList() {
-		
-		for(String eClassName: whiteList) {
-			for(EPackage ePackage: ePackages) {				
-				EClass eClass = (EClass) ePackage.getEClassifier(eClassName);
-				if(eClass!=null) {
-					unfoldedWhiteList.add(eClass);
-				}
-			}
-		}		
-		findMoreRequiredClassifier(unfoldedWhiteList);
-	}
-	
-	
-	/**
-	 * This method extends the whiteList by classifiers (meta classes) that are extended by stereotypes
-	 * when using the the profile mechanismn. Meta classes are necessary because profile model instances
-	 * contain not only objects for stereotypes but also for their meta classes.<br/><br/>
-	 * This method also fills the implicitRequirementList with EClasses.
-	 * An EClass is implicitly required if it is supertype for other EClasses on the
-	 * whitelist (or EClasses not on the blacklist) because it contains EAttributes and
-	 * ERferences which are inherited and relevant for the sub types.
-	 * @param oldList
-	 */
-	private static void findMoreRequiredClassifier(List<EClass> oldList) {
-		
-		ArrayList<EClass> currentList = new ArrayList<EClass>(oldList);
-		
-		// find implicit requirement by stereotyping / meta class extension
-		if(profileApplicationInUse) {
-
-			for(EClass req: oldList) {
-				for(EClass metaClass:eClassInfoManagement.getEClassInfo(req).getExtendedMetaClasses()){
-					if(!currentList.contains(metaClass)) {
-						currentList.add(metaClass);
-					}
-				}
-
-			}
-		}
-		unfoldedWhiteList = currentList;
-
-		// find implicit requirements of supertypes
-		for(EClass req: currentList) {
-
-			for(EAttribute ea: req.getEAllAttributes()) {
-				
-				//if EAttribute is derived from SuperType
-				if(!ea.eContainer().equals(req)) {					
-					EClass superType = (EClass) ea.eContainer();
-					//if supertype is not explicitly set on blacklist or already on whitelist
-					if(!unfoldedBlackList.contains(superType) & !unfoldedWhiteList.contains(superType)) {
-						//add superType to implicit requirement list.
-						if(!implicitRequirements.get(REQ_IS).contains(superType)) {
-							implicitRequirements.get(REQ_IS).add(superType);
-						}
-					}
-				}				
-			}			
-		}
-	}
-
-
-
-	private static ArrayList<EClass> findMoreSkips(List<EClass> oldList) {
-		
-		ArrayList<EClass> extendedSkipList = new ArrayList<EClass>();
-		extendedSkipList.addAll(oldList);
-		
-		boolean newEntries = false;
-		
-		for(EClass skip : oldList) {
-			EClassInfo skipInfo = eClassInfoManagement.getEClassInfo(skip);
-			for(List<EClass> mpcList :skipInfo.getMandatoryParentContext().values()) {
-				for(EClass mpc: mpcList) {
-					// only add skip if not already in list and if its not required on white or rootlist
-					if(!oldList.contains(mpc) && !whiteList.contains(mpc.getName()) && !mpc.equals(root)) {
-						extendedSkipList.add(mpc);
-						newEntries = true;
-					}
-				}
-			}
-			for(List<EClass> mpcList :skipInfo.getMandatoryNeighbourContext().values()) {
-				for(EClass mnc: mpcList) {
-					// only add skip if not already in list and if its not required on white or rootlist
-					if(!oldList.contains(mnc) && !whiteList.contains(mnc.getName()) && !mnc.equals(root)) {
-						extendedSkipList.add(mnc);
-						newEntries = true;
-					}
-				}
-			}
-		}
-		
-		if(newEntries) {
-			extendedSkipList = findMoreSkips(extendedSkipList);
-		}
-		return extendedSkipList;
-		
-	}
-	
-	/**
 	 * Checks whether an eClass is part of the blackList or on whiteList or required in other ways.
 	 * The parameter asPivot should be TRUE, if the main focus of
 	 * the generatable transformation lies on that eClass (meaning the eClass is
@@ -1937,10 +1706,10 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 		
 		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
 		
-		boolean blackListed	= unfoldedBlackList.contains(eClass);
-		boolean whiteListed	= unfoldedWhiteList.contains(eClass);
-		boolean assumeAllOnWhitelist = unfoldedWhiteList.isEmpty();
-		boolean requiredForFeatureInheritance = implicitRequirements.get(REQ_IS).contains(eClass);
+		boolean blackListed	= blackList.contains(eClass);
+		boolean whiteListed	= whiteList.contains(eClass);
+		boolean assumeAllOnWhitelist = whiteList.isEmpty();
+		boolean requiredForFeatureInheritance = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
 
 		
 		
@@ -1967,16 +1736,16 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 				//required. If so this EClass is necessary too.					
 				for(EClass mandatoryContext: eClassInfo.getMandatoryContexts()) {			
 
-					if( unfoldedWhiteList.contains(mandatoryContext)
-							|| implicitRequirements.get(REQ_IS).contains(mandatoryContext)
-							|| (unfoldedBlackList.contains(mandatoryContext)==false && assumeAllOnWhitelist)) {
+					if( whiteList.contains(mandatoryContext)
+							|| implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(mandatoryContext)
+							|| (blackList.contains(mandatoryContext)==false && assumeAllOnWhitelist)) {
 						requiredForContexts =  true;
 						break;
 					}		
 				}
 				
 				//check if current eClass is the parent of some white listed EClass and therefore necessary
-				for(EClass whiteListedEClass: unfoldedWhiteList) {
+				for(EClass whiteListedEClass: whiteList) {
 					for(Entry<EReference,List<EClass>> entry: eClassInfoManagement.getAllOptionalParentContext(whiteListedEClass).entrySet()) {
 						if(entry.getValue().contains(eClass)) {
 							requiredForChild = true;
@@ -2015,7 +1784,7 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 	 * @return
 	 */
 	private static boolean isOnlyImplicitlyRequiredForFeatureInheritance(EClass eClass) {
-		if(implicitRequirements.get(REQ_IS).contains(eClass) && !unfoldedWhiteList.contains(eClass)) {
+		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass) && !whiteList.contains(eClass)) {
 			return true;
 		}
 		return false;
@@ -2041,84 +1810,6 @@ public class HenshinTransformationGenerator extends AbstractHenshinTransformatio
 	private static boolean isInheritedReference(EReference eRef, EClass concerningEClass) {
 		
 		return !concerningEClass.getEReferences().contains(eRef);
-	}
-	
-	
-	private static void loadConfiguration(String config) {
-		
-		String pattern = Pattern.quote(System.getProperty("file.separator"));
-		String[] splittedConfigPath = config.split(pattern);
-		
-		Document doc = XMLParser.parseStream(IOUtil.getInputStream(splittedConfigPath[splittedConfigPath.length-1]));
-		
-		Element docElem = doc.getDocumentElement();
-		org.w3c.dom.Node currentNode = null;
-		NodeList currentChildNodes = null;
-		
-		// retrieve and set general settings	
-		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
-		preventInconsistencyThroughSkipping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		currentNode = doc.getElementsByTagName("initialChecks").item(0);		
-		createINITIALS = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
-		disableVariants = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		profileApplicationInUse = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
-		reduceToSuperType_SETUNSET = Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
-		reduceToSuperType_ADDREMOVE = Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
-		reduceToSuperType_CHANGE = Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
-		
-		// retrieve and set meta-model parameters		
-		currentNode = doc.getElementsByTagName("MainModel").item(0);
-		
-		
-		// retrieve and set operation types
-		currentNode = doc.getElementsByTagName("Creates").item(0);
-		createCREATES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Deletes").item(0);
-		createDELETES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Moves").item(0);
-		createMOVES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Changes").item(0);
-		createCHANGES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Adds").item(0);
-		createADDS = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Removes").item(0);
-		createREMOVES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Sets").item(0);
-		createSETS = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Unsets").item(0);
-		createCHANGES = Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		
-		
-		// retrieve and fill root, whiteList and blackList entries		
-		currentNode = docElem.getElementsByTagName("Root").item(0);
-		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
-		rootEClassCanBeNested = Boolean.valueOf(Common.getAttributeValue("nested", currentNode));
-		if(!rootName.equals("")) {
-			//resolve root
-			for(EPackage ePackage: ePackages) {				
-				root = (EClass) ePackage.getEClassifier(rootName);
-			}	
-		}
-		
-		// blackList
-		currentNode = docElem.getElementsByTagName("BlackList").item(0);
-		currentChildNodes = currentNode.getChildNodes();
-		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("EClass")) {
-				blackList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
-			}
-		}
-		// whiteList
-		currentNode = docElem.getElementsByTagName("WhiteList").item(0);
-		currentChildNodes = currentNode.getChildNodes();
-		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("EClass")) {
-				whiteList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
-			}
-		}		
 	}
 	
 	private void finalizeStereotypeVersion(Module module, String outputFileName, EClass context, EClass currentEClass, EReference eRef, OperationType tstype) {

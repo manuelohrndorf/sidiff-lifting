@@ -10,12 +10,20 @@ public class EClassInfoManagement {
 
 	private HashMap<EClass,EClassInfo> eClassInfoMap = new HashMap<EClass, EClassInfo>();
 	private HashMap<EClass,ArrayList<EClass>> abstractToConcreteEClassMap = new HashMap<EClass,ArrayList<EClass>>();
-	private boolean profileApplicationInUse = false;
+	private static EClassInfoManagement instance = null;
+	private static Boolean stereotypeMapping = false;
 	
-	public EClassInfoManagement(Boolean profileApplicationInUse) {
-		this.profileApplicationInUse = profileApplicationInUse;
+	public static EClassInfoManagement getInstance(Boolean enableStereotypeMapping) {
+		if (instance==null) {
+			instance = new EClassInfoManagement(enableStereotypeMapping);
+		}
+		return instance;
 	}
-
+	
+	private EClassInfoManagement(Boolean enableStereotypeMapping) {
+		stereotypeMapping = enableStereotypeMapping;
+	}
+	
 	public void mapConcreteEClassesToAbstractSuperTypes(List<EPackage> ePackages) {
 		for (EPackage ePackage : ePackages) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
@@ -63,7 +71,7 @@ public class EClassInfoManagement {
 					}
 
 					// if using some profiled meta model: map stereotype / meta classes
-					if (profileApplicationInUse) findAndMapStereotypes(eClassInfo);
+					if (stereotypeMapping) findAndMapStereotypes(eClassInfo);
 
 					for (EReference eRef : eClass.getEAllReferences()) {
 
