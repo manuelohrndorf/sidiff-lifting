@@ -29,11 +29,12 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected final String INITIALCHECK_suffix		= "_initialcheck.henshin";
 	
 	protected String outputFolderPath  = null;
+	protected String baseModelRuleFolderPath  = null;
 	protected static List<EPackage> ePackages = null;
 	
 	protected static EClassInfoManagement eClassInfoManagement = null;
 	
-	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES; }
+	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
 	protected static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
 	
 	
@@ -70,7 +71,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected Boolean profileApplicationInUse;
 	protected Boolean disableVariants;
 	
-	
+
 	@Override
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
 		
@@ -201,10 +202,15 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		ePackages = allEPackages;
 		
 	}
+	
+	public void setBaseModelRuleFolderPath(String baseModelRuleFolderPath) {
+		this.baseModelRuleFolderPath = baseModelRuleFolderPath;
+	}
 
 	public EClassInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
 		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClass>>();
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClass>());
+		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClass>());
 		eClassInfoManagement = EClassInfoManagement.getInstance(enableStereotypeMapping);			
 		eClassInfoManagement.mapConcreteEClassesToAbstractSuperTypes(ePackages);
 		eClassInfoManagement.gatherAllEClassInfos(ePackages);

@@ -107,6 +107,14 @@ public class EClassInfo {
 		return false;
 	}
 	
+	public boolean isStereotype() {
+		return stereotypes.isEmpty();
+	}
+	
+	public boolean isExtendedMetaClass(){
+		return extendedMetaClasses.isEmpty();
+	}
+	
 	public ArrayList<EClass> getMandatoryContexts() {
 		
 		ArrayList<EClass> mandatoryContexts = new ArrayList<EClass>();

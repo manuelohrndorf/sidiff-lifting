@@ -61,10 +61,7 @@ public class SergeServiceImpl implements SergeService{
 		/**************************************************************************************************************/		
 		LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 		
-		String pattern = Pattern.quote(System.getProperty("file.separator"));
-		String[] splittedConfigPath = pathToConfig.split(pattern);
-		
-		Document doc = XMLParser.parseStream(IOUtil.getInputStream(splittedConfigPath[splittedConfigPath.length-1]));
+		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
 		
 		Element docElem = doc.getDocumentElement();
 		org.w3c.dom.Node currentNode = null;
@@ -102,6 +99,13 @@ public class SergeServiceImpl implements SergeService{
 		generator.setCreateSETS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
 		currentNode = doc.getElementsByTagName("Unsets").item(0);
 		generator.setCreateCHANGES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		
+		
+		// read ProfiledModel Settings if available
+		if(enableStereotypeMapping) {
+			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
+			generator.setBaseModelRuleFolderPath(String.valueOf(Common.getAttributeValue("path", currentNode)));
+		}
 		
 		
 		// read blacklisted names of EClasses
@@ -308,8 +312,8 @@ public class SergeServiceImpl implements SergeService{
 
 			for(EClass req: oldList) {
 				for(EClass metaClass:eClassInfoManagement.getEClassInfo(req).getExtendedMetaClasses()){
-					if(!currentList.contains(metaClass)) {
-						currentList.add(metaClass);
+					if(!generator.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).contains(metaClass)) {
+						generator.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).add(metaClass);
 					}
 				}
 

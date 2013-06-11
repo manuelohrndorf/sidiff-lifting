@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!ELEMENT Config (GeneralSettings+, MetaModelSettings+, Transformations+, Root+, WhiteList+, BlackList+)>
+<!ELEMENT Config (GeneralSettings+, MetaModelSettings, ProfiledModelSettings?, Transformations+, Root+, WhiteList+, BlackList+)>
 <!ELEMENT GeneralSettings (preventInconsistency+,initialChecks+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
 <!ELEMENT MetaModelSettings (MainModel, RequiredModel)>
+<!ELEMENT ProfiledModelSettings (BaseModelRules)>
+<!ELEMENT BaseModelRules EMPTY>
 <!ELEMENT MainModel EMPTY>
 <!ELEMENT RequiredModel EMPTY>
 <!ELEMENT Transformations (Creates+,Deletes+,Moves+,Sets+,Unsets+,Adds+,Removes+,Changes+)>
@@ -28,6 +30,7 @@
 <!ELEMENT EClass EMPTY>
 <!ATTLIST MainModel nsUri CDATA #REQUIRED>
 <!ATTLIST RequiredModel nsUri CDATA #REQUIRED>
+<!ATTLIST BaseModelRules path CDATA #REQUIRED>
 <!ATTLIST Root name CDATA #REQUIRED>
 <!ATTLIST Root nested CDATA #REQUIRED>
 <!ATTLIST EClass name CDATA #REQUIRED>

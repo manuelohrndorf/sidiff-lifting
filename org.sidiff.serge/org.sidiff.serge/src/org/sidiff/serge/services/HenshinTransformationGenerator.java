@@ -71,210 +71,209 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		if ((isRoot(eClass) && !rootEClassCanBeNested)) return;
 		if (!isAllowed(eClass,true)) return;
 		if (isOnlyImplicitlyRequiredForFeatureInheritance(eClass)) return;
+		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
 		if (!createCREATES) return;
 
-		
-		HashMap<EReference, List<EClass>> optionalParents = eClassInfoManagement.getAllOptionalParentContext(eClass);
-		
-		// Create Modules for every parent in which the EClass may exist.
-		for(Entry<EReference,List<EClass>> pcEntry: optionalParents.entrySet()) {			
-			List<EClass> contexts = pcEntry.getValue();
-			EReference eRef = pcEntry.getKey();
-			
-			for(EClass context: contexts) {
-				
-				if (!isAllowed(context,false)) continue;
-				
-				// Create file name and Module				
-				Module module = henshinFactory.createModule();
-				String outputFileName = "";
-				
-				if(!eClassInfoManagement.hasMultipleOccurences(context, optionalParents)) {
+		if(profileApplicationInUse && !eClassInfo.isStereotype()) {
 
-					LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName());
-					outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+ EXECUTE_suffix;					
-					module.setDescription("Creates one "+eClass.getName()+" in " + context.getName());
-					module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName());
-				
-				}else{
-					
-					LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
-					outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName())+EXECUTE_suffix;					
-					module.setDescription("Creates one "+eClass.getName()+" in " + context.getName() + " with reference "+Common.firstLetterToUpperCase(eRef.getName()));
-					module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
-					
-				}
-				
-				// Add imports for meta model
-				module.getImports().addAll(ePackages);
-								
-				// create rule
-				Rule rule = createSimpleCreateRule(context, eClass, module, eRef,1);
-				Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+			/** Create Modules for every parent in which the EClass may exist. ************************************************************/
+			HashMap<EReference, List<EClass>> optionalParents = eClassInfoManagement.getAllOptionalParentContext(eClass);
+			for(Entry<EReference,List<EClass>> pcEntry: optionalParents.entrySet()) {			
+				List<EClass> contexts = pcEntry.getValue();
+				EReference eRef = pcEntry.getKey();
 
-				// create mandatories if any
-				if(eClassInfo.hasMandatories()) {
+				for(EClass context: contexts) {
 
-					createMandatoryChildren(rule, eClassInfo, newNode);			
-					createMandatoryNeighbours(rule, eClassInfo, newNode);
+					if (!isAllowed(context,false)) continue;
 
-				}
-				
-				// Create stereotype version
-				for(EClass stereotype : eClassInfo.getStereotypes()) {
-					if (!isAllowed(stereotype,true)) continue;
-					EClassInfo stereotypeInfo = eClassInfoManagement.getEClassInfo(stereotype);
-					
-					Module moduleWithStereotype = EcoreUtil.copy(module);
-					moduleWithStereotype.setName(moduleWithStereotype.getName().replaceFirst(eClass.getName(), stereotype.getName()));
-					moduleWithStereotype.setDescription(moduleWithStereotype.getDescription().replaceFirst("Creates one "+eClass.getName(), "Creates one stereotype:"+stereotype.getName()));
-					String stereoOutputFileName = outputFileName.replaceFirst(eClass.getName(), stereotype.getName());
-					
-					Rule ruleWithStereotype = HenshinRuleAnalysisUtilEx.getRulesUnderModule(moduleWithStereotype).get(0);
-					ruleWithStereotype.setName(ruleWithStereotype.getName().replaceFirst(eClass.getName(), stereotype.getName()));
-					ruleWithStereotype.setDescription(ruleWithStereotype.getDescription().replaceFirst("Creates one "+eClass.getName(), "Creates one stereotype:"+stereotype.getName()));
-					//new stereotype node
-					Node newStereotypeNode = HenshinRuleAnalysisUtilEx.createCreateNode(ruleWithStereotype.getRhs(), "", stereotype);
-					//get metaclass node and create edge "base_<metaclass>"
-					Node metaClassNode = null;
-					for(Node node: HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(ruleWithStereotype)) {
-						if(node.getName().equals("New")) {
-							metaClassNode = node;
-							break;
-						}
+					// Create file name and Module				
+					Module module = henshinFactory.createModule();
+					String outputFileName = "";
+
+					if(!eClassInfoManagement.hasMultipleOccurences(context, optionalParents)) {
+
+						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName());
+						outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+ EXECUTE_suffix;					
+						module.setDescription("Creates one "+eClass.getName()+" in " + context.getName());
+						module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName());
+
+					}else{
+
+						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
+						outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName())+EXECUTE_suffix;					
+						module.setDescription("Creates one "+eClass.getName()+" in " + context.getName() + " with reference "+Common.firstLetterToUpperCase(eRef.getName()));
+						module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
+
 					}
-					EReference baseERef = (EReference) stereotype.getEStructuralFeature("base_"+eClass.getName());
-					HenshinRuleAnalysisUtilEx.createCreateEdge(newStereotypeNode, metaClassNode, baseERef);
-					
-					
+
+					// Add imports for meta model
+					module.getImports().addAll(ePackages);
+
+					// create rule
+					Rule rule = createSimpleCreateRule(context, eClass, module, eRef,1);
+					Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+
 					// create mandatories if any
-					if(stereotypeInfo.hasMandatories()) {
+					if(eClassInfo.hasMandatories()) {
 
-						createMandatoryChildren(ruleWithStereotype, stereotypeInfo, newStereotypeNode);			
-						createMandatoryNeighbours(ruleWithStereotype, stereotypeInfo, newStereotypeNode);
+						createMandatoryChildren(rule, eClassInfo, newNode);			
+						createMandatoryNeighbours(rule, eClassInfo, newNode);
 
 					}
-					// finalize stereotype versions (TODO abstract-/subtype replacement missing yet)
-					finalizeStereotypeVersion(moduleWithStereotype, stereoOutputFileName, context, eClass, eRef, OperationType.CREATE);
-				}
-				
-				// create variants (abstract replaces of <<create>> nodes and sub type variants)
-				ArrayList<ModuleFilenamePair> variantList = new ArrayList<ModuleFilenamePair>();
-				ArrayList<ModuleFilenamePair> variantConcretes = null;
-				boolean origContainsAbstrCreateChild = false;
-				
-				if(!disableVariants) {
-					ModuleFilenamePair originalPair = new ModuleFilenamePair(outputFileName, module);
-					variantList.add(originalPair);
-					
-					// create variants of abstract children replacements
-					variantConcretes = replaceCreatableAbstractChildrenWithConcretes(variantList);
-					if(variantConcretes!=null) {
-						variantList.addAll(variantConcretes);
-					}
-					
-					// if by now there is more than one entry in the variantList
-					// we must assume that the original module uses at least one abstract <<create>> child
-					// and therefore must be removed from the variantList
-					if(variantList.size()>1) {
-						origContainsAbstrCreateChild = true;
-					}
-					
-					// create variants of subtype children replacements
-					// if none are found then at least the abstract replacement variants are kept
-					variantList = replaceCreateableChildrenWithSubTypes(variantList);
-					
-					// remove original pair (else mainUnits will be overwritten)
-					// if it uses some abstract <<create>> children and may not stay
-					if(origContainsAbstrCreateChild) {
-						while(variantList.contains(originalPair)) {
+
+					// create variants (abstract replaces of <<create>> nodes and sub type variants)
+					ArrayList<ModuleFilenamePair> variantList = new ArrayList<ModuleFilenamePair>();
+					ArrayList<ModuleFilenamePair> variantConcretes = null;
+					boolean origContainsAbstrCreateChild = false;
+
+					if(!disableVariants) {
+						ModuleFilenamePair originalPair = new ModuleFilenamePair(outputFileName, module);
+						variantList.add(originalPair);
+
+						// create variants of abstract children replacements
+						variantConcretes = replaceCreatableAbstractChildrenWithConcretes(variantList);
+						if(variantConcretes!=null) {
+							variantList.addAll(variantConcretes);
+						}
+
+						// if by now there is more than one entry in the variantList
+						// we must assume that the original module uses at least one abstract <<create>> child
+						// and therefore must be removed from the variantList
+						if(variantList.size()>1) {
+							origContainsAbstrCreateChild = true;
+						}
+
+						// create variants of subtype children replacements
+						// if none are found then at least the abstract replacement variants are kept
+						variantList = replaceCreateableChildrenWithSubTypes(variantList);
+
+						// remove original pair (else mainUnits will be overwritten)
+						// if it uses some abstract <<create>> children and may not stay
+						if(origContainsAbstrCreateChild) {
+							while(variantList.contains(originalPair)) {
 								variantList.remove(originalPair);
-						}
-					}
-				}
-				
-				if(variantList.isEmpty()) {
-					// create initialChecks if any
-					if(createINITIALS) {
-						createInitialChecksForMultiplicities(module.getName(),context,eClass,eRef,OperationType.CREATE);
-					}
-
-					LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + module.getName());
-					
-					// create mainUnit
-					mainUnitCreation(module, eClass, OperationType.CREATE);
-					
-					// serialize
-					serialize(module, outputFileName);
-					
-					// if wished: create inverse
-					if(createDELETES) {
-						// inverse and string replaces
-						Module inverseModule = createInverse(module);
-						LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
-						Common.replaceNewsWithToBeDeleted(inverseModule);
-						
-						// remove old mainUnit and re-create mainUnit & serialize
-				//TODO Test the following: all non-rule-units must be deleted from module.	
-						removeAllNonRuleUnits(inverseModule);	
-				//		inverseModule.getTransformationUnits().clear();
-						mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
-						serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
-						
-						// create initialChecks if any
-						if(createINITIALS) {
-						createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
+							}
 						}
 					}
 
-					
-				}else{
-					for(ModuleFilenamePair pair: variantList) {
-						
-						Module module4variant = pair.getModule();
-						String variantOutputFileName = pair.getOutputFileName();
-						
+					if(variantList.isEmpty()) {
 						// create initialChecks if any
 						if(createINITIALS) {
-							createInitialChecksForMultiplicities(module4variant.getName(),context,eClass,eRef,OperationType.CREATE);
+							createInitialChecksForMultiplicities(module.getName(),context,eClass,eRef,OperationType.CREATE);
 						}
-						
-						// create mainUnit & serialize
-						mainUnitCreation(module4variant, eClass, OperationType.CREATE);
-						serialize(module4variant, variantOutputFileName);
-						
+
+						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + module.getName());
+
+						// create mainUnit
+						mainUnitCreation(module, eClass, OperationType.CREATE);
+
+						// serialize
+						serialize(module, outputFileName);
+
 						// if wished: create inverse
 						if(createDELETES) {
 							// inverse and string replaces
-							Module inverseModule = createInverse(module4variant);
+							Module inverseModule = createInverse(module);
 							LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 							Common.replaceNewsWithToBeDeleted(inverseModule);
-							
+
 							// remove old mainUnit and re-create mainUnit & serialize
-					//TODO Test the following: all non-rule-units must be deleted from module
-							removeAllNonRuleUnits(inverseModule);
-					//		inverseModule.getTransformationUnits().clear();
+							//TODO Test the following: all non-rule-units must be deleted from module.	
+							removeAllNonRuleUnits(inverseModule);	
+							//		inverseModule.getTransformationUnits().clear();
 							mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
-							serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
-							
+							serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
+
 							// create initialChecks if any
 							if(createINITIALS) {
 								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
 							}
 						}
-					}					
+
+
+					}else{
+						for(ModuleFilenamePair pair: variantList) {
+
+							Module module4variant = pair.getModule();
+							String variantOutputFileName = pair.getOutputFileName();
+
+							// create initialChecks if any
+							if(createINITIALS) {
+								createInitialChecksForMultiplicities(module4variant.getName(),context,eClass,eRef,OperationType.CREATE);
+							}
+
+							// create mainUnit & serialize
+							mainUnitCreation(module4variant, eClass, OperationType.CREATE);
+							serialize(module4variant, variantOutputFileName);
+
+							// if wished: create inverse
+							if(createDELETES) {
+								// inverse and string replaces
+								Module inverseModule = createInverse(module4variant);
+								LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
+								Common.replaceNewsWithToBeDeleted(inverseModule);
+
+								// remove old mainUnit and re-create mainUnit & serialize
+								//TODO Test the following: all non-rule-units must be deleted from module
+								removeAllNonRuleUnits(inverseModule);
+								//		inverseModule.getTransformationUnits().clear();
+								mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
+								serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
+
+								// create initialChecks if any
+								if(createINITIALS) {
+									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
+								}
+							}
+						}					
+					}
 				}
 			}
+			/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
+		}else{
 
+			// Create file name and Module				
+			Module module = henshinFactory.createModule();
+			String outputFileName = "";
 
+			LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName());
+			outputFileName = outputFolderPath + CREATE_prefix + eClass.getName()+ EXECUTE_suffix;					
+			module.setDescription("Creates one "+eClass.getName());
+			module.setName(CREATE_prefix + eClass.getName());
+			
+			// Add imports for meta model
+			module.getImports().addAll(ePackages);
+
+			// create rule
+			Rule rule = createSimpleCreateRule(null, eClass, module, null,1);
+			Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+
+			// create mandatories if any
+			if(eClassInfo.hasMandatories()) {
+
+				createMandatoryChildren(rule, eClassInfo, newNode);			
+				createMandatoryNeighbours(rule, eClassInfo, newNode);
+
+			}
+
+			// create mainUnit
+			mainUnitCreation(module, eClass, OperationType.CREATE);
+
+			// serialize
+			serialize(module, outputFileName);
+			
+			//TODO inverses, variants, initials
 		}
+			
 	}
 
 	@Override
 	public void generate_Update_Module(EClass eClass) {
 		
-		if (!(isAllowed(eClass,true) || isOnlyImplicitlyRequiredForFeatureInheritance(eClass)))  return;
+		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
 		
+		if (!(isAllowed(eClass,true) || isOnlyImplicitlyRequiredForFeatureInheritance(eClass)))  return;
+		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 
@@ -320,6 +319,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					// create attribute
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.firstLetterToUpperCase(ea.getName()));
 	
+					
+					// if profiledModel then link mandatory neighbours (expecially the meta class)
+					if(profileApplicationInUse) {
+						createMandatoryNeighbours(rule, eClassInfo, rhsNode);
+					}
+
 					// create mainUnits & put TS in map for later serializing
 					mainUnitCreation(SET_Module, eClass, OperationType.SET);
 					moduleMap.put(SET_Module, outputFileName);	
@@ -416,6 +421,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	public void generate_MOVE_Module(EClass eClass) {
 		
 		if (!isAllowed(eClass,true) || createMOVES==false)  return;
+		if (profileApplicationInUse && eClassInfoManagement.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 		
@@ -1811,48 +1817,5 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		return !concerningEClass.getEReferences().contains(eRef);
 	}
-	
-	private void finalizeStereotypeVersion(Module module, String outputFileName, EClass context, EClass currentEClass, EReference eRef, OperationType tstype) {
-		
-		// create initialChecks if any
-		if(createINITIALS) {
-			createInitialChecksForMultiplicities(module.getName(),context,currentEClass,eRef,OperationType.CREATE);
-		}
 
-		LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + module.getName());
-		
-		// create mainUnit
-		mainUnitCreation(module, currentEClass, OperationType.CREATE);
-		
-		// serialize
-		serialize(module, outputFileName);
-		
-		// if wished: create inverse
-		if(createDELETES) {
-			// inverse and string replaces
-			Module inverseModule = createInverse(module);
-			LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
-			Common.replaceNewsWithToBeDeleted(inverseModule);
-			
-			
-			//TODO Test the following: mainUnit is deleted from module
-			// remove old mainUnit and re-create mainUnit & serialize
-			Iterator<Unit> itUnit = inverseModule.getUnits().iterator();
-			while(itUnit.hasNext()){
-				Unit unit = itUnit.next();
-				if(!(unit instanceof Rule)) {
-					if(unit.getName().equals("mainUnit")) {
-						itUnit.remove(); //will remove current unit (not the iterator)
-					}
-				}
-			}
-			mainUnitCreation(inverseModule, currentEClass, OperationType.DELETE);			
-			serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
-			
-			// create initialChecks if any
-			if(createINITIALS) {
-				createInitialChecksForMultiplicities(inverseModule.getName(),context,currentEClass,eRef,OperationType.DELETE);
-			}
-		}
-	}	
 }

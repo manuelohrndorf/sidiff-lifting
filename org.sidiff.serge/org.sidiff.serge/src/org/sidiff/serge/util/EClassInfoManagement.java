@@ -434,7 +434,6 @@ public class EClassInfoManagement {
 		}
 		return null;
 	}
-		
 	
 	/**** private methods *********************************************************************************/
 
@@ -722,4 +721,6 @@ public class EClassInfoManagement {
 		}
 		
 	}
+
+
 }

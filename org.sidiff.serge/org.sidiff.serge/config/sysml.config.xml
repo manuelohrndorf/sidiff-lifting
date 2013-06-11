@@ -4,7 +4,7 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<initialChecks allow="true" />
-		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="true"/>
    		<modelUsesProfileMechanism value="true"/>
 	</GeneralSettings>
@@ -14,6 +14,10 @@
 		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
 		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
 	</MetaModelSettings>
+	
+	<ProfiledModelSettings>
+		<BaseModelRules path="RESULTS/UML/" />	
+	</ProfiledModelSettings>
 	
 	<Transformations>
 		<Creates allow="true" />
@@ -31,28 +35,17 @@
 	<Root name="Model" nested="false"/>
 	
 	<WhiteList>			
-			
-			<!-- some sysml elements -->	
-			<EClass name="Block"/>
-		
-			<!-- some uml elements -->
-    		<EClass name="Operation"/>
+
+		<EClass name="Block" />
+		<EClass name="Optional" />
+		<EClass name="ControlOperatior" />
+		<EClass name="ViewPoint" />
+		<EClass name="Conform" />
 	
 	</WhiteList>
 	
 	<BlackList>
-			
-			<!-- some sysml elements -->
-			<EClass name="ConstraintBlock"/>
-	
-			<!-- some uml elements -->
-		    <EClass name="Constraint"/>
-    		<EClass name="Expression"/>
-    		<EClass name="InputPin"/>
-    		<EClass name="OutputPin"/>
-    		<EClass name="SendSignalAction"/>
-    		<EClass name="Pin"/>
-    		<EClass name="ValuePin"/>
+
     		
 	</BlackList>
 	
