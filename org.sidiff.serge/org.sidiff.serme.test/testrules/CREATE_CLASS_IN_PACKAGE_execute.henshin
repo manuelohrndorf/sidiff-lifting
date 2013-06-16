@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" description="Creates a Class in Package" name="CREATE_CLASS_IN_PACKAGE">
+  <rules name="CreateClassInPackage">
+    <parameters name="Selected"/>
+    <parameters name="New"/>
+    <parameters name="Name"/>
+    <parameters name="Visibility"/>
+    <parameters name="QualifiedName"/>
+    <parameters name="IsLeaf"/>
+    <parameters name="IsAbstract"/>
+    <parameters name="IsActive"/>
+    <lhs name="LHS">
+      <nodes name="Selected">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="New" incoming="//@rules.0/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="QualifiedName">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement/qualifiedName"/>
+        </attributes>
+        <attributes value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes value="IsActive">
+          <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+      <nodes name="Selected" outgoing="//@rules.0/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+      </nodes>
+      <edges source="//@rules.0/@rhs/@nodes.1" target="//@rules.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.0/@lhs/@nodes.0" image="//@rules.0/@rhs/@nodes.1"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/3.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" name="mainUnit" subUnits="//@rules.0">
+    <parameters name="SelectedPackage"/>
+    <parameters name="NewClass"/>
+    <parameters name="Name"/>
+    <parameters name="Visibility"/>
+    <parameters name="QualifiedName"/>
+    <parameters name="IsLeaf"/>
+    <parameters name="IsAbstract"/>
+    <parameters name="IsActive"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.6" target="//@rules.0/@parameters.6"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.5" target="//@rules.0/@parameters.5"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.7" target="//@rules.0/@parameters.7"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.2" target="//@rules.0/@parameters.2"/>
+    <parameterMappings source="//@rules.0/@parameters.1" target="//@transformationUnits.0/@parameters.1"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.4" target="//@rules.0/@parameters.4"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.0" target="//@rules.0/@parameters.0"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.3" target="//@rules.0/@parameters.3"/>
+  </transformationUnits>
+</henshin:TransformationSystem>
