@@ -53,6 +53,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	 * - reuse of finalizeStereotypeVersion()-content to avoid redundant code
 	 * - externalizing of strings and more refactoring
 	 * - variant matrix with bitsets to avoid semantically equal trafos
+	 * - initialchecks for variants are still missing
+	 * - moves - cross product of targets missing? Maybe use supertype for "OldTarget"
 	 **/ 
 	
 	/** Henshin access ****************************************************************************/
@@ -74,7 +76,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
 		if (!createCREATES) return;
 
-		if(profileApplicationInUse && !eClassInfo.isStereotype()) {
+		if(!profileApplicationInUse || (profileApplicationInUse && !eClassInfo.isStereotype())) {
 
 			/** Create Modules for every parent in which the EClass may exist. ************************************************************/
 			HashMap<EReference, List<EClass>> optionalParents = eClassInfoManagement.getAllOptionalParentContext(eClass);

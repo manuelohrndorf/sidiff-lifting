@@ -218,8 +218,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return eClassInfoManagement;
 	}
 	
-	/***** public GETTER 
-	 * @return *****************************************************************************/
+	/***** public GETTER  ******************************************************************************/
 	
 	public boolean getPreventInconsistencyThroughSkipping() {
 		return preventInconsistencyThroughSkipping;
