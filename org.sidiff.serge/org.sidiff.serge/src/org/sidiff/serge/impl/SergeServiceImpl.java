@@ -98,7 +98,7 @@ public class SergeServiceImpl implements SergeService{
 		currentNode = doc.getElementsByTagName("Sets").item(0);
 		generator.setCreateSETS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
 		currentNode = doc.getElementsByTagName("Unsets").item(0);
-		generator.setCreateCHANGES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		generator.setCreateUNSETS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
 		
 		
 		// read ProfiledModel Settings if available
