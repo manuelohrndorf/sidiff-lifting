@@ -1,41 +1,34 @@
 package org.sidiff.serme.test;
 
-import java.util.Iterator;
-
-import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
+import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.papyrus.sysml.SysmlPackage;
-import org.eclipse.papyrus.sysml.internal.impl.SysmlPackageImpl;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.internal.impl.UMLPackageImpl;
 
 public class MergerExecution implements IApplication {
 
 	private boolean editRule = true;
 	private String folder = "testrules/";
-	//private String stmodule = "APPLY_STEREOTYPE.henshin";
-	private String stmodule = "ADD_STEREOTYPE_TO_EDITRULE.henshin";
+	// private String stmodule = "APPLY_STEREOTYPE.henshin";
+	//private String stmodule = "ADD_STEREOTYPE_TO_EDITRULE.henshin";
+	private String stmodule = "RENAME_TO_STEREOTYPE_IN_EDITRULE.henshin";
 	private String target = "SET_Class_Name_execute.henshin";
 
 	// private String henshinFilename = folder +
@@ -63,74 +56,72 @@ public class MergerExecution implements IApplication {
 	}
 
 	public void run() {
-
+		
 		System.out.println("Generating stereotyped editrule...");
 
+		String baseTypeS = "Class";
+		String baseReferenceS = "base_" + baseTypeS;
+		String stereoTypeS = "Block";
+		String stereoPackageS = "http://www.eclipse.org/papyrus/0.7.0/SysML";		
+		
 		// Create a resource set:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(folder);
-		
+
 		// Load the module:
 		Module module = resourceSet.getModule(stmodule, true);
-		
-		// Load the model into an EGraph:
+
 		EGraph graph = new EGraphImpl(resourceSet.getResource(target));
 		graph.addTree(UMLPackage.eINSTANCE);
 		graph.addTree(SysmlPackage.eINSTANCE);
-		
-		String baseType = "Class";
-		String stereoType = "Block";
-		String stereoPackage = "http://www.eclipse.org/papyrus/0.7.0/SysML";
-		
+
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
-		
-		RuleApplication ruleapp = new RuleApplicationImpl(engine);
-		ruleapp.setEGraph(graph);		
-		ruleapp.setRule((Rule) module.getUnit("AddStereoTypeToEditRule"));
 
-		ruleapp.setParameterValue("baseType", baseType);
-		ruleapp.setParameterValue("stereoType", stereoType);
-		ruleapp.setParameterValue("stereoPackage", stereoPackage);
-		ruleapp.setParameterValue("baseReference", "base_" + baseType);
+		UnitApplication unitapp = new UnitApplicationImpl(engine);
+		unitapp.setEGraph(graph);
+		unitapp.setUnit((Unit) module.getUnit("mainUnit"));
+
+		unitapp.setParameterValue("baseType", baseTypeS);
+		unitapp.setParameterValue("stereoType", stereoTypeS);
+	//	unitapp.setParameterValue("stereoPackage", stereoPackageS);
+	//	unitapp.setParameterValue("baseReference", baseReferenceS);
+		
+	//	Parameter baseType = HenshinFactoryImpl.eINSTANCE.createParameter();
+	//	Parameter stereoType = HenshinFactoryImpl.eINSTANCE.createParameter("stereoType");
+	//	Parameter stereoPackage = HenshinFactoryImpl.eINSTANCE.createParameter("stereoPackage");
+	//	Parameter baseReference = HenshinFactoryImpl.eINSTANCE.createParameter("baseReference");
 
 		
-		
-		
-		
-		//UnitApplication unitapp = new UnitApplicationImpl(engine);
-		//unitapp.setEGraph(graph);
-		//unitapp.setUnit((Unit) module.getUnit("mainUnit"));		
-		
-		
-		//unitapp.setParameterValue("baseType", baseType);
-		//unitapp.setParameterValue("stereoType", stereoType);	
-		//unitapp.setParameterValue("stereoPackage", stereoPackage);
+	//	Match partialMatch = new MatchImpl((Rule) module.getUnit("AddStereoTypeToEditRule"));
+	//	partialMatch.setParameterValue(baseType, "X");
 
+
+		// Iterate over all matches and print them on the console:
+		//for (Match match : engine.findMatches((Rule) module.getUnit("AddStereoTypeToEditRule"), graph, partialMatch)) {
+		//  System.out.println(match);
+		//}
+		
 
 		// Execute the transformation unit:
 		try {
-		//	InterpreterUtil.executeOrDie(ruleapp);
-			boolean res = ruleapp.execute(null);
-			if (res){
-				System.out.println("Successfully added stereotype to editrule.");
-			} else {
-				System.out.println("Could not addstereotype to editrule: no match");
-			}
 			
-		}
-		catch (Exception e) {
+			for(int i=1; i < 11; i++){
+								
+				System.out.println(unitapp.execute(null));
+			
+				//InterpreterUtil.executeOrDie(unitapp);
+			}
+
+			
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		resourceSet.saveEObject(graph.getRoots().get(0),
+				target.replace(baseTypeS, stereoTypeS));
 		
-		
-		resourceSet.saveEObject(graph.getRoots().get(0), target.replace(baseType, stereoType));
-	
-
-		
-		
-
 
 		// MergeEngine mergeEngine = new MergeEngine(henshinFilename);
 		// HenshinResourceSet resourceSet = new HenshinResourceSet();
