@@ -25,12 +25,14 @@ import org.eclipse.uml2.uml.UMLPackage;
 public class MergerExecution implements IApplication {
 
 	private boolean editRule = true;
-	private String folder = "testrules/";
-	private String stmodule = "CREATE_STEREOTYPE_IN_EDITRULE.henshin";
+	private String folder = "testrules/source/";
+	private String stmodule = "DELETE_STEREOTYPE_IN_EDITRULE.henshin";
+	//private String stmodule = "CREATE_STEREOTYPE_IN_EDITRULE.henshin";
 	//private String stmodule = "ADD_STEREOTYPE_TO_EDITRULE.henshin";
 	//private String stmodule = "RENAME_TO_STEREOTYPE_IN_EDITRULE.henshin";	
 	//private String target = "SET_Class_Name_execute.henshin";
-	private String target = "CREATE_ClassInPackage_execute.henshin";
+	//private String target = "CREATE_ClassInPackage_execute.henshin";
+	private String target = "DELETE_ClassInClass_execute.henshin";
 
 	// private String henshinFilename = folder +
 	// "CREATE_CLASS_IN_PACKAGE_execute.henshin";
@@ -69,7 +71,7 @@ public class MergerExecution implements IApplication {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(folder);
 
 		// Load the module:
-		Module module = resourceSet.getModule(stmodule, true);
+		Module module = resourceSet.getModule("../../../org.sidiff.sysml.editrules.atomic/transformation/higherorder/"+stmodule, true);
 
 		EGraph graph = new EGraphImpl(resourceSet.getResource(target));
 		graph.addTree(UMLPackage.eINSTANCE);
@@ -121,7 +123,7 @@ public class MergerExecution implements IApplication {
 		}
 		
 		resourceSet.saveEObject(graph.getRoots().get(0),
-				target.replace(baseTypeS, stereoTypeS));
+				"../target/" + target.replace(baseTypeS, stereoTypeS));
 		
 
 		// MergeEngine mergeEngine = new MergeEngine(henshinFilename);
