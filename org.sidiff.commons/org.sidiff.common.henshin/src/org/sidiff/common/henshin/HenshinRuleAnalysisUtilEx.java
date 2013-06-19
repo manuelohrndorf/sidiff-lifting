@@ -2,8 +2,10 @@ package org.sidiff.common.henshin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
@@ -1266,7 +1268,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the multi rule of the target image node.
 	 * @return the node mapping or null if no mapping exists.
 	 */
-	public static Mapping findAUMappingByOrigin(List<Mapping> mappings, Node origin, Rule multiRule) {
+	public static Mapping findAUMappingByOrigin(Collection<Mapping> mappings, Node origin, Rule multiRule) {
 		for (Mapping mapping : mappings) {
 			if ((mapping.getOrigin() == origin)
 					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
@@ -1287,7 +1289,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the multi rule of the target image node.
 	 * @return the node mapping or null if no mapping exists.
 	 */
-	public static Mapping findAUMappingByImage(List<Mapping> mappings, Node image, Rule multiRule) {
+	public static Mapping findAUMappingByImage(Collection<Mapping> mappings, Node image, Rule multiRule) {
 		for (Mapping mapping : mappings) {
 			if ((mapping.getImage() == image)
 					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
@@ -2063,5 +2065,59 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Node getNodeOrigin(Node image, List<Mapping> mappings) {
 		Mapping mapping = getNodeOriginMapping(image, mappings);
 		return (mapping != null) ? mapping.getOrigin() : null;
+	}
+	
+	/**
+	 * Filters the list of mappings for LHS mappings.
+	 * 
+	 * @param mappings
+	 *            LHS and RHS mappings.
+	 * @return only LHS mappings.
+	 */
+	public static Set<Mapping> getLHSMappings(Collection<Mapping> mappings) {
+		Set<Mapping> lhsMappings = new HashSet<Mapping>();
+
+		for (Mapping mapping : mappings) {
+			if (isLHSNode(mapping.getImage())) {
+				lhsMappings.add(mapping);
+			}
+		}
+
+		return lhsMappings;
+	}
+	
+	/**
+	 * Filters the list of mappings for RHS mappings.
+	 * 
+	 * @param mappings
+	 *            LHS and RHS mappings.
+	 * @return only RHS mappings.
+	 */
+	public static  Set<Mapping> getRHSMappings(Collection<Mapping> mappings) {
+		Set<Mapping> rhsMappings = new HashSet<Mapping>();
+
+		for (Mapping mapping : mappings) {
+			if (isRHSNode(mapping.getImage())) {
+				rhsMappings.add(mapping);
+			}
+		}
+
+		return rhsMappings;
+	}
+	
+	/**
+	 * Tests if the unit is a amalgamation unit := kernel of a multi-rule.
+	 * 
+	 * @param unit the unit to test.
+	 * @return <code>true</code> if the unit is a amalgamation unit; <code>false</code> otherwise.
+	 */
+	public static boolean isAmalgamationUnit(Unit unit) {
+		if (unit instanceof Rule) {
+			if (((Rule) unit).getMultiRules().size() > 0) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
