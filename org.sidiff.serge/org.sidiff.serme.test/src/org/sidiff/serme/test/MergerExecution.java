@@ -1,7 +1,12 @@
 package org.sidiff.serme.test;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -69,16 +74,12 @@ public class MergerExecution implements IApplication {
 		
 		// Load the model into an EGraph:
 		EGraph graph = new EGraphImpl(resourceSet.getResource(target));
-		
-		
+		graph.addTree(UMLPackage.eINSTANCE);
 		graph.addTree(SysmlPackage.eINSTANCE);
-		//graph.addTree(UMLPackage.eINSTANCE);
-		//graph.addTree(EcorePackage.eINSTANCE);
 		
 		String baseType = "Class";
 		String stereoType = "Block";
-		//String stereoPackage = "http://www.eclipse.org/papyrus/0.7.0/SysML";
-		String stereoPackage = "sysml";
+		String stereoPackage = "http://www.eclipse.org/papyrus/0.7.0/SysML";
 		
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
@@ -90,7 +91,12 @@ public class MergerExecution implements IApplication {
 		ruleapp.setParameterValue("baseType", baseType);
 		ruleapp.setParameterValue("stereoType", stereoType);
 		ruleapp.setParameterValue("stereoPackage", stereoPackage);
+		ruleapp.setParameterValue("baseReference", "base_" + baseType);
 
+		
+		
+		
+		
 		//UnitApplication unitapp = new UnitApplicationImpl(engine);
 		//unitapp.setEGraph(graph);
 		//unitapp.setUnit((Unit) module.getUnit("mainUnit"));		
@@ -100,15 +106,17 @@ public class MergerExecution implements IApplication {
 		//unitapp.setParameterValue("stereoType", stereoType);	
 		//unitapp.setParameterValue("stereoPackage", stereoPackage);
 
-		
-
-
 
 		// Execute the transformation unit:
 		try {
-			InterpreterUtil.executeOrDie(ruleapp);
-		//	InterpreterUtil.executeOrDie(unitapp);
-			System.out.println("Successfully added stereotype to editrule.");
+		//	InterpreterUtil.executeOrDie(ruleapp);
+			boolean res = ruleapp.execute(null);
+			if (res){
+				System.out.println("Successfully added stereotype to editrule.");
+			} else {
+				System.out.println("Could not addstereotype to editrule: no match");
+			}
+			
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
