@@ -26,10 +26,11 @@ public class MergerExecution implements IApplication {
 
 	private boolean editRule = true;
 	private String folder = "testrules/";
-	// private String stmodule = "APPLY_STEREOTYPE.henshin";
+	private String stmodule = "CREATE_STEREOTYPE_IN_EDITRULE.henshin";
 	//private String stmodule = "ADD_STEREOTYPE_TO_EDITRULE.henshin";
-	private String stmodule = "RENAME_TO_STEREOTYPE_IN_EDITRULE.henshin";
-	private String target = "SET_Class_Name_execute.henshin";
+	//private String stmodule = "RENAME_TO_STEREOTYPE_IN_EDITRULE.henshin";	
+	//private String target = "SET_Class_Name_execute.henshin";
+	private String target = "CREATE_ClassInPackage_execute.henshin";
 
 	// private String henshinFilename = folder +
 	// "CREATE_CLASS_IN_PACKAGE_execute.henshin";
@@ -83,8 +84,8 @@ public class MergerExecution implements IApplication {
 
 		unitapp.setParameterValue("baseType", baseTypeS);
 		unitapp.setParameterValue("stereoType", stereoTypeS);
-	//	unitapp.setParameterValue("stereoPackage", stereoPackageS);
-	//	unitapp.setParameterValue("baseReference", baseReferenceS);
+		unitapp.setParameterValue("stereoPackage", stereoPackageS);
+		unitapp.setParameterValue("baseReference", baseReferenceS);
 		
 	//	Parameter baseType = HenshinFactoryImpl.eINSTANCE.createParameter();
 	//	Parameter stereoType = HenshinFactoryImpl.eINSTANCE.createParameter("stereoType");
