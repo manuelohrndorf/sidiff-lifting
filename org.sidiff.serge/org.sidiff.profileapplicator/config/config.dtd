@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!ELEMENT Config (GeneralSettings+, ProfileSettings+, StereoTypes+)>
-<!ELEMENT GeneralSettings (baseTypeOnly+)>
-<!ELEMENT ProfileSettings (BasePackage+, StereoPackage+)>
+<!ELEMENT Config (ProfileSettings+, StereoTypes+)>
+<!ELEMENT ProfileSettings (MetaInstances, BasePackage+, StereoPackage+)>
 <!ELEMENT StereoTypes (StereoType+)>
 
-<!ELEMENT baseTypeOnly EMPTY>
-
+<!ELEMENT MetaInstances EMPTY>
 <!ELEMENT BasePackage EMPTY>
 <!ELEMENT StereoPackage EMPTY>
 
 <!ELEMENT StereoType EMPTY>
 
 
-<!ATTLIST baseTypeOnly allow CDATA #REQUIRED>
-
+<!ATTLIST MetaInstances allow CDATA #REQUIRED>
 <!ATTLIST BasePackage nsUri CDATA #REQUIRED>
 <!ATTLIST StereoPackage nsUri CDATA #REQUIRED>
 
