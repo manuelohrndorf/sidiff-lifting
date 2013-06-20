@@ -10,6 +10,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.profileapplicator.ProfileApplicatorService;
 import org.sidiff.profileapplicator.services.ProfileApplicator;
+import org.sidiff.profileapplicator.util.Common;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,6 +40,9 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			applicator.setConfigPath(pathToConfig);
 			applicator.setInputFolderPath(pathToInputFolder);
 			applicator.setOutputFolderPath(pathToOutputFolder);
+			
+		
+			LogUtil.log(LogEvent.NOTICE, applicator.getConfigPath());
 
 			LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 
@@ -53,6 +57,9 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			currentNode = doc.getElementsByTagName("MetaInstances").item(0);
 			applicator.setmetaInstances((Boolean.valueOf(Common
 					.getAttributeValue("allow", currentNode))));
+		
+			LogUtil.log(LogEvent.NOTICE, "Adding BasePackages...");
+
 
 			NodeList basePackageNodes = doc.getElementsByTagName("BasePackage");
 			for (int i = 0; i <= basePackageNodes.getLength() - 1; i++) {
@@ -67,6 +74,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			}
 			applicator.setBasePackages(basePackages);
 
+			LogUtil.log(LogEvent.NOTICE, "Adding StereoPackages...");
+
 			NodeList stereoPackageNodes = doc
 					.getElementsByTagName("StereoPackage");
 			for (int i = 0; i <= stereoPackageNodes.getLength() - 1; i++) {
@@ -80,6 +89,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				}
 			}
 			applicator.setStereoPackages(stereoPackages);
+
+			LogUtil.log(LogEvent.NOTICE, "Adding stereoType rule parameters...");
 
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {

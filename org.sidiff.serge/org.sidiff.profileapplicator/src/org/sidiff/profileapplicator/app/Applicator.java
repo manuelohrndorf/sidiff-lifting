@@ -16,8 +16,9 @@ public class Applicator implements IApplication {
 		
     	String FILE_SEPERATOR = System.getProperty("file.separator");
 		String[] argument = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
-		String INPUT_CONFIG_PATH = argument[0];
-		String INPUT_FOLDER_PATH = argument[1] + FILE_SEPERATOR;	
+	
+		String INPUT_FOLDER_PATH = argument[0] + FILE_SEPERATOR;	
+		String INPUT_CONFIG_PATH = argument[1];
 		String OUTPUT_FOLDER_PATH = argument[2] + FILE_SEPERATOR;
 		
 					
