@@ -2106,18 +2106,33 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Tests if the unit is a amalgamation unit := kernel of a multi-rule.
+	 * Tests if the rule is kernel-rule of multi-rules
+	 * 
+	 * @param kernelRule the rule to test.
+	 * @return <code>true</code> if the rule is a kernel rule; <code>false</code> otherwise.
+	 */
+	public static boolean isKernelRule(Rule kernelRule) {
+		if (kernelRule.getMultiRules().size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Tests if the unit is a amalgamation unit := unit -> kernel-rule -> multi-rules
 	 * 
 	 * @param unit the unit to test.
 	 * @return <code>true</code> if the unit is a amalgamation unit; <code>false</code> otherwise.
 	 */
 	public static boolean isAmalgamationUnit(Unit unit) {
-		if (unit instanceof Rule) {
-			if (((Rule) unit).getMultiRules().size() > 0) {
-				return true;
-			}
-		}
+		List<Unit> subUnits = unit.getSubUnits(false);
 		
-		return false;
+		if ((subUnits.size() == 1) && (subUnits.get(0) instanceof Rule)) {
+			Rule kernelRule = (Rule) subUnits.get(0);
+			return isKernelRule(kernelRule);
+		} else {
+			return false;
+		}
 	}
 }
