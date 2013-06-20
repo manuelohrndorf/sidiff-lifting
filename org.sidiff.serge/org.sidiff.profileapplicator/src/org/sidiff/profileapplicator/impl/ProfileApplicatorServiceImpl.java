@@ -30,13 +30,14 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	}
 
-	public void init(Class<?> service, String pathToConfig,
+	public void init(Class<?> service, String package_loc, String pathToConfig,
 			String pathToInputFolder, String pathToOutputFolder) {
 
 		if (service == ProfileApplicator.class) {
 
 			applicator = new ProfileApplicator();
 
+			applicator.setHotsPath(package_loc + "hots/");
 			applicator.setConfigPath(pathToConfig);
 			applicator.setInputFolderPath(pathToInputFolder);
 			applicator.setOutputFolderPath(pathToOutputFolder);
@@ -69,7 +70,9 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				EPackage basePackage = EPackage.Registry.INSTANCE
 						.getEPackage(uri);
 				if (!basePackages.contains(basePackage)) {
-					basePackages.add(basePackage);
+					basePackages.add(basePackage);	
+					LogUtil.log(LogEvent.NOTICE, "Package: " + basePackage);
+
 				}
 			}
 			applicator.setBasePackages(basePackages);

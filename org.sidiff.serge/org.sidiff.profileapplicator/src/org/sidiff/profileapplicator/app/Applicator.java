@@ -20,12 +20,13 @@ public class Applicator implements IApplication {
 		String INPUT_FOLDER_PATH = argument[0] + FILE_SEPERATOR;	
 		String INPUT_CONFIG_PATH = argument[1];
 		String OUTPUT_FOLDER_PATH = argument[2] + FILE_SEPERATOR;
+		String PACKAGE_LOC = argument[3] + FILE_SEPERATOR;
 		
 					
 		/*** Start generating rules*********************************************************************/
 		
 		ProfileApplicatorService applicatingService = ServiceHelper.getService(Activator.getContext(), ProfileApplicatorService.class);
-		applicatingService.init(ProfileApplicator.class, INPUT_CONFIG_PATH, INPUT_FOLDER_PATH, OUTPUT_FOLDER_PATH);
+		applicatingService.init(ProfileApplicator.class, PACKAGE_LOC, INPUT_CONFIG_PATH, INPUT_FOLDER_PATH, OUTPUT_FOLDER_PATH);
 		applicatingService.applyProfile(ProfileApplicator.class);
 		
 				

@@ -17,8 +17,17 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class ProfileApplicator {
 
-	private String hotsPath = "hots/";
+	// TODO
+	/*
+	 * 
+	 * Better structure Remove imports/plugin dependencies/launch
+	 * parameterplugin
+	 * frozen model fix
+	 * support all hots and stereoTypes
+	 * check for correctness
+	 */
 
+	private String hotsPath = null;
 	private String inputFolderPath = null;
 	private String configPath = null;
 	private String outputFolderPath = null;
@@ -43,51 +52,62 @@ public class ProfileApplicator {
 		File hotsFolder = new File(this.hotsPath);
 		File[] hotsFiles = hotsFolder.listFiles();
 
-		for (int i = 0; i < hotsFiles.length - 1; i++) {
+		for (int z = 0; z < 1; z++) {
+			
+			for (int i = 0; i < 3; i++) {
 
-			Module module = hotsResourceSet.getModule(hotsFiles[i].getName(),
-					true);
+				if (hotsFiles[i].getName().endsWith(".henshin")) {
+					Module module = hotsResourceSet.getModule(
+							hotsFiles[i].getAbsolutePath(), false);
 
-			for (int l = 0; l < sourceFiles.length - 1; l++) {
+					for (int l = 0; l < sourceFiles.length - 1; l++) {
 
-				EGraph graph = new EGraphImpl(
-						inputResourceSet.getResource(sourceFiles[l].getName()));
+						if (sourceFiles[l].getName().endsWith(".henshin")) {
 
-				for (int k = 0; k < this.basePackages.size(); k++) {
-					graph.addTree(this.basePackages.get(k));
+							EGraph graph = new EGraphImpl(
+									inputResourceSet.getResource(sourceFiles[l]
+											.getName()));
+
+							for (int k = 0; k < this.basePackages.size(); k++) {
+								graph.addTree(this.basePackages.get(k));
+							}
+
+							for (int j = 0; j < this.stereoPackages.size(); j++) {
+								graph.addTree(this.stereoPackages.get(j));
+							}
+
+							// Create an engine and a rule application:
+							Engine engine = new EngineImpl();
+
+							UnitApplication unitapp = new UnitApplicationImpl(
+									engine);
+							unitapp.setEGraph(graph);
+							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
+
+							// Testing
+							unitapp.setParameterValue("stereoPackage",
+									this.stereoPackages.get(0).getNsURI());
+
+							unitapp.setParameterValue("stereoType",
+									this.stereoTypes.get(z));
+							unitapp.setParameterValue("baseType",
+									this.baseTypes.get(z));
+							unitapp.setParameterValue("baseReference",
+									this.baseReferences.get(z));
+
+							System.out.println("Executing hot: " + hotsFiles[i].getName() + " for stereotype: "  + this.stereoTypes.get(z) + " on ER: " + sourceFiles[l].getName() );
+							boolean applied = (unitapp.execute(null));
+							
+							String outputName = outputFolderPath + sourceFiles[l].getName();
+							
+							if(applied)
+								outputName = outputName.replace(this.baseTypes.get(z),this.stereoTypes.get(z));
+							
+							inputResourceSet.saveEObject(graph.getRoots().get(0),outputName);
+						}
+
+					}
 				}
-
-				for (int j = 0; j < this.stereoPackages.size(); j++) {
-					graph.addTree(this.stereoPackages.get(j));
-				}
-
-				// Create an engine and a rule application:
-				Engine engine = new EngineImpl();
-
-				UnitApplication unitapp = new UnitApplicationImpl(engine);
-				unitapp.setEGraph(graph);
-				unitapp.setUnit((Unit) module.getUnit("mainUnit"));
-
-				unitapp.setParameterValue("stereoPackage",
-						this.stereoPackages.get(0));
-
-				for (int z = 0; z < this.stereoTypes.size(); z++) {
-
-					unitapp.setParameterValue("stereoType",
-							this.stereoTypes.get(z));
-					unitapp.setParameterValue("baseType", this.baseTypes.get(z));
-					unitapp.setParameterValue("baseReference",
-							this.baseReferences.get(z));
-
-					System.out.println(unitapp.execute(null));
-					inputResourceSet.saveEObject(
-							graph.getRoots().get(0),
-							outputFolderPath
-									+ sourceFiles[i].getName().replace(
-											this.baseTypes.get(z),
-											this.stereoTypes.get(z)));
-				}
-
 			}
 		}
 	}
