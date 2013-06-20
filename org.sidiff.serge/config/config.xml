@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+	<GeneralSettings>
+		<preventInconsistency value="true" />
+		<initialChecks allow="true" />
+		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<disableVariants value="false"/>
+   		<modelUsesProfileMechanism value="false"/>
+	</GeneralSettings>
+	
+	<MetaModelSettings>
+		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />	
+	</MetaModelSettings>
+	
+	<Transformations>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" />
+		<Sets allow="true" />
+		<Unsets allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<Changes allow="true" />
+	</Transformations>
+
+	<!-- nested=true: means the root element can also appear
+	somewhere in its lower containments (eg. (Sub-)StateMachine)-->
+	<Root name="StateMachine" nested="true"/>
+	
+	<WhiteList>			
+		    <EClass name="StateMachine"/>
+    		
+    		<EClass name="Region"/>
+    		<EClass name="State"/>
+    		<EClass name="Pseudostate"/>
+    		<EClass name="FinalState"/>
+    		
+    		<EClass name="Transition"/>
+    		<EClass name="Activity"/>
+    		<EClass name="Trigger"/>
+    		<EClass name="SignalEvent"/>
+    		<EClass name="Signal"/>
+    		
+    		<!--EClass name="ConnectionPointReference"/-->	
+	</WhiteList>
+	
+	<BlackList>
+	    	<EClass name="Constraint"/>
+    		<EClass name="Expression"/>
+    		<EClass name="InputPin"/>
+    		<EClass name="OutputPin"/>
+    		<EClass name="SendSignalAction"/>
+    		<EClass name="Pin"/>
+    		<EClass name="ValuePin"/>
+	</BlackList>
+	
+</Config>
