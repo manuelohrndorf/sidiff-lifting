@@ -1,7 +1,14 @@
 package org.sidiff.profileapplicator.impl;
 
+import org.sidiff.common.io.IOUtil;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.xml.XMLParser;
 import org.sidiff.profileapplicator.ProfileApplicatorService;
 import org.sidiff.profileapplicator.services.ProfileApplicator;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class ProfileApplicatorServiceImpl implements ProfileApplicatorService{
 
@@ -11,42 +18,32 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService{
 		
 	}
 	
-	@Override
 	public void init(Class<?> service, String pathToConfig, String pathToInputFolder, String pathToOutputFolder) {
 	
 		if(service == ProfileApplicator.class){			
 			applicator = new ProfileApplicator();
 		}//TODO else exception
 		
+		applicator.setConfigPath(pathToConfig);
+		applicator.setInputFolderPath(pathToInputFolder);
 		applicator.setOutputFolderPath(pathToOutputFolder);
 		
-		/*
-				
+			
 		LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 		
-		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
-		
+		Document doc = XMLParser.parseStream(IOUtil.getInputStream(applicator.getConfigPath()));		
 		Element docElem = doc.getDocumentElement();
 		org.w3c.dom.Node currentNode = null;
 		NodeList currentChildNodes = null;
 		
-		// retrieve and set general settings	
+		// retrieve and set 	
 			
-		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
-		generator.setPreventInconsistencyThroughSkipping(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
-		currentNode = doc.getElementsByTagName("initialChecks").item(0);		
-		generator.setCreateINITIALS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
-		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
-		generator.setDisableVariants(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
-		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		enableStereotypeMapping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		generator.setProfileApplicationInUse(enableStereotypeMapping);
-		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
-		generator.setReduceToSuperType_SETUNSET(Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode)));
-		generator.setReduceToSuperType_ADDREMOVE(Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode)));
-		generator.setReduceToSuperType_CHANGE(Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode)));
+		currentNode = doc.getElementsByTagName("baseTypeOnly").item(0);
+		applicator.setBaseTypeOnly((Boolean.valueOf(Common.getAttributeValue("allow", currentNode))));
 		
-		*/
+	
+		
+	
 		
 
 	}	

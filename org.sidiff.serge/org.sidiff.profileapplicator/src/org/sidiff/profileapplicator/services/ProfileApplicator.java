@@ -5,13 +5,50 @@ package org.sidiff.profileapplicator.services;
 public class ProfileApplicator {
 	
 	private String inputFolderPath = null;
-	private String inputConfigPath = null;
+	private String ConfigPath = null;
 	private String outputFolderPath = null;
 	
-	private boolean createStereoType = true;
-	private boolean deleteStereoType = true;
-	private boolean addStereoType = true;
-	private boolean renameStereoType = false;
+	private boolean baseTypeOnly;
+	private String[] basePackages;
+	private String[] stereoPackages;
+	
+	
+	/**
+	 * @return the baseTypeOnly
+	 */
+	public boolean isBaseTypeOnly() {
+		return baseTypeOnly;
+	}
+	/**
+	 * @param baseTypeOnly the baseTypeOnly to set
+	 */
+	public void setBaseTypeOnly(boolean baseTypeOnly) {
+		this.baseTypeOnly = baseTypeOnly;
+	}
+	/**
+	 * @return the basePackages
+	 */
+	public String[] getBasePackages() {
+		return basePackages;
+	}
+	/**
+	 * @param basePackages the basePackages to set
+	 */
+	public void setBasePackages(String[] basePackages) {
+		this.basePackages = basePackages;
+	}
+	/**
+	 * @return the stereoPackages
+	 */
+	public String[] getStereoPackages() {
+		return stereoPackages;
+	}
+	/**
+	 * @param stereoPackages the stereoPackages to set
+	 */
+	public void setStereoPackages(String[] stereoPackages) {
+		this.stereoPackages = stereoPackages;
+	}
 	/**
 	 * @return the inputFolderPath
 	 */
@@ -27,14 +64,14 @@ public class ProfileApplicator {
 	/**
 	 * @return the inputConfigPath
 	 */
-	public String getInputConfigPath() {
-		return inputConfigPath;
+	public String getConfigPath() {
+		return ConfigPath;
 	}
 	/**
 	 * @param inputConfigPath the inputConfigPath to set
 	 */
-	public void setInputConfigPath(String inputConfigPath) {
-		this.inputConfigPath = inputConfigPath;
+	public void setConfigPath(String ConfigPath) {
+		this.ConfigPath = ConfigPath;
 	}
 	/**
 	 * @return the ouputFolderPath
@@ -48,54 +85,7 @@ public class ProfileApplicator {
 	public void setOutputFolderPath(String ouputFolderPath) {
 		this.outputFolderPath = ouputFolderPath;
 	}
-	/**
-	 * @return the createStereoType
-	 */
-	public boolean isCreateStereoType() {
-		return createStereoType;
-	}
-	/**
-	 * @param createStereoType the createStereoType to set
-	 */
-	public void setCreateStereoType(boolean createStereoType) {
-		this.createStereoType = createStereoType;
-	}
-	/**
-	 * @return the deleteStereoType
-	 */
-	public boolean isDeleteStereoType() {
-		return deleteStereoType;
-	}
-	/**
-	 * @param deleteStereoType the deleteStereoType to set
-	 */
-	public void setDeleteStereoType(boolean deleteStereoType) {
-		this.deleteStereoType = deleteStereoType;
-	}
-	/**
-	 * @return the addStereoType
-	 */
-	public boolean isAddStereoType() {
-		return addStereoType;
-	}
-	/**
-	 * @param addStereoType the addStereoType to set
-	 */
-	public void setAddStereoType(boolean addStereoType) {
-		this.addStereoType = addStereoType;
-	}
-	/**
-	 * @return the renameStereoType
-	 */
-	public boolean isRenameStereoType() {
-		return renameStereoType;
-	}
-	/**
-	 * @param renameStereoType the renameStereoType to set
-	 */
-	public void setRenameStereoType(boolean renameStereoType) {
-		this.renameStereoType = renameStereoType;
-	}
+	
 	
 	//TODO
 
