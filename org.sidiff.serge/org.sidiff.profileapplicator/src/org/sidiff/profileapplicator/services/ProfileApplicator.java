@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
@@ -54,8 +55,8 @@ public class ProfileApplicator {
 						+ this.transformations.toString());
 
 		if (this.metaInstances)
-			System.out
-					.println("MetaInstances allowed, will also copy source edit rules into target folder.");
+			LogUtil.log(LogEvent.NOTICE,
+					"MetaInstances allowed, will also copy source edit rules into target folder.");
 
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying transformations now, this could take some time...");
@@ -69,8 +70,12 @@ public class ProfileApplicator {
 		boolean stereoTypesUsed = false;
 		String outputName = null;
 
-		EGraph graph = null;
+		EGraph workGraph = null;
+		EGraph srcGraph = null;
+
 		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
+				this.inputFolderPath);
+		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 				this.inputFolderPath);
 		HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
 				this.hotsPath);
@@ -78,34 +83,36 @@ public class ProfileApplicator {
 		for (int l = 0; l < sourceFiles.length; l++) {
 
 			if (sourceFiles[l].getName().endsWith(".henshin")) {
-				
-				
-				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
-						+ sourceFiles[l] + "...");
 
-				graph = new EGraphImpl(
+				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
+						+ sourceFiles[l].getName() + "...");
+
+				srcGraph = new EGraphImpl(
+						srcResourceSet.getResource(sourceFiles[l].getName()));
+				workGraph = new EGraphImpl(
 						inputResourceSet.getResource(sourceFiles[l].getName()));
 
 				for (int k = 0; k < this.basePackages.size(); k++) {
-					graph.addTree(this.basePackages.get(k));
+					workGraph.addTree(this.basePackages.get(k));
 				}
 
 				for (int j = 0; j < this.stereoPackages.size(); j++) {
-					graph.addTree(this.stereoPackages.get(j));
+					workGraph.addTree(this.stereoPackages.get(j));
 				}
+				
+				
 
 				// Create an engine and a rule application:
 				Engine engine = new EngineImpl();
 
 				UnitApplication unitapp = new UnitApplicationImpl(engine);
-				unitapp.setEGraph(graph);
+				unitapp.setEGraph(workGraph);
 
 				for (int z = 0; z < this.stereoTypes.size(); z++) {
-					
+
 					boolean applied = false;
 					outputName = this.outputFolderPath
-							+ sourceFiles[l].getName();					
-					
+							+ sourceFiles[l].getName();
 
 					LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
 							+ this.stereoTypes.get(z) + "...");
@@ -141,35 +148,38 @@ public class ProfileApplicator {
 							if (executed) {
 								stereoTypesUsed = true;
 								applied = true;
-								outputName = outputName.replace(this.baseTypes.get(z),this.stereoTypes.get(z));
-								//outputName = outputName.replace("execute", this.stereoTypes.get(z)+ "execute");
+								outputName = this.outputFolderPath
+										+ ((Module) workGraph.getRoots().get(0))
+												.getName() + "_execute.henshin";
+								// outputName = outputName.replace("execute",
+								// this.stereoTypes.get(z)+ "execute");
 
 							}
 
 						}
 
-					}					
+					}
 
 					if (applied) {
 
-						LogUtil.log(LogEvent.NOTICE, "graph: " + graph.getRoots());	
-						inputResourceSet.saveEObject(graph.getRoots().get(0),
-								outputName);
+						inputResourceSet.saveEObject(workGraph.getRoots()
+								.get(0), outputName);
 						LogUtil.log(LogEvent.NOTICE, "Result saved to: "
-								+ outputName);		
+								+ outputName);
 						applied = false;
 					}
 
 				}
 				// Copy meta instances untransformed
 				if (!stereoTypesUsed || this.metaInstances) {
-					
-					inputResourceSet.saveEObject(graph.getRoots().get(0),
+
+					inputResourceSet.saveEObject(srcGraph.getRoots().get(0),
 							this.outputFolderPath + sourceFiles[l].getName());
-					LogUtil.log(LogEvent.NOTICE,
-							"No applicable stereotype found, copied source ER");
-					stereoTypesUsed = false;
+					LogUtil.log(
+							LogEvent.NOTICE,
+							"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");					
 				}
+				stereoTypesUsed = false;
 
 			}
 
