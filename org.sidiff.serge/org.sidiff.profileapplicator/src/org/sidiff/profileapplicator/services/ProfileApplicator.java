@@ -33,7 +33,7 @@ public class ProfileApplicator {
 	private String outputFolderPath = null;
 
 	private String profileName = null;
-	private boolean metaInstances;
+	private boolean metaInstances = false;
 	private List<EPackage> basePackages = new ArrayList<EPackage>();
 	private List<EPackage> stereoPackages = new ArrayList<EPackage>();
 
@@ -66,51 +66,67 @@ public class ProfileApplicator {
 		File hotsFolder = new File(this.hotsPath);
 		File[] hotsFiles = hotsFolder.listFiles();
 
-		boolean alreadyCopied = false;
+		boolean stereoTypesUsed = false;
+		String outputName = null;
 
-		for (int z = 0; z < this.stereoTypes.size(); z++) {
+		EGraph graph = null;
+		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
+				this.inputFolderPath);
+		HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
+				this.hotsPath);
 
-			for (int l = 0; l < sourceFiles.length; l++) {
+		for (int l = 0; l < sourceFiles.length; l++) {
 
-				for (int i = 0; i < hotsFiles.length; i++) {
+			if (sourceFiles[l].getName().endsWith(".henshin")) {
+				
+				
+				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
+						+ sourceFiles[l] + "...");
 
-					HenshinResourceSet inputResourceSet = new HenshinResourceSet(
-							this.inputFolderPath);
+				graph = new EGraphImpl(
+						inputResourceSet.getResource(sourceFiles[l].getName()));
 
-					HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
-							this.hotsPath);
+				for (int k = 0; k < this.basePackages.size(); k++) {
+					graph.addTree(this.basePackages.get(k));
+				}
 
-					if (hotsFiles[i].getName().endsWith(".henshin")
-							&& useTransformation(hotsFiles[i].getName())) {
-						Module module = hotsResourceSet.getModule(
-								hotsFiles[i].getAbsolutePath(), false);
+				for (int j = 0; j < this.stereoPackages.size(); j++) {
+					graph.addTree(this.stereoPackages.get(j));
+				}
 
-						if (sourceFiles[l].getName().endsWith(".henshin")) {
+				// Create an engine and a rule application:
+				Engine engine = new EngineImpl();
 
-							EGraph graph = new EGraphImpl(
-									inputResourceSet.getResource(sourceFiles[l]
-											.getName()));
+				UnitApplication unitapp = new UnitApplicationImpl(engine);
+				unitapp.setEGraph(graph);
 
-							for (int k = 0; k < this.basePackages.size(); k++) {
-								graph.addTree(this.basePackages.get(k));
-							}
+				for (int z = 0; z < this.stereoTypes.size(); z++) {
+					
+					boolean applied = false;
+					outputName = this.outputFolderPath
+							+ sourceFiles[l].getName();					
+					
 
-							for (int j = 0; j < this.stereoPackages.size(); j++) {
-								graph.addTree(this.stereoPackages.get(j));
-							}
+					LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
+							+ this.stereoTypes.get(z) + "...");
 
-							// Create an engine and a rule application:
-							Engine engine = new EngineImpl();
+					for (int i = 0; i < hotsFiles.length; i++) {
 
-							UnitApplication unitapp = new UnitApplicationImpl(
-									engine);
-							unitapp.setEGraph(graph);
+						if (hotsFiles[i].getName().endsWith(".henshin")
+								&& useTransformation(hotsFiles[i].getName())) {
+							Module module = hotsResourceSet.getModule(
+									hotsFiles[i].getAbsolutePath(), false);
+
+							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
+									+ hotsFiles[i].getName() + "...");
+
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
-							// Testing
+							// hard coded
 							unitapp.setParameterValue("stereoPackage",
 									this.stereoPackages.get(0).getNsURI());
 
+							// setting parameters
 							unitapp.setParameterValue("stereoType",
 									this.stereoTypes.get(z));
 							unitapp.setParameterValue("baseType",
@@ -118,42 +134,45 @@ public class ProfileApplicator {
 							unitapp.setParameterValue("baseReference",
 									this.baseReferences.get(z));
 
-							String outputName = outputFolderPath
-									+ sourceFiles[l].getName();
+							boolean executed = unitapp.execute(null);
 
-							if (!alreadyCopied
-									&& this.metaInstances
-									&& sourceFiles[l].getName().contains(
-											this.baseTypes.get(z))) {
-
-								inputResourceSet.saveEObject(graph.getRoots()
-										.get(0), outputName);
+							LogUtil.log(LogEvent.NOTICE,
+									"Successfully applied: " + executed);
+							if (executed) {
+								stereoTypesUsed = true;
+								applied = true;
+								outputName = outputName.replace(this.baseTypes.get(z),this.stereoTypes.get(z));
+								//outputName = outputName.replace("execute", this.stereoTypes.get(z)+ "execute");
 
 							}
 
-							/*
-							 * LogUtil.log(LogEvent.NOTICE,"Executing hot: " +
-							 * hotsFiles[i].getName() + " for stereotype: " +
-							 * this.stereoTypes.get(z) + " on ER: " +
-							 * sourceFiles[l].getName());
-							 */
-							boolean applied = (unitapp.execute(null));
-
-							if (applied)
-								outputName = outputName.replace(
-										this.baseTypes.get(z),
-										this.stereoTypes.get(z));
-
-							inputResourceSet.saveEObject(graph.getRoots()
-									.get(0), outputName);
-
 						}
 
+					}					
+
+					if (applied) {
+
+						LogUtil.log(LogEvent.NOTICE, "graph: " + graph.getRoots());	
+						inputResourceSet.saveEObject(graph.getRoots().get(0),
+								outputName);
+						LogUtil.log(LogEvent.NOTICE, "Result saved to: "
+								+ outputName);		
+						applied = false;
 					}
 
-					alreadyCopied = true;
 				}
+				// Copy meta instances untransformed
+				if (!stereoTypesUsed || this.metaInstances) {
+					
+					inputResourceSet.saveEObject(graph.getRoots().get(0),
+							this.outputFolderPath + sourceFiles[l].getName());
+					LogUtil.log(LogEvent.NOTICE,
+							"No applicable stereotype found, copied source ER");
+					stereoTypesUsed = false;
+				}
+
 			}
+
 		}
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying profile " + this.getProfileName() + " completed!");
