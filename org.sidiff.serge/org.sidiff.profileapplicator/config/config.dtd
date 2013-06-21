@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!ELEMENT Config (ProfileSettings+, StereoTypes+)>
-<!ELEMENT ProfileSettings (MetaInstances, BasePackage+, StereoPackage+)>
+<!ELEMENT Config (ProfileSettings, Packages, Transformations, StereoTypes)>
+<!ELEMENT ProfileSettings (Profile, MetaInstances)>
+<!ELEMENT Packages (BasePackage+, StereoPackage+)>
+<!ELEMENT Transformations (Transformation+)>
 <!ELEMENT StereoTypes (StereoType+)>
 
+<!ELEMENT Profile EMPTY>
 <!ELEMENT MetaInstances EMPTY>
+
 <!ELEMENT BasePackage EMPTY>
 <!ELEMENT StereoPackage EMPTY>
 
+<!ELEMENT Transformation EMPTY>
+
 <!ELEMENT StereoType EMPTY>
 
-
+<!ATTLIST Profile name CDATA #REQUIRED>
 <!ATTLIST MetaInstances allow CDATA #REQUIRED>
+
 <!ATTLIST BasePackage nsUri CDATA #REQUIRED>
 <!ATTLIST StereoPackage nsUri CDATA #REQUIRED>
+
+<!ATTLIST Transformation name CDATA #REQUIRED>
+<!ATTLIST Transformation apply CDATA #REQUIRED>
 
 <!ATTLIST StereoType name CDATA #REQUIRED>
 <!ATTLIST StereoType baseType CDATA #REQUIRED>

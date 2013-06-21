@@ -22,6 +22,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	private static List<EPackage> basePackages = new ArrayList<EPackage>();
 	private static List<EPackage> stereoPackages = new ArrayList<EPackage>();
 
+	private static List<String> transformations = new ArrayList<String>();
+
 	private static List<String> stereoTypes = new ArrayList<String>();
 	private static List<String> baseTypes = new ArrayList<String>();
 	private static List<String> baseReferences = new ArrayList<String>();
@@ -43,8 +45,6 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			applicator.setOutputFolderPath(pathToOutputFolder);
 			
 		
-			LogUtil.log(LogEvent.NOTICE, applicator.getConfigPath());
-
 			LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 
 			Document doc = XMLParser.parseStream(IOUtil
@@ -54,13 +54,14 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			NodeList currentChildNodes = null;
 
 			// retrieve and set configuration parameters
+			
+			currentNode = doc.getElementsByTagName("Profile").item(0);
+			applicator.setProfileName((String.valueOf(Common
+					.getAttributeValue("name", currentNode))));
 
 			currentNode = doc.getElementsByTagName("MetaInstances").item(0);
 			applicator.setmetaInstances((Boolean.valueOf(Common
-					.getAttributeValue("allow", currentNode))));
-		
-			LogUtil.log(LogEvent.NOTICE, "Adding BasePackages...");
-
+					.getAttributeValue("allow", currentNode))));	
 
 			NodeList basePackageNodes = doc.getElementsByTagName("BasePackage");
 			for (int i = 0; i <= basePackageNodes.getLength() - 1; i++) {
@@ -71,13 +72,10 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 						.getEPackage(uri);
 				if (!basePackages.contains(basePackage)) {
 					basePackages.add(basePackage);	
-					LogUtil.log(LogEvent.NOTICE, "Package: " + basePackage);
 
 				}
 			}
-			applicator.setBasePackages(basePackages);
-
-			LogUtil.log(LogEvent.NOTICE, "Adding StereoPackages...");
+			applicator.setBasePackages(basePackages);		
 
 			NodeList stereoPackageNodes = doc
 					.getElementsByTagName("StereoPackage");
@@ -92,8 +90,21 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				}
 			}
 			applicator.setStereoPackages(stereoPackages);
-
-			LogUtil.log(LogEvent.NOTICE, "Adding stereoType rule parameters...");
+			
+			NodeList transformationNodes = doc.getElementsByTagName("Transformation");
+			for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
+				Node transformationNode = transformationNodes.item(i);
+				String transformation = String.valueOf(Common.getAttributeValue(
+						"name", transformationNode));
+				Boolean apply = Boolean.valueOf(Common.getAttributeValue(
+						"apply", transformationNode));
+	
+				if (apply) {
+					transformations.add(transformation);
+				}
+			}			
+			applicator.setTransformations(transformations);
+				
 
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
@@ -114,17 +125,17 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			applicator.setBaseTypes(baseTypes);
 			applicator.setBaseReferences(baseReferences);
 
-			LogUtil.log(LogEvent.NOTICE, "Initialization completed!");
-		}// TODO else exception
+			LogUtil.log(LogEvent.NOTICE, "Interpreting completed, ProfileApplicator initialized!");
+		}
+		else 
+			LogUtil.log(LogEvent.ERROR, "ProfileApplicatorService not found!");
 	}
 
 	public void applyProfile(Class<?> service) {
 
 		assert (service != null) : "Service not found";
 
-		LogUtil.log(LogEvent.NOTICE, "Applying profile to basemodel edit rules...");
 		applicator.applyProfile();
-		LogUtil.log(LogEvent.NOTICE, "Applying profile completed!");
 
 	}
 

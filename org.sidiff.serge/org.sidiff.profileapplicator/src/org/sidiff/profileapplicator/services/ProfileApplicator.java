@@ -14,6 +14,8 @@ import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 
 public class ProfileApplicator {
 
@@ -21,10 +23,8 @@ public class ProfileApplicator {
 	/*
 	 * 
 	 * Better structure Remove imports/plugin dependencies/launch
-	 * parameterplugin
-	 * frozen model fix
-	 * support all hots and stereoTypes
-	 * check for correctness
+	 * parameterplugin frozen model fix support all hots and stereoTypes check
+	 * for correctness
 	 */
 
 	private String hotsPath = null;
@@ -32,9 +32,12 @@ public class ProfileApplicator {
 	private String configPath = null;
 	private String outputFolderPath = null;
 
+	private String profileName = null;
 	private boolean metaInstances;
 	private List<EPackage> basePackages = new ArrayList<EPackage>();
 	private List<EPackage> stereoPackages = new ArrayList<EPackage>();
+
+	private List<String> transformations = new ArrayList<String>();
 
 	private List<String> stereoTypes = new ArrayList<String>();
 	private List<String> baseTypes = new ArrayList<String>();
@@ -42,25 +45,45 @@ public class ProfileApplicator {
 
 	public void applyProfile() {
 
-		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
-				this.inputFolderPath);
+		LogUtil.log(LogEvent.NOTICE,
+				"Executing profile application for profile " + this.profileName
+						+ "...");
+
+		LogUtil.log(LogEvent.NOTICE,
+				"Using following higher order transformations: "
+						+ this.transformations.toString());
+
+		if (this.metaInstances)
+			System.out
+					.println("MetaInstances allowed, will also copy source edit rules into target folder.");
+
+		LogUtil.log(LogEvent.NOTICE,
+				"Applying transformations now, this could take some time...");
+
 		File sourceFolder = new File(this.inputFolderPath);
 		File[] sourceFiles = sourceFolder.listFiles();
 
-		HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
-				this.hotsPath);
 		File hotsFolder = new File(this.hotsPath);
 		File[] hotsFiles = hotsFolder.listFiles();
 
-		for (int z = 0; z < 1; z++) {
-			
-			for (int i = 0; i < 3; i++) {
+		boolean alreadyCopied = false;
 
-				if (hotsFiles[i].getName().endsWith(".henshin")) {
-					Module module = hotsResourceSet.getModule(
-							hotsFiles[i].getAbsolutePath(), false);
+		for (int z = 0; z < this.stereoTypes.size(); z++) {
 
-					for (int l = 0; l < sourceFiles.length - 1; l++) {
+			for (int l = 0; l < sourceFiles.length; l++) {
+
+				for (int i = 0; i < hotsFiles.length; i++) {
+
+					HenshinResourceSet inputResourceSet = new HenshinResourceSet(
+							this.inputFolderPath);
+
+					HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
+							this.hotsPath);
+
+					if (hotsFiles[i].getName().endsWith(".henshin")
+							&& useTransformation(hotsFiles[i].getName())) {
+						Module module = hotsResourceSet.getModule(
+								hotsFiles[i].getAbsolutePath(), false);
 
 						if (sourceFiles[l].getName().endsWith(".henshin")) {
 
@@ -95,21 +118,60 @@ public class ProfileApplicator {
 							unitapp.setParameterValue("baseReference",
 									this.baseReferences.get(z));
 
-							System.out.println("Executing hot: " + hotsFiles[i].getName() + " for stereotype: "  + this.stereoTypes.get(z) + " on ER: " + sourceFiles[l].getName() );
+							String outputName = outputFolderPath
+									+ sourceFiles[l].getName();
+
+							if (!alreadyCopied
+									&& this.metaInstances
+									&& sourceFiles[l].getName().contains(
+											this.baseTypes.get(z))) {
+
+								inputResourceSet.saveEObject(graph.getRoots()
+										.get(0), outputName);
+
+							}
+
+							/*
+							 * LogUtil.log(LogEvent.NOTICE,"Executing hot: " +
+							 * hotsFiles[i].getName() + " for stereotype: " +
+							 * this.stereoTypes.get(z) + " on ER: " +
+							 * sourceFiles[l].getName());
+							 */
 							boolean applied = (unitapp.execute(null));
-							
-							String outputName = outputFolderPath + sourceFiles[l].getName();
-							
-							if(applied)
-								outputName = outputName.replace(this.baseTypes.get(z),this.stereoTypes.get(z));
-							
-							inputResourceSet.saveEObject(graph.getRoots().get(0),outputName);
+
+							if (applied)
+								outputName = outputName.replace(
+										this.baseTypes.get(z),
+										this.stereoTypes.get(z));
+
+							inputResourceSet.saveEObject(graph.getRoots()
+									.get(0), outputName);
+
 						}
 
 					}
+
+					alreadyCopied = true;
 				}
 			}
 		}
+		LogUtil.log(LogEvent.NOTICE,
+				"Applying profile " + this.getProfileName() + " completed!");
+
+	}
+
+	public boolean useTransformation(String transformation) {
+
+		boolean result = false;
+
+		for (int i = 0; i < this.transformations.size(); i++) {
+			if (transformation.startsWith(this.transformations.get(i)))
+				result = true;
+
+		}
+
+		return result;
+
 	}
 
 	/**
@@ -275,6 +337,36 @@ public class ProfileApplicator {
 	 */
 	public void setHotsPath(String hotsPath) {
 		this.hotsPath = hotsPath;
+	}
+
+	/**
+	 * @return the profileName
+	 */
+	public String getProfileName() {
+		return profileName;
+	}
+
+	/**
+	 * @param profileName
+	 *            the profileName to set
+	 */
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
+	}
+
+	/**
+	 * @return the transformations
+	 */
+	public List<String> getTransformations() {
+		return transformations;
+	}
+
+	/**
+	 * @param transformations
+	 *            the transformations to set
+	 */
+	public void setTransformations(List<String> transformations) {
+		this.transformations = transformations;
 	}
 
 	// TODO
