@@ -22,9 +22,11 @@ public class ProfileApplicator {
 	// TODO
 	/*
 	 * 
-	 * get more than one ST working 
+	 * get more than one ST working
 	 * 
 	 * (Abstract) super classes have to be considered!
+	 * 
+	 * Renaming problems at super classes
 	 */
 
 	private String hotsPath = null;
@@ -72,58 +74,65 @@ public class ProfileApplicator {
 		EGraph workGraph = null;
 		EGraph srcGraph = null;
 
-		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
-				this.inputFolderPath);
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 				this.inputFolderPath);
-		HenshinResourceSet hotsResourceSet = new HenshinResourceSet(
-				this.hotsPath);
+
+		HenshinResourceSet inputResourceSet = null;
+
+		HenshinResourceSet hotsResourceSet = null;
 
 		for (int l = 0; l < sourceFiles.length; l++) {
 
 			if (sourceFiles[l].getName().endsWith(".henshin")) {
+				
+				srcGraph = new EGraphImpl(
+						srcResourceSet.getResource(sourceFiles[l].getName()));
 
 				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
 						+ sourceFiles[l].getName() + "...");
-				
-				boolean applied = false;
-				outputName = this.outputFolderPath
-						+ sourceFiles[l].getName();
 
-				for (int z = 0; z < this.stereoTypes.size(); z++) {						
+				boolean applied = false;
+				outputName = this.outputFolderPath + sourceFiles[l].getName();
+
+				for (int z = 0; z < this.stereoTypes.size(); z++) {
 
 					LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
 							+ this.stereoTypes.get(z) + "...");
 
+					inputResourceSet = new HenshinResourceSet(
+							this.inputFolderPath);
+					
+					workGraph = new EGraphImpl(
+							inputResourceSet.getResource(sourceFiles[l]
+									.getName()));
+
+					for (int k = 0; k < this.basePackages.size(); k++) {
+						workGraph.addTree(this.basePackages.get(k));
+					}
+
+					for (int j = 0; j < this.stereoPackages.size(); j++) {
+						workGraph.addTree(this.stereoPackages.get(j));
+					}
+
+					// Create an engine and a rule application:
+					Engine engine = new EngineImpl();
+
+					UnitApplication unitapp = new UnitApplicationImpl(engine);
+
+					unitapp.setEGraph(workGraph);
+
 					for (int i = 0; i < hotsFiles.length; i++) {
+
+						hotsResourceSet = new HenshinResourceSet(this.hotsPath);
 
 						if (hotsFiles[i].getName().endsWith(".henshin")
 								&& useTransformation(hotsFiles[i].getName())) {
+
 							Module module = hotsResourceSet.getModule(
 									hotsFiles[i].getAbsolutePath(), false);
 
 							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
 									+ hotsFiles[i].getName() + "...");
-							
-							srcGraph = new EGraphImpl(
-									srcResourceSet.getResource(sourceFiles[l].getName()));
-							workGraph = new EGraphImpl(
-									inputResourceSet.getResource(sourceFiles[l]
-											.getName()));
-
-							for (int k = 0; k < this.basePackages.size(); k++) {
-								workGraph.addTree(this.basePackages.get(k));
-							}
-
-							for (int j = 0; j < this.stereoPackages.size(); j++) {
-								workGraph.addTree(this.stereoPackages.get(j));
-							}
-
-							// Create an engine and a rule application:
-							Engine engine = new EngineImpl();
-
-							UnitApplication unitapp = new UnitApplicationImpl(engine);
-							unitapp.setEGraph(workGraph);
 
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
@@ -149,8 +158,6 @@ public class ProfileApplicator {
 								outputName = this.outputFolderPath
 										+ ((Module) workGraph.getRoots().get(0))
 												.getName() + "_execute.henshin";
-								// outputName = outputName.replace("execute",
-								// this.stereoTypes.get(z)+ "execute");
 
 							}
 
