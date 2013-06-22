@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
@@ -23,9 +22,9 @@ public class ProfileApplicator {
 	// TODO
 	/*
 	 * 
-	 * Better structure Remove imports/plugin dependencies/launch
-	 * parameterplugin frozen model fix support all hots and stereoTypes check
-	 * for correctness
+	 * get more than one ST working 
+	 * 
+	 * (Abstract) super classes have to be considered!
 	 */
 
 	private String hotsPath = null;
@@ -86,33 +85,12 @@ public class ProfileApplicator {
 
 				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
 						+ sourceFiles[l].getName() + "...");
-
-				srcGraph = new EGraphImpl(
-						srcResourceSet.getResource(sourceFiles[l].getName()));
-				workGraph = new EGraphImpl(
-						inputResourceSet.getResource(sourceFiles[l].getName()));
-
-				for (int k = 0; k < this.basePackages.size(); k++) {
-					workGraph.addTree(this.basePackages.get(k));
-				}
-
-				for (int j = 0; j < this.stereoPackages.size(); j++) {
-					workGraph.addTree(this.stereoPackages.get(j));
-				}
 				
-				
+				boolean applied = false;
+				outputName = this.outputFolderPath
+						+ sourceFiles[l].getName();
 
-				// Create an engine and a rule application:
-				Engine engine = new EngineImpl();
-
-				UnitApplication unitapp = new UnitApplicationImpl(engine);
-				unitapp.setEGraph(workGraph);
-
-				for (int z = 0; z < this.stereoTypes.size(); z++) {
-
-					boolean applied = false;
-					outputName = this.outputFolderPath
-							+ sourceFiles[l].getName();
+				for (int z = 0; z < this.stereoTypes.size(); z++) {						
 
 					LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
 							+ this.stereoTypes.get(z) + "...");
@@ -126,6 +104,26 @@ public class ProfileApplicator {
 
 							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
 									+ hotsFiles[i].getName() + "...");
+							
+							srcGraph = new EGraphImpl(
+									srcResourceSet.getResource(sourceFiles[l].getName()));
+							workGraph = new EGraphImpl(
+									inputResourceSet.getResource(sourceFiles[l]
+											.getName()));
+
+							for (int k = 0; k < this.basePackages.size(); k++) {
+								workGraph.addTree(this.basePackages.get(k));
+							}
+
+							for (int j = 0; j < this.stereoPackages.size(); j++) {
+								workGraph.addTree(this.stereoPackages.get(j));
+							}
+
+							// Create an engine and a rule application:
+							Engine engine = new EngineImpl();
+
+							UnitApplication unitapp = new UnitApplicationImpl(engine);
+							unitapp.setEGraph(workGraph);
 
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
@@ -177,7 +175,7 @@ public class ProfileApplicator {
 							this.outputFolderPath + sourceFiles[l].getName());
 					LogUtil.log(
 							LogEvent.NOTICE,
-							"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");					
+							"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");
 				}
 				stereoTypesUsed = false;
 
