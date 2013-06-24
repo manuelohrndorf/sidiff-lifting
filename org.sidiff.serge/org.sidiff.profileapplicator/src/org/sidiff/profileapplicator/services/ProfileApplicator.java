@@ -21,12 +21,14 @@ public class ProfileApplicator {
 
 	// TODO
 	/*
-	 * 
-	 * get more than one ST working
-	 * 
 	 * (Abstract) super classes have to be considered!
-	 * 
 	 * Renaming problems at super classes
+	 * Wie die Reihenfolge beim Ausführen, d.h.
+	 * welche Kombinationen zulassen, z.B.:
+	 * 
+	 * DELETE_BLOCK_IN_X
+	 * X = ? -> Class/Block/ConstraintBlock/Requirement ...
+	 * 
 	 */
 
 	private String hotsPath = null;
@@ -71,9 +73,11 @@ public class ProfileApplicator {
 		boolean stereoTypesUsed = false;
 		String outputName = null;
 
-		EGraph workGraph = null;
 		EGraph srcGraph = null;
 
+		// Create an engine and a rule application:
+		Engine engine = new EngineImpl();
+		
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 				this.inputFolderPath);
 
@@ -84,7 +88,7 @@ public class ProfileApplicator {
 		for (int l = 0; l < sourceFiles.length; l++) {
 
 			if (sourceFiles[l].getName().endsWith(".henshin")) {
-				
+
 				srcGraph = new EGraphImpl(
 						srcResourceSet.getResource(sourceFiles[l].getName()));
 
@@ -101,8 +105,8 @@ public class ProfileApplicator {
 
 					inputResourceSet = new HenshinResourceSet(
 							this.inputFolderPath);
-					
-					workGraph = new EGraphImpl(
+
+					EGraph workGraph = new EGraphImpl(
 							inputResourceSet.getResource(sourceFiles[l]
 									.getName()));
 
@@ -114,16 +118,13 @@ public class ProfileApplicator {
 						workGraph.addTree(this.stereoPackages.get(j));
 					}
 
-					// Create an engine and a rule application:
-					Engine engine = new EngineImpl();
-
-					UnitApplication unitapp = new UnitApplicationImpl(engine);
-
-					unitapp.setEGraph(workGraph);
 
 					for (int i = 0; i < hotsFiles.length; i++) {
 
 						hotsResourceSet = new HenshinResourceSet(this.hotsPath);
+						
+						UnitApplication unitapp = new UnitApplicationImpl(engine);
+						unitapp.setEGraph(workGraph);
 
 						if (hotsFiles[i].getName().endsWith(".henshin")
 								&& useTransformation(hotsFiles[i].getName())) {
@@ -133,6 +134,7 @@ public class ProfileApplicator {
 
 							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
 									+ hotsFiles[i].getName() + "...");
+							
 
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
