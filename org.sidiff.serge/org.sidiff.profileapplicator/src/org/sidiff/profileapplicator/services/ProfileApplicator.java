@@ -21,14 +21,13 @@ public class ProfileApplicator {
 
 	// TODO
 	/*
-	 * (Abstract) super classes have to be considered!
-	 * Renaming problems at super classes
-	 * Wie die Reihenfolge beim Ausführen, d.h.
-	 * welche Kombinationen zulassen, z.B.:
+	 * (Abstract) super classes have to be considered! Renaming problems at
+	 * super classes Wie die Reihenfolge beim Ausführen, d.h. welche
+	 * Kombinationen zulassen, z.B.:
 	 * 
-	 * DELETE_BLOCK_IN_X
-	 * X = ? -> Class/Block/ConstraintBlock/Requirement ...
+	 * DELETE_BLOCK_IN_X X = ? -> Class/Block/ConstraintBlock/Requirement ...
 	 * 
+	 * Notwendige Attribute bei "createST" besprechen! (Bezugspunkt / Referenz)
 	 */
 
 	private String hotsPath = null;
@@ -77,7 +76,7 @@ public class ProfileApplicator {
 
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
-		
+
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 				this.inputFolderPath);
 
@@ -118,12 +117,12 @@ public class ProfileApplicator {
 						workGraph.addTree(this.stereoPackages.get(j));
 					}
 
-
 					for (int i = 0; i < hotsFiles.length; i++) {
 
 						hotsResourceSet = new HenshinResourceSet(this.hotsPath);
-						
-						UnitApplication unitapp = new UnitApplicationImpl(engine);
+
+						UnitApplication unitapp = new UnitApplicationImpl(
+								engine);
 						unitapp.setEGraph(workGraph);
 
 						if (hotsFiles[i].getName().endsWith(".henshin")
@@ -134,7 +133,6 @@ public class ProfileApplicator {
 
 							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
 									+ hotsFiles[i].getName() + "...");
-							
 
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
@@ -160,6 +158,13 @@ public class ProfileApplicator {
 								outputName = this.outputFolderPath
 										+ ((Module) workGraph.getRoots().get(0))
 												.getName() + "_execute.henshin";
+
+							}
+							if (executed && this.metaInstances) {
+								inputResourceSet.saveEObject(workGraph
+										.getRoots().get(0), outputName);
+								LogUtil.log(LogEvent.NOTICE,
+										"Result saved to: " + outputName);
 
 							}
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kTj8kNdREeKZZ-Z5WWnr3Q" description="Creates one Property in Association" name="CREATE_PropertyInAssociation">
+  <rules xmi:id="_kTj8kddREeKZZ-Z5WWnr3Q" description="creates one Property in the context: Association" name="createPropertyInAssociation">
+    <parameters xmi:id="_kTj8ktdREeKZZ-Z5WWnr3Q" name="Selected"/>
+    <parameters xmi:id="_kTj8k9dREeKZZ-Z5WWnr3Q" name="New"/>
+    <parameters xmi:id="_kTj8lNdREeKZZ-Z5WWnr3Q" name="Name"/>
+    <parameters xmi:id="_kTj8lddREeKZZ-Z5WWnr3Q" name="Visibility"/>
+    <lhs xmi:id="_kTj8ltdREeKZZ-Z5WWnr3Q" name="LHS">
+      <nodes xmi:id="_kTj8l9dREeKZZ-Z5WWnr3Q" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kTj8mNdREeKZZ-Z5WWnr3Q" name="RHS">
+      <nodes xmi:id="_kTj8mddREeKZZ-Z5WWnr3Q" name="Selected" incoming="_kTj8ntdREeKZZ-Z5WWnr3Q" outgoing="_kTj8nddREeKZZ-Z5WWnr3Q">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_kTj8mtdREeKZZ-Z5WWnr3Q" name="New" incoming="_kTj8nddREeKZZ-Z5WWnr3Q" outgoing="_kTj8ntdREeKZZ-Z5WWnr3Q">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+        <attributes xmi:id="_kTj8m9dREeKZZ-Z5WWnr3Q" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_kTj8nNdREeKZZ-Z5WWnr3Q" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_kTj8nddREeKZZ-Z5WWnr3Q" source="_kTj8mddREeKZZ-Z5WWnr3Q" target="_kTj8mtdREeKZZ-Z5WWnr3Q">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association/ownedEnd"/>
+      </edges>
+      <edges xmi:id="_kTj8ntdREeKZZ-Z5WWnr3Q" source="_kTj8mtdREeKZZ-Z5WWnr3Q" target="_kTj8mddREeKZZ-Z5WWnr3Q">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/owningAssociation"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kTj8n9dREeKZZ-Z5WWnr3Q" origin="_kTj8l9dREeKZZ-Z5WWnr3Q" image="_kTj8mddREeKZZ-Z5WWnr3Q"/>
+  </rules>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_kTj8oNdREeKZZ-Z5WWnr3Q" description="Creates one Property depending on available contexts in model instance" name="mainUnit" subUnits="_kTj8kddREeKZZ-Z5WWnr3Q">
+    <parameters xmi:id="_kTj8oddREeKZZ-Z5WWnr3Q" name="New"/>
+    <parameters xmi:id="_kTj8otdREeKZZ-Z5WWnr3Q" name="selectedEObject"/>
+    <parameters xmi:id="_kTj8o9dREeKZZ-Z5WWnr3Q" name="Name"/>
+    <parameters xmi:id="_kTj8pNdREeKZZ-Z5WWnr3Q" name="Visibility"/>
+    <parameterMappings xmi:id="_kTj8pddREeKZZ-Z5WWnr3Q" source="_kTj8otdREeKZZ-Z5WWnr3Q" target="_kTj8ktdREeKZZ-Z5WWnr3Q"/>
+    <parameterMappings xmi:id="_kTj8ptdREeKZZ-Z5WWnr3Q" source="_kTj8k9dREeKZZ-Z5WWnr3Q" target="_kTj8oddREeKZZ-Z5WWnr3Q"/>
+    <parameterMappings xmi:id="_kTj8p9dREeKZZ-Z5WWnr3Q" source="_kTj8o9dREeKZZ-Z5WWnr3Q" target="_kTj8lNdREeKZZ-Z5WWnr3Q"/>
+    <parameterMappings xmi:id="_kTj8qNdREeKZZ-Z5WWnr3Q" source="_kTj8pNdREeKZZ-Z5WWnr3Q" target="_kTj8lddREeKZZ-Z5WWnr3Q"/>
+  </transformationUnits>
+</henshin:TransformationSystem>
