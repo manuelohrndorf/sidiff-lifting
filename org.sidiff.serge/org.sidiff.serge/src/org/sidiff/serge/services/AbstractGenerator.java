@@ -3,6 +3,7 @@ package org.sidiff.serge.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -31,12 +32,14 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected String outputFolderPath  = null;
 	protected String baseModelRuleFolderPath  = null;
 	protected static List<EPackage> ePackages = null;
+	protected static Map<ConstraintType, Map<EClass,Boolean>> constraints = null;
 	
 	protected static EClassInfoManagement eClassInfoManagement = null;
 	
 	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
+	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
 	protected static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
-	
+
 	
 	/** Configuration *****************************************************************************/
 
@@ -207,6 +210,19 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		this.baseModelRuleFolderPath = baseModelRuleFolderPath;
 	}
 
+	public void addConstraint(ConstraintType ctype, EClass eClass, Boolean flag) {
+		if(constraints==null) {
+			constraints = new HashMap<ConstraintType,Map<EClass,Boolean>>();		
+		}
+		if(constraints.get(ctype)==null) {
+			Map<EClass, Boolean> classifierFlagMap = new HashMap<EClass,Boolean>();
+			classifierFlagMap.put(eClass, flag);
+			constraints.put(ctype, classifierFlagMap);
+		}else{
+			constraints.get(ctype).put(eClass,flag);
+		}
+	}
+	
 	public EClassInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
 		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClass>>();
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClass>());

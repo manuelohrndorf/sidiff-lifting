@@ -10,8 +10,11 @@
 	</GeneralSettings>
 
 	<MetaModelSettings>
-		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
-		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<MainModel nsUri="http://www.sidiff.org/org.sidiff.uml.model" />
+		<Constraints>
+			<NameUniqueness scope="local" eClass="UMLNamedElement" applyOnSubTypes="true"/>
+		</Constraints>	
+		
 	</MetaModelSettings>
 
 	<Transformations>
@@ -25,22 +28,11 @@
 		<Changes allow="true" />
 	</Transformations>
 
-	<Root name="Model" nested="false" />
+	<Root name="UMLModel" nested="false" />
 
 	<WhiteList>
 
-		<EClass name="Class" />
-		<EClass name="Package" />
-		<EClass name="Operation" />
-		<EClass name="Property" />
-		<EClass name="Interface" />
-		<EClass name="Association" />
-		<EClass name="Generalization" />
-		<EClass name="Enumeration" />
-		<EClass name="EnumerationLiteral" />
-		<EClass name="Parameter" />
-		<EClass name="Dependency" />
-		
+
 	</WhiteList>
 	<BlackList>
   

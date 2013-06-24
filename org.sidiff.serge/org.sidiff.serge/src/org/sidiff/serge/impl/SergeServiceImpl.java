@@ -23,7 +23,9 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.serge.SergeService;
+import org.sidiff.serge.exceptions.EClassUnresolvableException;
 import org.sidiff.serge.services.AbstractGenerator;
+import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 import org.sidiff.serge.services.AbstractGenerator.ImplicitRequirementType;
 import org.sidiff.serge.services.HenshinTransformationGenerator;
 import org.sidiff.serge.util.Common;
@@ -50,12 +52,9 @@ public class SergeServiceImpl implements SergeService{
 	}
 	
 	@Override
-	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) {
-	
-		if(service == HenshinTransformationGenerator.class){			
-			generator = new HenshinTransformationGenerator();
-		}//TODO else exception
-		
+	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException {
+				
+		generator = new HenshinTransformationGenerator();
 		generator.setOutputFolderPath(pathToOutputFolder);
 		
 		/**************************************************************************************************************/		
@@ -144,18 +143,50 @@ public class SergeServiceImpl implements SergeService{
 			}
 		}
 		
+		// retrieve Constraints
+		NodeList c_nameUniqueness = doc.getElementsByTagName("NameUniqueness");
+		for(int i=0; i<=c_nameUniqueness.getLength()-1; i++) {
+			Node c = c_nameUniqueness.item(i);
+			String scope = String.valueOf(Common.getAttributeValue("scope", c));
+			String eClass = String.valueOf(Common.getAttributeValue("eClass", c));
+			Boolean applyOnSubTypes = Boolean.valueOf(Common.getAttributeValue("applyOnSubTypes", c));
+			EClass constrainedEClass = null;
+			
+			if(!eClass.equals("")) {
+				//resolve eClass
+				for(EPackage ePackage: ePackages) {
+					constrainedEClass = (EClass) ePackage.getEClassifier(eClass);
+					if(constrainedEClass!=null) {
+						break;
+					}
+				}
+				if(constrainedEClass==null) {
+					throw new EClassUnresolvableException(eClass);
+				}
+			}
+			if(scope.equals("global")) {
+				generator.addConstraint(ConstraintType.NAME_UNIQUENESS_GLOBAL, constrainedEClass, applyOnSubTypes);
+			}else {
+				generator.addConstraint(ConstraintType.NAME_UNIQUENESS_LOCAL, constrainedEClass, applyOnSubTypes);
+			}
+		}
+		
 		// retrieve and root and nested attribute	
 		currentNode = docElem.getElementsByTagName("Root").item(0);
 		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
 			//resolve root
+			EClass foundRoot = null;
 			for(EPackage ePackage: ePackages) {
-				EClass foundRoot = (EClass) ePackage.getEClassifier(rootName);
+				foundRoot = (EClass) ePackage.getEClassifier(rootName);
 				if(foundRoot!=null) {
 					generator.setRoot(foundRoot);
 					break;
 				}
-			}	
+			}
+			if(foundRoot==null) {
+				throw new EClassUnresolvableException(rootName);
+			}
 		}
 		generator.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
 		
@@ -254,16 +285,21 @@ public class SergeServiceImpl implements SergeService{
 	 * it will additionally be checked if other model elements have mandatory
 	 * dependencies to the skippable elements. If so, they will be skipped, too.
 	 * Recursively.
+	 * @throws EClassUnresolvableException 
 	 */
-	private static void unfoldBlackList() {
+	private static void unfoldBlackList() throws EClassUnresolvableException {
 		generator.setBlackList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringBlackList) {
+			EClass skip = null;
 			for(EPackage ePackage: ePackages) {				
-				EClass skip = (EClass) ePackage.getEClassifier(eClassName);
+				skip = (EClass) ePackage.getEClassifier(eClassName);
 				if(skip!=null) {
 					generator.getBlackList().add(skip);
 				}
+			}
+			if(skip==null) {
+				throw new EClassUnresolvableException(eClassName);
 			}
 		}
 		
@@ -277,16 +313,21 @@ public class SergeServiceImpl implements SergeService{
 	 * This fills the actual whiteList with real EClasses.
 	 * It will additionally be checked recursively if EClasses in the WhiteList require
 	 * further EClasses to prevent model inconsistency.
+	 * @throws EClassUnresolvableException 
 	 */
-	private static void unfoldWhiteList() {
+	private static void unfoldWhiteList() throws EClassUnresolvableException {
 		generator.setWhiteList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringWhiteList) {
+			EClass eClass = null;
 			for(EPackage ePackage: ePackages) {				
-				EClass eClass = (EClass) ePackage.getEClassifier(eClassName);
+				eClass = (EClass) ePackage.getEClassifier(eClassName);
 				if(eClass!=null) {
 					generator.getWhiteList().add(eClass);
 				}
+			}
+			if(eClass==null) {
+				throw new EClassUnresolvableException(eClassName);
 			}
 		}		
 		findMoreRequiredClassifier(generator.getWhiteList());
