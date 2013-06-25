@@ -55,13 +55,21 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 			// retrieve and set configuration parameters
 			
+			currentNode = doc.getElementsByTagName("DebugOutput").item(0);
+			applicator.setDebugOutput((Boolean.valueOf(Common
+					.getAttributeValue("on", currentNode))));
+			
 			currentNode = doc.getElementsByTagName("Profile").item(0);
 			applicator.setProfileName((String.valueOf(Common
 					.getAttributeValue("name", currentNode))));
 
 			currentNode = doc.getElementsByTagName("MetaInstances").item(0);
 			applicator.setmetaInstances((Boolean.valueOf(Common
-					.getAttributeValue("allow", currentNode))));	
+					.getAttributeValue("allow", currentNode))));
+			
+			currentNode = doc.getElementsByTagName("MetaContext").item(0);
+			applicator.setMetaContext((Boolean.valueOf(Common
+					.getAttributeValue("allow", currentNode))));
 
 			NodeList basePackageNodes = doc.getElementsByTagName("BasePackage");
 			for (int i = 0; i <= basePackageNodes.getLength() - 1; i++) {

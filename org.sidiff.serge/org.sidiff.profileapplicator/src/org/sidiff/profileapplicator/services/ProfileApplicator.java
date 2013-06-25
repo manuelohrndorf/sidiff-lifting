@@ -34,9 +34,12 @@ public class ProfileApplicator {
 	private String inputFolderPath = null;
 	private String configPath = null;
 	private String outputFolderPath = null;
-
+	
+	
+	private boolean debugOutput = false;
 	private String profileName = null;
 	private boolean metaInstances = false;
+	private boolean metaContext = false;
 	private List<EPackage> basePackages = new ArrayList<EPackage>();
 	private List<EPackage> stereoPackages = new ArrayList<EPackage>();
 
@@ -58,7 +61,11 @@ public class ProfileApplicator {
 
 		if (this.metaInstances)
 			LogUtil.log(LogEvent.NOTICE,
-					"MetaInstances allowed, will also copy source edit rules into target folder.");
+					"MetaInstances allowed, source edit rules will also be copied untransformed.");
+		
+		if (this.metaContext)
+			LogUtil.log(LogEvent.NOTICE,
+					"MetaContext allowed, instances of baseType allowed as sufficient context");
 
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying transformations now, this could take some time...");
@@ -91,16 +98,20 @@ public class ProfileApplicator {
 				srcGraph = new EGraphImpl(
 						srcResourceSet.getResource(sourceFiles[l].getName()));
 
-				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
-						+ sourceFiles[l].getName() + "...");
+				if (this.debugOutput) {
+					LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
+							+ sourceFiles[l].getName() + "...");
+				}
 
 				boolean applied = false;
 				outputName = this.outputFolderPath + sourceFiles[l].getName();
 
 				for (int z = 0; z < this.stereoTypes.size(); z++) {
 
-					LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
-							+ this.stereoTypes.get(z) + "...");
+					if (this.debugOutput) {
+						LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
+								+ this.stereoTypes.get(z) + "...");
+					}
 
 					inputResourceSet = new HenshinResourceSet(
 							this.inputFolderPath);
@@ -131,8 +142,10 @@ public class ProfileApplicator {
 							Module module = hotsResourceSet.getModule(
 									hotsFiles[i].getAbsolutePath(), false);
 
-							LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
-									+ hotsFiles[i].getName() + "...");
+							if (this.debugOutput) {
+								LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
+										+ hotsFiles[i].getName() + "...");
+							}
 
 							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
@@ -150,8 +163,10 @@ public class ProfileApplicator {
 
 							boolean executed = unitapp.execute(null);
 
-							LogUtil.log(LogEvent.NOTICE,
-									"Successfully applied: " + executed);
+							if (this.debugOutput) {
+								LogUtil.log(LogEvent.NOTICE,
+										"Successfully applied: " + executed);
+							}
 							if (executed) {
 								stereoTypesUsed = true;
 								applied = true;
@@ -160,11 +175,13 @@ public class ProfileApplicator {
 												.getName() + "_execute.henshin";
 
 							}
-							if (executed && this.metaInstances) {
+							if (executed && this.metaContext) {
 								inputResourceSet.saveEObject(workGraph
 										.getRoots().get(0), outputName);
-								LogUtil.log(LogEvent.NOTICE,
-										"Result saved to: " + outputName);
+								if (this.debugOutput) {
+									LogUtil.log(LogEvent.NOTICE,
+											"Result saved to: " + outputName);
+								}
 
 							}
 
@@ -176,8 +193,10 @@ public class ProfileApplicator {
 
 						inputResourceSet.saveEObject(workGraph.getRoots()
 								.get(0), outputName);
-						LogUtil.log(LogEvent.NOTICE, "Result saved to: "
-								+ outputName);
+						if (this.debugOutput) {
+							LogUtil.log(LogEvent.NOTICE, "Result saved to: "
+									+ outputName);
+						}
 						applied = false;
 					}
 
@@ -187,9 +206,11 @@ public class ProfileApplicator {
 
 					inputResourceSet.saveEObject(srcGraph.getRoots().get(0),
 							this.outputFolderPath + sourceFiles[l].getName());
-					LogUtil.log(
-							LogEvent.NOTICE,
-							"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");
+					if (this.debugOutput) {
+						LogUtil.log(
+								LogEvent.NOTICE,
+								"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");
+					}
 				}
 				stereoTypesUsed = false;
 
@@ -408,6 +429,34 @@ public class ProfileApplicator {
 	 */
 	public void setTransformations(List<String> transformations) {
 		this.transformations = transformations;
+	}
+
+	/**
+	 * @return the debugOutput
+	 */
+	public boolean isDebugOutput() {
+		return debugOutput;
+	}
+
+	/**
+	 * @param debugOutput the debugOutput to set
+	 */
+	public void setDebugOutput(boolean debugOutput) {
+		this.debugOutput = debugOutput;
+	}
+
+	/**
+	 * @return the metaContext
+	 */
+	public boolean isMetaContext() {
+		return metaContext;
+	}
+
+	/**
+	 * @param metaContext the metaContext to set
+	 */
+	public void setMetaContext(boolean metaContext) {
+		this.metaContext = metaContext;
 	}
 
 	// TODO
