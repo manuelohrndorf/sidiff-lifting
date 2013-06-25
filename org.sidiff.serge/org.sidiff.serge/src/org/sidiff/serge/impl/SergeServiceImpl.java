@@ -324,6 +324,7 @@ public class SergeServiceImpl implements SergeService{
 				eClass = (EClass) ePackage.getEClassifier(eClassName);
 				if(eClass!=null) {
 					generator.getWhiteList().add(eClass);
+					break;
 				}
 			}
 			if(eClass==null) {
