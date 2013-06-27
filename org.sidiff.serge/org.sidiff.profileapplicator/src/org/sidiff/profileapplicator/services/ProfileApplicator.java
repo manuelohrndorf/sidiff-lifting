@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -19,31 +20,18 @@ import org.sidiff.common.logging.LogUtil;
 
 public class ProfileApplicator {
 
-	// TODO
-	/*
-	 * (Abstract) super classes have to be considered! Renaming problems at
-	 * super classes Wie die Reihenfolge beim Ausführen, d.h. welche
-	 * Kombinationen zulassen, z.B.:
-	 * 
-	 * DELETE_BLOCK_IN_X X = ? -> Class/Block/ConstraintBlock/Requirement ...
-	 * 
-	 * Notwendige Attribute bei "createST" besprechen! (Bezugspunkt / Referenz)
-	 */
-
-	private String hotsPath = null;
 	private String inputFolderPath = null;
 	private String configPath = null;
 	private String outputFolderPath = null;
-	
-	
+
 	private boolean debugOutput = false;
 	private String profileName = null;
-	private boolean metaInstances = false;
-	private boolean metaContext = false;
-	private List<EPackage> basePackages = new ArrayList<EPackage>();
-	private List<EPackage> stereoPackages = new ArrayList<EPackage>();
+	private boolean baseTypeInstances = false;
+	private boolean baseTypeContext = false;
+	private EPackage basePackage;
+	private EPackage stereoPackage;
 
-	private List<String> transformations = new ArrayList<String>();
+	private List<URI> transformations = new ArrayList<URI>();
 
 	private List<String> stereoTypes = new ArrayList<String>();
 	private List<String> baseTypes = new ArrayList<String>();
@@ -55,26 +43,29 @@ public class ProfileApplicator {
 				"Executing profile application for profile " + this.profileName
 						+ "...");
 
-		LogUtil.log(LogEvent.NOTICE,
+		LogUtil.log(
+				LogEvent.NOTICE,
 				"Using following higher order transformations: "
-						+ this.transformations.toString());
+						+ this.transformations
+								.toString()
+								.replace(
+										"platform:/plugin/org.sidiff.profileapplicator/hots/",
+										""));
 
-		if (this.metaInstances)
+		if (this.baseTypeInstances)
+			LogUtil.log(
+					LogEvent.NOTICE,
+					"BaseTypeInstances allowed, source edit rules will also be copied untransformed.");
+
+		if (this.baseTypeContext)
 			LogUtil.log(LogEvent.NOTICE,
-					"MetaInstances allowed, source edit rules will also be copied untransformed.");
-		
-		if (this.metaContext)
-			LogUtil.log(LogEvent.NOTICE,
-					"MetaContext allowed, instances of baseType allowed as sufficient context");
+					"BaseTypeContext allowed, instances of baseType allowed as sufficient context");
 
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying transformations now, this could take some time...");
 
 		File sourceFolder = new File(this.inputFolderPath);
 		File[] sourceFiles = sourceFolder.listFiles();
-
-		File hotsFolder = new File(this.hotsPath);
-		File[] hotsFiles = hotsFolder.listFiles();
 
 		boolean stereoTypesUsed = false;
 		String outputName = null;
@@ -120,69 +111,66 @@ public class ProfileApplicator {
 							inputResourceSet.getResource(sourceFiles[l]
 									.getName()));
 
-					for (int k = 0; k < this.basePackages.size(); k++) {
-						workGraph.addTree(this.basePackages.get(k));
-					}
+					workGraph.addTree(this.basePackage);
+					workGraph.addTree(this.stereoPackage);
 
-					for (int j = 0; j < this.stereoPackages.size(); j++) {
-						workGraph.addTree(this.stereoPackages.get(j));
-					}
+					for (int i = 0; i < this.transformations.size(); i++) {
 
-					for (int i = 0; i < hotsFiles.length; i++) {
-
-						hotsResourceSet = new HenshinResourceSet(this.hotsPath);
+						hotsResourceSet = new HenshinResourceSet();
 
 						UnitApplication unitapp = new UnitApplicationImpl(
 								engine);
 						unitapp.setEGraph(workGraph);
 
-						if (hotsFiles[i].getName().endsWith(".henshin")
-								&& useTransformation(hotsFiles[i].getName())) {
+						Module module = hotsResourceSet.getModule(
+								this.transformations.get(i), false);
 
-							Module module = hotsResourceSet.getModule(
-									hotsFiles[i].getAbsolutePath(), false);
+						if (this.debugOutput) {
+							LogUtil.log(
+									LogEvent.NOTICE,
+									"Executing HOT: "
+											+ this.transformations
+													.get(i)
+													.toString()
+													.replace(
+															"platform:/plugin/org.sidiff.profileapplicator/hots/",
+															"") + "...");
+						}
 
-							if (this.debugOutput) {
-								LogUtil.log(LogEvent.NOTICE, "Executing HOT: "
-										+ hotsFiles[i].getName() + "...");
-							}
+						unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
-							unitapp.setUnit((Unit) module.getUnit("mainUnit"));
+						// hard coded
+						unitapp.setParameterValue("stereoPackage",
+								this.stereoPackage.getNsURI());
 
-							// hard coded
-							unitapp.setParameterValue("stereoPackage",
-									this.stereoPackages.get(0).getNsURI());
+						// setting parameters
+						unitapp.setParameterValue("stereoType",
+								this.stereoTypes.get(z));
+						unitapp.setParameterValue("baseReference",
+								this.baseReferences.get(z));
+						unitapp.setParameterValue("baseType",
+								this.baseTypes.get(z));
 
-							// setting parameters
-							unitapp.setParameterValue("stereoType",
-									this.stereoTypes.get(z));
-							unitapp.setParameterValue("baseType",
-									this.baseTypes.get(z));
-							unitapp.setParameterValue("baseReference",
-									this.baseReferences.get(z));
+						boolean executed = unitapp.execute(null);
 
-							boolean executed = unitapp.execute(null);
+						if (this.debugOutput) {
+							LogUtil.log(LogEvent.NOTICE,
+									"Successfully applied: " + executed);
+						}
+						if (executed) {
+							stereoTypesUsed = true;
+							applied = true;
+							outputName = this.outputFolderPath
+									+ ((Module) workGraph.getRoots().get(0))
+											.getName() + "_execute.henshin";
 
+						}
+						if (executed && this.baseTypeContext) {
+							inputResourceSet.saveEObject(workGraph.getRoots()
+									.get(0), outputName);
 							if (this.debugOutput) {
 								LogUtil.log(LogEvent.NOTICE,
-										"Successfully applied: " + executed);
-							}
-							if (executed) {
-								stereoTypesUsed = true;
-								applied = true;
-								outputName = this.outputFolderPath
-										+ ((Module) workGraph.getRoots().get(0))
-												.getName() + "_execute.henshin";
-
-							}
-							if (executed && this.metaContext) {
-								inputResourceSet.saveEObject(workGraph
-										.getRoots().get(0), outputName);
-								if (this.debugOutput) {
-									LogUtil.log(LogEvent.NOTICE,
-											"Result saved to: " + outputName);
-								}
-
+										"Result saved to: " + outputName);
 							}
 
 						}
@@ -202,14 +190,14 @@ public class ProfileApplicator {
 
 				}
 				// Copy meta instances untransformed
-				if (!stereoTypesUsed || this.metaInstances) {
+				if (!stereoTypesUsed || this.baseTypeInstances) {
 
 					inputResourceSet.saveEObject(srcGraph.getRoots().get(0),
 							this.outputFolderPath + sourceFiles[l].getName());
 					if (this.debugOutput) {
 						LogUtil.log(
 								LogEvent.NOTICE,
-								"No applicable stereotype found or metaInstances allowed, copied unmodified edit rule");
+								"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
 					}
 				}
 				stereoTypesUsed = false;
@@ -220,35 +208,6 @@ public class ProfileApplicator {
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying profile " + this.getProfileName() + " completed!");
 
-	}
-
-	public boolean useTransformation(String transformation) {
-
-		boolean result = false;
-
-		for (int i = 0; i < this.transformations.size(); i++) {
-			if (transformation.startsWith(this.transformations.get(i)))
-				result = true;
-
-		}
-
-		return result;
-
-	}
-
-	/**
-	 * @return the metaInstances
-	 */
-	public boolean isMetaInstances() {
-		return metaInstances;
-	}
-
-	/**
-	 * @param metaInstances
-	 *            the metaInstances to set
-	 */
-	public void setMetaInstances(boolean metaInstances) {
-		this.metaInstances = metaInstances;
 	}
 
 	/**
@@ -297,48 +256,33 @@ public class ProfileApplicator {
 	}
 
 	/**
-	 * @param basePackages
-	 *            the basePackages to set
+	 * @param basePackage
+	 *            the basePackage to set
 	 */
-	public void setBasePackages(List<EPackage> basePackages) {
-		this.basePackages = basePackages;
+	public void setBasePackage(EPackage basePackage) {
+		this.basePackage = basePackage;
 	}
 
 	/**
-	 * @param stereoPackages
-	 *            the stereoPackages to set
+	 * @param stereoPackage
+	 *            the stereoPackage to set
 	 */
-	public void setStereoPackages(List<EPackage> stereoPackages) {
-		this.stereoPackages = stereoPackages;
+	public void setStereoPackage(EPackage stereoPackage) {
+		this.stereoPackage = stereoPackage;
 	}
 
 	/**
-	 * @return the metaInstances
+	 * @return the basePackage
 	 */
-	public boolean ismetaInstances() {
-		return metaInstances;
+	public EPackage getBasePackage() {
+		return basePackage;
 	}
 
 	/**
-	 * @param metaInstances
-	 *            the metaInstances to set
+	 * @return the stereoPackage
 	 */
-	public void setmetaInstances(boolean metaInstances) {
-		this.metaInstances = metaInstances;
-	}
-
-	/**
-	 * @return the basePackages
-	 */
-	public List<EPackage> getBasePackages() {
-		return basePackages;
-	}
-
-	/**
-	 * @return the stereoPackages
-	 */
-	public List<EPackage> getStereoPackages() {
-		return stereoPackages;
+	public EPackage getStereoPackage() {
+		return stereoPackage;
 	}
 
 	/**
@@ -387,21 +331,6 @@ public class ProfileApplicator {
 	}
 
 	/**
-	 * @return the hotsPath
-	 */
-	public String getHotsPath() {
-		return hotsPath;
-	}
-
-	/**
-	 * @param hotsPath
-	 *            the hotsPath to set
-	 */
-	public void setHotsPath(String hotsPath) {
-		this.hotsPath = hotsPath;
-	}
-
-	/**
 	 * @return the profileName
 	 */
 	public String getProfileName() {
@@ -417,21 +346,6 @@ public class ProfileApplicator {
 	}
 
 	/**
-	 * @return the transformations
-	 */
-	public List<String> getTransformations() {
-		return transformations;
-	}
-
-	/**
-	 * @param transformations
-	 *            the transformations to set
-	 */
-	public void setTransformations(List<String> transformations) {
-		this.transformations = transformations;
-	}
-
-	/**
 	 * @return the debugOutput
 	 */
 	public boolean isDebugOutput() {
@@ -439,26 +353,56 @@ public class ProfileApplicator {
 	}
 
 	/**
-	 * @param debugOutput the debugOutput to set
+	 * @param debugOutput
+	 *            the debugOutput to set
 	 */
 	public void setDebugOutput(boolean debugOutput) {
 		this.debugOutput = debugOutput;
 	}
 
 	/**
-	 * @return the metaContext
+	 * @return the baseTypeInstances
 	 */
-	public boolean isMetaContext() {
-		return metaContext;
+	public boolean isBaseTypeInstances() {
+		return baseTypeInstances;
 	}
 
 	/**
-	 * @param metaContext the metaContext to set
+	 * @param baseTypeInstances
+	 *            the baseTypeInstances to set
 	 */
-	public void setMetaContext(boolean metaContext) {
-		this.metaContext = metaContext;
+	public void setBaseTypeInstances(boolean baseTypeInstances) {
+		this.baseTypeInstances = baseTypeInstances;
 	}
 
-	// TODO
+	/**
+	 * @return the baseTypeContext
+	 */
+	public boolean isBaseTypeContext() {
+		return baseTypeContext;
+	}
+
+	/**
+	 * @param baseTypeContext
+	 *            the baseTypeContext to set
+	 */
+	public void setBaseTypeContext(boolean baseTypeContext) {
+		this.baseTypeContext = baseTypeContext;
+	}
+
+	/**
+	 * @return the transformations
+	 */
+	public List<URI> getTransformations() {
+		return transformations;
+	}
+
+	/**
+	 * @param transformations
+	 *            the transformations to set
+	 */
+	public void setTransformations(List<URI> transformations) {
+		this.transformations = transformations;
+	}
 
 }

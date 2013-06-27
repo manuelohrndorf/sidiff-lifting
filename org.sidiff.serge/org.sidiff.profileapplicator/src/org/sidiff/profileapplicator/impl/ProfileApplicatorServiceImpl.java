@@ -3,6 +3,7 @@ package org.sidiff.profileapplicator.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
@@ -19,10 +20,8 @@ import org.w3c.dom.NodeList;
 public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	private static ProfileApplicator applicator = null;
-	private static List<EPackage> basePackages = new ArrayList<EPackage>();
-	private static List<EPackage> stereoPackages = new ArrayList<EPackage>();
 
-	private static List<String> transformations = new ArrayList<String>();
+	private static List<URI> transformations = new ArrayList<URI>();
 
 	private static List<String> stereoTypes = new ArrayList<String>();
 	private static List<String> baseTypes = new ArrayList<String>();
@@ -32,19 +31,17 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	}
 
-	public void init(Class<?> service, String package_loc, String pathToConfig,
+	public void init(Class<?> service, String pathToConfig,
 			String pathToInputFolder, String pathToOutputFolder) {
 
 		if (service == ProfileApplicator.class) {
 
 			applicator = new ProfileApplicator();
 
-			applicator.setHotsPath(package_loc + "hots/");
 			applicator.setConfigPath(pathToConfig);
 			applicator.setInputFolderPath(pathToInputFolder);
 			applicator.setOutputFolderPath(pathToOutputFolder);
-			
-		
+
 			LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 
 			Document doc = XMLParser.parseStream(IOUtil
@@ -54,65 +51,55 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			NodeList currentChildNodes = null;
 
 			// retrieve and set configuration parameters
-			
+
 			currentNode = doc.getElementsByTagName("DebugOutput").item(0);
 			applicator.setDebugOutput((Boolean.valueOf(Common
 					.getAttributeValue("on", currentNode))));
-			
+
 			currentNode = doc.getElementsByTagName("Profile").item(0);
-			applicator.setProfileName((String.valueOf(Common
-					.getAttributeValue("name", currentNode))));
+			applicator.setProfileName((String.valueOf(Common.getAttributeValue(
+					"name", currentNode))));
 
-			currentNode = doc.getElementsByTagName("MetaInstances").item(0);
-			applicator.setmetaInstances((Boolean.valueOf(Common
-					.getAttributeValue("allow", currentNode))));
-			
-			currentNode = doc.getElementsByTagName("MetaContext").item(0);
-			applicator.setMetaContext((Boolean.valueOf(Common
+			currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
+			applicator.setBaseTypeInstances((Boolean.valueOf(Common
 					.getAttributeValue("allow", currentNode))));
 
-			NodeList basePackageNodes = doc.getElementsByTagName("BasePackage");
-			for (int i = 0; i <= basePackageNodes.getLength() - 1; i++) {
-				Node basePackageNode = basePackageNodes.item(i);
-				String uri = String.valueOf(Common.getAttributeValue("nsUri",
-						basePackageNode));
-				EPackage basePackage = EPackage.Registry.INSTANCE
-						.getEPackage(uri);
-				if (!basePackages.contains(basePackage)) {
-					basePackages.add(basePackage);	
+			currentNode = doc.getElementsByTagName("BaseTypeContext").item(0);
+			applicator.setBaseTypeContext((Boolean.valueOf(Common
+					.getAttributeValue("allow", currentNode))));
 
-				}
-			}
-			applicator.setBasePackages(basePackages);		
+			currentNode = doc.getElementsByTagName("BasePackage").item(0);
+			applicator.setBasePackage(EPackage.Registry.INSTANCE
+					.getEPackage(String.valueOf(Common.getAttributeValue(
+							"nsUri", currentNode))));
 
-			NodeList stereoPackageNodes = doc
-					.getElementsByTagName("StereoPackage");
-			for (int i = 0; i <= stereoPackageNodes.getLength() - 1; i++) {
-				Node stereoPackageNode = stereoPackageNodes.item(i);
-				String uri = String.valueOf(Common.getAttributeValue("nsUri",
-						stereoPackageNode));
-				EPackage stereoPackage = EPackage.Registry.INSTANCE
-						.getEPackage(uri);
-				if (!stereoPackages.contains(stereoPackage)) {
-					stereoPackages.add(stereoPackage);
-				}
-			}
-			applicator.setStereoPackages(stereoPackages);
-			
-			NodeList transformationNodes = doc.getElementsByTagName("Transformation");
+			currentNode = doc.getElementsByTagName("StereoPackage").item(0);
+			applicator.setStereoPackage(EPackage.Registry.INSTANCE
+					.getEPackage(String.valueOf(Common.getAttributeValue(
+							"nsUri", currentNode))));
+
+			NodeList transformationNodes = doc
+					.getElementsByTagName("Transformation");
 			for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
 				Node transformationNode = transformationNodes.item(i);
-				String transformation = String.valueOf(Common.getAttributeValue(
-						"name", transformationNode));
+				String transformation = String.valueOf(Common
+						.getAttributeValue("name", transformationNode));
 				Boolean apply = Boolean.valueOf(Common.getAttributeValue(
 						"apply", transformationNode));
-	
-				if (apply) {
-					transformations.add(transformation);
-				}
-			}			
-			applicator.setTransformations(transformations);
 				
+				if (apply) {
+					URI transformationURI = URI
+							.createPlatformPluginURI(
+									"org.sidiff.profileapplicator/hots/"
+										+ transformation
+										+ "_STEREOTYPE_IN_EDITRULE.henshin", false);
+						
+							transformations.add(transformationURI);
+					
+				}
+			}
+
+			applicator.setTransformations(transformations);
 
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
@@ -129,13 +116,16 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 					baseReferences.add(baseReference);
 				}
 			}
+			
+			//TODO INSERT INHERITED
+			//Alle subpackes von stereoTyp X herausfinden, hinzufügen und baseType sowie baseRefence anpassen?
 			applicator.setStereoTypes(stereoTypes);
 			applicator.setBaseTypes(baseTypes);
 			applicator.setBaseReferences(baseReferences);
 
-			LogUtil.log(LogEvent.NOTICE, "Interpreting completed, ProfileApplicator initialized!");
-		}
-		else 
+			LogUtil.log(LogEvent.NOTICE,
+					"Interpreting completed, ProfileApplicator initialized!");
+		} else
 			LogUtil.log(LogEvent.ERROR, "ProfileApplicatorService not found!");
 	}
 
