@@ -1,9 +1,12 @@
 package org.sidiff.profileapplicator.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
@@ -86,16 +89,15 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 						.getAttributeValue("name", transformationNode));
 				Boolean apply = Boolean.valueOf(Common.getAttributeValue(
 						"apply", transformationNode));
-				
+
 				if (apply) {
-					URI transformationURI = URI
-							.createPlatformPluginURI(
-									"org.sidiff.profileapplicator/hots/"
-										+ transformation
-										+ "_STEREOTYPE_IN_EDITRULE.henshin", false);
-						
-							transformations.add(transformationURI);
-					
+					URI transformationURI = URI.createPlatformPluginURI(
+							"org.sidiff.profileapplicator/hots/"
+									+ transformation
+									+ "_STEREOTYPE_IN_EDITRULE.henshin", false);
+
+					transformations.add(transformationURI);
+
 				}
 			}
 
@@ -111,14 +113,42 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				String baseReference = String.valueOf(Common.getAttributeValue(
 						"baseReference", stereoTypeNode));
 				if (!stereoTypes.contains(stereoType)) {
+
+					// Adding non inherited type
 					stereoTypes.add(stereoType);
 					baseTypes.add(baseType);
 					baseReferences.add(baseReference);
+
+					// Adding all possible sub types of base type
+					for (Iterator<EObject> it = applicator.getBasePackage()
+							.eAllContents(); it.hasNext();) {
+						EObject obj = it.next();
+
+						if (obj instanceof EClass) {
+
+							EClass eSubClass = (EClass) obj;
+
+							for (EClass eSuperClass : eSubClass
+									.getEAllSuperTypes()) {
+
+								if (eSuperClass.getName().equals(baseType)) {
+
+									stereoTypes.add(stereoType);
+									baseTypes.add(eSubClass.getName());
+									baseReferences.add(baseReference);
+
+								}
+							}
+
+						}
+
+					}
+
 				}
+
 			}
-			
-			//TODO INSERT INHERITED
-			//Alle subpackes von stereoTyp X herausfinden, hinzufügen und baseType sowie baseRefence anpassen?
+
+			System.out.println("Size: " + stereoTypes.size());
 			applicator.setStereoTypes(stereoTypes);
 			applicator.setBaseTypes(baseTypes);
 			applicator.setBaseReferences(baseReferences);

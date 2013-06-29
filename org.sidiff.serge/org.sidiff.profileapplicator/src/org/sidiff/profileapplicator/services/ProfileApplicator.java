@@ -62,7 +62,7 @@ public class ProfileApplicator {
 					"BaseTypeContext allowed, instances of baseType allowed as sufficient context");
 
 		LogUtil.log(LogEvent.NOTICE,
-				"Applying transformations now, this could take some time...");
+				"Applying transformations now, this could (and most certainly will) take some time...");
 
 		File sourceFolder = new File(this.inputFolderPath);
 		File[] sourceFiles = sourceFolder.listFiles();
@@ -90,8 +90,13 @@ public class ProfileApplicator {
 						srcResourceSet.getResource(sourceFiles[l].getName()));
 
 				if (this.debugOutput) {
+					LogUtil.log(LogEvent.NOTICE,
+							"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 					LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
 							+ sourceFiles[l].getName() + "...");
+					LogUtil.log(LogEvent.NOTICE,
+							"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
 				}
 
 				boolean applied = false;
@@ -100,8 +105,11 @@ public class ProfileApplicator {
 				for (int z = 0; z < this.stereoTypes.size(); z++) {
 
 					if (this.debugOutput) {
+						LogUtil.log(LogEvent.NOTICE,
+								"----------------------------------------------------------------------");
 						LogUtil.log(LogEvent.NOTICE, "Applying Stereotype: "
-								+ this.stereoTypes.get(z) + "...");
+								+ this.stereoTypes.get(z) + " to Basetype: "
+								+ this.baseTypes.get(z));
 					}
 
 					inputResourceSet = new HenshinResourceSet(
@@ -128,7 +136,7 @@ public class ProfileApplicator {
 						if (this.debugOutput) {
 							LogUtil.log(
 									LogEvent.NOTICE,
-									"Executing HOT: "
+									"Executing HOT "
 											+ this.transformations
 													.get(i)
 													.toString()
@@ -169,8 +177,13 @@ public class ProfileApplicator {
 							inputResourceSet.saveEObject(workGraph.getRoots()
 									.get(0), outputName);
 							if (this.debugOutput) {
-								LogUtil.log(LogEvent.NOTICE,
-										"Result saved to: " + outputName);
+								LogUtil.log(
+										LogEvent.NOTICE,
+										"Result saved as: "
+												+ ((Module) workGraph
+														.getRoots().get(0))
+														.getName()
+												+ "_execute.henshin");
 							}
 
 						}
@@ -182,8 +195,14 @@ public class ProfileApplicator {
 						inputResourceSet.saveEObject(workGraph.getRoots()
 								.get(0), outputName);
 						if (this.debugOutput) {
-							LogUtil.log(LogEvent.NOTICE, "Result saved to: "
-									+ outputName);
+							LogUtil.log(
+									LogEvent.NOTICE,
+									"Result saved as: "
+											+ ((Module) workGraph
+													.getRoots().get(0))
+													.getName()
+											+ "_execute.henshin");
+							
 						}
 						applied = false;
 					}
