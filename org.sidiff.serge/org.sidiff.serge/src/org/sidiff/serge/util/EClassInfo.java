@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
+import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 
 public class EClassInfo {
 
@@ -25,6 +27,8 @@ public class EClassInfo {
 	private ArrayList<EClass> subTypes = new ArrayList<EClass>();
 	private ArrayList<EClass> stereotypes = new ArrayList<EClass>();
 	private ArrayList<EClass> extendedMetaClasses = new ArrayList<EClass>();
+	
+	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
 	
 	public enum Map {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
 						OPTIONAL_CHILDREN,OPTIONAL_NEIGHBOURS, OPTIONAL_PARENT_CONTEXT,OPTIONAL_NEIGHBOUR_CONTEXT;
@@ -75,6 +79,9 @@ public class EClassInfo {
 	public ArrayList<EClass> getExtendedMetaClasses() {
 		return extendedMetaClasses;
 	}
+	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
+		return appliedConstraints;
+	}
 
 	/** Setter ****************************************************************************/
 	
@@ -88,6 +95,10 @@ public class EClassInfo {
 		if(!stereotypes.contains(stereotype)) {
 			stereotypes.add(stereotype);
 		}
+	}
+	
+	public void addConstraint(ConstraintType ctype, List<Object> flags) {
+		appliedConstraints.put(ctype, flags);
 	}
 	
 	/** Convenience methods ***************************************************************/
@@ -115,6 +126,21 @@ public class EClassInfo {
 		return extendedMetaClasses.isEmpty();
 	}
 	
+	public boolean isConstrainedToLocalNameUniqueness() {
+		return !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_LOCAL)==null);
+	}
+	
+	public boolean isConstrainedToGlobalNameUniqueness() {
+		return !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_GLOBAL)==null);
+	}
+	
+	public boolean isOnlyConstrainedToGlobalNameUniqueness() {
+		if( (appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_LOCAL)==null) &&
+		   !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_GLOBAL)==null)) {
+				return true;
+			}
+		return false;
+	}
 	public ArrayList<EClass> getMandatoryContexts() {
 		
 		ArrayList<EClass> mandatoryContexts = new ArrayList<EClass>();

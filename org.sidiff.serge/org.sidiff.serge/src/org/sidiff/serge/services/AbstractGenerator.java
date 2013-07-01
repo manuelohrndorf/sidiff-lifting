@@ -12,6 +12,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.util.EClassInfoManagement;
 
 public abstract class AbstractGenerator implements EClassVisitor{
@@ -32,7 +33,6 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected String outputFolderPath  = null;
 	protected String baseModelRuleFolderPath  = null;
 	protected static List<EPackage> ePackages = null;
-	protected static Map<ConstraintType, Map<EClass,Boolean>> constraints = null;
 	
 	protected static EClassInfoManagement eClassInfoManagement = null;
 	
@@ -81,11 +81,17 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		if(eClassifier instanceof EClass) {		
 			EClass eClass = (EClass) eClassifier;
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClass.getName() + " ***********************************************");
+			
+			// DELETE ---------------------------------------------
 			if(!eClass.isAbstract()) {
-				generate_CREATE_And_DELETE_Modules(eClass);
+				try {
+					generate_CREATE_And_DELETE_Modules(eClass);
+					generate_Update_Module(eClass);
+					generate_MOVE_Module(eClass);
+				} catch (ConstraintException e) {
+					e.printStackTrace();
+				}
 			}
-			generate_Update_Module(eClass);
-			generate_MOVE_Module(eClass);
 		}
 
 	}
@@ -96,13 +102,13 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		
 	}
 
-	/***** abstracts *****************************************************************************/
+	/***** abstracts  *****************************************************************************/
 	
-	public abstract void generate_CREATE_And_DELETE_Modules(EClass eClass);
+	public abstract void generate_CREATE_And_DELETE_Modules(EClass eClass) throws ConstraintException;
 	
-	public abstract void generate_Update_Module(EClass eClass);
+	public abstract void generate_Update_Module(EClass eClass) throws ConstraintException;
 	
-	public abstract void generate_MOVE_Module(EClass eClass);
+	public abstract void generate_MOVE_Module(EClass eClass) throws ConstraintException;
 	
 	public abstract void serialize(Module module, String outputFileName);
 
@@ -209,19 +215,6 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	public void setBaseModelRuleFolderPath(String baseModelRuleFolderPath) {
 		this.baseModelRuleFolderPath = baseModelRuleFolderPath;
 	}
-
-	public void addConstraint(ConstraintType ctype, EClass eClass, Boolean flag) {
-		if(constraints==null) {
-			constraints = new HashMap<ConstraintType,Map<EClass,Boolean>>();		
-		}
-		if(constraints.get(ctype)==null) {
-			Map<EClass, Boolean> classifierFlagMap = new HashMap<EClass,Boolean>();
-			classifierFlagMap.put(eClass, flag);
-			constraints.put(ctype, classifierFlagMap);
-		}else{
-			constraints.get(ctype).put(eClass,flag);
-		}
-	}
 	
 	public EClassInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
 		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClass>>();
@@ -256,4 +249,5 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return implicitRequirements.get(type);
 	}
 	
+
 }

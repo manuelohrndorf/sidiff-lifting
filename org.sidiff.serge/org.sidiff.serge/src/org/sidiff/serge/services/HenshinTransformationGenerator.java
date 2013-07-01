@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
@@ -30,10 +31,12 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.HenshinUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.util.Common;
 import org.sidiff.serge.util.EClassInfo;
 import org.sidiff.serge.util.ModuleFilenamePair;
@@ -63,7 +66,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 
 	@Override
-	public void generate_CREATE_And_DELETE_Modules(EClass eClass) {
+	public void generate_CREATE_And_DELETE_Modules(EClass eClass) throws ConstraintException {
 		
 		// Get the EClassInfo for eClass and return if no transformations are allowed
 		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
@@ -122,6 +125,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						createMandatoryNeighbours(rule, eClassInfo, newNode);
 
 					}
+										
+					createElementsForConstraints_CREATE(module);
 
 					// create variants (abstract replaces of <<create>> nodes and sub type variants)
 					ArrayList<ModuleFilenamePair> variantList = new ArrayList<ModuleFilenamePair>();
@@ -270,7 +275,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 
 	@Override
-	public void generate_Update_Module(EClass eClass) {
+	public void generate_Update_Module(EClass eClass) throws ConstraintException {
 		
 		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
 		
@@ -280,100 +285,92 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 
 		if(createSETS) {
-			
+
 			// EAttributes which shall be considered
-			List<EAttribute> easToConsider = null;
+			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
 			if(reduceToSuperType_SETUNSET) {
-				easToConsider = eClass.getEAttributes();
+				//all own eattributes
+				List<EAttribute> ownEAttributes = eClass.getEAttributes();
+				if(ownEAttributes!=null) {
+					easToConsider.addAll(ownEAttributes);
+				}
+				
+				//also include all inherited EAttributes, for which SERGEe Constraints are defined
+				List<EAttribute> easOfConstraintsToConsider = getAllInheritedEAttributesInvolvedInConstraints(eClass);
+				if(easOfConstraintsToConsider!=null) {
+					easToConsider.addAll(easOfConstraintsToConsider);
+				}
+				
 			}else{
+				//all inherited eattributes
 				easToConsider = eClass.getEAllAttributes();
 			}
-						
+
 			for(EAttribute ea: easToConsider) {
 				// don't consider derived, not changeable, unsettable and transient references
 				if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
-					
+
 					// SET for EAttributes ***************************************************************************/
 					LogUtil.log(LogEvent.NOTICE, "Generating SET : " + eClass.getName() + " attribute "+ ea.getName());
-					
-					String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
-					
-					String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+
+					// create SET_Module
 					Module SET_Module = henshinFactory.createModule();
-					
-					SET_Module.setName(name);
-					SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));
-					
+
 					// Add imports for meta model
 					SET_Module.getImports().addAll(ePackages);
-	
+
 					// create rule
 					Rule rule = henshinFactory.createRule();
 					rule.setActivated(true);
 					rule.setName("set"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName()));
 					rule.setDescription("Sets the EAttribute "+ea.getName());
 					SET_Module.getUnits().add(rule);
-	
+
 					// create preserved node for eClass
 					NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
 					Node rhsNode = selectedNodePair.getRhsNode();
-	
+
 					// create attribute
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.firstLetterToUpperCase(ea.getName()));
-	
-					
+
+
 					// if profiledModel then link mandatory neighbours (expecially the meta class)
 					if(profileApplicationInUse) {
 						createMandatoryNeighbours(rule, eClassInfo, rhsNode);
 					}
 
-					// create mainUnits & put TS in map for later serializing
-					mainUnitCreation(SET_Module, eClass, OperationType.SET);
-					moduleMap.put(SET_Module, outputFileName);	
-					
-					// create UNSET if wished
-					if(createUNSETS && ea.isUnsettable()) {
-						// UNSET for EAttributes *************************************************************************/
-						LogUtil.log(LogEvent.NOTICE, "Generating UNSET : " + eClass.getName() + " attribute "+ ea.getName());
+					// If selected eClass is constrained locally (e.g. it's name to be set must be unique under a local context),
+					// create parent nodes which are required by NACs/PACs later.
+					// If there is more than one possible parent, module must be copied.
+					if(eClassInfo.isConstrainedToLocalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1)==ea)) {
+						moduleMap = createNameUniquenessLocalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
 
-						// create UNSET from copy of SET and set DefaultValue for the <<create>> parameter
-						Module UNSET_Module = EcoreUtil.copy(SET_Module);
-						String outputFileNameUNSET = outputFileName.replace(SET_prefix, UNSET_prefix);
-						Node unsetRHSNode = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getRhs().getNodes().get(0);
-
-						// get the attribute's default value and set it
-						Object defaultValue = ea.getDefaultValue();
-						String strDefaultValue = null;
-						if(defaultValue!=null) {
-							strDefaultValue = defaultValue.toString();
-						}else{
-							// No need for UNSET, since there is no DefaultValue to which we could reset
-							continue;
+					}
+					else if(eClassInfo.isOnlyConstrainedToGlobalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1)==ea)) {
+						moduleMap = createNameUniquenessGlobalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
+					}
+					else{ //not constrained locally
+						
+						// set outputFilename, Module name and description
+						String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
+						String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+						SET_Module.setName(name);
+						SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));
+						
+						// create mainUnits & put TS in map for later serializing
+						mainUnitCreation(SET_Module, eClass, OperationType.SET);
+						moduleMap.put(SET_Module, outputFileName);
+						
+						// create UNSET if wished
+						if(createUNSETS && ea.isUnsettable()) {
+							moduleMap = createUNSET(SET_Module, eClass, ea, outputFileName, moduleMap);
 						}
-						
-						Attribute changedAttribute = HenshinRuleAnalysisUtilEx.getAttributeByType(unsetRHSNode.getAttributes(), ea);
-						unsetRHSNode.getAttributes().remove(changedAttribute);
-						changedAttribute.setValue(strDefaultValue);
-						unsetRHSNode.getAttributes().add(changedAttribute);
+					}
 
-						// rename everything from SET to UNSET
-						UNSET_Module.setName(UNSET_Module.getName().replace(SET_prefix, UNSET_prefix));
-						UNSET_Module.setDescription(UNSET_Module.getDescription().replace("Sets", "Unsets"));
-						Rule unsetRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0);
-						unsetRule.setName(unsetRule.getName().replace("set", "unset"));
-						unsetRule.setDescription(unsetRule.getDescription().replace("Sets", "Sets"));
-						
-						// create mainUnits & put Module in map for later serializing
-				//TODO Test the following: all non-rule-units must be deleted from module
-						removeAllNonRuleUnits(UNSET_Module);
-				//		UNSET_Module.getTransformationUnits().clear(); //remove copied mainUnit form SET_TS
-						HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
-						mainUnitCreation(UNSET_Module, eClass, OperationType.UNSET);
-						moduleMap.put(UNSET_Module, outputFileNameUNSET);
-					}			
+
 				}
 			}
-	
+
 		}
 
 		// EReferences and their EOpposites, if any		
@@ -407,6 +404,111 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 
 
+	private List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClass eClass) {
+		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
+		
+		// look up constraints for supertypes of the given eclass
+		for(EClass superType: eClass.getEAllSuperTypes()) {
+			EClassInfo supInfo = eClassInfoManagement.getEClassInfo(superType);
+			Boolean applicationOnSubTypesSet = null;
+			
+			// get all eattributes involved in GNU
+			if(supInfo.isConstrainedToGlobalNameUniqueness()) {
+				applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
+				if(applicationOnSubTypesSet) {
+					EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
+					if(!additionalEAsToConsider.contains(additional)) {
+						additionalEAsToConsider.add(additional);
+					}
+				}
+			}
+			// get all eattributes involved in LNU
+			if(supInfo.isConstrainedToLocalNameUniqueness()) {
+				applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
+				if(applicationOnSubTypesSet) {
+					EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
+					if(!additionalEAsToConsider.contains(additional)) {
+						additionalEAsToConsider.add(additional);
+					}
+				}
+			}
+		}
+		
+		
+		return additionalEAsToConsider;
+	}
+
+	private HashMap<Module,String> createNameUniquenessLocalConstraint_SET(Module SET_Module, Rule rule, EClass eClass, EAttribute ea, HashMap<Module,String> moduleMap ) {
+		
+		Module origSET_Module = EcoreUtil.copy(SET_Module); //needed otherwise SET_Module will be modified later
+		HashMap<EReference,List<EClass>> map = eClassInfoManagement.getAllParentContexts(eClass);
+		Integer contextCounter = 0;
+
+		for(Entry<EReference, List<EClass>> entry: map.entrySet()) {
+			EReference eRef = entry.getKey();
+			for(EClass context: entry.getValue()) {
+				// if its not the first or the only context, a new Module must be created for each context
+				String nameExtensionForConstraint = "";
+				if(contextCounter>0) { 
+					// copy SET_Module
+					SET_Module = EcoreUtil.copy(origSET_Module);
+					rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(SET_Module).get(0);
+					nameExtensionForConstraint = "In"+Common.firstLetterToUpperCase(context.getName());
+				}
+				// create context node and create preserved Edge in RHS & LHS
+				NodePair contextNP = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", context);
+				NodePair selectedNP = HenshinRuleAnalysisUtilEx.getNodePair(rule, eClass, "Selected");
+				HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, contextNP, selectedNP, eRef);
+
+				// create NACs or PACs to cover individual constraints
+				createElementsForConstraints_SET(SET_Module, OperationType.SET, ConstraintType.NAME_UNIQUENESS_LOCAL);
+				
+				// set outputFilename, Module name and description
+				String name = SET_prefix + eClass.getName() + nameExtensionForConstraint +"_"+Common.firstLetterToUpperCase(ea.getName());
+				String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+				SET_Module.setName(name);
+				SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));							
+				
+				// create mainUnits & put TS in map for later serializing
+				mainUnitCreation(SET_Module, eClass, OperationType.SET);
+				moduleMap.put(SET_Module, outputFileName);
+				
+				// create UNSET if wished
+				if(createUNSETS && ea.isUnsettable()) {
+					moduleMap = createUNSET(SET_Module, eClass, ea, outputFileName, moduleMap);
+				}
+
+				// increase counter, so for next iteration the SET_Module must be copied
+				contextCounter++;
+			}
+		}
+		return moduleMap;		
+	}
+
+	private HashMap<Module,String> createNameUniquenessGlobalConstraint_SET(Module SET_Module, Rule rule, EClass eClass, EAttribute ea, HashMap<Module,String> moduleMap ) {
+
+		// create NACs or PACs to cover individual constraints
+		createElementsForConstraints_SET(SET_Module, OperationType.SET, ConstraintType.NAME_UNIQUENESS_GLOBAL);
+
+		// set outputFilename, Module name and description
+		String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
+		String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+		SET_Module.setName(name);
+		SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));							
+
+		// create mainUnits & put TS in map for later serializing
+		mainUnitCreation(SET_Module, eClass, OperationType.SET);
+		moduleMap.put(SET_Module, outputFileName);
+
+		// create UNSET if wished
+		if(createUNSETS && ea.isUnsettable()) {
+			moduleMap = createUNSET(SET_Module, eClass, ea, outputFileName, moduleMap);
+		}
+
+		return moduleMap;		
+	}
+	
+	
 	private void removeAllNonRuleUnits(Module module) {
 		Iterator<Unit> itUnit = module.getUnits().iterator();
 		while(itUnit.hasNext()) {
@@ -420,7 +522,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 
 	@Override
-	public void generate_MOVE_Module(EClass eClass) {
+	public void generate_MOVE_Module(EClass eClass) throws ConstraintException {
 		
 		if (!isAllowed(eClass,true) || createMOVES==false)  return;
 		if (profileApplicationInUse && eClassInfoManagement.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
@@ -1148,6 +1250,51 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 
 	
+	private HashMap<Module,String> createUNSET(Module SET_Module, EClass eClass, EAttribute ea, String outputFileName, HashMap<Module,String> moduleMap) {
+		
+		// UNSET for EAttributes *************************************************************************/
+		LogUtil.log(LogEvent.NOTICE, "Generating UNSET : " + eClass.getName() + " attribute "+ ea.getName());
+
+		// create UNSET from copy of SET and set DefaultValue for the <<create>> parameter
+		Module UNSET_Module = EcoreUtil.copy(SET_Module);
+		String outputFileNameUNSET = outputFileName.replace(SET_prefix, UNSET_prefix);
+		Node unsetRHSNode = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getRhs().getNodes().get(0);
+
+		// get the attribute's default value and set it
+		Object defaultValue = ea.getDefaultValue();
+		String strDefaultValue = null;
+		if(defaultValue!=null) {
+			strDefaultValue = defaultValue.toString();
+		}else{
+			// No need for UNSET, since there is no DefaultValue to which we could reset
+			return moduleMap;
+		}
+
+		Attribute changedAttribute = HenshinRuleAnalysisUtilEx.getAttributeByType(unsetRHSNode.getAttributes(), ea);
+		unsetRHSNode.getAttributes().remove(changedAttribute);
+		changedAttribute.setValue(strDefaultValue);
+		unsetRHSNode.getAttributes().add(changedAttribute);
+
+		// rename everything from SET to UNSET
+		UNSET_Module.setName(UNSET_Module.getName().replace(SET_prefix, UNSET_prefix));
+		UNSET_Module.setDescription(UNSET_Module.getDescription().replace("Sets", "Unsets"));
+		Rule unsetRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0);
+		unsetRule.setName(unsetRule.getName().replace("set", "unset"));
+		unsetRule.setDescription(unsetRule.getDescription().replace("Sets", "Sets"));
+
+		// create mainUnits & put Module in map for later serializing
+		//TODO Test the following: all non-rule-units must be deleted from module
+		removeAllNonRuleUnits(UNSET_Module);
+		HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
+		mainUnitCreation(UNSET_Module, eClass, OperationType.UNSET);
+		moduleMap.put(UNSET_Module, outputFileNameUNSET);
+
+		return moduleMap;
+
+	}
+	
+	
+	
 	private String getFreeNodeName(String originalName, Rule rule) {
 
 		originalName = Common.firstLetterToUpperCase(originalName);
@@ -1198,11 +1345,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			//we don't want: derived, transient or unchangeable EAttributes
 			if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
 				String eaName = getFreeAttributeName(ea.getName(),rule);
-				//only allow required and identifier EAttributes and
-				//only in case of createNotRequiredAndNotIDAttributes==true
-				//allow also the not required and not-identifier-EAttributes.
-				if( (!createNotRequiredAndNotIDAttributes &&  ea.isRequired() &&  ea.isID()) ||
-					( createNotRequiredAndNotIDAttributes && !ea.isRequired() && !ea.isID())) {
+
+				if( createNotRequiredAndNotIDAttributes ||
+					!createNotRequiredAndNotIDAttributes && (ea.isRequired() || ea.isID())){
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(
 							inEClassNode, ea,Common.firstLetterToUpperCase(getFreeAttributeName(eaName, rule))
 							);
@@ -1309,7 +1454,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 	
 	
-	private HashMap<Module,String> create_Trafo_toModifyReference(EReference eRef, EClass eClass, EClass target) {
+	private HashMap<Module,String> create_Trafo_toModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
 		
@@ -1457,6 +1602,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				// create rule
 				create_Rule_toSetReference(MOVE_Module, eRef, eClass, target);
 	
+				// create all elements necessary for constraints
+				createElementsForConstraints_MOVE(MOVE_Module);
+				
 				// create mainUnit and put in map
 				mainUnitCreation(MOVE_Module, eClass, OperationType.MOVE);
 				map.put(MOVE_Module, outputFileName);
@@ -1470,8 +1618,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		return map;
 	}
-	
-	
+
 	private void create_Rule_toSetReference(Module module, EReference eRef, EClass eClass, EClass target) {
 		
 		if(module.getName().startsWith(ADD_prefix)) {
@@ -1701,6 +1848,184 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		return newList;
 	}
 	
+	/**
+	 * Creates NACs or PACs consisting of Nodes and Edges that are required to cover individual
+	 * constraints, defined on the SERGe configuration.
+	 * @param node
+	 * @param module
+	 * @param opType
+	 */
+	private void createElementsForConstraints_SET(Module module, OperationType opType, ConstraintType cType) {
+
+		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0);
+
+		List<Attribute> createAttributes = new ArrayList<Attribute>();			
+		// add all <<create>> Attributes under <<preserved> Nodes
+		createAttributes.addAll(HenshinRuleAnalysisUtilEx.getRHSChangedAttributes(rule));
+
+		for(Attribute createAttribute: createAttributes) {
+			Node nodeOfAttribute = createAttribute.getNode();
+			EClassInfo eInfo = eClassInfoManagement.getEClassInfo(nodeOfAttribute.getType());
+
+			if(cType == ConstraintType.NAME_UNIQUENESS_LOCAL) {
+				embedLocalNameUniqueness(eInfo, nodeOfAttribute, rule);
+			}
+			else if(cType == ConstraintType.NAME_UNIQUENESS_GLOBAL) {
+				embedGlobalNameUniqueness(eInfo, nodeOfAttribute, rule);
+			}
+		}
+	}
+	
+
+	private void createElementsForConstraints_CREATE(Module module) throws ConstraintException {
+
+		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0);
+		
+		// regard every <<create>> node	
+		//TODO check constraints other than name uniqueness here, if available
+		
+		// regard every <<create>> attribute (either under a <<create>> or <<preserved>> node)		
+		List<Attribute> createAttributes = new ArrayList<Attribute>();			
+		createAttributes.addAll(HenshinRuleAnalysisUtilEx.getCreationAttributes(rule));
+		createAttributes.addAll(HenshinRuleAnalysisUtilEx.getRHSChangedAttributes(rule));
+
+		for(Attribute createAttribute: createAttributes) {
+			Node nodeOfAttribute = createAttribute.getNode();
+			EClassInfo eInfo = eClassInfoManagement.getEClassInfo(nodeOfAttribute.getType());
+			
+			Boolean constrainedByLNU = eInfo.isConstrainedToLocalNameUniqueness();
+			Boolean constrainedByGNU = eInfo.isConstrainedToGlobalNameUniqueness();
+			
+			if(constrainedByLNU && constrainedByGNU) {
+				EAttribute LNUea =(EAttribute)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
+				EAttribute GNUea =(EAttribute)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
+				
+				if( LNUea == GNUea) {
+					//if current EAttribute is part of a constraint
+					if(createAttribute.getType() == LNUea) {
+						//find out which constraint has priority
+						Boolean isSetToOverride_CLNU = (Boolean)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(2);
+						Boolean isSetToOverride_CGNU = (Boolean)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(2);
+						
+						if(isSetToOverride_CGNU && isSetToOverride_CLNU) {
+							throw new ConstraintException("The constrained Attribute '"+createAttribute.getType()+"' is both locally and globally constraint and both are set to override.");
+						}
+						else if(isSetToOverride_CGNU) {
+							embedGlobalNameUniqueness(eInfo, nodeOfAttribute, rule);
+						}
+						else if(isSetToOverride_CLNU) {
+							embedLocalNameUniqueness(eInfo, nodeOfAttribute, rule);
+						}
+					}
+				}else{
+					throw new ConstraintException("The constrained Attributes for global and local Name Uniqueness are not equal");
+				}
+			}
+			else if(!constrainedByLNU && constrainedByGNU) {
+				EAttribute GNUea =(EAttribute)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
+				if(createAttribute.getType()==GNUea) {
+					embedGlobalNameUniqueness(eInfo, nodeOfAttribute, rule);
+				}
+			}
+			else if(constrainedByLNU && !constrainedByGNU) {
+				EAttribute LNUea =(EAttribute)eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
+				if(createAttribute.getType()==LNUea) {
+					embedLocalNameUniqueness(eInfo, nodeOfAttribute, rule);
+				}
+			}
+		}
+	}
+	
+	
+	private void createElementsForConstraints_MOVE(Module MOVE_Module) {
+
+		// The selected Node is the node which will be moved. It's new context
+		// must be identified via the <<create>> edge.
+		// We need to create a new node of the same type and same context as the selected node.
+		// In both the selected and the new node we need to create the Attributes which must be unique
+		// but only locally. Global uniqueness needs only to be covered in CREATEs and SETs.
+		
+		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);		
+		Node selectedNode = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected",true);
+		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, selectedNode.getType(), "Selected");
+		
+		EClassInfo eInfo = eClassInfoManagement.getEClassInfo(selectedNode.getType());
+		
+		if(eInfo.isConstrainedToLocalNameUniqueness()) {
+		
+			EAttribute eAttribute = (EAttribute) eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1); 
+			HenshinRuleAnalysisUtilEx.createPreservedAttribute(np, eAttribute, "Name", false);
+			embedLocalNameUniqueness(eInfo, selectedNode, rule);
+		}
+		
+	}
+	
+	private void embedLocalNameUniqueness(EClassInfo eInfo, Node attributeContainingNode, Rule rule){
+
+		EAttribute eAttribute = (EAttribute) eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);//TODO find type safe solution in future
+		EClass nodeType = attributeContainingNode.getType();
+
+		// add forbid node
+		Attribute nodeAttribute= attributeContainingNode.getAttribute(eAttribute);
+		Node forbidNode = HenshinRuleAnalysisUtilEx.createForbidNode(rule, nodeType);
+		String nameOfEAParameter = nodeAttribute.getValue();
+		henshinFactory.createAttribute(forbidNode, eAttribute, nameOfEAParameter );
+
+		// add edge to subordinate forbid node under context
+		EReference eRef = null;
+		Node contextNode = null;
+		for(Edge inEdge: attributeContainingNode.getIncoming()) {
+			if(inEdge.getType().isContainment() &&
+				(HenshinRuleAnalysisUtilEx.isCreationEdge(inEdge) || (HenshinRuleAnalysisUtilEx.isPreservedEdge(inEdge)))) {
+				eRef = inEdge.getType();
+				contextNode = inEdge.getSource(); //==contextNode either in RHS or LHS
+				
+				//if Node lies in RHS, find the LHS equivalent, since NAC is always in LHS.
+				if(contextNode.getGraph().isRhs()) {
+					contextNode = rule.getMappings().getOrigin(contextNode);
+				}
+				
+				// draw edge from context to forbid node
+				HenshinRuleAnalysisUtilEx.createForbidEdge(contextNode, forbidNode, eRef, rule);
+			}
+		}
+		// if contextNode still null, then the edge pointing to the context is in the other Graph (RHS)
+		if(contextNode==null) {
+			attributeContainingNode = rule.getMappings().getImage(attributeContainingNode, rule.getRhs());
+			for(Edge inEdge: attributeContainingNode.getIncoming()) {
+				if(inEdge.getType().isContainment() &&
+					(HenshinRuleAnalysisUtilEx.isCreationEdge(inEdge) || (HenshinRuleAnalysisUtilEx.isPreservedEdge(inEdge)))) {
+					eRef = inEdge.getType();
+					contextNode = inEdge.getSource(); //==contextNode either in RHS or LHS
+					
+					//if Node lies in RHS, find the LHS equivalent, since NAC is always in LHS.
+					if(contextNode.getGraph().isRhs()) {
+						contextNode = rule.getMappings().getOrigin(contextNode);
+					}
+					
+					// draw edge from context to forbid node
+					HenshinRuleAnalysisUtilEx.createForbidEdge(contextNode, forbidNode, eRef, rule);
+				}
+			}
+		}
+	}
+
+	
+	
+	private void embedGlobalNameUniqueness(EClassInfo eInfo, Node attributeContainingNode, Rule rule){
+
+		EAttribute eAttribute = (EAttribute) eInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);//TODO find type safe solution in future
+		Node forbidNode = null;
+		EClass nodeType = attributeContainingNode.getType();
+
+		// add forbid node
+		Attribute nodeAttribute= attributeContainingNode.getAttribute(eAttribute);
+		forbidNode = HenshinRuleAnalysisUtilEx.createForbidNode(rule, nodeType);
+		String nameOfEAParameter = nodeAttribute.getValue();
+		henshinFactory.createAttribute(forbidNode, eAttribute, nameOfEAParameter );
+
+	}
+
 	/**
 	 * Checks whether an eClass is part of the blackList or on whiteList or required in other ways.
 	 * The parameter asPivot should be TRUE, if the main focus of

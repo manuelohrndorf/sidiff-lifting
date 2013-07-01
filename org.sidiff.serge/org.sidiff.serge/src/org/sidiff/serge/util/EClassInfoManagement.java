@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.*;
 import org.sidiff.common.emf.access.EMFMetaAccess;
+import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 
 public class EClassInfoManagement {
 
@@ -406,6 +407,17 @@ public class EClassInfoManagement {
 		return map;
 		
 	}
+	
+	public Set<EClassInfo> getAllSubTypes(EClassInfo eInfo) {
+		Set<EClassInfo> set = new HashSet<EClassInfo>();
+		
+		for(EClass subType: eInfo.getSubTypes()) {
+			EClassInfo subEInfo = getEClassInfo(subType);
+			set.add(subEInfo);
+			set.addAll(getAllSubTypes(subEInfo));			
+		}
+		return set;
+	}
 
 	public boolean hasAbstractMandatoryChildren(EClassInfo eClassInfo) {
 		for(EClass child: eClassInfo.getMandatoryChildren().values().iterator().next()) {
@@ -433,6 +445,19 @@ public class EClassInfoManagement {
 			}
 		}
 		return null;
+	}
+	
+	
+	public void addConstraint(ConstraintType ctype, EClass eClass, List<Object> flags) {
+		EClassInfo eInfo = eClassInfoMap.get(eClass);
+		eInfo.addConstraint(ctype, flags);
+		 // if constraint shall be applied to inheriting classifiers
+		if((Boolean)flags.get(0) == true) {
+			for(EClassInfo subEInfo: getAllSubTypes(eInfo)) {
+				// add constraint to inheriting classifiers
+				subEInfo.addConstraint(ctype, flags);
+			}
+		}
 	}
 	
 	/**** private methods *********************************************************************************/

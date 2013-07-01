@@ -1,9 +1,14 @@
 package org.sidiff.serge.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.w3c.dom.NamedNodeMap;
 
 public class Common {
@@ -73,5 +78,33 @@ public class Common {
 		}
 		
 		return workspace_loc + FILE_SEPERATOR + proxyUri;
+	}
+	
+	/**
+	 * This method recursively finds all sub EPackages of an EPackage.
+	 * @param ePackage
+	 * @return
+	 * @throws EPackageNotFoundException 
+	 */
+	public static List<EPackage> getAllSubEPackages(EPackage ePackage) throws EPackageNotFoundException {
+		
+		if(ePackage == null) {
+			throw new EPackageNotFoundException();
+		}
+		
+		ArrayList<EPackage> list = new ArrayList<EPackage>();
+		
+		for(EPackage sub: ePackage.getESubpackages()) {
+			if(!list.contains(sub)) {
+				// add current sub package
+				list.add(sub);
+				// recursively add sub of sub packages...
+				List<EPackage> subsOfSub = getAllSubEPackages(sub);
+				subsOfSub.removeAll(list);
+				list.addAll(subsOfSub);
+			}
+		}		
+		
+		return list;
 	}
 }

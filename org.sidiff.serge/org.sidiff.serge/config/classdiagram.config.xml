@@ -4,7 +4,7 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<initialChecks allow="false" />
-		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="false" CHANGE="false" />
 		<disableVariants value="true" />
 		<modelUsesProfileMechanism value="false" />
 	</GeneralSettings>
@@ -12,6 +12,11 @@
 	<MetaModelSettings>
 		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
 		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />	
+		<Constraints>
+			<NameUniqueness scope="local" eClass="NamedElement" eAttributeName="name" eAttributeIsInherited="false" overrideInheritedConstraintsIfAny="false" applyOnSubTypes="true"/>
+			<NameUniqueness scope="local" eClass="Package" eAttributeName="name" eAttributeIsInherited="true" overrideInheritedConstraintsIfAny="true" applyOnSubTypes="true"/>
+		</Constraints>	
 	</MetaModelSettings>
 
 	<Transformations>
@@ -31,6 +36,7 @@
 
 		<EClass name="Class" />
 		<EClass name="Package" />
+		<EClass name="Model" />
 		<EClass name="Operation" />
 		<EClass name="Property" />
 		<EClass name="Interface" />

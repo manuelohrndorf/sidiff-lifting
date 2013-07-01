@@ -4,16 +4,17 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<initialChecks allow="true" />
-		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="false"/>
    		<modelUsesProfileMechanism value="false"/>
 	</GeneralSettings>
 	
 	<MetaModelSettings>
 		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
-		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />		
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />			
 		<Constraints>
-			<NameUniqueness scope="local" eClass="NamedElement" applyOnSubTypes="true"/>
+			<NameUniqueness scope="local" eClass="NamedElement" eAttributeName="name" eAttributeIsInherited="false"  overrideInheritedConstraintsIfAny="false" applyOnSubTypes="true"/>
 		</Constraints>		
 	</MetaModelSettings>
 	

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.io.IOUtil;
@@ -23,7 +24,9 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.serge.SergeService;
+import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassUnresolvableException;
+import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.services.AbstractGenerator;
 import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 import org.sidiff.serge.services.AbstractGenerator.ImplicitRequirementType;
@@ -52,7 +55,7 @@ public class SergeServiceImpl implements SergeService{
 	}
 	
 	@Override
-	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException {
+	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException, EAttributeNotFoundException {
 				
 		generator = new HenshinTransformationGenerator();
 		generator.setOutputFolderPath(pathToOutputFolder);
@@ -131,6 +134,12 @@ public class SergeServiceImpl implements SergeService{
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
 		generator.setMetaModel(metaModel);
 		ePackages.add(metaModel);
+		try {
+			ePackages.addAll(Common.getAllSubEPackages(metaModel));
+		} catch (EPackageNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		
 		// retrieve all other required meta models
 		NodeList requiredModelNodes = doc.getElementsByTagName("RequiredModel");
@@ -140,34 +149,6 @@ public class SergeServiceImpl implements SergeService{
 			EPackage reqModel = EPackage.Registry.INSTANCE.getEPackage(uri);
 			if(!ePackages.contains(reqModel)) {
 				ePackages.add(reqModel);
-			}
-		}
-		
-		// retrieve Constraints
-		NodeList c_nameUniqueness = doc.getElementsByTagName("NameUniqueness");
-		for(int i=0; i<=c_nameUniqueness.getLength()-1; i++) {
-			Node c = c_nameUniqueness.item(i);
-			String scope = String.valueOf(Common.getAttributeValue("scope", c));
-			String eClass = String.valueOf(Common.getAttributeValue("eClass", c));
-			Boolean applyOnSubTypes = Boolean.valueOf(Common.getAttributeValue("applyOnSubTypes", c));
-			EClass constrainedEClass = null;
-			
-			if(!eClass.equals("")) {
-				//resolve eClass
-				for(EPackage ePackage: ePackages) {
-					constrainedEClass = (EClass) ePackage.getEClassifier(eClass);
-					if(constrainedEClass!=null) {
-						break;
-					}
-				}
-				if(constrainedEClass==null) {
-					throw new EClassUnresolvableException(eClass);
-				}
-			}
-			if(scope.equals("global")) {
-				generator.addConstraint(ConstraintType.NAME_UNIQUENESS_GLOBAL, constrainedEClass, applyOnSubTypes);
-			}else {
-				generator.addConstraint(ConstraintType.NAME_UNIQUENESS_LOCAL, constrainedEClass, applyOnSubTypes);
 			}
 		}
 		
@@ -205,6 +186,73 @@ public class SergeServiceImpl implements SergeService{
 		// unfold lists (convert Strings to EClasses and find additional requirements)
 		unfoldBlackList();
 		unfoldWhiteList();
+		
+		
+		/**************************************************************************************************************/
+		
+		// retrieve Constraints & forward them to eClassInfoManagement
+		NodeList c_nameUniqueness = doc.getElementsByTagName("NameUniqueness");
+		for(int i=0; i<=c_nameUniqueness.getLength()-1; i++) {
+			Node c = c_nameUniqueness.item(i);
+			String scope = String.valueOf(Common.getAttributeValue("scope", c));
+			String eClass = String.valueOf(Common.getAttributeValue("eClass", c));
+			String eAttributeName = String.valueOf(Common.getAttributeValue("eAttributeName", c));
+			Boolean eAttributeIsInherited = Boolean.valueOf(Common.getAttributeValue("eAttributeIsInherited", c));
+			Boolean overrideInheritedConstraints = Boolean.valueOf(Common.getAttributeValue("overrideInheritedConstraintsIfAny", c));
+			Boolean applyOnSubTypes = Boolean.valueOf(Common.getAttributeValue("applyOnSubTypes", c));
+			EClass constrainedEClass = null;
+			EAttribute constrainedEAttribute = null;
+			
+			if(!eClass.equals("")) {
+				//resolve eClass
+				for(EPackage ePackage: ePackages) {
+					constrainedEClass = (EClass) ePackage.getEClassifier(eClass);
+					if(constrainedEClass!=null) {
+						//if it's an inherited EAttribute
+						if(eAttributeIsInherited) {
+							//check all super types for the EAttribute in question
+							for(EClass superType: constrainedEClass.getEAllSuperTypes()) {
+								for(EAttribute ea: superType.getEAttributes()) {
+									if(ea.getName().equals(eAttributeName)) {
+										constrainedEAttribute = ea;
+										break;
+									}
+								}
+								if(constrainedEAttribute != null) {
+									break;
+								}
+							}							
+						}
+						//else it's an EAttribute residing under the constrained class
+						else{						
+							for(EAttribute ea: constrainedEClass.getEAttributes()) {
+								if(ea.getName().equals(eAttributeName)) {
+									constrainedEAttribute = ea;
+									break;
+								}
+							}
+						}
+						if(constrainedEAttribute==null) {
+							throw new EAttributeNotFoundException(eAttributeName, constrainedEClass);
+						}
+						break;
+					}
+				}
+				if(constrainedEClass==null) {
+					throw new EClassUnresolvableException(eClass);
+				}
+			}
+			List<Object> flags = new ArrayList<Object>();
+			flags.add(applyOnSubTypes);
+			flags.add(constrainedEAttribute);
+			flags.add(overrideInheritedConstraints);
+			flags.add(eAttributeIsInherited);
+			if(scope.equals("global")) {
+				eClassInfoManagement.addConstraint(ConstraintType.NAME_UNIQUENESS_GLOBAL, constrainedEClass, flags);
+			}else {
+				eClassInfoManagement.addConstraint(ConstraintType.NAME_UNIQUENESS_LOCAL, constrainedEClass, flags);
+			}
+		}
 		
 
 	}	
