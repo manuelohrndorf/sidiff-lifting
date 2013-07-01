@@ -125,11 +125,13 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the type of the new attribute.
 	 * @param attrValue
 	 *            the attribute value.
+	 * @param attributeOnlyInLHS
+	 * 			  set this to true if the attribute shall only be created in LHS.
 	 * @return
 	 */
-	public static NodePair createPreservedNodeWithAttribute(Rule rule, String name, EClass nodeType, EAttribute attrType, String attrValue) {
+	public static NodePair createPreservedNodeWithAttribute(Rule rule, String name, EClass nodeType, EAttribute attrType, String attrValue, Boolean attributeOnlyInLHS) {
 		NodePair res = createPreservedNode(rule, name, nodeType);
-		createPreservedAttribute(res, attrType, "\"" + attrValue + "\"");
+		createPreservedAttribute(res, attrType, "\"" + attrValue + "\"", attributeOnlyInLHS);
 
 		return res;
 	}
@@ -172,13 +174,22 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the type of the new attribute.
 	 * @param value
 	 *            the value of the new attribute.
+	 * @param onlyInLHS
+	 * 			  set this to true if the attribute shall only be created in LHS
 	 */
-	public static void createPreservedAttribute(NodePair node, EAttribute type, String value) {
+	public static void createPreservedAttribute(NodePair node, EAttribute type, String value, Boolean onlyInLHS) {
 		HenshinFactory.eINSTANCE.createAttribute(node.getLhsNode(), type, value);
 		// We do not need RHS. 
 		//HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
-	}
+		
+		if(!onlyInLHS) {
+			// Actually we do need RHS, otherwise the attribute will be a
+			// <<delete>>, not a <<preserved>> one.
+			HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
+		}
 
+	}
+	
 	/**
 	 * Creates a << create >> node.
 	 * 
