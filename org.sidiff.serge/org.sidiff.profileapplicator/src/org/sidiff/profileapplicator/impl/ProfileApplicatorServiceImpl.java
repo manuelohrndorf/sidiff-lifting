@@ -30,6 +30,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	private static List<String> baseTypes = new ArrayList<String>();
 	private static List<String> baseReferences = new ArrayList<String>();
 
+	private boolean baseTypeInheritance = false;
+
 	public ProfileApplicatorServiceImpl() {
 
 	}
@@ -70,6 +72,11 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			currentNode = doc.getElementsByTagName("BaseTypeContext").item(0);
 			applicator.setBaseTypeContext((Boolean.valueOf(Common
 					.getAttributeValue("allow", currentNode))));
+
+			currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
+					0);
+			baseTypeInheritance = (Boolean.valueOf(Common.getAttributeValue(
+					"allow", currentNode)));
 
 			currentNode = doc.getElementsByTagName("BasePackage").item(0);
 			applicator.setBasePackage(EPackage.Registry.INSTANCE
@@ -119,24 +126,26 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 					baseTypes.add(baseType);
 					baseReferences.add(baseReference);
 
-					// Adding all possible sub types of base type
-					for (Iterator<EObject> it = applicator.getBasePackage()
-							.eAllContents(); it.hasNext();) {
-						EObject obj = it.next();
+					if (baseTypeInheritance) {
+						// Adding all possible sub types of base type
+						for (Iterator<EObject> it = applicator.getBasePackage()
+								.eAllContents(); it.hasNext();) {
+							EObject obj = it.next();
 
-						if (obj instanceof EClass) {
+							if (obj instanceof EClass) {
 
-							EClass eSubClass = (EClass) obj;
+								EClass eSubClass = (EClass) obj;
 
-							for (EClass eSuperClass : eSubClass
-									.getEAllSuperTypes()) {
+								for (EClass eSuperClass : eSubClass
+										.getEAllSuperTypes()) {
 
-								if (eSuperClass.getName().equals(baseType)) {
+									if (eSuperClass.getName().equals(baseType)) {
 
-									stereoTypes.add(stereoType);
-									baseTypes.add(eSubClass.getName());
-									baseReferences.add(baseReference);
+										stereoTypes.add(stereoType);
+										baseTypes.add(eSubClass.getName());
+										baseReferences.add(baseReference);
 
+									}
 								}
 							}
 
