@@ -147,8 +147,6 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				}
 
 			}
-
-			System.out.println("Size: " + stereoTypes.size());
 			applicator.setStereoTypes(stereoTypes);
 			applicator.setBaseTypes(baseTypes);
 			applicator.setBaseReferences(baseReferences);

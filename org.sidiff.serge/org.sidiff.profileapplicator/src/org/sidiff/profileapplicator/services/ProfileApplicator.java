@@ -61,7 +61,8 @@ public class ProfileApplicator {
 			LogUtil.log(LogEvent.NOTICE,
 					"BaseTypeContext allowed, instances of baseType allowed as sufficient context");
 
-		LogUtil.log(LogEvent.NOTICE,
+		LogUtil.log(
+				LogEvent.NOTICE,
 				"Applying transformations now, this could (and most certainly will) take some time...");
 
 		File sourceFolder = new File(this.inputFolderPath);
@@ -72,35 +73,35 @@ public class ProfileApplicator {
 
 		EGraph srcGraph = null;
 
-		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
 
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 				this.inputFolderPath);
 
-		HenshinResourceSet inputResourceSet = null;
+		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
+				this.inputFolderPath);
 
-		HenshinResourceSet hotsResourceSet = null;
+		HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
 
-		for (int l = 0; l < sourceFiles.length; l++) {
+		for (File sourceFile : sourceFiles) {
 
-			if (sourceFiles[l].getName().endsWith(".henshin")) {
+			if (sourceFile.getName().endsWith(".henshin")) {
 
-				srcGraph = new EGraphImpl(
-						srcResourceSet.getResource(sourceFiles[l].getName()));
+				srcGraph = new EGraphImpl(srcResourceSet.getResource(sourceFile
+						.getName()));
 
 				if (this.debugOutput) {
 					LogUtil.log(LogEvent.NOTICE,
 							"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 					LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
-							+ sourceFiles[l].getName() + "...");
+							+ sourceFile.getName() + "...");
 					LogUtil.log(LogEvent.NOTICE,
 							"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 				}
 
 				boolean applied = false;
-				outputName = this.outputFolderPath + sourceFiles[l].getName();
+				outputName = this.outputFolderPath + sourceFile.getName();
 
 				for (int z = 0; z < this.stereoTypes.size(); z++) {
 
@@ -112,34 +113,25 @@ public class ProfileApplicator {
 								+ this.baseTypes.get(z));
 					}
 
-					inputResourceSet = new HenshinResourceSet(
-							this.inputFolderPath);
-
 					EGraph workGraph = new EGraphImpl(
-							inputResourceSet.getResource(sourceFiles[l]
-									.getName()));
+							inputResourceSet.getResource(sourceFile.getName()));
 
 					workGraph.addTree(this.basePackage);
 					workGraph.addTree(this.stereoPackage);
 
-					for (int i = 0; i < this.transformations.size(); i++) {
-
-						hotsResourceSet = new HenshinResourceSet();
+					for (URI hot : transformations) {
 
 						UnitApplication unitapp = new UnitApplicationImpl(
 								engine);
 						unitapp.setEGraph(workGraph);
 
-						Module module = hotsResourceSet.getModule(
-								this.transformations.get(i), false);
+						Module module = hotsResourceSet.getModule(hot, false);
 
 						if (this.debugOutput) {
 							LogUtil.log(
 									LogEvent.NOTICE,
 									"Executing HOT "
-											+ this.transformations
-													.get(i)
-													.toString()
+											+ hot.toString()
 													.replace(
 															"platform:/plugin/org.sidiff.profileapplicator/hots/",
 															"") + "...");
@@ -195,14 +187,12 @@ public class ProfileApplicator {
 						inputResourceSet.saveEObject(workGraph.getRoots()
 								.get(0), outputName);
 						if (this.debugOutput) {
-							LogUtil.log(
-									LogEvent.NOTICE,
+							LogUtil.log(LogEvent.NOTICE,
 									"Result saved as: "
-											+ ((Module) workGraph
-													.getRoots().get(0))
-													.getName()
+											+ ((Module) workGraph.getRoots()
+													.get(0)).getName()
 											+ "_execute.henshin");
-							
+
 						}
 						applied = false;
 					}
@@ -212,7 +202,7 @@ public class ProfileApplicator {
 				if (!stereoTypesUsed || this.baseTypeInstances) {
 
 					inputResourceSet.saveEObject(srcGraph.getRoots().get(0),
-							this.outputFolderPath + sourceFiles[l].getName());
+							this.outputFolderPath + sourceFile.getName());
 					if (this.debugOutput) {
 						LogUtil.log(
 								LogEvent.NOTICE,
