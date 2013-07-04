@@ -69,26 +69,17 @@ public class ProfileApplicator {
 		File[] sourceFiles = sourceFolder.listFiles();
 
 		boolean stereoTypesUsed = false;
-		String outputName = null;
-
-		EGraph srcGraph = null;
-
-		Engine engine = new EngineImpl();
-
-		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
-				this.inputFolderPath);
-
-		HenshinResourceSet inputResourceSet = new HenshinResourceSet(
-				this.inputFolderPath);
-
-		HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
-
+		String outputName = null;	
+		
 		for (File sourceFile : sourceFiles) {
 
 			if (sourceFile.getName().endsWith(".henshin")) {
+				
+				HenshinResourceSet srcResourceSet = new HenshinResourceSet(
+						this.inputFolderPath);
 
-				srcGraph = new EGraphImpl(srcResourceSet.getResource(sourceFile
-						.getName()));
+				EGraph srcGraph = new EGraphImpl(
+						srcResourceSet.getResource(sourceFile.getName()));
 
 				if (this.debugOutput) {
 					LogUtil.log(LogEvent.NOTICE,
@@ -112,18 +103,25 @@ public class ProfileApplicator {
 								+ this.stereoTypes.get(z) + " to Basetype: "
 								+ this.baseTypes.get(z));
 					}
+					
+					HenshinResourceSet workResourceSet = new HenshinResourceSet(
+							this.inputFolderPath);
 
 					EGraph workGraph = new EGraphImpl(
-							inputResourceSet.getResource(sourceFile.getName()));
+							workResourceSet.getResource(sourceFile.getName()));
 
 					workGraph.addTree(this.basePackage);
 					workGraph.addTree(this.stereoPackage);
+					
+					Engine engine = new EngineImpl();
 
 					for (URI hot : transformations) {
 
 						UnitApplication unitapp = new UnitApplicationImpl(
 								engine);
-						unitapp.setEGraph(workGraph);
+						unitapp.setEGraph(workGraph);						
+
+						HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
 
 						Module module = hotsResourceSet.getModule(hot, false);
 
@@ -139,11 +137,9 @@ public class ProfileApplicator {
 
 						unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
-						// hard coded
+						// setting parameters
 						unitapp.setParameterValue("stereoPackage",
 								this.stereoPackage.getNsURI());
-
-						// setting parameters
 						unitapp.setParameterValue("stereoType",
 								this.stereoTypes.get(z));
 						unitapp.setParameterValue("baseReference",
@@ -166,7 +162,7 @@ public class ProfileApplicator {
 
 						}
 						if (executed && this.baseTypeContext) {
-							inputResourceSet.saveEObject(workGraph.getRoots()
+							workResourceSet.saveEObject(workGraph.getRoots()
 									.get(0), outputName);
 							if (this.debugOutput) {
 								LogUtil.log(
@@ -179,13 +175,15 @@ public class ProfileApplicator {
 							}
 
 						}
+						
+						hotsResourceSet = null;
 
 					}
 
 					if (applied) {
 
-						inputResourceSet.saveEObject(workGraph.getRoots()
-								.get(0), outputName);
+						workResourceSet.saveEObject(
+								workGraph.getRoots().get(0), outputName);
 						if (this.debugOutput) {
 							LogUtil.log(LogEvent.NOTICE,
 									"Result saved as: "
@@ -197,11 +195,15 @@ public class ProfileApplicator {
 						applied = false;
 					}
 
+					workGraph.removeGraph(workGraph.getRoots().get(0));
+					workResourceSet = null;
+
 				}
+
 				// Copy meta instances untransformed
 				if (!stereoTypesUsed || this.baseTypeInstances) {
 
-					inputResourceSet.saveEObject(srcGraph.getRoots().get(0),
+					srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
 							this.outputFolderPath + sourceFile.getName());
 					if (this.debugOutput) {
 						LogUtil.log(
@@ -210,6 +212,8 @@ public class ProfileApplicator {
 					}
 				}
 				stereoTypesUsed = false;
+				srcGraph.removeGraph(srcGraph.getRoots().get(0));
+				srcResourceSet = null;
 
 			}
 
