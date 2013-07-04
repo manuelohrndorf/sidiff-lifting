@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.FormulaCombineOperator;
 import org.sidiff.common.henshin.HenshinUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
@@ -1764,55 +1765,37 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 	
 		if(numberOfMaximumNodes!=-1) {
-			
-			//check if there is already a formular
-			Formula formular = rule.getLhs().getFormula();
-			if(formular!=null && formular instanceof Not) {
-				
-				// Reconstruction as follows:
-				//						AND-Formular
-				//			   			/			\
-				//	NOT (existingFormular)			NOT (newFormular)
-				//
-				// == (!exisitngFormular) && (!newFormular)
-				
-				Formula newANDContainerFormular = henshinFactory.eINSTANCE.createAnd();
-				Formula existingNOTFormular = formular;
-				UnaryFormula newNOTFormular = henshinFactory.createNot();
-				
-				//create NestedCondition with conclusion-graph that will contain the forbidNodes and forbidEdges
-				NestedCondition nestedCondition = henshinFactory.createNestedCondition();
-				Graph conclusion = henshinFactory.createGraph("doNotExceedUpperBound");			
-				
-				// fill newNOTFormular
-				for(int i=1; i<=numberOfMaximumNodes; i++) {
-				
-					//create forbid node
-					Node forbidNode = henshinFactory.createNode();
-					forbidNode.setType(type);
-					forbidNode.setGraph(conclusion);
-					conclusion.getNodes().add(forbidNode);
-					
-					//create forbid edge
-					Edge forbidEdge = henshinFactory.createEdge(newContextNodeLHS, forbidNode, eRefOfNewSource);
-					forbidEdge.setGraph(conclusion);			
-					conclusion.getEdges().add(forbidEdge);
-					
-				}
-				nestedCondition.setConclusion(conclusion);
-				newNOTFormular.setChild(nestedCondition);
-				
-				
-				// put Formulas together
-				BinaryFormula binaryFormular = ((BinaryFormula)newANDContainerFormular);
-				binaryFormular.setLeft(existingNOTFormular);
-				binaryFormular.setRight(newNOTFormular);
-				rule.getLhs().setFormula(newANDContainerFormular);
-				
-				
+
+			UnaryFormula newNOTFormular = henshinFactory.createNot();
+
+			//create NestedCondition with conclusion-graph that will contain the forbidNodes and forbidEdges
+			NestedCondition nestedCondition = henshinFactory.createNestedCondition();
+			Graph conclusion = henshinFactory.createGraph("doNotExceedUpperBound");			
+
+			// fill newNOTFormular
+			for(int i=1; i<=numberOfMaximumNodes; i++) {
+
+				//create forbid node
+				Node forbidNode = henshinFactory.createNode();
+				forbidNode.setType(type);
+				forbidNode.setGraph(conclusion);
+				conclusion.getNodes().add(forbidNode);
+
+				//create forbid edge
+				Edge forbidEdge = henshinFactory.createEdge(newContextNodeLHS, forbidNode, eRefOfNewSource);
+				forbidEdge.setGraph(conclusion);			
+				conclusion.getEdges().add(forbidEdge);
+
 			}
-			
-			
+			nestedCondition.setConclusion(conclusion);
+			newNOTFormular.setChild(nestedCondition);
+
+
+			// put Formulas together
+			HenshinRuleAnalysisUtilEx.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);
+
+
+
 			//The maximum number of Nodes for a <<create>> to be executed must not already be reached
 			
 			//TODO what if there is already a forbid with nameuniqueness constraint? injective matching true?
