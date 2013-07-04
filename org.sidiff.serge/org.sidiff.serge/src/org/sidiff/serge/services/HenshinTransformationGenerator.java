@@ -19,16 +19,20 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.HenshinUtil;
@@ -1611,12 +1615,215 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				
 				// create initialChecks, if any
 				if(createINITIALS) {
+					Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
+					createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
 					createInitialChecksForMultiplicities(MOVE_Module.getName(), target, eClass, eRef, OperationType.MOVE);
 				}
 			}
 		}
 		
 		return map;
+	}
+
+	private void createIntegratedPreconditionsForMultiplicities(Rule rule, OperationType opType) {
+		
+		
+		if(opType==OperationType.MOVE) {
+		
+			/*** Find relevant elements in rule ************************************************************/
+			Node selectedNodeLHS = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", true);
+			Node selectedNodeRHS = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", false);
+			Node oldContextNodeLHS = null;
+			Node newContextNodeLHS = null;
+			
+			EReference eRefOfOldSource = null;
+			EReference eRefOfNewSource = null;
+			
+			// get EReference from old context to selected node
+			for(Edge inEdge: selectedNodeLHS.getIncoming()) {
+				if(inEdge.getType().isContainment() && HenshinRuleAnalysisUtilEx.isDeletionEdge(inEdge)) {
+					eRefOfOldSource = inEdge.getType();
+					oldContextNodeLHS = inEdge.getSource();
+					
+				}
+			}
+			// get EReference from new context to selected node
+			for(Edge inEdge: selectedNodeRHS.getIncoming()) {
+				if(inEdge.getType().isContainment() && HenshinRuleAnalysisUtilEx.isCreationEdge(inEdge)) {
+					eRefOfNewSource = inEdge.getType();
+					Node newContextNodeRHS = inEdge.getSource();
+					newContextNodeLHS = rule.getAllMappings().getOrigin(newContextNodeRHS);
+				}
+			}			
+			assert(eRefOfOldSource==eRefOfNewSource): "Involved containment EReferences in '"
+						+rule.getModule().getName()+"' are not equal but should be";
+
+			/*** Differentiate multiplicity cases **********************************************************/
+			
+			// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
+			if(eRefOfOldSource.getLowerBound()!=0) {
+				
+				createLowerBoundConstrainedElements(rule, oldContextNodeLHS, selectedNodeLHS.getType(), eRefOfOldSource);
+			}
+			// Concerning <<create>> Edge: Ensure maximum must not be surpassed if upperBound is not infinite [..y]
+			if(eRefOfNewSource.getUpperBound()!=-1) {
+				
+				createUpperBoundConstrainedElements(rule, newContextNodeLHS, selectedNodeLHS.getType(), eRefOfNewSource);
+				
+			}
+			
+		
+			
+		}
+		else if(opType==OperationType.CREATE) {
+			
+			// 0..y : maximum
+			//if(eRef.getLowerBound()==0 && eRef.getUpperBound()!=-1)
+			// x..y : minimum and maximum
+			//else if(eRef.getLowerBound()!=0 && eRef.getUpperBound()!=-1)
+			
+			// Get <<preserved>> Node "Selected" of the LHS, which is the context
+			Node selectedNode = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", true);
+			
+			// do not surpass upper bound
+//			createUpperBoundConstraintElementsRecursively(Node selectedNode, EClass nodeType);
+			
+		}
+		else if(opType==OperationType.ADD) {
+		
+			// 0..y : maximum
+			//if(eRef.getLowerBound()==0 && eRef.getUpperBound()!=-1)
+			// x..y : minimum and maximum
+			//else if(eRef.getLowerBound()!=0 && eRef.getUpperBound()!=-1)
+			
+			// Get <<preserved>> Node "Selected" of the LHS, which is the context-neighbour
+			Node selectedNode = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", true);
+			
+			// do not surpass upper bound
+//			createUpperBoundConstraintElementsRecursively(Node selectedNode, EClass nodeType);
+			
+		}
+		/******* INVERSES *********************************************************************************************/
+		else if(opType==OperationType.DELETE) {
+			// x..* : minimum
+			//if(eRef.getLowerBound()!=0 && eRef.getUpperBound()==-1
+			// x..y : minimum and maximum
+			//else if(eRef.getLowerBound()!=0 && eRef.getUpperBound()!=-1)
+		}
+		else if(opType==OperationType.REMOVE) {
+			// x..* : minimum
+			//if(eRef.getLowerBound()!=0 && eRef.getUpperBound()==-1
+			// x..y : minimum and maximum
+			//else if(eRef.getLowerBound()!=0 && eRef.getUpperBound()!=-1)
+		}
+		//CHANGE does not need any multiplicity constraints.
+	}
+
+	private void createLowerBoundConstrainedElements(Rule rule, Node oldContextNodeLHS, EClass type, EReference eRefOfOldSource) {
+		
+		Integer numberOfRequiredNodes = eRefOfOldSource.getLowerBound();		
+		NodePair contextNodePair = new NodePair(oldContextNodeLHS, rule.getMappings().getImage(oldContextNodeLHS, rule.getRhs()));
+		
+		if(numberOfRequiredNodes!=0) {
+		
+			NestedCondition nestedConditon = rule.getLhs().createPAC("sufficientElementsMustExist");
+			Graph conclusion = henshinFactory.createGraph("sufficientElementsMustExist");
+			
+			//There must be at least numberOfRequiredNodes+1 Nodes for a <<delete>> to be executed
+			for(int i=1; i<=numberOfRequiredNodes+1; i++) {
+				
+				Node requiredNode = henshinFactory.createNode();
+				requiredNode.setType(type);
+
+				Edge requiredEdge = henshinFactory.createEdge(contextNodePair.getLhsNode(), requiredNode, eRefOfOldSource);
+				conclusion.getNodes().add(requiredNode);
+				conclusion.getEdges().add(requiredEdge);	
+				
+//				NodePair requiredNP = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", type);
+//				if(eRefOfOldSource.isContainment()) {
+//					assert(contextNodePair!=null): "ContextNodePair should not be null";
+//					HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, contextNodePair, requiredNP, eRefOfOldSource);
+//				}
+//				else {
+//					HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, oldContextNodeLHS, requiredNP.getLhsNode(), eRefOfOldSource);
+//				}			
+			}
+			
+			nestedConditon.setConclusion(conclusion);
+			
+		}
+		
+	}
+	
+	private void createUpperBoundConstrainedElements(Rule rule, Node newContextNodeLHS, EClass type, EReference eRefOfNewSource) {
+		
+		//TODO recursively for all contained <<create>> nodes
+		
+		Integer numberOfMaximumNodes = eRefOfNewSource.getUpperBound();		
+		NodePair contextNodePair = new NodePair(newContextNodeLHS, rule.getMappings().getImage(newContextNodeLHS, rule.getRhs()));
+		
+	
+		if(numberOfMaximumNodes!=-1) {
+			
+			//check if there is already a formular
+			Formula formular = rule.getLhs().getFormula();
+			if(formular!=null && formular instanceof Not) {
+				
+				// Reconstruction as follows:
+				//						AND-Formular
+				//			   			/			\
+				//	NOT (existingFormular)			NOT (newFormular)
+				//
+				// == (!exisitngFormular) && (!newFormular)
+				
+				Formula newANDContainerFormular = henshinFactory.eINSTANCE.createAnd();
+				Formula existingNOTFormular = formular;
+				UnaryFormula newNOTFormular = henshinFactory.createNot();
+				
+				//create NestedCondition with conclusion-graph that will contain the forbidNodes and forbidEdges
+				NestedCondition nestedCondition = henshinFactory.createNestedCondition();
+				Graph conclusion = henshinFactory.createGraph("doNotExceedUpperBound");			
+				
+				// fill newNOTFormular
+				for(int i=1; i<=numberOfMaximumNodes; i++) {
+				
+					//create forbid node
+					Node forbidNode = henshinFactory.createNode();
+					forbidNode.setType(type);
+					forbidNode.setGraph(conclusion);
+					conclusion.getNodes().add(forbidNode);
+					
+					//create forbid edge
+					Edge forbidEdge = henshinFactory.createEdge(newContextNodeLHS, forbidNode, eRefOfNewSource);
+					forbidEdge.setGraph(conclusion);			
+					conclusion.getEdges().add(forbidEdge);
+					
+				}
+				nestedCondition.setConclusion(conclusion);
+				newNOTFormular.setChild(nestedCondition);
+				
+				
+				// put Formulas together
+				BinaryFormula binaryFormular = ((BinaryFormula)newANDContainerFormular);
+				binaryFormular.setLeft(existingNOTFormular);
+				binaryFormular.setRight(newNOTFormular);
+				rule.getLhs().setFormula(newANDContainerFormular);
+				
+				
+			}
+			
+			
+			//The maximum number of Nodes for a <<create>> to be executed must not already be reached
+			
+			//TODO what if there is already a forbid with nameuniqueness constraint? injective matching true?
+			
+			
+			
+			
+		}
+		
+		
+		
 	}
 
 	private void create_Rule_toSetReference(Module module, EReference eRef, EClass eClass, EClass target) {
@@ -1968,6 +2175,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		// add forbid node
 		Attribute nodeAttribute= attributeContainingNode.getAttribute(eAttribute);
 		Node forbidNode = HenshinRuleAnalysisUtilEx.createForbidNode(rule, nodeType);
+		forbidNode.getGraph().setName("elementWithSameNameMustNotExistLocally");
 		String nameOfEAParameter = nodeAttribute.getValue();
 		henshinFactory.createAttribute(forbidNode, eAttribute, nameOfEAParameter );
 
@@ -2021,6 +2229,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		// add forbid node
 		Attribute nodeAttribute= attributeContainingNode.getAttribute(eAttribute);
 		forbidNode = HenshinRuleAnalysisUtilEx.createForbidNode(rule, nodeType);
+		forbidNode.getGraph().setName("elementWithSameNameMustNotExistGlobally");
 		String nameOfEAParameter = nodeAttribute.getValue();
 		henshinFactory.createAttribute(forbidNode, eAttribute, nameOfEAParameter );
 

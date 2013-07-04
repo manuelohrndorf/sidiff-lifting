@@ -259,13 +259,15 @@ public class SergeServiceImpl implements SergeService{
 	
 	
 	@Override
-	public void generate(Class<?> service) {
+	public void generate(Class<?> service) throws EPackageNotFoundException {
 
 		assert(service!=null) : "Service not found";
 				
 		if(!ePackages.isEmpty()){			
 			ECoreTraversal.traverse(generator, ePackages.toArray(new EPackage[ePackages.size()]));				
-		}//TODO execption else
+		}else{
+			throw new EPackageNotFoundException();
+		}
 		
 	}
 	
