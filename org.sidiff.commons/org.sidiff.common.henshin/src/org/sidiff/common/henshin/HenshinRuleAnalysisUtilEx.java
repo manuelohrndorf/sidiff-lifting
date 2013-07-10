@@ -101,11 +101,19 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static EList<Rule> getRules(Module module) {
 		EList<Rule> rules = new BasicEList<Rule>();
+		
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
-				rules.add((Rule) unit);
+				Rule rule = (Rule) unit;
+				rules.add(rule);
+				rules.addAll(rule.getAllMultiRules());
 			}
 		}
+		
+		for (Module subModule : module.getSubModules()) {
+			rules.addAll(getRules(subModule));
+		}
+		
 		return ECollections.unmodifiableEList(rules);
 	}
 
