@@ -55,7 +55,7 @@ public class SergeServiceImpl implements SergeService{
 	}
 	
 	@Override
-	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException, EAttributeNotFoundException {
+	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException, EAttributeNotFoundException, EPackageNotFoundException {
 				
 		generator = new HenshinTransformationGenerator();
 		generator.setOutputFolderPath(pathToOutputFolder);
@@ -147,6 +147,11 @@ public class SergeServiceImpl implements SergeService{
 			Node requiredNode = requiredModelNodes.item(i);
 			String uri = String.valueOf(Common.getAttributeValue("nsUri", requiredNode));
 			EPackage reqModel = EPackage.Registry.INSTANCE.getEPackage(uri);
+			
+			if(reqModel==null) {
+				throw new EPackageNotFoundException();
+			}
+			
 			if(!ePackages.contains(reqModel)) {
 				ePackages.add(reqModel);
 			}
