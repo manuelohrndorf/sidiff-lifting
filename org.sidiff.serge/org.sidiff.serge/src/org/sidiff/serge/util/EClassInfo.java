@@ -129,6 +129,10 @@ public class EClassInfo {
 		return false;
 	}
 	
+	public boolean hasDisguises() {
+		return !masks.isEmpty();
+	}
+	
 	public boolean isStereotype() {
 		return stereotypes.isEmpty();
 	}

@@ -1477,6 +1477,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	private HashMap<Module,String> create_Trafo_toModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
+		EClassInfo eInfo = eClassInfoManagement.getEClassInfo(eClass);
 		
 		int lower = eRef.getLowerBound();
 		int upper = eRef.getUpperBound();
@@ -1588,8 +1589,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 				// only continue, if ref is inherited and no reduction to super type is wished
 				// or ref is not inherited
-				if((isInheritedReference(eRef, eClass) && !reduceToSuperType_CHANGE) || !isInheritedReference(eRef, eClass)) {
-
+				if((isInheritedReference(eRef, eClass) && !reduceToSuperType_CHANGE) || !isInheritedReference(eRef, eClass)) {	
+					
 					String name = CHANGE_prefix + eClass.getName() + "_Ref_" + eRef.getName()+ "_tgt_"+target.getName(); 
 					LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + name);
 
