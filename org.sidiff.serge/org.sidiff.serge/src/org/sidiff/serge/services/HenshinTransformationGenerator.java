@@ -1550,16 +1550,22 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 						// create initialChecks, if any
 						if(createINITIALS) {
+							Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(REMOVE_Module).get(0);
+							createIntegratedPreconditionsForMultiplicities(rule, OperationType.REMOVE);
 							createInitialChecksForMultiplicities(REMOVE_Module.getName(), eClass, target, eRef, OperationType.REMOVE);
 						}
 					}
-					// create mainUnits and put in map
+					// create mainUnits
 					mainUnitCreation(ADD_Module, eClass, OperationType.ADD);
-					map.put(ADD_Module, outputFileName);
+					
 					// create initialChecks, if any
 					if(createINITIALS) {
+						Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(ADD_Module).get(0);
+						createIntegratedPreconditionsForMultiplicities(rule, OperationType.ADD);
 						createInitialChecksForMultiplicities(ADD_Module.getName(), eClass, target, eRef, OperationType.ADD);
 					}
+					// put module in map for later serialization
+					map.put(ADD_Module, outputFileName);
 				}
 			}
 			//	(x..x)	-> CHANGE *******************************************************************************************/
@@ -1710,26 +1716,21 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		else if(opType==OperationType.ADD) {
 				
 			/*** Find relevant elements in rule ************************************************************/
-			Node selectedNodeRHS = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", false);
-			Node newNodeLHS = null;
 			
-			EReference eRefOfContext = null;
+			for(Edge creationEdge: HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
 			
-			// get EReference from new context to new node
-			for(Edge outEdge: selectedNodeRHS.getOutgoing()) {
-				if(!outEdge.getType().isContainment() && HenshinRuleAnalysisUtilEx.isCreationEdge(outEdge)) {
-					eRefOfContext = outEdge.getType();
-					newNodeLHS = outEdge.getTarget();
-				}
-			}		
-
-			/*** Differentiate multiplicity cases **********************************************************/
-			
-			// Concerning <<create>> Edge: Ensure maximum must not be surpassed if upperBound is not infinite [..y]
-			if(eRefOfContext.getUpperBound()!=-1) {
+				Node sourceNodeLHS = creationEdge.getSource();				
+				EReference eRef = creationEdge.getType();
+				Node newTargetNodeLHS = creationEdge.getTarget();			
+	
+				/*** Differentiate multiplicity cases **********************************************************/
 				
-				createUpperBoundConstrainedElements(rule, selectedNodeRHS, newNodeLHS.getType(), eRefOfContext);
-				
+				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
+				if(eRef.getLowerBound()!=0) {
+					
+					createLowerBoundConstrainedElements(rule, sourceNodeLHS, newTargetNodeLHS.getType(), eRef);
+				}	
+			
 			}
 			
 		}
@@ -1760,36 +1761,27 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				}	
 			
 			}
-			
-			
-			
-			
 
 		}
 		else if(opType==OperationType.REMOVE) {
 			
 			/*** Find relevant elements in rule ************************************************************/
-			Node selectedNodeLHS = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", true);
-			Node deleteNodeLHS = null;
 			
-			EReference eRefOfOldSource = null;
+			for(Edge deletionEdge: HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges(rule)) {
 			
-			// get EReference from old context to delete node
-			for(Edge outEdge: selectedNodeLHS.getOutgoing()) {
-				if(!outEdge.getType().isContainment() && HenshinRuleAnalysisUtilEx.isDeletionEdge(outEdge)) {
-					eRefOfOldSource = outEdge.getType();
-					deleteNodeLHS = outEdge.getTarget();					
-				}
-			}		
-			
-			/*** Differentiate multiplicity cases **********************************************************/
-			
-			// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
-			if(eRefOfOldSource.getLowerBound()!=0) {
+				Node oldSourceNodeLHS = deletionEdge.getSource();				
+				EReference eRef = deletionEdge.getType();
+				Node oldTargetNodeLHS = deletionEdge.getTarget();			
+	
+				/*** Differentiate multiplicity cases **********************************************************/
 				
-				createLowerBoundConstrainedElements(rule, selectedNodeLHS, deleteNodeLHS.getType(), eRefOfOldSource);
-			}
+				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
+				if(eRef.getLowerBound()!=0) {
+					
+					createLowerBoundConstrainedElements(rule, oldSourceNodeLHS, oldTargetNodeLHS.getType(), eRef);
+				}	
 			
+			}
 		}
 		//CHANGE does not need any multiplicity constraints.
 	}
