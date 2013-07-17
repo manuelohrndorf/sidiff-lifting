@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
@@ -34,6 +36,7 @@ import org.sidiff.serge.services.HenshinTransformationGenerator;
 import org.sidiff.serge.util.Common;
 import org.sidiff.serge.util.EClassInfo;
 import org.sidiff.serge.util.EClassInfoManagement;
+import org.sidiff.serge.util.Mask;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,7 +58,7 @@ public class SergeServiceImpl implements SergeService{
 	}
 	
 	@Override
-	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassUnresolvableException, EAttributeNotFoundException, EPackageNotFoundException {
+	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws Exception {
 				
 		generator = new HenshinTransformationGenerator();
 		generator.setOutputFolderPath(pathToOutputFolder);
@@ -109,6 +112,7 @@ public class SergeServiceImpl implements SergeService{
 			generator.setBaseModelRuleFolderPath(String.valueOf(Common.getAttributeValue("path", currentNode)));
 		}
 		
+		/**** Read BlackList & WhiteList Elements as Strings ***************************************************/
 		
 		// read blacklisted names of EClasses
 		currentNode = docElem.getElementsByTagName("BlackList").item(0);
@@ -127,6 +131,8 @@ public class SergeServiceImpl implements SergeService{
 				stringWhiteList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
 			}
 		}
+		
+		/**** Resolve ePackages ********************************************************************************/
 		
 		// retrieve and set meta-model	
 		currentNode = doc.getElementsByTagName("MainModel").item(0);
@@ -157,6 +163,8 @@ public class SergeServiceImpl implements SergeService{
 			}
 		}
 		
+		/**** Read Root ********************************************************************************************/
+		
 		// retrieve and root and nested attribute	
 		currentNode = docElem.getElementsByTagName("Root").item(0);
 		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
@@ -176,7 +184,8 @@ public class SergeServiceImpl implements SergeService{
 		}
 		generator.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
 		
-		/**************************************************************************************************************/
+		/**** Meta-Model Analysis / Post-Processing Phase **********************************************************/
+
 		LogUtil.log(LogEvent.NOTICE, "Analyzing Meta-Model...");
 		
 		// retrieve all other required EPackages
@@ -187,13 +196,47 @@ public class SergeServiceImpl implements SergeService{
 		
 		// initalize EClassInfoManagement
 		eClassInfoManagement = generator.initEClassInfoManagement(enableStereotypeMapping);
-			
+		
+		
+		/**** Resolve BlackList & WhiteList Strings as EClasses ***************************************************/	
+		
 		// unfold lists (convert Strings to EClasses and find additional requirements)
 		unfoldBlackList();
 		unfoldWhiteList();
 		
+		/**** Handling of Masked Classifiers **********************************************************************/
+				
+		// retrieve masks
+		currentNode = docElem.getElementsByTagName("MaskedClassifiers").item(0);
+		currentChildNodes = currentNode.getChildNodes();
+		for(int i=0; i<currentChildNodes.getLength(); i++) {
+			if(currentChildNodes.item(i).getNodeName().equals("Mask")) {
+				Node maskNode = currentChildNodes.item(i);
+				String maskName = Common.getAttributeValue("name", maskNode);
+				String eClassName = Common.getAttributeValue("eClass", maskNode);
+				String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
+				String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
+			
+				EClass maskContainer = Common.resolveStringAsEClass(eClassName, ePackages);
+				EAttribute eAttribute = (EAttribute) maskContainer.getEStructuralFeature(eAttributeName);
+				EClassifier valueContainer = eAttribute.getEType();
+				EEnumLiteral valueLiteral = null;
+				
+				if(valueContainer instanceof EEnum) {					
+					valueLiteral = ((EEnum) valueContainer).getEEnumLiteral(eAttributeValue);
+				}else{
+					throw new Exception("Masked Classifier contains type information that is not represented by EEnum(Literals)");
+				}
+				// add mask to EClassInfo of maskContainer
+				Mask mask = new Mask(maskName, maskContainer, eAttribute, valueLiteral);
+				eClassInfoManagement.getEClassInfo(maskContainer).addMask(mask);
+				
+			}
+		}
 		
-		/**************************************************************************************************************/
+		
+		
+		/**** Constraints *****************************************************************************************/
 		
 		// retrieve Constraints & forward them to eClassInfoManagement
 		NodeList c_nameUniqueness = doc.getElementsByTagName("NameUniqueness");

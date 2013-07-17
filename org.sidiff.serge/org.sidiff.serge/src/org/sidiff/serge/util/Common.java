@@ -3,11 +3,13 @@ package org.sidiff.serge.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.serge.exceptions.EClassUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.w3c.dom.NamedNodeMap;
 
@@ -106,5 +108,17 @@ public class Common {
 		}		
 		
 		return list;
+	}
+	
+	public static EClass resolveStringAsEClass(String eClassName, List<EPackage> ePackages) throws EClassUnresolvableException{
+		EClass resolvedEClass = null;
+		
+		for(EPackage ePackage: ePackages) {				
+			resolvedEClass = (EClass) ePackage.getEClassifier(eClassName);
+			if(resolvedEClass!=null) {
+				return resolvedEClass;
+			}
+		}
+		throw new EClassUnresolvableException(eClassName);
 	}
 }

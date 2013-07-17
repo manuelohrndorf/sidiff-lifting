@@ -28,6 +28,8 @@ public class EClassInfo {
 	private ArrayList<EClass> stereotypes = new ArrayList<EClass>();
 	private ArrayList<EClass> extendedMetaClasses = new ArrayList<EClass>();
 	
+	
+	private List<Mask> masks = new ArrayList<Mask>(); 
 	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
 	
 	public enum Map {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
@@ -82,6 +84,9 @@ public class EClassInfo {
 	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
 		return appliedConstraints;
 	}
+	public List<Mask> getMasks() {
+		return masks;
+	}
 
 	/** Setter ****************************************************************************/
 	
@@ -99,6 +104,12 @@ public class EClassInfo {
 	
 	public void addConstraint(ConstraintType ctype, List<Object> flags) {
 		appliedConstraints.put(ctype, flags);
+	}
+	
+	public void addMask(Mask mask) {
+		if(!masks.contains(mask)) {
+			masks.add(mask);
+		}
 	}
 	
 	/** Convenience methods ***************************************************************/

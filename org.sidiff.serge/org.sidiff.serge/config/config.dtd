@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT Config (GeneralSettings+, MetaModelSettings, ProfiledModelSettings?, Transformations+, Root+, WhiteList+, BlackList+)>
 <!ELEMENT GeneralSettings (preventInconsistency+,multiplicityPreconditions+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
-<!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?)>
+<!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?,MaskedClassifiers?)>
 <!ELEMENT ProfiledModelSettings (BaseModelRules)>
 <!ELEMENT BaseModelRules EMPTY>
 <!ELEMENT MainModel EMPTY>
 <!ELEMENT RequiredModel EMPTY>
 <!ELEMENT Constraints (NameUniqueness*) >
+<!ELEMENT MaskedClassifiers (Mask*) >
 <!ELEMENT NameUniqueness EMPTY>
 <!ELEMENT Transformations (Creates+,Deletes+,Moves+,Sets+,Unsets+,Adds+,Removes+,Changes+)>
 <!ELEMENT Root EMPTY>
@@ -38,7 +39,11 @@
 				eAttributeName CDATA #REQUIRED
 				eAttributeIsInherited CDATA #REQUIRED
 				overrideInheritedConstraintsIfAny CDATA #REQUIRED
-				applyOnSubTypes CDATA #REQUIRED>				
+				applyOnSubTypes CDATA #REQUIRED>
+<!ATTLIST Mask 	name CDATA #REQUIRED
+				eClass CDATA #REQUIRED
+				eAttribute CDATA #REQUIRED
+				eAttributeValue CDATA #REQUIRED>		
 <!ATTLIST Root name CDATA #REQUIRED>
 <!ATTLIST Root nested CDATA #REQUIRED>
 <!ATTLIST EClass name CDATA #REQUIRED>
