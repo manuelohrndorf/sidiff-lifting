@@ -72,8 +72,8 @@ public class SergeServiceImpl implements SergeService{
 		// retrieve and set general settings	
 		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
 		generator.setPreventInconsistencyThroughSkipping(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
-		currentNode = doc.getElementsByTagName("initialChecks").item(0);		
-		generator.setCreateINITIALS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		currentNode = doc.getElementsByTagName("multiplicityPreconditions").item(0);		
+		generator.setMultiplicityPreconditions(Boolean.valueOf(Common.getAttributeValue("integrated", currentNode)), Boolean.valueOf(Common.getAttributeValue("separately", currentNode)));
 		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
 		generator.setDisableVariants(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		

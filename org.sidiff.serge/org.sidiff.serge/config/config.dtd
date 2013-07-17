@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT Config (GeneralSettings+, MetaModelSettings, ProfiledModelSettings?, Transformations+, Root+, WhiteList+, BlackList+)>
-<!ELEMENT GeneralSettings (preventInconsistency+,initialChecks+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
+<!ELEMENT GeneralSettings (preventInconsistency+,multiplicityPreconditions+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
 <!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?)>
 <!ELEMENT ProfiledModelSettings (BaseModelRules)>
 <!ELEMENT BaseModelRules EMPTY>
@@ -14,7 +14,7 @@
 <!ELEMENT WhiteList (EClass*)>
 
 <!ELEMENT preventInconsistency EMPTY>
-<!ELEMENT initialChecks EMPTY>
+<!ELEMENT multiplicityPreconditions EMPTY>
 <!ELEMENT reduceToSuperType EMPTY>
 <!ELEMENT disableVariants EMPTY>
 <!ELEMENT modelUsesProfileMechanism EMPTY>
@@ -43,7 +43,8 @@
 <!ATTLIST Root nested CDATA #REQUIRED>
 <!ATTLIST EClass name CDATA #REQUIRED>
 <!ATTLIST preventInconsistency value CDATA #REQUIRED>
-<!ATTLIST initialChecks allow CDATA #REQUIRED>
+<!ATTLIST multiplicityPreconditions integrated CDATA #REQUIRED
+									separately CDATA #REQUIRED>
 <!ATTLIST disableVariants value CDATA #REQUIRED>
 <!ATTLIST modelUsesProfileMechanism value CDATA #REQUIRED>
 <!ATTLIST reduceToSuperType SET_UNSET CDATA #REQUIRED>

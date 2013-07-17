@@ -52,7 +52,8 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected boolean createUNSETS; // SETS are required
 	protected boolean createCHANGES;
 	
-	protected boolean createINITIALS;
+	protected boolean multiplicityPreconditionsIntegrated;
+	protected boolean multiplicityPreconditionsSeparately;
 	protected boolean createNotRequiredAndNotIDAttributes;
 	protected static boolean preventInconsistencyThroughSkipping;
 	protected boolean reduceToSuperType_SETUNSET;
@@ -150,8 +151,9 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		this.createCHANGES = createCHANGES;
 	}
 
-	public void setCreateINITIALS(boolean createINITIALS) {
-		this.createINITIALS = createINITIALS;
+	public void setMultiplicityPreconditions(boolean integrated, boolean separately) {
+		this.multiplicityPreconditionsIntegrated = integrated;
+		this.multiplicityPreconditionsSeparately = separately;
 	}
 
 	public void setCreateNotRequiredAndNotIDAttributes(

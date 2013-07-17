@@ -169,12 +169,15 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					}
 
 					if(variantList.isEmpty()) {
-						// create initialChecks if any
-						if(createINITIALS) {
+						
+						// create multiplicity preconditions if any
+						if(multiplicityPreconditionsIntegrated) {
 							createIntegratedPreconditionsForMultiplicities(rule, OperationType.CREATE);
+						}
+						if(multiplicityPreconditionsSeparately) {
 							createInitialChecksForMultiplicities(module.getName(),context,eClass,eRef,OperationType.CREATE);
 						}
-
+						
 						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + module.getName());
 
 						// create mainUnit
@@ -194,12 +197,15 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							removeAllNonRuleUnits(inverseModule);	
 							mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
 
-							// create initialChecks if any
-							if(createINITIALS) {
+							// create multiplicity preconditions if any
+							if(multiplicityPreconditionsIntegrated) {
 								Rule inverseRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverseModule).get(0);
 								createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
-								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
 							}
+							if(multiplicityPreconditionsSeparately) {
+								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);								
+							}
+							
 							// serialize
 							serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
 						}
@@ -211,10 +217,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							Module module4variant = pair.getModule();
 							String variantOutputFileName = pair.getOutputFileName();
 
-							// create initialChecks if any
-							if(createINITIALS) {
+							// create multiplicity preconditions if any
+							if(multiplicityPreconditionsIntegrated) {
 								Rule rule4variant = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module4variant).get(0);
 								createIntegratedPreconditionsForMultiplicities(rule4variant, OperationType.CREATE);
+							}
+							if(multiplicityPreconditionsSeparately) {
 								createInitialChecksForMultiplicities(module4variant.getName(),context,eClass,eRef,OperationType.CREATE);
 							}
 
@@ -233,11 +241,13 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								removeAllNonRuleUnits(inverseModule);
 								mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
 
-								// create initialChecks if any
-								if(createINITIALS) {
+								// create multiplicity preconditions if any
+								if(multiplicityPreconditionsIntegrated) {
 									Rule inverseRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverseModule).get(0);
 									createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
-									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
+								}
+								if(multiplicityPreconditionsSeparately) {
+									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);			
 								}
 								// serialize
 								serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
@@ -1548,22 +1558,27 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						mainUnitCreation(REMOVE_Module, eClass, OperationType.REMOVE);
 						map.put(REMOVE_Module, outputFileNameRemove);
 
-						// create initialChecks, if any
-						if(createINITIALS) {
+						// create multiplicity preconditions, if any
+						if(multiplicityPreconditionsIntegrated) {
 							Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(REMOVE_Module).get(0);
 							createIntegratedPreconditionsForMultiplicities(rule, OperationType.REMOVE);
-							createInitialChecksForMultiplicities(REMOVE_Module.getName(), eClass, target, eRef, OperationType.REMOVE);
+						}
+						if(multiplicityPreconditionsSeparately) {
+							createInitialChecksForMultiplicities(REMOVE_Module.getName(), eClass, target, eRef, OperationType.REMOVE);							
 						}
 					}
 					// create mainUnits
 					mainUnitCreation(ADD_Module, eClass, OperationType.ADD);
 					
-					// create initialChecks, if any
-					if(createINITIALS) {
+					// create multiplicity preconditions, if any
+					if(multiplicityPreconditionsIntegrated) {
 						Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(ADD_Module).get(0);
 						createIntegratedPreconditionsForMultiplicities(rule, OperationType.ADD);
-						createInitialChecksForMultiplicities(ADD_Module.getName(), eClass, target, eRef, OperationType.ADD);
 					}
+					if(multiplicityPreconditionsSeparately) {
+						createInitialChecksForMultiplicities(ADD_Module.getName(), eClass, target, eRef, OperationType.ADD);						
+					}
+					
 					// put module in map for later serialization
 					map.put(ADD_Module, outputFileName);
 				}
@@ -1625,11 +1640,13 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				mainUnitCreation(MOVE_Module, eClass, OperationType.MOVE);
 				map.put(MOVE_Module, outputFileName);
 				
-				// create initialChecks, if any
-				if(createINITIALS) {
+				// create multiplicity preconditions, if any
+				if(multiplicityPreconditionsIntegrated) {
 					Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
 					createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
-					createInitialChecksForMultiplicities(MOVE_Module.getName(), target, eClass, eRef, OperationType.MOVE);
+				}
+				if(multiplicityPreconditionsSeparately) {
+					createInitialChecksForMultiplicities(MOVE_Module.getName(), target, eClass, eRef, OperationType.MOVE);	
 				}
 			}
 		}
