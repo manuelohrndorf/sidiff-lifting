@@ -170,17 +170,8 @@ public class SergeServiceImpl implements SergeService{
 		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
 			//resolve root
-			EClass foundRoot = null;
-			for(EPackage ePackage: ePackages) {
-				foundRoot = (EClass) ePackage.getEClassifier(rootName);
-				if(foundRoot!=null) {
-					generator.setRoot(foundRoot);
-					break;
-				}
-			}
-			if(foundRoot==null) {
-				throw new EClassUnresolvableException(rootName);
-			}
+			EClass root = Common.resolveStringAsEClass(rootName, ePackages);
+			generator.setRoot(root);
 		}
 		generator.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
 		
@@ -389,16 +380,8 @@ public class SergeServiceImpl implements SergeService{
 		generator.setBlackList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringBlackList) {
-			EClass skip = null;
-			for(EPackage ePackage: ePackages) {				
-				skip = (EClass) ePackage.getEClassifier(eClassName);
-				if(skip!=null) {
-					generator.getBlackList().add(skip);
-				}
-			}
-			if(skip==null) {
-				throw new EClassUnresolvableException(eClassName);
-			}
+			EClass skip = Common.resolveStringAsEClass(eClassName, ePackages);
+			generator.getBlackList().add(skip);
 		}
 		
 		if(generator.getPreventInconsistencyThroughSkipping()) {
@@ -417,17 +400,8 @@ public class SergeServiceImpl implements SergeService{
 		generator.setWhiteList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringWhiteList) {
-			EClass eClass = null;
-			for(EPackage ePackage: ePackages) {				
-				eClass = (EClass) ePackage.getEClassifier(eClassName);
-				if(eClass!=null) {
-					generator.getWhiteList().add(eClass);
-					break;
-				}
-			}
-			if(eClass==null) {
-				throw new EClassUnresolvableException(eClassName);
-			}
+			EClass eClass = Common.resolveStringAsEClass(eClassName, ePackages);
+			generator.getWhiteList().add(eClass);
 		}		
 		findMoreRequiredClassifier(generator.getWhiteList());
 	}
