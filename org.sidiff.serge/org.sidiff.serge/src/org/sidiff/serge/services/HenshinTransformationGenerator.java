@@ -190,12 +190,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 							Common.replaceNewsWithToBeDeleted(inverseModule);
 
-							// remove old mainUnit and re-create mainUnit & serialize
-							//TODO Test the following: all non-rule-units must be deleted from module.	
+							// remove old mainUnit and re-create mainUnit
 							removeAllNonRuleUnits(inverseModule);	
-							//		inverseModule.getTransformationUnits().clear();
 							mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
-							serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
 
 							// create initialChecks if any
 							if(createINITIALS) {
@@ -203,6 +200,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
 							}
+							// serialize
+							serialize(inverseModule, outputFileName.replace(CREATE_prefix, DELETE_prefix));
 						}
 
 
@@ -230,12 +229,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 								Common.replaceNewsWithToBeDeleted(inverseModule);
 
-								// remove old mainUnit and re-create mainUnit & serialize
-								//TODO Test the following: all non-rule-units must be deleted from module
+								// remove old mainUnit and re-create mainUnit
 								removeAllNonRuleUnits(inverseModule);
-								//		inverseModule.getTransformationUnits().clear();
 								mainUnitCreation(inverseModule, eClass, OperationType.DELETE);			
-								serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
 
 								// create initialChecks if any
 								if(createINITIALS) {
@@ -243,6 +239,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 									createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);
 								}
+								// serialize
+								serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
 							}
 						}					
 					}
@@ -1739,26 +1737,33 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		else if(opType==OperationType.DELETE) {		
 			
 			/*** Find relevant elements in rule ************************************************************/
-			Node selectedNodeLHS = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected", true);
-			Node deleteNodeLHS = null;
 			
-			EReference eRefOfOldSource = null;
+			for(Node deletionNode: HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes(rule)) {
 			
-			// get EReference from old context to delete node
-			for(Edge outEdge: selectedNodeLHS.getOutgoing()) {
-				if(outEdge.getType().isContainment() && HenshinRuleAnalysisUtilEx.isDeletionEdge(outEdge)) {
-					eRefOfOldSource = outEdge.getType();
-					deleteNodeLHS = outEdge.getTarget();					
-				}
-			}		
-			
-			/*** Differentiate multiplicity cases **********************************************************/
-			
-			// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
-			if(eRefOfOldSource.getLowerBound()!=0) {
+				Node oldContextNodeLHS = null;				
+				EReference eRefOfOldSource = null;
 				
-				createLowerBoundConstrainedElements(rule, selectedNodeLHS, deleteNodeLHS.getType(), eRefOfOldSource);
-			}		
+				// get EReference from old context to selected node
+				for(Edge inEdge: deletionNode.getIncoming()) {
+					if(inEdge.getType().isContainment()) {
+						eRefOfOldSource = inEdge.getType();
+						oldContextNodeLHS = inEdge.getSource();					
+					}
+				}
+	
+				/*** Differentiate multiplicity cases **********************************************************/
+				
+				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
+				if(eRefOfOldSource.getLowerBound()!=0) {
+					
+					createLowerBoundConstrainedElements(rule, oldContextNodeLHS, deletionNode.getType(), eRefOfOldSource);
+				}	
+			
+			}
+			
+			
+			
+			
 
 		}
 		else if(opType==OperationType.REMOVE) {
@@ -1791,12 +1796,14 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 	private void createLowerBoundConstrainedElements(Rule rule, Node oldContextNodeLHS, EClass type, EReference eRefOfOldSource) {
 		
+		//TODO recursively for all contained <<delete>> nodes
+		
 		Integer numberOfRequiredNodes = eRefOfOldSource.getLowerBound();		
 		NodePair contextNodePair = new NodePair(oldContextNodeLHS, rule.getMappings().getImage(oldContextNodeLHS, rule.getRhs()));
 		
 		if(numberOfRequiredNodes!=0) {
 		
-			NestedCondition nestedConditon = rule.getLhs().createPAC("sufficientElementsMustExist");
+			NestedCondition nestedConditon = henshinFactory.createNestedCondition();
 			Graph conclusion = henshinFactory.createGraph("sufficientElementsMustExist");
 			
 			//There must be at least numberOfRequiredNodes+1 Nodes for a <<delete>> to be executed
@@ -1807,20 +1814,14 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 				Edge requiredEdge = henshinFactory.createEdge(contextNodePair.getLhsNode(), requiredNode, eRefOfOldSource);
 				conclusion.getNodes().add(requiredNode);
-				conclusion.getEdges().add(requiredEdge);	
+				conclusion.getEdges().add(requiredEdge);
 				
-//				NodePair requiredNP = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", type);
-//				if(eRefOfOldSource.isContainment()) {
-//					assert(contextNodePair!=null): "ContextNodePair should not be null";
-//					HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, contextNodePair, requiredNP, eRefOfOldSource);
-//				}
-//				else {
-//					HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, oldContextNodeLHS, requiredNP.getLhsNode(), eRefOfOldSource);
-//				}			
 			}
 			
-			nestedConditon.setConclusion(conclusion);
+			nestedConditon.setConclusion(conclusion);		
 			
+			// put Formulas together
+			HenshinRuleAnalysisUtilEx.addFormula(nestedConditon, rule.getLhs(), FormulaCombineOperator.AND);
 		}
 		
 	}
@@ -1861,16 +1862,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 
 			// put Formulas together
-			HenshinRuleAnalysisUtilEx.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);
-
-
-
-			//The maximum number of Nodes for a <<create>> to be executed must not already be reached
-			
-			//TODO what if there is already a forbid with nameuniqueness constraint? injective matching true?
-			
-			
-			
+			HenshinRuleAnalysisUtilEx.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);			
 			
 		}
 		
