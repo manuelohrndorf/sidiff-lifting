@@ -2,15 +2,21 @@ package org.sidiff.serge.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,6 +30,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
@@ -329,65 +336,195 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			for(EAttribute ea: easToConsider) {
 				// don't consider derived, not changeable, unsettable and transient references
 				if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
-
-					// SET for EAttributes ***************************************************************************/
-					LogUtil.log(LogEvent.NOTICE, "Generating SET : " + eClass.getName() + " attribute "+ ea.getName());
-
-					// create SET_Module
-					Module SET_Module = henshinFactory.createModule();
-
-					// Add imports for meta model
-					SET_Module.getImports().addAll(ePackages);
-
-					// create rule
-					Rule rule = henshinFactory.createRule();
-					rule.setActivated(true);
-					rule.setName("set"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName()));
-					rule.setDescription("Sets the EAttribute "+ea.getName());
-					SET_Module.getUnits().add(rule);
-
-					// create preserved node for eClass
-					NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
-					Node rhsNode = selectedNodePair.getRhsNode();
-
-					// create attribute
-					HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.firstLetterToUpperCase(ea.getName()));
-
-
-					// if profiledModel then link mandatory neighbours (expecially the meta class)
-					if(profileApplicationInUse) {
-						createMandatoryNeighbours(rule, eClassInfo, rhsNode);
+					
+					int lowerBound = ea.getLowerBound();
+					int upperBound = ea.getUpperBound();
+					
+					/********** un-supported yet: isMany *************************************************************************************/
+					if((lowerBound == 0) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
 					}
-
-					// If selected eClass is constrained locally (e.g. it's name to be set must be unique under a local context),
-					// create parent nodes which are required by NACs/PACs later.
-					// If there is more than one possible parent, module must be copied.
-					if(eClassInfo.isConstrainedToLocalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1)==ea)) {
-						moduleMap = createNameUniquenessLocalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
-
+					else if ((lowerBound == 1) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
 					}
-					else if(eClassInfo.isOnlyConstrainedToGlobalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1)==ea)) {
-						moduleMap = createNameUniquenessGlobalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
-					}
-					else{ //not constrained locally
+					
+					/**********SET / UNSET *************************************************************************************/
+					else if(((lowerBound == 0) && (upperBound == 1))
+							|| (((lowerBound == 1) && (upperBound == 1) && !(ea.getEType() instanceof EEnum)))){
 						
-						// set outputFilename, Module name and description
-						String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
-						String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
-						SET_Module.setName(name);
-						SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));
-						
-						// create mainUnits & put TS in map for later serializing
-						mainUnitCreation(SET_Module, eClass, OperationType.SET);
-						moduleMap.put(SET_Module, outputFileName);
-						
-						// create UNSET if wished
-						if(createUNSETS && ea.isUnsettable()) {
-							moduleMap = createUNSET(SET_Module, eClass, ea, outputFileName, moduleMap);
+						// SET for EAttributes ***************************************************************************/
+						LogUtil.log(LogEvent.NOTICE, "Generating SET : " + eClass.getName() + " attribute "+ ea.getName());
+
+						// create SET_Module
+						Module SET_Module = henshinFactory.createModule();
+
+						// Add imports for meta model
+						SET_Module.getImports().addAll(ePackages);
+
+						// create rule
+						Rule rule = henshinFactory.createRule();
+						rule.setActivated(true);
+						rule.setName("set"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName()));
+						rule.setDescription("Sets the EAttribute "+ea.getName());
+						SET_Module.getUnits().add(rule);
+
+						// create preserved node for eClass
+						NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
+						Node rhsNode = selectedNodePair.getRhsNode();
+
+						// create attribute
+						HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.firstLetterToUpperCase(ea.getName()));
+
+
+						// if profiledModel then link mandatory neighbours (expecially the meta class)
+						if(profileApplicationInUse) {
+							createMandatoryNeighbours(rule, eClassInfo, rhsNode);
+						}
+
+						// If selected eClass is constrained locally (e.g. it's name to be set must be unique under a local context),
+						// create parent nodes which are required by NACs/PACs later.
+						// If there is more than one possible parent, module must be copied.
+						if(eClassInfo.isConstrainedToLocalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1)==ea)) {
+							moduleMap = createNameUniquenessLocalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
+
+						}
+						else if(eClassInfo.isOnlyConstrainedToGlobalNameUniqueness() && ((EAttribute)eClassInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1)==ea)) {
+							moduleMap = createNameUniquenessGlobalConstraint_SET(SET_Module, rule, eClass, ea, moduleMap);
+						}
+						else{ //not constrained locally
+							
+							// set outputFilename, Module name and description
+							String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
+							String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+							SET_Module.setName(name);
+							SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));
+							
+							// create mainUnits & put TS in map for later serializing
+							mainUnitCreation(SET_Module, eClass, OperationType.SET);
+							moduleMap.put(SET_Module, outputFileName);
+							
+							// create UNSET if wished
+							if(createUNSETS && ea.isUnsettable()) {
+								moduleMap = createUNSET(SET_Module, eClass, ea, outputFileName, moduleMap);
+							}
 						}
 					}
+					
+					
+					/********** CHANGE EAttributeValues combinations with Matrix **************************************************************/
+					
+					else if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
+						
+						EEnum eenum = (EEnum) ea.getEType();
+												
+						// build up combinations
+						Map<EEnumLiteral,List<EEnumLiteral>> combinations = new HashMap<EEnumLiteral,List<EEnumLiteral>>();
+						
+						for(EEnumLiteral literal :eenum.getELiterals()) {
+							combinations.put(literal, eenum.getELiterals());
+						}//here combination with self is still included.						
+						
+						// build CHANGE modules for every combination:
+						
+						for(Entry<EEnumLiteral,List<EEnumLiteral>> entry: combinations.entrySet()) {									
+							EEnumLiteral leftSidelLiteral = entry.getKey();	
+							
+							//to remove combination with self, remove self from right value
+							entry.getValue().remove(leftSidelLiteral);
+							
+							// now create module for every literal combination
+							for(EEnumLiteral rightSideLiteral: entry.getValue()) {
+
+								// CHANGE for EAttribute with EEnumLiteral as EType ****************************************************************/
+								LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + eClass.getName() + ea.getName()+ "From" + leftSidelLiteral.getName() + "To "+rightSideLiteral.getName());
+
+								// create CHANGE_Module
+								Module CHANGE_Module = henshinFactory.createModule();
+
+								// Add imports for meta model
+								CHANGE_Module.getImports().addAll(ePackages);
+
+								// create rule
+								Rule rule = henshinFactory.createRule();
+								rule.setActivated(true);
+								rule.setName("change"+eClass.getName()
+										+Common.firstLetterToUpperCase(ea.getName())+"From"
+										+Common.firstLetterToUpperCase(leftSidelLiteral.getName())
+										+"To"+rightSideLiteral.getName());
+								rule.setDescription("Changes the attribute value of "
+										+ea.getName() +" from "
+										+leftSidelLiteral.getName()
+										+" to "+rightSideLiteral.getName());
+								CHANGE_Module.getUnits().add(rule);
+
+								NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", ea.eContainer().eClass());
+
+								HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, ea, leftSidelLiteral.getName(), false);
+								containerNodePair.getRhsNode().getAttribute(ea).setValue(rightSideLiteral.getName());
+
+								// set outputFilename, Module name and description
+								String name = CHANGE_prefix + eClass.getName() 
+										+"_"+Common.firstLetterToUpperCase(ea.getName())
+										+"_From_"+Common.firstLetterToUpperCase(leftSidelLiteral.getName())
+										+"_To_"+Common.firstLetterToUpperCase(rightSideLiteral.getName());
+								String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
+								CHANGE_Module.setName(name);
+								CHANGE_Module.setDescription(rule.getDescription());
+								
+								// create mainUnits & put TS in map for later serializing
+								mainUnitCreation(CHANGE_Module, eClass, OperationType.CHANGE);
+								moduleMap.put(CHANGE_Module, outputFileName);
+								
+							}
+							
+						}
+
+					}
 
 
+					else {
+						System.err.println("FIXME: Case not covered concerning CHANGEs ************************");
+					}
+					
+					
+					
+//					/********** CHANGE EAttributeValues which are EEnumLiterals **************************************************************/
+//					else if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)){
+//						//change
+//						
+//						for(EEnumLiteral eel: ((EEnum)ea.getEType()).getELiterals() ) {
+//							
+//							// CHANGE for EAttributes ***************************************************************************/
+//							LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + eClass.getName() + " attribute "+ ea.getName() + "To"+eel.getName());
+//	
+//							// create CHANGE_Module
+//							Module CHANGE_Module = henshinFactory.createModule();
+//	
+//							// Add imports for meta model
+//							CHANGE_Module.getImports().addAll(ePackages);
+//	
+//							// create rule
+//							Rule rule = henshinFactory.createRule();
+//							rule.setActivated(true);
+//							rule.setName("change"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName())+"To"+eel.getName());
+//							rule.setDescription("Changes the EAttribute "+ea.getName()+" to "+eel.getName());
+//							CHANGE_Module.getUnits().add(rule);
+//							
+//							NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", ea.eContainer().eClass());
+//							
+//							HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, ea, LeftEEL, false);
+//							containerNodePair.getRhsNode().getAttribute(ea).setValue(RightEEL);
+//						
+//							
+//						}
+//										
+//					}
 				}
 			}
 
@@ -654,9 +791,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	
 	private void mainUnitCreation(Module module, EClass eClass, OperationType tsType) {
 		
-	//TODO Test the following: all non-rule-units must be deleted from module.	
-		removeAllNonRuleUnits(module);
-	//	module.getTransformationUnits().clear();	
+		removeAllNonRuleUnits(module);	
 		
 		/** Unit creation **/ 
 		
@@ -756,7 +891,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					if(defaultValue!=null) {
 						defaultValueName = defaultValue.toString();
 					}
-					if(a.getValue()!="null" && ((defaultValueName!=null && !a.getValue().equals(defaultValueName)) || defaultValueName==null)) {
+					
+					//if x-->y CHANGE of values, don't create Parameter! Otherwise do so.
+					MappingList mappings = rule.getMappings();
+					if(	mappings.getOrigin(a)==null
+						|| (mappings.getOrigin(a)!=null && mappings.getOrigin(a).getValue().equals(a.getValue()))
+						&& (a.getValue()!="null" && ((defaultValueName!=null && !a.getValue().equals(defaultValueName)) || defaultValueName==null))) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue());
 						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
@@ -795,7 +935,11 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				
 				// Add Parameter for Attributes
 				for(Attribute a: nInLHS.getAttributes()) {
-					if(a.getValue()!="null") {
+					//if x-->y CHANGE of values, don't create Parameter! Otherwise do so.
+					MappingList mappings = rule.getMappings();
+					if(mappings.getImage(a,rule.getRhs())==null
+						|| ((mappings.getImage(a,rule.getRhs())!=null && mappings.getImage(a,rule.getRhs()).getValue().equals(a.getValue()))
+						&&	a.getValue()!="null")) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue()); 
 						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
