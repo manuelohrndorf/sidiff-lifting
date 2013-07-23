@@ -129,7 +129,7 @@ public class EClassInfo {
 		return false;
 	}
 	
-	public boolean hasDisguises() {
+	public boolean hasMasks() {
 		return !masks.isEmpty();
 	}
 	

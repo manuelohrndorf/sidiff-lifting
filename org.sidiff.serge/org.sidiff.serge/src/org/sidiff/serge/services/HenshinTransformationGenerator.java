@@ -51,6 +51,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.util.Common;
 import org.sidiff.serge.util.EClassInfo;
+import org.sidiff.serge.util.Mask;
 import org.sidiff.serge.util.ModuleFilenamePair;
 
 public class HenshinTransformationGenerator extends AbstractGenerator {
@@ -417,7 +418,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					}
 					
 					
-					/********** CHANGE EAttributeValues combinations with Matrix **************************************************************/
+					/********** CHANGE EAttribute value combinations if value type is EEnum  *****************************************************/
 					
 					else if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
 						
@@ -442,7 +443,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							for(EEnumLiteral rightSideLiteral: entry.getValue()) {
 
 								// CHANGE for EAttribute with EEnumLiteral as EType ****************************************************************/
-								LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + eClass.getName() + ea.getName()+ "From" + leftSidelLiteral.getName() + "To "+rightSideLiteral.getName());
+								LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : "
+										+ eClass.getName() + ea.getName()+ "From"
+										+ leftSidelLiteral.getName()
+										+ "To "+rightSideLiteral.getName());
 
 								// create CHANGE_Module
 								Module CHANGE_Module = henshinFactory.createModule();
@@ -465,8 +469,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 								NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", ea.eContainer().eClass());
 
-								HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, ea, leftSidelLiteral.getName(), false);
-								containerNodePair.getRhsNode().getAttribute(ea).setValue(rightSideLiteral.getName());
+								HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, ea, "\""+leftSidelLiteral.getName()+"\"", false);
+								containerNodePair.getRhsNode().getAttribute(ea).setValue("\""+rightSideLiteral.getName()+"\"");
 
 								// set outputFilename, Module name and description
 								String name = CHANGE_prefix + eClass.getName() 
@@ -487,44 +491,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 					}
 
-
 					else {
 						System.err.println("FIXME: Case not covered concerning CHANGEs ************************");
 					}
-					
-					
-					
-//					/********** CHANGE EAttributeValues which are EEnumLiterals **************************************************************/
-//					else if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)){
-//						//change
-//						
-//						for(EEnumLiteral eel: ((EEnum)ea.getEType()).getELiterals() ) {
-//							
-//							// CHANGE for EAttributes ***************************************************************************/
-//							LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + eClass.getName() + " attribute "+ ea.getName() + "To"+eel.getName());
-//	
-//							// create CHANGE_Module
-//							Module CHANGE_Module = henshinFactory.createModule();
-//	
-//							// Add imports for meta model
-//							CHANGE_Module.getImports().addAll(ePackages);
-//	
-//							// create rule
-//							Rule rule = henshinFactory.createRule();
-//							rule.setActivated(true);
-//							rule.setName("change"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName())+"To"+eel.getName());
-//							rule.setDescription("Changes the EAttribute "+ea.getName()+" to "+eel.getName());
-//							CHANGE_Module.getUnits().add(rule);
-//							
-//							NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", ea.eContainer().eClass());
-//							
-//							HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, ea, LeftEEL, false);
-//							containerNodePair.getRhsNode().getAttribute(ea).setValue(RightEEL);
-//						
-//							
-//						}
-//										
-//					}
 				}
 			}
 
@@ -547,8 +516,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 						if (!isAllowed(targetType,false))  continue;
 
-						// create trafo(s) to modify the reference
-						moduleMap.putAll(create_Trafo_toModifyReference(eRef, eClass, targetType));
+						// create module(s) to modify the reference
+						moduleMap.putAll(createModuleToModifyReference(eRef, eClass, targetType));
+						
 					}
 				}
 			}
@@ -690,7 +660,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
 		HashMap<EReference,List<EClass>> combinedContextMap = eClassInfo.getMandatoryParentContext();
 		combinedContextMap.putAll(eClassInfo.getOptionalParentContext());
-				
+		
 		for(EReference eRef: combinedContextMap.keySet()) {
 
 			assert(eRef.isContainment()) : "eRef is no containment but should be";
@@ -706,10 +676,11 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					
 					if (!isAllowed(parent,false))  continue;				
 					
-					moduleMap.putAll(create_Trafo_toModifyReference(eRef, eClass, parent));				
+					moduleMap.putAll(createModuleToModifyReference(eRef, eClass, parent));
 				}
 			}
 		}
+		
 		
 		// serialize
 		for(Entry<Module,String> entry: moduleMap.entrySet()) {	
@@ -892,11 +863,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						defaultValueName = defaultValue.toString();
 					}
 					
-					//if x-->y CHANGE of values, don't create Parameter! Otherwise do so.
-					MappingList mappings = rule.getMappings();
-					if(	mappings.getOrigin(a)==null
-						|| (mappings.getOrigin(a)!=null && mappings.getOrigin(a).getValue().equals(a.getValue()))
-						&& (a.getValue()!="null" && ((defaultValueName!=null && !a.getValue().equals(defaultValueName)) || defaultValueName==null))) {
+					//Don't create Parameter if:
+					// attribute is in quotation marks "..." (like specific literal values, e.g. "initial").
+					// Else create Parameter.
+					if((a.getValue()!="null" && !a.getValue().startsWith("\"") && ((defaultValueName!=null && !a.getValue().equals(defaultValueName)) || defaultValueName==null))) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue());
 						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
@@ -935,11 +905,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				
 				// Add Parameter for Attributes
 				for(Attribute a: nInLHS.getAttributes()) {
-					//if x-->y CHANGE of values, don't create Parameter! Otherwise do so.
-					MappingList mappings = rule.getMappings();
-					if(mappings.getImage(a,rule.getRhs())==null
-						|| ((mappings.getImage(a,rule.getRhs())!=null && mappings.getImage(a,rule.getRhs()).getValue().equals(a.getValue()))
-						&&	a.getValue()!="null")) {
+					if(a.getValue()!="null" && !a.getValue().startsWith("\"") ) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue()); 
 						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
@@ -1618,7 +1584,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 	
 	
-	private HashMap<Module,String> create_Trafo_toModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
+	private HashMap<Module,String> createModuleToModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
 		EClassInfo eInfo = eClassInfoManagement.getEClassInfo(eClass);
@@ -1793,12 +1759,62 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				if(multiplicityPreconditionsSeparately) {
 					createInitialChecksForMultiplicities(MOVE_Module.getName(), target, eClass, eRef, OperationType.MOVE);	
 				}
+				
+				// if EClass has Masks, also create MOVES for them
+				for(Mask mask: eInfo.getMasks()) {				
+					map.putAll(createMOVE_UsingMask(eRef, mask, target));			
+				}
 			}
 		}
 		
 		return map;
 	}
 
+	private HashMap<Module,String> createMOVE_UsingMask(EReference eRef, Mask mask, EClass target) {
+		
+		HashMap<Module,String> map = new HashMap<Module,String>();
+		
+		String name = MOVE_prefix + mask.getName() + "_Ref_" + eRef.getName()+ "_To_"+target.getName(); 
+		LogUtil.log(LogEvent.NOTICE, "Generating Move : " + name);
+
+		// MOVE file name
+		String outputFileName = outputFolderPath + name+ EXECUTE_suffix;
+
+		Module MOVE_Module = henshinFactory.createModule();
+		MOVE_Module.setName(name);
+
+		MOVE_Module.setDescription("MOVEs "+ mask.getName() +" with reference "+ eRef.getName() + " to "+ target.getName());
+
+		// add imports
+		MOVE_Module.getImports().addAll(ePackages);
+		
+		// create rule
+		create_Rule_toSetReference(MOVE_Module, eRef, mask.getOriginalEClass(), target);
+		
+		// create Attribute, containing the masked type
+		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
+		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, mask.getOriginalEClass(), "Selected");
+		HenshinRuleAnalysisUtilEx.createPreservedAttribute(np, mask.getEAttributeContainingFakeType(), "\""+mask.getTypeExtension().getName()+"\"", false);
+
+		// create all elements necessary for constraints
+		createElementsForConstraints_MOVE(MOVE_Module);
+		
+		// create mainUnit and put in map
+		mainUnitCreation(MOVE_Module, mask.getOriginalEClass(), OperationType.MOVE);
+		map.put(MOVE_Module, outputFileName);
+		
+		// create multiplicity preconditions, if any
+		if(multiplicityPreconditionsIntegrated) {
+			createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
+		}
+		if(multiplicityPreconditionsSeparately) {
+			createInitialChecksForMultiplicities(MOVE_Module.getName(), target, mask.getOriginalEClass(), eRef, OperationType.MOVE);	
+			//TODO separate initial check for masked eclass
+		}
+		
+		return map;
+	}
+	
 	private void createIntegratedPreconditionsForMultiplicities(Rule rule, OperationType opType) {
 		
 		

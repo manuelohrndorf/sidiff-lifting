@@ -28,7 +28,7 @@ public class Mask {
 	 * Returns the container EClass which beholds the concealed type information.
 	 * @return
 	 */
-	public EClass getEClass() {
+	public EClass getOriginalEClass() {
 		return eClass;
 	}
 
@@ -36,7 +36,7 @@ public class Mask {
 	 * Returns the attribute that contains the type.
 	 * @return
 	 */
-	public EAttribute getEAttribute() {
+	public EAttribute getEAttributeContainingFakeType() {
 		return eAttribute;
 	}
 
@@ -44,7 +44,7 @@ public class Mask {
 	 * Returns which type is actually meant.
 	 * @return
 	 */
-	public EEnumLiteral getEAttributeValue() {
+	public EEnumLiteral getTypeExtension() {
 		return eAttributeValue;
 	}
 	
