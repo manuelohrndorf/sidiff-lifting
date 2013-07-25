@@ -20,23 +20,34 @@ import org.sidiff.common.logging.LogUtil;
 
 public class ProfileApplicator {
 
+	//Folder for input edit rules
 	private String inputFolderPath = null;
+	
+	//Path for config file
 	private String configPath = null;
+	
+	//Folder for output edit rules
 	private String outputFolderPath = null;
 
+	//Configuration parameters
 	private boolean debugOutput = false;
-	private String profileName = null;
 	private boolean baseTypeInstances = false;
 	private boolean baseTypeContext = false;
+
+	//Profile configuration
+	private String profileName = null;
 	private EPackage basePackage;
 	private EPackage stereoPackage;
-
 	private List<URI> transformations = new ArrayList<URI>();
-
 	private List<String> stereoTypes = new ArrayList<String>();
 	private List<String> baseTypes = new ArrayList<String>();
 	private List<String> baseReferences = new ArrayList<String>();
 
+	/*
+	 * Apply the profile to given input edit rules
+	 * Configuration has already taken place in {@see ProfileApplicatorServiceImpl}
+	 * 
+	 */
 	public void applyProfile() {
 
 		LogUtil.log(LogEvent.NOTICE,
@@ -64,20 +75,28 @@ public class ProfileApplicator {
 		LogUtil.log(
 				LogEvent.NOTICE,
 				"Applying transformations now, this could (and most certainly will) take some time...");
-
-		File sourceFolder = new File(this.inputFolderPath);
-		File[] sourceFiles = sourceFolder.listFiles();
-
+		
+		//Initialize organizing variables
 		boolean stereoTypesUsed = false;
-		String outputName = null;	
+		String outputName = null;		
+		
+		//Get all input henshin files
+		File sourceFolder = new File(this.inputFolderPath);
+		File[] sourceFiles = sourceFolder.listFiles();		
 		
 		for (File sourceFile : sourceFiles) {
 
+			//Input is really a henshin file
 			if (sourceFile.getName().endsWith(".henshin")) {
 				
+				//Set appropriate output name
+				outputName = this.outputFolderPath + sourceFile.getName();
+				
+				//Create resourceSet for source
 				HenshinResourceSet srcResourceSet = new HenshinResourceSet(
 						this.inputFolderPath);
 
+				//Create EGraph for source
 				EGraph srcGraph = new EGraphImpl(
 						srcResourceSet.getResource(sourceFile.getName()));
 
@@ -91,9 +110,10 @@ public class ProfileApplicator {
 
 				}
 
+				//variable to check if henshin rule has been successfully been applied
 				boolean applied = false;
-				outputName = this.outputFolderPath + sourceFile.getName();
 
+				//Iterate over all stereoTypes used in profile
 				for (int z = 0; z < this.stereoTypes.size(); z++) {
 
 					if (this.debugOutput) {
@@ -104,25 +124,34 @@ public class ProfileApplicator {
 								+ this.baseTypes.get(z));
 					}
 					
+					//Create resourceSet as working copy
 					HenshinResourceSet workResourceSet = new HenshinResourceSet(
 							this.inputFolderPath);
-
+					
+					//Create EGraph as working copy
 					EGraph workGraph = new EGraphImpl(
 							workResourceSet.getResource(sourceFile.getName()));
 
+					//Add basePackage and stereoPackage to Graph for HOTs matching
 					workGraph.addTree(this.basePackage);
 					workGraph.addTree(this.stereoPackage);
 					
+					//Create Henshin Engine
 					Engine engine = new EngineImpl();
 
+					//Iterate over all enabled higher order transformations
 					for (URI hot : transformations) {
 
+						//Create unitapplication for transformation
 						UnitApplication unitapp = new UnitApplicationImpl(
 								engine);
+						//Use current working copy graph
 						unitapp.setEGraph(workGraph);						
 
+						//Create resourceSet for higher order transformation henshin rule
 						HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
 
+						//Get module
 						Module module = hotsResourceSet.getModule(hot, false);
 
 						if (this.debugOutput) {
@@ -135,6 +164,7 @@ public class ProfileApplicator {
 															"") + "...");
 						}
 
+						//Set unit to SiLift default
 						unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
 						// setting parameters
@@ -147,12 +177,14 @@ public class ProfileApplicator {
 						unitapp.setParameterValue("baseType",
 								this.baseTypes.get(z));
 
+						//Execute henshin rule
 						boolean executed = unitapp.execute(null);
 
 						if (this.debugOutput) {
 							LogUtil.log(LogEvent.NOTICE,
 									"Successfully applied: " + executed);
 						}
+						//If successfully executed set variables accordingly
 						if (executed) {
 							stereoTypesUsed = true;
 							applied = true;
@@ -161,6 +193,8 @@ public class ProfileApplicator {
 											.getName() + "_execute.henshin";
 
 						}
+						//If successfully executed 
+						// and baseTypeContext is set
 						if (executed && this.baseTypeContext) {
 							workResourceSet.saveEObject(workGraph.getRoots()
 									.get(0), outputName);
@@ -175,11 +209,12 @@ public class ProfileApplicator {
 							}
 
 						}
-						
+						//"Free" resourceSet (Java GC does not think so)
 						hotsResourceSet = null;
 
 					}
 
+					//Save created profiled henshin edit rule
 					if (applied) {
 
 						workResourceSet.saveEObject(
@@ -192,15 +227,20 @@ public class ProfileApplicator {
 											+ "_execute.henshin");
 
 						}
+						//Reset variable
 						applied = false;
 					}
 
+					//Clear memory from unused EObjects
+					//If not done, execution time is exponential
 					workGraph.removeGraph(workGraph.getRoots().get(0));
 					workResourceSet = null;
 
 				}
 
-				// Copy meta instances untransformed
+				//Copy meta instances untransformed
+				//if no stereotype could be executed on current
+				//input rule or baseTypeInstances are allowed
 				if (!stereoTypesUsed || this.baseTypeInstances) {
 
 					srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
@@ -211,7 +251,11 @@ public class ProfileApplicator {
 								"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
 					}
 				}
+				//Reset variable
 				stereoTypesUsed = false;
+				
+				//Clear memory from unused EObjects
+				//If not done, execution time is exponential
 				srcGraph.removeGraph(srcGraph.getRoots().get(0));
 				srcResourceSet = null;
 

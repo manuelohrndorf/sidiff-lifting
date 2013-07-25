@@ -14,33 +14,43 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.profileapplicator.ProfileApplicatorService;
 import org.sidiff.profileapplicator.services.ProfileApplicator;
-import org.sidiff.profileapplicator.util.Common;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
+	//Global {@see ProfileApplicator} element
 	private static ProfileApplicator applicator = null;
 
+	//Temporal variables for creation of {@see ProfileApplicator}
 	private static List<URI> transformations = new ArrayList<URI>();
-
 	private static List<String> stereoTypes = new ArrayList<String>();
 	private static List<String> baseTypes = new ArrayList<String>();
 	private static List<String> baseReferences = new ArrayList<String>();
 
+	//Iterate through all subtypes of baseType?
 	private boolean baseTypeInheritance = false;
 
 	public ProfileApplicatorServiceImpl() {
 
 	}
 
+	/*
+	 * Initialize the {@see ProfileApplicator}
+	 * Read the XML configuration file and 
+	 * define the applicator accordingly 
+	 * 
+	 * @see org.sidiff.profileapplicator.ProfileApplicatorService#init(java.lang.Class, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public void init(Class<?> service, String pathToConfig,
 			String pathToInputFolder, String pathToOutputFolder) {
 
 		if (service == ProfileApplicator.class) {
 
+			//Interpreting the XML configuration file
 			applicator = new ProfileApplicator();
 
 			applicator.setConfigPath(pathToConfig);
@@ -58,44 +68,45 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			// retrieve and set configuration parameters
 
 			currentNode = doc.getElementsByTagName("DebugOutput").item(0);
-			applicator.setDebugOutput((Boolean.valueOf(Common
-					.getAttributeValue("on", currentNode))));
+			applicator.setDebugOutput((Boolean.valueOf(getAttributeValue("on",
+					currentNode))));
 
 			currentNode = doc.getElementsByTagName("Profile").item(0);
-			applicator.setProfileName((String.valueOf(Common.getAttributeValue(
-					"name", currentNode))));
+			applicator.setProfileName((String.valueOf(getAttributeValue("name",
+					currentNode))));
 
 			currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
-			applicator.setBaseTypeInstances((Boolean.valueOf(Common
-					.getAttributeValue("allow", currentNode))));
+			applicator.setBaseTypeInstances((Boolean.valueOf(getAttributeValue(
+					"allow", currentNode))));
 
 			currentNode = doc.getElementsByTagName("BaseTypeContext").item(0);
-			applicator.setBaseTypeContext((Boolean.valueOf(Common
-					.getAttributeValue("allow", currentNode))));
+			applicator.setBaseTypeContext((Boolean.valueOf(getAttributeValue(
+					"allow", currentNode))));
 
 			currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
 					0);
-			baseTypeInheritance = (Boolean.valueOf(Common.getAttributeValue(
-					"allow", currentNode)));
+			baseTypeInheritance = (Boolean.valueOf(getAttributeValue("allow",
+					currentNode)));
 
 			currentNode = doc.getElementsByTagName("BasePackage").item(0);
 			applicator.setBasePackage(EPackage.Registry.INSTANCE
-					.getEPackage(String.valueOf(Common.getAttributeValue(
-							"nsUri", currentNode))));
+					.getEPackage(String.valueOf(getAttributeValue("nsUri",
+							currentNode))));
 
 			currentNode = doc.getElementsByTagName("StereoPackage").item(0);
 			applicator.setStereoPackage(EPackage.Registry.INSTANCE
-					.getEPackage(String.valueOf(Common.getAttributeValue(
-							"nsUri", currentNode))));
+					.getEPackage(String.valueOf(getAttributeValue("nsUri",
+							currentNode))));
 
+			//Set all used Higher Order Transformations
 			NodeList transformationNodes = doc
 					.getElementsByTagName("Transformation");
 			for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
 				Node transformationNode = transformationNodes.item(i);
-				String transformation = String.valueOf(Common
-						.getAttributeValue("name", transformationNode));
-				Boolean apply = Boolean.valueOf(Common.getAttributeValue(
-						"apply", transformationNode));
+				String transformation = String.valueOf(getAttributeValue(
+						"name", transformationNode));
+				Boolean apply = Boolean.valueOf(getAttributeValue("apply",
+						transformationNode));
 
 				if (apply) {
 					URI transformationURI = URI.createPlatformPluginURI(
@@ -107,17 +118,17 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 				}
 			}
-
 			applicator.setTransformations(transformations);
-
+			
+			//Set all used StereoTypes, BaseTypes and their reference between each other
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
 				Node stereoTypeNode = stereoTypeNodes.item(i);
-				String stereoType = String.valueOf(Common.getAttributeValue(
-						"name", stereoTypeNode));
-				String baseType = String.valueOf(Common.getAttributeValue(
-						"baseType", stereoTypeNode));
-				String baseReference = String.valueOf(Common.getAttributeValue(
+				String stereoType = String.valueOf(getAttributeValue("name",
+						stereoTypeNode));
+				String baseType = String.valueOf(getAttributeValue("baseType",
+						stereoTypeNode));
+				String baseReference = String.valueOf(getAttributeValue(
 						"baseReference", stereoTypeNode));
 				if (!stereoTypes.contains(stereoType)) {
 
@@ -172,6 +183,26 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 		applicator.applyProfile();
 
+	}
+
+	/* Get Attribute value of given attribute name in given node
+	 * 
+	 * @param attribName Name of the attribute 
+	 * @param node Node where to look for attribute
+	 * @return value Attribute value
+	 * 
+	 */
+	public static String getAttributeValue(String attribName,
+			org.w3c.dom.Node node) {
+
+		NamedNodeMap attribs = node.getAttributes();
+		for (int i = 0; i < attribs.getLength(); i++) {
+			if (attribs.item(i).getNodeName().equals(attribName)) {
+				return attribs.item(i).getNodeValue();
+			}
+		}
+
+		return null;
 	}
 
 }
