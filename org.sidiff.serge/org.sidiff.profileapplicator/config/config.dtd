@@ -5,7 +5,7 @@
 <!ELEMENT ProfileSettings (Profile, BaseTypeInstances, BaseTypeContext, BaseTypeInheritance)>
 <!ELEMENT Packages (BasePackage, StereoPackage)>
 <!ELEMENT Transformations (Transformation+)>
-<!ELEMENT StereoTypes (StereoType+)>
+<!ELEMENT StereoTypes (StereoType*)>
 
 <!ELEMENT DebugOutput EMPTY>
 
@@ -35,5 +35,3 @@
 <!ATTLIST Transformation apply CDATA #REQUIRED>
 
 <!ATTLIST StereoType name CDATA #REQUIRED>
-<!ATTLIST StereoType baseType CDATA #REQUIRED>
-<!ATTLIST StereoType baseReference CDATA #REQUIRED>

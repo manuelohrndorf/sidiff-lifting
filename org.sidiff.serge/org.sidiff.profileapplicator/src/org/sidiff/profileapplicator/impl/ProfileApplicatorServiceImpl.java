@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -22,16 +27,20 @@ import org.w3c.dom.NodeList;
 
 public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
-	//Global {@see ProfileApplicator} element
+	// Global {@see ProfileApplicator} element
 	private static ProfileApplicator applicator = null;
 
-	//Temporal variables for creation of {@see ProfileApplicator}
+	// Temporal variables for creation of {@see ProfileApplicator}
+
+	private static String basePackage = null;
+	private static String stereoPackage = null;
 	private static List<URI> transformations = new ArrayList<URI>();
+	private static List<String> configuredStereoTypes = new ArrayList<String>();
 	private static List<String> stereoTypes = new ArrayList<String>();
 	private static List<String> baseTypes = new ArrayList<String>();
 	private static List<String> baseReferences = new ArrayList<String>();
 
-	//Iterate through all subtypes of baseType?
+	// Iterate through all subtypes of baseType?
 	private boolean baseTypeInheritance = false;
 
 	public ProfileApplicatorServiceImpl() {
@@ -39,18 +48,19 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	}
 
 	/*
-	 * Initialize the {@see ProfileApplicator}
-	 * Read the XML configuration file and 
-	 * define the applicator accordingly 
+	 * Initialize the {@see ProfileApplicator} Read the XML configuration file
+	 * and define the applicator accordingly
 	 * 
-	 * @see org.sidiff.profileapplicator.ProfileApplicatorService#init(java.lang.Class, java.lang.String, java.lang.String, java.lang.String)
+	 * @see
+	 * org.sidiff.profileapplicator.ProfileApplicatorService#init(java.lang.
+	 * Class, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void init(Class<?> service, String pathToConfig,
 			String pathToInputFolder, String pathToOutputFolder) {
 
 		if (service == ProfileApplicator.class) {
 
-			//Interpreting the XML configuration file
+			// Interpreting the XML configuration file
 			applicator = new ProfileApplicator();
 
 			applicator.setConfigPath(pathToConfig);
@@ -89,16 +99,18 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 					currentNode)));
 
 			currentNode = doc.getElementsByTagName("BasePackage").item(0);
+			basePackage = String
+					.valueOf(getAttributeValue("nsUri", currentNode));
 			applicator.setBasePackage(EPackage.Registry.INSTANCE
-					.getEPackage(String.valueOf(getAttributeValue("nsUri",
-							currentNode))));
+					.getEPackage(basePackage));
 
 			currentNode = doc.getElementsByTagName("StereoPackage").item(0);
+			stereoPackage = String.valueOf(getAttributeValue("nsUri",
+					currentNode));
 			applicator.setStereoPackage(EPackage.Registry.INSTANCE
-					.getEPackage(String.valueOf(getAttributeValue("nsUri",
-							currentNode))));
+					.getEPackage(stereoPackage));
 
-			//Set all used Higher Order Transformations
+			// Set all used Higher Order Transformations
 			NodeList transformationNodes = doc
 					.getElementsByTagName("Transformation");
 			for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
@@ -119,54 +131,91 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				}
 			}
 			applicator.setTransformations(transformations);
-			
-			//Set all used StereoTypes, BaseTypes and their reference between each other
+
+			// Set all used StereoTypes
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
 				Node stereoTypeNode = stereoTypeNodes.item(i);
-				String stereoType = String.valueOf(getAttributeValue("name",
-						stereoTypeNode));
-				String baseType = String.valueOf(getAttributeValue("baseType",
-						stereoTypeNode));
-				String baseReference = String.valueOf(getAttributeValue(
-						"baseReference", stereoTypeNode));
-				if (!stereoTypes.contains(stereoType)) {
+				String configuredStereoType = String.valueOf(getAttributeValue(
+						"name", stereoTypeNode));
+				configuredStereoTypes.add(configuredStereoType);
+			}
 
-					// Adding non inherited type
-					stereoTypes.add(stereoType);
-					baseTypes.add(baseType);
-					baseReferences.add(baseReference);
+			// Get all stereoTypes of current profile
+			EList<EClassifier> allStereoTypes = EMFMetaAccess
+					.getAllMetaClassesForPackage(stereoPackage);
 
-					if (baseTypeInheritance) {
-						// Adding all possible sub types of base type
-						for (Iterator<EObject> it = applicator.getBasePackage()
-								.eAllContents(); it.hasNext();) {
-							EObject obj = it.next();
+			// Iterate over all stereoTypes
+			for (EClassifier classifier : allStereoTypes) {
 
-							if (obj instanceof EClass) {
+				if (classifier instanceof EClass) {
+					// Get stereoType Class
+					EClass stereoType = (EClass) classifier;
 
-								EClass eSubClass = (EClass) obj;
+					// Test if stereotype is contained in configuration
+					// or no stereotype is configured at all, then all will be
+					// used
+					if (configuredStereoTypes.size() == 0
+							|| (configuredStereoTypes.indexOf(stereoType
+									.getName()) != -1 && stereoType
+									.equals((EClass) getClassifier(
+											applicator.getStereoPackage(),
+											configuredStereoTypes.get(configuredStereoTypes
+													.indexOf(stereoType
+															.getName())))))) {
+						// Get all baseReferences of stereoType
+						List<EStructuralFeature> allBaseReferences = EMFMetaAccess
+								.getEStructuralFeaturesByRegEx(stereoType,
+										"^(base)_\\w+", true);
+						for (EStructuralFeature baseReference : allBaseReferences) {
 
-								for (EClass eSuperClass : eSubClass
-										.getEAllSuperTypes()) {
+							// Create temporal variables
 
-									if (eSuperClass.getName().equals(baseType)) {
+							String stereoTypeTemp = stereoType.getName();
+							String baseReferenceTemp = ((EReference) baseReference)
+									.getName();
+							String baseTypeTemp = ((EClass) baseReference
+									.getEType()).getName();
 
-										stereoTypes.add(stereoType);
-										baseTypes.add(eSubClass.getName());
-										baseReferences.add(baseReference);
+							// Add stereoType and its corresponding baseType and
+							// baseReference without inheritance
+							stereoTypes.add(stereoTypeTemp);
+							baseReferences.add(baseReferenceTemp);
+							baseTypes.add(baseTypeTemp);
 
+							if (baseTypeInheritance) {
+								// Adding all possible sub types of base type
+								for (Iterator<EObject> it = applicator
+										.getBasePackage().eAllContents(); it
+										.hasNext();) {
+									EObject obj = it.next();
+
+									if (obj instanceof EClass) {
+
+										EClass eSubClass = (EClass) obj;
+
+										for (EClass eSuperClass : eSubClass
+												.getEAllSuperTypes()) {
+
+											if (eSuperClass.getName().equals(
+													baseTypeTemp)) {
+
+												stereoTypes.add(stereoTypeTemp);
+												baseTypes.add(eSubClass
+														.getName());
+												baseReferences
+														.add(baseReferenceTemp);
+
+											}
+										}
 									}
 								}
 							}
-
 						}
-
 					}
-
 				}
-
 			}
+
 			applicator.setStereoTypes(stereoTypes);
 			applicator.setBaseTypes(baseTypes);
 			applicator.setBaseReferences(baseReferences);
@@ -185,12 +234,39 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	}
 
-	/* Get Attribute value of given attribute name in given node
+	private EClassifier getClassifier(EPackage epackage, String name) {
+
+		// Call {@link EMFMetaAccess}
+		EClassifier result = EMFMetaAccess.getMetaObjectByName(
+				epackage.getNsURI(), name);
+
+		// If not already contained in package
+		if (result == null) {
+
+			// Iterate through all subpackes and call {@link getClassifier}
+			// recursively
+			for (EPackage subpackage : epackage.getESubpackages()) {
+
+				result = getClassifier(subpackage, name);
+
+				// Return if type found
+				if (result != null)
+					break;
+			}
+
+		}
+		return result;
+
+	}
+
+	/*
+	 * Get Attribute value of given attribute name in given node
 	 * 
-	 * @param attribName Name of the attribute 
+	 * @param attribName Name of the attribute
+	 * 
 	 * @param node Node where to look for attribute
-	 * @return value Attribute value
 	 * 
+	 * @return value Attribute value
 	 */
 	public static String getAttributeValue(String attribName,
 			org.w3c.dom.Node node) {
