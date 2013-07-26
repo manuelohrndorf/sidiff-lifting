@@ -3,7 +3,7 @@
 <Config>
 	<GeneralSettings>
 		<preventInconsistency value="true" />
-		<multiplicityPreconditions integrated="true" separately="true" />
+		<multiplicityPreconditions integrated="true" separately="false" />
 		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="false"/>
    		<modelUsesProfileMechanism value="false"/>
@@ -54,12 +54,16 @@
 		<EClass name="ConnectionPointReference" />
 		<EClass name="Transition" />
 		<EClass name="Trigger" />
-		<EClass name="Constraint" />
+		<!--  Using "Constraint" is not adviced when MOVEs, which include switching of references, are enabled -->
+		<!-- <EClass name="Constraint" /> -->
 		<EClass name="Behavior" />
 		
 	</WhiteList>
 	
 	<BlackList>
+		
+		<EClass name="Constraint" />
+	
 	</BlackList>
 	
 </Config>

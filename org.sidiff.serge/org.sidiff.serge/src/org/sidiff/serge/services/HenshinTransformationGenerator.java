@@ -9,7 +9,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -23,7 +28,10 @@ import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.ConstraintException;
-import org.sidiff.serge.util.*;
+import org.sidiff.serge.util.Common;
+import org.sidiff.serge.util.EClassInfo;
+import org.sidiff.serge.util.Mask;
+import org.sidiff.serge.util.ModuleFilenamePair;
 
 public class HenshinTransformationGenerator extends AbstractGenerator {
 	
@@ -82,7 +90,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					module.getImports().addAll(ePackages);
 
 					// create rule
-					Rule rule = createBasicRule(module, eRef, eClass, context);
+					Rule rule = createBasicRule(module, eRef, eClass, context, null, null);
 					Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 
 					// create mandatories if any
@@ -137,7 +145,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							createIntegratedPreconditionsForMultiplicities(rule, OperationType.CREATE);
 						}
 						if(multiplicityPreconditionsSeparately) {
-							createInitialChecksForMultiplicities(module.getName(),context,eClass,eRef,OperationType.CREATE);
+							createInitialChecksForMultiplicities(module.getName(),context,eClass,eRef,null, null, OperationType.CREATE);
 						}
 						
 						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + module.getName());
@@ -165,7 +173,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 							}
 							if(multiplicityPreconditionsSeparately) {
-								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);								
+								createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,null, null, OperationType.DELETE);								
 							}
 							
 							// serialize
@@ -185,7 +193,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								createIntegratedPreconditionsForMultiplicities(rule4variant, OperationType.CREATE);
 							}
 							if(multiplicityPreconditionsSeparately) {
-								createInitialChecksForMultiplicities(module4variant.getName(),context,eClass,eRef,OperationType.CREATE);
+								createInitialChecksForMultiplicities(module4variant.getName(),context,eClass,eRef,null, null, OperationType.CREATE);
 							}
 
 							// create mainUnit & serialize
@@ -209,7 +217,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 									createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 								}
 								if(multiplicityPreconditionsSeparately) {
-									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,OperationType.DELETE);			
+									createInitialChecksForMultiplicities(inverseModule.getName(),context,eClass,eRef,null, null, OperationType.DELETE);			
 								}
 								// serialize
 								serialize(inverseModule, variantOutputFileName.replace(CREATE_prefix, DELETE_prefix));
@@ -234,7 +242,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			module.getImports().addAll(ePackages);
 
 			// create rule
-			Rule rule = createBasicRule(module, null, eClass, null);
+			Rule rule = createBasicRule(module, null, eClass, null, null, null);
 			Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 
 			// create mandatories if any
@@ -597,17 +605,60 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					
 					if (!isAllowed(parent,false))  continue;				
 					
-					moduleMap.putAll(createModuleToModifyReference(eRef, eClass, parent));
+					moduleMap.putAll(create_MOVE_Combinations(eClass, combinedContextMap));
 				}
 			}
 		}
-		
-		
+				
 		// serialize
 		for(Entry<Module,String> entry: moduleMap.entrySet()) {	
 			serialize(entry.getKey(), entry.getValue());
 		}
 	}
+	
+	
+
+	private HashMap<Module,String> create_MOVE_Combinations(EClass eClass, Map<EReference,List<EClass>> contextsMaps) {
+		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
+		
+		// all EReferences
+		ArrayList<EReference> allReferences = new ArrayList<EReference>();
+		allReferences.addAll(contextsMaps.keySet());
+		
+		for(Entry<EReference,List<EClass>> entry: contextsMaps.entrySet()) {
+			
+			EReference eRefA = entry.getKey();
+			List<EClass> contexts_eRefA = entry.getValue();
+			
+			//internal-eRef combinations
+			for(EClass contextA_eRef: contexts_eRefA) {
+				for(EClass contextB_eRefA: contexts_eRefA) {
+					//move eClass from contextA to contextB (along same eRefA)
+					moduleMap.putAll(create_single_MOVE(eClass, eRefA, contextA_eRef, eRefA, contextB_eRefA));
+				}
+			}
+			
+			//inter-eRef combinations (switching of EReferences when moving)
+			for(EClass contextA_eRefA: contexts_eRefA) {
+				
+				// get all other EReferences
+				ArrayList<EReference> allOtherEReferences = new ArrayList<EReference>();
+				allOtherEReferences.addAll(contextsMaps.keySet());
+				allOtherEReferences.remove(contextA_eRefA);
+				
+				for(EReference eRefB: allOtherEReferences) {
+					for(EClass contextB_eRefB: contextsMaps.get(eRefB)) {
+						//move eClass to contextA to contextB (switching from eRefA to eRefB)
+						moduleMap.putAll(create_single_MOVE(eClass, eRefA, contextA_eRefA, eRefB, contextB_eRefB));
+					}
+				}
+				
+			}
+			
+		}	
+		return moduleMap;
+	}
+	
 
 	public void serialize(Module module, String outputFileName) {
 		
@@ -1011,7 +1062,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 	
 	
-	private void createInitialChecksForMultiplicities(String moduleName, EClass parentOrNeighbor, EClass eClass, EReference eRef, OperationType operationType) {
+	private void createInitialChecksForMultiplicities(String moduleName, EClass parentOrNeighbourA, EClass eClass, EReference eRefA, EClass parentOrNeighbourB, EReference eRefB, OperationType operationType) {
 		
 		// Return on CHANGE, since there are no initials needed
 		if(operationType==OperationType.CHANGE) { return; }
@@ -1029,7 +1080,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		}
 		
 		// x..* : minimum
-		if(eRef.getLowerBound()!=0 && eRef.getUpperBound()==-1 && (operationType==OperationType.DELETE || operationType==OperationType.REMOVE || operationType==OperationType.MOVE)) {
+		if(eRefA.getLowerBound()!=0 && eRefA.getUpperBound()==-1 && (operationType==OperationType.DELETE || operationType==OperationType.REMOVE || operationType==OperationType.MOVE)) {
 			
 			LogUtil.log(LogEvent.NOTICE, "Generating INITIAL: " + moduleName);
 			
@@ -1040,18 +1091,18 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case DELETE: case REMOVE:
 				{
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbourA);
 					Node parentOrNeighbourNode = parentOrNeighbourNodePair.getRhsNode();
 					
-					for(int i=0; i<eRef.getLowerBound(); i++) {
+					for(int i=0; i<eRefA.getLowerBound(); i++) {
 						// create <<preserved>> node, that must exist at the minimum
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRefA);	
 					}
 					
 					// create <<forbid>> nodes: these node MAY NOT ONLY exist when doing a delete/remove from this parentOrNeighborNode
 					Node n = HenshinRuleAnalysisUtilEx.createForbidNode(rule, eClass);
-					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRef, rule);	
+					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRefA, rule);	
 					
 					// finally add rule
 					module.getUnits().add(rule);
@@ -1060,18 +1111,18 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case MOVE:
 				{
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", parentOrNeighbor);
-					Node parentOrNeighbourNode = parentOrNeighbourNodePair.getRhsNode();
+					NodePair parentOrNeighbourNodePairA = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", parentOrNeighbourA);
+					Node parentOrNeighbourNode = parentOrNeighbourNodePairA.getRhsNode();
 					
-					for(int i=0; i<eRef.getLowerBound(); i++) {
+					for(int i=0; i<eRefA.getLowerBound(); i++) {
 						// create <<preserved>> node, that must exist at the minimum
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePairA, np, eRefA);	
 					}
 					
 					// create <<forbid>> nodes: these node MAY NOT ONLY exist when doing a delete/remove from this parentOrNeighborNode
 					Node n = HenshinRuleAnalysisUtilEx.createForbidNode(rule, eClass);
-					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRef, rule);	
+					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRefA, rule);	
 					
 					// finally add rule
 					module.getUnits().add(rule);
@@ -1082,7 +1133,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			}
 		}
 		// 0..y : maximum
-		else if(eRef.getLowerBound()==0 && eRef.getUpperBound()!=-1 && (operationType==OperationType.CREATE || operationType==OperationType.ADD || operationType==OperationType.MOVE)) {
+		else if(eRefA.getLowerBound()==0 && eRefA.getUpperBound()!=-1 && (operationType==OperationType.CREATE || operationType==OperationType.ADD || operationType==OperationType.MOVE)) {
 			
 			LogUtil.log(LogEvent.NOTICE, "Generating INITIAL: " + moduleName);
 			
@@ -1093,12 +1144,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case CREATE: case ADD:
 				{
 					// create NodePair for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbourA);
 					
 					// create <<preserved>> nodes: these nodes MAY NOT ALREADY exist when doing a create/add to this parentOrNeighborNode
-					for(int i=0; i<eRef.getUpperBound(); i++) {
+					for(int i=0; i<eRefA.getUpperBound(); i++) {
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRefA);	
 					}
 					// finally add rule
 					module.getUnits().add(rule);
@@ -1107,21 +1158,23 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case MOVE:
 				{
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePairB = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", parentOrNeighbourB);
 					
-					// create <<forbid>> nodes: these nodes MAY NOT ALREADY exist when doing a move to this parentOrNeighborNode
-					for(int i=0; i<eRef.getUpperBound(); i++) {
+					// create <<forbid>> nodes: these nodes MAY NOT ALREADY exist when doing a move to this parentOrNeighborNodeB
+					for(int i=0; i<eRefB.getUpperBound(); i++) {
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePairB, np, eRefB);	
 					}
 					// finally add rule
 					module.getUnits().add(rule);
 					initialCreated = true;
 				};break;
+			default:
+				break;
 			}
 		}
 		// x..y : minimum and maximum
-		else if(eRef.getLowerBound()!=0 && eRef.getUpperBound()!=-1) {
+		else if(eRefA.getLowerBound()!=0 && eRefA.getUpperBound()!=-1) {
 			
 			LogUtil.log(LogEvent.NOTICE, "Generating INITIAL: " + moduleName);
 			
@@ -1132,18 +1185,18 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case DELETE: case REMOVE:
 				{
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbourA);
 					Node parentOrNeighbourNode = parentOrNeighbourNodePair.getRhsNode();
 	
-					for(int i=0; i<eRef.getLowerBound(); i++) {
+					for(int i=0; i<eRefA.getLowerBound(); i++) {
 						// create <<preserved>> node, that must exist at the minimum
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRefA);	
 					}
 					
 					// create <<forbid>> nodes: these node MAY NOT ONLY exist when doing a delete/remove from this parentOrNeighborNode
 					Node n = HenshinRuleAnalysisUtilEx.createForbidNode(rule, eClass);
-					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRef, rule);
+					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNode, n, eRefA, rule);
 					
 					// finally add rule
 					module.getUnits().add(rule);
@@ -1152,12 +1205,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				case CREATE: case ADD:
 				{
 					// create NodePair for <<preserved>> parentOrNeighbour
-					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", parentOrNeighbourA);
 					
 					// create <<preserved>> nodes: these nodes MAY NOT ALREADY exist when doing a create/add to this parentOrNeighborNode
-					for(int i=0; i<eRef.getUpperBound(); i++) {
+					for(int i=0; i<eRefA.getUpperBound(); i++) {
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair, np, eRefA);	
 					}
 					// finally add rule
 					module.getUnits().add(rule);
@@ -1167,32 +1220,34 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				{
 					// create precondition for lowerBound --------------------------------------------------------------------------/
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour for OldSource
-					NodePair parentOrNeighbourNodePair_OLD = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair_OLD = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", parentOrNeighbourA);
 	
-					for(int i=0; i<eRef.getLowerBound(); i++) {
+					for(int i=0; i<eRefA.getLowerBound(); i++) {
 						// create <<preserved>> node, that must exist at the minimum
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair_OLD, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair_OLD, np, eRefA);	
 					}
 					
 					// create <<forbid>> nodes: these node MAY NOT ONLY exist when doing a delete/remove from this parentOrNeighborNode
 					Node n = HenshinRuleAnalysisUtilEx.createForbidNode(rule, eClass);
-					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNodePair_OLD.getRhsNode(), n, eRef, rule);	
+					HenshinRuleAnalysisUtilEx.createForbidEdge(parentOrNeighbourNodePair_OLD.getRhsNode(), n, eRefA, rule);	
 					
 					// create precondition for upperBound --------------------------------------------------------------------------/
 					// create Node(-Pair) for <<preserved>> parentOrNeighbour for NewSource
-					NodePair parentOrNeighbourNodePair_NEW = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", parentOrNeighbor);
+					NodePair parentOrNeighbourNodePair_NEW = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", parentOrNeighbourA);
 					
 					// create <<forbid>> nodes: these nodes MAY NOT ALREADY exist when doing a move to this parentOrNeighborNode
-					for(int i=0; i<eRef.getUpperBound(); i++) {
+					for(int i=0; i<eRefA.getUpperBound(); i++) {
 						NodePair np = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", eClass);
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair_NEW, np, eRef);	
+						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, parentOrNeighbourNodePair_NEW, np, eRefA);	
 					}
 			
 					// finally add rule
 					module.getUnits().add(rule);
 					initialCreated = true;
 				};break;
+			default:
+				break;
 			}
 		}
 
@@ -1278,7 +1333,6 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		unsetRule.setDescription(unsetRule.getDescription().replace("Sets", "Sets"));
 
 		// create mainUnits & put Module in map for later serializing
-		//TODO Test the following: all non-rule-units must be deleted from module
 		removeAllNonRuleUnits(UNSET_Module);
 		HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
 		mainUnitCreation(UNSET_Module, eClass, OperationType.UNSET);
@@ -1452,7 +1506,6 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	private HashMap<Module,String> createModuleToModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
-		EClassInfo eInfo = ecm.getEClassInfo(eClass);
 		
 		int lower = eRef.getLowerBound();
 		int upper = eRef.getUpperBound();
@@ -1484,7 +1537,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					SET_Module.getImports().addAll(ePackages);
 
 					// create rule
-					createBasicRule(SET_Module, eRef, eClass, target);
+					createBasicRule(SET_Module, eRef, eClass, target, null, null);
 
 					if(createUNSETS) {
 						// UNSET *****************************************************************************************************/
@@ -1523,7 +1576,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					ADD_Module.getImports().addAll(ePackages);
 
 					// create rule
-					createBasicRule(ADD_Module, eRef, eClass, target);
+					createBasicRule(ADD_Module, eRef, eClass, target, null, null);
 
 					if(createREMOVES) {
 						// REMOVE **************************************************************************************************/				
@@ -1540,7 +1593,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							createIntegratedPreconditionsForMultiplicities(rule, OperationType.REMOVE);
 						}
 						if(multiplicityPreconditionsSeparately) {
-							createInitialChecksForMultiplicities(REMOVE_Module.getName(), eClass, target, eRef, OperationType.REMOVE);							
+							createInitialChecksForMultiplicities(REMOVE_Module.getName(), eClass, target, eRef, null, null, OperationType.REMOVE);							
 						}
 					}
 					// create mainUnits
@@ -1552,7 +1605,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						createIntegratedPreconditionsForMultiplicities(rule, OperationType.ADD);
 					}
 					if(multiplicityPreconditionsSeparately) {
-						createInitialChecksForMultiplicities(ADD_Module.getName(), eClass, target, eRef, OperationType.ADD);						
+						createInitialChecksForMultiplicities(ADD_Module.getName(), eClass, target, eRef, null, null, OperationType.ADD);						
 					}
 					
 					// put module in map for later serialization
@@ -1581,7 +1634,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					CHANGE_Module.getImports().addAll(ePackages);
 
 					// create rule
-					createBasicRule(CHANGE_Module, eRef, eClass, target);
+					createBasicRule(CHANGE_Module, eRef, eClass, target, null, null);
 
 					// create mainUnit and put in map
 					mainUnitCreation(CHANGE_Module, eClass, OperationType.CHANGE);
@@ -1589,57 +1642,15 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				}
 			}
 		}
-		// eRef == is containment reference  *************************************************************/	
-		else{
-			if(createMOVES) {
-				String name = MOVE_prefix + eClass.getName() + "_Ref_" + eRef.getName()+ "_To_"+target.getName(); 
-				LogUtil.log(LogEvent.NOTICE, "Generating Move : " + name);
-	
-				// MOVE file name
-				String outputFileName = outputFolderPath + name+ EXECUTE_suffix;
-	
-				Module MOVE_Module = henshinFactory.createModule();
-				MOVE_Module.setName(name);
-	
-				MOVE_Module.setDescription("MOVEs "+eClass.getName() +" with reference "+ eRef.getName() + " to "+ target.getName());
-	
-				// add imports
-				MOVE_Module.getImports().addAll(ePackages);
-				
-				// create rule
-				createBasicRule(MOVE_Module, eRef, eClass, target);
-	
-				// create all elements necessary for constraints
-				createElementsForConstraints_MOVE(MOVE_Module);
-				
-				// create mainUnit and put in map
-				mainUnitCreation(MOVE_Module, eClass, OperationType.MOVE);
-				map.put(MOVE_Module, outputFileName);
-				
-				// create multiplicity preconditions, if any
-				if(multiplicityPreconditionsIntegrated) {
-					Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
-					createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
-				}
-				if(multiplicityPreconditionsSeparately) {
-					createInitialChecksForMultiplicities(MOVE_Module.getName(), target, eClass, eRef, OperationType.MOVE);	
-				}
-				
-				// if EClass has Masks, also create MOVES for them
-				for(Mask mask: eInfo.getMasks()) {				
-					map.putAll(createMOVE_UsingMask(eRef, mask, target));			
-				}
-			}
-		}
 		
 		return map;
 	}
-
-	private HashMap<Module,String> createMOVE_UsingMask(EReference eRef, Mask mask, EClass target) {
+	
+	private HashMap<Module,String> create_single_MOVE(EClass eClass, EReference eRefA, EClass contextA, EReference eRefB, EClass contextB) {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
 		
-		String name = MOVE_prefix + mask.getName() + "_Ref_" + eRef.getName()+ "_To_"+target.getName(); 
+		String name = MOVE_prefix + eClass.getName() + "_From_" + contextA.getName()+"("+eRefA.getName()+")"+ "_To_"+contextB.getName()+"("+eRefB.getName()+")"; 
 		LogUtil.log(LogEvent.NOTICE, "Generating Move : " + name);
 
 		// MOVE file name
@@ -1648,13 +1659,59 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		Module MOVE_Module = henshinFactory.createModule();
 		MOVE_Module.setName(name);
 
-		MOVE_Module.setDescription("MOVEs "+ mask.getName() +" with reference "+ eRef.getName() + " to "+ target.getName());
+		MOVE_Module.setDescription("MOVEs "+eClass.getName() + " from " + contextA.getName()+"(Reference:"+eRefA.getName()+")"+ " to "+contextB.getName()+"(Reference:"+eRefB.getName());
 
 		// add imports
 		MOVE_Module.getImports().addAll(ePackages);
 		
 		// create rule
-		createBasicRule(MOVE_Module, eRef, mask.getOriginalEClass(), target);
+		createBasicRule(MOVE_Module, eRefA, eClass, contextA, eRefB, contextB);
+
+		// create all elements necessary for constraints
+		createElementsForConstraints_MOVE(MOVE_Module);
+		
+		// create mainUnit and put in map
+		mainUnitCreation(MOVE_Module, eClass, OperationType.MOVE);
+		map.put(MOVE_Module, outputFileName);
+		
+		// create multiplicity preconditions, if any
+		if(multiplicityPreconditionsIntegrated) {
+			Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
+			createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
+		}
+		if(multiplicityPreconditionsSeparately) {
+			createInitialChecksForMultiplicities(MOVE_Module.getName(), contextA, eClass, eRefA, contextB, eRefB, OperationType.MOVE);	
+		}
+		
+		// if EClass has Masks, also create MOVES for them
+		for(Mask mask: ecm.getEClassInfo(eClass).getMasks()) {				
+			map.putAll(createMOVE_UsingMask(eRefA, mask, contextA, eRefB, contextB));			
+		}
+		
+		return map;
+		
+	}
+
+	private HashMap<Module,String> createMOVE_UsingMask(EReference eRefA, Mask mask, EClass contextA, EReference eRefB, EClass contextB) {
+		
+		HashMap<Module,String> map = new HashMap<Module,String>();
+		
+		String name = MOVE_prefix + mask.getName() + "_From_"+contextA.getName()+"(" + eRefA.getName()+ ")_To_"+contextB.getName()+("("+eRefB.getName()+")"); 
+		LogUtil.log(LogEvent.NOTICE, "Generating Move : " + name);
+
+		// MOVE file name
+		String outputFileName = outputFolderPath + name+ EXECUTE_suffix;
+
+		Module MOVE_Module = henshinFactory.createModule();
+		MOVE_Module.setName(name);
+
+		MOVE_Module.setDescription("Moves "+ mask.getName() + " from "+contextA.getName()+"(Reference:" + eRefA.getName()+ ") to "+contextB.getName()+("(Reference:"+eRefB.getName()+")"));
+
+		// add imports
+		MOVE_Module.getImports().addAll(ePackages);
+		
+		// create rule
+		createBasicRule(MOVE_Module, eRefA, mask.getOriginalEClass(), contextA, eRefB, contextB);
 		
 		// create Attribute, containing the masked type
 		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
@@ -1673,7 +1730,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
 		}
 		if(multiplicityPreconditionsSeparately) {
-			createInitialChecksForMultiplicities(MOVE_Module.getName(), target, mask.getOriginalEClass(), eRef, OperationType.MOVE);	
+			createInitialChecksForMultiplicities(MOVE_Module.getName(), contextA, mask.getOriginalEClass(), eRefA, contextB, eRefB, OperationType.MOVE);	
 			//TODO separate initial check for masked eclass
 		}
 		
@@ -1710,8 +1767,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					newContextNodeLHS = rule.getAllMappings().getOrigin(newContextNodeRHS);
 				}
 			}			
-			assert(eRefOfOldSource==eRefOfNewSource): "Involved containment EReferences in '"
-						+rule.getModule().getName()+"' are not equal but should be";
+
 
 			/*** Differentiate multiplicity cases **********************************************************/
 			
@@ -1903,7 +1959,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 	}
 
-	private Rule createBasicRule(Module module, EReference eRef, EClass eClass, EClass target) {
+	private Rule createBasicRule(Module module, EReference eRefA, EClass eClass, EClass targetA, EReference eRefB, EClass targetB) {
 
 		Rule rule = null;
 
@@ -1912,18 +1968,18 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// ADD ***************************************************************************************************/
 			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("addTo"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
-			rule.setDescription("Adds to "+eClass.getName() +"'s reference "+ eRef.getName() +" the target "+ target.getName());
+			rule.setName("addTo"+eClass.getName() + "Ref" +Common.toCamelCase(eRefA.getName())+"To"+targetA.getName());
+			rule.setDescription("Adds to "+eClass.getName() +"'s reference "+ eRefA.getName() +" the target "+ targetA.getName());
 			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
 			Node rhsNode = selectedNodePair.getRhsNode();
 
-			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", target);
+			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", targetA);
 
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRef);
+			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRefA);
 
 		}
 		else if(module.getName().startsWith(SET_prefix)) {
@@ -1931,64 +1987,64 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// SET ***************************************************************************************************/
 			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("set"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
-			rule.setDescription("Set"+eClass.getName() + "Ref" +eRef.getName() +"To"+target.getName());
+			rule.setName("set"+eClass.getName() + "Ref" +Common.toCamelCase(eRefA.getName())+"To"+targetA.getName());
+			rule.setDescription("Set"+eClass.getName() + "Ref" +eRefA.getName() +"To"+targetA.getName());
 			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
 			Node rhsNode = selectedNodePair.getRhsNode();
 
-			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", target);
+			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", targetA);
 
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRef);
+			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRefA);
 
 		}
 		else if(module.getName().startsWith(CHANGE_prefix)) {
 			// CHANGE ***************************************************************************************************/
 			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("change"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
-			rule.setDescription("Change the EReference "+eRef.getName());
+			rule.setName("change"+eClass.getName() + "Ref" +Common.toCamelCase(eRefA.getName())+"To"+targetA.getName());
+			rule.setDescription("Change the EReference "+eRefA.getName());
 			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
 
-			NodePair oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldTarget", target);		
-			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", target);
+			NodePair oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldTarget", targetA);		
+			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", targetA);
 
 			// create <<delete>> edge to old target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createDeleteEdge(selectedNodePair.getLhsNode(), oldNodePair.getLhsNode(), eRef, rule);
+			HenshinRuleAnalysisUtilEx.createDeleteEdge(selectedNodePair.getLhsNode(), oldNodePair.getLhsNode(), eRefA, rule);
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createCreateEdge(selectedNodePair.getRhsNode(), newNodePair.getRhsNode(), eRef);
+			HenshinRuleAnalysisUtilEx.createCreateEdge(selectedNodePair.getRhsNode(), newNodePair.getRhsNode(), eRefA);
 		}
 		else if(module.getName().startsWith(MOVE_prefix)) {
 			// MOVE ***************************************************************************************************/
 			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("move"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
-			rule.setDescription("Moves one "+eClass.getName()+" with reference "+eRef.getName()+" to "+target.getName());
+			rule.setName("move"+eClass.getName() + "From" +targetA.getName() + "_ref_"+eRefA.getName()+"To"+targetB.getName()+"_ref_"+targetB.getName());
+			rule.setDescription("Moves "+eClass.getName() + " from " +targetA.getName() + "(Reference:"+eRefA.getName()+") to"+targetB.getName()+"(Reference:"+targetB.getName()+")");
 			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
 
-			NodePair oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", target);		
-			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", target);
+			NodePair oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldSource", targetA);		
+			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewSource", targetB);
 
 			// create <<delete>> edge to old target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createDeleteEdge(oldNodePair.getLhsNode(), selectedNodePair.getLhsNode(), eRef, rule);
+			HenshinRuleAnalysisUtilEx.createDeleteEdge(oldNodePair.getLhsNode(), selectedNodePair.getLhsNode(), eRefA, rule);
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRef);
+			HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRefB);
 		}
 		else if(module.getName().startsWith(CREATE_prefix)) {
 
 			// CamelCasing of target-context name
 			String contextName = "";
-			if(target!=null) {
-				contextName = Common.toCamelCase(target.getName());
+			if(targetA!=null) {
+				contextName = Common.toCamelCase(targetA.getName());
 			}else{
 				contextName = "Model";			
 			}				
@@ -2004,11 +2060,11 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// create <<preserve>> nodes for context, if any
 			String selectedName = getFreeNodeName("Selected",rule);
 			Graph rhs = null;
-			if(target!=null) {	
+			if(targetA!=null) {	
 				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(
 						rule,
 						selectedName,
-						target);
+						targetA);
 				rhs = nodePair.getRhsNode().getGraph();
 			}
 			else{
@@ -2023,7 +2079,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			createAttributes(eClass, newNode, rule);
 
 			// Add edge between target-context and new eClass, if any
-			if(target!=null && eRef!=null) {
+			if(targetA!=null && eRefA!=null) {
 				Node contextNode = null;
 				for(Node n: rhs.getNodes()) {
 					String nName = n.getName();
@@ -2031,7 +2087,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						contextNode = n;
 					}
 				}
-				HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRef);
+				HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRefA);
 			}
 
 		}
