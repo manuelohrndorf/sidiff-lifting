@@ -234,7 +234,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			module.getImports().addAll(ePackages);
 
 			// create rule
-			Rule rule = createSimpleCreateRule(null, eClass, module, null,1);
+			Rule rule = createBasicRule(module, null, eClass, null);
 			Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 
 			// create mandatories if any
@@ -1076,7 +1076,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					// finally add rule
 					module.getUnits().add(rule);
 					initialCreated = true;
-				};break;					
+				};break;
+			default:
+				break;					
 			}
 		}
 		// 0..y : maximum
@@ -1201,64 +1203,6 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		}else{
 			return;
 		}
-	}
-	
-	
-	private Rule createSimpleCreateRule(EClass context, EClass eClass, Module module, EReference eRef, Integer number) {
-		
-		String contextName = "";
-		if(context!=null) {
-			contextName = Common.toCamelCase(context.getName());
-		}else{
-			contextName = "Model";			
-		}
-				
-		
-		// Add new rule to Module
-		Rule simpleCreateRule = HenshinRuleAnalysisUtilEx.createRule(
-				"create"+eClass.getName()+"In"+ contextName,
-				"creates one "+eClass.getName()+" in the context: "+ contextName,
-				true,
-				module);
-
-		
-		// create <<preserve>> nodes for context, if any
-		String selectedName = getFreeNodeName("Selected",simpleCreateRule);
-		Graph rhs = null;
-		if(context!=null) {	
-			NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(
-					simpleCreateRule,
-					selectedName,
-					context);
-			rhs = nodePair.getRhsNode().getGraph();
-		}
-		else{
-			rhs = simpleCreateRule.getRhs();
-		}
-		
-		
-		for(int i=0; i<number;i++) {
-			// Add new eClass to RHS
-			String newName = getFreeNodeName("New",simpleCreateRule);
-			Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, eClass);	
-	
-			// Add necessary attributes to the new eClass node
-			createAttributes(eClass, newNode, simpleCreateRule);
-	
-			// Add edge between context and new eClass, if any
-			if(context!=null && eRef!=null) {
-				Node contextNode = null;
-				for(Node n: rhs.getNodes()) {
-					String nName = n.getName();
-					if(nName!=null && nName.equals(selectedName)) {
-						contextNode = n;
-					}
-				}
-				HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRef);
-			}
-		}
-		
-		return simpleCreateRule;
 	}
 	
 	private Module createInverse(Module module) {
@@ -1921,9 +1865,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		//TODO recursively for all contained <<create>> nodes
 		
-		Integer numberOfMaximumNodes = eRefOfNewSource.getUpperBound();		
-		NodePair contextNodePair = new NodePair(newContextNodeLHS, rule.getMappings().getImage(newContextNodeLHS, rule.getRhs()));
-		
+		Integer numberOfMaximumNodes = eRefOfNewSource.getUpperBound();	
 	
 		if(numberOfMaximumNodes!=-1) {
 
