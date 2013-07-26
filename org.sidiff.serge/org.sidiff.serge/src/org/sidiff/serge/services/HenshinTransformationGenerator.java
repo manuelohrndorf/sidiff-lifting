@@ -2,76 +2,30 @@ package org.sidiff.serge.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.BinaryFormula;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Formula;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.MappingList;
-import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.PriorityUnit;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.*;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.FormulaCombineOperator;
-import org.sidiff.common.henshin.HenshinUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.ConstraintException;
-import org.sidiff.serge.util.Common;
-import org.sidiff.serge.util.EClassInfo;
-import org.sidiff.serge.util.Mask;
-import org.sidiff.serge.util.ModuleFilenamePair;
+import org.sidiff.serge.util.*;
 
 public class HenshinTransformationGenerator extends AbstractGenerator {
-	
-	/** Next tasks and ideas:
-	 * - initials and finals for stereotype
-	 * - stereotype versions x abstract replacements x subtype replacements
-	 * - check if update-trafos need special stereotype handling
-	 * - check if there is some profile setting prohibiting meta classes as standalones
-	 * - Integrate configuration property that prevents SET-Trafos for "base_X"-extensions?
-	 * - what about new references between stereotypes?
-	 * - what about giving every stereotype a parameter for SMG-Selectivity (and maybe dropping the parameter of the metaclass)
-	 * - Should stereotype be mentioned in every rule where its meta class exists (for better selectivity by stereotype or its properties)
-	 * - configuration option for "assumeAllOnWhiteList" only for profile model?
-	 * - reuse of finalizeStereotypeVersion()-content to avoid redundant code
-	 * - externalizing of strings and more refactoring
-	 * - variant matrix with bitsets to avoid semantically equal trafos
-	 * - initialchecks for variants are still missing
-	 * - moves - cross product of targets missing? Maybe use supertype for "OldTarget"
-	 **/ 
 	
 	/** Henshin access ****************************************************************************/
 	
@@ -82,7 +36,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	public void generate_CREATE_And_DELETE_Modules(EClass eClass) throws ConstraintException {
 		
 		// Get the EClassInfo for eClass and return if no transformations are allowed
-		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
+		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
 		
 		// return on the following conditions
 		if (!eClassInfo.selfMayHaveTransformations()) return;
@@ -95,7 +49,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		if(!profileApplicationInUse || (profileApplicationInUse && !eClassInfo.isStereotype())) {
 
 			/** Create Modules for every parent in which the EClass may exist. ************************************************************/
-			HashMap<EReference, List<EClass>> optionalParents = eClassInfoManagement.getAllOptionalParentContext(eClass);
+			HashMap<EReference, List<EClass>> optionalParents = ecm.getAllOptionalParentContext(eClass);
 			for(Entry<EReference,List<EClass>> pcEntry: optionalParents.entrySet()) {			
 				List<EClass> contexts = pcEntry.getValue();
 				EReference eRef = pcEntry.getKey();
@@ -108,7 +62,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					Module module = henshinFactory.createModule();
 					String outputFileName = "";
 
-					if(!eClassInfoManagement.hasMultipleOccurences(context, optionalParents)) {
+					if(!ecm.hasMultipleOccurences(context, optionalParents)) {
 
 						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName());
 						outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+ EXECUTE_suffix;					
@@ -117,10 +71,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 					}else{
 
-						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
-						outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName())+EXECUTE_suffix;					
-						module.setDescription("Creates one "+eClass.getName()+" in " + context.getName() + " with reference "+Common.firstLetterToUpperCase(eRef.getName()));
-						module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName()+"WithRef"+Common.firstLetterToUpperCase(eRef.getName()));
+						LogUtil.log(LogEvent.NOTICE, "Generating CREATE : " + eClass.getName() +"In"+context.getName()+"WithRef"+Common.toCamelCase(eRef.getName()));
+						outputFileName = outputFolderPath + CREATE_prefix + eClass.getName() +"In" + context.getName()+"WithRef"+Common.toCamelCase(eRef.getName())+EXECUTE_suffix;					
+						module.setDescription("Creates one "+eClass.getName()+" in " + context.getName() + " with reference "+Common.toCamelCase(eRef.getName()));
+						module.setName(CREATE_prefix + eClass.getName()+"In" + context.getName()+"WithRef"+Common.toCamelCase(eRef.getName()));
 
 					}
 
@@ -128,7 +82,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					module.getImports().addAll(ePackages);
 
 					// create rule
-					Rule rule = createSimpleCreateRule(context, eClass, module, eRef,1);
+					Rule rule = createBasicRule(module, eRef, eClass, context);
 					Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 
 					// create mandatories if any
@@ -305,7 +259,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	@Override
 	public void generate_Update_Module(EClass eClass) throws ConstraintException {
 		
-		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
+		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
 		
 		if (!(isAllowed(eClass,true) || isOnlyImplicitlyRequiredForFeatureInheritance(eClass)))  return;
 		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
@@ -324,7 +278,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				}
 				
 				//also include all inherited EAttributes, for which SERGEe Constraints are defined
-				List<EAttribute> easOfConstraintsToConsider = getAllInheritedEAttributesInvolvedInConstraints(eClass);
+				List<EAttribute> easOfConstraintsToConsider = ecm.getAllInheritedEAttributesInvolvedInConstraints(eClass);
 				if(easOfConstraintsToConsider!=null) {
 					easToConsider.addAll(easOfConstraintsToConsider);
 				}
@@ -371,7 +325,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						// create rule
 						Rule rule = henshinFactory.createRule();
 						rule.setActivated(true);
-						rule.setName("set"+eClass.getName()+Common.firstLetterToUpperCase(ea.getName()));
+						rule.setName("set"+eClass.getName()+Common.toCamelCase(ea.getName()));
 						rule.setDescription("Sets the EAttribute "+ea.getName());
 						SET_Module.getUnits().add(rule);
 
@@ -380,7 +334,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						Node rhsNode = selectedNodePair.getRhsNode();
 
 						// create attribute
-						HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.firstLetterToUpperCase(ea.getName()));
+						HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.toCamelCase(ea.getName()));
 
 
 						// if profiledModel then link mandatory neighbours (expecially the meta class)
@@ -401,10 +355,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						else{ //not constrained locally
 							
 							// set outputFilename, Module name and description
-							String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
+							String name = SET_prefix + eClass.getName() +"_"+Common.toCamelCase(ea.getName());
 							String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
 							SET_Module.setName(name);
-							SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));
+							SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.toCamelCase(ea.getName()));
 							
 							// create mainUnits & put TS in map for later serializing
 							mainUnitCreation(SET_Module, eClass, OperationType.SET);
@@ -458,8 +412,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								Rule rule = henshinFactory.createRule();
 								rule.setActivated(true);
 								rule.setName("change"+eClass.getName()
-										+Common.firstLetterToUpperCase(ea.getName())+"From"
-										+Common.firstLetterToUpperCase(leftSidelLiteral.getName())
+										+Common.toCamelCase(ea.getName())+"From"
+										+Common.toCamelCase(leftSidelLiteral.getName())
 										+"To"+rightSideLiteral.getName());
 								rule.setDescription("Changes the attribute value of "
 										+ea.getName() +" from "
@@ -474,9 +428,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 								// set outputFilename, Module name and description
 								String name = CHANGE_prefix + eClass.getName() 
-										+"_"+Common.firstLetterToUpperCase(ea.getName())
-										+"_From_"+Common.firstLetterToUpperCase(leftSidelLiteral.getName())
-										+"_To_"+Common.firstLetterToUpperCase(rightSideLiteral.getName());
+										+"_"+Common.toCamelCase(ea.getName())
+										+"_From_"+Common.toCamelCase(leftSidelLiteral.getName())
+										+"_To_"+Common.toCamelCase(rightSideLiteral.getName());
 								String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
 								CHANGE_Module.setName(name);
 								CHANGE_Module.setDescription(rule.getDescription());
@@ -531,46 +485,11 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	}
 
 
-	private List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClass eClass) {
-		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
-		
-		// look up constraints for supertypes of the given eclass
-		for(EClass superType: eClass.getEAllSuperTypes()) {
-			EClassInfo supInfo = eClassInfoManagement.getEClassInfo(superType);
-			Boolean applicationOnSubTypesSet = null;
-			
-			// get all eattributes involved in GNU
-			if(supInfo!=null) {
-				if(supInfo.isConstrainedToGlobalNameUniqueness()) {
-					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
-					if(applicationOnSubTypesSet) {
-						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
-						if(!additionalEAsToConsider.contains(additional)) {
-							additionalEAsToConsider.add(additional);
-						}
-					}
-				}
-				// get all eattributes involved in LNU
-				if(supInfo.isConstrainedToLocalNameUniqueness()) {
-					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
-					if(applicationOnSubTypesSet) {
-						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
-						if(!additionalEAsToConsider.contains(additional)) {
-							additionalEAsToConsider.add(additional);
-						}
-					}
-				}
-			}
-		}
-		
-		
-		return additionalEAsToConsider;
-	}
 
 	private HashMap<Module,String> createNameUniquenessLocalConstraint_SET(Module SET_Module, Rule rule, EClass eClass, EAttribute ea, HashMap<Module,String> moduleMap ) {
 		
 		Module origSET_Module = EcoreUtil.copy(SET_Module); //needed otherwise SET_Module will be modified later
-		HashMap<EReference,List<EClass>> map = eClassInfoManagement.getAllParentContexts(eClass);
+		HashMap<EReference,List<EClass>> map = ecm.getAllParentContexts(eClass);
 		Integer contextCounter = 0;
 
 		for(Entry<EReference, List<EClass>> entry: map.entrySet()) {
@@ -582,7 +501,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					// copy SET_Module
 					SET_Module = EcoreUtil.copy(origSET_Module);
 					rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(SET_Module).get(0);
-					nameExtensionForConstraint = "In"+Common.firstLetterToUpperCase(context.getName());
+					nameExtensionForConstraint = "In"+Common.toCamelCase(context.getName());
 				}
 				// create context node and create preserved Edge in RHS & LHS
 				NodePair contextNP = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "", context);
@@ -593,10 +512,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				createElementsForConstraints_SET(SET_Module, OperationType.SET, ConstraintType.NAME_UNIQUENESS_LOCAL);
 				
 				// set outputFilename, Module name and description
-				String name = SET_prefix + eClass.getName() + nameExtensionForConstraint +"_"+Common.firstLetterToUpperCase(ea.getName());
+				String name = SET_prefix + eClass.getName() + nameExtensionForConstraint +"_"+Common.toCamelCase(ea.getName());
 				String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
 				SET_Module.setName(name);
-				SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));							
+				SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.toCamelCase(ea.getName()));							
 				
 				// create mainUnits & put TS in map for later serializing
 				mainUnitCreation(SET_Module, eClass, OperationType.SET);
@@ -620,10 +539,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		createElementsForConstraints_SET(SET_Module, OperationType.SET, ConstraintType.NAME_UNIQUENESS_GLOBAL);
 
 		// set outputFilename, Module name and description
-		String name = SET_prefix + eClass.getName() +"_"+Common.firstLetterToUpperCase(ea.getName());
+		String name = SET_prefix + eClass.getName() +"_"+Common.toCamelCase(ea.getName());
 		String outputFileName =  outputFolderPath + name+ EXECUTE_suffix;
 		SET_Module.setName(name);
-		SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.firstLetterToUpperCase(ea.getName()));							
+		SET_Module.setDescription("Sets "+eClass.getName()+" "+Common.toCamelCase(ea.getName()));							
 
 		// create mainUnits & put TS in map for later serializing
 		mainUnitCreation(SET_Module, eClass, OperationType.SET);
@@ -654,12 +573,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	public void generate_MOVE_Module(EClass eClass) throws ConstraintException {
 		
 		if (!isAllowed(eClass,true) || createMOVES==false)  return;
-		if (profileApplicationInUse && eClassInfoManagement.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
+		if (profileApplicationInUse && ecm.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 		
 		// get all possible contexts and the according references
-		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
+		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
 		HashMap<EReference,List<EClass>> combinedContextMap = eClassInfo.getMandatoryParentContext();
 		combinedContextMap.putAll(eClassInfo.getOptionalParentContext());
 		
@@ -1010,9 +929,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					// Add necessary attributes to the new eClass node
 					createAttributes(child, newChildNode, rule);					
 					// recursively check for child's mandatories and create them
-					if(eClassInfoManagement.getEClassInfo(child).hasMandatories()) {
-						createMandatoryChildren(rule, eClassInfoManagement.getEClassInfo(child), newChildNode);
-						createMandatoryNeighbours(rule, eClassInfoManagement.getEClassInfo(child), newChildNode);
+					if(ecm.getEClassInfo(child).hasMandatories()) {
+						createMandatoryChildren(rule, ecm.getEClassInfo(child), newChildNode);
+						createMandatoryNeighbours(rule, ecm.getEClassInfo(child), newChildNode);
 					}
 
 				}
@@ -1082,8 +1001,8 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							HenshinRuleAnalysisUtilEx.createPreservedEdge(rule,newNeighbourNode, eClassNode, eOpposite);
 						}
 						// recursively check neighbour's mandatories and create them
-						createMandatoryChildren(rule, eClassInfoManagement.getEClassInfo(neighbour), newNeighbourNode);
-						createMandatoryNeighbours(rule, eClassInfoManagement.getEClassInfo(neighbour), newNeighbourNode);
+						createMandatoryChildren(rule, ecm.getEClassInfo(neighbour), newNeighbourNode);
+						createMandatoryNeighbours(rule, ecm.getEClassInfo(neighbour), newNeighbourNode);
 
 					}
 				}
@@ -1289,7 +1208,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		String contextName = "";
 		if(context!=null) {
-			contextName = Common.firstLetterToUpperCase(context.getName());
+			contextName = Common.toCamelCase(context.getName());
 		}else{
 			contextName = "Model";			
 		}
@@ -1429,7 +1348,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	
 	private String getFreeNodeName(String originalName, Rule rule) {
 
-		originalName = Common.firstLetterToUpperCase(originalName);
+		originalName = Common.toCamelCase(originalName);
 
 		List<Node> allNodes = HenshinRuleAnalysisUtilEx.getLHSIntersectRHSNodes(rule);
 		allNodes.addAll(HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes(rule));
@@ -1452,7 +1371,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 	private String getFreeAttributeName(String originalName, Rule rule) {
 
-		originalName = Common.firstLetterToUpperCase(originalName);
+		originalName = Common.toCamelCase(originalName);
 
 		List<Attribute> allCreateAttributes = HenshinRuleAnalysisUtilEx.getCreationAttributes(rule);		
 		int count = 0;
@@ -1481,7 +1400,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				if( createNotRequiredAndNotIDAttributes ||
 					!createNotRequiredAndNotIDAttributes && (ea.isRequired() || ea.isID())){
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(
-							inEClassNode, ea,Common.firstLetterToUpperCase(getFreeAttributeName(eaName, rule))
+							inEClassNode, ea,Common.toCamelCase(getFreeAttributeName(eaName, rule))
 							);
 				}
 			}
@@ -1512,7 +1431,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				EClass typeOfReplacable = originalAbstractNodes.get(0).getType();
 
 
-				ArrayList<EClass> replacements = eClassInfoManagement.getAllConcreteEClassesForAbstract(typeOfReplacable);
+				ArrayList<EClass> replacements = ecm.getAllConcreteEClassesForAbstract(typeOfReplacable);
 				
 				for(EClass replacement: replacements) {
 					
@@ -1547,10 +1466,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							
 							// create mandatories for replacement, if any
 							createMandatoryChildren((Rule)copyNode.getGraph().eContainer(),
-														eClassInfoManagement.getEClassInfo(replacement),
+														ecm.getEClassInfo(replacement),
 														copyNode);
 							createMandatoryNeighbours((Rule)copyNode.getGraph().eContainer(),
-														eClassInfoManagement.getEClassInfo(replacement),
+														ecm.getEClassInfo(replacement),
 														copyNode);
 							
 							break; // since we only want 1 replacement per new module
@@ -1589,7 +1508,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	private HashMap<Module,String> createModuleToModifyReference(EReference eRef, EClass eClass, EClass target) throws ConstraintException {
 		
 		HashMap<Module,String> map = new HashMap<Module,String>();
-		EClassInfo eInfo = eClassInfoManagement.getEClassInfo(eClass);
+		EClassInfo eInfo = ecm.getEClassInfo(eClass);
 		
 		int lower = eRef.getLowerBound();
 		int upper = eRef.getUpperBound();
@@ -1621,7 +1540,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					SET_Module.getImports().addAll(ePackages);
 
 					// create rule
-					create_Rule_toSetReference(SET_Module, eRef, eClass, target);
+					createBasicRule(SET_Module, eRef, eClass, target);
 
 					if(createUNSETS) {
 						// UNSET *****************************************************************************************************/
@@ -1660,7 +1579,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					ADD_Module.getImports().addAll(ePackages);
 
 					// create rule
-					create_Rule_toSetReference(ADD_Module, eRef, eClass, target);
+					createBasicRule(ADD_Module, eRef, eClass, target);
 
 					if(createREMOVES) {
 						// REMOVE **************************************************************************************************/				
@@ -1718,7 +1637,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					CHANGE_Module.getImports().addAll(ePackages);
 
 					// create rule
-					create_Rule_toSetReference(CHANGE_Module, eRef, eClass, target);
+					createBasicRule(CHANGE_Module, eRef, eClass, target);
 
 					// create mainUnit and put in map
 					mainUnitCreation(CHANGE_Module, eClass, OperationType.CHANGE);
@@ -1744,7 +1663,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				MOVE_Module.getImports().addAll(ePackages);
 				
 				// create rule
-				create_Rule_toSetReference(MOVE_Module, eRef, eClass, target);
+				createBasicRule(MOVE_Module, eRef, eClass, target);
 	
 				// create all elements necessary for constraints
 				createElementsForConstraints_MOVE(MOVE_Module);
@@ -1791,7 +1710,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		MOVE_Module.getImports().addAll(ePackages);
 		
 		// create rule
-		create_Rule_toSetReference(MOVE_Module, eRef, mask.getOriginalEClass(), target);
+		createBasicRule(MOVE_Module, eRef, mask.getOriginalEClass(), target);
 		
 		// create Attribute, containing the masked type
 		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
@@ -2042,14 +1961,16 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 	}
 
-	private void create_Rule_toSetReference(Module module, EReference eRef, EClass eClass, EClass target) {
-		
+	private Rule createBasicRule(Module module, EReference eRef, EClass eClass, EClass target) {
+
+		Rule rule = null;
+
 		if(module.getName().startsWith(ADD_prefix)) {
-			
+
 			// ADD ***************************************************************************************************/
-			Rule rule = henshinFactory.createRule();
+			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("addTo"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
+			rule.setName("addTo"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Adds to "+eClass.getName() +"'s reference "+ eRef.getName() +" the target "+ target.getName());
 			module.getUnits().add(rule);
 
@@ -2061,14 +1982,14 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
 			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRef);
-			
+
 		}
 		else if(module.getName().startsWith(SET_prefix)) {
-			
+
 			// SET ***************************************************************************************************/
-			Rule rule = henshinFactory.createRule();
+			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("set"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
+			rule.setName("set"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Set"+eClass.getName() + "Ref" +eRef.getName() +"To"+target.getName());
 			module.getUnits().add(rule);
 
@@ -2080,19 +2001,19 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
 			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRef);
-			
+
 		}
 		else if(module.getName().startsWith(CHANGE_prefix)) {
 			// CHANGE ***************************************************************************************************/
-			Rule rule = henshinFactory.createRule();
+			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("change"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
+			rule.setName("change"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Change the EReference "+eRef.getName());
 			module.getUnits().add(rule);
 
 			// create preserved node for eClass
 			NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "Selected", eClass);
-			
+
 			NodePair oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "OldTarget", target);		
 			NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, "NewTarget", target);
 
@@ -2103,9 +2024,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		}
 		else if(module.getName().startsWith(MOVE_prefix)) {
 			// MOVE ***************************************************************************************************/
-			Rule rule = henshinFactory.createRule();
+			rule = henshinFactory.createRule();
 			rule.setActivated(true);
-			rule.setName("move"+eClass.getName() + "Ref" +Common.firstLetterToUpperCase(eRef.getName())+"To"+target.getName());
+			rule.setName("move"+eClass.getName() + "Ref" +Common.toCamelCase(eRef.getName())+"To"+target.getName());
 			rule.setDescription("Moves one "+eClass.getName()+" with reference "+eRef.getName()+" to "+target.getName());
 			module.getUnits().add(rule);
 
@@ -2120,7 +2041,59 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// create <<create>> edge for new target for EReference and it's EOpposite, if any
 			HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRef);
 		}
-		
+		else if(module.getName().startsWith(CREATE_prefix)) {
+
+			// CamelCasing of target-context name
+			String contextName = "";
+			if(target!=null) {
+				contextName = Common.toCamelCase(target.getName());
+			}else{
+				contextName = "Model";			
+			}				
+
+			// Add new rule to Module
+			rule = HenshinRuleAnalysisUtilEx.createRule(
+					"create"+eClass.getName()+"In"+ contextName,
+					"creates one "+eClass.getName()+" in the context: "+ contextName,
+					true,
+					module);
+
+
+			// create <<preserve>> nodes for context, if any
+			String selectedName = getFreeNodeName("Selected",rule);
+			Graph rhs = null;
+			if(target!=null) {	
+				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(
+						rule,
+						selectedName,
+						target);
+				rhs = nodePair.getRhsNode().getGraph();
+			}
+			else{
+				rhs = rule.getRhs();
+			}			
+
+			// Add new eClass to RHS
+			String newName = getFreeNodeName("New",rule);
+			Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, eClass);	
+
+			// Add necessary attributes to the new eClass node
+			createAttributes(eClass, newNode, rule);
+
+			// Add edge between target-context and new eClass, if any
+			if(target!=null && eRef!=null) {
+				Node contextNode = null;
+				for(Node n: rhs.getNodes()) {
+					String nName = n.getName();
+					if(nName!=null && nName.equals(selectedName)) {
+						contextNode = n;
+					}
+				}
+				HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRef);
+			}
+
+		}
+		return rule;
 	}
 	
 	private ArrayList<ModuleFilenamePair> replaceCreateableChildrenWithSubTypes(ArrayList<ModuleFilenamePair> list) {
@@ -2158,7 +2131,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					}
 					EClass typeOfReplacable = origN.getType();
 
-					List<EClass> replacements = eClassInfoManagement.getEClassInfo(typeOfReplacable).getSubTypes();
+					List<EClass> replacements = ecm.getEClassInfo(typeOfReplacable).getSubTypes();
 
 					for(EClass replacement: replacements) {
 
@@ -2226,10 +2199,10 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 								// create mandatories for replacement, if any
 								createMandatoryChildren((Rule)copyNode.getGraph().eContainer(),
-										eClassInfoManagement.getEClassInfo(replacement),
+										ecm.getEClassInfo(replacement),
 										copyNode);
 								createMandatoryNeighbours((Rule)copyNode.getGraph().eContainer(),
-										eClassInfoManagement.getEClassInfo(replacement),
+										ecm.getEClassInfo(replacement),
 										copyNode);
 
 								break; // since we only want 1 replacement per new module
@@ -2288,7 +2261,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 		for(Attribute createAttribute: createAttributes) {
 			Node nodeOfAttribute = createAttribute.getNode();
-			EClassInfo eInfo = eClassInfoManagement.getEClassInfo(nodeOfAttribute.getType());
+			EClassInfo eInfo = ecm.getEClassInfo(nodeOfAttribute.getType());
 
 			if(cType == ConstraintType.NAME_UNIQUENESS_LOCAL) {
 				embedLocalNameUniqueness(eInfo, nodeOfAttribute, rule);
@@ -2314,7 +2287,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 		for(Attribute createAttribute: createAttributes) {
 			Node nodeOfAttribute = createAttribute.getNode();
-			EClassInfo eInfo = eClassInfoManagement.getEClassInfo(nodeOfAttribute.getType());
+			EClassInfo eInfo = ecm.getEClassInfo(nodeOfAttribute.getType());
 			
 			Boolean constrainedByLNU = eInfo.isConstrainedToLocalNameUniqueness();
 			Boolean constrainedByGNU = eInfo.isConstrainedToGlobalNameUniqueness();
@@ -2372,7 +2345,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		Node selectedNode = HenshinRuleAnalysisUtilEx.getNodeByName(rule, "Selected",true);
 		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, selectedNode.getType(), "Selected");
 		
-		EClassInfo eInfo = eClassInfoManagement.getEClassInfo(selectedNode.getType());
+		EClassInfo eInfo = ecm.getEClassInfo(selectedNode.getType());
 		
 		if(eInfo.isConstrainedToLocalNameUniqueness()) {
 		
@@ -2451,123 +2424,6 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 	}
 
-	/**
-	 * Checks whether an eClass is part of the blackList or on whiteList or required in other ways.
-	 * The parameter asPivot should be TRUE, if the main focus of
-	 * the generatable transformation lies on that eClass (meaning the eClass is
-	 * not just a mandatory or optional dangling model element).
-	 * @param eClass
-	 * @param asPivot
-	 * @return
-	 */
-	private static boolean isAllowed(EClass eClass, Boolean asPivot) {
-		
-		EClassInfo eClassInfo = eClassInfoManagement.getEClassInfo(eClass);
-		
-		boolean blackListed	= blackList.contains(eClass);
-		boolean whiteListed	= whiteList.contains(eClass);
-		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean requiredForFeatureInheritance = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
-
-		
-		
-		//in case use of EClass is in its own context ---------------------------------------------/
-		if(asPivot) {			
-
-			if(whiteListed
-					|| requiredForFeatureInheritance
-					|| (blackListed==false && assumeAllOnWhitelist)) {
-				return true;
-			}else{
-				return false;
-			}
-
-			
-		}//in case use of EClass is inside another context (as neighbour or child or as parent) --/
-		else{
-			
-			if(preventInconsistencyThroughSkipping){				
-				boolean requiredForContexts = false;
-				boolean requiredForChild = false;
-				
-				//check if one of the mandatory contexts of this EClass is white listed or implicitly
-				//required. If so this EClass is necessary too.					
-				for(EClass mandatoryContext: eClassInfo.getMandatoryContexts()) {			
-
-					if( whiteList.contains(mandatoryContext)
-							|| implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(mandatoryContext)
-							|| (blackList.contains(mandatoryContext)==false && assumeAllOnWhitelist)) {
-						requiredForContexts =  true;
-						break;
-					}		
-				}
-				
-				//check if current eClass is the parent of some white listed EClass and therefore necessary
-				for(EClass whiteListedEClass: whiteList) {
-					for(Entry<EReference,List<EClass>> entry: eClassInfoManagement.getAllOptionalParentContext(whiteListedEClass).entrySet()) {
-						if(entry.getValue().contains(eClass)) {
-							requiredForChild = true;
-							break;
-						}
-					}
-					if(requiredForChild) break;
-				}
-				
-				if(whiteListed
-						|| requiredForFeatureInheritance
-						|| requiredForChild
-						|| requiredForContexts
-						|| (blackListed==false && assumeAllOnWhitelist)) {
-					return true;
-				}
-				else{
-					return false;
-				}
-			}else{ //preventInconsistencyThroughSkipping==false
-				if(blackListed) { //hard cut
-					return false;
-				}
-			}
-			
-		}		
-		return true;
-	}
-
 	
-	/**
-	 * Checks whether an EClass is only implicitly required because it inherits its features
-	 * to sub types which are white listed. Implicitly required EClasses do not need CREATE/DELETES.
-	 * Only the SET/MOVE/ADD/CHANGE transformations.
-	 * @param eClass
-	 * @return
-	 */
-	private static boolean isOnlyImplicitlyRequiredForFeatureInheritance(EClass eClass) {
-		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass) && !whiteList.contains(eClass)) {
-			return true;
-		}
-		return false;
-	}
-	
-
-	
-	/**
-	 * Checks whether an eClass is the user specified root element
-	 * @param eClass
-	 * @return
-	 */	
-	private static boolean isRoot(EClass eClass) {
-		return root==eClass;
-	}
-	
-	/**
-	 * Checks if a given EReference is inherited
-	 * @param the EReference
-	 * @param concerningEClass is the class to check on
-	 * @return true if inherited
-	 */
-	private static boolean isInheritedReference(EReference eRef, EClass concerningEClass) {
-		
-		return !concerningEClass.getEReferences().contains(eRef);
-	}
 
 }

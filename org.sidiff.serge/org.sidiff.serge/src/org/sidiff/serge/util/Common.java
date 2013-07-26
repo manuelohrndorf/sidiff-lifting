@@ -20,7 +20,7 @@ public class Common {
 	 * @param s
 	 * @return
 	 */
-	public static String firstLetterToUpperCase(String s) {
+	public static String toCamelCase(String s) {
 		if(Character.isLetter(s.charAt(0))) {
 			char c = s.charAt(0);			
 			return s.replaceFirst(String.valueOf(c), String.valueOf(c).toUpperCase());

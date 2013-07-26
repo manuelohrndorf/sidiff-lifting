@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.ConstraintException;
+import org.sidiff.serge.util.EClassInfo;
 import org.sidiff.serge.util.EClassInfoManagement;
 
 public abstract class AbstractGenerator implements EClassVisitor{
@@ -34,7 +37,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected String baseModelRuleFolderPath  = null;
 	protected static List<EPackage> ePackages = null;
 	
-	protected static EClassInfoManagement eClassInfoManagement = null;
+	protected static EClassInfoManagement ecm = null;
 	
 	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
 	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
@@ -222,11 +225,11 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClass>>();
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClass>());
 		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClass>());
-		eClassInfoManagement = EClassInfoManagement.getInstance(enableStereotypeMapping);			
-		eClassInfoManagement.mapConcreteEClassesToAbstractSuperTypes(ePackages);
-		eClassInfoManagement.gatherAllEClassInfos(ePackages);
-		eClassInfoManagement.linkSubTypesToSuperTypes(ePackages);
-		return eClassInfoManagement;
+		ecm = EClassInfoManagement.getInstance(enableStereotypeMapping);			
+		ecm.mapConcreteEClassesToAbstractSuperTypes(ePackages);
+		ecm.gatherAllEClassInfos(ePackages);
+		ecm.linkSubTypesToSuperTypes(ePackages);
+		return ecm;
 	}
 	
 	/***** public GETTER  ******************************************************************************/
@@ -252,4 +255,126 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	}
 	
 
+	/***** protected, convenience Methods  ************************************************************/
+
+	/**
+	 * Checks whether an eClass is part of the blackList or on whiteList or required in other ways.
+	 * The parameter asPivot should be TRUE, if the main focus of
+	 * the generatable transformation lies on that eClass (meaning the eClass is
+	 * not just a mandatory or optional dangling model element).
+	 * @param eClass
+	 * @param asPivot
+	 * @return
+	 */
+	protected static boolean isAllowed(EClass eClass, Boolean asPivot) {
+		
+		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
+		
+		boolean blackListed	= blackList.contains(eClass);
+		boolean whiteListed	= whiteList.contains(eClass);
+		boolean assumeAllOnWhitelist = whiteList.isEmpty();
+		boolean requiredForFeatureInheritance = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
+
+		
+		
+		//in case use of EClass is in its own context ---------------------------------------------/
+		if(asPivot) {			
+
+			if(whiteListed
+					|| requiredForFeatureInheritance
+					|| (blackListed==false && assumeAllOnWhitelist)) {
+				return true;
+			}else{
+				return false;
+			}
+
+			
+		}//in case use of EClass is inside another context (as neighbour or child or as parent) --/
+		else{
+			
+			if(preventInconsistencyThroughSkipping){				
+				boolean requiredForContexts = false;
+				boolean requiredForChild = false;
+				
+				//check if one of the mandatory contexts of this EClass is white listed or implicitly
+				//required. If so this EClass is necessary too.					
+				for(EClass mandatoryContext: eClassInfo.getMandatoryContexts()) {			
+
+					if( whiteList.contains(mandatoryContext)
+							|| implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(mandatoryContext)
+							|| (blackList.contains(mandatoryContext)==false && assumeAllOnWhitelist)) {
+						requiredForContexts =  true;
+						break;
+					}		
+				}
+				
+				//check if current eClass is the parent of some white listed EClass and therefore necessary
+				for(EClass whiteListedEClass: whiteList) {
+					for(Entry<EReference,List<EClass>> entry: ecm.getAllOptionalParentContext(whiteListedEClass).entrySet()) {
+						if(entry.getValue().contains(eClass)) {
+							requiredForChild = true;
+							break;
+						}
+					}
+					if(requiredForChild) break;
+				}
+				
+				if(whiteListed
+						|| requiredForFeatureInheritance
+						|| requiredForChild
+						|| requiredForContexts
+						|| (blackListed==false && assumeAllOnWhitelist)) {
+					return true;
+				}
+				else{
+					return false;
+				}
+			}else{ //preventInconsistencyThroughSkipping==false
+				if(blackListed) { //hard cut
+					return false;
+				}
+			}
+			
+		}		
+		return true;
+	}
+
+	
+	/**
+	 * Checks whether an EClass is only implicitly required because it inherits its features
+	 * to sub types which are white listed. Implicitly required EClasses do not need CREATE/DELETES.
+	 * Only the SET/MOVE/ADD/CHANGE transformations.
+	 * @param eClass
+	 * @return
+	 */
+	protected static boolean isOnlyImplicitlyRequiredForFeatureInheritance(EClass eClass) {
+		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass) && !whiteList.contains(eClass)) {
+			return true;
+		}
+		return false;
+	}
+	
+
+	
+	/**
+	 * Checks whether an eClass is the user specified root element
+	 * @param eClass
+	 * @return
+	 */	
+	protected static boolean isRoot(EClass eClass) {
+		return root==eClass;
+	}
+	
+	/**
+	 * Checks if a given EReference is inherited
+	 * @param the EReference
+	 * @param concerningEClass is the class to check on
+	 * @return true if inherited
+	 */
+	protected static boolean isInheritedReference(EReference eRef, EClass concerningEClass) {
+		
+		return !concerningEClass.getEReferences().contains(eRef);
+	}
+	
+	
 }

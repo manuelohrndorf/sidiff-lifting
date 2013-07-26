@@ -419,6 +419,45 @@ public class EClassInfoManagement {
 		return set;
 	}
 
+	
+	public List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClass eClass) {
+		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
+		
+		// look up constraints for supertypes of the given eclass
+		for(EClass superType: eClass.getEAllSuperTypes()) {
+			EClassInfo supInfo = getEClassInfo(superType);
+			Boolean applicationOnSubTypesSet = null;
+			
+			// get all eattributes involved in GNU
+			if(supInfo!=null) {
+				if(supInfo.isConstrainedToGlobalNameUniqueness()) {
+					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
+					if(applicationOnSubTypesSet) {
+						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
+						if(!additionalEAsToConsider.contains(additional)) {
+							additionalEAsToConsider.add(additional);
+						}
+					}
+				}
+				// get all eattributes involved in LNU
+				if(supInfo.isConstrainedToLocalNameUniqueness()) {
+					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
+					if(applicationOnSubTypesSet) {
+						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
+						if(!additionalEAsToConsider.contains(additional)) {
+							additionalEAsToConsider.add(additional);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		return additionalEAsToConsider;
+	}
+	
+	
+	
 	public boolean hasAbstractMandatoryChildren(EClassInfo eClassInfo) {
 		for(EClass child: eClassInfo.getMandatoryChildren().values().iterator().next()) {
 			if(abstractToConcreteEClassMap.containsKey(child)) {
