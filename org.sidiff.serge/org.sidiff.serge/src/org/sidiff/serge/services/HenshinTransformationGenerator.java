@@ -540,22 +540,24 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			Boolean applicationOnSubTypesSet = null;
 			
 			// get all eattributes involved in GNU
-			if(supInfo.isConstrainedToGlobalNameUniqueness()) {
-				applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
-				if(applicationOnSubTypesSet) {
-					EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
-					if(!additionalEAsToConsider.contains(additional)) {
-						additionalEAsToConsider.add(additional);
+			if(supInfo!=null) {
+				if(supInfo.isConstrainedToGlobalNameUniqueness()) {
+					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
+					if(applicationOnSubTypesSet) {
+						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
+						if(!additionalEAsToConsider.contains(additional)) {
+							additionalEAsToConsider.add(additional);
+						}
 					}
 				}
-			}
-			// get all eattributes involved in LNU
-			if(supInfo.isConstrainedToLocalNameUniqueness()) {
-				applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
-				if(applicationOnSubTypesSet) {
-					EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
-					if(!additionalEAsToConsider.contains(additional)) {
-						additionalEAsToConsider.add(additional);
+				// get all eattributes involved in LNU
+				if(supInfo.isConstrainedToLocalNameUniqueness()) {
+					applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
+					if(applicationOnSubTypesSet) {
+						EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
+						if(!additionalEAsToConsider.contains(additional)) {
+							additionalEAsToConsider.add(additional);
+						}
 					}
 				}
 			}

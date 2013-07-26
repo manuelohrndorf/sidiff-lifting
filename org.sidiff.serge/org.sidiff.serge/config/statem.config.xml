@@ -4,7 +4,7 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<multiplicityPreconditions integrated="true" separately="true" />
-		<reduceToSuperType SET_UNSET="false" ADD_REMOVE="true" CHANGE="true" />
+		<reduceToSuperType SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="false"/>
    		<modelUsesProfileMechanism value="false"/>
 	</GeneralSettings>
@@ -17,7 +17,16 @@
 			<NameUniqueness scope="local" eClass="NamedElement" eAttributeName="name" eAttributeIsInherited="false"  overrideInheritedConstraintsIfAny="false" applyOnSubTypes="true"/>			
 		</Constraints>
 		<MaskedClassifiers>
-			<Mask name="InitialPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="initial" />		
+			<Mask name="InitialPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="initial" />
+			<Mask name="ChoicePseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="choice" />
+			<Mask name="DeepHistoryPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="deepHistory" />
+			<Mask name="ShallowHistoryPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="shallowHistory" />
+			<Mask name="JoinPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="join" />
+			<Mask name="ForkPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="fork" />
+			<Mask name="JunctionPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="junction" />
+			<Mask name="EntryPointPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="entryPoint" />
+			<Mask name="ExitPointPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="exitPoint" />
+			<Mask name="TerminatePseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="terminate" />	
 		</MaskedClassifiers>
 	</MetaModelSettings>
 	
