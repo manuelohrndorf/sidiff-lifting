@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!ELEMENT Config (GeneralSettings, ProfileSettings, Packages, Transformations, StereoTypes)>
-<!ELEMENT GeneralSettings (DebugOutput)>
+<!ELEMENT Config (ProfileSettings, Packages, Transformations, StereoTypes)>
 <!ELEMENT ProfileSettings (Profile, BaseTypeInstances, BaseTypeContext, BaseTypeInheritance)>
 <!ELEMENT Packages (BasePackage, StereoPackage)>
 <!ELEMENT Transformations (Transformation+)>
 <!ELEMENT StereoTypes (StereoType*)>
-
-<!ELEMENT DebugOutput EMPTY>
 
 <!ELEMENT Profile EMPTY>
 <!ELEMENT BaseTypeInstances EMPTY>
@@ -20,8 +17,6 @@
 <!ELEMENT Transformation EMPTY>
 
 <!ELEMENT StereoType EMPTY>
-
-<!ATTLIST DebugOutput on CDATA #REQUIRED>
 
 <!ATTLIST Profile name CDATA #REQUIRED>
 <!ATTLIST BaseTypeInstances allow CDATA #REQUIRED>

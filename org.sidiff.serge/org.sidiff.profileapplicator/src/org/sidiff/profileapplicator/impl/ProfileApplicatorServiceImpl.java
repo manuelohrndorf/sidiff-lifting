@@ -75,11 +75,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			org.w3c.dom.Node currentNode = null;
 			NodeList currentChildNodes = null;
 
-			// retrieve and set configuration parameters
-
-			currentNode = doc.getElementsByTagName("DebugOutput").item(0);
-			applicator.setDebugOutput((Boolean.valueOf(getAttributeValue("on",
-					currentNode))));
+			// retrieve and set configuration parameters			
 
 			currentNode = doc.getElementsByTagName("Profile").item(0);
 			applicator.setProfileName((String.valueOf(getAttributeValue("name",

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/ProfileApplicatorConfig.dtd" >
 <Config>
-
-	<GeneralSettings>
-		<DebugOutput on="true" />
-	</GeneralSettings>
-	
 	<ProfileSettings>
-	    <Profile name="SysML" />
+		<Profile name="SysML" />
 		<BaseTypeInstances allow="false" />
-		<BaseTypeContext allow="false" />		
-		<BaseTypeInheritance allow="true" />	
+		<BaseTypeContext allow="false" />
+		<BaseTypeInheritance allow="true" />
 	</ProfileSettings>
-		
+
 	<Packages>
-		<BasePackage nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />	
+		<BasePackage nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
 		<StereoPackage nsUri="http://www.eclipse.org/papyrus/0.7.0/SysML" />
 	</Packages>
-	
-	<Transformations>		
+
+	<Transformations>
 		<Transformation name="CREATE" apply="true" />
 		<Transformation name="DELETE" apply="true" />
 		<Transformation name="PRESERVE" apply="true" />
-	</Transformations>		
-	<StereoTypes>	
+	</Transformations>
+	<StereoTypes>
+	<!--  Used stereotypes in PP-Unit , remove all if whole SYSML should be generated-->
+		<StereoType name="Block" />
+		<StereoType name="FlowPort" />
+		<StereoType name="ConstraintProperty" />
+		<StereoType name="ConstraintBlock" />
+		<StereoType name="RequirementRelated" />
+		<StereoType name="Requirement" />
+		<StereoType name="Satisfy" />
 	</StereoTypes>
-		
+
 </Config>
