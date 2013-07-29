@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -106,11 +107,11 @@ public class ProfileApplicator {
 				EGraph srcGraph = new EGraphImpl(
 						srcResourceSet.getResource(sourceFile.getName()));
 
-				LogUtil.log(LogEvent.DEBUG,
+				LogUtil.log(LogEvent.NOTICE,
 						"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-				LogUtil.log(LogEvent.DEBUG, "Transformating Editrule: "
+				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
 						+ sourceFile.getName() + "...");
-				LogUtil.log(LogEvent.DEBUG,
+				LogUtil.log(LogEvent.NOTICE,
 						"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 				// variable to check if henshin rule has been successfully been
@@ -230,8 +231,13 @@ public class ProfileApplicator {
 
 					// Clear memory from unused EObjects
 					// If not done, execution time is exponential
-					workGraph.removeGraph(workGraph.getRoots().get(0));
+					for (EObject roots : workGraph.getRoots()) {
+
+						workGraph.removeGraph(roots);
+
+					}
 					workResourceSet = null;
+					workGraph = null;
 
 				}
 
@@ -253,8 +259,13 @@ public class ProfileApplicator {
 
 				// Clear memory from unused EObjects
 				// If not done, execution time is exponential
-				srcGraph.removeGraph(srcGraph.getRoots().get(0));
+				for (EObject roots : srcGraph.getRoots()) {
+
+					srcGraph.removeGraph(roots);
+
+				}
 				srcResourceSet = null;
+				srcGraph = null;
 
 			}
 
