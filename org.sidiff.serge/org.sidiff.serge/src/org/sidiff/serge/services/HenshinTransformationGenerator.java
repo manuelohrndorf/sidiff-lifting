@@ -1774,12 +1774,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
 			if(eRefOfOldSource.getLowerBound()!=0) {
 				
-				createLowerBoundConstrainedElements(rule, oldContextNodeLHS, selectedNodeLHS.getType(), eRefOfOldSource);
+				createLowerBoundConstrainedElements(rule, oldContextNodeLHS, selectedNodeLHS, eRefOfOldSource);
 			}
 			// Concerning <<create>> Edge: Ensure maximum must not be surpassed if upperBound is not infinite [..y]
 			if(eRefOfNewSource.getUpperBound()!=-1) {
 				
-				createUpperBoundConstrainedElements(rule, newContextNodeLHS, selectedNodeLHS.getType(), eRefOfNewSource);
+				createUpperBoundConstrainedElements(rule, newContextNodeLHS, selectedNodeLHS, eRefOfNewSource);
 				
 			}
 			
@@ -1807,7 +1807,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			// Concerning <<create>> Edge: Ensure maximum must not be surpassed if upperBound is not infinite [..y]
 			if(eRefOfContext.getUpperBound()!=-1) {
 				
-				createUpperBoundConstrainedElements(rule, selectedNodeRHS, newNodeLHS.getType(), eRefOfContext);
+				createUpperBoundConstrainedElements(rule, selectedNodeRHS, newNodeLHS, eRefOfContext);
 				
 			}
 			
@@ -1818,16 +1818,18 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			
 			for(Edge creationEdge: HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
 			
-				Node sourceNodeLHS = creationEdge.getSource();				
+				Node sourceNodeRHS = creationEdge.getSource();				
 				EReference eRef = creationEdge.getType();
-				Node newTargetNodeLHS = creationEdge.getTarget();			
+				Node targetNodeRHS = creationEdge.getTarget();			
 	
 				/*** Differentiate multiplicity cases **********************************************************/
 				
-				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
-				if(eRef.getLowerBound()!=0) {
+				// Concerning <<create>> Edge: Ensure maximum is not already contained if upperBound is greater zero [..y]
+				if(eRef.getUpperBound()!=-1) {
 					
-					createLowerBoundConstrainedElements(rule, sourceNodeLHS, newTargetNodeLHS.getType(), eRef);
+					Node sourceNodeLHS = rule.getMappings().getOrigin(sourceNodeRHS);
+					Node targetNodeLHS = rule.getMappings().getOrigin(targetNodeRHS);
+					createUpperBoundConstrainedElements(rule, sourceNodeLHS, targetNodeLHS, eRef);
 				}	
 			
 			}
@@ -1856,7 +1858,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
 				if(eRefOfOldSource.getLowerBound()!=0) {
 					
-					createLowerBoundConstrainedElements(rule, oldContextNodeLHS, deletionNode.getType(), eRefOfOldSource);
+					createLowerBoundConstrainedElements(rule, oldContextNodeLHS, deletionNode, eRefOfOldSource);
 				}	
 			
 			}
@@ -1877,7 +1879,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				// Concerning <<delete>> Edge: Ensure minimum must be contained if lowerBound is greater zero [x..]
 				if(eRef.getLowerBound()!=0) {
 					
-					createLowerBoundConstrainedElements(rule, oldSourceNodeLHS, oldTargetNodeLHS.getType(), eRef);
+					createLowerBoundConstrainedElements(rule, oldSourceNodeLHS, oldTargetNodeLHS, eRef);
 				}	
 			
 			}
@@ -1885,7 +1887,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		//CHANGE does not need any multiplicity constraints.
 	}
 
-	private void createLowerBoundConstrainedElements(Rule rule, Node oldContextNodeLHS, EClass type, EReference eRefOfOldSource) {
+	private void createLowerBoundConstrainedElements(Rule rule, Node oldContextNodeLHS, Node targetNodeLHS, EReference eRefOfOldSource) {
 		
 		//TODO recursively for all contained <<delete>> nodes
 		
@@ -1894,30 +1896,48 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		if(numberOfRequiredNodes!=0) {
 		
-			NestedCondition nestedConditon = henshinFactory.createNestedCondition();
+			NestedCondition nestedCondition = henshinFactory.createNestedCondition();
 			Graph conclusion = henshinFactory.createGraph("sufficientElementsMustExist");
+			
+			// copy contextNode from base graph in conclusion			
+			Node copiedContextNode = EcoreUtil.copy(oldContextNodeLHS);
+			conclusion.getNodes().add(copiedContextNode);
+			
+			// copy targetNode from base graph in conclusion
+			Node copiedTargetNode = EcoreUtil.copy(targetNodeLHS);
+			conclusion.getNodes().add(copiedTargetNode);
+			
 			
 			//There must be at least numberOfRequiredNodes+1 Nodes for a <<delete>> to be executed
 			for(int i=1; i<=numberOfRequiredNodes+1; i++) {
 				
 				Node requiredNode = henshinFactory.createNode();
-				requiredNode.setType(type);
+				requiredNode.setType(targetNodeLHS.getType());
 
-				Edge requiredEdge = henshinFactory.createEdge(contextNodePair.getLhsNode(), requiredNode, eRefOfOldSource);
+				Edge requiredEdge = henshinFactory.createEdge(copiedContextNode, requiredNode, eRefOfOldSource);
 				conclusion.getNodes().add(requiredNode);
 				conclusion.getEdges().add(requiredEdge);
 				
 			}
 			
-			nestedConditon.setConclusion(conclusion);		
+			nestedCondition.setConclusion(conclusion);		
+			
+			// add mapping in nestedCondition between
+			// base graph contextNode and copied contextNode
+			// and the same for targetNodes inside the conclusion
+			Mapping contextNodeMapping = henshinFactory.createMapping(oldContextNodeLHS, copiedContextNode);
+			nestedCondition.getMappings().add(contextNodeMapping);
+			Mapping targetNodeMapping = henshinFactory.createMapping(targetNodeLHS, copiedTargetNode);
+			nestedCondition.getMappings().add(targetNodeMapping);
+			
 			
 			// put Formulas together
-			HenshinRuleAnalysisUtilEx.addFormula(nestedConditon, rule.getLhs(), FormulaCombineOperator.AND);
+			HenshinRuleAnalysisUtilEx.addFormula(nestedCondition, rule.getLhs(), FormulaCombineOperator.AND);
 		}
 		
 	}
 	
-	private void createUpperBoundConstrainedElements(Rule rule, Node newContextNodeLHS, EClass type, EReference eRefOfNewSource) {
+	private void createUpperBoundConstrainedElements(Rule rule, Node newContextNodeLHS, Node targetNodeLHS, EReference eRefOfNewSource) {
 		
 		//TODO recursively for all contained <<create>> nodes
 		
@@ -1931,32 +1951,48 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			NestedCondition nestedCondition = henshinFactory.createNestedCondition();
 			Graph conclusion = henshinFactory.createGraph("doNotExceedUpperBound");			
 
-			// fill newNOTFormular
+			// copy contextNode from base graph in conclusion			
+			Node copiedContextNode = EcoreUtil.copy(newContextNodeLHS);
+			conclusion.getNodes().add(copiedContextNode);
+			
+			// copy targetNode from base graph in conclusion
+			Node copiedTargetNode = EcoreUtil.copy(targetNodeLHS);
+			conclusion.getNodes().add(copiedTargetNode);
+						
+			// create forbid nodes and edges
 			for(int i=1; i<=numberOfMaximumNodes; i++) {
 
 				//create forbid node
 				Node forbidNode = henshinFactory.createNode();
-				forbidNode.setType(type);
+				forbidNode.setType(targetNodeLHS.getType());
 				forbidNode.setGraph(conclusion);
 				conclusion.getNodes().add(forbidNode);
 
 				//create forbid edge
-				Edge forbidEdge = henshinFactory.createEdge(newContextNodeLHS, forbidNode, eRefOfNewSource);
+				Edge forbidEdge = henshinFactory.createEdge(copiedContextNode, forbidNode, eRefOfNewSource);
 				forbidEdge.setGraph(conclusion);			
 				conclusion.getEdges().add(forbidEdge);
 
 			}
+			
+			// add conclusion to nestedCondition
 			nestedCondition.setConclusion(conclusion);
+			
+			// add mapping in nestedCondition between
+			// base graph contextNode and copied contextNode
+			// and the same for targetNodes inside the conclusion
+			Mapping contextNodeMapping = henshinFactory.createMapping(newContextNodeLHS, copiedContextNode);
+			nestedCondition.getMappings().add(contextNodeMapping);
+			Mapping targetNodeMapping = henshinFactory.createMapping(targetNodeLHS, copiedTargetNode);
+			nestedCondition.getMappings().add(targetNodeMapping);
+			
+			// add nestedCondition to NOT-Formula
 			newNOTFormular.setChild(nestedCondition);
-
-
+			
 			// put Formulas together
 			HenshinRuleAnalysisUtilEx.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);			
 			
-		}
-		
-		
-		
+		}			
 	}
 
 	private Rule createBasicRule(Module module, EReference eRefA, EClass eClass, EClass targetA, EReference eRefB, EClass targetB) {
