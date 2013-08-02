@@ -20,12 +20,13 @@ public class Applicator implements IApplication {
 		String INPUT_FOLDER_PATH = argument[0] + FILE_SEPERATOR;	
 		String INPUT_CONFIG_PATH = argument[1];
 		String OUTPUT_FOLDER_PATH = argument[2] + FILE_SEPERATOR;	
-		
+		int NUMBER_OF_THREADS = Integer.parseInt(argument[3]);	
+
 					
 		/*** Start generating rules*********************************************************************/
 		
 		ProfileApplicatorService applicatingService = ServiceHelper.getService(Activator.getContext(), ProfileApplicatorService.class);
-		applicatingService.init(ProfileApplicator.class, INPUT_CONFIG_PATH, INPUT_FOLDER_PATH, OUTPUT_FOLDER_PATH);
+		applicatingService.init(ProfileApplicator.class, INPUT_CONFIG_PATH, INPUT_FOLDER_PATH, OUTPUT_FOLDER_PATH, NUMBER_OF_THREADS);
 		applicatingService.applyProfile(ProfileApplicator.class);
 		
 				

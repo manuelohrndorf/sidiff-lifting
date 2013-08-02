@@ -2,23 +2,19 @@ package org.sidiff.profileapplicator.services;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
-import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.profileapplicator.impl.ProfileApplicatorThread;
 
 public class ProfileApplicator {
 
@@ -30,6 +26,20 @@ public class ProfileApplicator {
 
 	// Folder for output edit rules
 	private String outputFolderPath = null;
+
+	/**
+	 * @return the numberThreads
+	 */
+	public int getNumberThreads() {
+		return numberThreads;
+	}
+
+	/**
+	 * @param numberThreads the numberThreads to set
+	 */
+	public void setNumberThreads(int numberThreads) {
+		this.numberThreads = numberThreads;
+	}
 
 	// Configuration parameters
 	private boolean baseTypeInstances = false;
@@ -43,6 +53,9 @@ public class ProfileApplicator {
 	private List<String> stereoTypes = new ArrayList<String>();
 	private List<String> baseTypes = new ArrayList<String>();
 	private List<String> baseReferences = new ArrayList<String>();
+
+	// Number of concurrent threads applying the profile
+	private int numberThreads = 4;
 
 	/*
 	 * Apply the profile to given input edit rules Configuration has already
@@ -83,193 +96,55 @@ public class ProfileApplicator {
 				LogEvent.NOTICE,
 				"Applying transformations now, this could (and most certainly will) take some time...");
 
-		// Initialize organizing variables
-		boolean stereoTypesUsed = false;
-		String outputName = null;
-
 		// Get all input henshin files
 		File sourceFolder = new File(this.inputFolderPath);
-		File[] sourceFiles = sourceFolder.listFiles();
+		ArrayList<File> sourceFiles = new ArrayList<File>(
+				Arrays.asList(sourceFolder.listFiles()));
 
+		// Check if input is really a henshin file
+		// and create corresponding SET
+		Set<File> henshinFiles = new HashSet<File>();
 		for (File sourceFile : sourceFiles) {
 
-			// Input is really a henshin file
-			if (sourceFile.getName().endsWith(".henshin")) {
-
-				// Set appropriate output name
-				outputName = this.outputFolderPath + sourceFile.getName();
-
-				// Create resourceSet for source
-				HenshinResourceSet srcResourceSet = new HenshinResourceSet(
-						this.inputFolderPath);
-
-				// Create EGraph for source
-				EGraph srcGraph = new EGraphImpl(
-						srcResourceSet.getResource(sourceFile.getName()));
-
-				LogUtil.log(LogEvent.NOTICE,
-						"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-				LogUtil.log(LogEvent.NOTICE, "Transformating Editrule: "
-						+ sourceFile.getName() + "...");
-				LogUtil.log(LogEvent.NOTICE,
-						"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
-				// variable to check if henshin rule has been successfully been
-				// applied
-				boolean applied = false;
-
-				// Iterate over all stereoTypes used in profile
-				for (int z = 0; z < this.stereoTypes.size(); z++) {
-
-					LogUtil.log(LogEvent.DEBUG,
-							"----------------------------------------------------------------------");
-					LogUtil.log(LogEvent.DEBUG, "Applying Stereotype: "
-							+ this.stereoTypes.get(z) + " to Basetype: "
-							+ this.baseTypes.get(z));
-
-					// Create resourceSet as working copy
-					HenshinResourceSet workResourceSet = new HenshinResourceSet(
-							this.inputFolderPath);
-
-					// Create EGraph as working copy
-					EGraph workGraph = new EGraphImpl(
-							workResourceSet.getResource(sourceFile.getName()));
-
-					// Add basePackage and stereoPackage to Graph for HOTs
-					// matching
-					workGraph.addTree(this.basePackage);
-					workGraph.addTree(this.stereoPackage);
-
-					// Create Henshin Engine
-					Engine engine = new EngineImpl();
-
-					// Iterate over all enabled higher order transformations
-					for (URI hot : transformations) {
-
-						// Create unitapplication for transformation
-						UnitApplication unitapp = new UnitApplicationImpl(
-								engine);
-						// Use current working copy graph
-						unitapp.setEGraph(workGraph);
-
-						// Create resourceSet for higher order transformation
-						// henshin rule
-						HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
-
-						// Get module
-						Module module = hotsResourceSet.getModule(hot, false);
-
-						LogUtil.log(
-								LogEvent.DEBUG,
-								"Executing HOT "
-										+ hot.toString()
-												.replace(
-														"platform:/plugin/org.sidiff.profileapplicator/hots/",
-														"") + "...");
-
-						// Set unit to SiLift default
-						unitapp.setUnit((Unit) module.getUnit("mainUnit"));
-
-						// setting parameters
-						unitapp.setParameterValue("stereoPackage",
-								this.stereoPackage.getNsURI());
-						unitapp.setParameterValue("stereoType",
-								this.stereoTypes.get(z));
-						unitapp.setParameterValue("baseReference",
-								this.baseReferences.get(z));
-						unitapp.setParameterValue("baseType",
-								this.baseTypes.get(z));
-
-						// Execute henshin rule
-						boolean executed = unitapp.execute(null);
-
-						LogUtil.log(LogEvent.DEBUG, "Successfully applied: "
-								+ executed);
-
-						// If successfully executed set variables accordingly
-						if (executed) {
-							stereoTypesUsed = true;
-							applied = true;
-							outputName = this.outputFolderPath
-									+ ((Module) workGraph.getRoots().get(0))
-											.getName() + "_execute.henshin";
-
-						}
-						// If successfully executed
-						// and baseTypeContext is set
-						if (executed && this.baseTypeContext) {
-							workResourceSet.saveEObject(workGraph.getRoots()
-									.get(0), outputName);
-
-							LogUtil.log(LogEvent.DEBUG,
-									"Result saved as: "
-											+ ((Module) workGraph.getRoots()
-													.get(0)).getName()
-											+ "_execute.henshin");
-
-						}
-						// "Free" resourceSet (Java GC does not think so)
-						hotsResourceSet = null;
-
-					}
-
-					// Save created profiled henshin edit rule
-					if (applied) {
-
-						workResourceSet.saveEObject(
-								workGraph.getRoots().get(0), outputName);
-
-						LogUtil.log(
-								LogEvent.DEBUG,
-								"Result saved as: "
-										+ ((Module) workGraph.getRoots().get(0))
-												.getName() + "_execute.henshin");
-
-						// Reset variable
-						applied = false;
-					}
-
-					// Clear memory from unused EObjects
-					// If not done, execution time is exponential
-					for (EObject roots : workGraph.getRoots()) {
-
-						workGraph.removeGraph(roots);
-
-					}
-					workResourceSet = null;
-					workGraph = null;
-
-				}
-
-				// Copy meta instances untransformed
-				// if no stereotype could be executed on current
-				// input rule or baseTypeInstances are allowed
-				if (!stereoTypesUsed || this.baseTypeInstances) {
-
-					srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
-							this.outputFolderPath + sourceFile.getName());
-
-					LogUtil.log(
-							LogEvent.DEBUG,
-							"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
-
-				}
-				// Reset variable
-				stereoTypesUsed = false;
-
-				// Clear memory from unused EObjects
-				// If not done, execution time is exponential
-				for (EObject roots : srcGraph.getRoots()) {
-
-					srcGraph.removeGraph(roots);
-
-				}
-				srcResourceSet = null;
-				srcGraph = null;
-
-			}
-
+			if (sourceFile.getName().endsWith(".henshin"))
+				henshinFiles.add(sourceFile);
 		}
+
+		LogUtil.log(LogEvent.DEBUG, "Creating thread pool...");
+
+		// Create thread pool
+		ExecutorService executor = Executors.newFixedThreadPool(numberThreads);
+
+		LogUtil.log(LogEvent.DEBUG, "Creating profiling threads...");
+
+		// Create pool of source files
+		for (File henshinFile : henshinFiles) {
+			try {
+				// Add all files to workpool
+				Runnable profileThread = new ProfileApplicatorThread(
+						henshinFile, this);
+				executor.execute(profileThread);
+			} catch (Exception e) {
+				// Nothing to be done here
+				// Exceptions possible here
+				// are about cross reference adapters
+			}
+		}
+
+		// This will make the executor accept no new threads
+		// and finish all existing threads in the queue
+		executor.shutdown();
+
+		LogUtil.log(LogEvent.DEBUG,
+				"Waiting for profiling threads to finish...");
+		// Wait until all threads are finished
+		try {
+			executor.awaitTermination(12, TimeUnit.HOURS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		LogUtil.log(LogEvent.NOTICE,
 				"Applying profile " + this.getProfileName() + " completed!");
 

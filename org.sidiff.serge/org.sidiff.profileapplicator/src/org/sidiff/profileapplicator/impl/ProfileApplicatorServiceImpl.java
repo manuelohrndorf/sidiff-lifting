@@ -56,7 +56,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	 * Class, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void init(Class<?> service, String pathToConfig,
-			String pathToInputFolder, String pathToOutputFolder) {
+			String pathToInputFolder, String pathToOutputFolder, int numberOfThreads) {
 
 		if (service == ProfileApplicator.class) {
 
@@ -66,6 +66,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			applicator.setConfigPath(pathToConfig);
 			applicator.setInputFolderPath(pathToInputFolder);
 			applicator.setOutputFolderPath(pathToOutputFolder);
+			applicator.setNumberThreads(numberOfThreads);
 
 			LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 
