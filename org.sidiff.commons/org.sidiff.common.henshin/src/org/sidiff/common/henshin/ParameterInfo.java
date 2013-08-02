@@ -1,7 +1,10 @@
 package org.sidiff.common.henshin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -228,5 +231,66 @@ public class ParameterInfo {
 		assert (parameter.eContainer() instanceof Rule) : "Unmapped Parameter " + parameter.getName();
 		
 		return parameter;
+	}
+	
+	/**
+	 * Parses the parameter from a Henshin attribute.
+	 * 
+	 * TODO: That isn't really perfect. Check the Henshin script interpreter syntax.
+	 * 
+	 * @param rule
+	 *            the rule which contains the node which contains the attribute.
+	 * @param attribute
+	 *            the Henshin attribute.
+	 * @return a list of parsed parameters.
+	 */
+	public static Set<Parameter> getUsedParameters(Rule rule, Attribute attribute) {
+
+		Set<Parameter> parameters = new HashSet<Parameter>();
+		String value = attribute.getValue();
+
+		// Remove string parts
+		int readingQuotes = 0;
+		StringBuffer parameterAttribute = new StringBuffer();
+
+		for (int i = 0; i < value.length(); i++) {
+			char c = value.charAt(i);
+
+			if (c == '\"') {
+				if (i > 0) {
+					if (value.charAt(i - 1) != '\\') {
+						readingQuotes++;
+					}
+				} else {
+					readingQuotes++;
+				}
+			} else {
+				if (readingQuotes % 2 == 0) {
+					parameterAttribute.append(c);
+				}
+			}
+		}
+
+		// Split by operators
+		String[] parametersString = parameterAttribute.toString().split("[+-/*]");
+
+		for (String stringP : parametersString) {
+			String p = stringP.trim();
+
+			// Filter functions
+			if (!Pattern.matches(".+\\(.*\\)", p)) {
+
+				p = p.replace("(", "");
+				p = p.replace(")", "");
+				p = p.trim();
+
+				Parameter parameter = rule.getParameter(p);
+
+				if (parameter != null) {
+					parameters.add(parameter);
+				}
+			}
+		}
+		return parameters;
 	}
 }
