@@ -35,7 +35,8 @@ public class ProfileApplicator {
 	}
 
 	/**
-	 * @param numberThreads the numberThreads to set
+	 * @param numberThreads
+	 *            the numberThreads to set
 	 */
 	public void setNumberThreads(int numberThreads) {
 		this.numberThreads = numberThreads;
@@ -119,16 +120,13 @@ public class ProfileApplicator {
 
 		// Create pool of source files
 		for (File henshinFile : henshinFiles) {
-			try {
-				// Add all files to workpool
-				Runnable profileThread = new ProfileApplicatorThread(
-						henshinFile, this);
-				executor.execute(profileThread);
-			} catch (Exception e) {
-				// Nothing to be done here
-				// Exceptions possible here
-				// are about cross reference adapters
-			}
+			// Add all files to workpool
+			Runnable profileThread = new ProfileApplicatorThread(henshinFile,
+					this);
+			
+			//Do all the hard work in {@link ProfileApplicatorThread}
+			executor.execute(profileThread);
+
 		}
 
 		// This will make the executor accept no new threads
@@ -139,10 +137,9 @@ public class ProfileApplicator {
 				"Waiting for profiling threads to finish...");
 		// Wait until all threads are finished
 		try {
-			executor.awaitTermination(12, TimeUnit.HOURS);
+			executor.awaitTermination(24, TimeUnit.HOURS);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogUtil.log(LogEvent.NOTICE, "Applying profile timed out!");
 		}
 
 		LogUtil.log(LogEvent.NOTICE,

@@ -25,8 +25,9 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
-	 * The defined {@link ProfileApplicator} which executed this thread The
-	 * global configuration is just needed once, hence this solution
+	 * The defined {@link ProfileApplicator} which executed this thread 
+	 * The global configuration is just needed once
+	 * and never changed by any of the threads, hence this solution
 	 */
 	private ProfileApplicator applicator;
 
@@ -37,7 +38,7 @@ public class ProfileApplicatorThread extends Thread {
 	 * @param sourcefiles
 	 *            the source files for this thread
 	 * @param applicator
-	 *            the profileapplicator which executed this thread
+	 *            the profile applicator which executed this thread
 	 */
 	public ProfileApplicatorThread(File sourceFile, ProfileApplicator applicator) {
 
@@ -46,6 +47,9 @@ public class ProfileApplicatorThread extends Thread {
 
 	}
 
+	/**
+	 * Thread run method
+	 */
 	public void run() {
 
 		// Just execute applyProfile method
@@ -53,129 +57,128 @@ public class ProfileApplicatorThread extends Thread {
 
 	}
 
+	/**
+	 * 
+	 * The working method, which applies a profile to a given input file,
+	 * whereas the input file is a henshin edit rule.
+	 * Both are configured through the constructor call of this thread.
+	 * 
+	 */
 	public void applyProfile() {
 
-		try {
-			// Initialize organizing variables
-			boolean stereoTypesUsed = false;
-			String outputName = null;
+		// Initialize organizing variables
+		boolean stereoTypesUsed = false;
+		String outputName = null;
 
-			// Set appropriate output name
-			outputName = applicator.getOutputFolderPath()
-					+ this.sourceFile.getName();
+		// Set appropriate output name
+		outputName = applicator.getOutputFolderPath()
+				+ this.sourceFile.getName();
 
-			// Create resourceSet for source
-			HenshinResourceSet srcResourceSet = new HenshinResourceSet(
+		// Create resourceSet for source
+		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
+				applicator.getInputFolderPath());
+
+		// Create EGraph for source
+		EGraph srcGraph = new EGraphImpl(srcResourceSet.getResource(sourceFile
+				.getName()));
+
+		LogUtil.log(LogEvent.NOTICE, "Transformating: " + sourceFile.getName()
+				+ "...");
+
+		// variable to check if henshin rule has been successfully been
+		// applied
+		boolean applied = false;
+
+		// Iterate over all stereoTypes used in profile
+		for (int z = 0; z < applicator.getStereoTypes().size(); z++) {
+
+			LogUtil.log(LogEvent.DEBUG,
+					"----------------------------------------------------------------------");
+			LogUtil.log(LogEvent.DEBUG, "Applying Stereotype: "
+					+ applicator.getStereoTypes().get(z) + " to Basetype: "
+					+ applicator.getBaseTypes().get(z));
+			
+			HenshinResourceSet workResourceSet = null;
+			EGraph workGraph = null;
+
+			try{
+			// Create resourceSet as working copy
+			workResourceSet = new HenshinResourceSet(
 					applicator.getInputFolderPath());
 
-			// Create EGraph for source
-			EGraph srcGraph = new EGraphImpl(
-					srcResourceSet.getResource(sourceFile.getName()));
+			// Create EGraph as working copy
+			workGraph = new EGraphImpl(
+					workResourceSet.getResource(this.sourceFile.getName()));
 
-			LogUtil.log(LogEvent.NOTICE,
-					"Transformating: " + sourceFile.getName() + "...");
+			// Add basePackage and stereoPackage to Graph for HOTs
+			// matching
+			workGraph.addTree(applicator.getBasePackage());
+			workGraph.addTree(applicator.getStereoPackage());
+			}
+			catch(Exception e){
+				
+				// Nothing to do here
+				// Just catching exceptions
+				// of creating cross references
+				
+			}
 
-			// variable to check if henshin rule has been successfully been
-			// applied
-			boolean applied = false;
+			// Create Henshin Engine
+			Engine engine = new EngineImpl();
 
-			// Iterate over all stereoTypes used in profile
-			for (int z = 0; z < applicator.getStereoTypes().size(); z++) {
+			// Iterate over all enabled higher order transformations
+			for (URI hot : applicator.getTransformations()) {
 
-				LogUtil.log(LogEvent.DEBUG,
-						"----------------------------------------------------------------------");
-				LogUtil.log(LogEvent.DEBUG, "Applying Stereotype: "
-						+ applicator.getStereoTypes().get(z) + " to Basetype: "
-						+ applicator.getBaseTypes().get(z));
+				// Create unitapplication for transformation
+				UnitApplication unitapp = new UnitApplicationImpl(engine);
+				// Use current working copy graph
+				unitapp.setEGraph(workGraph);
 
-				// Create resourceSet as working copy
-				HenshinResourceSet workResourceSet = new HenshinResourceSet(
-						applicator.getInputFolderPath());
+				// Create resourceSet for higher order transformation
+				// henshin rule
+				HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
 
-				// Create EGraph as working copy
-				EGraph workGraph = new EGraphImpl(
-						workResourceSet.getResource(this.sourceFile.getName()));
+				// Get module
+				Module module = hotsResourceSet.getModule(hot, false);
 
-				// Add basePackage and stereoPackage to Graph for HOTs
-				// matching
-				workGraph.addTree(applicator.getBasePackage());
-				workGraph.addTree(applicator.getStereoPackage());
+				LogUtil.log(
+						LogEvent.DEBUG,
+						"Executing HOT "
+								+ hot.toString()
+										.replace(
+												"platform:/plugin/org.sidiff.profileapplicator/hots/",
+												"") + "...");
 
-				// Create Henshin Engine
-				Engine engine = new EngineImpl();
+				// Set unit to SiLift default
+				unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
-				// Iterate over all enabled higher order transformations
-				for (URI hot : applicator.getTransformations()) {
+				// setting parameters
+				unitapp.setParameterValue("stereoPackage", applicator
+						.getStereoPackage().getNsURI());
+				unitapp.setParameterValue("stereoType", applicator
+						.getStereoTypes().get(z));
+				unitapp.setParameterValue("baseReference", applicator
+						.getBaseReferences().get(z));
+				unitapp.setParameterValue("baseType", applicator.getBaseTypes()
+						.get(z));
 
-					// Create unitapplication for transformation
-					UnitApplication unitapp = new UnitApplicationImpl(engine);
-					// Use current working copy graph
-					unitapp.setEGraph(workGraph);
+				// Execute henshin rule
+				boolean executed = unitapp.execute(null);
 
-					// Create resourceSet for higher order transformation
-					// henshin rule
-					HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
+				LogUtil.log(LogEvent.DEBUG, "Successfully applied: " + executed);
 
-					// Get module
-					Module module = hotsResourceSet.getModule(hot, false);
-
-					LogUtil.log(
-							LogEvent.DEBUG,
-							"Executing HOT "
-									+ hot.toString()
-											.replace(
-													"platform:/plugin/org.sidiff.profileapplicator/hots/",
-													"") + "...");
-
-					// Set unit to SiLift default
-					unitapp.setUnit((Unit) module.getUnit("mainUnit"));
-
-					// setting parameters
-					unitapp.setParameterValue("stereoPackage", applicator
-							.getStereoPackage().getNsURI());
-					unitapp.setParameterValue("stereoType", applicator
-							.getStereoTypes().get(z));
-					unitapp.setParameterValue("baseReference", applicator
-							.getBaseReferences().get(z));
-					unitapp.setParameterValue("baseType", applicator
-							.getBaseTypes().get(z));
-
-					// Execute henshin rule
-					boolean executed = unitapp.execute(null);
-
-					LogUtil.log(LogEvent.DEBUG, "Successfully applied: "
-							+ executed);
-
-					// If successfully executed set variables accordingly
-					if (executed) {
-						stereoTypesUsed = true;
-						applied = true;
-						outputName = applicator.getOutputFolderPath()
-								+ ((Module) workGraph.getRoots().get(0))
-										.getName() + "_execute.henshin";
-
-					}
-					// If successfully executed
-					// and baseTypeContext is set
-					if (executed && applicator.isBaseTypeContext()) {
-						workResourceSet.saveEObject(
-								workGraph.getRoots().get(0), outputName);
-
-						LogUtil.log(
-								LogEvent.DEBUG,
-								"Result saved as: "
-										+ ((Module) workGraph.getRoots().get(0))
-												.getName() + "_execute.henshin");
-
-					}
-					// "Free" resourceSet (Java GC does not think so)
-					hotsResourceSet = null;
+				// If successfully executed set variables accordingly
+				if (executed) {
+					stereoTypesUsed = true;
+					applied = true;
+					outputName = applicator.getOutputFolderPath()
+							+ ((Module) workGraph.getRoots().get(0)).getName()
+							+ "_execute.henshin";
 
 				}
-
-				// Save created profiled henshin edit rule
-				if (applied) {
-
+				// If successfully executed
+				// and baseTypeContext is set
+				if (executed && applicator.isBaseTypeContext()) {
 					workResourceSet.saveEObject(workGraph.getRoots().get(0),
 							outputName);
 
@@ -183,10 +186,27 @@ public class ProfileApplicatorThread extends Thread {
 							+ ((Module) workGraph.getRoots().get(0)).getName()
 							+ "_execute.henshin");
 
-					// Reset variable
-					applied = false;
 				}
+				// "Free" resourceSet (Java GC does not think so)
+				hotsResourceSet = null;
 
+			}
+
+			// Save created profiled henshin edit rule
+			if (applied) {
+
+				workResourceSet.saveEObject(workGraph.getRoots().get(0),
+						outputName);
+
+				LogUtil.log(LogEvent.DEBUG, "Result saved as: "
+						+ ((Module) workGraph.getRoots().get(0)).getName()
+						+ "_execute.henshin");
+
+				// Reset variable
+				applied = false;
+			}
+
+			try {
 				// Clear memory from unused EObjects
 				// If not done, execution time is exponential
 				for (EObject roots : workGraph.getRoots()) {
@@ -194,30 +214,34 @@ public class ProfileApplicatorThread extends Thread {
 					workGraph.removeGraph(roots);
 
 				}
-				workResourceSet = null;
-				workGraph = null;
+			} catch (Exception e) {
 
+				// Nothing to do here
+				// Just catching exceptions
+				// of deleting cross references
 			}
+			workResourceSet = null;
+			workGraph = null;
 
-			// Copy meta instances untransformed
-			// if no stereotype could be executed on current
-			// input rule or baseTypeInstances are allowed
-			if (!stereoTypesUsed || applicator.isBaseTypeInstances()) {
+		}
 
-				srcResourceSet
-						.saveEObject(
-								srcGraph.getRoots().get(0),
-								applicator.getOutputFolderPath()
-										+ sourceFile.getName());
+		// Copy meta instances untransformed
+		// if no stereotype could be executed on current
+		// input rule or baseTypeInstances are allowed
+		if (!stereoTypesUsed || applicator.isBaseTypeInstances()) {
 
-				LogUtil.log(
-						LogEvent.DEBUG,
-						"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
+			srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
+					applicator.getOutputFolderPath() + sourceFile.getName());
 
-			}
-			// Reset variable
-			stereoTypesUsed = false;
+			LogUtil.log(
+					LogEvent.DEBUG,
+					"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
 
+		}
+		// Reset variable
+		stereoTypesUsed = false;
+
+		try {
 			// Clear memory from unused EObjects
 			// If not done, execution time is exponential
 			for (EObject roots : srcGraph.getRoots()) {
@@ -225,14 +249,14 @@ public class ProfileApplicatorThread extends Thread {
 				srcGraph.removeGraph(roots);
 
 			}
-			srcResourceSet = null;
-			srcGraph = null;
 		} catch (Exception e) {
 
-			// Nothing here,
-			// Exceptions of CrossReferenceAdapter are
-			// just catched here
+			// Nothing to do here
+			// Just catching exceptions
+			// of deleting cross references
 		}
+		srcResourceSet = null;
+		srcGraph = null;
 
 	}
 
