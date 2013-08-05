@@ -62,11 +62,13 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected boolean reduceToSuperType_SETUNSET;
 	protected boolean reduceToSuperType_ADDREMOVE;
 	protected boolean reduceToSuperType_CHANGE;
+
+	protected boolean literalSwitching_CHANGE;
+	protected boolean referenceSwitching_MOVE;	
 	
 	protected EPackage metaModel;
 	
-	protected static ArrayList<EClass> blackList;
-	
+	protected static ArrayList<EClass> blackList;	
 	protected static ArrayList<EClass> whiteList;
 	
 	protected static HashMap<ImplicitRequirementType,ArrayList<EClass>> implicitRequirements;
@@ -152,6 +154,14 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	
 	public void setCreateCHANGES(boolean createCHANGES) {
 		this.createCHANGES = createCHANGES;
+	}
+	
+	public void setLiteralSwitching_CHANGE(boolean literalSwitching_CHANGE) {
+		this.literalSwitching_CHANGE = literalSwitching_CHANGE;
+	}
+
+	public void setReferenceSwitching_MOVE(boolean referenceSwitching_MOVE) {
+		this.referenceSwitching_MOVE = referenceSwitching_MOVE;
 	}
 
 	public void setMultiplicityPreconditions(boolean integrated, boolean separately) {

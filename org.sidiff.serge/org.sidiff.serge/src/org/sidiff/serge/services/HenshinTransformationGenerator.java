@@ -320,8 +320,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					}
 					
 					/**********SET / UNSET *************************************************************************************/
-					else if(((lowerBound == 0) && (upperBound == 1))
-							|| (((lowerBound == 1) && (upperBound == 1) && !(ea.getEType() instanceof EEnum)))){
+					else if( ((lowerBound == 0) && (upperBound == 1)) || ((lowerBound == 1) && (upperBound == 1))){
 						
 						// SET for EAttributes ***************************************************************************/
 						LogUtil.log(LogEvent.NOTICE, "Generating SET : " + eClass.getName() + " attribute "+ ea.getName());
@@ -384,7 +383,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					
 					/********** CHANGE EAttribute value combinations if value type is EEnum  *****************************************************/
 					
-					else if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
+					if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum) && literalSwitching_CHANGE) {
 						
 						EEnum eenum = (EEnum) ea.getEType();
 												
@@ -453,10 +452,6 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							
 						}
 
-					}
-
-					else {
-						System.err.println("FIXME: Case not covered concerning CHANGEs ************************");
 					}
 				}
 			}
@@ -641,20 +636,22 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			}
 			
 			//inter-eRef combinations (switching of EReferences when moving)
-			for(EClass contextA_eRefA: contexts_eRefA) {
-				
-				// get all other EReferences
-				ArrayList<EReference> allOtherEReferences = new ArrayList<EReference>();
-				allOtherEReferences.addAll(contextsMaps.keySet());
-				allOtherEReferences.remove(contextA_eRefA);
-				
-				for(EReference eRefB: allOtherEReferences) {
-					for(EClass contextB_eRefB: contextsMaps.get(eRefB)) {
-						//move eClass to contextA to contextB (switching from eRefA to eRefB)
-						moduleMap.putAll(create_single_MOVE(eClass, eRefA, contextA_eRefA, eRefB, contextB_eRefB));
+			if(referenceSwitching_MOVE) {
+				for(EClass contextA_eRefA: contexts_eRefA) {
+					
+					// get all other EReferences
+					ArrayList<EReference> allOtherEReferences = new ArrayList<EReference>();
+					allOtherEReferences.addAll(contextsMaps.keySet());
+					allOtherEReferences.remove(contextA_eRefA);
+					
+					for(EReference eRefB: allOtherEReferences) {
+						for(EClass contextB_eRefB: contextsMaps.get(eRefB)) {
+							//move eClass to contextA to contextB (switching from eRefA to eRefB)
+							moduleMap.putAll(create_single_MOVE(eClass, eRefA, contextA_eRefA, eRefB, contextB_eRefB));
+						}
 					}
+					
 				}
-				
 			}
 			
 		}	

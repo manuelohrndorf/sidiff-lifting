@@ -93,8 +93,10 @@ public class SergeServiceImpl implements SergeService{
 		generator.setCreateDELETES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
 		currentNode = doc.getElementsByTagName("Moves").item(0);
 		generator.setCreateMOVES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		generator.setReferenceSwitching_MOVE(Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode)));
 		currentNode = doc.getElementsByTagName("Changes").item(0);
 		generator.setCreateCHANGES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		generator.setLiteralSwitching_CHANGE(Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode)));	
 		currentNode = doc.getElementsByTagName("Adds").item(0);
 		generator.setCreateADDS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
 		currentNode = doc.getElementsByTagName("Removes").item(0);
