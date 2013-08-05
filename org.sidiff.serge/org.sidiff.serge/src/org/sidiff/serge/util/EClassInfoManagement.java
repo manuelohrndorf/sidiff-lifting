@@ -1,9 +1,20 @@
 package org.sidiff.serge.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
 
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 
@@ -25,8 +36,8 @@ public class EClassInfoManagement {
 		stereotypeMapping = enableStereotypeMapping;
 	}
 	
-	public void mapConcreteEClassesToAbstractSuperTypes(List<EPackage> ePackages) {
-		for (EPackage ePackage : ePackages) {
+	public void mapConcreteEClassesToAbstractSuperTypes(Stack<EPackage> ePackagesStack) {
+		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;
@@ -41,7 +52,7 @@ public class EClassInfoManagement {
 
 		// check if it has an abstract ESuperType
 		// and add it to abstractToConcreteEClassMap	
-		for (EPackage ePackage : ePackages) {
+		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;			
@@ -57,9 +68,9 @@ public class EClassInfoManagement {
 		}
 	}
 	
-	public void gatherAllEClassInfos(List<EPackage> ePackages) {
+	public void gatherAllEClassInfos(Stack<EPackage> ePackagesStack) {
 				
-		for (EPackage ePackage : ePackages) {
+		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;					
@@ -280,9 +291,9 @@ public class EClassInfoManagement {
 		}
 	}
 	
-	public void linkSubTypesToSuperTypes(List<EPackage> ePackages) {
+	public void linkSubTypesToSuperTypes(Stack<EPackage> ePackagesStack) {
 		
-		for (EPackage ePackage : ePackages) {
+		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;

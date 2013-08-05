@@ -3,8 +3,8 @@ package org.sidiff.serge.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -35,7 +35,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	
 	protected String outputFolderPath  = null;
 	protected String baseModelRuleFolderPath  = null;
-	protected static List<EPackage> ePackages = null;
+	protected static Stack<EPackage> ePackagesStack = null;
 	
 	protected static EClassInfoManagement ecm = null;
 	
@@ -212,8 +212,8 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		
 	}
 	
-	public void setEPackages(List<EPackage> allEPackages) {
-		ePackages = allEPackages;
+	public void setEPackages(Stack<EPackage> stackWithAllEPackages) {
+		ePackagesStack = stackWithAllEPackages;
 		
 	}
 	
@@ -226,9 +226,9 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClass>());
 		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClass>());
 		ecm = EClassInfoManagement.getInstance(enableStereotypeMapping);			
-		ecm.mapConcreteEClassesToAbstractSuperTypes(ePackages);
-		ecm.gatherAllEClassInfos(ePackages);
-		ecm.linkSubTypesToSuperTypes(ePackages);
+		ecm.mapConcreteEClassesToAbstractSuperTypes(ePackagesStack);
+		ecm.gatherAllEClassInfos(ePackagesStack);
+		ecm.linkSubTypesToSuperTypes(ePackagesStack);
 		return ecm;
 	}
 	

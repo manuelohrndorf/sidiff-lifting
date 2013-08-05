@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -43,7 +44,7 @@ import org.w3c.dom.NodeList;
 public class SergeServiceImpl implements SergeService{
 
 	private static AbstractGenerator generator  				= null;
-	private static List<EPackage> ePackages						= new ArrayList<EPackage>();
+	private static Stack<EPackage> ePackagesStack					= new Stack<EPackage>();
 	private static EClassInfoManagement eClassInfoManagement 	= null;
 
 	private static Boolean enableStereotypeMapping				= false;
@@ -137,9 +138,9 @@ public class SergeServiceImpl implements SergeService{
 		String nsUri = String.valueOf(Common.getAttributeValue("nsUri", currentNode));
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
 		generator.setMetaModel(metaModel);
-		ePackages.add(metaModel);
+		ePackagesStack.add(metaModel);
 		try {
-			ePackages.addAll(Common.getAllSubEPackages(metaModel));
+			ePackagesStack.addAll(Common.getAllSubEPackages(metaModel));
 		} catch (EPackageNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -156,8 +157,8 @@ public class SergeServiceImpl implements SergeService{
 				throw new EPackageNotFoundException();
 			}
 			
-			if(!ePackages.contains(reqModel)) {
-				ePackages.add(reqModel);
+			if(!ePackagesStack.contains(reqModel)) {
+				ePackagesStack.add(reqModel);
 			}
 		}
 		
@@ -168,7 +169,7 @@ public class SergeServiceImpl implements SergeService{
 		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
 			//resolve root
-			EClass root = Common.resolveStringAsEClass(rootName, ePackages);
+			EClass root = Common.resolveStringAsEClass(rootName, ePackagesStack);
 			generator.setRoot(root);
 		}
 		generator.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
@@ -181,7 +182,7 @@ public class SergeServiceImpl implements SergeService{
 		gatherAllRequiredEPackages(metaModel, workspace_loc);
 
 		// forward all necessary EPackage to Generator
-		generator.setEPackages(ePackages);
+		generator.setEPackages(ePackagesStack);
 		
 		// initalize EClassInfoManagement
 		eClassInfoManagement = generator.initEClassInfoManagement(enableStereotypeMapping);
@@ -206,7 +207,7 @@ public class SergeServiceImpl implements SergeService{
 				String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
 				String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
 			
-				EClass maskContainer = Common.resolveStringAsEClass(eClassName, ePackages);
+				EClass maskContainer = Common.resolveStringAsEClass(eClassName, ePackagesStack);
 				EAttribute eAttribute = (EAttribute) maskContainer.getEStructuralFeature(eAttributeName);
 				EClassifier valueContainer = eAttribute.getEType();
 				EEnumLiteral valueLiteral = null;
@@ -242,7 +243,7 @@ public class SergeServiceImpl implements SergeService{
 			
 			if(!eClass.equals("")) {
 				//resolve eClass
-				for(EPackage ePackage: ePackages) {
+				for(EPackage ePackage: ePackagesStack) {
 					constrainedEClass = (EClass) ePackage.getEClassifier(eClass);
 					if(constrainedEClass!=null) {
 						//if it's an inherited EAttribute
@@ -300,8 +301,8 @@ public class SergeServiceImpl implements SergeService{
 
 		assert(service!=null) : "Service not found";
 				
-		if(!ePackages.isEmpty()){			
-			ECoreTraversal.traverse(generator, ePackages.toArray(new EPackage[ePackages.size()]));				
+		if(!ePackagesStack.isEmpty()){			
+			ECoreTraversal.traverse(generator, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
 		}else{
 			throw new EPackageNotFoundException();
 		}
@@ -312,14 +313,14 @@ public class SergeServiceImpl implements SergeService{
 
 		// add all sub EPackages to epackages
 		List<EPackage> subPackages = new ArrayList<EPackage>();
-		for(EPackage ep: ePackages) {
+		for(EPackage ep: ePackagesStack) {
 			for(EPackage sub: ep.getESubpackages()) {
-				if(!subPackages.contains(sub) && !ePackages.contains(sub)) {
+				if(!subPackages.contains(sub) && !ePackagesStack.contains(sub)) {
 					subPackages.add(sub);
 				}
 			}
 		}
-		ePackages.addAll(subPackages);
+		ePackagesStack.addAll(subPackages);
 		
 		// try to find unresolved proxies and try to resolve them
 		Map<EObject, Collection<Setting>> map = EcoreUtil.UnresolvedProxyCrossReferencer.find(metaModel);
@@ -347,16 +348,16 @@ public class SergeServiceImpl implements SergeService{
 						EPackage p = (EPackage)eObject;
 						if(!EPackage.Registry.INSTANCE.containsKey(p.getNsURI())) {
 							EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
-							if(!ePackages.contains(p)) {
-								ePackages.add(p);
+							if(!ePackagesStack.contains(p)) {
+								ePackagesStack.add(p);
 							}
 						}
 					}
 				}
 				else{
 					// meta model resolvable. Add relevant packages for visitor pattern
-					if(!ePackages.contains(targetedClassifier.getEPackage())) {
-						ePackages.add(targetedClassifier.getEPackage());
+					if(!ePackagesStack.contains(targetedClassifier.getEPackage())) {
+						ePackagesStack.add(targetedClassifier.getEPackage());
 					}
 				}
 
@@ -378,7 +379,7 @@ public class SergeServiceImpl implements SergeService{
 		generator.setBlackList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringBlackList) {
-			EClass skip = Common.resolveStringAsEClass(eClassName, ePackages);
+			EClass skip = Common.resolveStringAsEClass(eClassName, ePackagesStack);
 			generator.getBlackList().add(skip);
 		}
 		
@@ -398,7 +399,7 @@ public class SergeServiceImpl implements SergeService{
 		generator.setWhiteList(new ArrayList<EClass>());
 		
 		for(String eClassName: stringWhiteList) {
-			EClass eClass = Common.resolveStringAsEClass(eClassName, ePackages);
+			EClass eClass = Common.resolveStringAsEClass(eClassName, ePackagesStack);
 			generator.getWhiteList().add(eClass);
 		}		
 		findMoreRequiredClassifier(generator.getWhiteList());

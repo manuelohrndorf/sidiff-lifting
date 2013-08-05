@@ -28,8 +28,10 @@ import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.ConstraintException;
+import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.util.Common;
 import org.sidiff.serge.util.EClassInfo;
+import org.sidiff.serge.util.EClassInfoManagement;
 import org.sidiff.serge.util.Mask;
 import org.sidiff.serge.util.ModuleFilenamePair;
 
@@ -87,7 +89,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					}
 
 					// Add imports for meta model
-					module.getImports().addAll(ePackages);
+					module.getImports().addAll(ePackagesStack);
 
 					// create rule
 					Rule rule = createBasicRule(module, eRef, eClass, context, null, null);
@@ -239,7 +241,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			module.setName(CREATE_prefix + eClass.getName());
 			
 			// Add imports for meta model
-			module.getImports().addAll(ePackages);
+			module.getImports().addAll(ePackagesStack);
 
 			// create rule
 			Rule rule = createBasicRule(module, null, eClass, null, null, null);
@@ -328,7 +330,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 						Module SET_Module = henshinFactory.createModule();
 
 						// Add imports for meta model
-						SET_Module.getImports().addAll(ePackages);
+						SET_Module.getImports().addAll(ePackagesStack);
 
 						// create rule
 						Rule rule = henshinFactory.createRule();
@@ -414,7 +416,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 								Module CHANGE_Module = henshinFactory.createModule();
 
 								// Add imports for meta model
-								CHANGE_Module.getImports().addAll(ePackages);
+								CHANGE_Module.getImports().addAll(ePackagesStack);
 
 								// create rule
 								Rule rule = henshinFactory.createRule();
@@ -665,7 +667,12 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		// assertions / checks
 		checkModuleFileNameEquality(module, outputFileName);		
 		checkMainUnitIsUnique(module);
-			
+		
+		// kick out unnecessary sub package imports when super package import available
+		// and set main meta-model packages as first import
+		organizeImports(module);
+		
+		// create resource out of module and outputFileName
 		ResourceSet resourceSet = new ResourceSetImpl();
 		URI fileUri = URI.createFileURI(outputFileName);
 		Resource resource = resourceSet.createResource(fileUri);
@@ -684,6 +691,58 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		}
 	}
 
+
+	/**
+	 * This method removes unnecessary imports of EPackages that are
+	 * sub packages of imported super packages. Additionally, this method
+	 * removes all EPackage imports whose model elements have not been used.
+	 * @param module
+	 */
+	private void organizeImports(Module module) {
+
+		// find out which (sub) packages have actually been used (via node type usage)
+		List<EPackage> actuallyUsedEPackages = new ArrayList<EPackage>();
+		for(Rule rule: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
+			List<Node> allNodesInRule = new ArrayList<Node>();
+			allNodesInRule.addAll(rule.getRhs().getNodes());
+			allNodesInRule.addAll(rule.getLhs().getNodes());
+			for(Node node: allNodesInRule) {
+				EPackage usedEPackage = node.getType().getEPackage();
+				if(!actuallyUsedEPackages.contains(usedEPackage)) {
+					actuallyUsedEPackages.add(usedEPackage);
+				}
+			}
+		}
+		
+		// get EPackage of main meta-model
+		EPackage mainMetaModel = ePackagesStack.firstElement();
+		// get sub EPackages of main meta-model
+		List<EPackage> subsOfMain = new ArrayList<EPackage>();
+		try {
+			subsOfMain.addAll(Common.getAllSubEPackages(mainMetaModel));
+		} catch (EPackageNotFoundException e) {
+			e.printStackTrace();
+		}
+	
+		// remove the following EPackages:
+		// a) unused EPackages which are not the EPackage of the meta-model
+		// b) sub EPackages of the meta-model
+		Iterator<EPackage> itImports = module.getImports().iterator();
+		while(itImports.hasNext()) {
+			
+			EPackage currentEPackage = itImports.next();				
+			// if currentEPackage is not the meta-model itself....
+			if(!mainMetaModel.equals(currentEPackage)) {
+				// ..but a sub package of the meta-model			
+				// ..or actually not used: remove it.					
+				boolean actuallyUsed = actuallyUsedEPackages.contains(currentEPackage);
+				if( subsOfMain.contains(currentEPackage) || !actuallyUsed) {
+					itImports.remove();
+				}				
+			}		
+		}
+		
+	}
 
 	private void checkModuleFileNameEquality(Module module,
 			String outputFileName) {
@@ -1075,7 +1134,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		module.setName(moduleName);
 
 		// Add imports for meta model
-		for(EPackage epackage: ePackages) {
+		for(EPackage epackage: ePackagesStack) {
 			module.getImports().add(epackage);
 		}
 		
@@ -1534,7 +1593,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					SET_Module.setDescription("Sets "+eClass.getName()+"'s reference "+eRef.getName()+" the target "+target.getName());
 
 					// add imports
-					SET_Module.getImports().addAll(ePackages);
+					SET_Module.getImports().addAll(ePackagesStack);
 
 					// create rule
 					createBasicRule(SET_Module, eRef, eClass, target, null, null);
@@ -1573,7 +1632,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 							+ " the target "+ target.getName());
 
 					// add imports
-					ADD_Module.getImports().addAll(ePackages);
+					ADD_Module.getImports().addAll(ePackagesStack);
 
 					// create rule
 					createBasicRule(ADD_Module, eRef, eClass, target, null, null);
@@ -1631,7 +1690,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					CHANGE_Module.setDescription("CHANGEs "+eClass.getName() +"'s reference "+ eRef.getName() + " the target "+ target.getName());
 
 					// add imports
-					CHANGE_Module.getImports().addAll(ePackages);
+					CHANGE_Module.getImports().addAll(ePackagesStack);
 
 					// create rule
 					createBasicRule(CHANGE_Module, eRef, eClass, target, null, null);
@@ -1662,7 +1721,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		MOVE_Module.setDescription("MOVEs "+eClass.getName() + " from " + contextA.getName()+"(Reference:"+eRefA.getName()+")"+ " to "+contextB.getName()+"(Reference:"+eRefB.getName());
 
 		// add imports
-		MOVE_Module.getImports().addAll(ePackages);
+		MOVE_Module.getImports().addAll(ePackagesStack);
 		
 		// create rule
 		createBasicRule(MOVE_Module, eRefA, eClass, contextA, eRefB, contextB);
@@ -1708,7 +1767,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		MOVE_Module.setDescription("Moves "+ mask.getName() + " from "+contextA.getName()+"(Reference:" + eRefA.getName()+ ") to "+contextB.getName()+("(Reference:"+eRefB.getName()+")"));
 
 		// add imports
-		MOVE_Module.getImports().addAll(ePackages);
+		MOVE_Module.getImports().addAll(ePackagesStack);
 		
 		// create rule
 		createBasicRule(MOVE_Module, eRefA, mask.getOriginalEClass(), contextA, eRefB, contextB);

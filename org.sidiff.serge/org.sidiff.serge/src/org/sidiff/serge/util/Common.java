@@ -2,6 +2,7 @@ package org.sidiff.serge.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -110,10 +111,10 @@ public class Common {
 		return list;
 	}
 	
-	public static EClass resolveStringAsEClass(String eClassName, List<EPackage> ePackages) throws EClassUnresolvableException{
+	public static EClass resolveStringAsEClass(String eClassName, Stack<EPackage> ePackagesStack) throws EClassUnresolvableException{
 		EClass resolvedEClass = null;
 		
-		for(EPackage ePackage: ePackages) {				
+		for(EPackage ePackage: ePackagesStack) {				
 			resolvedEClass = (EClass) ePackage.getEClassifier(eClassName);
 			if(resolvedEClass!=null) {
 				return resolvedEClass;
