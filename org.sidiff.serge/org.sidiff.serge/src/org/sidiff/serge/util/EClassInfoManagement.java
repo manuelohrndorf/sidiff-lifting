@@ -254,7 +254,7 @@ public class EClassInfoManagement {
 		return concreteEClasses;
 	}
 	
-	public HashMap<EReference,List<EClass>> getAllOptionalParentContext(EClass eClass) {
+	public HashMap<EReference,List<EClass>> getAllOptionalParentContext(EClass eClass, Boolean preferSuperTypes) {
 		
 		HashMap<EReference,List<EClass>> map = new HashMap<EReference, List<EClass>>();
 		
@@ -267,9 +267,48 @@ public class EClassInfoManagement {
 			
 			if(infoOfSuperType!=null) {
 				map.putAll(infoOfSuperType.getOptionalParentContext());
+			}			
+		}
+		
+		// preferSuperTypes==true:
+		// 	drop sub types and use super type (which contains the EReference) instead.
+		if(preferSuperTypes) {
+			for(Entry<EReference,List<EClass>> entry: map.entrySet()) {
+				EReference eRef = entry.getKey();
+				entry.getValue().clear();
+				entry.getValue().add(eRef.getEContainingClass());	
 			}
+		}
+		
+		return map;
+	}
+	
+	public HashMap<EReference,List<EClass>> getAllMandatoryParentContext(EClass eClass, Boolean preferSuperTypes) {
+		
+		HashMap<EReference,List<EClass>> map = new HashMap<EReference, List<EClass>>();
+		
+		// add direct mandatory parent contexts
+		map.putAll(getEClassInfo(eClass).getMandatoryParentContext());
+
+		// add indirect mandatory parent contexts (= superType's parents)
+		for(EClass superType: eClass.getEAllSuperTypes()) {
+			EClassInfo infoOfSuperType = getEClassInfo(superType);
 			
-		}				
+			if(infoOfSuperType!=null) {
+				map.putAll(infoOfSuperType.getMandatoryParentContext());
+			}			
+		}
+		
+		// preferSuperTypes==true:
+		// 	drop sub types and use super type (which contains the EReference) instead.
+		if(preferSuperTypes) {
+			for(Entry<EReference,List<EClass>> entry: map.entrySet()) {
+				EReference eRef = entry.getKey();
+				entry.getValue().clear();
+				entry.getValue().add(eRef.getEContainingClass());	
+			}
+		}
+		
 		return map;
 	}
 	
@@ -353,10 +392,14 @@ public class EClassInfoManagement {
 		
 	}
 	
-	public HashMap<EReference,List<EClass>> getAllParentContexts(EClass eClass) {
+	public HashMap<EReference,List<EClass>> getAllParentContexts(EClass eClass, Boolean preferSuperTypes ) {
 		
 		HashMap<EReference,List<EClass>> map = new HashMap<EReference, List<EClass>>();
 		EClassInfo eClassInfo = getEClassInfo(eClass);
+		
+		map.putAll(getAllOptionalParentContext(eClass, preferSuperTypes));
+		map.putAll(getAllMandatoryParentContext(eClass, preferSuperTypes));
+		
 		// add direct parent contexts
 		map.putAll(eClassInfo.getOptionalParentContext());
 		map.putAll(eClassInfo.getMandatoryParentContext());
@@ -370,7 +413,7 @@ public class EClassInfoManagement {
 				map.putAll(infoOfSuperType.getMandatoryParentContext());
 			}			
 		}
-				
+		
 		return map;
 		
 	}

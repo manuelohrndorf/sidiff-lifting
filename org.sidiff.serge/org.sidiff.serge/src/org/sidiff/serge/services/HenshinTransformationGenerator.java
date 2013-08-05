@@ -59,7 +59,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		if(!profileApplicationInUse || (profileApplicationInUse && !eClassInfo.isStereotype())) {
 
 			/** Create Modules for every parent in which the EClass may exist. ************************************************************/
-			HashMap<EReference, List<EClass>> optionalParents = ecm.getAllOptionalParentContext(eClass);
+			HashMap<EReference, List<EClass>> optionalParents = ecm.getAllOptionalParentContext(eClass, reduceToSuperType_CREATEDELETE);
 			for(Entry<EReference,List<EClass>> pcEntry: optionalParents.entrySet()) {			
 				List<EClass> contexts = pcEntry.getValue();
 				EReference eRef = pcEntry.getKey();
@@ -494,7 +494,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	private HashMap<Module,String> createNameUniquenessLocalConstraint_SET(Module SET_Module, Rule rule, EClass eClass, EAttribute ea, HashMap<Module,String> moduleMap ) {
 		
 		Module origSET_Module = EcoreUtil.copy(SET_Module); //needed otherwise SET_Module will be modified later
-		HashMap<EReference,List<EClass>> map = ecm.getAllParentContexts(eClass);
+		HashMap<EReference,List<EClass>> map = ecm.getAllParentContexts(eClass, reduceToSuperType_SETUNSET);
 		Integer contextCounter = 0;
 
 		for(Entry<EReference, List<EClass>> entry: map.entrySet()) {
@@ -582,12 +582,9 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 		
-		// get all possible contexts and the according references
-		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
-		HashMap<EReference,List<EClass>> combinedContextMap = eClassInfo.getMandatoryParentContext();
-		combinedContextMap.putAll(eClassInfo.getOptionalParentContext());
-		
-		for(EReference eRef: combinedContextMap.keySet()) {
+		// get all possible contexts (mandatory & optional) and the according references
+		HashMap<EReference,List<EClass>> allParents = ecm.getAllParentContexts(eClass, reduceToSuperType_MOVE);		
+		for(EReference eRef: allParents.keySet()) {
 
 			assert(eRef.isContainment()) : "eRef is no containment but should be";
 			
@@ -602,7 +599,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					
 					if (!isAllowed(parent,false))  continue;				
 					
-					moduleMap.putAll(create_MOVE_Combinations(eClass, combinedContextMap));
+					moduleMap.putAll(create_MOVE_Combinations(eClass, allParents));
 				}
 			}
 		}

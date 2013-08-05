@@ -85,7 +85,9 @@ public class SergeServiceImpl implements SergeService{
 		generator.setReduceToSuperType_SETUNSET(Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode)));
 		generator.setReduceToSuperType_ADDREMOVE(Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode)));
 		generator.setReduceToSuperType_CHANGE(Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode)));
-
+		generator.setReduceToSuperType_MOVE(Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode)));
+		generator.setReduceToSuperType_CREATEDELETE(Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode)));
+		
 		// retrieve and set operation types
 		currentNode = doc.getElementsByTagName("Creates").item(0);
 		generator.setCreateCREATES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));

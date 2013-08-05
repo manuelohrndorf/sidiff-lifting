@@ -62,6 +62,8 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected boolean reduceToSuperType_SETUNSET;
 	protected boolean reduceToSuperType_ADDREMOVE;
 	protected boolean reduceToSuperType_CHANGE;
+	protected boolean reduceToSuperType_MOVE;
+	protected boolean reduceToSuperType_CREATEDELETE;
 
 	protected boolean literalSwitching_CHANGE;
 	protected boolean referenceSwitching_MOVE;	
@@ -187,12 +189,20 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	public void setReduceToSuperType_ADDREMOVE(
 			boolean reduceToSuperType_ADDREMOVE) {
 		this.reduceToSuperType_ADDREMOVE = reduceToSuperType_ADDREMOVE;
-	}
+	}	
 
 	public void setReduceToSuperType_CHANGE(boolean reduceToSuperType_CHANGE) {
 		this.reduceToSuperType_CHANGE = reduceToSuperType_CHANGE;
 	}
 
+	public void setReduceToSuperType_MOVE(boolean reduceToSuperType_MOVE) {
+		this.reduceToSuperType_MOVE = reduceToSuperType_MOVE;
+	}
+	
+	public void setReduceToSuperType_CREATEDELETE(boolean reduceToSuperType_CREATEDELETE) {
+		this.reduceToSuperType_CREATEDELETE = reduceToSuperType_CREATEDELETE;
+	}
+	
 	public void setBlackList(ArrayList<EClass> bList) {
 		blackList = bList;
 	}
@@ -320,7 +330,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 				
 				//check if current eClass is the parent of some white listed EClass and therefore necessary
 				for(EClass whiteListedEClass: whiteList) {
-					for(Entry<EReference,List<EClass>> entry: ecm.getAllOptionalParentContext(whiteListedEClass).entrySet()) {
+					for(Entry<EReference,List<EClass>> entry: ecm.getAllOptionalParentContext(whiteListedEClass, false).entrySet()) {
 						if(entry.getValue().contains(eClass)) {
 							requiredForChild = true;
 							break;

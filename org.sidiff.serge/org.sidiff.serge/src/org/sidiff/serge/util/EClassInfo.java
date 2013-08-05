@@ -155,6 +155,7 @@ public class EClassInfo {
 			}
 		return false;
 	}
+	
 	public ArrayList<EClass> getMandatoryContexts() {
 		
 		ArrayList<EClass> mandatoryContexts = new ArrayList<EClass>();
