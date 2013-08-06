@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.sidiff.patching.ui.view.PatchView"
+            id="org.sidiff.patching.ui.view.PatchView"
+            name="Patch"
+            restorable="true">
+      </view>
+      <view
+            class="org.sidiff.patching.ui.view.ReportView"
+            id="org.sidiff.patching.ui.view.ReportView"
+            name="Report"
+            restorable="true">
+      </view>
+   </extension>
+   <extension point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.patching.ui.handler.PatchApplyHandler"
+            id="org.sidiff.patching.ui.handler.PatchApplyHandler"
+            name="Apply Patch">
+      </command>
+      <command
+            defaultHandler="org.sidiff.patching.ui.handler.CopyDiagramLayoutHandler"
+            id="org.sidiff.patching.ui.handler.CopyDiagramLayoutHandler"
+            name="Copy Diagram Layout">
+      </command>
+   </extension>
+   <extension 
+  id="add.item"
+  point="org.eclipse.ui.menus">
+ <menuContribution
+    locationURI= "popup:org.eclipse.ui.popup.any?after=additions">
+    <menu
+       id="org.sidiff.patching.ui.menu"
+       label="Sidiff Patching">
+    </menu>
+ </menuContribution>
+<menuContribution
+    locationURI= "popup:org.sidiff.patching.ui.menu?after=additions">
+    <command
+       commandId="org.sidiff.patching.ui.handler.PatchApplyHandler"
+       label= "Apply Patch">
+    </command>
+    <command
+       commandId="org.sidiff.patching.ui.handler.CopyDiagramLayoutHandler"
+       label= "Copy Diagram Layout">
+       <visibleWhen
+             checkEnabled="true">
+          <count
+                value="2">
+          </count>
+       </visibleWhen>
+    </command>
+</menuContribution>
+</extension>
+   
+</plugin>

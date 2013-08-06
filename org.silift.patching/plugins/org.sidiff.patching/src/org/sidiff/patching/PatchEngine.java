@@ -1,0 +1,447 @@
+package org.sidiff.patching;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.difference.asymmetric.Dependency;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.asymmetric.ParameterMapping;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.difference.rulebase.Parameter;
+import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
+import org.sidiff.patching.exceptions.OperationNotExecutableException;
+import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.exceptions.PatchNotExecuteableException;
+import org.sidiff.patching.report.PatchReport;
+import org.sidiff.patching.report.PatchReport.Status;
+import org.sidiff.patching.report.PatchReport.Type;
+import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.test.EMFValidationTestUnit;
+import org.sidiff.patching.util.PatchUtil;
+
+public class PatchEngine {
+	static Logger logger = Logger.getLogger(PatchEngine.class.getName());
+	private AsymmetricDifference difference;
+	private IPatchCorrespondence correspondence;
+	private List<OperationInvocation> orderedOperations;
+	private Copier copier;
+	private ITransformationEngine transformationEngine;
+	private Resource targetResource;
+	private Resource previewTargetResource;
+	private IValidationUnit testUnit;
+	private EditingDomain previewEditingDomain;
+
+	/**
+	 * The PatchEngine handles manipulations on target model
+	 * 
+	 * @param difference
+	 * @param targetResource
+	 * @param correspondence
+	 * @param transformationEngine
+	 */
+	public PatchEngine(AsymmetricDifference difference, Resource targetResource, IPatchCorrespondence correspondence,
+			ITransformationEngine transformationEngine) {
+		this.difference = difference;
+		this.targetResource = targetResource;
+		this.correspondence = correspondence;
+		this.transformationEngine = transformationEngine;
+
+		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
+		this.correspondence.set(difference.getOriginModel(), targetResource);
+		
+		// initialize preview resource
+		this.copier = new Copier();
+		URI uri = PatchUtil.createURI(targetResource.getURI(), "patched");
+		this.previewTargetResource = PatchUtil.copyWithId(targetResource, uri, true, copier);
+		
+		// initialize test unit
+		this.testUnit = new EMFValidationTestUnit();
+	}
+	
+	public void setPreviewResources(EditingDomain previewEditingDomain, Resource previewTargetResource) {
+		this.previewEditingDomain = previewEditingDomain;
+		this.previewTargetResource = previewTargetResource;
+	}
+
+	/**
+	 * clears preview resource and fills it with target model
+	 */
+	private void resetResourceCopy() {
+		this.copier = new Copier();
+		AbstractCommand command = new AbstractCommand() {
+
+			@Override
+			public void execute() {
+				Resource tmpResource = PatchUtil.copyWithId(targetResource, previewTargetResource.getURI(), true, copier);
+				PatchEngine.this.previewTargetResource.getContents().clear();
+				PatchEngine.this.previewTargetResource.getContents().add(tmpResource.getContents().get(0));
+				PatchEngine.this.transformationEngine.setResource(previewTargetResource);
+			}
+
+			@Override
+			public void redo() {
+				
+			}
+			
+			@Override
+			public boolean canExecute() {
+				return true;
+			}
+		};
+		
+		if (previewEditingDomain!=null) {
+			previewEditingDomain.getCommandStack().execute(command);
+		} else {
+			command.execute();
+		}
+	}
+
+	/**
+	 * Iterates over all OperationInvocations and applies them.
+	 * 
+	 * @return the resulting Resource
+	 * @throws OperationNotExecutableException
+	 * @throws ParameterMissingException
+	 */
+	public PatchResult applyPatch() throws PatchNotExecuteableException {
+		assert previewEditingDomain == null: "applyPatch only available without preview!";
+		resetResourceCopy();
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			if (operationInvocation.isApply()) {
+				try {
+					apply(operationInvocation);
+				} catch (OperationNotExecutableException e) {
+					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
+				} catch (ParameterMissingException e) {
+					throw new PatchNotExecuteableException(e.getMessage());
+				}
+			} else {
+				logger.log(Level.INFO, "Skipping operation " + operationInvocation.getChangeSet().getName());
+			}
+		}
+		PatchReport report = new PatchReport();
+		validateModel(report);
+		return new PatchResult(this.previewTargetResource, report);
+	}
+	
+	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
+		resetResourceCopy();
+		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
+		int previousErrors = initialErrors;
+		PatchReport report = new PatchReport();
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			if (operationInvocation.isApply()) {
+				try {
+					apply(operationInvocation);
+					int currentErrors = getValidationErrorAmount(this.previewTargetResource);
+					if (previousErrors != currentErrors) {
+						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
+						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation.getChangeSet().getName(), initialErrors);
+						report.add(operationInvocation, new ReportEntry(Status.WARNING, Type.VALIDATION, message));
+					}
+					previousErrors = currentErrors;
+				} catch (OperationNotExecutableException e) {
+					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
+				} catch (ParameterMissingException e) {
+					throw new PatchNotExecuteableException(e.getMessage());
+				}
+			} else {
+				logger.log(Level.INFO, "Skipping operation " + operationInvocation.getChangeSet().getName());
+			}
+		}
+		return new PatchResult(this.previewTargetResource, report);
+	}
+
+	private int getValidationErrorAmount(Resource resource) {
+		Collection<ReportEntry> validationReport = testUnit.test(resource);
+		int amount = 0;
+		for (ReportEntry reportEntry : validationReport) {
+			Status status = reportEntry.getStatus();
+			if (status == Status.WARNING || status == Status.FAILED) {
+				amount++;
+			}
+		}
+		return amount;
+	}
+
+	private synchronized void apply(OperationInvocation operationInvocation) throws ParameterMissingException, OperationNotExecutableException {
+		Map<String, Object> parameters = getParameters(operationInvocation.getParameterBindings());
+		Map<String, EObject> resultMap = transformationEngine.execute(operationInvocation, parameters);
+		// Exceptions do not set return values.
+		// If they set null depending operations wont be executable
+		// but UI will be ugly because of lacking a return name
+		// Skip depending operations will be observed in checkExecutable()
+		setResult(operationInvocation.getParameterBindings(), resultMap);
+	}
+
+	/**
+	 * Finds parameter values and put them into a map with its formal name
+	 * 
+	 * @param parameterBindings
+	 * @return
+	 */
+	private Map<String, Object> getParameters(List<ParameterBinding> parameterBindings) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		for (ParameterBinding binding : parameterBindings) {
+			Parameter parameter = binding.getFormalParameter();
+			String parameterName = parameter.getName();
+			if (binding instanceof ObjectParameterBinding) {
+				ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
+				if (parameter.getDirection() == ParameterDirection.IN) {
+					EObject actualA = objectBinding.getActualA();
+					// actualA is null if the IN Parameter depends on a OUT
+					// Parameter of a previous operation.
+					EObject eObject;
+					if (actualA == null) {
+						eObject = getIncomingParameter(objectBinding);
+					} else {
+						eObject = getCorrespondence(actualA);
+					}
+					logger.log(Level.FINE, "Binding objectParameter " + parameterName + " to " + eObject);
+					parameters.put(parameterName, eObject);
+				}
+			} else if (binding instanceof ValueParameterBinding) {
+				ValueParameterBinding valueBinding = (ValueParameterBinding) binding;
+				logger.log(
+						Level.FINE,
+						"Setting valueParameter " + parameterName + " to "
+								+ valueBinding.getActual());
+				parameters.put(parameterName, valueBinding.getActual());
+			}
+		}
+		return parameters;
+	}
+
+	/**
+	 * Sets the result object of an operation execution to the parameter mapping
+	 * 
+	 * @param parameterBindings
+	 * @param resultMap
+	 */
+	private void setResult(EList<ParameterBinding> parameterBindings, Map<String, EObject> resultMap) {
+		for (ParameterBinding binding : parameterBindings) {
+			if (binding instanceof ObjectParameterBinding) {
+				ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) binding;
+				if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
+					String formalName = binding.getFormalName();
+					EObject eObject = resultMap.get(formalName);
+					objectParameterBinding.setActualB(eObject);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns an object set by a previous operation result
+	 * 
+	 * @param objectBinding
+	 * @return
+	 */
+	private EObject getIncomingParameter(ObjectParameterBinding objectBinding) {
+		for (ParameterMapping parameterMapping : difference.getParameterMappings()) {
+			if (parameterMapping.getTarget().equals(objectBinding)) {
+				return parameterMapping.getSource().getActualB();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the resource copy object corresponding to the object found by
+	 * correspondence service
+	 * 
+	 * @param eObject
+	 * @return correspondence eObject of resource copy
+	 */
+	private EObject getCorrespondence(EObject eObject) {
+		EObject corEObject = correspondence.getCorrespondence(eObject);
+		if (corEObject != null) {
+			EObject cpEObject = copier.get(corEObject);
+			if (cpEObject != null) {
+				return cpEObject;
+			} else {
+				// Probably an "external" Object
+				return corEObject;
+			}
+
+		}
+		// No correspondence
+		return null;
+	}
+
+	/**
+	 * Runs over all OperationInvocations and creates a report about failed and
+	 * passed checks.
+	 * 
+	 * @return
+	 */
+	public PatchReport createPatchReport() {
+		PatchReport report = new PatchReport();
+
+		resetResourceCopy();
+
+		checkParameter(report);
+
+		checkExecutable(report);
+
+		validateModel(report);
+
+		return report;
+	}
+
+	/**
+	 * Checks availability of needed parameters
+	 * 
+	 * @param report
+	 * 
+	 * @param operationInvocation
+	 * 
+	 * @throws ParameterMissingException
+	 */
+	private void checkParameter(PatchReport report) {
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			Collection<ReportEntry> result = new ArrayList<ReportEntry>();
+			if (operationInvocation.isApply()) {
+				parameter: for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
+					Parameter formalParameter = parameterBinding.getFormalParameter();
+					if (formalParameter.getDirection() == ParameterDirection.IN) {
+						if (parameterBinding instanceof ObjectParameterBinding) {
+							ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
+
+							// Sorting out IN parameters depending on previous
+							// operations
+							for (ParameterMapping mapping : difference.getParameterMappings()) {
+								if (mapping.getTarget().equals(objectParameterBinding)) {
+									continue parameter;
+								}
+							}
+
+							EObject binding = getCorrespondence(objectParameterBinding.getActualA());
+							if (binding == null) {
+								result.add(new ReportEntry(Status.FAILED, Type.PARAMETER, new ParameterMissingException(
+										operationInvocation.getChangeSet().getName(), formalParameter.getName())));
+							} else {
+								result.add(new ReportEntry(Status.PASSED, Type.PARAMETER,
+										"ObjectParameter \"" + formalParameter.getName() + "\" is set!"));
+							}
+						}
+					}
+				}
+			} else {
+				result.add(new ReportEntry(Status.SKIPPED, Type.PARAMETER, operationInvocation.getChangeSet().getName()));
+			}
+			report.add(operationInvocation, result);
+		}
+	}
+
+	/**
+	 * Checks executability of henshin
+	 * 
+	 * @param report
+	 * 
+	 * @param operationInvocation
+	 * @throws HenshinExecutionFailedException
+	 */
+	private void checkExecutable(final PatchReport report) {
+		AbstractCommand command = new AbstractCommand() {
+			@Override
+			public void execute() {
+				// Executed operations must be stored to skip operations depending on failed executions
+				Set<OperationInvocation> executed = new HashSet<OperationInvocation>();
+				for (OperationInvocation operationInvocation : orderedOperations) {
+					ReportEntry reportEntry;
+					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, executed)) {
+						try {
+							apply(operationInvocation);
+							reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+							executed.add(operationInvocation);
+						} catch (Exception e) {
+							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
+						}
+					} else {
+						reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+					}
+					report.add(operationInvocation, reportEntry);
+				}
+			}
+			
+			@Override
+			public boolean canExecute() {
+				return true;
+			}
+
+			@Override
+			public void redo() {
+				
+			}
+			
+		};
+		if (previewEditingDomain!=null) {
+			previewEditingDomain.getCommandStack().execute(command);
+		} else {
+			command.execute();
+		}
+	}
+
+	private synchronized boolean isOutgoingExecuted(OperationInvocation operationInvocation, Set<OperationInvocation> executed) {
+		for (Dependency dependency : operationInvocation.getOutgoing()) {
+			OperationInvocation incomingOperation = dependency.getTarget();
+			if (!executed.contains(incomingOperation)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void validateModel(PatchReport report) {
+		Collection<ReportEntry> entries = testUnit.test(this.previewTargetResource);
+		report.add(entries);
+	}
+
+	public AsymmetricDifference getDifference() {
+		return difference;
+	}
+
+	public IPatchCorrespondence getCorrespondence() {
+		return correspondence;
+	}
+	
+	public class PatchResult {
+
+		private Resource patchedResource;
+		private PatchReport report;
+
+		public PatchResult(Resource resource, PatchReport report) {
+			this.patchedResource = resource;
+			this.report = report;
+		}
+
+		public Resource getPatchedResource() {
+			return patchedResource;
+		}
+		
+		public PatchReport getReport() {
+			return report;
+		}
+		
+	}
+
+}
