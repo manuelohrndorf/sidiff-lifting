@@ -282,93 +282,141 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	 * The parameter asPivot should be TRUE, if the main focus of
 	 * the generatable transformation lies on that eClass (meaning the eClass is
 	 * not just a mandatory or optional dangling model element).
+	 * If preferSupertypes==true, then sub types will be denied.
 	 * @param eClass
 	 * @param asPivot
+	 * @param preferSupertypes
 	 * @return
 	 */
-	protected static boolean isAllowed(EClass eClass, Boolean asPivot) {
+	protected static boolean isAllowed(EClass eClass, Boolean asPivot, Boolean preferSupertypes) {
 		
 		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
 		
 		boolean blackListed	= blackList.contains(eClass);
 		boolean whiteListed	= whiteList.contains(eClass);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean requiredForFeatureInheritance = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
+		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
+		boolean requiredByNeighbours = false;
+		boolean requiredByParents = false;	
+		boolean requiredByChildren = false;
 
 		
 		
 		//in case use of EClass is in its own context ---------------------------------------------/
-		if(asPivot) {			
-
+		if(asPivot) {
 			if(whiteListed
-					|| requiredForFeatureInheritance
+					|| providesFeaturesForSubtypes
 					|| (blackListed==false && assumeAllOnWhitelist)) {
 				return true;
 			}else{
 				return false;
-			}
-
-			
-		}//in case use of EClass is inside another context (as neighbour or child or as parent) --/
+			}		
+		}
+		
+		//in case use of EClass is inside another context (as neighbour or child or as parent) --/
 		else{
 			
-			if(preventInconsistencyThroughSkipping){				
-				boolean requiredForContexts = false;
-				boolean requiredForChild = false;
-				
-				//check if one of the mandatory contexts of this EClass is white listed or implicitly
-				//required. If so this EClass is necessary too.					
-				for(EClass mandatoryContext: eClassInfo.getMandatoryContexts()) {			
+			// hard cutoff classifiers
+			if(!preventInconsistencyThroughSkipping){
+				if(blackListed) { //hard cut
+					return false;
+				}
 
-					if( whiteList.contains(mandatoryContext)
-							|| implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(mandatoryContext)
-							|| (blackList.contains(mandatoryContext)==false && assumeAllOnWhitelist)) {
-						requiredForContexts =  true;
-						break;
+			// soft cutoff classifiers
+			}else {
+				
+				/*** check if eClass is required by white listed incoming neighbour contexts *************************/
+				
+				for(Entry<EReference, List<EClass>> entry: eClassInfo.getMandatoryNeighbourContext().entrySet()) {
+
+					// find out if reference is pointing to eClass or to a super type of the eClass
+					EReference eRef = entry.getKey();
+					boolean eClassIsDirectTarget = eRef.getEType().equals(eClass);		
+					
+					for(EClass mnc: entry.getValue()) {										
+						
+						if(eClassIsDirectTarget && whiteList.contains(mnc)) {
+							requiredByNeighbours = true;
+							break;
+						}
+						else if(!eClassIsDirectTarget && whiteList.contains(mnc) && !preferSupertypes) {
+							requiredByNeighbours = true;
+							break;
+						}					
+					}		
+				}
+
+				/*** check if eClass is required by white listed incoming parent contexts ****************************/
+				
+				for(Entry<EReference, List<EClass>> entry: eClassInfo.getMandatoryParentContext().entrySet()) {
+
+					// find out if reference is pointing to eClass or to a super type of the eClass
+					EReference eRef = entry.getKey();
+					boolean eClassIsDirectTarget = eRef.getEType().equals(eClass);		
+					
+					for(EClass mpc: entry.getValue()) {										
+						
+						if(eClassIsDirectTarget && whiteList.contains(mpc)) {
+							requiredByParents = true;
+							break;
+						}
+						else if(!eClassIsDirectTarget && whiteList.contains(mpc) && !preferSupertypes) {
+							requiredByParents = true;
+							break;
+						}					
 					}		
 				}
 				
-				//check if current eClass is the parent of some white listed EClass and therefore necessary
+				/*** check if eClass is required by white listed children ****************************************************/
+				
 				for(EClass whiteListedEClass: whiteList) {
-					for(Entry<EReference,List<EClass>> entry: ecm.getAllOptionalParentContext(whiteListedEClass, false).entrySet()) {
-						if(entry.getValue().contains(eClass)) {
-							requiredForChild = true;
-							break;
+					for(Entry<EReference,List<EClass>> entry: ecm.getAllParentContext(whiteListedEClass, false).entrySet()) {
+						EReference eRefChildToParent = entry.getKey().getEOpposite();
+						if(eRefChildToParent!=null) {
+							int lb = eRefChildToParent.getLowerBound();
+							int ub = eRefChildToParent.getUpperBound();
+							boolean notFixedAndRequired = (ub-lb>0) && lb>0;
+
+							if(notFixedAndRequired) {					
+
+								List<EClass> parentContexts = entry.getValue();
+								if(parentContexts.contains(eClass)) {
+									requiredByChildren = true;
+									break;
+								}						
+							}
+							
 						}
 					}
-					if(requiredForChild) break;
 				}
 				
-				if(whiteListed
-						|| requiredForFeatureInheritance
-						|| requiredForChild
-						|| requiredForContexts
+				/** decide ****************************************************************************************************/	
+				
+				if(	whiteListed
+						|| requiredByChildren
+						|| requiredByNeighbours
+						|| requiredByParents
 						|| (blackListed==false && assumeAllOnWhitelist)) {
 					return true;
 				}
 				else{
 					return false;
 				}
-			}else{ //preventInconsistencyThroughSkipping==false
-				if(blackListed) { //hard cut
-					return false;
-				}
-			}
-			
+			}			
 		}		
 		return true;
 	}
 
 	
 	/**
-	 * Checks whether an EClass is only implicitly required because it inherits its features
-	 * to sub types which are white listed. Implicitly required EClasses do not need CREATE/DELETES.
-	 * Only the SET/MOVE/ADD/CHANGE transformations.
+	 * Checks whether an EClass is implicitly required because it inherits its features
+	 * to sub types which are white listed. Implicitly required EClasses are not required in CREATE/DELETES.
+	 * Only in SET/ADD/CHANGE transformations.
 	 * @param eClass
 	 * @return
 	 */
-	protected static boolean isOnlyImplicitlyRequiredForFeatureInheritance(EClass eClass) {
-		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass) && !whiteList.contains(eClass)) {
+	protected static boolean isImplicitlyRequiredForFeatureInheritance(EClass eClass) {
+		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass)) {
 			return true;
 		}
 		return false;

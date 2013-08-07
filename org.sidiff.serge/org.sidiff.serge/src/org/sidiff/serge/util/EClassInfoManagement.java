@@ -312,6 +312,14 @@ public class EClassInfoManagement {
 		return map;
 	}
 	
+	public HashMap<EReference,List<EClass>> getAllParentContext(EClass eClass, Boolean preferSuperTypes) {
+		HashMap<EReference,List<EClass>> map = new HashMap<EReference,List<EClass>>();
+		
+		map.putAll(getAllMandatoryParentContext(eClass, preferSuperTypes));
+		map.putAll(getAllOptionalParentContext(eClass, preferSuperTypes));		
+		
+		return map;
+	}
 	
 	public boolean hasMultipleOccurences(EClass context, HashMap<EReference,List<EClass>> map) {
 		int count = 0;

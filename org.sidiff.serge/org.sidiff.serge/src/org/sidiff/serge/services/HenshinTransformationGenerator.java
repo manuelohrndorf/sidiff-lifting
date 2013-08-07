@@ -51,8 +51,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		// return on the following conditions
 		if (!eClassInfo.selfMayHaveTransformations()) return;
 		if ((isRoot(eClass) && !rootEClassCanBeNested)) return;
-		if (!isAllowed(eClass,true)) return;
-		if (isOnlyImplicitlyRequiredForFeatureInheritance(eClass)) return;
+		if (!isAllowed(eClass,true,reduceToSuperType_CREATEDELETE)) return;
 		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
 		if (!createCREATES) return;
 
@@ -66,7 +65,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 				for(EClass context: contexts) {
 
-					if (!isAllowed(context,false)) continue;
+					if (!isAllowed(context,false,reduceToSuperType_CREATEDELETE)) continue;
 
 					// Create file name and Module				
 					Module module = henshinFactory.createModule();
@@ -271,7 +270,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		
 		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
 		
-		if (!(isAllowed(eClass,true) || isOnlyImplicitlyRequiredForFeatureInheritance(eClass)))  return;
+		if (!(isAllowed(eClass,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClass)))  return;
 		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
@@ -473,7 +472,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 						EClass targetType = (EClass)eRef.getEType();
 
-						if (!isAllowed(targetType,false))  continue;
+						if (!isAllowed(targetType,false,false))  continue;
 
 						// create module(s) to modify the reference
 						moduleMap.putAll(createModuleToModifyReference(eRef, eClass, targetType));
@@ -577,13 +576,14 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	@Override
 	public void generate_MOVE_Module(EClass eClass) throws ConstraintException {
 		
-		if (!isAllowed(eClass,true) || createMOVES==false)  return;
+		if (!isAllowed(eClass,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 		if (profileApplicationInUse && ecm.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 		
 		// get all possible contexts (mandatory & optional) and the according references
-		HashMap<EReference,List<EClass>> allParents = ecm.getAllParentContexts(eClass, reduceToSuperType_MOVE);		
+		HashMap<EReference,List<EClass>> allParents = ecm.getAllParentContexts(eClass, reduceToSuperType_MOVE);
+		HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
 		for(EReference eRef: allParents.keySet()) {
 
 			assert(eRef.isContainment()) : "eRef is no containment but should be";
@@ -597,12 +597,20 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					
 					EClass parent = (EClass) eRef.eContainer();
 					
-					if (!isAllowed(parent,false))  continue;				
-					
-					moduleMap.putAll(create_MOVE_Combinations(eClass, allParents));
+					// if parent is allowed, put it in allAllowedParent-List
+					if (isAllowed(parent,false,reduceToSuperType_MOVE)) {
+						if(allAllowedParents.get(eRef)==null) {
+							List<EClass> newParentList = new ArrayList<EClass>();
+							newParentList.add(parent);
+							allAllowedParents.put(eRef, newParentList);
+						}else{
+							allAllowedParents.get(eRef).add(parent);
+						}
+					}				
 				}
 			}
 		}
+		moduleMap.putAll(create_MOVE_Combinations(eClass, allAllowedParents));
 				
 		// serialize
 		for(Entry<Module,String> entry: moduleMap.entrySet()) {	
@@ -1020,7 +1028,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			
 			for(EClass child: children) {
 
-				if (!isAllowed(child,false))  continue;
+				if (!isAllowed(child,false,false))  continue;
 				
 				for(int i=0; i<eRef.getLowerBound();i++) {
 
@@ -1060,7 +1068,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 			
 			for(EClass neighbour: neighbours) {
 
-				if (!isAllowed(neighbour,false))  continue;
+				if (!isAllowed(neighbour,false,false))  continue;
 				
 				// check if neighbours have already been created to its maximum lowerBound and skip if so
 				// else allow creation of neigbour
@@ -1486,7 +1494,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 				
 				for(EClass replacement: replacements) {
 					
-					if (!isAllowed(replacement,false))  continue;
+					if (!isAllowed(replacement,false,false))  continue;
 					
 					System.out.println("Replacing: "+replacement.getName()+" for " + typeOfReplacable.getName() +" in originally "+ origModule.getName());					
 					
@@ -2222,7 +2230,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 
 					for(EClass replacement: replacements) {
 
-						if (!isAllowed(replacement,false))  continue;
+						if (!isAllowed(replacement,false,false))  continue;
 
 						// create copy
 						Module copy = EcoreUtil.copy(origModule);	

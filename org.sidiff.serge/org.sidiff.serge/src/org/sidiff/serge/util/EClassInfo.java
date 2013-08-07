@@ -156,16 +156,17 @@ public class EClassInfo {
 		return false;
 	}
 	
-	public ArrayList<EClass> getMandatoryContexts() {
+	/**
+	 * This convenience method returns all mandatory parent contexts and all mandatory neighbour contexts.
+	 * @return
+	 * 			HashMap of EReferences (EReferences from context to EClass) and lists of EClasses (contexts).
+	 */
+	public HashMap<EReference, List<EClass>> getMandatoryContexts() {
 		
-		ArrayList<EClass> mandatoryContexts = new ArrayList<EClass>();
+		HashMap<EReference, List<EClass>> mandatoryContexts = new  HashMap<EReference, List<EClass>>();
 		
-		for(Entry<EReference, List<EClass>> entry: getMandatoryParentContext().entrySet()) {
-			mandatoryContexts.addAll(entry.getValue());
-		}		
-		for(Entry<EReference, List<EClass>> entry: getMandatoryNeighbourContext().entrySet()) {
-			mandatoryContexts.addAll(entry.getValue());
-		}
+		mandatoryContexts.putAll(getMandatoryParentContext());
+		mandatoryContexts.putAll(getMandatoryNeighbourContext());
 		
 		return mandatoryContexts;
 	}
