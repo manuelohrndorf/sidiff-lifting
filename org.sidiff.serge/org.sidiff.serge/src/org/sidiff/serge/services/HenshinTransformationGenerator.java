@@ -982,7 +982,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 					prioUnit.getParameterMappings().add(selEObjectMapping);
 				}
 				// == new / out-parameter
-				else if(p.getName().matches("New[0-9]*")) {
+				else if(p.getName().matches("New[0-9]*") || p.getName().matches("Child[0-9]*")) {
 					ParameterMapping pm = henshinFactory.createParameterMapping();
 					pm.setSource(p);
 					pm.setTarget(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));

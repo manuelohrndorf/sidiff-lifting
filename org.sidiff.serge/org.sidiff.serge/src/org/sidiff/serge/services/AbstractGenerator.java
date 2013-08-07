@@ -278,11 +278,28 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	/***** protected, convenience Methods  ************************************************************/
 
 	/**
-	 * Checks whether an eClass is part of the blackList or on whiteList or required in other ways.
-	 * The parameter asPivot should be TRUE, if the main focus of
-	 * the generatable transformation lies on that eClass (meaning the eClass is
-	 * not just a mandatory or optional dangling model element).
-	 * If preferSupertypes==true, then sub types will be denied.
+	 * Checks whether an EClass is allowed to be used by configuration details:<br /> <br />
+	 * Set the parameter asPivot to true, if the focus of the transformation lies on the
+	 * given EClass (e.g. CREATE_Operation..., or SET_Operation_Name, MOVE_OperationInClass; Here the focus lies on Operation).
+	 * Set it to false, if the focus does not lie on the given EClass (e.g. CREATE_ParameterInOperation).
+	 * <br /><br />
+	 * Set preferSuperTypes to true, if EClasses that are sub types of white listed super types shall be denied. 
+	 * <br /><br />
+	 * An EClass can also be denied if the global variable preventInconsistency is false and EClass is blackListed (hard cutoff)<br/>
+	 * An EClass can be allowed if preventInconsistency is true:<br />
+	 * 1. nothing is on the white list and nothing is on the blacklist<br />
+	 * 2. nothing is on the white list and EClasses other than this are blacklisted<br />
+	 * 3. white list is not empty and current EClass is not blacklisted<br />
+	 * 4. EClass is implicitly required by white listed EClasses (only if asPivot==false)<br />
+	 * 5. EClass is implicitly required by not white listed but recursively required EClasses (only if asPivot==false) //TODO<br />
+	 * 6. EClass is required by incoming neighbour references of white listed EClasses<br />
+	 * 7. EClass is required by incoming neighbour references of recursively required EClasses //TODO<br />
+	 * 8. EClass is required by incoming parent references of white listed EClasses<br />
+	 * 9. EClass is required by incoming parent references of recursively required EClasses<br />
+ 	 * 10. EClass is required by incoming child references of white listed EClasses<br />
+ 	 * 11. EClass is required by incoming child references of recursively required EClasses //TODO<br />
+ 	 * 12. more? //TODO
+	 * 
 	 * @param eClass
 	 * @param asPivot
 	 * @param preferSupertypes
