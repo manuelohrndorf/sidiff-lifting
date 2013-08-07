@@ -77,7 +77,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	
 	protected String rootName;
 	protected static EClass root;
-	protected Boolean rootEClassCanBeNested;
+	protected static Boolean rootEClassCanBeNested;
 	
 	protected Boolean profileApplicationInUse;
 	protected Boolean disableVariants;
@@ -431,6 +431,16 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	 */	
 	protected static boolean isRoot(EClass eClass) {
 		return root==eClass;
+	}
+	
+	/**
+	 * Checks whether a configured root element is configured to be nested
+	 * (Example: The children of the root StateMachine can contain further sub-StateMachines)
+	 * @param eClass
+	 * @return
+	 */
+	protected static boolean rootCanBeNested(EClass eClass) {
+		return rootEClassCanBeNested;
 	}
 	
 	/**

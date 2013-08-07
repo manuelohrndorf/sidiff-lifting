@@ -53,6 +53,7 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		if ((isRoot(eClass) && !rootEClassCanBeNested)) return;
 		if (!isAllowed(eClass,true,reduceToSuperType_CREATEDELETE)) return;
 		if (profileApplicationInUse && eClassInfo.isExtendedMetaClass() && !isRoot(eClass)) return;
+		if (isRoot(eClass) && !rootCanBeNested(eClass)) return;
 		if (!createCREATES) return;
 
 		if(!profileApplicationInUse || (profileApplicationInUse && !eClassInfo.isStereotype())) {
@@ -580,8 +581,11 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 	@Override
 	public void generate_MOVE_Module(EClass eClass) throws ConstraintException {
 		
+		EClassInfo eci = ecm.getEClassInfo(eClass);
+		
 		if (!isAllowed(eClass,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
-		if (profileApplicationInUse && ecm.getEClassInfo(eClass).isExtendedMetaClass() && !isRoot(eClass)) return;
+		if (profileApplicationInUse && eci.isExtendedMetaClass() && !isRoot(eClass)) return;
+		if (isRoot(eClass) && !rootCanBeNested(eClass)) return;
 		
 		HashMap<Module,String> moduleMap = new HashMap<Module,String>();
 		
