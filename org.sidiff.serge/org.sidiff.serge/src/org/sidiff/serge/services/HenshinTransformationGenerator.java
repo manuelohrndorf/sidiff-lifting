@@ -495,10 +495,14 @@ public class HenshinTransformationGenerator extends AbstractGenerator {
 		Module origSET_Module = EcoreUtil.copy(SET_Module); //needed otherwise SET_Module will be modified later
 		HashMap<EReference,List<EClass>> map = ecm.getAllParentContexts(eClass, reduceToSuperType_SETUNSET);
 		Integer contextCounter = 0;
-
+		
 		for(Entry<EReference, List<EClass>> entry: map.entrySet()) {
 			EReference eRef = entry.getKey();
 			for(EClass context: entry.getValue()) {
+				
+				//check if parent is allowed at all
+				if(!isAllowed(context, false, reduceToSuperType_SETUNSET)) continue;
+				
 				// if its not the first or the only context, a new Module must be created for each context
 				String nameExtensionForConstraint = "";
 				if(contextCounter>0) { 
