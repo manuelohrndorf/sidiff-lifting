@@ -14,6 +14,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.ParameterValueList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -30,7 +31,7 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
 /**
  * Transformation Engine based on calling Henshin Transformator.
  * 
- * @author Dennis Koch
+ * @author Dennis Koch, kehrer
  * 
  */
 public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
@@ -43,13 +44,13 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	}
 
 	@Override
-	public Map<String, EObject> execute(OperationInvocation operationInvocation, Map<String, Object> inputParameters)
+	public Map<String, Object> execute(OperationInvocation operationInvocation, Map<String, Object> inputParameters)
 			throws ParameterMissingException, OperationNotExecutableException {
-		assert (graph != null) : "Model not set and therefor no EGraph!";
+		assert (graph != null) : "Model not set and therefore no EGraph!";
 		String operationName = operationInvocation.getChangeSet().getName();
 		LOGGER.log(Level.FINE, "Executing operation " + operationName);
 
-		// hard binding between operation and henshin should be splited
+		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)
 		EditRule editRule = operationInvocation.resolveEditRule();
 		Unit unit = editRule.getExecuteMainUnit();
@@ -57,10 +58,11 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		UnitApplication application = new UnitApplicationImpl(engine);
 		application.setEGraph(graph);
 		application.setUnit(unit);
-		
-		//Setting the parameter values
-		for(String str : inputParameters.keySet()){
-			application.setParameterValue(str, inputParameters.get(str));
+
+		// Setting the parameter values
+		for (String str : inputParameters.keySet()) {
+			Object argument = getArgument(str, inputParameters);
+			application.setParameterValue(str, argument);
 		}
 
 		List<String> missingParameters = new ArrayList<String>();
@@ -70,26 +72,22 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 				Object object = inputParameters.get(parameterName);
 				if (object == null && ruleParameter.getKind() == ParameterKind.OBJECT) {
 					missingParameters.add(parameterName);
-				}
-				application.setParameterValue(parameterName, object);
+				}				
 			}
 		}
 		if (!missingParameters.isEmpty()) {
-			throw new ParameterMissingException(operationName, missingParameters.toArray(new String[missingParameters.size()]));
+			throw new ParameterMissingException(operationName, missingParameters.toArray(new String[missingParameters
+					.size()]));
 		}
 
-		Map<String, EObject> outputMap = new HashMap<String, EObject>();
+		Map<String, Object> outputMap = new HashMap<String, Object>();
 		if (application.execute(null)) {
 			for (ParameterBinding binding : operationInvocation.getParameterBindings()) {
 				if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
 					if (binding instanceof ObjectParameterBinding) {
 						String formalName = binding.getFormalName();
 						Object parameterValue = application.getResultParameterValue(formalName);
-						if (parameterValue instanceof EObject) {
-							outputMap.put(formalName, (EObject) parameterValue);
-						} else {
-							LOGGER.log(Level.SEVERE, "OutputValue is not an EObject!");
-						}
+						outputMap.put(formalName, (EObject) parameterValue);
 					}
 				}
 			}
@@ -97,5 +95,30 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 			throw new OperationNotExecutableException(operationName);
 		}
 		return outputMap;
+	}
+
+	/**
+	 * On demand, a usual list of arguments is converted into a
+	 * ParameterValueList which is used by our own Henshin implementation which
+	 * handles parameter lists. All other kinds of parameters, i.e. single
+	 * object parameters and value parameters, are just returned as they are.
+	 * 
+	 * @param formal
+	 * @param inputParameters
+	 * @return
+	 */
+	private Object getArgument(String formal, Map<String, Object> inputParameters) {
+		Object argument = inputParameters.get(formal);
+		if (argument instanceof List){
+			List commonList = (List) argument;
+			ParameterValueList pvl = new ParameterValueList();
+			for (Object object : commonList) {
+				pvl.add(object);
+			}
+			return pvl;
+			
+		} else {
+			return argument;
+		}
 	}
 }

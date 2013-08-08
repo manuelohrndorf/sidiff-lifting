@@ -31,7 +31,7 @@ public interface ITransformationEngine {
 	 * @throws ParameterMissingException
 	 * @throws OperationNotExecutableException
 	 */
-	public Map<String, EObject> execute(OperationInvocation operationInvocation, Map<String, Object> parameters)
+	public Map<String, Object> execute(OperationInvocation operationInvocation, Map<String, Object> parameters)
 			throws ParameterMissingException, OperationNotExecutableException;
 
 }
