@@ -19,8 +19,8 @@ import org.eclipse.emf.henshin.model.Unit;
 /**
  * Utility functions for Henshin parameters.
  * 
+ * @author kehrer, mohrndorf, cpietsch
  */
-//TODO: Comment this class
 public class ParameterInfo {
 
 	public enum ParameterDirection {
@@ -32,8 +32,12 @@ public class ParameterInfo {
 	};
 
 	/**
-	 * Prüft, ob Parameter ein IN, OUT oder INOUT Parameter ist.
-	 * Ausschlaggebend dafür sind die ParameterMappings der Unit.
+	 * Prüft, ob Parameter ein IN Parameter oder ein OUT Parameter ist.
+	 * Ausschlaggebend dafür sind die ParameterMappings der Unit. <br/>
+	 * 
+	 * 
+	 * Anmerkung: Die frühere Ausprägung INOUT ist obsolet; INOUT Parameter
+	 * werden als IN Parameter angesehen.
 	 * 
 	 * @param parameter
 	 * @return
@@ -43,36 +47,33 @@ public class ParameterInfo {
 
 		boolean in = false;
 		boolean out = false;
-		
+
 		// Go through the parameter mappings
 		for (ParameterMapping mapping : mappings) {
 			if (mapping.getTarget().equals(parameter)) {
 				out = true;
-			}	
-			else if (mapping.getSource().equals(parameter)) {
+			} else if (mapping.getSource().equals(parameter)) {
 				in = true;
-			}	
+			}
 		}
-		
+
 		if (in && out) {
 			return ParameterDirection.IN;
-		}	
-		else if (out) {
+		} else if (out) {
 			return ParameterDirection.OUT;
-		}
-		else if (in) {
+		} else if (in) {
 			return ParameterDirection.IN;
-		}
-		else {
+		} else {
 			assert (false) : "Unmapped parameter?: " + parameter.getName();
 		}
-		
+
 		return null;
 	}
 
 	/**
-	 * Checks whether the given parameter is a value parameter or a object parameter.
-	 * Parameters of type EDataType or one of its subclasses are considered as object parameter.
+	 * Checks whether the given parameter is a value parameter or a object
+	 * parameter. Parameters of type EDataType or one of its subclasses are
+	 * considered as object parameter.
 	 * 
 	 * @param parameter
 	 * @return
@@ -87,17 +88,16 @@ public class ParameterInfo {
 	}
 
 	/**
-	 * Get the node that is identified by this parameter.
-	 * Remark: There might be a node which is identified by the given parameter.name both in LHS and in RHS. 
-	 * So the second parameter <code>lhs</code> determines whether to search in LHS (true) or in RHS (false).  
+	 * Get the node that is identified by this parameter. Remark: There might be
+	 * a node which is identified by the given parameter.name both in LHS and in
+	 * RHS. So the second parameter <code>lhs</code> determines whether to
+	 * search in LHS (true) or in RHS (false).
 	 * 
-	 * Please note that this
-	 * method only supports OBJECT-parameter.
+	 * Please note that this method only supports OBJECT-parameter.
 	 * 
 	 * @param parameter
 	 * @param lhs
-	 * 			true: search in LHS
-	 * 			false: search in RHS
+	 *            true: search in LHS false: search in RHS
 	 * 
 	 * @return the Node which is finally identified by the given
 	 *         object-parameter
@@ -105,11 +105,11 @@ public class ParameterInfo {
 	public static Node getIdentifiedNode(Parameter parameter, boolean lhs) {
 		assert (getParameterKind(parameter).equals(ParameterKind.OBJECT)) : "Nodes are only identified by object parameters. However, "
 				+ parameter.getName() + " is a value parameter!";
-	
-		Parameter oppositeParameter = getParameterMappingTail(parameter);
+
+		Parameter oppositeParameter = getInnermostParameter(parameter);
 		Rule rule = (Rule) oppositeParameter.eContainer();
-		
-		if (lhs){
+
+		if (lhs) {
 			// Check LHS
 			Node node = rule.getLhs().getNode(oppositeParameter.getName());
 			if (node != null) {
@@ -117,14 +117,15 @@ public class ParameterInfo {
 			}
 		} else {
 			// Check RHS
-			// the next step is necessary since rule.getNodeByName searches only in LHS
+			// the next step is necessary since rule.getNodeByName searches only
+			// in LHS
 			for (Node n : rule.getRhs().getNodes()) {
 				if (oppositeParameter.getName().equals(n.getName())) {
 					return n;
 				}
 			}
 		}
-			
+
 		return null;
 	}
 
@@ -136,7 +137,7 @@ public class ParameterInfo {
 	 * @return
 	 */
 	public static EClassifier getRealType(Parameter parameter) {
-		Parameter oppositeParameter = getParameterMappingTail(parameter);
+		Parameter oppositeParameter = getInnermostParameter(parameter);
 		Rule rule = (Rule) oppositeParameter.eContainer();
 		Node node = null;
 
@@ -145,16 +146,17 @@ public class ParameterInfo {
 		if (node != null) {
 			return node.getType();
 		}
-		
+
 		// Check RHS
-		// the next step is necessary since rule.getNodeByName searches only in LHS
+		// the next step is necessary since rule.getNodeByName searches only in
+		// LHS
 		for (Node n : rule.getRhs().getNodes()) {
 			if ((n.getName() != null) && (n.getName().equals(oppositeParameter.getName()))) {
 				node = n;
 				return node.getType();
 			}
 		}
-		
+
 		// node not found in RHS/LHS : oppositeParameter points to an attribute
 		return findTypeOfAnAttribute(oppositeParameter);
 	}
@@ -200,43 +202,106 @@ public class ParameterInfo {
 		return null;
 	}
 
-	public static Parameter getParameterMappingTail(Parameter parameter){
-		return getParameterMappingTail(parameter.getUnit().getParameterMappings(), parameter);
-	}
-	
-	private static Parameter getParameterMappingTail(EList<ParameterMapping> mappings, Parameter parameter){
-		Parameter oppositeParameter = null;
-		
-		// Go through the mappings and find the type of the opposite ending
-		for (ParameterMapping mapping : mappings) {
+	/**
+	 * Returns the innermost parameter for a given parameter by following the
+	 * parameter mappings towards the innermost units. <br/>
+	 * Unit parameters are followed by means of the explicit parameter mappings,
+	 * rule parameters are followed by means of the implicit mappings given by
+	 * parameter name equality. <br/>
+	 * 
+	 * 
+	 * @param parameter
+	 * @return 
+	 */
+	public static Parameter getInnermostParameter(Parameter parameter) {
+		if (isUnitParameter(parameter)) {
+			// Go through the mappings and find the opposite parameter
+			for (ParameterMapping mapping : parameter.getUnit().getParameterMappings()) {
 
-			/** if its an outgoing-parameter (outPort) **/
-			if (mapping.getTarget().equals(parameter)) {
-				oppositeParameter = mapping.getSource();
-				Unit unit = (Unit) oppositeParameter.eContainer();
-				
-				return getParameterMappingTail(unit.getParameterMappings(), oppositeParameter);
+				/** if its an outgoing-parameter (outPort) **/
+				if (mapping.getTarget().equals(parameter)) {
+					return getInnermostParameter(mapping.getSource());
+				}
+
+				/** if its an incoming-parameter **/
+				else if (mapping.getSource().equals(parameter)) {
+					return getInnermostParameter(mapping.getTarget());
+				}
 			}
-
-			/** if its an incoming-parameter **/
-			else if (mapping.getSource().equals(parameter)) {
-				oppositeParameter = mapping.getTarget();
-				Unit unit = (Unit) oppositeParameter.eContainer();
-				
-				return getParameterMappingTail(unit.getParameterMappings(), oppositeParameter);
+		} else {
+			// Rule parameter
+			// => these are implicitly mapped to inner rules by name equality
+			Rule kr = (Rule) parameter.getUnit();
+			for (Rule mr : kr.getMultiRules()) {
+				for (Parameter mrp : mr.getParameters()) {
+					if (mrp.getName().equals(parameter.getName())) {
+						return getInnermostParameter(mrp);
+					}
+				}
 			}
 		}
 
-		// No more mappings: We must have reached tail
-		assert (parameter.eContainer() instanceof Rule) : "Unmapped Parameter " + parameter.getName();
-		
+		// No more mappings: We must have reached innermost parameter
 		return parameter;
 	}
-	
+
+	/**
+	 * Returns the outermost parameter for a given parameter by following the
+	 * parameter mappings towards the outermost unit, i.e. the mainUnit. <br/>
+	 * Unit parameters are followed by means of the explicit parameter mappings,
+	 * rule parameters are followed by means of the implicit mappings given by
+	 * parameter name equality. <br/>
+	 * 
+	 * Please note that if no outermost parameter can be found for a rule
+	 * parameter because this parameter is a rule internal parameter, this
+	 * method returns <code>null</code>.
+	 * 
+	 * 
+	 * @param parameter
+	 * @return 
+	 */
+	public static Parameter getOutermostParameter(Parameter parameter) {
+		if (isUnitParameter(parameter)) {
+			// wir untertuetzen derzeit keine Schachtelung von Units
+			// ==> parameter ist bereit outermost
+			assert (parameter.getUnit().getName().equals("mainUnit")) : "Geschachtelte Units !?";
+			return parameter;
+
+		} else {
+			// Rule parameter
+			Rule rule = (Rule) parameter.getUnit();
+			if (rule.getRootRule() == rule) {
+				// rule is a kernel rule
+				Unit mainUnit = rule.getModule().getUnit("mainUnit");
+				for (ParameterMapping mapping : mainUnit.getParameterMappings()) {
+					if (mapping.getSource().equals(parameter)) {
+						return mapping.getTarget();
+					}
+					if (mapping.getTarget().equals(parameter)) {
+						return mapping.getSource();
+					}
+				}
+
+			} else {
+				// rule is a multi rule
+				Rule kernelRule = (Rule) rule.eContainer();
+				for (Parameter krp : kernelRule.getParameters()) {
+					if (krp.getName().equals(parameter.getName())) {
+						return getOutermostParameter(krp);
+					}
+				}
+			}
+		}
+
+		// it's just an internal rule parameter
+		return null;
+	}
+
 	/**
 	 * Parses the parameter from a Henshin attribute.
 	 * 
-	 * TODO: That isn't really perfect. Check the Henshin script interpreter syntax.
+	 * TODO: That isn't really perfect. Check the Henshin script interpreter
+	 * syntax.
 	 * 
 	 * @param rule
 	 *            the rule which contains the node which contains the attribute.
@@ -292,5 +357,27 @@ public class ParameterInfo {
 			}
 		}
 		return parameters;
+	}
+
+	/**
+	 * Is param a unit parameter..?
+	 * 
+	 * @param param
+	 * @return
+	 */
+	public static boolean isUnitParameter(Parameter param) {
+		assert (param != null && param.getUnit() != null);
+		return !isRuleParameter(param);
+	}
+
+	/**
+	 * Is param a rule parameter..?
+	 * 
+	 * @param param
+	 * @return
+	 */
+	public static boolean isRuleParameter(Parameter param) {
+		assert (param != null && param.getUnit() != null);
+		return param.getUnit() instanceof Rule;
 	}
 }
