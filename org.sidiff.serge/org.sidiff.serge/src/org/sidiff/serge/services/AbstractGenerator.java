@@ -14,9 +14,10 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.EClassInfo;
+import org.sidiff.serge.core.EClassInfoManagement;
+import org.sidiff.serge.core.MetaModelSlicer;
 import org.sidiff.serge.exceptions.ConstraintException;
-import org.sidiff.serge.util.EClassInfo;
-import org.sidiff.serge.util.EClassInfoManagement;
 
 public abstract class AbstractGenerator implements EClassVisitor{
 
@@ -252,6 +253,18 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return ecm;
 	}
 	
+	
+	public void sliceMetaModel() {
+
+		/****** Meta Model Slicer TESTING **********************************************************************************/
+		MetaModelSlicer mms = new MetaModelSlicer();
+		String newNS_URI = new String(metaModel.getNsURI());
+		newNS_URI = newNS_URI.concat("_sliced");
+		mms.slice(metaModel, ePackagesStack, whiteList, blackList,newNS_URI);
+	}
+	
+	
+	
 	/***** public GETTER  ******************************************************************************/
 	
 	public boolean getPreventInconsistencyThroughSkipping() {
@@ -422,8 +435,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 			}			
 		}		
 		return true;
-	}
-
+	}	
 	
 	/**
 	 * Checks whether an EClass is implicitly required because it inherits its features

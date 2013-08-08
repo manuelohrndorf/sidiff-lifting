@@ -27,15 +27,15 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.EClassInfo;
+import org.sidiff.serge.core.EClassInfoManagement;
+import org.sidiff.serge.core.Mask;
+import org.sidiff.serge.core.ModuleFilenamePair;
 import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
-import org.sidiff.serge.util.Common;
-import org.sidiff.serge.util.EClassInfo;
-import org.sidiff.serge.util.EClassInfoManagement;
-import org.sidiff.serge.util.Mask;
-import org.sidiff.serge.util.ModuleFilenamePair;
 
-public class HenshinTransformationGenerator extends AbstractGenerator {
+public class HenshinModuleGenerator extends AbstractGenerator {
 	
 	/** Henshin access ****************************************************************************/
 	

@@ -1,4 +1,4 @@
-package org.sidiff.serge.util;
+package org.sidiff.serge.core;
 
 import org.eclipse.emf.henshin.model.Module;
 

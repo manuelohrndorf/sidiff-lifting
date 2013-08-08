@@ -5,7 +5,7 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.serge.SergeService;
 import org.sidiff.serge.impl.Activator;
-import org.sidiff.serge.services.HenshinTransformationGenerator;
+import org.sidiff.serge.services.HenshinModuleGenerator;
 
 public class Generator implements IApplication {
     
@@ -23,8 +23,8 @@ public class Generator implements IApplication {
 		/*** Start generating rules*********************************************************************/
 		
 		SergeService generatingService = ServiceHelper.getService(Activator.getContext(), SergeService.class);
-		generatingService.init(HenshinTransformationGenerator.class, INPUT_CONFIG_PATH, INPUT_WORKSPACE_LOC, OUTPUT_FOLDER_PATH);
-		generatingService.generate(HenshinTransformationGenerator.class);
+		generatingService.init(HenshinModuleGenerator.class, INPUT_CONFIG_PATH, INPUT_WORKSPACE_LOC, OUTPUT_FOLDER_PATH);
+		generatingService.generate(HenshinModuleGenerator.class);
 		
 				
 		return null;

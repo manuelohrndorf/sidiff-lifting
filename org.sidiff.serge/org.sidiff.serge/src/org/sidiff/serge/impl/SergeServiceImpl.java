@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.emf.access.path.SliceAccessStrategy;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.io.IOUtil;
@@ -25,17 +26,18 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.serge.SergeService;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.EClassInfo;
+import org.sidiff.serge.core.EClassInfoManagement;
+import org.sidiff.serge.core.Mask;
+import org.sidiff.serge.core.MetaModelSlicer;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.services.AbstractGenerator;
 import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 import org.sidiff.serge.services.AbstractGenerator.ImplicitRequirementType;
-import org.sidiff.serge.services.HenshinTransformationGenerator;
-import org.sidiff.serge.util.Common;
-import org.sidiff.serge.util.EClassInfo;
-import org.sidiff.serge.util.EClassInfoManagement;
-import org.sidiff.serge.util.Mask;
+import org.sidiff.serge.services.HenshinModuleGenerator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,7 +61,7 @@ public class SergeServiceImpl implements SergeService{
 	@Override
 	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws Exception {
 				
-		generator = new HenshinTransformationGenerator();
+		generator = new HenshinModuleGenerator();
 		generator.setOutputFolderPath(pathToOutputFolder);
 		
 		/**************************************************************************************************************/		
@@ -296,7 +298,10 @@ public class SergeServiceImpl implements SergeService{
 			}
 		}
 		
-
+		
+		/*** TESTING Meta Model Slicer ******************************************************************************/
+		generator.sliceMetaModel();
+		
 	}	
 	
 	
