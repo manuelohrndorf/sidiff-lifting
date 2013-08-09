@@ -1,0 +1,121 @@
+package org.sidiff.patching.test.smg;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
+import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.difference.lifting.facade.LiftingSettings;
+import org.sidiff.difference.symmetric.Correspondence;
+import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.patching.ITransformationEngine;
+import org.sidiff.patching.test.Activator;
+import org.sidiff.patching.test.TestSuite;
+import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
+import org.sidiff.patching.util.TransformatorUtil;
+import org.sidiff.pipeline.correspondences.model.Matching;
+
+public class FileToModelConverter {
+	private Logger LOGGER = Logger.getLogger(Activator.class.getName());
+
+	private Collection<TestFileGroup> testFileGroups;
+
+	public FileToModelConverter(Collection<TestFileGroup> testFileGroups) {
+		this.testFileGroups = testFileGroups;
+	}
+
+	public List<TestSuite> getTestSuites() {
+		List<TestSuite> testSuites = new ArrayList<TestSuite>();
+		for (TestFileGroup testFileGroup : testFileGroups) {
+			LOGGER.log(Level.FINE, "Converting Test " + testFileGroup.id);
+			ResourceSet resourceSet = new ResourceSetImpl();
+			String id = testFileGroup.id;
+			Resource original = getResource(resourceSet, testFileGroup.original);
+			Resource modified = getResource(resourceSet, testFileGroup.modified);
+
+			String documentType = EMFModelAccess.getDocumentType(original);
+			LiftingSettings liftingSettings = new LiftingSettings(documentType);
+			AsymmetricDiffSettings settings = new AsymmetricDiffSettings(liftingSettings);
+			settings.setMatcher(new SMGMatcher(getCorrespondences(resourceSet, testFileGroup.matching)));
+			Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, settings);
+
+			SMGPatchCorrespondence correspondence = new SMGPatchCorrespondence(difference.getAsymmetric().getOriginModel());
+			
+			ITransformationEngine transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
+			if (transformationEngine == null) {
+				LOGGER.log(Level.SEVERE, "No Transformation Engine found!");
+				return null;
+			}
+			
+			testSuites.add(new TestSuite(id, difference, original, modified, correspondence, transformationEngine));
+		}
+		return testSuites;
+	}
+
+	private Resource getResource(ResourceSet resourceSet, File file) {
+		Resource resource = resourceSet.getResource(URI.createFileURI(file.getAbsolutePath()), true);
+		return resource;
+	}
+
+	private List<Correspondence> getCorrespondences(ResourceSet resourceSet, File matchingFile) {
+		prepareResource(matchingFile);
+		Matching matching = (Matching) getResource(resourceSet, matchingFile).getContents().get(0);
+		List<Correspondence> correspondences = new ArrayList<Correspondence>();
+		for (org.sidiff.pipeline.correspondences.model.Correspondence smgCor : matching.getCorrespondences()) {
+			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence();
+			correspondence.setObjA(smgCor.getMatchedA());
+			correspondence.setObjB(smgCor.getMatchedB());
+			correspondences.add(correspondence);
+		}
+		return correspondences;
+	}
+
+	private void prepareResource(File matching) {
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		try {
+			FileReader fr = new FileReader(matching);
+			br = new BufferedReader(fr);
+			StringBuffer stringBuffer = new StringBuffer();
+			String thisLine;
+			while ((thisLine = br.readLine()) != null) {
+				thisLine = thisLine.replaceAll(" uri[A,B]=\".+?\"", "");
+				stringBuffer.append(thisLine + "\n");
+			}
+
+			FileWriter fw = new FileWriter(matching);
+			bw = new BufferedWriter(fw);
+			bw.write(stringBuffer.toString());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)
+					br.close();
+				if (bw != null)
+					bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
