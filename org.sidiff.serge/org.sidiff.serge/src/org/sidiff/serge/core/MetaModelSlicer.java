@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.EStructuralFeatureValueGetter;
 import org.sidiff.common.emf.EMFAdapter;
+import org.sidiff.common.emf.EMFMetaObjectExtender;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.access.path.EMFPath;
@@ -115,10 +116,7 @@ public class MetaModelSlicer {
 		// serialize sliced meta model:
 		LogUtil.log(LogEvent.NOTICE, "Serializing sliced meta-model");
 		try {
-			Map<String, String> options = new HashMap<String, String>();
-			 //TODO on dangling erefs, use exception instead
-			options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, "DISCARD");
-			slicedMetaModelResource.save(options);
+			slicedMetaModelResource.save(null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,18 +145,21 @@ public class MetaModelSlicer {
 		return pathFragment;
 	}
 	
+	
+	//TODO Copy eAnntoations (except path annotation), too, since Copier ignores them
+	//TODO not all EGeneric types are copied
+	//TODO not all EStringToSTringMapEntries are copied
 	private void createIndependantMetaModelCopy(String newNS_URI) {
 		
 		LogUtil.log(LogEvent.NOTICE, "Creating an identical, independent meta-model copy");
-		//TODO Copy eAnntoations (except path annotation), too, since Copier ignores them
 		
 		// make identical, independent copy of originalMetaModel
 		Copier copier = new Copier(false, false);
 		Collection<EPackage> copy = copier.copyAll(Collections.singleton(origMetaModel));
 		slicedMetaModelResource.getContents().addAll(copy);
 		copier.copyReferences();
-		EcoreUtil.resolveAll(slicedMetaModelResource);
-
+		EcoreUtil.resolveAll(slicedMetaModelResource);	
+		
 		/**************************************************************************************************************/
 		
 		LogUtil.log(LogEvent.NOTICE, "Annotating EEModelelement paths.");
@@ -166,10 +167,10 @@ public class MetaModelSlicer {
 		// annotate all elements with their path in original meta model
 		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(origMetaModel)) {
 			if(eob_Orig instanceof EGenericType
-					|| eob_Orig instanceof EStringToStringMapEntryImpl
-					|| eob_Orig instanceof EAnnotation) {
+					|| eob_Orig instanceof EStringToStringMapEntryImpl) {
 				continue;
-			}			
+			}	
+			
 			EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
 			eanno.setSource("path4ModelSlice");
 			eanno.getDetails().put("path4ModelSlice", getEObjectPositionPath(eob_Orig));
@@ -195,8 +196,7 @@ public class MetaModelSlicer {
 		// Map EObjects of both Resources 
 		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(origMetaModel)) { 
 			if( eob_Orig instanceof EGenericType 
-					|| eob_Orig instanceof EStringToStringMapEntryImpl
-					|| eob_Orig instanceof EAnnotation) {
+					|| eob_Orig instanceof EStringToStringMapEntryImpl) {
 				continue;
 			}
 	
@@ -205,23 +205,26 @@ public class MetaModelSlicer {
 						|| eob_Slice instanceof EStringToStringMapEntryImpl
 						|| eob_Slice instanceof EAnnotation) {
 					continue;
-				}						
-
+				}
+				
+				
 				EAnnotation eanno_orig = ((EModelElement) eob_Orig).getEAnnotation("path4ModelSlice");
-				String pathValue_orig = eanno_orig.getDetails().get("path4ModelSlice");
-				EAnnotation eanno_slice = ((EModelElement) eob_Slice).getEAnnotation("path4ModelSlice");
+				String pathValue_orig = null;
+				if(eanno_orig!=null) {
+					pathValue_orig = eanno_orig.getDetails().get("path4ModelSlice");
+				}
+				EAnnotation eanno_slice = ((EModelElement) eob_Slice).getEAnnotation("path4ModelSlice");				
 				String pathValue_slice = null;
 				if(eanno_slice!=null) {
 					pathValue_slice = eanno_slice.getDetails().get("path4ModelSlice");
 				}
 
 				// if paths are equal, map eobs
-				if(pathValue_slice!=null && (pathValue_orig.equals(pathValue_slice))) {
+				if((pathValue_orig!=null && pathValue_slice!=null) && (pathValue_orig.equals(pathValue_slice))) {
 					eObjectMap.put(eob_Orig, eob_Slice);
 				}				
 			}			
 		}
-
 
 		assert(EcoreUtil.UnresolvedProxyCrossReferencer.find(slicedMetaModelResource).isEmpty()) : "There are still some unresolved proxies";
 
