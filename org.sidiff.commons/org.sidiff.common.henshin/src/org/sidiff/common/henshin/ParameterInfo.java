@@ -43,6 +43,8 @@ public class ParameterInfo {
 	 * @return
 	 */
 	public static ParameterDirection getParameterDirection(Parameter parameter) {
+		assert(isUnitParameter(parameter)) : "The IN/OUT-query is currently only supported for unit parameters!";
+		
 		EList<ParameterMapping> mappings = parameter.getUnit().getParameterMappings();
 
 		boolean in = false;
