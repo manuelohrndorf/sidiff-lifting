@@ -120,6 +120,7 @@ public class ProfileApplicatorThread extends Thread {
 				// Nothing to do here
 				// Just catching exceptions
 				// of creating cross references
+				e.printStackTrace();
 				
 			}
 
@@ -219,6 +220,8 @@ public class ProfileApplicatorThread extends Thread {
 				// Nothing to do here
 				// Just catching exceptions
 				// of deleting cross references
+				e.printStackTrace();
+
 			}
 			workResourceSet = null;
 			workGraph = null;
@@ -254,6 +257,8 @@ public class ProfileApplicatorThread extends Thread {
 			// Nothing to do here
 			// Just catching exceptions
 			// of deleting cross references
+			e.printStackTrace();
+
 		}
 		srcResourceSet = null;
 		srcGraph = null;

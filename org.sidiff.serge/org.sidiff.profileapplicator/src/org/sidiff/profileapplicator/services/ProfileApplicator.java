@@ -25,22 +25,7 @@ public class ProfileApplicator {
 	private String configPath = null;
 
 	// Folder for output edit rules
-	private String outputFolderPath = null;
-
-	/**
-	 * @return the numberThreads
-	 */
-	public int getNumberThreads() {
-		return numberThreads;
-	}
-
-	/**
-	 * @param numberThreads
-	 *            the numberThreads to set
-	 */
-	public void setNumberThreads(int numberThreads) {
-		this.numberThreads = numberThreads;
-	}
+	private String outputFolderPath = null;	
 
 	// Configuration parameters
 	private boolean baseTypeInstances = false;
@@ -56,7 +41,7 @@ public class ProfileApplicator {
 	private List<String> baseReferences = new ArrayList<String>();
 
 	// Number of concurrent threads applying the profile
-	private int numberThreads = 4;
+	private int numberThreads = 1;
 
 	/*
 	 * Apply the profile to given input edit rules Configuration has already
@@ -327,4 +312,18 @@ public class ProfileApplicator {
 		this.transformations = transformations;
 	}
 
+	/**
+	 * @return the numberThreads
+	 */
+	public int getNumberThreads() {
+		return numberThreads;
+	}
+
+	/**
+	 * @param numberThreads
+	 *            the numberThreads to set
+	 */
+	public void setNumberThreads(int numberThreads) {
+		this.numberThreads = numberThreads;
+	}
 }
