@@ -1,8 +1,6 @@
 package org.sidiff.patching.correspondence.sidiff.impl;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -11,6 +9,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleContext;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.services.ServiceContext;
 import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.common.util.StringUtil;
@@ -26,8 +26,6 @@ import org.sidiff.patching.correspondence.sidiff.IReliabilityCalculator;
 
 
 public class SidiffCorrespondence {
-	private Logger logger = Logger.getLogger(Activator.class.getName());
-	
 	private Resource modelA;
 	private Resource modelB;
 	private CorrespondencesService correspondenceService;
@@ -72,11 +70,11 @@ public class SidiffCorrespondence {
 				}
 			}
 		} catch (CoreException e) {
-			logger.log(Level.SEVERE, e.getLocalizedMessage(), e.getCause());
+			LogUtil.log(LogEvent.ERROR, e.getLocalizedMessage(), e.getCause());
 		}
 		
 		if (reliabilityCalculator == null) {
-			logger.log(Level.SEVERE, "ReliabilityCalculator not found!");
+			LogUtil.log(LogEvent.ERROR, "ReliabilityCalculator not found!");
 			return;
 		}
 		
@@ -103,7 +101,7 @@ public class SidiffCorrespondence {
 				eObject = correspondences.iterator().next();
 			}
 		} catch (ExternalElementException e) {
-			logger.log(Level.FINE, "Element is external: " + StringUtil.resolve(elementA));
+			LogUtil.log(LogEvent.NOTICE, "Element is external: " + StringUtil.resolve(elementA));
 			eObject = elementA;
 		}
 		return eObject;
@@ -111,7 +109,7 @@ public class SidiffCorrespondence {
 	
 	public float getReliabilityOfMatch(EObject elementA, EObject elementB){
 		float reliability = reliabilityCalculator.getReliability(elementA, elementB);
-//		logger.log(Level.FINE, "Match reliability of " + StringUtil.resolve(elementA) + " and " + StringUtil.resolve(elementB) + ": "	+ reliability);
+//		LogUtil.log(LogEvent.NOTICE, "Match reliability of " + StringUtil.resolve(elementA) + " and " + StringUtil.resolve(elementB) + ": "	+ reliability);
 		return reliability;
 	}
 

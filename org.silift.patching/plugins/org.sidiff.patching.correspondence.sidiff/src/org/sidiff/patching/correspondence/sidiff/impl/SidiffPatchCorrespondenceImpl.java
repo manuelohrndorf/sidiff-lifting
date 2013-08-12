@@ -5,20 +5,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StringUtil;
 import org.sidiff.difference.util.emf.storage.EMFResourceUtil;
 import org.sidiff.patching.correspondence.sidiff.SidiffPatchCorrespondence;
 
 public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence {
-	private static final Logger LOGGER = Logger.getLogger(SidiffPatchCorrespondenceImpl.class.getName());
-
 	private Resource modelA;
 	private Resource modelB;
 	private float minReliability;
@@ -38,7 +36,7 @@ public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence 
 		this.modelA = modelA;
 		this.modelB = modelB;
 		sidiff = new SidiffCorrespondence(modelA, modelB);
-		LOGGER.log(Level.FINE, "Initializing Sidiff");
+		LogUtil.log(LogEvent.NOTICE, "Initializing Sidiff");
 		sidiff.initialize();
 		fillCorrespondenceMap();
 	}
@@ -110,14 +108,14 @@ public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence 
 	@Override
 	public void addNewEObject(EObject newObject) {
 		assert newObject != null;
-		LOGGER.log(Level.FINER, "Adding new eObject: " + StringUtil.resolve(newObject));
+		LogUtil.log(LogEvent.NOTICE, "Adding new eObject: " + StringUtil.resolve(newObject));
 		unmatchedObjects.add(newObject);
 	}
 
 	@Override
 	public void removeEObject(EObject objectToRemove) {
 		assert objectToRemove != null;
-		LOGGER.log(Level.FINER, "Removing eObject: " + EcoreUtil.getURI(objectToRemove).fragment());
+		LogUtil.log(LogEvent.NOTICE, "Removing eObject: " + EcoreUtil.getURI(objectToRemove).fragment());
 		for (EObject key : correspondenceMap.keySet()) {
 			EObject eObject = correspondenceMap.get(key);
 			if (objectToRemove.equals(eObject)) {
