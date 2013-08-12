@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -20,6 +18,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -34,13 +34,12 @@ import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 
 public class PatchEvaluationApplication implements IApplication {
-	private Logger logger = Logger.getLogger(Activator.class.getName());
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		if (args.length != 4) {
-			logger.log(Level.SEVERE, "Invalid number of application arguments! " + Arrays.toString(args));
+			LogUtil.log(LogEvent.ERROR, "Invalid number of application arguments! " + Arrays.toString(args));
 			System.out.println("Argument must be a folder containing Models and a type!");
 			return IApplication.EXIT_OK;
 		}
@@ -71,7 +70,7 @@ public class PatchEvaluationApplication implements IApplication {
 			SMGFileManager fileManager = new SMGFileManager(modelFolder);
 			Collection<TestFileGroup> testFileGroups = fileManager.getTestFileGroups();
 			for (TestFileGroup testFileGroup : testFileGroups) {
-				logger.log(Level.FINE, testFileGroup.toString());
+				LogUtil.log(LogEvent.NOTICE, testFileGroup.toString());
 			}
 
 			FileToModelConverter converter = new FileToModelConverter(testFileGroups);
@@ -87,12 +86,12 @@ public class PatchEvaluationApplication implements IApplication {
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
 		StringBuffer latexTable = new StringBuffer("Version & Korresp. & Differ. & Operationen & Längste Abhängigkeitskette\\\\\n");
-		for (TestSuite testSuite : testSuites) {
+		for (TestSuite testSuite : testSuites) {			
 			try {
-				logger.log(Level.INFO, "Testing " + testSuite.getId());
+				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
 				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine());
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				logger.log(Level.INFO, "Appling patch");
+				LogUtil.log(LogEvent.NOTICE, "Appling patch");
 				
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
@@ -109,7 +108,7 @@ public class PatchEvaluationApplication implements IApplication {
 				long start = System.currentTimeMillis();
 				PatchResult result = patchEngine.applyPatchOperationValidation();
 				long delta = System.currentTimeMillis() - start;
-				logger.log(Level.INFO, "Time to apply: " + delta + "ms");
+				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
 				buffer.append("Time to apply: " + delta + "ms\n\n");
 				
 				// Distribution of Operations
@@ -163,8 +162,8 @@ public class PatchEvaluationApplication implements IApplication {
 				}
 			} catch (PatchNotExecuteableException e) {
 				e.printStackTrace();
-				logger.log(Level.SEVERE, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
-				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");
+				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
+				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");	
 			}
 			buffer.append("--------------\n\n");
 		}
@@ -177,8 +176,8 @@ public class PatchEvaluationApplication implements IApplication {
 		
 		System.out.println("Test finished. Report: " + modelFolder.getAbsolutePath()+"/report.txt");
 		return IApplication.EXIT_OK;
-	}
-
+	}	
+	
 	private Map<String, Integer> getOperationDistribution(EList<OperationInvocation> operationInvocations) {
 		Map <String, Integer> result = new HashMap<String, Integer>();
 		for (OperationInvocation operationInvocation : operationInvocations) {

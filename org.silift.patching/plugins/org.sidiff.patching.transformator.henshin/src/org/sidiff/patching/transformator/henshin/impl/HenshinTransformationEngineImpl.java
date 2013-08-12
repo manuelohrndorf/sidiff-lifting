@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -17,6 +15,8 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ParameterValueList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -35,7 +35,7 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
  * 
  */
 public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
-	private static final Logger LOGGER = Logger.getLogger(HenshinTransformationEngineImpl.class.getName());
+	
 	private EGraph graph;
 
 	@Override
@@ -48,7 +48,7 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 			throws ParameterMissingException, OperationNotExecutableException {
 		assert (graph != null) : "Model not set and therefore no EGraph!";
 		String operationName = operationInvocation.getChangeSet().getName();
-		LOGGER.log(Level.FINE, "Executing operation " + operationName);
+		LogUtil.log(LogEvent.NOTICE, "Executing operation " + operationName);
 
 		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)

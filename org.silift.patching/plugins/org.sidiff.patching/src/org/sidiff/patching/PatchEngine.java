@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.EList;
@@ -17,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
@@ -43,7 +43,6 @@ import org.sidiff.patching.util.PatchUtil;
  * @author Dennis Koch, kehrer
  */
 public class PatchEngine {
-	static Logger logger = Logger.getLogger(PatchEngine.class.getName());
 	private AsymmetricDifference difference;
 	private IPatchCorrespondence correspondence;
 	private List<OperationInvocation> orderedOperations;
@@ -140,7 +139,7 @@ public class PatchEngine {
 					throw new PatchNotExecuteableException(e.getMessage());
 				}
 			} else {
-				logger.log(Level.INFO, "Skipping operation " + operationInvocation.getChangeSet().getName());
+				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
 			}
 		}
 		PatchReport report = new PatchReport();
@@ -171,7 +170,7 @@ public class PatchEngine {
 					throw new PatchNotExecuteableException(e.getMessage());
 				}
 			} else {
-				logger.log(Level.INFO, "Skipping operation " + operationInvocation.getChangeSet().getName());
+				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
 			}
 		}
 		return new PatchResult(this.previewTargetResource, report);
@@ -215,7 +214,7 @@ public class PatchEngine {
 			if (parameter.getDirection() == ParameterDirection.IN) {
 				if (binding instanceof MultiParameterBinding) {
 					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
-					logger.log(Level.FINE, "Binding listParameter " + parameterName + ":");
+					LogUtil.log(LogEvent.NOTICE, "Binding listParameter " + parameterName + ":");
 					List arguments = new ArrayList();
 					parameters.put(parameterName, arguments);
 					// now fill the argument list
@@ -226,20 +225,20 @@ public class PatchEngine {
 						EObject eObject = resolveEObjectInTarget((ObjectParameterBinding) nestedBinding);
 						if (eObject != null) {
 							arguments.add(eObject);
-							logger.log(Level.FINE, "\t argument(" + i + "): '" + eObject + "'");
+							LogUtil.log(LogEvent.NOTICE, "\t argument(" + i + "): '" + eObject + "'");
 						} else {
-							logger.log(Level.FINE, "\t argument(" + i + "): skipped");
+							LogUtil.log(LogEvent.NOTICE, "\t argument(" + i + "): skipped");
 						}
 					}
 
 				} else if (binding instanceof ObjectParameterBinding) {
 					EObject eObject = resolveEObjectInTarget((ObjectParameterBinding) binding);
-					logger.log(Level.FINE, "Binding objectParameter " + parameterName + " to " + eObject);
+					LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameterName + " to " + eObject);
 					parameters.put(parameterName, eObject);
 
 				} else if (binding instanceof ValueParameterBinding) {
 					ValueParameterBinding valueBinding = (ValueParameterBinding) binding;
-					logger.log(Level.FINE,
+					LogUtil.log(LogEvent.NOTICE,
 							"Setting valueParameter " + parameterName + " to " + valueBinding.getActual());
 					parameters.put(parameterName, valueBinding.getActual());
 				}

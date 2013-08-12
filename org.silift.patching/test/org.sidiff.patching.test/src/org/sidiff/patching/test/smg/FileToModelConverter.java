@@ -10,14 +10,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
@@ -25,15 +25,13 @@ import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.ITransformationEngine;
-import org.sidiff.patching.test.Activator;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.sidiff.pipeline.correspondences.model.Matching;
 
 public class FileToModelConverter {
-	private Logger LOGGER = Logger.getLogger(Activator.class.getName());
-
+	
 	private Collection<TestFileGroup> testFileGroups;
 
 	public FileToModelConverter(Collection<TestFileGroup> testFileGroups) {
@@ -43,7 +41,7 @@ public class FileToModelConverter {
 	public List<TestSuite> getTestSuites() {
 		List<TestSuite> testSuites = new ArrayList<TestSuite>();
 		for (TestFileGroup testFileGroup : testFileGroups) {
-			LOGGER.log(Level.FINE, "Converting Test " + testFileGroup.id);
+			LogUtil.log(LogEvent.NOTICE, "Converting Test " + testFileGroup.id);
 			ResourceSet resourceSet = new ResourceSetImpl();
 			String id = testFileGroup.id;
 			Resource original = getResource(resourceSet, testFileGroup.original);
@@ -59,7 +57,7 @@ public class FileToModelConverter {
 			
 			ITransformationEngine transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
 			if (transformationEngine == null) {
-				LOGGER.log(Level.SEVERE, "No Transformation Engine found!");
+				LogUtil.log(LogEvent.ERROR, "No Transformation Engine found!");
 				return null;
 			}
 			

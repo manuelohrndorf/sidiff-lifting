@@ -75,9 +75,7 @@ public class ModelCompare {
 		difference.setUriModelB(modelB.getURI().toString());
 		
 		// derive techical difference		
-		Set<ITechnicalDifferenceBuilder> tdBuilders = PipelineUtils.getAvailableTechnicalDifferenceBuilders(documentType);
-		assert (tdBuilders.size() == 1) : "TODO"; // FIXME
-		ITechnicalDifferenceBuilder tdBuilder = tdBuilders.iterator().next();		
+		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);		
 		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);
 		
 		// now, return the set of obtained low-level changes (should be empty)

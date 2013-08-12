@@ -3,8 +3,6 @@ package org.sidiff.patching.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -15,11 +13,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 
-public class PatchUtil {
-	private static final Logger LOGGER = Logger.getLogger(PatchUtil.class.getName());
+public class PatchUtil {	
 	private static int stage = 0;
 	
 	/**
@@ -55,7 +54,7 @@ public class PatchUtil {
 				addIncomingOperations(operationInvocations, operationInvocation);
 			}
 			operationInvocations.add(0, invocation);
-			LOGGER.log(Level.FINEST, "Stage: " + stage + " " + invocation.getChangeSet().getName());
+			LogUtil.log(LogEvent.NOTICE, "Stage: " + stage + " " + invocation.getChangeSet().getName());
 			stage--;
 		}
 	}
