@@ -9,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -26,12 +24,10 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.ocl.ecore.EcorePackage;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -201,6 +197,7 @@ public class EcoreHelper {
 			for(EObject contentEObject: eanno_Orig.getContents()) {
 				
 				if(contentEObject instanceof EAttribute) {
+					// create new EAtttribute and set all Properties like in the original
 					EAttribute origEAttrib = (EAttribute) contentEObject;
 					EAttribute newEAttrib = EcoreFactory.eINSTANCE.createEAttribute();
 					newEAttrib.setDerived(origEAttrib.isDerived());
@@ -219,9 +216,17 @@ public class EcoreHelper {
 					newEAttrib.setUpperBound(origEAttrib.getUpperBound());
 					newEAttrib.setVolatile(origEAttrib.isVolatile());
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newEAttrib);
+					
+					// copy sub EAnnotations of the original EAttribute
+					for(EAnnotation subEAnno: origEAttrib.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
+					
 				}
 				else if(contentEObject instanceof EReference) {
+					// create new EReference and set all Properties like in the original
 					EReference origERef = (EReference) contentEObject;
 					EReference newERef = EcoreFactory.eINSTANCE.createEReference();
 					newERef.setDerived(origERef.isDerived());
@@ -244,9 +249,16 @@ public class EcoreHelper {
 					newERef.setEOpposite(origERef.getEOpposite());
 					newERef.setResolveProxies(origERef.isResolveProxies());	
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newERef);
+					
+					// copy sub EAnnotations of the original EReference
+					for(EAnnotation subEAnno: origERef.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
 				}
-				else if(contentEObject instanceof EOperation){						
+				else if(contentEObject instanceof EOperation){
+					// create new EOperation and set all Properties like in the original
 					EOperation origEOp = (EOperation) contentEObject;
 					EOperation newEOP = EcoreFactory.eINSTANCE.createEOperation();
 					newEOP.setEGenericType(origEOp.getEGenericType());
@@ -257,9 +269,16 @@ public class EcoreHelper {
 					newEOP.setUnique(origEOp.isUnique());
 					newEOP.setUpperBound(origEOp.getUpperBound());
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newEOP);
+					
+					// copy sub EAnnotations of the original EOperation
+					for(EAnnotation subEAnno: origEOp.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
 				}
 				else if(contentEObject instanceof EParameter) {
+					// create new EParameter and set all Properties like in the original
 					EParameter origEParam = (EParameter) contentEObject;
 					EParameter newEParam = EcoreFactory.eINSTANCE.createEParameter();
 					newEParam.setEGenericType(origEParam.getEGenericType());
@@ -270,10 +289,17 @@ public class EcoreHelper {
 					newEParam.setUnique(origEParam.isUnique());
 					newEParam.setUpperBound(origEParam.getUpperBound());
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newEParam);
+					
+					// copy sub EAnnotations of the original EParameter
+					for(EAnnotation subEAnno: origEParam.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
 					
 				}
 				else if(contentEObject instanceof EEnum) {
+					// create new EEnum and set all Properties like in the original
 					EEnum origEEnum = (EEnum) contentEObject;
 					EEnum newEEnum = EcoreFactory.eINSTANCE.createEEnum();
 					newEEnum.setName(origEEnum.getName());
@@ -281,9 +307,16 @@ public class EcoreHelper {
 					newEEnum.setInstanceClassName(origEEnum.getInstanceClassName());		//?
 					newEEnum.setSerializable(origEEnum.isSerializable());					//?
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newEEnum);
+					
+					// copy sub EAnnotations of the original EEnum
+					for(EAnnotation subEAnno: origEEnum.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
 				}
 				else if(contentEObject instanceof EDataType) {
+					// create new EDataType and set all Properties like in the original
 					EDataType origEDatatype = (EDataType) contentEObject;
 					EDataType newEDatatype = EcoreFactory.eINSTANCE.createEDataType();
 					newEDatatype.setName(origEDatatype.getName());
@@ -291,7 +324,13 @@ public class EcoreHelper {
 					newEDatatype.setInstanceClassName(origEDatatype.getInstanceClassName());//?
 					newEDatatype.setSerializable(origEDatatype.isSerializable());			//?
 					
+					// add "copied" (new) EAnnotation to the copied meta-model
 					eanno_Slice.getContents().add(newEDatatype);
+					
+					// copy sub EAnnotations of the original EDataType
+					for(EAnnotation subEAnno: origEDatatype.getEAnnotations()) {
+						copyEAnnotationAndInternalContents(subEAnno, eObjectMap);
+					}
 				}
 				else{
 					throw new Exception("Case not covered: "+ contentEObject.eClass().getName()+ " contained in an EAnnotation.");
