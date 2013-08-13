@@ -20,7 +20,13 @@ public class Applicator implements IApplication {
 		String INPUT_FOLDER_PATH = argument[0] + FILE_SEPERATOR;	
 		String INPUT_CONFIG_PATH = argument[1];
 		String OUTPUT_FOLDER_PATH = argument[2] + FILE_SEPERATOR;	
-		int NUMBER_OF_THREADS = Integer.parseInt(argument[3]);	
+		
+		int NUMBER_OF_THREADS = 1;
+		
+		//optional number of threads
+		if(argument.length == 4)
+			NUMBER_OF_THREADS = Integer.parseInt(argument[3]);	
+		
 
 					
 		/*** Start generating rules*********************************************************************/

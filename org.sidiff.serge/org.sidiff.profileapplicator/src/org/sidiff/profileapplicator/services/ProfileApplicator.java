@@ -25,7 +25,7 @@ public class ProfileApplicator {
 	private String configPath = null;
 
 	// Folder for output edit rules
-	private String outputFolderPath = null;	
+	private String outputFolderPath = null;
 
 	// Configuration parameters
 	private boolean baseTypeInstances = false;
@@ -41,6 +41,7 @@ public class ProfileApplicator {
 	private List<String> baseReferences = new ArrayList<String>();
 
 	// Number of concurrent threads applying the profile
+	// Defaults to 1
 	private int numberThreads = 1;
 
 	/*
@@ -76,7 +77,10 @@ public class ProfileApplicator {
 
 		if (this.baseTypeContext)
 			LogUtil.log(LogEvent.NOTICE,
-					"BaseTypeContext allowed, instances of baseType allowed as sufficient context");
+					"BaseTypeContext allowed, instances of baseType allowed as sufficient context.");
+	
+		LogUtil.log(LogEvent.NOTICE, "Using " + this.getNumberThreads()
+				+ " threads for computation.");
 
 		LogUtil.log(
 				LogEvent.NOTICE,
@@ -108,8 +112,8 @@ public class ProfileApplicator {
 			// Add all files to workpool
 			Runnable profileThread = new ProfileApplicatorThread(henshinFile,
 					this);
-			
-			//Do all the hard work in {@link ProfileApplicatorThread}
+
+			// Do all the hard work in {@link ProfileApplicatorThread}
 			executor.execute(profileThread);
 
 		}
@@ -124,7 +128,8 @@ public class ProfileApplicator {
 		try {
 			executor.awaitTermination(24, TimeUnit.HOURS);
 		} catch (InterruptedException e) {
-			LogUtil.log(LogEvent.NOTICE, "Applying profile timed out!");
+			LogUtil.log(LogEvent.NOTICE,
+					"Applying profile timed out (24hours)!");
 		}
 
 		LogUtil.log(LogEvent.NOTICE,
