@@ -982,14 +982,24 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 					prioUnit.getParameterMappings().add(selEObjectMapping);
 				}
 				// == new / out-parameter
-				else if(p.getName().matches("New[0-9]*") || p.getName().matches("Child[0-9]*")) {
+				else if(p.getName().matches("New[0-9]*") || (rule.getName().startsWith("create") && p.getName().matches("Child[0-9]*"))) {
 					ParameterMapping pm = henshinFactory.createParameterMapping();
 					pm.setSource(p);
 					pm.setTarget(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
 					if(!prioUnit.getParameterMappings().contains(pm)) {
 						prioUnit.getParameterMappings().add(pm);
 					}
-				}else if(p.getName().matches("NewTarget[0-9]*")|| p.getName().matches("NewSource[0-9]*")) {
+				}
+				else if(p.getName().matches("New[0-9]*") || (rule.getName().startsWith("delete") && p.getName().matches("Child[0-9]*"))) {
+					ParameterMapping pm = henshinFactory.createParameterMapping();
+					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
+					pm.setTarget(p);
+					if(!prioUnit.getParameterMappings().contains(pm)) {
+						prioUnit.getParameterMappings().add(pm);
+					}
+				}
+				
+				else if(p.getName().matches("NewTarget[0-9]*")|| p.getName().matches("NewSource[0-9]*")) {
 					ParameterMapping pm = henshinFactory.createParameterMapping();
 					pm.setTarget(p);
 					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));

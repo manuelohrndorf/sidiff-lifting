@@ -300,7 +300,7 @@ public class SergeServiceImpl implements SergeService{
 		
 		
 		/*** TESTING Meta Model Slicer ******************************************************************************/
-		generator.sliceMetaModel();
+//		generator.sliceMetaModel();
 		
 	}	
 	
