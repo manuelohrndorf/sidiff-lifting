@@ -307,6 +307,26 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	
+	/**
+	 * Creates a << delete >> node in the LHS of a given rule.
+	 * 
+	 * @param name
+	 *            the name of the << delete >> node.
+	 * @param type
+	 *            the type of the << delete >> node.
+	 * @param rule
+	 *            the rule in which the << delete >> node will be created.
+	 * @return the << delete >> node.
+	 */
+	public static Node createDeleteNode(String name, EClass type, Rule rule) {
+
+		Node deleteNode = HenshinFactory.eINSTANCE.createNode(rule.getLhs(), type, name);
+		deleteNode.setName(name); // only required because of a bug in factory method createNode: name will not be set.
+
+		return deleteNode;
+	}
+	
+	
 	
 	/**
 	 * Creates a << delete >> edge between two nodes within a rule.
