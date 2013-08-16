@@ -33,12 +33,27 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected final String MOVE_prefix 				= "MOVE_";
 	protected final String EXECUTE_suffix			= "_execute.henshin";
 	protected final String INITIALCHECK_suffix		= "_initialcheck.henshin";
+	protected final String TGT						= "_TGT_";
+	protected final String FROM						= "_FROM_";
+	protected final String TO						= "_TO_";
+	protected final String IN						= "_IN_";
 	
-	protected String outputFolderPath  = null;
-	protected String baseModelRuleFolderPath  = null;
-	protected static Stack<EPackage> ePackagesStack = null;
+	protected final String SEL						= "Selected";
+	protected final String SELEO					= "selectedEObject";
+	protected final String CHILD					= "Child";
+	protected final String EX						= "Existing";
+	protected final String NEW						= "New";
+	protected final String DEL						= "ToBeDeleted";
+	protected final String NEWTGT					= "NewTarget";
+	protected final String NEWSRC					= "NewSource";
+	protected final String OLDTGT					= "OldTarget";
+	protected final String OLDSRC					= "OldSource";
 	
-	protected static EClassInfoManagement ecm = null;
+	protected String outputFolderPath 				= null;
+	protected String baseModelRuleFolderPath  		= null;
+	
+	protected static Stack<EPackage> ePackagesStack = null;	
+	protected static EClassInfoManagement ecm 		= null;
 	
 	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
 	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};

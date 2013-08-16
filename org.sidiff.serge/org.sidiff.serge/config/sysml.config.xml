@@ -3,7 +3,7 @@
 <Config>
 	<GeneralSettings>
 		<preventInconsistency value="true" />
-		<multiplicityPreconditions integrated="true" separately="true" />
+		<multiplicityPreconditions integrated="false" separately="false" />
 		<reduceToSuperType  CREATE_DELETE="true" MOVE="true" SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="true"/>
    		<modelUsesProfileMechanism value="true"/>
@@ -13,17 +13,19 @@
 		<MainModel nsUri="http://www.eclipse.org/papyrus/0.7.0/SysML" />
 		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
 		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
-		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />		
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />	
+		<!-- 	
 		<Constraints>
 			<NameUniqueness scope="local" eClass="NamedElement" eAttributeName="name" eAttributeIsInherited="false"  overrideInheritedConstraintsIfAny="false" applyOnSubTypes="true"/>
 		</Constraints>
+		 -->
 		<MaskedClassifiers>
 		</MaskedClassifiers>
 	</MetaModelSettings>
 
 	
 	<ProfiledModelSettings>
-		<BaseModelRules path="/org.sidiff.sysml.editrules.atomic/transformation/generated"/>	
+		<BaseModelRules path="/org.sidiff.sysml.editrules.atomic/transformation/generated/unprofiled"/>	
 	</ProfiledModelSettings>
 	
 	<Transformations>

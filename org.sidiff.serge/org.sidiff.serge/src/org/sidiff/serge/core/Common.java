@@ -29,24 +29,7 @@ public class Common {
 			return s;
 		}
 	}
-	
-	public static void replaceNewsWithToBeDeleted(Module module) {
-		
-		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
-			for(Node n: r.getLhs().getNodes()) {
-				String nN = n.getName();
-				if(nN!=null && nN.equals("New")) {
-					n.setName("toBeDeleted");
-				}
-			}
-			for(Node n: r.getRhs().getNodes()) {
-				if(n.getName().equals("New")) {
-					n.setName("toBeDeleted");
-				}
-			}
-		}
-		
-	}
+
 
 	public static String getAttributeValue(String attribName, org.w3c.dom.Node node) {
 			

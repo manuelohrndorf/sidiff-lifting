@@ -3,8 +3,8 @@
 <Config>
 	<GeneralSettings>
 		<preventInconsistency value="true" />
-		<multiplicityPreconditions integrated="true" separately="false" />
-		<reduceToSuperType  CREATE_DELETE="true" MOVE="true" SET_UNSET="true" ADD_REMOVE="true" CHANGE="true" />
+		<multiplicityPreconditions integrated="false" separately="false" />
+		<reduceToSuperType  CREATE_DELETE="true" MOVE="true" SET_UNSET="false" ADD_REMOVE="true" CHANGE="true" />
 		<disableVariants value="false"/>
    		<modelUsesProfileMechanism value="false"/>
 	</GeneralSettings>
@@ -13,9 +13,11 @@
 		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
 		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
 		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />	
+		<!-- 
 		<Constraints>
 			<NameUniqueness scope="local" eClass="NamedElement" eAttributeName="name" eAttributeIsInherited="false"  overrideInheritedConstraintsIfAny="false" applyOnSubTypes="true"/>			
 		</Constraints>
+		 -->
 		<MaskedClassifiers>
 			<Mask name="InitialPseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="initial" />
 			<Mask name="ChoicePseudostate" eClass="Pseudostate" eAttribute="kind" eAttributeValue="choice" />
