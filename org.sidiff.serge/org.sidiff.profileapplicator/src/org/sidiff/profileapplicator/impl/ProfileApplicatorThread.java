@@ -25,9 +25,9 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
-	 * The defined {@link ProfileApplicator} which executed this thread 
-	 * The global configuration is just needed once
-	 * and never changed by any of the threads, hence this solution
+	 * The defined {@link ProfileApplicator} which executed this thread The
+	 * global configuration is just needed once and never changed by any of the
+	 * threads, hence this solution
 	 */
 	private ProfileApplicator applicator;
 
@@ -60,8 +60,8 @@ public class ProfileApplicatorThread extends Thread {
 	/**
 	 * 
 	 * The working method, which applies a profile to a given input file,
-	 * whereas the input file is a henshin edit rule.
-	 * Both are configured through the constructor call of this thread.
+	 * whereas the input file is a henshin edit rule. Both are configured
+	 * through the constructor call of this thread.
 	 * 
 	 */
 	public void applyProfile() {
@@ -97,30 +97,29 @@ public class ProfileApplicatorThread extends Thread {
 			LogUtil.log(LogEvent.DEBUG, "Applying Stereotype: "
 					+ applicator.getStereoTypes().get(z) + " to Basetype: "
 					+ applicator.getBaseTypes().get(z));
-			
+
 			HenshinResourceSet workResourceSet = null;
 			EGraph workGraph = null;
 
-			try{
-			// Create resourceSet as working copy
-			workResourceSet = new HenshinResourceSet(
-					applicator.getInputFolderPath());
+			try {
+				// Create resourceSet as working copy
+				workResourceSet = new HenshinResourceSet(
+						applicator.getInputFolderPath());
 
-			// Create EGraph as working copy
-			workGraph = new EGraphImpl(
-					workResourceSet.getResource(this.sourceFile.getName()));
+				// Create EGraph as working copy
+				workGraph = new EGraphImpl(
+						workResourceSet.getResource(this.sourceFile.getName()));
 
-			// Add basePackage and stereoPackage to Graph for HOTs
-			// matching
-			workGraph.addTree(applicator.getBasePackage());
-			workGraph.addTree(applicator.getStereoPackage());
-			}
-			catch(Exception e){
-				
+				// Add basePackage and stereoPackage to Graph for HOTs
+				// matching
+				workGraph.addTree(applicator.getBasePackage());
+				workGraph.addTree(applicator.getStereoPackage());
+			} catch (Exception e) {
+
 				// Nothing to do here
 				// Just catching exceptions
-				// of creating cross references				
-				
+				// of creating cross references
+
 			}
 
 			// Create Henshin Engine
@@ -171,6 +170,50 @@ public class ProfileApplicatorThread extends Thread {
 				if (executed) {
 					stereoTypesUsed = true;
 					applied = true;
+
+					// Rename rule/module accordingly to profile
+					String moduleName = ((Module) workGraph.getRoots().get(0))
+							.getName();
+					String moduleDescription = ((Module) workGraph.getRoots()
+							.get(0)).getDescription();
+					String ruleName = ((Module) workGraph.getRoots().get(0))
+							.getUnits().get(0).getName();
+					String ruleDescription = ((Module) workGraph.getRoots()
+							.get(0)).getUnits().get(0).getDescription();
+
+					((Module) workGraph.getRoots().get(0)).setName(moduleName
+							.replaceAll("_+" + applicator.getBaseTypes().get(z)
+									+ "_+", "_"
+									+ applicator.getStereoTypes().get(z) + "("
+									+ applicator.getBaseTypes().get(z) + ")_"));
+					((Module) workGraph.getRoots().get(0))
+							.setDescription(moduleDescription.replaceAll(
+									applicator.getBaseTypes().get(z),
+									applicator.getStereoTypes().get(z) + "("
+											+ applicator.getBaseTypes().get(z)
+											+ ")"));
+
+					((Module) workGraph.getRoots().get(0))
+							.getUnits()
+							.get(0)
+							.setName(
+									ruleName.replaceAll(applicator
+											.getBaseTypes().get(z), applicator
+											.getStereoTypes().get(z)
+											+ "("
+											+ applicator.getBaseTypes().get(z)
+											+ ")"));
+					((Module) workGraph.getRoots().get(0))
+							.getUnits()
+							.get(0)
+							.setDescription(
+									ruleDescription.replaceAll(applicator
+											.getBaseTypes().get(z), applicator
+											.getStereoTypes().get(z)
+											+ "("
+											+ applicator.getBaseTypes().get(z)
+											+ ")"));
+
 					outputName = applicator.getOutputFolderPath()
 							+ ((Module) workGraph.getRoots().get(0)).getName()
 							+ "_execute.henshin";
@@ -182,7 +225,7 @@ public class ProfileApplicatorThread extends Thread {
 					workResourceSet.saveEObject(workGraph.getRoots().get(0),
 							outputName);
 
-					LogUtil.log(LogEvent.DEBUG, "Result saved as: "
+					LogUtil.log(LogEvent.DEBUG, "Result(with baseTypeContext) saved as: "
 							+ ((Module) workGraph.getRoots().get(0)).getName()
 							+ "_execute.henshin");
 
