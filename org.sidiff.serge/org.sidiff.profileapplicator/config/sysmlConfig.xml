@@ -3,8 +3,8 @@
 <Config>
 	<ProfileSettings>
 		<Profile name="SysML" />
-		<BaseTypeInstances allow="true" />
-		<BaseTypeContext allow="true" />
+		<BaseTypeInstances allow="false" />
+		<BaseTypeContext allow="false" />
 		<BaseTypeInheritance allow="true" />
 	</ProfileSettings>
 
@@ -21,13 +21,13 @@
 	<StereoTypes>
 	<!--  Used stereotypes in PP-Unit , comment out if all stereotypes 
 	of the SysML profile should be generated-->
-	 	<StereoType name="Block" />
-		<StereoType name="FlowPort" />
-		<StereoType name="ConstraintProperty" />
-		<StereoType name="ConstraintBlock" />
-		<StereoType name="RequirementRelated" />
-		<StereoType name="Requirement" />
-		<StereoType name="Satisfy" />
+	 	<StereoType name="Block" baseTypeInstancesAllowed="false"/>
+		<StereoType name="FlowPort" baseTypeInstancesAllowed="true"/>
+		<StereoType name="ConstraintProperty" baseTypeInstancesAllowed="false"/>
+		<StereoType name="ConstraintBlock" baseTypeInstancesAllowed="false"/>
+		<StereoType name="RequirementRelated" baseTypeInstancesAllowed="false"/>
+		<StereoType name="Requirement" baseTypeInstancesAllowed="false"/>
+		<StereoType name="Satisfy" baseTypeInstancesAllowed="false"/>
 	</StereoTypes>
 
 </Config>

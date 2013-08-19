@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.profileapplicator.impl.ProfileApplicatorThread;
+import org.sidiff.profileapplicator.impl.StereoType;
 
 public class ProfileApplicator {
 
@@ -36,9 +37,7 @@ public class ProfileApplicator {
 	private EPackage basePackage;
 	private EPackage stereoPackage;
 	private List<URI> transformations = new ArrayList<URI>();
-	private List<String> stereoTypes = new ArrayList<String>();
-	private List<String> baseTypes = new ArrayList<String>();
-	private List<String> baseReferences = new ArrayList<String>();
+	private List<StereoType> stereoTypes = new ArrayList<StereoType>();
 
 	// Number of concurrent threads applying the profile
 	// Defaults to 1
@@ -54,12 +53,16 @@ public class ProfileApplicator {
 				"Executing profile application for profile " + this.profileName
 						+ "...");
 
-		// For debugging purposes
-		// Print used stereotypes without duplicates
-		HashSet<String> stereoTypesUnique = new HashSet<String>();
-		stereoTypesUnique.addAll(this.stereoTypes);
+		//Get all used stereoTypes
+		String stereoTypesUsed = "";
+		for (StereoType st : this.stereoTypes) {
+
+			stereoTypesUsed += " " + st.getName();
+
+		}
+		// Print used stereotypes
 		LogUtil.log(LogEvent.NOTICE, "Using following stereotypes: "
-				+ stereoTypesUnique);
+				+ stereoTypesUsed);
 
 		LogUtil.log(
 				LogEvent.NOTICE,
@@ -78,7 +81,7 @@ public class ProfileApplicator {
 		if (this.baseTypeContext)
 			LogUtil.log(LogEvent.NOTICE,
 					"BaseTypeContext allowed, instances of baseType allowed as sufficient context.");
-	
+
 		LogUtil.log(LogEvent.NOTICE, "Using " + this.getNumberThreads()
 				+ " threads for computation.");
 
@@ -140,7 +143,7 @@ public class ProfileApplicator {
 	/**
 	 * @return the stereoTypes
 	 */
-	public List<String> getStereoTypes() {
+	public List<StereoType> getStereoTypes() {
 		return stereoTypes;
 	}
 
@@ -148,38 +151,8 @@ public class ProfileApplicator {
 	 * @param stereoTypes
 	 *            the stereoTypes to set
 	 */
-	public void setStereoTypes(List<String> stereoTypes) {
+	public void setStereoTypes(List<StereoType> stereoTypes) {
 		this.stereoTypes = stereoTypes;
-	}
-
-	/**
-	 * @return the baseTypes
-	 */
-	public List<String> getBaseTypes() {
-		return baseTypes;
-	}
-
-	/**
-	 * @param baseTypes
-	 *            the baseTypes to set
-	 */
-	public void setBaseTypes(List<String> baseTypes) {
-		this.baseTypes = baseTypes;
-	}
-
-	/**
-	 * @return the baseReferences
-	 */
-	public List<String> getBaseReferences() {
-		return baseReferences;
-	}
-
-	/**
-	 * @param baseReferences
-	 *            the baseReferences to set
-	 */
-	public void setBaseReferences(List<String> baseReferences) {
-		this.baseReferences = baseReferences;
 	}
 
 	/**

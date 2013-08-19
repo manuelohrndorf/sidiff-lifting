@@ -1,6 +1,7 @@
 package org.sidiff.profileapplicator.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,10 +36,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	private static String basePackage = null;
 	private static String stereoPackage = null;
 	private static List<URI> transformations = new ArrayList<URI>();
-	private static List<String> configuredStereoTypes = new ArrayList<String>();
-	private static List<String> stereoTypes = new ArrayList<String>();
-	private static List<String> baseTypes = new ArrayList<String>();
-	private static List<String> baseReferences = new ArrayList<String>();
+	private static List<StereoType> configuredStereoTypes = new ArrayList<StereoType>();
 
 	// Iterate through all subtypes of baseType?
 	private boolean baseTypeInheritance = false;
@@ -47,7 +45,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	}
 
-	/*
+	/**
 	 * Initialize the {@see ProfileApplicator} Read the XML configuration file
 	 * and define the applicator accordingly
 	 * 
@@ -56,7 +54,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	 * Class, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void init(Class<?> service, String pathToConfig,
-			String pathToInputFolder, String pathToOutputFolder, int numberOfThreads) {
+			String pathToInputFolder, String pathToOutputFolder,
+			int numberOfThreads) {
 
 		if (service == ProfileApplicator.class) {
 
@@ -76,7 +75,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			org.w3c.dom.Node currentNode = null;
 			NodeList currentChildNodes = null;
 
-			// retrieve and set configuration parameters			
+			// retrieve and set configuration parameters
 
 			currentNode = doc.getElementsByTagName("Profile").item(0);
 			applicator.setProfileName((String.valueOf(getAttributeValue("name",
@@ -133,9 +132,13 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
 				Node stereoTypeNode = stereoTypeNodes.item(i);
-				String configuredStereoType = String.valueOf(getAttributeValue(
-						"name", stereoTypeNode));
-				configuredStereoTypes.add(configuredStereoType);
+				String configuredStereoTypeName = String
+						.valueOf(getAttributeValue("name", stereoTypeNode));
+				Boolean baseTypeInstancesAllowed = (Boolean
+						.valueOf(getAttributeValue("baseTypeInstancesAllowed",
+								stereoTypeNode)));
+				configuredStereoTypes.add(new StereoType(
+						configuredStereoTypeName, baseTypeInstancesAllowed));
 			}
 
 			// Get all stereoTypes of current profile
@@ -149,17 +152,35 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 					// Get stereoType Class
 					EClass stereoType = (EClass) classifier;
 
+					// Create stereotype for later
+					StereoType stereoTypeTemp = new StereoType();
+
 					// Test if stereotype is contained in configuration
 					// or no stereotype is configured at all, then all will be
 					// used
+					boolean nameContained = false;
+					boolean classContained = false;
+					boolean stereoTypeContained = false;
+					boolean baseTypeInstancesAllowed = false;
+					for (StereoType st : configuredStereoTypes) {
+						
+						nameContained = st.getName().equals(
+								stereoType.getName());
+						classContained = stereoType
+								.equals((EClass) getClassifier(
+										applicator.getStereoPackage(),
+										st.getName()));
+						stereoTypeContained = nameContained && classContained;
+						if (stereoTypeContained){
+							baseTypeInstancesAllowed = st
+									.isBaseTypeInstancesAllowed();
+							break;
+						}
+					}
+					
+
 					if (configuredStereoTypes.size() == 0
-							|| (configuredStereoTypes.indexOf(stereoType
-									.getName()) != -1 && stereoType
-									.equals((EClass) getClassifier(
-											applicator.getStereoPackage(),
-											configuredStereoTypes.get(configuredStereoTypes
-													.indexOf(stereoType
-															.getName())))))) {
+							|| stereoTypeContained) {
 						// Get all baseReferences of stereoType
 						List<EStructuralFeature> allBaseReferences = EMFMetaAccess
 								.getEStructuralFeaturesByRegEx(stereoType,
@@ -167,18 +188,19 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 						for (EStructuralFeature baseReference : allBaseReferences) {
 
 							// Create temporal variables
-
-							String stereoTypeTemp = stereoType.getName();
+							String stereoTypeNameTemp = stereoType.getName();
 							String baseReferenceTemp = ((EReference) baseReference)
 									.getName();
 							String baseTypeTemp = ((EClass) baseReference
 									.getEType()).getName();
-
+							
 							// Add stereoType and its corresponding baseType and
 							// baseReference without inheritance
-							stereoTypes.add(stereoTypeTemp);
-							baseReferences.add(baseReferenceTemp);
-							baseTypes.add(baseTypeTemp);
+							HashMap<String, String> baseTypeMapTemp = new HashMap<String, String>();
+							baseTypeMapTemp
+									.put(baseTypeTemp, baseReferenceTemp);
+							stereoTypeTemp = new StereoType(stereoTypeNameTemp,
+									baseTypeMapTemp, baseTypeInstancesAllowed);
 
 							if (baseTypeInheritance) {
 								// Adding all possible sub types of base type
@@ -197,25 +219,25 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 											if (eSuperClass.getName().equals(
 													baseTypeTemp)) {
 
-												stereoTypes.add(stereoTypeTemp);
-												baseTypes.add(eSubClass
-														.getName());
-												baseReferences
-														.add(baseReferenceTemp);
+												stereoTypeTemp.addBaseType(
+														eSubClass.getName(),
+														baseReferenceTemp);
 
 											}
 										}
 									}
 								}
 							}
+							applicator.getStereoTypes().add(stereoTypeTemp);
 						}
+						
 					}
+					
+						
 				}
-			}
+				
 
-			applicator.setStereoTypes(stereoTypes);
-			applicator.setBaseTypes(baseTypes);
-			applicator.setBaseReferences(baseReferences);
+			}
 
 			LogUtil.log(LogEvent.NOTICE,
 					"Interpreting completed, ProfileApplicator initialized!");
@@ -256,7 +278,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 	}
 
-	/*
+	/**
 	 * Get Attribute value of given attribute name in given node
 	 * 
 	 * @param attribName Name of the attribute
