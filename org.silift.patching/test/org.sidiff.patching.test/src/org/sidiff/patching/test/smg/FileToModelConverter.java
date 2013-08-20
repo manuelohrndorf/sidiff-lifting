@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
@@ -38,7 +39,7 @@ public class FileToModelConverter {
 		this.testFileGroups = testFileGroups;
 	}
 
-	public List<TestSuite> getTestSuites() {
+	public List<TestSuite> getTestSuites() throws InvalidModelException {
 		List<TestSuite> testSuites = new ArrayList<TestSuite>();
 		for (TestFileGroup testFileGroup : testFileGroups) {
 			LogUtil.log(LogEvent.NOTICE, "Converting Test " + testFileGroup.id);
