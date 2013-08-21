@@ -14,6 +14,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ParameterValueList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -35,7 +36,7 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
  * 
  */
 public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
-	
+
 	private EGraph graph;
 
 	@Override
@@ -53,6 +54,10 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)
 		EditRule editRule = operationInvocation.resolveEditRule();
+		// =====
+		// FIXME: Check-Dangling WORKAROUND
+		danglingConstraintWorkaround(editRule);
+		// =====
 		Unit unit = editRule.getExecuteMainUnit();
 		Engine engine = new EngineImpl();
 		UnitApplication application = new UnitApplicationImpl(engine);
@@ -72,7 +77,7 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 				Object object = inputParameters.get(parameterName);
 				if (object == null && ruleParameter.getKind() == ParameterKind.OBJECT) {
 					missingParameters.add(parameterName);
-				}				
+				}
 			}
 		}
 		if (!missingParameters.isEmpty()) {
@@ -109,16 +114,50 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	 */
 	private Object getArgument(String formal, Map<String, Object> inputParameters) {
 		Object argument = inputParameters.get(formal);
-		if (argument instanceof List){
+		if (argument instanceof List) {
 			List commonList = (List) argument;
 			ParameterValueList pvl = new ParameterValueList();
 			for (Object object : commonList) {
 				pvl.add(object);
 			}
 			return pvl;
-			
+
 		} else {
 			return argument;
 		}
 	}
+
+	// ================================================================
+	/**
+	 * Dangling constraint WORKAROUND:
+	 * 
+	 * Problem:<br/>
+	 * Das neue Konzept der geschachtelten Regeln weist gegenüber den früheren
+	 * AmalgamationUnits an einer Stelle semantisch ab: Von Kernel-Regeln wird
+	 * die Dangling-Bedingung geprüft, ohne daß die Effekte der Multi-Regeln
+	 * berücksichtigt werden. Dabei könnten ja gerade durch die Multi-Regeln
+	 * entscheidende Kanten gelöscht werden, so dass die Dangling Bedingung
+	 * erfüllt wäre.
+	 * 
+	 * Lösung<br/>
+	 * Kernel-Regeln (also Regeln mit eingebetteten Multi-Regeln) setzen wir für
+	 * die Patch-Ausführung pauschal auf checkDangling = false.
+	 */
+	private void danglingConstraintWorkaround(EditRule editRule) {
+		for (Rule r : editRule.getExecuteModule().getRules()) {
+			danglingConstraintWorkaround(r);
+		}
+	}
+
+	private void danglingConstraintWorkaround(Rule rule) {
+		if (!rule.getMultiRules().isEmpty()) {
+			// its a kernel rule
+			rule.setCheckDangling(false);
+		}
+
+		for (Rule mr : rule.getMultiRules()) {
+			danglingConstraintWorkaround(mr);
+		}
+	}
+	// ================================================================
 }
