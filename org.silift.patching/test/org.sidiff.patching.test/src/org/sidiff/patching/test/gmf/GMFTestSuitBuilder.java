@@ -68,7 +68,7 @@ public class GMFTestSuitBuilder {
 		if (matcher == null) {
 			matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", original, modified);
 			if (matcher == null) {
-				LogUtil.log(LogEvent.ERROR, "No SiLift Matcher found!");
+				LogUtil.log(LogEvent.ERROR, "UUIDMatcher not found!");
 				return null;
 			}
 		}
