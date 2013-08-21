@@ -49,9 +49,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	 * Initialize the {@see ProfileApplicator} Read the XML configuration file
 	 * and define the applicator accordingly
 	 * 
-	 * @see
-	 * org.sidiff.profileapplicator.ProfileApplicatorService#init(java.lang.
-	 * Class, java.lang.String, java.lang.String, java.lang.String)
+	 * @see org.sidiff.profileapplicator.ProfileApplicatorService#init(java.lang.
+	 *      Class, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void init(Class<?> service, String pathToConfig,
 			String pathToInputFolder, String pathToOutputFolder,
@@ -83,11 +82,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 			currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
 			applicator.setBaseTypeInstances((Boolean.valueOf(getAttributeValue(
-					"allow", currentNode))));
-
-			currentNode = doc.getElementsByTagName("BaseTypeContext").item(0);
-			applicator.setBaseTypeContext((Boolean.valueOf(getAttributeValue(
-					"allow", currentNode))));
+					"allow", currentNode))));			
 
 			currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
 					0);
@@ -134,11 +129,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 				Node stereoTypeNode = stereoTypeNodes.item(i);
 				String configuredStereoTypeName = String
 						.valueOf(getAttributeValue("name", stereoTypeNode));
-				Boolean baseTypeInstancesAllowed = (Boolean
-						.valueOf(getAttributeValue("baseTypeInstancesAllowed",
-								stereoTypeNode)));
 				configuredStereoTypes.add(new StereoType(
-						configuredStereoTypeName, baseTypeInstancesAllowed));
+						configuredStereoTypeName));
 			}
 
 			// Get all stereoTypes of current profile
@@ -161,9 +153,8 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 					boolean nameContained = false;
 					boolean classContained = false;
 					boolean stereoTypeContained = false;
-					boolean baseTypeInstancesAllowed = false;
 					for (StereoType st : configuredStereoTypes) {
-						
+
 						nameContained = st.getName().equals(
 								stereoType.getName());
 						classContained = stereoType
@@ -171,13 +162,10 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 										applicator.getStereoPackage(),
 										st.getName()));
 						stereoTypeContained = nameContained && classContained;
-						if (stereoTypeContained){
-							baseTypeInstancesAllowed = st
-									.isBaseTypeInstancesAllowed();
+						if (stereoTypeContained) {
 							break;
 						}
 					}
-					
 
 					if (configuredStereoTypes.size() == 0
 							|| stereoTypeContained) {
@@ -193,14 +181,14 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 									.getName();
 							String baseTypeTemp = ((EClass) baseReference
 									.getEType()).getName();
-							
+
 							// Add stereoType and its corresponding baseType and
 							// baseReference without inheritance
 							HashMap<String, String> baseTypeMapTemp = new HashMap<String, String>();
 							baseTypeMapTemp
 									.put(baseTypeTemp, baseReferenceTemp);
 							stereoTypeTemp = new StereoType(stereoTypeNameTemp,
-									baseTypeMapTemp, baseTypeInstancesAllowed);
+									baseTypeMapTemp);
 
 							if (baseTypeInheritance) {
 								// Adding all possible sub types of base type
@@ -230,12 +218,10 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 							}
 							applicator.getStereoTypes().add(stereoTypeTemp);
 						}
-						
+
 					}
-					
-						
+
 				}
-				
 
 			}
 
@@ -281,9 +267,11 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	/**
 	 * Get Attribute value of given attribute name in given node
 	 * 
-	 * @param attribName Name of the attribute
+	 * @param attribName
+	 *            Name of the attribute
 	 * 
-	 * @param node Node where to look for attribute
+	 * @param node
+	 *            Node where to look for attribute
 	 * 
 	 * @return value Attribute value
 	 */

@@ -68,12 +68,6 @@ public class ProfileApplicatorThread extends Thread {
 
 		// Initialize organizing variables
 		boolean stereoTypesUsed = false;
-		boolean baseTypeInstancesAllowed = false;
-		String outputName = null;
-
-		// Set appropriate output name
-		outputName = applicator.getOutputFolderPath()
-				+ this.sourceFile.getName();
 
 		// Create resourceSet for source
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
@@ -86,213 +80,21 @@ public class ProfileApplicatorThread extends Thread {
 		LogUtil.log(LogEvent.NOTICE, "Transformating: " + sourceFile.getName()
 				+ "...");
 
-		// variable to check if henshin rule has been successfully been
-		// applied
-		boolean applied = false;
-
 		// Iterate over all stereoTypes used in profile
-		for (StereoType stereoType : applicator.getStereoTypes()) {
+		for (StereoType stereoType : applicator.getStereoTypes()) {		
 
-			// Read stereotype variable
-			baseTypeInstancesAllowed = stereoType.isBaseTypeInstancesAllowed();
-
-			for (String baseType : stereoType.getBaseTypeMap().keySet()) {
-
-				LogUtil.log(LogEvent.DEBUG,
-						"----------------------------------------------------------------------");
-				LogUtil.log(LogEvent.DEBUG, "Applying Stereotype: "
-						+ stereoType.getName() + " to Basetype: " + baseType);
-
-				HenshinResourceSet workResourceSet = null;
-				EGraph workGraph = null;
-
-				try {
-					// Create resourceSet as working copy
-					workResourceSet = new HenshinResourceSet(
-							applicator.getInputFolderPath());
-
-					// Create EGraph as working copy
-					workGraph = new EGraphImpl(
-							workResourceSet.getResource(this.sourceFile
-									.getName()));
-
-					// Add basePackage and stereoPackage to Graph for HOTs
-					// matching
-					workGraph.addTree(applicator.getBasePackage());
-					workGraph.addTree(applicator.getStereoPackage());
-				} catch (Exception e) {
-
-					// Nothing to do here
-					// Just catching exceptions
-					// of creating cross references
-
-				}
-
-				// Create Henshin Engine
-				Engine engine = new EngineImpl();
-
-				// Iterate over all enabled higher order transformations
-				for (URI hot : applicator.getTransformations()) {
-
-					// Create unitapplication for transformation
-					UnitApplication unitapp = new UnitApplicationImpl(engine);
-					// Use current working copy graph
-					unitapp.setEGraph(workGraph);
-
-					// Create resourceSet for higher order transformation
-					// henshin rule
-					HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
-
-					// Get module
-					Module module = hotsResourceSet.getModule(hot, false);
-
-					LogUtil.log(
-							LogEvent.DEBUG,
-							"Executing HOT "
-									+ hot.toString()
-											.replace(
-													"platform:/plugin/org.sidiff.profileapplicator/hots/",
-													"") + "...");
-
-					// Set unit to SiLift default
-					unitapp.setUnit((Unit) module.getUnit("mainUnit"));
-
-					// setting parameters
-					unitapp.setParameterValue("stereoPackage", applicator
-							.getStereoPackage().getNsURI());
-					unitapp.setParameterValue("stereoType",
-							stereoType.getName());
-					unitapp.setParameterValue("baseType", baseType);
-					unitapp.setParameterValue("baseReference", stereoType
-							.getBaseTypeMap().get(baseType));
-
-					// Execute henshin rule
-					boolean executed = unitapp.execute(null);
-
-					LogUtil.log(LogEvent.DEBUG, "Successfully applied: "
-							+ executed);
-
-					// If successfully executed set variables accordingly
-					if (executed) {
-						stereoTypesUsed = true;
-						applied = true;
-
-						// Rename rule/module accordingly to profile
-						String moduleName = ((Module) workGraph.getRoots().get(
-								0)).getName();
-						String moduleDescription = ((Module) workGraph
-								.getRoots().get(0)).getDescription();
-						String ruleName = ((Module) workGraph.getRoots().get(0))
-								.getUnits().get(0).getName();
-						String ruleDescription = ((Module) workGraph.getRoots()
-								.get(0)).getUnits().get(0).getDescription();
-
-						((Module) workGraph.getRoots().get(0))
-								.setName(moduleName.replaceAll("_+" + baseType
-										+ "_+", "_" + stereoType.getName()
-										+ "(" + baseType + ")_"));
-						((Module) workGraph.getRoots().get(0))
-								.setDescription(moduleDescription.replaceAll(
-										baseType, stereoType.getName() + "("
-												+ baseType + ")"));
-
-						((Module) workGraph.getRoots().get(0))
-								.getUnits()
-								.get(0)
-								.setName(
-										ruleName.replaceAll(baseType,
-												stereoType.getName() + "("
-														+ baseType + ")"));
-						((Module) workGraph.getRoots().get(0))
-								.getUnits()
-								.get(0)
-								.setDescription(
-										ruleDescription.replaceAll(baseType,
-												stereoType.getName() + "("
-														+ baseType + ")"));
-
-						outputName = applicator.getOutputFolderPath()
-								+ ((Module) workGraph.getRoots().get(0))
-										.getName() + "_execute.henshin";
-
-					}
-					// If successfully executed
-					// and baseTypeContext is set
-					if (executed && applicator.isBaseTypeContext()) {
-						workResourceSet.saveEObject(
-								workGraph.getRoots().get(0), outputName);
-
-						LogUtil.log(
-								LogEvent.DEBUG,
-								"Result(with baseTypeContext) saved as: "
-										+ ((Module) workGraph.getRoots().get(0))
-												.getName() + "_execute.henshin");
-
-					}
-					// "Free" resourceSet (Java GC does not think so)
-					hotsResourceSet = null;
-
-				}
-
-				// Save created profiled henshin edit rule
-				if (applied) {
-
-					workResourceSet.saveEObject(workGraph.getRoots().get(0),
-							outputName);
-
-					LogUtil.log(LogEvent.DEBUG, "Result saved as: "
-							+ ((Module) workGraph.getRoots().get(0)).getName()
-							+ "_execute.henshin");
-					
-					//Save unmodified version
-					if(stereoType.isBaseTypeInstancesAllowed()){
-						srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
-								applicator.getOutputFolderPath() + sourceFile.getName());
-						LogUtil.log(LogEvent.DEBUG, "Saved unmodified source file: "
-								+ ((Module) srcGraph.getRoots().get(0)).getName()
-								+ "_execute.henshin");
-					}
-
-					// Reset variable
-					applied = false;
-				}
-
-				try {
-					// Clear memory from unused EObjects
-					// If not done, execution time is exponential
-					for (EObject roots : workGraph.getRoots()) {
-
-						workGraph.removeGraph(roots);
-
-					}
-				} catch (Exception e) {
-
-					// Nothing to do here
-					// Just catching exceptions
-					// of deleting cross references
-
-				}
-				workResourceSet = null;
-				workGraph = null;
-
-			}
+			// Remember if at least one stereoType has been used
+			if (applyStereoType(stereoType))
+				stereoTypesUsed = true;
 		}
 
-		// Copy meta instances untransformed
-		// if no stereotype could be executed on current
-		// input rule or baseTypeInstances are allowed
-		if (!stereoTypesUsed || applicator.isBaseTypeInstances()) {
-
-			srcResourceSet.saveEObject(srcGraph.getRoots().get(0),
-					applicator.getOutputFolderPath() + sourceFile.getName());
-
+		if (applicator.isBaseTypeInstances() || !stereoTypesUsed) {
 			LogUtil.log(
 					LogEvent.DEBUG,
-					"No applicable stereotype found or baseTypeInstances allowed, copied unmodified edit rule");
-
+					"BaseTypeInstances allowed or stereoType not applicable"
+							+ ", copied unmodified module to: "
+							+ saveModule(srcResourceSet, srcGraph));
 		}
-		// Reset variable
-		stereoTypesUsed = false;
 
 		try {
 			// Clear memory from unused EObjects
@@ -300,8 +102,8 @@ public class ProfileApplicatorThread extends Thread {
 			for (EObject roots : srcGraph.getRoots()) {
 
 				srcGraph.removeGraph(roots);
-
 			}
+
 		} catch (Exception e) {
 
 			// Nothing to do here
@@ -311,6 +113,200 @@ public class ProfileApplicatorThread extends Thread {
 		}
 		srcResourceSet = null;
 		srcGraph = null;
+	}
+
+	/**
+	 * Tries to apply a given stereoType to the input file, defined through
+	 * Thread constructor. Returns true if stereoType could be applied
+	 * successfully.
+	 * 
+	 * @param stereoType
+	 *            stereoType to apply
+	 * @return boolean if stereoType could be applied successfully
+	 */
+	public boolean applyStereoType(StereoType stereoType) {
+
+		// Initialize organizing variables
+		boolean stereoTypeUsed = false;
+
+		for (String baseType : stereoType.getBaseTypeMap().keySet()) {
+
+			boolean applied = false;
+			
+			LogUtil.log(LogEvent.DEBUG, "---------------------------");
+			LogUtil.log(LogEvent.DEBUG,
+					"Applying Stereotype: " + stereoType.getName() +" --(" + stereoType
+					.getBaseTypeMap().get(baseType) + ")--> " + baseType);
+
+			HenshinResourceSet workResourceSet = null;
+			EGraph workGraph = null;
+			try {
+				// Create resourceSet as working copy
+				workResourceSet = new HenshinResourceSet(
+						applicator.getInputFolderPath());
+
+				// Create EGraph as working copy
+				workGraph = new EGraphImpl(
+						workResourceSet.getResource(this.sourceFile.getName()));
+
+				// Add basePackage and stereoPackage to Graph for HOTs
+				// matching
+				workGraph.addTree(applicator.getBasePackage());
+				workGraph.addTree(applicator.getStereoPackage());
+			} catch (Exception e) {
+
+				// Nothing to do here
+				// Just catching exceptions
+				// of creating cross references
+
+			}
+
+			// Create Henshin Engine
+			Engine engine = new EngineImpl();
+
+			// Iterate over all enabled higher order transformations
+			for (URI hot : applicator.getTransformations()) {
+
+				// Create unitapplication for transformation
+				UnitApplication unitapp = new UnitApplicationImpl(engine);
+				// Use current working copy graph
+				unitapp.setEGraph(workGraph);
+
+				// Create resourceSet for higher order transformation
+				// henshin rule
+				HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
+
+				// Get module
+				Module module = hotsResourceSet.getModule(hot, false);
+
+				LogUtil.log(
+						LogEvent.DEBUG,
+						"Executing HOT "
+								+ hot.toString()
+										.replace(
+												"platform:/plugin/org.sidiff.profileapplicator/hots/",
+												"") + "...");
+
+				// Set unit to SiLift default
+				unitapp.setUnit((Unit) module.getUnit("mainUnit"));
+
+				// setting parameters
+				unitapp.setParameterValue("stereoPackage", applicator
+						.getStereoPackage().getNsURI());
+				unitapp.setParameterValue("stereoType", stereoType.getName());
+				unitapp.setParameterValue("baseType", baseType);
+				unitapp.setParameterValue("baseReference", stereoType
+						.getBaseTypeMap().get(baseType));
+
+				// Execute henshin rule
+				boolean executed = unitapp.execute(null);
+
+				LogUtil.log(LogEvent.DEBUG, "Successfully applied: " + executed);
+
+				// If successfully executed
+				if (executed) {
+					stereoTypeUsed = true;
+					applied = true;
+
+				}
+
+			}
+
+			// Save created profiled henshin edit rule
+			if (applied) {
+
+				// Rename rule/module accordingly to profile
+				renameBaseType(workGraph, baseType, stereoType.getName());
+
+				// Save module as new file
+				LogUtil.log(
+						LogEvent.DEBUG,
+						"Result saved as: "
+								+ saveModule(workResourceSet, workGraph));
+
+			}
+
+			try {
+				// Clear memory from unused EObjects
+				// If not done, execution time is exponential
+				for (EObject roots : workGraph.getRoots()) {
+
+					workGraph.removeGraph(roots);
+				}
+
+			} catch (Exception e) {
+
+				// Nothing to do here
+				// Just catching exceptions
+				// of deleting cross references
+
+			}
+			workResourceSet = null;
+			workGraph = null;
+
+		}
+
+		return stereoTypeUsed;
+	}
+
+	/**
+	 * Helper method for saving a henshin module to a file according to its
+	 * module name. Returns the filename of the save file.
+	 * 
+	 * @param resSet
+	 *            ResourceSet containing the source graph
+	 * @param graph
+	 *            source graph
+	 * @return filename of saved henshin file
+	 */
+
+	public String saveModule(HenshinResourceSet resSet, EGraph graph) {
+
+		String outputName = applicator.getOutputFolderPath()
+				+ ((Module) graph.getRoots().get(0)).getName()
+				+ "_execute.henshin";
+		resSet.saveEObject(graph.getRoots().get(0), outputName);
+
+		return outputName;
+	}
+
+	/**
+	 * Helper method for renaming all occurrences of baseType to stereoType
+	 * 
+	 * @param graph
+	 *            Graph in which the renaming should be done
+	 * @param baseType
+	 *            name of baseType to replace
+	 * @param stereoType
+	 *            name of stereoType to use as new name
+	 */
+	public void renameBaseType(EGraph graph, String baseType, String stereoType) {
+
+		String moduleName = ((Module) graph.getRoots().get(0)).getName();
+		String moduleDescription = ((Module) graph.getRoots().get(0))
+				.getDescription();
+		String ruleName = ((Module) graph.getRoots().get(0)).getUnits().get(0)
+				.getName();
+		String ruleDescription = ((Module) graph.getRoots().get(0)).getUnits()
+				.get(0).getDescription();
+
+		((Module) graph.getRoots().get(0)).setName(moduleName.replaceAll("_+"
+				+ baseType + "_+", "_" + stereoType + "(" + baseType + ")_"));
+		((Module) graph.getRoots().get(0)).setDescription(moduleDescription
+				.replaceAll(baseType, stereoType + "(" + baseType + ")"));
+
+		((Module) graph.getRoots().get(0))
+				.getUnits()
+				.get(0)
+				.setName(
+						ruleName.replaceAll(baseType, stereoType + "("
+								+ baseType + ")"));
+		((Module) graph.getRoots().get(0))
+				.getUnits()
+				.get(0)
+				.setDescription(
+						ruleDescription.replaceAll(baseType, stereoType + "("
+								+ baseType + ")"));
 
 	}
 

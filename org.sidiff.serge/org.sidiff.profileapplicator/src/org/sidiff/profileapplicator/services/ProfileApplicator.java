@@ -28,9 +28,8 @@ public class ProfileApplicator {
 	// Folder for output edit rules
 	private String outputFolderPath = null;
 
-	// Configuration parameters
+	// Configuration parameter
 	private boolean baseTypeInstances = false;
-	private boolean baseTypeContext = false;
 
 	// Profile configuration
 	private String profileName = null;
@@ -76,11 +75,7 @@ public class ProfileApplicator {
 		if (this.baseTypeInstances)
 			LogUtil.log(
 					LogEvent.NOTICE,
-					"BaseTypeInstances allowed, source edit rules will also be copied untransformed.");
-
-		if (this.baseTypeContext)
-			LogUtil.log(LogEvent.NOTICE,
-					"BaseTypeContext allowed, instances of baseType allowed as sufficient context.");
+					"BaseTypeInstances allowed, source edit rules will also be copied untransformed.");	
 
 		LogUtil.log(LogEvent.NOTICE, "Using " + this.getNumberThreads()
 				+ " threads for computation.");
@@ -258,22 +253,7 @@ public class ProfileApplicator {
 	 */
 	public void setBaseTypeInstances(boolean baseTypeInstances) {
 		this.baseTypeInstances = baseTypeInstances;
-	}
-
-	/**
-	 * @return the baseTypeContext
-	 */
-	public boolean isBaseTypeContext() {
-		return baseTypeContext;
-	}
-
-	/**
-	 * @param baseTypeContext
-	 *            the baseTypeContext to set
-	 */
-	public void setBaseTypeContext(boolean baseTypeContext) {
-		this.baseTypeContext = baseTypeContext;
-	}
+	}	
 
 	/**
 	 * @return the transformations

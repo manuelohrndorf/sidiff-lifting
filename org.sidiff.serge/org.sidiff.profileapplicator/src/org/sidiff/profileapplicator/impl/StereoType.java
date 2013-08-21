@@ -15,25 +15,16 @@ public class StereoType {
 	private HashMap<String, String> baseTypeMap = new HashMap<String, String>();
 
 	/**
-	 * Boolean for checking if baseTypes are allowed without applied stereotype
-	 */
-	private boolean baseTypeInstancesAllowed = false;
-
-	/**
 	 * Constructor with initialization of stereotype attributes
 	 * 
 	 * @param name
 	 *            the name of the stereotype
 	 * @param baseTypeMap
 	 *            the mapping between basetypes and basereferences
-	 * @param baseTypeInstancesAllowed
-	 *            boolean for basetype instances
 	 */
-	public StereoType(String name, HashMap<String, String> baseTypeMap,
-			boolean baseTypeInstancesAllowed) {
+	public StereoType(String name, HashMap<String, String> baseTypeMap) {
 		this.name = name;
 		this.baseTypeMap = baseTypeMap;
-		this.baseTypeInstancesAllowed = baseTypeInstancesAllowed;
 	}
 
 	/**
@@ -41,19 +32,16 @@ public class StereoType {
 	 * 
 	 * @param name
 	 *            the name of the stereotype
-	 * @param baseTypeInstancesAllowed
-	 *            boolean for basetype instances
 	 */
-	public StereoType(String name, boolean baseTypeInstancesAllowed) {
+	public StereoType(String name) {
 		this.name = name;
-		this.baseTypeInstancesAllowed = baseTypeInstancesAllowed;
 	}
-	
+
 	/**
 	 * Convenience constructor
 	 */
-	public StereoType(){
-		
+	public StereoType() {
+
 	}
 
 	/**
@@ -65,7 +53,7 @@ public class StereoType {
 	 *            the corresponding baseReference to add
 	 */
 	public void addBaseType(String baseType, String baseReference) {
-		
+
 		if (!this.baseTypeMap.containsKey(baseType))
 			this.baseTypeMap.put(baseType, baseReference);
 	}
@@ -98,21 +86,6 @@ public class StereoType {
 	 */
 	public void setBaseTypeMap(HashMap<String, String> baseTypeMap) {
 		this.baseTypeMap = baseTypeMap;
-	}
-
-	/**
-	 * @return the baseTypeInstancesAllowed
-	 */
-	public boolean isBaseTypeInstancesAllowed() {
-		return baseTypeInstancesAllowed;
-	}
-
-	/**
-	 * @param baseTypeInstancesAllowed
-	 *            the baseTypeInstancesAllowed to set
-	 */
-	public void setBaseTypeInstancesAllowed(boolean baseTypeInstancesAllowed) {
-		this.baseTypeInstancesAllowed = baseTypeInstancesAllowed;
 	}
 
 }
