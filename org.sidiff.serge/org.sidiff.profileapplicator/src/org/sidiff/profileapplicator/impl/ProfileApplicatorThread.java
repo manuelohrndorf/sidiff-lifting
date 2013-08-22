@@ -1,6 +1,8 @@
 package org.sidiff.profileapplicator.impl;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -81,7 +83,7 @@ public class ProfileApplicatorThread extends Thread {
 				+ "...");
 
 		// Iterate over all stereoTypes used in profile
-		for (StereoType stereoType : applicator.getStereoTypes()) {		
+		for (StereoType stereoType : applicator.getStereoTypes()) {
 
 			// Remember if at least one stereoType has been used
 			if (applyStereoType(stereoType))
@@ -96,21 +98,8 @@ public class ProfileApplicatorThread extends Thread {
 							+ saveModule(srcResourceSet, srcGraph));
 		}
 
-		try {
-			// Clear memory from unused EObjects
-			// If not done, execution time is exponential
-			for (EObject roots : srcGraph.getRoots()) {
-
-				srcGraph.removeGraph(roots);
-			}
-
-		} catch (Exception e) {
-
-			// Nothing to do here
-			// Just catching exceptions
-			// of deleting cross references
-
-		}
+		// Clear memory
+		releaseAdapters(srcGraph);
 		srcResourceSet = null;
 		srcGraph = null;
 	}
@@ -132,11 +121,12 @@ public class ProfileApplicatorThread extends Thread {
 		for (String baseType : stereoType.getBaseTypeMap().keySet()) {
 
 			boolean applied = false;
-			
+
 			LogUtil.log(LogEvent.DEBUG, "---------------------------");
 			LogUtil.log(LogEvent.DEBUG,
-					"Applying Stereotype: " + stereoType.getName() +" --(" + stereoType
-					.getBaseTypeMap().get(baseType) + ")--> " + baseType);
+					"Applying Stereotype: " + stereoType.getName() + " --("
+							+ stereoType.getBaseTypeMap().get(baseType)
+							+ ")--> " + baseType);
 
 			HenshinResourceSet workResourceSet = null;
 			EGraph workGraph = null;
@@ -158,6 +148,32 @@ public class ProfileApplicatorThread extends Thread {
 				// Nothing to do here
 				// Just catching exceptions
 				// of creating cross references
+
+			}
+
+			// Rename rule/module accordingly to profile
+			renameBaseType(workGraph, baseType, stereoType.getName());
+
+			// Test if result file already exists
+			// Could be created by another thread
+			// No Matching/Transformation needed
+			File targetFolder = new File(applicator.getOutputFolderPath());
+			ArrayList<File> targetFiles = new ArrayList<File>(
+					Arrays.asList(targetFolder.listFiles()));
+
+			String outputName = applicator.getOutputFolderPath()
+					+ ((Module) workGraph.getRoots().get(0)).getName()
+					+ "_execute.henshin";
+
+			for (File targetFile : targetFiles) {
+
+				if (targetFile.getAbsolutePath().equals(outputName)) {
+					LogUtil.log(LogEvent.DEBUG,
+							"File already created, skipped: " + outputName);
+					releaseAdapters(workGraph);
+					break;
+
+				}
 
 			}
 
@@ -198,25 +214,25 @@ public class ProfileApplicatorThread extends Thread {
 				unitapp.setParameterValue("baseReference", stereoType
 						.getBaseTypeMap().get(baseType));
 
-				// Execute henshin rule
-				boolean executed = unitapp.execute(null);
+				boolean executed = false;
 
-				LogUtil.log(LogEvent.DEBUG, "Successfully applied: " + executed);
+				// Execute Henshin unit as often as possible
+				do {
+					executed = unitapp.execute(null);
+					// Keep track of successful execution
+					if (executed) {
+						stereoTypeUsed = true;
+						applied = true;
 
-				// If successfully executed
-				if (executed) {
-					stereoTypeUsed = true;
-					applied = true;
+					}
+				} while (executed);
 
-				}
+				LogUtil.log(LogEvent.DEBUG, "Successfully applied: " + applied);
 
 			}
 
 			// Save created profiled henshin edit rule
 			if (applied) {
-
-				// Rename rule/module accordingly to profile
-				renameBaseType(workGraph, baseType, stereoType.getName());
 
 				// Save module as new file
 				LogUtil.log(
@@ -226,27 +242,14 @@ public class ProfileApplicatorThread extends Thread {
 
 			}
 
-			try {
-				// Clear memory from unused EObjects
-				// If not done, execution time is exponential
-				for (EObject roots : workGraph.getRoots()) {
-
-					workGraph.removeGraph(roots);
-				}
-
-			} catch (Exception e) {
-
-				// Nothing to do here
-				// Just catching exceptions
-				// of deleting cross references
-
-			}
+			releaseAdapters(workGraph);
 			workResourceSet = null;
 			workGraph = null;
 
 		}
 
 		return stereoTypeUsed;
+
 	}
 
 	/**
@@ -308,6 +311,31 @@ public class ProfileApplicatorThread extends Thread {
 						ruleDescription.replaceAll(baseType, stereoType + "("
 								+ baseType + ")"));
 
+	}
+
+	/**
+	 * Helper method for clearing adapters and memory leaks in EGraph
+	 * 
+	 * @param graph
+	 *            The EGraph to clear of Adapters
+	 */
+	public void releaseAdapters(EGraph graph) {
+
+		try {
+			// Clear memory from unused EObjects
+			// If not done, execution time is exponential
+			for (EObject roots : graph.getRoots()) {
+
+				graph.removeGraph(roots);
+			}
+
+		} catch (Exception e) {
+
+			// Nothing to do here
+			// Just catching exceptions
+			// of deleting cross references
+
+		}
 	}
 
 }

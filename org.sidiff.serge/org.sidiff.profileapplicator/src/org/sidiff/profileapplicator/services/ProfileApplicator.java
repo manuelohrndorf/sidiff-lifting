@@ -52,7 +52,7 @@ public class ProfileApplicator {
 				"Executing profile application for profile " + this.profileName
 						+ "...");
 
-		//Get all used stereoTypes
+		// Get all used stereoTypes
 		String stereoTypesUsed = "";
 		for (StereoType st : this.stereoTypes) {
 
@@ -75,7 +75,7 @@ public class ProfileApplicator {
 		if (this.baseTypeInstances)
 			LogUtil.log(
 					LogEvent.NOTICE,
-					"BaseTypeInstances allowed, source edit rules will also be copied untransformed.");	
+					"BaseTypeInstances allowed, source edit rules will also be copied untransformed.");
 
 		LogUtil.log(LogEvent.NOTICE, "Using " + this.getNumberThreads()
 				+ " threads for computation.");
@@ -83,6 +83,40 @@ public class ProfileApplicator {
 		LogUtil.log(
 				LogEvent.NOTICE,
 				"Applying transformations now, this could (and most certainly will) take some time...");
+
+		LogUtil.log(
+				LogEvent.NOTICE,
+				"Applying StereoTypes for the first time...");
+		
+		// Execute first time
+		applyStereoTypes();
+
+		// Get resulted files from first run as new input files
+		this.inputFolderPath = this.outputFolderPath;
+		
+		LogUtil.log(
+				LogEvent.NOTICE,
+				"Applying StereoTypes for the second time...");
+		
+		// Execute second time -> apply all possible stereotype combinations
+		applyStereoTypes();
+
+		LogUtil.log(LogEvent.NOTICE,
+				"Applying profile " + this.getProfileName() + " completed!");
+
+	}
+
+	/**
+	 * Real working method, applying all stereoTypes to inputFiles.
+	 * This is done twice, for applying all stereoType combinations possible.
+	 * In the first run the input files are unmodified, in the second run the input files are
+	 * the modified ones of the first round
+	 * 
+	 * 
+	 * @param inputFiles
+	 *            Set of files to be used as input files
+	 */
+	public void applyStereoTypes() {
 
 		// Get all input henshin files
 		File sourceFolder = new File(this.inputFolderPath);
@@ -124,15 +158,11 @@ public class ProfileApplicator {
 				"Waiting for profiling threads to finish...");
 		// Wait until all threads are finished
 		try {
-			executor.awaitTermination(24, TimeUnit.HOURS);
+			executor.awaitTermination(1, TimeUnit.HOURS);
 		} catch (InterruptedException e) {
 			LogUtil.log(LogEvent.NOTICE,
-					"Applying profile timed out (24hours)!");
+					"Applying profile timed out (one hour)!");
 		}
-
-		LogUtil.log(LogEvent.NOTICE,
-				"Applying profile " + this.getProfileName() + " completed!");
-
 	}
 
 	/**
@@ -253,7 +283,7 @@ public class ProfileApplicator {
 	 */
 	public void setBaseTypeInstances(boolean baseTypeInstances) {
 		this.baseTypeInstances = baseTypeInstances;
-	}	
+	}
 
 	/**
 	 * @return the transformations
