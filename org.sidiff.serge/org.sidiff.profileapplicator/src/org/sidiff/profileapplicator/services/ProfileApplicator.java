@@ -158,10 +158,10 @@ public class ProfileApplicator {
 				"Waiting for profiling threads to finish...");
 		// Wait until all threads are finished
 		try {
-			executor.awaitTermination(1, TimeUnit.HOURS);
+			executor.awaitTermination(6, TimeUnit.HOURS);
 		} catch (InterruptedException e) {
 			LogUtil.log(LogEvent.NOTICE,
-					"Applying profile timed out (one hour)!");
+					"Applying profile timed out (six hours)!");
 		}
 	}
 

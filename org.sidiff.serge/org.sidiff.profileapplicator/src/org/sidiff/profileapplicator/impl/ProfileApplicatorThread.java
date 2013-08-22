@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -15,6 +16,7 @@ import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.profileapplicator.services.ProfileApplicator;
@@ -76,8 +78,8 @@ public class ProfileApplicatorThread extends Thread {
 				applicator.getInputFolderPath());
 
 		// Create EGraph for source
-		EGraph srcGraph = new EGraphImpl(srcResourceSet.getResource(sourceFile
-				.getName()));
+		EGraph srcGraph = new EGraphImpl();
+		srcGraph.add(srcResourceSet.getModule(sourceFile.getName()));
 
 		LogUtil.log(LogEvent.NOTICE, "Transformating: " + sourceFile.getName()
 				+ "...");
@@ -135,14 +137,26 @@ public class ProfileApplicatorThread extends Thread {
 				workResourceSet = new HenshinResourceSet(
 						applicator.getInputFolderPath());
 
-				// Create EGraph as working copy
-				workGraph = new EGraphImpl(
-						workResourceSet.getResource(this.sourceFile.getName()));
+				// Create Module EGraph and its children as working copy
+				workGraph = new EGraphImpl();
+				workGraph.addTree(workResourceSet.getModule(this.sourceFile
+						.getName()));
 
-				// Add basePackage and stereoPackage to Graph for HOTs
-				// matching
-				workGraph.addTree(applicator.getBasePackage());
-				workGraph.addTree(applicator.getStereoPackage());
+				// Add all important elements for matching
+				workGraph.add(applicator.getStereoPackage());
+				workGraph.add((EClass) EMFMetaAccess
+						.getMetaObjectByNameRecursively(applicator
+								.getStereoPackage().getNsURI(), stereoType
+								.getName()));
+				workGraph.add((EClass) EMFMetaAccess
+						.getMetaObjectByNameRecursively(applicator
+								.getBasePackage().getNsURI(), baseType));
+				workGraph.add(EMFMetaAccess.getReferencesByNames(
+						(EClass) EMFMetaAccess.getMetaObjectByNameRecursively(
+								applicator.getStereoPackage().getNsURI(),
+								stereoType.getName()),
+						stereoType.getBaseTypeMap().get(baseType)).get(0));
+
 			} catch (Exception e) {
 
 				// Nothing to do here
@@ -155,8 +169,8 @@ public class ProfileApplicatorThread extends Thread {
 			renameBaseType(workGraph, baseType, stereoType.getName());
 
 			// Test if result file already exists
-			// Could be created by another thread
-			// No Matching/Transformation needed
+			// Could be created by another thread or the previous run
+			// -> No Matching/Transformation needed
 			File targetFolder = new File(applicator.getOutputFolderPath());
 			ArrayList<File> targetFiles = new ArrayList<File>(
 					Arrays.asList(targetFolder.listFiles()));
@@ -165,81 +179,86 @@ public class ProfileApplicatorThread extends Thread {
 					+ ((Module) workGraph.getRoots().get(0)).getName()
 					+ "_execute.henshin";
 
+			boolean alreadyCreated = false;
+
 			for (File targetFile : targetFiles) {
 
 				if (targetFile.getAbsolutePath().equals(outputName)) {
+					alreadyCreated = true;
 					LogUtil.log(LogEvent.DEBUG,
 							"File already created, skipped: " + outputName);
-					releaseAdapters(workGraph);
-					break;
 
 				}
 
 			}
 
-			// Create Henshin Engine
-			Engine engine = new EngineImpl();
+			// If target file has not been created before
+			if (!alreadyCreated) {
+				
+				// Create Henshin Engine
+				Engine engine = new EngineImpl();
 
-			// Iterate over all enabled higher order transformations
-			for (URI hot : applicator.getTransformations()) {
+				// Iterate over all enabled higher order transformations
+				for (URI hot : applicator.getTransformations()) {
 
-				// Create unitapplication for transformation
-				UnitApplication unitapp = new UnitApplicationImpl(engine);
-				// Use current working copy graph
-				unitapp.setEGraph(workGraph);
+					// Create unitapplication for transformation
+					UnitApplication unitapp = new UnitApplicationImpl(engine);
+					// Use current working copy graph
+					unitapp.setEGraph(workGraph);
 
-				// Create resourceSet for higher order transformation
-				// henshin rule
-				HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
+					// Create resourceSet for higher order transformation
+					// henshin rule
+					HenshinResourceSet hotsResourceSet = new HenshinResourceSet();
 
-				// Get module
-				Module module = hotsResourceSet.getModule(hot, false);
+					// Get module
+					Module module = hotsResourceSet.getModule(hot, false);
 
-				LogUtil.log(
-						LogEvent.DEBUG,
-						"Executing HOT "
-								+ hot.toString()
-										.replace(
-												"platform:/plugin/org.sidiff.profileapplicator/hots/",
-												"") + "...");
+					LogUtil.log(
+							LogEvent.DEBUG,
+							"Executing HOT "
+									+ hot.toString()
+											.replace(
+													"platform:/plugin/org.sidiff.profileapplicator/hots/",
+													"") + "...");
 
-				// Set unit to SiLift default
-				unitapp.setUnit((Unit) module.getUnit("mainUnit"));
+					// Set unit to SiLift default
+					unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
-				// setting parameters
-				unitapp.setParameterValue("stereoPackage", applicator
-						.getStereoPackage().getNsURI());
-				unitapp.setParameterValue("stereoType", stereoType.getName());
-				unitapp.setParameterValue("baseType", baseType);
-				unitapp.setParameterValue("baseReference", stereoType
-						.getBaseTypeMap().get(baseType));
+					// setting parameters
+					unitapp.setParameterValue("stereoPackage", applicator
+							.getStereoPackage().getNsURI());
+					unitapp.setParameterValue("stereoType",
+							stereoType.getName());
+					unitapp.setParameterValue("baseType", baseType);
+					unitapp.setParameterValue("baseReference", stereoType
+							.getBaseTypeMap().get(baseType));
 
-				boolean executed = false;
+					boolean executed = false;
 
-				// Execute Henshin unit as often as possible
-				do {
-					executed = unitapp.execute(null);
-					// Keep track of successful execution
-					if (executed) {
-						stereoTypeUsed = true;
-						applied = true;
+					// Execute Henshin unit as often as possible
+					do {
+						executed = unitapp.execute(null);
+						// Keep track of successful execution
+						if (executed) {
+							stereoTypeUsed = true;
+							applied = true;
 
-					}
-				} while (executed);
+						}
+					} while (executed);
 
-				LogUtil.log(LogEvent.DEBUG, "Successfully applied: " + applied);
+					LogUtil.log(LogEvent.DEBUG, "Successfully applied: "
+							+ applied);
 
-			}
+				}
 
-			// Save created profiled henshin edit rule
-			if (applied) {
+				// Save created profiled henshin edit rule
+				if (applied) {
 
-				// Save module as new file
-				LogUtil.log(
-						LogEvent.DEBUG,
-						"Result saved as: "
-								+ saveModule(workResourceSet, workGraph));
+					// Save module as new file
+					LogUtil.log(LogEvent.DEBUG, "Result saved as: "
+							+ saveModule(workResourceSet, workGraph));
 
+				}
 			}
 
 			releaseAdapters(workGraph);
