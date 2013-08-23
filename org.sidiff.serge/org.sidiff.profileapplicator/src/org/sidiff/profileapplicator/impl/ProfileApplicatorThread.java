@@ -3,10 +3,13 @@ package org.sidiff.profileapplicator.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
@@ -16,7 +19,6 @@ import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.profileapplicator.services.ProfileApplicator;
@@ -120,15 +122,17 @@ public class ProfileApplicatorThread extends Thread {
 		// Initialize organizing variables
 		boolean stereoTypeUsed = false;
 
-		for (String baseType : stereoType.getBaseTypeMap().keySet()) {
+		for (EClass baseType : stereoType.getBaseTypeMap().keySet()) {
 
 			boolean applied = false;
 
 			LogUtil.log(LogEvent.DEBUG, "---------------------------");
 			LogUtil.log(LogEvent.DEBUG,
-					"Applying Stereotype: " + stereoType.getName() + " --("
+					"Applying Stereotype: "
+							+ stereoType.getName()
+							+ " --("
 							+ stereoType.getBaseTypeMap().get(baseType)
-							+ ")--> " + baseType);
+									.getName() + ")--> " + baseType.getName());
 
 			HenshinResourceSet workResourceSet = null;
 			EGraph workGraph = null;
@@ -144,18 +148,15 @@ public class ProfileApplicatorThread extends Thread {
 
 				// Add all important elements for matching
 				workGraph.add(applicator.getStereoPackage());
-				workGraph.add((EClass) EMFMetaAccess
-						.getMetaObjectByNameRecursively(applicator
-								.getStereoPackage().getNsURI(), stereoType
-								.getName()));
-				workGraph.add((EClass) EMFMetaAccess
-						.getMetaObjectByNameRecursively(applicator
-								.getBasePackage().getNsURI(), baseType));
-				workGraph.add(EMFMetaAccess.getReferencesByNames(
-						(EClass) EMFMetaAccess.getMetaObjectByNameRecursively(
-								applicator.getStereoPackage().getNsURI(),
-								stereoType.getName()),
-						stereoType.getBaseTypeMap().get(baseType)).get(0));
+
+				// Add Stereotype and its Attributes
+				workGraph.add(stereoType.getStereoTypeClass());
+				for (EStructuralFeature feature : stereoType
+						.getStereoTypeClass().getEAllStructuralFeatures()) {
+					workGraph.add(feature);
+				}
+				workGraph.add(baseType);
+				workGraph.add(stereoType.getBaseTypeMap().get(baseType));
 
 			} catch (Exception e) {
 
@@ -166,8 +167,19 @@ public class ProfileApplicatorThread extends Thread {
 			}
 
 			// Rename rule/module accordingly to profile
-			renameBaseType(workGraph, baseType, stereoType.getName());
+			// Naming scheme defined via editrule generator
+			String baseTypeName = "_" + baseType.getName() + "_";
+			String stereoTypeName = "_" + stereoType.getName() + "("
+					+ baseType.getName() + ")" + "_";				
 
+			// Just for perfomance purposes:
+			// Check if modified module already exists in target folder
+			Pattern baseTypePattern = Pattern.compile(baseTypeName);
+			String moduleName = new String(((Module) workGraph.getRoots().get(0))
+					.getName());
+			Matcher m = baseTypePattern.matcher(moduleName); 
+			moduleName = m.replaceAll(stereoTypeName);	
+			
 			// Test if result file already exists
 			// Could be created by another thread or the previous run
 			// -> No Matching/Transformation needed
@@ -175,8 +187,7 @@ public class ProfileApplicatorThread extends Thread {
 			ArrayList<File> targetFiles = new ArrayList<File>(
 					Arrays.asList(targetFolder.listFiles()));
 
-			String outputName = applicator.getOutputFolderPath()
-					+ ((Module) workGraph.getRoots().get(0)).getName()
+			String outputName = applicator.getOutputFolderPath() + moduleName
 					+ "_execute.henshin";
 
 			boolean alreadyCreated = false;
@@ -194,7 +205,7 @@ public class ProfileApplicatorThread extends Thread {
 
 			// If target file has not been created before
 			if (!alreadyCreated) {
-				
+
 				// Create Henshin Engine
 				Engine engine = new EngineImpl();
 
@@ -225,11 +236,13 @@ public class ProfileApplicatorThread extends Thread {
 					unitapp.setUnit((Unit) module.getUnit("mainUnit"));
 
 					// setting parameters
-					unitapp.setParameterValue("stereoPackage", applicator
-							.getStereoPackage().getNsURI());
+					unitapp.setParameterValue("stereoPackage",
+							applicator.getStereoPackage());
 					unitapp.setParameterValue("stereoType",
-							stereoType.getName());
+							stereoType.getStereoTypeClass());
+					unitapp.setParameterValue("stereoTypeName", stereoTypeName);
 					unitapp.setParameterValue("baseType", baseType);
+					unitapp.setParameterValue("baseTypeName", baseTypeName);
 					unitapp.setParameterValue("baseReference", stereoType
 							.getBaseTypeMap().get(baseType));
 
@@ -290,46 +303,6 @@ public class ProfileApplicatorThread extends Thread {
 		resSet.saveEObject(graph.getRoots().get(0), outputName);
 
 		return outputName;
-	}
-
-	/**
-	 * Helper method for renaming all occurrences of baseType to stereoType
-	 * 
-	 * @param graph
-	 *            Graph in which the renaming should be done
-	 * @param baseType
-	 *            name of baseType to replace
-	 * @param stereoType
-	 *            name of stereoType to use as new name
-	 */
-	public void renameBaseType(EGraph graph, String baseType, String stereoType) {
-
-		String moduleName = ((Module) graph.getRoots().get(0)).getName();
-		String moduleDescription = ((Module) graph.getRoots().get(0))
-				.getDescription();
-		String ruleName = ((Module) graph.getRoots().get(0)).getUnits().get(0)
-				.getName();
-		String ruleDescription = ((Module) graph.getRoots().get(0)).getUnits()
-				.get(0).getDescription();
-
-		((Module) graph.getRoots().get(0)).setName(moduleName.replaceAll("_+"
-				+ baseType + "_+", "_" + stereoType + "(" + baseType + ")_"));
-		((Module) graph.getRoots().get(0)).setDescription(moduleDescription
-				.replaceAll(baseType, stereoType + "(" + baseType + ")"));
-
-		((Module) graph.getRoots().get(0))
-				.getUnits()
-				.get(0)
-				.setName(
-						ruleName.replaceAll(baseType, stereoType + "("
-								+ baseType + ")"));
-		((Module) graph.getRoots().get(0))
-				.getUnits()
-				.get(0)
-				.setDescription(
-						ruleDescription.replaceAll(baseType, stereoType + "("
-								+ baseType + ")"));
-
 	}
 
 	/**

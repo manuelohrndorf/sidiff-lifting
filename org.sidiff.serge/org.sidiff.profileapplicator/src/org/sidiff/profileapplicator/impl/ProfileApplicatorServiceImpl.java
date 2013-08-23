@@ -36,7 +36,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 	private static String basePackage = null;
 	private static String stereoPackage = null;
 	private static List<URI> transformations = new ArrayList<URI>();
-	private static List<StereoType> configuredStereoTypes = new ArrayList<StereoType>();
+	private static List<String> configuredStereoTypeNames = new ArrayList<String>();
 
 	// Iterate through all subtypes of baseType?
 	private boolean baseTypeInheritance = false;
@@ -82,7 +82,7 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 			currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
 			applicator.setBaseTypeInstances((Boolean.valueOf(getAttributeValue(
-					"allow", currentNode))));			
+					"allow", currentNode))));
 
 			currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
 					0);
@@ -127,10 +127,9 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 			NodeList stereoTypeNodes = doc.getElementsByTagName("StereoType");
 			for (int i = 0; i <= stereoTypeNodes.getLength() - 1; i++) {
 				Node stereoTypeNode = stereoTypeNodes.item(i);
-				String configuredStereoTypeName = String
+				String configuredStereoTypesName = String
 						.valueOf(getAttributeValue("name", stereoTypeNode));
-				configuredStereoTypes.add(new StereoType(
-						configuredStereoTypeName));
+				configuredStereoTypeNames.add(configuredStereoTypesName);
 			}
 
 			// Get all stereoTypes of current profile
@@ -142,32 +141,22 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 
 				if (classifier instanceof EClass) {
 					// Get stereoType Class
-					EClass stereoType = (EClass) classifier;
-
-					// Create stereotype for later
-					StereoType stereoTypeTemp = new StereoType();
+					EClass stereoType = (EClass) classifier;					
 
 					// Test if stereotype is contained in configuration
 					// or no stereotype is configured at all, then all will be
 					// used
-					boolean nameContained = false;
-					boolean classContained = false;
 					boolean stereoTypeContained = false;
-					for (StereoType st : configuredStereoTypes) {
+					for (String stereoTypeName : configuredStereoTypeNames) {
 
-						nameContained = st.getName().equals(
-								stereoType.getName());
-						classContained = stereoType
-								.equals((EClass) getClassifier(
-										applicator.getStereoPackage(),
-										st.getName()));
-						stereoTypeContained = nameContained && classContained;
-						if (stereoTypeContained) {
+						if (stereoType.getName().equals(stereoTypeName)) {
+							stereoTypeContained = true;
 							break;
 						}
+
 					}
 
-					if (configuredStereoTypes.size() == 0
+					if (configuredStereoTypeNames.size() == 0
 							|| stereoTypeContained) {
 						// Get all baseReferences of stereoType
 						List<EStructuralFeature> allBaseReferences = EMFMetaAccess
@@ -176,20 +165,17 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 						for (EStructuralFeature baseReference : allBaseReferences) {
 
 							// Create temporal variables
-							String stereoTypeNameTemp = stereoType.getName();
-							String baseReferenceTemp = ((EReference) baseReference)
-									.getName();
-							String baseTypeTemp = ((EClass) baseReference
-									.getEType()).getName();
+							StereoType stereoTypeTemp = new StereoType(stereoType);
+							EReference baseReferenceTemp = (EReference) baseReference;
+							EClass baseTypeTemp =(EClass) baseReference.getEType();
 
 							// Add stereoType and its corresponding baseType and
 							// baseReference without inheritance
-							HashMap<String, String> baseTypeMapTemp = new HashMap<String, String>();
+							HashMap<EClass, EReference> baseTypeMapTemp = new HashMap<EClass, EReference>();
 							baseTypeMapTemp
 									.put(baseTypeTemp, baseReferenceTemp);
-							stereoTypeTemp = new StereoType(stereoTypeNameTemp,
-									baseTypeMapTemp);
-
+							stereoTypeTemp.setBaseTypeMap(baseTypeMapTemp);
+							
 							if (baseTypeInheritance) {
 								// Adding all possible sub types of base type
 								for (Iterator<EObject> it = applicator
@@ -204,11 +190,11 @@ public class ProfileApplicatorServiceImpl implements ProfileApplicatorService {
 										for (EClass eSuperClass : eSubClass
 												.getEAllSuperTypes()) {
 
-											if (eSuperClass.getName().equals(
+											if (eSuperClass.equals(
 													baseTypeTemp)) {
 
 												stereoTypeTemp.addBaseType(
-														eSubClass.getName(),
+														eSubClass,
 														baseReferenceTemp);
 
 											}

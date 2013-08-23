@@ -5,12 +5,18 @@
   <units xsi:type="henshin:Rule" xmi:id="_yKjTINODEeK27eMO_ePoqg" name="CreateStereoTypeInEditRule" description="Creates a stereotype in an edit rule">
     <parameters xmi:id="_EpObQNWwEeK_OcAdO9YznA" name="stereoPackage"/>
     <parameters xmi:id="_060ostWvEeK_OcAdO9YznA" name="stereoType"/>
+    <parameters xmi:id="_NnmyQAu4EeOJSqoE22yn9A" name="stereoTypeName"/>
     <parameters xmi:id="_060osNWvEeK_OcAdO9YznA" name="baseType"/>
+    <parameters xmi:id="_NnoncAu4EeOJSqoE22yn9A" name="baseTypeName"/>
     <parameters xmi:id="_a-oHINTYEeKiJ65Zs09OlQ" name="baseReference"/>
+    <parameters xmi:id="_XrmmwAu4EeOJSqoE22yn9A" name="MN"/>
+    <parameters xmi:id="_XrnN0Au4EeOJSqoE22yn9A" name="MD"/>
+    <parameters xmi:id="_XrnN0Qu4EeOJSqoE22yn9A" name="RN"/>
+    <parameters xmi:id="_XrnN0gu4EeOJSqoE22yn9A" name="RD"/>
     <lhs xmi:id="_yLfHQNODEeK27eMO_ePoqg" name="Lhs">
       <nodes xmi:id="_U6fPwNPuEeKqDOSB_nUJAg" outgoing="_5auGUNRNEeKqDOSB_nUJAg _iktoENikEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-        <attributes xmi:id="_TZPxkNjzEeKTo7dHOUHdDw" value="&quot;create&quot;">
+        <attributes xmi:id="_Y6D7MAs6EeO9P-j5FQpmUg" value="&quot;create&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//GraphElement/action"/>
         </attributes>
       </nodes>
@@ -19,39 +25,36 @@
       </nodes>
       <nodes xmi:id="_WqVB0NRTEeKqDOSB_nUJAg" incoming="_B2WIANTAEeKiJ65Zs09OlQ" outgoing="_X5FT8NRTEeKqDOSB_nUJAg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+        <attributes xmi:id="_hnUzkAu5EeOJSqoE22yn9A" value="RN">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_k3XA8Au5EeOJSqoE22yn9A" value="RD">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Asot8NTAEeKiJ65Zs09OlQ" outgoing="_B2WIANTAEeKiJ65Zs09OlQ _ZuEwINTWEeKiJ65Zs09OlQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
+        <attributes xmi:id="_ZBsP8Au4EeOJSqoE22yn9A" value="MN">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_biWO0Au4EeOJSqoE22yn9A" value="MD">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_U6nBINTWEeKiJ65Zs09OlQ" incoming="_ZuEwINTWEeKiJ65Zs09OlQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
-        <attributes xmi:id="_F-cHUNTXEeKiJ65Zs09OlQ" value="&quot;mainUnit&quot;">
-          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_hy1fMNikEeKnrMG33uWo2A" incoming="_iktoENikEeKnrMG33uWo2A">
+      <nodes xmi:id="_hy1fMNikEeKnrMG33uWo2A" name="baseType" incoming="_iktoENikEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-        <attributes xmi:id="_reMp4NinEeKnrMG33uWo2A" value="baseType">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_oRGIYNRMEeKqDOSB_nUJAg" outgoing="_4bp1YN5mEeK9Wvc2ktUtgw">
+      <nodes xmi:id="_oRGIYNRMEeKqDOSB_nUJAg" name="stereoType" outgoing="_4bp1YN5mEeK9Wvc2ktUtgw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-        <attributes xmi:id="_ldDHINikEeKnrMG33uWo2A" value="stereoType">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_-QKnwNRMEeKqDOSB_nUJAg" incoming="_4bp1YN5mEeK9Wvc2ktUtgw">
+      <nodes xmi:id="_-QKnwNRMEeKqDOSB_nUJAg" name="baseReference" incoming="_4bp1YN5mEeK9Wvc2ktUtgw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-        <attributes xmi:id="_2ZlSMNjPEeKnrMG33uWo2A" value="baseReference">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_L_ccoNiqEeKnrMG33uWo2A">
+      <nodes xmi:id="_L_ccoNiqEeKnrMG33uWo2A" name="stereoPackage">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
-        <attributes xmi:id="_fA2BQNi7EeKVzMnITF5c-w" value="stereoPackage">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
-        </attributes>
       </nodes>
       <edges xmi:id="_5auGUNRNEeKqDOSB_nUJAg" source="_U6fPwNPuEeKqDOSB_nUJAg" target="_h3H5INRNEeKqDOSB_nUJAg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/graph"/>
@@ -76,7 +79,7 @@
           <conclusion xmi:id="_uRfhAtjgEeKTo7dHOUHdDw">
             <nodes xmi:id="_uRfhA9jgEeKTo7dHOUHdDw" incoming="_yiSAwNjgEeKTo7dHOUHdDw" outgoing="_uRfhCtjgEeKTo7dHOUHdDw _uRfhDtjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-              <attributes xmi:id="_TZS04NjzEeKTo7dHOUHdDw" value="&quot;create&quot;">
+              <attributes xmi:id="_Y6EiQQs6EeO9P-j5FQpmUg" value="&quot;create&quot;">
                 <type href="http://www.eclipse.org/emf/2011/Henshin#//GraphElement/action"/>
               </attributes>
             </nodes>
@@ -85,42 +88,39 @@
             </nodes>
             <nodes xmi:id="_uRfhC9jgEeKTo7dHOUHdDw" incoming="_uRfhDtjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-              <attributes xmi:id="_uRfhDNjgEeKTo7dHOUHdDw" value="baseType">
-                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-              </attributes>
             </nodes>
             <nodes xmi:id="_uRgIENjgEeKTo7dHOUHdDw" incoming="_uRgIHNjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+              <attributes xmi:id="_hnVaoQu5EeOJSqoE22yn9A" value="RN">
+                <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+              </attributes>
+              <attributes xmi:id="_k3XoAAu5EeOJSqoE22yn9A" value="RD">
+                <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+              </attributes>
             </nodes>
             <nodes xmi:id="_uRcdsNjgEeKTo7dHOUHdDw" outgoing="_yiSAwNjgEeKTo7dHOUHdDw _y72-YNjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
             </nodes>
             <nodes xmi:id="_uRgIGNjgEeKTo7dHOUHdDw" outgoing="_uRgIHNjgEeKTo7dHOUHdDw _uRgvIdjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
+              <attributes xmi:id="_ZBs3AAu4EeOJSqoE22yn9A" value="MN">
+                <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+              </attributes>
+              <attributes xmi:id="_biWO0gu4EeOJSqoE22yn9A" value="MD">
+                <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+              </attributes>
             </nodes>
             <nodes xmi:id="_uRgIIdjgEeKTo7dHOUHdDw" incoming="_uRgvIdjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
-              <attributes xmi:id="_uRgIItjgEeKTo7dHOUHdDw" value="&quot;mainUnit&quot;">
-                <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
-              </attributes>
             </nodes>
             <nodes xmi:id="_uRgvJtjgEeKTo7dHOUHdDw" incoming="_9MEC4NjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-              <attributes xmi:id="_uRgvJ9jgEeKTo7dHOUHdDw" value="stereoType">
-                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-              </attributes>
             </nodes>
             <nodes xmi:id="_uRgvKdjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-              <attributes xmi:id="_uRgvKtjgEeKTo7dHOUHdDw" value="baseReference">
-                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-              </attributes>
             </nodes>
             <nodes xmi:id="_uRgvLNjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
-              <attributes xmi:id="_uRgvLdjgEeKTo7dHOUHdDw" value="stereoPackage">
-                <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
-              </attributes>
             </nodes>
             <nodes xmi:id="_uycR8NjgEeKTo7dHOUHdDw" incoming="_y72-YNjgEeKTo7dHOUHdDw" outgoing="_9MEC4NjgEeKTo7dHOUHdDw">
               <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
@@ -162,7 +162,7 @@
     <rhs xmi:id="_yLfuUNODEeK27eMO_ePoqg" name="Rhs">
       <nodes xmi:id="_ZVgpkNPuEeKqDOSB_nUJAg" incoming="_y4tnUNRMEeKqDOSB_nUJAg" outgoing="_5auGUdRNEeKqDOSB_nUJAg _iktoEdikEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-        <attributes xmi:id="_TZRmwNjzEeKTo7dHOUHdDw" value="&quot;create&quot;">
+        <attributes xmi:id="_Y6EiQAs6EeO9P-j5FQpmUg" value="&quot;create&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//GraphElement/action"/>
         </attributes>
       </nodes>
@@ -174,55 +174,52 @@
       </nodes>
       <nodes xmi:id="_WqVo4NRTEeKqDOSB_nUJAg" incoming="_B2WIAdTAEeKiJ65Zs09OlQ" outgoing="_X5FT8dRTEeKqDOSB_nUJAg _OFToM9jyEeKTo7dHOUHdDw">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+        <attributes xmi:id="_hnVaoAu5EeOJSqoE22yn9A" value="RN.replace(baseTypeName,stereoTypeName)">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_k3XA8Qu5EeOJSqoE22yn9A" value="RD.replace(baseTypeName,stereoTypeName)">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_uoXf0dinEeKnrMG33uWo2A" incoming="_zfpEcNRMEeKqDOSB_nUJAg" outgoing="_vbFC0NRMEeKqDOSB_nUJAg _8YcbsNRNEeKqDOSB_nUJAg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-        <attributes xmi:id="_mVywkNjyEeKTo7dHOUHdDw" value="&quot;New&quot; + stereoType">
+        <attributes xmi:id="_mVywkNjyEeKTo7dHOUHdDw" value="&quot;New&quot;+stereoTypeName">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
         </attributes>
       </nodes>
       <nodes xmi:id="_AsrKMNTAEeKiJ65Zs09OlQ" outgoing="_B2WIAdTAEeKiJ65Zs09OlQ _ZuFXMNTWEeKiJ65Zs09OlQ _Oe9zENiqEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
+        <attributes xmi:id="_ZBsP8Qu4EeOJSqoE22yn9A" value="MN.replace(baseTypeName,stereoTypeName)">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_biWO0Qu4EeOJSqoE22yn9A" value="MD.replace(baseTypeName,stereoTypeName)">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Xt7dUNTWEeKiJ65Zs09OlQ" incoming="_ZuFXMNTWEeKiJ65Zs09OlQ" outgoing="_aifhoNjyEeKTo7dHOUHdDw _jJlTQNjyEeKTo7dHOUHdDw">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
-        <attributes xmi:id="_F-dVcNTXEeKiJ65Zs09OlQ" value="&quot;mainUnit&quot;">
-          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_hy1fMdikEeKnrMG33uWo2A" incoming="_iktoEdikEeKnrMG33uWo2A">
+      <nodes xmi:id="_hy1fMdikEeKnrMG33uWo2A" name="baseType" incoming="_iktoEdikEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-        <attributes xmi:id="_reN4ANinEeKnrMG33uWo2A" value="baseType">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_uoXf1NinEeKnrMG33uWo2A" incoming="_vbFC0NRMEeKqDOSB_nUJAg" outgoing="_4bp1Yd5mEeK9Wvc2ktUtgw">
+      <nodes xmi:id="_uoXf1NinEeKnrMG33uWo2A" name="stereoType" incoming="_vbFC0NRMEeKqDOSB_nUJAg" outgoing="_4bp1Yd5mEeK9Wvc2ktUtgw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-        <attributes xmi:id="_uoXf1dinEeKnrMG33uWo2A" value="stereoType">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_e-Z2cNipEeKnrMG33uWo2A" incoming="_DrF_YNRNEeKqDOSB_nUJAg _4bp1Yd5mEeK9Wvc2ktUtgw">
+      <nodes xmi:id="_e-Z2cNipEeKnrMG33uWo2A" name="baseReference" incoming="_DrF_YNRNEeKqDOSB_nUJAg _4bp1Yd5mEeK9Wvc2ktUtgw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-        <attributes xmi:id="_2ZnHYNjPEeKnrMG33uWo2A" value="baseReference">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-        </attributes>
       </nodes>
-      <nodes xmi:id="_L_dDsNiqEeKnrMG33uWo2A" incoming="_Oe9zENiqEeKnrMG33uWo2A">
+      <nodes xmi:id="_L_dDsNiqEeKnrMG33uWo2A" name="stereoPackage" incoming="_Oe9zENiqEeKnrMG33uWo2A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
-        <attributes xmi:id="_fA3PYNi7EeKVzMnITF5c-w" value="stereoPackage">
-          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
-        </attributes>
       </nodes>
       <nodes xmi:id="_OFToMNjyEeKTo7dHOUHdDw" incoming="_OFToM9jyEeKTo7dHOUHdDw _hsu6wNjyEeKTo7dHOUHdDw">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-        <attributes xmi:id="_PCSN0NjyEeKTo7dHOUHdDw" value="&quot;New&quot; + stereoType">
+        <attributes xmi:id="_PCSN0NjyEeKTo7dHOUHdDw" value="&quot;New&quot;+stereoTypeName">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
         </attributes>
       </nodes>
       <nodes xmi:id="_URxKcNjyEeKTo7dHOUHdDw" incoming="_gNA0cNjyEeKTo7dHOUHdDw _jJlTQNjyEeKTo7dHOUHdDw">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-        <attributes xmi:id="_URxKcdjyEeKTo7dHOUHdDw" value="&quot;New&quot; + stereoType">
+        <attributes xmi:id="_URxKcdjyEeKTo7dHOUHdDw" value="&quot;New&quot;+stereoTypeName">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
         </attributes>
       </nodes>
@@ -298,18 +295,12 @@
       <lhs xmi:id="_l4TRYdj0EeKTo7dHOUHdDw" name="Lhs">
         <nodes xmi:id="_l4Ufgdj0EeKTo7dHOUHdDw" outgoing="_l4VGktj0EeKTo7dHOUHdDw _l4Vtodj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-          <attributes xmi:id="_l4Ufgtj0EeKTo7dHOUHdDw" value="&quot;create&quot;">
-            <type href="http://www.eclipse.org/emf/2011/Henshin#//GraphElement/action"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4VGkNj0EeKTo7dHOUHdDw" incoming="_l4VGktj0EeKTo7dHOUHdDw _l4Xi1Nj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
         </nodes>
         <nodes xmi:id="_l4VGk9j0EeKTo7dHOUHdDw" incoming="_l4Vtodj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-          <attributes xmi:id="_l4VGlNj0EeKTo7dHOUHdDw" value="baseType">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4Xi0Nj0EeKTo7dHOUHdDw" incoming="_l4YJ6tj0EeKTo7dHOUHdDw" outgoing="_l4Xi1Nj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
@@ -319,27 +310,15 @@
         </nodes>
         <nodes xmi:id="_l4Yw8Nj0EeKTo7dHOUHdDw" incoming="_l4Yw89j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
-          <attributes xmi:id="_l4Yw8dj0EeKTo7dHOUHdDw" value="&quot;mainUnit&quot;">
-            <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4YxAtj0EeKTo7dHOUHdDw" outgoing="_xKHj4Nj0EeKTo7dHOUHdDw _4brDgd5mEeK9Wvc2ktUtgw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-          <attributes xmi:id="_l4YxA9j0EeKTo7dHOUHdDw" value="stereoType">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4ZYBNj0EeKTo7dHOUHdDw" incoming="_4brDgd5mEeK9Wvc2ktUtgw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-          <attributes xmi:id="_l4ZYBdj0EeKTo7dHOUHdDw" value="baseReference">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4ZYCNj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
-          <attributes xmi:id="_l4ZYCdj0EeKTo7dHOUHdDw" value="stereoPackage">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_rnCV0Nj0EeKTo7dHOUHdDw" incoming="_xKHj4Nj0EeKTo7dHOUHdDw" outgoing="_lwXygNj2EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
@@ -378,9 +357,6 @@
       <rhs xmi:id="_l4TRYtj0EeKTo7dHOUHdDw" name="Rhs">
         <nodes xmi:id="_l4TRY9j0EeKTo7dHOUHdDw" incoming="_l4TRaNj0EeKTo7dHOUHdDw" outgoing="_l4TRa9j0EeKTo7dHOUHdDw _l4T4c9j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
-          <attributes xmi:id="_l4TRZNj0EeKTo7dHOUHdDw" value="&quot;create&quot;">
-            <type href="http://www.eclipse.org/emf/2011/Henshin#//GraphElement/action"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4TRZtj0EeKTo7dHOUHdDw" incoming="_l4W7wtj0EeKTo7dHOUHdDw" outgoing="_l4TRaNj0EeKTo7dHOUHdDw _l4ZYA9j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
@@ -390,13 +366,10 @@
         </nodes>
         <nodes xmi:id="_l4T4cNj0EeKTo7dHOUHdDw" incoming="_l4T4c9j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-          <attributes xmi:id="_l4T4cdj0EeKTo7dHOUHdDw" value="baseType">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4GdENj0EeKTo7dHOUHdDw" incoming="_n0QnwNj0EeKTo7dHOUHdDw" outgoing="_tOh4ENj0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Attribute"/>
-          <attributes xmi:id="_MBSvwNj3EeKTo7dHOUHdDw" value="N">
+          <attributes xmi:id="_MBSvwNj3EeKTo7dHOUHdDw" value="N.charAt(0).toUpperCase()+N.slice(1)">
             <type href="http://www.eclipse.org/emf/2011/Henshin#//Attribute/value"/>
           </attributes>
         </nodes>
@@ -420,15 +393,9 @@
         </nodes>
         <nodes xmi:id="_l4YJ7Nj0EeKTo7dHOUHdDw" incoming="_l4YJ79j0EeKTo7dHOUHdDw" outgoing="_l4Yw99j0EeKTo7dHOUHdDw _l4Yw-9j0EeKTo7dHOUHdDw _Rw3XINj2EeKTo7dHOUHdDw _UF2RgNj2EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
-          <attributes xmi:id="_l4YJ7dj0EeKTo7dHOUHdDw" value="&quot;mainUnit&quot;">
-            <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4YJ8Nj0EeKTo7dHOUHdDw" incoming="_l4YJ89j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
-          <attributes xmi:id="_l4YJ8dj0EeKTo7dHOUHdDw" value="stereoPackage">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4Yw9dj0EeKTo7dHOUHdDw" incoming="_l4Yw99j0EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping"/>
@@ -441,15 +408,9 @@
         </nodes>
         <nodes xmi:id="_l4Yw_tj0EeKTo7dHOUHdDw" incoming="_l4YxAdj0EeKTo7dHOUHdDw" outgoing="_xKHj4dj0EeKTo7dHOUHdDw _4brDgN5mEeK9Wvc2ktUtgw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
-          <attributes xmi:id="_l4Yw_9j0EeKTo7dHOUHdDw" value="stereoType">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_l4ZYANj0EeKTo7dHOUHdDw" incoming="_l4ZYA9j0EeKTo7dHOUHdDw _4brDgN5mEeK9Wvc2ktUtgw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-          <attributes xmi:id="_l4ZYAdj0EeKTo7dHOUHdDw" value="baseReference">
-            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
-          </attributes>
         </nodes>
         <nodes xmi:id="_rnCV0dj0EeKTo7dHOUHdDw" incoming="_tOh4ENj0EeKTo7dHOUHdDw _xKHj4dj0EeKTo7dHOUHdDw" outgoing="_lwYZkNj2EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
@@ -459,13 +420,13 @@
         </nodes>
         <nodes xmi:id="_6cTEcNj1EeKTo7dHOUHdDw" incoming="__ZAPANj1EeKTo7dHOUHdDw _UF2RgNj2EeKTo7dHOUHdDw" outgoing="_IaRbMNj2EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-          <attributes xmi:id="_eGU38Nj2EeKTo7dHOUHdDw" value="N">
+          <attributes xmi:id="_eGU38Nj2EeKTo7dHOUHdDw" value="N.charAt(0).toUpperCase()+N.slice(1)">
             <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
           </attributes>
         </nodes>
         <nodes xmi:id="_6-RJENj1EeKTo7dHOUHdDw" incoming="__GsXANj1EeKTo7dHOUHdDw _PbKrENj2EeKTo7dHOUHdDw" outgoing="_H7cxMNj2EeKTo7dHOUHdDw">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-          <attributes xmi:id="_dxAIMNj2EeKTo7dHOUHdDw" value="N">
+          <attributes xmi:id="_dxAIMNj2EeKTo7dHOUHdDw" value="N.charAt(0).toUpperCase()+N.slice(1)">
             <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
           </attributes>
         </nodes>
@@ -593,15 +554,21 @@
   <units xsi:type="henshin:PriorityUnit" xmi:id="_5D9_YNjQEeKnrMG33uWo2A" name="mainUnit" subUnits="_yKjTINODEeK27eMO_ePoqg">
     <parameters xmi:id="_8ZSVYNjQEeKnrMG33uWo2A" name="stereoPackage"/>
     <parameters xmi:id="_8ZSVYdjQEeKnrMG33uWo2A" name="stereoType"/>
+    <parameters xmi:id="_QJIT0Au4EeOJSqoE22yn9A" name="stereoTypeName"/>
     <parameters xmi:id="_8ZSVYtjQEeKnrMG33uWo2A" name="baseType"/>
+    <parameters xmi:id="_QJIT0Qu4EeOJSqoE22yn9A" name="baseTypeName"/>
     <parameters xmi:id="_8ZSVY9jQEeKnrMG33uWo2A" name="baseReference"/>
-    <parameterMappings xmi:id="_YZBPUNjUEeKTo7dHOUHdDw" source="_8ZSVYNjQEeKnrMG33uWo2A" target="_EpObQNWwEeK_OcAdO9YznA"/>
-    <parameterMappings xmi:id="_YZBPUdjUEeKTo7dHOUHdDw" source="_EpObQNWwEeK_OcAdO9YznA" target="_8ZSVYNjQEeKnrMG33uWo2A"/>
-    <parameterMappings xmi:id="_YZBPUtjUEeKTo7dHOUHdDw" source="_8ZSVYdjQEeKnrMG33uWo2A" target="_060ostWvEeK_OcAdO9YznA"/>
-    <parameterMappings xmi:id="_YZBPU9jUEeKTo7dHOUHdDw" source="_060ostWvEeK_OcAdO9YznA" target="_8ZSVYdjQEeKnrMG33uWo2A"/>
-    <parameterMappings xmi:id="_YZBPVNjUEeKTo7dHOUHdDw" source="_8ZSVYtjQEeKnrMG33uWo2A" target="_060osNWvEeK_OcAdO9YznA"/>
-    <parameterMappings xmi:id="_YZBPVdjUEeKTo7dHOUHdDw" source="_060osNWvEeK_OcAdO9YznA" target="_8ZSVYtjQEeKnrMG33uWo2A"/>
-    <parameterMappings xmi:id="_YZB2YNjUEeKTo7dHOUHdDw" source="_8ZSVY9jQEeKnrMG33uWo2A" target="_a-oHINTYEeKiJ65Zs09OlQ"/>
-    <parameterMappings xmi:id="_YZB2YdjUEeKTo7dHOUHdDw" source="_a-oHINTYEeKiJ65Zs09OlQ" target="_8ZSVY9jQEeKnrMG33uWo2A"/>
+    <parameterMappings xmi:id="_RoOvEAu4EeOJSqoE22yn9A" source="_8ZSVYNjQEeKnrMG33uWo2A" target="_EpObQNWwEeK_OcAdO9YznA"/>
+    <parameterMappings xmi:id="_RoOvEQu4EeOJSqoE22yn9A" source="_EpObQNWwEeK_OcAdO9YznA" target="_8ZSVYNjQEeKnrMG33uWo2A"/>
+    <parameterMappings xmi:id="_RoOvEgu4EeOJSqoE22yn9A" source="_8ZSVYdjQEeKnrMG33uWo2A" target="_060ostWvEeK_OcAdO9YznA"/>
+    <parameterMappings xmi:id="_RoOvEwu4EeOJSqoE22yn9A" source="_060ostWvEeK_OcAdO9YznA" target="_8ZSVYdjQEeKnrMG33uWo2A"/>
+    <parameterMappings xmi:id="_RoOvFAu4EeOJSqoE22yn9A" source="_QJIT0Au4EeOJSqoE22yn9A" target="_NnmyQAu4EeOJSqoE22yn9A"/>
+    <parameterMappings xmi:id="_RoOvFQu4EeOJSqoE22yn9A" source="_NnmyQAu4EeOJSqoE22yn9A" target="_QJIT0Au4EeOJSqoE22yn9A"/>
+    <parameterMappings xmi:id="_RoOvFgu4EeOJSqoE22yn9A" source="_8ZSVYtjQEeKnrMG33uWo2A" target="_060osNWvEeK_OcAdO9YznA"/>
+    <parameterMappings xmi:id="_RoOvFwu4EeOJSqoE22yn9A" source="_060osNWvEeK_OcAdO9YznA" target="_8ZSVYtjQEeKnrMG33uWo2A"/>
+    <parameterMappings xmi:id="_RoOvGAu4EeOJSqoE22yn9A" source="_QJIT0Qu4EeOJSqoE22yn9A" target="_NnoncAu4EeOJSqoE22yn9A"/>
+    <parameterMappings xmi:id="_RoOvGQu4EeOJSqoE22yn9A" source="_NnoncAu4EeOJSqoE22yn9A" target="_QJIT0Qu4EeOJSqoE22yn9A"/>
+    <parameterMappings xmi:id="_RoOvGgu4EeOJSqoE22yn9A" source="_8ZSVY9jQEeKnrMG33uWo2A" target="_a-oHINTYEeKiJ65Zs09OlQ"/>
+    <parameterMappings xmi:id="_RoOvGwu4EeOJSqoE22yn9A" source="_a-oHINTYEeKiJ65Zs09OlQ" target="_8ZSVY9jQEeKnrMG33uWo2A"/>
   </units>
 </henshin:Module>
