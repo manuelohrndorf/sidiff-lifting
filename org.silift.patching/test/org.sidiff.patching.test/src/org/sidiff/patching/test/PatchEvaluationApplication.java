@@ -32,6 +32,7 @@ import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
+import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -58,13 +59,13 @@ public class PatchEvaluationApplication implements IApplication {
 			throw new FileNotFoundException(modelFolder.getPath());
 		}
 		
-		if (type == null || !(type.equals("gmf") || type.equals("smg"))) {
+		if (type == null || !(type.equals("gmf") || !(type.equals("smg")) || !(type.equals("sysml")))) {
 			throw new InvalidParameterException("Unkown type!");
 		}
 		
 		List<TestSuite> testSuites = null;
 
-		// Preparing SMG Testsuits
+		// Preparing SMG Testsuites
 		if (type.equals("smg")) {
 			// Group files by name
 			SMGFileManager fileManager = new SMGFileManager(modelFolder);
@@ -77,9 +78,16 @@ public class PatchEvaluationApplication implements IApplication {
 			testSuites = converter.getTestSuites();
 		}
 		
-		// Preparing GMF Testsuits
+		// Preparing GMF Testsuites
 		if (type.equals("gmf")) {
 			GMFTestSuitBuilder builder = new GMFTestSuitBuilder(modelFolder);
+			testSuites = builder.getTestSuites();
+		}
+		
+		// Preparing SysML Testsuites
+		if (type.equals("sysml")) {		
+			
+			SysMLTestSuitBuilder builder = new SysMLTestSuitBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
 		}
 		
