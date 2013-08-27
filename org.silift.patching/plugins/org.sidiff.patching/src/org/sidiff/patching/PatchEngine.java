@@ -96,8 +96,14 @@ public class PatchEngine {
 			public void execute() {
 				Resource tmpResource = PatchUtil.copyWithId(targetResource, previewTargetResource.getURI(), true,
 						copier);
-				PatchEngine.this.previewTargetResource.getContents().clear();
-				PatchEngine.this.previewTargetResource.getContents().add(tmpResource.getContents().get(0));
+				PatchEngine.this.previewTargetResource.getContents().clear();				
+				
+				//Add all contents to preview
+				while(tmpResource.getContents().size()>0){	
+					
+					PatchEngine.this.previewTargetResource.getContents().add(tmpResource.getContents().get(0));					
+
+				}
 				PatchEngine.this.transformationEngine.setResource(previewTargetResource);
 			}
 
