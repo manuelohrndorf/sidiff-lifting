@@ -40,6 +40,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
@@ -158,7 +159,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									monitor.worked(10);
 
 									// Find patch correspondence
-									String documentType = EMFModelAccess.getDocumentType(resource);
+									String documentType = EMFModelAccessEx.getBaseDocumentType(resource);
 									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType);
 									if (correspondence == null) {
 										LOGGER.log(Level.SEVERE, "No Correspondence Service found!");
@@ -198,6 +199,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									PatchView patchView = viewResult.get();
 									monitor.worked(20);
 
+									
 									// ModelChangeHandler works independent
 									monitor.subTask("Adding Modellistener");
 									ModelAdapter adapter = new ModelAdapter(resource);
