@@ -62,6 +62,7 @@ public class SysMLTestSuitBuilder {
 		ResourceSet resourceSetOriginal = new ResourceSetImpl();
 		Resource original = resourceSetOriginal.getResource(URI.createFileURI(originalFile.getAbsolutePath()), true);
 		
+		
 		ResourceSet resourceSetModified = new ResourceSetImpl();
 		Resource modified = resourceSetModified.getResource(URI.createFileURI(modifiedFile.getAbsolutePath()), true);
 		
@@ -74,7 +75,7 @@ public class SysMLTestSuitBuilder {
 		}
 		
 		if (transformationEngine == null){	
-			String documentType = EMFModelAccessEx.getBaseDocumentType(original);
+			String documentType = EMFModelAccessEx.getCharacteristicDocumentType(original);
 			transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
 			if (transformationEngine == null) {
 				LogUtil.log(LogEvent.ERROR, "No Transformation Engine found!");

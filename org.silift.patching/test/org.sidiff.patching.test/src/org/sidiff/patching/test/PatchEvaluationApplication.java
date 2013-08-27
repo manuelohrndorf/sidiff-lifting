@@ -86,7 +86,7 @@ public class PatchEvaluationApplication implements IApplication {
 		
 		// Preparing SysML Testsuites
 		if (type.equals("sysml")) {		
-			
+
 			SysMLTestSuitBuilder builder = new SysMLTestSuitBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
 		}
