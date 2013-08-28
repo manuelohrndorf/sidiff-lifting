@@ -27,7 +27,9 @@ public class SysMLCorrespondence implements IPatchCorrespondence {
 		URI uri = difference.getSymmetric().getModelA().getURI();
 		uri.appendFragment("copy");
 		target = resourceSet.createResource(uri);
-		target.getContents().add(copier.get(difference.getSymmetric().getModelA().getContents().get(0)));
+		for (EObject origRoot : difference.getSymmetric().getModelA().getContents()) {
+			target.getContents().add(copier.get(origRoot));
+		}	
 	}
 
 	@Override
