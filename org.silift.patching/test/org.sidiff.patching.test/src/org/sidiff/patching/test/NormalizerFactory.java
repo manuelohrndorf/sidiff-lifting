@@ -17,6 +17,8 @@ public class NormalizerFactory {
 			return new EcoreNormalizer();
 		}
 		
+		// TODO: SysML normalizer
+		
 		return null;
 	}
 }

@@ -8,11 +8,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -141,19 +143,30 @@ public class PatchEvaluationApplication implements IApplication {
 				// Saving patched Resource
 				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
 				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
+
+// TODO: Eigene Subklasse von UMLResourceImpl mit useUUID-> false überschreiben und hier registrieren				
+//				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+//				Map<String, Object> m = reg.getExtensionToFactoryMap();
+//				m.put("sysml", new SysmlResourceFactoryImpl());
+				
 				ResourceSet resourceSetPatched = new ResourceSetImpl();
-				URI patchedUri = URI.createFileURI(patchedFileBase +".patched.xmi");
+				URI patchedUri = URI.createFileURI(patchedFileBase +".patched.uml"); //TODO: Welcher Modelltyp?
 				Resource resourcePatched = resourceSetPatched.createResource(patchedUri);
-				resourcePatched.getContents().add(result.getPatchedResource().getContents().get(0));
+				LinkedList<EObject> roots = new LinkedList<EObject>(result.getPatchedResource().getContents());
+				for (EObject root : roots) {
+					resourcePatched.getContents().add(root);
+				}				
 				resourcePatched.save(Collections.EMPTY_MAP);
 				
 				// Saving modified Resource (into simple XMI without ids)
 				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
 				ResourceSet resourceSetModified = new ResourceSetImpl();
-				URI modifiedUri = URI.createFileURI(modifiedFileBase +".xmi");
+				URI modifiedUri = URI.createFileURI(modifiedFileBase +".uml"); //TODO: Welcher Modelltyp?
 				Resource resourceModified = resourceSetModified.createResource(modifiedUri);
 				resourceModified.getContents().addAll(testSuite.getModified().getContents());
-				resourceModified.save(Collections.EMPTY_MAP);
+				Map options = new HashMap();
+				//options.put(XMIResource.OPTION_SKIP_ESCAPE_URI, Boolean.FALSE); //TODO: URIs nicht escapen, möglich?
+				resourceModified.save(options);
 				
 				// ... and now reload resources again
 				resourceSetPatched = new ResourceSetImpl();
