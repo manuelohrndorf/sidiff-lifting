@@ -594,6 +594,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/AsymmetricItemProviderAdapterFactory.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/AttributeDependencyItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/DependenciesItemProvider.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/DependencyContainerItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/DependencyItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/EdgeDependencyItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/ExecutionItemProvider.java -text svneol=unset#text/plain
@@ -607,6 +608,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/SequentialExecutionItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/TransientAsymmetricDifferenceItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/gensrc/org/sidiff/difference/asymmetric/provider/ValueParameterBindingItemProvider.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_depContainers_DependencyContainer.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_dependencies_AttributeDependency.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_dependencies_Dependency.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_dependencies_EdgeDependency.gif -text
@@ -616,6 +618,9 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/f
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_executions_SequentialExecution.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_operationInvocations_OperationInvocation.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateAsymmetricDifference_parameterMappings_ParameterMapping.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateDependencyContainer_dependencies_AttributeDependency.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateDependencyContainer_dependencies_EdgeDependency.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateDependencyContainer_dependencies_NodeDependency.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateMultiParameterBinding_parameterBindings_MultiParameterBinding.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateMultiParameterBinding_parameterBindings_ObjectParameterBinding.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/ctool16/CreateMultiParameterBinding_parameterBindings_ValueParameterBinding.gif -text
@@ -625,6 +630,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/f
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/AsymmetricDifference.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/AttributeDependency.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/Dependency.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/DependencyContainer.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/EdgeDependency.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/MultiParameterBinding.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric.edit/icons/full/obj16/NodeDependency.gif -text
@@ -696,6 +702,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/s
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/AsymmetricPackage.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/AttributeDependency.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/Dependency.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/DependencyContainer.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/DependencyKind.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/EdgeDependency.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/Execution.java -text svneol=unset#text/plain
@@ -712,6 +719,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/s
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/AsymmetricFactoryImpl.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/AsymmetricPackageImpl.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/AttributeDependencyImpl.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/DependencyContainerImpl.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/DependencyImpl.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/EdgeDependencyImpl.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.asymmetric/gensrc/org/sidiff/difference/asymmetric/impl/ExecutionImpl.java -text svneol=unset#text/plain
