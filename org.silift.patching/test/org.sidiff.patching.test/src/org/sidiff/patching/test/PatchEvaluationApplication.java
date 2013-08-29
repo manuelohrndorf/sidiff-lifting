@@ -6,18 +6,16 @@ import java.io.FileWriter;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
@@ -35,6 +33,7 @@ import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
+import org.sidiff.patching.util.PatchUtil;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -101,7 +100,7 @@ public class PatchEvaluationApplication implements IApplication {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
 				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine());
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				LogUtil.log(LogEvent.NOTICE, "Appling patch");
+				LogUtil.log(LogEvent.NOTICE, "Applying patch");
 				
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
@@ -135,51 +134,55 @@ public class PatchEvaluationApplication implements IApplication {
 				// Saving patch
 //				AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(), folder, testSuite.getId()+".patch");
 				
-				// strip ids
-//				Resource resourcePatched = PatchUtil.copyWithId(result.getPatchedResource(), result.getPatchedResource().getURI(), false, new Copier());
-//				URI uri = PatchUtil.createURI(testSuite.getModified().getURI(), "id_removed_patch");
-//				Resource resourceModified = PatchUtil.copyWithId(testSuite.getModified(), uri, false, new Copier());
-				
-				// Saving patched Resource
+								
+				//Folder and file structure
 				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
 				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
-
-// TODO: Eigene Subklasse von UMLResourceImpl mit useUUID-> false überschreiben und hier registrieren				
-//				Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-//				Map<String, Object> m = reg.getExtensionToFactoryMap();
-//				m.put("sysml", new SysmlResourceFactoryImpl());
-				
-				ResourceSet resourceSetPatched = new ResourceSetImpl();
-				URI patchedUri = URI.createFileURI(patchedFileBase +".patched.uml"); //TODO: Welcher Modelltyp?
-				Resource resourcePatched = resourceSetPatched.createResource(patchedUri);
-				LinkedList<EObject> roots = new LinkedList<EObject>(result.getPatchedResource().getContents());
-				for (EObject root : roots) {
-					resourcePatched.getContents().add(root);
-				}				
-				resourcePatched.save(Collections.EMPTY_MAP);
-				
-				// Saving modified Resource (into simple XMI without ids)
 				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
-				ResourceSet resourceSetModified = new ResourceSetImpl();
-				URI modifiedUri = URI.createFileURI(modifiedFileBase +".uml"); //TODO: Welcher Modelltyp?
-				Resource resourceModified = resourceSetModified.createResource(modifiedUri);
-				resourceModified.getContents().addAll(testSuite.getModified().getContents());
-				Map options = new HashMap();
-				//options.put(XMIResource.OPTION_SKIP_ESCAPE_URI, Boolean.FALSE); //TODO: URIs nicht escapen, möglich?
-				resourceModified.save(options);
+				
+				String patchedSuffix = "_patched";
+				String modifiedSuffix = "";
+				
+				if (type.equals("sysml")) {		
+					patchedSuffix += ".uml";
+					modifiedSuffix += ".uml";
+
+				}
+				else{
+					patchedSuffix += ".xmi";
+					modifiedSuffix += ".xmi";	
+				}		
+				
+				URI patchedUri = URI.createFileURI(patchedFileBase + patchedSuffix);
+				URI modifiedUri = URI.createFileURI(modifiedFileBase + modifiedSuffix);		
+				
+				// strip ids
+				boolean keepIDs = false;
+				if (type.equals("sysml"))		
+					keepIDs = true;
+				
+				Resource resourcePatchedStripped = PatchUtil.copyWithId(result.getPatchedResource(), patchedUri, keepIDs, new Copier());
+				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());
+				
+				// Saving patched Resource without IDs							
+				resourcePatchedStripped.save(null);
+				
+				// Saving modified Resource without IDs				
+				resourceModifiedStripped.save(null);
 				
 				// ... and now reload resources again
-				resourceSetPatched = new ResourceSetImpl();
-				resourcePatched = resourceSetPatched.getResource(patchedUri, true);
-				resourceSetModified = new ResourceSetImpl();
-				resourceModified = resourceSetModified.getResource(modifiedUri, true);
+				ResourceSet resourceSetPatched = new ResourceSetImpl();
+				Resource resourcePatched = resourceSetPatched.getResource(patchedUri, true);
+				ResourceSet resourceSetModified = new ResourceSetImpl();
+				Resource resourceModified = resourceSetModified.getResource(modifiedUri, true);
 				
-				
+				if (!type.equals("sysml")){
 				EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched);
 				if (changes.isEmpty()) {
 					buffer.append("Patched model is equal to modified!\n");
 				} else {
 					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
+				}
 				}
 			} catch (PatchNotExecuteableException e) {
 				e.printStackTrace();

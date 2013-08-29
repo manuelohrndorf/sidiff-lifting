@@ -2,13 +2,11 @@ package org.sidiff.patching.test;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.matcher.IMatcher;
@@ -21,7 +19,7 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.difference.util.access.EMFModelAccessEx;
 
 public class ModelCompare {
 
@@ -62,13 +60,14 @@ public class ModelCompare {
 			e.printStackTrace();
 		}
 		
+	
 		// Get suitable matcher
-		String documentType = EMFModelAccess.getDocumentType(modelA);
+		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
 //		IMatcher matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", modelA, modelB);
-//		IMatcher matcher = MatcherUtil.getMatcherByKey("EMFCompare", modelA, modelB);
 		IMatcher matcher = MatcherUtil.getMatcherByKey("URIFragmentMatcher", modelA, modelB);
-		//IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA, modelB);
+//		IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA, modelB);
 		
+	
 		// do matching
 		SymmetricDifference difference = matcher.createMatching(modelA, modelB);
 		difference.setUriModelA(modelA.getURI().toString());
@@ -76,7 +75,7 @@ public class ModelCompare {
 		
 		// derive techical difference		
 		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);		
-		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);
+		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);		
 		
 		// now, return the set of obtained low-level changes (should be empty)
 		return difference.getChanges();
