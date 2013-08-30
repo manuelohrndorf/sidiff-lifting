@@ -1,14 +1,19 @@
 package org.sidiff.patching.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -158,19 +163,28 @@ public class PatchEvaluationApplication implements IApplication {
 				
 				// strip ids
 				boolean keepIDs = false;
-				if (type.equals("sysml"))		
-					keepIDs = true;
-				
+								
 				Resource resourcePatchedStripped = PatchUtil.copyWithId(result.getPatchedResource(), patchedUri, keepIDs, new Copier());
-				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());
+				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());				
+			
+				// Strip special characters in href references
+				// Hard coded for SysML case study
+				if (type.equals("sysml")) {
+
+					stripSpecialCharactersAndSave(resourcePatchedStripped, patchedUri);
+					stripSpecialCharactersAndSave(resourceModifiedStripped,modifiedUri);
+
+				} else {
+
+					// Saving patched Resource without IDs
+					resourcePatchedStripped.save(null);
+
+					// Saving modified Resource without IDs
+					resourceModifiedStripped.save(null);
+
+				}
 				
-				// Saving patched Resource without IDs							
-				resourcePatchedStripped.save(null);
-				
-				// Saving modified Resource without IDs				
-				resourceModifiedStripped.save(null);
-				
-				// ... and now reload resources again
+				// ... and now reload resources again					
 				ResourceSet resourceSetPatched = new ResourceSetImpl();
 				Resource resourcePatched = resourceSetPatched.getResource(patchedUri, true);
 				ResourceSet resourceSetModified = new ResourceSetImpl();
@@ -243,6 +257,64 @@ public class PatchEvaluationApplication implements IApplication {
 			stage = Math.max(stage, getDependencyChain(cDependency, base));
 		}
 		return stage;
+	}
+	
+	private void stripSpecialCharactersAndSave(Resource resource, URI uri) throws IOException{
+		
+		//Load patched resource as string
+		String resourceStrippedContent = null;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			resource.save(outputStream, null);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}				
+		resourceStrippedContent = outputStream.toString();	
+		
+		//Define patterns for replacement
+		//Hard coded for sysml casestudy
+		Map<Pattern,String> patternMap = new HashMap<Pattern, String>();
+		patternMap.put(Pattern.compile("%5B"), "[");	
+		patternMap.put(Pattern.compile("%5D"), "]");	
+		patternMap.put(Pattern.compile("%23"), "#");	
+		patternMap.put(Pattern.compile("%20"), " ");	
+		patternMap.put(Pattern.compile("%3C"), "");	
+		patternMap.put(Pattern.compile("%3E"), "");	
+		patternMap.put(Pattern.compile("&lt;"), "");	
+		patternMap.put(Pattern.compile(">>"), "");
+		patternMap.put(Pattern.compile("<<"), "");
+		patternMap.put(Pattern.compile(" AND "), "_AND_");
+		patternMap.put(Pattern.compile("%20AND%20"), "_AND_");	
+		patternMap.put(Pattern.compile(" OR "), "_OR_");
+		patternMap.put(Pattern.compile("%20OR%20"), "_OR_");	
+		patternMap.put(Pattern.compile("NOT "), "NOT_");
+		patternMap.put(Pattern.compile("NOT%20"), "NOT_");
+		patternMap.put(Pattern.compile("Separate "), "Separate");
+		patternMap.put(Pattern.compile("Separate%20 "), "Separate");
+		patternMap.put(Pattern.compile(" = "), "=");
+		patternMap.put(Pattern.compile("%20=%20"), "=");
+		patternMap.put(Pattern.compile(" := "), ":=");
+		patternMap.put(Pattern.compile("%20:=%20"), ":=");
+		patternMap.put(Pattern.compile(" := "), ":=");
+		patternMap.put(Pattern.compile("Drehwinkel>"), "Drehwinkel");
+
+		
+		//Replace all patterns with corresponding replacement string
+		for(Pattern pattern : patternMap.keySet()){
+			Matcher m = pattern.matcher(resourceStrippedContent); 
+			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
+		}
+		//Again to be sure
+		for(Pattern pattern : patternMap.keySet()){
+			Matcher m = pattern.matcher(resourceStrippedContent); 
+			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
+		}
+		
+		//Write stripped resource contents as file
+		Writer writer = new FileWriter(uri.toFileString());
+	    writer.write(resourceStrippedContent);
+		writer.close();		
+		
 	}
 
 	@Override
