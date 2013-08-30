@@ -18,8 +18,6 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -123,7 +121,7 @@ public class PatchEvaluationApplication implements IApplication {
 				PatchResult result = patchEngine.applyPatchOperationValidation();
 				long delta = System.currentTimeMillis() - start;
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
-				buffer.append("Time to apply: " + delta + "ms\n\n");
+				buffer.append("Time to apply: " + delta/1000 + "seconds\n\n");
 				
 				// Distribution of Operations
 				buffer.append("Operation & amount\\\\\n");
@@ -182,22 +180,16 @@ public class PatchEvaluationApplication implements IApplication {
 					// Saving modified Resource without IDs
 					resourceModifiedStripped.save(null);
 
-				}
+				}			
 				
-				// ... and now reload resources again					
-				ResourceSet resourceSetPatched = new ResourceSetImpl();
-				Resource resourcePatched = resourceSetPatched.getResource(patchedUri, true);
-				ResourceSet resourceSetModified = new ResourceSetImpl();
-				Resource resourceModified = resourceSetModified.getResource(modifiedUri, true);
-				
-				if (!type.equals("sysml")){
-				EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched);
+				boolean normalize = !type.equals("sysml");
+				EList<Change> changes = ModelCompare.technicalEqual(resourceModifiedStripped, resourcePatchedStripped, normalize);
 				if (changes.isEmpty()) {
 					buffer.append("Patched model is equal to modified!\n");
 				} else {
 					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
 				}
-				}
+				
 			} catch (PatchNotExecuteableException e) {
 				e.printStackTrace();
 				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
@@ -304,6 +296,10 @@ public class PatchEvaluationApplication implements IApplication {
 			Matcher m = pattern.matcher(resourceStrippedContent); 
 			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
 		}
+		
+		patternMap.put(Pattern.compile("#"), "=");	
+		patternMap.put(Pattern.compile("&"), "");	
+
 		//Again to be sure
 		for(Pattern pattern : patternMap.keySet()){
 			Matcher m = pattern.matcher(resourceStrippedContent); 

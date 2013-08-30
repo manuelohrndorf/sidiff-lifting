@@ -38,7 +38,7 @@ public class ModelCompare {
 		boolean passedAB = test(modelA, modelB);
 		buffer.append("B->A\n");
 		boolean passedBA = test(modelB, modelA);
-		EList<Change> changes = technicalEqual(modelA, modelB);
+		EList<Change> changes = technicalEqual(modelA, modelB, true);
 		if (changes.isEmpty()) {
 			buffer.append("No Differences in technical Diff\n");
 		} else {
@@ -47,7 +47,9 @@ public class ModelCompare {
 		return passedAB && passedBA && changes.isEmpty();
 	}
 
-	public static EList<Change> technicalEqual(Resource modelA, Resource modelB) {
+	public static EList<Change> technicalEqual(Resource modelA, Resource modelB, Boolean normalize) {
+		
+		if(normalize){
 		// Convert to normal form
 		INormalizer normalizer = NormalizerFactory.createNormalizer(modelA);
 		normalizer.normalize(modelA);
@@ -60,6 +62,7 @@ public class ModelCompare {
 			e.printStackTrace();
 		}
 		
+		}
 	
 		// Get suitable matcher
 		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
