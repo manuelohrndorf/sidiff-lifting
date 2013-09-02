@@ -1,7 +1,10 @@
 package org.sidiff.patching.transformator.henshin.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +40,31 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
  */
 public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
 
+	/**
+	 * The target resource on which the patch shall be applied.
+	 */
+	private Resource resource;
+
+	/**
+	 * The Henshin Graph that contains the target resource on which the patch
+	 * shall be applied.
+	 */
 	private EGraph graph;
 
+	/**
+	 * Root objects initially contained by the Henshin graph.
+	 */
+	private Collection<EObject> initialGraphRoots;
+	
 	@Override
 	public void setResource(Resource resource) {
+		this.resource = resource;
 		graph = new EGraphImpl(resource);
+		
+		initialGraphRoots = new LinkedList<EObject>();
+		for (EObject obj : graph.getRoots()) {
+			initialGraphRoots.add(obj);
+		}
 	}
 
 	@Override
@@ -99,6 +122,11 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		} else {
 			throw new OperationNotExecutableException(operationName);
 		}
+		
+		//TODO: we don't need to call this after each operation invocation
+		//      once when path is finished would be enough.
+		synchronizeResourceWithGraph();
+		
 		return outputMap;
 	}
 
@@ -125,6 +153,24 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		} else {
 			return argument;
 		}
+	}
+
+	private void synchronizeResourceWithGraph() {				
+		for (Iterator<EObject> iterator = initialGraphRoots.iterator(); iterator.hasNext();) {
+			EObject resourceObj = iterator.next();
+			if (!graph.contains(resourceObj)){
+				//remove from resource
+				resource.getContents().remove(resourceObj);
+			}			
+		}
+		
+		for (Iterator<EObject> iterator = graph.getRoots().iterator(); iterator.hasNext();) {
+			EObject graphObj = iterator.next();
+			if (!initialGraphRoots.contains(graphObj)){
+				//add to resource
+				resource.getContents().add(graphObj);
+			}			
+		}		
 	}
 
 	// ================================================================
