@@ -19,6 +19,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.Dependency;
+import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -455,12 +456,15 @@ public class PatchEngine {
 		}
 	}
 
-	private synchronized boolean isOutgoingExecuted(OperationInvocation operationInvocation,
+	private synchronized boolean isOutgoingExecuted(
+			OperationInvocation operationInvocation,
 			Set<OperationInvocation> executed) {
-		for (Dependency dependency : operationInvocation.getOutgoing()) {
-			OperationInvocation incomingOperation = dependency.getTarget();
-			if (!executed.contains(incomingOperation)) {
-				return false;
+		for (DependencyContainer container : operationInvocation.getOutgoing()) {
+			for (Dependency dependency : container.getDependencies()) {
+				OperationInvocation incomingOperation = dependency.getTarget();
+				if (!executed.contains(incomingOperation)) {
+					return false;
+				}
 			}
 		}
 		return true;

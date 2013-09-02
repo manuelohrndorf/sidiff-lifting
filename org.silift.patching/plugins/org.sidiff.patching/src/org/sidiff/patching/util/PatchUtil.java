@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.Dependency;
+import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 
 public class PatchUtil {	
@@ -95,10 +96,14 @@ public class PatchUtil {
 		}
 	}
 	
-	private static List<OperationInvocation> getAllIncoming(EList<Dependency> incoming) {
+	private static List<OperationInvocation> getAllIncoming(
+			EList<DependencyContainer> incoming) {
 		List<OperationInvocation> result = new ArrayList<OperationInvocation>();
-		for (Dependency dependency : incoming) {
-			result.add(dependency.getSource());
+		
+		for (DependencyContainer container : incoming) {
+			for (Dependency dependency : container.getDependencies()) {
+				result.add(dependency.getSource());
+			}
 		}
 		return result;
 	}

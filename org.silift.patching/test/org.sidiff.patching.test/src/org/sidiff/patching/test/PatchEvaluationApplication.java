@@ -24,6 +24,7 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.Dependency;
+import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
@@ -109,7 +110,7 @@ public class PatchEvaluationApplication implements IApplication {
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
 				int dif = testSuite.getDifference().getSymmetric().getChanges().size();
 				int op = testSuite.getAsymmetricDifference().getOperationInvocations().size();
-				int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDependencies());
+				int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());
 				buffer.append("Correspondences: " + cor + 
 							  "\nDifferences: " + dif + 
 							  "\nOperations: " + op + 
@@ -231,13 +232,15 @@ public class PatchEvaluationApplication implements IApplication {
 		return result;
 	}
 
-	private int getLongestDependencyChain(EList<Dependency> dependencies) {
+	private int getLongestDependencyChain(EList<DependencyContainer> dependencies) {
 		if (dependencies.isEmpty()) {
 			return 1;
 		}
 		int max = 0;
-		for (Dependency dependency : dependencies) {
-			max = Math.max(max, getDependencyChain(dependency, 1));
+		for (DependencyContainer container : dependencies) {
+			for (Dependency dependency : container.getDependencies()) {
+				max = Math.max(max, getDependencyChain(dependency, 1));
+			}
 		}
 		return max;
 	}
@@ -245,8 +248,11 @@ public class PatchEvaluationApplication implements IApplication {
 	private int getDependencyChain(Dependency dependency, int stage) {
 		stage++;
 		int base = stage;
-		for (Dependency cDependency : dependency.getSource().getIncoming()) {
-			stage = Math.max(stage, getDependencyChain(cDependency, base));
+		for (DependencyContainer container : dependency.getSource()
+				.getIncoming()) {
+			for (Dependency dep : container.getDependencies()) {
+				stage = Math.max(stage, getDependencyChain(dep, base));
+			}
 		}
 		return stage;
 	}
@@ -297,7 +303,7 @@ public class PatchEvaluationApplication implements IApplication {
 			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
 		}
 		
-		patternMap.put(Pattern.compile("#"), "=");	
+		patternMap.put(Pattern.compile("t#"), "t=");	
 		patternMap.put(Pattern.compile("&"), "");	
 
 		//Again to be sure
