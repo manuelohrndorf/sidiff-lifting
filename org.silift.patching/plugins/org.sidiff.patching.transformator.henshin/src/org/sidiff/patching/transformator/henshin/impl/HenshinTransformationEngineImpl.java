@@ -168,7 +168,9 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 			EObject graphObj = iterator.next();
 			if (!initialGraphRoots.contains(graphObj)){
 				//add to resource
-				resource.getContents().add(graphObj);
+				if (!resource.getContents().contains(graphObj)){
+					resource.getContents().add(graphObj);
+				}
 			}			
 		}		
 	}
