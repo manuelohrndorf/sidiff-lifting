@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 
@@ -100,10 +99,9 @@ public class PatchUtil {
 			EList<DependencyContainer> incoming) {
 		List<OperationInvocation> result = new ArrayList<OperationInvocation>();
 		
-		for (DependencyContainer container : incoming) {
-			for (Dependency dependency : container.getDependencies()) {
-				result.add(dependency.getSource());
-			}
+		for (DependencyContainer dependency : incoming) {			
+			result.add(dependency.getSource());
+			
 		}
 		return result;
 	}

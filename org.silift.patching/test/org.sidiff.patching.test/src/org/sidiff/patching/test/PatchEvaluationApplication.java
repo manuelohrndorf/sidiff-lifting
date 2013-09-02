@@ -23,7 +23,6 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -237,22 +236,17 @@ public class PatchEvaluationApplication implements IApplication {
 			return 1;
 		}
 		int max = 0;
-		for (DependencyContainer container : dependencies) {
-			for (Dependency dependency : container.getDependencies()) {
-				max = Math.max(max, getDependencyChain(dependency, 1));
-			}
+		for (DependencyContainer dependency : dependencies) {
+			max = Math.max(max, getDependencyChain(dependency, 1));
 		}
 		return max;
 	}
 	
-	private int getDependencyChain(Dependency dependency, int stage) {
+	private int getDependencyChain(DependencyContainer dependency, int stage) {
 		stage++;
 		int base = stage;
-		for (DependencyContainer container : dependency.getSource()
-				.getIncoming()) {
-			for (Dependency dep : container.getDependencies()) {
-				stage = Math.max(stage, getDependencyChain(dep, base));
-			}
+		for (DependencyContainer dep : dependency.getSource().getIncoming()) {
+			stage = Math.max(stage, getDependencyChain(dep, base));
 		}
 		return stage;
 	}
