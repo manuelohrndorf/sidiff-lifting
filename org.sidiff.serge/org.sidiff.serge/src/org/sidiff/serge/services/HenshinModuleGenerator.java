@@ -335,10 +335,17 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 						HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, ea, Common.toCamelCase(ea.getName()));
 
 
+						/**
+						 * 
+						 * TODO Michaela:
+						 * Überprüfen, ob dies überhaupt sinnvoll sein kann.
+						 * Nun für SysML deaktiviert, da baseType zum SET-Zeitpunkt bereits angehängt ist.
+										
 						// if profiledModel then link mandatory neighbours (expecially the meta class)
 						if(profileApplicationInUse) {
 							createMandatoryNeighbours(rule, eClassInfo, rhsNode);
 						}
+						*/ 
 
 						// If selected eClass is constrained locally (e.g. it's name to be set must be unique under a local context),
 						// create parent nodes which are required by NACs/PACs later.
