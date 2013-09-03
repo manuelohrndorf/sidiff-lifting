@@ -4,8 +4,9 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<multiplicityPreconditions integrated="false" separately="false" />
-		<reduceToSuperType  CREATE_DELETE="true" MOVE="true" SET_UNSET="false" ADD_REMOVE="true" CHANGE="true" />
-		<disableVariants value="false"/>
+		<reduceToSuperType  CREATE_DELETE="false" MOVE="false" SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
+		<disableVariants value="true"/>
+		<createAllAttributes value="true" />		
    		<modelUsesProfileMechanism value="false"/>
 	</GeneralSettings>
 	
@@ -47,24 +48,28 @@
 	somewhere in its lower containments (eg. (Sub-)StateMachine)-->
 	<Root name="StateMachine" nested="true"/>
 	
-	<WhiteList>	
-			
-		<EClass name="StateMachine" />
-		<EClass name="State" />
+	<WhiteList>		
+		
+		<EClass name="Activity" />		
+		<EClass name="Constraint" />
+		<EClass name="Enumeration" />
+		<EClass name="EnumerationLiteral" />	
+		<EClass name="FinalState" />		
+		<EClass name="LiteralBoolean" />
+		<EClass name="LiteralString" />		
+		<EClass name="OpaqueBehavior" />			
+		<EClass name="Package" />		
 		<EClass name="Pseudostate" />
 		<EClass name="Region" />
-		<EClass name="ConnectionPointReference" />
-		<EClass name="Transition" />
-		<EClass name="Trigger" />
-		<!--  Using "Constraint" is not adviced when MOVEs, which include switching of references, are enabled -->
-		<!-- <EClass name="Constraint" /> -->
-		<EClass name="Behavior" />
+		<EClass name="State" />
+		<EClass name="StateMachine" />
+		<EClass name="Transition" />			
 		
 	</WhiteList>
 	
 	<BlackList>
-		
-		<EClass name="Constraint" />
+		<!--  Using "Constraint" is not adviced when MOVEs, which include switching of references, are enabled -->
+		<!--  <EClass name="Constraint" /> -->
 	
 	</BlackList>
 	

@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.sidiff.common.emf.access.path.SliceAccessStrategy;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.io.IOUtil;
@@ -30,7 +29,6 @@ import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.EClassInfo;
 import org.sidiff.serge.core.EClassInfoManagement;
 import org.sidiff.serge.core.Mask;
-import org.sidiff.serge.core.MetaModelSlicer;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
@@ -80,6 +78,8 @@ public class SergeServiceImpl implements SergeService{
 		generator.setMultiplicityPreconditions(Boolean.valueOf(Common.getAttributeValue("integrated", currentNode)), Boolean.valueOf(Common.getAttributeValue("separately", currentNode)));
 		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
 		generator.setDisableVariants(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
+		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
+		generator.setCreateNotRequiredAndNotIDAttributes(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
 		enableStereotypeMapping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		generator.setProfileApplicationInUse(enableStereotypeMapping);
@@ -90,6 +90,7 @@ public class SergeServiceImpl implements SergeService{
 		generator.setReduceToSuperType_MOVE(Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode)));
 		generator.setReduceToSuperType_CREATEDELETE(Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode)));
 		
+
 		// retrieve and set operation types
 		currentNode = doc.getElementsByTagName("Creates").item(0);
 		generator.setCreateCREATES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
