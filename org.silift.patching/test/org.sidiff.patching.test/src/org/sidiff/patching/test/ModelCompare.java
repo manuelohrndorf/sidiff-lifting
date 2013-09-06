@@ -1,6 +1,5 @@
 package org.sidiff.patching.test;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.EList;
@@ -48,37 +47,31 @@ public class ModelCompare {
 	}
 
 	public static EList<Change> technicalEqual(Resource modelA, Resource modelB, Boolean normalize) {
-		
-		if(normalize){
-		// Convert to normal form
-		INormalizer normalizer = NormalizerFactory.createNormalizer(modelA);
-		normalizer.normalize(modelA);
-		normalizer.normalize(modelB);
-		
-		try {
-			modelA.save(null);
-			modelB.save(null);
-		} catch (IOException e) {			
-			e.printStackTrace();
+
+		if (normalize) {
+			// Convert to normal form
+			INormalizer normalizer = NormalizerFactory.createNormalizer(modelA);
+			normalizer.normalize(modelA);
+			normalizer.normalize(modelB);
 		}
-		
-		}
-	
+
 		// Get suitable matcher
 		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-//		IMatcher matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", modelA, modelB);
+		// IMatcher matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", modelA,
+		// modelB);
 		IMatcher matcher = MatcherUtil.getMatcherByKey("URIFragmentMatcher", modelA, modelB);
-//		IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA, modelB);
+		// IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA,
+		// modelB);
+
 		
-	
 		// do matching
 		SymmetricDifference difference = matcher.createMatching(modelA, modelB);
 		difference.setUriModelA(modelA.getURI().toString());
 		difference.setUriModelB(modelB.getURI().toString());
-		
-		// derive techical difference		
-		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);		
-		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);		
+
+		// derive techical difference
+		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);
+		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);
 		
 		// now, return the set of obtained low-level changes (should be empty)
 		return difference.getChanges();
@@ -89,8 +82,8 @@ public class ModelCompare {
 		for (Iterator<EObject> iteratorA = resourceA.getAllContents(); iteratorA.hasNext();) {
 			EObject eObjectA = (EObject) iteratorA.next();
 			String fragment = EcoreUtil.getURI(eObjectA).fragment();
-//			if (!fragment.contains("//")) 
-//				continue;
+			// if (!fragment.contains("//"))
+			// continue;
 			EObject eObjectB = resourceB.getEObject(fragment);
 			if (eObjectB == null) {
 				buffer.append("Did not found: " + fragment + "\n");
@@ -102,7 +95,7 @@ public class ModelCompare {
 		}
 		return passed;
 	}
-	
+
 	public String getReport() {
 		return buffer.toString();
 	}
@@ -112,7 +105,8 @@ public class ModelCompare {
 		for (Change change : changes) {
 			if (change instanceof AttributeValueChange) {
 				AttributeValueChange valueChange = (AttributeValueChange) change;
-				buffer.append("Missing ValueChange " + valueChange.getType().getName() + " in " + EcoreUtil.getURI(valueChange.getObjA()).fragment());
+				buffer.append("Missing ValueChange " + valueChange.getType().getName() + " in "
+						+ EcoreUtil.getURI(valueChange.getObjA()).fragment());
 				buffer.append("\n");
 			} else if (change instanceof AddObject) {
 				AddObject addObject = (AddObject) change;
@@ -124,11 +118,13 @@ public class ModelCompare {
 				buffer.append("\n");
 			} else if (change instanceof AddReference) {
 				AddReference addReference = (AddReference) change;
-				buffer.append("Missing AddReference from " + EcoreUtil.getURI(addReference.getSrc()).fragment() + " to " + EcoreUtil.getURI(addReference.getTgt()).fragment());
+				buffer.append("Missing AddReference from " + EcoreUtil.getURI(addReference.getSrc()).fragment()
+						+ " to " + EcoreUtil.getURI(addReference.getTgt()).fragment());
 				buffer.append("\n");
 			} else if (change instanceof RemoveReference) {
 				RemoveReference removeReference = (RemoveReference) change;
-				buffer.append("Missing RemoveReference from " + EcoreUtil.getURI(removeReference.getSrc()).fragment() + " to " + EcoreUtil.getURI(removeReference.getTgt()).fragment());
+				buffer.append("Missing RemoveReference from " + EcoreUtil.getURI(removeReference.getSrc()).fragment()
+						+ " to " + EcoreUtil.getURI(removeReference.getTgt()).fragment());
 				buffer.append("\n");
 			}
 		}

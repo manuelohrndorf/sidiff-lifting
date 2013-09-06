@@ -1,24 +1,21 @@
 package org.sidiff.patching.test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
@@ -35,8 +32,8 @@ import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
+import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
-import org.sidiff.patching.util.PatchUtil;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -90,9 +87,15 @@ public class PatchEvaluationApplication implements IApplication {
 		
 		// Preparing SysML Testsuites
 		if (type.equals("sysml")) {		
-
+			// test suite
 			SysMLTestSuitBuilder builder = new SysMLTestSuitBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
+			
+			// Eigene Subklasse von UMLResourceImpl (bzw.Factory dazu) mit useUUID-> false hier registrieren				
+			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+			Map<String, Object> m = reg.getExtensionToFactoryMap();
+			m.put("sysml", new SysMLResourceFactory());
+			m.put("uml", new SysMLResourceFactory());
 		}
 		
 		// Convert filegroups to modelgroups
@@ -137,53 +140,102 @@ public class PatchEvaluationApplication implements IApplication {
 				// Saving patch
 //				AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(), folder, testSuite.getId()+".patch");
 				
-								
-				//Folder and file structure
-				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
-				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
-				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+				Resource resourcePatched = null;
+				Resource resourceModified = null;
 				
-				String patchedSuffix = "_patched";
-				String modifiedSuffix = "";
-				
-				if (type.equals("sysml")) {		
-					patchedSuffix += ".uml";
-					modifiedSuffix += ".uml";
-
+				if (!type.equals("sysml")){
+					// Saving patched Resource
+					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
+					String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
+					ResourceSet resourceSetPatched = new ResourceSetImpl();
+					URI patchedUri = URI.createFileURI(patchedFileBase +".patched.xmi");
+					resourcePatched = resourceSetPatched.createResource(patchedUri);
+					resourcePatched.getContents().add(result.getPatchedResource().getContents().get(0));
+					resourcePatched.save(Collections.EMPTY_MAP);
+					
+					// Saving modified Resource (into simple XMI without ids)
+					String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+					ResourceSet resourceSetModified = new ResourceSetImpl();
+					URI modifiedUri = URI.createFileURI(modifiedFileBase +".xmi");
+					resourceModified = resourceSetModified.createResource(modifiedUri);
+					resourceModified.getContents().addAll(testSuite.getModified().getContents());
+					resourceModified.save(Collections.EMPTY_MAP);
+					
+				} else {					
+					// Saving patched Resource
+					resourcePatched = result.getPatchedResource();
+					resourcePatched.save(Collections.EMPTY_MAP);
+					
+					// Saving modified Resource (into "my sysml" without ids)
+					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
+					String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+					ResourceSet resourceSetModified = new ResourceSetImpl();
+					URI modifiedUri = URI.createFileURI(modifiedFileBase +".sysml");
+					resourceModified = resourceSetModified.createResource(modifiedUri);
+					resourceModified.getContents().addAll(testSuite.getModified().getContents());
+					resourceModified.save(Collections.EMPTY_MAP);
 				}
-				else{
-					patchedSuffix += ".xmi";
-					modifiedSuffix += ".xmi";	
-				}		
 				
-				URI patchedUri = URI.createFileURI(patchedFileBase + patchedSuffix);
-				URI modifiedUri = URI.createFileURI(modifiedFileBase + modifiedSuffix);		
+				// ... and now reload resources again
+				ResourceSet resourceSetPatched = new ResourceSetImpl();
+				resourcePatched = resourceSetPatched.getResource(resourcePatched.getURI(), true);
+				ResourceSet resourceSetModified = new ResourceSetImpl();
+				resourceModified = resourceSetModified.getResource(resourceModified.getURI(), true);
 				
-				// strip ids
-				boolean keepIDs = false;
-								
-				Resource resourcePatchedStripped = PatchUtil.copyWithId(result.getPatchedResource(), patchedUri, keepIDs, new Copier());
-				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());				
-			
-				// Strip special characters in href references
-				// Hard coded for SysML case study
-				if (type.equals("sysml")) {
-
-					stripSpecialCharactersAndSave(resourcePatchedStripped, patchedUri);
-					stripSpecialCharactersAndSave(resourceModifiedStripped,modifiedUri);
-
-				} else {
-
-					// Saving patched Resource without IDs
-					resourcePatchedStripped.save(null);
-
-					// Saving modified Resource without IDs
-					resourceModifiedStripped.save(null);
-
-				}			
+//				//Folder and file structure
+//				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
+//				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
+//				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+//				
+//				String patchedSuffix = "_patched";
+//				String modifiedSuffix = "";
+//				
+//				if (type.equals("sysml")) {		
+//					patchedSuffix += ".uml";
+//					modifiedSuffix += ".uml";
+//
+//				}
+//				else{
+//					patchedSuffix += ".xmi";
+//					modifiedSuffix += ".xmi";	
+//				}		
+//				
+//				URI patchedUri = URI.createFileURI(patchedFileBase + patchedSuffix);
+//				URI modifiedUri = URI.createFileURI(modifiedFileBase + modifiedSuffix);		
+//				
+//				// strip ids
+//				boolean keepIDs = false;
+//								
+//				Resource resourcePatchedStripped = PatchUtil.copyWithId(result.getPatchedResource(), patchedUri, keepIDs, new Copier());
+//				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());				
+//			
+//				// Strip special characters in href references
+//				// Hard coded for SysML case study
+//				if (type.equals("sysml")) {
+//
+//					stripSpecialCharactersAndSave(resourcePatchedStripped, patchedUri);
+//					stripSpecialCharactersAndSave(resourceModifiedStripped,modifiedUri);
+//
+//				} else {
+//
+//					// Saving patched Resource without IDs
+//					resourcePatchedStripped.save(null);
+//
+//					// Saving modified Resource without IDs
+//					resourceModifiedStripped.save(null);
+//
+//				}			
 				
-				boolean normalize = !type.equals("sysml");
-				EList<Change> changes = ModelCompare.technicalEqual(resourceModifiedStripped, resourcePatchedStripped, normalize);
+				resourcePatched.save(Collections.EMPTY_MAP);
+				resourceModified.save(Collections.EMPTY_MAP);
+				
+				boolean normalize = true;
+				EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched, normalize);
+				
+				// Saving patched Resource without IDs and normalized (just to inspect the output manually)
+				resourcePatched.save(Collections.EMPTY_MAP);
+				resourceModified.save(Collections.EMPTY_MAP);
+				
 				if (changes.isEmpty()) {
 					buffer.append("Patched model is equal to modified!\n");
 				} else {
@@ -251,67 +303,67 @@ public class PatchEvaluationApplication implements IApplication {
 		return stage;
 	}
 	
-	private void stripSpecialCharactersAndSave(Resource resource, URI uri) throws IOException{
-		
-		//Load patched resource as string
-		String resourceStrippedContent = null;
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		try {
-			resource.save(outputStream, null);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}				
-		resourceStrippedContent = outputStream.toString();	
-		
-		//Define patterns for replacement
-		//Hard coded for sysml casestudy
-		Map<Pattern,String> patternMap = new HashMap<Pattern, String>();
-		patternMap.put(Pattern.compile("%5B"), "[");	
-		patternMap.put(Pattern.compile("%5D"), "]");	
-		patternMap.put(Pattern.compile("%23"), "#");	
-		patternMap.put(Pattern.compile("%20"), " ");	
-		patternMap.put(Pattern.compile("%3C"), "");	
-		patternMap.put(Pattern.compile("%3E"), "");	
-		patternMap.put(Pattern.compile("&lt;"), "");	
-		patternMap.put(Pattern.compile(">>"), "");
-		patternMap.put(Pattern.compile("<<"), "");
-		patternMap.put(Pattern.compile(" AND "), "_AND_");
-		patternMap.put(Pattern.compile("%20AND%20"), "_AND_");	
-		patternMap.put(Pattern.compile(" OR "), "_OR_");
-		patternMap.put(Pattern.compile("%20OR%20"), "_OR_");	
-		patternMap.put(Pattern.compile("NOT "), "NOT_");
-		patternMap.put(Pattern.compile("NOT%20"), "NOT_");
-		patternMap.put(Pattern.compile("Separate "), "Separate");
-		patternMap.put(Pattern.compile("Separate%20 "), "Separate");
-		patternMap.put(Pattern.compile(" = "), "=");
-		patternMap.put(Pattern.compile("%20=%20"), "=");
-		patternMap.put(Pattern.compile(" := "), ":=");
-		patternMap.put(Pattern.compile("%20:=%20"), ":=");
-		patternMap.put(Pattern.compile(" := "), ":=");
-		patternMap.put(Pattern.compile("Drehwinkel>"), "Drehwinkel");
-
-		
-		//Replace all patterns with corresponding replacement string
-		for(Pattern pattern : patternMap.keySet()){
-			Matcher m = pattern.matcher(resourceStrippedContent); 
-			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
-		}
-		
-		patternMap.put(Pattern.compile("t#"), "t=");	
-		patternMap.put(Pattern.compile("&"), "");	
-
-		//Again to be sure
-		for(Pattern pattern : patternMap.keySet()){
-			Matcher m = pattern.matcher(resourceStrippedContent); 
-			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
-		}
-		
-		//Write stripped resource contents as file
-		Writer writer = new FileWriter(uri.toFileString());
-	    writer.write(resourceStrippedContent);
-		writer.close();		
-		
-	}
+//	private void stripSpecialCharactersAndSave(Resource resource, URI uri) throws IOException{
+//		
+//		//Load patched resource as string
+//		String resourceStrippedContent = null;
+//		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//		try {
+//			resource.save(outputStream, null);
+//		} catch (IOException ioe) {
+//			ioe.printStackTrace();
+//		}				
+//		resourceStrippedContent = outputStream.toString();	
+//		
+//		//Define patterns for replacement
+//		//Hard coded for sysml casestudy
+//		Map<Pattern,String> patternMap = new HashMap<Pattern, String>();
+//		patternMap.put(Pattern.compile("%5B"), "[");	
+//		patternMap.put(Pattern.compile("%5D"), "]");	
+//		patternMap.put(Pattern.compile("%23"), "#");	
+//		patternMap.put(Pattern.compile("%20"), " ");	
+//		patternMap.put(Pattern.compile("%3C"), "");	
+//		patternMap.put(Pattern.compile("%3E"), "");	
+//		patternMap.put(Pattern.compile("&lt;"), "");	
+//		patternMap.put(Pattern.compile(">>"), "");
+//		patternMap.put(Pattern.compile("<<"), "");
+//		patternMap.put(Pattern.compile(" AND "), "_AND_");
+//		patternMap.put(Pattern.compile("%20AND%20"), "_AND_");	
+//		patternMap.put(Pattern.compile(" OR "), "_OR_");
+//		patternMap.put(Pattern.compile("%20OR%20"), "_OR_");	
+//		patternMap.put(Pattern.compile("NOT "), "NOT_");
+//		patternMap.put(Pattern.compile("NOT%20"), "NOT_");
+//		patternMap.put(Pattern.compile("Separate "), "Separate");
+//		patternMap.put(Pattern.compile("Separate%20 "), "Separate");
+//		patternMap.put(Pattern.compile(" = "), "=");
+//		patternMap.put(Pattern.compile("%20=%20"), "=");
+//		patternMap.put(Pattern.compile(" := "), ":=");
+//		patternMap.put(Pattern.compile("%20:=%20"), ":=");
+//		patternMap.put(Pattern.compile(" := "), ":=");
+//		patternMap.put(Pattern.compile("Drehwinkel>"), "Drehwinkel");
+//
+//		
+//		//Replace all patterns with corresponding replacement string
+//		for(Pattern pattern : patternMap.keySet()){
+//			Matcher m = pattern.matcher(resourceStrippedContent); 
+//			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
+//		}
+//		
+//		patternMap.put(Pattern.compile("t#"), "t=");	
+//		patternMap.put(Pattern.compile("&"), "");	
+//
+//		//Again to be sure
+//		for(Pattern pattern : patternMap.keySet()){
+//			Matcher m = pattern.matcher(resourceStrippedContent); 
+//			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
+//		}
+//		
+//		//Write stripped resource contents as file
+//		Writer writer = new FileWriter(uri.toFileString());
+//	    writer.write(resourceStrippedContent);
+//		writer.close();		
+//		
+//	}
 
 	@Override
 	public void stop() {
