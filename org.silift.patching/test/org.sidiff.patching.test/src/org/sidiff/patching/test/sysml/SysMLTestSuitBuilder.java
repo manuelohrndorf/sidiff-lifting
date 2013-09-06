@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.uml2.uml.NamedElement;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
@@ -62,9 +66,14 @@ public class SysMLTestSuitBuilder {
 		ResourceSet resourceSetOriginal = new ResourceSetImpl();
 		Resource original = resourceSetOriginal.getResource(URI.createFileURI(originalFile.getAbsolutePath()), true);
 		
-		
 		ResourceSet resourceSetModified = new ResourceSetImpl();
 		Resource modified = resourceSetModified.getResource(URI.createFileURI(modifiedFile.getAbsolutePath()), true);
+		
+		// adapt models for batch test
+		deleteEAnnotations(original);
+		deleteEAnnotations(modified);
+		escapeSpecialCharactersInNames(original);
+		escapeSpecialCharactersInNames(modified);
 		
 		if (matcher == null) {
 			matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", original, modified);
@@ -92,5 +101,49 @@ public class SysMLTestSuitBuilder {
 		
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
 	}
+	
+	/**
+	 * EAnnotations are conceptually irrelevant for SysML models. Just delete them for batch test
+	 * 
+	 * @param model
+	 */
+	private void deleteEAnnotations(Resource model){
+		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
+			EObject obj = iterator.next();
+			if (obj instanceof EModelElement){
+				EModelElement eModelElement = (EModelElement) obj;
+				eModelElement.getEAnnotations().clear();
+			}
+		}
+	}
 
+	/**
+	 * EAnnotations are conceptually irrelevant for SysML models. Just delete them for batch test
+	 * 
+	 * @param model
+	 */
+	private void escapeSpecialCharactersInNames(Resource model){
+		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
+			EObject obj = iterator.next();
+			if (obj instanceof NamedElement){
+				NamedElement namedElement = (NamedElement) obj;
+				if (namedElement.getName() == null){
+					continue;
+				}
+				
+				namedElement.setName(namedElement.getName().replaceAll(" ", ""));
+				namedElement.setName(namedElement.getName().replace("[", "_ECKAUF_"));
+				namedElement.setName(namedElement.getName().replace("]", "_ECKZU_"));
+				namedElement.setName(namedElement.getName().replace("(", "_RUNDAUF_"));
+				namedElement.setName(namedElement.getName().replace(")", "_RUNDZU_"));
+				namedElement.setName(namedElement.getName().replaceAll("#", "_HASH_"));				
+				namedElement.setName(namedElement.getName().replaceAll("=", "_EQ_"));
+				namedElement.setName(namedElement.getName().replaceAll(">>", "_GGT_"));
+				namedElement.setName(namedElement.getName().replaceAll("<<", "_LLT_"));
+				namedElement.setName(namedElement.getName().replaceAll(">", "_GT_"));
+				namedElement.setName(namedElement.getName().replaceAll("<", "_LT_"));				
+				namedElement.setName(namedElement.getName().replaceAll("&", "_AND_"));				
+			}
+		}
+	}
 }
