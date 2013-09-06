@@ -72,8 +72,6 @@ public class SysMLTestSuitBuilder {
 		// adapt models for batch test
 		deleteEAnnotations(original);
 		deleteEAnnotations(modified);
-		escapeSpecialCharactersInNames(original);
-		escapeSpecialCharactersInNames(modified);
 		
 		if (matcher == null) {
 			matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", original, modified);
@@ -117,33 +115,4 @@ public class SysMLTestSuitBuilder {
 		}
 	}
 
-	/**
-	 * EAnnotations are conceptually irrelevant for SysML models. Just delete them for batch test
-	 * 
-	 * @param model
-	 */
-	private void escapeSpecialCharactersInNames(Resource model){
-		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
-			EObject obj = iterator.next();
-			if (obj instanceof NamedElement){
-				NamedElement namedElement = (NamedElement) obj;
-				if (namedElement.getName() == null){
-					continue;
-				}
-				
-				namedElement.setName(namedElement.getName().replaceAll(" ", ""));
-				namedElement.setName(namedElement.getName().replace("[", "_ECKAUF_"));
-				namedElement.setName(namedElement.getName().replace("]", "_ECKZU_"));
-				namedElement.setName(namedElement.getName().replace("(", "_RUNDAUF_"));
-				namedElement.setName(namedElement.getName().replace(")", "_RUNDZU_"));
-				namedElement.setName(namedElement.getName().replaceAll("#", "_HASH_"));				
-				namedElement.setName(namedElement.getName().replaceAll("=", "_EQ_"));
-				namedElement.setName(namedElement.getName().replaceAll(">>", "_GGT_"));
-				namedElement.setName(namedElement.getName().replaceAll("<<", "_LLT_"));
-				namedElement.setName(namedElement.getName().replaceAll(">", "_GT_"));
-				namedElement.setName(namedElement.getName().replaceAll("<", "_LT_"));				
-				namedElement.setName(namedElement.getName().replaceAll("&", "_AND_"));				
-			}
-		}
-	}
 }

@@ -81,7 +81,10 @@ public class SysMLNormalizer implements INormalizer {
 		if (obj1 instanceof NamedElement && obj2 instanceof NamedElement){
 			NamedElement nObj1 = (NamedElement) obj1;
 			NamedElement nObj2 = (NamedElement) obj2;
-			return nObj1.getName().compareTo(nObj2.getName());
+			if(nObj1.getName()!=null && nObj2.getName()!=null)
+				return nObj1.getName().compareTo(nObj2.getName());
+			else
+				return 0;
 		}
 		
 		// default: we don't know how to compare
