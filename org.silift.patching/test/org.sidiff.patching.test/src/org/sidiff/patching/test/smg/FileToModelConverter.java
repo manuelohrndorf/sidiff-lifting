@@ -77,9 +77,7 @@ public class FileToModelConverter {
 		Matching matching = (Matching) getResource(resourceSet, matchingFile).getContents().get(0);
 		List<Correspondence> correspondences = new ArrayList<Correspondence>();
 		for (org.sidiff.pipeline.correspondences.model.Correspondence smgCor : matching.getCorrespondences()) {
-			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence();
-			correspondence.setObjA(smgCor.getMatchedA());
-			correspondence.setObjB(smgCor.getMatchedB());
+			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(smgCor.getMatchedA(), smgCor.getMatchedB());			
 			correspondences.add(correspondence);
 		}
 		return correspondences;
