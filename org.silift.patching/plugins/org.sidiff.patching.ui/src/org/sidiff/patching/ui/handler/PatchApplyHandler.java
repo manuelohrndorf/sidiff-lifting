@@ -38,7 +38,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.IPatchCorrespondence;
@@ -159,7 +158,12 @@ public class PatchApplyHandler extends AbstractHandler {
 									monitor.worked(10);
 
 									// Find patch correspondence
-									String documentType = EMFModelAccessEx.getBaseDocumentType(resource);
+									String documentType = null;
+									if (EMFModelAccessEx.isProfiled(resource)){
+										documentType = EMFModelAccessEx.getBaseDocumentType(resource);
+									} else {
+										documentType = EMFModelAccessEx.getCharacteristicDocumentType(resource);
+									}											
 									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType);
 									if (correspondence == null) {
 										LOGGER.log(Level.SEVERE, "No Correspondence Service found!");
