@@ -100,7 +100,7 @@ public class PatchEvaluationApplication implements IApplication {
 		
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
-		StringBuffer latexTable = new StringBuffer("Version & Korresp. & Differ. & Operationen & Längste Abhängigkeitskette\\\\\n");
+		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms) \\\\n");
 		for (TestSuite testSuite : testSuites) {			
 			try {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
@@ -116,15 +116,16 @@ public class PatchEvaluationApplication implements IApplication {
 				buffer.append("Correspondences: " + cor + 
 							  "\nDifferences: " + dif + 
 							  "\nOperations: " + op + 
-							  "\nLongest dependency chain: " + max + "\n");
-				latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + "\\\\\n");
+							  "\nLongest dependency chain: " + max + "\n");				
 				
 				// Time to apply patch
 				long start = System.currentTimeMillis();
 				PatchResult result = patchEngine.applyPatchOperationValidation();
-				long delta = System.currentTimeMillis() - start;
+				long delta = System.currentTimeMillis() - start;				
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
-				buffer.append("Time to apply: " + delta/1000 + "seconds\n\n");
+				buffer.append("Time to apply: " + delta + "seconds\n\n");
+				
+				latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + " & " + delta +"\\\\\n");
 				
 				// Distribution of Operations
 				buffer.append("Operation & amount\\\\\n");
