@@ -8,7 +8,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 
 public class SysMLNormalizer implements INormalizer {
@@ -78,6 +80,22 @@ public class SysMLNormalizer implements INormalizer {
 	}
 
 	private static int compare(EObject obj1, EObject obj2){
+		if (obj1 instanceof Association && obj2 instanceof Association){
+			Association aObj1 = (Association) obj1;
+			Association aObj2 = (Association) obj2;
+			String s1 = "" + aObj1.getName();
+			for (Property p : aObj1.getMemberEnds()) {
+				String n = "" + p.getName();
+				s1 += n;
+			}
+			String s2 = "" + aObj2.getName();
+			for (Property p : aObj2.getMemberEnds()) {
+				String n = "" + p.getName();
+				s2 += n;
+			}
+			return s1.compareTo(s2);
+		}
+		
 		if (obj1 instanceof NamedElement && obj2 instanceof NamedElement){
 			NamedElement nObj1 = (NamedElement) obj1;
 			NamedElement nObj2 = (NamedElement) obj2;
