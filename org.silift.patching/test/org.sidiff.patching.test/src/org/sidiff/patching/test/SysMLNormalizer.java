@@ -80,22 +80,24 @@ public class SysMLNormalizer implements INormalizer {
 	}
 
 	private static int compare(EObject obj1, EObject obj2){
-		if (obj1 instanceof Association && obj2 instanceof Association){
+		if (obj1 instanceof Association && obj2 instanceof Association) {
 			Association aObj1 = (Association) obj1;
 			Association aObj2 = (Association) obj2;
-			String s1 = "" + aObj1.getName();
-			for (Property p : aObj1.getMemberEnds()) {
-				String n = "" + p.getName();
-				s1 += n;
+			//If both Associations have no meaningful/comparable name
+			if (aObj1.getName().equals("") && aObj2.getName().equals("")) {
+				String s1 = "";
+				for (Property p : aObj1.getMemberEnds()) {
+					String n = "" + p.getName();
+					s1 += n;
+				}
+				String s2 = "";
+				for (Property p : aObj2.getMemberEnds()) {
+					String n = "" + p.getName();
+					s2 += n;
+				}
+				return s1.compareTo(s2);
 			}
-			String s2 = "" + aObj2.getName();
-			for (Property p : aObj2.getMemberEnds()) {
-				String n = "" + p.getName();
-				s2 += n;
-			}
-			return s1.compareTo(s2);
 		}
-		
 		if (obj1 instanceof NamedElement && obj2 instanceof NamedElement){
 			NamedElement nObj1 = (NamedElement) obj1;
 			NamedElement nObj2 = (NamedElement) obj2;

@@ -100,7 +100,7 @@ public class PatchEvaluationApplication implements IApplication {
 		
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
-		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms) \\\\n");
+		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms)\\\\\n");
 		for (TestSuite testSuite : testSuites) {			
 			try {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
