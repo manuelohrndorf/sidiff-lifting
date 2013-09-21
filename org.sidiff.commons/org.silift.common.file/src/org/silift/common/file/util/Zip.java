@@ -3,6 +3,7 @@ package org.silift.common.file.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class Zip {
 	 * @param path
 	 * @param inputFileName
 	 */
-	public static void zipFiles(String zipFileName, String path, String... inputFileName ){
+	public static void zipFiles(String zipFileName, String path, String patchFolder ){
 		BufferedInputStream in = null;
 		ZipOutputStream out = null;
 		if (!(path.endsWith("/") || path.endsWith("\\"))) {
@@ -27,11 +28,13 @@ public class Zip {
 		}
 		try{
 			out = new ZipOutputStream(new FileOutputStream(path + zipFileName+".patch"));
-			for(String fileName : inputFileName){
-				in = new BufferedInputStream(new FileInputStream(path + fileName));
+			File patch = new File(patchFolder);
+			File[] files = patch.listFiles();
+			for(File file : files){
+				in = new BufferedInputStream(new FileInputStream(file.getAbsolutePath()));
 				int avail = in.available();
 				byte[] buffer = new byte[avail];
-				out.putNextEntry(new ZipEntry(fileName));
+				out.putNextEntry(new ZipEntry(file.getName()));
 				if(avail > 0){
 					in.read(buffer, 0, avail);
 					out.write(buffer, 0, buffer.length);
