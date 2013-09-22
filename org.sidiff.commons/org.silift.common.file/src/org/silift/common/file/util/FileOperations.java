@@ -3,6 +3,7 @@ package org.silift.common.file.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
@@ -20,8 +21,14 @@ public class FileOperations {
 		}
 	}
 	
-	public static void deleteFolder(String path){
-		
+	public static void removeFolder(String path){
+		File dir = new File(path);
+		for(File file : dir.listFiles()){
+			if(file.isDirectory())
+				removeFolder(file.getPath());
+			file.delete();
+		}
+		dir.delete();
 	}
 	
 
@@ -40,5 +47,20 @@ public class FileOperations {
 			if(inChannel != null) inChannel.close();
 			if(outChannel != null) outChannel.close();
 		}
+	}
+	
+	public static void createInfoFile(String path, String info){
+		if (!(path.endsWith("/") || path.endsWith("\\"))) {
+			path = path + System.getProperty("file.separator");
+		}
+		
+		try {
+			FileWriter file = new FileWriter (path+"patch.info");
+			file.write(info);
+			file.close();
+	      }
+	      catch (IOException e) {
+	        System.out.println("Fehler: "+e.toString());
+	      }
 	}
 }
