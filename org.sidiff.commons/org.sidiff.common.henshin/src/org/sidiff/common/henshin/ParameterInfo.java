@@ -140,6 +140,9 @@ public class ParameterInfo {
 	 */
 	public static EClassifier getRealType(Parameter parameter) {
 		Parameter oppositeParameter = getInnermostParameter(parameter);
+		
+		assert(oppositeParameter != null);
+		
 		Rule rule = (Rule) oppositeParameter.eContainer();
 		Node node = null;
 
@@ -179,8 +182,7 @@ public class ParameterInfo {
 
 		// get the type (if its the correct attribute)
 		for (Attribute rA : rightAttributes) {
-			// TODO: handle functions such as +, -, etc.
-			if (rA.getValue().equals(oppositeParameter.getName())) {
+			if(getUsedParameters(rule, rA).contains(oppositeParameter)){
 				return rA.getType().getEAttributeType();
 			}
 		}
@@ -195,8 +197,8 @@ public class ParameterInfo {
 		}
 
 		// get the type (if its the correct attribute)
-		for (Attribute lA : leftAttributes) {
-			if (lA.getValue().equals(oppositeParameter.getName())) {
+		for (Attribute lA : leftAttributes) {						
+			if(getUsedParameters(rule, lA).contains(oppositeParameter)){
 				return lA.getType().getEAttributeType();
 			}
 		}
@@ -303,7 +305,7 @@ public class ParameterInfo {
 	 * Parses the parameter from a Henshin attribute.
 	 * 
 	 * TODO: That isn't really perfect. Check the Henshin script interpreter
-	 * syntax.
+	 * syntax. I.e., check if parameter is a variable in the Syntax-Tree of the JavaScript Expression.
 	 * 
 	 * @param rule
 	 *            the rule which contains the node which contains the attribute.
