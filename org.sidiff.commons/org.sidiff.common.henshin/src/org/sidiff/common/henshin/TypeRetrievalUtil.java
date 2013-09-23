@@ -1,6 +1,7 @@
 package org.sidiff.common.henshin;
 
 import java.util.*;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.*;
@@ -193,5 +194,52 @@ public class TypeRetrievalUtil {
 		}
 		return types;
 	}
-	
+
+	/**
+	 * This method does the following:
+	 * In case the Parameter is connected to an Attribute under a Node
+	 * it will fetch the container Node type (as Class<?>, since Refactor needs this).
+	 * In case the Parameter is connected to a Node it will return null
+	 * because the Node has no Node container.
+	 * 
+	 * @param parameter
+	 * @return
+	 */
+	public static Class<?> getContainerNodeType(Parameter parameter) {
+		
+		Rule rule = null;
+		Class<?> containerNodeType = null;
+		
+		/** find the Parameter *********************************************/
+		Parameter target = ParameterInfo.getInnermostParameter(parameter);
+		rule = (Rule) target.eContainer();
+
+		/** now find the container node of the Parameter and its Node type */		
+		// find attribute under LHS nodes
+		for(Node lhsN :rule.getLhs().getNodes()) {
+			for(Attribute aInLhsN: lhsN.getAttributes()) {
+				if(aInLhsN.getValue().equals(parameter.getName())) {
+					Node containerNode = aInLhsN.getNode();
+					containerNodeType = containerNode.getType().getInstanceClass();
+					break;
+				}
+			}
+			if(containerNodeType!=null) break;
+		}
+		// find attribute under RHS nodes
+		for(Node rhsN :rule.getRhs().getNodes()) {
+			for(Attribute aInRhsN: rhsN.getAttributes()) {
+				if(aInRhsN.getValue().equals(parameter.getName())) {
+					Node containerNode = aInRhsN.getNode();
+					containerNodeType = containerNode.getType().getInstanceClass();
+					break;
+				}
+			}
+			if(containerNodeType!=null) break;
+		}
+		
+		// if still null, then the parameter stands for a node object
+		// and therefore has no container node.
+		return containerNodeType;
+	}
 }
