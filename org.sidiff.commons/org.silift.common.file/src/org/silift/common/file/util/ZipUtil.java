@@ -13,66 +13,110 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.silift.common.exceptions.FileAlreadyExistsException;
+import org.silift.common.exceptions.FileNotCreatedException;
+
 
 public class ZipUtil {
 
 	String dirToZip;
 	String zipFile;
 
-	public void zip(String in, String out){
+	/**
+	 * Zips a directory given by an absolute path.
+	 * 
+	 * <p><strong>Example:</strong> <code>zip("/example/folderToZip", "/example/zipFile")</code></p>
+	 * <p>The directory <code>folderToZip</code> in the directory example will be saved as <code>zipFile.zip</code> in the same directory.</p>
+	 * 
+	 * @param inputPath absolute path of the directory to zip
+	 * @param outputPath absolute path of the zip file
+	 * 
+	 *@see {@link #zipDir(String, String, File, ZipOutputStream)}
+	 * 
+	 */
+	public void zip(String inputPath, String outputPath){
 		try {
-			this.dirToZip = in;
-			this.zipFile = out;
+			this.dirToZip = inputPath;
+			this.zipFile = outputPath;
 			File file = new File(zipFile + ".zip");
 			ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(file));
-			zipDir(zipFile, dirToZip, new File(dirToZip), zipOutputStream);
+			zipDir(dirToZip, zipFile, new File(dirToZip), zipOutputStream);
 			zipOutputStream.close();
 		}catch (IOException e) {
 				e.printStackTrace();
 		}
 	}
 	
-	 private void zipDir(String zipFile, String dirToZip, File dirToZipFile, ZipOutputStream zipOutputStream) {
-		 if (zipFile == null || dirToZip == null || dirToZipFile == null || zipOutputStream == null || !dirToZipFile.isDirectory()) return;
+	
+	/**
+	 * 
+	 * @param dirToZip absolute path of the directory to zip
+	 * @param zipFile absolute path of the zip file
+	 * @param dirToZipFile
+	 * @param zipOutputStream
+	 */
+	private void zipDir(String dirToZip, String zipFile, File dirToZipFile, ZipOutputStream zipOutputStream) {
+		if (zipFile == null || dirToZip == null || dirToZipFile == null || zipOutputStream == null || !dirToZipFile.isDirectory()) return;
 
-		 FileInputStream fileInputStream = null;
-		 try {
-			 File[] fileArray = dirToZipFile.listFiles();
-			 String path;
-			 for (File file : fileArray) {
-				 if (file.isDirectory()) {
-					 zipDir(zipFile, dirToZip, file, zipOutputStream);
-					 continue;
-				 }
-				 fileInputStream = new FileInputStream(file);
-				 path = file.getCanonicalPath();
-				 String name = path.substring(dirToZip.length(), path.length());
-				 System.out.println("zip " + name);
-				 zipOutputStream.putNextEntry(new ZipEntry(name));
-				 int len;
-				 byte[] buffer = new byte[2048];
-				 while ((len = fileInputStream.read(buffer, 0, buffer.length)) > 0) {
-					 zipOutputStream.write(buffer, 0, len);
-				 }
-				 fileInputStream.close();
-			 }
-		 }catch (FileNotFoundException e) {
-			 e.printStackTrace();
-		 }catch (IOException e) {
-			 e.printStackTrace();
-		 }
-	 }
+		BufferedInputStream fileInputStream = null;
+		try {
+			File[] fileArray = dirToZipFile.listFiles();
+			String path;
+			for (File file : fileArray) {
+				if (file.isDirectory()) {
+					zipDir(dirToZip, zipFile, file, zipOutputStream);
+					continue;
+				}
+				fileInputStream = new BufferedInputStream(new FileInputStream(file));
+				path = file.getCanonicalPath();
+				String name = path.substring(dirToZip.length(), path.length());
+				System.out.println("zip " + name);
+				zipOutputStream.putNextEntry(new ZipEntry(name));
+				int len;
+				byte[] buffer = new byte[fileInputStream.available()];
+				while ((len = fileInputStream.read(buffer, 0, buffer.length)) > 0) {
+					zipOutputStream.write(buffer, 0, len);
+					zipOutputStream.closeEntry();
+				}
+				fileInputStream.close();
+			}
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	 
 
-	 public static void extractFiles(String path, String fileName){
+	/**
+	 * Extracts all files of a zip file.
+	 * 
+	 * @param zip absolute path of the zip file
+	 * @param output absolute path of the directory, where the zip file will be extracted
+	 * @param dirName name of directory containing all extracted files
+	 */
+	public static void extractFiles(String zipFile, String output, String dirName){
+		
+		String separator = System.getProperty("file.separator");
+		
+		if (!(output.endsWith("/") || output.endsWith("\\"))) {
+			output += separator;
+		}
+		
+		String path = output+dirName+separator;
 		BufferedInputStream in = null;
 		BufferedOutputStream out = null;
 		try{
-			ZipFile zipFile = new ZipFile(path+fileName);
-			Enumeration enu = zipFile.entries();
+			File dir = new File(path);
+			if(!dir.exists()){
+				FileOperations.createFolder(path);
+			}
+			
+			ZipFile file = new ZipFile(zipFile);
+			Enumeration enu = file.entries();
 			while(enu.hasMoreElements()){
 				ZipEntry zipEntry = (ZipEntry)enu.nextElement();
-				in = new BufferedInputStream(zipFile.getInputStream(zipEntry));
+				in = new BufferedInputStream(file.getInputStream(zipEntry));
 				byte[] buffer;
 				int avail = in.available();
 				buffer = new byte[avail];
@@ -83,7 +127,7 @@ public class ZipUtil {
 					out.flush();
 				}
 			}
-		}catch(IOException e){
+		}catch(IOException | FileNotCreatedException | FileAlreadyExistsException e){
 			e.printStackTrace();
 		}finally{
 			try{
