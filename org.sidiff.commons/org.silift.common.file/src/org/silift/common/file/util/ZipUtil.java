@@ -94,8 +94,9 @@ public class ZipUtil {
 	 * @param zip absolute path of the zip file
 	 * @param output absolute path of the directory, where the zip file will be extracted
 	 * @param dirName name of directory containing all extracted files
+	 * @param overwrite if the target folder already exists and the flag is true, all existing files will be overwritten.
 	 */
-	public static void extractFiles(String zipFile, String output, String dirName){
+	public void extractFiles(String zipFile, String output, String dirName, boolean overwrite){
 		
 		String separator = System.getProperty("file.separator");
 		
@@ -108,9 +109,7 @@ public class ZipUtil {
 		BufferedOutputStream out = null;
 		try{
 			File dir = new File(path);
-			if(!dir.exists()){
-				FileOperations.createFolder(path);
-			}
+			FileOperations.createFolder(path, overwrite);
 			
 			ZipFile file = new ZipFile(zipFile);
 			Enumeration enu = file.entries();
@@ -122,7 +121,7 @@ public class ZipUtil {
 				buffer = new byte[avail];
 				if(avail > 0){	
 					in.read(buffer, 0, avail);
-					out = new BufferedOutputStream(new FileOutputStream(path+zipEntry.getName()));
+					out = new BufferedOutputStream(new FileOutputStream(path+zipEntry.getName(), false));
 					out.write(buffer, 0, buffer.length);
 					out.flush();
 				}

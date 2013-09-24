@@ -12,15 +12,27 @@ import org.silift.common.exceptions.FileNotCreatedException;
 
 public class FileOperations {
 	
-	public static void createFolder(String path) throws FileNotCreatedException, FileAlreadyExistsException{
+	/**
+	 * Creates a new directory
+	 * 
+	 * @param path absolute path of the directory that will be created
+	 * @param overwrite if the directory already exists and the flag is false, an FileAlreadyExistsException will be thrown
+	 * @throws FileNotCreatedException
+	 * @throws FileAlreadyExistsException
+	 */
+	public static void createFolder(String path, boolean overwrite) throws FileNotCreatedException, FileAlreadyExistsException{
 		File dir = new File(path);
 		if(!dir.exists()){
 			if(!dir.mkdir()) throw new FileNotCreatedException("could not create folder!");
-		}else{
+		}else if(!overwrite){
 			throw new FileAlreadyExistsException("folder already exists");
 		}
 	}
 	
+	/**
+	 * 
+	 * @param path absolute path of the folder which should be deleted
+	 */
 	public static void removeFolder(String path){
 		File dir = new File(path);
 		for(File file : dir.listFiles()){
@@ -31,7 +43,12 @@ public class FileOperations {
 		dir.delete();
 	}
 	
-
+	/**
+	 * 
+	 * @param in
+	 * @param out
+	 * @throws IOException
+	 */
 	public static void copyFile(String in, String out) throws IOException{
 		File inFile = new File(in);
 		File outFile = new File(out);
