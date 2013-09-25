@@ -105,17 +105,17 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		if(eClassifier instanceof EClass) {		
 			EClass eClass = (EClass) eClassifier;
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClass.getName() + " ***********************************************");
-			
-			// DELETE ---------------------------------------------
-			if(!eClass.isAbstract()) {
-				try {
+
+			try {
+				if(!eClass.isAbstract()) {
 					generate_CREATE_And_DELETE_Modules(eClass);
-					generate_Update_Module(eClass);
-					generate_MOVE_Module(eClass);
-				} catch (ConstraintException e) {
-					e.printStackTrace();
 				}
+				generate_Update_Module(eClass);
+				generate_MOVE_Module(eClass);
+			} catch (ConstraintException e) {
+				e.printStackTrace();
 			}
+
 		}
 
 	}
