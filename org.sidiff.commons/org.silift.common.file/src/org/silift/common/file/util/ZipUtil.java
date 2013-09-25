@@ -13,6 +13,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.silift.common.exceptions.FileAlreadyExistsException;
 import org.silift.common.exceptions.FileNotCreatedException;
 
@@ -21,6 +23,8 @@ public class ZipUtil {
 
 	String dirToZip;
 	String zipFile;
+	
+	String separator = System.getProperty("file.separator");
 
 	/**
 	 * Zips a directory given by an absolute path.
@@ -40,7 +44,7 @@ public class ZipUtil {
 			this.zipFile = outputPath;
 			File file = new File(zipFile + ".zip");
 			ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(file));
-			zipDir(dirToZip, zipFile, new File(dirToZip), zipOutputStream);
+			zipDir(dirToZip, new File(dirToZip), zipOutputStream);
 			zipOutputStream.close();
 		}catch (IOException e) {
 				e.printStackTrace();
@@ -51,12 +55,11 @@ public class ZipUtil {
 	/**
 	 * 
 	 * @param dirToZip absolute path of the directory to zip
-	 * @param zipFile absolute path of the zip file
 	 * @param dirToZipFile
 	 * @param zipOutputStream
 	 */
-	private void zipDir(String dirToZip, String zipFile, File dirToZipFile, ZipOutputStream zipOutputStream) {
-		if (zipFile == null || dirToZip == null || dirToZipFile == null || zipOutputStream == null || !dirToZipFile.isDirectory()) return;
+	private void zipDir(String dirToZip, File dirToZipFile, ZipOutputStream zipOutputStream) {
+		if (dirToZip == null || dirToZipFile == null || zipOutputStream == null || !dirToZipFile.isDirectory()) return;
 
 		BufferedInputStream fileInputStream = null;
 		try {
@@ -64,13 +67,13 @@ public class ZipUtil {
 			String path;
 			for (File file : fileArray) {
 				if (file.isDirectory()) {
-					zipDir(dirToZip, zipFile, file, zipOutputStream);
+					zipDir(dirToZip, file, zipOutputStream);
 					continue;
 				}
 				fileInputStream = new BufferedInputStream(new FileInputStream(file));
-				path = file.getCanonicalPath();
-				String name = path.substring(dirToZip.length(), path.length());
-				System.out.println("zip " + name);
+				path = file.getPath();
+				String name = path.substring(dirToZip.length()+1, path.length());
+				LogUtil.log(LogEvent.NOTICE, "zip " + name);
 				zipOutputStream.putNextEntry(new ZipEntry(name));
 				int len;
 				byte[] buffer = new byte[fileInputStream.available()];
@@ -98,8 +101,6 @@ public class ZipUtil {
 	 */
 	public void extractFiles(String zipFile, String output, String dirName, boolean overwrite){
 		
-		String separator = System.getProperty("file.separator");
-		
 		if (!(output.endsWith("/") || output.endsWith("\\"))) {
 			output += separator;
 		}
@@ -108,24 +109,32 @@ public class ZipUtil {
 		BufferedInputStream in = null;
 		BufferedOutputStream out = null;
 		try{
-			File dir = new File(path);
+			File destDir = new File(path);
 			FileOperations.createFolder(path, overwrite);
 			
 			ZipFile file = new ZipFile(zipFile);
 			Enumeration enu = file.entries();
 			while(enu.hasMoreElements()){
 				ZipEntry zipEntry = (ZipEntry)enu.nextElement();
-				in = new BufferedInputStream(file.getInputStream(zipEntry));
-				byte[] buffer;
-				int avail = in.available();
-				buffer = new byte[avail];
-				if(avail > 0){	
-					in.read(buffer, 0, avail);
-					out = new BufferedOutputStream(new FileOutputStream(path+zipEntry.getName(), false));
-					out.write(buffer, 0, buffer.length);
-					out.flush();
+				
+				String zipEntryName = zipEntry.getName();
+				
+				File dir = buildDirectoryHierarchy(zipEntryName, destDir);
+				
+				dir.mkdir();
+				
+				if(!zipEntry.isDirectory()){
+					in = new BufferedInputStream(file.getInputStream(zipEntry));
+					byte[] buffer = new byte[in.available()];
+					int len;
+					while ((len = in.read(buffer, 0, buffer.length)) > 0){	
+						out = new BufferedOutputStream(new FileOutputStream(path+zipEntryName, false));
+						out.write(buffer, 0, buffer.length);
+						out.flush();
+					}
 				}
 			}
+			file.close();
 		}catch(IOException | FileNotCreatedException | FileAlreadyExistsException e){
 			e.printStackTrace();
 		}finally{
@@ -137,4 +146,17 @@ public class ZipUtil {
 			}
 		}
 	} 
+	
+	/**
+	 * 
+	 * @param fileName
+	 * @param destDir
+	 * @return
+	 */
+	private File buildDirectoryHierarchy(String fileName, File destDir){
+		 int lastIndex = fileName.lastIndexOf(separator);
+		 String internalPathToEntry = fileName.substring(0, lastIndex + 1);
+		 
+		 return new File(destDir, internalPathToEntry);
+	}
 }
