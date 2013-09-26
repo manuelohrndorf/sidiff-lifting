@@ -2,8 +2,10 @@ package org.sidiff.common.emf.extensions.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
@@ -110,6 +112,58 @@ public class EClassifierInfo {
 //	}
 	
 	/** Convenience methods ***************************************************************/
+	
+	public HashSet<EClassifier> getClassifiersOfAttributesForEClassifier(EClassifier eClassifier)
+	{
+		HashSet<EClassifier> attributeClassifiers = new HashSet<EClassifier>();
+		
+		for (EAttribute eAttribute : eClassifier.eClass().getEAllAttributes())
+			attributeClassifiers.add(eAttribute.getEType());
+		
+		return attributeClassifiers;
+	}
+	
+	public HashSet<EClassifier> getAllMandatoryClassifiers()
+	{
+		HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
+		
+		//Identify all mandatory children classifiers
+		for (EReference ref : getMandatoryChildren().keySet())
+		{
+			for (EClassifier classifier : getMandatoryChildren().get(ref))
+			if (!mandatoryClassifiers.contains(classifier))
+				mandatoryClassifiers.add(classifier);
+		}
+		
+		//Identify all mandatory neighbour classifiers
+		for (EReference ref : getMandatoryNeighbours().keySet())
+		{
+			for (EClassifier classifier : getMandatoryNeighbours().get(ref))
+			if (!mandatoryClassifiers.contains(classifier))
+				mandatoryClassifiers.add(classifier);
+		}
+		
+		//Identify all mandatory neighbour context classifiers
+		for (EReference ref : getMandatoryNeighbourContext().keySet())
+		{
+			for (EClassifier classifier : getMandatoryNeighbourContext().get(ref))
+			if (!mandatoryClassifiers.contains(classifier))
+				mandatoryClassifiers.add(classifier);
+		}
+		
+		//Identify all mandatory parent context classifiers
+		for (EReference ref : getMandatoryParentContext().keySet())
+		{
+			for (EClassifier classifier : getMandatoryParentContext().get(ref))
+			if (!mandatoryClassifiers.contains(classifier))
+				mandatoryClassifiers.add(classifier);
+		}
+		
+		//Identify all attribute classifiers
+		mandatoryClassifiers.addAll(getClassifiersOfAttributesForEClassifier(theEClassifier));
+			
+		return mandatoryClassifiers;
+	}
 	
 	public boolean selfMayHaveTransformations(){
 		if(!optionalParentContext.isEmpty() || !optionalNeighbourContext.isEmpty()

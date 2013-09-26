@@ -20,14 +20,17 @@ public class MetaModelSlicerApp implements IApplication {
 		System.out.println("*****************************");
 		
 		
+		String testingOutputPath = "D://Data/ec_workspace/ConfigGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
+		
 		MetaModelSlicer	slicer = new MetaModelSlicer();
 		List<EClassifier> listOfclassifiers = new ArrayList<EClassifier>();
 		
 		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/uml2/4.0.0/UML");
-		listOfclassifiers.add(epg.getEClassifier("Class"));
-		listOfclassifiers.add(epg.getEClassifier("Package"));
-		listOfclassifiers.add(epg.getEClassifier("Operation"));
-		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced");			
+//		listOfclassifiers.add(epg.getEClassifier("Class"));
+//		listOfclassifiers.add(epg.getEClassifier("Package"));
+//		listOfclassifiers.add(epg.getEClassifier("Operation"));
+		listOfclassifiers.add(epg.getEClassifier("Parameter"));
+		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced",testingOutputPath);			
 
 //		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
 //		listOfclassifiers.add(epg.getEClassifier("SkeletonEdge"));
