@@ -8,10 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
@@ -33,7 +35,6 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 
 public class EcoreHelper {
-
 	
 	public static List<EAnnotation> getAllEAnnotations(EPackage rootpackage) {
 		
@@ -100,7 +101,7 @@ public class EcoreHelper {
 
 		/**************************************************************************************************************/		
 		LogUtil.log(LogEvent.NOTICE, "Annotating EEModelelement paths.");
-		
+
 		// annotate all elements with their path in original meta model
 		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(origEPackage)) {
 			if(eob_Orig instanceof EGenericType

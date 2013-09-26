@@ -26,11 +26,11 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.serge.SergeService;
 import org.sidiff.serge.core.Common;
-import org.sidiff.serge.core.EClassInfo;
-import org.sidiff.serge.core.EClassInfoManagement;
+import org.sidiff.serge.core.EClassifierInfo;
+import org.sidiff.serge.core.EClassifierInfoManagement;
 import org.sidiff.serge.core.Mask;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
-import org.sidiff.serge.exceptions.EClassUnresolvableException;
+import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.services.AbstractGenerator;
 import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
@@ -43,14 +43,14 @@ import org.w3c.dom.NodeList;
 
 public class SergeServiceImpl implements SergeService{
 
-	private static AbstractGenerator generator  				= null;
+	private static AbstractGenerator generator  					= null;
 	private static Stack<EPackage> ePackagesStack					= new Stack<EPackage>();
-	private static EClassInfoManagement eClassInfoManagement 	= null;
+	private static EClassifierInfoManagement eClassInfoManagement 	= null;
 
-	private static Boolean enableStereotypeMapping				= false;
-	private static List<String> stringWhiteList 				= new ArrayList<String>();
-	private static List<String> stringBlackList 				= new ArrayList<String>();
-	private static String rootName								= null;
+	private static Boolean enableStereotypeMapping					= false;
+	private static List<String> stringWhiteList 					= new ArrayList<String>();
+	private static List<String> stringBlackList 					= new ArrayList<String>();
+	private static String rootName									= null;
 	
 	public SergeServiceImpl() {
 		
@@ -124,7 +124,7 @@ public class SergeServiceImpl implements SergeService{
 		currentNode = docElem.getElementsByTagName("BlackList").item(0);
 		currentChildNodes = currentNode.getChildNodes();
 		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("EClass")) {
+			if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
 				stringBlackList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
 			}
 		}
@@ -133,7 +133,7 @@ public class SergeServiceImpl implements SergeService{
 		currentNode = docElem.getElementsByTagName("WhiteList").item(0);
 		currentChildNodes = currentNode.getChildNodes();
 		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("EClass")) {
+			if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
 				stringWhiteList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
 			}
 		}
@@ -176,7 +176,7 @@ public class SergeServiceImpl implements SergeService{
 		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
 			//resolve root
-			EClass root = Common.resolveStringAsEClass(rootName, ePackagesStack);
+			EClassifier root = Common.resolveStringAsEClassifier(rootName, ePackagesStack);
 			generator.setRoot(root);
 		}
 		generator.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
@@ -210,12 +210,12 @@ public class SergeServiceImpl implements SergeService{
 			if(currentChildNodes.item(i).getNodeName().equals("Mask")) {
 				Node maskNode = currentChildNodes.item(i);
 				String maskName = Common.getAttributeValue("name", maskNode);
-				String eClassName = Common.getAttributeValue("eClass", maskNode);
+				String eClassName = Common.getAttributeValue("eClassifier", maskNode);
 				String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
 				String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
 			
-				EClass maskContainer = Common.resolveStringAsEClass(eClassName, ePackagesStack);
-				EAttribute eAttribute = (EAttribute) maskContainer.getEStructuralFeature(eAttributeName);
+				EClassifier maskContainer = Common.resolveStringAsEClassifier(eClassName, ePackagesStack);
+				EAttribute eAttribute = (EAttribute) ((EClass) maskContainer).getEStructuralFeature(eAttributeName);
 				EClassifier valueContainer = eAttribute.getEType();
 				EEnumLiteral valueLiteral = null;
 				
@@ -226,7 +226,7 @@ public class SergeServiceImpl implements SergeService{
 				}
 				// add mask to EClassInfo of maskContainer
 				Mask mask = new Mask(maskName, maskContainer, eAttribute, valueLiteral);
-				eClassInfoManagement.getEClassInfo(maskContainer).addMask(mask);
+				eClassInfoManagement.getEClassifierInfo(maskContainer).addMask(mask);
 				
 			}
 		}
@@ -240,7 +240,7 @@ public class SergeServiceImpl implements SergeService{
 		for(int i=0; i<=c_nameUniqueness.getLength()-1; i++) {
 			Node c = c_nameUniqueness.item(i);
 			String scope = String.valueOf(Common.getAttributeValue("scope", c));
-			String eClass = String.valueOf(Common.getAttributeValue("eClass", c));
+			String eClass = String.valueOf(Common.getAttributeValue("eClassifier", c));
 			String eAttributeName = String.valueOf(Common.getAttributeValue("eAttributeName", c));
 			Boolean eAttributeIsInherited = Boolean.valueOf(Common.getAttributeValue("eAttributeIsInherited", c));
 			Boolean overrideInheritedConstraints = Boolean.valueOf(Common.getAttributeValue("overrideInheritedConstraintsIfAny", c));
@@ -284,7 +284,7 @@ public class SergeServiceImpl implements SergeService{
 					}
 				}
 				if(constrainedEClass==null) {
-					throw new EClassUnresolvableException(eClass);
+					throw new EClassifierUnresolvableException(eClass);
 				}
 			}
 			List<Object> flags = new ArrayList<Object>();
@@ -378,18 +378,18 @@ public class SergeServiceImpl implements SergeService{
 
 	
 	/**
-	 * This fills the actual blackList with real EClasses.
+	 * This fills the actual blackList with real EClassifiers.
 	 * If preventInconsistencyThroughSkipping is set to TRUE, then
 	 * it will additionally be checked if other model elements have mandatory
 	 * dependencies to the skippable elements. If so, they will be skipped, too.
 	 * Recursively.
-	 * @throws EClassUnresolvableException 
+	 * @throws EClassifierUnresolvableException 
 	 */
-	private static void unfoldBlackList() throws EClassUnresolvableException {
-		generator.setBlackList(new ArrayList<EClass>());
+	private static void unfoldBlackList() throws EClassifierUnresolvableException {
+		generator.setBlackList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringBlackList) {
-			EClass skip = Common.resolveStringAsEClass(eClassName, ePackagesStack);
+			EClassifier skip = Common.resolveStringAsEClassifier(eClassName, ePackagesStack);
 			generator.getBlackList().add(skip);
 		}
 		
@@ -400,17 +400,17 @@ public class SergeServiceImpl implements SergeService{
 	
 	
 	/**
-	 * This fills the actual whiteList with real EClasses.
-	 * It will additionally be checked recursively if EClasses in the WhiteList require
-	 * further EClasses to prevent model inconsistency.
-	 * @throws EClassUnresolvableException 
+	 * This fills the actual whiteList with real EClassifiers.
+	 * It will additionally be checked recursively if EClassifiers in the WhiteList require
+	 * further EClassesifiers to prevent model inconsistency.
+	 * @throws EClassifierUnresolvableException 
 	 */
-	private static void unfoldWhiteList() throws EClassUnresolvableException {
-		generator.setWhiteList(new ArrayList<EClass>());
+	private static void unfoldWhiteList() throws EClassifierUnresolvableException {
+		generator.setWhiteList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringWhiteList) {
-			EClass eClass = Common.resolveStringAsEClass(eClassName, ePackagesStack);
-			generator.getWhiteList().add(eClass);
+			EClassifier eClassifier = Common.resolveStringAsEClassifier(eClassName, ePackagesStack);
+			generator.getWhiteList().add(eClassifier);
 		}		
 		findMoreRequiredClassifier(generator.getWhiteList());
 	}
@@ -426,15 +426,15 @@ public class SergeServiceImpl implements SergeService{
 	 * ERferences which are inherited and relevant for the sub types.
 	 * @param oldList
 	 */
-	private static void findMoreRequiredClassifier(List<EClass> oldList) {
+	private static void findMoreRequiredClassifier(List<EClassifier> oldList) {
 		
-		ArrayList<EClass> currentList = new ArrayList<EClass>(oldList);
+		ArrayList<EClassifier> currentList = new ArrayList<EClassifier>(oldList);
 		
 		// find implicit requirement by stereotyping / meta class extension
 		if(generator.getProfileApplicationInUse()) {
 
-			for(EClass req: oldList) {
-				for(EClass metaClass:eClassInfoManagement.getEClassInfo(req).getExtendedMetaClasses()){
+			for(EClassifier req: oldList) {
+				for(EClassifier metaClass:eClassInfoManagement.getEClassifierInfo(req).getExtendedMetaClasses()){
 					if(!generator.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).contains(metaClass)) {
 						generator.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).add(metaClass);
 					}
@@ -445,38 +445,42 @@ public class SergeServiceImpl implements SergeService{
 		generator.setWhiteList(currentList);
 
 		// find implicit requirements of supertypes
-		for(EClass req: currentList) {
-
-			for(EAttribute ea: req.getEAllAttributes()) {
+		for(EClassifier req: currentList) {
+			
+			if(req instanceof EClass) {
+				EClass reqEClass = (EClass) req;
 				
-				//if EAttribute is derived from SuperType
-				if(!ea.eContainer().equals(req)) {					
-					EClass superType = (EClass) ea.eContainer();
-					//if supertype is not explicitly set on blacklist or already on whitelist
-					if(!generator.getBlackList().contains(superType) & !generator.getWhiteList().contains(superType)) {
-						//add superType to implicit requirement list.
-						if(!generator.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(superType)) {
-							generator.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).add(superType);
+				for(EAttribute ea: reqEClass.getEAllAttributes()) {
+					
+					//if EAttribute is derived from SuperType
+					if(!ea.eContainer().equals(req)) {					
+						EClass superType = (EClass) ea.eContainer();
+						//if supertype is not explicitly set on blacklist or already on whitelist
+						if(!generator.getBlackList().contains(superType) & !generator.getWhiteList().contains(superType)) {
+							//add superType to implicit requirement list.
+							if(!generator.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(superType)) {
+								generator.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).add(superType);
+							}
 						}
-					}
-				}				
-			}			
+					}				
+				}	
+			}
 		}
 	}
 
 
 
-	private static ArrayList<EClass> findMoreSkips(List<EClass> oldList) {
+	private static ArrayList<EClassifier> findMoreSkips(List<EClassifier> oldList) {
 		
-		ArrayList<EClass> extendedSkipList = new ArrayList<EClass>();
+		ArrayList<EClassifier> extendedSkipList = new ArrayList<EClassifier>();
 		extendedSkipList.addAll(oldList);
 		
 		boolean newEntries = false;
 		
-		for(EClass skip : oldList) {
-			EClassInfo skipInfo = eClassInfoManagement.getEClassInfo(skip);
-			for(List<EClass> mpcList :skipInfo.getMandatoryParentContext().values()) {
-				for(EClass mpc: mpcList) {
+		for(EClassifier skip : oldList) {
+			EClassifierInfo skipInfo = eClassInfoManagement.getEClassifierInfo(skip);
+			for(List<EClassifier> mpcList :skipInfo.getMandatoryParentContext().values()) {
+				for(EClassifier mpc: mpcList) {
 					// only add skip if not already in list and if its not required on white or rootlist
 					if(!oldList.contains(mpc) && !stringWhiteList.contains(mpc.getName()) && !mpc.equals(rootName)) {
 						extendedSkipList.add(mpc);
@@ -484,8 +488,8 @@ public class SergeServiceImpl implements SergeService{
 					}
 				}
 			}
-			for(List<EClass> mpcList :skipInfo.getMandatoryNeighbourContext().values()) {
-				for(EClass mnc: mpcList) {
+			for(List<EClassifier> mpcList :skipInfo.getMandatoryNeighbourContext().values()) {
+				for(EClassifier mnc: mpcList) {
 					// only add skip if not already in list and if its not required on white or rootlist
 					if(!oldList.contains(mnc) && !stringWhiteList.contains(mnc.getName()) && !mnc.equals(rootName)) {
 						extendedSkipList.add(mnc);

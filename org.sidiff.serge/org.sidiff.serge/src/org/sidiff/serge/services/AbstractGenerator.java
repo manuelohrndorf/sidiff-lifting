@@ -14,8 +14,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.core.EClassInfo;
-import org.sidiff.serge.core.EClassInfoManagement;
+import org.sidiff.serge.core.EClassifierInfo;
+import org.sidiff.serge.core.EClassifierInfoManagement;
 import org.sidiff.serge.core.MetaModelSlicer;
 import org.sidiff.serge.exceptions.ConstraintException;
 
@@ -53,7 +53,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected String baseModelRuleFolderPath  		= null;
 	
 	protected static Stack<EPackage> ePackagesStack = null;	
-	protected static EClassInfoManagement ecm 		= null;
+	protected static EClassifierInfoManagement ecm 		= null;
 	
 	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
 	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
@@ -86,13 +86,13 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	
 	protected EPackage metaModel;
 	
-	protected static ArrayList<EClass> blackList;	
-	protected static ArrayList<EClass> whiteList;
+	protected static ArrayList<EClassifier> blackList;	
+	protected static ArrayList<EClassifier> whiteList;
 	
-	protected static HashMap<ImplicitRequirementType,ArrayList<EClass>> implicitRequirements;
+	protected static HashMap<ImplicitRequirementType,ArrayList<EClassifier>> implicitRequirements;
 	
 	protected String rootName;
-	protected static EClass root;
+	protected static EClassifier root;
 	protected static Boolean rootEClassCanBeNested;
 	
 	protected Boolean profileApplicationInUse;
@@ -101,7 +101,10 @@ public abstract class AbstractGenerator implements EClassVisitor{
 
 	@Override
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
-		
+
+
+		LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
+
 		if(eClassifier instanceof EClass) {		
 			EClass eClass = (EClass) eClassifier;
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClass.getName() + " ***********************************************");
@@ -128,11 +131,11 @@ public abstract class AbstractGenerator implements EClassVisitor{
 
 	/***** abstracts  *****************************************************************************/
 	
-	public abstract void generate_CREATE_And_DELETE_Modules(EClass eClass) throws ConstraintException;
+	public abstract void generate_CREATE_And_DELETE_Modules(EClassifier eClassifier) throws ConstraintException;
 	
-	public abstract void generate_Update_Module(EClass eClass) throws ConstraintException;
+	public abstract void generate_Update_Module(EClassifier eClassifier) throws ConstraintException;
 	
-	public abstract void generate_MOVE_Module(EClass eClass) throws ConstraintException;
+	public abstract void generate_MOVE_Module(EClassifier eClassifier) throws ConstraintException;
 	
 	public abstract void serialize(Module module, String outputFileName);
 
@@ -219,15 +222,15 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		this.reduceToSuperType_CREATEDELETE = reduceToSuperType_CREATEDELETE;
 	}
 	
-	public void setBlackList(ArrayList<EClass> bList) {
+	public void setBlackList(ArrayList<EClassifier> bList) {
 		blackList = bList;
 	}
 
-	public void setWhiteList(ArrayList<EClass> wList) {
+	public void setWhiteList(ArrayList<EClassifier> wList) {
 		whiteList = wList;
 	}
 
-	public void setRoot(EClass rootEClass) {
+	public void setRoot(EClassifier rootEClass) {
 		root = rootEClass;
 	}
 
@@ -257,14 +260,11 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		this.baseModelRuleFolderPath = baseModelRuleFolderPath;
 	}
 	
-	public EClassInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
-		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClass>>();
-		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClass>());
-		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClass>());
-		ecm = EClassInfoManagement.getInstance(enableStereotypeMapping);			
-		ecm.mapConcreteEClassesToAbstractSuperTypes(ePackagesStack);
-		ecm.gatherAllEClassInfos(ePackagesStack);
-		ecm.linkSubTypesToSuperTypes(ePackagesStack);
+	public EClassifierInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
+		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClassifier>>();
+		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClassifier>());
+		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClassifier>());
+		ecm = EClassifierInfoManagement.getInstance(enableStereotypeMapping, ePackagesStack);
 		return ecm;
 	}
 	
@@ -286,11 +286,11 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return preventInconsistencyThroughSkipping;
 	}
 
-	public ArrayList<EClass> getBlackList() {
+	public ArrayList<EClassifier> getBlackList() {
 		return blackList;
 	}
 
-	public ArrayList<EClass> getWhiteList() {
+	public ArrayList<EClassifier> getWhiteList() {
 		return whiteList;
 	}
 
@@ -298,7 +298,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return profileApplicationInUse;
 	}
 
-	public ArrayList<EClass> getImplicitRequirements(ImplicitRequirementType type) {
+	public ArrayList<EClassifier> getImplicitRequirements(ImplicitRequirementType type) {
 		return implicitRequirements.get(type);
 	}
 	
@@ -328,19 +328,19 @@ public abstract class AbstractGenerator implements EClassVisitor{
  	 * 11. EClass is required by incoming child references of recursively required EClasses //TODO<br />
  	 * 12. more? //TODO
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 * @param asPivot
 	 * @param preferSupertypes
 	 * @return
 	 */
-	protected static boolean isAllowed(EClass eClass, Boolean asPivot, Boolean preferSupertypes) {
+	protected static boolean isAllowed(EClassifier eClassifier, Boolean asPivot, Boolean preferSupertypes) {
 		
-		EClassInfo eClassInfo = ecm.getEClassInfo(eClass);
+		EClassifierInfo eClassifierInfo = ecm.getEClassifierInfo(eClassifier);
 		
-		boolean blackListed	= blackList.contains(eClass);
-		boolean whiteListed	= whiteList.contains(eClass);
+		boolean blackListed	= blackList.contains(eClassifier);
+		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass);
+		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
 		boolean requiredByNeighbours = false;
 		boolean requiredByParents = false;	
 		boolean requiredByChildren = false;
@@ -372,13 +372,13 @@ public abstract class AbstractGenerator implements EClassVisitor{
 				
 				/*** check if eClass is required by white listed incoming neighbour contexts *************************/
 				
-				for(Entry<EReference, List<EClass>> entry: eClassInfo.getMandatoryNeighbourContext().entrySet()) {
+				for(Entry<EReference, List<EClassifier>> entry: eClassifierInfo.getMandatoryNeighbourContext().entrySet()) {
 
 					// find out if reference is pointing to eClass or to a super type of the eClass
 					EReference eRef = entry.getKey();
-					boolean eClassIsDirectTarget = eRef.getEType().equals(eClass);		
+					boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
 					
-					for(EClass mnc: entry.getValue()) {										
+					for(EClassifier mnc: entry.getValue()) {										
 						
 						if(eClassIsDirectTarget && whiteList.contains(mnc)) {
 							requiredByNeighbours = true;
@@ -391,15 +391,15 @@ public abstract class AbstractGenerator implements EClassVisitor{
 					}		
 				}
 
-				/*** check if eClass is required by white listed incoming parent contexts ****************************/
+				/*** check if EClassifier is required by white listed incoming parent contexts ****************************/
 				
-				for(Entry<EReference, List<EClass>> entry: eClassInfo.getMandatoryParentContext().entrySet()) {
+				for(Entry<EReference, List<EClassifier>> entry: eClassifierInfo.getMandatoryParentContext().entrySet()) {
 
 					// find out if reference is pointing to eClass or to a super type of the eClass
 					EReference eRef = entry.getKey();
-					boolean eClassIsDirectTarget = eRef.getEType().equals(eClass);		
+					boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
 					
-					for(EClass mpc: entry.getValue()) {										
+					for(EClassifier mpc: entry.getValue()) {										
 						
 						if(eClassIsDirectTarget && whiteList.contains(mpc)) {
 							requiredByParents = true;
@@ -412,10 +412,10 @@ public abstract class AbstractGenerator implements EClassVisitor{
 					}		
 				}
 				
-				/*** check if eClass is required by white listed children ****************************************************/
+				/*** check if EClassifier is required by white listed children ****************************************************/
 				
-				for(EClass whiteListedEClass: whiteList) {
-					for(Entry<EReference,List<EClass>> entry: ecm.getAllParentContext(whiteListedEClass, false).entrySet()) {
+				for(EClassifier whiteListedEClass: whiteList) {
+					for(Entry<EReference,List<EClassifier>> entry: ecm.getAllParentContext(whiteListedEClass, false).entrySet()) {
 						EReference eRefChildToParent = entry.getKey().getEOpposite();
 						if(eRefChildToParent!=null) {
 							int lb = eRefChildToParent.getLowerBound();
@@ -424,8 +424,8 @@ public abstract class AbstractGenerator implements EClassVisitor{
 
 							if(notFixedAndRequired) {					
 
-								List<EClass> parentContexts = entry.getValue();
-								if(parentContexts.contains(eClass)) {
+								List<EClassifier> parentContexts = entry.getValue();
+								if(parentContexts.contains(eClassifier)) {
 									requiredByChildren = true;
 									break;
 								}						
@@ -453,14 +453,14 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	}	
 	
 	/**
-	 * Checks whether an EClass is implicitly required because it inherits its features
-	 * to sub types which are white listed. Implicitly required EClasses are not required in CREATE/DELETES.
+	 * Checks whether an EClassifier is implicitly required because it inherits its features
+	 * to sub types which are white listed. Implicitly required EClassifiers are not required in CREATE/DELETES.
 	 * Only in SET/ADD/CHANGE transformations.
-	 * @param eClass
+	 * @param eClassifier
 	 * @return
 	 */
-	protected static boolean isImplicitlyRequiredForFeatureInheritance(EClass eClass) {
-		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClass)) {
+	protected static boolean isImplicitlyRequiredForFeatureInheritance(EClassifier eClassifier) {
+		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier)) {
 			return true;
 		}
 		return false;
@@ -469,33 +469,38 @@ public abstract class AbstractGenerator implements EClassVisitor{
 
 	
 	/**
-	 * Checks whether an eClass is the user specified root element
-	 * @param eClass
+	 * Checks whether an eClassifier is the user specified root element
+	 * @param eClassifier
 	 * @return
 	 */	
-	protected static boolean isRoot(EClass eClass) {
-		return root==eClass;
+	protected static boolean isRoot(EClassifier eClassifier) {
+		return root==eClassifier;
 	}
 	
 	/**
 	 * Checks whether a configured root element is configured to be nested
 	 * (Example: The children of the root StateMachine can contain further sub-StateMachines)
-	 * @param eClass
+	 * @param eClassifier
 	 * @return
 	 */
-	protected static boolean rootCanBeNested(EClass eClass) {
+	protected static boolean rootCanBeNested(EClassifier eClassifier) {
 		return rootEClassCanBeNested;
 	}
 	
 	/**
 	 * Checks if a given EReference is inherited
 	 * @param the EReference
-	 * @param concerningEClass is the class to check on
+	 * @param concerningEClassifier is the class to check on
 	 * @return true if inherited
 	 */
-	protected static boolean isInheritedReference(EReference eRef, EClass concerningEClass) {
+	protected static boolean isInheritedReference(EReference eRef, EClassifier concerningEClassifier) {
 		
-		return !concerningEClass.getEReferences().contains(eRef);
+		if(concerningEClassifier instanceof EClass) {
+			EClass eClass = (EClass) concerningEClassifier;
+			return !eClass.getEReferences().contains(eRef);
+		}
+		
+		return true;
 	}
 	
 	

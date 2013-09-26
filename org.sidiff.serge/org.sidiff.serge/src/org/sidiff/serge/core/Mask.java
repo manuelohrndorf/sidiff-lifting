@@ -5,13 +5,13 @@ import org.eclipse.emf.ecore.*;
 public class Mask {
 
 	private String name;
-	private EClass eClass;
+	private EClassifier eClassifier;
 	private EAttribute eAttribute;
 	private EEnumLiteral eAttributeValue;
 	
-	public Mask(String name, EClass eClass, EAttribute eAttribute, EEnumLiteral eAttributeValue) {
+	public Mask(String name, EClassifier eClassifier, EAttribute eAttribute, EEnumLiteral eAttributeValue) {
 		this.name = name;
-		this.eClass = eClass;
+		this.eClassifier = eClassifier;
 		this.eAttribute = eAttribute;
 		this.eAttributeValue = eAttributeValue;
 	}
@@ -25,11 +25,11 @@ public class Mask {
 	}
 
 	/**
-	 * Returns the container EClass which beholds the concealed type information.
+	 * Returns the container EClassifier which beholds the concealed type information.
 	 * @return
 	 */
-	public EClass getOriginalEClass() {
-		return eClass;
+	public EClassifier getOriginalEClassifier() {
+		return eClassifier;
 	}
 
 	/**

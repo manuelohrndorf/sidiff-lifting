@@ -11,8 +11,8 @@
 <!ELEMENT NameUniqueness EMPTY>
 <!ELEMENT Transformations (Creates+,Deletes+,Moves+,Sets+,Unsets+,Adds+,Removes+,Changes+)>
 <!ELEMENT Root EMPTY>
-<!ELEMENT BlackList (EClass*)>
-<!ELEMENT WhiteList (EClass*)>
+<!ELEMENT BlackList (EClassifier*)>
+<!ELEMENT WhiteList (EClassifier*)>
 
 <!ELEMENT preventInconsistency EMPTY>
 <!ELEMENT multiplicityPreconditions EMPTY>
@@ -30,24 +30,24 @@
 <!ELEMENT Removes EMPTY>
 <!ELEMENT Changes EMPTY>
 
-<!ELEMENT EClass EMPTY>
+<!ELEMENT EClassifier EMPTY>
 <!ATTLIST MainModel nsUri CDATA #REQUIRED>
 <!ATTLIST RequiredModel nsUri CDATA #REQUIRED>
 <!ATTLIST BaseModelRules path CDATA #REQUIRED>
 <!ATTLIST NameUniqueness 
 				scope CDATA #REQUIRED
-				eClass CDATA #REQUIRED
+				eClassifier CDATA #REQUIRED
 				eAttributeName CDATA #REQUIRED
 				eAttributeIsInherited CDATA #REQUIRED
 				overrideInheritedConstraintsIfAny CDATA #REQUIRED
 				applyOnSubTypes CDATA #REQUIRED>
 <!ATTLIST Mask 	name CDATA #REQUIRED
-				eClass CDATA #REQUIRED
+				eClassifier CDATA #REQUIRED
 				eAttribute CDATA #REQUIRED
 				eAttributeValue CDATA #REQUIRED>		
 <!ATTLIST Root name CDATA #REQUIRED>
 <!ATTLIST Root nested CDATA #REQUIRED>
-<!ATTLIST EClass name CDATA #REQUIRED>
+<!ATTLIST EClassifier name CDATA #REQUIRED>
 <!ATTLIST preventInconsistency value CDATA #REQUIRED>
 <!ATTLIST multiplicityPreconditions integrated CDATA #REQUIRED
 									separately CDATA #REQUIRED>

@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.serge.exceptions.EClassUnresolvableException;
+import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.w3c.dom.NamedNodeMap;
 
@@ -94,15 +95,15 @@ public class Common {
 		return list;
 	}
 	
-	public static EClass resolveStringAsEClass(String eClassName, Stack<EPackage> ePackagesStack) throws EClassUnresolvableException{
-		EClass resolvedEClass = null;
+	public static EClassifier resolveStringAsEClassifier(String eClassifierName, Stack<EPackage> ePackagesStack) throws EClassifierUnresolvableException{
+		EClassifier resolvedEClassifier = null;
 		
 		for(EPackage ePackage: ePackagesStack) {				
-			resolvedEClass = (EClass) ePackage.getEClassifier(eClassName);
-			if(resolvedEClass!=null) {
-				return resolvedEClass;
+			resolvedEClassifier = ePackage.getEClassifier(eClassifierName);
+			if(resolvedEClassifier!=null) {
+				return resolvedEClassifier;
 			}
 		}
-		throw new EClassUnresolvableException(eClassName);
+		throw new EClassifierUnresolvableException(eClassifierName);
 	}
 }

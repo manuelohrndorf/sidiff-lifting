@@ -3,29 +3,27 @@ package org.sidiff.serge.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 
-public class EClassInfo {
+public class EClassifierInfo {
 
-	private EClass theEClass = null;
+	private EClassifier theEClassifier = null;
 		
-	private HashMap<EReference, List<EClass>> mandatoryChildren = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> mandatoryNeighbours = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> mandatoryParentContext = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> mandatoryNeighbourContext = new HashMap<EReference, List<EClass>>();
+	private HashMap<EReference, List<EClassifier>> mandatoryChildren = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> mandatoryNeighbours = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> mandatoryParentContext = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> mandatoryNeighbourContext = new HashMap<EReference, List<EClassifier>>();
 	
-	private HashMap<EReference, List<EClass>> optionalChildren = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> optionalNeighbours = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> optionalParentContext = new HashMap<EReference, List<EClass>>();
-	private HashMap<EReference, List<EClass>> optionalNeighbourContext = new HashMap<EReference, List<EClass>>();
+	private HashMap<EReference, List<EClassifier>> optionalChildren = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> optionalNeighbours = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> optionalParentContext = new HashMap<EReference, List<EClassifier>>();
+	private HashMap<EReference, List<EClassifier>> optionalNeighbourContext = new HashMap<EReference, List<EClassifier>>();
 	
-	private ArrayList<EClass> subTypes = new ArrayList<EClass>();
-	private ArrayList<EClass> stereotypes = new ArrayList<EClass>();
-	private ArrayList<EClass> extendedMetaClasses = new ArrayList<EClass>();
+	private ArrayList<EClassifier> stereotypes = new ArrayList<EClassifier>();
+	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<EClassifier>();
 	
 	
 	private List<Mask> masks = new ArrayList<Mask>(); 
@@ -38,46 +36,43 @@ public class EClassInfo {
 	
 	/**	Constructor ************************************************************************/
 	
-	public EClassInfo(EClass eClass) {
-		this.theEClass = eClass;
+	public EClassifierInfo(EClassifier eClassifier) {
+		this.theEClassifier = eClassifier;
 	}
 	
 	/** Getter ****************************************************************************/
 	
-	public HashMap<EReference, List<EClass>> getMandatoryChildren() {
+	public HashMap<EReference, List<EClassifier>> getMandatoryChildren() {
 		return mandatoryChildren;
 	}
-	public HashMap<EReference, List<EClass>> getMandatoryNeighbours() {
+	public HashMap<EReference, List<EClassifier>> getMandatoryNeighbours() {
 		return mandatoryNeighbours;
 	}
-	public HashMap<EReference, List<EClass>> getMandatoryParentContext() {
+	public HashMap<EReference, List<EClassifier>> getMandatoryParentContext() {
 		return mandatoryParentContext;
 	}
-	public HashMap<EReference, List<EClass>> getMandatoryNeighbourContext() {
+	public HashMap<EReference, List<EClassifier>> getMandatoryNeighbourContext() {
 		return mandatoryNeighbourContext;
 	}
-	public HashMap<EReference, List<EClass>> getOptionalChildren() {
+	public HashMap<EReference, List<EClassifier>> getOptionalChildren() {
 		return optionalChildren;
 	}
-	public HashMap<EReference, List<EClass>> getOptionalNeighbours() {
+	public HashMap<EReference, List<EClassifier>> getOptionalNeighbours() {
 		return optionalNeighbours;
 	}
-	public HashMap<EReference, List<EClass>> getOptionalParentContext() {
+	public HashMap<EReference, List<EClassifier>> getOptionalParentContext() {
 		return optionalParentContext;
 	}
-	public HashMap<EReference, List<EClass>> getOptionalNeighbourContext() {
+	public HashMap<EReference, List<EClassifier>> getOptionalNeighbourContext() {
 		return optionalNeighbourContext;
 	}
-	public List<EClass> getSubTypes() {
-		return subTypes;
-	}
-	public EClass getTheEClass() {
-		return theEClass;
+	public EClassifier getTheEClassifier() {
+		return theEClassifier;
 	}	
-	public ArrayList<EClass> getStereotypes() {
+	public ArrayList<EClassifier> getStereotypes() {
 		return stereotypes;
 	}
-	public ArrayList<EClass> getExtendedMetaClasses() {
+	public ArrayList<EClassifier> getExtendedMetaClasses() {
 		return extendedMetaClasses;
 	}
 	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
@@ -89,13 +84,13 @@ public class EClassInfo {
 
 	/** Setter ****************************************************************************/
 	
-	public void addExtendedMetaClass(EClass extendedMetaClass) {
+	public void addExtendedMetaClass(EClassifier extendedMetaClass) {
 		if(!extendedMetaClasses.contains(extendedMetaClass)) {
 			extendedMetaClasses.add(extendedMetaClass);
 		}
 	}
 	
-	public void addStereotype(EClass stereotype) {
+	public void addStereotype(EClassifier stereotype) {
 		if(!stereotypes.contains(stereotype)) {
 			stereotypes.add(stereotype);
 		}
@@ -159,11 +154,11 @@ public class EClassInfo {
 	/**
 	 * This convenience method returns all mandatory parent contexts and all mandatory neighbour contexts.
 	 * @return
-	 * 			HashMap of EReferences (EReferences from context to EClass) and lists of EClasses (contexts).
+	 * 			HashMap of EReferences (EReferences from context to EClassifier) and lists of EClassifier (contexts).
 	 */
-	public HashMap<EReference, List<EClass>> getMandatoryContexts() {
+	public HashMap<EReference, List<EClassifier>> getMandatoryContexts() {
 		
-		HashMap<EReference, List<EClass>> mandatoryContexts = new  HashMap<EReference, List<EClass>>();
+		HashMap<EReference, List<EClassifier>> mandatoryContexts = new  HashMap<EReference, List<EClassifier>>();
 		
 		mandatoryContexts.putAll(getMandatoryParentContext());
 		mandatoryContexts.putAll(getMandatoryNeighbourContext());

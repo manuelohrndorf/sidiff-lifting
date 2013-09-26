@@ -31,9 +31,8 @@ public class MetaModelSlicer {
 	private EPackage slicedMetaModel		 = null;
 	private Resource slicedMetaModelResource = null;
 	private Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
-	private EClassInfoManagement ecm 		 = EClassInfoManagement.getInstance(false);
 	
-	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<EClass> keyElements, List<EClass> excludableElements, String newNS_URI) {
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<EClassifier> keyElements, List<EClassifier> excludableElements, String newNS_URI) {
 	
 		String testingOutputPath = "/media/mrindt/data/Workspaces/Linux/SERx/RESULTS/sliced.ecore";
 
@@ -51,18 +50,11 @@ public class MetaModelSlicer {
 					
 
 		LogUtil.log(LogEvent.NOTICE, "Mark whiteListed Classifiers in meta-model copy to be kept");
-		
-		//temp workaround, since whitelist only contains EClasses, not EClassifiers
-		List<EClassifier> keyElementsWorkaround = new ArrayList<EClassifier>();
-		for(EClass eClass: keyElements) {
-			EClassifier correspondingMapClassifier = (EClassifier) eObjectMap.get((EObject)eClass);
-			keyElementsWorkaround.add(correspondingMapClassifier);
-		}
-		
+			
 		
 		// Phase 1: mark key Classifiers
 		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers()) {
-			if(keyElementsWorkaround.contains(eClassifier)) {
+			if(keyElements.contains(eClassifier)) {
 				EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
 				eanno.setSource("SlicerMark");
 				eanno.getDetails().put("SlicerMark", "keep");
