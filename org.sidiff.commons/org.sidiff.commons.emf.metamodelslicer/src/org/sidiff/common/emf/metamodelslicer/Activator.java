@@ -1,4 +1,4 @@
-package org.sidiff.commons.emf.metamodelslicer;
+package org.sidiff.common.emf.metamodelslicer;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

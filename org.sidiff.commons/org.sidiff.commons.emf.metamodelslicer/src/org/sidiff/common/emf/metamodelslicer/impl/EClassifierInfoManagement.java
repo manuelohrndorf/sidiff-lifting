@@ -1,4 +1,4 @@
-package org.sidiff.commons.emf.metamodelslicer.impl;
+package org.sidiff.common.emf.metamodelslicer.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.access.EMFMetaAccess;
-import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
+import org.sidiff.common.emf.metamodelslicer.impl.EClassifierInfo.ConstraintType;
 
 public class EClassifierInfoManagement {
 

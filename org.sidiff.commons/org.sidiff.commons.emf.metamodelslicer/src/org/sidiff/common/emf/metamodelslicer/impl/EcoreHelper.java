@@ -1,4 +1,4 @@
-package org.sidiff.commons.emf.metamodelslicer.impl;
+package org.sidiff.common.emf.metamodelslicer.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;

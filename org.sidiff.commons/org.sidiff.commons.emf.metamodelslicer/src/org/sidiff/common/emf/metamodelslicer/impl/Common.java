@@ -1,4 +1,4 @@
-package org.sidiff.commons.emf.metamodelslicer.impl;
+package org.sidiff.common.emf.metamodelslicer.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.metamodelslicer.exceptions.EClassifierUnresolvableException;
+import org.sidiff.common.emf.metamodelslicer.exceptions.EPackageNotFoundException;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
-import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.w3c.dom.NamedNodeMap;
 
 public class Common {

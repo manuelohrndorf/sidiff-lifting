@@ -1,4 +1,4 @@
-package org.sidiff.commons.emf.metamodelslicer.impl;
+package org.sidiff.common.emf.metamodelslicer.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,10 +6,13 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
-import org.sidiff.serge.services.AbstractGenerator.ConstraintType;
 
+
+//TODO outcommented methods using Mask -> What to do with them
 public class EClassifierInfo {
 
+	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
+	
 	private EClassifier theEClassifier = null;
 		
 	private HashMap<EReference, List<EClassifier>> mandatoryChildren = new HashMap<EReference, List<EClassifier>>();
@@ -26,7 +29,7 @@ public class EClassifierInfo {
 	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<EClassifier>();
 	
 	
-	private List<Mask> masks = new ArrayList<Mask>(); 
+	//private List<Mask> masks = new ArrayList<Mask>(); 
 	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
 	
 	public enum Map {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
@@ -78,9 +81,9 @@ public class EClassifierInfo {
 	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
 		return appliedConstraints;
 	}
-	public List<Mask> getMasks() {
-		return masks;
-	}
+//	public List<Mask> getMasks() {
+//		return masks;
+//	}
 
 	/** Setter ****************************************************************************/
 	
@@ -99,12 +102,12 @@ public class EClassifierInfo {
 	public void addConstraint(ConstraintType ctype, List<Object> flags) {
 		appliedConstraints.put(ctype, flags);
 	}
-	
-	public void addMask(Mask mask) {
-		if(!masks.contains(mask)) {
-			masks.add(mask);
-		}
-	}
+
+//	public void addMask(Mask mask) {
+//		if(!masks.contains(mask)) {
+//			masks.add(mask);
+//		}
+//	}
 	
 	/** Convenience methods ***************************************************************/
 	
@@ -123,9 +126,9 @@ public class EClassifierInfo {
 		return false;
 	}
 	
-	public boolean hasMasks() {
-		return !masks.isEmpty();
-	}
+//	public boolean hasMasks() {
+//		return !masks.isEmpty();
+//	}
 	
 	public boolean isStereotype() {
 		return stereotypes.isEmpty();
