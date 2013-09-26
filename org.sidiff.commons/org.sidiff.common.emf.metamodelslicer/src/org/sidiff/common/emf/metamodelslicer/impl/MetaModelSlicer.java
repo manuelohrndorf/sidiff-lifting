@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -71,6 +72,10 @@ public class MetaModelSlicer {
 					mandatoryClassifiers.add(eClassifier);
 		
 
+		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers())
+			if (eClassifier.eClass().equals(EEnum.class))
+				mandatoryClassifiers.add(eClassifier);
+		
 		
 		LogUtil.log(LogEvent.NOTICE, "Phase 1: identify all mandatory classifiers");
 		HashSet<EClassifier> newMandatoryClassifiers = new HashSet<EClassifier>();
@@ -95,9 +100,10 @@ public class MetaModelSlicer {
 		
 		
 		System.out.println("******** Marked Classifiers ********");
+		ArrayList<String> markedClassifiers = new ArrayList<String>(); 
 		for (EClassifier eClassifier : mandatoryClassifiers)
-			 System.out.println(eClassifier.getName());
-		System.out.println(mandatoryClassifiers.size());
+			 markedClassifiers.add(eClassifier.getName());
+		
 		
 		
 		
@@ -140,12 +146,9 @@ public class MetaModelSlicer {
 		}
 		
 		//TODO remove slicer mark annotation and path annotations
-		
-		System.out.println("******** Sliced MetaModel ********");
-		for (EClassifier eClassifier : slicedMetaModel.getEClassifiers())
-			 System.out.println(eClassifier.getName());
-		System.out.println(slicedMetaModel.getEClassifiers().size());
 
+		System.out.println("Size original metamodel: " + origMetaModel.getEClassifiers().size());
+		System.out.println("Size sliced metamodel: " + slicedMetaModel.getEClassifiers().size());
 		
 		// serialize sliced meta model:
 		LogUtil.log(LogEvent.NOTICE, "Serializing sliced meta-model");
@@ -154,7 +157,6 @@ public class MetaModelSlicer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	

@@ -29,7 +29,7 @@ public class MetaModelSlicerApp implements IApplication {
 //		listOfclassifiers.add(epg.getEClassifier("Class"));
 //		listOfclassifiers.add(epg.getEClassifier("Package"));
 //		listOfclassifiers.add(epg.getEClassifier("Operation"));
-		listOfclassifiers.add(epg.getEClassifier("Parameter"));
+		listOfclassifiers.add(epg.getEClassifier("Element"));
 		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced",testingOutputPath);			
 
 //		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
