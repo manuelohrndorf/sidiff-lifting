@@ -33,12 +33,10 @@ public class MetaModelSlicer {
 	private Resource slicedMetaModelResource = null;
 	private Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
 	
-	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<EClassifier> keyElements, List<EClassifier> excludableElements, String newNS_URI) {
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<EClassifier> keyElements, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
 	
-		String testingOutputPath = "/media/mrindt/data/Workspaces/Linux/SERx/RESULTS/sliced.ecore";
-
 		origMetaModel = ePackageRegistry.getEPackage(mainMetaModel.getNsURI());
-		slicedMetaModelResource = resourceSet.createResource(URI.createFileURI(testingOutputPath));
+		slicedMetaModelResource = resourceSet.createResource(URI.createFileURI(outputPath));
 	
 		// create independent copy of the original meta model and mapping between their EObjects
 		try {
