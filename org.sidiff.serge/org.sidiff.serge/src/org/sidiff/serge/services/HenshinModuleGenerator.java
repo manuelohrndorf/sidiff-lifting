@@ -2,6 +2,7 @@ package org.sidiff.serge.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -389,9 +390,9 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 												
 						// build up combinations
 						Map<EEnumLiteral,List<EEnumLiteral>> combinations = new HashMap<EEnumLiteral,List<EEnumLiteral>>();
-						
+
 						for(EEnumLiteral literal :eenum.getELiterals()) {
-							combinations.put(literal, eenum.getELiterals());
+							combinations.put(literal, new ArrayList<EEnumLiteral>(eenum.getELiterals()));
 						}//here combination with self is still included.						
 						
 						// build CHANGE modules for every combination:
