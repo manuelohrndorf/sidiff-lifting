@@ -129,7 +129,7 @@ public class ZipUtil {
 					int len;
 					while ((len = in.read(buffer, 0, buffer.length)) > 0){	
 						out = new BufferedOutputStream(new FileOutputStream(path+zipEntryName, false));
-						out.write(buffer, 0, buffer.length);
+						out.write(buffer, 0, len);
 						out.flush();
 					}
 				}
