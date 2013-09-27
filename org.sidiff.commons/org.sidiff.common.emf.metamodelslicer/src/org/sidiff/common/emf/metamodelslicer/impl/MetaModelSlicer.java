@@ -32,12 +32,45 @@ public class MetaModelSlicer {
 	private EPackage origMetaModel 			 = null;
 	private EPackage slicedMetaModel		 = null;
 	private Resource slicedMetaModelResource = null;
+	EClassifierInfoManagement slicedMetaModelInfo = null;
 	private Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
 	
-	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<String> keyElementNames, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<String> mandatoryElementNames, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
 	
 		LogUtil.log(LogEvent.NOTICE, "Phase 0: Preparation");
 		
+		createSlicedMetaModel(mainMetaModel, newNS_URI, outputPath);
+			
+		// Identify mandatory Classifiers in slicedMetaModel based on names 
+		HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
+		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers())
+				if (mandatoryElementNames.contains(eClassifier.getName()))
+					mandatoryClassifiers.add(eClassifier);
+		
+		sliceMetaModel(slicedMetaModelInfo, mandatoryClassifiers);
+	}
+
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource modelInstance, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
+			
+			createSlicedMetaModel(mainMetaModel, newNS_URI, outputPath);
+				
+			// Identify mandatory Classifiers in slicedMetaModel based on instances in model 
+			HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
+			Iterator<EObject> modelIter = modelInstance.getAllContents(); 
+			while(modelIter.hasNext())
+			{   
+				mandatoryClassifiers.add(slicedMetaModel.getEClassifier(modelIter.next().eClass().getName()));
+			}	
+			
+			sliceMetaModel(slicedMetaModelInfo, mandatoryClassifiers);
+			
+		}
+	
+	
+	private void createSlicedMetaModel(
+			EPackage mainMetaModel, String newNS_URI, String outputPath) {
+		
+		LogUtil.log(LogEvent.NOTICE, "Phase 0: Preparation");
 		origMetaModel = ePackageRegistry.getEPackage(mainMetaModel.getNsURI());
 		slicedMetaModelResource = resourceSet.createResource(URI.createFileURI(outputPath));
 	
@@ -50,18 +83,17 @@ public class MetaModelSlicer {
 		}
 		slicedMetaModel = (EPackage) slicedMetaModelResource.getContents().get(0);
 		
-		
 		LogUtil.log(LogEvent.NOTICE, "Initialize ClassifierInfoManagement for slicedMetaModel.");
 		Stack<EPackage> myStack = new Stack<EPackage>();
 		myStack.push(slicedMetaModel);
-		EClassifierInfoManagement slicedMetaModelInfo = EClassifierInfoManagement.getInstance(false, myStack);
-			
-		// Identify keyElement Classifiers in slicedMetaModel 
-		HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
-		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers())
-				if (keyElementNames.contains(eClassifier.getName()))
-					mandatoryClassifiers.add(eClassifier);
-			
+		this.slicedMetaModelInfo = EClassifierInfoManagement.getInstance(false, myStack);
+	}
+
+	
+
+	private void sliceMetaModel(EClassifierInfoManagement slicedMetaModelInfo,
+			HashSet<EClassifier> mandatoryClassifiers) {
+		
 		
 		LogUtil.log(LogEvent.NOTICE, "Phase 1: identify all mandatory classifiers");
 		HashSet<EClassifier> newMandatoryClassifiers = new HashSet<EClassifier>();
@@ -91,8 +123,7 @@ public class MetaModelSlicer {
 				EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
 				eanno.setSource("SlicerMark");
 				eanno.getDetails().put("SlicerMark", "keep");
-				eClassifier.getEAnnotations().add(eanno);
-				
+				eClassifier.getEAnnotations().add(eanno);		
 			}
 		}
 		
@@ -108,32 +139,25 @@ public class MetaModelSlicer {
 			}
 		}
 		
-		LogUtil.log(LogEvent.NOTICE, "Phase 4: Cleanup Sliced MetaModel");
 		
+		
+		LogUtil.log(LogEvent.NOTICE, "Phase 4: Cleanup Sliced MetaModel");
 		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers()) {
 				eClassifier.getEAnnotations().remove(eClassifier.getEAnnotation("SlicerMark"));
 				eClassifier.getEAnnotations().remove(eClassifier.getEAnnotation("path4ModelSlice"));
 			}
 		
-		
-		//TODO remove slicer mark annotation and path annotations
-
+		//TODO delete printlns once tested
 		System.out.println("Size original metamodel: " + origMetaModel.getEClassifiers().size());
 		System.out.println("Size sliced metamodel: " + slicedMetaModel.getEClassifiers().size());
 		
-		// serialize sliced meta model:
-		LogUtil.log(LogEvent.NOTICE, "Serializing sliced meta-model");
+		
+		LogUtil.log(LogEvent.NOTICE, "Phase 5: Serializing Sliced MetaModel");
 		try {
 			slicedMetaModelResource.save(null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource modelInstance, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
-	
-		//TODO
-		
 	}
 
 
