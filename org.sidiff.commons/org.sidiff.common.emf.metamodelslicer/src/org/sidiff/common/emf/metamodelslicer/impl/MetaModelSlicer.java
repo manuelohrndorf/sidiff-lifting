@@ -1,7 +1,6 @@
 package org.sidiff.common.emf.metamodelslicer.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,9 +10,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -37,8 +34,10 @@ public class MetaModelSlicer {
 	private Resource slicedMetaModelResource = null;
 	private Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
 	
-	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<EClassifier> keyElements, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, List<String> keyElementNames, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
 	
+		LogUtil.log(LogEvent.NOTICE, "Phase 0: Preparation");
+		
 		origMetaModel = ePackageRegistry.getEPackage(mainMetaModel.getNsURI());
 		slicedMetaModelResource = resourceSet.createResource(URI.createFileURI(outputPath));
 	
@@ -56,26 +55,13 @@ public class MetaModelSlicer {
 		Stack<EPackage> myStack = new Stack<EPackage>();
 		myStack.push(slicedMetaModel);
 		EClassifierInfoManagement slicedMetaModelInfo = EClassifierInfoManagement.getInstance(false, myStack);
-		
-		
-		LogUtil.log(LogEvent.NOTICE, "Mark whiteListed Classifiers in meta-model copy to be kept");
-
+			
 		// Identify keyElement Classifiers in slicedMetaModel 
-		List<String> keyElementNames = new ArrayList<String>();
-		for (EClassifier eClassifier : keyElements)
-			keyElementNames.add(eClassifier.getName());
-		
 		HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
-		
 		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers())
 				if (keyElementNames.contains(eClassifier.getName()))
 					mandatoryClassifiers.add(eClassifier);
-		
-
-		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers())
-			if (eClassifier.eClass().equals(EEnum.class))
-				mandatoryClassifiers.add(eClassifier);
-		
+			
 		
 		LogUtil.log(LogEvent.NOTICE, "Phase 1: identify all mandatory classifiers");
 		HashSet<EClassifier> newMandatoryClassifiers = new HashSet<EClassifier>();
@@ -99,22 +85,8 @@ public class MetaModelSlicer {
 		}
 		
 		
-		System.out.println("******** Marked Classifiers ********");
-		ArrayList<String> markedClassifiers = new ArrayList<String>(); 
-		for (EClassifier eClassifier : mandatoryClassifiers)
-			 markedClassifiers.add(eClassifier.getName());
-		
-		
-		
-		
-		LogUtil.log(LogEvent.NOTICE, "Phase 2: mark key Classifiers");
+		LogUtil.log(LogEvent.NOTICE, "Phase 2: Mark Key Classifiers");
 		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers()) {
-
-//TODO this fails *always* because the eClassifiers are copied (new instance) and therefore are not 
-//	   contained in keyElements. Funny thing is the enumerations are still reported as marked with slicer. 
-			
-			
-//			if(keyElements.contains(eClassifier)) {	
 			if(mandatoryClassifiers.contains(eClassifier)) {
 				EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
 				eanno.setSource("SlicerMark");
@@ -124,27 +96,19 @@ public class MetaModelSlicer {
 			}
 		}
 		
-	
-		
-		
-		 //TODO Phase 2 mark direct mandatory classifiers of key classifiers
-		 //TODO Phase 3 repeat 2. until no additions to the newly added classifiers left
-		 //TODO Phase 4 mark direct supertypes
-		 //TODO Phase 5 repeat 3.+4. until no new additions left
-		 //TODO Phase 6 (EAttributes?)
 
 		
-		// Remove unmarked eClassifiers //TODO remove unmarked EEModelelements
-		LogUtil.log(LogEvent.NOTICE, "Slice copy of meta-model by removing unmarked Classifiers.");
+		LogUtil.log(LogEvent.NOTICE, "Phase 3: Remove Unmarked Classifiers");
+		//TODO remove unmarked EEModelelements
 		Iterator<EClassifier> it = slicedMetaModel.getEClassifiers().iterator();
 		while (it.hasNext()) {
 			EClassifier eClassifier = it.next();
-			
 			if(!EMFUtil.isAnnotatedWith(eClassifier, "SlicerMark")) {				
 				it.remove();
 			}
 		}
 		
+		LogUtil.log(LogEvent.NOTICE, "Phase 4: Cleanup Sliced MetaModel");
 		//TODO remove slicer mark annotation and path annotations
 
 		System.out.println("Size original metamodel: " + origMetaModel.getEClassifiers().size());
@@ -159,8 +123,12 @@ public class MetaModelSlicer {
 		}
 	}
 
+	public void slice(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource modelInstance, List<EClassifier> excludableElements, String newNS_URI, String outputPath) {
 	
+		//TODO
+		
+	}
 
-	
+
 }
 
