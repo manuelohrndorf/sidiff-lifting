@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
 
-//TODO outcommented methods using Mask -> What to do with them
 public class EClassifierInfo {
 
 	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
@@ -31,7 +30,7 @@ public class EClassifierInfo {
 	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<EClassifier>();
 	
 	
-	//private List<Mask> masks = new ArrayList<Mask>(); 
+	private List<Mask> masks = new ArrayList<Mask>(); 
 	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
 	
 	public enum Map {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
@@ -83,9 +82,9 @@ public class EClassifierInfo {
 	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
 		return appliedConstraints;
 	}
-//	public List<Mask> getMasks() {
-//		return masks;
-//	}
+	public List<Mask> getMasks() {
+		return masks;
+	}
 
 	/** Setter ****************************************************************************/
 	
@@ -105,11 +104,11 @@ public class EClassifierInfo {
 		appliedConstraints.put(ctype, flags);
 	}
 
-//	public void addMask(Mask mask) {
-//		if(!masks.contains(mask)) {
-//			masks.add(mask);
-//		}
-//	}
+	public void addMask(Mask mask) {
+		if(!masks.contains(mask)) {
+			masks.add(mask);
+		}
+	}
 	
 	/** Convenience methods ***************************************************************/
 	
@@ -180,9 +179,9 @@ public class EClassifierInfo {
 		return false;
 	}
 	
-//	public boolean hasMasks() {
-//		return !masks.isEmpty();
-//	}
+	public boolean hasMasks() {
+		return !masks.isEmpty();
+	}
 	
 	public boolean isStereotype() {
 		return stereotypes.isEmpty();
