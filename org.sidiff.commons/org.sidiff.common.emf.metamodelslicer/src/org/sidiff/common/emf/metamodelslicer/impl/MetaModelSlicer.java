@@ -109,6 +109,13 @@ public class MetaModelSlicer {
 		}
 		
 		LogUtil.log(LogEvent.NOTICE, "Phase 4: Cleanup Sliced MetaModel");
+		
+		for(EClassifier eClassifier: slicedMetaModel.getEClassifiers()) {
+				eClassifier.getEAnnotations().remove(eClassifier.getEAnnotation("SlicerMark"));
+				eClassifier.getEAnnotations().remove(eClassifier.getEAnnotation("path4ModelSlice"));
+			}
+		
+		
 		//TODO remove slicer mark annotation and path annotations
 
 		System.out.println("Size original metamodel: " + origMetaModel.getEClassifiers().size());
