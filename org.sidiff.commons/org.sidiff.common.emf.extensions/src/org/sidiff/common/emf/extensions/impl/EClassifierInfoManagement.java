@@ -105,11 +105,8 @@ public class EClassifierInfoManagement {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {	
 
 					// get or create EClassifierInfo
-					EClassifierInfo eClassifierInfo = eClassifierInfoMap.get(eClassifier);
-					if(eClassifierInfo==null) {
-						eClassifierInfo = new EClassifierInfo(eClassifier);
-					}
-
+					EClassifierInfo eClassifierInfo = getEClassifierInfo(eClassifier);
+					
 					// if using some profiled meta model: map stereotype / meta classes
 					if (stereotypeMapping) findAndMapStereotypes(eClassifierInfo);
 
