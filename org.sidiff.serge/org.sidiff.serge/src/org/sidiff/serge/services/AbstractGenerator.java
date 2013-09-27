@@ -1,6 +1,8 @@
 package org.sidiff.serge.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -14,9 +16,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.core.EClassifierInfo;
-import org.sidiff.serge.core.EClassifierInfoManagement;
-import org.sidiff.serge.core.MetaModelSlicer;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.serge.exceptions.ConstraintException;
 
 public abstract class AbstractGenerator implements EClassVisitor{
@@ -56,7 +58,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	protected static EClassifierInfoManagement ecm 		= null;
 	
 	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES; }
-	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
+
 	protected static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
 
 	
@@ -275,7 +277,9 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		MetaModelSlicer mms = new MetaModelSlicer();
 		String newNS_URI = new String(metaModel.getNsURI());
 		newNS_URI = newNS_URI.concat("_sliced");
-		mms.slice(metaModel, ePackagesStack, whiteList, blackList,newNS_URI);
+		List<EPackage> ePackages = new ArrayList<EPackage>(ePackagesStack);
+		List<String> whiteListAsStrings = extractAllEClassifierNames(whiteList);
+		mms.slice(metaModel, ePackages, whiteListAsStrings, blackList,newNS_URI, newNS_URI);
 	}
 	
 	
@@ -503,5 +507,18 @@ public abstract class AbstractGenerator implements EClassVisitor{
 		return true;
 	}
 	
-	
+	/**
+	 * This method delivers a list with all names of EClassifiers contained in the given list.
+	 * @param eClassifierList
+	 * @return
+	 * 		names of EClassifiers contained in the given list.
+	 */
+	protected static List<String> extractAllEClassifierNames(ArrayList<EClassifier> eClassifierList) {
+		List<String> list = new ArrayList<String>();
+		
+		for(EClassifier ec: eClassifierList) {
+			list.add(ec.getName());
+		}
+		return list;
+	}
 }
