@@ -19,8 +19,8 @@ public class MetaModelSlicerApp implements IApplication {
 		System.out.println("*****MetaModelSlicerTest*****");
 		System.out.println("*****************************");
 		
-		
-		String testingOutputPath = "D://Eclipse_SiDiffOpt/configGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
+		String testingOutputPath = "/media/mrindt/data/Workspaces/Linux/MetaModelSlicer/TMP/sliced.ecore";
+//		String testingOutputPath = "D://Eclipse_SiDiffOpt/configGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
 		
 		MetaModelSlicer	slicer = new MetaModelSlicer();
 		List<String> listOfclassifiers = new ArrayList<String>();
