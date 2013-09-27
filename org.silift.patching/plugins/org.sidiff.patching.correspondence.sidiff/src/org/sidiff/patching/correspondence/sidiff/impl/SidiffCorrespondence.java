@@ -1,7 +1,6 @@
 package org.sidiff.patching.correspondence.sidiff.impl;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -18,8 +17,8 @@ import org.sidiff.core.annotation.AnnotationService;
 import org.sidiff.core.candidates.CandidatesTreeService;
 import org.sidiff.core.correspondences.CorrespondencesService;
 import org.sidiff.core.correspondences.ExternalElementException;
+import org.sidiff.core.matching.EcoreIDMatchingService;
 import org.sidiff.core.matching.HashMatchingService;
-import org.sidiff.core.matching.IDBasedMatchingService;
 import org.sidiff.core.matching.IterativeMatchingService;
 import org.sidiff.core.matching.ProfilesMatchingService;
 import org.sidiff.core.similarities.DefaultSimilaritiesService;
@@ -64,7 +63,7 @@ public class SidiffCorrespondence {
 				ServiceHelper.DEFAULT));
 		context.putService(ServiceHelper.getService(bundleContext, IterativeMatchingService.class, documentType,
 				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(bundleContext, IDBasedMatchingService.class, documentType,
+		context.putService(ServiceHelper.getService(bundleContext, EcoreIDMatchingService.class, documentType,
 				ServiceHelper.DEFAULT));
 		context.putService(ServiceHelper.getService(bundleContext, HashMatchingService.class, documentType,
 				ServiceHelper.DEFAULT));
@@ -103,7 +102,7 @@ public class SidiffCorrespondence {
 
 		// Matching 
 		reliabilityCalculator.startingMatch();
-		context.getService(IDBasedMatchingService.class).match();
+		context.getService(EcoreIDMatchingService.class).match();
 		context.getService(HashMatchingService.class).match();
 		context.getService(IterativeMatchingService.class).match();
 		
