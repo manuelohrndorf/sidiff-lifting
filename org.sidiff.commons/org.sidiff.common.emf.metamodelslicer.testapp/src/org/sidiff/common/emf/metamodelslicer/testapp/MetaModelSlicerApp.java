@@ -1,10 +1,18 @@
 package org.sidiff.common.emf.metamodelslicer.testapp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
@@ -23,24 +31,29 @@ public class MetaModelSlicerApp implements IApplication {
 //		String testingOutputPath = "D://Eclipse_SiDiffOpt/configGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
 		
 		MetaModelSlicer	slicer = new MetaModelSlicer();
-		List<String> listOfclassifiers = new ArrayList<String>();
-		
+	
+		// UML Example		
 //		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/uml2/4.0.0/UML");
+//		List<String> listOfclassifiers = new ArrayList<String>();
 //		listOfclassifiers.add("Class");
 //		listOfclassifiers.add("Package");
 //		listOfclassifiers.add("Operation");
 //		listOfclassifiers.add("Element");
 //		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced",testingOutputPath);			
 
-		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
-		listOfclassifiers.add("Skeleton");
+		// Skeleton Example
+//		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
+//		listOfclassifiers.add("Skeleton");
 //		listOfclassifiers.add("ContourEdge");
-		slicer.slice(epg, null, listOfclassifiers, null, "http://www.sidiff.org/org.sidiff.skeleton.model/Sliced", testingOutputPath);	
+//		slicer.slice(epg, null, listOfclassifiers, null, "http://www.sidiff.org/org.sidiff.skeleton.model/Sliced", testingOutputPath);	
 
-		
-
-
-		
+		//Example for ModelInstance
+		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
+		XMIResourceImpl resource = new XMIResourceImpl();
+		File source = new File("D://Eclipse_SiDiffOpt/configGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/bird02.gml.smf.xmi");
+		resource.load( new FileInputStream(source), new HashMap<Object,Object>());
+		slicer.slice(epg, null, resource, null, "http://www.sidiff.org/org.sidiff.skeleton.model/Sliced", testingOutputPath);
+				
 	//	printMetaModels();
 		
 		
