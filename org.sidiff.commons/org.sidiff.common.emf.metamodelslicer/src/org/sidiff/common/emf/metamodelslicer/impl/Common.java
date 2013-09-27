@@ -95,6 +95,17 @@ public class Common {
 		return list;
 	}
 	
+	/**
+	 * Resolves a single String, which is supposed to be the name of an EClassifier,
+	 * to the respective EClassifier that is assumed in one of the given the EPackages.
+	 * 
+	 * @param eClassifierName
+	 * 						the name of the intended EClassifier.
+	 * @param ePackagesStack
+	 * 						the ePackages.
+	 * @return the EClassifier whose name is matching the given name.
+	 * @throws EClassifierUnresolvableException
+	 */
 	public static EClassifier resolveStringAsEClassifier(String eClassifierName, Stack<EPackage> ePackagesStack) throws EClassifierUnresolvableException{
 		EClassifier resolvedEClassifier = null;
 		
@@ -105,5 +116,30 @@ public class Common {
 			}
 		}
 		throw new EClassifierUnresolvableException(eClassifierName);
+	}
+	
+	/**
+	 * Resolves all Strings, which are supposed to be names of EClassifiers,
+	 * to the respective EClassifiers that are assumed in the given the EPackages.
+	 * 
+	 * @param eClassifierName
+	 * 						the name of the intended EClassifier.
+	 * @param ePackagesStack
+	 * 						the ePackages.
+	 * @return the EClassifier whose name is matching the given name.
+	 * @throws EClassifierUnresolvableException
+	 */
+	public static List<EClassifier> resolveStringsAsEClassifiers(List<String> strings, Stack<EPackage> ePackagesStack) {
+		List<EClassifier> list = new ArrayList<EClassifier>();
+		
+		for(String nameOfClassifier: strings) {
+			try {
+				list.add(Common.resolveStringAsEClassifier(nameOfClassifier, ePackagesStack));
+			} catch (EClassifierUnresolvableException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
 	}
 }
