@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -25,11 +26,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -77,33 +80,27 @@ public class EcoreHelper {
 	
 	
 
-	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage origEPackage, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
+	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
 				
 		//TODO Copy eAnntoations (except path annotation), too, since Copier ignores them
 		//TODO not all EGeneric types are copied
 		//TODO not all EStringToSTringMapEntries are copied
 		Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
 		
-		LogUtil.log(LogEvent.NOTICE, "Creating a nearly complete meta-model copy.");
 		
-		// make identical, independent copy of originalMetaModel
-		Copier copier = new Copier(false, false);
-		Collection<EPackage> copy = copier.copyAll(Collections.singleton(origEPackage));
+		// use Ecore-Copier to copy the most parts of the meta model
+		Copier copier = new Copier(false, true);
+		Collection<EPackage> copy = copier.copyAll(Collections.singleton(mainMetaModel));
 		newResourceToContainCopy.getContents().addAll(copy);
 		copier.copyReferences();
 		EcoreUtil.resolveAll(newResourceToContainCopy);		
 		
-		/**************************************************************************************************************/		
-		LogUtil.log(LogEvent.NOTICE, "Gathering all EAnnotations in original meta-model.");
-		
-		// gather all EAnnotations in original source, to copy them later to the sliced Meta Model (because Ecore-Copier ignores EAnnotations)
-		List<EAnnotation> eannos_Orig = getAllEAnnotations(origEPackage);
-
-		/**************************************************************************************************************/		
-		LogUtil.log(LogEvent.NOTICE, "Annotating EEModelelement paths.");
+		// gather all EAnnotations in original source, to copy them later to the sliced Meta Model
+		// (because Ecore-Copier ignores EAnnotations)
+		List<EAnnotation> eannos_Orig = getAllEAnnotations(mainMetaModel);
 
 		// annotate all elements with their path in original meta model
-		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(origEPackage)) {
+		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(mainMetaModel)) {
 			if(eob_Orig instanceof EGenericType
 					|| eob_Orig instanceof EStringToStringMapEntryImpl) {
 				continue;
@@ -127,12 +124,9 @@ public class EcoreHelper {
 			eanno.getDetails().put("path4ModelSlice", getEObjectPositionPath(eob_Slice));
 			((EModelElement) eob_Slice).getEAnnotations().add(eanno);
 		}
-
-		/************************************************************************************************************/
-		LogUtil.log(LogEvent.NOTICE, "Mapping elements between original meta-model and copied meta-model. This takes some seconds...");
 		
 		// Map EObjects of both Resources 
-		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(origEPackage)) { 
+		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(mainMetaModel)) { 
 			if( eob_Orig instanceof EGenericType 
 					|| eob_Orig instanceof EStringToStringMapEntryImpl) {
 				continue;
@@ -164,18 +158,15 @@ public class EcoreHelper {
 			}			
 		}
 
-		/**************************************************************************************************************/
-		LogUtil.log(LogEvent.NOTICE, "Inserting original EAnnotations into the sliced meta model.");
-		for(EAnnotation eanno_Orig: eannos_Orig) {
-			
+		// Inserting original EAnnotations and internal content into the copy meta model
+		for(EAnnotation eanno_Orig: eannos_Orig) {			
 			copyEAnnotationAndInternalContents(eanno_Orig, eObjectMap);
 		}		
 		
-		
 		assert(EcoreUtil.UnresolvedProxyCrossReferencer.find(newResourceToContainCopy).isEmpty()) : "There are still some unresolved proxies";
 
-		EPackage slicedMetaModel = (EPackage) newResourceToContainCopy.getContents().get(0);
-		slicedMetaModel.setNsURI(newNS_URI);
+		EPackage copyMetaModel = (EPackage) newResourceToContainCopy.getContents().get(0);
+		copyMetaModel.setNsURI(newNS_URI);
 		
 		return eObjectMap;
 	}
