@@ -39,6 +39,8 @@ import org.sidiff.common.logging.LogUtil;
 
 public class EcoreHelper {
 	
+	private static String EANNO_KEY_PATH = "EANNO_KEY_PATH";
+	
 	public static List<EAnnotation> getAllEAnnotations(EPackage rootpackage) {
 		
 		List<EAnnotation> annoList = new ArrayList<EAnnotation>();
@@ -56,33 +58,33 @@ public class EcoreHelper {
 	}
 	
 	
-	public static String getEObjectPositionPath(EObject eob) {
+	public static String getEObjectPositionEANNO_KEY_PATH(EObject eob) {
 		
-		String pathFragment = "";
+		String EANNO_KEY_PATHFragment = "";
 		
 		if(eob instanceof EAnnotation) {
-			pathFragment = ((EAnnotation) eob).getSource();
+			EANNO_KEY_PATHFragment = ((EAnnotation) eob).getSource();
 		}
 		
 		else if( eob instanceof ENamedElement) {
 			EPackage runtimeEcoreModel = EcoreFactory.eINSTANCE.getEcorePackage();
 			EClass eClass = (EClass) runtimeEcoreModel.getEClassifier("EClass");
 			EStructuralFeature feature = eClass.getEStructuralFeature("name");
-			pathFragment = (String) eob.eGet(feature);
+			EANNO_KEY_PATHFragment = (String) eob.eGet(feature);
 		}
 
 		if(eob.eContainer()!=null) {
-			pathFragment = getEObjectPositionPath(eob.eContainer()) + "/" +pathFragment;
+			EANNO_KEY_PATHFragment = getEObjectPositionEANNO_KEY_PATH(eob.eContainer()) + "/" +EANNO_KEY_PATHFragment;
 		}
 		
-		return pathFragment;
+		return EANNO_KEY_PATHFragment;
 	}
 	
 	
 
 	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
 				
-		//TODO Copy eAnntoations (except path annotation), too, since Copier ignores them
+		//TODO Copy eAnntoations (except EANNO_KEY_PATH annotation), too, since Copier ignores them
 		//TODO not all EGeneric types are copied
 		//TODO not all EStringToSTringMapEntries are copied
 		Map<EObject,EObject> eObjectMap  = new HashMap<EObject, EObject>();
@@ -99,7 +101,7 @@ public class EcoreHelper {
 		// (because Ecore-Copier ignores EAnnotations)
 		List<EAnnotation> eannos_Orig = getAllEAnnotations(mainMetaModel);
 
-		// annotate all elements with their path in original meta model
+		// annotate all elements with their EANNO_KEY_PATH in original meta model
 		for(EObject eob_Orig: EMFUtil.getEAllContentAsIterable(mainMetaModel)) {
 			if(eob_Orig instanceof EGenericType
 					|| eob_Orig instanceof EStringToStringMapEntryImpl) {
@@ -107,12 +109,12 @@ public class EcoreHelper {
 			}	
 			
 			EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
-			eanno.setSource("path4ModelSlice");
-			eanno.getDetails().put("path4ModelSlice", getEObjectPositionPath(eob_Orig));
+			eanno.setSource(EANNO_KEY_PATH);
+			eanno.getDetails().put(EANNO_KEY_PATH, getEObjectPositionEANNO_KEY_PATH(eob_Orig));
 			((EModelElement) eob_Orig).getEAnnotations().add(eanno);
 		}
 
-		// annotate all elements with their path in sliced meta model
+		// annotate all elements with their EANNO_KEY_PATH in sliced meta model
 		for(EObject eob_Slice: EMFUtil.getAllContentAsIterable(newResourceToContainCopy)) {
 			if(eob_Slice instanceof EGenericType
 					|| eob_Slice instanceof EStringToStringMapEntryImpl
@@ -120,8 +122,8 @@ public class EcoreHelper {
 				continue;
 			}
 			EAnnotation eanno = EcoreFactory.eINSTANCE.createEAnnotation();
-			eanno.setSource("path4ModelSlice");
-			eanno.getDetails().put("path4ModelSlice", getEObjectPositionPath(eob_Slice));
+			eanno.setSource(EANNO_KEY_PATH);
+			eanno.getDetails().put(EANNO_KEY_PATH, getEObjectPositionEANNO_KEY_PATH(eob_Slice));
 			((EModelElement) eob_Slice).getEAnnotations().add(eanno);
 		}
 		
@@ -138,21 +140,20 @@ public class EcoreHelper {
 						|| eob_Slice instanceof EAnnotation) {
 					continue;
 				}
-				
-				
-				EAnnotation eanno_orig = ((EModelElement) eob_Orig).getEAnnotation("path4ModelSlice");
-				String pathValue_orig = null;
+								
+				EAnnotation eanno_orig = ((EModelElement) eob_Orig).getEAnnotation(EANNO_KEY_PATH);
+				String EANNO_KEY_PATHValue_orig = null;
 				if(eanno_orig!=null) {
-					pathValue_orig = eanno_orig.getDetails().get("path4ModelSlice");
+					EANNO_KEY_PATHValue_orig = eanno_orig.getDetails().get(EANNO_KEY_PATH);
 				}
-				EAnnotation eanno_slice = ((EModelElement) eob_Slice).getEAnnotation("path4ModelSlice");				
-				String pathValue_slice = null;
+				EAnnotation eanno_slice = ((EModelElement) eob_Slice).getEAnnotation(EANNO_KEY_PATH);				
+				String EANNO_KEY_PATHValue_slice = null;
 				if(eanno_slice!=null) {
-					pathValue_slice = eanno_slice.getDetails().get("path4ModelSlice");
+					EANNO_KEY_PATHValue_slice = eanno_slice.getDetails().get(EANNO_KEY_PATH);
 				}
 
-				// if paths are equal, map eobs
-				if((pathValue_orig!=null && pathValue_slice!=null) && (pathValue_orig.equals(pathValue_slice))) {
+				// if EANNO_KEY_PATHs are equal, map eobs
+				if((EANNO_KEY_PATHValue_orig!=null && EANNO_KEY_PATHValue_slice!=null) && (EANNO_KEY_PATHValue_orig.equals(EANNO_KEY_PATHValue_slice))) {
 					eObjectMap.put(eob_Orig, eob_Slice);
 				}				
 			}			
@@ -168,9 +169,27 @@ public class EcoreHelper {
 		EPackage copyMetaModel = (EPackage) newResourceToContainCopy.getContents().get(0);
 		copyMetaModel.setNsURI(newNS_URI);
 		
+
+		// remove EANNO_KEY_PATH annotation		
+		removeAnnotation(EANNO_KEY_PATH, copyMetaModel);
+		
 		return eObjectMap;
 	}
-
+	
+	private static void removeAnnotation(String source, EObject eObjectOrEPackage) {
+		
+		Iterator<EObject> elemIter = eObjectOrEPackage.eAllContents();
+		while(elemIter.hasNext()) {
+			EObject eObject = elemIter.next();
+			if(eObject instanceof EAnnotation) {
+				EAnnotation eAnno = (EAnnotation) eObject;
+				if(eAnno.getSource().equals(source)) {
+					EcoreUtil.remove(eAnno);
+				}
+			}			
+		}
+		
+	}
 
 	private static void copyEAnnotationAndInternalContents(EAnnotation eanno_Orig, Map<EObject,EObject> eObjectMap) throws Exception {
 
