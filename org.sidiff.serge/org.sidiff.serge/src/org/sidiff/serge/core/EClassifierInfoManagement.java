@@ -100,143 +100,140 @@ public class EClassifierInfoManagement {
 	}
 	
 	public void gatherAllEClassifierInfos(Stack<EPackage> ePackagesStack) {
-				
+
 		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {	
 
-					// get or create EClassifierInfo
-					EClassifierInfo eClassifierInfo = eClassifierInfoMap.get(eClassifier);
-					if(eClassifierInfo==null) {
-						eClassifierInfo = new EClassifierInfo(eClassifier);
-					}
+				// get or create EClassifierInfo
+				EClassifierInfo eClassifierInfo = getEClassifierInfo(eClassifier);
 
-					// if using some profiled meta model: map stereotype / meta classes
-					if (stereotypeMapping) findAndMapStereotypes(eClassifierInfo);
+				// if using some profiled meta model: map stereotype / meta classes
+				if (stereotypeMapping) findAndMapStereotypes(eClassifierInfo);
 
-					if(eClassifier instanceof EClass) {
-						
-						EClass eClass = (EClass) eClassifier;
+				if(eClassifier instanceof EClass) {
 
-						for (EReference eRef : eClass.getEAllReferences()) {
+					EClass eClass = (EClass) eClassifier;
 
-							if(!eRef.isDerived()) {
+					for (EReference eRef : eClass.getEAllReferences()) {
 
-								// get mandatory and optional children
-								Set<EClassifier> mC = findMandatoryChild(eRef);
-								Set<EClassifier> oC = findOptionalChild(eRef);
+						if(!eRef.isDerived()) {
 
-								// get neighbour
-								Set<EClassifier> mN = findMandatoryNeighbour(eRef);
-								Set<EClassifier> oN = findOptionalNeighbour(eRef);
+							// get mandatory and optional children
+							Set<EClassifier> mC = findMandatoryChild(eRef);
+							Set<EClassifier> oC = findOptionalChild(eRef);
 
-								// get parent context
-								Set<EClassifier> mPC = findMandatoryParentContext(eRef);
-								Set<EClassifier> oPC = findOptionalParentContext(eRef);
+							// get neighbour
+							Set<EClassifier> mN = findMandatoryNeighbour(eRef);
+							Set<EClassifier> oN = findOptionalNeighbour(eRef);
 
-								// get neighbour context
-								Set<EClassifier> mNC = findMandatoryNeighbourContext(eRef);
-								Set<EClassifier> oNC = findOptionalNeighbourContext(eRef);
+							// get parent context
+							Set<EClassifier> mPC = findMandatoryParentContext(eRef);
+							Set<EClassifier> oPC = findOptionalParentContext(eRef);
 
-								// add subtypes to all previous lists
-								mC	= addSubtypes(mC);
-								oC	= addSubtypes(oC);
-								oN	= addSubtypes(oN);
-								oN	= addSubtypes(oN);
-								mPC = addSubtypes(mPC);
-								oPC = addSubtypes(oPC);
-								mNC = addSubtypes(mNC);
-								oNC = addSubtypes(oNC);
-								
-								// fill mandatory children and mandatory parent context of children
-								if(mC!=null) {
-									// add mandatory child
-									for(EClassifier child: mC) {
-										// add each child as MC to current parent
-										add_MC_to_parent(eClassifier, child, eRef);
-										// add current parent as MPC to each child
-										add_MPC_to_Child(child, eClassifier, eRef);
-										for(EClassifier subtypeOfParent: subTypeMap.get(eClassifier)) {
-											// add each parent to each child as MPC
-											add_MPC_to_Child(child, subtypeOfParent, eRef);
-											// add each child to each parent as MC
-											add_MC_to_parent(subtypeOfParent, child, eRef);
-										}
-									}								
-								}
-								// fill optional children and mandatory parent context of children
-								if(oC!=null) {
-									for(EClassifier child: oC) {
-										// add each child as OC to current parent
-										add_OC_to_parent(eClassifier, child, eRef);
-										// add current parent as OPC to each child
-										add_OPC_to_Child(child, eClassifier, eRef);
-										for(EClassifier subtypeOfParent: subTypeMap.get(eClassifier)) {
-											// add each parent to each child as OPC
-											add_OPC_to_Child(child, subtypeOfParent, eRef);
-											// add each child to each parent as OC
-											add_OC_to_parent(subtypeOfParent, child, eRef);
-										}
-									}									
-								}
-								// fill mandatory neighbour and mandatory neighbour context of neigbours
-								if(mN!=null) {
-									for(EClassifier neighbour: mN) {
-										// add each neighbour as mN to current eClassifier (neighbour context)
-										add_MN_to_Neighbour(eClassifier, neighbour, eRef);
-										// add current eClassifier (neighbour context) as MNC to each neighbour
-										add_MNC_to_Neighbour(neighbour, eClassifier, eRef);
-										for(EClassifier subtypeOfEClassifierNeighbour: subTypeMap.get(eClassifier)) {
-											// add each subtype of eClassifier (neighbour context) to each neighbour as MNC
-											add_MNC_to_Neighbour(neighbour, subtypeOfEClassifierNeighbour, eRef);
-											// add each neighbour to each subtype of eClassifier (neighbour context) as MN
-											add_MN_to_Neighbour(subtypeOfEClassifierNeighbour, neighbour, eRef);
-										}
+							// get neighbour context
+							Set<EClassifier> mNC = findMandatoryNeighbourContext(eRef);
+							Set<EClassifier> oNC = findOptionalNeighbourContext(eRef);
+
+							// add subtypes to all previous lists
+							mC	= addSubtypes(mC);
+							oC	= addSubtypes(oC);
+							oN	= addSubtypes(oN);
+							oN	= addSubtypes(oN);
+							mPC = addSubtypes(mPC);
+							oPC = addSubtypes(oPC);
+							mNC = addSubtypes(mNC);
+							oNC = addSubtypes(oNC);
+
+							// fill mandatory children and mandatory parent context of children
+							if(mC!=null) {
+								// add mandatory child
+								for(EClassifier child: mC) {
+									// add each child as MC to current parent
+									add_MC_to_parent(eClassifier, child, eRef);
+									// add current parent as MPC to each child
+									add_MPC_to_Child(child, eClassifier, eRef);
+									for(EClassifier subtypeOfParent: subTypeMap.get(eClassifier)) {
+										// add each parent to each child as MPC
+										add_MPC_to_Child(child, subtypeOfParent, eRef);
+										// add each child to each parent as MC
+										add_MC_to_parent(subtypeOfParent, child, eRef);
+									}
+								}								
+							}
+							// fill optional children and mandatory parent context of children
+							if(oC!=null) {
+								for(EClassifier child: oC) {
+									// add each child as OC to current parent
+									add_OC_to_parent(eClassifier, child, eRef);
+									// add current parent as OPC to each child
+									add_OPC_to_Child(child, eClassifier, eRef);
+									for(EClassifier subtypeOfParent: subTypeMap.get(eClassifier)) {
+										// add each parent to each child as OPC
+										add_OPC_to_Child(child, subtypeOfParent, eRef);
+										// add each child to each parent as OC
+										add_OC_to_parent(subtypeOfParent, child, eRef);
+									}
+								}									
+							}
+							// fill mandatory neighbour and mandatory neighbour context of neigbours
+							if(mN!=null) {
+								for(EClassifier neighbour: mN) {
+									// add each neighbour as mN to current eClassifier (neighbour context)
+									add_MN_to_Neighbour(eClassifier, neighbour, eRef);
+									// add current eClassifier (neighbour context) as MNC to each neighbour
+									add_MNC_to_Neighbour(neighbour, eClassifier, eRef);
+									for(EClassifier subtypeOfEClassifierNeighbour: subTypeMap.get(eClassifier)) {
+										// add each subtype of eClassifier (neighbour context) to each neighbour as MNC
+										add_MNC_to_Neighbour(neighbour, subtypeOfEClassifierNeighbour, eRef);
+										// add each neighbour to each subtype of eClassifier (neighbour context) as MN
+										add_MN_to_Neighbour(subtypeOfEClassifierNeighbour, neighbour, eRef);
 									}
 								}
-								// fill optional neighbour and optional neighbour context of neigbours
-								if(oN!=null) {
-									for(EClassifier neighbour: oN) {
-										// add each neighbour as ON to current eClassifier (neighbour context)
-										add_ON_to_Neighbour(eClassifier, neighbour, eRef);
-										// add current eClassifier (neighbour context) as ONC to each neighbour
-										add_ONC_to_Neighbour(neighbour, eClassifier, eRef);
-										for(EClassifier subtypeOfEClassifierNeighbour: subTypeMap.get(eClassifier)) {
-											// add each subtype of eClassifier (neighbour context) to each neighbour as ONC
-											add_ONC_to_Neighbour(neighbour, subtypeOfEClassifierNeighbour, eRef);
-											// add each neighbour to each subtype of eClassifier (neighbour context) as ON
-											add_ON_to_Neighbour(subtypeOfEClassifierNeighbour, neighbour, eRef);
-										}
-									}
-									
-								}
-								// fill mandatory parent context of current eClassifier
-								if(mPC!=null) {
-									for(EClassifier p: mPC) {
-										add_MPC_to_Child(eClassifier, p, eRef.getEOpposite());
+							}
+							// fill optional neighbour and optional neighbour context of neigbours
+							if(oN!=null) {
+								for(EClassifier neighbour: oN) {
+									// add each neighbour as ON to current eClassifier (neighbour context)
+									add_ON_to_Neighbour(eClassifier, neighbour, eRef);
+									// add current eClassifier (neighbour context) as ONC to each neighbour
+									add_ONC_to_Neighbour(neighbour, eClassifier, eRef);
+									for(EClassifier subtypeOfEClassifierNeighbour: subTypeMap.get(eClassifier)) {
+										// add each subtype of eClassifier (neighbour context) to each neighbour as ONC
+										add_ONC_to_Neighbour(neighbour, subtypeOfEClassifierNeighbour, eRef);
+										// add each neighbour to each subtype of eClassifier (neighbour context) as ON
+										add_ON_to_Neighbour(subtypeOfEClassifierNeighbour, neighbour, eRef);
 									}
 								}
-								// fill optional parent context of current eClassifier
-								if(oPC!=null) {
-									for(EClassifier p: oPC) {	
-										add_OPC_to_Child(eClassifier, p, eRef.getEOpposite());
-									}
+
+							}
+							// fill mandatory parent context of current eClassifier
+							if(mPC!=null) {
+								for(EClassifier p: mPC) {
+									add_MPC_to_Child(eClassifier, p, eRef.getEOpposite());
 								}
-								// fill mandatory neighbour context of current eClassifier
-								if(mNC!=null) {
-									for(EClassifier n: mNC) {	
-										add_MNC_to_Neighbour(eClassifier, n, eRef.getEOpposite());								
-									}
+							}
+							// fill optional parent context of current eClassifier
+							if(oPC!=null) {
+								for(EClassifier p: oPC) {	
+									add_OPC_to_Child(eClassifier, p, eRef.getEOpposite());
 								}
-								// fill optional neighbour context of current eClassifier
-								if(oNC!=null) {
-									for(EClassifier n: oNC) {
-										add_ONC_to_Neighbour(eClassifier, n, eRef.getEOpposite());
-									}
+							}
+							// fill mandatory neighbour context of current eClassifier
+							if(mNC!=null) {
+								for(EClassifier n: mNC) {	
+									add_MNC_to_Neighbour(eClassifier, n, eRef.getEOpposite());								
+								}
+							}
+							// fill optional neighbour context of current eClassifier
+							if(oNC!=null) {
+								for(EClassifier n: oNC) {
+									add_ONC_to_Neighbour(eClassifier, n, eRef.getEOpposite());
 								}
 							}
 						}
 					}
-					eClassifierInfoMap.put(eClassifier,eClassifierInfo);
+				}
+				eClassifierInfoMap.put(eClassifier,eClassifierInfo);
 			}
 		}
 	}
@@ -244,7 +241,7 @@ public class EClassifierInfoManagement {
 	private Set<EClassifier> addSubtypes(Set<EClassifier> existingSet) {
 		if(existingSet==null) return null;
 		Set<EClassifier> newSet = new HashSet<EClassifier>();
-		
+
 		for(EClassifier exCl: existingSet) {
 			List<EClassifier> subtypes = subTypeMap.get(exCl);
 			if(subtypes!=null) {
