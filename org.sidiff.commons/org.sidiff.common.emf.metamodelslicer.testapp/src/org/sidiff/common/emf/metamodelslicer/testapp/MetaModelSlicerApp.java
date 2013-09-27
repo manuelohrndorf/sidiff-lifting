@@ -20,28 +20,28 @@ public class MetaModelSlicerApp implements IApplication {
 		System.out.println("*****************************");
 		
 		
-		String testingOutputPath = "D://Data/ec_workspace/ConfigGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
+		String testingOutputPath = "D://Eclipse_SiDiffOpt/configGenerator/org.sidiff.common.emf.metamodelslicer.testapp/output/sliced.ecore";
 		
 		MetaModelSlicer	slicer = new MetaModelSlicer();
-		List<EClassifier> listOfclassifiers = new ArrayList<EClassifier>();
+		List<String> listOfclassifiers = new ArrayList<String>();
 		
-		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/uml2/4.0.0/UML");
-//		listOfclassifiers.add(epg.getEClassifier("Class"));
-//		listOfclassifiers.add(epg.getEClassifier("Package"));
-//		listOfclassifiers.add(epg.getEClassifier("Operation"));
-		listOfclassifiers.add(epg.getEClassifier("Element"));
-		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced",testingOutputPath);			
+//		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/uml2/4.0.0/UML");
+//		listOfclassifiers.add("Class");
+//		listOfclassifiers.add("Package");
+//		listOfclassifiers.add("Operation");
+//		listOfclassifiers.add("Element");
+//		slicer.slice(epg, null, listOfclassifiers, null, "http://www.eclipse.org/uml2/4.0.0/UML/Sliced",testingOutputPath);			
 
-//		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
-//		listOfclassifiers.add(epg.getEClassifier("SkeletonEdge"));
-//		listOfclassifiers.add(epg.getEClassifier("ContourEdge"));
-//		slicer.slice(epg, null, listOfclassifiers, null, "http://www.sidiff.org/org.sidiff.skeleton.model/Sliced");	
-
-		
-
+		EPackage epg = EPackage.Registry.INSTANCE.getEPackage("http://www.sidiff.org/org.sidiff.skeleton.model");
+		listOfclassifiers.add("Skeleton");
+//		listOfclassifiers.add("ContourEdge");
+		slicer.slice(epg, null, listOfclassifiers, null, "http://www.sidiff.org/org.sidiff.skeleton.model/Sliced", testingOutputPath);	
 
 		
-		printMetaModels();
+
+
+		
+	//	printMetaModels();
 		
 		
 		return null;
