@@ -3,11 +3,13 @@ package org.silift.common.file.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -90,6 +92,50 @@ public class ZipUtil {
 		}
 	}
 	 
+	
+	/**
+	 * Reads the content of a file.
+	 * 
+	 * @param zipFile absolute path of the zip file
+	 * @param fileName name of the file to be read
+	 * @return the content of the file as a String
+	 */
+	public String readFileFromZip(String zipFile, String fileName){
+		BufferedInputStream in = null;
+		BufferedReader br = null;
+		
+		String text = "";
+		
+		ZipFile file;
+		try {
+			file = new ZipFile(zipFile);
+			Enumeration enu = file.entries();
+			
+			while(enu.hasMoreElements()){
+				ZipEntry zipEntry = (ZipEntry)enu.nextElement();
+				
+				String zipEntryName = zipEntry.getName();
+				
+				if(zipEntryName.equals(fileName)){
+					in = new BufferedInputStream(file.getInputStream(zipEntry));
+					br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+					String line;
+					while((line = br.readLine()) != null)
+						text += line;
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try{
+				if(in != null) in.close();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+		return text;
+	}
 
 	/**
 	 * Extracts all files of a zip file.

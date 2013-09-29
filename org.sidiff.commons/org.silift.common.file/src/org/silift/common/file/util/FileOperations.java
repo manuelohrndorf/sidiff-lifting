@@ -43,6 +43,22 @@ public class FileOperations {
 		dir.delete();
 	}
 	
+	
+	/**
+	 * 
+	 * @param path absolute path of the root directory
+	 * @param directory to be searched
+	 * @return 
+	 */
+	public static boolean existsFolder(String path, String dirName){
+		File dir = new File(path);
+		if(dir.getName().equals(dirName)) return true;
+		for(File file : dir.listFiles()){
+			if(file.isDirectory() && !file.getName().startsWith(".")) return existsFolder(file.getPath(), dirName);
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param in
