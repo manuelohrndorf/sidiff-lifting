@@ -20,6 +20,7 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -108,6 +109,8 @@ public class PatchEvaluationApplication implements IApplication {
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
 				LogUtil.log(LogEvent.NOTICE, "Applying patch");
 				
+				StatisticsUtil stats = StatisticsUtil.getInstance(testSuite.getId());
+				
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
 				int dif = testSuite.getDifference().getSymmetric().getChanges().size();
@@ -117,10 +120,18 @@ public class PatchEvaluationApplication implements IApplication {
 							  "\nDifferences: " + dif + 
 							  "\nOperations: " + op + 
 							  "\nLongest dependency chain: " + max + "\n");				
+				stats.putSize("Correspondences", cor);
+				stats.putSize("Differences", dif);
+				stats.putSize("Operations", op);
+				stats.putSize("LCS", max);
+
 				
 				// Time to apply patch
 				long start = System.currentTimeMillis();
+				stats.start("PatchApplication");
 				PatchResult result = patchEngine.applyPatchOperationValidation();
+				stats.stop("PatchApplication");
+
 				long delta = System.currentTimeMillis() - start;				
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
 				buffer.append("Time to apply: " + delta + "seconds\n\n");
@@ -242,6 +253,10 @@ public class PatchEvaluationApplication implements IApplication {
 				} else {
 					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
 				}
+				
+				stats.putSize("Unequal elements", changes.size());
+				stats.writeStatisticalFile("/home/sqtux/Workspace/");
+
 				
 			} catch (PatchNotExecuteableException e) {
 				e.printStackTrace();
