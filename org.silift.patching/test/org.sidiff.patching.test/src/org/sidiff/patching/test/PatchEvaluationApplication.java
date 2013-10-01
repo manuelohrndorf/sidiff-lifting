@@ -107,9 +107,7 @@ public class PatchEvaluationApplication implements IApplication {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
 				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine());
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				LogUtil.log(LogEvent.NOTICE, "Applying patch");
-				
-				StatisticsUtil stats = StatisticsUtil.getInstance(testSuite.getId());
+				LogUtil.log(LogEvent.NOTICE, "Applying patch");				
 				
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
@@ -119,18 +117,13 @@ public class PatchEvaluationApplication implements IApplication {
 				buffer.append("Correspondences: " + cor + 
 							  "\nDifferences: " + dif + 
 							  "\nOperations: " + op + 
-							  "\nLongest dependency chain: " + max + "\n");				
-				stats.putSize("Correspondences", cor);
-				stats.putSize("Differences", dif);
-				stats.putSize("Operations", op);
-				stats.putSize("LCS", max);
-
+							  "\nLongest dependency chain: " + max + "\n");	
 				
 				// Time to apply patch
 				long start = System.currentTimeMillis();
-				stats.start("PatchApplication");
+				StatisticsUtil.getInstance("TimeConsumption").start("PatchApplication");
 				PatchResult result = patchEngine.applyPatchOperationValidation();
-				stats.stop("PatchApplication");
+				StatisticsUtil.getInstance("TimeConsumption").stop("PatchApplication");
 
 				long delta = System.currentTimeMillis() - start;				
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
@@ -254,8 +247,7 @@ public class PatchEvaluationApplication implements IApplication {
 					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
 				}
 				
-				stats.putSize("Unequal elements", changes.size());
-				stats.writeStatisticalFile("/home/sqtux/Workspace/");
+				StatisticsUtil.getInstance().writeStatisticalFile(modelFolder.getAbsolutePath()+"/");
 
 				
 			} catch (PatchNotExecuteableException e) {

@@ -74,9 +74,11 @@ public class SysMLTestSuitBuilder {
 		deleteEAnnotations(modified);
 		
 		if (matcher == null) {
-			matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", original, modified);
+			String matcherKey = "UUIDMatcher";
+			//String matcherKey = "SiDiff";
+			matcher = MatcherUtil.getMatcherByKey(matcherKey, original, modified);
 			if (matcher == null) {
-				LogUtil.log(LogEvent.ERROR, "UUIDMatcher not found!");
+				LogUtil.log(LogEvent.ERROR, "Matcher " + matcherKey + " not found!");
 				return null;
 			}
 		}
