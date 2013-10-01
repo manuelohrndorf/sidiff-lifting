@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.silift.common.exceptions.FileAlreadyExistsException;
 import org.silift.common.exceptions.FileNotCreatedException;
@@ -51,12 +53,31 @@ public class FileOperations {
 	 * @return 
 	 */
 	public static boolean existsFolder(String path, String dirName){
+
 		File dir = new File(path);
 		if(dir.getName().equals(dirName)) return true;
 		for(File file : dir.listFiles()){
-			if(file.isDirectory() && !file.getName().startsWith(".")) return existsFolder(file.getPath(), dirName);
+			if(file.isDirectory() && !file.getName().startsWith("."))
+				if(existsFolder(file.getPath(), dirName)) return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param dir absolute path of a directory
+	 * @return List of all files contained in the directory
+	 */
+	public static List<File> getFilesFromDir(String dir){
+		ArrayList<File> result = new ArrayList();
+		File file = new File(dir);
+		for(File f : file.listFiles()){
+			if(f.isFile())
+				result.add(f);
+			else
+				result.addAll(getFilesFromDir(f.getPath()));
+		}
+		return result;
 	}
 	
 	/**
@@ -82,6 +103,8 @@ public class FileOperations {
 		}
 	}
 	
+	
+	//TODO remove...
 	public static void createInfoFile(String path, String info){
 		if (!(path.endsWith("/") || path.endsWith("\\"))) {
 			path = path + System.getProperty("file.separator");
