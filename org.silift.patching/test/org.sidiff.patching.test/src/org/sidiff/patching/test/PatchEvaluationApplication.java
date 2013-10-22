@@ -20,7 +20,6 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -38,6 +37,7 @@ import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 
 public class PatchEvaluationApplication implements IApplication {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
@@ -57,13 +57,115 @@ public class PatchEvaluationApplication implements IApplication {
 			}
 		}
 		
+
+		//Set experimental variables
+		String xAxisLabel = "RevisionChange";
+		Boolean threeD = true;
+		Boolean transposed = false;
+		Boolean showLabels = true;
+		String experimentRun = "02->03";
+		String experimentFile = "SiLift Pipeline_2013-10-22_10:48:23";
+		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine.png";
+		String filename2 = modelFolder.getAbsolutePath() + "/charts/" + experimentFile + "_cwoa.png";
+		
+		//ExperimentalUtil.loadExperiment(modelFolder.getAbsolutePath()+ "/" + experimentFile + ".ser");				
+
+		/*
+		Map<StatisticType, Boolean> showStatistic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
+		showStatistic.put(StatisticType.Count, false);
+		showStatistic.put(StatisticType.Size, true);
+		showStatistic.put(StatisticType.Time, false);
+		Map<StatisticType, Boolean> stacked = new HashMap<StatisticsUtil.StatisticType, Boolean>();
+		stacked.put(StatisticType.Count, false);
+		stacked.put(StatisticType.Size, false);
+		stacked.put(StatisticType.Time, false);
+		Map<StatisticType, Boolean> logarithmic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
+		logarithmic.put(StatisticType.Count, false);
+		logarithmic.put(StatisticType.Size, false);
+		logarithmic.put(StatisticType.Time, false);
+		Map<StatisticType, Boolean> percentage = new HashMap<StatisticsUtil.StatisticType, Boolean>();
+		percentage.put(StatisticType.Count, false);
+		percentage.put(StatisticType.Size, false);
+		percentage.put(StatisticType.Time, false);
+		Map<StatisticType, Boolean> showLabels = new HashMap<StatisticsUtil.StatisticType, Boolean>();
+		showLabels.put(StatisticType.Count, false);
+		showLabels.put(StatisticType.Size, false);
+		showLabels.put(StatisticType.Time, false);
+		Map<StatisticType, SeriesWithAxesType> seriesType = new HashMap<StatisticsUtil.StatisticType, ChartsUtil.SeriesWithAxesType>();
+		seriesType.put(StatisticType.Count, SeriesWithAxesType.LineChart);
+		seriesType.put(StatisticType.Size, SeriesWithAxesType.LineChart);
+		seriesType.put(StatisticType.Time, SeriesWithAxesType.BarChart);		
+		
+		String yaxis1 = "# Elements";
+		String yaxis2 = "TimeConsumption(ms)";
+		
+		String series1 = "Differences";
+		String series2 = "Operations";
+		
+		
+		HashMap<String, Boolean> stacked = new HashMap<String, Boolean>();
+		stacked.put(yaxis1, false);
+		stacked.put(yaxis2, false);
+
+		HashMap<String, Boolean> logarithmic = new HashMap<String, Boolean>();
+		logarithmic.put(yaxis1, false);
+		logarithmic.put(yaxis2, true);
+		
+		HashMap<String, Boolean> percentage = new HashMap<String, Boolean>();
+		percentage.put(yaxis1, false);
+		percentage.put(yaxis2, false);
+		
+		HashMap<String, Boolean> showLabels = new HashMap<String, Boolean>();
+		showLabels.put(series1, true);
+		showLabels.put(series2, false);
+	
+		ArrayList<String> measurements = new ArrayList<String>();
+		measurements.add("Scen02->Scen01");
+		measurements.add("Scen01->Scen02");
+		measurements.add("Scen03->Scen04");
+		measurements.add("Scen04->Scen05");
+		
+		HashMap<String, SeriesWithAxesType> seriesType = new HashMap<String, SeriesWithAxesType>();
+		seriesType.put(series1, SeriesWithAxesType.BarChart);
+		seriesType.put(series2, SeriesWithAxesType.BarChart);
+
+		
+		HashMap<String, Number[]> valueMap1 = new HashMap<String, Number[]>();
+		valueMap1.put(series1, new Number[]{12310,1233,12313,3001});
+		HashMap<String, Number[]> valueMap2 = new HashMap<String, Number[]>();
+		valueMap2.put(series2, new Number[]{120,88,13,234});
+		
+		HashMap<String, Number> valueMap3 = new HashMap<String, Number>();
+		valueMap3.put("PatchApplication", 30231);
+		valueMap3.put("Lifting", 2132);
+		valueMap3.put("Matching", 23132);
+
+		
+		HashMap<String, Map<String, Number[]>> axisTovalueMap = new HashMap<String, Map<String,Number[]>>();
+		axisTovalueMap.put(yaxis1, valueMap1);		
+		axisTovalueMap.put(yaxis2, valueMap2);
+
+		
+		String filename1 = modelFolder.getAbsolutePath() + "/charts/GenericTest1.png";
+		String filename2 = modelFolder.getAbsolutePath() + "/charts/GenericTest2.png";
+
+		
+		ChartsUtil.getInstance().writeChartWithAxes("SiLift", "RevisionChange",
+				true, false, stacked, logarithmic, percentage, showLabels, measurements, seriesType,
+				axisTovalueMap, filename1);
+		
+		ChartsUtil.getInstance().writeChartWithoutAxes("SiLift", "TimeConsumption(ms)", true,
+				true, SeriesWithoutAxesType.PieChart, valueMap3, filename2);
+		
+		*/
+		
 		if (!modelFolder.exists() && !modelFolder.isDirectory()) {
 			throw new FileNotFoundException(modelFolder.getPath());
 		}
 		
 		if (type == null || !(type.equals("gmf") || !(type.equals("smg")) || !(type.equals("sysml")))) {
 			throw new InvalidParameterException("Unkown type!");
-		}
+		}	
 		
 		List<TestSuite> testSuites = null;
 
@@ -99,16 +201,21 @@ public class PatchEvaluationApplication implements IApplication {
 			m.put("uml", new SysMLResourceFactory());
 		}
 		
+		//ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, filename);
+		//System.exit(0);
+		
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
 		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms)\\\\\n");
-		for (TestSuite testSuite : testSuites) {			
+		for (TestSuite testSuite : testSuites) {				
+			
 			try {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
 				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine());
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				LogUtil.log(LogEvent.NOTICE, "Applying patch");				
+				LogUtil.log(LogEvent.NOTICE, "Applying patch");	
 				
+			
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
 				int dif = testSuite.getDifference().getSymmetric().getChanges().size();
@@ -121,9 +228,7 @@ public class PatchEvaluationApplication implements IApplication {
 				
 				// Time to apply patch
 				long start = System.currentTimeMillis();
-				StatisticsUtil.getInstance("TimeConsumption").start("PatchApplication");
 				PatchResult result = patchEngine.applyPatchOperationValidation();
-				StatisticsUtil.getInstance("TimeConsumption").stop("PatchApplication");
 
 				long delta = System.currentTimeMillis() - start;				
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
@@ -187,50 +292,6 @@ public class PatchEvaluationApplication implements IApplication {
 				ResourceSet resourceSetModified = new ResourceSetImpl();
 				resourceModified = resourceSetModified.getResource(resourceModified.getURI(), true);
 				
-//				//Folder and file structure
-//				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
-//				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
-//				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
-//				
-//				String patchedSuffix = "_patched";
-//				String modifiedSuffix = "";
-//				
-//				if (type.equals("sysml")) {		
-//					patchedSuffix += ".uml";
-//					modifiedSuffix += ".uml";
-//
-//				}
-//				else{
-//					patchedSuffix += ".xmi";
-//					modifiedSuffix += ".xmi";	
-//				}		
-//				
-//				URI patchedUri = URI.createFileURI(patchedFileBase + patchedSuffix);
-//				URI modifiedUri = URI.createFileURI(modifiedFileBase + modifiedSuffix);		
-//				
-//				// strip ids
-//				boolean keepIDs = false;
-//								
-//				Resource resourcePatchedStripped = PatchUtil.copyWithId(result.getPatchedResource(), patchedUri, keepIDs, new Copier());
-//				Resource resourceModifiedStripped = PatchUtil.copyWithId(testSuite.getModified(), modifiedUri, keepIDs, new Copier());				
-//			
-//				// Strip special characters in href references
-//				// Hard coded for SysML case study
-//				if (type.equals("sysml")) {
-//
-//					stripSpecialCharactersAndSave(resourcePatchedStripped, patchedUri);
-//					stripSpecialCharactersAndSave(resourceModifiedStripped,modifiedUri);
-//
-//				} else {
-//
-//					// Saving patched Resource without IDs
-//					resourcePatchedStripped.save(null);
-//
-//					// Saving modified Resource without IDs
-//					resourceModifiedStripped.save(null);
-//
-//				}			
-				
 				resourcePatched.save(Collections.EMPTY_MAP);
 				resourceModified.save(Collections.EMPTY_MAP);
 				
@@ -245,9 +306,7 @@ public class PatchEvaluationApplication implements IApplication {
 					buffer.append("Patched model is equal to modified!\n");
 				} else {
 					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
-				}
-				
-				StatisticsUtil.getInstance().writeStatisticalFile(modelFolder.getAbsolutePath()+"/");
+				}			
 
 				
 			} catch (PatchNotExecuteableException e) {
@@ -255,7 +314,11 @@ public class PatchEvaluationApplication implements IApplication {
 				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
 				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");	
 			}
-			buffer.append("--------------\n\n");
+			buffer.append("--------------\n\n");	
+			
+
+
+			
 		}
 		
 		FileWriter writer = new FileWriter(modelFolder.getAbsolutePath()+"/report.txt");
@@ -264,6 +327,8 @@ public class PatchEvaluationApplication implements IApplication {
 		writer.write(buffer.toString());
 		writer.close();
 		
+	
+
 		System.out.println("Test finished. Report: " + modelFolder.getAbsolutePath()+"/report.txt");
 		return IApplication.EXIT_OK;
 	}	
@@ -311,68 +376,6 @@ public class PatchEvaluationApplication implements IApplication {
 		return stage;
 	}
 	
-//	private void stripSpecialCharactersAndSave(Resource resource, URI uri) throws IOException{
-//		
-//		//Load patched resource as string
-//		String resourceStrippedContent = null;
-//		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//		try {
-//			resource.save(outputStream, null);
-//		} catch (IOException ioe) {
-//			ioe.printStackTrace();
-//		}				
-//		resourceStrippedContent = outputStream.toString();	
-//		
-//		//Define patterns for replacement
-//		//Hard coded for sysml casestudy
-//		Map<Pattern,String> patternMap = new HashMap<Pattern, String>();
-//		patternMap.put(Pattern.compile("%5B"), "[");	
-//		patternMap.put(Pattern.compile("%5D"), "]");	
-//		patternMap.put(Pattern.compile("%23"), "#");	
-//		patternMap.put(Pattern.compile("%20"), " ");	
-//		patternMap.put(Pattern.compile("%3C"), "");	
-//		patternMap.put(Pattern.compile("%3E"), "");	
-//		patternMap.put(Pattern.compile("&lt;"), "");	
-//		patternMap.put(Pattern.compile(">>"), "");
-//		patternMap.put(Pattern.compile("<<"), "");
-//		patternMap.put(Pattern.compile(" AND "), "_AND_");
-//		patternMap.put(Pattern.compile("%20AND%20"), "_AND_");	
-//		patternMap.put(Pattern.compile(" OR "), "_OR_");
-//		patternMap.put(Pattern.compile("%20OR%20"), "_OR_");	
-//		patternMap.put(Pattern.compile("NOT "), "NOT_");
-//		patternMap.put(Pattern.compile("NOT%20"), "NOT_");
-//		patternMap.put(Pattern.compile("Separate "), "Separate");
-//		patternMap.put(Pattern.compile("Separate%20 "), "Separate");
-//		patternMap.put(Pattern.compile(" = "), "=");
-//		patternMap.put(Pattern.compile("%20=%20"), "=");
-//		patternMap.put(Pattern.compile(" := "), ":=");
-//		patternMap.put(Pattern.compile("%20:=%20"), ":=");
-//		patternMap.put(Pattern.compile(" := "), ":=");
-//		patternMap.put(Pattern.compile("Drehwinkel>"), "Drehwinkel");
-//
-//		
-//		//Replace all patterns with corresponding replacement string
-//		for(Pattern pattern : patternMap.keySet()){
-//			Matcher m = pattern.matcher(resourceStrippedContent); 
-//			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
-//		}
-//		
-//		patternMap.put(Pattern.compile("t#"), "t=");	
-//		patternMap.put(Pattern.compile("&"), "");	
-//
-//		//Again to be sure
-//		for(Pattern pattern : patternMap.keySet()){
-//			Matcher m = pattern.matcher(resourceStrippedContent); 
-//			resourceStrippedContent = m.replaceAll(patternMap.get(pattern));					
-//		}
-//		
-//		//Write stripped resource contents as file
-//		Writer writer = new FileWriter(uri.toFileString());
-//	    writer.write(resourceStrippedContent);
-//		writer.close();		
-//		
-//	}
-
 	@Override
 	public void stop() {
 
