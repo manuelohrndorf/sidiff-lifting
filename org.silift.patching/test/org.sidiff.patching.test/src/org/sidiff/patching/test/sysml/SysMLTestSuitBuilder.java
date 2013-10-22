@@ -2,6 +2,7 @@ package org.sidiff.patching.test.sysml;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -13,9 +14,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.uml2.uml.NamedElement;
+import org.sidiff.common.experimentalutil.ExperimentalUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
@@ -59,10 +61,23 @@ public class SysMLTestSuitBuilder {
 				LogUtil.log(LogEvent.ERROR, "AssertionError while creating patch " + original.getName() + " -> " + modified.getName(), e);
 			}
 		}
+		
+		try {
+			ExperimentalUtil.getInstance(null).saveExperiment(modelFolder + "/");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return testsuits;
 	}
 
 	private TestSuite buildTestSuite(File originalFile, File modifiedFile) throws AssertionError, Exception {
+		String runName = originalFile.getName() + "->" + modifiedFile.getName();
+		runName = runName.replace(".uml", "");
+		runName = runName.replace("Scen", "");
+		
+		ExperimentalUtil.getInstance("SiLift Pipeline").startRun(runName);
+		
 		ResourceSet resourceSetOriginal = new ResourceSetImpl();
 		Resource original = resourceSetOriginal.getResource(URI.createFileURI(originalFile.getAbsolutePath()), true);
 		
@@ -99,6 +114,11 @@ public class SysMLTestSuitBuilder {
 
 		IPatchCorrespondence correspondence = new SysMLCorrespondence(difference);
 		
+		StatisticsUtil.getInstance().putSize("Correspondences", difference.getSymmetric().getCorrespondences().size());
+		StatisticsUtil.getInstance().putSize("Operations", difference.getSymmetric().getChanges().size());
+		
+		ExperimentalUtil.getInstance("SiLift Pipeline").stopRun(runName);
+
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
 	}
 	
