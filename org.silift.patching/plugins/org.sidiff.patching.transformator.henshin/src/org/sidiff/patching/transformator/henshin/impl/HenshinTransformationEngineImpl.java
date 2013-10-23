@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.ParameterValueList;
+import org.eclipse.emf.henshin.interpreter.impl.ParameterList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -153,9 +153,9 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		Object argument = inputParameters.get(formal);
 		if (argument instanceof List) {
 			List commonList = (List) argument;
-			ParameterValueList pvl = new ParameterValueList();
+			ParameterList pvl = new ParameterList();
 			for (Object object : commonList) {
-				pvl.add(object);
+				pvl.addValue(object);
 			}
 			return pvl;
 
