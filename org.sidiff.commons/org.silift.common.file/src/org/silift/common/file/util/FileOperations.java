@@ -24,10 +24,13 @@ public class FileOperations {
 	 */
 	public static void createFolder(String path, boolean overwrite) throws FileNotCreatedException, FileAlreadyExistsException{
 		File dir = new File(path);
-		if(!dir.exists()){
-			if(!dir.mkdir()) throw new FileNotCreatedException("could not create folder!");
-		}else if(!overwrite){
+		if(dir.exists() && !overwrite){
 			throw new FileAlreadyExistsException("folder already exists");
+		}else if(!dir.exists()){
+			if(!dir.mkdir()) throw new FileNotCreatedException("could not create folder!");
+		}else if(overwrite){
+			removeFolder(path);
+			if(!dir.mkdir()) throw new FileNotCreatedException("could not create folder!");
 		}
 	}
 	

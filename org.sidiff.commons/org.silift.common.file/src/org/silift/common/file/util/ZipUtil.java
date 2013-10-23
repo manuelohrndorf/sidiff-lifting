@@ -145,7 +145,7 @@ public class ZipUtil {
 	 * @param dirName name of directory containing all extracted files
 	 * @param overwrite if the target folder already exists and the flag is true, all existing files will be overwritten.
 	 */
-	public void extractFiles(String zipFile, String output, String dirName, boolean overwrite){
+	public void extractFiles(String zipFile, String output, String dirName, boolean overwrite) throws FileAlreadyExistsException{
 		
 		if (!(output.endsWith("/") || output.endsWith("\\"))) {
 			output += separator;
@@ -181,7 +181,7 @@ public class ZipUtil {
 				}
 			}
 			file.close();
-		}catch(IOException | FileNotCreatedException | FileAlreadyExistsException e){
+		}catch(IOException | FileNotCreatedException e){
 			e.printStackTrace();
 		}finally{
 			try{
