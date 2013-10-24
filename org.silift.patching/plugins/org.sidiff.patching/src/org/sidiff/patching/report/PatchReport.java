@@ -16,7 +16,7 @@ public class PatchReport {
 	}
 	
 	public enum Type {
-		PARAMETER("Parameter"), EXECUTION("Execution"), VALIDATION("Validation");
+		PARAMETER("Parameter"), EXECUTION("Execution"), VALIDATION("Validation"), MODIFICATION("Modification");
 
 		private String type;
 
@@ -97,6 +97,18 @@ public class PatchReport {
 		return stringBuffer.toString();
 	}
 
+	public List<ReportEntry> getEntries(Type type, Status status){
+		List<ReportEntry> list = new ArrayList<ReportEntry>();
+		if(entries!=null){
+			for(ReportEntry entry : entries){
+				if(entry.getType() == type && entry.getStatus() == status){
+					list.add(entry);
+				}
+			}
+		}
+		return list;
+	}
+	
 	public List<ReportEntry> getEntries() {
 		if (entries != null) {
 			return entries;
@@ -106,10 +118,29 @@ public class PatchReport {
 	}
 
 	public List<ReportEntry> getEntries(OperationInvocation operationInvocation, Type type) {
-		List<ReportEntry> list = operationMap.get(operationInvocation).get(type);
+		List<ReportEntry> list = null;
+	
+		try{
+			list = operationMap.get(operationInvocation).get(type);
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}	
 		if (list != null) {
 			return list;
 		} else {
+			return Collections.emptyList();
+		}
+	}
+	
+	public List<ReportEntry> getEntries(OperationInvocation operationInvocation, Type type, Status status) {
+		List<ReportEntry> list = new ArrayList<ReportEntry>();
+		if(!getEntries(operationInvocation, type).isEmpty()){
+			for(ReportEntry re : getEntries(operationInvocation, type)){
+				if(re.getStatus() == status)
+					list.add(re);
+			}
+			return list;
+		}else{
 			return Collections.emptyList();
 		}
 	}

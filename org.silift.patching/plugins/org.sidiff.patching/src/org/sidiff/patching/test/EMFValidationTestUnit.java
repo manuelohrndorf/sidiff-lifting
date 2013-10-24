@@ -33,5 +33,23 @@ public class EMFValidationTestUnit implements IValidationUnit {
 		}
 		return entries;
 	}
+	
+	@Override
+	public Diagnostic validate(Resource resource){
+		return Diagnostician.INSTANCE.validate(resource.getContents().get(0));
+	}
+	
+	@Override
+	public Collection<Diagnostic> getErrors(Diagnostic diagnostic){
+		Collection<Diagnostic> diagnostics = new ArrayList<Diagnostic>();
+		for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
+			switch (childDiagnostic.getSeverity()) {
+			case Diagnostic.ERROR:
+				diagnostics.add(childDiagnostic);
+				break;
+			}
+		}
+		return diagnostics;
+	}
 
 }

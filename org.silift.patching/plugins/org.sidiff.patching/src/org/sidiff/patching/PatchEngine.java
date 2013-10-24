@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +31,7 @@ import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.exceptions.ParameterModifiedException;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReport.Status;
@@ -70,7 +72,15 @@ public class PatchEngine {
 
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 		this.correspondence.set(difference.getOriginModel(), targetResource);
-
+		
+		//Initialize all operationInvocations owning 
+		//modified parameters as "not applicable"
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			if(hasModifiedParameters(operationInvocation)){
+				operationInvocation.setApply(false);
+			}
+		}
+		
 		// initialize preview resource
 		this.copier = new Copier();
 		URI uri = PatchUtil.createURI(targetResource.getURI(), "patched");
@@ -134,7 +144,7 @@ public class PatchEngine {
 	 */
 	public PatchResult applyPatch() throws PatchNotExecuteableException {
 		assert previewEditingDomain == null : "applyPatch only available without preview!";
-		resetResourceCopy();
+		resetResourceCopy();		
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (operationInvocation.isApply()) {
 				try {
@@ -349,13 +359,83 @@ public class PatchEngine {
 		resetResourceCopy();
 
 		checkParameter(report);
+		
+		checkModified(report);
 
 		checkExecutable(report);
 
-		validateModel(report);
+		//validateModel(report);
 
 		return report;
+	}	
+	
+	/**
+	 * Checks an operationInvocation for modified parameters 
+	 * @param operationInvocation the operationInvocation to check
+	 * @return if parameters have been modified
+	 */
+	private boolean hasModifiedParameters(OperationInvocation operationInvocation){			
+		
+		for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
+			Parameter formalParameter = parameterBinding
+					.getFormalParameter();
+			if (formalParameter.getDirection() == ParameterDirection.IN) {
+				if (parameterBinding instanceof ObjectParameterBinding) {
+					ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
+					EObject actualA = objectParameterBinding.getActualA();
+					if (actualA != null) {
+						EObject eObject = correspondence
+								.getCorrespondence(actualA);
+						if (eObject != null && correspondence.isModified(eObject)) {
+							return true;								
+						}
+					}
+				}
+			}
+		}
+		return false;
+		
 	}
+	
+	/**
+	 * Checks modification of parameters in a patch report
+	 * 
+	 * @param report
+	 */
+	private void checkModified(PatchReport report) {
+
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			if (operationInvocation.isApply()) {
+				Collection<ReportEntry> result = new ArrayList<ReportEntry>();
+				for (ParameterBinding parameterBinding : operationInvocation
+						.getParameterBindings()) {
+					Parameter formalParameter = parameterBinding
+							.getFormalParameter();
+					if (formalParameter.getDirection() == ParameterDirection.IN) {
+						if (parameterBinding instanceof ObjectParameterBinding) {
+							ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
+							EObject actualA = objectParameterBinding
+									.getActualA();
+							if (actualA != null) {
+								EObject eObject = correspondence
+										.getCorrespondence(actualA);
+								if (eObject != null) {
+									if (correspondence.isModified(eObject)) {
+										result.add(new ReportEntry(
+												Status.WARNING, Type.PARAMETER,
+												new ParameterModifiedException(operationInvocation.getChangeSet().getName(),
+														formalParameter.getName())));														
+									}
+								}
+							}
+						}
+					}
+				}
+				report.add(operationInvocation, result);
+			}
+		}
+	}
+	
 
 	/**
 	 * Checks availability of needed parameters
@@ -415,17 +495,31 @@ public class PatchEngine {
 		AbstractCommand command = new AbstractCommand() {
 			@Override
 			public void execute() {
+				Collection<Diagnostic> initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+				Collection<Diagnostic> previousErrors = initialErrors;
+				
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
 				Set<OperationInvocation> executed = new HashSet<OperationInvocation>();
 				for (OperationInvocation operationInvocation : orderedOperations) {
-					ReportEntry reportEntry;
+					ReportEntry reportEntry = null;
 					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, executed)) {
 						try {
 							apply(operationInvocation);
-							reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation
+							Collection<Diagnostic> currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+							if(currentErrors.size() > previousErrors.size()){
+								for(Diagnostic d : currentErrors){
+									if(!previousErrors.contains(d)){
+										reportEntry = new ReportEntry(Status.FAILED, Type.VALIDATION, d);
+										break;
+									}
+								}
+							}else{
+								reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation
 									.getChangeSet().getName());
-							executed.add(operationInvocation);
+								executed.add(operationInvocation);
+							}
+							previousErrors = currentErrors;
 						} catch (Exception e) {
 							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
 						}
@@ -498,6 +592,10 @@ public class PatchEngine {
 			return report;
 		}
 
+	}
+	
+	public Collection<OperationInvocation> getOrderedOperationInvocations(){
+		return orderedOperations;
 	}
 
 }

@@ -88,5 +88,13 @@ public interface IPatchCorrespondence {
 	 * @return a reliability value
 	 */
 	public float getReliability(EObject objectA, EObject objectB);
+	
+	
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isModified(EObject object);
 
 }
