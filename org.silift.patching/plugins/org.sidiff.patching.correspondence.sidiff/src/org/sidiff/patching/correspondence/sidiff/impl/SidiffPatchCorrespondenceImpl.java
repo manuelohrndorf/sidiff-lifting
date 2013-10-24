@@ -14,9 +14,10 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StringUtil;
 import org.sidiff.difference.util.emf.storage.EMFResourceUtil;
-import org.sidiff.patching.correspondence.sidiff.SidiffPatchCorrespondence;
+import org.sidiff.patching.IPatchCorrespondence;
+import org.silift.patching.core.correspondence.modifieddetector.*;
 
-public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence {
+public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
 	private Resource modelA;
 	private Resource modelB;
 	private float minReliability;
@@ -25,6 +26,7 @@ public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence 
 	private Collection<EObject> unmatchedObjects;
 
 	private SidiffCorrespondence sidiff;
+	private ModifiedDetector modDetector;
 	
 	public SidiffPatchCorrespondenceImpl() {
 		this.minReliability = 0;
@@ -39,6 +41,8 @@ public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence 
 		LogUtil.log(LogEvent.NOTICE, "Initializing Sidiff");
 		sidiff.initialize();
 		fillCorrespondenceMap();
+		modDetector = new ModifiedDetector(modelA, modelB, correspondenceMap);
+		modDetector.initialize();
 	}
 
 	private void fillCorrespondenceMap() {
@@ -150,5 +154,11 @@ public class SidiffPatchCorrespondenceImpl implements SidiffPatchCorrespondence 
 		
 		float reliability = sidiff.getReliabilityOfMatch(objectA, objectB);
 		return reliability;
+	}
+
+
+	@Override
+	public boolean isModified(EObject object) {
+		return modDetector.isModified(object);
 	}
 }
