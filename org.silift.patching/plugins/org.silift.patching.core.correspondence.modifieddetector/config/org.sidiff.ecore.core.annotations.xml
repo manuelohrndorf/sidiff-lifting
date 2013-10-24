@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Preprocessing SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/org.sidiff.core.annotation.default.dtd" >
+
+<Annotations documentType="http://www.eclipse.org/emf/2002/Ecore">
+	<Annotation nodeType="EObject">
+		<SyntheticAttribute 
+			attributeName="PATH"
+			operation="TypePathAnnotator"/>
+		<SyntheticAttribute attributeName="HASH"
+			operation="HashAnnotator" 
+			parameter="
+				localPositionAnnotationKey = PATH,
+				referencedObjectsPositionAnnotationKey = PATH,
+				globalMoveAllowed = false"
+			requires="PATH" />
+	</Annotation>
+	<Annotation nodeType="ENamedElement">
+		<SyntheticAttribute 
+			attributeName="PATH"
+			operation="AttributePathAnnotator" parameter="name" />  
+	</Annotation>
+	<Annotation nodeType="EPackage">
+		<SyntheticAttribute attributeName="HASH"
+			operation="HashAnnotator" 
+			parameter="
+				localPositionAnnotationKey = PATH,
+				referencedObjectsPositionAnnotationKey = PATH,
+				globalMoveAllowed = true,
+				exclude = eFactoryInstance"
+			requires="PATH" />
+	</Annotation>
+</Annotations>
