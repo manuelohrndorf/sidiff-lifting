@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,8 +19,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.chartsutil.ChartsUtil;
+import org.sidiff.common.chartsutil.ChartsUtil.SeriesWithAxesType;
+import org.sidiff.common.chartsutil.ChartsUtil.SeriesWithoutAxesType;
+import org.sidiff.common.experimentalutil.ExperimentalUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.util.StatisticsUtil;
+import org.sidiff.common.util.StatisticsUtil.StatisticType;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -62,22 +69,36 @@ public class PatchEvaluationApplication implements IApplication {
 		String xAxisLabel = "RevisionChange";
 		Boolean threeD = true;
 		Boolean transposed = false;
-		Boolean showLabels = true;
-		String experimentRun = "02->03";
 		String experimentFile = "SiLift Pipeline_2013-10-22_10:48:23";
-		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine.png";
-		String filename2 = modelFolder.getAbsolutePath() + "/charts/" + experimentFile + "_cwoa.png";
+		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_easy.png";
+		String filename2 = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_medium.png";
 		
-		//ExperimentalUtil.loadExperiment(modelFolder.getAbsolutePath()+ "/" + experimentFile + ".ser");				
+		//set variables for piechart
+		String experimentRun = "02->03";
+		StatisticType st = StatisticType.Time;
+		Boolean showPieLabels = true;
+		SeriesWithoutAxesType seriesPieType = SeriesWithoutAxesType.PieChart;
+		String filename3 = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_timeRatio.png";
+		
+		
+		ExperimentalUtil.loadExperiment(modelFolder.getAbsolutePath()+ "/" + experimentFile + ".ser");	
+		
+		//Generate PieChart
+		ExperimentalUtil.getInstance(null).generateChartWithoutAxes(experimentRun, st, threeD, showPieLabels, seriesPieType, filename3);
+		
+		
+		//Generate complex chart - Minimal configuration 
+		ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, filename);
 
-		/*
+	
+		//Generate complex chart - Medium configuration 
 		Map<StatisticType, Boolean> showStatistic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
 		showStatistic.put(StatisticType.Count, false);
 		showStatistic.put(StatisticType.Size, true);
 		showStatistic.put(StatisticType.Time, false);
 		Map<StatisticType, Boolean> stacked = new HashMap<StatisticsUtil.StatisticType, Boolean>();
 		stacked.put(StatisticType.Count, false);
-		stacked.put(StatisticType.Size, false);
+		stacked.put(StatisticType.Size, true);
 		stacked.put(StatisticType.Time, false);
 		Map<StatisticType, Boolean> logarithmic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
 		logarithmic.put(StatisticType.Count, false);
@@ -89,75 +110,17 @@ public class PatchEvaluationApplication implements IApplication {
 		percentage.put(StatisticType.Time, false);
 		Map<StatisticType, Boolean> showLabels = new HashMap<StatisticsUtil.StatisticType, Boolean>();
 		showLabels.put(StatisticType.Count, false);
-		showLabels.put(StatisticType.Size, false);
+		showLabels.put(StatisticType.Size, true);
 		showLabels.put(StatisticType.Time, false);
 		Map<StatisticType, SeriesWithAxesType> seriesType = new HashMap<StatisticsUtil.StatisticType, ChartsUtil.SeriesWithAxesType>();
 		seriesType.put(StatisticType.Count, SeriesWithAxesType.LineChart);
 		seriesType.put(StatisticType.Size, SeriesWithAxesType.LineChart);
 		seriesType.put(StatisticType.Time, SeriesWithAxesType.BarChart);		
-		
-		String yaxis1 = "# Elements";
-		String yaxis2 = "TimeConsumption(ms)";
-		
-		String series1 = "Differences";
-		String series2 = "Operations";
-		
-		
-		HashMap<String, Boolean> stacked = new HashMap<String, Boolean>();
-		stacked.put(yaxis1, false);
-		stacked.put(yaxis2, false);
-
-		HashMap<String, Boolean> logarithmic = new HashMap<String, Boolean>();
-		logarithmic.put(yaxis1, false);
-		logarithmic.put(yaxis2, true);
-		
-		HashMap<String, Boolean> percentage = new HashMap<String, Boolean>();
-		percentage.put(yaxis1, false);
-		percentage.put(yaxis2, false);
-		
-		HashMap<String, Boolean> showLabels = new HashMap<String, Boolean>();
-		showLabels.put(series1, true);
-		showLabels.put(series2, false);
 	
-		ArrayList<String> measurements = new ArrayList<String>();
-		measurements.add("Scen02->Scen01");
-		measurements.add("Scen01->Scen02");
-		measurements.add("Scen03->Scen04");
-		measurements.add("Scen04->Scen05");
+		ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, showStatistic, stacked, logarithmic, percentage, showLabels, seriesType, filename2);
 		
-		HashMap<String, SeriesWithAxesType> seriesType = new HashMap<String, SeriesWithAxesType>();
-		seriesType.put(series1, SeriesWithAxesType.BarChart);
-		seriesType.put(series2, SeriesWithAxesType.BarChart);
-
+		System.exit(0);
 		
-		HashMap<String, Number[]> valueMap1 = new HashMap<String, Number[]>();
-		valueMap1.put(series1, new Number[]{12310,1233,12313,3001});
-		HashMap<String, Number[]> valueMap2 = new HashMap<String, Number[]>();
-		valueMap2.put(series2, new Number[]{120,88,13,234});
-		
-		HashMap<String, Number> valueMap3 = new HashMap<String, Number>();
-		valueMap3.put("PatchApplication", 30231);
-		valueMap3.put("Lifting", 2132);
-		valueMap3.put("Matching", 23132);
-
-		
-		HashMap<String, Map<String, Number[]>> axisTovalueMap = new HashMap<String, Map<String,Number[]>>();
-		axisTovalueMap.put(yaxis1, valueMap1);		
-		axisTovalueMap.put(yaxis2, valueMap2);
-
-		
-		String filename1 = modelFolder.getAbsolutePath() + "/charts/GenericTest1.png";
-		String filename2 = modelFolder.getAbsolutePath() + "/charts/GenericTest2.png";
-
-		
-		ChartsUtil.getInstance().writeChartWithAxes("SiLift", "RevisionChange",
-				true, false, stacked, logarithmic, percentage, showLabels, measurements, seriesType,
-				axisTovalueMap, filename1);
-		
-		ChartsUtil.getInstance().writeChartWithoutAxes("SiLift", "TimeConsumption(ms)", true,
-				true, SeriesWithoutAxesType.PieChart, valueMap3, filename2);
-		
-		*/
 		
 		if (!modelFolder.exists() && !modelFolder.isDirectory()) {
 			throw new FileNotFoundException(modelFolder.getPath());
@@ -201,8 +164,7 @@ public class PatchEvaluationApplication implements IApplication {
 			m.put("uml", new SysMLResourceFactory());
 		}
 		
-		//ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, filename);
-		//System.exit(0);
+	
 		
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();

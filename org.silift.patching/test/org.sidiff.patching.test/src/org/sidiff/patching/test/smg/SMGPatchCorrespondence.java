@@ -93,4 +93,10 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 		return 0;
 	}
 
+	@Override
+	public boolean isModified(EObject object) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
