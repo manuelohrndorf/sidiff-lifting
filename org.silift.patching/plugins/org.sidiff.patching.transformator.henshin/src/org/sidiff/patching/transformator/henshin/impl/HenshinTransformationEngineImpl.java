@@ -62,13 +62,17 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		// Do not use default EGraph constructor
 		// Fill graph manually for better runtime,
 		// as no transitive closure is computed
-		graph = new EGraphImpl();
+		graph = new EGraphImpl(resource);
+		
+		//TODO fix this crazy motherfucker
+		/*
+		
 		for (Iterator<EObject> iterator = resource.getAllContents(); iterator
 				.hasNext();) {
 			EObject obj = (EObject) iterator.next();
 			graph.add(obj);
 
-		}
+		} */
 		
 		initialGraphRoots = new LinkedList<EObject>();
 		for (EObject obj : graph.getRoots()) {
