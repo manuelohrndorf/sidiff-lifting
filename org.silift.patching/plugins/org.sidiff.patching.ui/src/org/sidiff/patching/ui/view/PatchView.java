@@ -24,7 +24,11 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Tree;
@@ -68,20 +72,41 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	private Action saveAction;
 	private Action validateAction;
+	
+	private Button reliabilitiesButton;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		FillLayout layout = new FillLayout(SWT.VERTICAL);
-		parent.setLayout(layout);
+		
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout glComposite = new GridLayout();
+		composite.setLayout(glComposite);
+		
+		Composite editComposite = new Composite(composite, SWT.NONE);
+		GridLayout glEditComposite = new GridLayout(4,false);
+		editComposite.setLayout(glEditComposite);
+		
+		reliabilitiesButton = new Button(editComposite, SWT.CHECK);
+		reliabilitiesButton.setText("Show Reliabilities");
+		reliabilitiesButton.setSelection(false);
+		reliabilitiesButton.addSelectionListener(new SelectionAdapter() {
+		    @Override
+		    public void widgetSelected(SelectionEvent e) {
+		        // Handle the selection event
+		        valueLabelProvider.setShowReliablities(reliabilitiesButton.getSelection());
+		        patchViewer.refresh();
+		    }
+		}); 
 
 		// TreeViewer
-		patchViewer = new TreeViewer(parent, SWT.BORDER);
+		patchViewer = new TreeViewer(composite, SWT.BORDER);
 		patchViewer.setContentProvider(new PatchContentProvider());
 		ColumnViewerToolTipSupport.enableFor(patchViewer, ToolTip.RECREATE);
 
 		Tree tree = patchViewer.getTree();
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
+		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// CheckboxListener
 		tree.addMouseListener(new CheckBoxMouseListener(this));
@@ -89,6 +114,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// Patch column
 		TreeViewerColumn differenceColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
 		differenceColumn.getColumn().setWidth(200);
+		differenceColumn.getColumn().setText("Operation");
 		differenceColumn.getColumn().setResizable(true);
 		// PatchLabelProvider
 		differenceColumn.setLabelProvider(new PatchLabelProvider());
@@ -96,6 +122,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// Value column
 		TreeViewerColumn valueColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
 		valueColumn.getColumn().setWidth(200);
+		valueColumn.getColumn().setText("Argument");
 		valueColumn.getColumn().setResizable(true);
 		// ValueLabelProvider
 		valueLabelProvider = new ValueLabelProvider();
@@ -187,6 +214,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 					reportView.setEntries(report.getEntries());
 				}
 				((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
 				patchViewer.refresh();
 			}
 		};

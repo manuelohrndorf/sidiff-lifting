@@ -33,9 +33,12 @@ public class ChooseModelDialog extends Dialog {
 	private Scale scale;
 	private Spinner spinner;
 	private float reliability;
+	private String filterPath;
+	private boolean validate;
 
-	public ChooseModelDialog(Shell parentShell) {
+	public ChooseModelDialog(Shell parentShell, String path) {
 		super(parentShell);
+		filterPath = path;
 		setBlockOnOpen(true);
 	}
 
@@ -65,7 +68,7 @@ public class ChooseModelDialog extends Dialog {
 	private void createModelInputBox(Composite composite) {
 		GridData spec = new GridData(GridData.FILL_BOTH);
 		spec.widthHint = 400;
-		spec.heightHint = 80;
+		spec.heightHint = 100;
 		composite.setLayoutData(spec);
 
 		GridLayout layout = new GridLayout(3, false);
@@ -106,6 +109,15 @@ public class ChooseModelDialog extends Dialog {
 				buttonPressed(((Integer) event.widget.getData()).intValue());
 			}
 		});
+		
+		final Button validateButton = new Button(composite, SWT.CHECK);
+		validateButton.setText("validate model");
+		validateButton.addSelectionListener(new SelectionAdapter() {
+			
+			public void widgetSelected(SelectionEvent event){
+				validate = validateButton.getSelection();
+			}
+		});
 	}
 
 	private void updateButtons() {
@@ -119,6 +131,7 @@ public class ChooseModelDialog extends Dialog {
 		switch (buttonId) {
 		case MODELA_ID: {
 			FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
+			dialog.setFilterPath(filterPath);
 			String file;
 			if ((file = dialog.open()) != null) {
 				modelAtext.setText(file);
@@ -143,6 +156,10 @@ public class ChooseModelDialog extends Dialog {
 
 	public float getReliability() {
 		return reliability;
+	}
+	
+	public boolean validate(){
+		return validate;
 	}
 
 }

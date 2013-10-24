@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -38,7 +40,15 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
+import org.jdom.Attribute;
+import org.jdom.JDOMException;
+import org.sidiff.common.emf.EMFValidate;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
@@ -51,9 +61,12 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.util.CorrespondenceUtil;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
+import org.silift.common.exceptions.FileAlreadyExistsException;
+import org.silift.common.file.util.*;
 
 public class PatchApplyHandler extends AbstractHandler {
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
+	public boolean validationState = true;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -63,12 +76,68 @@ public class PatchApplyHandler extends AbstractHandler {
 			Object firstElement = selection.getFirstElement();
 			if (firstElement instanceof IFile) {
 				IFile iFile = (IFile) firstElement;
-				if (!iFile.getFileExtension().equals("asymmetric"))
+				if (!iFile.getFileExtension().equals("zip"))
 					return -1;
 
+				String separator = System.getProperty("file.separator");
+				String fileName = iFile.getName().replace(".zip", "");
+				String pathExtract = iFile.getParent().getLocation().toOSString()+separator+fileName;
+				ZipUtil zip = new ZipUtil();
+				
+				try{
+					zip.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, false);
+				}catch (FileAlreadyExistsException e){
+					MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "File allready exists", null, "Directory \"" +fileName + "\" allready exists. Do you want to overwrite it?", MessageDialog.WARNING, new String[]{"Overwrite", "Cancel"}, 0);
+					int result = dialog.open();
+					if(result == 0){
+						try{
+							zip.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, true);
+						}catch(FileAlreadyExistsException e1){
+							MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", "Could not overwrite existing file.");
+							return Status.CANCEL_STATUS;
+						}
+					}else{
+						return Status.CANCEL_STATUS;
+					}
+				}
+				//adjust paths of the resources
+				XMLUtil xmlReader = new XMLUtil();
+				List<File> files = FileOperations.getFilesFromDir(pathExtract);
+				for(File f : files){
+					try {
+						if(f.getName().endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)||f.getName().endsWith(LiftingFacade.SYMMETRIC_DIFF_EXT)){
+							xmlReader.loadXML(f);
+							for(Attribute a : xmlReader.getAttributes()){
+								String find = a.getValue();
+								if(find.startsWith("platform:/resource")){
+								int index = find.indexOf("PATCH(");
+								String replace = "platform:/resource"+"/"+iFile.getProject().getName()+"/"+iFile.getParent().getProjectRelativePath().toPortableString() +"/"+ find.substring(index);
+								a.setValue(replace);	
+								}
+								
+							}
+							//save changes
+							xmlReader.save(iFile.getParent().getLocation().toOSString()+separator+fileName+separator+f.getName());
+						}
+					} catch (JDOMException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				File dir = new File(pathExtract);
+				File asymmetricDifference = null;
+				String[] children = dir.list();
+				for (int i=0; i<children.length; i++) {
+					if(children[i].endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)){
+						asymmetricDifference = new File(pathExtract + separator + children[i]);
+						break;
+					}		
+				}
 				// Load Model
 				ResourceSet resourceSet = new ResourceSetImpl();
-				Resource patchResource = resourceSet.getResource(URI.createFileURI(iFile.getLocation().toOSString()), true);
+				Resource patchResource = resourceSet.getResource(URI.createFileURI(asymmetricDifference.getAbsolutePath()), true);
 
 				if (patchResource.getContents().size() == 0) {
 					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model", "There is something wrong with this patch!");
@@ -77,8 +146,9 @@ public class PatchApplyHandler extends AbstractHandler {
 				EObject root = patchResource.getContents().get(0);
 				if (root instanceof AsymmetricDifference) {
 					final AsymmetricDifference difference = (AsymmetricDifference) root;
-					ChooseModelDialog dialog = new ChooseModelDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+					final ChooseModelDialog dialog = new ChooseModelDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((IFile)firstElement).getParent().getLocation().toOSString());
 					if (dialog.open() == Window.OK) {
+						validationState = dialog.validate();
 						String filename = dialog.getFile();
 						final URI fileURI = URI.createFileURI(filename);
 						final float minReliability = dialog.getReliability();
@@ -115,11 +185,20 @@ public class PatchApplyHandler extends AbstractHandler {
 													resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
 												}
 												resourceResult.set(resource);
+												if(validationState)
+													EMFValidate.validateObject(resourceResult.get().getContents().get(0));
+												validationState = true;
 											} catch (PartInitException e) {
 												e.printStackTrace();
+											} catch (InvalidModelException e) {
+												// TODO Auto-generated catch block
+												ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+												validationState = false;
 											}
 										}
 									});
+									if(!validationState)
+										return Status.CANCEL_STATUS;
 									monitor.worked(10);
 									
 									// Copy resource for preview
@@ -230,7 +309,6 @@ public class PatchApplyHandler extends AbstractHandler {
 		} else if (selection.size() == 2) {
 
 		}
-
 		return null;
 	}
 }

@@ -72,11 +72,22 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 		if (report != null && element instanceof OperationInvocation) {
 			Display display = Activator.getDefault().getWorkbench().getDisplay();
 			OperationInvocation operationInvocation = (OperationInvocation) element;
-			List<ReportEntry> entries = report.getEntries(operationInvocation, Type.EXECUTION);
+			
+			List<ReportEntry> entries = report.getEntries(operationInvocation, Type.VALIDATION);
+			Status status = null;
+			if (!entries.isEmpty()) {
+				status = entries.get(0).getStatus();
+				switch(status){
+				case FAILED:
+					return new Color(display, 200, 0, 0);
+				}
+			}
+			
+			entries = report.getEntries(operationInvocation, Type.EXECUTION);
 			if (entries.isEmpty()) {
 				return super.getForeground(element);
 			}
-			Status status = entries.get(0).getStatus();
+			status = entries.get(0).getStatus();
 			switch (status) {
 
 			case SKIPPED:
@@ -84,9 +95,6 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 
 			case FAILED:
 				return new Color(display, 200, 0, 0);
-
-			default:
-				return super.getForeground(element);
 			}
 		}
 		return super.getForeground(element);
