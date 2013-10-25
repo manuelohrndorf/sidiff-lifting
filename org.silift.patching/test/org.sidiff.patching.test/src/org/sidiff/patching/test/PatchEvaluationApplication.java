@@ -64,64 +64,6 @@ public class PatchEvaluationApplication implements IApplication {
 			}
 		}
 		
-
-		//Set experimental variables
-		String xAxisLabel = "RevisionChange";
-		Boolean threeD = true;
-		Boolean transposed = false;
-		String experimentFile = "SiLift Pipeline_2013-10-22_10:48:23";
-		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_easy.png";
-		String filename2 = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_medium.png";
-		
-		//set variables for piechart
-		String experimentRun = "02->03";
-		StatisticType st = StatisticType.Time;
-		Boolean showPieLabels = true;
-		SeriesWithoutAxesType seriesPieType = SeriesWithoutAxesType.PieChart;
-		String filename3 = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_timeRatio.png";
-		
-		
-		ExperimentalUtil.loadExperiment(modelFolder.getAbsolutePath()+ "/" + experimentFile + ".ser");	
-		
-		//Generate PieChart
-		ExperimentalUtil.getInstance(null).generateChartWithoutAxes(experimentRun, st, threeD, showPieLabels, seriesPieType, filename3);
-		
-		
-		//Generate complex chart - Minimal configuration 
-		ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, filename);
-
-	
-		//Generate complex chart - Medium configuration 
-		Map<StatisticType, Boolean> showStatistic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
-		showStatistic.put(StatisticType.Count, false);
-		showStatistic.put(StatisticType.Size, true);
-		showStatistic.put(StatisticType.Time, false);
-		Map<StatisticType, Boolean> stacked = new HashMap<StatisticsUtil.StatisticType, Boolean>();
-		stacked.put(StatisticType.Count, false);
-		stacked.put(StatisticType.Size, true);
-		stacked.put(StatisticType.Time, false);
-		Map<StatisticType, Boolean> logarithmic = new HashMap<StatisticsUtil.StatisticType, Boolean>();
-		logarithmic.put(StatisticType.Count, false);
-		logarithmic.put(StatisticType.Size, false);
-		logarithmic.put(StatisticType.Time, false);
-		Map<StatisticType, Boolean> percentage = new HashMap<StatisticsUtil.StatisticType, Boolean>();
-		percentage.put(StatisticType.Count, false);
-		percentage.put(StatisticType.Size, false);
-		percentage.put(StatisticType.Time, false);
-		Map<StatisticType, Boolean> showLabels = new HashMap<StatisticsUtil.StatisticType, Boolean>();
-		showLabels.put(StatisticType.Count, false);
-		showLabels.put(StatisticType.Size, true);
-		showLabels.put(StatisticType.Time, false);
-		Map<StatisticType, SeriesWithAxesType> seriesType = new HashMap<StatisticsUtil.StatisticType, ChartsUtil.SeriesWithAxesType>();
-		seriesType.put(StatisticType.Count, SeriesWithAxesType.LineChart);
-		seriesType.put(StatisticType.Size, SeriesWithAxesType.LineChart);
-		seriesType.put(StatisticType.Time, SeriesWithAxesType.BarChart);		
-	
-		ExperimentalUtil.getInstance(null).generateChartWithAxes(xAxisLabel, threeD, transposed, showStatistic, stacked, logarithmic, percentage, showLabels, seriesType, filename2);
-		
-		System.exit(0);
-		
-		
 		if (!modelFolder.exists() && !modelFolder.isDirectory()) {
 			throw new FileNotFoundException(modelFolder.getPath());
 		}
