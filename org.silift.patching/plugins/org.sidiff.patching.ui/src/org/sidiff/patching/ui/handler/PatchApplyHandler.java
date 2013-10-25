@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -62,7 +61,9 @@ import org.sidiff.patching.util.CorrespondenceUtil;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.silift.common.exceptions.FileAlreadyExistsException;
-import org.silift.common.file.util.*;
+import org.silift.common.file.util.FileOperations;
+import org.silift.common.file.util.XMLUtil;
+import org.silift.common.file.util.ZipUtil;
 
 public class PatchApplyHandler extends AbstractHandler {
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
@@ -82,16 +83,15 @@ public class PatchApplyHandler extends AbstractHandler {
 				String separator = System.getProperty("file.separator");
 				String fileName = iFile.getName().replace(".zip", "");
 				String pathExtract = iFile.getParent().getLocation().toOSString()+separator+fileName;
-				ZipUtil zip = new ZipUtil();
 				
 				try{
-					zip.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, false);
+					ZipUtil.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, false);
 				}catch (FileAlreadyExistsException e){
 					MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "File allready exists", null, "Directory \"" +fileName + "\" allready exists. Do you want to overwrite it?", MessageDialog.WARNING, new String[]{"Overwrite", "Cancel"}, 0);
 					int result = dialog.open();
 					if(result == 0){
 						try{
-							zip.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, true);
+							ZipUtil.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, true);
 						}catch(FileAlreadyExistsException e1){
 							MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", "Could not overwrite existing file.");
 							return Status.CANCEL_STATUS;
