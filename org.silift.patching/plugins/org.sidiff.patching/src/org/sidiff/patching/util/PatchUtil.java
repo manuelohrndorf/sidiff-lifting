@@ -1,9 +1,11 @@
 package org.sidiff.patching.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -17,8 +19,17 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.silift.common.exceptions.FileAlreadyExistsException;
+import org.silift.common.file.util.ZipUtil;
 
 public class PatchUtil {	
+	
+	/**
+	 * The patch file extension.
+	 */
+	// TODO[MO@26.10.13]: Move to patching facade.
+	public static final String PATCH_EXTENSION = "slp";
+	
 	private static int stage = 0;
 	
 	/**
@@ -135,5 +146,45 @@ public class PatchUtil {
 		String name = uri.trimFileExtension().lastSegment();
 		String newFile = name + "_" + suffix + "." + uri.fileExtension();
 		return base.appendSegment(newFile);
+	}
+	
+	/**
+	 * Uncompress the patch (if necessary).
+	 * 
+	 * @param path
+	 *            The system path of the compressed patch.
+	 * @return The folder of the uncompressed patch.
+	 */
+	public static File extractPatch(IPath path) {
+		String compressedPath = path.toOSString();
+		File uncompressedPath = new File(compressedPath
+				.substring(0, compressedPath.length() - (PATCH_EXTENSION.length() + 1)));
+
+		if (!uncompressedPath.exists()) {
+
+			// TODO[MO@26.10.13]: Calculate MD5 hash of the patch and store it
+			// in the extracted patch to check if the data is up-to-date.
+
+			try {
+				ZipUtil.extractFiles(
+						compressedPath,
+						uncompressedPath.getAbsolutePath(), "",
+						true);
+			} catch (FileAlreadyExistsException e) {
+				e.printStackTrace();
+			}
+		}
+		return uncompressedPath;
+	}
+
+	/**
+	 * Checks the file extension.
+	 * 
+	 * @param path
+	 *            The path of the patch file.
+	 * @return <code>true</code> if is a patch file; <code>false</code> otherwise.
+	 */
+	public static boolean isPatchFile(IPath path) {
+		return (path.getFileExtension().equalsIgnoreCase(PATCH_EXTENSION));
 	}
 }

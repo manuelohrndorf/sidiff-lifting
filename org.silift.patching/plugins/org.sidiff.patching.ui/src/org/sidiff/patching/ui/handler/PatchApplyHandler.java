@@ -60,11 +60,10 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.util.CorrespondenceUtil;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
-import org.silift.common.exceptions.FileAlreadyExistsException;
 import org.silift.common.file.util.FileOperations;
 import org.silift.common.file.util.XMLUtil;
-import org.silift.common.file.util.ZipUtil;
 
+// TODO[MO@26.10.13]: Show handler menu entry only on patch files.
 public class PatchApplyHandler extends AbstractHandler {
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
 	public boolean validationState = true;
@@ -77,32 +76,15 @@ public class PatchApplyHandler extends AbstractHandler {
 			Object firstElement = selection.getFirstElement();
 			if (firstElement instanceof IFile) {
 				IFile iFile = (IFile) firstElement;
-				if (!iFile.getFileExtension().equals("zip"))
+				if (!iFile.getFileExtension().equals(PatchUtil.PATCH_EXTENSION))
 					return -1;
 
+				String patchPath = PatchUtil.extractPatch(iFile.getLocation()).getAbsolutePath();
 				String separator = System.getProperty("file.separator");
-				String fileName = iFile.getName().replace(".zip", "");
-				String pathExtract = iFile.getParent().getLocation().toOSString()+separator+fileName;
 				
-				try{
-					ZipUtil.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, false);
-				}catch (FileAlreadyExistsException e){
-					MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "File allready exists", null, "Directory \"" +fileName + "\" allready exists. Do you want to overwrite it?", MessageDialog.WARNING, new String[]{"Overwrite", "Cancel"}, 0);
-					int result = dialog.open();
-					if(result == 0){
-						try{
-							ZipUtil.extractFiles(iFile.getLocation().toOSString(), iFile.getParent().getLocation().toOSString(), fileName, true);
-						}catch(FileAlreadyExistsException e1){
-							MessageDialog.openError(Display.getCurrent().getActiveShell(), "Error", "Could not overwrite existing file.");
-							return Status.CANCEL_STATUS;
-						}
-					}else{
-						return Status.CANCEL_STATUS;
-					}
-				}
 				//adjust paths of the resources
 				XMLUtil xmlReader = new XMLUtil();
-				List<File> files = FileOperations.getFilesFromDir(pathExtract);
+				List<File> files = FileOperations.getFilesFromDir(patchPath);
 				for(File f : files){
 					try {
 						if(f.getName().endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)||f.getName().endsWith(LiftingFacade.SYMMETRIC_DIFF_EXT)){
@@ -117,7 +99,7 @@ public class PatchApplyHandler extends AbstractHandler {
 								
 							}
 							//save changes
-							xmlReader.save(iFile.getParent().getLocation().toOSString()+separator+fileName+separator+f.getName());
+							xmlReader.save(patchPath+separator+f.getName());
 						}
 					} catch (JDOMException e) {
 						e.printStackTrace();
@@ -126,12 +108,12 @@ public class PatchApplyHandler extends AbstractHandler {
 					}
 				}
 				
-				File dir = new File(pathExtract);
+				File dir = new File(patchPath);
 				File asymmetricDifference = null;
 				String[] children = dir.list();
 				for (int i=0; i<children.length; i++) {
 					if(children[i].endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)){
-						asymmetricDifference = new File(pathExtract + separator + children[i]);
+						asymmetricDifference = new File(patchPath + separator + children[i]);
 						break;
 					}		
 				}
