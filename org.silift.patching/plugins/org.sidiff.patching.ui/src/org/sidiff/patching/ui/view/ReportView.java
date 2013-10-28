@@ -259,19 +259,21 @@ public class ReportView extends ViewPart {
 	private void update(){
 		List<ReportEntry> input = new ArrayList<ReportEntry>();
 		
-		for(ReportEntry re : entries){
-			if(re.getStatus().name().equals("PASSED") && showPassed){
-				input.add(re);
-			}else if(re.getStatus().name().equals("FAILED") && showFailed){
-				input.add(re);
-			}else if(re.getStatus().name().equals("SKIPPED") && showSkipped){
-				input.add(re);
-			}else if(re.getStatus().name().equals("WARNING") && showWarning){
-				input.add(re);
+		if(entries  != null){
+			for(ReportEntry re : entries){
+				if(re.getStatus().name().equals("PASSED") && showPassed){
+					input.add(re);
+				}else if(re.getStatus().name().equals("FAILED") && showFailed){
+					input.add(re);
+				}else if(re.getStatus().name().equals("SKIPPED") && showSkipped){
+					input.add(re);
+				}else if(re.getStatus().name().equals("WARNING") && showWarning){
+					input.add(re);
+				}
 			}
+			reportViewer.setInput(input);
+			reportViewer.getTable().getColumns()[2].pack();
 		}
-		reportViewer.setInput(input);
-		reportViewer.getTable().getColumns()[2].pack();
 		logger.log(Level.INFO, "\n" + input.toString());
 	}
 }

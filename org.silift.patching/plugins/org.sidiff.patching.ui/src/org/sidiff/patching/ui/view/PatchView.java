@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -67,6 +68,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	private Action nullValueParameterFilterAction;
 	private ValueParameterFilter valueParameterFilter;
 	private Action valueParameterFilterAction;
+	
+	private Action iterativeValidation;
+	private Action finalValidation;
 	
 	private SelectionHandler selectionHandler;
 
@@ -221,6 +225,16 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		};
 		this.validateAction.setToolTipText("Check Patch for valid preconditions");
 		this.validateAction.setImageDescriptor(Activator.getImageDescriptor("check_preconditions.gif"));
+		
+		this.iterativeValidation = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
+		};
+		this.iterativeValidation.setToolTipText("");
+		
+		this.finalValidation = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
+			
+		};
+		this.finalValidation.setToolTipText("");
+		
 	}
 
 	private void updatefilter(Action action) {
@@ -255,6 +269,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		rootMenuManager.add(filterSubmenu);
 		filterSubmenu.add(nullValueParameterFilterAction);
 		filterSubmenu.add(valueParameterFilterAction);
+		IMenuManager validateModeSubmenu = new MenuManager("Validation");
+		rootMenuManager.add(validateModeSubmenu);
+		validateModeSubmenu.add(iterativeValidation);
+		validateModeSubmenu.add(finalValidation);
 	}
 
 	private void createToolbar() {
