@@ -82,7 +82,7 @@ public class EcoreHelper {
 	
 	
 
-	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage mainMetaModel, List<EPackage> requiredMetaModels, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
+	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage mainMetaModel, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
 				
 		//TODO Copy eAnntoations (except EANNO_KEY_PATH annotation), too, since Copier ignores them
 		//TODO not all EGeneric types are copied
