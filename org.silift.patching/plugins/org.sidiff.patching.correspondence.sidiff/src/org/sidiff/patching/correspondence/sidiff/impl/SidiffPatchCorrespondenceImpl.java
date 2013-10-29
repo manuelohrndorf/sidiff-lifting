@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StringUtil;
-import org.sidiff.difference.util.emf.storage.EMFResourceUtil;
+import org.sidiff.difference.util.emf.EMFResourceUtil;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.silift.patching.core.correspondence.modifieddetector.*;
 
