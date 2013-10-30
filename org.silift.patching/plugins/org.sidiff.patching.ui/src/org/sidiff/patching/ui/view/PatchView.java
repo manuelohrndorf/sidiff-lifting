@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.print.attribute.standard.MediaSize.Engineering;
+
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IStatus;
@@ -19,6 +21,7 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -43,6 +46,7 @@ import org.sidiff.common.util.StringUtil;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.PatchResult;
+import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.ui.Activator;
@@ -71,6 +75,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	
 	private Action iterativeValidation;
 	private Action finalValidation;
+	private Action noValidation;
+	private Action manualValidation;
 	
 	private SelectionHandler selectionHandler;
 
@@ -227,13 +233,70 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.validateAction.setImageDescriptor(Activator.getImageDescriptor("check_preconditions.gif"));
 		
 		this.iterativeValidation = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
-		};
-		this.iterativeValidation.setToolTipText("");
-		
-		this.finalValidation = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.ITERATIVE);
+				PatchReport report = engine.createPatchReport();
+				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
+				reportView.setEntries(report.getEntries());
+				((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
+				patchViewer.refresh();
+			}
 			
 		};
+		this.iterativeValidation.setToolTipText("");
+		this.iterativeValidation.setChecked(true);
+		
+		this.finalValidation = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.FINAL);
+				PatchReport report = engine.createPatchReport();
+				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
+				reportView.setEntries(report.getEntries());
+				((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
+				patchViewer.refresh();
+			}
+		};
 		this.finalValidation.setToolTipText("");
+		
+		this.noValidation = new Action("No Validation", IAction.AS_RADIO_BUTTON){
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.NO);
+				PatchReport report = engine.createPatchReport();
+				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
+				reportView.setEntries(report.getEntries());
+				((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
+				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
+				patchViewer.refresh();
+			}
+		};
+		this.noValidation.setToolTipText("");
+		
+		this.manualValidation = new Action("Manual Validation", IAction.AS_PUSH_BUTTON){
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.NO);
+				PatchResult result;
+				try {
+					result = engine.applyPatch();
+					ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
+					if (reportView != null)
+						reportView.setEntries(result.getReport().getEntries());
+				patchViewer.refresh();
+				} catch (PatchNotExecuteableException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		this.manualValidation.setToolTipText("");
 		
 	}
 
@@ -273,6 +336,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		rootMenuManager.add(validateModeSubmenu);
 		validateModeSubmenu.add(iterativeValidation);
 		validateModeSubmenu.add(finalValidation);
+		validateModeSubmenu.add(noValidation);
+		validateModeSubmenu.add(new Separator());
+		validateModeSubmenu.add(manualValidation);
 	}
 
 	private void createToolbar() {

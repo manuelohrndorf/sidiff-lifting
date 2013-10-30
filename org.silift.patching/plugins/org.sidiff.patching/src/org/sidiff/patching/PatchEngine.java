@@ -54,6 +54,11 @@ public class PatchEngine {
 	private Resource previewTargetResource;
 	private IValidationUnit testUnit;
 	private EditingDomain previewEditingDomain;
+	private ValidationMode validationMode;
+	
+	public enum ValidationMode{
+		ITERATIVE, FINAL, NO, MANUAL
+	}
 
 	/**
 	 * The PatchEngine handles manipulations on target model
@@ -72,6 +77,8 @@ public class PatchEngine {
 
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 		this.correspondence.set(difference.getOriginModel(), targetResource);
+		
+		this.validationMode = ValidationMode.ITERATIVE;
 		
 		//Initialize all operationInvocations owning 
 		//modified parameters as "not applicable"
@@ -364,7 +371,8 @@ public class PatchEngine {
 
 		checkExecutable(report);
 
-		//validateModel(report);
+		if(validationMode == ValidationMode.FINAL)
+			validateModel(report);
 
 		return report;
 	}	
@@ -495,8 +503,6 @@ public class PatchEngine {
 		AbstractCommand command = new AbstractCommand() {
 			@Override
 			public void execute() {
-				Collection<Diagnostic> initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-				Collection<Diagnostic> previousErrors = initialErrors;
 				
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
@@ -504,10 +510,13 @@ public class PatchEngine {
 				for (OperationInvocation operationInvocation : orderedOperations) {
 					ReportEntry reportEntry = null;
 					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, executed)) {
+						Collection<Diagnostic> initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+						Collection<Diagnostic> previousErrors = initialErrors;
 						try {
 							apply(operationInvocation);
+							
 							Collection<Diagnostic> currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-							if(currentErrors.size() > previousErrors.size()){
+							if(validationMode == ValidationMode.ITERATIVE && currentErrors.size() > previousErrors.size()){
 								for(Diagnostic d : currentErrors){
 									if(!previousErrors.contains(d)){
 										reportEntry = new ReportEntry(Status.FAILED, Type.VALIDATION, d);
@@ -520,6 +529,8 @@ public class PatchEngine {
 								executed.add(operationInvocation);
 							}
 							previousErrors = currentErrors;
+							
+							
 						} catch (Exception e) {
 							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
 						}
@@ -527,7 +538,8 @@ public class PatchEngine {
 						reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation
 								.getChangeSet().getName());
 					}
-					report.add(operationInvocation, reportEntry);
+					if(reportEntry != null)
+						report.add(operationInvocation, reportEntry);
 				}
 			}
 
@@ -597,5 +609,12 @@ public class PatchEngine {
 	public Collection<OperationInvocation> getOrderedOperationInvocations(){
 		return orderedOperations;
 	}
-
+	
+	public ValidationMode getValidationMode(){
+		return this.validationMode;
+	}
+	
+	public void setValidationMode(ValidationMode validationMode){
+		this.validationMode = validationMode;
+	}
 }
