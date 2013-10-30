@@ -55,6 +55,9 @@ public class PatchEngine {
 	private IValidationUnit testUnit;
 	private EditingDomain previewEditingDomain;
 	private ValidationMode validationMode;
+	private Collection<Diagnostic> initialErrors;
+	private Collection<Diagnostic> previousErrors;
+	private Collection<Diagnostic> currentErrors;
 	
 	public enum ValidationMode{
 		ITERATIVE, FINAL, NO, MANUAL
@@ -97,11 +100,13 @@ public class PatchEngine {
 		this.testUnit = new EMFValidationTestUnit();
 	}
 
+	
 	public void setPreviewResources(EditingDomain previewEditingDomain, Resource previewTargetResource) {
 		this.previewEditingDomain = previewEditingDomain;
 		this.previewTargetResource = previewTargetResource;
 	}
 
+	
 	/**
 	 * clears preview resource and fills it with target model
 	 */
@@ -142,6 +147,7 @@ public class PatchEngine {
 		}
 	}
 
+	
 	/**
 	 * Iterates over all OperationInvocations and applies them.
 	 * 
@@ -170,6 +176,9 @@ public class PatchEngine {
 		return new PatchResult(this.previewTargetResource, report);
 	}
 
+	
+// #################################### org.sidiff.patching.test ####################################
+	
 	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
 		resetResourceCopy();
 		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
@@ -210,11 +219,21 @@ public class PatchEngine {
 		}
 		return amount;
 	}
-
+	
+// ##################################################################################################
+	
+	
+	/**
+	 * apply operation invocation
+	 * @param operationInvocation
+	 * @throws ParameterMissingException
+	 * @throws OperationNotExecutableException
+	 */
 	private synchronized void apply(OperationInvocation operationInvocation) throws ParameterMissingException,
 			OperationNotExecutableException {
 		Map<String, Object> parameters = getParameters(operationInvocation.getParameterBindings());
 		Map<String, Object> resultMap = transformationEngine.execute(operationInvocation, parameters);
+		
 		// Exceptions do not set return values.
 		// If they set null depending operations wont be executable
 		// but UI will be ugly because of lacking a return name
@@ -222,6 +241,7 @@ public class PatchEngine {
 		setResult(operationInvocation.getParameterBindings(), resultMap);
 	}
 
+	
 	/**
 	 * Finds parameter values and put them into a map with its formal name.
 	 * 
@@ -238,11 +258,13 @@ public class PatchEngine {
 				if (binding instanceof MultiParameterBinding) {
 					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
 					LogUtil.log(LogEvent.NOTICE, "Binding listParameter " + parameterName + ":");
-					List arguments = new ArrayList();
+					List<EObject> arguments = new ArrayList<EObject>();
 					parameters.put(parameterName, arguments);
+					
 					// now fill the argument list
 					for (int i = 0; i < multiBinding.getParameterBindings().size(); i++) {
 						ParameterBinding nestedBinding = multiBinding.getParameterBindings().get(i);
+						
 						assert (nestedBinding instanceof ObjectParameterBinding) : "Currently we support only EObjects in a parameter list";
 
 						EObject eObject = resolveEObjectInTarget((ObjectParameterBinding) nestedBinding);
@@ -261,8 +283,7 @@ public class PatchEngine {
 
 				} else if (binding instanceof ValueParameterBinding) {
 					ValueParameterBinding valueBinding = (ValueParameterBinding) binding;
-					LogUtil.log(LogEvent.NOTICE,
-							"Setting valueParameter " + parameterName + " to " + valueBinding.getActual());
+					LogUtil.log(LogEvent.NOTICE, "Setting valueParameter " + parameterName + " to " + valueBinding.getActual());
 					parameters.put(parameterName, valueBinding.getActual());
 				}
 			}
@@ -270,6 +291,7 @@ public class PatchEngine {
 		return parameters;
 	}
 
+	
 	/**
 	 * Private utility method; resolves an object argument in the target model.
 	 * Things are easy when binding.actualA is not <code>null</code> (then we
@@ -292,6 +314,7 @@ public class PatchEngine {
 		return eObject;
 	}
 
+	
 	/**
 	 * Returns an object set by a previous operation result
 	 * 
@@ -307,6 +330,7 @@ public class PatchEngine {
 		return null;
 	}
 
+	
 	/**
 	 * Sets the result object of an operation execution to the parameter mapping
 	 * 
@@ -331,6 +355,7 @@ public class PatchEngine {
 		}
 	}
 
+	
 	/**
 	 * Returns the resource copy object corresponding to the object found by
 	 * correspondence service
@@ -354,6 +379,7 @@ public class PatchEngine {
 		return null;
 	}
 
+	
 	/**
 	 * Runs over all OperationInvocations and creates a report about failed and
 	 * passed checks.
@@ -377,6 +403,7 @@ public class PatchEngine {
 		return report;
 	}	
 	
+	
 	/**
 	 * Checks an operationInvocation for modified parameters 
 	 * @param operationInvocation the operationInvocation to check
@@ -385,8 +412,7 @@ public class PatchEngine {
 	private boolean hasModifiedParameters(OperationInvocation operationInvocation){			
 		
 		for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
-			Parameter formalParameter = parameterBinding
-					.getFormalParameter();
+			Parameter formalParameter = parameterBinding.getFormalParameter();
 			if (formalParameter.getDirection() == ParameterDirection.IN) {
 				if (parameterBinding instanceof ObjectParameterBinding) {
 					ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
@@ -405,6 +431,7 @@ public class PatchEngine {
 		
 	}
 	
+	
 	/**
 	 * Checks modification of parameters in a patch report
 	 * 
@@ -415,24 +442,19 @@ public class PatchEngine {
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (operationInvocation.isApply()) {
 				Collection<ReportEntry> result = new ArrayList<ReportEntry>();
-				for (ParameterBinding parameterBinding : operationInvocation
-						.getParameterBindings()) {
-					Parameter formalParameter = parameterBinding
-							.getFormalParameter();
+				for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
+					Parameter formalParameter = parameterBinding.getFormalParameter();
 					if (formalParameter.getDirection() == ParameterDirection.IN) {
 						if (parameterBinding instanceof ObjectParameterBinding) {
 							ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
-							EObject actualA = objectParameterBinding
-									.getActualA();
+							EObject actualA = objectParameterBinding.getActualA();
 							if (actualA != null) {
-								EObject eObject = correspondence
-										.getCorrespondence(actualA);
+								EObject eObject = correspondence.getCorrespondence(actualA);
 								if (eObject != null) {
 									if (correspondence.isModified(eObject)) {
-										result.add(new ReportEntry(
-												Status.WARNING, Type.PARAMETER,
-												new ParameterModifiedException(operationInvocation.getChangeSet().getName(),
-														formalParameter.getName())));														
+										result.add(new ReportEntry(Status.WARNING, Type.PARAMETER,
+											new ParameterModifiedException(operationInvocation.getChangeSet().getName(),
+											formalParameter.getName())));														
 									}
 								}
 							}
@@ -491,6 +513,7 @@ public class PatchEngine {
 		}
 	}
 
+	
 	/**
 	 * Checks executability of henshin
 	 * 
@@ -510,38 +533,44 @@ public class PatchEngine {
 				for (OperationInvocation operationInvocation : orderedOperations) {
 					ReportEntry reportEntry = null;
 					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, executed)) {
-						Collection<Diagnostic> initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-						Collection<Diagnostic> previousErrors = initialErrors;
+						if(validationMode == ValidationMode.ITERATIVE){
+							initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+							previousErrors = initialErrors;
+						}
 						try {
 							apply(operationInvocation);
 							
-							Collection<Diagnostic> currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-							if(validationMode == ValidationMode.ITERATIVE && currentErrors.size() > previousErrors.size()){
-								for(Diagnostic d : currentErrors){
-									if(!previousErrors.contains(d)){
-										reportEntry = new ReportEntry(Status.FAILED, Type.VALIDATION, d);
-										break;
-									}
-								}
-							}else{
-								reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation
-									.getChangeSet().getName());
-								executed.add(operationInvocation);
-							}
-							previousErrors = currentErrors;
+							if(validationMode == ValidationMode.ITERATIVE){
+								currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
 							
+								if(currentErrors.size() > previousErrors.size()){
+									for(Diagnostic d : currentErrors){
+										if(!previousErrors.contains(d)){
+											reportEntry = new ReportEntry(Status.FAILED, Type.VALIDATION, d);
+											break;
+										}
+									}
+								}else{
+									reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+									executed.add(operationInvocation);
+								}
+								previousErrors = currentErrors;
+							}else {
+								reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+									executed.add(operationInvocation);
+							}
 							
 						} catch (Exception e) {
 							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
 						}
 					} else {
-						reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation
-								.getChangeSet().getName());
+						reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
 					}
 					if(reportEntry != null)
 						report.add(operationInvocation, reportEntry);
 				}
 			}
+			
 
 			@Override
 			public boolean canExecute() {
@@ -554,6 +583,7 @@ public class PatchEngine {
 			}
 
 		};
+		
 		if (previewEditingDomain != null) {
 			previewEditingDomain.getCommandStack().execute(command);
 		} else {
@@ -561,9 +591,8 @@ public class PatchEngine {
 		}
 	}
 
-	private synchronized boolean isOutgoingExecuted(
-			OperationInvocation operationInvocation,
-			Set<OperationInvocation> executed) {
+	
+	private synchronized boolean isOutgoingExecuted(OperationInvocation operationInvocation, Set<OperationInvocation> executed) {
 		for (DependencyContainer dependency : operationInvocation.getOutgoing()) {
 			OperationInvocation incomingOperation = dependency.getTarget();
 			if (!executed.contains(incomingOperation)) {
@@ -573,19 +602,38 @@ public class PatchEngine {
 		return true;
 	}
 
+	
 	private void validateModel(PatchReport report) {
 		Collection<ReportEntry> entries = testUnit.test(this.previewTargetResource);
 		report.add(entries);
 	}
 
+	
+	public ValidationMode getValidationMode(){
+		return this.validationMode;
+	}
+	
+	
+	public void setValidationMode(ValidationMode validationMode){
+		this.validationMode = validationMode;
+	}
+	
+	
 	public AsymmetricDifference getDifference() {
 		return difference;
 	}
 
+	
 	public IPatchCorrespondence getCorrespondence() {
 		return correspondence;
 	}
 
+	
+	public Collection<OperationInvocation> getOrderedOperationInvocations(){
+		return orderedOperations;
+	}
+	
+	
 	public class PatchResult {
 
 		private Resource patchedResource;
@@ -604,17 +652,5 @@ public class PatchEngine {
 			return report;
 		}
 
-	}
-	
-	public Collection<OperationInvocation> getOrderedOperationInvocations(){
-		return orderedOperations;
-	}
-	
-	public ValidationMode getValidationMode(){
-		return this.validationMode;
-	}
-	
-	public void setValidationMode(ValidationMode validationMode){
-		this.validationMode = validationMode;
 	}
 }
