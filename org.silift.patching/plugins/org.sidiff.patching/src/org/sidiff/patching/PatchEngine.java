@@ -397,7 +397,7 @@ public class PatchEngine {
 
 		checkExecutable(report);
 
-		if(validationMode == ValidationMode.FINAL)
+		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL)
 			validateModel(report);
 
 		return report;
