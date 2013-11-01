@@ -232,6 +232,11 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.manualValidation.setEnabled(false);
 		
 		
+		iterativeValidation.setEnabled(false);
+		finalValidation.setEnabled(false);
+		noValidation.setEnabled(false);
+		
+		
 		//----------- Check -----------------------
 		//TODO to revise (cpietsch)
 		this.validateAction = new Action("Check Patch") {
@@ -362,6 +367,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.patchViewer.getTree().getColumns()[1].pack();
 		saveAction.setEnabled(true);
 		validateAction.run();
+		
+		iterativeValidation.setEnabled(true);
+		finalValidation.setEnabled(true);
+		noValidation.setEnabled(true);		
 	}
 
 	@Override
