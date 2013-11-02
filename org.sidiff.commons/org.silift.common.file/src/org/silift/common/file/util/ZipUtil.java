@@ -133,7 +133,7 @@ public class ZipUtil {
 		BufferedInputStream in = null;
 		BufferedReader br = null;
 
-		String text = "";
+		StringBuffer text = new StringBuffer();
 
 		ZipFile file = null;
 		try {
@@ -142,15 +142,18 @@ public class ZipUtil {
 
 			while (enu.hasMoreElements()) {
 				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
-
 				String zipEntryName = zipEntry.getName();
 
 				if (zipEntryName.equals(fileName)) {
 					in = new BufferedInputStream(file.getInputStream(zipEntry));
 					br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+					
 					String line;
-					while ((line = br.readLine()) != null)
-						text += line;
+					
+					while ((line = br.readLine()) != null) {
+						text.append(line);
+					}
+					break;
 				}
 			}
 		} catch (IOException e) {
@@ -165,7 +168,7 @@ public class ZipUtil {
 				e.printStackTrace();
 			}
 		}
-		return text;
+		return text.toString();
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class FileOperations {
 	 * @return List of all files contained in the directory
 	 */
 	public static List<File> getFilesFromDir(String dir){
-		ArrayList<File> result = new ArrayList();
+		ArrayList<File> result = new ArrayList<File>();
 		File file = new File(dir);
 		for(File f : file.listFiles()){
 			if(f.isFile())
@@ -90,19 +90,25 @@ public class FileOperations {
 	 * @throws IOException
 	 */
 	public static void copyFile(String in, String out) throws IOException{
-		File inFile = new File(in);
-		File outFile = new File(out);
+		FileInputStream inFile = new FileInputStream(new File(in));
+		FileOutputStream outFile = new FileOutputStream(new File(out));
 		
-		FileChannel inChannel = new FileInputStream(inFile).getChannel();
-		FileChannel outChannel = new FileOutputStream(outFile).getChannel();
+		FileChannel inChannel = inFile.getChannel();
+		FileChannel outChannel = outFile.getChannel();
 		
 		try{
 			inChannel.transferTo(0, inChannel.size(), outChannel);
 		}catch(IOException e){
 			throw e;
 		}finally{
-			if(inChannel != null) inChannel.close();
-			if(outChannel != null) outChannel.close();
+			if (inChannel != null)
+				inChannel.close();
+			if (inFile != null)
+				inFile.close();
+			if (outFile != null)
+				outFile.close();
+			if (outChannel != null)
+				outChannel.close();
 		}
 	}
 	
