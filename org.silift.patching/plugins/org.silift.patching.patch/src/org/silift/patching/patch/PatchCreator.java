@@ -1,21 +1,49 @@
 package org.silift.patching.patch;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
-
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 
 
 public class PatchCreator {
 	
 	private Resource resourceA;
 	private Resource resourceB;
-	private Difference asymmetricDifference;
+	private AsymmetricDifference asymmetricDifference;
 	
 	public PatchCreator(Resource resourceA, Resource resourceB){
 		this.resourceA = resourceA;
 		this.resourceB = resourceB;
-		
-		//asymmetricDifference = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(settings));
+	}
+	
+	
+	public Resource getResourceA() {
+		return resourceA;
+	}
+
+	public void setResourceA(Resource resourceA) {
+		this.resourceA = resourceA;
+	}
+
+	
+	public Resource getResourceB() {
+		return resourceB;
+	}
+
+	public void setResourceB(Resource resourceB) {
+		this.resourceB = resourceB;
+	}
+
+	
+	public AsymmetricDifference getAsymmetricDifference() {
+		return asymmetricDifference;
+	}
+
+	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
+		this.asymmetricDifference = asymmetricDifference;
+	}
+
+	
+	public void serializePatch(){
 		
 	}
 
