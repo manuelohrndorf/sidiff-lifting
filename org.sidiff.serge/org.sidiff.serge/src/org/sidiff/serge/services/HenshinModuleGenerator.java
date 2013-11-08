@@ -822,74 +822,29 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 		
 		PriorityUnit prioUnit = henshinFactory.createPriorityUnit();
 		prioUnit.setActivated(true);
-		prioUnit.setName("mainUnit");
+		prioUnit.setName("mainUnit");		
 		
-		String description = "";
-		if(tsType==OperationType.CREATE) {
-			description = "Creates one "+eClassifier.getName()+ " depending on available contexts in model instance";
-						
-			// Create the required NEW-Parameter if not already contained in the unit
-			Parameter newEClassParam = henshinFactory.createParameter(NEW);
-			if(!prioUnit.getParameters().contains(newEClassParam)) {
-				prioUnit.getParameters().add(newEClassParam);
-			}
-			prioUnit.setDescription(description);
-			
-		}
-		else if(tsType==OperationType.DELETE) {
-			description = "Deletes one "+eClassifier.getName()+ " depending on available contexts in model instance";
-			
-
-			//add only ChildX/ExistingX Parameters - everything else is not
-			//necessary for <<delete>>
-			List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
-
-			for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
-				for(Parameter p: r.getParameters()) {
-					
-					if(p.getName().startsWith(CHILD)
-							|| p.getName().startsWith(EX)) {
-						
-						boolean alreadyContained = false;
-						for(Parameter pInInverseUnit: prioUnit.getParameters()) {
-							if(pInInverseUnit.equals(p.getName())) {
-								alreadyContained = true;
-								break;
-							}
-						}
-						
-						if(!alreadyContained) {
-							Parameter newEClassParam = henshinFactory.createParameter(p.getName());
-							prioUnit.getParameters().add(newEClassParam);
-						}												
-					}else{
-						unnecessaryParameters.add(p);
-					}
-				}
-			}			
+		/******************* DELETE *************************************************************************************/
+		if(tsType==OperationType.DELETE) {
 			
 			//remove unnecessary parameters
-			HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0).getParameters().removeAll(unnecessaryParameters);
-			
-			// Create the required DEL-Parameter under the unit if there is a context to delete EClass from
-			// else selectedEObject-Parameter will directly map to this
+			removeUnnecessaryParametersForDELETE(module, prioUnit);
+
+			// Create a Parameter contained parent node, if there is any.
 			if(HenshinRuleAnalysisUtilEx.getNodeByName(HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0),SEL,true)!=null) {
 				Parameter newEClassParam = henshinFactory.createParameter(DEL);
 				if(!prioUnit.getParameters().contains(newEClassParam)) {
 					prioUnit.getParameters().add(newEClassParam);
 				}
 			}
-			prioUnit.setDescription(description);
-		}
-		
-		
+		}	
 		// Create the mandatory "selectedEObject"-Parameter
 		Parameter selectedEObject = henshinFactory.createParameter(SELEO);
 		prioUnit.getParameters().add(selectedEObject);
 
 		
 		
-		/** Parameter and Mapping creation **/
+		/** Parameter and Mapping creation *******************************************************************************/
 		for(Rule rule: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 			
 			
@@ -2568,6 +2523,38 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 			}
 		}
 		
+	}
+	
+	private void removeUnnecessaryParametersForDELETE(Module module, Unit mainUnit) {
+		//add only ChildX/ExistingX Parameters - everything else is not
+		//necessary for <<delete>>, so remove unnecessary stuff
+		List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
+
+		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
+			for(Parameter p: r.getParameters()) {
+				
+				if(p.getName().startsWith(CHILD)
+						|| p.getName().startsWith(EX)) {
+					
+					boolean alreadyContained = false;
+					for(Parameter pInInverseUnit: mainUnit.getParameters()) {
+						if(pInInverseUnit.equals(p.getName())) {
+							alreadyContained = true;
+							break;
+						}
+					}
+					
+					if(!alreadyContained) {
+						Parameter newEClassParam = henshinFactory.createParameter(p.getName());
+						mainUnit.getParameters().add(newEClassParam);
+					}												
+				}else{
+					unnecessaryParameters.add(p);
+				}
+			}
+		}			
+		//remove unnecessary parameters
+		HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0).getParameters().removeAll(unnecessaryParameters);
 	}
 
 }
