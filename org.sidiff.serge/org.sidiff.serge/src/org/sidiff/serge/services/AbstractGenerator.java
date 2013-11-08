@@ -443,8 +443,8 @@ public abstract class AbstractGenerator implements EClassVisitor{
 				
 				if(	whiteListed
 						|| requiredByChildren
-						|| requiredByNeighbours
-						|| requiredByParents
+						|| (requiredByNeighbours && asPivot)
+						|| (requiredByParents && asPivot)
 						|| (blackListed==false && assumeAllOnWhitelist)) {
 					return true;
 				}
