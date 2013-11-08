@@ -818,40 +818,31 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 		
 		removeAllNonRuleUnits(module);	
 		
-		/** Unit creation **/ 
-		
+		/** Unit creation *************************************************/	
 		PriorityUnit prioUnit = henshinFactory.createPriorityUnit();
 		prioUnit.setActivated(true);
 		prioUnit.setName("mainUnit");		
+				
+		/** Parameter and Mapping creation ********************************/
 		
-		/******************* DELETE *************************************************************************************/
+		// In case of DELETE module, remove unnecessary parameters
 		if(tsType==OperationType.DELETE) {
-			
-			//remove unnecessary parameters
 			removeUnnecessaryParametersForDELETE(module, prioUnit);
-
-			// Create a Parameter contained parent node, if there is any.
-			if(HenshinRuleAnalysisUtilEx.getNodeByName(HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0),SEL,true)!=null) {
-				Parameter newEClassParam = henshinFactory.createParameter(DEL);
-				if(!prioUnit.getParameters().contains(newEClassParam)) {
-					prioUnit.getParameters().add(newEClassParam);
-				}
-			}
-		}	
+		}
+		
 		// Create the mandatory "selectedEObject"-Parameter
 		Parameter selectedEObject = henshinFactory.createParameter(SELEO);
 		prioUnit.getParameters().add(selectedEObject);
-
-		
-		
-		/** Parameter and Mapping creation *******************************************************************************/
+			
 		for(Rule rule: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
-			
-			
-			 //for <<create>> we only need RHS
+					
+			//we only need to consider RHS (it covers <<preserved>> and <<create>> Nodes/Attributes)
+			//Since <<delete>> Node Parameters are renamed <<create>> Node Parameters and therefore
+			//we don't have to check LHS here. Also because <<delete>> Attributes never appear
+			//(even not in UNSETs because they only revert Attribute values to Default, if any).
 			for(Node nInRHS : rule.getRhs().getNodes()) {
 				String name = nInRHS.getName();
-				// Add Parameter for Nodes
+				/** Add Parameter for RHS Nodes ********************************/
 				if(name!=null && !name.equals("")) {
 					Parameter pForRule = henshinFactory.createParameter(name);
 					if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, name)==null) {
@@ -864,7 +855,7 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 					}
 				}
 				
-				// Add Parameter for Attributes
+				/** Add Parameter for RHS Attributes ***************************/
 				for(Attribute a: nInRHS.getAttributes()) {
 					Object defaultValue = a.getType().getDefaultValue();
 					String defaultValueName = null;
@@ -890,47 +881,7 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 						}
 					}
 				}
-			}
-		
-			
-			 //for <<delete>> we also need LHS
-			for(Node nInLHS : rule.getLhs().getNodes()) {
-				String name = nInLHS.getName();
-				// Add Parameter for Nodes (if there is a name and we have a context)
-				// otherwise no Parameter will be created in Unit and the selectedEObject will map to this
-				if(name!=null && !name.equals("")) {
-					Parameter p = henshinFactory.createParameter(name);
-					if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, name)==null) {
-						p.setUnit(rule);
-						rule.getParameters().add(p);
-						if(!p.getName().equals(SEL)
-								&& HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName())==null
-								&& HenshinRuleAnalysisUtilEx.getParameterByName(rule, SEL)!=null) {
-							prioUnit.getParameters().add(p);
-						}
-					}
-				}
-
-				
-				// Add Parameter for Attributes
-				for(Attribute a: nInLHS.getAttributes()) {
-					if(a.getValue()!="null" && !a.getValue().startsWith("\"") ) {
-						Parameter pForRule = henshinFactory.createParameter(a.getValue());
-						Parameter pForUnit = henshinFactory.createParameter(a.getValue()); 
-						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
-							// ..to rule
-							rule.getParameters().add(pForRule);
-							pForRule.setUnit(rule);
-							// ..to unit
-							if(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForUnit.getName())==null) {
-								prioUnit.getParameters().add(pForUnit);
-								pForUnit.setUnit(prioUnit);
-							}
-						}
-					}
-				}
-			}
-			
+			}			
 			
 			// Create Mappings
 			for(Parameter p :rule.getParameters()) {
@@ -984,14 +935,10 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 						prioUnit.getParameterMappings().add(pm);
 					}		
 				}
-			}
-			
-			
+			}					
 			// Add rule to unit
-			prioUnit.getSubUnits().add(rule);	
-						
-		}
-		
+			prioUnit.getSubUnits().add(rule);						
+		}		
 		// Add unit to module
 		module.getUnits().add(prioUnit);
 	}
@@ -2521,20 +2468,24 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 					n.setName(DEL);
 				}
 			}
+			for(Parameter p: r.getParameters()) {
+				String pN = p.getName();
+				if(pN!=null && pN.equals(NEW)) {
+					p.setName(DEL);	
+				}
+			}
 		}
 		
 	}
 	
 	private void removeUnnecessaryParametersForDELETE(Module module, Unit mainUnit) {
-		//add only ChildX/ExistingX Parameters - everything else is not
-		//necessary for <<delete>>, so remove unnecessary stuff
+		//retain only ChildX/ExistingX/ToBeDeleted Parameters
 		List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
 
 		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
 			for(Parameter p: r.getParameters()) {
 				
-				if(p.getName().startsWith(CHILD)
-						|| p.getName().startsWith(EX)) {
+				if(p.getName().startsWith(CHILD) || p.getName().startsWith(EX) || p.getName().startsWith(DEL)) {
 					
 					boolean alreadyContained = false;
 					for(Parameter pInInverseUnit: mainUnit.getParameters()) {
