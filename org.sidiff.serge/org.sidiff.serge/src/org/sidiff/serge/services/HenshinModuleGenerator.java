@@ -866,6 +866,7 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 				
 				/** Add Parameter for RHS Attributes ***************************/
 				for(Attribute a: nInRHS.getAttributes()) {
+					EClassifier attributeType = a.getType().getEType();
 					Object defaultValue = a.getType().getDefaultValue();
 					String defaultValueName = null;
 					if(defaultValue!=null) {
@@ -880,7 +881,9 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 							&& ((defaultValueName!=null && !a.getValue().equals(defaultValueName))
 							|| defaultValueName==null))) {
 						Parameter pForRule = henshinFactory.createParameter(a.getValue());
+						pForRule.setType(attributeType);
 						Parameter pForUnit = henshinFactory.createParameter(a.getValue());
+						pForUnit.setType(attributeType);
 						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
 							// ..to rule
 							rule.getParameters().add(pForRule);
