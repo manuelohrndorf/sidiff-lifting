@@ -1,0 +1,54 @@
+package org.sidiff.patching.patch.ui.handler;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.util.access.EMFModelAccessEx;
+import org.sidiff.patching.patch.ui.wizard.CreatePatchWizard;
+
+public class CreatePatchHandler extends AbstractHandler {
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
+
+		if (currentSelection instanceof IStructuredSelection) {
+			IStructuredSelection selection = (IStructuredSelection) currentSelection;
+
+			
+			if (selection.size() == 2) {
+				// Create a new difference
+				IFile fileA = (IFile) selection.toArray()[0];
+				IFile fileB = (IFile) selection.toArray()[1];
+				Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
+				Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+				String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
+				String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+				if(docTypeA.equals(docTypeB)){
+
+					WizardDialog wizardDialog = new WizardDialog(PlatformUI
+						.getWorkbench().getActiveWorkbenchWindow().getShell(),
+						new CreatePatchWizard(fileA, fileB));
+
+					wizardDialog.open();
+				}else {
+					MessageDialog.openError(
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+							"File Input Error","The input files must have the same document type!");
+				}
+			}
+		
+		}
+		return null;
+	}
+
+}
