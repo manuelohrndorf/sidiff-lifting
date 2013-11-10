@@ -59,13 +59,13 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.difference.util.emf.EMFStorage;
@@ -79,17 +79,27 @@ public class CreatePatchWizard extends Wizard {
 	
 	protected static final String PPRE = "Post Processed Recognition Engine (Default)";
 
-	protected CreatePatchPage asymmetricDiffPage;
+	protected CreatePatchPage createPatchPage;
 	
 	protected IFile fileA = null;
 	protected IFile fileB = null;
+	
 	protected Resource resourceA = null;
 	protected Resource resourceB = null;
+	
 	protected String documentType = null;
+	
 	protected IProject project = null;
+	
 	protected String diffSavePath;
-	private Button modelBRadio;
 	private String separator;
+	
+	private PatchCreator patchCreator;
+	
+	
+	// UI
+	private Button modelBRadio;
+	
 
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
 		
@@ -110,18 +120,19 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		asymmetricDiffPage = new CreatePatchPage("CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
-		addPage(asymmetricDiffPage);
+		createPatchPage = new CreatePatchPage("CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
+		addPage(createPatchPage);
 	}
 	
 	@Override
 	public boolean canFinish() {
-		return asymmetricDiffPage.isPageComplete();
+		return createPatchPage.isPageComplete();
 	}
 
 
 	@Override
 	public boolean performFinish() {
+		
 		
 		// In which direction shall we calculate?
 		if (modelBRadio.getSelection()){
@@ -131,97 +142,116 @@ public class CreatePatchWizard extends Wizard {
 			fileB = tmp;
 		}
 
-		String fileA_name = fileA.getName();
-		String fileB_name = fileB.getName();
-		IContainer parentA = fileA.getParent();
-		IContainer parentB = fileB.getParent();
 		
-		diffSavePath += separator+"PATCH(origin_"+fileA_name+"_to_"+"modified_"+fileB_name+")";
+		resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
+		resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
 		
-		try{
-			FileOperations.createFolder(diffSavePath, false);
-			while (fileA_name.equals(fileB_name)){
-				fileA_name = parentA.getName() + separator + fileA_name;
-				fileB_name = parentB.getName() + separator + fileB_name;
-				parentA = parentA.getParent();
-				parentB = parentB.getParent();
-			}
-			
-			String split = separator.equals("\\")? Pattern.quote("\\"): separator;
-			String[] folderA = fileA_name.split(split);
-			String[] folderB = fileB_name.split(split);
-			String pathA = diffSavePath + separator;
-			String pathB = diffSavePath+separator;
-			for(int i = 0 ; i < folderA.length-1 ; i++){
-				pathA += separator + folderA[i];
-				FileOperations.createFolder(pathA, false);
-			}
-			for(int i = 0 ; i < folderB.length-1 ; i++){
-				pathB += separator + folderB[i];
-				FileOperations.createFolder(pathB, false);
-			}
-			FileOperations.copyFile(fileA.getLocation().toOSString(), pathA + separator + fileA.getName());
-			FileOperations.copyFile(fileB.getLocation().toOSString(), pathB + separator + fileB.getName());
-			FileOperations.createInfoFile(diffSavePath, fileA.getProject().getName());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		resourceA = LiftingFacade.loadModel(diffSavePath + separator + fileA_name);
-		resourceB = LiftingFacade.loadModel(diffSavePath + separator + fileB_name);
+		patchCreator = new PatchCreator(resourceA, resourceB);
+		
+		
+//		String fileA_name = fileA.getName();
+//		String fileB_name = fileB.getName();
+//		IContainer parentA = fileA.getParent();
+//		IContainer parentB = fileB.getParent();
+//		
+//		diffSavePath += separator+"PATCH(origin_"+fileA_name+"_to_"+"modified_"+fileB_name+")";
+//		
+//		try{
+//			FileOperations.createFolder(diffSavePath, false);
+//			
+//			// create folder structure
+//			while (fileA_name.equals(fileB_name)){
+//				fileA_name = parentA.getName() + separator + fileA_name;
+//				fileB_name = parentB.getName() + separator + fileB_name;
+//				parentA = parentA.getParent();
+//				parentB = parentB.getParent();
+//			}
+//			
+//			String split = separator.equals("\\")? Pattern.quote("\\"): separator;
+//			String[] folderA = fileA_name.split(split);
+//			String[] folderB = fileB_name.split(split);
+//			String pathA = diffSavePath + separator;
+//			String pathB = diffSavePath+separator;
+//			
+//			for(int i = 0 ; i < folderA.length-1 ; i++){
+//				pathA += separator + folderA[i];
+//				FileOperations.createFolder(pathA, false);
+//			}
+//			for(int i = 0 ; i < folderB.length-1 ; i++){
+//				pathB += separator + folderB[i];
+//				FileOperations.createFolder(pathB, false);
+//			}
+//			FileOperations.copyFile(fileA.getLocation().toOSString(), pathA + separator + fileA.getName());
+//			FileOperations.copyFile(fileB.getLocation().toOSString(), pathB + separator + fileB.getName());
+//			FileOperations.createInfoFile(diffSavePath, fileA.getProject().getName());
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		resourceA = LiftingFacade.loadModel(diffSavePath + separator + fileA_name);
+//		resourceB = LiftingFacade.loadModel(diffSavePath + separator + fileB_name);
 		
 		// Start calculation
 
 		LiftingSettings settings = readSettings();
 		try{
 			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(settings));
-
-			// Print report
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			
-			String patchName = LiftingFacade.generateDifferenceFileName(resourceA, resourceB, settings);
-			AsymmetricDiffFacade.serializeDifference(fullDiff, diffSavePath, patchName);
+			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
+			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
 			
-			
-			//gather necessary editrules
-			String erPath = diffSavePath + separator + "EditRules";
-			FileOperations.createFolder(erPath, false);
-			for(OperationInvocation op : fullDiff.getAsymmetric().getOperationInvocations()){
-				ResourceSet resourceSet = new ResourceSetImpl();
-				URI fileUri = URI.createFileURI(erPath + separator + op.getChangeSet().getEditRName()+".henshin");
-				Resource resource = resourceSet.createResource(fileUri);
-				resource.getContents().add(op.resolveEditRule().getExecuteModule());
-
-				// create option map for saving
-				Map<String,Boolean> options = new HashMap<String, Boolean>();
-				options.put (XMIResource.OPTION_SCHEMA_LOCATION, true);
-				resource.save(options);
-				
-			}
-			
-			// zip all necessary files
-			ZipUtil.zip(diffSavePath, diffSavePath, PatchUtil.PATCH_EXTENSION);
-			FileOperations.removeFolder(diffSavePath);
-			
-			/*
-			 * Done
-			 */
-			LogUtil.log(LogEvent.NOTICE, "done...");
+			patchCreator.serializePatch(fileA.getParent().getLocation());
 			
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			return false;
-		} catch (FileNotCreatedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (FileAlreadyExistsException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+			// Print report
+//			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+//			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
+//			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+//			
+//			String patchName = LiftingFacade.generateDifferenceFileName(resourceA, resourceB, settings);
+//			AsymmetricDiffFacade.serializeDifference(fullDiff, diffSavePath, patchName);
+//			
+//			
+//			//gather necessary editrules
+//			String erPath = diffSavePath + separator + "EditRules";
+//			FileOperations.createFolder(erPath, false);
+//			for(OperationInvocation op : fullDiff.getAsymmetric().getOperationInvocations()){
+//				ResourceSet resourceSet = new ResourceSetImpl();
+//				URI fileUri = URI.createFileURI(erPath + separator + op.getChangeSet().getEditRName()+".henshin");
+//				Resource resource = resourceSet.createResource(fileUri);
+//				resource.getContents().add(op.resolveEditRule().getExecuteModule());
+//
+//				// create option map for saving
+//				Map<String,Boolean> options = new HashMap<String, Boolean>();
+//				options.put (XMIResource.OPTION_SCHEMA_LOCATION, true);
+//				resource.save(options);
+//				
+//			}
+//			
+//			// zip all necessary files
+//			ZipUtil.zip(diffSavePath, diffSavePath, PatchUtil.PATCH_EXTENSION);
+//			FileOperations.removeFolder(diffSavePath);
+//			
+//			/*
+//			 * Done
+//			 */
+//			LogUtil.log(LogEvent.NOTICE, "done...");
+//			
+//		}catch(InvalidModelException e){
+//			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+//			return false;
+//		} catch (FileNotCreatedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		} catch (FileAlreadyExistsException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 		// Refresh workspace
@@ -235,6 +265,7 @@ public class CreatePatchWizard extends Wizard {
 		return true;
 	}
 	
+	
 	public LiftingSettings readSettings() {
 		// Move functionality to lifting facade		
 		/*
@@ -243,12 +274,12 @@ public class CreatePatchWizard extends Wizard {
 
 		LiftingSettings liftingSettings = new LiftingSettings();
 
-		liftingSettings.setValidate(asymmetricDiffPage.isValidateModels());
+		liftingSettings.setValidate(createPatchPage.isValidateModels());
 		// Used matcher
-		liftingSettings.setMatcher(asymmetricDiffPage.getSelectedMatchingEngine());
+		liftingSettings.setMatcher(createPatchPage.getSelectedMatchingEngine());
 		
 		//Used technical difference builder
-		liftingSettings.setTechnicalDifferenceBuilder(asymmetricDiffPage.getSelectedTechnicalDifferenceBuilder());
+		liftingSettings.setTechnicalDifferenceBuilder(createPatchPage.getSelectedTechnicalDifferenceBuilder());
 				
 		// Do lifting..?
 		liftingSettings.setDoLifting(true);
@@ -257,10 +288,11 @@ public class CreatePatchWizard extends Wizard {
 		liftingSettings.setPostProcess(true);
 
 		// Used rulebases
-		liftingSettings.setUsedRulebases(asymmetricDiffPage.getSelectedRulebases());
+		liftingSettings.setUsedRulebases(createPatchPage.getSelectedRulebases());
 
 		return liftingSettings;
 	}
+	
 	
 	public class CreatePatchPage extends WizardPage {
 
