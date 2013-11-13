@@ -7,6 +7,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -101,36 +103,37 @@ public class PatchCreator {
 		String resourceB_name = resourceB.getURI().lastSegment();
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
 		
-			
+		String resASavePath = savePath+separator+"modelA"+separator+resourceA_name;
+		String resBSavePath = savePath+separator+"modelB"+separator+resourceB_name;
+
+		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceA_name + " to " + resASavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath+separator+"modelA"+separator+resourceA_name), resourceA.getContents().get(0));
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath+separator+"modelB"+separator+resourceB_name), resourceB.getContents().get(0));
+		
+		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceB_name + " to " + resBSavePath);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0));
 
 		
-		symmetricDifference.setUriModelA(EMFStorage.pathToUri(savePath+separator+"modelA"+separator+resourceA_name).toString());
-		symmetricDifference.setUriModelB(EMFStorage.pathToUri(savePath+separator+"modelB"+separator+resourceB_name).toString());
+		symmetricDifference.setUriModelA(EMFStorage.pathToUri(resASavePath).toString());
+		symmetricDifference.setUriModelB(EMFStorage.pathToUri(resBSavePath).toString());
 		
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
-				EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + "EditRules" + separator + module.getName() + ".henshin"), module);
-				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(savePath + separator + "EditRules" + separator + module.getName() + ".henshin"));
+				String erSavePath = savePath + separator + "EditRules" + separator + module.getName() + ".henshin";
+				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
+				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module);
+				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
 				rbi.getEditRule().setExecuteMainUnit(newMod.getUnit("mainUnit"));
-				for(OperationInvocation op : asymmetricDifference.getOperationInvocations()){
-					if(op.getChangeSet().getEditRName().equals(module.getName())){
-						for(ParameterBinding pb : op.getParameterBindings()){
-							System.out.println(rbi.getEditRule());
-							System.out.println(pb.getFormalParameter().eContainer());
-							System.out.println("..............................");
-						}
-					}
-				}
-				//System.out.println(rbi.getEditRule().getParameters());
-				//System.out.println(EMFStorage.getURI(rbi.getEditRule().getExecuteMainUnit()));
 			}
 		}
 		
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + LiftingFacade.SYMMETRIC_DIFF_EXT), symmetricDifference);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT), asymmetricDifference);
+		String symmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + LiftingFacade.SYMMETRIC_DIFF_EXT;
+		LogUtil.log(LogEvent.NOTICE, "serialize symmetric difference "+ " to " + symmetricDiffSavePath);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(symmetricDiffSavePath), symmetricDifference);
+		
+		String asymmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
+		LogUtil.log(LogEvent.NOTICE, "serialize asymmetric difference "+ " to " + asymmetricDiffSavePath);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath), asymmetricDifference);
 		
 		// zip all necessary files
 		ZipUtil.zip(savePath, savePath, PatchUtil.PATCH_EXTENSION);

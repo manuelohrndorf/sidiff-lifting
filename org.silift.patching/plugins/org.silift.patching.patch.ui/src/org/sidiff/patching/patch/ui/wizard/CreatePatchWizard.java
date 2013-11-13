@@ -1,16 +1,11 @@
 package org.sidiff.patching.patch.ui.wizard;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -20,11 +15,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -55,7 +46,6 @@ import org.eclipse.swt.widgets.Table;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
@@ -63,17 +53,13 @@ import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
+import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.difference.util.emf.EMFStorage;
-import org.sidiff.patching.util.PatchUtil;
-import org.silift.common.exceptions.FileAlreadyExistsException;
-import org.silift.common.exceptions.FileNotCreatedException;
-import org.silift.common.file.util.FileOperations;
-import org.silift.common.file.util.ZipUtil;
 
 public class CreatePatchWizard extends Wizard {
 	
@@ -92,7 +78,6 @@ public class CreatePatchWizard extends Wizard {
 	protected IProject project = null;
 	
 	protected String diffSavePath;
-	private String separator;
 	
 	private PatchCreator patchCreator;
 	
@@ -102,8 +87,7 @@ public class CreatePatchWizard extends Wizard {
 	
 
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
-		
-		separator = System.getProperty("file.separator");
+
 		
 		project = fileA.getProject();
 		
@@ -147,48 +131,7 @@ public class CreatePatchWizard extends Wizard {
 		resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
 		
 		patchCreator = new PatchCreator(resourceA, resourceB);
-		
-		
-//		String fileA_name = fileA.getName();
-//		String fileB_name = fileB.getName();
-//		IContainer parentA = fileA.getParent();
-//		IContainer parentB = fileB.getParent();
-//		
-//		diffSavePath += separator+"PATCH(origin_"+fileA_name+"_to_"+"modified_"+fileB_name+")";
-//		
-//		try{
-//			FileOperations.createFolder(diffSavePath, false);
-//			
-//			// create folder structure
-//			while (fileA_name.equals(fileB_name)){
-//				fileA_name = parentA.getName() + separator + fileA_name;
-//				fileB_name = parentB.getName() + separator + fileB_name;
-//				parentA = parentA.getParent();
-//				parentB = parentB.getParent();
-//			}
-//			
-//			String split = separator.equals("\\")? Pattern.quote("\\"): separator;
-//			String[] folderA = fileA_name.split(split);
-//			String[] folderB = fileB_name.split(split);
-//			String pathA = diffSavePath + separator;
-//			String pathB = diffSavePath+separator;
-//			
-//			for(int i = 0 ; i < folderA.length-1 ; i++){
-//				pathA += separator + folderA[i];
-//				FileOperations.createFolder(pathA, false);
-//			}
-//			for(int i = 0 ; i < folderB.length-1 ; i++){
-//				pathB += separator + folderB[i];
-//				FileOperations.createFolder(pathB, false);
-//			}
-//			FileOperations.copyFile(fileA.getLocation().toOSString(), pathA + separator + fileA.getName());
-//			FileOperations.copyFile(fileB.getLocation().toOSString(), pathB + separator + fileB.getName());
-//			FileOperations.createInfoFile(diffSavePath, fileA.getProject().getName());
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		resourceA = LiftingFacade.loadModel(diffSavePath + separator + fileA_name);
-//		resourceB = LiftingFacade.loadModel(diffSavePath + separator + fileB_name);
+
 		
 		// Start calculation
 
@@ -199,61 +142,23 @@ public class CreatePatchWizard extends Wizard {
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
 			
+			// Print report
+			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
+			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+			
 			patchCreator.serializePatch(fileA.getParent().getLocation());
 			
+			/*
+			 * Done
+			 */
+			LogUtil.log(LogEvent.NOTICE, "done...");
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			return false;
 		}
-			// Print report
-//			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-//			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
-//			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-//			
-//			String patchName = LiftingFacade.generateDifferenceFileName(resourceA, resourceB, settings);
-//			AsymmetricDiffFacade.serializeDifference(fullDiff, diffSavePath, patchName);
-//			
-//			
-//			//gather necessary editrules
-//			String erPath = diffSavePath + separator + "EditRules";
-//			FileOperations.createFolder(erPath, false);
-//			for(OperationInvocation op : fullDiff.getAsymmetric().getOperationInvocations()){
-//				ResourceSet resourceSet = new ResourceSetImpl();
-//				URI fileUri = URI.createFileURI(erPath + separator + op.getChangeSet().getEditRName()+".henshin");
-//				Resource resource = resourceSet.createResource(fileUri);
-//				resource.getContents().add(op.resolveEditRule().getExecuteModule());
-//
-//				// create option map for saving
-//				Map<String,Boolean> options = new HashMap<String, Boolean>();
-//				options.put (XMIResource.OPTION_SCHEMA_LOCATION, true);
-//				resource.save(options);
-//				
-//			}
-//			
-//			// zip all necessary files
-//			ZipUtil.zip(diffSavePath, diffSavePath, PatchUtil.PATCH_EXTENSION);
-//			FileOperations.removeFolder(diffSavePath);
-//			
-//			/*
-//			 * Done
-//			 */
-//			LogUtil.log(LogEvent.NOTICE, "done...");
-//			
-//		}catch(InvalidModelException e){
-//			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-//			return false;
-//		} catch (FileNotCreatedException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (FileAlreadyExistsException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
+
+
 		// Refresh workspace
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -506,6 +411,7 @@ public class CreatePatchWizard extends Wizard {
 
 			// LabelProvider for activeColumn
 			activeColumn.setLabelProvider(new CellLabelProvider() {
+				@Override
 				public void update(ViewerCell cell) {
 					cell.setText(((String) cell.getElement()).toString());
 				}
@@ -547,18 +453,22 @@ public class CreatePatchWizard extends Wizard {
 			// Setup editing support for activeColumn
 			activeColumn.setEditingSupport(new EditingSupport(rulebaseTableViewer) {
 
+				@Override
 				protected boolean canEdit(Object element) {
 					return true;
 				}
 
+				@Override
 				protected CellEditor getCellEditor(Object element) {
 					return new CheckboxCellEditor(ruleBaseTable);
 				}
 
+				@Override
 				protected Object getValue(Object element) {
 					return ((RuleBaseEntry) element).activated;
 				}
 
+				@Override
 				protected void setValue(Object element, Object value) {
 					RuleBaseEntry ruleBase = ((RuleBaseEntry) element);
 					ruleBase.activated = ruleBase.activated ? false : true;
@@ -580,6 +490,7 @@ public class CreatePatchWizard extends Wizard {
 
 			// LabelProvider for activeColumn
 			ruleBaseColumn.setLabelProvider(new CellLabelProvider() {
+				@Override
 				public void update(ViewerCell cell) {
 					cell.setText(((RuleBaseEntry) cell.getElement()).rulebase.getName());
 				}
@@ -642,7 +553,7 @@ public class CreatePatchWizard extends Wizard {
 		private String[] getMatcherNames() {
 			// Search registered matcher extension points
 			matchers = new ArrayList<IMatcher>();
-			matchers.addAll(LiftingFacade.getAvailableMatchers(resourceA, resourceB));
+			matchers.addAll(PipelineUtils.getAvailableMatchers(resourceA, resourceB));
 
 			ArrayList<String> matcherNames = new ArrayList<String>();
 			for (int i = 0; i < matchers.size(); i++) {
@@ -665,7 +576,7 @@ public class CreatePatchWizard extends Wizard {
 		private String[] getTechnicalDifferenceBuildersNames() {
 			// Search registered matcher extension points
 			tdBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
-			tdBuilders.addAll(LiftingFacade.getAvailableTechnicalDifferenceBuilders(documentType));
+			tdBuilders.addAll(PipelineUtils.getAvailableTechnicalDifferenceBuilders(documentType));
 
 			ArrayList<String> tdbNames = new ArrayList<String>();
 			for (int i = 0; i < tdBuilders.size(); i++) {
@@ -691,7 +602,7 @@ public class CreatePatchWizard extends Wizard {
 		
 		private void createRulebaseList() {
 			// Search registered rulebase extension points
-			Set<IRuleBase> rulebaseInstances = LiftingFacade.getAvailableRulebases(documentType);
+			Set<IRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(documentType);
 			
 			// Create rulebase list for table viewer
 			rulebases = new LinkedList<RuleBaseEntry>();
