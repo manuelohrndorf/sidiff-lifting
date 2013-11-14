@@ -1,13 +1,21 @@
 package org.silift.patching.patch;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.xml.XMLWriter;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -24,10 +32,26 @@ public class PatchCreator {
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
 	private String savePath;
+	private ArrayList<String[]> editRules;
+	private String separator;
+	private LiftingSettings settings;
+	
+	private String resourceA_name;
+	private String resourceB_name;
+	
+	private String relativeResASavePath;
+	private String relativeResBSavePath;
+	
+	private String symmetricDiff_name;
+	private String asymmetricDiff_name;
+	
+	private String relativeSymDiffPath;
+	private String relativeAsymDiffPath;
 	
 	public PatchCreator(Resource resourceA, Resource resourceB){
 		this.resourceA = resourceA;
 		this.resourceB = resourceB;
+		separator = System.getProperty("file.separator");
 	}
 	
 	
@@ -85,10 +109,10 @@ public class PatchCreator {
 	}
 
 
-	public void serializePatch(IPath path){
-		String separator = System.getProperty("file.separator");
-		String resourceA_name = resourceA.getURI().lastSegment();
-		String resourceB_name = resourceB.getURI().lastSegment();
+	public void serializePatch(IPath path, LiftingSettings settings){
+		this.settings = settings;
+		resourceA_name = resourceA.getURI().lastSegment();
+		resourceB_name = resourceB.getURI().lastSegment();
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
 		
 		String resASavePath = savePath+separator+"modelA"+separator+resourceA_name;
@@ -100,13 +124,20 @@ public class PatchCreator {
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceB_name + " to " + resBSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0), true);
 
-		symmetricDifference.setUriModelA(EMFStorage.pathToRelativeUri(savePath, resASavePath).toString());
-		symmetricDifference.setUriModelB(EMFStorage.pathToRelativeUri(savePath, resBSavePath).toString());
+		relativeResASavePath = EMFStorage.pathToRelativeUri(savePath, resASavePath).toString();
+		relativeResBSavePath = EMFStorage.pathToRelativeUri(savePath, resBSavePath).toString();
 		
+		symmetricDifference.setUriModelA(relativeResASavePath);
+		symmetricDifference.setUriModelB(relativeResBSavePath);
+		
+		editRules = new ArrayList<String[]>();
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
 				String erSavePath = savePath + separator + "EditRules" + separator + module.getName() + ".henshin";
+				String relSavePath = EMFStorage.pathToRelativeUri(savePath, erSavePath).toString();
+				String[] attributes = {module.getName(), relSavePath};
+				editRules.add(attributes);
 				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
 				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
 				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
@@ -114,19 +145,65 @@ public class PatchCreator {
 			}
 		}
 		
-		String symmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + LiftingFacade.SYMMETRIC_DIFF_EXT;
+		symmetricDiff_name = resourceA_name + "_x_" + resourceB_name + "." + LiftingFacade.SYMMETRIC_DIFF_EXT;
+		String symmetricDiffSavePath = savePath + separator + symmetricDiff_name ;
 		LogUtil.log(LogEvent.NOTICE, "serialize symmetric difference "+ " to " + symmetricDiffSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(symmetricDiffSavePath), symmetricDifference, true);
+		relativeSymDiffPath = EMFStorage.pathToRelativeUri(savePath, symmetricDiffSavePath).toString();
 		
-		String asymmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
+		asymmetricDiff_name = resourceA_name + "_x_" + resourceB_name + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
+		String asymmetricDiffSavePath = savePath + separator +asymmetricDiff_name;
 		LogUtil.log(LogEvent.NOTICE, "serialize asymmetric difference "+ " to " + asymmetricDiffSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath), asymmetricDifference, true);
+		relativeAsymDiffPath = EMFStorage.pathToRelativeUri(savePath, asymmetricDiffSavePath).toString();
+		
+		try {
+			createManifest(savePath);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// zip all necessary files
 		ZipUtil.zip(savePath, savePath, PatchUtil.PATCH_EXTENSION);
 		FileOperations.removeFolder(savePath);
 
 		
+	}
+	
+	private void createManifest(String path) throws FileNotFoundException {
+		XMLWriter writer = new XMLWriter(new FileOutputStream(new File(path+separator+"MANIFEST.xml")));
+		writer.initDocument("manifest");
+		createManifestElement(writer, "modelA", resourceA_name, relativeResASavePath);
+		createManifestElement(writer, "modelB", resourceB_name, relativeResBSavePath);
+		createManifestElement(writer, "editrules", "editrule", editRules);
+		ArrayList<String[]> differences = new ArrayList<String[]>();
+		differences.add(new String[]{symmetricDiff_name, relativeSymDiffPath});
+		differences.add(new String[]{asymmetricDiff_name, relativeAsymDiffPath});
+		createManifestElement(writer, "differences", "difference", differences);
+		ArrayList<String[]> settingInfo = new ArrayList<String[]>();
+		createManifestElement(writer, "settings", "setting", settingInfo);
+		writer.finishDocument();
+	}
+	
+	private void createManifestElement(XMLWriter xmlWriter, String name, String attName, String attUri){
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		attributes.put("name", attName);
+		attributes.put("href", attUri);
+		xmlWriter.generateEmptyTag(name, attributes);
+	}
+	
+	private void createManifestElement(XMLWriter xmlWriter, String name, String innerName, ArrayList<String[]> innerElements){
+		xmlWriter.generateStartTag(name, null);
+		if(!innerElements.isEmpty()){
+			for(int i = 0; i < innerElements.size(); i++){
+				HashMap<String, String> attributes = new HashMap<String, String>();
+				attributes.put("name", innerElements.get(i)[0]);
+				attributes.put("href", innerElements.get(i)[1]);
+				xmlWriter.generateEmptyTag(innerName, attributes);
+			}
+		}
+		xmlWriter.generateEndTag(name);
 	}
 
 }
