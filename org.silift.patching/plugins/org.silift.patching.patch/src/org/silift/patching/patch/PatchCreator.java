@@ -1,30 +1,18 @@
 package org.silift.patching.patch;
 
-import javax.crypto.ExemptionMechanismSpi;
-
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.facade.LiftingSettings;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
-import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.util.emf.EMFResourceUtil;
 import org.sidiff.difference.util.emf.EMFStorage;
 import org.sidiff.patching.util.PatchUtil;
-import org.silift.common.exceptions.FileAlreadyExistsException;
-import org.silift.common.exceptions.FileNotCreatedException;
 import org.silift.common.file.util.FileOperations;
 import org.silift.common.file.util.ZipUtil;
 
@@ -107,21 +95,20 @@ public class PatchCreator {
 		String resBSavePath = savePath+separator+"modelB"+separator+resourceB_name;
 
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceA_name + " to " + resASavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath+separator+"modelA"+separator+resourceA_name), resourceA.getContents().get(0));
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(resASavePath), resourceA.getContents().get(0), true);
 		
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceB_name + " to " + resBSavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0));
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0), true);
 
-		
-		symmetricDifference.setUriModelA(EMFStorage.pathToUri(resASavePath).toString());
-		symmetricDifference.setUriModelB(EMFStorage.pathToUri(resBSavePath).toString());
+		symmetricDifference.setUriModelA(EMFStorage.pathToRelativeUri(savePath, resASavePath).toString());
+		symmetricDifference.setUriModelB(EMFStorage.pathToRelativeUri(savePath, resBSavePath).toString());
 		
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
 				String erSavePath = savePath + separator + "EditRules" + separator + module.getName() + ".henshin";
 				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
-				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module);
+				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
 				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
 				rbi.getEditRule().setExecuteMainUnit(newMod.getUnit("mainUnit"));
 			}
@@ -129,11 +116,11 @@ public class PatchCreator {
 		
 		String symmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + LiftingFacade.SYMMETRIC_DIFF_EXT;
 		LogUtil.log(LogEvent.NOTICE, "serialize symmetric difference "+ " to " + symmetricDiffSavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(symmetricDiffSavePath), symmetricDifference);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(symmetricDiffSavePath), symmetricDifference, true);
 		
 		String asymmetricDiffSavePath = savePath + separator + resourceA_name + "_x_" + resourceB_name + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
 		LogUtil.log(LogEvent.NOTICE, "serialize asymmetric difference "+ " to " + asymmetricDiffSavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath), asymmetricDifference);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath), asymmetricDifference, true);
 		
 		// zip all necessary files
 		ZipUtil.zip(savePath, savePath, PatchUtil.PATCH_EXTENSION);
