@@ -30,9 +30,10 @@ public class PatchCreator {
 	private Resource resourceB;
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
-	private String savePath;
+	
 	
 	private String separator;
+	private String savePath;
 	
 	private String resourceA_name;
 	private String resourceB_name;
@@ -123,7 +124,7 @@ public class PatchCreator {
 	}
 
 
-	public void serializePatch(IPath path){
+	public void serializePatch(IPath path) throws FileNotFoundException{
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
@@ -187,19 +188,13 @@ public class PatchCreator {
 		asymAtritbutes.put("href", relativeAsymDiffPath);
 		differences.add(asymAtritbutes);
 		
-		try {
-			createManifest(savePath);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		createManifest(savePath);
 		
 		// zip all necessary files
 		ZipUtil.zip(savePath, savePath, PatchUtil.PATCH_EXTENSION);
-		FileOperations.removeFolder(savePath);
-
-		
+		FileOperations.removeFolder(savePath);	
 	}
+	
 	
 	private void createManifest(String path) throws FileNotFoundException {
 		XMLWriter writer = new XMLWriter(new FileOutputStream(new File(path+separator+"MANIFEST.xml")));
@@ -224,7 +219,6 @@ public class PatchCreator {
 		for(HashMap<String, String> attributes : innerElements){
 			xmlWriter.generateEmptyTag(innerName, attributes);	
 		}
-		
 		xmlWriter.generateEndTag(name);
 	}
 

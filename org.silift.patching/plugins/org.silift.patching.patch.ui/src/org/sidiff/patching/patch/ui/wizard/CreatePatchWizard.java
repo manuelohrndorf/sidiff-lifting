@@ -1,5 +1,6 @@
 package org.sidiff.patching.patch.ui.wizard;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -164,6 +165,9 @@ public class CreatePatchWizard extends Wizard {
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			return false;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 
