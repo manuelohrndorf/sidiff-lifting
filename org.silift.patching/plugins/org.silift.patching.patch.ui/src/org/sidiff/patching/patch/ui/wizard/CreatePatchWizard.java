@@ -2,6 +2,7 @@ package org.sidiff.patching.patch.ui.wizard;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -142,11 +143,19 @@ public class CreatePatchWizard extends Wizard {
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
 			
+			ArrayList<HashMap<String, String>> conf = new ArrayList<HashMap<String, String>>();
+			HashMap<String, String> conf_Matcher = new HashMap<String, String>();
+			conf_Matcher.put("matcher", settings.getMatcher().getName());
+			conf_Matcher.put("key", settings.getMatcher().getKey());
+			conf.add(conf_Matcher);
+			
+			patchCreator.setSettings(conf);
+			
 			// Print report
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			patchCreator.serializePatch(fileA.getParent().getLocation(), settings);
+			patchCreator.serializePatch(fileA.getParent().getLocation());
 			
 			/*
 			 * Done

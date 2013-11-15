@@ -15,7 +15,6 @@ import org.sidiff.common.xml.XMLWriter;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -32,9 +31,8 @@ public class PatchCreator {
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
 	private String savePath;
-	private ArrayList<String[]> editRules;
+	
 	private String separator;
-	private LiftingSettings settings;
 	
 	private String resourceA_name;
 	private String resourceB_name;
@@ -47,6 +45,12 @@ public class PatchCreator {
 	
 	private String relativeSymDiffPath;
 	private String relativeAsymDiffPath;
+	
+	
+	private ArrayList<HashMap<String,String>> editRules;
+	private ArrayList<HashMap<String,String>> differences;
+	private ArrayList<HashMap<String,String>> settings;
+	
 	
 	public PatchCreator(Resource resourceA, Resource resourceB){
 		this.resourceA = resourceA;
@@ -109,8 +113,17 @@ public class PatchCreator {
 	}
 
 
-	public void serializePatch(IPath path, LiftingSettings settings){
+	public ArrayList<HashMap<String, String>> getSettings() {
+		return settings;
+	}
+
+
+	public void setSettings(ArrayList<HashMap<String, String>> settings) {
 		this.settings = settings;
+	}
+
+
+	public void serializePatch(IPath path){
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
@@ -130,18 +143,24 @@ public class PatchCreator {
 		symmetricDifference.setUriModelA(relativeResASavePath);
 		symmetricDifference.setUriModelB(relativeResBSavePath);
 		
-		editRules = new ArrayList<String[]>();
+		editRules = new ArrayList<HashMap<String,String>>();
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
 				String erSavePath = savePath + separator + "EditRules" + separator + module.getName() + ".henshin";
-				String relSavePath = EMFStorage.pathToRelativeUri(savePath, erSavePath).toString();
-				String[] attributes = {module.getName(), relSavePath};
-				editRules.add(attributes);
+				
 				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
 				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
 				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
 				rbi.getEditRule().setExecuteMainUnit(newMod.getUnit("mainUnit"));
+				
+				
+				// MANIFEST
+				String relSavePath = EMFStorage.pathToRelativeUri(savePath, erSavePath).toString();
+				HashMap<String, String> attributes = new HashMap<String, String>();
+				attributes.put("name", module.getName());
+				attributes.put("href", relSavePath);
+				editRules.add(attributes);
 			}
 		}
 		
@@ -156,6 +175,17 @@ public class PatchCreator {
 		LogUtil.log(LogEvent.NOTICE, "serialize asymmetric difference "+ " to " + asymmetricDiffSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath), asymmetricDifference, true);
 		relativeAsymDiffPath = EMFStorage.pathToRelativeUri(savePath, asymmetricDiffSavePath).toString();
+		
+		// MANIFEST
+		differences = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> symAtritbutes = new HashMap<String, String>();
+		symAtritbutes.put("name", symmetricDiff_name);
+		symAtritbutes.put("href", relativeSymDiffPath);
+		differences.add(symAtritbutes);
+		HashMap<String, String> asymAtritbutes = new HashMap<String, String>();
+		asymAtritbutes.put("name", asymmetricDiff_name);
+		asymAtritbutes.put("href", relativeAsymDiffPath);
+		differences.add(asymAtritbutes);
 		
 		try {
 			createManifest(savePath);
@@ -176,13 +206,9 @@ public class PatchCreator {
 		writer.initDocument("manifest");
 		createManifestElement(writer, "modelA", resourceA_name, relativeResASavePath);
 		createManifestElement(writer, "modelB", resourceB_name, relativeResBSavePath);
-		createManifestElement(writer, "editrules", "editrule", editRules);
-		ArrayList<String[]> differences = new ArrayList<String[]>();
-		differences.add(new String[]{symmetricDiff_name, relativeSymDiffPath});
-		differences.add(new String[]{asymmetricDiff_name, relativeAsymDiffPath});
+		createManifestElement(writer, "editrules", "editrule", editRules);;
 		createManifestElement(writer, "differences", "difference", differences);
-		ArrayList<String[]> settingInfo = new ArrayList<String[]>();
-		createManifestElement(writer, "settings", "setting", settingInfo);
+		createManifestElement(writer, "settings", "setting", settings);
 		writer.finishDocument();
 	}
 	
@@ -193,16 +219,12 @@ public class PatchCreator {
 		xmlWriter.generateEmptyTag(name, attributes);
 	}
 	
-	private void createManifestElement(XMLWriter xmlWriter, String name, String innerName, ArrayList<String[]> innerElements){
+	private void createManifestElement(XMLWriter xmlWriter, String name, String innerName, ArrayList<HashMap<String, String>> innerElements){
 		xmlWriter.generateStartTag(name, null);
-		if(!innerElements.isEmpty()){
-			for(int i = 0; i < innerElements.size(); i++){
-				HashMap<String, String> attributes = new HashMap<String, String>();
-				attributes.put("name", innerElements.get(i)[0]);
-				attributes.put("href", innerElements.get(i)[1]);
-				xmlWriter.generateEmptyTag(innerName, attributes);
-			}
+		for(HashMap<String, String> attributes : innerElements){
+			xmlWriter.generateEmptyTag(innerName, attributes);	
 		}
+		
 		xmlWriter.generateEndTag(name);
 	}
 
