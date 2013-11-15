@@ -85,12 +85,6 @@ public class PatchCreator {
 	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
 		this.asymmetricDifference = asymmetricDifference;
 		this.asymmetricDifference.initRuleBases();
-		for(RuleBase rb : this.asymmetricDifference.getRuleBases()){
-			System.out.println(rb);
-			for(RuleBaseItem i: rb.getItems()){
-				System.out.println(i.getEditRule().toString());
-			}
-		}
 	}
 
 	
@@ -161,6 +155,7 @@ public class PatchCreator {
 				HashMap<String, String> attributes = new HashMap<String, String>();
 				attributes.put("name", module.getName());
 				attributes.put("href", relSavePath);
+				attributes.put("version", rbi.getVersion());
 				editRules.add(attributes);
 			}
 		}
