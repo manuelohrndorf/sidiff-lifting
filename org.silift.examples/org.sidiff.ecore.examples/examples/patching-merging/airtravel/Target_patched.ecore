@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="airtravel" nsURI="http://airtravel/1.0" nsPrefix="airtravel">
+    <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="flight" lowerBound="1"
+          eType="#/0/Flight"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="passenger" lowerBound="1"
+          eType="#/0/Passenger"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Flight">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="departure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="schedule" eType="#/0/Schedule"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Passenger" eSuperTypes="#/0/Person"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Person">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="birthday" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EconomyTicket" eSuperTypes="#/0/Ticket">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BusinessTicket" eSuperTypes="#/0/Ticket">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Schedule"/>
+  </ecore:EPackage>
+  <ecore:EGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+</xmi:XMI>

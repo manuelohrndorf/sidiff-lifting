@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model_vb" nsURI="http://model_vb/1.0" nsPrefix="model_vb">
+  <eClassifiers xsi:type="ecore:EClass" name="Ticket">
+    <eOperations name="getTInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1" eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="office" eType="#//Office"
+        eOpposite="#//Office/ticket"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onlineStore" eType="#//OnlineStore"
+        eOpposite="#//OnlineStore/ticket"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="customer" eType="#//Customer"
+        eOpposite="#//Customer/ticket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="artist" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concert" eSuperTypes="#//Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Exhibition" eSuperTypes="#//Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/customer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Office">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/office"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OnlineStore">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/onlineStore"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SoccerMatch" eSuperTypes="#//Event"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Person"/>
+</ecore:EPackage>

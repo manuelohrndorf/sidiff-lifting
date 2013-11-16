@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9y5kUNkrEeKskdwQnjFTNA" name="create_super_eclass" description="Creates one superclass of an exisiting  EClass">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_90HsUNkrEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_90ITZNkrEeKskdwQnjFTNA">
+    <parameters xmi:id="_90HsUdkrEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_90HsUtkrEeKskdwQnjFTNA" name="eClassName" description="Name of the new EClass"/>
+    <parameters xmi:id="_90HsU9krEeKskdwQnjFTNA" name="out_superEClass"/>
+    <parameters xmi:id="_90HsVNkrEeKskdwQnjFTNA" name="isInterface"/>
+    <parameters xmi:id="_90HsVdkrEeKskdwQnjFTNA" name="isAbstract"/>
+    <parameterMappings xmi:id="_90HsVtkrEeKskdwQnjFTNA" source="_90HsUdkrEeKskdwQnjFTNA" target="_90ITZdkrEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_90ITYNkrEeKskdwQnjFTNA" source="_90HsUtkrEeKskdwQnjFTNA" target="_90ITZtkrEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_90ITYdkrEeKskdwQnjFTNA" source="_90ITZ9krEeKskdwQnjFTNA" target="_90HsU9krEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_90ITYtkrEeKskdwQnjFTNA" source="_90HsVNkrEeKskdwQnjFTNA" target="_90ITaNkrEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_90ITY9krEeKskdwQnjFTNA" source="_90HsVdkrEeKskdwQnjFTNA" target="_90ITadkrEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_90ITZNkrEeKskdwQnjFTNA" name="create_super_EClass">
+    <parameters xmi:id="_90ITZdkrEeKskdwQnjFTNA" name="selectedEClass"/>
+    <parameters xmi:id="_90ITZtkrEeKskdwQnjFTNA" name="superEClass"/>
+    <parameters xmi:id="_90ITZ9krEeKskdwQnjFTNA" name="out_superEClass"/>
+    <parameters xmi:id="_90ITaNkrEeKskdwQnjFTNA" name="isInterface"/>
+    <parameters xmi:id="_90ITadkrEeKskdwQnjFTNA" name="isAbstract"/>
+    <lhs xmi:id="_90ITatkrEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_90ITa9krEeKskdwQnjFTNA" name="selectedEClass" incoming="_90ITbdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_90ITbNkrEeKskdwQnjFTNA" outgoing="_90ITbdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_90ITbdkrEeKskdwQnjFTNA" source="_90ITbNkrEeKskdwQnjFTNA" target="_90ITa9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_90ITbtkrEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_90ITb9krEeKskdwQnjFTNA" name="selectedEClass" incoming="_90ITddkrEeKskdwQnjFTNA" outgoing="_90ITd9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_90ITcNkrEeKskdwQnjFTNA" outgoing="_90ITddkrEeKskdwQnjFTNA _90ITdtkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_90ITcdkrEeKskdwQnjFTNA" name="out_superEClass" incoming="_90ITdtkrEeKskdwQnjFTNA _90ITd9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_90ITctkrEeKskdwQnjFTNA" value="superEClass">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_90ITc9krEeKskdwQnjFTNA" value="isInterface">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/interface"/>
+        </attributes>
+        <attributes xmi:id="_90ITdNkrEeKskdwQnjFTNA" value="isAbstract">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/abstract"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_90ITddkrEeKskdwQnjFTNA" source="_90ITcNkrEeKskdwQnjFTNA" target="_90ITb9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_90ITdtkrEeKskdwQnjFTNA" source="_90ITcNkrEeKskdwQnjFTNA" target="_90ITcdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_90ITd9krEeKskdwQnjFTNA" source="_90ITb9krEeKskdwQnjFTNA" target="_90ITcdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_90ITeNkrEeKskdwQnjFTNA" origin="_90ITa9krEeKskdwQnjFTNA" image="_90ITb9krEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_90ITedkrEeKskdwQnjFTNA" origin="_90ITbNkrEeKskdwQnjFTNA" image="_90ITcNkrEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>
