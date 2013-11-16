@@ -23,8 +23,8 @@ import org.sidiff.core.matching.IterativeMatchingService;
 import org.sidiff.core.matching.ProfilesMatchingService;
 import org.sidiff.core.similarities.DefaultSimilaritiesService;
 import org.sidiff.core.similaritiescalculator.DefaultSimilaritiesCalculationService;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.correspondence.sidiff.IReliabilityCalculator;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 
 public class SidiffCorrespondence {

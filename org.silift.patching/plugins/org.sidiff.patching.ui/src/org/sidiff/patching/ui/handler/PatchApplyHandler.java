@@ -48,7 +48,6 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
@@ -62,6 +61,7 @@ import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.silift.common.file.util.FileOperations;
 import org.silift.common.file.util.XMLUtil;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 // TODO[MO@26.10.13]: Show handler menu entry only on patch files.
 public class PatchApplyHandler extends AbstractHandler {

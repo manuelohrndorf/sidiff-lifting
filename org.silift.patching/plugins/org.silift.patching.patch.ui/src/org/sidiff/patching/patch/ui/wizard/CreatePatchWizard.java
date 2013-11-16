@@ -51,6 +51,8 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.emf.EMFStorage;
 import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
@@ -60,8 +62,6 @@ import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
-import org.sidiff.difference.util.emf.EMFStorage;
 
 public class CreatePatchWizard extends Wizard {
 	

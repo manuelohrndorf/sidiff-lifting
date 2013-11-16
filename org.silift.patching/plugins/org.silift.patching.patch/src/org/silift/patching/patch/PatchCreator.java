@@ -18,10 +18,10 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.util.emf.EMFStorage;
 import org.sidiff.patching.util.PatchUtil;
 import org.silift.common.file.util.FileOperations;
 import org.silift.common.file.util.ZipUtil;
+import org.silift.common.util.emf.EMFStorage;
 
 
 public class PatchCreator {

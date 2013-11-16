@@ -12,8 +12,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.patch.ui.wizard.CreatePatchWizard;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 public class CreatePatchHandler extends AbstractHandler {
 

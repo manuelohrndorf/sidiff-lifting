@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IEditorLauncher;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.util.ui.UIUtil;
 import org.sidiff.patching.util.PatchUtil;
+import org.silift.common.util.ui.UIUtil;
 
 public class PatchEditorLauncher implements IEditorLauncher {
 
