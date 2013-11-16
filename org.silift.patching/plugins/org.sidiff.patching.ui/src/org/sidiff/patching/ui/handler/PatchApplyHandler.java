@@ -59,9 +59,9 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.util.CorrespondenceUtil;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
-import org.silift.common.file.util.FileOperations;
-import org.silift.common.file.util.XMLUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.file.FileOperations;
+import org.silift.common.util.file.XMLUtil;
 
 // TODO[MO@26.10.13]: Show handler menu entry only on patch files.
 public class PatchApplyHandler extends AbstractHandler {

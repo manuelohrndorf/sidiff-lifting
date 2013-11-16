@@ -19,8 +19,8 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.silift.common.exceptions.FileAlreadyExistsException;
-import org.silift.common.file.util.ZipUtil;
+import org.silift.common.util.exceptions.FileAlreadyExistsException;
+import org.silift.common.util.file.ZipUtil;
 
 public class PatchUtil {	
 	

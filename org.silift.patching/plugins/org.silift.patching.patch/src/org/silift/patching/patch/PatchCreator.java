@@ -19,9 +19,9 @@ import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.patching.util.PatchUtil;
-import org.silift.common.file.util.FileOperations;
-import org.silift.common.file.util.ZipUtil;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.file.FileOperations;
+import org.silift.common.util.file.ZipUtil;
 
 
 public class PatchCreator {
