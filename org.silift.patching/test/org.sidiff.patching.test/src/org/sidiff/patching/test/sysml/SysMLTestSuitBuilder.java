@@ -19,11 +19,11 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.util.TransformatorUtil;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 public class SysMLTestSuitBuilder {
 	private File modelFolder;

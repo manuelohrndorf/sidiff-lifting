@@ -3,8 +3,7 @@ package org.sidiff.patching.test;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.papyrus.sysml.SysmlPackage;
-import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 public class NormalizerFactory {
 

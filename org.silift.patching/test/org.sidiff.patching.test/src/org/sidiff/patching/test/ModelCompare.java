@@ -18,7 +18,7 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.util.access.EMFModelAccessEx;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 public class ModelCompare {
 
