@@ -61,8 +61,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	
 	public static final String ID = "org.sidiff.patching.ui.view.PatchView";
 	
-	private Logger logger = Logger.getLogger(PatchView.class.getName());
-
 	private PatchEngine engine;
 
 	private TreeViewer patchViewer;
@@ -375,7 +373,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	@Override
 	public void itemChecked(OperationInvocation invocation, boolean checked) {
-		logger.log(Level.FINE, StringUtil.resolve(invocation) + " is " + (checked ? "checked" : "unchecked"));
 		PatchUtil.ensureDependency(invocation, checked);
 		patchViewer.update(engine.getDifference().getOperationInvocations().toArray(), null);
 		validateAction.run();

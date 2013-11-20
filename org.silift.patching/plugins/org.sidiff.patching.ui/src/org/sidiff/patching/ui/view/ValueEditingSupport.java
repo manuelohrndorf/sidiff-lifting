@@ -19,7 +19,6 @@ import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ui.Activator;
 
 public class ValueEditingSupport extends EditingSupport {
-	private Logger logger = Logger.getLogger(Activator.class.getName());
 	private List<CellObject> itemObjects;
 	private IPatchCorrespondence correspondence;
 	private IValueChangedListener listener;
@@ -31,13 +30,11 @@ public class ValueEditingSupport extends EditingSupport {
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 		ObjectParameterBinding substitution = (ObjectParameterBinding) element;
-		logger.log(Level.FINEST, "Edit for " + substitution.getFormalName());
 
 		this.itemObjects = new ArrayList<CellObject>();
 		EObject currentObject = substitution.getActualA();
 
 		for (EObject eObject : correspondence.getAllCorrespondences(currentObject)) {
-			logger.log(Level.FINEST, "Unmatched eObject " + StringUtil.resolve(eObject));
 			float reliability = correspondence.getReliability(currentObject, eObject);
 			CellObject cellObject = new CellObject(reliability, eObject);
 			itemObjects.add(cellObject);
@@ -80,11 +77,9 @@ public class ValueEditingSupport extends EditingSupport {
 			int index = ((Integer) value).intValue();
 			ObjectParameterBinding substitution = (ObjectParameterBinding) element;
 			if (index == -1) {
-				logger.log(Level.FINE, "Removing correspondence of " + substitution.getActualA());
 				correspondence.removeCorrespondence(substitution.getActualA());
 			} else {
 				EObject elementB = itemObjects.get(index).getEObject();
-				logger.log(Level.FINE, "Setting " + substitution.getFormalName() + " to " + elementB);
 				correspondence.setCorrespondence(substitution.getActualA(), elementB);
 			}
 		}

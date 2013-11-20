@@ -30,7 +30,6 @@ import org.sidiff.patching.ui.view.filter.ReportViewFilter;
 
 public class ReportView extends ViewPart {
 	public static final String ID = "org.sidiff.patching.ui.view.ReportView";
-	private Logger logger = Logger.getLogger(ReportView.class.getName());
 
 	private Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
 	private Image SKIPPED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
@@ -274,6 +273,5 @@ public class ReportView extends ViewPart {
 			reportViewer.setInput(input);
 			reportViewer.getTable().getColumns()[2].pack();
 		}
-		logger.log(Level.INFO, "\n" + input.toString());
 	}
 }

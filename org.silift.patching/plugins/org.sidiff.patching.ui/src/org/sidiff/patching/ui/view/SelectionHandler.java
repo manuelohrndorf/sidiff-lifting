@@ -2,6 +2,7 @@ package org.sidiff.patching.ui.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
@@ -28,8 +29,14 @@ public class SelectionHandler implements ISelectionProvider, ISelectionChangedLi
 	public void selectionChanged(SelectionChangedEvent event) {
 		ISelection selection = getSelection();
 		if (selection != null) {
+			try{
 			for (ISelectionChangedListener listener : selectionChangedListeners) {
 				listener.selectionChanged(new SelectionChangedEvent(this, selection));
+			}
+			}
+			catch(ConcurrentModificationException e){
+				//TODO 
+				//just catched
 			}
 		}
 	}
