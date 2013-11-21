@@ -26,13 +26,25 @@
             allPopups="false"
             locationURI="popup:org.eclipse.ui.popup.any">
          <menu
-               id="org.sidiff.patching.ui.menu"
-               label="Sidiff Patching">
-            <command
-                  commandId="org.silift.patching.patch.ui.createPatch"
-                  label="Create a Patch"
-                  style="push">
-            </command>
+               id="org.sidiff.difference.ui.category.silift"
+               label="SiLift">
+            <menu
+                  id="org.sidiff.difference.ui.category.silift.patching"
+                  label="Patching">
+               <command
+                     commandId="org.silift.patching.patch.ui.createPatch"
+                     label="Create a Patch"
+                     style="push">
+               </command>
+            </menu>
+            <visibleWhen
+                  checkEnabled="false">
+               <or>
+                  <reference
+                        definitionId="org.sidiff.difference.lifting.ui.definition.modelFiles">
+                  </reference>
+               </or>
+            </visibleWhen>
          </menu>
       </menuContribution>
    </extension>

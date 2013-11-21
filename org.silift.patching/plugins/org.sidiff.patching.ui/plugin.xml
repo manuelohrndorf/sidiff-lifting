@@ -33,27 +33,36 @@
  <menuContribution
     locationURI= "popup:org.eclipse.ui.popup.any?after=additions">
     <menu
-       id="org.sidiff.patching.ui.menu"
-       label="Sidiff Patching">
+       id="org.sidiff.difference.ui.category.silift"
+       label="SiLift">
+       <menu
+             id="org.sidiff.difference.ui.category.silift.patching"
+             label="Patching">
+          <command
+                commandId="org.sidiff.patching.ui.PatchApplyCommand"
+                label="Apply Patch">
+          </command>
+          <command
+                commandId="org.sidiff.patching.ui.handler.CopyDiagramLayoutHandler"
+                label="Copy Diagram Layout">
+             <visibleWhen
+                   checkEnabled="true">
+                <count
+                      value="2">
+                </count>
+             </visibleWhen>
+          </command>
+       </menu>
+       <visibleWhen
+             checkEnabled="false">
+          <or>
+             <reference
+                   definitionId="org.sidiff.patching.ui.patchApplyDefinition">
+             </reference>
+          </or>
+       </visibleWhen>
     </menu>
  </menuContribution>
-<menuContribution
-    locationURI= "popup:org.sidiff.patching.ui.menu?after=additions">
-    <command
-       commandId="org.sidiff.patching.ui.PatchApplyCommand"
-       label= "Apply Patch">
-    </command>
-    <command
-       commandId="org.sidiff.patching.ui.handler.CopyDiagramLayoutHandler"
-       label= "Copy Diagram Layout">
-       <visibleWhen
-             checkEnabled="true">
-          <count
-                value="2">
-          </count>
-       </visibleWhen>
-    </command>
-</menuContribution>
 </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
