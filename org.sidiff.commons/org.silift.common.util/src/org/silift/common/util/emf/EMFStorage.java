@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * The resource manager is used to save and load EMF and java resources.
@@ -100,9 +101,16 @@ public class EMFStorage {
 	 */
 	public static void eSaveAs(URI uri, EObject root, boolean relative) {
 
-		Resource resource = new XMIIDResourceImpl(uri);
-		resource.getContents().add(root);
-
+		Resource resource = null;
+		
+		if(root.eResource() != null){
+			resource = root.eResource();
+			resource.setURI(uri);
+		}else{
+			resource = new XMIResourceImpl(uri);
+			resource.getContents().add(root);
+		}
+		
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 		if(relative)
