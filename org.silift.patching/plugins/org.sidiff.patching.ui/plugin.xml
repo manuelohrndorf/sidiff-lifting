@@ -18,8 +18,7 @@
    </extension>
    <extension point="org.eclipse.ui.commands">
       <command
-            defaultHandler="org.sidiff.patching.ui.handler.PatchApplyHandler"
-            id="org.sidiff.patching.ui.handler.PatchApplyHandler"
+            id="org.sidiff.patching.ui.PatchApplyCommand"
             name="Apply Patch">
       </command>
       <command
@@ -41,7 +40,7 @@
 <menuContribution
     locationURI= "popup:org.sidiff.patching.ui.menu?after=additions">
     <command
-       commandId="org.sidiff.patching.ui.handler.PatchApplyHandler"
+       commandId="org.sidiff.patching.ui.PatchApplyCommand"
        label= "Apply Patch">
     </command>
     <command
@@ -56,5 +55,47 @@
     </command>
 </menuContribution>
 </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.sidiff.patching.ui.handler.PatchApplyPropertyTester"
+            id="org.sidiff.patching.ui.patchApplyPropertyTester"
+            namespace="org.sidiff.patching.ui.patchApplyPropertyTester"
+            properties="patchFile"
+            type="org.eclipse.core.resources.IFile">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.sidiff.patching.ui.handler.PatchApplyHandler"
+            commandId="org.sidiff.patching.ui.PatchApplyCommand">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.patching.ui.patchApplyDefinition">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.patching.ui.patchApplyDefinition">
+         <and>
+            <count
+                  value="1">
+            </count>
+            <iterate>
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.sidiff.patching.ui.patchApplyPropertyTester.patchFile">
+               </test>
+            </iterate>
+         </and>
+      </definition>
+   </extension>
    
 </plugin>
