@@ -65,7 +65,7 @@ public class PatchUtil {
 				addIncomingOperations(operationInvocations, operationInvocation);
 			}
 			operationInvocations.add(0, invocation);
-			LogUtil.log(LogEvent.NOTICE, "Stage: " + stage + " " + invocation.getChangeSet().getName());
+			LogUtil.log(LogEvent.DEBUG, "Stage: " + stage + " " + invocation.getChangeSet().getName());
 			stage--;
 		}
 	}

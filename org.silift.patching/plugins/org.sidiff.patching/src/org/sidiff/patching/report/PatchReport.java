@@ -50,6 +50,11 @@ public class PatchReport {
 	public void add(ReportEntry reportEntry) {
 		this.entries.add(reportEntry);
 	}
+	
+	//TEST
+	public void remove(ReportEntry reportEntry){
+		this.entries.remove(reportEntry);
+	}
 
 	public void add(Collection<ReportEntry> reportEntries) {
 		for (ReportEntry reportEntry : reportEntries) {

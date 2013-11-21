@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
+import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.exceptions.ParameterModifiedException;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
@@ -42,12 +44,13 @@ import org.sidiff.patching.util.PatchUtil;
 
 /**
  * 
- * @author Dennis Koch, kehrer
+ * @author Dennis Koch, kehrer, dreuling
  */
 public class PatchEngine {
 	private AsymmetricDifference difference;
 	private IPatchCorrespondence correspondence;
 	private List<OperationInvocation> orderedOperations;
+	private Set<OperationInvocation> appliedOperations;
 	private Copier copier;
 	private ITransformationEngine transformationEngine;
 	private Resource targetResource;
@@ -79,6 +82,7 @@ public class PatchEngine {
 		this.transformationEngine = transformationEngine;
 
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
+		this.appliedOperations = new HashSet<OperationInvocation>();
 		this.correspondence.set(difference.getOriginModel(), targetResource);
 		
 		this.validationMode = ValidationMode.ITERATIVE;
@@ -110,7 +114,7 @@ public class PatchEngine {
 	/**
 	 * clears preview resource and fills it with target model
 	 */
-	private void resetResourceCopy() {
+	private void initResourceCopy() {
 		this.copier = new Copier();
 		AbstractCommand command = new AbstractCommand() {
 
@@ -157,11 +161,12 @@ public class PatchEngine {
 	 */
 	public PatchResult applyPatch() throws PatchNotExecuteableException {
 		assert previewEditingDomain == null : "applyPatch only available without preview!";
-		resetResourceCopy();		
+		initResourceCopy();		
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()) {
+			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))) {
 				try {
 					apply(operationInvocation);
+					appliedOperations.add(operationInvocation);
 				} catch (OperationNotExecutableException e) {
 					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
 				} catch (ParameterMissingException e) {
@@ -171,6 +176,7 @@ public class PatchEngine {
 				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
 			}
 		}
+	
 		PatchReport report = new PatchReport();
 		validateModel(report);
 		return new PatchResult(this.previewTargetResource, report);
@@ -180,14 +186,15 @@ public class PatchEngine {
 // #################################### org.sidiff.patching.test ####################################
 	
 	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
-		resetResourceCopy();
+		initResourceCopy();
 		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
 		int previousErrors = initialErrors;
 		PatchReport report = new PatchReport();
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()) {
+			if (operationInvocation.isApply()  && !(appliedOperations.contains(operationInvocation))) {
 				try {
 					apply(operationInvocation);
+					appliedOperations.add(operationInvocation);
 					int currentErrors = getValidationErrorAmount(this.previewTargetResource);
 					if (previousErrors != currentErrors) {
 						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
@@ -239,6 +246,11 @@ public class PatchEngine {
 		// but UI will be ugly because of lacking a return name
 		// Skip depending operations will be observed in checkExecutable()
 		setResult(operationInvocation.getParameterBindings(), resultMap);
+	}
+	
+	private synchronized void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
+		
+		transformationEngine.undo(operationInvocation);		
 	}
 
 	
@@ -389,13 +401,17 @@ public class PatchEngine {
 	public PatchReport createPatchReport() {
 		PatchReport report = new PatchReport();
 
-		resetResourceCopy();
+		//quick fix
+		if(appliedOperations.size() < 1)
+			initResourceCopy();
 
 		checkParameter(report);
-		
+
 		checkModified(report);
 
 		checkExecutable(report);
+		
+
 
 		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL)
 			validateModel(report);
@@ -440,7 +456,7 @@ public class PatchEngine {
 	private void checkModified(PatchReport report) {
 
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()) {
+			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))){
 				Collection<ReportEntry> result = new ArrayList<ReportEntry>();
 				for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
 					Parameter formalParameter = parameterBinding.getFormalParameter();
@@ -506,7 +522,8 @@ public class PatchEngine {
 						}
 					}
 				}
-			} else {
+			}
+			else {
 				result.add(new ReportEntry(Status.SKIPPED, Type.PARAMETER, operationInvocation.getChangeSet().getName()));
 			}
 			report.add(operationInvocation, result);
@@ -526,13 +543,13 @@ public class PatchEngine {
 		AbstractCommand command = new AbstractCommand() {
 			@Override
 			public void execute() {
-				
+							
+				ReportEntry reportEntry = null;
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
-				Set<OperationInvocation> executed = new HashSet<OperationInvocation>();
 				for (OperationInvocation operationInvocation : orderedOperations) {
-					ReportEntry reportEntry = null;
-					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, executed)) {
+					if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))
+							&& isOutgoingExecuted(operationInvocation, appliedOperations)) {
 						if(validationMode == ValidationMode.ITERATIVE){
 							initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
 							previousErrors = initialErrors;
@@ -552,23 +569,41 @@ public class PatchEngine {
 									}
 								}else{
 									reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
-									executed.add(operationInvocation);
+									appliedOperations.add(operationInvocation);
 								}
 								previousErrors = currentErrors;
 							}else {
 								reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
-									executed.add(operationInvocation);
+								appliedOperations.add(operationInvocation);
 							}
 							
 						} catch (Exception e) {
 							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
 						}
-					} else {
-						reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+					} else if(operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
+							reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
 					}
 					if(reportEntry != null)
 						report.add(operationInvocation, reportEntry);
 				}
+				
+		ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
+		while(li.hasPrevious()){
+			OperationInvocation operationInvocation = (OperationInvocation)li.previous();
+			if (!operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
+				try{
+					revert(operationInvocation);
+					appliedOperations.remove(operationInvocation);
+					reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
+					report.add(operationInvocation, reportEntry);
+				
+				}
+				catch (OperationNotUndoableException e){
+					e.printStackTrace();
+				}
+				
+			}
+		}
 			}
 			
 

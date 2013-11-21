@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
+import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 
 public interface ITransformationEngine {
@@ -33,5 +34,12 @@ public interface ITransformationEngine {
 	 */
 	public Map<String, Object> execute(OperationInvocation operationInvocation, Map<String, Object> parameters)
 			throws ParameterMissingException, OperationNotExecutableException;
+	
+	/**
+	 * Undoes an operation executed beforehand
+	 * @param operationInvocation operation to be undone
+	 * @throws OperationNotUndoableException
+	 */
+	public void undo(OperationInvocation operationInvocation)throws OperationNotUndoableException;
 
 }

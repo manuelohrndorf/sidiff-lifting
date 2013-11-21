@@ -5,7 +5,7 @@ import org.sidiff.patching.ITransformationEngine;
 /**
  * This transformation engine is based on the henshin transformation engine
  * 
- * @author Dennis Koch
+ * @author Dennis Koch / Dennis Reuling
  * 
  */
 public interface HenshinTransformationEngine extends ITransformationEngine {

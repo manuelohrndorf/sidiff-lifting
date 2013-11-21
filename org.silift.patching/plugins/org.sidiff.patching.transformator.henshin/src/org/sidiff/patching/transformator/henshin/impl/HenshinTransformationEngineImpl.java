@@ -29,6 +29,7 @@ import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
+import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
 
@@ -45,11 +46,17 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	 */
 	private Resource resource;
 
-	/**
+	/**uu
 	 * The Henshin Graph that contains the target resource on which the patch
 	 * shall be applied.
 	 */
 	private EGraph graph;
+	
+	/**
+	 * A Map which contains all executed operation invocations and their
+	 * corresponding unit application
+	 */
+	private Map<OperationInvocation,UnitApplication> executedOperations = new HashMap<OperationInvocation, UnitApplication>();
 
 	/**
 	 * Root objects initially contained by the Henshin graph.
@@ -78,6 +85,7 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		for (EObject obj : graph.getRoots()) {
 			initialGraphRoots.add(obj);
 		}
+		
 	}
 
 	@Override
@@ -123,6 +131,8 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 
 		Map<String, Object> outputMap = new HashMap<String, Object>();
 		if (application.execute(null)) {
+			//Save application for "undo" purposes
+			executedOperations.put(operationInvocation, application);
 			for (ParameterBinding binding : operationInvocation.getParameterBindings()) {
 				if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
 					if (binding instanceof ObjectParameterBinding) {
@@ -141,6 +151,26 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		synchronizeResourceWithGraph();
 		
 		return outputMap;
+	}
+	
+	@Override
+	public void undo(OperationInvocation operationInvocation)
+			throws OperationNotUndoableException {
+		
+		String operationName = operationInvocation.getChangeSet().getName();
+		LogUtil.log(LogEvent.NOTICE, "Undoing operation " + operationName);
+		
+		//Get corresponding unit application
+		UnitApplication application = executedOperations.get(operationInvocation);
+		//Revert the operation
+		if(application.undo(null)){
+			LogUtil.log(LogEvent.NOTICE, "Successfully undone!" );
+		}
+		else{
+			throw new OperationNotUndoableException(operationName);
+		}
+			
+
 	}
 
 	/**
@@ -221,4 +251,5 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		}
 	}
 	// ================================================================
+
 }
