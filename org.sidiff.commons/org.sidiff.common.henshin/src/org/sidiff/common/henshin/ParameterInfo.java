@@ -139,6 +139,10 @@ public class ParameterInfo {
 	 * @return
 	 */
 	public static EClassifier getRealType(Parameter parameter) {
+		
+		if(parameter.getType()!=null)
+			return parameter.getType();
+		
 		Parameter oppositeParameter = getInnermostParameter(parameter);
 		
 		assert(oppositeParameter != null);
