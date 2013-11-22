@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -434,13 +435,17 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the rule of the new parameter.
 	 * @param name
 	 *            the name of the new parameter.
+	 * @param type
+	 * 			  the type of the new parameter
 	 * @return the new parameter or null if the parameter already exists.
 	 */
-	public static Parameter createParameter(Rule rule, String name) {
+	public static Parameter createParameter(Rule rule, String name, EClassifier type) {
 
 		if (rule.getParameter(name) == null) {
 			Parameter parameter = HenshinFactory.eINSTANCE.createParameter();
 			parameter.setName(name);
+			if(type != null)
+				parameter.setType(type);
 			rule.getParameters().add(parameter);
 			return parameter;
 		}
