@@ -19,22 +19,22 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.silift.common.util.exceptions.FileAlreadyExistsException;
 import org.silift.common.util.file.ZipUtil;
 
-public class PatchUtil {	
-	
+public class PatchUtil {
+
 	/**
 	 * The patch file extension.
 	 */
-	// TODO[MO@26.10.13]: Move to patching facade.
-	public static final String PATCH_EXTENSION = "slp";
-	
+	public static final String PATCH_EXTENSION = AsymmetricDiffFacade.PATCH_EXTENSION;
+
 	private static int stage = 0;
-	
+
 	/**
 	 * Sorts OperationInvocations in a processable order and returns a flat list.
-	 * 
+	 *
 	 * @return sorted list of OperationInvocation
 	 */
 	public static List<OperationInvocation> getOrderdOperationInvocations(EList<OperationInvocation> unorderdOperationInvocations) {
@@ -45,7 +45,7 @@ public class PatchUtil {
 
 	/**
 	 * Sorts the OperationInvocations in dependency order using the depth-first search algorithm
-	 * 
+	 *
 	 * @param unorderdOperationInvocations
 	 */
 	private static List<OperationInvocation> sortDFS(List<OperationInvocation> unorderdOperationInvocations) {
@@ -74,7 +74,7 @@ public class PatchUtil {
 	/**
 	 * Checks all following OperationInvocations and applies the same execution
 	 * state
-	 * 
+	 *
 	 * @param invocation
 	 * @param apply
 	 */
@@ -105,14 +105,14 @@ public class PatchUtil {
 			setAllFollowing(incomingInvocation, apply);
 		}
 	}
-	
+
 	private static List<OperationInvocation> getAllIncoming(
 			EList<DependencyContainer> incoming) {
 		List<OperationInvocation> result = new ArrayList<OperationInvocation>();
-		
-		for (DependencyContainer dependency : incoming) {			
+
+		for (DependencyContainer dependency : incoming) {
 			result.add(dependency.getSource());
-			
+
 		}
 		return result;
 	}
@@ -140,17 +140,17 @@ public class PatchUtil {
 		}
 		return to;
 	}
-	
+
 	public static URI createURI(URI uri, String suffix) {
 		URI base = uri.trimSegments(1);
 		String name = uri.trimFileExtension().lastSegment();
 		String newFile = name + "_" + suffix + "." + uri.fileExtension();
 		return base.appendSegment(newFile);
 	}
-	
+
 	/**
 	 * Uncompress the patch (if necessary).
-	 * 
+	 *
 	 * @param path
 	 *            The system path of the compressed patch.
 	 * @return The folder of the uncompressed patch.
@@ -179,7 +179,7 @@ public class PatchUtil {
 
 	/**
 	 * Checks the file extension.
-	 * 
+	 *
 	 * @param path
 	 *            The path of the patch file.
 	 * @return <code>true</code> if is a patch file; <code>false</code> otherwise.
