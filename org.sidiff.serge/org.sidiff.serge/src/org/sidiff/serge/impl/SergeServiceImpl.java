@@ -161,7 +161,7 @@ public class SergeServiceImpl implements SergeService{
 			EPackage reqModel = EPackage.Registry.INSTANCE.getEPackage(uri);
 			
 			if(reqModel==null) {
-				throw new EPackageNotFoundException();
+				throw new EPackageNotFoundException(uri);
 			}
 			
 			if(!ePackagesStack.contains(reqModel)) {
