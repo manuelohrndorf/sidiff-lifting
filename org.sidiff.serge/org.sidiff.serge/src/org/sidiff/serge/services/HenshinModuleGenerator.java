@@ -1842,9 +1842,32 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 				}	
 			
 			}
-			
 		}
-		/******* INVERSES *********************************************************************************************/
+		else if(opType==OperationType.SET) {
+			
+			/*** Find relevant elements in rule ************************************************************/
+			
+			for(Edge creationEdge: HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
+			
+				Node sourceNodeRHS = creationEdge.getSource();				
+				EReference eRef = creationEdge.getType();
+				Node targetNodeRHS = creationEdge.getTarget();			
+	
+				/*** Differentiate multiplicity cases **********************************************************/
+				
+				// Concerning <<create>> Edge: Ensure maximum is not already contained if upperBound is greater zero [..y]
+				if(eRef.getUpperBound()!=-1) {
+					
+					Node sourceNodeLHS = rule.getMappings().getOrigin(sourceNodeRHS);
+					Node targetNodeLHS = rule.getMappings().getOrigin(targetNodeRHS);
+					createUpperBoundConstrainedElements(rule, sourceNodeLHS, targetNodeLHS, eRef);
+				}	
+			
+			}
+		}
+		
+		/******* INVERSE OPERATIONS *********************************************************************************************/
+		
 		else if(opType==OperationType.DELETE) {		
 			
 			/*** Find relevant elements in rule ************************************************************/
