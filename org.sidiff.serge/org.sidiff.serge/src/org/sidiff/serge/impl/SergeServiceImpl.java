@@ -205,33 +205,34 @@ public class SergeServiceImpl implements SergeService{
 				
 		// retrieve masks
 		currentNode = docElem.getElementsByTagName("MaskedClassifiers").item(0);
-		currentChildNodes = currentNode.getChildNodes();
-		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("Mask")) {
-				Node maskNode = currentChildNodes.item(i);
-				String maskName = Common.getAttributeValue("name", maskNode);
-				String eClassName = Common.getAttributeValue("eClassifier", maskNode);
-				String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
-				String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
-			
-				EClassifier maskContainer = Common.resolveStringAsEClassifier(eClassName, ePackagesStack);
-				EAttribute eAttribute = (EAttribute) ((EClass) maskContainer).getEStructuralFeature(eAttributeName);
-				EClassifier valueContainer = eAttribute.getEType();
-				EEnumLiteral valueLiteral = null;
+		if (currentNode != null){
+			// indeed, we have masked classifiers
+			currentChildNodes = currentNode.getChildNodes();
+			for(int i=0; i<currentChildNodes.getLength(); i++) {
+				if(currentChildNodes.item(i).getNodeName().equals("Mask")) {
+					Node maskNode = currentChildNodes.item(i);
+					String maskName = Common.getAttributeValue("name", maskNode);
+					String eClassName = Common.getAttributeValue("eClassifier", maskNode);
+					String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
+					String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
 				
-				if(valueContainer instanceof EEnum) {					
-					valueLiteral = ((EEnum) valueContainer).getEEnumLiteral(eAttributeValue);
-				}else{
-					throw new Exception("Masked Classifier contains type information that is not represented by EEnum(Literals)");
+					EClassifier maskContainer = Common.resolveStringAsEClassifier(eClassName, ePackagesStack);
+					EAttribute eAttribute = (EAttribute) ((EClass) maskContainer).getEStructuralFeature(eAttributeName);
+					EClassifier valueContainer = eAttribute.getEType();
+					EEnumLiteral valueLiteral = null;
+					
+					if(valueContainer instanceof EEnum) {					
+						valueLiteral = ((EEnum) valueContainer).getEEnumLiteral(eAttributeValue);
+					}else{
+						throw new Exception("Masked Classifier contains type information that is not represented by EEnum(Literals)");
+					}
+					// add mask to EClassInfo of maskContainer
+					Mask mask = new Mask(maskName, maskContainer, eAttribute, valueLiteral);
+					eClassInfoManagement.getEClassifierInfo(maskContainer).addMask(mask);
+					
 				}
-				// add mask to EClassInfo of maskContainer
-				Mask mask = new Mask(maskName, maskContainer, eAttribute, valueLiteral);
-				eClassInfoManagement.getEClassifierInfo(maskContainer).addMask(mask);
-				
 			}
 		}
-		
-		
 		
 		/**** Constraints *****************************************************************************************/
 		
