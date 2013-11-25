@@ -1917,8 +1917,8 @@ public class HenshinModuleGenerator extends AbstractGenerator {
 			conclusion.getNodes().add(copiedTargetNode);
 			
 			
-			//There must be at least numberOfRequiredNodes+1 Nodes for a <<delete>> to be executed
-			for(int i=1; i<=numberOfRequiredNodes+1; i++) {
+			//There must be at least numberOfRequiredNodes Nodes in PAC
+			for(int i=1; i<=numberOfRequiredNodes; i++) {
 				
 				Node requiredNode = henshinFactory.createNode();
 				requiredNode.setType(targetNodeLHS.getType());
