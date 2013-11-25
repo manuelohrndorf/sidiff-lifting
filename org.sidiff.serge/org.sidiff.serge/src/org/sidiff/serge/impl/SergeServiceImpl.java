@@ -122,10 +122,13 @@ public class SergeServiceImpl implements SergeService{
 		
 		// read blacklisted names of EClasses
 		currentNode = docElem.getElementsByTagName("BlackList").item(0);
-		currentChildNodes = currentNode.getChildNodes();
-		for(int i=0; i<currentChildNodes.getLength(); i++) {
-			if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
-				stringBlackList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
+		if (currentNode != null){
+			// indeed, we have blacklisted EClasses
+			currentChildNodes = currentNode.getChildNodes();
+			for(int i=0; i<currentChildNodes.getLength(); i++) {
+				if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
+					stringBlackList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
+				}
 			}
 		}
 		
