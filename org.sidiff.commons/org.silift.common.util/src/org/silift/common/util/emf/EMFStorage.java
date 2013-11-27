@@ -31,6 +31,17 @@ public class EMFStorage {
 		}
 	}
 	
+	
+	private static class ResolveLastSegment extends URIHandlerImpl {
+		@Override
+		public URI deresolve(URI uri) {
+			String rel= uri.toString();
+			String segment = rel.substring(rel.indexOf(uri.lastSegment()));
+			return URI.createURI(segment);
+		}
+	}
+	
+	
 	/**
 	 * 
 	 * URI will be replaced by the shortest relative URI.
@@ -116,7 +127,7 @@ public class EMFStorage {
 		if(relative)
 			options.put(XMIResource.OPTION_URI_HANDLER, new DeresolveRelative());
 		else
-			options.put(XMIResource.OPTION_URI_HANDLER, new DoNotDeresolve());
+			options.put(XMIResource.OPTION_URI_HANDLER, new ResolveLastSegment());
 
 		try {
 			resource.save(options);

@@ -19,6 +19,7 @@ import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.patching.util.PatchUtil;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.file.FileOperations;
 import org.silift.common.util.file.ZipUtil;
@@ -28,6 +29,8 @@ public class PatchCreator {
 	
 	private Resource resourceA;
 	private Resource resourceB;
+	private Resource resourceADiag;
+	private Resource resourceBDiag;
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
 	
@@ -37,6 +40,8 @@ public class PatchCreator {
 	
 	private String resourceA_name;
 	private String resourceB_name;
+	private String resourceADiag_name;
+	private String resourceBDiag_name;
 	
 	private String relativeResASavePath;
 	private String relativeResBSavePath;
@@ -56,6 +61,8 @@ public class PatchCreator {
 	public PatchCreator(Resource resourceA, Resource resourceB){
 		this.resourceA = resourceA;
 		this.resourceB = resourceB;
+		this.resourceADiag = deriveDiagrammFile(resourceA);
+		this.resourceBDiag = deriveDiagrammFile(resourceB);
 		separator = System.getProperty("file.separator");
 	}
 	
@@ -119,19 +126,32 @@ public class PatchCreator {
 
 
 	public void serializePatch(IPath path) throws FileNotFoundException{
+		
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
+		
+		resourceADiag_name = resourceADiag.getURI().lastSegment();
+		resourceBDiag_name = resourceBDiag.getURI().lastSegment();
+		
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
 		
-		String resASavePath = savePath+separator+"modelA"+separator+resourceA_name;
-		String resBSavePath = savePath+separator+"modelB"+separator+resourceB_name;
-
+		String modelADir = savePath+separator+"modelA";
+		String modelBDir = savePath+separator+"modelB";
+		
+		String resASavePath = modelADir+separator+resourceA_name;
+		String resBSavePath = modelBDir+separator+resourceB_name;
+		
+		String resADiagSavePath = modelADir+separator+resourceADiag_name;
+		String resBDiagSavePath = modelBDir+separator+resourceBDiag_name;
+		
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceA_name + " to " + resASavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(resASavePath), resourceA.getContents().get(0), true);
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(resADiagSavePath), resourceADiag.getContents().get(0), false);
 		
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceB_name + " to " + resBSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0), true);
-
+		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBDiagSavePath), resourceBDiag.getContents().get(0), false);
+		
 		relativeResASavePath = EMFStorage.pathToRelativeUri(savePath, resASavePath).toString();
 		relativeResBSavePath = EMFStorage.pathToRelativeUri(savePath, resBSavePath).toString();
 		
@@ -215,6 +235,16 @@ public class PatchCreator {
 			xmlWriter.generateEmptyTag(innerName, attributes);	
 		}
 		xmlWriter.generateEndTag(name);
+	}
+	
+	private Resource deriveDiagrammFile(Resource model){
+		String path = EMFStorage.uriToPath(model.getURI());
+		if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
+			path += "diag";
+		}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
+			path = path.replace(".uml", ".di");
+		}
+		return LiftingFacade.loadModel(path);
 	}
 
 }
