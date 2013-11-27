@@ -32,6 +32,11 @@ public class EMFStorage {
 	}
 	
 	
+	/**
+	 * 
+	 * URI will be replaced by the last segment
+	 *
+	 */
 	private static class ResolveLastSegment extends URIHandlerImpl {
 		@Override
 		public URI deresolve(URI uri) {
