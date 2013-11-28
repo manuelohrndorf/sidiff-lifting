@@ -259,6 +259,8 @@ public class PatchCreator {
 				path = path.replace(".di", ".notation");
 				resourceSet.getResources().add(LiftingFacade.loadModel(path));
 			}
+			
+			// TODO other domains
 		}catch(Exception e){
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 		}
