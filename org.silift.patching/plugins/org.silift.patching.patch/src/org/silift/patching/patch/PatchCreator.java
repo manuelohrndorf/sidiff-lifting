@@ -140,19 +140,25 @@ public class PatchCreator {
 		
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceA_name + " to " + resASavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(resASavePath), resourceA.getContents().get(0), true);
-		for(Resource resource : resourceADiag.getResources()){
-			String resourceADiag_name = resource.getURI().lastSegment();
-			String resADiagSavePath = modelADir+separator+resourceADiag_name;
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(resADiagSavePath), resource.getContents().get(0), false);
+		
+		if(!resourceADiag.getResources().isEmpty()){
+			for(Resource resource : resourceADiag.getResources()){
+				String resourceADiag_name = resource.getURI().lastSegment();
+				String resADiagSavePath = modelADir+separator+resourceADiag_name;
+				EMFStorage.eSaveAs(EMFStorage.pathToUri(resADiagSavePath), resource.getContents().get(0), false);
+			}
 		}
 		
 		
 		LogUtil.log(LogEvent.NOTICE, "serialize "+ resourceB_name + " to " + resBSavePath);
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB.getContents().get(0), true);
-		for(Resource resource : resourceBDiag.getResources()){
-			String resourceBDiag_name = resource.getURI().lastSegment();
-			String resBDiagSavePath = modelBDir+separator+resourceBDiag_name;
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(resBDiagSavePath), resource.getContents().get(0), false);
+		
+		if(!resourceBDiag.getResources().isEmpty()){
+			for(Resource resource : resourceBDiag.getResources()){
+				String resourceBDiag_name = resource.getURI().lastSegment();
+				String resBDiagSavePath = modelBDir+separator+resourceBDiag_name;
+				EMFStorage.eSaveAs(EMFStorage.pathToUri(resBDiagSavePath), resource.getContents().get(0), false);
+			}
 		}
 		
 		relativeResASavePath = EMFStorage.pathToRelativeUri(savePath, resASavePath).toString();
@@ -243,14 +249,18 @@ public class PatchCreator {
 	private ResourceSet deriveDiagrammFile(Resource model){
 		String path = EMFStorage.uriToPath(model.getURI());
 		ResourceSet resourceSet = new ResourceSetImpl();
-		if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
-			path += "diag";
-			resourceSet.getResources().add(LiftingFacade.loadModel(path));
-		}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
-			path = path.replace(".uml", ".di");
-			resourceSet.getResources().add(LiftingFacade.loadModel(path));
-			path = path.replace(".di", ".notation");
-			resourceSet.getResources().add(LiftingFacade.loadModel(path));
+		try{
+			if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
+				path += "diag";
+				resourceSet.getResources().add(LiftingFacade.loadModel(path));
+			}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
+				path = path.replace(".uml", ".di");
+				resourceSet.getResources().add(LiftingFacade.loadModel(path));
+				path = path.replace(".di", ".notation");
+				resourceSet.getResources().add(LiftingFacade.loadModel(path));
+			}
+		}catch(Exception e){
+			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 		}
 		return resourceSet;
 	}
