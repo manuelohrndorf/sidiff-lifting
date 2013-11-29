@@ -93,12 +93,12 @@ public class ExternalReferenceCalculator {
 								int location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
 
 								if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
-									registryReferences.add(new ExternalManyReference(eObject, eStructuralFeature,
+									registryReferences.add(new ExternalManyReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue, i));
 								}
 								if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL
 										&& comparisonMode == EMFResourceUtil.COMPARE_RESOURCE) {
-									resourceSetReferences.add(new ExternalManyReference(eObject, eStructuralFeature,
+									resourceSetReferences.add(new ExternalManyReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue, i));
 								}
 							}
@@ -109,12 +109,12 @@ public class ExternalReferenceCalculator {
 								int location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
 
 								if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
-									registryReferences.add(new ExternalReference(eObject, eStructuralFeature,
+									registryReferences.add(new ExternalReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue));
 								}
 								if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL
 										&& comparisonMode == EMFResourceUtil.COMPARE_RESOURCE) {
-									resourceSetReferences.add(new ExternalReference(eObject, eStructuralFeature,
+									resourceSetReferences.add(new ExternalReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue));
 								}
 							}

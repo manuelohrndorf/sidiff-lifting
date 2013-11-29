@@ -15,7 +15,7 @@ public class EMFResourceUtil {
 	public static final int COMPARE_RESOURCE = 10;
 	public static final int COMPARE_RESOURCE_SET = 11;
 
-	//TODO: this must be a dynamic comparison option
+	//TODO (TK): This must be a dynamic comparison option
 	public static int COMPARISON_MODE = COMPARE_RESOURCE;
 
 	public static int locate(Resource model, EObject eObject) {

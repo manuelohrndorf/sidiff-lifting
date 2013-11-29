@@ -1,20 +1,47 @@
 package org.silift.common.util.emf;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EReference;
 
+/**
+ * Extension of an external reference in case where the reference type is
+ * multi-valued (upperBound > 1). In this case, we additionally have to store
+ * the position where the externally referenced target object is located. <br/>
+ * Note that "reference" here is on the EMF instance level, not on the
+ * meta-model level.
+ * 
+ * @author kehrer
+ */
 public class ExternalManyReference extends ExternalReference {
 
-	//TODO (TK) Encapsualte fields
-	
 	/**
-	 * the list index where eStructuralFeatureValue ist located.
+	 * The list index where the referenced eObject is located.
 	 */
-	public int position;
-	
-	public ExternalManyReference(EObject eObject, EStructuralFeature eStructuralFeature, EObject eStructuralFeatureValue, int position) {
-		super(eObject, eStructuralFeature, eStructuralFeatureValue);
+	private int position;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param sourceObject
+	 *            Traeger-Objekt der externen Referenz.
+	 * @param eReference
+	 *            Typ der externen Referenz.
+	 * @param targetObject
+	 *            Ziel der externen Referenz.
+	 */
+	public ExternalManyReference(EObject sourceObject, EReference eReference, EObject targetObject, int position) {
+		super(sourceObject, eReference, targetObject);
+
 		this.position = position;
+	}
+
+	/**
+	 * Simple "getter" method.
+	 * 
+	 * @return The list index where the referenced eObject is located.
+	 */
+	public int getPosition() {
+		return position;
 	}
 
 }

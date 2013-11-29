@@ -51,6 +51,7 @@ import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.dialog.ChooseModelDialog;
@@ -242,7 +243,7 @@ public class PatchApplyHandler extends AbstractHandler {
 
 									monitor.subTask("Initialize PatchEngine");
 									correspondence.setMinReliability(minReliability);
-									final PatchEngine patchEngine = new PatchEngine(difference, resource, correspondence, transformationEngine);
+									final PatchEngine patchEngine = new PatchEngine(difference, resource, correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
 									patchEngine.setPreviewResources(previewEditingDomainResult.get(), previewResourceResult.get());
 									monitor.worked(40);
 

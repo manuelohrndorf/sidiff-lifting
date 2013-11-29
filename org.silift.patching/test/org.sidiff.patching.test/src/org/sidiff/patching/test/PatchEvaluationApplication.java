@@ -31,6 +31,7 @@ import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.PatchEngine.PatchResult;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport.Status;
@@ -71,6 +72,10 @@ public class PatchEvaluationApplication implements IApplication {
 		if (type == null || !(type.equals("gmf") || !(type.equals("smg")) || !(type.equals("sysml")))) {
 			throw new InvalidParameterException("Unkown type!");
 		}	
+		
+//		// Experiment run
+//		String experimentRun = "01->02";
+//		ExperimentalUtil.getInstance(null).startRun(experimentRun);
 		
 		List<TestSuite> testSuites = null;
 
@@ -115,7 +120,7 @@ public class PatchEvaluationApplication implements IApplication {
 			
 			try {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
-				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine());
+				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getModelB(), testSuite.getCorrespondence(), testSuite.getTransformationEngine(), ExecutionMode.BATCH);
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
 				LogUtil.log(LogEvent.NOTICE, "Applying patch");	
 				
@@ -231,8 +236,10 @@ public class PatchEvaluationApplication implements IApplication {
 		writer.write(buffer.toString());
 		writer.close();
 		
-	
-
+		//Generate PieChart
+//		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_timeRatio.png";
+//		ExperimentalUtil.getInstance(null).generateChartWithoutAxes(experimentRun, StatisticType.Time, false, true, SeriesWithoutAxesType.PieChart, filename);
+		
 		System.out.println("Test finished. Report: " + modelFolder.getAbsolutePath()+"/report.txt");
 		return IApplication.EXIT_OK;
 	}	

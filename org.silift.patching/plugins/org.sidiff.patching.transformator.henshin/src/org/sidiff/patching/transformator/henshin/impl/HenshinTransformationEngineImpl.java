@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ParameterList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
@@ -28,6 +27,7 @@ import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
+import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
@@ -36,7 +36,7 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
 /**
  * Transformation Engine based on calling Henshin Transformator.
  * 
- * @author Dennis Koch, kehrer , reuling
+ * @author Dennis Koch, kehrer, reuling
  * 
  */
 public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
@@ -44,9 +44,14 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	/**
 	 * The target resource on which the patch shall be applied.
 	 */
-	private Resource resource;
+	private Resource targetResource;
 
-	/**uu
+	/**
+	 * The execution mode (interactive or batch).
+	 */
+	private ExecutionMode executionMode;
+	
+	/**
 	 * The Henshin Graph that contains the target resource on which the patch
 	 * shall be applied.
 	 */
@@ -62,30 +67,21 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	 * Root objects initially contained by the Henshin graph.
 	 */
 	private Collection<EObject> initialGraphRoots;
-	
-	@Override
-	public void setResource(Resource resource) {
-		this.resource = resource;
-		// Do not use default EGraph constructor
-		// Fill graph manually for better runtime,
-		// as no transitive closure is computed
-		graph = new EGraphImpl(resource);
-		
-		//TODO fix this crazy motherfucker
-		/*
-		
-		for (Iterator<EObject> iterator = resource.getAllContents(); iterator
-				.hasNext();) {
-			EObject obj = (EObject) iterator.next();
-			graph.add(obj);
 
-		} */
+	@Override
+	public void init(Resource targetResource, ExecutionMode executionMode) {
+		this.targetResource = targetResource;
+		this.executionMode = executionMode;
 		
+		// Create graph
+		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode);
+		graph = graphFactory.createEGraph();
+		
+		// Store initial graph roots
 		initialGraphRoots = new LinkedList<EObject>();
 		for (EObject obj : graph.getRoots()) {
 			initialGraphRoots.add(obj);
 		}
-		
 	}
 
 	@Override
@@ -145,11 +141,11 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		} else {
 			throw new OperationNotExecutableException(operationName);
 		}
-		
-		//TODO: we don't need to call this after each operation invocation
-		//      once when path is finished would be enough.
+
+		// TODO: we don't need to call this after each operation invocation
+		// once when path is finished would be enough.
 		synchronizeResourceWithGraph();
-		
+
 		return outputMap;
 	}
 	
@@ -198,24 +194,24 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		}
 	}
 
-	private void synchronizeResourceWithGraph() {				
+	private void synchronizeResourceWithGraph() {
 		for (Iterator<EObject> iterator = initialGraphRoots.iterator(); iterator.hasNext();) {
 			EObject resourceObj = iterator.next();
-			if (!graph.contains(resourceObj)){
-				//remove from resource
-				resource.getContents().remove(resourceObj);
-			}			
+			if (!graph.contains(resourceObj)) {
+				// remove from resource
+				targetResource.getContents().remove(resourceObj);
+			}
 		}
-		
+
 		for (Iterator<EObject> iterator = graph.getRoots().iterator(); iterator.hasNext();) {
 			EObject graphObj = iterator.next();
-			if (!initialGraphRoots.contains(graphObj)){
-				//add to resource
-				if (!resource.getContents().contains(graphObj)){
-					resource.getContents().add(graphObj);
+			if (!initialGraphRoots.contains(graphObj)) {
+				// add to resource
+				if (!targetResource.getContents().contains(graphObj)) {
+					targetResource.getContents().add(graphObj);
 				}
-			}			
-		}		
+			}
+		}
 	}
 
 	// ================================================================

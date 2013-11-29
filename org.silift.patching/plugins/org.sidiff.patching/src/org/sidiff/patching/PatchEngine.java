@@ -48,6 +48,7 @@ import org.sidiff.patching.util.PatchUtil;
  */
 public class PatchEngine {
 	private AsymmetricDifference difference;
+	private ExecutionMode executionMode;
 	private IPatchCorrespondence correspondence;
 	private List<OperationInvocation> orderedOperations;
 	private Set<OperationInvocation> appliedOperations;
@@ -62,10 +63,14 @@ public class PatchEngine {
 	private Collection<Diagnostic> previousErrors;
 	private Collection<Diagnostic> currentErrors;
 	
-	public enum ValidationMode{
+	public enum ValidationMode {
 		ITERATIVE, FINAL, NO, MANUAL
 	}
 
+	public enum ExecutionMode {
+		INTERACTIVE, BATCH
+	}
+	
 	/**
 	 * The PatchEngine handles manipulations on target model
 	 * 
@@ -73,9 +78,10 @@ public class PatchEngine {
 	 * @param targetResource
 	 * @param correspondence
 	 * @param transformationEngine
+	 * @param executionMode
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource targetResource, IPatchCorrespondence correspondence,
-			ITransformationEngine transformationEngine) {
+			ITransformationEngine transformationEngine, ExecutionMode executionMode) {
 		this.difference = difference;
 		this.targetResource = targetResource;
 		this.correspondence = correspondence;
@@ -86,6 +92,7 @@ public class PatchEngine {
 		this.correspondence.set(difference.getOriginModel(), targetResource);
 		
 		this.validationMode = ValidationMode.ITERATIVE;
+		this.executionMode = executionMode;
 		
 		//Initialize all operationInvocations owning 
 		//modified parameters as "not applicable"
@@ -130,7 +137,7 @@ public class PatchEngine {
 					PatchEngine.this.previewTargetResource.getContents().add(tmpResource.getContents().get(0));					
 
 				}
-				PatchEngine.this.transformationEngine.setResource(previewTargetResource);
+				PatchEngine.this.transformationEngine.init(previewTargetResource, executionMode);
 			}
 
 			@Override
