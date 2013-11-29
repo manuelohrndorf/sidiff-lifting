@@ -58,7 +58,7 @@ public class ValueEditingSupport extends EditingSupport {
 			ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) element;
 			EObject eObject = objectParameterBinding.getActualA();
 			if (eObject != null) {
-				return eObject.eResource() == correspondence.getModelA();
+				return eObject.eResource() == correspondence.getOriginModel();
 			} else {
 				return false;
 			}

@@ -18,8 +18,8 @@ import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.patching.core.correspondence.modifieddetector.*;
 
 public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
-	private Resource modelA;
-	private Resource modelB;
+	private Resource originModel;
+	private Resource targetModel;
 	private float minReliability;
 
 	private Map<EObject, EObject> correspondenceMap;
@@ -34,14 +34,14 @@ public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
 
 
 	@Override
-	public void set(Resource modelA, Resource modelB) {
-		this.modelA = modelA;
-		this.modelB = modelB;
-		sidiff = new SidiffCorrespondence(modelA, modelB);
+	public void set(Resource originModel, Resource targetModel) {
+		this.originModel = originModel;
+		this.targetModel = targetModel;
+		sidiff = new SidiffCorrespondence(originModel, targetModel);
 		LogUtil.log(LogEvent.NOTICE, "Initializing Sidiff");
 		sidiff.initialize();
 		fillCorrespondenceMap();
-		modDetector = new ModifiedDetector(modelA, modelB, correspondenceMap);
+		modDetector = new ModifiedDetector(originModel, targetModel, correspondenceMap);
 		modDetector.initialize();
 	}
 
@@ -49,7 +49,7 @@ public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
 		this.correspondenceMap = new HashMap<EObject, EObject>();
 		this.unmatchedObjects = new ArrayList<EObject>(sidiff.getUnmatchedObjects());
 
-		for (TreeIterator<EObject> iterator = this.modelA.getAllContents(); iterator.hasNext();) {
+		for (TreeIterator<EObject> iterator = this.originModel.getAllContents(); iterator.hasNext();) {
 			EObject eObject = (EObject) iterator.next();
 			EObject correspondence = sidiff.getCorrespondence(eObject);
 			if (correspondence != null) {
@@ -69,18 +69,18 @@ public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
 	}
 
 	@Override
-	public Resource getModelA() {
-		return modelA;
+	public Resource getOriginModel() {
+		return originModel;
 	}
 
 	@Override
-	public Resource getModelB() {
-		return modelB;
+	public Resource getTargetModel() {
+		return targetModel;
 	}
 
 	@Override
 	public EObject getCorrespondence(EObject eObject) {
-		int location = EMFResourceUtil.locate(modelA, eObject);
+		int location = EMFResourceUtil.locate(originModel, eObject);
 		if (location == EMFResourceUtil.PACKAGE_REGISTRY) {	
 			// Object is from global PackageRegistry thus being a singleton
 			return eObject;
@@ -146,7 +146,7 @@ public class SidiffPatchCorrespondenceImpl implements IPatchCorrespondence {
 
 	@Override
 	public float getReliability(EObject objectA, EObject objectB) {
-		int location = EMFResourceUtil.locate(modelA, objectA);
+		int location = EMFResourceUtil.locate(originModel, objectA);
 		if (location == EMFResourceUtil.PACKAGE_REGISTRY) {	
 			// Object is from global PackageRegistry thus being a singleton
 			return 1.0f;

@@ -12,17 +12,17 @@ public interface IPatchCorrespondence {
 	String EXECUTEBALE = "class";
 	String DEFAULT_DOCUMENT_TYPE = "*";
 
-	public void set(Resource modelA, Resource modelB);
+	public void set(Resource originModel, Resource targetModel);
 
 	/**
 	 * @return the origin model
 	 */
-	public Resource getModelA();
+	public Resource getOriginModel();
 
 	/**
 	 * @return the model on which the patch should be applied
 	 */
-	public Resource getModelB();
+	public Resource getTargetModel();
 
 	/**
 	 * Returns the best fitting corresponded object. If eObject is part of an

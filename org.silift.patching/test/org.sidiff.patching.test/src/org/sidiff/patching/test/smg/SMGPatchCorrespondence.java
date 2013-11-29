@@ -27,12 +27,12 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public Resource getModelA() {
+	public Resource getOriginModel() {
 		return modelA;
 	}
 
 	@Override
-	public Resource getModelB() {
+	public Resource getTargetModel() {
 		return modelB;
 	}
 

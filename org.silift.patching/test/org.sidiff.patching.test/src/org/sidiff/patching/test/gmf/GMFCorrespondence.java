@@ -36,18 +36,18 @@ public class GMFCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public Resource getModelA() {
+	public Resource getOriginModel() {
 		return difference.getSymmetric().getModelA();
 	}
 
 	@Override
-	public Resource getModelB() {
+	public Resource getTargetModel() {
 		return target;
 	}
 
 	@Override
 	public EObject getCorrespondence(EObject eObject) {
-		if (eObject.eResource().equals(getModelA())) {
+		if (eObject.eResource().equals(getOriginModel())) {
 			return copier.get(eObject);
 		} else {
 			return eObject;

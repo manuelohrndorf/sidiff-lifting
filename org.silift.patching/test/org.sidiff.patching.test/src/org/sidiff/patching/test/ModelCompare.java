@@ -63,16 +63,10 @@ public class ModelCompare {
 		// IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA,
 		// modelB);
 
-		
-		// do matching
-		SymmetricDifference difference = matcher.createMatching(modelA, modelB);
-		difference.setUriModelA(modelA.getURI().toString());
-		difference.setUriModelB(modelB.getURI().toString());
-
 		// derive techical difference
 		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);
-		LiftingFacade.deriveTechnicalDifferences(difference, tdBuilder);
-		
+		SymmetricDifference difference = LiftingFacade.deriveTechnicalDifferences(modelA, modelB, matcher, tdBuilder);
+
 		// now, return the set of obtained low-level changes (should be empty)
 		return difference.getChanges();
 	}
