@@ -68,6 +68,10 @@ org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/file/FileOp
 org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/file/XMLUtil.java -text svneol=unset#text/plain
 org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/file/ZipUtil.java -text svneol=unset#text/plain
 org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/ui/UIUtil.java -text svneol=unset#text/plain
+org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/ui/widgets/IToolbarContribution.java -text svneol=unset#text/plain
+org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/ui/widgets/IWidget.java -text svneol=unset#text/plain
+org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/ui/widgets/IWidgetSelection.java -text svneol=unset#text/plain
+org.sidiff.commons/org.silift.common.util/src/org/silift/common/util/ui/widgets/IWidgetValidation.java -text svneol=unset#text/plain
 org.sidiff.serge/org.sidiff.profileapplicator/.classpath -text svneol=unset#text/plain
 org.sidiff.serge/org.sidiff.profileapplicator/.project -text svneol=unset#text/plain
 org.sidiff.serge/org.sidiff.profileapplicator/.settings/org.eclipse.core.resources.prefs -text svneol=unset#text/plain
@@ -1207,7 +1211,6 @@ org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidi
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/util/ValidateDialog.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/ComparisonModeWidget.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/DifferenceBuilderWidget.java -text svneol=unset#text/plain
-org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/ILiftingWidget.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/InputModelsWidget.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/MatchingEngineWidget.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.lifting.ui/src/org/sidiff/difference/lifting/ui/widgets/RecognitionEngineWidget.java -text svneol=unset#text/plain
@@ -1350,10 +1353,13 @@ org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/.
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/META-INF/MANIFEST.MF -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/build.properties -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/decription.txt -text svneol=unset#text/plain
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/ch_callees.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/collapseall.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/compare_view_collapse.png -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/compare_view_layout.png -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/selection_active.png -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/icons/selection_inactive.png -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/plugin.xml -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/schema/org.sidiff.difference.symmetric.compareview.exsd -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/Activator.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/DecorationHook.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/internal/Activator.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/internal/DifferenceSelectionController.java -text svneol=unset#text/plain
@@ -1363,6 +1369,7 @@ org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/s
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/internal/handler/CollapseCompareViewHandler.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/internal/handler/DifferencePropertyTester.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/internal/handler/LayoutCompareViewHandler.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.compareview/src/org/sidiff/difference/symmetric/compareview/widgets/CompareViewToolbar.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/.classpath -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/.project -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/META-INF/MANIFEST.MF -text svneol=unset#text/plain
@@ -1381,12 +1388,11 @@ org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/gensrc/o
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/gensrc/org/sidiff/difference/symmetric/provider/SymmetricItemProviderAdapterFactory.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/gensrc/org/sidiff/difference/symmetric/provider/TransientSymmetricDifferenceItemProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/gensrc/org/sidiff/difference/symmetric/provider/UnusedChangeSetsItemProvider.java -text svneol=unset#text/plain
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/add.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/add_object.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/add_object.png -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/add_reference.png -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/change.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/changeset.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/correspondence.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/delete.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateDifference_changeSets_SemanticChangeSet.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateDifference_changes_AddObject.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateDifference_changes_AddReference.gif -text
@@ -1416,10 +1422,12 @@ org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/fu
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/full/obj16/SymmetricDifference.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/full/obj16/ValueParameterSubstitution.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/package.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/remove.gif -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/remove_object.png -text
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/remove_reference.png -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/icons/unusedchangeset.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/plugin.properties -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/plugin.xml -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/AdapterToolTipLabelProvider.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/util/LabelUtil.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/.classpath -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/.project -text svneol=unset#text/plain
@@ -1430,11 +1438,9 @@ org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/gensrc
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/gensrc/org/sidiff/difference/symmetric/presentation/SymmetricEditorPlugin.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/gensrc/org/sidiff/difference/symmetric/presentation/SymmetricModelWizard.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/icons/change.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/icons/full/obj16/SymmetricModelFile.gif -text
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/icons/full/wizban/NewSymmetric.gif -text
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/plugin.properties -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/plugin.xml -text svneol=unset#text/plain
-org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/src/util/AdapterToolTipLabelProvider.java -text svneol=unset#text/plain
+org.silift.difference/plugins/core/org.sidiff.difference.symmetric.editor/src/org/sidiff/difference/symmetric/editor/SymmetricViewer.java -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric/.classpath -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric/.project -text svneol=unset#text/plain
 org.silift.difference/plugins/core/org.sidiff.difference.symmetric/.settings/org.eclipse.core.resources.prefs -text svneol=unset#text/plain
