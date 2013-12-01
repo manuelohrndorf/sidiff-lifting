@@ -58,10 +58,16 @@ public class PatchEngine {
 	private Resource previewTargetResource;
 	private IValidationUnit testUnit;
 	private EditingDomain previewEditingDomain;
+	
+	private PatchReport patchReport;
+	
+	
+	
 	private ValidationMode validationMode;
 	private Collection<Diagnostic> initialErrors;
 	private Collection<Diagnostic> previousErrors;
 	private Collection<Diagnostic> currentErrors;
+
 	
 	public enum ValidationMode {
 		ITERATIVE, FINAL, NO, MANUAL
@@ -101,6 +107,9 @@ public class PatchEngine {
 				operationInvocation.setApply(false);
 			}
 		}
+		
+		// initialize patch report
+		this.patchReport = new PatchReport();
 		
 		// initialize preview resource
 		this.copier = new Copier();
@@ -184,55 +193,54 @@ public class PatchEngine {
 			}
 		}
 	
-		PatchReport report = new PatchReport();
-		validateModel(report);
-		return new PatchResult(this.previewTargetResource, report);
+//		validateModel(report);
+		return new PatchResult(this.previewTargetResource, this.patchReport);
 	}
 
 	
 // #################################### org.sidiff.patching.test ####################################
 	
-	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
-		initResourceCopy();
-		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
-		int previousErrors = initialErrors;
-		PatchReport report = new PatchReport();
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()  && !(appliedOperations.contains(operationInvocation))) {
-				try {
-					apply(operationInvocation);
-					appliedOperations.add(operationInvocation);
-					int currentErrors = getValidationErrorAmount(this.previewTargetResource);
-					if (previousErrors != currentErrors) {
-						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
-						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
-								.getChangeSet().getName(), initialErrors);
-						report.add(operationInvocation, new ReportEntry(Status.WARNING, Type.VALIDATION, message));
-					}
-					previousErrors = currentErrors;
-				} catch (OperationNotExecutableException e) {
-					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
-				} catch (ParameterMissingException e) {
-					throw new PatchNotExecuteableException(e.getMessage());
-				}
-			} else {
-				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
-			}
-		}
-		return new PatchResult(this.previewTargetResource, report);
-	}
-
-	private int getValidationErrorAmount(Resource resource) {
-		Collection<ReportEntry> validationReport = testUnit.test(resource);
-		int amount = 0;
-		for (ReportEntry reportEntry : validationReport) {
-			Status status = reportEntry.getStatus();
-			if (status == Status.WARNING || status == Status.FAILED) {
-				amount++;
-			}
-		}
-		return amount;
-	}
+//	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
+//		initResourceCopy();
+//		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
+//		int previousErrors = initialErrors;
+//		PatchReport report = new PatchReport();
+//		for (OperationInvocation operationInvocation : orderedOperations) {
+//			if (operationInvocation.isApply()  && !(appliedOperations.contains(operationInvocation))) {
+//				try {
+//					apply(operationInvocation);
+//					appliedOperations.add(operationInvocation);
+//					int currentErrors = getValidationErrorAmount(this.previewTargetResource);
+//					if (previousErrors != currentErrors) {
+//						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
+//						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
+//								.getChangeSet().getName(), initialErrors);
+//						report.add(operationInvocation, new ReportEntry(Status.WARNING, Type.VALIDATION, message));
+//					}
+//					previousErrors = currentErrors;
+//				} catch (OperationNotExecutableException e) {
+//					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
+//				} catch (ParameterMissingException e) {
+//					throw new PatchNotExecuteableException(e.getMessage());
+//				}
+//			} else {
+//				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
+//			}
+//		}
+//		return new PatchResult(this.previewTargetResource, report);
+//	}
+//
+//	private int getValidationErrorAmount(Resource resource) {
+//		Collection<ReportEntry> validationReport = testUnit.test(resource);
+//		int amount = 0;
+//		for (ReportEntry reportEntry : validationReport) {
+//			Status status = reportEntry.getStatus();
+//			if (status == Status.WARNING || status == Status.FAILED) {
+//				amount++;
+//			}
+//		}
+//		return amount;
+//	}
 	
 // ##################################################################################################
 	
@@ -405,25 +413,23 @@ public class PatchEngine {
 	 * 
 	 * @return
 	 */
-	public PatchReport createPatchReport() {
-		PatchReport report = new PatchReport();
-
+	public PatchReport updatePatchReport() {
 		//quick fix
 		if(appliedOperations.size() < 1)
 			initResourceCopy();
 
-		checkParameter(report);
+		checkParameter();
 
-		checkModified(report);
+		checkModified();
 
-		checkExecutable(report);
+		checkExecutable();
 		
 
 
-		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL)
-			validateModel(report);
+//		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL)
+//			validateModel(report);
 
-		return report;
+		return this.patchReport;
 	}	
 	
 	
@@ -460,11 +466,11 @@ public class PatchEngine {
 	 * 
 	 * @param report
 	 */
-	private void checkModified(PatchReport report) {
+	private void checkModified() {
 
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))){
-				Collection<ReportEntry> result = new ArrayList<ReportEntry>();
+				Collection<ReportEntry> entries = new ArrayList<ReportEntry>();
 				for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
 					Parameter formalParameter = parameterBinding.getFormalParameter();
 					if (formalParameter.getDirection() == ParameterDirection.IN) {
@@ -475,7 +481,7 @@ public class PatchEngine {
 								EObject eObject = correspondence.getCorrespondence(actualA);
 								if (eObject != null) {
 									if (correspondence.isModified(eObject)) {
-										result.add(new ReportEntry(Status.WARNING, Type.PARAMETER,
+										entries.add(new ReportEntry(Status.WARNING, Type.PARAMETER,
 											new ParameterModifiedException(operationInvocation.getChangeSet().getName(),
 											formalParameter.getName())));														
 									}
@@ -484,7 +490,8 @@ public class PatchEngine {
 						}
 					}
 				}
-				report.add(operationInvocation, result);
+				if(!entries.isEmpty())
+					patchReport.getParameterEntries().get(operationInvocation).addAll(entries);
 			}
 		}
 	}
@@ -493,15 +500,14 @@ public class PatchEngine {
 	/**
 	 * Checks availability of needed parameters
 	 * 
-	 * @param report
 	 * 
 	 * @param operationInvocation
 	 * 
 	 * @throws ParameterMissingException
 	 */
-	private void checkParameter(PatchReport report) {
+	private void checkParameter() {
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			Collection<ReportEntry> result = new ArrayList<ReportEntry>();
+			Collection<ReportEntry> entries = new ArrayList<ReportEntry>();
 			if (operationInvocation.isApply()) {
 				parameter: for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
 					Parameter formalParameter = parameterBinding.getFormalParameter();
@@ -519,11 +525,11 @@ public class PatchEngine {
 
 							EObject binding = getCorrespondence(objectParameterBinding.getActualA());
 							if (binding == null) {
-								result.add(new ReportEntry(Status.FAILED, Type.PARAMETER,
+								entries.add(new ReportEntry(Status.FAILED, Type.PARAMETER,
 										new ParameterMissingException(operationInvocation.getChangeSet().getName(),
 												formalParameter.getName())));
 							} else {
-								result.add(new ReportEntry(Status.PASSED, Type.PARAMETER, "ObjectParameter \""
+								entries.add(new ReportEntry(Status.PASSED, Type.PARAMETER, "ObjectParameter \""
 										+ formalParameter.getName() + "\" is set!"));
 							}
 						}
@@ -531,86 +537,81 @@ public class PatchEngine {
 				}
 			}
 			else {
-				result.add(new ReportEntry(Status.SKIPPED, Type.PARAMETER, operationInvocation.getChangeSet().getName()));
+				entries.add(new ReportEntry(Status.SKIPPED, Type.PARAMETER, operationInvocation.getChangeSet().getName()));
 			}
-			report.add(operationInvocation, result);
+			this.patchReport.getParameterEntries().put(operationInvocation, entries);
 		}
+		
 	}
 
 	
 	/**
 	 * Checks executability of henshin
 	 * 
-	 * @param report
 	 * 
 	 * @param operationInvocation
 	 * @throws HenshinExecutionFailedException
 	 */
-	private void checkExecutable(final PatchReport report) {
+	private void checkExecutable() {
 		AbstractCommand command = new AbstractCommand() {
 			@Override
 			public void execute() {
 							
-				ReportEntry reportEntry = null;
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
 				for (OperationInvocation operationInvocation : orderedOperations) {
-					if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))
-							&& isOutgoingExecuted(operationInvocation, appliedOperations)) {
+					if (operationInvocation.isApply()) {
 						if(validationMode == ValidationMode.ITERATIVE){
 							initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
 							previousErrors = initialErrors;
 						}
 						try {
-							apply(operationInvocation);
-							
+							if(!(appliedOperations.contains(operationInvocation)) && isOutgoingExecuted(operationInvocation, appliedOperations))
+								apply(operationInvocation);
+								appliedOperations.add(operationInvocation);
 							if(validationMode == ValidationMode.ITERATIVE){
 								currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-							
+								
 								if(currentErrors.size() > previousErrors.size()){
+									ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
 									for(Diagnostic d : currentErrors){
-										if(!previousErrors.contains(d)){
-											reportEntry = new ReportEntry(Status.FAILED, Type.VALIDATION, d);
-											break;
-										}
+										if(!previousErrors.contains(d))
+											entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
 									}
+									if(!entries.isEmpty())
+										patchReport.getValidationEntries().put(operationInvocation, entries);
 								}else{
-									reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
-									appliedOperations.add(operationInvocation);
+									patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+									
 								}
 								previousErrors = currentErrors;
 							}else {
-								reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
-								appliedOperations.add(operationInvocation);
+								patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
 							}
 							
-						} catch (Exception e) {
-							reportEntry = new ReportEntry(Status.FAILED, Type.EXECUTION, e);
+						}catch(OperationNotExecutableException | ParameterMissingException e){
+							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.FAILED, Type.EXECUTION, e));
 						}
-					} else if(operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
-							reportEntry = new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
 					}
-					if(reportEntry != null)
-						report.add(operationInvocation, reportEntry);
+					else{
+						patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+					}
 				}
 				
-		ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
-		while(li.hasPrevious()){
-			OperationInvocation operationInvocation = (OperationInvocation)li.previous();
-			if (!operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
-				try{
-					revert(operationInvocation);
-					appliedOperations.remove(operationInvocation);
-					reportEntry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName());
-					report.add(operationInvocation, reportEntry);
-				
+				ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
+				while (li.hasPrevious()) {
+					OperationInvocation operationInvocation = (OperationInvocation) li.previous();
+					if (!operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
+						try {
+							revert(operationInvocation);
+							appliedOperations.remove(operationInvocation);
+							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+						} catch (OperationNotUndoableException e) {
+							e.printStackTrace();
+						}
+
+					}
 				}
-				catch (OperationNotUndoableException e){
-					e.printStackTrace();
-				}
-				
-			}
-		}
 			}
 			
 
@@ -645,10 +646,10 @@ public class PatchEngine {
 	}
 
 	
-	private void validateModel(PatchReport report) {
-		Collection<ReportEntry> entries = testUnit.test(this.previewTargetResource);
-		report.add(entries);
-	}
+//	private void validateModel(PatchReport report) {
+//		Collection<ReportEntry> entries = testUnit.test(this.previewTargetResource);
+//		report.add(entries);
+//	}
 
 	
 	public ValidationMode getValidationMode(){
