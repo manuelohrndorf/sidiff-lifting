@@ -560,34 +560,34 @@ public class PatchEngine {
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
 				for (OperationInvocation operationInvocation : orderedOperations) {
-					if (operationInvocation.isApply()) {
+					if (operationInvocation.isApply()  && isOutgoingExecuted(operationInvocation, appliedOperations)) {
 						if(validationMode == ValidationMode.ITERATIVE){
 							initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
 							previousErrors = initialErrors;
 						}
 						try {
-							if(!(appliedOperations.contains(operationInvocation)) && isOutgoingExecuted(operationInvocation, appliedOperations))
+							if(!(appliedOperations.contains(operationInvocation)))
 								apply(operationInvocation);
 								appliedOperations.add(operationInvocation);
-							if(validationMode == ValidationMode.ITERATIVE){
-								currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-								
-								if(currentErrors.size() > previousErrors.size()){
-									ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
-									for(Diagnostic d : currentErrors){
-										if(!previousErrors.contains(d))
-											entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
-									}
-									if(!entries.isEmpty())
-										patchReport.getValidationEntries().put(operationInvocation, entries);
-								}else{
-									patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+								if(validationMode == ValidationMode.ITERATIVE){
+									currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
 									
+									if(currentErrors.size() > previousErrors.size()){
+										ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
+										for(Diagnostic d : currentErrors){
+											if(!previousErrors.contains(d))
+												entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
+										}
+										if(!entries.isEmpty())
+											patchReport.getValidationEntries().put(operationInvocation, entries);
+									}else{
+										patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+										
+									}
+									previousErrors = currentErrors;
+								}else {
+									patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
 								}
-								previousErrors = currentErrors;
-							}else {
-								patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
-							}
 							
 						}catch(OperationNotExecutableException | ParameterMissingException e){
 							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.FAILED, Type.EXECUTION, e));
