@@ -240,7 +240,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.validateAction = new Action("Check Patch") {
 			@Override
 			public void run() {
-				PatchReport report = engine.createPatchReport();
+				PatchReport report = engine.updatePatchReport();
 				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
 				if (reportView != null) { 
 					reportView.setEntries(report.getEntries());
@@ -299,7 +299,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	
 	private void updateViewer(){
-		PatchReport report = engine.createPatchReport();
+		PatchReport report = engine.updatePatchReport();
 		ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
 		reportView.setEntries(report.getEntries());
 		((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
