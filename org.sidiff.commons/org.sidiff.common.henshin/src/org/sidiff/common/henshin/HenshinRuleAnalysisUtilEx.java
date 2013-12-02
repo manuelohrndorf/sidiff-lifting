@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -2230,5 +2231,14 @@ public class HenshinRuleAnalysisUtilEx {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Returns the list of NestedConditions contained in the editrule / SCS
+	 * @param editRule editRule to search in
+	 * @return list of nestedconditions
+	 */
+	public static List<NestedCondition> getNestedConditions(Rule editRule) {
+		return editRule.getLhs().getNestedConditions();
 	}
 }
