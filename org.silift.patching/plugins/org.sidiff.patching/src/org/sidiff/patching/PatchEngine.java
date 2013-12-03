@@ -469,7 +469,7 @@ public class PatchEngine {
 	private void checkModified() {
 
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))){
+			if (operationInvocation.isApply()){
 				Collection<ReportEntry> entries = new ArrayList<ReportEntry>();
 				for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
 					Parameter formalParameter = parameterBinding.getFormalParameter();
