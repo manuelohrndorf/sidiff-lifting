@@ -3,9 +3,13 @@
 <plugin>
    <extension
          point="org.eclipse.ui.commands">
+      <category
+            id="org.silift.patching.ui.category.silift"
+            name="SiLift">
+      </category>
       <command
-            category="org.silift.patching.patch.ui"
-            id="org.silift.patching.patch.ui.createPatch"
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.silift.patching.ui.createPatch"
             name="CreatePatch">
       </command>
    </extension>
@@ -13,7 +17,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             class="org.sidiff.patching.patch.ui.handler.CreatePatchHandler"
-            commandId="org.silift.patching.patch.ui.createPatch">
+            commandId="org.silift.patching.ui.createPatch">
          <activeWhen>
             <reference
                   definitionId="org.sidiff.difference.lifting.ui.definition.modelFiles">
@@ -32,7 +36,7 @@
                   id="org.sidiff.difference.ui.category.silift.patching"
                   label="Patching">
                <command
-                     commandId="org.silift.patching.patch.ui.createPatch"
+                     commandId="org.silift.patching.ui.createPatch"
                      label="Create a Patch"
                      style="push">
                </command>

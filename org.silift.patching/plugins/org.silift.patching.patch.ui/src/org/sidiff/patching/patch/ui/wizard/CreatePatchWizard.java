@@ -2,14 +2,9 @@ package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -18,98 +13,42 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.CheckboxCellEditor;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ColumnPixelData;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Table;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.patching.patch.PatchCreator;
-import org.silift.patching.patch.ui.Activator;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.silift.patching.patch.PatchCreator;
+import org.silift.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {
-	
-	protected static final String PPRE = "Post Processed Recognition Engine (Default)";
 
 	protected CreatePatchPage createPatchPage;
-	
-	protected IFile fileA = null;
-	protected IFile fileB = null;
-	
-	protected Resource resourceA = null;
-	protected Resource resourceB = null;
-	
-	protected String documentType = null;
-	
-	protected IProject project = null;
-	
-	protected String diffSavePath;
-	
-	private PatchCreator patchCreator;
-	
-	
-	// UI
-	private Button modelBRadio;
-	
+
+	private InputModels inputModels;
 
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
+		this.setWindowTitle("New Patch Wizard");
 
-		
-		project = fileA.getProject();
-		
-		this.fileA = fileA;
-		this.fileB = fileB;
-		
-		resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-		resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-		
-		documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
-		
-		diffSavePath = fileA.getParent().getLocation().toOSString();
+		inputModels = new InputModels(fileA, fileB);
 	}
 
 	@Override
 	public void addPages() {
-		createPatchPage = new CreatePatchPage("CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
+		createPatchPage = new CreatePatchPage(
+				inputModels,
+				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
 		addPage(createPatchPage);
 	}
-	
+
 	@Override
 	public boolean canFinish() {
 		return createPatchPage.isPageComplete();
@@ -118,62 +57,50 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		
-		
-		// In which direction shall we calculate?
-		if (modelBRadio.getSelection()){
-			// switch direction
-			IFile tmp = fileA;
-			fileA = fileB;
-			fileB = tmp;
-		}
+		Resource resourceA = inputModels.getResourceA();
+		Resource resourceB = inputModels.getResourceB();
+		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 
-		
-		resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-		resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-		
-		patchCreator = new PatchCreator(resourceA, resourceB);
-
-		
-		// Start calculation
-
+		// Start calculation:
 		LiftingSettings settings = readSettings();
 		try{
 			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(settings));
-			
+			PipelineUtils.sortDifference(fullDiff.getSymmetric());
+
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
-			
+
 			ArrayList<HashMap<String, String>> conf = new ArrayList<HashMap<String, String>>();
 			HashMap<String, String> conf_Matcher = new HashMap<String, String>();
 			conf_Matcher.put("matcher", settings.getMatcher().getName());
 			conf_Matcher.put("key", settings.getMatcher().getKey());
 			conf.add(conf_Matcher);
-			
+
 			patchCreator.setSettings(conf);
-			
-			// Print report
+
+			// Print report:
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			patchCreator.serializePatch(fileA.getParent().getLocation());
-			
-			/*
-			 * Done
-			 */
+
+			patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation());
+
 			LogUtil.log(LogEvent.NOTICE, "done...");
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			return false;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+
+			MessageDialog dialog = new MessageDialog(getShell(),
+					"Error", null, "File not found!", MessageDialog.ERROR,
+					new String[] { "OK" }, 0);
+			dialog.open();
 		}
 
-
-		// Refresh workspace
+		// Refresh workspace:
 		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (OperationCanceledException e) {
@@ -181,10 +108,10 @@ public class CreatePatchWizard extends Wizard {
 		}
 		return true;
 	}
-	
-	
+
+
 	public LiftingSettings readSettings() {
-		// Move functionality to lifting facade		
+
 		/*
 		 * Do lifting settings
 		 */
@@ -194,13 +121,13 @@ public class CreatePatchWizard extends Wizard {
 		liftingSettings.setValidate(createPatchPage.isValidateModels());
 		// Used matcher
 		liftingSettings.setMatcher(createPatchPage.getSelectedMatchingEngine());
-		
+
 		//Used technical difference builder
 		liftingSettings.setTechnicalDifferenceBuilder(createPatchPage.getSelectedTechnicalDifferenceBuilder());
-				
+
 		// Do lifting..?
 		liftingSettings.setDoLifting(true);
-		
+
 		// Use Postprocessor..?
 		liftingSettings.setPostProcess(true);
 
@@ -209,434 +136,6 @@ public class CreatePatchWizard extends Wizard {
 
 		return liftingSettings;
 	}
-	
-	
-	public class CreatePatchPage extends WizardPage {
-
-		private java.util.List<IMatcher> matchers = null;
-		private java.util.List<ITechnicalDifferenceBuilder> tdBuilders = null;
-		private java.util.List<RuleBaseEntry> rulebases = null;
-
-		private boolean validateModels = false;
-		private String selectedMatchingEngine = null;
-		private String selectedTechnicalDifferenceBuilder = null;
-		private String selectedRecognitionEngine = null;
-
-		public CreatePatchPage(String pageName, String title,
-				ImageDescriptor titleImage) {
-			super(pageName, title, titleImage);
-		}
-
-		@Override
-		public void createControl(Composite parent) {
-			createRulebaseList();
-
-			setControl(parent);
-			{
-				GridLayout grid = new GridLayout(1, false);
-				grid.marginWidth = 10;
-				parent.setLayout(grid);
-			}
-			
-
-			Group modelsGroup = new Group(parent, SWT.NONE);
-			{
-				GridLayout grid = new GridLayout(3, false);
-				grid.marginWidth = 10;
-				grid.marginHeight = 10;
-				modelsGroup.setLayout(grid);
-
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				modelsGroup.setLayoutData(data);
-			}
-			modelsGroup.setText("Select source model:");
-
-			final Button modelARadio = new Button(modelsGroup, SWT.RADIO);
-			modelARadio.setSelection(true);
-
-			final Label modelALabel = new Label(modelsGroup, SWT.NONE);
-			modelALabel.setText("Model A:");
-
-			final Label modelAName = new Label(modelsGroup, SWT.NONE);
-			modelAName.setText(EMFStorage.uriToFile(resourceA.getURI())
-					.getName());
-
-			final Image arrowUp = getImageDescriptor("arrow_up.png")
-					.createImage();
-			final Image arrowDown = getImageDescriptor("arrow_down.png")
-					.createImage();
-
-			new Label(modelsGroup, SWT.NONE);
-
-			final Label arrowLabel = new Label(modelsGroup, SWT.NONE);
-			arrowLabel.setText("Patch direction:");
-			final Label arrow = new Label(modelsGroup, SWT.NONE);
-			{
-				GridData data = new GridData(SWT.CENTER, SWT.CENTER, false,
-						true);
-				arrow.setLayoutData(data);
-			}
-			arrow.setImage(arrowDown);
-
-			modelBRadio = new Button(modelsGroup, SWT.RADIO);
-
-			final Label modelBLabel = new Label(modelsGroup, SWT.NONE);
-			modelBLabel.setText("Model B:");
-
-			final Label modelBName = new Label(modelsGroup, SWT.NONE);
-			modelBName.setText(EMFStorage.uriToFile(resourceB.getURI())
-					.getName());
-
-			modelARadio.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					arrow.setImage(arrowDown);
-				}
-			});
-
-			modelBRadio.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					arrow.setImage(arrowUp);
-				}
-			});
-
-			
-			// Validate models
-			final Button buttonValidateModels = new Button(modelsGroup,
-					SWT.CHECK);
-			buttonValidateModels.setSelection(validateModels);
-			buttonValidateModels.setText("Validate Models");
-			buttonValidateModels.addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					validateModels = buttonValidateModels.getSelection();
-				}
-			});
-			
-			
-			Group algorithmsGroup = new Group(parent, SWT.NONE);
-			{
-				GridLayout grid = new GridLayout(1, false);
-				grid.marginWidth = 10;
-				grid.marginHeight = 10;
-				algorithmsGroup.setLayout(grid);
-
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				algorithmsGroup.setLayoutData(data);
-			}
-			algorithmsGroup.setText("Algorithms");
-
-			Label matchingLabel = new Label(algorithmsGroup, SWT.NONE);
-			matchingLabel.setText("Matching Engine:");
-
-			final List matcherList = new List(algorithmsGroup, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-			{
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				data.heightHint = 70;
-				matcherList.setLayoutData(data);
-			}
-			matcherList.setItems(getMatcherNames());
-			matcherList.addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					selectedMatchingEngine = matcherList.getSelection()[0];
-					validate();
-				}
-			});
-		
-			matcherList.select(0);
-			selectedMatchingEngine = matcherList.getItem(0);
-			
-
-			
-			// Technical Difference Builder
-			if(getTechnicalDifferenceBuildersNames().length > 1){
-				Label tdbLabel = new Label(algorithmsGroup, SWT.NONE);
-				tdbLabel.setText("Technical Difference Builder:");
-				
-				final List tdbList = new List(algorithmsGroup, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-				{
-					GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-					data.heightHint = 70;
-					tdbList.setLayoutData(data);
-				}
-				tdbList.setItems(getTechnicalDifferenceBuildersNames());
-				tdbList.addSelectionListener(new SelectionAdapter() {
-				
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					selectedTechnicalDifferenceBuilder = tdbList.getSelection()[0];
-					validate();
-				}
-				});
-				
-				tdbList.select(0);
-				selectedTechnicalDifferenceBuilder = tdbList.getItem(0);
-			
-			}else{
-				selectedTechnicalDifferenceBuilder = getTechnicalDifferenceBuildersNames()[0];
-			}
-
-			/*
-			 * Rulebase table
-			 */
-
-			// Table viewer composite
-			Composite rulebaseComposite = new Composite(parent, SWT.NONE);
-			{
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				data.heightHint = 100;
-				rulebaseComposite.setLayoutData(data);
-			}
-			TableColumnLayout tableColumnLayout = new TableColumnLayout();
-			rulebaseComposite.setLayout(tableColumnLayout);
-
-			// Rulebase viewer
-			int style = SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER;
-			final TableViewer rulebaseTableViewer = new TableViewer(rulebaseComposite, style);
-
-			// SWT table
-			final Table ruleBaseTable = rulebaseTableViewer.getTable();
-			{
-				GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-				ruleBaseTable.setLayoutData(data);
-			}
-			ruleBaseTable.setHeaderVisible(true);
-			ruleBaseTable.setLinesVisible(true);
-
-			// ArrayContentProvider -> Table input is a java collection
-			rulebaseTableViewer.setContentProvider(ArrayContentProvider.getInstance());
-
-			/*
-			 * Active column
-			 */
-
-			TableViewerColumn activeColumn = new TableViewerColumn(rulebaseTableViewer, SWT.NONE);
-			tableColumnLayout.setColumnData(activeColumn.getColumn(), new ColumnPixelData(25));
-			activeColumn.getColumn().setText("");
-			activeColumn.getColumn().setAlignment(SWT.CENTER);
-			activeColumn.getColumn().setResizable(false);
-			activeColumn.getColumn().setToolTipText("Activate/Deactivate rulebase for recognition engine");
-
-			// LabelProvider for activeColumn
-			activeColumn.setLabelProvider(new CellLabelProvider() {
-				@Override
-				public void update(ViewerCell cell) {
-					cell.setText(((String) cell.getElement()).toString());
-				}
-			});
-
-			// Table header action - invert selection
-			activeColumn.getColumn().addSelectionListener(new SelectionAdapter() {
-
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					for (RuleBaseEntry ruleBase : rulebases) {
-						if (ruleBase.activated) {
-							ruleBase.activated = false;
-						} else {
-							ruleBase.activated = true;
-						}
-					}
-					rulebaseTableViewer.refresh();
-				}
-			});
-
-			// Setup check box for activeColumn
-			activeColumn.setLabelProvider(new ColumnLabelProvider() {
-				@Override
-				public String getText(Object element) {
-					return "";
-				}
-
-				@Override
-				public Image getImage(Object element) {
-					if (((RuleBaseEntry) element).activated) {
-						return getImageDescriptor("checked.png").createImage();
-					} else {
-						return getImageDescriptor("unchecked.png").createImage();
-					}
-				}
-			});
-
-			// Setup editing support for activeColumn
-			activeColumn.setEditingSupport(new EditingSupport(rulebaseTableViewer) {
-
-				@Override
-				protected boolean canEdit(Object element) {
-					return true;
-				}
-
-				@Override
-				protected CellEditor getCellEditor(Object element) {
-					return new CheckboxCellEditor(ruleBaseTable);
-				}
-
-				@Override
-				protected Object getValue(Object element) {
-					return ((RuleBaseEntry) element).activated;
-				}
-
-				@Override
-				protected void setValue(Object element, Object value) {
-					RuleBaseEntry ruleBase = ((RuleBaseEntry) element);
-					ruleBase.activated = ruleBase.activated ? false : true;
-
-					rulebaseTableViewer.refresh(element);
-					validate();
-				}
-
-			});
-
-			/*
-			 * Rulebase name column
-			 */
-
-			TableViewerColumn ruleBaseColumn = new TableViewerColumn(rulebaseTableViewer, SWT.NONE);
-			tableColumnLayout.setColumnData(ruleBaseColumn.getColumn(), new ColumnWeightData(100));
-			ruleBaseColumn.getColumn().setText("Rule Base");
-			ruleBaseColumn.getColumn().setToolTipText("Rulebase description name");
-
-			// LabelProvider for activeColumn
-			ruleBaseColumn.setLabelProvider(new CellLabelProvider() {
-				@Override
-				public void update(ViewerCell cell) {
-					cell.setText(((RuleBaseEntry) cell.getElement()).rulebase.getName());
-				}
-			});
-
-			/*
-			 * Set table input
-			 */
-
-			rulebaseTableViewer.setInput(rulebases);
-			rulebaseTableViewer.refresh();
-
-			validate();
-		}
-
-		private void validate() {
-			boolean complete = true;
-
-			
-			if (selectedMatchingEngine == null) {
-				complete = false;
-				setErrorMessage("Please select a matching engine");
-				setPageComplete(complete);
-				return;
-			}
-			
-
-			if (getSelectedRulebases().isEmpty()) {
-				complete = false;
-				setErrorMessage("Please select at least one rulebase");
-				setPageComplete(complete);
-				return;
-			}
-
-			setErrorMessage(null);
-			setPageComplete(complete);
-		}
-
-
-		private class RuleBaseEntry implements Comparable<RuleBaseEntry>{
-			public IRuleBase rulebase;
-			public Boolean activated;
-
-			public RuleBaseEntry(IRuleBase rulebase, Boolean activated) {
-				super();
-				this.rulebase = rulebase;
-				this.activated = activated;
-			}
-			
-			@Override
-			public int compareTo(RuleBaseEntry o) {
-				return this.rulebase.getName().compareTo(o.rulebase.getName());
-			}
-		}
-		
-		public boolean isValidateModels(){
-			return validateModels;
-		}
-		
-		private String[] getMatcherNames() {
-			// Search registered matcher extension points
-			matchers = new ArrayList<IMatcher>();
-			matchers.addAll(PipelineUtils.getAvailableMatchers(resourceA, resourceB));
-
-			ArrayList<String> matcherNames = new ArrayList<String>();
-			for (int i = 0; i < matchers.size(); i++) {
-				matcherNames.add(matchers.get(i).getName());
-			}
-			Collections.sort(matcherNames);
-			
-			return matcherNames.toArray(new String[matcherNames.size()]);
-		}
-		
-		public IMatcher getSelectedMatchingEngine() {
-			for (IMatcher matcher : matchers) {
-				if (matcher.getName().equals(selectedMatchingEngine)) {
-					return matcher;
-				}
-			}
-			return null;
-		}
-
-		private String[] getTechnicalDifferenceBuildersNames() {
-			// Search registered matcher extension points
-			tdBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
-			tdBuilders.addAll(PipelineUtils.getAvailableTechnicalDifferenceBuilders(documentType));
-
-			ArrayList<String> tdbNames = new ArrayList<String>();
-			for (int i = 0; i < tdBuilders.size(); i++) {
-				tdbNames.add(tdBuilders.get(i).getName());
-			}
-			Collections.sort(tdbNames);
-			String [] result = tdbNames.toArray(new String[tdbNames.size()]);
-			return result;
-		}
-		
-		public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder(){
-			for(ITechnicalDifferenceBuilder tdb : tdBuilders){
-				if(tdb.getName().equals(selectedTechnicalDifferenceBuilder)){
-					return tdb;
-				}
-			}
-			return null;
-		}
-		
-		public String getSelectedRecognitionEngine() {
-			return selectedRecognitionEngine;
-		}
-		
-		private void createRulebaseList() {
-			// Search registered rulebase extension points
-			Set<IRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(documentType);
-			
-			// Create rulebase list for table viewer
-			rulebases = new LinkedList<RuleBaseEntry>();
-			
-			for (IRuleBase rulebase : rulebaseInstances) {
-				rulebases.add(new RuleBaseEntry(rulebase, true));
-			}
-			
-			Collections.sort(rulebases);
-		}
-		
-		public Set<IRuleBase> getSelectedRulebases() {
-			Set<IRuleBase> selectedRuleBases = new HashSet<IRuleBase>();
-			for (RuleBaseEntry entry : rulebases) {
-				if (entry.activated) {
-					selectedRuleBases.add(entry.rulebase);
-				}
-			}
-			return selectedRuleBases;
-		}
-	}
-	
 
 	protected ImageDescriptor getImageDescriptor(String name) {
 		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(Activator.PLUGIN_ID),
