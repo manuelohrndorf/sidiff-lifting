@@ -9,6 +9,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
@@ -22,31 +24,36 @@ public class CreatePatchHandler extends AbstractHandler {
 		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
 
 		if (currentSelection instanceof IStructuredSelection) {
-			IStructuredSelection selection = (IStructuredSelection) currentSelection;
+			final IStructuredSelection selection = (IStructuredSelection) currentSelection;
 
-			
 			if (selection.size() == 2) {
-				// Create a new difference
-				IFile fileA = (IFile) selection.toArray()[0];
-				IFile fileB = (IFile) selection.toArray()[1];
-				Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-				Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-				String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
-				String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
-				if(docTypeA.equals(docTypeB)){
+				// Show a busy indicator while the runnable is executed
+				BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
+					@Override
+					public void run() {
+						// Create a new difference
+						IFile fileA = (IFile) selection.toArray()[0];
+						IFile fileB = (IFile) selection.toArray()[1];
+						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
+						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
+						String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+						if(docTypeA.equals(docTypeB)){
 
-					WizardDialog wizardDialog = new WizardDialog(PlatformUI
-						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						new CreatePatchWizard(fileA, fileB));
+							WizardDialog wizardDialog = new WizardDialog(PlatformUI
+								.getWorkbench().getActiveWorkbenchWindow().getShell(),
+								new CreatePatchWizard(fileA, fileB));
 
-					wizardDialog.open();
-				}else {
-					MessageDialog.openError(
-							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							"File Input Error","The input files must have the same document type!");
-				}
+							wizardDialog.open();
+						}else {
+							MessageDialog.openError(
+									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+									"File Input Error","The input files must have the same document type!");
+						}
+					}
+					
+				});
 			}
-		
 		}
 		return null;
 	}
