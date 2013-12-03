@@ -560,35 +560,34 @@ public class PatchEngine {
 				// Executed operations must be stored to skip operations
 				// depending on failed executions
 				for (OperationInvocation operationInvocation : orderedOperations) {
-					if (operationInvocation.isApply()  && isOutgoingExecuted(operationInvocation, appliedOperations)) {
-						if(validationMode == ValidationMode.ITERATIVE){
-							initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-							previousErrors = initialErrors;
-						}
+					if (operationInvocation.isApply()  && isOutgoingExecuted(operationInvocation, appliedOperations) && !(appliedOperations.contains(operationInvocation))) {
 						try {
-							if(!(appliedOperations.contains(operationInvocation)))
-								apply(operationInvocation);
-								appliedOperations.add(operationInvocation);
-								if(validationMode == ValidationMode.ITERATIVE){
-									currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
-									
-									if(currentErrors.size() > previousErrors.size()){
-										ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
-										for(Diagnostic d : currentErrors){
-											if(!previousErrors.contains(d))
-												entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
+							if(validationMode == ValidationMode.ITERATIVE){
+								initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+								previousErrors = initialErrors;
+							}
+							apply(operationInvocation);
+							appliedOperations.add(operationInvocation);
+							if(validationMode == ValidationMode.ITERATIVE){
+								currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+								
+								if(currentErrors.size() > previousErrors.size()){
+									ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
+									for(Diagnostic d : currentErrors){
+										if(!previousErrors.contains(d)){
+											entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
 										}
-										if(!entries.isEmpty())
-											patchReport.getValidationEntries().put(operationInvocation, entries);
-									}else{
-										patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
-										
 									}
-									previousErrors = currentErrors;
-								}else {
+									if(!entries.isEmpty())
+										patchReport.getValidationEntries().put(operationInvocation, entries);
+								}else{
 									patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+									
 								}
-							
+							}else {
+								patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+							}
+														
 						}catch(OperationNotExecutableException | ParameterMissingException e){
 							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.FAILED, Type.EXECUTION, e));
 						}
@@ -606,6 +605,7 @@ public class PatchEngine {
 							revert(operationInvocation);
 							appliedOperations.remove(operationInvocation);
 							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
+							patchReport.getValidationEntries().remove(operationInvocation);
 						} catch (OperationNotUndoableException e) {
 							e.printStackTrace();
 						}
