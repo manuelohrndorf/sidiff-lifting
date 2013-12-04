@@ -24,7 +24,7 @@ import org.silift.common.util.exceptions.FileNotCreatedException;
 public class ZipUtil {
 
 	public static final String SYSTEM_SEPERATOR = System.getProperty("file.separator");
-	public static final String ZIP_SEPERATOR = System.getProperty("/");
+	public static final String ZIP_SEPERATOR = "/";
 
 	/**
 	 * Zips a directory given by an absolute path.
