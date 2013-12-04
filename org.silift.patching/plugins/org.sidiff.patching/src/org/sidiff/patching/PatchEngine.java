@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -25,6 +26,7 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
@@ -39,6 +41,7 @@ import org.sidiff.patching.report.PatchReport.Type;
 import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.test.EMFValidationTestUnit;
 import org.sidiff.patching.util.PatchUtil;
+import org.silift.common.util.emf.EMFStorage;
 
 /**
  * 
@@ -46,16 +49,14 @@ import org.sidiff.patching.util.PatchUtil;
  */
 public class PatchEngine {
 	private AsymmetricDifference difference;
-	private ExecutionMode executionMode;
 	private IPatchCorrespondence correspondence;
 	private List<OperationInvocation> orderedOperations;
 	private Set<OperationInvocation> appliedOperations;
-	private Copier copier;
 	private ITransformationEngine transformationEngine;
-	private Resource targetResource;
 	private Resource patchedResource;
 	private IValidationUnit testUnit;
-	
+	private ExecutionMode executionMode;
+	private EditingDomain patchedEditingDomain;
 	private PatchReport patchReport;
 	
 	
@@ -83,105 +84,41 @@ public class PatchEngine {
 	 * @param transformationEngine
 	 * @param executionMode
 	 */
-	public PatchEngine(AsymmetricDifference difference, Resource targetResource, IPatchCorrespondence correspondence,
+	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IPatchCorrespondence correspondence,
 			ITransformationEngine transformationEngine, ExecutionMode executionMode) {
 		this.difference = difference;
-		this.targetResource = targetResource;
+		this.patchedResource = patchedResource;
 		this.correspondence = correspondence;
 		this.transformationEngine = transformationEngine;
 
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 		this.appliedOperations = new HashSet<OperationInvocation>();
-		this.correspondence.set(difference.getOriginModel(), targetResource);
+		
 		
 		this.validationMode = ValidationMode.ITERATIVE;
 		this.executionMode = executionMode;
 		
-		//Initialize all operationInvocations owning 
-		//modified parameters as "not applicable"
+		
+		
+		// initialize patch report
+		this.patchReport = new PatchReport();
+	
+		this.correspondence.set(difference.getOriginModel(), patchedResource);
+
+		// Initialize all operationInvocations owning
+		// modified parameters as "not applicable"
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if(hasModifiedParameters(operationInvocation)){
+			if (hasModifiedParameters(operationInvocation)) {
 				operationInvocation.setApply(false);
 			}
 		}
 		
-		// initialize patch report
-		this.patchReport = new PatchReport();
-		
-		initResourceCopy();
-
+		this.transformationEngine.init(patchedResource, executionMode);
 		// initialize test unit
 		this.testUnit = new EMFValidationTestUnit();
 	}
 
-	/**
-	 * clears preview resource and fills it with target model
-	 */
-	private void initResourceCopy() {
-		this.copier = new Copier();
-		AbstractCommand command = new AbstractCommand() {
 
-			@Override
-			public void execute() {
-				//TODO 
-				/**
-				 *  Diagramm / Ecore Ressource kopieren 
-				 *  fix0r: C to da P
-				 */
-
-				if(PatchEngine.this.executionMode.equals(ExecutionMode.INTERACTIVE)){
-					//TODO Diagramm
-				}
-				Resource tmpResource = PatchUtil.copyWithId(targetResource, patchedResource.getURI(), true,
-						copier);
-				PatchEngine.this.patchedResource.getContents().clear();				
-				
-				//Add all contents to preview
-				while(tmpResource.getContents().size()>0){	
-					
-					PatchEngine.this.patchedResource.getContents().add(tmpResource.getContents().get(0));					
-
-				}
-				PatchEngine.this.transformationEngine.init(patchedResource, executionMode);
-			}
-
-			@Override
-			public void redo() {
-
-			}
-
-			@Override
-			public boolean canExecute() {
-				return true;
-			}
-		};
-		command.execute();
-	}
-
-	
-	/**
-	 * Iterates over all OperationInvocations and applies them.
-	 * 
-	 * @throws OperationNotExecutableException
-	 * @throws ParameterMissingException
-	 */
-	public void applyPatch() throws PatchNotExecuteableException {
-		initResourceCopy();		
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))) {
-				try {
-					apply(operationInvocation);
-					appliedOperations.add(operationInvocation);
-				} catch (OperationNotExecutableException e) {
-					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
-				} catch (ParameterMissingException e) {
-					throw new PatchNotExecuteableException(e.getMessage());
-				}
-			} else {
-				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
-			}
-		}
-	}
 
 	
 // #################################### org.sidiff.patching.test ####################################
@@ -239,14 +176,52 @@ public class PatchEngine {
 	 */
 	private synchronized void apply(OperationInvocation operationInvocation) throws ParameterMissingException,
 			OperationNotExecutableException {
-		Map<String, Object> parameters = getParameters(operationInvocation.getParameterBindings());
-		Map<String, Object> resultMap = transformationEngine.execute(operationInvocation, parameters);
 		
-		// Exceptions do not set return values.
-		// If they set null depending operations wont be executable
-		// but UI will be ugly because of lacking a return name
-		// Skip depending operations will be observed in checkExecutable()
-		setResult(operationInvocation.getParameterBindings(), resultMap);
+		final OperationInvocation op = operationInvocation;
+		final ArrayList<Exception> exceptions = new ArrayList<Exception>();
+		
+		AbstractCommand command = new AbstractCommand(){
+
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				Map<String, Object> parameters = getParameters(op.getParameterBindings());
+				try {
+					Map<String, Object> resultMap = transformationEngine.execute(op, parameters);
+					// Exceptions do not set return values.
+					// If they set null depending operations wont be executable
+					// but UI will be ugly because of lacking a return name
+					// Skip depending operations will be observed in checkExecutable()
+					setResult(op.getParameterBindings(), resultMap);
+				}catch (ParameterMissingException | OperationNotExecutableException e){
+					exceptions.add(e);
+				}
+			}
+
+			@Override
+			public void redo() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public boolean canExecute() {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+		};
+		
+		patchedEditingDomain.getCommandStack().execute(command);
+		
+		for(Exception e: exceptions){
+			if(e instanceof ParameterMissingException){
+				throw (ParameterMissingException) e;
+			}
+			if(e instanceof OperationNotExecutableException){
+				throw (OperationNotExecutableException)e;
+			}
+		}
 	}
 	
 	private synchronized void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
@@ -321,7 +296,7 @@ public class PatchEngine {
 		if (actualA == null) {
 			eObject = getIncomingParameter(binding);
 		} else {
-			eObject = getCorrespondence(actualA);
+			eObject = correspondence.getCorrespondence(actualA);
 		}
 
 		return eObject;
@@ -369,29 +344,6 @@ public class PatchEngine {
 	}
 
 	
-	/**
-	 * Returns the resource copy object corresponding to the object found by
-	 * correspondence service
-	 * 
-	 * @param eObject
-	 * @return correspondence eObject of resource copy
-	 */
-	private EObject getCorrespondence(EObject eObject) {
-		EObject corEObject = correspondence.getCorrespondence(eObject);
-		if (corEObject != null) {
-			EObject cpEObject = copier.get(corEObject);
-			if (cpEObject != null) {
-				return cpEObject;
-			} else {
-				// Probably an "external" Object
-				return corEObject;
-			}
-
-		}
-		// No correspondence
-		return null;
-	}
-
 	
 	/**
 	 * Runs over all OperationInvocations and creates a report about failed and
@@ -505,7 +457,7 @@ public class PatchEngine {
 								}
 							}
 
-							EObject binding = getCorrespondence(objectParameterBinding.getActualA());
+							EObject binding = correspondence.getCorrespondence(objectParameterBinding.getActualA());
 							if (binding == null) {
 								entries.add(new ReportEntry(Status.FAILED, Type.PARAMETER,
 										new ParameterMissingException(operationInvocation.getChangeSet().getName(),
@@ -662,6 +614,13 @@ public class PatchEngine {
 
 	public Resource getPatchedResource() {
 		return patchedResource;
+	}
+
+
+
+
+	public void setPatchedEditingdomain(EditingDomain patchedEditingDomain) {
+		this.patchedEditingDomain = patchedEditingDomain;
 	}
 	
 	//TODO

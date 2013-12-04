@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -37,6 +38,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.EditorPart;
 import org.jdom.Attribute;
 import org.jdom.JDOMException;
 import org.sidiff.common.emf.EMFValidate;
@@ -126,7 +128,7 @@ public class PatchApplyHandler extends AbstractHandler {
 //						}
 
 						Job job = new Job("Patching") {
-
+							private EditingDomain editingDomain;
 							@Override
 							protected IStatus run(IProgressMonitor monitor) {
 								try {
@@ -144,9 +146,11 @@ public class PatchApplyHandler extends AbstractHandler {
 												if (editorPart instanceof EcoreDiagramEditor) {
 													EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
 													resource = editor.getDiagram().getElement().eResource();
+													editingDomain= editor.getEditingDomain();
 												} else if (editorPart instanceof IEditingDomainProvider) {
 													IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 													resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
+													editingDomain= editor.getEditingDomain();
 												}
 												resourceResult.set(resource);
 												if(validationState)
@@ -190,6 +194,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									monitor.subTask("Initialize PatchEngine");
 									correspondence.setMinReliability(minReliability);
 									final PatchEngine patchEngine = new PatchEngine(difference, resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
+									patchEngine.setPatchedEditingdomain(editingDomain);
 									monitor.worked(40);
 
 									monitor.subTask("Open Patch View");

@@ -1,16 +1,6 @@
 package org.sidiff.patching.ui.view;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Collections;
-
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -18,7 +8,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
@@ -30,18 +19,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ValidationMode;
-import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
@@ -77,7 +60,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	
 	private SelectionHandler selectionHandler;
 
-	private Action saveAction;
+
 	private Action validateAction;
 	
 	private Button reliabilitiesButton;
@@ -249,46 +232,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.validateAction.setToolTipText("Check Patch for valid preconditions");
 		this.validateAction.setImageDescriptor(Activator.getImageDescriptor("check_preconditions.gif"));
 		
-		
-		//----------- Save -----------------------
-		//TODO to revise (cpietsch)
-		this.saveAction = new Action("Save") {
-			@Override
-			public void run() {
-				try {
-					IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-					FileDialog dialog = new FileDialog(window.getShell(), SWT.SAVE);
-					String filename = dialog.open();
-					if (filename != null) {
-						engine.applyPatch();
-						ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
-						if (reportView != null)
-							reportView.setEntries(engine.getPatchReport().getEntries());
-
-						File file = new File(filename);
-						Resource resource = engine.getPatchedResource();
-						resource.save(Collections.EMPTY_MAP);
-						// Open Editor for patched model
-						IWorkbenchPage page = window.getActivePage();
-						IFileStore fileStore = EFS.getLocalFileSystem().getStore(file.toURI());
-						IDE.openEditorOnFileStore(page, fileStore);
-					}
-
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (PatchNotExecuteableException e1) {
-					IStatus error = new Status(IStatus.ERROR, Activator.PLUGIN_ID, SWT.OK, e1.getLocalizedMessage(), null);
-					ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", null, error);
-				} catch (PartInitException e1) {
-					e1.printStackTrace();
-				}
-			}
-		};
-		this.saveAction.setToolTipText("Execute and save");
-		this.saveAction.setImageDescriptor(Activator.getImageDescriptor("save_edit.gif"));
-		this.saveAction.setEnabled(false);
 	}
 
 	
@@ -346,7 +289,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
-		toolbarManager.add(saveAction);
+		
 		// toolbarManager.add(preCheckAction);
 	}
 
@@ -357,7 +300,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.patchViewer.setInput(engine.getDifference());
 		this.patchViewer.expandAll();
 		this.patchViewer.getTree().getColumns()[1].pack();
-		saveAction.setEnabled(true);
 		validateAction.run();
 		
 		iterativeValidation.setEnabled(true);
