@@ -776,7 +776,9 @@ public class HenshinRuleAnalysisUtilEx {
 
 	
 	/**
-	 * Returns all forbid nodes under a rule.
+	 * Returns all forbid nodes (i.e. all nodes that are graphically displayed as 
+	 * <<forbid>> node) under a rule.
+	 * 
 	 * @param rule
 	 * 			under which to search.
 	 * @return the list of forbid nodes.
@@ -784,17 +786,16 @@ public class HenshinRuleAnalysisUtilEx {
 	public static List<Node> getForbidNodes(Rule rule) {
 		ArrayList<Node> forbidNodes = new ArrayList<Node>();
 		
-		// TODO: What about a formula?
-		if(rule.getLhs().getFormula() instanceof Not) {
-			Not not = (Not) rule.getLhs().getFormula();
-			NestedCondition nestedCond = (NestedCondition) not.getChild();
-			
-			for(Node node : nestedCond.getConclusion().getNodes()) {
-				// Mapped nodes are not part of the NAC.
-				// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node. 
-				if(findMappingByImage(nestedCond.getMappings(), node) == null) {
-					forbidNodes.add(node);	
-				}	
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (nc.eContainer() instanceof Not){
+				// nc is a NAC
+				for(Node node : nc.getConclusion().getNodes()) {
+					// Mapped nodes are not part of the NAC.
+					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node. 
+					if(findMappingByImage(nc.getMappings(), node) == null) {
+						forbidNodes.add(node);	
+					}	
+				}
 			}
 		}
 		
@@ -822,14 +823,21 @@ public class HenshinRuleAnalysisUtilEx {
 		return res;
 	}
 	
+	/**
+	 * Returns all <<forbid>> edges of a rule.
+	 * 
+	 * @param rule
+	 * 			the Henshin rule.
+	 * @return the << forbid >> edges.
+	 * 
+	 */
 	public static List<Edge> getForbidEdges(Rule rule) {
 		List<Edge> res = new LinkedList<Edge>();
 		
-		// TODO: What about a formula?
-		if(rule.getLhs().getFormula() instanceof Not) {
-			Not not = (Not) rule.getLhs().getFormula();
-			NestedCondition nestedCond = (NestedCondition) not.getChild();
-			res.addAll(nestedCond.getConclusion().getEdges());
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (nc.eContainer() instanceof Not){
+				res.addAll(nc.getConclusion().getEdges());
+			}
 		}
 		
 		return res;
