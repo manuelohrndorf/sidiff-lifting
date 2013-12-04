@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.difference.patch.animation.internal.EnableAnimationHandler"
+            id="org.sidiff.difference.patch.animation.enableAnimation"
+            name="Enable Animation">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:false"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.sidiff.difference.patch.animation.toolbar"
+               label="GMF Animation">
+            <command
+                  commandId="org.sidiff.difference.patch.animation.enableAnimation"
+                  icon="icons/watch.gif"
+                  label="Enable Animation"
+                  style="toggle">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="activeEditorId">
+                     <equals
+                           value="org.eclipse.emf.ecore.presentation.EcoreEditorID">
+                     </equals>
+                  </with>
+               </visibleWhen>
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.gmf.runtime.diagram.ui.layoutProviders">
+      <layoutProvider
+            class="org.sidiff.difference.patch.animation.internal.GridLayoutProvider">
+         <Priority
+               name="Lowest">
+         </Priority>
+      </layoutProvider>
+   </extension>
+
+</plugin>
