@@ -59,6 +59,7 @@ import org.sidiff.patching.util.CorrespondenceUtil;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.file.FileOperations;
 import org.silift.common.util.file.XMLUtil;
 
@@ -80,32 +81,6 @@ public class PatchApplyHandler extends AbstractHandler {
 				String patchPath = PatchUtil.extractPatch(iFile.getLocation()).getAbsolutePath();
 				String separator = System.getProperty("file.separator");
 				
-				//adjust paths of the resources
-				XMLUtil xmlReader = new XMLUtil();
-				List<File> files = FileOperations.getFilesFromDir(patchPath);
-				for(File f : files){
-					try {
-						if(f.getName().endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)||f.getName().endsWith(LiftingFacade.SYMMETRIC_DIFF_EXT)){
-							xmlReader.loadXML(f);
-							for(Attribute a : xmlReader.getAttributes()){
-								String find = a.getValue();
-								if(find.startsWith("platform:/resource")){
-								int index = find.indexOf("PATCH(");
-								String replace = "platform:/resource"+"/"+iFile.getProject().getName()+"/"+iFile.getParent().getProjectRelativePath().toPortableString() +"/"+ find.substring(index);
-								a.setValue(replace);	
-								}
-								
-							}
-							//save changes
-							xmlReader.save(patchPath+separator+f.getName());
-						}
-					} catch (JDOMException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
 				File dir = new File(patchPath);
 				File asymmetricDifference = null;
 				String[] children = dir.list();
@@ -115,7 +90,7 @@ public class PatchApplyHandler extends AbstractHandler {
 						break;
 					}		
 				}
-				// Load Model
+				// Load AsymmetricDifference
 				ResourceSet resourceSet = new ResourceSetImpl();
 				Resource patchResource = resourceSet.getResource(URI.createFileURI(asymmetricDifference.getAbsolutePath()), true);
 
@@ -131,17 +106,26 @@ public class PatchApplyHandler extends AbstractHandler {
 						validationState = dialog.validate();
 						String filename = dialog.getFile();
 						final URI fileURI = URI.createFileURI(filename);
+						Resource targetResource = EMFStorage.eLoad(fileURI).eResource();
+						String lastSegment = targetResource.getURI().lastSegment();
+						String[] name = lastSegment.split("\\.");
+						String savePath = EMFStorage.uriToPath(targetResource.getURI());
+						savePath = savePath.replace(targetResource.getURI().lastSegment(), name[0] + "_epatched" + "." +name[1]);
+						//TODO Diagram
+						EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath), targetResource.getContents().get(0), true);
 						final float minReliability = dialog.getReliability();
-						final File fileToOpen;
-						URI ecoreDiag = fileURI.trimFileExtension().appendFileExtension("ecorediag");
-						File file = new File(ecoreDiag.toFileString());
-						if (file.exists()) {
-							fileToOpen = file;
-						} else {
-							fileToOpen = new File(fileURI.toFileString());
-						}
+						final File fileToOpen = new File(savePath);
+						
+//						File file = new File(ecoreDiag.toFileString());
+						
+//						URI ecoreDiag = fileURI.trimFileExtension().appendFileExtension("ecorediag");
+//						if (file.exists()) {
+//							fileToOpen = file;
+//						} else {
+//							fileToOpen = new File(fileURI.toFileString());
+//						}
 
-						Job job = new Job("Loading Patch") {
+						Job job = new Job("Patching") {
 
 							@Override
 							protected IStatus run(IProgressMonitor monitor) {
@@ -179,22 +163,14 @@ public class PatchApplyHandler extends AbstractHandler {
 									});
 									if(!validationState)
 										return Status.CANCEL_STATUS;
-									monitor.worked(10);
-									
-									// Copy resource for preview
-									Resource resource = resourceResult.get();
-									URI copyUri = PatchUtil.createURI(resource.getURI(), "patched");
-									final Resource resourceToOpen = PatchUtil.copyWithId(resource, copyUri, true, new Copier());
-									resourceToOpen.save(Collections.EMPTY_MAP);
-
-									monitor.worked(10);
+									monitor.worked(20);
 
 									// Find patch correspondence
 									String documentType = null;
-									if (EMFModelAccessEx.isProfiled(resource)){
-										documentType = EMFModelAccessEx.getBaseDocumentType(resource);
+									if (EMFModelAccessEx.isProfiled(resourceResult.get())){
+										documentType = EMFModelAccessEx.getBaseDocumentType(resourceResult.get());
 									} else {
-										documentType = EMFModelAccessEx.getCharacteristicDocumentType(resource);
+										documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 									}											
 									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType);
 									if (correspondence == null) {
@@ -213,7 +189,7 @@ public class PatchApplyHandler extends AbstractHandler {
 
 									monitor.subTask("Initialize PatchEngine");
 									correspondence.setMinReliability(minReliability);
-									final PatchEngine patchEngine = new PatchEngine(difference, resource, correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
+									final PatchEngine patchEngine = new PatchEngine(difference, resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
 									monitor.worked(40);
 
 									monitor.subTask("Open Patch View");
@@ -237,7 +213,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									
 									// ModelChangeHandler works independent
 									monitor.subTask("Adding Modellistener");
-									ModelAdapter adapter = new ModelAdapter(resource);
+									ModelAdapter adapter = new ModelAdapter(resourceResult.get());
 									adapter.addListener(new ModelChangeHandler(correspondence));
 									adapter.addListener(patchView);
 									monitor.worked(20);
