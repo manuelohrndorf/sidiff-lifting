@@ -29,6 +29,10 @@ import org.silift.common.util.file.ZipUtil;
 
 public class PatchCreator {
 	
+	public static final String FOLDER_EDIT_RULES = "EditRules";
+	public static final String FOLDER_MODEL_A = "modelA";
+	public static final String FOLDER_MODEL_B = "modelB";
+	
 	private Resource resourceA;
 	private Resource resourceB;
 	private ResourceSet resourceADiag;
@@ -132,8 +136,8 @@ public class PatchCreator {
 		
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
 		
-		String modelADir = savePath+separator+"modelA";
-		String modelBDir = savePath+separator+"modelB";
+		String modelADir = savePath+separator + FOLDER_MODEL_A;
+		String modelBDir = savePath+separator + FOLDER_MODEL_B;
 		
 		String resASavePath = modelADir+separator+resourceA_name;
 		String resBSavePath = modelBDir+separator+resourceB_name;
@@ -171,7 +175,7 @@ public class PatchCreator {
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
-				String erSavePath = savePath + separator + "EditRules" + separator + module.getName() + ".henshin";
+				String erSavePath = savePath + separator + FOLDER_EDIT_RULES + separator + module.getName() + ".henshin";
 				
 				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
 				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
