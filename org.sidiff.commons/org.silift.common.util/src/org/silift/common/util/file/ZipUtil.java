@@ -283,7 +283,7 @@ public class ZipUtil {
 	 * @return
 	 */
 	private static File buildDirectoryHierarchy(String fileName, File destDir) {
-		int lastIndex = fileName.lastIndexOf(SYSTEM_SEPERATOR);
+		int lastIndex = fileName.lastIndexOf(ZIP_SEPERATOR);
 		String internalPathToEntry = fileName.substring(0, lastIndex + 1);
 
 		return new File(destDir, internalPathToEntry);
