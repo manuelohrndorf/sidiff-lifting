@@ -32,6 +32,7 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.exceptions.ParameterModifiedException;
+import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReport.Status;
 import org.sidiff.patching.report.PatchReport.Type;
@@ -119,47 +120,46 @@ public class PatchEngine {
 	
 // #################################### org.sidiff.patching.test ####################################
 	
-//	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
-//		initResourceCopy();
-//		int initialErrors = getValidationErrorAmount(this.patchedResource);
-//		int previousErrors = initialErrors;
-//		PatchReport report = new PatchReport();
-//		for (OperationInvocation operationInvocation : orderedOperations) {
-//			if (operationInvocation.isApply()  && !(appliedOperations.contains(operationInvocation))) {
-//				try {
-//					apply(operationInvocation);
-//					appliedOperations.add(operationInvocation);
-//					int currentErrors = getValidationErrorAmount(this.patchedResource);
-//					if (previousErrors != currentErrors) {
-//						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
-//						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
-//								.getChangeSet().getName(), initialErrors);
-//						report.add(operationInvocation, new ReportEntry(Status.WARNING, Type.VALIDATION, message));
-//					}
-//					previousErrors = currentErrors;
-//				} catch (OperationNotExecutableException e) {
-//					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
-//				} catch (ParameterMissingException e) {
-//					throw new PatchNotExecuteableException(e.getMessage());
-//				}
-//			} else {
-//				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
-//			}
-//		}
-//		return new PatchResult(this.patchedResource, report);
-//	}
-//
-//	private int getValidationErrorAmount(Resource resource) {
-//		Collection<ReportEntry> validationReport = testUnit.test(resource);
-//		int amount = 0;
-//		for (ReportEntry reportEntry : validationReport) {
-//			Status status = reportEntry.getStatus();
-//			if (status == Status.WARNING || status == Status.FAILED) {
-//				amount++;
-//			}
-//		}
-//		return amount;
-//	}
+	public void applyPatchOperationValidation() throws PatchNotExecuteableException {
+		int initialErrors = getValidationErrorAmount(this.patchedResource);
+		int previousErrors = initialErrors;
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			ArrayList<ReportEntry> validationReports = new ArrayList<ReportEntry>();
+			if (operationInvocation.isApply()  && !(appliedOperations.contains(operationInvocation))) {
+				try {
+					apply(operationInvocation);
+					appliedOperations.add(operationInvocation);
+					int currentErrors = getValidationErrorAmount(this.patchedResource);
+					if (previousErrors != currentErrors) {
+						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
+						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
+								.getChangeSet().getName(), initialErrors);
+						validationReports.add(new ReportEntry(Status.WARNING, Type.VALIDATION, message));
+						patchReport.getValidationEntries().put(operationInvocation, validationReports);
+					}
+					previousErrors = currentErrors;
+				} catch (OperationNotExecutableException e) {
+					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
+				} catch (ParameterMissingException e) {
+					throw new PatchNotExecuteableException(e.getMessage());
+				}
+			} else {
+				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
+			}
+		}
+	}
+
+	private int getValidationErrorAmount(Resource resource) {
+		Collection<ReportEntry> validationReport = testUnit.test(resource);
+		int amount = 0;
+		for (ReportEntry reportEntry : validationReport) {
+			Status status = reportEntry.getStatus();
+			if (status == Status.WARNING || status == Status.FAILED) {
+				amount++;
+			}
+		}
+		return amount;
+	}
 	
 // ##################################################################################################
 	

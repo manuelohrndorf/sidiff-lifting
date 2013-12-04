@@ -32,7 +32,6 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.PatchEngine.PatchResult;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport.Status;
 import org.sidiff.patching.report.ReportEntry;
@@ -137,7 +136,7 @@ public class PatchEvaluationApplication implements IApplication {
 				
 				// Time to apply patch
 				long start = System.currentTimeMillis();
-				PatchResult result = patchEngine.applyPatchOperationValidation();
+				patchEngine.applyPatchOperationValidation();
 
 				long delta = System.currentTimeMillis() - start;				
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
@@ -150,7 +149,7 @@ public class PatchEvaluationApplication implements IApplication {
 				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference().getOperationInvocations());
 				buffer.append(mapToLatexTable(dist)+"\n");
 				
-				for (ReportEntry entry : result.getReport().getEntries()) {
+				for (ReportEntry entry : patchEngine.getPatchReport().getEntries()) {
 					Status status = entry.getStatus();
 					String description = entry.getDescription();
 					buffer.append("ReportEntry: " + status + ": " + description + "\n");
@@ -169,7 +168,7 @@ public class PatchEvaluationApplication implements IApplication {
 					ResourceSet resourceSetPatched = new ResourceSetImpl();
 					URI patchedUri = URI.createFileURI(patchedFileBase +".patched.xmi");
 					resourcePatched = resourceSetPatched.createResource(patchedUri);
-					resourcePatched.getContents().add(result.getPatchedResource().getContents().get(0));
+					resourcePatched.getContents().add(patchEngine.getPatchedResource().getContents().get(0));
 					resourcePatched.save(Collections.EMPTY_MAP);
 					
 					// Saving modified Resource (into simple XMI without ids)
@@ -182,7 +181,7 @@ public class PatchEvaluationApplication implements IApplication {
 					
 				} else {					
 					// Saving patched Resource
-					resourcePatched = result.getPatchedResource();
+					resourcePatched = patchEngine.getPatchedResource();
 					resourcePatched.save(Collections.EMPTY_MAP);
 					
 					// Saving modified Resource (into "my sysml" without ids)
