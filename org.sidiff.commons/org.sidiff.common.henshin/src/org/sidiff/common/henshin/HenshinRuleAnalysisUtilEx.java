@@ -803,6 +803,33 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Returns all require nodes (i.e. all nodes that are graphically displayed as 
+	 * <<require>> node) under a rule.
+	 * 
+	 * @param rule
+	 * 			under which to search.
+	 * @return the list of require nodes.
+	 */
+	public static List<Node> getRequireNodes(Rule rule) {
+		ArrayList<Node> forbidNodes = new ArrayList<Node>();
+		
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (!(nc.eContainer() instanceof Not)){
+				// nc is a PAC
+				for(Node node : nc.getConclusion().getNodes()) {
+					// Mapped nodes are not part of the NAC.
+					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node. 
+					if(findMappingByImage(nc.getMappings(), node) == null) {
+						forbidNodes.add(node);	
+					}	
+				}
+			}
+		}
+		
+		return forbidNodes;
+	}
+	
+	/**
 	 * Returns all << preserve >> edges of a rule.
 	 * 
 	 * @param rule
@@ -836,6 +863,26 @@ public class HenshinRuleAnalysisUtilEx {
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
+				res.addAll(nc.getConclusion().getEdges());
+			}
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Returns all <<require>> edges of a rule.
+	 * 
+	 * @param rule
+	 * 			the Henshin rule.
+	 * @return the << require >> edges.
+	 * 
+	 */
+	public static List<Edge> getRequireEdges(Rule rule) {
+		List<Edge> res = new LinkedList<Edge>();
+		
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (!(nc.eContainer() instanceof Not)){
 				res.addAll(nc.getConclusion().getEdges());
 			}
 		}
