@@ -12,11 +12,9 @@ import java.util.Set;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -55,9 +53,8 @@ public class PatchEngine {
 	private Copier copier;
 	private ITransformationEngine transformationEngine;
 	private Resource targetResource;
-	private Resource previewTargetResource;
+	private Resource patchedResource;
 	private IValidationUnit testUnit;
-	private EditingDomain previewEditingDomain;
 	
 	private PatchReport patchReport;
 	
@@ -111,22 +108,12 @@ public class PatchEngine {
 		// initialize patch report
 		this.patchReport = new PatchReport();
 		
-		// initialize preview resource
-		this.copier = new Copier();
-		URI uri = PatchUtil.createURI(targetResource.getURI(), "patched");
-		this.previewTargetResource = PatchUtil.copyWithId(targetResource, uri, true, copier);
+		initResourceCopy();
 
 		// initialize test unit
 		this.testUnit = new EMFValidationTestUnit();
 	}
 
-	
-	public void setPreviewResources(EditingDomain previewEditingDomain, Resource previewTargetResource) {
-		this.previewEditingDomain = previewEditingDomain;
-		this.previewTargetResource = previewTargetResource;
-	}
-
-	
 	/**
 	 * clears preview resource and fills it with target model
 	 */
@@ -136,17 +123,26 @@ public class PatchEngine {
 
 			@Override
 			public void execute() {
-				Resource tmpResource = PatchUtil.copyWithId(targetResource, previewTargetResource.getURI(), true,
+				//TODO 
+				/**
+				 *  Diagramm / Ecore Ressource kopieren 
+				 *  fix0r: C to da P
+				 */
+
+				if(PatchEngine.this.executionMode.equals(ExecutionMode.INTERACTIVE)){
+					//TODO Diagramm
+				}
+				Resource tmpResource = PatchUtil.copyWithId(targetResource, patchedResource.getURI(), true,
 						copier);
-				PatchEngine.this.previewTargetResource.getContents().clear();				
+				PatchEngine.this.patchedResource.getContents().clear();				
 				
 				//Add all contents to preview
 				while(tmpResource.getContents().size()>0){	
 					
-					PatchEngine.this.previewTargetResource.getContents().add(tmpResource.getContents().get(0));					
+					PatchEngine.this.patchedResource.getContents().add(tmpResource.getContents().get(0));					
 
 				}
-				PatchEngine.this.transformationEngine.init(previewTargetResource, executionMode);
+				PatchEngine.this.transformationEngine.init(patchedResource, executionMode);
 			}
 
 			@Override
@@ -159,24 +155,17 @@ public class PatchEngine {
 				return true;
 			}
 		};
-
-		if (previewEditingDomain != null) {
-			previewEditingDomain.getCommandStack().execute(command);
-		} else {
-			command.execute();
-		}
+		command.execute();
 	}
 
 	
 	/**
 	 * Iterates over all OperationInvocations and applies them.
 	 * 
-	 * @return the resulting Resource
 	 * @throws OperationNotExecutableException
 	 * @throws ParameterMissingException
 	 */
-	public PatchResult applyPatch() throws PatchNotExecuteableException {
-		assert previewEditingDomain == null : "applyPatch only available without preview!";
+	public void applyPatch() throws PatchNotExecuteableException {
 		initResourceCopy();		
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))) {
@@ -192,9 +181,6 @@ public class PatchEngine {
 				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
 			}
 		}
-	
-//		validateModel(report);
-		return new PatchResult(this.previewTargetResource, this.patchReport);
 	}
 
 	
@@ -202,7 +188,7 @@ public class PatchEngine {
 	
 //	public PatchResult applyPatchOperationValidation() throws PatchNotExecuteableException {
 //		initResourceCopy();
-//		int initialErrors = getValidationErrorAmount(this.previewTargetResource);
+//		int initialErrors = getValidationErrorAmount(this.patchedResource);
 //		int previousErrors = initialErrors;
 //		PatchReport report = new PatchReport();
 //		for (OperationInvocation operationInvocation : orderedOperations) {
@@ -210,7 +196,7 @@ public class PatchEngine {
 //				try {
 //					apply(operationInvocation);
 //					appliedOperations.add(operationInvocation);
-//					int currentErrors = getValidationErrorAmount(this.previewTargetResource);
+//					int currentErrors = getValidationErrorAmount(this.patchedResource);
 //					if (previousErrors != currentErrors) {
 //						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
 //						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
@@ -227,7 +213,7 @@ public class PatchEngine {
 //				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
 //			}
 //		}
-//		return new PatchResult(this.previewTargetResource, report);
+//		return new PatchResult(this.patchedResource, report);
 //	}
 //
 //	private int getValidationErrorAmount(Resource resource) {
@@ -414,10 +400,6 @@ public class PatchEngine {
 	 * @return
 	 */
 	public PatchReport updatePatchReport() {
-		//quick fix
-		if(appliedOperations.size() < 1)
-			initResourceCopy();
-
 		checkParameter();
 
 		checkModified();
@@ -564,13 +546,13 @@ public class PatchEngine {
 						if(!(appliedOperations.contains(operationInvocation))){
 							try {
 								if(validationMode == ValidationMode.ITERATIVE){
-									initialErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+									initialErrors = testUnit.getErrors(testUnit.validate(patchedResource));
 									previousErrors = initialErrors;
 								}
 								apply(operationInvocation);
 								appliedOperations.add(operationInvocation);
 								if(validationMode == ValidationMode.ITERATIVE){
-									currentErrors = testUnit.getErrors(testUnit.validate(previewTargetResource));
+									currentErrors = testUnit.getErrors(testUnit.validate(patchedResource));
 									
 									if(currentErrors.size() > previousErrors.size()){
 										ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
@@ -627,11 +609,7 @@ public class PatchEngine {
 
 		};
 		
-		if (previewEditingDomain != null) {
-			previewEditingDomain.getCommandStack().execute(command);
-		} else {
 			command.execute();
-		}
 	}
 
 	
@@ -647,7 +625,7 @@ public class PatchEngine {
 
 	
 //	private void validateModel(PatchReport report) {
-//		Collection<ReportEntry> entries = testUnit.test(this.previewTargetResource);
+//		Collection<ReportEntry> entries = testUnit.test(this.patchedResource);
 //		report.add(entries);
 //	}
 
@@ -675,25 +653,36 @@ public class PatchEngine {
 	public Collection<OperationInvocation> getOrderedOperationInvocations(){
 		return orderedOperations;
 	}
-	
-	
-	public class PatchResult {
 
-		private Resource patchedResource;
-		private PatchReport report;
 
-		public PatchResult(Resource resource, PatchReport report) {
-			this.patchedResource = resource;
-			this.report = report;
-		}
-
-		public Resource getPatchedResource() {
-			return patchedResource;
-		}
-
-		public PatchReport getReport() {
-			return report;
-		}
-
+	public PatchReport getPatchReport() {
+		return patchReport;
 	}
+
+
+	public Resource getPatchedResource() {
+		return patchedResource;
+	}
+	
+	//TODO
+	
+//	public class PatchResult {
+//
+//		private Resource patchedResource;
+//		private PatchReport report;
+//
+//		public PatchResult(Resource resource, PatchReport report) {
+//			this.patchedResource = resource;
+//			this.report = report;
+//		}
+//
+//		public Resource getPatchedResource() {
+//			return patchedResource;
+//		}
+//
+//		public PatchReport getReport() {
+//			return report;
+//		}
+//
+//	}
 }

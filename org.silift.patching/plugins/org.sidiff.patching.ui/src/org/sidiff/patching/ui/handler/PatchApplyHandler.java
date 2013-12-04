@@ -17,7 +17,6 @@ import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -27,7 +26,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -190,33 +188,6 @@ public class PatchApplyHandler extends AbstractHandler {
 									final Resource resourceToOpen = PatchUtil.copyWithId(resource, copyUri, true, new Copier());
 									resourceToOpen.save(Collections.EMPTY_MAP);
 
-									// Open preview editor
-									monitor.subTask("Opening preview editor");
-									final AtomicReference<Resource> previewResourceResult = new AtomicReference<Resource>();
-									final AtomicReference<EditingDomain> previewEditingDomainResult = new AtomicReference<EditingDomain>();
-									Display.getDefault().syncExec(new Runnable() {
-										@Override
-										public void run() {
-											try {
-
-												String file = fileToOpen.getParent() + "/" + resourceToOpen.getURI().lastSegment();
-												IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-												IFileStore fileStore = EFS.getLocalFileSystem().getStore(new Path(file));
-												IEditorPart editorPart = IDE.openEditorOnFileStore(page, fileStore);
-												Resource previewResource = null;
-												EditingDomain editingDomain = null;
-												if (editorPart instanceof IEditingDomainProvider) {
-													IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
-													editingDomain = editor.getEditingDomain();
-													previewResource = editor.getEditingDomain().getResourceSet().getResources().get(0);
-												}
-												previewResourceResult.set(previewResource);
-												previewEditingDomainResult.set(editingDomain);
-											} catch (PartInitException e) {
-												e.printStackTrace();
-											}
-										}
-									});
 									monitor.worked(10);
 
 									// Find patch correspondence
@@ -244,7 +215,6 @@ public class PatchApplyHandler extends AbstractHandler {
 									monitor.subTask("Initialize PatchEngine");
 									correspondence.setMinReliability(minReliability);
 									final PatchEngine patchEngine = new PatchEngine(difference, resource, correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
-									patchEngine.setPreviewResources(previewEditingDomainResult.get(), previewResourceResult.get());
 									monitor.worked(40);
 
 									monitor.subTask("Open Patch View");

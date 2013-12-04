@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -41,10 +38,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
-import org.sidiff.common.util.StringUtil;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.PatchEngine.PatchResult;
 import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
@@ -265,14 +260,13 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 					FileDialog dialog = new FileDialog(window.getShell(), SWT.SAVE);
 					String filename = dialog.open();
 					if (filename != null) {
-						PatchResult result = engine.applyPatch();
-
+						engine.applyPatch();
 						ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
 						if (reportView != null)
-							reportView.setEntries(result.getReport().getEntries());
+							reportView.setEntries(engine.getPatchReport().getEntries());
 
 						File file = new File(filename);
-						Resource resource = result.getPatchedResource();
+						Resource resource = engine.getPatchedResource();
 						resource.save(Collections.EMPTY_MAP);
 						// Open Editor for patched model
 						IWorkbenchPage page = window.getActivePage();
