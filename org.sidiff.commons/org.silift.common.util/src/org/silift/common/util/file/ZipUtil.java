@@ -9,7 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -21,7 +23,8 @@ import org.silift.common.util.exceptions.FileNotCreatedException;
 
 public class ZipUtil {
 
-	public static final String separator = System.getProperty("file.separator");
+	public static final String SYSTEM_SEPERATOR = System.getProperty("file.separator");
+	public static final String ZIP_SEPERATOR = System.getProperty("/");
 
 	/**
 	 * Zips a directory given by an absolute path.
@@ -95,18 +98,27 @@ public class ZipUtil {
 		try {
 			File[] fileArray = dirToZipFile.listFiles();
 			String path;
+			
 			for (File file : fileArray) {
 				if (file.isDirectory()) {
 					zipDir(dirToZip, file, zipOutputStream);
 					continue;
 				}
-				fileInputStream = new BufferedInputStream(new FileInputStream(file));
+			
+				// Parse entry name:
 				path = file.getPath();
 				String name = path.substring(dirToZip.length() + 1, path.length());
+				name = name.replace(SYSTEM_SEPERATOR, ZIP_SEPERATOR);
+				
 				LogUtil.log(LogEvent.NOTICE, "zip " + name);
+				
+				// Zip enty:
 				zipOutputStream.putNextEntry(new ZipEntry(name));
+				fileInputStream = new BufferedInputStream(new FileInputStream(file));
+				
 				int len;
 				byte[] buffer = new byte[fileInputStream.available()];
+				
 				while ((len = fileInputStream.read(buffer, 0, buffer.length)) > 0) {
 					zipOutputStream.write(buffer, 0, len);
 					zipOutputStream.closeEntry();
@@ -170,6 +182,34 @@ public class ZipUtil {
 		}
 		return text.toString();
 	}
+	
+	public static List<String> getEntries(String zipFile) {
+		List<String> entries = new ArrayList<String>();
+		ZipFile file = null;
+		
+		try {
+			file = new ZipFile(zipFile);
+			Enumeration<?> enu = file.entries();
+
+			while (enu.hasMoreElements()) {
+				ZipEntry zipEntry = (ZipEntry) enu.nextElement();
+				String zipEntryName = zipEntry.getName();
+				entries.add(zipEntryName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (file != null) {
+				try {
+					file.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return entries;
+	}
 
 	/**
 	 * Extracts all files of a zip file.
@@ -190,10 +230,10 @@ public class ZipUtil {
 			throws FileAlreadyExistsException {
 
 		if (!(output.endsWith("/") || output.endsWith("\\"))) {
-			output += separator;
+			output += SYSTEM_SEPERATOR;
 		}
 
-		String path = output + dirName + separator;
+		String path = output + dirName + SYSTEM_SEPERATOR;
 		BufferedInputStream in = null;
 		BufferedOutputStream out = null;
 		
@@ -243,7 +283,7 @@ public class ZipUtil {
 	 * @return
 	 */
 	private static File buildDirectoryHierarchy(String fileName, File destDir) {
-		int lastIndex = fileName.lastIndexOf(separator);
+		int lastIndex = fileName.lastIndexOf(SYSTEM_SEPERATOR);
 		String internalPathToEntry = fileName.substring(0, lastIndex + 1);
 
 		return new File(destDir, internalPathToEntry);

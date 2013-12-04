@@ -160,20 +160,15 @@ public class PatchUtil {
 		File uncompressedPath = new File(compressedPath
 				.substring(0, compressedPath.length() - (PATCH_EXTENSION.length() + 1)));
 
-		if (!uncompressedPath.exists()) {
-
-			// TODO[MO@26.10.13]: Calculate MD5 hash of the patch and store it
-			// in the extracted patch to check if the data is up-to-date.
-
-			try {
-				ZipUtil.extractFiles(
-						compressedPath,
-						uncompressedPath.getAbsolutePath(), "",
-						true);
-			} catch (FileAlreadyExistsException e) {
-				e.printStackTrace();
-			}
+		try {
+			ZipUtil.extractFiles(
+					compressedPath,
+					uncompressedPath.getAbsolutePath(), "",
+					true);
+		} catch (FileAlreadyExistsException e) {
+			e.printStackTrace();
 		}
+
 		return uncompressedPath;
 	}
 
