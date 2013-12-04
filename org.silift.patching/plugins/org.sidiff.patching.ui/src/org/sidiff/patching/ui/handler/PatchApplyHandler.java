@@ -62,7 +62,6 @@ import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.file.FileOperations;
 import org.silift.common.util.file.XMLUtil;
 
-// TODO[MO@26.10.13]: Show handler menu entry only on patch files.
 public class PatchApplyHandler extends AbstractHandler {
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
 	public boolean validationState = true;
