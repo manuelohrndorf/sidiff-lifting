@@ -14,7 +14,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -26,7 +25,6 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
@@ -34,14 +32,12 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.exceptions.ParameterModifiedException;
-import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReport.Status;
 import org.sidiff.patching.report.PatchReport.Type;
 import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.test.EMFValidationTestUnit;
 import org.sidiff.patching.util.PatchUtil;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * 

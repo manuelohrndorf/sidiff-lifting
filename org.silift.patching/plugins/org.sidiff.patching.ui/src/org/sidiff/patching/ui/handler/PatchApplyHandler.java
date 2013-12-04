@@ -3,8 +3,6 @@ package org.sidiff.patching.ui.handler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -38,14 +35,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.EditorPart;
-import org.jdom.Attribute;
-import org.jdom.JDOMException;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.IPatchCorrespondence;
@@ -62,8 +55,7 @@ import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.file.FileOperations;
-import org.silift.common.util.file.XMLUtil;
+import org.silift.patching.patch.PatchCreator;
 
 public class PatchApplyHandler extends AbstractHandler {
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
@@ -109,14 +101,19 @@ public class PatchApplyHandler extends AbstractHandler {
 						String filename = dialog.getFile();
 						final URI fileURI = URI.createFileURI(filename);
 						Resource targetResource = EMFStorage.eLoad(fileURI).eResource();
-						String lastSegment = targetResource.getURI().lastSegment();
-						String[] name = lastSegment.split("\\.");
+						ResourceSet diagramResourceSet = PatchCreator.deriveDiagrammFile(targetResource);
 						String savePath = EMFStorage.uriToPath(targetResource.getURI());
-						savePath = savePath.replace(targetResource.getURI().lastSegment(), name[0] + "_epatched" + "." +name[1]);
-						//TODO Diagram
-						EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath), targetResource.getContents().get(0), true);
+						savePath = savePath.replace(targetResource.getURI().lastSegment(), "patched");
+						EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()), targetResource.getContents().get(0), true);
+						
+						if(!diagramResourceSet.getResources().isEmpty()){
+							for(Resource resource : diagramResourceSet.getResources()){
+								EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath  + separator + resource.getURI().lastSegment()), resource.getContents().get(0), false);
+							}
+						}
+						
 						final float minReliability = dialog.getReliability();
-						final File fileToOpen = new File(savePath);
+						final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());
 						
 //						File file = new File(ecoreDiag.toFileString());
 						

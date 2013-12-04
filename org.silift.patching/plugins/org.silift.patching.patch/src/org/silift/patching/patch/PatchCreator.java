@@ -250,7 +250,7 @@ public class PatchCreator {
 		xmlWriter.generateEndTag(name);
 	}
 	
-	private ResourceSet deriveDiagrammFile(Resource model){
+	public static ResourceSet deriveDiagrammFile(Resource model){
 		String path = EMFStorage.uriToPath(model.getURI());
 		ResourceSet resourceSet = new ResourceSetImpl();
 		try{
