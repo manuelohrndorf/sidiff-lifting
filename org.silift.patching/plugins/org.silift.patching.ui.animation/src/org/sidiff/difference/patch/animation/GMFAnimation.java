@@ -26,7 +26,7 @@ public class GMFAnimation {
 	
 	private static Map<Resource, AnimationAdapter> animatedResources = new HashMap<Resource, AnimationAdapter>();
 	
-	public static void enableAnimation(Resource changingResource){		
+	public static void enableAnimation(Resource changingResource, boolean createMatching){		
 		List<EditorMatching> editorMatchings = new ArrayList<EditorMatching>();
 
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -43,11 +43,15 @@ public class GMFAnimation {
 				
 				for(Resource resource : editingDomain.getResourceSet().getResources()){
 					if(resource.getURI().toString().endsWith(".ecore")){
-						IMatcher matcher = MatcherUtil.getMatcherByKey(URIFragmentMatcher.KEY, changingResource, resource);
-						SymmetricDifference matching = matcher.createMatching(changingResource, resource, 0, false);
-						EcoreUtil.resolveAll(matching);
-						if(checkMatching(matching)){
-							editorMatchings.add(new EditorMatching(matching, diagramEditor));
+						if(createMatching){
+							IMatcher matcher = MatcherUtil.getMatcherByKey(URIFragmentMatcher.KEY, changingResource, resource);
+							SymmetricDifference matching = matcher.createMatching(changingResource, resource, 0, false);
+							EcoreUtil.resolveAll(matching);
+							if(checkMatching(matching)){
+								editorMatchings.add(new EditorMatching(matching, diagramEditor));
+							}
+						} else {
+							editorMatchings.add(new EditorMatching(null, diagramEditor));
 						}
 					}
 				}

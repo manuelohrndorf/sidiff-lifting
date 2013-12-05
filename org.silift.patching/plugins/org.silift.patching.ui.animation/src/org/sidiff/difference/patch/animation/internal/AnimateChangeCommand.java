@@ -82,9 +82,14 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 
 			EObject changedObject = (EObject) notification.getNotifier();
 			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
-
-			EObject viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
-			viewedObject.eUnset(feature);
+			EObject viewedObject = null;
+			
+			if(editorMatching.matching != null){
+				viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
+				viewedObject.eUnset(feature);
+			} else {
+				viewedObject = changedObject;
+			}
 
 			refactorHelper.refactor(viewedObject, viewedObject);
 		}
@@ -95,17 +100,20 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			EObject changedObject = (EObject) notification.getNotifier();
 			Object newValue = notification.getNewValue();
 			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
+			EObject viewedObject = changedObject;
 			
 			if(newValue instanceof EGenericType){
 				return;
 			}
 			
-			if(newValue instanceof EObject){
-				newValue = editorMatching.matching.getCorrespondingObjectInB((EObject) newValue);
+			if(editorMatching.matching != null){
+				if(newValue instanceof EObject){
+					newValue = editorMatching.matching.getCorrespondingObjectInB((EObject) newValue);
+				}
+				viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
+				viewedObject.eSet(feature, newValue);
 			}
-			EObject viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
-			viewedObject.eSet(feature, newValue);
-
+			
 			if(newValue instanceof EObject){
 				for(PendingAdd pendingAdd : pendingAdds){
 					if(viewedObject == pendingAdd.newObject){
@@ -135,10 +143,16 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		}
 		final EClass referenceClass = reference.getEContainingClass();
 		final EObject changedContainer = (EObject) notification.getNotifier();
-		final EObject viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
-
+		
+		EObject viewedContainer = changedContainer;
+		EObject removedViewedObject = removedObject;
+		
+		if(editorMatching.matching != null){
+			viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
+			removedViewedObject = editorMatching.matching.getCorrespondingObjectInB(removedObject);
+		}
+		
 		if(reference.isContainment()){
-			EObject removedViewedObject = editorMatching.matching.getCorrespondingObjectInB(removedObject);
 			View removedView = getReferencingView(removedViewedObject);
 
 			if(removedView != null){
@@ -200,18 +214,22 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			final EObject addedObject = (EObject) notification.getNewValue();
 			final EReference reference = (EReference) notification.getFeature();
 			final EClass referenceClass = reference.getEContainingClass();
-			final EObject viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
 			
-			EObject addedViewedObject = editorMatching.matching.getCorrespondingObjectInB(addedObject);
-			// if there is no object corresponding object, this is a newly created object
-			if(addedViewedObject == null){
-				addedViewedObject = EcoreUtil.copy(addedObject);
-				
-				if(reference.isContainment()){
-					Correspondence newCorrespondence = SymmetricFactory.eINSTANCE.createCorrespondence();
-					newCorrespondence.setObjA(addedObject);
-					newCorrespondence.setObjB(addedViewedObject);
-					editorMatching.matching.addCorrespondence(newCorrespondence);
+			EObject viewedContainer = changedContainer;
+			EObject addedViewedObject = addedObject;
+			if(editorMatching.matching != null){
+				viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
+				addedViewedObject = editorMatching.matching.getCorrespondingObjectInB(addedObject);
+				// if there is no object corresponding object, this is a newly created object
+				if(addedViewedObject == null){
+					addedViewedObject = EcoreUtil.copy(addedObject);
+
+					if(reference.isContainment()){
+						Correspondence newCorrespondence = SymmetricFactory.eINSTANCE.createCorrespondence();
+						newCorrespondence.setObjA(addedObject);
+						newCorrespondence.setObjB(addedViewedObject);
+						editorMatching.matching.addCorrespondence(newCorrespondence);
+					}
 				}
 			}
 			

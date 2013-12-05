@@ -24,7 +24,7 @@ public class EnableAnimationHandler extends AbstractHandler {
 	    
 	    if(!oldValue){
 	    	for(Resource resource : resourceSet.getResources()){
-	    		GMFAnimation.enableAnimation(resource);
+	    		GMFAnimation.enableAnimation(resource, true);
 	    	}
 	    } else {
 	    	for(Resource resource : resourceSet.getResources()){
