@@ -1,5 +1,6 @@
 package org.silift.common.util.access;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class EMFMetaAccessEx {
@@ -21,5 +22,32 @@ public class EMFMetaAccessEx {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Is class A assignable to class B.
+	 * 
+	 * @param a
+	 *            From class A.
+	 * @param b
+	 *            To class B.
+	 * @return <code>true</code> if A is assignable to B; <code>false</code> otherwise.
+	 */
+	public static boolean isAssignableTo(EClass a, EClass b) {
+		return a.getEAllSuperTypes().contains(b) || a.equals(b);
+	}
+	
+	
+	/**
+	 * Is class A assignable to class B or vice versa.
+	 * 
+	 * @param a
+	 *            Class A
+	 * @param b
+	 *            Class B
+	 * @return <code>true</code> if A is assignable to B or B is assignable to A; <code>false</code> otherwise.
+	 */
+	public static boolean assignable(EClass a, EClass b) {
+		return isAssignableTo(a, b) || isAssignableTo(b, a);
 	}
 }
