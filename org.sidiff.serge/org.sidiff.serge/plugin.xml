@@ -21,5 +21,20 @@
          </run>
       </application>
    </extension>
+   <extension
+         id="org.sidiff.serge.popup.actions."
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.sidiff.serge.popup.actions.ContextMenuAction"
+            nameFilter="srg"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.sidiff.serge.popup.actions.ContextMenuAction"
+               enablesFor="1"
+               id="org.sidiff.serge.popup.actions.ContextMenuAction"
+               label="Generate CPEOs with SERGe">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
