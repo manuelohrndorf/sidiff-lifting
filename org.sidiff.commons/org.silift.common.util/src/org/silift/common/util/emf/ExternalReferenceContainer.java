@@ -28,23 +28,22 @@ public class ExternalReferenceContainer {
 	 * The actually referenced Registry models.
 	 */
 	private Set<Resource> referencedRegistryModels;
-	
-	
+
 	/**
 	 * The actually referenced ResourceSet models.
 	 */
 	private Set<Resource> referencedResourceSetModels;
-	
+
 	public ExternalReferenceContainer(List<ExternalReference> registryReferences,
 			List<ExternalReference> resourceSetReferences) {
 		super();
 
 		this.registryReferences = registryReferences;
 		this.resourceSetReferences = resourceSetReferences;
-		
+
 		this.referencedRegistryModels = new HashSet<Resource>();
 		findResources(referencedRegistryModels, registryReferences);
-		
+
 		this.referencedResourceSetModels = new HashSet<Resource>();
 		findResources(referencedResourceSetModels, resourceSetReferences);
 	}
@@ -64,7 +63,14 @@ public class ExternalReferenceContainer {
 	public Set<Resource> getReferencedResourceSetModels() {
 		return referencedResourceSetModels;
 	}
-	
+
+	/**
+	 * Extract the actually referenced Resources from the external references
+	 * and add them to importedModels.
+	 * 
+	 * @param importedModels
+	 * @param externalReferences
+	 */
 	private void findResources(Set<Resource> importedModels, List<ExternalReference> externalReferences) {
 		for (ExternalReference externalReference : externalReferences) {
 			Resource resource = externalReference.getExternalResource();
