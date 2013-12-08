@@ -49,7 +49,7 @@ public class ExternalReferenceCalculator {
 
 		// Find external references, i.e.
 		// RESOURCE -> PACKAGE_REGISTRY, and
-		// RESOURCE -> RESOURCE_SET_INTERNAL (when modus = COMPARE_RESOURCE)
+		// RESOURCE -> RESOURCE_SET
 		intl_calculate(model);
 
 		// Also add external References from RESOURCE_SET to

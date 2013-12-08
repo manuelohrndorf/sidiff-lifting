@@ -1,6 +1,10 @@
 package org.silift.common.util.emf;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Simple container class for external links.
@@ -20,12 +24,29 @@ public class ExternalReferenceContainer {
 	 */
 	private List<ExternalReference> resourceSetReferences;
 
+	/**
+	 * The actually referenced Registry models.
+	 */
+	private Set<Resource> referencedRegistryModels;
+	
+	
+	/**
+	 * The actually referenced ResourceSet models.
+	 */
+	private Set<Resource> referencedResourceSetModels;
+	
 	public ExternalReferenceContainer(List<ExternalReference> registryReferences,
 			List<ExternalReference> resourceSetReferences) {
 		super();
 
 		this.registryReferences = registryReferences;
 		this.resourceSetReferences = resourceSetReferences;
+		
+		this.referencedRegistryModels = new HashSet<Resource>();
+		findResources(referencedRegistryModels, registryReferences);
+		
+		this.referencedResourceSetModels = new HashSet<Resource>();
+		findResources(referencedResourceSetModels, resourceSetReferences);
 	}
 
 	public List<ExternalReference> getRegistryReferences() {
@@ -36,4 +57,20 @@ public class ExternalReferenceContainer {
 		return resourceSetReferences;
 	}
 
+	public Set<Resource> getReferencedRegistryModels() {
+		return referencedRegistryModels;
+	}
+
+	public Set<Resource> getReferencedResourceSetModels() {
+		return referencedResourceSetModels;
+	}
+	
+	private void findResources(Set<Resource> importedModels, List<ExternalReference> externalReferences) {
+		for (ExternalReference externalReference : externalReferences) {
+			Resource resource = externalReference.getExternalResource();
+			if (resource != null) {
+				importedModels.add(resource);
+			}
+		}
+	}
 }

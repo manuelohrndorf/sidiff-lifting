@@ -208,8 +208,12 @@ public class PatchEngine {
 			
 		};
 		
-		patchedEditingDomain.getCommandStack().execute(command);
-		
+		if (patchedEditingDomain != null){
+			patchedEditingDomain.getCommandStack().execute(command);
+		} else {
+			command.execute();
+		}
+			
 		for(Exception e: exceptions){
 			if(e instanceof ParameterMissingException){
 				throw (ParameterMissingException) e;

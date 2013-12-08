@@ -1,6 +1,7 @@
 package org.sidiff.patching.test.sysml;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -77,7 +78,7 @@ public class SysMLCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public Collection<EObject> getAllCorrespondences(EObject eObject) {
+	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject eObject) {
 		return null;
 	}
 
@@ -93,7 +94,6 @@ public class SysMLCorrespondence implements IPatchCorrespondence {
 
 	@Override
 	public boolean isModified(EObject object) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

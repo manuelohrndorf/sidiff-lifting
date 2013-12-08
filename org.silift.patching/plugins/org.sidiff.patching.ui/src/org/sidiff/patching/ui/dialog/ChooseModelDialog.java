@@ -96,7 +96,7 @@ public class ChooseModelDialog extends Dialog {
 		});
 
 		label = new Label(composite, SWT.NONE);
-		label.setText("Model A':");
+		label.setText("Target model:");
 		modelAtext = new Text(composite, SWT.NONE);
 		spec = new GridData(GridData.FILL_HORIZONTAL);
 		modelAtext.setLayoutData(spec);

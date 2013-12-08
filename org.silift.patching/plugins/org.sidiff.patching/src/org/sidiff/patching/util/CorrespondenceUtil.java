@@ -1,47 +1,30 @@
 package org.sidiff.patching.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.internal.DelegatingPatchCorrespondence;
 
 public class CorrespondenceUtil {
 
 	/**
-	 * Find all available patch correspondences matching the given document
-	 * type.
+	 * Creates an IPatchCorrespondence which delegates to the matcher obtained
+	 * for the given key.
 	 * 
 	 * @param documentType
 	 * @return
 	 */
-	public static Set<IPatchCorrespondence> getAvailablePatchCorrespondence(String documentType) {
-		Set<IPatchCorrespondence> correspondences = new HashSet<IPatchCorrespondence>();
-		IConfigurationElement[] configurationElements = Platform.getExtensionRegistry().getConfigurationElementsFor(
-				IPatchCorrespondence.EXTENSION_POINT_ID);
-		for (IConfigurationElement configurationElement : configurationElements) {
-			String attribute = configurationElement.getAttribute(IPatchCorrespondence.DOCUMENT_TYPE);
-			if (attribute.equals(documentType) || attribute.equals(IPatchCorrespondence.DEFAULT_DOCUMENT_TYPE)) {
-				try {
-					IPatchCorrespondence correspondence = (IPatchCorrespondence) configurationElement.createExecutableExtension(IPatchCorrespondence.EXECUTEBALE);
-					correspondences.add(correspondence);
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return correspondences;
-	}
+	public static IPatchCorrespondence getFirstPatchCorrespondence(String documentType, Resource rOrigin,
+			Resource rPatched) {
+		// TODO (CP): We should not use hard-coded matcher key "SiDiff", but get
+		// key from a UI dialog.
+		// Default in the UI dialog (invoked from PatchApplyHandler) should be
+		// set according to patch manifest.
 
-	/**
-	 * Returns first matching PatchCorrespondence
-	 * 
-	 * @param documentType
-	 * @return
-	 */
-	public static IPatchCorrespondence getFirstPatchCorrespondence(String documentType) {
-		return getAvailablePatchCorrespondence(documentType).iterator().next();
+		IMatcher matcher = PipelineUtils.getMatcherByKey("SiDiff", rOrigin, rPatched);
+		DelegatingPatchCorrespondence patchCorrespondence = new DelegatingPatchCorrespondence(matcher);
+		
+		return patchCorrespondence;
 	}
 }

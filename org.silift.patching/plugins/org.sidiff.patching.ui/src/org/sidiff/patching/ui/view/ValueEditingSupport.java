@@ -1,22 +1,21 @@
 package org.sidiff.patching.ui.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.sidiff.common.util.StringUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.patching.IPatchCorrespondence;
-import org.sidiff.patching.ui.Activator;
 
 public class ValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
@@ -34,11 +33,19 @@ public class ValueEditingSupport extends EditingSupport {
 		this.itemObjects = new ArrayList<CellObject>();
 		EObject currentObject = substitution.getActualA();
 
-		for (EObject eObject : correspondence.getAllCorrespondences(currentObject)) {
+		
+		Map<Resource, Collection<EObject>> potentialArgs = correspondence.getPotentialArguments(currentObject);
+		Collection<EObject> args = new ArrayList<EObject>();
+		for (Resource r : potentialArgs.keySet()) {
+			args.addAll(potentialArgs.get(r));			
+		}
+		//TODO: Categorize potential args by their resource in the UI.
+		for (EObject eObject : args) {
 			float reliability = correspondence.getReliability(currentObject, eObject);
 			CellObject cellObject = new CellObject(reliability, eObject);
 			itemObjects.add(cellObject);
 		}
+		
 		Collections.sort(itemObjects);
 		String[] items = getItemsStringArray();
 		return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);

@@ -1018,13 +1018,34 @@ public class HenshinRuleAnalysisUtilEx {
 	public static List<Attribute> getForbidAttributes(Rule rule) {
 		List<Attribute> res = new LinkedList<Attribute>();
 
-		// TODO: What about a formula?
-		if(rule.getLhs().getFormula() instanceof Not) {
-			Not not = (Not) rule.getLhs().getFormula();
-			NestedCondition nestedCond = (NestedCondition) not.getChild();
-				
-			for(Node node : nestedCond.getConclusion().getNodes()) {
-				res.addAll(node.getAttributes());
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (nc.eContainer() instanceof Not){
+				// nc is a NAC
+				for(Node node : nc.getConclusion().getNodes()) {
+					res.addAll(node.getAttributes());
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Returns all << require >> attributes of a rule.
+	 * 
+	 * @param rule
+	 * 	the Henshin rule.
+	 * @return the << require >> attributes.
+	 */
+	public static List<Attribute> getRequireAttributes(Rule rule) {
+		List<Attribute> res = new LinkedList<Attribute>();
+
+		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+			if (!(nc.eContainer() instanceof Not)){
+				// nc is a PAC
+				for(Node node : nc.getConclusion().getNodes()) {
+					res.addAll(node.getAttributes());
+				}
 			}
 		}
 		

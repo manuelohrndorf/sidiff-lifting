@@ -2,6 +2,7 @@ package org.sidiff.patching.test.smg;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -79,7 +80,7 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public Collection<EObject> getAllCorrespondences(EObject eObject) {
+	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject eObject) {
 		return null;
 	}
 
@@ -95,7 +96,6 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 
 	@Override
 	public boolean isModified(EObject object) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

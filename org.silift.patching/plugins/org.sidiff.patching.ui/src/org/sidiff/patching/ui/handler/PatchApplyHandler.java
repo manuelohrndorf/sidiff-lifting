@@ -173,7 +173,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									} else {
 										documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 									}											
-									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType);
+									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType, difference.getOriginModel(), resourceResult.get());
 									if (correspondence == null) {
 										LOGGER.log(Level.SEVERE, "No Correspondence Service found!");
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");

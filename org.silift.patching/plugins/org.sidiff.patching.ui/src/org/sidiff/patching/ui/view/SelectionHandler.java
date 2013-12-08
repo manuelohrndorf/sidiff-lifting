@@ -35,7 +35,7 @@ public class SelectionHandler implements ISelectionProvider, ISelectionChangedLi
 			}
 			}
 			catch(ConcurrentModificationException e){
-				//TODO 
+				//FIXME 
 				//just catched
 			}
 		}
@@ -52,6 +52,7 @@ public class SelectionHandler implements ISelectionProvider, ISelectionChangedLi
 		Object element = selection.getFirstElement();
 		if (element instanceof OperationInvocation) {
 			OperationInvocation invocation = (OperationInvocation) element;
+			// TODO: We should not use ChangeSets in Patch, only OperationInvocations
 			return new StructuredSelection(invocation.getChangeSet());
 		} else if (element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding substitution = (ObjectParameterBinding) element;

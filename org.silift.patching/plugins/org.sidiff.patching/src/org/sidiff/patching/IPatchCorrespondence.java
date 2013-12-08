@@ -1,6 +1,7 @@
 package org.sidiff.patching;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -25,53 +26,56 @@ public interface IPatchCorrespondence {
 	public Resource getTargetModel();
 
 	/**
-	 * Returns the best fitting corresponded object. If eObject is part of an
-	 * "external" model it must be returned as it is.
+	 * For a given originObject (i.e. object of the origin model), this method
+	 * returns the corresponding object in the target model.<br/>
+	 * This method may return <code>null</code> if there is no corresponding
+	 * object in the target model at all.
+	 * 
+	 * @param originObject
+	 *            eObject in origin model.
+	 * @return the correspondent eObject in the target model.
+	 */
+	public EObject getCorrespondence(EObject originObject);
+
+	/**
+	 * Get the potential arguments for a given originObject that has no
+	 * corresponding object in target model.
 	 * 
 	 * @param eObject
-	 * @return the correspondent eObject
+	 * @return the possible arguments, categorized by their Resource.
 	 */
-	public EObject getCorrespondence(EObject eObject);
+	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject originObject);
 
 	/**
-	 * Returns all correspondences. If eObject is part of an "external" model it
-	 * must be returned as it is.
+	 * Adds a new correspondence to the patch correspondence.
 	 * 
-	 * @param eObject
-	 * @return the correspondent eObjects
+	 * @param originObject
+	 *            Object from the origin model.
+	 * @param targetObject
+	 *            Object from the target model.
 	 */
-	public Collection<EObject> getAllCorrespondences(EObject eObject);
+	public void setCorrespondence(EObject originObject, EObject targetObject);
 
 	/**
-	 * Adds a new correspondence to the patch
-	 * 
-	 * @param elementA
-	 *            Object from Model A
-	 * @param elementB
-	 *            Object from Model A'
-	 */
-	public void setCorrespondence(EObject elementA, EObject elementB);
-
-	/**
-	 * Removes all correspondences of this object
-	 * 
-	 * @param eObject
-	 */
-	public void removeCorrespondence(EObject eObject);
-
-	/**
-	 * Adds a new unmatched EObject to the list of correspondences
+	 * Removes the correspondence for originObject
 	 * 
 	 * @param eObject
 	 */
-	public void addNewEObject(EObject eObject);
+	public void removeCorrespondence(EObject originObject);
 
 	/**
-	 * Removes a eObject
+	 * Called when an object is added to the target model.
 	 * 
 	 * @param eObject
 	 */
-	public void removeEObject(EObject eObject);
+	public void addNewEObject(EObject targetObject);
+
+	/**
+	 * Called when an object is removed from the target model.
+	 * 
+	 * @param eObject
+	 */
+	public void removeEObject(EObject targetObject);
 
 	/**
 	 * Minimal reliability for correspondences
@@ -88,8 +92,7 @@ public interface IPatchCorrespondence {
 	 * @return a reliability value
 	 */
 	public float getReliability(EObject objectA, EObject objectB);
-	
-	
+
 	/**
 	 * 
 	 * @param object

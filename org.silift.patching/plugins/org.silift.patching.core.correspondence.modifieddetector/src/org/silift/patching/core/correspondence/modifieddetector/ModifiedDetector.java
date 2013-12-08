@@ -10,6 +10,7 @@ import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.core.annotation.AnnotationService;
 import org.sidiff.core.annotation.impl.AnnotationServiceImpl;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 
 public class ModifiedDetector {
 
@@ -22,11 +23,11 @@ public class ModifiedDetector {
 	private Resource modelB;
 
 	// Data structures used by this class
-	private Map<EObject, EObject> correspondenceMap;
+	private SymmetricDifference correspondenceMap;
 	private Map<EObject, Boolean> modifiedMap;
 
 	public ModifiedDetector(Resource modelA, Resource modelB,
-			Map<EObject, EObject> correspondenceMap) {
+			SymmetricDifference correspondenceMap) {
 		this.modelA = modelA;
 		this.modelB = modelB;
 		this.correspondenceMap = correspondenceMap;
@@ -89,11 +90,11 @@ public class ModifiedDetector {
 				.getAllContentAsIterable(this.modelA)) {
 
 			// If corresponding object existent
-			if (correspondenceMap.get(originObject) != null) {
+			if (correspondenceMap.getCorrespondingObjectInB(originObject) != null) {
 				String hashValueOrigin = null;
 				String hashValueTarget = null;
 
-				EObject targetObject = correspondenceMap.get(originObject);
+				EObject targetObject = correspondenceMap.getCorrespondingObjectInB(originObject);
 
 				// Get annotation value of origin model
 				AnnotateableElement aoOrigin = EMFAdapter.INSTANCE.adapt(
