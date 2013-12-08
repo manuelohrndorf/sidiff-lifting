@@ -176,7 +176,7 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void setCorrespondence(EObject elementA, EObject elementB) {
+	public void addCorrespondence(EObject elementA, EObject elementB) {
 		Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(elementA, elementB);
 		c.setReliability(1.0f);
 		matching.addCorrespondence(c);
@@ -188,12 +188,12 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void addNewEObject(EObject targetObject) {
+	public void addNewTargetObject(EObject targetObject) {
 		// nothing to do here
 	}
 
 	@Override
-	public void removeEObject(EObject targetObject) {
+	public void removeTargetObject(EObject targetObject) {
 		if (matching.getCorrespondingObjectInA(targetObject) != null){
 			matching.removeCorrespondenceB(targetObject);
 		}

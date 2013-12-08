@@ -87,7 +87,7 @@ public class ValueEditingSupport extends EditingSupport {
 				correspondence.removeCorrespondence(substitution.getActualA());
 			} else {
 				EObject elementB = itemObjects.get(index).getEObject();
-				correspondence.setCorrespondence(substitution.getActualA(), elementB);
+				correspondence.addCorrespondence(substitution.getActualA(), elementB);
 			}
 		}
 		getViewer().refresh();

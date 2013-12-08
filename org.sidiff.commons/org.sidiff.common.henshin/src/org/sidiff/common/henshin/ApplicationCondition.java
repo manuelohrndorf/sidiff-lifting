@@ -21,11 +21,11 @@ public class ApplicationCondition {
 	private boolean inverted;
 	
 	private Set<Node> lhsContextNodes;
-	private Set<Node> nacContextNodes;
+	private Set<Node> acContextNodes;
 	private Set<Node> nonBoundaryNodes;
 	
-	private Map<Node, Node> lhsContextNode2nacContextNode;
-	private Map<Node, Node> nacContextNode2LhsContextNode;
+	private Map<Node, Node> lhsContextNode2acContextNode;
+	private Map<Node, Node> acContextNode2LhsContextNode;
 	
 	public ApplicationCondition(NestedCondition nestedCondition, boolean inverted) {
 		this.nestedCondition = nestedCondition;
@@ -38,20 +38,20 @@ public class ApplicationCondition {
 		return lhsContextNodes;
 	}
 
-	public Set<Node> getNacContextNodes() {
-		return nacContextNodes;
+	public Set<Node> getAcContextNodes() {
+		return acContextNodes;
 	}
 
 	public Set<Node> getNonBoundaryNodes() {
 		return nonBoundaryNodes;
 	}
 	
-	public Node getNacContextNode(Node lhsContextNode){
-		return lhsContextNode2nacContextNode.get(lhsContextNode);
+	public Node getAcContextNode(Node lhsContextNode){
+		return lhsContextNode2acContextNode.get(lhsContextNode);
 	}
 	
-	public Node getLhsContextNode(Node nacContextNode){
-		return nacContextNode2LhsContextNode.get(nacContextNode);
+	public Node getLhsContextNode(Node acContextNode){
+		return acContextNode2LhsContextNode.get(acContextNode);
 	}
 	
 	public NestedCondition getNestedCondition() {
@@ -64,10 +64,10 @@ public class ApplicationCondition {
 	
 	private void init() {
 		lhsContextNodes = new HashSet<Node>();
-		nacContextNodes = new HashSet<Node>();
+		acContextNodes = new HashSet<Node>();
 		nonBoundaryNodes = new HashSet<Node>();
-		nacContextNode2LhsContextNode = new HashMap<Node, Node>();
-		lhsContextNode2nacContextNode = new HashMap<Node, Node>();
+		acContextNode2LhsContextNode = new HashMap<Node, Node>();
+		lhsContextNode2acContextNode = new HashMap<Node, Node>();
 		
 		inverted = nestedCondition.eContainer() instanceof Not;
 		
@@ -77,9 +77,9 @@ public class ApplicationCondition {
 				if (mapping.getImage() == node) {
 					// it's a boundary node
 					lhsContextNodes.add(mapping.getOrigin());
-					nacContextNodes.add(mapping.getImage());
-					nacContextNode2LhsContextNode.put(mapping.getImage(), mapping.getOrigin());
-					lhsContextNode2nacContextNode.put(mapping.getOrigin(), mapping.getImage());
+					acContextNodes.add(mapping.getImage());
+					acContextNode2LhsContextNode.put(mapping.getImage(), mapping.getOrigin());
+					lhsContextNode2acContextNode.put(mapping.getOrigin(), mapping.getImage());
 					boundary = true;
 					break;
 				} 

@@ -60,7 +60,7 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void setCorrespondence(EObject elementA, EObject elementB) {
+	public void addCorrespondence(EObject elementA, EObject elementB) {
 
 	}
 
@@ -70,12 +70,12 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void addNewEObject(EObject eObject) {
+	public void addNewTargetObject(EObject eObject) {
 
 	}
 
 	@Override
-	public void removeEObject(EObject eObject) {
+	public void removeTargetObject(EObject eObject) {
 
 	}
 

@@ -16,12 +16,12 @@ public class ModelChangeHandler implements ModelAdapter.IModelChangeListener {
 
 	@Override
 	public void objectAdded(EObject eObject) {
-		correspondence.addNewEObject(eObject);
+		correspondence.addNewTargetObject(eObject);
 	}
 
 	@Override
 	public void objectRemoved(EObject eObject) {
-		correspondence.removeEObject(eObject);
+		correspondence.removeTargetObject(eObject);
 	}
 
 }

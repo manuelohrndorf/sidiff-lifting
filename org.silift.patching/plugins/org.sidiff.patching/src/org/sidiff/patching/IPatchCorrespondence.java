@@ -54,7 +54,7 @@ public interface IPatchCorrespondence {
 	 * @param targetObject
 	 *            Object from the target model.
 	 */
-	public void setCorrespondence(EObject originObject, EObject targetObject);
+	public void addCorrespondence(EObject originObject, EObject targetObject);
 
 	/**
 	 * Removes the correspondence for originObject
@@ -68,14 +68,14 @@ public interface IPatchCorrespondence {
 	 * 
 	 * @param eObject
 	 */
-	public void addNewEObject(EObject targetObject);
+	public void addNewTargetObject(EObject targetObject);
 
 	/**
 	 * Called when an object is removed from the target model.
 	 * 
 	 * @param eObject
 	 */
-	public void removeEObject(EObject targetObject);
+	public void removeTargetObject(EObject targetObject);
 
 	/**
 	 * Minimal reliability for correspondences
@@ -94,10 +94,12 @@ public interface IPatchCorrespondence {
 	public float getReliability(EObject objectA, EObject objectB);
 
 	/**
+	 * Checks whether a target object has been modified (compared to its
+	 * corresponding in the origin model) or not.
 	 * 
-	 * @param object
+	 * @param targetObject
 	 * @return
 	 */
-	public boolean isModified(EObject object);
+	public boolean isModified(EObject targetObject);
 
 }
