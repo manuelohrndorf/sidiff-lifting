@@ -9,7 +9,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Einige Verwaltungsinformationen zu PACs und NACs.
@@ -19,18 +18,18 @@ import org.eclipse.emf.henshin.model.Rule;
 public class ApplicationCondition {
 
 	private NestedCondition nestedCondition;
+	private boolean inverted;
 	
 	private Set<Node> lhsContextNodes;
 	private Set<Node> nacContextNodes;
 	private Set<Node> nonBoundaryNodes;
 	
-	private boolean inverted;
-	
 	private Map<Node, Node> lhsContextNode2nacContextNode;
 	private Map<Node, Node> nacContextNode2LhsContextNode;
 	
-	public ApplicationCondition(NestedCondition nestedCondition) {
+	public ApplicationCondition(NestedCondition nestedCondition, boolean inverted) {
 		this.nestedCondition = nestedCondition;
+		this.inverted = inverted;
 
 		init();
 	}
