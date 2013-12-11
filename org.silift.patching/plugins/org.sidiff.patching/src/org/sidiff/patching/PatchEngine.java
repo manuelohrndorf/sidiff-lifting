@@ -135,7 +135,7 @@ public class PatchEngine {
 						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
 								.getChangeSet().getName(), initialErrors);
 						validationReports.add(new ReportEntry(Status.WARNING, Type.VALIDATION, message));
-						patchReport.getValidationEntries().put(operationInvocation, validationReports);
+						patchReport.getIterativeValidationEntries().put(operationInvocation, validationReports);
 					}
 					previousErrors = currentErrors;
 				} catch (OperationNotExecutableException e) {
@@ -358,11 +358,13 @@ public class PatchEngine {
 
 		checkExecutable();
 		
-
-
-//		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL)
-//			validateModel(report);
-
+		if(validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL){
+				patchReport.getValidationEntries().clear();
+				Collection<ReportEntry> entries = testUnit.test(this.patchedResource);
+				patchReport.getValidationEntries().addAll(entries);
+				
+		}
+		
 		return this.patchReport;
 	}	
 	
@@ -514,7 +516,7 @@ public class PatchEngine {
 											}
 										}
 										if(!entries.isEmpty())
-											patchReport.getValidationEntries().put(operationInvocation, entries);
+											patchReport.getIterativeValidationEntries().put(operationInvocation, entries);
 									}
 								}
 								patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
@@ -539,7 +541,7 @@ public class PatchEngine {
 							revert(operationInvocation);
 							appliedOperations.remove(operationInvocation);
 							patchReport.getExecutionEntries().put(operationInvocation, new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet().getName()));
-							patchReport.getValidationEntries().remove(operationInvocation);
+							patchReport.getIterativeValidationEntries().remove(operationInvocation);
 						} catch (OperationNotUndoableException e) {
 							e.printStackTrace();
 						}
@@ -574,13 +576,6 @@ public class PatchEngine {
 		}
 		return true;
 	}
-
-	
-//	private void validateModel(PatchReport report) {
-//		Collection<ReportEntry> entries = testUnit.test(this.patchedResource);
-//		report.add(entries);
-//	}
-
 	
 	public ValidationMode getValidationMode(){
 		return this.validationMode;
@@ -588,6 +583,7 @@ public class PatchEngine {
 	
 	
 	public void setValidationMode(ValidationMode validationMode){
+		this.patchReport.getValidationEntries().clear();
 		this.validationMode = validationMode;
 	}
 	

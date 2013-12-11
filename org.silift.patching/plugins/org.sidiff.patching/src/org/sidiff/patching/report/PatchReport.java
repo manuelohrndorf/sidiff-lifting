@@ -33,7 +33,8 @@ public class PatchReport {
 	
 	private HashMap<OperationInvocation, Collection<ReportEntry>> parameterEntries;
 	private HashMap<OperationInvocation, ReportEntry> executionEntries;
-	private HashMap<OperationInvocation, Collection<ReportEntry>> validationEntries;
+	private HashMap<OperationInvocation, Collection<ReportEntry>> iterativeValidationEntries;
+	private Collection<ReportEntry> validationEntries;
 
 	/**
 	 * Handles a list of Reports
@@ -42,7 +43,8 @@ public class PatchReport {
 		operationMap = new HashMap<OperationInvocation, Map<Type, List<ReportEntry>>>();
 		parameterEntries = new HashMap<OperationInvocation, Collection<ReportEntry>>();
 		executionEntries = new HashMap<OperationInvocation, ReportEntry>();
-		validationEntries = new HashMap<OperationInvocation, Collection<ReportEntry>>();
+		iterativeValidationEntries = new HashMap<OperationInvocation, Collection<ReportEntry>>();
+		validationEntries = new ArrayList<ReportEntry>();
 	}
 
 	public HashMap<OperationInvocation, Collection<ReportEntry>> getParameterEntries() {
@@ -53,10 +55,14 @@ public class PatchReport {
 		return executionEntries;
 	}
 	
-	public HashMap<OperationInvocation, Collection<ReportEntry>> getValidationEntries() {
-		return validationEntries;
+	public HashMap<OperationInvocation, Collection<ReportEntry>> getIterativeValidationEntries() {
+		return iterativeValidationEntries;
 	}
 
+	public Collection<ReportEntry> getValidationEntries(){
+		return validationEntries;
+	}
+	
 	/**
 	 * Adds a new Report to list
 	 * 
@@ -139,14 +145,24 @@ public class PatchReport {
 				entries.add(re);
 			}
 		}
+		
 		for(OperationInvocation op: executionEntries.keySet()){
 			entries.add(executionEntries.get(op));
 		}
-		for(OperationInvocation op: validationEntries.keySet()){
-			for(ReportEntry re: validationEntries.get(op)){
+		
+		
+		if(validationEntries.isEmpty()){
+			for(OperationInvocation op: iterativeValidationEntries.keySet()){
+				for(ReportEntry re: iterativeValidationEntries.get(op)){
+					entries.add(re);
+				}
+			}
+		}else{
+			for(ReportEntry re : validationEntries){
 				entries.add(re);
 			}
 		}
+
 		return entries;
 //		if (entries != null) {
 //			return entries;
@@ -169,9 +185,9 @@ public class PatchReport {
 			if(op.equals(operationInvocation) && executionEntries.get(op).getType().equals(type))
 				entries.add(executionEntries.get(op));
 		}
-		for(OperationInvocation op: validationEntries.keySet()){
+		for(OperationInvocation op: iterativeValidationEntries.keySet()){
 			if(op.equals(operationInvocation)){
-				for(ReportEntry re: validationEntries.get(op)){
+				for(ReportEntry re: iterativeValidationEntries.get(op)){
 					if(re.getType().equals(type))
 						entries.add(re);
 				}
@@ -195,9 +211,9 @@ public class PatchReport {
 			if(op.equals(operationInvocation) && executionEntries.get(op).getType().equals(type) && executionEntries.get(op).getStatus().equals(status))
 				entries.add(executionEntries.get(op));
 		}
-		for(OperationInvocation op: validationEntries.keySet()){
+		for(OperationInvocation op: iterativeValidationEntries.keySet()){
 			if(op.equals(operationInvocation)){
-				for(ReportEntry re: validationEntries.get(op)){
+				for(ReportEntry re: iterativeValidationEntries.get(op)){
 					if(re.getType().equals(type) && re.getStatus().equals(status))
 						entries.add(re);
 				}
