@@ -34,7 +34,7 @@ public class Util {
 		
 		else {
 			// Generic name search:
-			String name = eObject.toString();
+			String name = "An '" + eObject.getClass().getSimpleName().replace("Impl", "") + "' will be created";
 			
 			// Check for attribute "name":
 			EStructuralFeature attrName = eObject.eClass().getEStructuralFeature("name");
