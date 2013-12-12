@@ -39,8 +39,10 @@ import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
@@ -188,8 +190,11 @@ public class PatchApplyHandler extends AbstractHandler {
 										documentType = EMFModelAccessEx.getBaseDocumentType(resourceResult.get());
 									} else {
 										documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
-									}											
-									IPatchCorrespondence correspondence = CorrespondenceUtil.getFirstPatchCorrespondence(documentType, difference.getOriginModel(), resourceResult.get());
+									}	
+									
+									//TODO replace hard-coded matcher
+									IMatcher matcher = PipelineUtils.getMatcherByKey("SiDiff", difference.getOriginModel(), resourceResult.get());
+									IPatchCorrespondence correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
 									if (correspondence == null) {
 										LOGGER.log(Level.SEVERE, "No Correspondence Service found!");
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");
