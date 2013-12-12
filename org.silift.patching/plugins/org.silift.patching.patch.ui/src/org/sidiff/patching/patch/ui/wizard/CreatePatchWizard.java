@@ -34,7 +34,8 @@ import org.silift.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {
 
-	protected CreatePatchPage createPatchPage;
+	private CreatePatchPage01 createPatchPage01;
+	private CreatePatchPage02 createPatchPage02;
 
 	private InputModels inputModels;
 
@@ -46,15 +47,20 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		createPatchPage = new CreatePatchPage(
+		createPatchPage01 = new CreatePatchPage01(
 				inputModels,
 				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
-		addPage(createPatchPage);
+		addPage(createPatchPage01);
+		
+		createPatchPage02 = new CreatePatchPage02(
+				inputModels,
+				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
+		addPage(createPatchPage02);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return createPatchPage.isPageComplete();
+		return createPatchPage01.isPageComplete();
 	}
 
 	@Override
@@ -135,12 +141,12 @@ public class CreatePatchWizard extends Wizard {
 
 		LiftingSettings liftingSettings = new LiftingSettings();
 
-		liftingSettings.setValidate(createPatchPage.isValidateModels());
+		liftingSettings.setValidate(createPatchPage01.isValidateModels());
 		// Used matcher
-		liftingSettings.setMatcher(createPatchPage.getSelectedMatchingEngine());
+		liftingSettings.setMatcher(createPatchPage02.getSelectedMatchingEngine());
 
 		//Used technical difference builder
-		liftingSettings.setTechnicalDifferenceBuilder(createPatchPage.getSelectedTechnicalDifferenceBuilder());
+		liftingSettings.setTechnicalDifferenceBuilder(createPatchPage02.getSelectedTechnicalDifferenceBuilder());
 
 		// Do lifting..?
 		liftingSettings.setDoLifting(true);
@@ -149,7 +155,7 @@ public class CreatePatchWizard extends Wizard {
 		liftingSettings.setPostProcess(true);
 
 		// Used rulebases
-		liftingSettings.setUsedRulebases(createPatchPage.getSelectedRulebases());
+		liftingSettings.setUsedRulebases(createPatchPage01.getSelectedRulebases());
 
 		return liftingSettings;
 	}

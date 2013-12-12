@@ -14,31 +14,27 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 
-public class CreatePatchPage extends WizardPage {
+public class CreatePatchPage01 extends WizardPage {
 
 	private Composite container;
 
 	private InputModelsWidget sourceWidget;
-	private MatchingEngineWidget matcherWidget;
-	private DifferenceBuilderWidget builderWidget;
+	private ComparisonModeWidget comparisonWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private SelectionAdapter validationListener;
 
 	private InputModels inputModels;
 
-	public CreatePatchPage(InputModels inputModels,
+	public CreatePatchPage01(InputModels inputModels,
 			String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
 
@@ -102,14 +98,18 @@ public class CreatePatchPage extends WizardPage {
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Create a patch from the changes between the models: origin -> revision");
+		setMessage("Create a patch from the changes between the models: origin -> changed");
 	}
 
 	private void createWidgets() {
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
+		sourceWidget = new InputModelsWidget(inputModels, "Patch Direction");
 		addWidget(container, sourceWidget);
+		
+		// Comparison mode:
+		comparisonWidget = new ComparisonModeWidget();
+		addWidget(container, comparisonWidget);
 
 		// Algorithms:
 		Group algorithmsGroup = new Group(container, SWT.NONE);
@@ -123,17 +123,6 @@ public class CreatePatchPage extends WizardPage {
 			algorithmsGroup.setLayoutData(data);
 
 			algorithmsGroup.setText("Algorithms:");
-		}
-
-		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
-		addWidget(algorithmsGroup, matcherWidget);
-
-		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
-
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			addWidget(algorithmsGroup, builderWidget);
 		}
 
 		// Rulebases:
@@ -158,8 +147,7 @@ public class CreatePatchPage extends WizardPage {
 		setPageComplete(true);
 
 		validateWidget(sourceWidget);
-		validateWidget(matcherWidget);
-		validateWidget(builderWidget);
+		validateWidget(comparisonWidget);
 		validateWidget(rulebaseWidget);
 	}
 
@@ -177,22 +165,13 @@ public class CreatePatchPage extends WizardPage {
 	public boolean isInverseDirection() {
 		return sourceWidget.isInverseDirection();
 	}
-
-	public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder() {
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			return builderWidget.getSelection();
-		} else {
-			return builderWidget.getDifferenceBuilders().values()
-					.toArray(new ITechnicalDifferenceBuilder[0])[0];
-		}
+	
+	public int getComparisonMode() {
+		return comparisonWidget.getSelection();
 	}
-
-	public IMatcher getSelectedMatchingEngine() {
-		return matcherWidget.getSelection();
-	}
-
-	public MatchingEngineWidget getMatcherWidget() {
-		return matcherWidget;
+	
+	public ComparisonModeWidget getComparisonWidget() {
+		return comparisonWidget;
 	}
 
 	public Set<IRuleBase> getSelectedRulebases() {
