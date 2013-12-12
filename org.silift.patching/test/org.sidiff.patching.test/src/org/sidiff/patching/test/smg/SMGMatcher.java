@@ -45,4 +45,9 @@ public class SMGMatcher extends BaseMatcher {
 		return false;
 	}
 
+	@Override
+	public boolean canComputeReliability() {
+		return false;
+	}
+
 }
