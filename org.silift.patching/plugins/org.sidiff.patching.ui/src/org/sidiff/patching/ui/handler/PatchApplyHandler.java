@@ -55,9 +55,13 @@ import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.util.TransformatorUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.file.ZipUtil;
 import org.silift.patching.patch.PatchCreator;
 
 public class PatchApplyHandler extends AbstractHandler {
+	public static final String ARCHIVE_URI_PREFIX = "archive:file:///";
+	public static final String ARCHIVE_SEPERATOR = "!/";
+	
 	private Logger LOGGER = Logger.getLogger(PatchApplyHandler.class.getName());
 	public boolean validationState = true;
 
@@ -72,21 +76,30 @@ public class PatchApplyHandler extends AbstractHandler {
 				if (!iFile.getFileExtension().equals(PatchUtil.PATCH_EXTENSION))
 					return -1;
 
-				String patchPath = PatchUtil.extractPatch(iFile.getLocation()).getAbsolutePath();
+				String patchPath = iFile.getLocation().toOSString();
 				String separator = System.getProperty("file.separator");
 				
-				File dir = new File(patchPath);
-				File asymmetricDifference = null;
-				String[] children = dir.list();
-				for (int i=0; i<children.length; i++) {
-					if(children[i].endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)){
-						asymmetricDifference = new File(patchPath + separator + children[i]);
-						break;
-					}		
+//				File dir = new File(patchPath);
+//				File asymmetricDifference = null;
+//				String[] children = dir.list();
+//				for (int i=0; i<children.length; i++) {
+//					if(children[i].endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)){
+//						asymmetricDifference = new File(patchPath + separator + children[i]);
+//						break;
+//					}		
+//				}
+				
+				//TODO own util class
+				// Search asymmetric difference:
+				URI uri = null;
+				for (String entry : ZipUtil.getEntries(patchPath)) {
+					if (entry.endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
+						uri = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+					}
 				}
 				// Load AsymmetricDifference
 				ResourceSet resourceSet = new ResourceSetImpl();
-				Resource patchResource = resourceSet.getResource(URI.createFileURI(asymmetricDifference.getAbsolutePath()), true);
+				Resource patchResource = resourceSet.getResource(uri, true);
 
 				if (patchResource.getContents().size() == 0) {
 					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model", "There is something wrong with this patch!");
