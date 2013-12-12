@@ -26,7 +26,7 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 	private boolean showReliabilities = false;
 	private PatchReport report;
 	private Collection<OperationInvocation> operationInvocations;
-	
+
 	private Image error = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
 	private Image warning = Activator.getImageDescriptor("warning_16x16.gif").createImage();
 
@@ -41,8 +41,8 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 			EObject eObject = correspondence.getCorrespondence(actualA);
 			if (eObject != null) {
 				float reliability = correspondence.getReliability(actualA, eObject);
-				//return Util.getName(eObject) + " (" + reliability + ")";
-				return Util.getName(eObject) + (showReliabilities? " (" + reliability + ")":"");
+				// return Util.getName(eObject) + " (" + reliability + ")";
+				return Util.getName(eObject) + (showReliabilities ? " (" + reliability + ")" : "");
 			}
 			String caution = "(Missing object: ";
 			caution += Util.getName(actualA);
@@ -58,37 +58,39 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Image getImage(Object element) {
-		if(element instanceof ObjectParameterBinding && 
-				((ObjectParameterBinding)element).getFormalParameter().getDirection() == ParameterDirection.IN){
+		if (element instanceof ObjectParameterBinding
+				&& ((ObjectParameterBinding) element).getFormalParameter().getDirection() == ParameterDirection.IN) {
 			EObject actualA = ((ObjectParameterBinding) element).getActualA();
-			if (actualA == null) return null;
+			if (actualA == null)
+				return null;
 			EObject eObject = correspondence.getCorrespondence(actualA);
-			if(eObject == null)
+			if (eObject == null)
 				return error;
-			if(correspondence.isModified(eObject))
+			if (correspondence.isModified(eObject))
 				return warning;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getToolTipText(Object element) {
-		if(element instanceof ObjectParameterBinding && 
-				((ObjectParameterBinding)element).getFormalParameter().getDirection() == ParameterDirection.IN){
+		if (element instanceof ObjectParameterBinding
+				&& ((ObjectParameterBinding) element).getFormalParameter().getDirection() == ParameterDirection.IN) {
 			EObject actualA = ((ObjectParameterBinding) element).getActualA();
-			if (actualA == null) return null;
+			if (actualA == null)
+				return null;
 			EObject eObject = correspondence.getCorrespondence(actualA);
-			if(eObject == null)
+			if (eObject == null)
 				return "Error: Missing object";
-			if(correspondence.isModified(eObject))
+			if (correspondence.isModified(eObject))
 				return "Warning: The object has been modified";
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Color getForeground(Object element) {
 		if (element instanceof ObjectParameterBinding) {
@@ -96,7 +98,7 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 			boolean isIn = objectParameterBinding.getFormalParameter().getDirection() == ParameterDirection.IN;
 			EObject actualA = objectParameterBinding.getActualA();
 			if (actualA != null) {
-			EObject eObject = correspondence.getCorrespondence(actualA);
+				EObject eObject = correspondence.getCorrespondence(actualA);
 				if (isIn && eObject == null) {
 					Display display = Activator.getDefault().getWorkbench().getDisplay();
 					return new Color(display, 200, 0, 0);
@@ -104,14 +106,12 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 			}
 			if (operationInvocations != null) {
 				for (OperationInvocation invocation : operationInvocations) {
-					for (ReportEntry re : report.getEntries(invocation,
-							Type.VALIDATION, Status.FAILED)) {
-						for (ParameterBinding binding : invocation
-								.getParameterBindings()) {
+					for (ReportEntry re : report.getEntries(invocation, Type.VALIDATION, Status.FAILED)) {
+						for (ParameterBinding binding : invocation.getParameterBindings()) {
 							if (binding == objectParameterBinding) {
 								EObject obj = objectParameterBinding.getActualB();
 								EStructuralFeature feature = obj.eClass().getEStructuralFeature("name");
-								if(re.getDescription().contains("'"+obj.eGet(feature)+"'")){
+								if (re.getDescription().contains("'" + obj.eGet(feature) + "'")) {
 									Display display = Activator.getDefault().getWorkbench().getDisplay();
 									return new Color(display, 200, 0, 0);
 								}
@@ -119,25 +119,25 @@ public class ValueLabelProvider extends ColumnLabelProvider {
 						}
 					}
 				}
-				
+
 			}
 		}
 		return super.getForeground(element);
 	}
 
-	public void setShowReliablities(boolean b){
+	public void setShowReliablities(boolean b) {
 		showReliabilities = b;
 	}
-	
+
 	public void setCorrespondence(IPatchCorrespondence correspondence) {
 		this.correspondence = correspondence;
 	}
-	
+
 	public void setReport(PatchReport report) {
 		this.report = report;
 	}
-	
-	public void setOperationInvocations(Collection<OperationInvocation> operationInvocation){
+
+	public void setOperationInvocations(Collection<OperationInvocation> operationInvocation) {
 		this.operationInvocations = operationInvocation;
 	}
 }
