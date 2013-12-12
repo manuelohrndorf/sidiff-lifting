@@ -41,7 +41,6 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
-import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.IPatchCorrespondence;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
@@ -114,7 +113,7 @@ public class PatchApplyHandler extends AbstractHandler {
 						}
 						
 						final float minReliability = dialog.getReliability();
-						final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment()+"diag");
+						final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());
 						
 //						File file = new File(ecoreDiag.toFileString());
 						
@@ -145,7 +144,9 @@ public class PatchApplyHandler extends AbstractHandler {
 													EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
 													resource = editor.getDiagram().getElement().eResource();
 													editingDomain= editor.getEditingDomain();
-													GMFAnimation.enableAnimation(resource,false);
+													
+													// FIXME: Diagram animation:
+//													GMFAnimation.enableAnimation(resource,false);
 												} else if (editorPart instanceof IEditingDomainProvider) {
 													IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 													resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
