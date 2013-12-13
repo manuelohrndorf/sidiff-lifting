@@ -8542,6 +8542,8 @@ org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/di
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/handler/CopyDiagramLayoutHandler.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/handler/PatchApplyHandler.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/handler/PatchApplyPropertyTester.java -text svneol=unset#text/plain
+org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/ArgumentValueEditingSupport.java -text svneol=unset#text/plain
+org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/ArgumentValueLabelProvider.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/CheckBoxMouseListener.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/PatchContentProvider.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/PatchLabelProvider.java -text svneol=unset#text/plain
@@ -8549,8 +8551,6 @@ org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/vi
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/ReportView.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/SelectionHandler.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/Util.java -text svneol=unset#text/plain
-org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/ValueEditingSupport.java -text svneol=unset#text/plain
-org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/ValueLabelProvider.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/filter/NullValueParameterFilter.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/filter/ReportViewFilter.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching.ui/src/org/sidiff/patching/ui/view/filter/ValueParameterFilter.java -text svneol=unset#text/plain
@@ -8562,7 +8562,8 @@ org.silift.patching/plugins/org.sidiff.patching/build.properties -text svneol=un
 org.silift.patching/plugins/org.sidiff.patching/logging.properties -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/plugin.xml -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/schema/org.sidiff.patching.transformationengine.exsd -text svneol=unset#text/plain
-org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/IPatchCorrespondence.java -text svneol=unset#text/plain
+org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/ArgumentWrapper.java -text svneol=unset#text/plain
+org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/IArgumentManager.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/ITransformationEngine.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/IValidationUnit.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/PatchEngine.java -text svneol=unset#text/plain
@@ -8573,7 +8574,7 @@ org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/exceptio
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/exceptions/ParameterModifiedException.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/exceptions/PatchNotExecuteableException.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/internal/Activator.java -text svneol=unset#text/plain
-org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/internal/DelegatingPatchCorrespondence.java -text svneol=unset#text/plain
+org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/internal/InteractiveArgumentManager.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/report/PatchReport.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/report/ReportEntry.java -text svneol=unset#text/plain
 org.silift.patching/plugins/org.sidiff.patching/src/org/sidiff/patching/test/EMFValidationTestUnit.java -text svneol=unset#text/plain
@@ -8647,6 +8648,7 @@ org.silift.patching/test/org.sidiff.patching.test/PatchingTest[!!-~](SMG).launch
 org.silift.patching/test/org.sidiff.patching.test/PatchingTest[!!-~](SysML).launch -text svneol=unset#text/plain
 org.silift.patching/test/org.sidiff.patching.test/build.properties -text svneol=unset#text/plain
 org.silift.patching/test/org.sidiff.patching.test/plugin.xml -text svneol=unset#text/plain
+org.silift.patching/test/org.sidiff.patching.test/src/org/sidiff/patching/test/AbstractBatchArgumentManager.java -text svneol=unset#text/plain
 org.silift.patching/test/org.sidiff.patching.test/src/org/sidiff/patching/test/Activator.java -text svneol=unset#text/plain
 org.silift.patching/test/org.sidiff.patching.test/src/org/sidiff/patching/test/EcoreNormalizer.java -text svneol=unset#text/plain
 org.silift.patching/test/org.sidiff.patching.test/src/org/sidiff/patching/test/INormalizer.java -text svneol=unset#text/plain

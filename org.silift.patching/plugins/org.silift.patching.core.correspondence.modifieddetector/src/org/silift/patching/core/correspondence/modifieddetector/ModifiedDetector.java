@@ -130,13 +130,13 @@ public class ModifiedDetector {
 
 	/**
 	 * 
-	 * @param object to test if it has been modified
+	 * @param targetObject to test if it has been modified
 	 * @return whether the object has been modified
 	 */
-	public boolean isModified(EObject object) {
+	public boolean isModified(EObject targetObject) {
 
-		if (modifiedMap.get(object) != null)
-			return modifiedMap.get(object);
+		if (modifiedMap.get(targetObject) != null)
+			return modifiedMap.get(targetObject);
 		else
 			return false;
 	}

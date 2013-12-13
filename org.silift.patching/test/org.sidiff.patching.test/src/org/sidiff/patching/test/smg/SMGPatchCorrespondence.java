@@ -1,16 +1,14 @@
 package org.sidiff.patching.test.smg;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.test.AbstractBatchArgumentManager;
 
-public class SMGPatchCorrespondence implements IPatchCorrespondence {
+public class SMGPatchCorrespondence extends AbstractBatchArgumentManager {
 
 	private Resource modelA;
 	private Resource modelB;
@@ -20,11 +18,6 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 		this.modelB = new ResourceImpl();
 		this.modelB.getContents().add(EcoreUtil.copy(original.getContents().get(0)));
 		this.modelB.setURI(this.modelA.getURI().appendFileExtension("copy"));
-	}
-
-	@Override
-	public void set(Resource modelA, Resource modelB) {
-
 	}
 
 	@Override
@@ -38,7 +31,7 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public EObject getCorrespondence(EObject eObject) {
+	public EObject resolve(EObject eObject) {
 		if (isContainedInModelA(eObject)) {
 			String fragment = EcoreUtil.getURI(eObject).fragment();
 			EObject correspondence = this.modelB.getEObject(fragment);
@@ -56,46 +49,6 @@ public class SMGPatchCorrespondence implements IPatchCorrespondence {
 			}
 		}
 
-		return false;
-	}
-
-	@Override
-	public void addCorrespondence(EObject elementA, EObject elementB) {
-
-	}
-
-	@Override
-	public void removeCorrespondence(EObject eObject) {
-
-	}
-
-	@Override
-	public void addNewTargetObject(EObject eObject) {
-
-	}
-
-	@Override
-	public void removeTargetObject(EObject eObject) {
-
-	}
-
-	@Override
-	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject eObject) {
-		return null;
-	}
-
-	@Override
-	public void setMinReliability(float minReliability) {
-
-	}
-
-	@Override
-	public float getReliability(EObject objectA, EObject objectB) {
-		return 0;
-	}
-
-	@Override
-	public boolean isModified(EObject object) {
 		return false;
 	}
 

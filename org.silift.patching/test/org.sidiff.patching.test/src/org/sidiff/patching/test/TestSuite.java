@@ -3,7 +3,7 @@ package org.sidiff.patching.test;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.IArgumentManager;
 import org.sidiff.patching.ITransformationEngine;
 
 public class TestSuite {
@@ -11,11 +11,11 @@ public class TestSuite {
 	Difference difference;
 	Resource original;
 	Resource modified;
-	IPatchCorrespondence correspondence;
+	IArgumentManager correspondence;
 	ITransformationEngine transformationEngine;
 
 	public TestSuite(String id, Difference difference, Resource original, Resource modified,
-			IPatchCorrespondence correspondence, ITransformationEngine transformationEngine) {
+			IArgumentManager correspondence, ITransformationEngine transformationEngine) {
 		super();
 		this.id = id;
 		this.difference = difference;
@@ -46,7 +46,7 @@ public class TestSuite {
 		return modified;
 	}
 
-	public IPatchCorrespondence getCorrespondence() {
+	public IArgumentManager getCorrespondence() {
 		return correspondence;
 	}
 	

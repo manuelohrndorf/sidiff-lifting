@@ -21,13 +21,19 @@ import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.ui.Activator;
 
 public class PatchLabelProvider extends ColumnLabelProvider {
-	private Image checked = Activator.getImageDescriptor("16px-checkbox-checked.png").createImage();
-	private Image unchecked = Activator.getImageDescriptor("16px-checkbox-unchecked.png").createImage();
-	private Image op_in = Activator.getImageDescriptor("ObjectParameterBinding_in.gif").createImage();
-	private Image op_in2 = Activator.getImageDescriptor("ObjectParameterBinding_in2.gif").createImage();
-	private Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
-	private Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
+	
 	private PatchReport report;
+	
+	private final Image checked = Activator.getImageDescriptor("16px-checkbox-checked.png").createImage();
+	private final Image unchecked = Activator.getImageDescriptor("16px-checkbox-unchecked.png").createImage();
+	private final Image op_in = Activator.getImageDescriptor("ObjectParameterBinding_in.gif").createImage();
+	private final Image op_in2 = Activator.getImageDescriptor("ObjectParameterBinding_in2.gif").createImage();
+	private final Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
+	private final Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
+	
+	public void init(PatchReport report) {
+		this.report = report;
+	}
 
 	@Override
 	public Image getImage(Object element) {
@@ -131,7 +137,4 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 		return info;
 	}
 
-	public void setReport(PatchReport report) {
-		this.report = report;
-	}
 }

@@ -1,6 +1,8 @@
 package org.sidiff.patching.ui.view;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -29,7 +31,7 @@ import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
-import org.sidiff.patching.ui.view.ValueEditingSupport.IValueChangedListener;
+import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.filter.NullValueParameterFilter;
 import org.sidiff.patching.ui.view.filter.ValueParameterFilter;
 import org.sidiff.patching.util.PatchUtil;
@@ -43,9 +45,11 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	private TreeViewer patchViewer;
 
-	private ValueEditingSupport editingSupport;
-	private ValueLabelProvider valueLabelProvider;
+	private ArgumentValueEditingSupport editingSupport;
+	private ArgumentValueLabelProvider valueLabelProvider;
 
+	private PatchLabelProvider patchLabelProvider;
+	
 	//----------- Filter ----------------------
 	private NullValueParameterFilter nullValueParameterFilter;
 	private Action nullValueParameterFilterAction;
@@ -107,7 +111,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		differenceColumn.getColumn().setText("Operation");
 		differenceColumn.getColumn().setResizable(true);
 		// PatchLabelProvider
-		differenceColumn.setLabelProvider(new PatchLabelProvider());
+		patchLabelProvider = new PatchLabelProvider();
+		differenceColumn.setLabelProvider(patchLabelProvider);
 
 		// Value column
 		TreeViewerColumn valueColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
@@ -115,9 +120,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		valueColumn.getColumn().setText("Argument");
 		valueColumn.getColumn().setResizable(true);
 		// ValueLabelProvider
-		valueLabelProvider = new ValueLabelProvider();
+		valueLabelProvider = new ArgumentValueLabelProvider();
 		valueColumn.setLabelProvider(valueLabelProvider);
-		editingSupport = new ValueEditingSupport(patchViewer);
+		editingSupport = new ArgumentValueEditingSupport(patchViewer);
 		editingSupport.setListener(this);
 		// EditingSupport
 		valueColumn.setEditingSupport(editingSupport);
@@ -223,9 +228,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 				if (reportView != null) { 
 					reportView.setEntries(report.getEntries());
 				}
-				((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
-				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
-				((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
 				patchViewer.refresh();
 			}
 		};
@@ -239,9 +241,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		PatchReport report = engine.updatePatchReport();
 		ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
 		reportView.setEntries(report.getEntries());
-		((PatchLabelProvider) patchViewer.getLabelProvider(0)).setReport(report);
-		((ValueLabelProvider) patchViewer.getLabelProvider(1)).setReport(report);
-		((ValueLabelProvider) patchViewer.getLabelProvider(1)).setOperationInvocations(engine.getOrderedOperationInvocations());
 		patchViewer.refresh();
 	}
 	
@@ -295,9 +294,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	public void setPatchEngine(PatchEngine patchEngine) {
 		this.engine = patchEngine;
-		this.valueLabelProvider.setCorrespondence(engine.getCorrespondence());
-		this.editingSupport.setCorrespondence(engine.getCorrespondence());
-		this.patchViewer.setInput(engine.getDifference());
+		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getPatchReport());
+		this.patchLabelProvider.init(engine.getPatchReport());
+		this.editingSupport.setCorrespondence(engine.getArgumentManager());
+		this.patchViewer.setInput(engine.getAsymmetricDifference());
 		this.patchViewer.expandAll();
 		this.patchViewer.getTree().getColumns()[1].pack();
 		validateAction.run();
@@ -310,18 +310,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	@Override
 	public void itemChecked(OperationInvocation invocation, boolean checked) {
 		PatchUtil.ensureDependency(invocation, checked);
-		patchViewer.update(engine.getDifference().getOperationInvocations().toArray(), null);
+		patchViewer.update(engine.getAsymmetricDifference().getOperationInvocations().toArray(), null);
 		validateAction.run();
-	}
-
-	@Override
-	public void objectAdded(EObject eObject) {
-		patchViewer.refresh();
-	}
-
-	@Override
-	public void objectRemoved(EObject eObject) {
-		patchViewer.refresh();
 	}
 
 	@Override
@@ -337,5 +327,30 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	@Override
 	public void valueChanged() {
 		validateAction.run();
+	}
+
+	@Override
+	public void objectAdded(EObject eObject) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void objectRemoved(EObject eObject) {
+		patchViewer.refresh();
+	}
+	
+	@Override
+	public void referenceAdded(EReference referenceType, EObject src, EObject tgt) {
+		patchViewer.refresh();
+	}
+	
+	@Override
+	public void referenceRemoved(EReference referenceType, EObject src, EObject tgt) {
+		patchViewer.refresh();		
+	}
+	
+	@Override
+	public void attributeValueSet(EAttribute attribute, EObject object, Object value) {
+		patchViewer.refresh();		
 	}
 }

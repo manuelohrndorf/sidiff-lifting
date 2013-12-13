@@ -3,6 +3,7 @@ package org.sidiff.patching.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,17 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.ArgumentWrapper;
+import org.sidiff.patching.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
@@ -24,13 +31,13 @@ import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 
 /**
- * An implementation of {@link IPatchCorrespondence} that internally delegates
+ * An implementation of {@link IArgumentManager} that internally delegates
  * the computation of the initial correspondences to a SiLift {@link IMatcher}.
  * Corrections to the correspondences (e.g. in interactive mode) are managed.
  * 
  * @author kehrer
  */
-public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
+public class InteractiveArgumentManager implements IArgumentManager {
 
 	/**
 	 * The SiLift matcher to which the initial correspondence calculation is
@@ -43,6 +50,11 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	 */
 	private float minReliability;
 
+	/**
+	 * The patch which is to be applied.
+	 */
+	private AsymmetricDifference patch;
+	
 	/**
 	 * The origin model.
 	 */
@@ -73,14 +85,19 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	 * the origin model has been modified in the target model.
 	 */
 	private ModifiedDetector modDetector;
+	
+	private Set<EObject> modifiedTargetObjects;
 
-	public DelegatingPatchCorrespondence(IMatcher matcher) {
+	private Map<ObjectParameterBinding, ArgumentWrapper> argumentResolutions;
+	
+	public InteractiveArgumentManager(IMatcher matcher) {
 		this.matcher = matcher;
 	}
 
 	@Override
-	public void set(Resource originModel, Resource targetModel) {
-		this.originModel = originModel;
+	public void init(AsymmetricDifference patch, Resource targetModel) {
+		this.patch = patch;
+		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
 
 		// now we initialize the internal state...
@@ -94,8 +111,32 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 		packageRegistryResources = extContainer.getReferencedRegistryModels();
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 
+		// initial set of modified target objects
 		modDetector = new ModifiedDetector(originModel, targetModel, matching);
 		modDetector.initialize();
+		modifiedTargetObjects = new HashSet<EObject>();
+		for (Correspondence c : matching.getCorrespondences()) {
+			if (modDetector.isModified(c.getObjB())){
+				modifiedTargetObjects.add(c.getObjB());
+			}
+		}
+		
+		// init argument wrappers and provide initial resolutions
+		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
+		for (OperationInvocation invocation : patch.getOperationInvocations()) {
+			for (ParameterBinding binding : invocation.getParameterBindings()) {
+				if (binding instanceof ObjectParameterBinding){
+					ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
+					ArgumentWrapper arg = new ArgumentWrapper(objBinding);
+					if (objBinding.getActualA() != null){
+						// try to resolve originObject
+						EObject targetObject = resolveOriginObject(objBinding.getActualA());
+						arg.resolveTo(targetObject);
+					}
+					argumentResolutions.put(objBinding, arg);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -109,30 +150,13 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public EObject getCorrespondence(EObject originObject) {
-
-		if (matching.getCorrespondingObjectInB(originObject) != null) {
-			return matching.getCorrespondingObjectInB(originObject);
-		}
-
-		int location = EMFResourceUtil.locate(originModel, originObject);
-
-		if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
-			Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(originObject, originObject);
-			c.setReliability(1.0f);
-			;
-			matching.addCorrespondence(c);
-			return originObject;
-		}
-		if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL) {
-			// TODO (TK)
-		}
-
-		return null;
+	public ArgumentWrapper getArgument(ObjectParameterBinding binding) {
+		return argumentResolutions.get(binding);
 	}
 
 	@Override
-	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject originObject) {
+	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
+		EObject originObject = binding.getActualA();
 		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
 		
 		// from target model.
@@ -176,26 +200,27 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void addCorrespondence(EObject elementA, EObject elementB) {
-		Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(elementA, elementB);
-		c.setReliability(1.0f);
-		matching.addCorrespondence(c);
+	public void addArgumentResolution(ObjectParameterBinding binding, EObject targetObject) {
+		argumentResolutions.get(binding).resolveTo(targetObject);
+		
+		// do also resolve target bindings to which binding is mapped
+		for (ParameterMapping mapping : binding.getOutgoing()) {
+			addArgumentResolution(mapping.getTarget(), targetObject);
+		}
 	}
 
 	@Override
-	public void removeCorrespondence(EObject originObject) {
-		matching.removeCorrespondenceA(originObject);
-	}
-
-	@Override
-	public void addNewTargetObject(EObject targetObject) {
-		// nothing to do here
+	public void resetArgumentResolution(ObjectParameterBinding binding) {
+		argumentResolutions.get(binding).resetResolution();
 	}
 
 	@Override
 	public void removeTargetObject(EObject targetObject) {
-		if (matching.getCorrespondingObjectInA(targetObject) != null){
-			matching.removeCorrespondenceB(targetObject);
+		for (ObjectParameterBinding b : argumentResolutions.keySet()) {
+			ArgumentWrapper arg = argumentResolutions.get(b);
+			if (arg.isResolved() && arg.getTargetObject() == targetObject){
+				arg.resetResolution();
+			}
 		}
 	}
 
@@ -205,13 +230,41 @@ public class DelegatingPatchCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public float getReliability(EObject objectA, EObject objectB) {
-		return matching.getReliability(objectA, objectB);
+	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
+		EObject originObject = binding.getActualA();
+		if (originObject != null && matching.getCorrespondingObjectInB(originObject) == targetObject){
+			return matching.getReliability(originObject, targetObject);
+		}
+		
+		return 0.0f;
 	}
 
 	@Override
-	public boolean isModified(EObject object) {
-		return modDetector.isModified(object);
+	public boolean isModified(EObject targetObject) {
+		return modDetector.isModified(targetObject);
+	}
+	
+	
+	private EObject resolveOriginObject(EObject originObject) {
+
+		if (matching.getCorrespondingObjectInB(originObject) != null) {
+			return matching.getCorrespondingObjectInB(originObject);
+		}
+
+		int location = EMFResourceUtil.locate(originModel, originObject);
+
+		if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
+			Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(originObject, originObject);
+			c.setReliability(1.0f);
+			;
+			matching.addCorrespondence(c);
+			return originObject;
+		}
+		if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL) {
+			// TODO (TK)
+		}
+
+		return null;
 	}
 
 }

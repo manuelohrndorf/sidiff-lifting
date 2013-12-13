@@ -15,33 +15,31 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.IArgumentManager;
 
-public class ValueEditingSupport extends EditingSupport {
+public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
-	private IPatchCorrespondence correspondence;
+	private IArgumentManager correspondence;
 	private IValueChangedListener listener;
 
-	public ValueEditingSupport(ColumnViewer viewer) {
+	public ArgumentValueEditingSupport(ColumnViewer viewer) {
 		super(viewer);
 	}
 
 	@Override
 	protected CellEditor getCellEditor(Object element) {
-		ObjectParameterBinding substitution = (ObjectParameterBinding) element;
+		ObjectParameterBinding binding = (ObjectParameterBinding) element;
 
 		this.itemObjects = new ArrayList<CellObject>();
-		EObject currentObject = substitution.getActualA();
-
 		
-		Map<Resource, Collection<EObject>> potentialArgs = correspondence.getPotentialArguments(currentObject);
+		Map<Resource, Collection<EObject>> potentialArgs = correspondence.getPotentialArguments(binding);
 		Collection<EObject> args = new ArrayList<EObject>();
 		for (Resource r : potentialArgs.keySet()) {
 			args.addAll(potentialArgs.get(r));			
 		}
 		//TODO: Categorize potential args by their resource in the UI.
 		for (EObject eObject : args) {
-			float reliability = correspondence.getReliability(currentObject, eObject);
+			float reliability = correspondence.getReliability(binding, eObject);
 			CellObject cellObject = new CellObject(reliability, eObject);
 			itemObjects.add(cellObject);
 		}
@@ -62,13 +60,8 @@ public class ValueEditingSupport extends EditingSupport {
 	@Override
 	protected boolean canEdit(Object element) {
 		if (element instanceof ObjectParameterBinding) {
-			ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) element;
-			EObject eObject = objectParameterBinding.getActualA();
-			if (eObject != null) {
-				return eObject.eResource() == correspondence.getOriginModel();
-			} else {
-				return false;
-			}
+			ObjectParameterBinding binding = (ObjectParameterBinding) element;
+			return !binding.isMappingTarget();
 		}
 		return false;
 	}
@@ -82,19 +75,19 @@ public class ValueEditingSupport extends EditingSupport {
 	protected void setValue(Object element, Object value) {
 		if (element instanceof ObjectParameterBinding) {
 			int index = ((Integer) value).intValue();
-			ObjectParameterBinding substitution = (ObjectParameterBinding) element;
+			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			if (index == -1) {
-				correspondence.removeCorrespondence(substitution.getActualA());
+				correspondence.resetArgumentResolution(binding);
 			} else {
 				EObject elementB = itemObjects.get(index).getEObject();
-				correspondence.addCorrespondence(substitution.getActualA(), elementB);
+				correspondence.addArgumentResolution(binding, elementB);
 			}
 		}
 		getViewer().refresh();
 		this.listener.valueChanged();
 	}
 
-	public void setCorrespondence(IPatchCorrespondence correspondence) {
+	public void setCorrespondence(IArgumentManager correspondence) {
 		this.correspondence = correspondence;
 	}
 	

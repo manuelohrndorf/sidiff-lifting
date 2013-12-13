@@ -1,8 +1,5 @@
 package org.sidiff.patching.test.sysml;
 
-import java.util.Collection;
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,9 +7,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.test.AbstractBatchArgumentManager;
 
-public class SysMLCorrespondence implements IPatchCorrespondence {
+public class SysMLCorrespondence extends AbstractBatchArgumentManager {
 
 	private Difference difference;
 	private Copier copier;
@@ -34,11 +31,6 @@ public class SysMLCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public void set(Resource modelA, Resource modelB) {
-
-	}
-
-	@Override
 	public Resource getOriginModel() {
 		return difference.getSymmetric().getModelA();
 	}
@@ -49,52 +41,12 @@ public class SysMLCorrespondence implements IPatchCorrespondence {
 	}
 
 	@Override
-	public EObject getCorrespondence(EObject eObject) {
+	public EObject resolve(EObject eObject) {
 		if (eObject.eResource().equals(getOriginModel())) {
 			return copier.get(eObject);
 		} else {
 			return eObject;
 		}
-	}
-
-	@Override
-	public void addCorrespondence(EObject elementA, EObject elementB) {
-
-	}
-
-	@Override
-	public void removeCorrespondence(EObject eObject) {
-
-	}
-
-	@Override
-	public void addNewTargetObject(EObject eObject) {
-
-	}
-
-	@Override
-	public void removeTargetObject(EObject eObject) {
-
-	}
-
-	@Override
-	public Map<Resource, Collection<EObject>> getPotentialArguments(EObject eObject) {
-		return null;
-	}
-
-	@Override
-	public void setMinReliability(float minReliability) {
-
-	}
-
-	@Override
-	public float getReliability(EObject objectA, EObject objectB) {
-		return 0;
-	}
-
-	@Override
-	public boolean isModified(EObject object) {
-		return false;
 	}
 
 }

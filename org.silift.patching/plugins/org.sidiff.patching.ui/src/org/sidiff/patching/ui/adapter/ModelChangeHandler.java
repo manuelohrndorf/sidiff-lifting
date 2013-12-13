@@ -3,25 +3,42 @@ package org.sidiff.patching.ui.adapter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.eclipse.emf.ecore.EReference;
+import org.sidiff.patching.IArgumentManager;
 
 public class ModelChangeHandler implements ModelAdapter.IModelChangeListener {
 
-	private IPatchCorrespondence correspondence;
+	private IArgumentManager argumentManager;
 
-	public ModelChangeHandler(IPatchCorrespondence correspondence) throws FileNotFoundException, IOException {
-		this.correspondence = correspondence;
-	}
-
-	@Override
-	public void objectAdded(EObject eObject) {
-		correspondence.addNewTargetObject(eObject);
+	public ModelChangeHandler(IArgumentManager argumentManager) throws FileNotFoundException, IOException {
+		this.argumentManager = argumentManager;
 	}
 
 	@Override
 	public void objectRemoved(EObject eObject) {
-		correspondence.removeTargetObject(eObject);
+		argumentManager.removeTargetObject(eObject);
+	}
+
+	@Override
+	public void objectAdded(EObject eObject) {
+		// were not interested in this event
+	}
+
+	@Override
+	public void referenceAdded(EReference referenceType, EObject src, EObject tgt) {
+		// were not interested in this event
+	}
+
+	@Override
+	public void referenceRemoved(EReference referenceType, EObject src, EObject tgt) {
+		// were not interested in this event
+	}
+
+	@Override
+	public void attributeValueSet(EAttribute attribute, EObject object, Object value) {
+		// were not interested in this event
 	}
 
 }

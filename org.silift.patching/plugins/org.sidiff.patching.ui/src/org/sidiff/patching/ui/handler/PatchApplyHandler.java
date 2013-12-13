@@ -43,7 +43,7 @@ import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.IArgumentManager;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
@@ -194,7 +194,7 @@ public class PatchApplyHandler extends AbstractHandler {
 									
 									//TODO replace hard-coded matcher
 									IMatcher matcher = PipelineUtils.getMatcherByKey("SiDiff", difference.getOriginModel(), resourceResult.get());
-									IPatchCorrespondence correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
+									IArgumentManager correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
 									if (correspondence == null) {
 										LOGGER.log(Level.SEVERE, "No Correspondence Service found!");
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");

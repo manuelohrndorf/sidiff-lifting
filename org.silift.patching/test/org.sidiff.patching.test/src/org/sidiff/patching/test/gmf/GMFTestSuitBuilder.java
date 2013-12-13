@@ -17,7 +17,7 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
-import org.sidiff.patching.IPatchCorrespondence;
+import org.sidiff.patching.IArgumentManager;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.util.TransformatorUtil;
@@ -87,7 +87,7 @@ public class GMFTestSuitBuilder {
 		
 		Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, matcher);
 
-		IPatchCorrespondence correspondence = new GMFCorrespondence(difference);
+		IArgumentManager correspondence = new GMFCorrespondence(difference);
 		
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
 	}
