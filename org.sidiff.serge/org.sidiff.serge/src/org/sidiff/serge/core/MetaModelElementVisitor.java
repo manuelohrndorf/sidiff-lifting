@@ -1,4 +1,4 @@
-package org.sidiff.serge.services;
+package org.sidiff.serge.core;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.core.GenerationActionDelegator;
 
 public class MetaModelElementVisitor implements EClassVisitor{
 
@@ -29,33 +28,26 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			EClass eClass = (EClass) eClassifier;
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClass.getName() + " ***********************************************");
 
-//			try {
-				
-				createModules 	= GAD.generate_CREATE(eClass);
-				variantModules 	= GAD.VariantPostprocessor(eClass);
-				
-				GAD.generate_DELETE(variantModules);
-				
-				GAD.generate_MOVE(eClass);
-				GAD.generate_MOVE_COMBINATION(eClass);
-				GAD.generate_MOVE_DOWN(eClass);
-				GAD.generate_MOVE_UP(eClass);
-				
-				addModules = GAD.generate_ADD(eClass);
-				GAD.generate_REMOVE(addModules);
-				
-				set_attribute_Modules = GAD.generate_SET_ATTRIBUTE(eClass);
-				GAD.generate_UNSET_ATTRIBUTE(set_attribute_Modules);
-				
-				set_reference_Modules = GAD.generate_SET_REFERENCE(eClass);
-				GAD.generate_UNSET_REFERENCE(set_reference_Modules);
-				
-				GAD.generate_CHANGE(eClass);
+			createModules 	= GAD.generate_CREATE(eClass);
+			variantModules 	= GAD.VariantPostprocessor(eClass);
 
-				
-//			} catch (ConstraintException e) {
-//				e.printStackTrace();
-//			}
+			GAD.generate_DELETE(variantModules);
+
+			GAD.generate_MOVE(eClass);
+			GAD.generate_MOVE_COMBINATION(eClass);
+			GAD.generate_MOVE_DOWN(eClass);
+			GAD.generate_MOVE_UP(eClass);
+
+			addModules = GAD.generate_ADD(eClass);
+			GAD.generate_REMOVE(addModules);
+
+			set_attribute_Modules = GAD.generate_SET_ATTRIBUTE(eClass);
+			GAD.generate_UNSET_ATTRIBUTE(set_attribute_Modules);
+
+			set_reference_Modules = GAD.generate_SET_REFERENCE(eClass);
+			GAD.generate_UNSET_REFERENCE(set_reference_Modules);
+
+			GAD.generate_CHANGE(eClass);
 
 		}
 	}

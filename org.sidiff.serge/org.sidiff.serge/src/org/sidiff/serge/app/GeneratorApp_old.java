@@ -3,11 +3,11 @@ package org.sidiff.serge.app;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.services.ServiceHelper;
-import org.sidiff.serge.SergeService;
-import org.sidiff.serge.impl.Activator;
+import org.sidiff.serge.SergeService_old;
+import org.sidiff.serge.impl.Activator_old;
 import org.sidiff.serge.services.HenshinModuleGenerator_old;
 
-public class GeneratorApp implements IApplication {
+public class GeneratorApp_old implements IApplication {
     
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -22,7 +22,7 @@ public class GeneratorApp implements IApplication {
 		
 		/*** Start generating rules*********************************************************************/
 		
-		SergeService generatingService = ServiceHelper.getService(Activator.getContext(), SergeService.class);
+		SergeService_old generatingService = ServiceHelper.getService(Activator_old.getContext(), SergeService_old.class);
 		generatingService.init(HenshinModuleGenerator_old.class, INPUT_CONFIG_PATH, INPUT_WORKSPACE_LOC, OUTPUT_FOLDER_PATH);
 		generatingService.generate(HenshinModuleGenerator_old.class);
 		

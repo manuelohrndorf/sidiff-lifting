@@ -4,7 +4,7 @@ import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
-public interface SergeService {
+public interface SergeService_old {
 	
 	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws EClassifierUnresolvableException, EAttributeNotFoundException, EPackageNotFoundException, Exception;
 	

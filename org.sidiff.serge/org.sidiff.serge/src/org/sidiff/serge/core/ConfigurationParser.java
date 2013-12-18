@@ -47,7 +47,12 @@ public class ConfigurationParser {
 	private static List<String> stringBlackList 					= new ArrayList<String>();
 	private static String rootName									= null;
 
-	public ConfigurationParser (String pathToConfig, String workspace_loc, String pathToOutputFolder) throws Exception {
+	public static void parse (String pathToConfig) throws Exception {
+		
+		//TODO pathToOutputFOlder
+		String workspace_loc = null;
+		String pathToOutputFolder = null;
+		
 		
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
 		

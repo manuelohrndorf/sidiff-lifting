@@ -8,16 +8,18 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.common.xml.XMLResolver;
-import org.sidiff.serge.services.SergeService;
+import org.sidiff.serge.SergeService_old;
 
-public class Activator extends AbstractUIPlugin implements BundleActivator {
+
+
+public class Activator_old extends AbstractUIPlugin implements BundleActivator {
 
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "test"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static Activator_old plugin;
 	
 	private static BundleContext context;
 	
@@ -31,12 +33,12 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+		Activator_old.context = bundleContext;
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
 		 
-		ServiceHelper.registerService(context, SergeService.class, new SergeService(), null, ServiceHelper.DEFAULT);
+		ServiceHelper.registerService(context, SergeService_old.class, new SergeServiceImpl_old(), null, ServiceHelper.DEFAULT);
 		super.start(context);
 		plugin = this;
 
@@ -47,7 +49,7 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static Activator_old getDefault() {
 		return plugin;
 	}
 	
@@ -70,7 +72,7 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 	public void stop(BundleContext bundleContext) throws Exception {
 		plugin = null;
 		super.stop(context);
-		Activator.context = null;
+		Activator_old.context = null;
 	}
 
 }

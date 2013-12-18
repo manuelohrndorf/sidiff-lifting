@@ -234,7 +234,11 @@ public class Configuration {
 		return implicitRequirements.get(type);
 	}
 	
+	public Stack<EPackage> getEPackagesStack() {
+		return ePackagesStack;
+	}
 
+	
 	/***** protected, convenience Methods  ************************************************************/
 
 	/**

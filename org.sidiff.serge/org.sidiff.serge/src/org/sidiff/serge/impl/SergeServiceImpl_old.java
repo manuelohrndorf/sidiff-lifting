@@ -24,7 +24,7 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
-import org.sidiff.serge.SergeService;
+import org.sidiff.serge.SergeService_old;
 import org.sidiff.serge.core.Common;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SergeServiceImpl_old implements SergeService{
+public class SergeServiceImpl_old implements SergeService_old{
 
 	private static AbstractGenerator_old generator  					= null;
 	private static Stack<EPackage> ePackagesStack					= new Stack<EPackage>();
