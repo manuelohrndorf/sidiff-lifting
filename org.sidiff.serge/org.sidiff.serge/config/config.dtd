@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT Config (GeneralSettings+, MetaModelSettings, ProfiledModelSettings?, Transformations+, Root+, WhiteList+, BlackList+)>
-<!ELEMENT GeneralSettings (preventInconsistency+,multiplicityPreconditions+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism)>
+<!ELEMENT GeneralSettings (preventInconsistency+,multiplicityPreconditions+,reduceToSuperType+,disableVariants+,modelUsesProfileMechanism, outputFolder)>
 <!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?,MaskedClassifiers?)>
 <!ELEMENT ProfiledModelSettings (BaseModelRules)>
 <!ELEMENT BaseModelRules EMPTY>
@@ -20,6 +20,7 @@
 <!ELEMENT disableVariants EMPTY>
 <!ELEMENT createAllAttributes EMPTY>
 <!ELEMENT modelUsesProfileMechanism EMPTY>
+<!ELEMENT outputFolder EMPTY>
 
 <!ELEMENT Creates EMPTY>
 <!ELEMENT Deletes EMPTY>
@@ -54,6 +55,7 @@
 <!ATTLIST disableVariants value CDATA #REQUIRED>
 <!ATTLIST createAllAttributes value CDATA #REQUIRED>
 <!ATTLIST modelUsesProfileMechanism value CDATA #REQUIRED>
+<!ATTLIST outputFolder absolutePath CDATA #REQUIRED>
 
 <!ATTLIST reduceToSuperType CREATE_DELETE CDATA #REQUIRED
 							MOVE CDATA #REQUIRED
