@@ -1,5 +1,8 @@
 package org.sidiff.serge.impl;
 
+import org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher;
+import org.eclipse.equinox.internal.app.EclipseAppContainer;
+import org.eclipse.equinox.internal.app.EclipseAppHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleActivator;
@@ -14,7 +17,7 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "test"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.sidiff.serge.popup.actions"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -25,17 +28,20 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 		return context;
 	}
 	
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
-		
+						
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
-		 
+		
+		//TODO differenciation between EclipseApplication or OSGI-Application/Service run
+		// current workaround in SergeService argument input == null check.
+		
 		ServiceHelper.registerService(context, SergeService.class, new SergeService(), null, ServiceHelper.DEFAULT);
 		super.start(context);
 		plugin = this;

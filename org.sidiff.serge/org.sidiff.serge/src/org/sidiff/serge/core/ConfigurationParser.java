@@ -49,9 +49,8 @@ public class ConfigurationParser {
 
 	public static void parse (String pathToConfig) throws Exception {
 		
-		//TODO pathToOutputFOlder
+		//TODO workspace_loc
 		String workspace_loc = null;
-		String pathToOutputFolder = null;
 		
 		
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
@@ -72,6 +71,8 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
 		enableStereotypeMapping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		c.setProfileApplicationInUse(enableStereotypeMapping);
+		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
+		c.setOutputFolderPath(String.valueOf(Common.getAttributeValue("absolutePath", currentNode)));
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
 		c.setReduceToSuperType_SETUNSET(Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode)));
 		c.setReduceToSuperType_ADDREMOVE(Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode)));

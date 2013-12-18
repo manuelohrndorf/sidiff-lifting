@@ -17,9 +17,12 @@ public class SergeService implements IApplication{
 	public Object start(IApplicationContext context) throws Exception {
 
 		String[] argument = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
-		String INPUT_CONFIG_PATH = argument[0];
-		
-		run(INPUT_CONFIG_PATH);
+	
+		// TODO current workaround for missing OSGI vs EclipseApplication differenciation in Activator
+		if(argument.length!=0) {
+			String INPUT_CONFIG_PATH = argument[0];
+			run(INPUT_CONFIG_PATH);		
+		}
 		
 		
 		return null;
