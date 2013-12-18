@@ -33,7 +33,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.patching.IArgumentManager;
@@ -108,10 +107,13 @@ public class ApplyPatchWizard extends Wizard {
 	
 	private void finish() {
 		
+		//Gather all information
+		//TODO Implement wrapper class like in Lifting, could be named PatchingSettings
 		final String separator = System.getProperty("file.separator");
 		final String filename = this.applyPatchPage01.getTargetWidget().getFilename();
 		final ValidationMode validationMode = this.applyPatchPage01.getValidationWidget().getSelection();
-		final Integer reliability = this.applyPatchPage01.getReliabilityWidget().getReliability();
+		final Integer reliability = this.applyPatchPage02.getReliabilityWidget().getReliability();
+		final IMatcher matcher = this.applyPatchPage02.getSelectedMatchingEngine();
 
 		final URI fileURI = URI.createFileURI(filename);
 		Resource targetResource = EMFStorage.eLoad(fileURI).eResource();
@@ -128,12 +130,12 @@ public class ApplyPatchWizard extends Wizard {
 		
 		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());
 		
-		Job job = new Job("Patching") {
+		Job job = new Job("Patching Model") {
 			private EditingDomain editingDomain;
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					monitor.beginTask("Loading Patch", 100);
+					monitor.beginTask("Patching", 100);
 					monitor.subTask("Opening view and editor");
 					final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
 					Display.getDefault().syncExec(new Runnable() {
@@ -181,15 +183,14 @@ public class ApplyPatchWizard extends Wizard {
 						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 					}	
 					
-					//TODO replace hard-coded matcher
-					IMatcher matcher = PipelineUtils.getMatcherByKey("SiDiff", patch.getDifference().getOriginModel(), resourceResult.get());
+					//Use selected Matcher
 					IArgumentManager correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
 					if (correspondence == null) {
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");
 						return Status.CANCEL_STATUS;
 					}
 
-					// Find transformation engine
+					// Find transformation engine (no other available right now)
 					ITransformationEngine transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
 					if (transformationEngine == null) {
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Transformator Service found!", "No suitable Transformator Service found!");
@@ -198,7 +199,7 @@ public class ApplyPatchWizard extends Wizard {
 
 					monitor.subTask("Initialize PatchEngine");
 					correspondence.setMinReliability(reliability);
-					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE);
+					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE, validationMode, matcher.canComputeReliability());
 					patchEngine.setPatchedEditingdomain(editingDomain);
 					monitor.worked(40);
 

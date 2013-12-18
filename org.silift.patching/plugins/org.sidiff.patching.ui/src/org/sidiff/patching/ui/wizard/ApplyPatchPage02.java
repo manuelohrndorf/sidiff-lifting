@@ -13,10 +13,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -27,8 +26,7 @@ public class ApplyPatchPage02 extends WizardPage {
 	private Composite container;
 
 	private MatchingEngineWidget matcherWidget;
-	private DifferenceBuilderWidget builderWidget;
-
+	private ReliabilityWidget reliabilityWidget;
 	private SelectionAdapter validationListener;
 
 	
@@ -123,13 +121,11 @@ public class ApplyPatchPage02 extends WizardPage {
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels);
 		addWidget(algorithmsGroup, matcherWidget);
+		
+		//Reliability
+		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
+		addWidget(container, reliabilityWidget);
 
-		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
-
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			addWidget(algorithmsGroup, builderWidget);
-		}
 	}
 
 	private void addWidget(Composite parent, IWidget widget) {
@@ -149,7 +145,7 @@ public class ApplyPatchPage02 extends WizardPage {
 		setPageComplete(true);
 
 		validateWidget(matcherWidget);
-		validateWidget(builderWidget);
+		validateWidget(reliabilityWidget);
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -159,17 +155,13 @@ public class ApplyPatchPage02 extends WizardPage {
 		}
 	}
 
-	public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder() {
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			return builderWidget.getSelection();
-		} else {
-			return builderWidget.getDifferenceBuilders().values()
-					.toArray(new ITechnicalDifferenceBuilder[0])[0];
-		}
-	}
 
 	public IMatcher getSelectedMatchingEngine() {
 		return matcherWidget.getSelection();
+	}
+	
+	public ReliabilityWidget getReliabilityWidget(){
+		return reliabilityWidget;
 	}
 
 	public MatchingEngineWidget getMatcherWidget() {

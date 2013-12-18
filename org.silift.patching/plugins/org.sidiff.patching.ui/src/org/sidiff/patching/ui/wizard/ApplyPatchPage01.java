@@ -27,7 +27,6 @@ public class ApplyPatchPage01 extends WizardPage {
 
 	private TargetModelWidget targetWidget;
 	private ComparisonModeWidget comparisonWidget;
-	private ReliabilityWidget reliabilityWidget;
 	private ValidationModeWidget validationWidget;
 
 	private SelectionAdapter validationListener;
@@ -118,9 +117,6 @@ public class ApplyPatchPage01 extends WizardPage {
 		comparisonWidget = new ComparisonModeWidget();
 		addWidget(container, comparisonWidget);
 		
-		//Reliability
-		reliabilityWidget = new ReliabilityWidget(80);
-		addWidget(container, reliabilityWidget);
 		
 		//Validation
 		validationWidget = new ValidationModeWidget();
@@ -146,7 +142,6 @@ public class ApplyPatchPage01 extends WizardPage {
 
 		validateWidget(targetWidget);
 		validateWidget(comparisonWidget);
-		validateWidget(reliabilityWidget);
 		validateWidget(validationWidget);
 	}
 
@@ -170,9 +165,6 @@ public class ApplyPatchPage01 extends WizardPage {
 		return comparisonWidget;
 	}
 	
-	public ReliabilityWidget getReliabilityWidget(){
-		return reliabilityWidget;
-	}
 	
 	public ValidationModeWidget getValidationWidget(){
 		return validationWidget;

@@ -30,8 +30,8 @@ import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
-import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
+import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
 import org.sidiff.patching.ui.view.filter.NullValueParameterFilter;
 import org.sidiff.patching.ui.view.filter.ValueParameterFilter;
 import org.sidiff.patching.util.PatchUtil;
@@ -84,12 +84,12 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		reliabilitiesButton.setText("Show Reliabilities");
 		reliabilitiesButton.setSelection(false);
 		reliabilitiesButton.addSelectionListener(new SelectionAdapter() {
-		    @Override
-		    public void widgetSelected(SelectionEvent e) {
-		        // Handle the selection event
-		        valueLabelProvider.setShowReliablities(reliabilitiesButton.getSelection());
-		        patchViewer.refresh();
-		    }
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				valueLabelProvider.setShowReliablities(reliabilitiesButton.getSelection());
+				patchViewer.refresh();
+			}
 		}); 
 
 		// TreeViewer
@@ -179,7 +179,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			
 		};
 		this.iterativeValidation.setToolTipText("The model will be validated after each operation invocation.");
-		this.iterativeValidation.setChecked(true);
+		this.iterativeValidation.setChecked(false);
 		
 		this.finalValidation = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
 			@Override
@@ -305,6 +305,18 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		iterativeValidation.setEnabled(true);
 		finalValidation.setEnabled(true);
 		noValidation.setEnabled(true);		
+		
+		if(this.engine.getValidationMode() == ValidationMode.FINAL)
+			finalValidation.setChecked(true);
+		else
+			if(this.engine.getValidationMode() == ValidationMode.ITERATIVE)
+				iterativeValidation.setChecked(true);
+			else
+				noValidation.setChecked(true);
+		
+		if(!this.engine.getReliabilitiesComputed()){
+			reliabilitiesButton.setVisible(false);
+		}
 	}
 
 	@Override

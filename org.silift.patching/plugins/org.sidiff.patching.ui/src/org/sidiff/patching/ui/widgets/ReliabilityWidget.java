@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
+import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -17,17 +18,21 @@ import org.silift.common.util.ui.widgets.IWidgetValidation;
 public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 
 	private final int defaultReliability = 50;
+	
+	private MatchingEngineWidget matchingEngineWidget;
 
 	private Composite container;
 	private Scale scale;
 	private Spinner spinner;
 	private int reliability;
 
-	public ReliabilityWidget(Integer reliability) {
+	public ReliabilityWidget(Integer reliability, MatchingEngineWidget matchingEngineWidget) {
 		if(reliability != null)
 			this.reliability = reliability;
 		else
 			this.reliability = defaultReliability;
+		
+		this.matchingEngineWidget = matchingEngineWidget;
 	}
 
 	/**
@@ -81,7 +86,6 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 			}
 		});
 		
-		
 		return container;
 	}
 
@@ -105,13 +109,27 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 	@Override
 	public boolean validate() {
-		//Nothing
-		return true;
+		if(this.matchingEngineWidget.getSelection().canComputeReliability()){
+			scale.setEnabled(true);
+			spinner.setEnabled(true);
+			container.setEnabled(true);
+			return true;
+		}
+		else{
+			scale.setEnabled(false);
+			spinner.setEnabled(false);
+			container.setEnabled(false);
+			return false;
+		}
 	}
 
 	@Override
 	public String getValidationMessage() {
+		if(validate()){
 			return "";
+		}
+		else
+			return "Selected Matching Engine does not support Reliability!";
 	}
 
 

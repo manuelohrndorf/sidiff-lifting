@@ -102,8 +102,8 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 		// now we initialize the internal state...
 
-		// do matching
-		matching = matcher.createMatching(originModel, targetModel, EMFResourceUtil.COMPARE_RESOURCE, true);
+		// do matching		
+		matching = matcher.createMatching(originModel, targetModel, EMFResourceUtil.COMPARE_RESOURCE, matcher.canComputeReliability());
 
 		// collect referenced registry and ResourceSet resources
 		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();

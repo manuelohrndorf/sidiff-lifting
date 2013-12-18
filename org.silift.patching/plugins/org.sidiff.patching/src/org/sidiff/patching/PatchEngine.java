@@ -61,6 +61,7 @@ public class PatchEngine {
 	private Collection<Diagnostic> initialErrors;
 	private Collection<Diagnostic> previousErrors;
 	private Collection<Diagnostic> currentErrors;
+	private Boolean reliabilitiesComputed;
 
 	public enum ValidationMode {
 		ITERATIVE, FINAL, NO, MANUAL
@@ -78,9 +79,11 @@ public class PatchEngine {
 	 * @param correspondence
 	 * @param transformationEngine
 	 * @param executionMode
+	 * @param validationMode
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager correspondence,
-			ITransformationEngine transformationEngine, ExecutionMode executionMode) {
+			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode, Boolean
+			reliabilitiesComputed) {
 		this.difference = difference;
 		this.patchedResource = patchedResource;
 		this.argumentManager = correspondence;
@@ -89,8 +92,9 @@ public class PatchEngine {
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 		this.appliedOperations = new HashSet<OperationInvocation>();
 
-		this.validationMode = ValidationMode.ITERATIVE;
+		this.validationMode = validationMode;
 		this.executionMode = executionMode;
+		this.reliabilitiesComputed = reliabilitiesComputed;
 
 		// initialize patch report
 		this.patchReport = new PatchReport();
@@ -550,6 +554,10 @@ public class PatchEngine {
 
 	public IArgumentManager getArgumentManager() {
 		return argumentManager;
+	}
+
+	public Boolean getReliabilitiesComputed() {
+		return reliabilitiesComputed;
 	}
 
 	public Collection<OperationInvocation> getOrderedOperationInvocations() {
