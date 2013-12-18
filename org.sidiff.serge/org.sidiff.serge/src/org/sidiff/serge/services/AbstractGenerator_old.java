@@ -21,7 +21,7 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.serge.exceptions.ConstraintException;
 
-public abstract class AbstractGenerator implements EClassVisitor{
+public abstract class AbstractGenerator_old implements EClassVisitor{
 
 	/** General settings **************************************************************************/
 	
@@ -263,7 +263,7 @@ public abstract class AbstractGenerator implements EClassVisitor{
 	}
 	
 	public EClassifierInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
-		implicitRequirements = new HashMap<AbstractGenerator.ImplicitRequirementType, ArrayList<EClassifier>>();
+		implicitRequirements = new HashMap<AbstractGenerator_old.ImplicitRequirementType, ArrayList<EClassifier>>();
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClassifier>());
 		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClassifier>());
 		ecm = EClassifierInfoManagement.getInstance(enableStereotypeMapping, ePackagesStack);

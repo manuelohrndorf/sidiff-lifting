@@ -7,13 +7,12 @@ import org.eclipse.emf.henshin.model.Module;
 public class CreateGenerator {
 	
 	/**
-	 * Eingehender Containment Referenztyp (falls vorhanden) 
+	 * Incoming containment reference type (if available) 
 	 */
 	private EReference containmentReference;
 	
 	/**
-	 * Kontextklasse (Kann eine Subklasse der eigentlichen Quelle des
-	 * Referenztyps containmentReference sein).
+	 * Context class (Can be a sub type of the original type set in a reference).
 	 */
 	private EClass contextClass;
 

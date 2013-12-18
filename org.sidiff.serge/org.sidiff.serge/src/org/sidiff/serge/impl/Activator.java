@@ -38,7 +38,7 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
 		 
-		ServiceHelper.registerService(context, SergeService.class, new SergeServiceImpl(), null, ServiceHelper.DEFAULT);
+		ServiceHelper.registerService(context, SergeService.class, new SergeServiceImpl_old(), null, ServiceHelper.DEFAULT);
 		super.start(context);
 		plugin = this;
 

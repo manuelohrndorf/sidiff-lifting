@@ -50,7 +50,7 @@ import org.sidiff.serge.core.ModuleFilenamePair;
 import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
-public class HenshinModuleGenerator extends AbstractGenerator {
+public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 	
 	/** Henshin access ****************************************************************************/
 	

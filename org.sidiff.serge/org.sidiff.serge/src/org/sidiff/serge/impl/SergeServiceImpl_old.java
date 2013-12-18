@@ -33,17 +33,17 @@ import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
-import org.sidiff.serge.services.AbstractGenerator;
-import org.sidiff.serge.services.AbstractGenerator.ImplicitRequirementType;
-import org.sidiff.serge.services.HenshinModuleGenerator;
+import org.sidiff.serge.services.AbstractGenerator_old;
+import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
+import org.sidiff.serge.services.HenshinModuleGenerator_old;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class SergeServiceImpl implements SergeService{
+public class SergeServiceImpl_old implements SergeService{
 
-	private static AbstractGenerator generator  					= null;
+	private static AbstractGenerator_old generator  					= null;
 	private static Stack<EPackage> ePackagesStack					= new Stack<EPackage>();
 	private static EClassifierInfoManagement eClassInfoManagement 	= null;
 
@@ -52,14 +52,14 @@ public class SergeServiceImpl implements SergeService{
 	private static List<String> stringBlackList 					= new ArrayList<String>();
 	private static String rootName									= null;
 	
-	public SergeServiceImpl() {
+	public SergeServiceImpl_old() {
 		
 	}
 	
 	@Override
 	public void init(Class<?> service, String pathToConfig, String workspace_loc, String pathToOutputFolder) throws Exception {
 				
-		generator = new HenshinModuleGenerator();
+		generator = new HenshinModuleGenerator_old();
 		generator.setOutputFolderPath(pathToOutputFolder);
 		
 		/**************************************************************************************************************/		
