@@ -4,8 +4,10 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.ConfigurationParser;
+import org.sidiff.serge.core.ElementFilter;
 import org.sidiff.serge.core.MetaModelElementVisitor;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
@@ -21,7 +23,17 @@ public class Serge {
 	public void init(String pathToConfig) {
 		
 		try {
-			ConfigurationParser.parse(pathToConfig);
+			// create empty instances
+			Configuration c = Configuration.getInstance();
+			EClassifierInfoManagement.getInstance();
+			ElementFilter.getInstance();
+			
+			// parse and gather infos
+			ConfigurationParser parser = new ConfigurationParser();
+			parser.parse(pathToConfig);
+			EClassifierInfoManagement.gatherInformation(c.getProfileApplicationInUse(), c.getEPackagesStack());
+			
+			// get ePackageStack for usage in generate()
 			ePackagesStack = Configuration.getInstance().getEPackagesStack();
 		
 		} catch (Exception e) {

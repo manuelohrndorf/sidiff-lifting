@@ -46,7 +46,7 @@ public class ConfigurationParser {
 	private static List<String> stringBlackList 					= new ArrayList<String>();
 	private static String rootName									= null;
 
-	public static void parse (String pathToConfig) throws Exception {
+	public void parse (String pathToConfig) throws Exception {
 		
 		filter = ElementFilter.getInstance();
 		

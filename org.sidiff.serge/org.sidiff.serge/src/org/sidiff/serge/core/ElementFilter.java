@@ -18,9 +18,9 @@ public class ElementFilter {
 	private static ArrayList<EClassifier> blackList;	
 	private static ArrayList<EClassifier> whiteList;
 	
-	private static Configuration c = Configuration.getInstance();
+	private static Configuration c;
+	private static EClassifierInfoManagement ECM;
 	private static ElementFilter instance = null;
-	private static EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance(c.getProfileApplicationInUse(), c.getEPackagesStack());
 	
 	private static HashMap<ImplicitRequirementType,ArrayList<EClassifier>> implicitRequirements;
 	
@@ -37,6 +37,9 @@ public class ElementFilter {
 	 * Constructor
 	 */
 	private ElementFilter() {
+		c = Configuration.getInstance();
+		ECM = EClassifierInfoManagement.getInstance();
+		
 		implicitRequirements = new HashMap<ImplicitRequirementType, ArrayList<EClassifier>>();
 		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClassifier>());
 		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClassifier>());
@@ -98,7 +101,7 @@ public class ElementFilter {
 	 */
 	protected static boolean isAllowed(EClassifier eClassifier, Boolean asPivot, Boolean preferSupertypes) {
 		
-		EClassifierInfo eClassifierInfo = ECM.getEClassifierInfo(eClassifier);
+		EClassifierInfo eClassifierInfo = EClassifierInfoManagement.getInstance(c.getProfileApplicationInUse(), c.getEPackagesStack()).getEClassifierInfo(eClassifier);
 		
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
