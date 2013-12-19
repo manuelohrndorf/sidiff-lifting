@@ -102,13 +102,13 @@ public class PatchEngine {
 		this.argumentManager.init(difference, patchedResource);
 
 		// Initialize all operationInvocations owning
-		// modified parameters as "not applicable"
+		// modified parameters as "not applicable"		
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (hasModifiedParameters(operationInvocation)) {
 				operationInvocation.setApply(false);
 			}
 		}
-
+		
 		this.transformationEngine.init(patchedResource, executionMode);
 		// initialize test unit
 		this.testUnit = new EMFValidationTestUnit();
@@ -193,13 +193,12 @@ public class PatchEngine {
 
 			@Override
 			public void redo() {
-				// TODO Auto-generated method stub
-
+				// not redoable here
 			}
 
 			@Override
 			public boolean canExecute() {
-				// TODO Auto-generated method stub
+				// always executable
 				return true;
 			}
 
@@ -222,8 +221,45 @@ public class PatchEngine {
 	}
 
 	private synchronized void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
+		final OperationInvocation op = operationInvocation;
+		final ArrayList<Exception> exceptions = new ArrayList<Exception>();
 
-		transformationEngine.undo(operationInvocation);
+		AbstractCommand command = new AbstractCommand() {
+
+			@Override
+			public void execute() {
+				Map<String, Object> parameters = getParameters(op.getParameterBindings());
+				try {
+					transformationEngine.undo(op);
+				} catch (OperationNotUndoableException e) {
+					exceptions.add(e);
+				}
+			}
+
+			@Override
+			public void redo() {
+				// not redoable here
+			}
+
+			@Override
+			public boolean canExecute() {
+				// always executable
+				return true;
+			}
+
+		};
+
+		if (patchedEditingDomain != null) {
+			patchedEditingDomain.getCommandStack().execute(command);
+		} else {
+			command.execute();
+		}
+
+		for (Exception e : exceptions) {
+			if (e instanceof OperationNotUndoableException) {
+				throw (OperationNotUndoableException) e;
+			}
+		}
 	}
 
 	/**
