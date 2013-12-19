@@ -25,13 +25,13 @@ public class Serge {
 		try {
 			// create empty instances
 			Configuration c = Configuration.getInstance();
-			EClassifierInfoManagement.getInstance();
+			EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 			ElementFilter.getInstance();
 			
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(pathToConfig);
-			EClassifierInfoManagement.gatherInformation(c.getProfileApplicationInUse(), c.getEPackagesStack());
+			ECM.gatherInformation(c.getProfileApplicationInUse(), c.getEPackagesStack());
 			
 			// get ePackageStack for usage in generate()
 			ePackagesStack = Configuration.getInstance().getEPackagesStack();

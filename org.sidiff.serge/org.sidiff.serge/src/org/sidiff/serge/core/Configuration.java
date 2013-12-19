@@ -11,7 +11,9 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 @SuppressWarnings("unused")
 public class Configuration {
 
-	private boolean createCREATES;
+	// TODO either make them public and get rid of overhead getter/setter or not
+	
+	public boolean createCREATES;
 	private boolean createDELETES;
 	private boolean createMOVES;
 	private boolean createADDS;
@@ -51,7 +53,11 @@ public class Configuration {
 	
 	private static Configuration instance = null;
 	
-	public static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
+	public static enum OperationType { CREATE,DELETE,SET_ATTRIBUTE,
+										SET_REFERENCE,UNSET_ATTRIBUTE,
+										UNSET_REFERENCE,
+										ADD,REMOVE,CHANGE,
+										MOVE,MOVE_COMBINATION,MOVE_UP,MOVE_DOWN; }
 	
 
 	
@@ -190,6 +196,17 @@ public class Configuration {
 	}
 	
 	/**
+	 * Checks whether an eClassifier is defined as root and if it
+	 * may not appear somewhere lower in containment hierarchy.
+	 * @param eClassifier
+	 * @return
+	 */	
+	public Boolean isUnnestableRoot(EClassifier eClassifier) {
+		return (root==eClassifier && rootEClassCanBeNested);
+	}
+
+	
+	/**
 	 * Checks whether an eClassifier is the user specified root element
 	 * @param eClassifier
 	 * @return
@@ -204,9 +221,11 @@ public class Configuration {
 	 * @param eClassifier
 	 * @return
 	 */
+	@Deprecated
 	protected static boolean rootCanBeNested(EClassifier eClassifier) {
 		return rootEClassCanBeNested;
 	}
+	
 	
 	/**
 	 * Checks if a given EReference is inherited

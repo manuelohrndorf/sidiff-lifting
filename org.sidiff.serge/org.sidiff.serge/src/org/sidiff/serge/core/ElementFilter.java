@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class ElementFilter {
 
@@ -69,6 +71,129 @@ public class ElementFilter {
 		return implicitRequirements.get(type);
 	}
 	
+	
+	public Boolean isAllowedAsModuleBasis(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
+		
+		Boolean isAllowed = false;
+		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+		
+		
+		switch(opType) {
+		
+			case CREATE:
+				
+				if (!eInf.selfMayHaveTransformations()) return false;
+				if (c.isUnnestableRoot(eClassifier)) return false;
+				if (c.getProfileApplicationInUse() && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) return false;
+				if (!c.createCREATES) return false;
+				
+//				if (!isAllowed(eClassifier,true,reduceToSuperType_CREATEDELETE)) return;
+				
+				
+				break;
+			case DELETE:
+				//..
+				break;
+			case ADD:
+				//..
+				break;
+			case REMOVE:
+				//..
+				break;
+			case MOVE:
+				//..
+				break;
+			case MOVE_COMBINATION:
+				//..
+				break;
+			case MOVE_UP:
+				//..
+				break;
+			case MOVE_DOWN:
+				//..
+				break;
+			case SET_ATTRIBUTE:
+				//..
+				break;
+			case SET_REFERENCE:
+				//..
+				break;
+			case UNSET_ATTRIBUTE:
+				//..
+				break;
+			case UNSET_REFERENCE:
+				//..
+				break;
+			default:
+				throw new OperationTypeNotImplementedException(opType.toString());
+		}
+		
+		
+		
+		
+		return isAllowed;
+	}
+	
+	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
+		
+		Boolean isAllowed = false;
+		
+		switch(opType) {
+		
+			case CREATE:
+				//..
+				break;
+			case DELETE:
+				//..
+				break;
+			case ADD:
+				//..
+				break;
+			case REMOVE:
+				//..
+				break;
+			case MOVE:
+				//..
+				break;
+			case MOVE_COMBINATION:
+				//..
+				break;
+			case MOVE_UP:
+				//..
+				break;
+			case MOVE_DOWN:
+				//..
+				break;
+			case SET_ATTRIBUTE:
+				//..
+				break;
+			case SET_REFERENCE:
+				//..
+				break;
+			case UNSET_ATTRIBUTE:
+				//..
+				break;
+			case UNSET_REFERENCE:
+				//..
+				break;
+			default:
+				throw new OperationTypeNotImplementedException(opType.toString());
+		}
+		
+		
+		
+		return isAllowed;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/***** public convenience Methods  ************************************************************/
 
 	/**
@@ -101,7 +226,7 @@ public class ElementFilter {
 	 */
 	protected static boolean isAllowed(EClassifier eClassifier, Boolean asPivot, Boolean preferSupertypes) {
 		
-		EClassifierInfo eClassifierInfo = EClassifierInfoManagement.getInstance(c.getProfileApplicationInUse(), c.getEPackagesStack()).getEClassifierInfo(eClassifier);
+		EClassifierInfo eClassifierInfo = ECM.getEClassifierInfo(eClassifier);
 		
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
