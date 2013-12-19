@@ -28,17 +28,20 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any">
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <menu
                id="org.sidiff.difference.ui.category.silift"
                label="SiLift">
-         
+           <menu
+             id="org.sidiff.difference.ui.category.silift.patching"
+             label="Patching">
                <command
                      commandId="org.silift.patching.ui.createPatch"
                      label="Create a Patch"
                      style="push"
                      tooltip="Create a patch between two models">
                </command>
+           </menu>
          </menu>
       </menuContribution>
    </extension>
