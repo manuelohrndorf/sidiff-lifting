@@ -19,11 +19,11 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 
 public class EClassifierInfoManagement {
 
-	private static HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<EClassifier, EClassifierInfo>();
-	private static HashMap<EClassifier,Set<EClassifier>> abstractToConcreteEClassifierMap = new HashMap<EClassifier,Set<EClassifier>>();
+	private HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<EClassifier, EClassifierInfo>();
+	private HashMap<EClassifier,Set<EClassifier>> abstractToConcreteEClassifierMap = new HashMap<EClassifier,Set<EClassifier>>();
 	private static EClassifierInfoManagement instance = null;
-	private static Boolean stereotypeMapping = false;
-	private static HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<EClassifier, List<EClassifier>>();
+	private Boolean stereotypeMapping = false;
+	private HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<EClassifier, List<EClassifier>>();
 	
 	public static EClassifierInfoManagement getInstance() {
 		if (instance==null) {
@@ -36,7 +36,7 @@ public class EClassifierInfoManagement {
 		
 	}
 	
-	public static void gatherInformation(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
+	public void gatherInformation(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
 		stereotypeMapping = enableStereotypeMapping;
 		
 		//convert stack to array
@@ -72,7 +72,7 @@ public class EClassifierInfoManagement {
 		gatherAllEClassifierInfos(ePackagesStack);
 	}
 	
-	private static void gatherSubtypeHierarchy(EPackage[] ePackages) {
+	private void gatherSubtypeHierarchy(EPackage[] ePackages) {
 
 		//for each classifier in each package
 		for(EPackage ePackage: ePackages) {
@@ -91,7 +91,7 @@ public class EClassifierInfoManagement {
 		
 	}
 
-	public static void mapConcreteEClassifiersToAbstractSuperTypes(Stack<EPackage> ePackagesStack) {
+	public void mapConcreteEClassifiersToAbstractSuperTypes(Stack<EPackage> ePackagesStack) {
 		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
@@ -126,7 +126,7 @@ public class EClassifierInfoManagement {
 		}
 	}
 	
-	public static void gatherAllEClassifierInfos(Stack<EPackage> ePackagesStack) {
+	public void gatherAllEClassifierInfos(Stack<EPackage> ePackagesStack) {
 				
 		for (EPackage ePackage : ePackagesStack) {
 			for (EClassifier eClassifier : ePackage.getEClassifiers()) {	
@@ -265,7 +265,7 @@ public class EClassifierInfoManagement {
 		}
 	}
 
-	private static Set<EClassifier> addSubtypes(Set<EClassifier> existingSet) {
+	private Set<EClassifier> addSubtypes(Set<EClassifier> existingSet) {
 		if(existingSet==null) return null;
 		Set<EClassifier> newSet = new HashSet<EClassifier>();
 		
@@ -279,7 +279,7 @@ public class EClassifierInfoManagement {
 		return existingSet;
 	}
 
-	public static EClassifierInfo getEClassifierInfo(EClassifier eClassifier) {
+	public EClassifierInfo getEClassifierInfo(EClassifier eClassifier) {
 		if(eClassifierInfoMap.get(eClassifier)==null) {
 			eClassifierInfoMap.put(eClassifier, new EClassifierInfo(eClassifier));
 		}
@@ -659,7 +659,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findMandatoryNeighbour(EReference eRef) {
+	private Set<EClassifier> findMandatoryNeighbour(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
 		if (!eRef.isContainment() && eRef.getLowerBound() > 0) {
 			HashSet<EClassifier> hs = new HashSet<EClassifier>();
@@ -679,7 +679,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findOptionalNeighbour(EReference eRef) {
+	private Set<EClassifier> findOptionalNeighbour(EReference eRef) {
 
 		EReference eOpposite = eRef.getEOpposite();
 		EClassifier oN = null;
@@ -720,7 +720,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findMandatoryParentContext(EReference eRef) {
+	private Set<EClassifier> findMandatoryParentContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
 		EClassifier mPC = null;
 		if (eOpposite != null
@@ -749,7 +749,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findOptionalParentContext(EReference eRef) {
+	private Set<EClassifier> findOptionalParentContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
 		EClassifier oPC = null;
 		if (eOpposite != null
@@ -778,7 +778,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findOptionalNeighbourContext(EReference eRef) {
+	private Set<EClassifier> findOptionalNeighbourContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
 		EClassifier oNC = null;
 		if(eOpposite !=null && (eOpposite.isContainment() || eRef.isContainment())) {
@@ -809,7 +809,7 @@ public class EClassifierInfoManagement {
 	 * @param eRef
 	 * @return
 	 */
-	private static Set<EClassifier> findMandatoryNeighbourContext(EReference eRef) {
+	private Set<EClassifier> findMandatoryNeighbourContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
 		EClassifier mNC = null;
 		if (eOpposite != null && !eOpposite.isContainment() && eOpposite.getLowerBound()>0) {
@@ -824,7 +824,7 @@ public class EClassifierInfoManagement {
 		return null;
 	}
 	
-	private static void add_MPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
+	private void add_MPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(child);
 
@@ -841,7 +841,7 @@ public class EClassifierInfoManagement {
 
 	}
 	
-	private static void add_OPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
+	private void add_OPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
 		EClassifierInfo eClassInfo = getEClassifierInfo(child);
 		
 		if(eClassInfo.getOptionalParentContext().get(parentRef)==null) {
@@ -857,7 +857,7 @@ public class EClassifierInfoManagement {
 	}
 	
 	
-	private static void add_OC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
+	private void add_OC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
 		
 		EClassifierInfo parentInfo = getEClassifierInfo(parent);
 
@@ -875,7 +875,7 @@ public class EClassifierInfoManagement {
 	}
 	
 	
-	private static void add_MC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
+	private void add_MC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
 		
 		EClassifierInfo parentInfo = getEClassifierInfo(parent);
 
@@ -893,7 +893,7 @@ public class EClassifierInfoManagement {
 	}
 	
 	
-	private static void add_ON_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toOptionalNeighbour, EReference directedRef) {
+	private void add_ON_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toOptionalNeighbour, EReference directedRef) {
 		
 		EClassifierInfo fromNeighbourInfo = getEClassifierInfo(fromNeighbourContext);
 
@@ -911,7 +911,7 @@ public class EClassifierInfoManagement {
 	}
 	
 	
-	private static void add_MN_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toMandatoryNeighbour, EReference directedRef) {
+	private void add_MN_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toMandatoryNeighbour, EReference directedRef) {
 	
 		EClassifierInfo fromNeighbourInfo = getEClassifierInfo(fromNeighbourContext);
 
@@ -928,7 +928,7 @@ public class EClassifierInfoManagement {
 	
 	}
 	
-	private static void add_MNC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
+	private void add_MNC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(toNeighbour);
 		
@@ -944,7 +944,7 @@ public class EClassifierInfoManagement {
 		
 	}
 	
-	private static void add_ONC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
+	private void add_ONC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(toNeighbour);
 		
@@ -968,7 +968,7 @@ public class EClassifierInfoManagement {
 	 * and vice versa.
 	 * @param eClassifierInfo
 	 */
-	private static void findAndMapStereotypes(EClassifierInfo eClassifierInfo) {
+	private void findAndMapStereotypes(EClassifierInfo eClassifierInfo) {
 		
 		EClassifier eClassifier = eClassifierInfo.getTheEClassifier();
 		EClass eClass = (eClassifier instanceof EClass) ? (EClass) eClassifier : null;
