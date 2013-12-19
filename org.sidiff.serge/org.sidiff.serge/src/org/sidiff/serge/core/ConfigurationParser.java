@@ -27,7 +27,6 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
-import org.sidiff.serge.core.Configuration.ImplicitRequirementType;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
@@ -40,14 +39,16 @@ public class ConfigurationParser {
 	
 	private static Configuration c = Configuration.getInstance();
 	private static EClassifierInfoManagement ECM 					= null;
+	private static ElementFilter filter								= null;
 	
 	private static Stack<EPackage> calculatedEPackagesStack			= new Stack<EPackage>();
-	private static Boolean enableStereotypeMapping					= false;
 	private static List<String> stringWhiteList 					= new ArrayList<String>();
 	private static List<String> stringBlackList 					= new ArrayList<String>();
 	private static String rootName									= null;
 
 	public static void parse (String pathToConfig) throws Exception {
+		
+		filter = ElementFilter.getInstance();
 		
 		//TODO workspace_loc
 		String workspace_loc = null;
@@ -69,8 +70,7 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
 		c.setCreateNotRequiredAndNotIDAttributes(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		enableStereotypeMapping = Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		c.setProfileApplicationInUse(enableStereotypeMapping);
+		c.setProfileApplicationInUse(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
 		c.setOutputFolderPath(String.valueOf(Common.getAttributeValue("absolutePath", currentNode)));
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
@@ -103,7 +103,7 @@ public class ConfigurationParser {
 		
 		
 		// read ProfiledModel Settings if available
-		if(enableStereotypeMapping) {
+		if(c.getProfileApplicationInUse()) {
 			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
 			c.setBaseModelRuleFolderPath(String.valueOf(Common.getAttributeValue("path", currentNode)));
 		}
@@ -185,7 +185,7 @@ public class ConfigurationParser {
 		c.setEPackages(calculatedEPackagesStack);
 		
 		// initalize EClassInfoManagement
-		ECM = c.initEClassInfoManagement(enableStereotypeMapping);
+		ECM = c.initEClassInfoManagement(c.getProfileApplicationInUse());
 		
 		
 		/**** Resolve BlackList & WhiteList Strings as EClasses ***************************************************/	
@@ -364,15 +364,15 @@ public class ConfigurationParser {
 	 * @throws EClassifierUnresolvableException 
 	 */
 	private static void unfoldBlackList() throws EClassifierUnresolvableException {
-		c.setBlackList(new ArrayList<EClassifier>());
+		filter.setBlackList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringBlackList) {
 			EClassifier skip = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
-			c.getBlackList().add(skip);
+			filter.getBlackList().add(skip);
 		}
 		
 		if(c.getPreventInconsistencyThroughSkipping()) {
-			c.setBlackList(findMoreSkips(c.getBlackList()));
+			filter.setBlackList(findMoreSkips(filter.getBlackList()));
 		}	
 	}
 	
@@ -384,13 +384,13 @@ public class ConfigurationParser {
 	 * @throws EClassifierUnresolvableException 
 	 */
 	private static void unfoldWhiteList() throws EClassifierUnresolvableException {
-		c.setWhiteList(new ArrayList<EClassifier>());
+		filter.setWhiteList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringWhiteList) {
 			EClassifier eClassifier = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
-			c.getWhiteList().add(eClassifier);
+			filter.getWhiteList().add(eClassifier);
 		}		
-		findMoreRequiredClassifier(c.getWhiteList());
+		findMoreRequiredClassifier(filter.getWhiteList());
 	}
 	
 	
@@ -413,14 +413,14 @@ public class ConfigurationParser {
 
 			for(EClassifier req: oldList) {
 				for(EClassifier metaClass:ECM.getEClassifierInfo(req).getExtendedMetaClasses()){
-					if(!c.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).contains(metaClass)) {
-						c.getImplicitRequirements(ImplicitRequirementType.EXTENDED_METACLASSES).add(metaClass);
+					if(!filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.EXTENDED_METACLASSES).contains(metaClass)) {
+						filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.EXTENDED_METACLASSES).add(metaClass);
 					}
 				}
 
 			}
 		}
-		c.setWhiteList(currentList);
+		filter.setWhiteList(currentList);
 
 		// find implicit requirements of supertypes
 		for(EClassifier req: currentList) {
@@ -434,10 +434,10 @@ public class ConfigurationParser {
 					if(!ea.eContainer().equals(req)) {					
 						EClass superType = (EClass) ea.eContainer();
 						//if supertype is not explicitly set on blacklist or already on whitelist
-						if(!c.getBlackList().contains(superType) & !c.getWhiteList().contains(superType)) {
+						if(!filter.getBlackList().contains(superType) & !filter.getWhiteList().contains(superType)) {
 							//add superType to implicit requirement list.
-							if(!c.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(superType)) {
-								c.getImplicitRequirements(ImplicitRequirementType.INHERITING_SUPERTYPES).add(superType);
+							if(!filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.INHERITING_SUPERTYPES).contains(superType)) {
+								filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.INHERITING_SUPERTYPES).add(superType);
 							}
 						}
 					}				
