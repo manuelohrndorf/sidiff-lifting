@@ -8,21 +8,23 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 
+@SuppressWarnings("unused")
 public class Configuration {
 
 	private boolean createCREATES;
-	private boolean createDELETES;// CREATES are required
+	private boolean createDELETES;
 	private boolean createMOVES;
 	private boolean createADDS;
-	private boolean createREMOVES;// ADDS are required
+	private boolean createREMOVES;
 	private boolean createSETS;
-	private boolean createUNSETS; // SETS are required
+
+	private boolean createUNSETS;
 	private boolean createCHANGES;
 	
 	private boolean multiplicityPreconditionsIntegrated;
 	private boolean multiplicityPreconditionsSeparately;
 	private boolean createNotRequiredAndNotIDAttributes;
-	private static boolean preventInconsistencyThroughSkipping;
+	private boolean preventInconsistencyThroughSkipping;
 	private boolean reduceToSuperType_SETUNSET;
 	private boolean reduceToSuperType_ADDREMOVE;
 	private boolean reduceToSuperType_CHANGE;
@@ -41,28 +43,24 @@ public class Configuration {
 	private Boolean profileApplicationInUse;
 	private Boolean disableVariants;
 	
-	private String outputFolderPath 				= null;
-	private String baseModelRuleFolderPath  		= null;
+	private String outputFolderPath				  = null;
+	private String baseModelRuleFolderPath		  = null;
 	
 	private static Stack<EPackage> ePackagesStack = null;	
 	private static EClassifierInfoManagement ECM  = null;
-
+	
+	private static Configuration instance = null;
+	
 	public static enum OperationType { CREATE,DELETE,SET,UNSET,ADD,REMOVE,CHANGE,MOVE; }
 	
-	private static Configuration configuration = null;
+
 	
 	public static Configuration getInstance() {
-		if(configuration==null) {
-			configuration = new Configuration();
+		if(instance==null) {
+			instance = new Configuration();
 		}
-		return configuration;
-	}
-	
-	public EClassifierInfoManagement initEClassInfoManagement(Boolean enableStereotypeMapping) {
-		ECM = EClassifierInfoManagement.getInstance(enableStereotypeMapping, ePackagesStack);
-		return ECM;
-	}
-	
+		return instance;
+	}	
 	
 	/***** public SETTER *****************************************************************************/
 	

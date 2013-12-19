@@ -37,19 +37,17 @@ import org.w3c.dom.NodeList;
 
 public class ConfigurationParser {
 	
-	private static Configuration c = Configuration.getInstance();
-	private static EClassifierInfoManagement ECM 					= null;
-	private static ElementFilter filter								= null;
+	private static Configuration c 							= Configuration.getInstance();
+	private static EClassifierInfoManagement ECM 			= EClassifierInfoManagement.getInstance();
+	private static ElementFilter filter 					= ElementFilter.getInstance();
 	
-	private static Stack<EPackage> calculatedEPackagesStack			= new Stack<EPackage>();
-	private static List<String> stringWhiteList 					= new ArrayList<String>();
-	private static List<String> stringBlackList 					= new ArrayList<String>();
-	private static String rootName									= null;
+	private static Stack<EPackage> calculatedEPackagesStack	= new Stack<EPackage>();
+	private static List<String> stringWhiteList 			= new ArrayList<String>();
+	private static List<String> stringBlackList 			= new ArrayList<String>();
+	private static String rootName							= null;
 
 	public void parse (String pathToConfig) throws Exception {
-		
-		filter = ElementFilter.getInstance();
-		
+			
 		//TODO workspace_loc
 		String workspace_loc = null;
 		
@@ -183,9 +181,6 @@ public class ConfigurationParser {
 	
 		// forward all necessary EPackage to Generator
 		c.setEPackages(calculatedEPackagesStack);
-		
-		// initalize EClassInfoManagement
-		ECM = c.initEClassInfoManagement(c.getProfileApplicationInUse());
 		
 		
 		/**** Resolve BlackList & WhiteList Strings as EClasses ***************************************************/	
