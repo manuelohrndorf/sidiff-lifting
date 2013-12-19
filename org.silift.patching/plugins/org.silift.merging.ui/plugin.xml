@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.sidiff.patching.ui.view.PatchView"
+            id="org.sidiff.patching.ui.view.PatchView"
+            name="Patch"
+            restorable="true"
+            icon = "icons/patch.png">
+      </view>
+      <view
+            class="org.sidiff.patching.ui.view.ReportView"
+            id="org.sidiff.patching.ui.view.ReportView"
+            name="Report"
+            restorable="true">
+      </view>
+   </extension>
+   <extension point="org.eclipse.ui.commands">
+      <command
+            id="org.silift.merging.ui.ThreeWayMergeCommand"
+            name="3-Way-Merge">
+      </command>
+   </extension>
+   <extension 
+  id="add.item"
+  point="org.eclipse.ui.menus">
+ <menuContribution
+       locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+ </menuContribution>
+</extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.sidiff.patching.ui.handler.PatchApplyPropertyTester"
+            id="org.sidiff.patching.ui.patchApplyPropertyTester"
+            namespace="org.sidiff.patching.ui.patchApplyPropertyTester"
+            properties="patchFile"
+            type="org.eclipse.core.resources.IFile">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.silift.merging.ui.handler.ThreeWayMergeHandler"
+            commandId="org.silift.merging.ui.ThreeWayMerge">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.patching.ui.patchApplyDefinition">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.patching.ui.patchApplyDefinition">
+         <and>
+            <count
+                  value="1">
+            </count>
+            <iterate>
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.sidiff.patching.ui.patchApplyPropertyTester.patchFile">
+               </test>
+            </iterate>
+         </and>
+      </definition>
+   </extension>
+   
+</plugin>

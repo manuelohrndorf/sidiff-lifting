@@ -1,0 +1,59 @@
+package org.silift.merging.ui.handler;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.silift.common.util.access.EMFModelAccessEx;
+
+public class ThreeWayMergeHandler extends AbstractHandler {
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
+
+		if (currentSelection instanceof IStructuredSelection) {
+			final IStructuredSelection selection = (IStructuredSelection) currentSelection;
+
+			if (selection.size() == 3) {
+				// Show a busy indicator while the runnable is executed
+				BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
+					@Override
+					public void run() {
+						// Create a new difference
+						IFile fileA = (IFile) selection.toArray()[0];
+						IFile fileB = (IFile) selection.toArray()[1];
+						IFile fileBase = (IFile) selection.toArray()[2];
+						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
+						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						Resource resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
+						String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
+						String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+						String docTypeBase = EMFModelAccessEx.getCharacteristicDocumentType(resourceBase);
+						if(docTypeA.equals(docTypeB) && docTypeB.equals(docTypeBase)){
+
+							//TODO
+							System.out.println("Merging...");
+						}else {
+							MessageDialog.openError(
+									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+									"File Input Error","The input files must have the same document type!");
+						}
+					}
+					
+				});
+			}
+		}
+		return null;
+	}
+
+}
