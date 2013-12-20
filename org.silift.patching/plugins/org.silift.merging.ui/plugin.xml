@@ -28,8 +28,8 @@
           id="org.sidiff.difference.ui.category.silift"
           label="SiLift">
                  <menu
-             id="org.sidiff.difference.ui.category.silift.patching"
-             label="Patching">
+             id="org.sidiff.difference.ui.category.silift.merging"
+             label="Merging">
        <command
              commandId="org.silift.merging.ui.ThreeWayMergeCommand"
              label="Three-Way-Merge"
@@ -51,14 +51,10 @@
             </count>
             <iterate
                   ifEmpty="false"
-                  operator="and">
+                  operator="or">
                <instanceof
                      value="org.eclipse.core.resources.IFile">
                </instanceof>
-               <test
-                     forcePluginActivation="true"
-                     property="org.sidiff.difference.lifting.ui.properties.modelFile">
-               </test>
             </iterate>
          </with>
       </definition>

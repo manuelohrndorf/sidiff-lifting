@@ -42,7 +42,7 @@ public class ThreeWayMergeHandler extends AbstractHandler {
 						if(docTypeA.equals(docTypeB) && docTypeB.equals(docTypeBase)){
 
 							//TODO
-							System.out.println("Merging...");
+							System.err.println("Merging -- Base: " + fileBase.getName() + " | A: " + fileA.getName() + " | B: " + fileB.getName());
 						}else {
 							MessageDialog.openError(
 									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
