@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -113,34 +114,54 @@ public class ElementFilter {
 					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
 				)
 				return false;
-				
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
-				
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;				
 				break;
 			case REMOVE:
 				if (!c.CREATE_REMOVES) return false;
 				break;
 			case CHANGE:
 				if (
-						(!c.CREATE_CHANGES)
-						|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					(!c.CREATE_CHANGES)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
 					)
-				return false;
-				
+				return false;	
 //				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
-
 				break;
 			case MOVE:
-				if (!c.CREATE_MOVES) return false;
+				if (
+					(!c.CREATE_MOVES)
+					|| (c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+				)
+				return false;
+//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
 			case MOVE_COMBINATION:
-				if (!c.CREATE_MOVE_COMBINATIONS) return false;
+				if (
+					(!c.CREATE_MOVE_COMBINATIONS)
+					|| (c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+			)
+				return false;
+	//			if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
 			case MOVE_UP:
-				if (!c.CREATE_MOVE_UPS) return false;
+				if (
+					(!c.CREATE_MOVE_UPS)
+					|| (c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+				)
+				return false;
+//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
 			case MOVE_DOWN:
-				if (!c.CREATE_MOVE_DOWNS) return false;
+				if (
+					(!c.CREATE_MOVE_DOWNS)
+					|| (c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+				)
+				return false;
+//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
 			case SET_ATTRIBUTE:
 				if (
@@ -160,10 +181,20 @@ public class ElementFilter {
 				
 				break;
 			case UNSET_ATTRIBUTE:
-				if (!c.CREATE_UNSET_ATTRIBUTES) return false;
+				if (
+					(!c.CREATE_UNSET_ATTRIBUTES)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					)
+				return false;
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
 				break;
 			case UNSET_REFERENCE:
-				if (!c.CREATE_UNSET_REFERENCES) return false;
+				if (
+					(!c.CREATE_UNSET_REFERENCES)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					)
+				return false;
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
 				break;
 			default:
 				throw new OperationTypeNotImplementedException(opType.toString());
@@ -175,12 +206,23 @@ public class ElementFilter {
 		return true;
 	}
 	
-	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
+	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType, Boolean preferSupertypes) throws OperationTypeNotImplementedException {
+		
+		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+
+		boolean blackListed	= blackList.contains(eClassifier);
+		boolean whiteListed	= whiteList.contains(eClassifier);
+		boolean assumeAllOnWhitelist = whiteList.isEmpty();
+		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
+		boolean requiredByNeighbours = isRequiredByWhitelistedIncomingNeighbors(eClassifier, preferSupertypes);
+		boolean requiredByParents = isRequiredByWhitelistedIncomingParent(eClassifier, preferSupertypes);	
+		boolean requiredByChildren = isRequiredByWhitelistedChildren(eClassifier);
+		boolean hardCutOff = blackListed && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING;
 		
 		switch(opType) {
 		
 			case CREATE:
-				//..
+//				if (!isAllowed(context,false,reduceToSuperType_CREATEDELETE)) continue;
 				break;
 			case DELETE:
 				//..
@@ -192,15 +234,19 @@ public class ElementFilter {
 				//..
 				break;
 			case MOVE:
+//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
 			case MOVE_COMBINATION:
+//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
 			case MOVE_UP:
+//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
 			case MOVE_DOWN:
+//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
 			case SET_ATTRIBUTE:
@@ -226,14 +272,123 @@ public class ElementFilter {
 	
 	
 	
+	public Boolean eAttributeIsAllowed(EAttribute eAttribute) {
+		
+		//TODO
+		
+		return true;
+	}
+	
+	public Boolean eReferenceIsAllowed(EReference eREference)  {
+		
+		//TODO
+		
+		return true;
+	}
+	
+	/***** Convenience Methods  ************************************************************/
+	
+	/**
+	 * Checks if eClassifier is required by white listed incoming neighbour contexts.
+	 * @param eClassifier
+	 * @param preferSupertypes
+	 * @return
+	 */
+	private Boolean isRequiredByWhitelistedIncomingNeighbors(EClassifier eClassifier, Boolean preferSupertypes) {
+		
+		boolean requiredByNeighbours = false;
+		
+		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);		
+		for(Entry<EReference, List<EClassifier>> entry: eInf.getMandatoryNeighbourContext().entrySet()) {
+
+			// find out if reference is pointing to eClass or to a super type of the eClass
+			EReference eRef = entry.getKey();
+			boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
+			
+			for(EClassifier mnc: entry.getValue()) {										
+				
+				if(eClassIsDirectTarget && whiteList.contains(mnc)) {
+					requiredByNeighbours = true;
+					break;
+				}
+				else if(!eClassIsDirectTarget && whiteList.contains(mnc) && !preferSupertypes) {
+					requiredByNeighbours = true;
+					break;
+				}					
+			}		
+		}
+		return requiredByNeighbours;		
+	}
+	
+	/**
+	 * Checks if EClassifier is required by white listed incoming parent contexts
+	 * @param eClassifier
+	 * @param preferSupertypes
+	 * @return
+	 */
+	private Boolean isRequiredByWhitelistedIncomingParent(EClassifier eClassifier, Boolean preferSupertypes) {
+		
+		boolean requiredByParents = false;
+		
+		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+		for(Entry<EReference, List<EClassifier>> entry: eInf.getMandatoryParentContext().entrySet()) {
+
+			// find out if reference is pointing to eClass or to a super type of the eClass
+			EReference eRef = entry.getKey();
+			boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
+			
+			for(EClassifier mpc: entry.getValue()) {										
+				
+				if(eClassIsDirectTarget && whiteList.contains(mpc)) {
+					requiredByParents = true;
+					break;
+				}
+				else if(!eClassIsDirectTarget && whiteList.contains(mpc) && !preferSupertypes) {
+					requiredByParents = true;
+					break;
+				}					
+			}		
+		}
+				
+		return requiredByParents;
+	}
 	
 	
+	/**
+	 * Checks if EClassifier is required by white listed children.
+	 * @param eClassifier
+	 * @return
+	 */
+	private Boolean isRequiredByWhitelistedChildren(EClassifier eClassifier) {
+		
+		boolean requiredByChildren = false;
+		
+		for(EClassifier whiteListedEClass: whiteList) {
+			for(Entry<EReference,List<EClassifier>> entry: ECM.getAllParentContext(whiteListedEClass, false).entrySet()) {
+				EReference eRefChildToParent = entry.getKey().getEOpposite();
+				if(eRefChildToParent!=null) {
+					int lb = eRefChildToParent.getLowerBound();
+					int ub = eRefChildToParent.getUpperBound();
+					boolean notFixedAndRequired = (ub-lb>0) && lb>0;
+
+					if(notFixedAndRequired) {					
+
+						List<EClassifier> parentContexts = entry.getValue();
+						if(parentContexts.contains(eClassifier)) {
+							requiredByChildren = true;
+							break;
+						}						
+					}
+					
+				}
+			}
+		}
+		
+		return requiredByChildren;
+	}
 	
 	
-	
-	
-	
-	/***** public convenience Methods  ************************************************************/
+
 
 	/**
 	 * Checks whether an EClass is allowed to be used by configuration details:<br /> <br />

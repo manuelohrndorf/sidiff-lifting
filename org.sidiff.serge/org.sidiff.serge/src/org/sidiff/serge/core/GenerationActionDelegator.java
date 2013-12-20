@@ -59,7 +59,7 @@ public class GenerationActionDelegator {
 	
 					for(EClassifier context: contexts) {
 						
-						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE)) {
+						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE, c.REDUCETOSUPERTYPE_CREATEDELETE)) {
 						
 						
 						CreateGenerator generator = new CreateGenerator(eRef, context);
