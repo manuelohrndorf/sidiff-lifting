@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -77,8 +78,7 @@ public class ElementFilter {
 	public Boolean isAllowedAsModuleBasis(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
 		
 		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
-		
-		boolean isAllowed = false;
+
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
@@ -92,28 +92,14 @@ public class ElementFilter {
 			case CREATE:
 				
 				if (!c.CREATE_CREATES) return false;
+				assert(eClassifier instanceof EClass);
+				if (!(eClassifier instanceof EClass)) return false;
+				if (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract()) return false;
 				if (!eInf.selfMayHaveTransformations()) return false;
-				if (c.isUnnestableRoot(eClassifier)) return false;
+				if (c.isAnUnnestableRoot(eClassifier)) return false;
 				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) return false;
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isStereotype()) return false;
 				if (!whiteListed && !providesFeaturesForSubtypes ) return false;
 				if (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes) return false;
-				
-				/** Create Modules for every parent in which the EClass may exist. ************************************************************/
-				HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
-				for(Entry<EReference,List<EClassifier>> pcEntry: optionalParents.entrySet()) {			
-					List<EClassifier> contexts = pcEntry.getValue();
-					EReference eRef = pcEntry.getKey();
-
-					for(EClassifier context: contexts) {
-						
-						
-						//...
-						
-						
-					}
-					
-				}
 				
 				break;
 			case DELETE:
@@ -156,12 +142,10 @@ public class ElementFilter {
 		
 		
 		
-		return isAllowed;
+		return true;
 	}
 	
 	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
-		
-		Boolean isAllowed = false;
 		
 		switch(opType) {
 		
@@ -207,7 +191,7 @@ public class ElementFilter {
 		
 		
 		
-		return isAllowed;
+		return true;
 	}
 	
 	

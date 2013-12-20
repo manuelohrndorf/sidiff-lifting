@@ -1,14 +1,26 @@
 package org.sidiff.serge.core;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 
 public class GenerationActionDelegator {
 
 	private static GenerationActionDelegator GAD = null;
+	private static Configuration 			 c	 = Configuration.getInstance();
+	private static EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
+	private static ElementFilter			 FILTER = ElementFilter.getInstance();
 	
 	/**
 	 * Singleton
@@ -23,22 +35,56 @@ public class GenerationActionDelegator {
 	
 	/**
 	 * General CREATE-generation method, that finds all relevant
-	 * contexts and references that represent different CREATE-Modules for this eClass.
+	 * contexts and references that represent different CREATE-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link CreateGenerator}
 	 * 
-	 * @param eClass
-	 * @return Set of disparate create modules for the given eclass.
+	 * @param eClassifier
+	 * @return Set of disparate create modules for the given classifier.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_CREATE(EClass eClass) {
+	public Set<Module> generate_CREATE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+	
+		if(FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.CREATE)) {
 		
-		// skip if abstract
-		if(eClass.isAbstract()) return null;
+			EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+			
+			/** In case of no Stereotype, create CREATE normally ******************************************************************************/
+			if(!c.PROFILEAPPLICATIONINUSE || (c.PROFILEAPPLICATIONINUSE && !eInf.isStereotype())) {
+				
+				/** Create Modules for every parent in which the EClass may exist. ************************************************************/
+				HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
+				for(Entry<EReference,List<EClassifier>> pcEntry: optionalParents.entrySet()) {			
+					List<EClassifier> contexts = pcEntry.getValue();
+					EReference eRef = pcEntry.getKey();
+	
+					for(EClassifier context: contexts) {
+						
+						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE)) {
+						
+						
+						CreateGenerator generator = new CreateGenerator(eRef, context);
+						generator.generate();
+						
+						//...
+						
+						
+						}
+						
+						
+					}
+					
+				}
+			}
+			/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
+			else{
+			
+			
+				//..
+			
+			}
+			
 		
-		
-		// TODO choose contexts, references and filter unwanted out
-		// for each delegate generation process to CreateGenerator
-		// CreateGenerator currentCG = new CreateGenerator(... , ...);
-		
+		}
 		return null;
 	}
 	
@@ -55,61 +101,61 @@ public class GenerationActionDelegator {
 	
 	/**
 	 * General MOVE-generation method, that finds all relevant
-	 * contexts and references that represent different MOVE-Modules for this eClass.
+	 * contexts and references that represent different MOVE-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link MoveGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 */
-	public void generate_MOVE(EClass eClass) {
+	public void generate_MOVE(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	/**
 	 * General MOVE-UP-generation method, that finds all relevant
-	 * contexts and references that represent different MOVE-UP-Modules for this eClass.
+	 * contexts and references that represent different MOVE-UP-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link MoveUpGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 */
-	public void generate_MOVE_UP(EClass eClass) {
+	public void generate_MOVE_UP(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	/**
 	 * General MOVE-DOWN-generation method, that finds all relevant
-	 * contexts and references that represent different MOVE-DOWN-Modules for this eClass.
+	 * contexts and references that represent different MOVE-DOWN-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link MoveDownGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 */
-	public void generate_MOVE_DOWN(EClass eClass) {
+	public void generate_MOVE_DOWN(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	/**
 	 * General MOVE-Combination-generation method, that finds all relevant
-	 * contexts and references that represent different MOVE-Combination-Modules for this eClass.
+	 * contexts and references that represent different MOVE-Combination-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link MoveCombinationGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 */
-	public void generate_MOVE_COMBINATION(EClass eClass) {
+	public void generate_MOVE_COMBINATION(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	/**
 	 * General ADD-generation method, that finds all relevant
-	 * contexts and references that represent different ADD-Modules for this eClass.
+	 * contexts and references that represent different ADD-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link AddGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 * @return Set of disparate add modules for the given eclass.
 	 */
-	public Set<Module> generate_ADD(EClass eClass) {
+	public Set<Module> generate_ADD(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -127,13 +173,13 @@ public class GenerationActionDelegator {
 
 	/**
 	 * General SET-ATTRIBUTE-generation method, that finds all relevant
-	 * contexts and references that represent different SET-ATTRIBUTE for this eClass.
+	 * contexts and references that represent different SET-ATTRIBUTE for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link SetAttributeGenerator}
 	 * 
-	 * @param eClass
-	 * @return Set of disparate set attribute modules for the given eclass.
+	 * @param eClassifier
+	 * @return Set of disparate set attribute modules for the given eClassifier.
 	 */
-	public Set<Module> generate_SET_ATTRIBUTE(EClass eClass) {
+	public Set<Module> generate_SET_ATTRIBUTE(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -151,13 +197,13 @@ public class GenerationActionDelegator {
 	}
 	/**
 	 * General SET-REFERENCE-generation method, that finds all relevant
-	 * contexts and references that represent different SET-REFERENCE for this eClass.
+	 * contexts and references that represent different SET-REFERENCE for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link SetReferenceGenerator}
 	 * 
-	 * @param eClass
-	 * @return Set of disparate set reference modules for the given eclass.
+	 * @param eClassifier
+	 * @return Set of disparate set reference modules for the given eClassifier.
 	 */
-	public Set<Module> generate_SET_REFERENCE(EClass eClass) {
+	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -176,12 +222,12 @@ public class GenerationActionDelegator {
 	
 	/**
 	 * General CHANGe-generation method, that finds all relevant
-	 * contexts and references that represent different CHANGe-Modules for this eClass.
+	 * contexts and references that represent different CHANGe-Modules for this eClassifier.
 	 * For each setup the generation process will be delegated to {@link ChangeGenerator}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 */
-	public void generate_CHANGE(EClass eClass) {
+	public void generate_CHANGE(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 	}
 
@@ -200,10 +246,10 @@ public class GenerationActionDelegator {
 	 * Variants are necessary for the completeness and correctness of module generation.
 	 * For each setup the generation process will be delegated to {@link VariantPostprocessor}
 	 * 
-	 * @param eClass
+	 * @param eClassifier
 	 * @return Set of disparate create modules for the given input modules.
 	 */
-	public Set<Module> VariantPostprocessor(EClass eClass) {
+	public Set<Module> VariantPostprocessor(EClassifier eClassifier) {
 		// TODO Auto-generated method stub
 		return null;
 	}

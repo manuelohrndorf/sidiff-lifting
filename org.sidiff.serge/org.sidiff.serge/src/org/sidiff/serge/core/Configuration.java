@@ -75,8 +75,11 @@ public class Configuration {
 	 * @param eClassifier
 	 * @return
 	 */	
-	public Boolean isUnnestableRoot(EClassifier eClassifier) {
-		return (ROOT==eClassifier && ROOTECLASSCANBENESTED);
+	public Boolean isAnUnnestableRoot(EClassifier eClassifier) {
+		if(ROOT==eClassifier && !ROOTECLASSCANBENESTED ) {
+			return true;
+		}
+		return false;
 	}
 
 	

@@ -1,6 +1,6 @@
 package org.sidiff.serge.generators.actions;
 
-import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
 
@@ -14,13 +14,13 @@ public class CreateGenerator {
 	/**
 	 * Context class (Can be a sub type of the original type set in a reference).
 	 */
-	private EClass contextClass;
+	private EClassifier contextClassifier;
 
-	public CreateGenerator(EReference containmentReference, EClass contextClass) {
+	public CreateGenerator(EReference containmentReference, EClassifier contextClassifier) {
 		assert(containmentReference.isContainment());
 		
 		this.containmentReference = containmentReference;
-		this.contextClass = contextClass;
+		this.contextClassifier = contextClassifier;
 	}
 	
 	public Module generate(){
