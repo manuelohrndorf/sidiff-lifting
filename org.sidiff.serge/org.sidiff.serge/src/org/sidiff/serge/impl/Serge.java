@@ -31,10 +31,10 @@ public class Serge {
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(pathToConfig);
-			ECM.gatherInformation(c.getProfileApplicationInUse(), c.getEPackagesStack());
+			ECM.gatherInformation(c.PROFILEAPPLICATIONINUSE, c.EPACKAGESSTACK);
 			
 			// get ePackageStack for usage in generate()
-			ePackagesStack = Configuration.getInstance().getEPackagesStack();
+			ePackagesStack = c.EPACKAGESSTACK;
 		
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -60,50 +60,51 @@ public class ConfigurationParser {
 		
 		// retrieve and set general settings	
 		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
-		c.setPreventInconsistencyThroughSkipping(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
+		c.PREVENTINCONSISTENCYTHROUGHSKIPPING =Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("multiplicityPreconditions").item(0);		
-		c.setMultiplicityPreconditions(Boolean.valueOf(Common.getAttributeValue("integrated", currentNode)), Boolean.valueOf(Common.getAttributeValue("separately", currentNode)));
+		c.MULTIPLICITYPRECONDITIONSINTEGRATED=Boolean.valueOf(Common.getAttributeValue("integrated", currentNode));
+		c.MULTIPLICITYPRECONDITIONSSEPARATELY=Boolean.valueOf(Common.getAttributeValue("separately", currentNode));
 		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
-		c.setDisableVariants(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
+		c.DISABLEVARIANTS=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
-		c.setCreateNotRequiredAndNotIDAttributes(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
+		c.CREATENOTREQUIREDANDNOTIDATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		c.setProfileApplicationInUse(Boolean.valueOf(Common.getAttributeValue("value", currentNode)));
+		c.PROFILEAPPLICATIONINUSE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
-		c.setOutputFolderPath(String.valueOf(Common.getAttributeValue("absolutePath", currentNode)));
+		c.OUTPUTFOLDERPATH=String.valueOf(Common.getAttributeValue("absolutePath", currentNode));
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
-		c.setReduceToSuperType_SETUNSET(Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode)));
-		c.setReduceToSuperType_ADDREMOVE(Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode)));
-		c.setReduceToSuperType_CHANGE(Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode)));
-		c.setReduceToSuperType_MOVE(Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode)));
-		c.setReduceToSuperType_CREATEDELETE(Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode)));
+		c.REDUCETOSUPERTYPE_SETUNSET=Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
+		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE=Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode));
+		c.REDUCETOSUPERTYPE_CREATEDELETE=Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode));
 		
 	
 		// retrieve and set operation types
 		currentNode = doc.getElementsByTagName("Creates").item(0);
-		c.setCreateCREATES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_CREATES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Deletes").item(0);
-		c.setCreateDELETES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_DELETES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Moves").item(0);
-		c.setCreateMOVES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
-		c.setReferenceSwitching_MOVE(Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode)));
+		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
 		currentNode = doc.getElementsByTagName("Changes").item(0);
-		c.setCreateCHANGES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
-		c.setLiteralSwitching_CHANGE(Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode)));	
+		c.CREATE_CHANGES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));	
 		currentNode = doc.getElementsByTagName("Adds").item(0);
-		c.setCreateADDS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_ADDS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Removes").item(0);
-		c.setCreateREMOVES(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_REMOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Sets").item(0);
-		c.setCreateSETS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_SETS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Unsets").item(0);
-		c.setCreateUNSETS(Boolean.valueOf(Common.getAttributeValue("allow", currentNode)));
+		c.CREATE_UNSETS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		
 		
 		// read ProfiledModel Settings if available
-		if(c.getProfileApplicationInUse()) {
+		if(c.PROFILEAPPLICATIONINUSE) {
 			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
-			c.setBaseModelRuleFolderPath(String.valueOf(Common.getAttributeValue("path", currentNode)));
+			c.BASEMODELRULEFOLDERPATH=String.valueOf(Common.getAttributeValue("path", currentNode));
 		}
 		
 		/**** Read BlackList & WhiteList Elements as Strings ***************************************************/
@@ -135,7 +136,7 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("MainModel").item(0);
 		String nsUri = String.valueOf(Common.getAttributeValue("nsUri", currentNode));
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
-		c.setMetaModel(metaModel);
+		c.METAMODEL=metaModel;
 		calculatedEPackagesStack.add(metaModel);
 		try {
 			calculatedEPackagesStack.addAll(Common.getAllSubEPackages(metaModel));
@@ -168,9 +169,9 @@ public class ConfigurationParser {
 		if(!rootName.equals("")) {
 			//resolve root
 			EClassifier root = Common.resolveStringAsEClassifier(rootName, calculatedEPackagesStack);
-			c.setRoot(root);
+			c.ROOT=root;
 		}
-		c.setRootEClassCanBeNested(Boolean.valueOf(Common.getAttributeValue("nested", currentNode)));
+		c.ROOTECLASSCANBENESTED=Boolean.valueOf(Common.getAttributeValue("nested", currentNode));
 		
 		/**** Meta-Model Analysis / Post-Processing Phase **********************************************************/
 	
@@ -180,7 +181,7 @@ public class ConfigurationParser {
 		gatherAllRequiredEPackages(metaModel, workspace_loc);
 	
 		// forward all necessary EPackage to Generator
-		c.setEPackages(calculatedEPackagesStack);
+		c.EPACKAGESSTACK=calculatedEPackagesStack;
 		
 		
 		/**** Resolve BlackList & WhiteList Strings as EClasses ***************************************************/	
@@ -366,7 +367,7 @@ public class ConfigurationParser {
 			filter.getBlackList().add(skip);
 		}
 		
-		if(c.getPreventInconsistencyThroughSkipping()) {
+		if(c.PREVENTINCONSISTENCYTHROUGHSKIPPING) {
 			filter.setBlackList(findMoreSkips(filter.getBlackList()));
 		}	
 	}
@@ -404,7 +405,7 @@ public class ConfigurationParser {
 		ArrayList<EClassifier> currentList = new ArrayList<EClassifier>(oldList);
 		
 		// find implicit requirement by stereotyping / meta class extension
-		if(c.getProfileApplicationInUse()) {
+		if(c.PROFILEAPPLICATIONINUSE) {
 
 			for(EClassifier req: oldList) {
 				for(EClassifier metaClass:ECM.getEClassifierInfo(req).getExtendedMetaClasses()){

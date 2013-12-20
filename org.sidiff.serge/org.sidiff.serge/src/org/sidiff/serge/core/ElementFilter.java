@@ -14,6 +14,8 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.serge.generators.actions.CreateGenerator;
+import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
 
 public class ElementFilter {
 
@@ -74,21 +76,44 @@ public class ElementFilter {
 	
 	public Boolean isAllowedAsModuleBasis(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
 		
-		Boolean isAllowed = false;
 		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 		
+		boolean isAllowed = false;
+		boolean blackListed	= blackList.contains(eClassifier);
+		boolean whiteListed	= whiteList.contains(eClassifier);
+		boolean assumeAllOnWhitelist = whiteList.isEmpty();
+		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
+		boolean requiredByNeighbours = false;
+		boolean requiredByParents = false;	
+		boolean requiredByChildren = false;
 		
 		switch(opType) {
 		
 			case CREATE:
 				
+				if (!c.CREATE_CREATES) return false;
 				if (!eInf.selfMayHaveTransformations()) return false;
 				if (c.isUnnestableRoot(eClassifier)) return false;
-				if (c.getProfileApplicationInUse() && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) return false;
-				if (!c.createCREATES) return false;
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) return false;
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isStereotype()) return false;
+				if (!whiteListed && !providesFeaturesForSubtypes ) return false;
+				if (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes) return false;
 				
-//				if (!isAllowed(eClassifier,true,reduceToSuperType_CREATEDELETE)) return;
-				
+				/** Create Modules for every parent in which the EClass may exist. ************************************************************/
+				HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
+				for(Entry<EReference,List<EClassifier>> pcEntry: optionalParents.entrySet()) {			
+					List<EClassifier> contexts = pcEntry.getValue();
+					EReference eRef = pcEntry.getKey();
+
+					for(EClassifier context: contexts) {
+						
+						
+						//...
+						
+						
+					}
+					
+				}
 				
 				break;
 			case DELETE:
@@ -253,7 +278,7 @@ public class ElementFilter {
 		else{
 			
 			// hard cutoff classifiers
-			if(!c.getPreventInconsistencyThroughSkipping()){
+			if(!c.PREVENTINCONSISTENCYTHROUGHSKIPPING){
 				if(blackListed) { //hard cut
 					return false;
 				}
@@ -376,7 +401,7 @@ public class ElementFilter {
 	
 	public void sliceMetaModel() {
 		
-		Stack<EPackage> ePackagesStack = c.getEPackagesStack();
+		Stack<EPackage> ePackagesStack = c.EPACKAGESSTACK;
 		EPackage metaModel = ePackagesStack.firstElement(); //TODO first or last?
 		
 		MetaModelSlicer mms = new MetaModelSlicer();
