@@ -26,7 +26,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
 		
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
-
+			assert(eClassifier instanceof EClass);
 			try{
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.VariantPostprocessor(eClassifier);

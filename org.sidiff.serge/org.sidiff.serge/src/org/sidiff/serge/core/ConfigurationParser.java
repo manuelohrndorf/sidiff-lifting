@@ -48,6 +48,7 @@ public class ConfigurationParser {
 
 	public void parse (String pathToConfig) throws Exception {
 			
+		//TODO other optypes
 		//TODO workspace_loc
 		String workspace_loc = null;
 		
@@ -96,9 +97,9 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("Removes").item(0);
 		c.CREATE_REMOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Sets").item(0);
-		c.CREATE_SETS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_SET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Unsets").item(0);
-		c.CREATE_UNSETS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_UNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		
 		
 		// read ProfiledModel Settings if available

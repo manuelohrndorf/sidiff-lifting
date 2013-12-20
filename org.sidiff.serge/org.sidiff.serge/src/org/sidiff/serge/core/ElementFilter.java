@@ -90,50 +90,80 @@ public class ElementFilter {
 		switch(opType) {
 		
 			case CREATE:
-				
-				if (!c.CREATE_CREATES) return false;
-				assert(eClassifier instanceof EClass);
-				if (!(eClassifier instanceof EClass)) return false;
-				if (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract()) return false;
-				if (!eInf.selfMayHaveTransformations()) return false;
-				if (c.isAnUnnestableRoot(eClassifier)) return false;
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) return false;
-				if (!whiteListed && !providesFeaturesForSubtypes ) return false;
-				if (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes) return false;
+				// deny eClassifier usage on the following conditions:
+				if (
+					(!c.CREATE_CREATES)
+					|| (!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+					|| (!eInf.selfMayHaveTransformations())
+					|| (c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					|| (!whiteListed && !providesFeaturesForSubtypes )
+					|| (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes)
+					)
+				return false;
 				
 				break;
 			case DELETE:
-				//..
+				if (!c.CREATE_DELETES) return false;
 				break;
-			case ADD:
-				//..
+			case ADD:				
+				if (
+					(!c.CREATE_ADDS)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+				)
+				return false;
+				
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
+				
 				break;
 			case REMOVE:
-				//..
+				if (!c.CREATE_REMOVES) return false;
+				break;
+			case CHANGE:
+				if (
+						(!c.CREATE_CHANGES)
+						|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					)
+				return false;
+				
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
+
 				break;
 			case MOVE:
-				//..
+				if (!c.CREATE_MOVES) return false;
 				break;
 			case MOVE_COMBINATION:
-				//..
+				if (!c.CREATE_MOVE_COMBINATIONS) return false;
 				break;
 			case MOVE_UP:
-				//..
+				if (!c.CREATE_MOVE_UPS) return false;
 				break;
 			case MOVE_DOWN:
-				//..
+				if (!c.CREATE_MOVE_DOWNS) return false;
 				break;
 			case SET_ATTRIBUTE:
-				//..
+				if (
+					(!c.CREATE_SET_ATTRIBUTES)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+				)		
+				return false;
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;		
 				break;
 			case SET_REFERENCE:
-				//..
+				if (
+					(!c.CREATE_SET_REFERENCES)
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					)
+					return false;
+//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
+				
 				break;
 			case UNSET_ATTRIBUTE:
-				//..
+				if (!c.CREATE_UNSET_ATTRIBUTES) return false;
 				break;
 			case UNSET_REFERENCE:
-				//..
+				if (!c.CREATE_UNSET_REFERENCES) return false;
 				break;
 			default:
 				throw new OperationTypeNotImplementedException(opType.toString());

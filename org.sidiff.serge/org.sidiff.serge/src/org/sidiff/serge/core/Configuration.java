@@ -10,17 +10,19 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 
 @SuppressWarnings("unused")
 public class Configuration {
-	
-	//TODO other optypes
-	
+		
 	public boolean CREATE_CREATES;
 	public boolean CREATE_DELETES;
 	public boolean CREATE_MOVES;
+	public boolean CREATE_MOVE_UPS;
+	public boolean CREATE_MOVE_DOWNS;
+	public boolean CREATE_MOVE_COMBINATIONS;
 	public boolean CREATE_ADDS;
 	public boolean CREATE_REMOVES;
-	public boolean CREATE_SETS;
-
-	public boolean CREATE_UNSETS;
+	public boolean CREATE_SET_ATTRIBUTES;
+	public boolean CREATE_SET_REFERENCES;
+	public boolean CREATE_UNSET_ATTRIBUTES;
+	public boolean CREATE_UNSET_REFERENCES;
 	public boolean CREATE_CHANGES;
 	
 	public boolean MULTIPLICITYPRECONDITIONSINTEGRATED;
