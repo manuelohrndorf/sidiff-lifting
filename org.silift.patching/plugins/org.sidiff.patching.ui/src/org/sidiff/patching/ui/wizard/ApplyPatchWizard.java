@@ -88,18 +88,18 @@ public class ApplyPatchWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		
-//		try {
-//			getContainer().run(false, false, new IRunnableWithProgress() {
-//				@Override
-//				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+		try {
+			getContainer().run(false, false, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					finish();
-//				}
-//			});
-//		} catch (InvocationTargetException e1) {
-//			e1.printStackTrace();
-//		} catch (InterruptedException e1) {
-//			e1.printStackTrace();
-//		}
+				}
+			});
+		} catch (InvocationTargetException e1) {
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 
 		return true;
 	}
