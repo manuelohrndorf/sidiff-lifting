@@ -3,6 +3,7 @@
 <plugin>
    <extension point="org.eclipse.ui.commands">
       <command
+            categoryId="org.silift.patching.ui.category.silift"
             id="org.silift.merging.ui.ThreeWayMergeCommand"
             name="3-Way-Merge">
       </command>
@@ -19,27 +20,21 @@
          </activeWhen>
       </handler>
    </extension>
-   <extension 
-  id="add.item"
-  point="org.eclipse.ui.menus">
- <menuContribution
-       locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-    <menu
-          id="org.sidiff.difference.ui.category.silift"
-          label="SiLift">
-                 <menu
-             id="org.sidiff.difference.ui.category.silift.merging"
-             label="Merging">
-       <command
-             commandId="org.silift.merging.ui.ThreeWayMergeCommand"
-             label="Three-Way-Merge"
-             style="push"
-             tooltip="Merge three models">
-       </command>
-       </menu>
-    </menu>
- </menuContribution>
-</extension>
+   <extension point="org.eclipse.ui.menus">
+  <menuContribution
+        locationURI="popup:org.silift.menu?after=org.sidiff.patching.ui.separator">
+     <command
+           commandId="org.silift.merging.ui.ThreeWayMergeCommand"
+           label="Three-Way-Merge"
+           style="push"
+           tooltip="Merge three models">
+     </command>
+     <separator
+           name="org.silift.merging.ui.separator"
+           visible="true">
+     </separator>
+  </menuContribution>
+  </extension>
  <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
@@ -51,10 +46,14 @@
             </count>
             <iterate
                   ifEmpty="false"
-                  operator="or">
+                  operator="and">
                <instanceof
                      value="org.eclipse.core.resources.IFile">
                </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.sidiff.difference.lifting.ui.properties.modelFile">
+               </test>
             </iterate>
          </with>
       </definition>
