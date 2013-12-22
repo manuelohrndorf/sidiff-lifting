@@ -19,39 +19,10 @@
    </extension>
    <extension point="org.eclipse.ui.commands">
       <command
+            categoryId="org.silift.patching.ui.category.silift"
             id="org.sidiff.patching.ui.PatchApplyCommand"
             name="Apply Patch">
       </command>
-   </extension>
-   <extension 
-  id="add.item"
-  point="org.eclipse.ui.menus">
- <menuContribution
-    locationURI= "popup:org.eclipse.ui.popup.any?after=additions">
-    <menu
-       id="org.sidiff.difference.ui.category.silift"
-       label="SiLift">   
-         <menu
-             id="org.sidiff.difference.ui.category.silift.patching"
-             label="Patching">   
-          <command
-                commandId="org.sidiff.patching.ui.PatchApplyCommand"
-                label="Apply Patch"
-                tooltip="Apply a patch to a model">
-          </command>
-         </menu>    
-    </menu>
- </menuContribution>
-</extension>
-   <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="org.sidiff.patching.ui.handler.PatchApplyPropertyTester"
-            id="org.sidiff.patching.ui.patchApplyPropertyTester"
-            namespace="org.sidiff.patching.ui.patchApplyPropertyTester"
-            properties="patchFile"
-            type="org.eclipse.core.resources.IFile">
-      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -64,6 +35,30 @@
             </reference>
          </activeWhen>
       </handler>
+   </extension>
+      <extension point="org.eclipse.ui.menus">
+  <menuContribution
+        locationURI="popup:org.silift.menu?after=org.silift.patching.patch.ui.separator">
+     <command
+           commandId="org.sidiff.patching.ui.PatchApplyCommand"
+           label="Apply Patch"
+           tooltip="Apply a patch to a model">
+     </command>
+     <separator
+           name="org.sidiff.patching.ui.separator"
+           visible="false">
+     </separator>
+  </menuContribution>
+  </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.sidiff.patching.ui.handler.PatchApplyPropertyTester"
+            id="org.sidiff.patching.ui.patchApplyPropertyTester"
+            namespace="org.sidiff.patching.ui.patchApplyPropertyTester"
+            properties="patchFile"
+            type="org.eclipse.core.resources.IFile">
+      </propertyTester>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -85,5 +80,4 @@
          </and>
       </definition>
    </extension>
-   
 </plugin>
