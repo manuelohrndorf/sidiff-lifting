@@ -24,27 +24,21 @@
             </reference></activeWhen>
       </handler>
    </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-         <menu
-               id="org.sidiff.difference.ui.category.silift"
-               label="SiLift">
-           <menu
-             id="org.sidiff.difference.ui.category.silift.patching"
-             label="Patching">
-               <command
-                     commandId="org.silift.patching.ui.createPatch"
-                     label="Create a Patch"
-                     style="push"
-                     tooltip="Create a patch between two models">
-               </command>
-           </menu>
-         </menu>
-      </menuContribution>
-   </extension>
+   <extension point="org.eclipse.ui.menus">
+  <menuContribution
+        locationURI="popup:org.silift.menu?after=org.sidiff.difference.lifting.ui.separator">
+     <command
+           commandId="org.silift.patching.ui.createPatch"
+           label="Create a Patch"
+           style="push"
+           tooltip="Create a patch between two models">
+     </command>
+     <separator
+           name="org.silift.patching.patch.ui.separator"
+           visible="false">
+     </separator>
+  </menuContribution>
+  </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
       <viewer
@@ -109,5 +103,4 @@
          </contentTypeBinding>
       </editor>
    </extension>
-
 </plugin>
