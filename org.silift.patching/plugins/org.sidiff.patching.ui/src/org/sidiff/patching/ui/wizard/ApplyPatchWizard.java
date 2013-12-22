@@ -200,7 +200,7 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.subTask("Initialize PatchEngine");
 					correspondence.setMinReliability(reliability);
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE, validationMode, matcher.canComputeReliability());
-					patchEngine.setPatchedEditingdomain(editingDomain);
+					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(40);
 
 					monitor.subTask("Open Patch View");

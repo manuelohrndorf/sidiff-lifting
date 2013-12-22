@@ -19,7 +19,7 @@ import org.sidiff.patching.IArgumentManager;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
-	private IArgumentManager correspondence;
+	private IArgumentManager argumentManager;
 	private IValueChangedListener listener;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
@@ -32,14 +32,14 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 		this.itemObjects = new ArrayList<CellObject>();
 		
-		Map<Resource, Collection<EObject>> potentialArgs = correspondence.getPotentialArguments(binding);
+		Map<Resource, Collection<EObject>> potentialArgs = argumentManager.getPotentialArguments(binding);
 		Collection<EObject> args = new ArrayList<EObject>();
 		for (Resource r : potentialArgs.keySet()) {
 			args.addAll(potentialArgs.get(r));			
 		}
 		//TODO: Categorize potential args by their resource in the UI.
 		for (EObject eObject : args) {
-			float reliability = correspondence.getReliability(binding, eObject);
+			float reliability = argumentManager.getReliability(binding, eObject);
 			CellObject cellObject = new CellObject(reliability, eObject);
 			itemObjects.add(cellObject);
 		}
@@ -77,18 +77,18 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			int index = ((Integer) value).intValue();
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			if (index == -1) {
-				correspondence.resetArgumentResolution(binding);
+				argumentManager.resetArgumentResolution(binding);
 			} else {
 				EObject elementB = itemObjects.get(index).getEObject();
-				correspondence.addArgumentResolution(binding, elementB);
+				argumentManager.addArgumentResolution(binding, elementB);
 			}
 		}
 		getViewer().refresh();
 		this.listener.valueChanged();
 	}
 
-	public void setCorrespondence(IArgumentManager correspondence) {
-		this.correspondence = correspondence;
+	public void setArgumentManager(IArgumentManager manager) {
+		this.argumentManager = manager;
 	}
 	
 	public void setListener(IValueChangedListener listener) {

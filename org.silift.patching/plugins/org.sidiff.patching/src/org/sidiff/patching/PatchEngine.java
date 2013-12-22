@@ -3,11 +3,9 @@ package org.sidiff.patching;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -18,26 +16,21 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.patching.exceptions.HenshinExecutionFailedException;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.exceptions.ParameterModifiedException;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReport.Status;
 import org.sidiff.patching.report.PatchReport.Type;
 import org.sidiff.patching.report.ReportEntry;
-import org.sidiff.patching.test.EMFValidationTestUnit;
 import org.sidiff.patching.util.PatchUtil;
 
 /**
@@ -47,21 +40,17 @@ import org.sidiff.patching.util.PatchUtil;
 public class PatchEngine {
 
 	private AsymmetricDifference difference;
-	private IArgumentManager argumentManager;
-	private List<OperationInvocation> orderedOperations;
-	private Set<OperationInvocation> appliedOperations;
-	private ITransformationEngine transformationEngine;
 	private Resource patchedResource;
-	private IValidationUnit testUnit;
-	private ExecutionMode executionMode;
-	private EditingDomain patchedEditingDomain;
-	private PatchReport patchReport;
-
-	private ValidationMode validationMode;
-	private Collection<Diagnostic> initialErrors;
-	private Collection<Diagnostic> previousErrors;
-	private Collection<Diagnostic> currentErrors;
 	private Boolean reliabilitiesComputed;
+
+	private List<OperationInvocation> orderedOperations;
+
+	private ValidationManager validationManager;
+	private OperationInvocationStatusManager statusManager;
+	private IArgumentManager argumentManager;
+	private ITransformationEngine transformationEngine;
+
+	private EditingDomain patchedEditingDomain;
 
 	public enum ValidationMode {
 		ITERATIVE, FINAL, NO, MANUAL
@@ -76,118 +65,198 @@ public class PatchEngine {
 	 * 
 	 * @param difference
 	 * @param targetResource
-	 * @param correspondence
+	 * @param argumentManager
 	 * @param transformationEngine
 	 * @param executionMode
 	 * @param validationMode
+	 * @param reliabilitiesComputed
 	 */
-	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager correspondence,
-			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode, Boolean
-			reliabilitiesComputed) {
+	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
+			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode,
+			Boolean reliabilitiesComputed) {
+
 		this.difference = difference;
 		this.patchedResource = patchedResource;
-		this.argumentManager = correspondence;
+		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
-
-		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
-		this.appliedOperations = new HashSet<OperationInvocation>();
-
-		this.validationMode = validationMode;
-		this.executionMode = executionMode;
 		this.reliabilitiesComputed = reliabilitiesComputed;
 
-		// initialize patch report
-		this.patchReport = new PatchReport();
+		// Ordered set of operations to be executed
+		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 
+		// Init managers
+		this.validationManager = new ValidationManager(validationMode, patchedResource);
+		this.statusManager = new OperationInvocationStatusManager(orderedOperations);
 		this.argumentManager.init(difference, patchedResource);
 
 		// Initialize all operationInvocations owning
-		// modified parameters as "not applicable"		
+		// modified parameters as "not applicable"
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (hasModifiedParameters(operationInvocation)) {
 				operationInvocation.setApply(false);
 			}
 		}
-		
+
+		// Init transformation engine
 		this.transformationEngine.init(patchedResource, executionMode);
-		// initialize test unit
-		this.testUnit = new EMFValidationTestUnit();
+	}
+
+	/**
+	 * Runs over all OperationInvocations and checks which of them are to be
+	 * executed and which are to be reverted. <br/>
+	 * The execution and undo themselves are delegated to the private methods
+	 * {@link #apply(OperationInvocation)} and
+	 * {@link #revert(OperationInvocation)}, respectively.
+	 * 
+	 * @return
+	 */
+	public void updatePatchReport() {
+
+		// Try to execute operations which are to apply
+		for (OperationInvocation operationInvocation : orderedOperations) {
+			if (operationInvocation.isApply()
+					&& !(statusManager.getStatusWrapper(operationInvocation).getStatus() == OperationInvocationStatus.PASSED)) {
+
+				apply(operationInvocation);
+
+				if (getValidationMode() == ValidationMode.ITERATIVE) {
+					Collection<Diagnostic> newErrors = validationManager.performIncrementalValidation();
+					if (!newErrors.isEmpty()) {
+						// TODO: Fehler Dialog
+						// Fehler anzeigen und Optionen zur Verfügung stellen:
+						// Option 1.: ignorieren und continue
+						// Option 2.: reverten und continue;
+						// Option 3.: reverten und Patch-Vorgang abbrechen
+					}
+				}
+			}
+		}
+
+		// Try to undo operations which are to revert
+		ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
+		while (li.hasPrevious()) {
+			OperationInvocation operationInvocation = (OperationInvocation) li.previous();
+			OperationInvocationWrapper operationWrapper = statusManager.getStatusWrapper(operationInvocation);
+			if (!operationInvocation.isApply() && operationWrapper.isUndoable(null)) {
+				try {
+					revert(operationInvocation);
+				} catch (OperationNotUndoableException e) {
+					// TODO: Throw Exception so that an Error Dialog can be
+					// shown in the UI
+					e.printStackTrace();
+				}
+			}
+		}
+
+		// Final validation (if desired)
+		if (getValidationMode() == ValidationMode.FINAL) {
+			this.validationManager.performCompleteValidation();
+		}
 	}
 
 	// #################################### org.sidiff.patching.test
 	// ####################################
 
 	public void applyPatchOperationValidation() throws PatchNotExecuteableException {
-		int initialErrors = getValidationErrorAmount(this.patchedResource);
-		int previousErrors = initialErrors;
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			ArrayList<ReportEntry> validationReports = new ArrayList<ReportEntry>();
-			if (operationInvocation.isApply() && !(appliedOperations.contains(operationInvocation))) {
-				try {
-					apply(operationInvocation);
-					appliedOperations.add(operationInvocation);
-					int currentErrors = getValidationErrorAmount(this.patchedResource);
-					if (previousErrors != currentErrors) {
-						String messageStr = "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
-						String message = String.format(messageStr, previousErrors, currentErrors, operationInvocation
-								.getChangeSet().getName(), initialErrors);
-						validationReports.add(new ReportEntry(Status.WARNING, Type.VALIDATION, message));
-						patchReport.getIterativeValidationEntries().put(operationInvocation, validationReports);
-					}
-					previousErrors = currentErrors;
-				} catch (OperationNotExecutableException e) {
-					throw new PatchNotExecuteableException(e.getMessage() + " failed!");
-				} catch (ParameterMissingException e) {
-					throw new PatchNotExecuteableException(e.getMessage());
-				}
-			} else {
-				LogUtil.log(LogEvent.NOTICE, "Skipping operation " + operationInvocation.getChangeSet().getName());
-			}
-		}
+		// int initialErrors = getValidationErrorAmount(this.patchedResource);
+		// int previousErrors = initialErrors;
+		// for (OperationInvocation operationInvocation : orderedOperations) {
+		// ArrayList<ReportEntry> validationReports = new
+		// ArrayList<ReportEntry>();
+		// if (operationInvocation.isApply() &&
+		// !(appliedOperations.contains(operationInvocation))) {
+		// try {
+		// apply(operationInvocation);
+		// appliedOperations.add(operationInvocation);
+		// int currentErrors = getValidationErrorAmount(this.patchedResource);
+		// if (previousErrors != currentErrors) {
+		// String messageStr =
+		// "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
+		// String message = String.format(messageStr, previousErrors,
+		// currentErrors, operationInvocation
+		// .getChangeSet().getName(), initialErrors);
+		// validationReports.add(new ReportEntry(Status.WARNING,
+		// Type.VALIDATION, message));
+		// patchReport.getIterativeValidationEntries().put(operationInvocation,
+		// validationReports);
+		// }
+		// previousErrors = currentErrors;
+		// } catch (OperationNotExecutableException e) {
+		// throw new PatchNotExecuteableException(e.getMessage() + " failed!");
+		// } catch (ParameterMissingException e) {
+		// throw new PatchNotExecuteableException(e.getMessage());
+		// }
+		// } else {
+		// LogUtil.log(LogEvent.NOTICE, "Skipping operation " +
+		// operationInvocation.getChangeSet().getName());
+		// }
+		// }
 	}
 
-	private int getValidationErrorAmount(Resource resource) {
-		Collection<ReportEntry> validationReport = testUnit.test(resource);
-		int amount = 0;
-		for (ReportEntry reportEntry : validationReport) {
-			Status status = reportEntry.getStatus();
-			if (status == Status.WARNING || status == Status.FAILED) {
-				amount++;
-			}
-		}
-		return amount;
-	}
+	// private int getValidationErrorAmount(Resource resource) {
+	// Collection<ReportEntry> validationReport = validator.test(resource);
+	// int amount = 0;
+	// for (ReportEntry reportEntry : validationReport) {
+	// Status status = reportEntry.getStatus();
+	// if (status == Status.WARNING || status == Status.FAILED) {
+	// amount++;
+	// }
+	// }
+	// return amount;
+	// }
 
 	// ##################################################################################################
 
+	public PatchReport createPatchReport() {
+		PatchReport report = new PatchReport();
+
+		for (OperationInvocation op : orderedOperations) {
+			OperationInvocationWrapper opWrapper = getStatusManager().getStatusWrapper(op);
+			assert (opWrapper.getStatus() != OperationInvocationStatus.INIT);
+
+			ReportEntry entry = null;
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				entry = new ReportEntry(Status.PASSED, Type.EXECUTION, op.getChangeSet().getName());
+			} else if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
+				entry = new ReportEntry(Status.FAILED, Type.EXECUTION, opWrapper.getExecutionError());
+			} else if (opWrapper.getStatus() == OperationInvocationStatus.SKIPPED) {
+				entry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, op.getChangeSet().getName());
+			} else if (opWrapper.getStatus() == OperationInvocationStatus.SKIPPED_DEPENDENCY) {
+				// TODO: Welche Operation von der wir abhängig sind wurde
+				// geskipped
+				entry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, op.getChangeSet().getName());
+			} else {
+				assert (false) : "unknown state of an operation invocation";
+			}
+
+			report.addExecutionEntry(entry);
+		}
+		// TODO
+
+		return report;
+	}
+
 	/**
-	 * apply operation invocation
+	 * Apply operation invocation. Note that this method tries to perform the
+	 * operation execution on the command stack of the target editing domain.
 	 * 
 	 * @param operationInvocation
-	 * @throws ParameterMissingException
-	 * @throws OperationNotExecutableException
 	 */
-	private synchronized void apply(OperationInvocation operationInvocation) throws ParameterMissingException,
-			OperationNotExecutableException {
+	private void apply(OperationInvocation operationInvocation) {
 
 		final OperationInvocation op = operationInvocation;
-		final ArrayList<Exception> exceptions = new ArrayList<Exception>();
 
 		AbstractCommand command = new AbstractCommand() {
 
 			@Override
 			public void execute() {
-				Map<String, Object> parameters = getParameters(op.getParameterBindings());
+				Map<ParameterBinding, Object> parameters = getInArguments(op.getParameterBindings());
 				try {
-					Map<String, Object> resultMap = transformationEngine.execute(op, parameters);
-					// Exceptions do not set return values.
-					// If they set null depending operations wont be executable
-					// but UI will be ugly because of lacking a return name
-					// Skip depending operations will be observed in
-					// checkExecutable()
-					setResult(op.getParameterBindings(), resultMap);
+					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, parameters);
+					setOutArguments(op.getParameterBindings(), outArgs);
+					statusManager.getStatusWrapper(op).setPassed(null);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
-					exceptions.add(e);
+					statusManager.getStatusWrapper(op).setFailed(null, e);
 				}
 			}
 
@@ -209,18 +278,17 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
-
-		for (Exception e : exceptions) {
-			if (e instanceof ParameterMissingException) {
-				throw (ParameterMissingException) e;
-			}
-			if (e instanceof OperationNotExecutableException) {
-				throw (OperationNotExecutableException) e;
-			}
-		}
 	}
 
-	private synchronized void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
+	/**
+	 * Revert a specific operation invocation. Note that this method tries to
+	 * perform the undo operation on the command stack of the target editing
+	 * domain.
+	 * 
+	 * @param operationInvocation
+	 * @throws OperationNotUndoableException
+	 */
+	private void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
 		final OperationInvocation op = operationInvocation;
 		final ArrayList<Exception> exceptions = new ArrayList<Exception>();
 
@@ -228,9 +296,9 @@ public class PatchEngine {
 
 			@Override
 			public void execute() {
-				Map<String, Object> parameters = getParameters(op.getParameterBindings());
 				try {
 					transformationEngine.undo(op);
+					statusManager.getStatusWrapper(op).setSkipped();
 				} catch (OperationNotUndoableException e) {
 					exceptions.add(e);
 				}
@@ -263,23 +331,23 @@ public class PatchEngine {
 	}
 
 	/**
-	 * Finds parameter values and put them into a map with its formal name.
+	 * Finds parameter values and put them into a map ParameterBinding ->
+	 * Object.
 	 * 
 	 * @param parameterBindings
 	 * @return
 	 */
-	private Map<String, Object> getParameters(List<ParameterBinding> parameterBindings) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
+	private Map<ParameterBinding, Object> getInArguments(List<ParameterBinding> parameterBindings) {
+		Map<ParameterBinding, Object> parameters = new HashMap<ParameterBinding, Object>();
 		for (ParameterBinding binding : parameterBindings) {
 			Parameter parameter = binding.getFormalParameter();
-			String parameterName = parameter.getName();
 
 			if (parameter.getDirection() == ParameterDirection.IN) {
 				if (binding instanceof MultiParameterBinding) {
 					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
-					LogUtil.log(LogEvent.NOTICE, "Binding listParameter " + parameterName + ":");
+					LogUtil.log(LogEvent.NOTICE, "Binding listParameter " + parameter.getName() + ":");
 					List<EObject> arguments = new ArrayList<EObject>();
-					parameters.put(parameterName, arguments);
+					parameters.put(binding, arguments);
 
 					// now fill the argument list
 					for (int i = 0; i < multiBinding.getParameterBindings().size(); i++) {
@@ -299,18 +367,18 @@ public class PatchEngine {
 				} else if (binding instanceof ObjectParameterBinding) {
 					ArgumentWrapper argument = argumentManager.getArgument((ObjectParameterBinding) binding);
 					if (argument.isResolved()) {
-						parameters.put(parameterName, argument.getTargetObject());
-						LogUtil.log(LogEvent.NOTICE,
-								"Binding objectParameter " + parameterName + " to " + argument.getTargetObject());
+						parameters.put(binding, argument.getTargetObject());
+						LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameter.getName() + " to "
+								+ argument.getTargetObject());
 					} else {
-						LogUtil.log(LogEvent.NOTICE, "Skipped objectParameter " + parameterName);
+						LogUtil.log(LogEvent.NOTICE, "Skipped objectParameter " + parameter.getName());
 					}
 
 				} else if (binding instanceof ValueParameterBinding) {
 					ValueParameterBinding valueBinding = (ValueParameterBinding) binding;
-					LogUtil.log(LogEvent.NOTICE,
-							"Setting valueParameter " + parameterName + " to " + valueBinding.getActual());
-					parameters.put(parameterName, valueBinding.getActual());
+					LogUtil.log(LogEvent.NOTICE, "Setting valueParameter " + parameter.getName() + " to "
+							+ valueBinding.getActual());
+					parameters.put(binding, valueBinding.getActual());
 				}
 			}
 		}
@@ -318,50 +386,22 @@ public class PatchEngine {
 	}
 
 	/**
-	 * Sets the result object of an operation execution to the parameter mapping
+	 * Informs argumentManager about the resolution of output arguments after an
+	 * operation has been executed.
 	 * 
 	 * @param parameterBindings
 	 * @param resultMap
 	 */
-	private void setResult(EList<ParameterBinding> parameterBindings, Map<String, Object> resultMap) {
+	private void setOutArguments(EList<ParameterBinding> parameterBindings, Map<ParameterBinding, Object> resultMap) {
 		for (ParameterBinding binding : parameterBindings) {
 			if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
-				String formalName = binding.getFormalName();
-
 				if (binding instanceof ObjectParameterBinding) {
 					ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
-					EObject outTargetObject = (EObject) resultMap.get(formalName);
+					EObject outTargetObject = (EObject) resultMap.get(objectBinding);
 					argumentManager.addArgumentResolution(objectBinding, outTargetObject);
-				}
-				if (binding instanceof MultiParameterBinding) {
-					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
-					assert (false) : "not yet implemented"; // FIXME
 				}
 			}
 		}
-	}
-
-	/**
-	 * Runs over all OperationInvocations and creates a report about failed and
-	 * passed checks.
-	 * 
-	 * @return
-	 */
-	public PatchReport updatePatchReport() {
-		checkParameter();
-
-		checkModified();
-
-		checkExecutable();
-
-		if (validationMode == ValidationMode.FINAL || validationMode == ValidationMode.MANUAL) {
-			patchReport.getValidationEntries().clear();
-			Collection<ReportEntry> entries = testUnit.test(this.patchedResource);
-			patchReport.getValidationEntries().addAll(entries);
-
-		}
-
-		return this.patchReport;
 	}
 
 	/**
@@ -389,199 +429,12 @@ public class PatchEngine {
 
 	}
 
-	/**
-	 * Checks modification of parameters in a patch report
-	 * 
-	 * @param report
-	 */
-	private void checkModified() {
-
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()) {
-				Collection<ReportEntry> entries = new ArrayList<ReportEntry>();
-				for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
-					Parameter formalParameter = parameterBinding.getFormalParameter();
-					if (formalParameter.getDirection() == ParameterDirection.IN) {
-						if (parameterBinding instanceof ObjectParameterBinding) {
-							ObjectParameterBinding binding = (ObjectParameterBinding) parameterBinding;
-							ArgumentWrapper argument = argumentManager.getArgument(binding);
-							if (argument.isResolved() && argumentManager.isModified(argument.getTargetObject())) {
-								entries.add(new ReportEntry(Status.WARNING, Type.PARAMETER,
-										new ParameterModifiedException(operationInvocation.getChangeSet().getName(),
-												formalParameter.getName())));
-							}
-						}
-					}
-				}
-				if (!entries.isEmpty())
-					patchReport.getParameterEntries().get(operationInvocation).addAll(entries);
-			}
-		}
-	}
-
-	/**
-	 * Checks availability of needed parameters
-	 * 
-	 * 
-	 * @param operationInvocation
-	 * 
-	 * @throws ParameterMissingException
-	 */
-	private void checkParameter() {
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			Collection<ReportEntry> entries = new ArrayList<ReportEntry>();
-			if (operationInvocation.isApply()) {
-				parameter: for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
-					Parameter formalParameter = parameterBinding.getFormalParameter();
-					if (formalParameter.getDirection() == ParameterDirection.IN) {
-						if (parameterBinding instanceof ObjectParameterBinding) {
-							ObjectParameterBinding objectParameterBinding = (ObjectParameterBinding) parameterBinding;
-
-							// Sorting out IN parameters depending on previous
-							// operations
-							for (ParameterMapping mapping : difference.getParameterMappings()) {
-								if (mapping.getTarget().equals(objectParameterBinding)) {
-									continue parameter;
-								}
-							}
-
-							ObjectParameterBinding binding = (ObjectParameterBinding) parameterBinding;
-							ArgumentWrapper argument = argumentManager.getArgument(binding);
-							if (!argument.isResolved()) {
-								entries.add(new ReportEntry(Status.FAILED, Type.PARAMETER,
-										new ParameterMissingException(operationInvocation.getChangeSet().getName(),
-												formalParameter.getName())));
-							} else {
-								entries.add(new ReportEntry(Status.PASSED, Type.PARAMETER, "ObjectParameter \""
-										+ formalParameter.getName() + "\" is set!"));
-							}
-						}
-					}
-				}
-			} else {
-				entries.add(new ReportEntry(Status.SKIPPED, Type.PARAMETER, operationInvocation.getChangeSet()
-						.getName()));
-			}
-			this.patchReport.getParameterEntries().put(operationInvocation, entries);
-		}
-
-	}
-
-	/**
-	 * Checks executability of henshin
-	 * 
-	 * 
-	 * @param operationInvocation
-	 * @throws HenshinExecutionFailedException
-	 */
-	private void checkExecutable() {
-		AbstractCommand command = new AbstractCommand() {
-			@Override
-			public void execute() {
-
-				// Executed operations must be stored to skip operations
-				// depending on failed executions
-				for (OperationInvocation operationInvocation : orderedOperations) {
-					if (operationInvocation.isApply() && isOutgoingExecuted(operationInvocation, appliedOperations)) {
-						if (!(appliedOperations.contains(operationInvocation))) {
-							try {
-								if (validationMode == ValidationMode.ITERATIVE) {
-									initialErrors = testUnit.getErrors(testUnit.validate(patchedResource));
-									previousErrors = initialErrors;
-								}
-								apply(operationInvocation);
-								appliedOperations.add(operationInvocation);
-								if (validationMode == ValidationMode.ITERATIVE) {
-									currentErrors = testUnit.getErrors(testUnit.validate(patchedResource));
-
-									if (currentErrors.size() > previousErrors.size()) {
-										ArrayList<ReportEntry> entries = new ArrayList<ReportEntry>();
-										for (Diagnostic d : currentErrors) {
-											if (!previousErrors.contains(d)) {
-												entries.add(new ReportEntry(Status.FAILED, Type.VALIDATION, d));
-											}
-										}
-										if (!entries.isEmpty())
-											patchReport.getIterativeValidationEntries().put(operationInvocation,
-													entries);
-									}
-								}
-								patchReport.getExecutionEntries().put(
-										operationInvocation,
-										new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation
-												.getChangeSet().getName()));
-
-							} catch (OperationNotExecutableException | ParameterMissingException e) {
-								patchReport.getExecutionEntries().put(operationInvocation,
-										new ReportEntry(Status.FAILED, Type.EXECUTION, e));
-							}
-						} else {
-							patchReport.getExecutionEntries().put(
-									operationInvocation,
-									new ReportEntry(Status.PASSED, Type.EXECUTION, operationInvocation.getChangeSet()
-											.getName()));
-						}
-					} else {
-						patchReport.getExecutionEntries().put(
-								operationInvocation,
-								new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet()
-										.getName()));
-					}
-				}
-
-				ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
-				while (li.hasPrevious()) {
-					OperationInvocation operationInvocation = (OperationInvocation) li.previous();
-					if (!operationInvocation.isApply() && appliedOperations.contains(operationInvocation)) {
-						try {
-							revert(operationInvocation);
-							appliedOperations.remove(operationInvocation);
-							patchReport.getExecutionEntries().put(
-									operationInvocation,
-									new ReportEntry(Status.SKIPPED, Type.EXECUTION, operationInvocation.getChangeSet()
-											.getName()));
-							patchReport.getIterativeValidationEntries().remove(operationInvocation);
-						} catch (OperationNotUndoableException e) {
-							e.printStackTrace();
-						}
-
-					}
-				}
-			}
-
-			@Override
-			public boolean canExecute() {
-				return true;
-			}
-
-			@Override
-			public void redo() {
-
-			}
-
-		};
-
-		command.execute();
-	}
-
-	private synchronized boolean isOutgoingExecuted(OperationInvocation operationInvocation,
-			Set<OperationInvocation> executed) {
-		for (DependencyContainer dependency : operationInvocation.getOutgoing()) {
-			OperationInvocation incomingOperation = dependency.getTarget();
-			if (!executed.contains(incomingOperation)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	public ValidationMode getValidationMode() {
-		return this.validationMode;
+		return this.validationManager.getValidationMode();
 	}
 
 	public void setValidationMode(ValidationMode validationMode) {
-		this.patchReport.getValidationEntries().clear();
-		this.validationMode = validationMode;
+		this.validationManager.setValidationMode(validationMode);
 	}
 
 	public AsymmetricDifference getAsymmetricDifference() {
@@ -592,6 +445,10 @@ public class PatchEngine {
 		return argumentManager;
 	}
 
+	public OperationInvocationStatusManager getStatusManager() {
+		return statusManager;
+	}
+
 	public Boolean getReliabilitiesComputed() {
 		return reliabilitiesComputed;
 	}
@@ -600,37 +457,12 @@ public class PatchEngine {
 		return orderedOperations;
 	}
 
-	public PatchReport getPatchReport() {
-		return patchReport;
-	}
-
 	public Resource getPatchedResource() {
 		return patchedResource;
 	}
 
-	public void setPatchedEditingdomain(EditingDomain patchedEditingDomain) {
+	public void setPatchedEditingDomain(EditingDomain patchedEditingDomain) {
 		this.patchedEditingDomain = patchedEditingDomain;
 	}
 
-	// TODO
-
-	// public class PatchResult {
-	//
-	// private Resource patchedResource;
-	// private PatchReport report;
-	//
-	// public PatchResult(Resource resource, PatchReport report) {
-	// this.patchedResource = resource;
-	// this.report = report;
-	// }
-	//
-	// public Resource getPatchedResource() {
-	// return patchedResource;
-	// }
-	//
-	// public PatchReport getReport() {
-	// return report;
-	// }
-	//
-	// }
 }

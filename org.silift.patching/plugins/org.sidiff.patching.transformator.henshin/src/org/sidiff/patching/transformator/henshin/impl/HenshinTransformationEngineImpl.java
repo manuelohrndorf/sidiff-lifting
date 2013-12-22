@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -27,6 +28,7 @@ import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
+import org.sidiff.patching.ArgumentWrapper;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
@@ -85,7 +87,7 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	}
 
 	@Override
-	public Map<String, Object> execute(OperationInvocation operationInvocation, Map<String, Object> inputParameters)
+	public Map<ParameterBinding, Object> execute(OperationInvocation operationInvocation, Map<ParameterBinding, Object> inputParameters)
 			throws ParameterMissingException, OperationNotExecutableException {
 		assert (graph != null) : "Model not set and therefore no EGraph!";
 		String operationName = operationInvocation.getEditRule().getExecuteModule().getName();
@@ -104,28 +106,27 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		application.setEGraph(graph);
 		application.setUnit(unit);
 
-		// Setting the parameter values
-		for (String str : inputParameters.keySet()) {
-			Object argument = getArgument(str, inputParameters);
-			application.setParameterValue(str, argument);
-		}
-
+		// potentially missing parameters
 		List<String> missingParameters = new ArrayList<String>();
 		for (Parameter ruleParameter : editRule.getParameters()) {
 			if (ruleParameter.getDirection() == ParameterDirection.IN) {
-				String parameterName = ruleParameter.getName();
-				Object object = inputParameters.get(parameterName);
-				if (object == null && ruleParameter.getKind() == ParameterKind.OBJECT) {
-					missingParameters.add(parameterName);
-				}
+				missingParameters.add(ruleParameter.getName());
 			}
 		}
+		
+		// Setting the parameter values
+		for (ParameterBinding binding : inputParameters.keySet()) {
+			Object argument = getArgument(binding, inputParameters);
+			application.setParameterValue(binding.getFormalName(), argument);
+			missingParameters.remove(binding.getFormalName());
+		}
+
 		if (!missingParameters.isEmpty()) {
 			throw new ParameterMissingException(operationName, missingParameters.toArray(new String[missingParameters
 					.size()]));
 		}
 
-		Map<String, Object> outputMap = new HashMap<String, Object>();
+		Map<ParameterBinding, Object> outputMap = new HashMap<ParameterBinding, Object>();
 		if (application.execute(null)) {
 			//Save application for "undo" purposes
 			executedOperations.put(operationInvocation, application);
@@ -134,7 +135,7 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 					if (binding instanceof ObjectParameterBinding) {
 						String formalName = binding.getFormalName();
 						Object parameterValue = application.getResultParameterValue(formalName);
-						outputMap.put(formalName, (EObject) parameterValue);
+						outputMap.put(binding, (EObject) parameterValue);
 					}
 				}
 			}
@@ -175,12 +176,12 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	 * handles parameter lists. All other kinds of parameters, i.e. single
 	 * object parameters and value parameters, are just returned as they are.
 	 * 
-	 * @param formal
+	 * @param binding
 	 * @param inputParameters
 	 * @return
 	 */
-	private Object getArgument(String formal, Map<String, Object> inputParameters) {
-		Object argument = inputParameters.get(formal);
+	private Object getArgument(ParameterBinding binding, Map<ParameterBinding, Object> inputParameters) {
+		Object argument = inputParameters.get(binding);
 		if (argument instanceof List) {
 			List commonList = (List) argument;
 			ParameterList pvl = new ParameterList();

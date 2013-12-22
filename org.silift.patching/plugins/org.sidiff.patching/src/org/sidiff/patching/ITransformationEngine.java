@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
@@ -28,7 +29,7 @@ public interface ITransformationEngine {
 	public void init(Resource targetResource, ExecutionMode executionMode);
 
 	/**
-	 * Executes operation of model
+	 * Executes an operation with the given arguments. 
 	 * 
 	 * @param operationInvocation
 	 * @param parameters
@@ -36,7 +37,7 @@ public interface ITransformationEngine {
 	 * @throws ParameterMissingException
 	 * @throws OperationNotExecutableException
 	 */
-	public Map<String, Object> execute(OperationInvocation operationInvocation, Map<String, Object> parameters)
+	public Map<ParameterBinding, Object> execute(OperationInvocation operationInvocation, Map<ParameterBinding, Object> parameters)
 			throws ParameterMissingException, OperationNotExecutableException;
 
 	/**

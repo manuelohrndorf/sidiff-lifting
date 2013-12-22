@@ -28,7 +28,6 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.report.PatchReport;
-import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
@@ -64,9 +63,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	
 	private SelectionHandler selectionHandler;
 
-
-	private Action validateAction;
-	
 	private Button reliabilitiesButton;
 
 	@Override
@@ -139,6 +135,31 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	}
 
+	public void setPatchEngine(PatchEngine patchEngine) {
+		this.engine = patchEngine;
+		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getStatusManager());
+		this.patchLabelProvider.init(engine.getStatusManager());
+		this.editingSupport.setArgumentManager(engine.getArgumentManager());
+		this.patchViewer.setInput(engine.getAsymmetricDifference());
+		this.patchViewer.expandAll();
+		this.patchViewer.getTree().getColumns()[1].pack();
+		
+		iterativeValidation.setEnabled(true);
+		finalValidation.setEnabled(true);
+		noValidation.setEnabled(true);		
+		
+		if(this.engine.getValidationMode() == ValidationMode.FINAL)
+			finalValidation.setChecked(true);
+		else
+			if(this.engine.getValidationMode() == ValidationMode.ITERATIVE)
+				iterativeValidation.setChecked(true);
+			else
+				noValidation.setChecked(true);
+		
+		if(!this.engine.getReliabilitiesComputed()){
+			reliabilitiesButton.setVisible(false);
+		}
+	}
 	
 	/**
 	 * 
@@ -173,8 +194,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.ITERATIVE);
-				manualValidation.setEnabled(false);
-				updateViewer();
 			}
 			
 		};
@@ -185,8 +204,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.FINAL);
-				manualValidation.setEnabled(false);
-				updateViewer();
 			}
 		};
 		this.finalValidation.setToolTipText("The model will be validatetd after applying the selected operation invocations.");
@@ -195,8 +212,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.NO);
-				manualValidation.setEnabled(true);
-				updateViewer();
 			}
 		};
 		this.noValidation.setToolTipText("The model won't be validated.");
@@ -205,46 +220,22 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.MANUAL);
-				updateViewer();
-				engine.setValidationMode(ValidationMode.NO);
+				engine.updatePatchReport();
+				PatchReport report = engine.createPatchReport();
+				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
+				reportView.setEntries(report.getEntries());
+				patchViewer.refresh();
 			}
 		};
 		this.manualValidation.setToolTipText("Validate the model.");
-		this.manualValidation.setEnabled(false);
+		this.manualValidation.setEnabled(true);
 		
 		
 		iterativeValidation.setEnabled(false);
 		finalValidation.setEnabled(false);
 		noValidation.setEnabled(false);
-		
-		
-		//----------- Check -----------------------
-		//TODO to revise (cpietsch)
-		this.validateAction = new Action("Check Patch") {
-			@Override
-			public void run() {
-				PatchReport report = engine.updatePatchReport();
-				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
-				if (reportView != null) { 
-					reportView.setEntries(report.getEntries());
-				}
-				patchViewer.refresh();
-			}
-		};
-		this.validateAction.setToolTipText("Check Patch for valid preconditions");
-		this.validateAction.setImageDescriptor(Activator.getImageDescriptor("check_preconditions.gif"));
-		
 	}
 
-	
-	private void updateViewer(){
-		PatchReport report = engine.updatePatchReport();
-		ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
-		reportView.setEntries(report.getEntries());
-		patchViewer.refresh();
-	}
-	
-	
 	private void updatefilter(Action action) {
 		if (action == nullValueParameterFilterAction) {
 			if (action.isChecked()) {
@@ -292,38 +283,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// toolbarManager.add(preCheckAction);
 	}
 
-	public void setPatchEngine(PatchEngine patchEngine) {
-		this.engine = patchEngine;
-		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getPatchReport());
-		this.patchLabelProvider.init(engine.getPatchReport());
-		this.editingSupport.setCorrespondence(engine.getArgumentManager());
-		this.patchViewer.setInput(engine.getAsymmetricDifference());
-		this.patchViewer.expandAll();
-		this.patchViewer.getTree().getColumns()[1].pack();
-		validateAction.run();
-		
-		iterativeValidation.setEnabled(true);
-		finalValidation.setEnabled(true);
-		noValidation.setEnabled(true);		
-		
-		if(this.engine.getValidationMode() == ValidationMode.FINAL)
-			finalValidation.setChecked(true);
-		else
-			if(this.engine.getValidationMode() == ValidationMode.ITERATIVE)
-				iterativeValidation.setChecked(true);
-			else
-				noValidation.setChecked(true);
-		
-		if(!this.engine.getReliabilitiesComputed()){
-			reliabilitiesButton.setVisible(false);
-		}
-	}
-
 	@Override
 	public void itemChecked(OperationInvocation invocation, boolean checked) {
 		PatchUtil.ensureDependency(invocation, checked);
 		patchViewer.update(engine.getAsymmetricDifference().getOperationInvocations().toArray(), null);
-		validateAction.run();
 	}
 
 	@Override
@@ -338,7 +301,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	@Override
 	public void valueChanged() {
-		validateAction.run();
+		
 	}
 
 	@Override

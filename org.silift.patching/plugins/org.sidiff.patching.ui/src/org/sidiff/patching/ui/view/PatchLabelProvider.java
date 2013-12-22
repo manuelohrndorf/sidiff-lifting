@@ -1,7 +1,6 @@
 package org.sidiff.patching.ui.view;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Color;
@@ -12,27 +11,26 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.patching.OperationInvocationStatus;
+import org.sidiff.patching.OperationInvocationStatusManager;
+import org.sidiff.patching.OperationInvocationWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.report.PatchReport;
-import org.sidiff.patching.report.PatchReport.Status;
-import org.sidiff.patching.report.PatchReport.Type;
-import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.ui.Activator;
 
 public class PatchLabelProvider extends ColumnLabelProvider {
-	
-	private PatchReport report;
-	
+
+	private OperationInvocationStatusManager statusManager;
+
 	private final Image checked = Activator.getImageDescriptor("16px-checkbox-checked.png").createImage();
 	private final Image unchecked = Activator.getImageDescriptor("16px-checkbox-unchecked.png").createImage();
 	private final Image op_in = Activator.getImageDescriptor("ObjectParameterBinding_in.gif").createImage();
 	private final Image op_in2 = Activator.getImageDescriptor("ObjectParameterBinding_in2.gif").createImage();
 	private final Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
 	private final Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
-	
-	public void init(PatchReport report) {
-		this.report = report;
+
+	public void init(OperationInvocationStatusManager statusManager) {
+		this.statusManager = statusManager;
 	}
 
 	@Override
@@ -75,32 +73,17 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 
 	@Override
 	public Color getForeground(Object element) {
-		if (report != null && element instanceof OperationInvocation) {
+		if (element instanceof OperationInvocation) {
 			Display display = Activator.getDefault().getWorkbench().getDisplay();
 			OperationInvocation operationInvocation = (OperationInvocation) element;
-			
-			List<ReportEntry> entries = report.getEntries(operationInvocation, Type.VALIDATION);
-			Status status = null;
-			if (!entries.isEmpty()) {
-				status = entries.get(0).getStatus();
-				switch(status){
-				case FAILED:
-					return new Color(display, 200, 0, 0);
-				}
-			}
-			
-			entries = report.getEntries(operationInvocation, Type.EXECUTION);
-			if (entries.isEmpty()) {
-				return super.getForeground(element);
-			}
-			status = entries.get(0).getStatus();
-			switch (status) {
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(operationInvocation);
 
-			case SKIPPED:
-				return new Color(display, 150, 150, 150);
-
-			case FAILED:
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				return new Color(display, 0, 200, 0);
+			} else if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
 				return new Color(display, 200, 0, 0);
+			} else {
+				return super.getForeground(element);
 			}
 		}
 		return super.getForeground(element);
@@ -117,23 +100,20 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 
 	private String getFormatedChangeSetInfo(OperationInvocation operationInvocation) {
 		String info = operationInvocation.getChangeSet().getName();
-		List<ReportEntry> entries = report.getEntries(operationInvocation, Type.EXECUTION);
-		if (entries.isEmpty()) {
-			return info;
-		}
-		ReportEntry entry = entries.get(0);
-		if (entry.getStatus() == Status.FAILED) {
-			Exception exception = entry.getException();
+		OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(operationInvocation);
+
+		if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
+			Exception exception = opWrapper.getExecutionError();
 			if (exception instanceof ParameterMissingException) {
 				ParameterMissingException parameterMissingException = (ParameterMissingException) exception;
 				String[] parameterNames = parameterMissingException.getParameterNames();
-				info += "\n\nMissing parameter" + (parameterNames.length > 1 ? "s: " : ": ") + Arrays.toString(parameterNames);
+				info += "\n\nMissing parameter" + (parameterNames.length > 1 ? "s: " : ": ")
+						+ Arrays.toString(parameterNames);
 			} else if (exception instanceof OperationNotExecutableException) {
 				info += "\n\nTransformator could not apply!";
-			} else {
-				info += "\n\nError: " + entry.getDescription();
 			}
 		}
+
 		return info;
 	}
 

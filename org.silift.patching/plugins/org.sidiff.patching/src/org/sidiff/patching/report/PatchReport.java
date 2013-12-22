@@ -2,19 +2,21 @@ package org.sidiff.patching.report;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 
+/**
+ * Basically a list of patch report entries.
+ * 
+ */
 public class PatchReport {
 
 	public enum Status {
 		PASSED, SKIPPED, FAILED, WARNING;
 	}
-	
+
 	public enum Type {
 		PARAMETER("Parameter"), EXECUTION("Execution"), VALIDATION("Validation"), MODIFICATION("Modification");
 
@@ -29,94 +31,65 @@ public class PatchReport {
 		}
 	}
 
-	private Map<OperationInvocation, Map<Type, List<ReportEntry>>> operationMap;
-	
-	private HashMap<OperationInvocation, Collection<ReportEntry>> parameterEntries;
-	private HashMap<OperationInvocation, ReportEntry> executionEntries;
-	private HashMap<OperationInvocation, Collection<ReportEntry>> iterativeValidationEntries;
+	private Collection<ReportEntry> parameterEntries;
+	private Collection<ReportEntry> executionEntries;
 	private Collection<ReportEntry> validationEntries;
 
 	/**
-	 * Handles a list of Reports
+	 * 
 	 */
 	public PatchReport() {
-		operationMap = new HashMap<OperationInvocation, Map<Type, List<ReportEntry>>>();
-		parameterEntries = new HashMap<OperationInvocation, Collection<ReportEntry>>();
-		executionEntries = new HashMap<OperationInvocation, ReportEntry>();
-		iterativeValidationEntries = new HashMap<OperationInvocation, Collection<ReportEntry>>();
+		parameterEntries = new ArrayList<ReportEntry>();
+		executionEntries = new ArrayList<ReportEntry>();
 		validationEntries = new ArrayList<ReportEntry>();
 	}
 
-	public HashMap<OperationInvocation, Collection<ReportEntry>> getParameterEntries() {
-		return parameterEntries;
-	}
-
-	public HashMap<OperationInvocation, ReportEntry> getExecutionEntries() {
-		return executionEntries;
+	public void addParameterEntry(ReportEntry reportEntry) {
+		parameterEntries.add(reportEntry);
 	}
 	
-	public HashMap<OperationInvocation, Collection<ReportEntry>> getIterativeValidationEntries() {
-		return iterativeValidationEntries;
-	}
-
-	public Collection<ReportEntry> getValidationEntries(){
-		return validationEntries;
+	public void addExecutionEntry(ReportEntry reportEntry) {
+		parameterEntries.add(reportEntry);
 	}
 	
-	/**
-	 * Adds a new Report to list
-	 * 
-	 * @param status
-	 * @param type
-	 * @param description
-	 */
-//	public void add(ReportEntry reportEntry) {
-//		this.entries.add(reportEntry);
-//	}
-//	
-//	//TEST
-//	public void remove(ReportEntry reportEntry){
-//		this.entries.remove(reportEntry);
-//	}
-//
-//	public void add(Collection<ReportEntry> reportEntries) {
-//		for (ReportEntry reportEntry : reportEntries) {
-//			add(reportEntry);
-//		}
-//	}
-//
-//	public void add(OperationInvocation operationInvocation, Collection<ReportEntry> reportEntries) {
-//		for (ReportEntry reportEntry : reportEntries) {
-//			add(operationInvocation, reportEntry);
-//		}
-//	}
-//
-//	/**
-//	 * Adds a Report to list
-//	 * 
-//	 * @param operationInvocation
-//	 * @param reportEntry
-//	 */
-//	public void add(OperationInvocation operationInvocation,
-//			ReportEntry reportEntry) {
-//		add(reportEntry);
-//		putIntoOperationMap(operationInvocation, reportEntry);
-//	}
+	public void addValidationEntry(ReportEntry reportEntry) {
+		parameterEntries.add(reportEntry);
+	}
+	
+	public List<ReportEntry> getEntries() {
+		ArrayList<ReportEntry> res = new ArrayList<ReportEntry>();
 
-//	private void putIntoOperationMap(OperationInvocation operationInvocation, ReportEntry reportEntry) {
-//		Map<Type, List<ReportEntry>> operation = operationMap.get(operationInvocation);
-//		if (operation == null) {
-//			operation = new HashMap<Type, List<ReportEntry>>();
-//			operationMap.put(operationInvocation, operation);
-//		}
-//		List<ReportEntry> list = operation.get(reportEntry.getType());
-//		if (list == null) {
-//			list = new ArrayList<ReportEntry>();
-//			operation.put(reportEntry.getType(), list);
-//		}
-//		list.add(reportEntry);
-//	}
+		res.addAll(parameterEntries);
+		res.addAll(executionEntries);
+		res.addAll(validationEntries);
 
+		return res;
+	}
+
+	public List<ReportEntry> getEntries(Type type) {
+		List<ReportEntry> res = new ArrayList<ReportEntry>();
+
+		for (ReportEntry entry : getEntries()) {
+			if (entry.getType() == type) {
+				res.add(entry);
+			}
+		}
+
+		return res;
+	}
+
+	public List<ReportEntry> getEntries(Type type, Status status) {
+		List<ReportEntry> res = new ArrayList<ReportEntry>();
+
+		for (ReportEntry entry : getEntries()) {
+			if (entry.getType() == type && entry.getStatus() == status) {
+				res.add(entry);
+			}
+		}
+
+		return res;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
@@ -126,99 +99,4 @@ public class PatchReport {
 		return stringBuffer.toString();
 	}
 
-	public List<ReportEntry> getEntries(Type type, Status status){
-		List<ReportEntry> list = new ArrayList<ReportEntry>();
-		if(getEntries()!=null){
-			for(ReportEntry entry : getEntries()){
-				if(entry.getType() == type && entry.getStatus() == status){
-					list.add(entry);
-				}
-			}
-		}
-		return list;
-	}
-	
-	public List<ReportEntry> getEntries() {
-		ArrayList <ReportEntry> entries = new ArrayList<ReportEntry>();
-		for(OperationInvocation op: parameterEntries.keySet()){
-			for(ReportEntry re: parameterEntries.get(op)){
-				entries.add(re);
-			}
-		}
-		
-		for(OperationInvocation op: executionEntries.keySet()){
-			entries.add(executionEntries.get(op));
-		}
-		
-		
-		if(validationEntries.isEmpty()){
-			for(OperationInvocation op: iterativeValidationEntries.keySet()){
-				for(ReportEntry re: iterativeValidationEntries.get(op)){
-					entries.add(re);
-				}
-			}
-		}else{
-			for(ReportEntry re : validationEntries){
-				entries.add(re);
-			}
-		}
-
-		return entries;
-//		if (entries != null) {
-//			return entries;
-//		} else {
-//			return Collections.emptyList();
-//		}
-	}
-
-	public List<ReportEntry> getEntries(OperationInvocation operationInvocation, Type type) {
-		ArrayList <ReportEntry> entries = new ArrayList<ReportEntry>();
-		for(OperationInvocation op: parameterEntries.keySet()){
-			if(op.equals(operationInvocation)){
-				for(ReportEntry re: parameterEntries.get(op)){
-					if(re.getType().equals(type))
-						entries.add(re);
-				}
-			}
-		}
-		for(OperationInvocation op: executionEntries.keySet()){
-			if(op.equals(operationInvocation) && executionEntries.get(op).getType().equals(type))
-				entries.add(executionEntries.get(op));
-		}
-		for(OperationInvocation op: iterativeValidationEntries.keySet()){
-			if(op.equals(operationInvocation)){
-				for(ReportEntry re: iterativeValidationEntries.get(op)){
-					if(re.getType().equals(type))
-						entries.add(re);
-				}
-			}
-		}
-		return entries;
-	}
-	
-	
-	public List<ReportEntry> getEntries(OperationInvocation operationInvocation, Type type, Status status) {
-		ArrayList <ReportEntry> entries = new ArrayList<ReportEntry>();
-		for(OperationInvocation op: parameterEntries.keySet()){
-			if(op.equals(operationInvocation)){
-				for(ReportEntry re: parameterEntries.get(op)){
-					if(re.getType().equals(type) && re.getStatus().equals(status))
-						entries.add(re);
-				}
-			}
-		}
-		for(OperationInvocation op: executionEntries.keySet()){
-			if(op.equals(operationInvocation) && executionEntries.get(op).getType().equals(type) && executionEntries.get(op).getStatus().equals(status))
-				entries.add(executionEntries.get(op));
-		}
-		for(OperationInvocation op: iterativeValidationEntries.keySet()){
-			if(op.equals(operationInvocation)){
-				for(ReportEntry re: iterativeValidationEntries.get(op)){
-					if(re.getType().equals(type) && re.getStatus().equals(status))
-						entries.add(re);
-				}
-			}
-		}
-		return entries;
-	}
 }

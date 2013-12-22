@@ -151,7 +151,7 @@ public class PatchEvaluationApplication implements IApplication {
 				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference().getOperationInvocations());
 				buffer.append(mapToLatexTable(dist)+"\n");
 				
-				for (ReportEntry entry : patchEngine.getPatchReport().getEntries()) {
+				for (ReportEntry entry : patchEngine.createPatchReport().getEntries()) {
 					Status status = entry.getStatus();
 					String description = entry.getDescription();
 					buffer.append("ReportEntry: " + status + ": " + description + "\n");

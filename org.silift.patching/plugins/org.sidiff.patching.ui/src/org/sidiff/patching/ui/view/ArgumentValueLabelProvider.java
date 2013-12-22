@@ -12,6 +12,9 @@ import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.ArgumentWrapper;
 import org.sidiff.patching.IArgumentManager;
+import org.sidiff.patching.OperationInvocationStatus;
+import org.sidiff.patching.OperationInvocationStatusManager;
+import org.sidiff.patching.OperationInvocationWrapper;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReport.Status;
 import org.sidiff.patching.report.PatchReport.Type;
@@ -21,33 +24,45 @@ import org.sidiff.patching.ui.Activator;
 public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	private IArgumentManager argumentManager;
+	private OperationInvocationStatusManager statusManager;
 	private boolean showReliabilities = false;
-	private PatchReport report;
 
 	private final Image ERROR = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
 	private final Image WARNING = Activator.getImageDescriptor("warning_16x16.gif").createImage();
 
-	public void init(IArgumentManager argumentManager, PatchReport report) {
+	public void init(IArgumentManager argumentManager, OperationInvocationStatusManager statusManager) {
 		this.argumentManager = argumentManager;
-		this.report = report;
+		this.statusManager = statusManager;
 	}
 
 	@Override
 	public String getText(Object element) {
 		if (element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding substitution = (ObjectParameterBinding) element;
-			ArgumentWrapper argument = argumentManager.getArgument(substitution);
-			if (argument.isResolved()) {
-				float reliability = argumentManager.getReliability(substitution, argument.getTargetObject());
-				return Util.getName(argument.getTargetObject()) + (showReliabilities ? " (" + reliability + ")" : "");
+			OperationInvocation op = (OperationInvocation) substitution.eContainer();
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				// Already executed: Show execution parameters
+				return "TODO: show Exec Object";
+
 			} else {
-				if (isInParameter(substitution)) {
-					return "(Missing object: " + Util.getName(argument.getProxyObject()) + ")";
+				// Not yet executed: Show current state of the argument
+				// selection
+				ArgumentWrapper argument = argumentManager.getArgument(substitution);
+				if (argument.isResolved()) {
+					float reliability = argumentManager.getReliability(substitution, argument.getTargetObject());
+					return Util.getName(argument.getTargetObject())
+							+ (showReliabilities ? " (" + reliability + ")" : "");
 				} else {
-					return "(Not yet created: " + Util.getName(argument.getProxyObject()) + ")";
+					if (isInParameter(substitution)) {
+						return "(Missing object: " + Util.getName(argument.getProxyObject()) + ")";
+					} else {
+						return "(Not yet created: " + Util.getName(argument.getProxyObject()) + ")";
+					}
 				}
 			}
-			
+
 		} else if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding substitution = (ValueParameterBinding) element;
 			String actual = substitution.getActual();
@@ -67,16 +82,22 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				&& ((ObjectParameterBinding) element).getFormalParameter().getDirection() == ParameterDirection.IN) {
 
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
-			ArgumentWrapper argument = argumentManager.getArgument(binding);
-			if (isInParameter(binding)) {
-				if (!argument.isResolved()){
-					return ERROR;
+			OperationInvocation op = (OperationInvocation) binding.eContainer();
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+
+			if(opWrapper.getStatus() != OperationInvocationStatus.PASSED){
+				ArgumentWrapper argument = argumentManager.getArgument(binding);
+				if (isInParameter(binding)) {
+					if (!argument.isResolved()) {
+						return ERROR;
+					}
+					if (argument.isResolved() && argumentManager.isModified(argument.getTargetObject())) {
+						return WARNING;
+					}
 				}
-				if (argument.isResolved() && argumentManager.isModified(argument.getTargetObject())) {
-					return WARNING;
-				} 
 			}
 		}
+		
 		return null;
 	}
 
@@ -86,16 +107,23 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				&& ((ObjectParameterBinding) element).getFormalParameter().getDirection() == ParameterDirection.IN) {
 
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
-			ArgumentWrapper argument = argumentManager.getArgument(binding);
-			if (argument.isResolved()) {
-				if (argumentManager.isModified(argument.getTargetObject())) {
-					return "Warning: The object has been modified";
-				}
+			OperationInvocation op = (OperationInvocation) binding.eContainer();
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				return "TODO: getTooltipText param of executed operation";
 			} else {
-				if (isInParameter(binding)) {
-					return "Error: Missing object";
+				ArgumentWrapper argument = argumentManager.getArgument(binding);
+				if (argument.isResolved()) {
+					if (argumentManager.isModified(argument.getTargetObject())) {
+						return "Warning: The object has been modified";
+					}
 				} else {
-					return "Object has not yet been created";
+					if (isInParameter(binding)) {
+						return "Error: Missing object";
+					} else {
+						return "Object has not yet been created";
+					}
 				}
 			}
 		}
@@ -105,23 +133,17 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	@Override
 	public Color getForeground(Object element) {
 		if (element instanceof ObjectParameterBinding) {
+			Display display = Activator.getDefault().getWorkbench().getDisplay();
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
-			ArgumentWrapper argument = argumentManager.getArgument(binding);
-			if (isInParameter(binding) && !argument.isResolved()) {
-				Display display = Activator.getDefault().getWorkbench().getDisplay();
-				return new Color(display, 200, 0, 0);
-			}
+			OperationInvocation op = (OperationInvocation) binding.eContainer();
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
 
-			// TODO:
-			// Sometimes, we can trace validation errors to specific arguments
-			// But does this make sense?
-			OperationInvocation invocation = (OperationInvocation) binding.eContainer();
-			for (ReportEntry re : report.getEntries(invocation, Type.VALIDATION, Status.FAILED)) {
-				EObject obj = binding.getActualB();
-				EStructuralFeature feature = obj.eClass().getEStructuralFeature("name");
-				if (re.getDescription().contains("'" + obj.eGet(feature) + "'")) {
-					Display display = Activator.getDefault().getWorkbench().getDisplay();
-					return new Color(display, 200, 200, 0);
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				return new Color(display, 150, 150, 150);
+			} else {
+				ArgumentWrapper argument = argumentManager.getArgument(binding);
+				if (isInParameter(binding) && !argument.isResolved()) {
+					return new Color(display, 200, 0, 0);
 				}
 			}
 		}
