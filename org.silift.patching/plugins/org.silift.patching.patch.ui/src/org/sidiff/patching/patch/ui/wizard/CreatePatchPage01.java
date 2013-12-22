@@ -24,6 +24,8 @@ import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class CreatePatchPage01 extends WizardPage {
 
+	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
+	
 	private Composite container;
 
 	private InputModelsWidget sourceWidget;
@@ -91,14 +93,14 @@ public class CreatePatchPage01 extends WizardPage {
 
 		// Required to avoid an error in the system:
 		setControl(wrapper);
-
-		// Initial validation:
-		validate();
-
+		
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Create a patch from the changes between the models: origin -> changed");
+		setMessage(DEFAULT_MESSAGE);
+		
+		// Initial validation:
+		validate();
 	}
 
 	private void createWidgets() {
@@ -137,7 +139,7 @@ public class CreatePatchPage01 extends WizardPage {
 		widget.setLayoutData(data);
 
 		// Add validation:
-		if ((widget instanceof IWidgetSelection) && (widget instanceof IWidgetValidation)) {
+		if (widget instanceof IWidgetSelection) {
 			((IWidgetSelection) widget).addSelectionListener(validationListener);
 		}
 	}

@@ -10,19 +10,17 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
-import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.patching.patch.Patch;
 
 public class ApplyPatchPage01 extends WizardPage {
 
+	private String DEFAULT_MESSAGE = "Apply a patch to a model";
+	
 	private Composite container;
 
 	private TargetModelWidget targetWidget;
@@ -30,21 +28,10 @@ public class ApplyPatchPage01 extends WizardPage {
 	private ValidationModeWidget validationWidget;
 
 	private SelectionAdapter validationListener;
-
-	private Patch patch;
 	private String filterPath;
-	
-	//TODO 
-	private AsymmetricDifference difference;
-	private InputModels inputModels;
 
-	public ApplyPatchPage01(Patch patch,
-			String pageName, String title, ImageDescriptor titleImage) {
+	public ApplyPatchPage01(String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
-
-		this.patch = patch;
-		this.difference = this.patch.getDifference();
-		this.inputModels = new InputModels(this.difference.getChangedModel(), this.difference.getOriginModel());
 		
 		// Listen for validation failures:
 		validationListener =
@@ -98,13 +85,13 @@ public class ApplyPatchPage01 extends WizardPage {
 		// Required to avoid an error in the system:
 		setControl(wrapper);
 		
-		// Initial validation:
-		validate();
-
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Apply a patch to a model");
+		setMessage(DEFAULT_MESSAGE);
+		
+		// Initial validation:
+		validate();
 	}
 
 	private void createWidgets() {
@@ -131,7 +118,7 @@ public class ApplyPatchPage01 extends WizardPage {
 		widget.setLayoutData(data);
 
 		// Add validation:
-		if ((widget instanceof IWidgetSelection) && (widget instanceof IWidgetValidation)) {
+		if (widget instanceof IWidgetSelection) {
 			((IWidgetSelection) widget).addSelectionListener(validationListener);
 		}
 	}
@@ -152,7 +139,6 @@ public class ApplyPatchPage01 extends WizardPage {
 		}
 	}
 
-	
 	public int getComparisonMode() {
 		return comparisonWidget.getSelection();
 	}
@@ -164,8 +150,7 @@ public class ApplyPatchPage01 extends WizardPage {
 	public ComparisonModeWidget getComparisonWidget() {
 		return comparisonWidget;
 	}
-	
-	
+
 	public ValidationModeWidget getValidationWidget(){
 		return validationWidget;
 	}

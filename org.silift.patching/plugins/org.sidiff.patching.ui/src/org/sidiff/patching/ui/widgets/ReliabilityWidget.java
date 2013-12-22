@@ -1,6 +1,8 @@
 package org.sidiff.patching.ui.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -11,11 +13,12 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.matcher.IMatcher;
 import org.silift.common.util.ui.widgets.IWidget;
+import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
 
-public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetValidation {
+public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation {
 
 	private final int defaultReliability = 50;
 	
@@ -32,7 +35,32 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 		else
 			this.reliability = defaultReliability;
 		
+		// Connect to matching engine widget:
 		this.matchingEngineWidget = matchingEngineWidget;
+		
+		matchingEngineWidget.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkMatcher();
+			}
+		});
+	}
+	
+	private boolean checkMatcher() {
+		IMatcher matcher = matchingEngineWidget.getSelection();
+		
+		if((matcher != null) && matcher.canComputeReliability()){
+			scale.setEnabled(true);
+			spinner.setEnabled(true);
+			container.setEnabled(true);
+			return true;
+		}
+		else{
+			scale.setEnabled(false);
+			spinner.setEnabled(false);
+			container.setEnabled(false);
+			return false;
+		}
 	}
 
 	/**
@@ -70,6 +98,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 		spinner.setSelection(this.reliability);
 
 		scale.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				int perspectiveValue = scale.getSelection() + scale.getMinimum();
 				spinner.setSelection(perspectiveValue);
@@ -86,6 +115,9 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 			}
 		});
 		
+		// Initialize...
+		checkMatcher();
+		
 		return container;
 	}
 
@@ -100,7 +132,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	public int getReliability() {
-		if (validate()) {
+		if (checkMatcher()) {
 			return this.reliability;
 		} else {
 			return -1;
@@ -108,30 +140,13 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	@Override
-	public boolean validate() {
-		if(this.matchingEngineWidget.getSelection().canComputeReliability()){
-			scale.setEnabled(true);
-			spinner.setEnabled(true);
-			container.setEnabled(true);
-			return true;
-		}
-		else{
-			scale.setEnabled(false);
-			spinner.setEnabled(false);
-			container.setEnabled(false);
-			return false;
-		}
-	}
-
-	@Override
-	public String getValidationMessage() {
-		if(validate()){
+	public String getInformationMessage() {
+		if (checkMatcher()) {
 			return "";
-		}
-		else
+		} else {
 			return "Selected Matching Engine does not support Reliability!";
+		}
 	}
-
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {

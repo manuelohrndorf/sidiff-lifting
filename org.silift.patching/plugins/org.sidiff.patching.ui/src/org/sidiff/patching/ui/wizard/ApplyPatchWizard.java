@@ -71,7 +71,6 @@ public class ApplyPatchWizard extends Wizard {
 	@Override
 	public void addPages() {
 		applyPatchPage01 = new ApplyPatchPage01(
-				patch,
 				"ApplyPatchPage", "Apply Patch: " + patchName, getImageDescriptor("icon.png"));
 		addPage(applyPatchPage01);
 		
@@ -89,18 +88,18 @@ public class ApplyPatchWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		
-		try {
-			getContainer().run(false, false, new IRunnableWithProgress() {
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+//		try {
+//			getContainer().run(false, false, new IRunnableWithProgress() {
+//				@Override
+//				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 					finish();
-				}
-			});
-		} catch (InvocationTargetException e1) {
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+//				}
+//			});
+//		} catch (InvocationTargetException e1) {
+//			e1.printStackTrace();
+//		} catch (InterruptedException e1) {
+//			e1.printStackTrace();
+//		}
 
 		return true;
 	}

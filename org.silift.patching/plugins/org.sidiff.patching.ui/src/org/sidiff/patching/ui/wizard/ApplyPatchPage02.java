@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -23,14 +24,16 @@ import org.silift.patching.patch.Patch;
 
 public class ApplyPatchPage02 extends WizardPage {
 
+	private String DEFAULT_MESSAGE = "Apply a patch to a model";
+	
 	private Composite container;
 
 	private MatchingEngineWidget matcherWidget;
 	private ReliabilityWidget reliabilityWidget;
-	private SelectionAdapter validationListener;
-
 	
-	//TODO
+	private SelectionAdapter validationListener;
+	private SelectionAdapter informationListener;
+
 	private AsymmetricDifference difference;
 	private InputModels inputModels;
 
@@ -42,13 +45,20 @@ public class ApplyPatchPage02 extends WizardPage {
 		this.inputModels = new InputModels(this.difference.getOriginModel(), this.difference.getChangedModel());
 
 		// Listen for validation failures:
-		validationListener =
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						validate();
-					}
-				};
+		validationListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				validate();
+			}
+		};
+
+		// Listen for widget information messages:
+		informationListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				readInformationMessages();
+			}
+		};
 	}
 
 	@Override
@@ -93,13 +103,16 @@ public class ApplyPatchPage02 extends WizardPage {
 		// Required to avoid an error in the system:
 		setControl(wrapper);
 
-		// Initial validation:
-		validate();
-
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Apply a patch to a model");
+		setMessage(DEFAULT_MESSAGE);
+		
+		// Initial validation:
+		validate();
+		
+		// Initialize information message:
+		readInformationMessages();
 	}
 
 	private void createWidgets() {
@@ -134,9 +147,10 @@ public class ApplyPatchPage02 extends WizardPage {
 		widget.createControl(parent);
 		widget.setLayoutData(data);
 
-		// Add validation:
-		if ((widget instanceof IWidgetSelection) && (widget instanceof IWidgetValidation)) {
+		// Add selection listener:
+		if (widget instanceof IWidgetSelection) {
 			((IWidgetSelection) widget).addSelectionListener(validationListener);
+			((IWidgetSelection) widget).addSelectionListener(informationListener);
 		}
 	}
 
@@ -145,7 +159,6 @@ public class ApplyPatchPage02 extends WizardPage {
 		setPageComplete(true);
 
 		validateWidget(matcherWidget);
-		validateWidget(reliabilityWidget);
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -155,6 +168,14 @@ public class ApplyPatchPage02 extends WizardPage {
 		}
 	}
 
+	private void readInformationMessages() {
+		if ((getErrorMessage() == null) || getErrorMessage().equals("")) {
+			setMessage(reliabilityWidget.getInformationMessage(), IMessageProvider.INFORMATION);
+		}
+		if ((getMessage() == null) || getMessage().equals("")) {
+			setMessage(DEFAULT_MESSAGE);
+		}
+	}
 
 	public IMatcher getSelectedMatchingEngine() {
 		return matcherWidget.getSelection();
