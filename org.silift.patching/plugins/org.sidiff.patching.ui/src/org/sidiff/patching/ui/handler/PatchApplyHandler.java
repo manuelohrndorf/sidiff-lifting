@@ -18,7 +18,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.patching.ui.wizard.ApplyPatchWizard;
-import org.sidiff.patching.util.PatchUtil;
 import org.silift.common.util.file.ZipUtil;
 import org.silift.patching.patch.Patch;
 
@@ -34,7 +33,7 @@ public class PatchApplyHandler extends AbstractHandler {
 			Object firstElement = selection.getFirstElement();
 			if (firstElement instanceof IFile) {
 				IFile iFile = (IFile) firstElement;
-				if (!iFile.getFileExtension().equals(PatchUtil.PATCH_EXTENSION))
+				if (!iFile.getFileExtension().equals(AsymmetricDiffFacade.PATCH_EXTENSION))
 					return -1;
 
 				String patchPath = iFile.getLocation().toOSString();

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,14 +18,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.sidiff.common.chartsutil.ChartsUtil;
-import org.sidiff.common.chartsutil.ChartsUtil.SeriesWithAxesType;
-import org.sidiff.common.chartsutil.ChartsUtil.SeriesWithoutAxesType;
-import org.sidiff.common.experimentalutil.ExperimentalUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.util.StatisticsUtil;
-import org.sidiff.common.util.StatisticsUtil.StatisticType;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
@@ -34,8 +27,6 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
-import org.sidiff.patching.report.PatchReport.Status;
-import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
@@ -150,12 +141,13 @@ public class PatchEvaluationApplication implements IApplication {
 				buffer.append("Operation & amount\\\\\n");
 				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference().getOperationInvocations());
 				buffer.append(mapToLatexTable(dist)+"\n");
-				
-				for (ReportEntry entry : patchEngine.createPatchReport().getEntries()) {
-					Status status = entry.getStatus();
-					String description = entry.getDescription();
-					buffer.append("ReportEntry: " + status + ": " + description + "\n");
-				}
+
+//TODO (TK): More Details from report..				
+//				for (ReportEntry entry : patchEngine.createPatchReport().getEntries()) {
+//					Status status = entry.getStatus();
+//					String description = entry.getDescription();
+//					buffer.append("ReportEntry: " + status + ": " + description + "\n");
+//				}
 
 				// Saving patch
 //				AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(), folder, testSuite.getId()+".patch");
@@ -224,11 +216,8 @@ public class PatchEvaluationApplication implements IApplication {
 				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
 				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");	
 			}
-			buffer.append("--------------\n\n");	
 			
-
-
-			
+			buffer.append("--------------\n\n");		
 		}
 		
 		FileWriter writer = new FileWriter(modelFolder.getAbsolutePath()+"/report.txt");

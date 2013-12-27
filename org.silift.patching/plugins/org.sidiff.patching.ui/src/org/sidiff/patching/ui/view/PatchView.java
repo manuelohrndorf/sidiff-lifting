@@ -22,12 +22,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ValidationMode;
-import org.sidiff.patching.report.PatchReport;
+import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
@@ -36,19 +35,18 @@ import org.sidiff.patching.ui.view.filter.ValueParameterFilter;
 import org.sidiff.patching.util.PatchUtil;
 
 
-public class PatchView extends ViewPart implements ICheckBoxListener, IModelChangeListener, IValueChangedListener {
+public class PatchView extends ViewPart implements ICheckBoxListener, IModelChangeListener, IValueChangedListener, IPatchReportListener {
 	
 	public static final String ID = "org.sidiff.patching.ui.view.PatchView";
 	
 	private PatchEngine engine;
 
 	private TreeViewer patchViewer;
+	private OperationLabelProvider operationLabelProvider;
 
 	private ArgumentValueEditingSupport editingSupport;
 	private ArgumentValueLabelProvider valueLabelProvider;
 
-	private PatchLabelProvider patchLabelProvider;
-	
 	//----------- Filter ----------------------
 	private NullValueParameterFilter nullValueParameterFilter;
 	private Action nullValueParameterFilterAction;
@@ -56,13 +54,14 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	private Action valueParameterFilterAction;
 	
 	//----------- Validation -------------------
-	private Action iterativeValidation;
-	private Action finalValidation;
-	private Action noValidation;
-	private Action manualValidation;
+	private Action iterativeValidationAction;
+	private Action finalValidationAction;
+	private Action noValidationAction;
+	private Action manualValidationAction;
 	
-	private SelectionHandler selectionHandler;
-
+	//----------- Execution -------------------
+	private Action applyPatchAction;
+	
 	private Button reliabilitiesButton;
 
 	@Override
@@ -101,16 +100,16 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// CheckboxListener
 		tree.addMouseListener(new CheckBoxMouseListener(this));
 
-		// Patch column
-		TreeViewerColumn differenceColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
-		differenceColumn.getColumn().setWidth(200);
-		differenceColumn.getColumn().setText("Operation");
-		differenceColumn.getColumn().setResizable(true);
+		// Operation column
+		TreeViewerColumn operationColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
+		operationColumn.getColumn().setWidth(200);
+		operationColumn.getColumn().setText("Operation");
+		operationColumn.getColumn().setResizable(true);
 		// PatchLabelProvider
-		patchLabelProvider = new PatchLabelProvider();
-		differenceColumn.setLabelProvider(patchLabelProvider);
+		operationLabelProvider = new OperationLabelProvider();
+		operationColumn.setLabelProvider(operationLabelProvider);
 
-		// Value column
+		// Argument column
 		TreeViewerColumn valueColumn = new TreeViewerColumn(patchViewer, SWT.NONE);
 		valueColumn.getColumn().setWidth(200);
 		valueColumn.getColumn().setText("Argument");
@@ -123,12 +122,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// EditingSupport
 		valueColumn.setEditingSupport(editingSupport);
 
-		// Selectionlistener
-		selectionHandler = new SelectionHandler(patchViewer);
-		patchViewer.addSelectionChangedListener(selectionHandler);
-
-		getSite().setSelectionProvider(selectionHandler);
-
 		createActions();
 		createMenus();
 		createToolbar();
@@ -138,27 +131,29 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	public void setPatchEngine(PatchEngine patchEngine) {
 		this.engine = patchEngine;
 		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getStatusManager());
-		this.patchLabelProvider.init(engine.getStatusManager());
+		this.operationLabelProvider.init(engine.getStatusManager());
 		this.editingSupport.setArgumentManager(engine.getArgumentManager());
 		this.patchViewer.setInput(engine.getAsymmetricDifference());
 		this.patchViewer.expandAll();
 		this.patchViewer.getTree().getColumns()[1].pack();
 		
-		iterativeValidation.setEnabled(true);
-		finalValidation.setEnabled(true);
-		noValidation.setEnabled(true);		
+		iterativeValidationAction.setEnabled(true);
+		finalValidationAction.setEnabled(true);
+		noValidationAction.setEnabled(true);		
 		
 		if(this.engine.getValidationMode() == ValidationMode.FINAL)
-			finalValidation.setChecked(true);
+			finalValidationAction.setChecked(true);
 		else
 			if(this.engine.getValidationMode() == ValidationMode.ITERATIVE)
-				iterativeValidation.setChecked(true);
+				iterativeValidationAction.setChecked(true);
 			else
-				noValidation.setChecked(true);
+				noValidationAction.setChecked(true);
 		
 		if(!this.engine.getReliabilitiesComputed()){
 			reliabilitiesButton.setVisible(false);
 		}
+		
+		engine.getPatchReportManager().addPatchReportListener(this);
 	}
 	
 	/**
@@ -190,50 +185,56 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		valueParameterFilterAction.setChecked(true);
 		
 		//----------- Validation ------------------
-		this.iterativeValidation = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
+		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.ITERATIVE);
 			}
 			
 		};
-		this.iterativeValidation.setToolTipText("The model will be validated after each operation invocation.");
-		this.iterativeValidation.setChecked(false);
+		this.iterativeValidationAction.setToolTipText("The model will be validated after each operation invocation.");
+		this.iterativeValidationAction.setChecked(false);
 		
-		this.finalValidation = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
+		this.finalValidationAction = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.FINAL);
 			}
 		};
-		this.finalValidation.setToolTipText("The model will be validatetd after applying the selected operation invocations.");
+		this.finalValidationAction.setToolTipText("The model will be validatetd after applying the selected operation invocations.");
 		
-		this.noValidation = new Action("No Validation", IAction.AS_RADIO_BUTTON){
+		this.noValidationAction = new Action("No Validation", IAction.AS_RADIO_BUTTON){
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.NO);
 			}
 		};
-		this.noValidation.setToolTipText("The model won't be validated.");
+		this.noValidationAction.setToolTipText("The model won't be validated.");
 		
-		this.manualValidation = new Action("Manual Validation", IAction.AS_PUSH_BUTTON){
+		this.manualValidationAction = new Action("Manual Validation", IAction.AS_PUSH_BUTTON){
 			@Override
 			public void run() {
 				engine.setValidationMode(ValidationMode.MANUAL);
-				engine.updatePatchReport();
-				PatchReport report = engine.createPatchReport();
-				ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ReportView.ID);
-				reportView.setEntries(report.getEntries());
-				patchViewer.refresh();
+				
+				//TODO(TK): start validation
+				System.out.println("TODO: implement me");
 			}
 		};
-		this.manualValidation.setToolTipText("Validate the model.");
-		this.manualValidation.setEnabled(true);
+		this.manualValidationAction.setToolTipText("Validate the model.");
 		
+		this.manualValidationAction.setEnabled(true);
+		iterativeValidationAction.setEnabled(false);
+		finalValidationAction.setEnabled(false);
+		noValidationAction.setEnabled(false);
 		
-		iterativeValidation.setEnabled(false);
-		finalValidation.setEnabled(false);
-		noValidation.setEnabled(false);
+		//----------- Execution ------------------
+		this.applyPatchAction = new Action("Apply Patch", IAction.AS_PUSH_BUTTON){
+			@Override
+			public void run() {				
+				engine.applyPatch();
+			}
+		};
+		this.applyPatchAction.setToolTipText("Apply Patch");
 	}
 
 	private void updatefilter(Action action) {
@@ -268,13 +269,18 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		rootMenuManager.add(filterSubmenu);
 		filterSubmenu.add(nullValueParameterFilterAction);
 		filterSubmenu.add(valueParameterFilterAction);
+		
 		IMenuManager validateModeSubmenu = new MenuManager("Validation");
 		rootMenuManager.add(validateModeSubmenu);
-		validateModeSubmenu.add(iterativeValidation);
-		validateModeSubmenu.add(finalValidation);
-		validateModeSubmenu.add(noValidation);
+		validateModeSubmenu.add(iterativeValidationAction);
+		validateModeSubmenu.add(finalValidationAction);
+		validateModeSubmenu.add(noValidationAction);
 		validateModeSubmenu.add(new Separator());
-		validateModeSubmenu.add(manualValidation);
+		validateModeSubmenu.add(manualValidationAction);
+		
+		IMenuManager execMenu = new MenuManager("Application");
+		rootMenuManager.add(execMenu);
+		execMenu.add(applyPatchAction);
 	}
 
 	private void createToolbar() {
@@ -284,9 +290,23 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	}
 
 	@Override
-	public void itemChecked(OperationInvocation invocation, boolean checked) {
-		PatchUtil.ensureDependency(invocation, checked);
-		patchViewer.update(engine.getAsymmetricDifference().getOperationInvocations().toArray(), null);
+	public void itemChecked(OperationInvocation op, boolean checked) {
+		op.setApply(checked);
+		
+		if (checked){
+			// Include also operations which "op" depends on
+			for (OperationInvocation pre : op.getAllPredecessors()) {
+				pre.setApply(true);
+			}
+		} else {
+			// Revert also operations which depend on "op"
+			for (OperationInvocation succ : op.getAllSuccessors()) {
+				succ.setApply(false);
+			}
+		}
+		
+		patchViewer.refresh();
+		engine.applyPatch();
 	}
 
 	@Override
@@ -294,6 +314,13 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		return patchViewer.getTree();
 	}
 
+	@Override
+	public void dispose() {		
+		super.dispose();
+		
+		engine.getPatchReportManager().removePatchReportListener(this);
+	}
+	
 	@Override
 	public void setFocus() {
 
@@ -327,5 +354,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	@Override
 	public void attributeValueSet(EAttribute attribute, EObject object, Object value) {
 		patchViewer.refresh();		
+	}
+
+	@Override
+	public void reportChanged() {
+		patchViewer.refresh();
 	}
 }

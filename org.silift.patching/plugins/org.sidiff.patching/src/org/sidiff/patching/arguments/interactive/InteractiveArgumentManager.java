@@ -1,4 +1,4 @@
-package org.sidiff.patching.internal;
+package org.sidiff.patching.arguments.interactive;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +22,8 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.patching.ArgumentWrapper;
-import org.sidiff.patching.IArgumentManager;
+import org.sidiff.patching.arguments.ArgumentWrapper;
+import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
@@ -224,6 +224,16 @@ public class InteractiveArgumentManager implements IArgumentManager {
 		}
 	}
 
+	@Override
+	public void addTargetObject(EObject targetObject) {
+		for (ObjectParameterBinding b : argumentResolutions.keySet()) {
+			ArgumentWrapper arg = argumentResolutions.get(b);
+			if (!arg.isResolved() && arg.getTargetObject() == targetObject){
+				arg.restoreResolution();
+			}
+		}
+	}
+	
 	@Override
 	public void setMinReliability(float minReliability) {
 		this.minReliability = minReliability;

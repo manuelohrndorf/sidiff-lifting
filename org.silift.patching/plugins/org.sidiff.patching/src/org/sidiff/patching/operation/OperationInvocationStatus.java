@@ -1,10 +1,9 @@
-package org.sidiff.patching;
+package org.sidiff.patching.operation;
 
 public enum OperationInvocationStatus {
 
 	INIT,
 	PASSED,
 	SKIPPED,
-	SKIPPED_DEPENDENCY,
 	FAILED,
 }

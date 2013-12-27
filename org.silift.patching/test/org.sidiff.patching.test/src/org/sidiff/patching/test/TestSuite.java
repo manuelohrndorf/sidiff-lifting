@@ -3,8 +3,8 @@ package org.sidiff.patching.test;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.patching.IArgumentManager;
 import org.sidiff.patching.ITransformationEngine;
+import org.sidiff.patching.arguments.IArgumentManager;
 
 public class TestSuite {
 	String id;

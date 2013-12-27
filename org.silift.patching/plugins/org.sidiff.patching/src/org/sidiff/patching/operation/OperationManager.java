@@ -1,4 +1,4 @@
-package org.sidiff.patching;
+package org.sidiff.patching.operation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,22 +7,19 @@ import java.util.Map;
 
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
 
-public class OperationInvocationStatusManager {
+public class OperationManager {
 
 	private Map<OperationInvocation, OperationInvocationWrapper> statusWrappers;
 	
-	public OperationInvocationStatusManager(List<OperationInvocation> operationInvocations){
+	public OperationManager(List<OperationInvocation> operationInvocations){
 		statusWrappers = new HashMap<OperationInvocation, OperationInvocationWrapper>();
 		for(OperationInvocation op : operationInvocations){
 			statusWrappers.put(op, new OperationInvocationWrapper(op));
 		}
 	}
-	
-	public void createPatchReport(){
 		
-	}
-	
 	public OperationInvocationWrapper getStatusWrapper(OperationInvocation op){
 		return statusWrappers.get(op);
 	}

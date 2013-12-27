@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.patching.ArgumentWrapper;
-import org.sidiff.patching.IArgumentManager;
+import org.sidiff.patching.arguments.ArgumentWrapper;
+import org.sidiff.patching.arguments.IArgumentManager;
 
 public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
@@ -72,6 +72,11 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 		// not needed in batch mode
 	}
 
+	@Override
+	public void addTargetObject(EObject targetObject) {
+		// not needed in batch mode
+	}
+	
 	@Override
 	public void setMinReliability(float minReliability) {
 		// not needed in batch mode

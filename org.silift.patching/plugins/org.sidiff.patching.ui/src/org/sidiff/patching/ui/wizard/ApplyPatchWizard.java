@@ -35,11 +35,11 @@ import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.patching.IArgumentManager;
 import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.PatchEngine.ValidationMode;
+import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
@@ -134,8 +134,8 @@ public class ApplyPatchWizard extends Wizard {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					monitor.beginTask("Patching", 100);
-					monitor.subTask("Opening view and editor");
+					monitor.beginTask("Patching", 120);
+					monitor.subTask("Opening editor for target resource");
 					final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
 					Display.getDefault().syncExec(new Runnable() {
 						@Override
@@ -163,15 +163,15 @@ public class ApplyPatchWizard extends Wizard {
 								validationState = true;
 							} catch (PartInitException e) {
 								e.printStackTrace();
-							} catch (InvalidModelException e) {
-								// TODO Auto-generated catch block
+							} catch (InvalidModelException e) {								
 								ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 								validationState = false;
 							}
 						}
 					});
-					if(!validationState)
+					if(!validationState){
 						return Status.CANCEL_STATUS;
+					}
 					monitor.worked(20);
 
 					// Find patch correspondence
@@ -182,7 +182,7 @@ public class ApplyPatchWizard extends Wizard {
 						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 					}	
 					
-					//Use selected Matcher
+					// Use selected Matcher
 					IArgumentManager correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
 					if (correspondence == null) {
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");
@@ -203,25 +203,41 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.worked(40);
 
 					monitor.subTask("Open Patch View");
-					final AtomicReference<PatchView> viewResult = new AtomicReference<PatchView>();
+					final AtomicReference<PatchView> patchViewReference = new AtomicReference<PatchView>();
+					Display.getDefault().syncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							try {								
+								PatchView patchView = (PatchView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(PatchView.ID);
+								patchView.setPatchEngine(patchEngine);
+								patchViewReference.set(patchView);
+							} catch (PartInitException e) {
+								e.printStackTrace();
+							}
+						}});
+					PatchView patchView = patchViewReference.get();
+					monitor.worked(20);
+
+					monitor.subTask("Open Report View");
+					final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
 						public void run() {
 							try {
-								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
-								PatchView patchView = (PatchView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(PatchView.ID);
-								patchView.setPatchEngine(patchEngine);
-								viewResult.set(patchView);
+								ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
+								reportView.setPatchReportManager(patchEngine.getPatchReportManager());
+								reportViewReference.set(reportView);
 							} catch (PartInitException e) {
 								e.printStackTrace();
 							}
 						}});
-					PatchView patchView = viewResult.get();
+					ReportView reportView = reportViewReference.get();
 					monitor.worked(20);
-
 					
-					// ModelChangeHandler works independent
+					
+					// ModelChangeHandler works independent; PatchView is interested in model changes
 					monitor.subTask("Adding Modellistener");
 					ModelAdapter adapter = new ModelAdapter(resourceResult.get());
 					adapter.addListener(new ModelChangeHandler(correspondence));

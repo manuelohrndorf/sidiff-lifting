@@ -2,8 +2,6 @@ package org.sidiff.patching.ui.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -23,95 +21,129 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
-import org.sidiff.patching.report.PatchReport.Type;
+import org.sidiff.patching.report.IPatchReportListener;
+import org.sidiff.patching.report.OperationExecutionEntry;
+import org.sidiff.patching.report.OperationExecutionEntry.OperationExecutionKind;
 import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.report.PatchReportManager;
+import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.view.filter.ReportViewFilter;
 
-public class ReportView extends ViewPart {
+public class ReportView extends ViewPart implements IPatchReportListener {
+	
 	public static final String ID = "org.sidiff.patching.ui.view.ReportView";
 
+	private PatchReportManager reportManager;
+
 	private Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
-	private Image SKIPPED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
-	private Image FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 	private Image WARNING_IMG = Activator.getImageDescriptor("warning.png").createImage();
+	private Image SKIPPED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
+	private Image REVERTED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
+	private Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
+	private Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 
 	private TableViewer reportViewer;
 
-	private ReportViewFilter reportParameterFilter;
-	private Action reportParameterFilterAction;
-	private ReportViewFilter reportExecutionFilter;
-	private Action reportExecutionFilterAction;
-	
-	private List<ReportEntry> entries;
-	private boolean showPassed = false;
-	private boolean showSkipped = true;
-	private boolean showFailed = true;
+	private ReportViewFilter reportFilter;
+	private Action reportFilterAction;
+
+	private boolean showPassed = true;
 	private boolean showWarning = true;
+	private boolean showSkipped = true;
+	private boolean showReverted = true;
+	private boolean showExecFailed = true;
+	private boolean showRevertFailed = true;
+
 	private Button passedButton;
-	private Button skippedButton;
-	private Button failedButton;
 	private Button warningButton;
-	
+	private Button skippedButton;
+	private Button revertedButton;
+	private Button execFailedButton;
+	private Button revertFailedButton;
+
 	@Override
 	public void createPartControl(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.FILL);
 		composite.setLayout(new GridLayout());
-		
+
 		Composite editComposite = new Composite(composite, SWT.NONE);
-		GridLayout glEditComposite = new GridLayout(4,false);
+		GridLayout glEditComposite = new GridLayout(4, false);
 		editComposite.setLayout(glEditComposite);
-		
+
 		passedButton = new Button(editComposite, SWT.CHECK);
 		passedButton.setText("PASSED");
-		passedButton.setSelection(false);
+		passedButton.setSelection(true);
 		passedButton.addSelectionListener(new SelectionAdapter() {
-		    @Override
-		    public void widgetSelected(SelectionEvent e) {
-		        // Handle the selection event
-		        showPassed = passedButton.getSelection();
-		        update();
-		    }
-		}); 
-		
-		skippedButton = new Button(editComposite, SWT.CHECK);
-		skippedButton.setText("SKIPPED");
-		skippedButton.setSelection(true);
-		skippedButton.addSelectionListener(new SelectionAdapter() {
-		    @Override
-		    public void widgetSelected(SelectionEvent e) {
-		        // Handle the selection event
-		        showSkipped = skippedButton.getSelection();
-		        update();
-		    }
-		}); 
-		
-		
-		failedButton = new Button(editComposite, SWT.CHECK);
-		failedButton.setText("FAILED");
-		failedButton.setSelection(true);
-		failedButton.addSelectionListener(new SelectionAdapter() {
-		    @Override
-		    public void widgetSelected(SelectionEvent e) {
-		        // Handle the selection event
-		        showFailed = failedButton.getSelection();
-		        update();
-		    }
-		}); 
-		
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showPassed = passedButton.getSelection();
+				update();
+			}
+		});
+
 		warningButton = new Button(editComposite, SWT.CHECK);
 		warningButton.setText("WARNING");
 		warningButton.setSelection(true);
 		warningButton.addSelectionListener(new SelectionAdapter() {
-		    @Override
-		    public void widgetSelected(SelectionEvent e) {
-		        // Handle the selection event
-		        showWarning = warningButton.getSelection();
-		        update();
-		    }
-		}); 
-		
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showWarning = warningButton.getSelection();
+				update();
+			}
+		});
+
+		skippedButton = new Button(editComposite, SWT.CHECK);
+		skippedButton.setText("SKIPPED");
+		skippedButton.setSelection(true);
+		skippedButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showSkipped = skippedButton.getSelection();
+				update();
+			}
+		});
+
+		revertedButton = new Button(editComposite, SWT.CHECK);
+		revertedButton.setText("REVERTED");
+		revertedButton.setSelection(true);
+		revertedButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showReverted = revertedButton.getSelection();
+				update();
+			}
+		});
+
+		execFailedButton = new Button(editComposite, SWT.CHECK);
+		execFailedButton.setText("EXEC_FAILED");
+		execFailedButton.setSelection(true);
+		execFailedButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showExecFailed = execFailedButton.getSelection();
+				update();
+			}
+		});
+
+		revertFailedButton = new Button(editComposite, SWT.CHECK);
+		revertFailedButton.setText("REVERT_FAILED");
+		revertFailedButton.setSelection(true);
+		revertFailedButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// Handle the selection event
+				showRevertFailed = revertFailedButton.getSelection();
+				update();
+			}
+		});
+
 		// Result view
 		reportViewer = new TableViewer(composite, SWT.SINGLE | SWT.FULL_SELECTION);
 		reportViewer.setContentProvider(new ArrayContentProvider());
@@ -119,11 +151,25 @@ public class ReportView extends ViewPart {
 		reportViewer.getTable().setLinesVisible(true);
 		reportViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 
+		// Report Filter
+		reportFilter = new ReportViewFilter();
+
 		createColumns();
 
 		createActions();
 		createMenus();
 
+	}
+
+	public void setPatchReportManager(PatchReportManager reportManager) {
+		this.reportManager = reportManager;
+		reportManager.addPatchReportListener(this);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		reportManager.removePatchReportListener(this);
 	}
 
 	// This will create the columns for the table
@@ -141,22 +187,29 @@ public class ReportView extends ViewPart {
 
 			@Override
 			public Image getImage(Object element) {
-				switch (((ReportEntry) element).getStatus()) {
-				case PASSED: {
-					return PASSED_IMG;
+				if (element instanceof OperationExecutionEntry) {
+					OperationExecutionEntry execEntry = (OperationExecutionEntry) element;
+					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
+						return PASSED_IMG;
+					}
+					if (execEntry.getKind() == OperationExecutionKind.WARNING) {
+						return WARNING_IMG;
+					}
+					if (execEntry.getKind() == OperationExecutionKind.SKIPPED) {
+						return SKIPPED_IMG;
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
+						return REVERTED_IMG;
+					}
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED) {
+						return EXEC_FAILED_IMG;
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED) {
+						return REVERT_FAILED_IMG;
+					}
 				}
-				case SKIPPED: {
-					return SKIPPED_IMG;
-				}
-				case FAILED: {
-					return FAILED_IMG;
-				}
-				case WARNING: {
-					return WARNING_IMG;
-				}
-				default:
-					return null;
-				}
+
+				return null;
 			}
 		});
 
@@ -166,7 +219,14 @@ public class ReportView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 				ReportEntry entry = (ReportEntry) element;
-				return entry.getType().toString();
+				if (entry instanceof OperationExecutionEntry) {
+					return "Execution";
+				}
+				if (entry instanceof ValidationEntry) {
+					return "Validation";
+				}
+
+				return null;
 			}
 		});
 
@@ -192,37 +252,21 @@ public class ReportView extends ViewPart {
 	}
 
 	private void createActions() {
-		this.reportParameterFilter = new ReportViewFilter(Type.PARAMETER);
-		this.reportParameterFilterAction = new Action("Hide successful parameter bindings in Report") {
+		this.reportFilterAction = new Action("Hide successful executions in Report") {
 			@Override
 			public void run() {
-				updatefilter(reportParameterFilterAction);
+				updatefilter(reportFilterAction);
 			}
 		};
-		reportParameterFilterAction.setChecked(false);
-		
-		this.reportExecutionFilter = new ReportViewFilter(Type.EXECUTION);
-		this.reportExecutionFilterAction = new Action("Hide successful executions in Report") {
-			@Override
-			public void run() {
-				updatefilter(reportExecutionFilterAction);
-			}
-		};
-		reportExecutionFilterAction.setChecked(false);
+		reportFilterAction.setChecked(false);
 	}
 
 	private void updatefilter(Action action) {
-		if (action == reportParameterFilterAction) {
+		if (action == reportFilterAction) {
 			if (action.isChecked()) {
-				reportViewer.addFilter(reportParameterFilter);
+				reportViewer.addFilter(reportFilter);
 			} else {
-				reportViewer.removeFilter(reportParameterFilter);
-			}
-		} else if (action == reportExecutionFilterAction) {
-			if (action.isChecked()) {
-				reportViewer.addFilter(reportExecutionFilter);
-			} else {
-				reportViewer.removeFilter(reportExecutionFilter);
+				reportViewer.removeFilter(reportFilter);
 			}
 		}
 	}
@@ -241,37 +285,53 @@ public class ReportView extends ViewPart {
 	private void fillMenu(IMenuManager rootMenuManager) {
 		IMenuManager filterSubmenu = new MenuManager("Filters");
 		rootMenuManager.add(filterSubmenu);
-		filterSubmenu.add(reportParameterFilterAction);
-		filterSubmenu.add(reportExecutionFilterAction);
+		filterSubmenu.add(reportFilterAction);
 	}
 
 	@Override
 	public void setFocus() {
 
 	}
-	
-	public void setEntries(List<ReportEntry> entries) {
-		this.entries = entries;
-		update();
-	}
-	
-	private void update(){
+
+	private void update() {
+		List<ReportEntry> allEntries = reportManager.getLastReport().getEntries();
 		List<ReportEntry> input = new ArrayList<ReportEntry>();
-		
-		if(entries  != null){
-			for(ReportEntry re : entries){
-				if(re.getStatus().name().equals("PASSED") && showPassed){
-					input.add(re);
-				}else if(re.getStatus().name().equals("FAILED") && showFailed){
-					input.add(re);
-				}else if(re.getStatus().name().equals("SKIPPED") && showSkipped){
-					input.add(re);
-				}else if(re.getStatus().name().equals("WARNING") && showWarning){
-					input.add(re);
+
+		if (allEntries != null) {
+			for (ReportEntry reportEntry : allEntries) {
+				if (reportEntry instanceof OperationExecutionEntry) {
+					OperationExecutionEntry execEntry = (OperationExecutionEntry) reportEntry;
+					if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed) {
+						input.add(execEntry);
+					}
+					if (execEntry.getKind() == OperationExecutionKind.WARNING && showWarning) {
+						input.add(execEntry);
+					}
+					if (execEntry.getKind() == OperationExecutionKind.SKIPPED && showSkipped) {
+						input.add(execEntry);
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted) {
+						input.add(execEntry);
+					}
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED && showExecFailed) {
+						input.add(execEntry);
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED && showRevertFailed) {
+						input.add(execEntry);
+					}
+				} else {
+					input.add(reportEntry);
 				}
 			}
-			reportViewer.setInput(input);
-			reportViewer.getTable().getColumns()[2].pack();
 		}
+
+		reportViewer.setInput(input);
+		reportViewer.getTable().getColumns()[2].pack();
 	}
+
+	@Override
+	public void reportChanged() {
+		update();
+	}
+
 }

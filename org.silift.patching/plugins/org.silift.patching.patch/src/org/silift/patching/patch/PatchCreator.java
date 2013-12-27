@@ -219,7 +219,7 @@ public class PatchCreator {
 		createManifest(savePath);
 		
 		// zip all necessary files
-		ZipUtil.zip(savePath, savePath, PatchUtil.PATCH_EXTENSION);
+		ZipUtil.zip(savePath, savePath, AsymmetricDiffFacade.PATCH_EXTENSION);
 		FileOperations.removeFolder(savePath);	
 	}
 	

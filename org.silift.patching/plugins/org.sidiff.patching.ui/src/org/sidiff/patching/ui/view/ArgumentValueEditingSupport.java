@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.patching.IArgumentManager;
+import org.sidiff.patching.arguments.IArgumentManager;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;

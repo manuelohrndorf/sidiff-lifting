@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.patching.ArgumentWrapper;
+import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.test.AbstractBatchArgumentManager;
 
 public class GMFCorrespondence extends AbstractBatchArgumentManager {

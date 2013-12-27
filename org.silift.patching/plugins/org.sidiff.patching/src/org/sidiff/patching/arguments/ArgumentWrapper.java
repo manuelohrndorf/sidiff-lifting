@@ -1,4 +1,4 @@
-package org.sidiff.patching;
+package org.sidiff.patching.arguments;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -21,37 +21,49 @@ public class ArgumentWrapper {
 	 * The resolved object in the target model.
 	 */
 	private EObject targetObject;
+
+	private boolean resolved;
 	
 	public ArgumentWrapper(ObjectParameterBinding binding) {
 		super();
 		this.binding = binding;
-	}
-	
-	
-	public boolean isResolved(){
-		return targetObject != null;
+		resolved = false;
 	}
 
-	public EObject getTargetObject(){
-		assert (isResolved());
+	public boolean isResolved() {
+		return resolved;
+	}
+
+	/**
+	 * Returns the target object to which this argument wrapper is currently
+	 * resolved. Note that the obtained target object is only valid if the
+	 * current state of this wrapper is "resolved".
+	 * 
+	 * @return
+	 */
+	public EObject getTargetObject() {
 		return targetObject;
 	}
-	
-	public EObject getProxyObject(){
-		assert (!isResolved());
-		if (binding.getActualA() != null){
+
+	public EObject getProxyObject() {
+		if (binding.getActualA() != null) {
 			return binding.getActualA();
 		} else {
 			return binding.getActualB();
 		}
 	}
-	
-	public void resolveTo(EObject targetObject){
+
+	public void resolveTo(EObject targetObject) {
 		this.targetObject = targetObject;
+		resolved = true;
+	}
+
+	public void resetResolution() {
+		resolved = false;
 	}
 	
-	public void resetResolution(){
-		targetObject = null;
+	public void restoreResolution() {
+		assert (targetObject != null);
+		resolved = true;
 	}
-	
 }

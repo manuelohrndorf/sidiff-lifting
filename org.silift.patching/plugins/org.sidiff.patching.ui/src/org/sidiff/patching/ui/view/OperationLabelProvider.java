@@ -11,16 +11,16 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.patching.OperationInvocationStatus;
-import org.sidiff.patching.OperationInvocationStatusManager;
-import org.sidiff.patching.OperationInvocationWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.ui.Activator;
 
-public class PatchLabelProvider extends ColumnLabelProvider {
+public class OperationLabelProvider extends ColumnLabelProvider {
 
-	private OperationInvocationStatusManager statusManager;
+	private OperationManager statusManager;
 
 	private final Image checked = Activator.getImageDescriptor("16px-checkbox-checked.png").createImage();
 	private final Image unchecked = Activator.getImageDescriptor("16px-checkbox-unchecked.png").createImage();
@@ -29,7 +29,7 @@ public class PatchLabelProvider extends ColumnLabelProvider {
 	private final Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
 	private final Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
 
-	public void init(OperationInvocationStatusManager statusManager) {
+	public void init(OperationManager statusManager) {
 		this.statusManager = statusManager;
 	}
 

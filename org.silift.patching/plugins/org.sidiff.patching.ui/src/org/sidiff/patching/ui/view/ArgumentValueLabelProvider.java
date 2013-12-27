@@ -1,7 +1,6 @@
 package org.sidiff.patching.ui.view;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -10,27 +9,23 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.patching.ArgumentWrapper;
-import org.sidiff.patching.IArgumentManager;
-import org.sidiff.patching.OperationInvocationStatus;
-import org.sidiff.patching.OperationInvocationStatusManager;
-import org.sidiff.patching.OperationInvocationWrapper;
-import org.sidiff.patching.report.PatchReport;
-import org.sidiff.patching.report.PatchReport.Status;
-import org.sidiff.patching.report.PatchReport.Type;
-import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.arguments.ArgumentWrapper;
+import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.ui.Activator;
 
 public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	private IArgumentManager argumentManager;
-	private OperationInvocationStatusManager statusManager;
+	private OperationManager statusManager;
 	private boolean showReliabilities = false;
 
 	private final Image ERROR = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
 	private final Image WARNING = Activator.getImageDescriptor("warning_16x16.gif").createImage();
 
-	public void init(IArgumentManager argumentManager, OperationInvocationStatusManager statusManager) {
+	public void init(IArgumentManager argumentManager, OperationManager statusManager) {
 		this.argumentManager = argumentManager;
 		this.statusManager = statusManager;
 	}
@@ -38,24 +33,40 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	@Override
 	public String getText(Object element) {
 		if (element instanceof ObjectParameterBinding) {
-			ObjectParameterBinding substitution = (ObjectParameterBinding) element;
-			OperationInvocation op = (OperationInvocation) substitution.eContainer();
+			ObjectParameterBinding binding = (ObjectParameterBinding) element;
+			OperationInvocation op = (OperationInvocation) binding.eContainer();
 			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
-
+			ArgumentWrapper argument = argumentManager.getArgument(binding);
+			
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				// Already executed: Show execution parameters
-				return "TODO: show Exec Object";
-
-			} else {
-				// Not yet executed: Show current state of the argument
-				// selection
-				ArgumentWrapper argument = argumentManager.getArgument(substitution);
 				if (argument.isResolved()) {
-					float reliability = argumentManager.getReliability(substitution, argument.getTargetObject());
-					return Util.getName(argument.getTargetObject())
-							+ (showReliabilities ? " (" + reliability + ")" : "");
+					if (isInParameter(binding)){
+						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
+						return Util.getName(argument.getTargetObject())
+								+ (showReliabilities ? " (" + reliability + ")" : "");
+					}else{
+						return Util.getName(argument.getTargetObject());
+					} 
 				} else {
-					if (isInParameter(substitution)) {
+					if (isInParameter(binding)){
+						return "(" + Util.getName((EObject) opWrapper.getInvocationArgument(binding)) + ")";
+					} else {
+						return "(" + Util.getName(argument.getProxyObject()) + ")";
+					}	
+				}
+			} else {
+				// Not executed: Show current state of the argument selection	
+				if (argument.isResolved()) {
+					if (isInParameter(binding)){
+						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
+						return Util.getName(argument.getTargetObject())
+								+ (showReliabilities ? " (" + reliability + ")" : "");
+					}else{
+						return Util.getName(argument.getTargetObject());
+					}
+				} else {
+					if (isInParameter(binding)) {
 						return "(Missing object: " + Util.getName(argument.getProxyObject()) + ")";
 					} else {
 						return "(Not yet created: " + Util.getName(argument.getProxyObject()) + ")";
@@ -64,13 +75,25 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			}
 
 		} else if (element instanceof ValueParameterBinding) {
-			ValueParameterBinding substitution = (ValueParameterBinding) element;
-			String actual = substitution.getActual();
-			if (actual != null) {
-				return actual;
-			} else {
-				return "(Unknown Value)";
-			}
+			ValueParameterBinding binding = (ValueParameterBinding) element;
+			OperationInvocation op = (OperationInvocation) binding.eContainer();
+			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				Object actual = opWrapper.getInvocationArgument(binding);
+				if (actual != null) {
+					return actual.toString();
+				} else {
+					return "(Unknown Value)";
+				}
+			} else{
+				String actual = binding.getActual();
+				if (actual != null) {
+					return actual;
+				} else {
+					return "(Unknown Value)";
+				}
+			}	
 		}
 
 		return null;
@@ -85,7 +108,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
 			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
 
-			if(opWrapper.getStatus() != OperationInvocationStatus.PASSED){
+			if (opWrapper.getStatus() != OperationInvocationStatus.PASSED) {
 				ArgumentWrapper argument = argumentManager.getArgument(binding);
 				if (isInParameter(binding)) {
 					if (!argument.isResolved()) {
@@ -97,7 +120,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 

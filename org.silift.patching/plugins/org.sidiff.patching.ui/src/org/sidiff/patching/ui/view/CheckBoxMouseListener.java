@@ -9,6 +9,7 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.ui.Activator;
 
 public class CheckBoxMouseListener implements MouseListener {
+	
 	public interface ICheckBoxListener {
 		public void itemChecked(OperationInvocation invocation, boolean checked);
 

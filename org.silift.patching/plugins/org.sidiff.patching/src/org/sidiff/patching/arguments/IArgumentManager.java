@@ -1,4 +1,4 @@
-package org.sidiff.patching;
+package org.sidiff.patching.arguments;
 
 import java.util.Collection;
 import java.util.Map;
@@ -67,6 +67,13 @@ public interface IArgumentManager {
 	 */
 	public void removeTargetObject(EObject targetObject);
 
+	/**
+	 * Called when an object is added to the target model.
+	 * 
+	 * @param targetObject
+	 */
+	public void addTargetObject(EObject targetObject);
+	
 	/**
 	 * Minimal reliability for correspondences
 	 * 

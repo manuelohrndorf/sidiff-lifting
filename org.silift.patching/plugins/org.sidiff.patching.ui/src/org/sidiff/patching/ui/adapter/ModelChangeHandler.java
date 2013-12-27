@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.sidiff.patching.IArgumentManager;
+import org.sidiff.patching.arguments.IArgumentManager;
 
 public class ModelChangeHandler implements ModelAdapter.IModelChangeListener {
 
@@ -23,7 +23,7 @@ public class ModelChangeHandler implements ModelAdapter.IModelChangeListener {
 
 	@Override
 	public void objectAdded(EObject eObject) {
-		// were not interested in this event
+		argumentManager.addTargetObject(eObject);
 	}
 
 	@Override

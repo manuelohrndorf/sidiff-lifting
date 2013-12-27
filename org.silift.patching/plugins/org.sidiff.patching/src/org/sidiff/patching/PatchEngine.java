@@ -23,34 +23,26 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.patching.arguments.ArgumentWrapper;
+import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReport;
-import org.sidiff.patching.report.PatchReport.Status;
-import org.sidiff.patching.report.PatchReport.Type;
-import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.util.PatchUtil;
+import org.sidiff.patching.validation.IValidationError;
+import org.sidiff.patching.validation.ValidationManager;
 
 /**
  * 
  * @author Dennis Koch, kehrer, dreuling
  */
 public class PatchEngine {
-
-	private AsymmetricDifference difference;
-	private Resource patchedResource;
-	private Boolean reliabilitiesComputed;
-
-	private List<OperationInvocation> orderedOperations;
-
-	private ValidationManager validationManager;
-	private OperationInvocationStatusManager statusManager;
-	private IArgumentManager argumentManager;
-	private ITransformationEngine transformationEngine;
-
-	private EditingDomain patchedEditingDomain;
 
 	public enum ValidationMode {
 		ITERATIVE, FINAL, NO, MANUAL
@@ -59,6 +51,18 @@ public class PatchEngine {
 	public enum ExecutionMode {
 		INTERACTIVE, BATCH
 	}
+	
+	private AsymmetricDifference difference;
+	private List<OperationInvocation> orderedOperations;
+	private Resource patchedResource;
+	private EditingDomain patchedEditingDomain;
+	private Boolean reliabilitiesComputed;
+
+	private ValidationManager validationManager;
+	private OperationManager statusManager;
+	private IArgumentManager argumentManager;
+	private ITransformationEngine transformationEngine;
+	private PatchReportManager reportManager;
 
 	/**
 	 * The PatchEngine handles manipulations on target model.
@@ -86,7 +90,7 @@ public class PatchEngine {
 
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
-		this.statusManager = new OperationInvocationStatusManager(orderedOperations);
+		this.statusManager = new OperationManager(orderedOperations);
 		this.argumentManager.init(difference, patchedResource);
 
 		// Initialize all operationInvocations owning
@@ -99,6 +103,9 @@ public class PatchEngine {
 
 		// Init transformation engine
 		this.transformationEngine.init(patchedResource, executionMode);
+		
+		// Init report manager
+		this.reportManager = new PatchReportManager();
 	}
 
 	/**
@@ -110,8 +117,16 @@ public class PatchEngine {
 	 * 
 	 * @return
 	 */
-	public void updatePatchReport() {
-
+	public void applyPatch() {
+		// Start new patch application
+		reportManager.startPatchApplication();
+		
+		// Initial validation (if needed)
+		if (getValidationMode() != ValidationMode.MANUAL) {
+			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+			reportManager.updateValidationEntries(validationErrors);
+		}
+		
 		// Try to execute operations which are to apply
 		for (OperationInvocation operationInvocation : orderedOperations) {
 			if (operationInvocation.isApply()
@@ -120,13 +135,21 @@ public class PatchEngine {
 				apply(operationInvocation);
 
 				if (getValidationMode() == ValidationMode.ITERATIVE) {
-					Collection<Diagnostic> newErrors = validationManager.performIncrementalValidation();
-					if (!newErrors.isEmpty()) {
-						// TODO: Fehler Dialog
-						// Fehler anzeigen und Optionen zur Verfügung stellen:
-						// Option 1.: ignorieren und continue
-						// Option 2.: reverten und continue;
-						// Option 3.: reverten und Patch-Vorgang abbrechen
+					Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+					boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
+					if (validationChanged){
+						Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry().getNewValidationErrors();
+						
+						if (!newErrors.isEmpty()) {
+							// TODO: Fehler Dialog
+							// Fehler anzeigen und Optionen zur Verfügung stellen:
+							// Option 1.: ignore and continue
+							// Option 2.: revert and continue;
+							// Option 3.: revert and exit current patch application
+							
+							// Yet, we assume the selection of Option 1
+							// -> do nothing
+						}
 					}
 				}
 			}
@@ -137,20 +160,40 @@ public class PatchEngine {
 		while (li.hasPrevious()) {
 			OperationInvocation operationInvocation = (OperationInvocation) li.previous();
 			OperationInvocationWrapper operationWrapper = statusManager.getStatusWrapper(operationInvocation);
-			if (!operationInvocation.isApply() && operationWrapper.isUndoable(null)) {
-				try {
+			if (!operationInvocation.isApply()){
+				if (operationWrapper.getStatus() == OperationInvocationStatus.INIT){
+					operationWrapper.setSkipped();
+					reportManager.operationSkipped(operationInvocation);
+				} else {
+					
 					revert(operationInvocation);
-				} catch (OperationNotUndoableException e) {
-					// TODO: Throw Exception so that an Error Dialog can be
-					// shown in the UI
-					e.printStackTrace();
+				
+					if (getValidationMode() == ValidationMode.ITERATIVE) {
+						Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+						boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
+						if (validationChanged){
+							Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry().getNewValidationErrors();
+							
+							if (!newErrors.isEmpty()) {
+								// TODO: Fehler Dialog
+								// Fehler anzeigen und Optionen zur Verfügung stellen:
+								// Option 1.: ignore and continue
+								// Option 2.: revert and continue;
+								// Option 3.: revert and exit current patch application
+								
+								// Yet, we assume the selection of Option 1
+								// -> do nothing
+							}
+						}
+					}
 				}
 			}
 		}
 
-		// Final validation (if desired)
-		if (getValidationMode() == ValidationMode.FINAL) {
-			this.validationManager.performCompleteValidation();
+		// Final validation (if needed)
+		if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+			reportManager.updateValidationEntries(validationErrors);
 		}
 	}
 
@@ -207,33 +250,12 @@ public class PatchEngine {
 
 	// ##################################################################################################
 
-	public PatchReport createPatchReport() {
-		PatchReport report = new PatchReport();
-
-		for (OperationInvocation op : orderedOperations) {
-			OperationInvocationWrapper opWrapper = getStatusManager().getStatusWrapper(op);
-			assert (opWrapper.getStatus() != OperationInvocationStatus.INIT);
-
-			ReportEntry entry = null;
-			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				entry = new ReportEntry(Status.PASSED, Type.EXECUTION, op.getChangeSet().getName());
-			} else if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
-				entry = new ReportEntry(Status.FAILED, Type.EXECUTION, opWrapper.getExecutionError());
-			} else if (opWrapper.getStatus() == OperationInvocationStatus.SKIPPED) {
-				entry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, op.getChangeSet().getName());
-			} else if (opWrapper.getStatus() == OperationInvocationStatus.SKIPPED_DEPENDENCY) {
-				// TODO: Welche Operation von der wir abhängig sind wurde
-				// geskipped
-				entry = new ReportEntry(Status.SKIPPED, Type.EXECUTION, op.getChangeSet().getName());
-			} else {
-				assert (false) : "unknown state of an operation invocation";
-			}
-
-			report.addExecutionEntry(entry);
-		}
-		// TODO
-
-		return report;
+	public PatchReport getPatchReport() {
+		return reportManager.getLastReport();
+	}
+	
+	public PatchReportManager getPatchReportManager() {
+		return reportManager;
 	}
 
 	/**
@@ -250,13 +272,15 @@ public class PatchEngine {
 
 			@Override
 			public void execute() {
-				Map<ParameterBinding, Object> parameters = getInArguments(op.getParameterBindings());
+				Map<ParameterBinding, Object> inArgs = getInArguments(op.getParameterBindings());
 				try {
-					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, parameters);
+					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
 					setOutArguments(op.getParameterBindings(), outArgs);
-					statusManager.getStatusWrapper(op).setPassed(null);
+					statusManager.getStatusWrapper(op).setPassed(inArgs);
+					reportManager.operationPassed(op, inArgs);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
-					statusManager.getStatusWrapper(op).setFailed(null, e);
+					statusManager.getStatusWrapper(op).setFailed(inArgs, e);
+					reportManager.operationFailed(op, inArgs, e);
 				}
 			}
 
@@ -286,12 +310,10 @@ public class PatchEngine {
 	 * domain.
 	 * 
 	 * @param operationInvocation
-	 * @throws OperationNotUndoableException
 	 */
-	private void revert(OperationInvocation operationInvocation) throws OperationNotUndoableException {
+	private void revert(OperationInvocation operationInvocation)  {
 		final OperationInvocation op = operationInvocation;
-		final ArrayList<Exception> exceptions = new ArrayList<Exception>();
-
+		
 		AbstractCommand command = new AbstractCommand() {
 
 			@Override
@@ -299,8 +321,10 @@ public class PatchEngine {
 				try {
 					transformationEngine.undo(op);
 					statusManager.getStatusWrapper(op).setSkipped();
-				} catch (OperationNotUndoableException e) {
-					exceptions.add(e);
+					reportManager.operationReverted(op);
+				} catch (OperationNotUndoableException e) {					
+					op.setApply(true);
+					reportManager.operationRevertFailed(op, e);
 				}
 			}
 
@@ -321,12 +345,6 @@ public class PatchEngine {
 			patchedEditingDomain.getCommandStack().execute(command);
 		} else {
 			command.execute();
-		}
-
-		for (Exception e : exceptions) {
-			if (e instanceof OperationNotUndoableException) {
-				throw (OperationNotUndoableException) e;
-			}
 		}
 	}
 
@@ -445,7 +463,7 @@ public class PatchEngine {
 		return argumentManager;
 	}
 
-	public OperationInvocationStatusManager getStatusManager() {
+	public OperationManager getStatusManager() {
 		return statusManager;
 	}
 

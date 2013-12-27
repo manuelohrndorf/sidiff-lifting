@@ -9,6 +9,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 
 public class ModelAdapter {
 
@@ -22,16 +24,16 @@ public class ModelAdapter {
 				super.notifyChanged(notification);
 				switch (notification.getEventType()) {
 				case Notification.ADD:
-					System.out.println("Add: " + notification);
 					if (isContainmentReferenceType(notification.getFeature())) {
-						System.out.println("\t==> Add-Object: " + notification.getNewValue());
+						LogUtil.log(LogEvent.DEBUG, "\t==> Add-Object: " + notification.getNewValue());
 						for (IModelChangeListener listener : listeners) {
 							listener.objectAdded((EObject) notification.getNewValue());
 						}
 					}
 					if (isNonContainmentReferenceType(notification.getFeature())) {
-						System.out.println("\t==> Add-Reference (" + ((EReference) notification.getFeature()).getName()
-								+ "): " + notification.getNotifier() + " => " + notification.getNewValue());
+						LogUtil.log(LogEvent.DEBUG,
+								"\t==> Add-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
+										+ notification.getNotifier() + " => " + notification.getNewValue());
 						for (IModelChangeListener listener : listeners) {
 							listener.referenceAdded((EReference) notification.getFeature(),
 									(EObject) notification.getNotifier(), (EObject) notification.getNewValue());
@@ -41,17 +43,16 @@ public class ModelAdapter {
 					break;
 
 				case Notification.REMOVE:
-					System.out.println("Remove: " + notification);
 					if (isContainmentReferenceType(notification.getFeature())) {
-						System.out.println("\t==> Remove-Object: " + notification.getOldValue());
+						LogUtil.log(LogEvent.DEBUG, "\t==> Remove-Object: " + notification.getOldValue());
 						for (IModelChangeListener listener : listeners) {
 							listener.objectRemoved((EObject) notification.getOldValue());
 						}
 					}
 					if (isNonContainmentReferenceType(notification.getFeature())) {
-						System.out.println("\t==> Remove-Reference ("
-								+ ((EReference) notification.getFeature()).getName() + "): "
-								+ notification.getNotifier() + " => " + notification.getOldValue());
+						LogUtil.log(LogEvent.DEBUG,
+								"\t==> Remove-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
+										+ notification.getNotifier() + " => " + notification.getOldValue());
 						for (IModelChangeListener listener : listeners) {
 							listener.referenceRemoved((EReference) notification.getFeature(),
 									(EObject) notification.getNotifier(), (EObject) notification.getOldValue());
@@ -61,11 +62,10 @@ public class ModelAdapter {
 					break;
 
 				case Notification.SET:
-					System.out.println("Set: " + notification);
 					if (isAttributeDefinition(notification.getFeature())) {
-						System.out.println("\t==> Set-Attribute-Value ("
-								+ ((EAttribute) notification.getFeature()).getName() + "): "
-								+ notification.getNotifier() + " => " + notification.getNewValue());
+						LogUtil.log(LogEvent.DEBUG,
+								"\t==> Set-Attribute-Value (" + ((EAttribute) notification.getFeature()).getName()
+										+ "): " + notification.getNotifier() + " => " + notification.getNewValue());
 						for (IModelChangeListener listener : listeners) {
 							listener.attributeValueSet((EAttribute) notification.getFeature(),
 									(EObject) notification.getNotifier(), notification.getNewValue());
@@ -74,7 +74,7 @@ public class ModelAdapter {
 					break;
 
 				default:
-					System.out.println("Unkown: " + notification);
+					LogUtil.log(LogEvent.DEBUG, "Unhandled EMF notification event: " + notification);
 					break;
 				}
 			}
@@ -117,8 +117,9 @@ public class ModelAdapter {
 	}
 
 	/**
-	 * Information about model changes. Corresponds mostly to our definitions of
-	 * low-level changes with the following abbreviations:
+	 * Information about model changes. The model changes that are reported
+	 * mostly correspond to our definitions of low-level changes with the
+	 * following abbreviations:
 	 * <ul>
 	 * <li>Only non-containment reference changes are reported as reference
 	 * changes.</li>

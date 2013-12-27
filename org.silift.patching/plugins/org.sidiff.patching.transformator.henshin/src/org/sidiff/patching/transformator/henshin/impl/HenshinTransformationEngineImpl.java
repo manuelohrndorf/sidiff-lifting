@@ -28,8 +28,8 @@ import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
-import org.sidiff.patching.ArgumentWrapper;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
@@ -159,15 +159,18 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 		
 		//Get corresponding unit application
 		UnitApplication application = executedOperations.get(operationInvocation);
+		
 		//Revert the operation
-		if(application.undo(null)){
-			LogUtil.log(LogEvent.NOTICE, "Successfully undone!" );
-		}
-		else{
+		try {
+			boolean reverted = application.undo(null);
+			if (reverted){
+				LogUtil.log(LogEvent.NOTICE, "Successfully undone!" );
+			}else{
+				throw new OperationNotUndoableException(operationName);
+			}
+		} catch (Exception e) {
 			throw new OperationNotUndoableException(operationName);
 		}
-			
-
 	}
 
 	/**

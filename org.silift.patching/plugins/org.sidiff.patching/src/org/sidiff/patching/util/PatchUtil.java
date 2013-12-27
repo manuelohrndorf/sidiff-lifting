@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.silift.common.util.exceptions.FileAlreadyExistsException;
@@ -25,27 +24,26 @@ import org.silift.common.util.file.ZipUtil;
 
 public class PatchUtil {
 
-	/**
-	 * The patch file extension.
-	 */
-	public static final String PATCH_EXTENSION = AsymmetricDiffFacade.PATCH_EXTENSION;
-
 	private static int stage = 0;
 
 	/**
-	 * Sorts OperationInvocations in a processable order and returns a flat list.
-	 *
+	 * Sorts OperationInvocations in a processable order (i.e. an order that is
+	 * consistent with the partial order given by the sequential dependencies
+	 * between operation invocations) and returns a flat list.
+	 * 
 	 * @return sorted list of OperationInvocation
 	 */
-	public static List<OperationInvocation> getOrderdOperationInvocations(EList<OperationInvocation> unorderdOperationInvocations) {
+	public static List<OperationInvocation> getOrderdOperationInvocations(
+			EList<OperationInvocation> unorderdOperationInvocations) {
 		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
 		operationInvocations = sortDFS(unorderdOperationInvocations);
 		return Collections.unmodifiableList(operationInvocations);
 	}
 
 	/**
-	 * Sorts the OperationInvocations in dependency order using the depth-first search algorithm
-	 *
+	 * Sorts the OperationInvocations in dependency order using the depth-first
+	 * search algorithm
+	 * 
 	 * @param unorderdOperationInvocations
 	 */
 	private static List<OperationInvocation> sortDFS(List<OperationInvocation> unorderdOperationInvocations) {
@@ -58,10 +56,11 @@ public class PatchUtil {
 		return operationInvocations;
 	}
 
-	private static void addIncomingOperations(List<OperationInvocation> operationInvocations, OperationInvocation invocation) {
+	private static void addIncomingOperations(List<OperationInvocation> operationInvocations,
+			OperationInvocation invocation) {
 		if (!operationInvocations.contains(invocation)) {
 			stage++;
-			for (OperationInvocation operationInvocation : getAllIncoming(invocation.getIncoming())) {
+			for (OperationInvocation operationInvocation : invocation.getSuccessors()) {
 				addIncomingOperations(operationInvocations, operationInvocation);
 			}
 			operationInvocations.add(0, invocation);
@@ -70,52 +69,59 @@ public class PatchUtil {
 		}
 	}
 
+	// /**
+	// * Checks all following OperationInvocations and applies the same
+	// execution
+	// * state
+	// *
+	// * @param invocation
+	// * @param apply
+	// */
+	// public static void ensureDependency(OperationInvocation invocation,
+	// boolean apply) {
+	// // setAllPreciding(invocation, apply);
+	// // invocation.setApply(apply);
+	// // setAllFollowing(invocation, apply);
+	// }
+	//
+	// // private static void setAllPreciding (OperationInvocation invocation,
+	// boolean apply) {
+	// // for (OperationInvocation outgoingInvocation:
+	// getAllOutgoing(invocation.getOutgoing())) {
+	// // outgoingInvocation.setApply(apply);
+	// // setAllPreciding(outgoingInvocation, apply);
+	// // }
+	// // }
+	//
+	// // private static List<OperationInvocation> getAllOutgoing
+	// (EList<Dependency> incoming) {
+	// // List<OperationInvocation> result = new
+	// ArrayList<OperationInvocation>();
+	// // for (Dependency dependency : incoming) {
+	// // result.add(dependency.getTarget());
+	// // }
+	// // return result;
+	// // }
 
-	/**
-	 * Checks all following OperationInvocations and applies the same execution
-	 * state
-	 *
-	 * @param invocation
-	 * @param apply
-	 */
-	public static void ensureDependency(OperationInvocation invocation, boolean apply) {
-//		setAllPreciding(invocation, apply);
-		invocation.setApply(apply);
-		setAllFollowing(invocation, apply);
-	}
+	// private static void setAllFollowing(OperationInvocation invocation,
+	// boolean apply) {
+	// for (OperationInvocation incomingInvocation:
+	// getAllIncoming(invocation.getIncoming())) {
+	// incomingInvocation.setApply(apply);
+	// setAllFollowing(incomingInvocation, apply);
+	// }
+	// }
 
-//	private static void setAllPreciding (OperationInvocation invocation, boolean apply) {
-//		for (OperationInvocation outgoingInvocation: getAllOutgoing(invocation.getOutgoing())) {
-//			outgoingInvocation.setApply(apply);
-//			setAllPreciding(outgoingInvocation, apply);
-//		}
-//	}
-
-//	private static List<OperationInvocation> getAllOutgoing (EList<Dependency> incoming) {
-//		List<OperationInvocation> result = new ArrayList<OperationInvocation>();
-//		for (Dependency dependency : incoming) {
-//			result.add(dependency.getTarget());
-//		}
-//		return result;
-//	}
-
-	private static void setAllFollowing(OperationInvocation invocation, boolean apply) {
-		for (OperationInvocation incomingInvocation: getAllIncoming(invocation.getIncoming())) {
-			incomingInvocation.setApply(apply);
-			setAllFollowing(incomingInvocation, apply);
-		}
-	}
-
-	private static List<OperationInvocation> getAllIncoming(
-			EList<DependencyContainer> incoming) {
-		List<OperationInvocation> result = new ArrayList<OperationInvocation>();
-
-		for (DependencyContainer dependency : incoming) {
-			result.add(dependency.getSource());
-
-		}
-		return result;
-	}
+	// private static List<OperationInvocation> getAllIncoming(
+	// EList<DependencyContainer> incoming) {
+	// List<OperationInvocation> result = new ArrayList<OperationInvocation>();
+	//
+	// for (DependencyContainer dependency : incoming) {
+	// result.add(dependency.getSource());
+	//
+	// }
+	// return result;
+	// }
 
 	public static Resource copyWithId(Resource from, URI uri, boolean withId, Copier copier) {
 		copier.copyAll(from.getContents());
@@ -150,21 +156,18 @@ public class PatchUtil {
 
 	/**
 	 * Uncompress the patch (if necessary).
-	 *
+	 * 
 	 * @param path
 	 *            The system path of the compressed patch.
 	 * @return The folder of the uncompressed patch.
 	 */
 	public static File extractPatch(IPath path) {
 		String compressedPath = path.toOSString();
-		File uncompressedPath = new File(compressedPath
-				.substring(0, compressedPath.length() - (PATCH_EXTENSION.length() + 1)));
+		File uncompressedPath = new File(compressedPath.substring(0, compressedPath.length()
+				- (AsymmetricDiffFacade.PATCH_EXTENSION.length() + 1)));
 
 		try {
-			ZipUtil.extractFiles(
-					compressedPath,
-					uncompressedPath.getAbsolutePath(), "",
-					true);
+			ZipUtil.extractFiles(compressedPath, uncompressedPath.getAbsolutePath(), "", true);
 		} catch (FileAlreadyExistsException e) {
 			e.printStackTrace();
 		}
@@ -174,12 +177,13 @@ public class PatchUtil {
 
 	/**
 	 * Checks the file extension.
-	 *
+	 * 
 	 * @param path
 	 *            The path of the patch file.
-	 * @return <code>true</code> if is a patch file; <code>false</code> otherwise.
+	 * @return <code>true</code> if is a patch file; <code>false</code>
+	 *         otherwise.
 	 */
 	public static boolean isPatchFile(IPath path) {
-		return (path.getFileExtension().equalsIgnoreCase(PATCH_EXTENSION));
+		return (path.getFileExtension().equalsIgnoreCase(AsymmetricDiffFacade.PATCH_EXTENSION));
 	}
 }

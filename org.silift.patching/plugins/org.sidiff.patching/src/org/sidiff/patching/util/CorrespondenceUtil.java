@@ -1,8 +1,8 @@
 package org.sidiff.patching.util;
 
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.patching.IArgumentManager;
-import org.sidiff.patching.internal.InteractiveArgumentManager;
+import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.interactive.InteractiveArgumentManager;
 
 public class CorrespondenceUtil {
 
