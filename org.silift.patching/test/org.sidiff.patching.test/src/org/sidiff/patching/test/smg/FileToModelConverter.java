@@ -25,10 +25,10 @@ import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
-import org.sidiff.patching.util.TransformatorUtil;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.pipeline.correspondences.model.Matching;
 
 public class FileToModelConverter {
@@ -56,7 +56,7 @@ public class FileToModelConverter {
 
 			SMGPatchCorrespondence correspondence = new SMGPatchCorrespondence(difference.getAsymmetric().getOriginModel());
 			
-			ITransformationEngine transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
+			ITransformationEngine transformationEngine = TransformationEngineUtil.getFirstTransformationEngine(documentType);
 			if (transformationEngine == null) {
 				LogUtil.log(LogEvent.ERROR, "No Transformation Engine found!");
 				return null;

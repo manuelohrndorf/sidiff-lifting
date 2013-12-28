@@ -1,4 +1,4 @@
-package org.sidiff.patching.util;
+package org.sidiff.patching.transformation;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,9 +6,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.patching.ITransformationEngine;
 
-public class TransformatorUtil {
+public class TransformationEngineUtil {
 
 	/**
 	 * Find all available patch correspondences matching the given document

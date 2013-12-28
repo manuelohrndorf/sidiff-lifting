@@ -1,6 +1,6 @@
 package org.sidiff.patching.transformator.henshin;
 
-import org.sidiff.patching.ITransformationEngine;
+import org.sidiff.patching.transformation.ITransformationEngine;
 
 /**
  * This transformation engine is based on the henshin transformation engine

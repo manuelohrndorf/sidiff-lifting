@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * 
  * @author kehrer
  */
-public interface IValidationUnit {
+public interface IValidator {
 
 	public Collection<IValidationError> validate(Resource resource);
 	

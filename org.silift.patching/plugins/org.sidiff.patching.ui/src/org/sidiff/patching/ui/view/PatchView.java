@@ -25,14 +25,15 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.PatchEngine.ValidationMode;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
 import org.sidiff.patching.ui.view.filter.NullValueParameterFilter;
 import org.sidiff.patching.ui.view.filter.ValueParameterFilter;
-import org.sidiff.patching.util.PatchUtil;
+import org.sidiff.patching.validation.ValidationMode;
 
 
 public class PatchView extends ViewPart implements ICheckBoxListener, IModelChangeListener, IValueChangedListener, IPatchReportListener {
@@ -130,8 +131,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	public void setPatchEngine(PatchEngine patchEngine) {
 		this.engine = patchEngine;
-		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getStatusManager());
-		this.operationLabelProvider.init(engine.getStatusManager());
+		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getOperationManager());
+		this.operationLabelProvider.init(engine.getOperationManager());
 		this.editingSupport.setArgumentManager(engine.getArgumentManager());
 		this.patchViewer.setInput(engine.getAsymmetricDifference());
 		this.patchViewer.expandAll();

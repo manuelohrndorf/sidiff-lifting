@@ -1,5 +1,6 @@
 package org.sidiff.patching;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -34,8 +34,10 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReportManager;
+import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.validation.IValidationError;
+import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.patching.validation.ValidationManager;
 
 /**
@@ -44,14 +46,10 @@ import org.sidiff.patching.validation.ValidationManager;
  */
 public class PatchEngine {
 
-	public enum ValidationMode {
-		ITERATIVE, FINAL, NO, MANUAL
-	}
-
 	public enum ExecutionMode {
 		INTERACTIVE, BATCH
 	}
-	
+
 	private AsymmetricDifference difference;
 	private List<OperationInvocation> orderedOperations;
 	private Resource patchedResource;
@@ -59,7 +57,7 @@ public class PatchEngine {
 	private Boolean reliabilitiesComputed;
 
 	private ValidationManager validationManager;
-	private OperationManager statusManager;
+	private OperationManager operationManager;
 	private IArgumentManager argumentManager;
 	private ITransformationEngine transformationEngine;
 	private PatchReportManager reportManager;
@@ -90,7 +88,7 @@ public class PatchEngine {
 
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
-		this.statusManager = new OperationManager(orderedOperations);
+		this.operationManager = new OperationManager(orderedOperations);
 		this.argumentManager.init(difference, patchedResource);
 
 		// Initialize all operationInvocations owning
@@ -103,7 +101,7 @@ public class PatchEngine {
 
 		// Init transformation engine
 		this.transformationEngine.init(patchedResource, executionMode);
-		
+
 		// Init report manager
 		this.reportManager = new PatchReportManager();
 	}
@@ -120,35 +118,44 @@ public class PatchEngine {
 	public void applyPatch() {
 		// Start new patch application
 		reportManager.startPatchApplication();
-		
+
 		// Initial validation (if needed)
 		if (getValidationMode() != ValidationMode.MANUAL) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}
-		
+
 		// Try to execute operations which are to apply
 		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (operationInvocation.isApply()
-					&& !(statusManager.getStatusWrapper(operationInvocation).getStatus() == OperationInvocationStatus.PASSED)) {
+			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
+			if (operationInvocation.isApply() && !(operationWrapper.getStatus() == OperationInvocationStatus.PASSED)) {
 
-				apply(operationInvocation);
+				if (!operationManager.allPredecessorsExecuted(operationInvocation)) {
+					operationWrapper.setSkipped();
+					reportManager.operationSkipped(operationInvocation);
+				} else {
 
-				if (getValidationMode() == ValidationMode.ITERATIVE) {
-					Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-					boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
-					if (validationChanged){
-						Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry().getNewValidationErrors();
-						
-						if (!newErrors.isEmpty()) {
-							// TODO: Fehler Dialog
-							// Fehler anzeigen und Optionen zur Verfügung stellen:
-							// Option 1.: ignore and continue
-							// Option 2.: revert and continue;
-							// Option 3.: revert and exit current patch application
-							
-							// Yet, we assume the selection of Option 1
-							// -> do nothing
+					boolean success = apply(operationInvocation);
+
+					if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {
+						Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+						boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
+						if (validationChanged) {
+							Collection<IValidationError> newErrors = reportManager.getLastReport()
+									.getLastValidationEntry().getNewValidationErrors();
+
+							if (!newErrors.isEmpty()) {
+								// TODO: Fehler Dialog
+								// Fehler anzeigen und Optionen zur Verfügung
+								// stellen:
+								// Option 1.: ignore and continue
+								// Option 2.: revert and continue;
+								// Option 3.: revert and exit current patch
+								// application
+
+								// Yet, we assume the selection of Option 1
+								// -> do nothing
+							}
 						}
 					}
 				}
@@ -159,28 +166,34 @@ public class PatchEngine {
 		ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
 		while (li.hasPrevious()) {
 			OperationInvocation operationInvocation = (OperationInvocation) li.previous();
-			OperationInvocationWrapper operationWrapper = statusManager.getStatusWrapper(operationInvocation);
-			if (!operationInvocation.isApply()){
-				if (operationWrapper.getStatus() == OperationInvocationStatus.INIT){
+			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
+			if (!operationInvocation.isApply()) {
+				if (operationWrapper.getStatus() == OperationInvocationStatus.INIT) {
 					operationWrapper.setSkipped();
 					reportManager.operationSkipped(operationInvocation);
+				} else if (operationWrapper.getStatus() == OperationInvocationStatus.FAILED
+						|| operationWrapper.getStatus() == OperationInvocationStatus.SKIPPED) {
+					// nothing to do
 				} else {
-					
-					revert(operationInvocation);
-				
-					if (getValidationMode() == ValidationMode.ITERATIVE) {
+
+					boolean success = revert(operationInvocation);
+
+					if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {
 						Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 						boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
-						if (validationChanged){
-							Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry().getNewValidationErrors();
-							
+						if (validationChanged) {
+							Collection<IValidationError> newErrors = reportManager.getLastReport()
+									.getLastValidationEntry().getNewValidationErrors();
+
 							if (!newErrors.isEmpty()) {
 								// TODO: Fehler Dialog
-								// Fehler anzeigen und Optionen zur Verfügung stellen:
+								// Fehler anzeigen und Optionen zur Verfügung
+								// stellen:
 								// Option 1.: ignore and continue
 								// Option 2.: revert and continue;
-								// Option 3.: revert and exit current patch application
-								
+								// Option 3.: revert and exit current patch
+								// application
+
 								// Yet, we assume the selection of Option 1
 								// -> do nothing
 							}
@@ -253,7 +266,7 @@ public class PatchEngine {
 	public PatchReport getPatchReport() {
 		return reportManager.getLastReport();
 	}
-	
+
 	public PatchReportManager getPatchReportManager() {
 		return reportManager;
 	}
@@ -264,9 +277,10 @@ public class PatchEngine {
 	 * 
 	 * @param operationInvocation
 	 */
-	private void apply(OperationInvocation operationInvocation) {
+	private boolean apply(OperationInvocation operationInvocation) {
 
 		final OperationInvocation op = operationInvocation;
+		final ArrayList<Boolean> success = new ArrayList<Boolean>();
 
 		AbstractCommand command = new AbstractCommand() {
 
@@ -276,11 +290,13 @@ public class PatchEngine {
 				try {
 					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
 					setOutArguments(op.getParameterBindings(), outArgs);
-					statusManager.getStatusWrapper(op).setPassed(inArgs);
+					operationManager.getStatusWrapper(op).setPassed(inArgs);
 					reportManager.operationPassed(op, inArgs);
+					success.add(Boolean.TRUE);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
-					statusManager.getStatusWrapper(op).setFailed(inArgs, e);
+					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
 					reportManager.operationFailed(op, inArgs, e);
+					success.add(Boolean.FALSE);
 				}
 			}
 
@@ -302,6 +318,8 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
+
+		return success.get(0).booleanValue();
 	}
 
 	/**
@@ -311,20 +329,23 @@ public class PatchEngine {
 	 * 
 	 * @param operationInvocation
 	 */
-	private void revert(OperationInvocation operationInvocation)  {
+	private boolean revert(OperationInvocation operationInvocation) {
 		final OperationInvocation op = operationInvocation;
-		
+		final ArrayList<Boolean> success = new ArrayList<Boolean>();
+
 		AbstractCommand command = new AbstractCommand() {
 
 			@Override
 			public void execute() {
 				try {
 					transformationEngine.undo(op);
-					statusManager.getStatusWrapper(op).setSkipped();
+					operationManager.getStatusWrapper(op).setSkipped();
 					reportManager.operationReverted(op);
-				} catch (OperationNotUndoableException e) {					
+					success.add(Boolean.TRUE);
+				} catch (OperationNotUndoableException e) {
 					op.setApply(true);
 					reportManager.operationRevertFailed(op, e);
+					success.add(Boolean.FALSE);
 				}
 			}
 
@@ -346,6 +367,8 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
+
+		return success.get(0).booleanValue();
 	}
 
 	/**
@@ -463,8 +486,8 @@ public class PatchEngine {
 		return argumentManager;
 	}
 
-	public OperationManager getStatusManager() {
-		return statusManager;
+	public OperationManager getOperationManager() {
+		return operationManager;
 	}
 
 	public Boolean getReliabilitiesComputed() {

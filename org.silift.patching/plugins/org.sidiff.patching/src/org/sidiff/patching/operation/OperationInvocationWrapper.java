@@ -6,6 +6,12 @@ import java.util.Map;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 
+/**
+ * Encapsulates an operation invocation and keeps further information about the
+ * execution state of the operation invocation.
+ * 
+ * @author kehrer
+ */
 public class OperationInvocationWrapper {
 
 	/**
@@ -76,11 +82,11 @@ public class OperationInvocationWrapper {
 		return executionError;
 	}
 
-	public Object getInvocationArgument(ParameterBinding binding){
-		assert(status == OperationInvocationStatus.PASSED || status == OperationInvocationStatus.FAILED);
+	public Object getInvocationArgument(ParameterBinding binding) {
+		assert (status == OperationInvocationStatus.PASSED || status == OperationInvocationStatus.FAILED);
 		return arguments.get(binding);
 	}
-	
+
 	public boolean isUndoable(Map<ParameterBinding, Object> arguments) {
 		// if (status == OperationInvocationStatus.PASSED) {
 		// // Abgleich von arguments mit this.arguments

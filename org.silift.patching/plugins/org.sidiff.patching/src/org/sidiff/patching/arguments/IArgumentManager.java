@@ -8,6 +8,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 
+/**
+ * The argument manager is the central interface for the patch engine in order
+ * to resolve operation arguments on the target model. In principal, there are
+ * several ways to do the argument resolution. An implementation must be
+ * provided by concrete applications. Note that if the patch application is
+ * non-interactive, several methods of this interface can have empty
+ * implementations.
+ * 
+ * @author kehrer
+ */
 public interface IArgumentManager {
 
 	public void init(AsymmetricDifference patch, Resource targetModel);
@@ -73,7 +83,7 @@ public interface IArgumentManager {
 	 * @param targetObject
 	 */
 	public void addTargetObject(EObject targetObject);
-	
+
 	/**
 	 * Minimal reliability for correspondences
 	 * 

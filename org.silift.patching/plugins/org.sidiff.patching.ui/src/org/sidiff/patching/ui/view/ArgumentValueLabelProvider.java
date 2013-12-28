@@ -19,7 +19,7 @@ import org.sidiff.patching.ui.Activator;
 public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	private IArgumentManager argumentManager;
-	private OperationManager statusManager;
+	private OperationManager operationManager;
 	private boolean showReliabilities = false;
 
 	private final Image ERROR = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
@@ -27,7 +27,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	public void init(IArgumentManager argumentManager, OperationManager statusManager) {
 		this.argumentManager = argumentManager;
-		this.statusManager = statusManager;
+		this.operationManager = statusManager;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 		if (element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 			ArgumentWrapper argument = argumentManager.getArgument(binding);
 			
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
@@ -77,7 +77,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 		} else if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 			
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				Object actual = opWrapper.getInvocationArgument(binding);
@@ -106,7 +106,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 
 			if (opWrapper.getStatus() != OperationInvocationStatus.PASSED) {
 				ArgumentWrapper argument = argumentManager.getArgument(binding);
@@ -131,7 +131,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return "TODO: getTooltipText param of executed operation";
@@ -159,7 +159,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			Display display = Activator.getDefault().getWorkbench().getDisplay();
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(op);
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return new Color(display, 150, 150, 150);

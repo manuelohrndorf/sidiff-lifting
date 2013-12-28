@@ -35,18 +35,18 @@ import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.view.PatchView;
 import org.sidiff.patching.ui.view.ReportView;
-import org.sidiff.patching.util.CorrespondenceUtil;
-import org.sidiff.patching.util.TransformatorUtil;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.patching.patch.Patch;
@@ -174,31 +174,25 @@ public class ApplyPatchWizard extends Wizard {
 					}
 					monitor.worked(20);
 
-					// Find patch correspondence
+					// Use interactive argument manager
+					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
+					
+					// Find transformation engine (no other available right now)
 					String documentType = null;
 					if (EMFModelAccessEx.isProfiled(resourceResult.get())){
 						documentType = EMFModelAccessEx.getBaseDocumentType(resourceResult.get());
 					} else {
 						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
-					}	
-					
-					// Use selected Matcher
-					IArgumentManager correspondence = CorrespondenceUtil.getPatchCorrespondence(matcher);
-					if (correspondence == null) {
-						MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Correspondence Service found!", "No suitable Correspondence Service found!");
-						return Status.CANCEL_STATUS;
 					}
-
-					// Find transformation engine (no other available right now)
-					ITransformationEngine transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
+					ITransformationEngine transformationEngine = TransformationEngineUtil.getFirstTransformationEngine(documentType);
 					if (transformationEngine == null) {
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "No Transformator Service found!", "No suitable Transformator Service found!");
 						return Status.CANCEL_STATUS;
 					}
 
 					monitor.subTask("Initialize PatchEngine");
-					correspondence.setMinReliability(reliability);
-					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), correspondence, transformationEngine, ExecutionMode.INTERACTIVE, validationMode, matcher.canComputeReliability());
+					argumentManager.setMinReliability(reliability);
+					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode, matcher.canComputeReliability());
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(40);
 
@@ -240,7 +234,7 @@ public class ApplyPatchWizard extends Wizard {
 					// ModelChangeHandler works independent; PatchView is interested in model changes
 					monitor.subTask("Adding Modellistener");
 					ModelAdapter adapter = new ModelAdapter(resourceResult.get());
-					adapter.addListener(new ModelChangeHandler(correspondence));
+					adapter.addListener(new ModelChangeHandler(argumentManager));
 					adapter.addListener(patchView);
 					monitor.worked(20);
 				} catch (FileNotFoundException e) {

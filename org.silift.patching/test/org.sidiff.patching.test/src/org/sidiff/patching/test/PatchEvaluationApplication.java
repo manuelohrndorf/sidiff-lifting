@@ -25,7 +25,6 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.PatchEngine.ValidationMode;
 import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
@@ -33,6 +32,7 @@ import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
+import org.sidiff.patching.validation.ValidationMode;
 
 public class PatchEvaluationApplication implements IApplication {
 

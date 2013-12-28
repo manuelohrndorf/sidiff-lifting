@@ -19,10 +19,10 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
-import org.sidiff.patching.ITransformationEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.test.TestSuite;
-import org.sidiff.patching.util.TransformatorUtil;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 
 public class SysMLTestSuitBuilder {
@@ -86,7 +86,7 @@ public class SysMLTestSuitBuilder {
 		
 		if (transformationEngine == null){	
 			String documentType = EMFModelAccessEx.getCharacteristicDocumentType(original);
-			transformationEngine = TransformatorUtil.getFirstTransformationEngine(documentType);
+			transformationEngine = TransformationEngineUtil.getFirstTransformationEngine(documentType);
 			if (transformationEngine == null) {
 				LogUtil.log(LogEvent.ERROR, "No Transformation Engine found!");
 				return null;

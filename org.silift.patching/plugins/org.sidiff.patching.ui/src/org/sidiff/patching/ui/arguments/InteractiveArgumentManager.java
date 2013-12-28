@@ -1,4 +1,4 @@
-package org.sidiff.patching.arguments.interactive;
+package org.sidiff.patching.ui.arguments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -160,20 +160,20 @@ public class InteractiveArgumentManager implements IArgumentManager {
 		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
 		
 		// from target model.
-		List<EObject> args = new ArrayList<>();
+		List<EObject> args = new ArrayList<EObject>();
 		addPossibleArgument(args, targetModel, originObject);
 		res.put(targetModel, args);
 		
 		// from package registry
 		for (Resource r : packageRegistryResources) {
-			args = new ArrayList<>();
+			args = new ArrayList<EObject>();
 			addPossibleArgument(args, r, originObject);
 			res.put(r, args);
 		}
 		
 		// from ResourceSet
 		for (Resource r : resourceSetResources) {
-			args = new ArrayList<>();
+			args = new ArrayList<EObject>();
 			addPossibleArgument(args, r, originObject);
 			res.put(r, args);
 		}

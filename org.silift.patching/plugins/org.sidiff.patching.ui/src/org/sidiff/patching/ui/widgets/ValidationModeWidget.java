@@ -9,7 +9,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.patching.PatchEngine.ValidationMode;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;

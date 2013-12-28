@@ -69,60 +69,6 @@ public class PatchUtil {
 		}
 	}
 
-	// /**
-	// * Checks all following OperationInvocations and applies the same
-	// execution
-	// * state
-	// *
-	// * @param invocation
-	// * @param apply
-	// */
-	// public static void ensureDependency(OperationInvocation invocation,
-	// boolean apply) {
-	// // setAllPreciding(invocation, apply);
-	// // invocation.setApply(apply);
-	// // setAllFollowing(invocation, apply);
-	// }
-	//
-	// // private static void setAllPreciding (OperationInvocation invocation,
-	// boolean apply) {
-	// // for (OperationInvocation outgoingInvocation:
-	// getAllOutgoing(invocation.getOutgoing())) {
-	// // outgoingInvocation.setApply(apply);
-	// // setAllPreciding(outgoingInvocation, apply);
-	// // }
-	// // }
-	//
-	// // private static List<OperationInvocation> getAllOutgoing
-	// (EList<Dependency> incoming) {
-	// // List<OperationInvocation> result = new
-	// ArrayList<OperationInvocation>();
-	// // for (Dependency dependency : incoming) {
-	// // result.add(dependency.getTarget());
-	// // }
-	// // return result;
-	// // }
-
-	// private static void setAllFollowing(OperationInvocation invocation,
-	// boolean apply) {
-	// for (OperationInvocation incomingInvocation:
-	// getAllIncoming(invocation.getIncoming())) {
-	// incomingInvocation.setApply(apply);
-	// setAllFollowing(incomingInvocation, apply);
-	// }
-	// }
-
-	// private static List<OperationInvocation> getAllIncoming(
-	// EList<DependencyContainer> incoming) {
-	// List<OperationInvocation> result = new ArrayList<OperationInvocation>();
-	//
-	// for (DependencyContainer dependency : incoming) {
-	// result.add(dependency.getSource());
-	//
-	// }
-	// return result;
-	// }
-
 	public static Resource copyWithId(Resource from, URI uri, boolean withId, Copier copier) {
 		copier.copyAll(from.getContents());
 		copier.copyReferences();

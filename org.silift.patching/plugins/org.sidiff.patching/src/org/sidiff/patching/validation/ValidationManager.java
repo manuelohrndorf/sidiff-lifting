@@ -2,23 +2,20 @@ package org.sidiff.patching.validation;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.PatchEngine.ValidationMode;
-import org.sidiff.patching.validation.emf.EMFValidationTestUnit;
+import org.sidiff.patching.validation.emf.EMFValidator;
 
 public class ValidationManager {
 	
 	private ValidationMode validationMode;
-	private IValidationUnit validator;
+	private IValidator validator;
 	private Resource targetResource;
 	
 	public ValidationManager(ValidationMode validationMode, Resource targetResource) {
 		super();
 		this.validationMode = validationMode;
 		this.targetResource = targetResource;
-		this.validator = new EMFValidationTestUnit();
+		this.validator = new EMFValidator();
 	}
 	
 	public ValidationMode getValidationMode() {
