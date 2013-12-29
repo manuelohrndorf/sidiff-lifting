@@ -1,5 +1,6 @@
 package org.silift.merging.ui.wizard;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -19,6 +20,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.merging.ui.util.MergeModels;
 
 public class ThreeWayMergePage02 extends WizardPage {
 
@@ -29,13 +31,13 @@ public class ThreeWayMergePage02 extends WizardPage {
 
 	private SelectionAdapter validationListener;
 
-	private InputModels inputModels;
-
-	public ThreeWayMergePage02(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage) {
+	private MergeModels mergeModels;
+	
+	public ThreeWayMergePage02(
+			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
-
-		this.inputModels = inputModels;
+		
+		this.mergeModels = mergeModels;
 
 		// Listen for validation failures:
 		validationListener =
@@ -115,11 +117,11 @@ public class ThreeWayMergePage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
+		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 
 		if (builderWidget.getDifferenceBuilders().size() > 1) {
 			addWidget(algorithmsGroup, builderWidget);

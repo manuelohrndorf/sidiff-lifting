@@ -2,6 +2,7 @@ package org.silift.merging.ui.wizard;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -21,24 +22,24 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.merging.ui.util.MergeModels;
+import org.silift.merging.ui.widgets.MergeModelsWidget;
 
 public class ThreeWayMergePage01 extends WizardPage {
 
 	private Composite container;
 
-	private InputModelsWidget sourceWidget;
+	private MergeModelsWidget mergeModelsWidget;
 	private ComparisonModeWidget comparisonWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private SelectionAdapter validationListener;
+	private MergeModels mergeModels;
 
-	private InputModels inputModels;
 
-	public ThreeWayMergePage01(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage) {
+	public ThreeWayMergePage01(
+			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
-
-		this.inputModels = inputModels;
 
 		// Listen for validation failures:
 		validationListener =
@@ -98,14 +99,14 @@ public class ThreeWayMergePage01 extends WizardPage {
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Create a patch from the changes between the models: origin -> changed");
+		setMessage("Merge three models");
 	}
 
 	private void createWidgets() {
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, "Patch Direction");
-		addWidget(container, sourceWidget);
+		mergeModelsWidget = new MergeModelsWidget(mergeModels);;
+		addWidget(container, mergeModelsWidget);
 		
 		// Comparison mode:
 		comparisonWidget = new ComparisonModeWidget();
@@ -126,7 +127,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 		}
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(inputModels);
+		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 		addWidget(container, rulebaseWidget);
 	}
 
@@ -146,7 +147,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 		setErrorMessage(null);
 		setPageComplete(true);
 
-		validateWidget(sourceWidget);
+		validateWidget(mergeModelsWidget);
 		validateWidget(comparisonWidget);
 		validateWidget(rulebaseWidget);
 	}
@@ -159,11 +160,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 	}
 
 	public boolean isValidateModels() {
-		return sourceWidget.isValidateModels();
-	}
-
-	public boolean isInverseDirection() {
-		return sourceWidget.isInverseDirection();
+		return mergeModelsWidget.isValidateModels();
 	}
 	
 	public int getComparisonMode() {

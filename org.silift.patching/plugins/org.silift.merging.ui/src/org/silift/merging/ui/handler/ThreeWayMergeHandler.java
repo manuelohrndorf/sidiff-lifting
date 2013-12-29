@@ -8,12 +8,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.merging.ui.wizard.ThreeWayMergeWizard;
 
 public class ThreeWayMergeHandler extends AbstractHandler {
 
@@ -30,19 +32,21 @@ public class ThreeWayMergeHandler extends AbstractHandler {
 					@Override
 					public void run() {
 						// Create a new difference
-						IFile fileA = (IFile) selection.toArray()[0];
-						IFile fileB = (IFile) selection.toArray()[1];
+						IFile fileMine = (IFile) selection.toArray()[0];
+						IFile fileTheirs = (IFile) selection.toArray()[1];
 						IFile fileBase = (IFile) selection.toArray()[2];
-						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						Resource resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
+						Resource resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
 						Resource resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
-						String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
-						String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+						String docTypeMine = EMFModelAccessEx.getCharacteristicDocumentType(resourceMine);
+						String docTypeTheirs = EMFModelAccessEx.getCharacteristicDocumentType(resourceTheirs);
 						String docTypeBase = EMFModelAccessEx.getCharacteristicDocumentType(resourceBase);
-						if(docTypeA.equals(docTypeB) && docTypeB.equals(docTypeBase)){
+						if(docTypeMine.equals(docTypeTheirs) && docTypeTheirs.equals(docTypeBase)){
+							
+							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+									.getShell(), new ThreeWayMergeWizard(fileMine, fileTheirs, fileBase));
+						wizardDialog.open();
 
-							//TODO
-							System.err.println("Merging -- Base: " + fileBase.getName() + " | A: " + fileA.getName() + " | B: " + fileB.getName());
 						}else {
 							MessageDialog.openError(
 									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),

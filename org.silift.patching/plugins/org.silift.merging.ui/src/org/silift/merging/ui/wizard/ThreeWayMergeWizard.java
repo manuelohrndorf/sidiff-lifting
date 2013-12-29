@@ -30,6 +30,7 @@ import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.silift.merging.ui.Activator;
+import org.silift.merging.ui.util.MergeModels;
 import org.silift.patching.patch.PatchCreator;
 
 public class ThreeWayMergeWizard extends Wizard {
@@ -37,25 +38,21 @@ public class ThreeWayMergeWizard extends Wizard {
 	private ThreeWayMergePage01 threeWayMergePage01;
 	private ThreeWayMergePage02 threeWayMergePage02;
 
-	private InputModels inputModels1;
-	private InputModels inputModels2;
-
-	public ThreeWayMergeWizard(IFile fileA, IFile fileB, IFile fileBase) {
+	private MergeModels mergeModels;
+	
+	public ThreeWayMergeWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
 		this.setWindowTitle("Three-Way-Merge Wizard");
-
-		inputModels1 = new InputModels(fileBase, fileA);
-		inputModels2 = new InputModels(fileBase, fileB);
+		
+		this.mergeModels = new MergeModels(fileMine, fileTheirs, fileBase);
 	}
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new ThreeWayMergePage01(
-				inputModels1,
+		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels,
 				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"));
 		addPage(threeWayMergePage01);
 		
-		threeWayMergePage02 = new ThreeWayMergePage02(
-				inputModels1,
+		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
 				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"));
 		addPage(threeWayMergePage02);
 	}
@@ -85,8 +82,10 @@ public class ThreeWayMergeWizard extends Wizard {
 	}
 	
 	private void finish() {
-		Resource resourceA = inputModels1.getResourceA();
-		Resource resourceB = inputModels1.getResourceB();
+		
+		InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
+		Resource resourceA = inputModels.getResourceA();
+		Resource resourceB = inputModels.getResourceB();
 		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 
 		// Start calculation:
@@ -111,7 +110,7 @@ public class ThreeWayMergeWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			patchCreator.serializePatch(inputModels1.getFileA().getParent().getLocation());
+			patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation());
 
 			LogUtil.log(LogEvent.NOTICE, "done...");
 		}catch(InvalidModelException e){
@@ -127,7 +126,7 @@ public class ThreeWayMergeWizard extends Wizard {
 
 		// Refresh workspace:
 		try {
-			inputModels1.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (OperationCanceledException e) {
