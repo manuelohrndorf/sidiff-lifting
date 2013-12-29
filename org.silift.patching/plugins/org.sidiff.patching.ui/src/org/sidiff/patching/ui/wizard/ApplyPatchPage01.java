@@ -10,10 +10,10 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
+import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -25,7 +25,7 @@ public class ApplyPatchPage01 extends WizardPage {
 	private Composite container;
 
 	private TargetModelWidget targetWidget;
-	private ComparisonModeWidget comparisonWidget;
+	private ScopeWidget scopeWidget;
 	private ValidationModeWidget validationWidget;
 
 	private SelectionAdapter validationListener;
@@ -102,8 +102,8 @@ public class ApplyPatchPage01 extends WizardPage {
 		addWidget(container, targetWidget);
 
 		// Comparison mode:
-		comparisonWidget = new ComparisonModeWidget();
-		addWidget(container, comparisonWidget);
+		scopeWidget = new ScopeWidget();
+		addWidget(container, scopeWidget);
 		
 		
 		//Validation
@@ -129,7 +129,7 @@ public class ApplyPatchPage01 extends WizardPage {
 		setPageComplete(true);
 
 		validateWidget(targetWidget);
-		validateWidget(comparisonWidget);
+		validateWidget(scopeWidget);
 		validateWidget(validationWidget);
 	}
 
@@ -140,16 +140,16 @@ public class ApplyPatchPage01 extends WizardPage {
 		}
 	}
 
-	public ComparisonMode getComparisonMode() {
-		return comparisonWidget.getSelection();
+	public Scope getScope() {
+		return scopeWidget.getSelection();
 	}
 	
 	public TargetModelWidget getTargetWidget(){
 		return targetWidget;
 	}
 	
-	public ComparisonModeWidget getComparisonWidget() {
-		return comparisonWidget;
+	public ScopeWidget getScopeWidget() {
+		return scopeWidget;
 	}
 
 	public ValidationModeWidget getValidationWidget(){

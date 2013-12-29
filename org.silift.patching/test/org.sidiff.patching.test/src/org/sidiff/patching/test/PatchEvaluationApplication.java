@@ -33,7 +33,7 @@ import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 import org.sidiff.patching.validation.ValidationMode;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -114,7 +114,7 @@ public class PatchEvaluationApplication implements IApplication {
 				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
 						.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
 						testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE,
-						ComparisonMode.COMPARE_RESOURCE, false);
+						Scope.RESOURCE, false);
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
 				LogUtil.log(LogEvent.NOTICE, "Applying patch");
 

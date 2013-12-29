@@ -31,7 +31,7 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 
 /**
  * Transformation Engine based on calling Henshin Transformator.
@@ -54,7 +54,7 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	/**
 	 * The comparison mode (single resource or complete resource set)
 	 */
-	private ComparisonMode comparisonMode;
+	private Scope scope;
 	
 	/**
 	 * The Henshin Graph that contains the target resource on which the patch
@@ -74,12 +74,12 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	private Collection<EObject> initialGraphRoots;
 
 	@Override
-	public void init(Resource targetResource, ExecutionMode executionMode, ComparisonMode comparisonMode) {
+	public void init(Resource targetResource, ExecutionMode executionMode, Scope scope) {
 		this.targetResource = targetResource;
 		this.executionMode = executionMode;
 		
 		// Create graph
-		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode, comparisonMode);
+		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode, scope);
 		graph = graphFactory.createEGraph();
 		
 		// Store initial graph roots

@@ -25,7 +25,7 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
@@ -85,7 +85,7 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	/**
 	 * The scope (resource only or complete resource set).
 	 */
-	private ComparisonMode comparisonMode;
+	private Scope scope;
 	
 	/**
 	 * The ModifiedDetector to which we delegate when we check if an object of
@@ -102,20 +102,20 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, ComparisonMode comparisonMode) {
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
-		this.comparisonMode = comparisonMode;
+		this.scope = scope;
 		
 		// now we initialize the internal state...
 
 		// do matching		
-		matching = matcher.createMatching(originModel, targetModel, comparisonMode, true);
+		matching = matcher.createMatching(originModel, targetModel, scope, true);
 
 		// collect referenced registry and ResourceSet resources
 		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();
-		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, comparisonMode);
+		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, scope);
 		packageRegistryResources = extContainer.getReferencedRegistryModels();
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 

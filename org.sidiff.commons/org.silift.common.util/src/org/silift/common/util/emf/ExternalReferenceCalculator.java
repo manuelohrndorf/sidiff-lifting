@@ -13,7 +13,7 @@ import org.silift.common.util.access.EMFMetaAccessEx;
 
 /**
  * Calculates all external references from the viewpoint of the given model and
- * with respect to the selected comparisonMode.
+ * with respect to the selected resource scope.
  * 
  * Note that we apply two filters when iterating over all EReferences of the
  * meta-model:
@@ -30,21 +30,21 @@ public class ExternalReferenceCalculator {
 
 	private List<ExternalReference> registryReferences;
 	private List<ExternalReference> resourceSetReferences;
-	private ComparisonMode comparisonMode;
+	private Scope scope;
 
 	/**
 	 * Calculates all external references from the viewpoint of the given model
-	 * and with respect to the selected comparisonMode.
+	 * and with respect to the selected resource scope.
 	 * 
 	 * @param model
-	 * @param comparisonMode
+	 * @param scope
 	 *            
 	 * @return
 	 */
-	public ExternalReferenceContainer calculate(Resource model, ComparisonMode comparisonMode) {
+	public ExternalReferenceContainer calculate(Resource model, Scope scope) {
 		this.registryReferences = new LinkedList<ExternalReference>();
 		this.resourceSetReferences = new LinkedList<ExternalReference>();
-		this.comparisonMode = comparisonMode;
+		this.scope = scope;
 
 		// Find external references, i.e.
 		// RESOURCE -> PACKAGE_REGISTRY, and
@@ -53,7 +53,7 @@ public class ExternalReferenceCalculator {
 
 		// Also add external References from RESOURCE_SET to
 		// PACKAGE_REGISTRY (when modus = COMPLETE RESOURCE SET)
-		if (comparisonMode == ComparisonMode.COMPARE_RESOURCE_SET) {
+		if (scope == Scope.RESOURCE_SET) {
 			for (Resource r : model.getResourceSet().getResources()) {
 				if (r == model) {
 					continue;
@@ -96,7 +96,7 @@ public class ExternalReferenceCalculator {
 											eStructuralFeatureValue, i));
 								}
 								if (location == EObjectLocation.RESOURCE_SET_INTERNAL
-										&& comparisonMode == ComparisonMode.COMPARE_RESOURCE) {
+										&& scope == Scope.RESOURCE) {
 									resourceSetReferences.add(new ExternalManyReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue, i));
 								}
@@ -112,7 +112,7 @@ public class ExternalReferenceCalculator {
 											eStructuralFeatureValue));
 								}
 								if (location == EObjectLocation.RESOURCE_SET_INTERNAL
-										&& comparisonMode == ComparisonMode.COMPARE_RESOURCE) {
+										&& scope == Scope.RESOURCE) {
 									resourceSetReferences.add(new ExternalReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue));
 								}

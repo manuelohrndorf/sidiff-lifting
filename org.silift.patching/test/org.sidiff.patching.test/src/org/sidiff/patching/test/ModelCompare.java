@@ -19,7 +19,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 
 public class ModelCompare {
 
@@ -67,7 +67,7 @@ public class ModelCompare {
 		// derive techical difference
 		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);
 		SymmetricDifference difference = LiftingFacade.deriveTechnicalDifferences(modelA, modelB,
-				ComparisonMode.COMPARE_RESOURCE, matcher, tdBuilder);
+				Scope.RESOURCE, matcher, tdBuilder);
 
 		// now, return the set of obtained low-level changes (should be empty)
 		return difference.getChanges();

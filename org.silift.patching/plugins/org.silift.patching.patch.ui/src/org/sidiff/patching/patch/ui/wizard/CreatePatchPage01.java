@@ -14,11 +14,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
+import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -30,7 +30,7 @@ public class CreatePatchPage01 extends WizardPage {
 	private Composite container;
 
 	private InputModelsWidget sourceWidget;
-	private ComparisonModeWidget comparisonWidget;
+	private ScopeWidget scopeWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private SelectionAdapter validationListener;
@@ -111,8 +111,8 @@ public class CreatePatchPage01 extends WizardPage {
 		addWidget(container, sourceWidget);
 		
 		// Comparison mode:
-		comparisonWidget = new ComparisonModeWidget();
-		addWidget(container, comparisonWidget);
+		scopeWidget = new ScopeWidget();
+		addWidget(container, scopeWidget);
 
 		// Algorithms:
 		Group algorithmsGroup = new Group(container, SWT.NONE);
@@ -150,7 +150,7 @@ public class CreatePatchPage01 extends WizardPage {
 		setPageComplete(true);
 
 		validateWidget(sourceWidget);
-		validateWidget(comparisonWidget);
+		validateWidget(scopeWidget);
 		validateWidget(rulebaseWidget);
 	}
 
@@ -169,12 +169,12 @@ public class CreatePatchPage01 extends WizardPage {
 		return sourceWidget.isInverseDirection();
 	}
 	
-	public ComparisonMode getComparisonMode() {
-		return comparisonWidget.getSelection();
+	public Scope getScope() {
+		return scopeWidget.getSelection();
 	}
 	
-	public ComparisonModeWidget getComparisonWidget() {
-		return comparisonWidget;
+	public ScopeWidget getScopeWidget() {
+		return scopeWidget;
 	}
 
 	public Set<IRuleBase> getSelectedRulebases() {

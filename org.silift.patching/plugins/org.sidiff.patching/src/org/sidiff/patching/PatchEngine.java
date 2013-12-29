@@ -1,6 +1,5 @@
 package org.sidiff.patching;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,9 +36,9 @@ import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.validation.IValidationError;
-import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.patching.validation.ValidationManager;
-import org.silift.common.util.emf.ComparisonMode;
+import org.sidiff.patching.validation.ValidationMode;
+import org.silift.common.util.emf.Scope;
 
 /**
  * 
@@ -76,7 +75,7 @@ public class PatchEngine {
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
 			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode,
-			ComparisonMode comparisonMode, Boolean reliabilitiesComputed) {
+			Scope scope, Boolean reliabilitiesComputed) {
 
 		this.difference = difference;
 		this.patchedResource = patchedResource;
@@ -90,7 +89,7 @@ public class PatchEngine {
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
 		this.operationManager = new OperationManager(orderedOperations);
-		this.argumentManager.init(difference, patchedResource, comparisonMode);
+		this.argumentManager.init(difference, patchedResource, scope);
 
 		// Initialize all operationInvocations owning
 		// modified parameters as "not applicable"
@@ -101,7 +100,7 @@ public class PatchEngine {
 		}
 
 		// Init transformation engine
-		this.transformationEngine.init(patchedResource, executionMode, comparisonMode);
+		this.transformationEngine.init(patchedResource, executionMode, scope);
 
 		// Init report manager
 		this.reportManager = new PatchReportManager();

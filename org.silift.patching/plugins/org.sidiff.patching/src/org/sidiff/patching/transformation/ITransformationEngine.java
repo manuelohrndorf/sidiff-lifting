@@ -10,7 +10,7 @@ import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 
 public interface ITransformationEngine {
 
@@ -28,7 +28,7 @@ public interface ITransformationEngine {
 	 * 
 	 * @param targetResource
 	 */
-	public void init(Resource targetResource, ExecutionMode executionMode, ComparisonMode comparisonMode);
+	public void init(Resource targetResource, ExecutionMode executionMode, Scope scope);
 
 	/**
 	 * Executes an operation with the given arguments. 

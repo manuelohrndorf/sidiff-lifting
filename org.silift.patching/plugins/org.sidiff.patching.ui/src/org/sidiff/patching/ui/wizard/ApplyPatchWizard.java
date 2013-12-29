@@ -48,7 +48,7 @@ import org.sidiff.patching.ui.view.PatchView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.ComparisonMode;
+import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.patch.PatchCreator;
@@ -112,7 +112,7 @@ public class ApplyPatchWizard extends Wizard {
 		final String separator = System.getProperty("file.separator");
 		final String filename = this.applyPatchPage01.getTargetWidget().getFilename();
 		final ValidationMode validationMode = this.applyPatchPage01.getValidationWidget().getSelection();
-		final ComparisonMode comparisonMode = this.applyPatchPage01.getComparisonMode();
+		final Scope scope = this.applyPatchPage01.getScope();
 		final Integer reliability = this.applyPatchPage02.getReliabilityWidget().getReliability();
 		final IMatcher matcher = this.applyPatchPage02.getSelectedMatchingEngine();
 
@@ -202,7 +202,7 @@ public class ApplyPatchWizard extends Wizard {
 					argumentManager.setMinReliability(reliability);
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
-							comparisonMode, matcher.canComputeReliability());
+							scope, matcher.canComputeReliability());
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(40);
 
