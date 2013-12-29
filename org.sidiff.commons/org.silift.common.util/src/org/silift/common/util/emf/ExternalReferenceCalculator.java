@@ -30,7 +30,7 @@ public class ExternalReferenceCalculator {
 
 	private List<ExternalReference> registryReferences;
 	private List<ExternalReference> resourceSetReferences;
-	private int comparisonMode;
+	private ComparisonMode comparisonMode;
 
 	/**
 	 * Calculates all external references from the viewpoint of the given model
@@ -38,11 +38,10 @@ public class ExternalReferenceCalculator {
 	 * 
 	 * @param model
 	 * @param comparisonMode
-	 *            {@link EMFResourceUtil#COMPARE_RESOURCE} or
-	 *            {@link EMFResourceUtil#COMPARE_RESOURCE_SET}
+	 *            
 	 * @return
 	 */
-	public ExternalReferenceContainer calculate(Resource model, int comparisonMode) {
+	public ExternalReferenceContainer calculate(Resource model, ComparisonMode comparisonMode) {
 		this.registryReferences = new LinkedList<ExternalReference>();
 		this.resourceSetReferences = new LinkedList<ExternalReference>();
 		this.comparisonMode = comparisonMode;
@@ -54,7 +53,7 @@ public class ExternalReferenceCalculator {
 
 		// Also add external References from RESOURCE_SET to
 		// PACKAGE_REGISTRY (when modus = COMPLETE RESOURCE SET)
-		if (comparisonMode == EMFResourceUtil.COMPARE_RESOURCE_SET) {
+		if (comparisonMode == ComparisonMode.COMPARE_RESOURCE_SET) {
 			for (Resource r : model.getResourceSet().getResources()) {
 				if (r == model) {
 					continue;
@@ -90,14 +89,14 @@ public class ExternalReferenceCalculator {
 
 							for (int i = 0; i < eStructuralFeatureValues.size(); i++) {
 								EObject eStructuralFeatureValue = eStructuralFeatureValues.get(i);
-								int location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
+								EObjectLocation location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
 
-								if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
+								if (location == EObjectLocation.PACKAGE_REGISTRY) {
 									registryReferences.add(new ExternalManyReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue, i));
 								}
-								if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL
-										&& comparisonMode == EMFResourceUtil.COMPARE_RESOURCE) {
+								if (location == EObjectLocation.RESOURCE_SET_INTERNAL
+										&& comparisonMode == ComparisonMode.COMPARE_RESOURCE) {
 									resourceSetReferences.add(new ExternalManyReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue, i));
 								}
@@ -106,14 +105,14 @@ public class ExternalReferenceCalculator {
 							EObject eStructuralFeatureValue = (EObject) eObject.eGet(eStructuralFeature);
 
 							if (eStructuralFeatureValue != null) {
-								int location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
+								EObjectLocation location = EMFResourceUtil.locate(model, eStructuralFeatureValue);
 
-								if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
+								if (location == EObjectLocation.PACKAGE_REGISTRY) {
 									registryReferences.add(new ExternalReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue));
 								}
-								if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL
-										&& comparisonMode == EMFResourceUtil.COMPARE_RESOURCE) {
+								if (location == EObjectLocation.RESOURCE_SET_INTERNAL
+										&& comparisonMode == ComparisonMode.COMPARE_RESOURCE) {
 									resourceSetReferences.add(new ExternalReference(eObject, (EReference) eStructuralFeature,
 											eStructuralFeatureValue));
 								}

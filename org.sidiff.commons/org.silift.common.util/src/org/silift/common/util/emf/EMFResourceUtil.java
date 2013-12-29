@@ -8,20 +8,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 public class EMFResourceUtil {
 
-	public static final int RESOURCE_INTERNAL = 0;
-	public static final int RESOURCE_SET_INTERNAL = 1;
-	public static final int PACKAGE_REGISTRY = 2;
-
-	public static final int COMPARE_RESOURCE = 10;
-	public static final int COMPARE_RESOURCE_SET = 11;
-
-	//TODO (TK): This must be a dynamic comparison option
-	public static int COMPARISON_MODE = COMPARE_RESOURCE;
-
-	public static int locate(Resource model, EObject eObject) {
+	public static EObjectLocation locate(Resource model, EObject eObject) {
 		// RESOURCE_INTERNAL..?
 		if (contains(model, eObject)) {
-			return RESOURCE_INTERNAL;
+			return EObjectLocation.RESOURCE_INTERNAL;
 		}
 
 		// RESOURCE_SET_INTERNAL..?
@@ -30,14 +20,14 @@ public class EMFResourceUtil {
 				continue;
 			}
 			if (contains(r, eObject)) {
-				return RESOURCE_SET_INTERNAL;
+				return EObjectLocation.RESOURCE_SET_INTERNAL;
 			}
 		}
 
 		// Must be found in PACKAGE_REGISTRY
 		assert (EPackage.Registry.INSTANCE.containsValue(eObject.eClass().getEPackage())) : "" + eObject;
 		
-		return PACKAGE_REGISTRY;
+		return EObjectLocation.PACKAGE_REGISTRY;
 	}
 
 	private static boolean contains(Resource resource, EObject eObject) {
