@@ -24,12 +24,10 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.symmetric.Correspondence;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
-import org.sidiff.pipeline.correspondences.model.Matching;
 
 public class FileToModelConverter {
 	
@@ -73,13 +71,13 @@ public class FileToModelConverter {
 	}
 
 	private List<Correspondence> getCorrespondences(ResourceSet resourceSet, File matchingFile) {
-		prepareResource(matchingFile);
-		Matching matching = (Matching) getResource(resourceSet, matchingFile).getContents().get(0);
+//		prepareResource(matchingFile);
+//		Matching matching = (Matching) getResource(resourceSet, matchingFile).getContents().get(0);
 		List<Correspondence> correspondences = new ArrayList<Correspondence>();
-		for (org.sidiff.pipeline.correspondences.model.Correspondence smgCor : matching.getCorrespondences()) {
-			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(smgCor.getMatchedA(), smgCor.getMatchedB());			
-			correspondences.add(correspondence);
-		}
+//		for (org.sidiff.pipeline.correspondences.model.Correspondence smgCor : matching.getCorrespondences()) {
+//			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(smgCor.getMatchedA(), smgCor.getMatchedB());			
+//			correspondences.add(correspondence);
+//		}
 		return correspondences;
 	}
 
