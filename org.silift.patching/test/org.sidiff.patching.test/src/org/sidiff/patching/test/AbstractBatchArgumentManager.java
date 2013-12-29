@@ -10,6 +10,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.silift.common.util.emf.ComparisonMode;
 
 public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
@@ -47,7 +48,7 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel) {
+	public void init(AsymmetricDifference patch, Resource targetModel, ComparisonMode scope) {
 		// usually done in constructor of subclasses
 	}
 

@@ -17,9 +17,6 @@ import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 
-	public static final int COMPARE_RESOURCE = EMFResourceUtil.COMPARE_RESOURCE;
-	public static final int COMPARE_RESOURCE_SET = EMFResourceUtil.COMPARE_RESOURCE_SET;
-
 	private ValidationMode validationMode = ValidationMode.NO;
 
 	private Composite container;

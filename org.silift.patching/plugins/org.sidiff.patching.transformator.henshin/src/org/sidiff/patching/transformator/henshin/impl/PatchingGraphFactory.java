@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.silift.common.util.emf.ComparisonMode;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.ExternalReference;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
@@ -32,6 +33,11 @@ public class PatchingGraphFactory {
 	private ExecutionMode executionMode;
 
 	/**
+	 * The comparison mode (single resource or complete resource set)
+	 */
+	private ComparisonMode comparisonMode;
+
+	/**
 	 * Constructor:
 	 * 
 	 * @param targetResource
@@ -40,10 +46,11 @@ public class PatchingGraphFactory {
 	 *            The execution mode of the patch application (interactive or
 	 *            batch).
 	 */
-	public PatchingGraphFactory(Resource targetResource, ExecutionMode executionMode) {
+	public PatchingGraphFactory(Resource targetResource, ExecutionMode executionMode, ComparisonMode comparisonMode) {
 		super();
 		this.targetResource = targetResource;
 		this.executionMode = executionMode;
+		this.comparisonMode = comparisonMode;
 	}
 
 	/**
@@ -73,8 +80,7 @@ public class PatchingGraphFactory {
 
 			// Add externally referenced objects
 			ExternalReferenceCalculator externalRefCalculator = new ExternalReferenceCalculator();
-			ExternalReferenceContainer externalRefs = externalRefCalculator.calculate(targetResource,
-					EMFResourceUtil.COMPARISON_MODE);
+			ExternalReferenceContainer externalRefs = externalRefCalculator.calculate(targetResource, comparisonMode);
 			for (ExternalReference extRef : externalRefs.getRegistryReferences()) {
 				graph.add(extRef.getTargetObject());
 			}

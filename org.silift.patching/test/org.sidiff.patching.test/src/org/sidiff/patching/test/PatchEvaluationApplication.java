@@ -33,6 +33,7 @@ import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 import org.sidiff.patching.validation.ValidationMode;
+import org.silift.common.util.emf.ComparisonMode;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -45,7 +46,7 @@ public class PatchEvaluationApplication implements IApplication {
 			System.out.println("Argument must be a folder containing Models and a type!");
 			return IApplication.EXIT_OK;
 		}
-		
+
 		File modelFolder = null;
 		String type = null;
 		for (int i = 0; i < args.length; i++) {
@@ -55,19 +56,19 @@ public class PatchEvaluationApplication implements IApplication {
 				type = args[++i];
 			}
 		}
-		
+
 		if (!modelFolder.exists() && !modelFolder.isDirectory()) {
 			throw new FileNotFoundException(modelFolder.getPath());
 		}
-		
+
 		if (type == null || !(type.equals("gmf") || !(type.equals("smg")) || !(type.equals("sysml")))) {
 			throw new InvalidParameterException("Unkown type!");
-		}	
-		
-//		// Experiment run
-//		String experimentRun = "01->02";
-//		ExperimentalUtil.getInstance(null).startRun(experimentRun);
-		
+		}
+
+		// // Experiment run
+		// String experimentRun = "01->02";
+		// ExperimentalUtil.getInstance(null).startRun(experimentRun);
+
 		List<TestSuite> testSuites = null;
 
 		// Preparing SMG Testsuites
@@ -82,160 +83,172 @@ public class PatchEvaluationApplication implements IApplication {
 			FileToModelConverter converter = new FileToModelConverter(testFileGroups);
 			testSuites = converter.getTestSuites();
 		}
-		
+
 		// Preparing GMF Testsuites
 		if (type.equals("gmf")) {
 			GMFTestSuitBuilder builder = new GMFTestSuitBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
 		}
-		
+
 		// Preparing SysML Testsuites
-		if (type.equals("sysml")) {		
+		if (type.equals("sysml")) {
 			// test suite
 			SysMLTestSuitBuilder builder = new SysMLTestSuitBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
-			
-			// Eigene Subklasse von UMLResourceImpl (bzw.Factory dazu) mit useUUID-> false hier registrieren				
+
+			// Eigene Subklasse von UMLResourceImpl (bzw.Factory dazu) mit
+			// useUUID-> false hier registrieren
 			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 			Map<String, Object> m = reg.getExtensionToFactoryMap();
 			m.put("sysml", new SysMLResourceFactory());
 			m.put("uml", new SysMLResourceFactory());
 		}
-		
-	
-		
+
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
 		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms)\\\\\n");
-		for (TestSuite testSuite : testSuites) {				
-			
+		for (TestSuite testSuite : testSuites) {
+
 			try {
 				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
-				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(), testSuite.getTransformationEngine(), ExecutionMode.BATCH, 
-							ValidationMode.ITERATIVE, false);
+				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
+						.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
+						testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE,
+						ComparisonMode.COMPARE_RESOURCE, false);
 				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				LogUtil.log(LogEvent.NOTICE, "Applying patch");	
-				
-			
+				LogUtil.log(LogEvent.NOTICE, "Applying patch");
+
 				// Some patch metrics
 				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
 				int dif = testSuite.getDifference().getSymmetric().getChanges().size();
 				int op = testSuite.getAsymmetricDifference().getOperationInvocations().size();
 				int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());
-				buffer.append("Correspondences: " + cor + 
-							  "\nDifferences: " + dif + 
-							  "\nOperations: " + op + 
-							  "\nLongest dependency chain: " + max + "\n");	
-				
+				buffer.append("Correspondences: " + cor + "\nDifferences: " + dif + "\nOperations: " + op
+						+ "\nLongest dependency chain: " + max + "\n");
+
 				// Time to apply patch
 				long start = System.currentTimeMillis();
 				patchEngine.applyPatchOperationValidation();
 
-				long delta = System.currentTimeMillis() - start;				
+				long delta = System.currentTimeMillis() - start;
 				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
 				buffer.append("Time to apply: " + delta + "seconds\n\n");
-				
-				latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + " & " + delta +"\\\\\n");
-				
+
+				latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + " & "
+						+ delta + "\\\\\n");
+
 				// Distribution of Operations
 				buffer.append("Operation & amount\\\\\n");
-				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference().getOperationInvocations());
-				buffer.append(mapToLatexTable(dist)+"\n");
+				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference()
+						.getOperationInvocations());
+				buffer.append(mapToLatexTable(dist) + "\n");
 
-//TODO (TK): More Details from report..				
-//				for (ReportEntry entry : patchEngine.createPatchReport().getEntries()) {
-//					Status status = entry.getStatus();
-//					String description = entry.getDescription();
-//					buffer.append("ReportEntry: " + status + ": " + description + "\n");
-//				}
+				// TODO (TK): More Details from report..
+				// for (ReportEntry entry :
+				// patchEngine.createPatchReport().getEntries()) {
+				// Status status = entry.getStatus();
+				// String description = entry.getDescription();
+				// buffer.append("ReportEntry: " + status + ": " + description +
+				// "\n");
+				// }
 
 				// Saving patch
-//				AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(), folder, testSuite.getId()+".patch");
-				
+				// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
+				// folder, testSuite.getId()+".patch");
+
 				Resource resourcePatched = null;
 				Resource resourceModified = null;
-				
-				if (!type.equals("sysml")){
+
+				if (!type.equals("sysml")) {
 					// Saving patched Resource
-					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
-					String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
+					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
+							.getAbsolutePath() + "/";
+					String patchedFileBase = folder
+							+ new File(testSuite.getOriginal().getURI().toFileString()).getName();
 					ResourceSet resourceSetPatched = new ResourceSetImpl();
-					URI patchedUri = URI.createFileURI(patchedFileBase +".patched.xmi");
+					URI patchedUri = URI.createFileURI(patchedFileBase + ".patched.xmi");
 					resourcePatched = resourceSetPatched.createResource(patchedUri);
 					resourcePatched.getContents().add(patchEngine.getPatchedResource().getContents().get(0));
 					resourcePatched.save(Collections.EMPTY_MAP);
-					
+
 					// Saving modified Resource (into simple XMI without ids)
-					String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+					String modifiedFileBase = folder
+							+ new File(testSuite.getModified().getURI().toFileString()).getName();
 					ResourceSet resourceSetModified = new ResourceSetImpl();
-					URI modifiedUri = URI.createFileURI(modifiedFileBase +".xmi");
+					URI modifiedUri = URI.createFileURI(modifiedFileBase + ".xmi");
 					resourceModified = resourceSetModified.createResource(modifiedUri);
 					resourceModified.getContents().addAll(testSuite.getModified().getContents());
 					resourceModified.save(Collections.EMPTY_MAP);
-					
-				} else {					
+
+				} else {
 					// Saving patched Resource
 					resourcePatched = patchEngine.getPatchedResource();
 					resourcePatched.save(Collections.EMPTY_MAP);
-					
+
 					// Saving modified Resource (into "my sysml" without ids)
-					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath() + "/";
-					String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
+							.getAbsolutePath() + "/";
+					String modifiedFileBase = folder
+							+ new File(testSuite.getModified().getURI().toFileString()).getName();
 					ResourceSet resourceSetModified = new ResourceSetImpl();
-					URI modifiedUri = URI.createFileURI(modifiedFileBase +".sysml");
+					URI modifiedUri = URI.createFileURI(modifiedFileBase + ".sysml");
 					resourceModified = resourceSetModified.createResource(modifiedUri);
 					resourceModified.getContents().addAll(testSuite.getModified().getContents());
 					resourceModified.save(Collections.EMPTY_MAP);
 				}
-				
+
 				// ... and now reload resources again
 				ResourceSet resourceSetPatched = new ResourceSetImpl();
 				resourcePatched = resourceSetPatched.getResource(resourcePatched.getURI(), true);
 				ResourceSet resourceSetModified = new ResourceSetImpl();
 				resourceModified = resourceSetModified.getResource(resourceModified.getURI(), true);
-				
+
 				resourcePatched.save(Collections.EMPTY_MAP);
 				resourceModified.save(Collections.EMPTY_MAP);
-				
+
 				boolean normalize = true;
 				EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched, normalize);
-				
-				// Saving patched Resource without IDs and normalized (just to inspect the output manually)
+
+				// Saving patched Resource without IDs and normalized (just to
+				// inspect the output manually)
 				resourcePatched.save(Collections.EMPTY_MAP);
 				resourceModified.save(Collections.EMPTY_MAP);
-				
+
 				if (changes.isEmpty()) {
 					buffer.append("Patched model is equal to modified!\n");
 				} else {
-					buffer.append("ERROR: Patched model is not equal to modified!\n" + ModelCompare.getFormatedList(changes));
-				}			
+					buffer.append("ERROR: Patched model is not equal to modified!\n"
+							+ ModelCompare.getFormatedList(changes));
+				}
 
-				
 			} catch (PatchNotExecuteableException e) {
 				e.printStackTrace();
 				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
-				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");	
+				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");
 			}
-			
-			buffer.append("--------------\n\n");		
+
+			buffer.append("--------------\n\n");
 		}
-		
-		FileWriter writer = new FileWriter(modelFolder.getAbsolutePath()+"/report.txt");
+
+		FileWriter writer = new FileWriter(modelFolder.getAbsolutePath() + "/report.txt");
 		// Add summary table
 		buffer.append(latexTable);
 		writer.write(buffer.toString());
 		writer.close();
-		
-		//Generate PieChart
-//		String filename = modelFolder.getAbsolutePath() + "/charts/" + "SiLiftPipeLine_timeRatio.png";
-//		ExperimentalUtil.getInstance(null).generateChartWithoutAxes(experimentRun, StatisticType.Time, false, true, SeriesWithoutAxesType.PieChart, filename);
-		
-		System.out.println("Test finished. Report: " + modelFolder.getAbsolutePath()+"/report.txt");
+
+		// Generate PieChart
+		// String filename = modelFolder.getAbsolutePath() + "/charts/" +
+		// "SiLiftPipeLine_timeRatio.png";
+		// ExperimentalUtil.getInstance(null).generateChartWithoutAxes(experimentRun,
+		// StatisticType.Time, false, true, SeriesWithoutAxesType.PieChart,
+		// filename);
+
+		System.out.println("Test finished. Report: " + modelFolder.getAbsolutePath() + "/report.txt");
 		return IApplication.EXIT_OK;
-	}	
-	
+	}
+
 	private Map<String, Integer> getOperationDistribution(EList<OperationInvocation> operationInvocations) {
-		Map <String, Integer> result = new HashMap<String, Integer>();
+		Map<String, Integer> result = new HashMap<String, Integer>();
 		for (OperationInvocation operationInvocation : operationInvocations) {
 			String name = operationInvocation.getChangeSet().getName();
 			if (result.containsKey(name)) {
@@ -247,12 +260,12 @@ public class PatchEvaluationApplication implements IApplication {
 		}
 		return result;
 	}
-	
+
 	public String mapToLatexTable(Map<?, ?> map) {
 		String result = "";
 		for (Object object : map.keySet()) {
 			String string = object.toString().replace("_", "\\_");
-			result += string + " & " + map.get(object)+"\\\\\n";
+			result += string + " & " + map.get(object) + "\\\\\n";
 		}
 		return result;
 	}
@@ -267,7 +280,7 @@ public class PatchEvaluationApplication implements IApplication {
 		}
 		return max;
 	}
-	
+
 	private int getDependencyChain(DependencyContainer dependency, int stage) {
 		stage++;
 		int base = stage;
@@ -276,7 +289,7 @@ public class PatchEvaluationApplication implements IApplication {
 		}
 		return stage;
 	}
-	
+
 	@Override
 	public void stop() {
 

@@ -18,6 +18,7 @@ import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.silift.common.util.emf.ComparisonMode;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -168,7 +169,7 @@ public class CreatePatchPage01 extends WizardPage {
 		return sourceWidget.isInverseDirection();
 	}
 	
-	public int getComparisonMode() {
+	public ComparisonMode getComparisonMode() {
 		return comparisonWidget.getSelection();
 	}
 	

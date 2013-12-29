@@ -20,20 +20,18 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.difference.rulebase.ParameterKind;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.silift.common.util.emf.ComparisonMode;
 
 /**
  * Transformation Engine based on calling Henshin Transformator.
@@ -41,7 +39,7 @@ import org.sidiff.patching.transformator.henshin.HenshinTransformationEngine;
  * @author Dennis Koch, kehrer, reuling
  * 
  */
-public class HenshinTransformationEngineImpl implements HenshinTransformationEngine {
+public class HenshinTransformationEngineImpl implements ITransformationEngine {
 
 	/**
 	 * The target resource on which the patch shall be applied.
@@ -52,6 +50,11 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	 * The execution mode (interactive or batch).
 	 */
 	private ExecutionMode executionMode;
+	
+	/**
+	 * The comparison mode (single resource or complete resource set)
+	 */
+	private ComparisonMode comparisonMode;
 	
 	/**
 	 * The Henshin Graph that contains the target resource on which the patch
@@ -71,12 +74,12 @@ public class HenshinTransformationEngineImpl implements HenshinTransformationEng
 	private Collection<EObject> initialGraphRoots;
 
 	@Override
-	public void init(Resource targetResource, ExecutionMode executionMode) {
+	public void init(Resource targetResource, ExecutionMode executionMode, ComparisonMode comparisonMode) {
 		this.targetResource = targetResource;
 		this.executionMode = executionMode;
 		
 		// Create graph
-		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode);
+		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode, comparisonMode);
 		graph = graphFactory.createEGraph();
 		
 		// Store initial graph roots

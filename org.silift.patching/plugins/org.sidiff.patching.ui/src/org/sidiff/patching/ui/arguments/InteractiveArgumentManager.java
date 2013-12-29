@@ -25,7 +25,9 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
+import org.silift.common.util.emf.ComparisonMode;
 import org.silift.common.util.emf.EMFResourceUtil;
+import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
@@ -81,6 +83,11 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	private Set<Resource> resourceSetResources;
 
 	/**
+	 * The scope (resource only or complete resource set).
+	 */
+	private ComparisonMode comparisonMode;
+	
+	/**
 	 * The ModifiedDetector to which we delegate when we check if an object of
 	 * the origin model has been modified in the target model.
 	 */
@@ -95,19 +102,20 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel) {
+	public void init(AsymmetricDifference patch, Resource targetModel, ComparisonMode comparisonMode) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
-
+		this.comparisonMode = comparisonMode;
+		
 		// now we initialize the internal state...
 
 		// do matching		
-		matching = matcher.createMatching(originModel, targetModel, EMFResourceUtil.COMPARE_RESOURCE, matcher.canComputeReliability());
+		matching = matcher.createMatching(originModel, targetModel, comparisonMode, true);
 
 		// collect referenced registry and ResourceSet resources
 		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();
-		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, EMFResourceUtil.COMPARISON_MODE);
+		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, comparisonMode);
 		packageRegistryResources = extContainer.getReferencedRegistryModels();
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 
@@ -261,16 +269,16 @@ public class InteractiveArgumentManager implements IArgumentManager {
 			return matching.getCorrespondingObjectInB(originObject);
 		}
 
-		int location = EMFResourceUtil.locate(originModel, originObject);
+		EObjectLocation location = EMFResourceUtil.locate(originModel, originObject);
 
-		if (location == EMFResourceUtil.PACKAGE_REGISTRY) {
+		if (location == EObjectLocation.PACKAGE_REGISTRY) {
 			Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(originObject, originObject);
 			c.setReliability(1.0f);
 			;
 			matching.addCorrespondence(c);
 			return originObject;
 		}
-		if (location == EMFResourceUtil.RESOURCE_SET_INTERNAL) {
+		if (location == EObjectLocation.RESOURCE_SET_INTERNAL) {
 			// TODO (TK)
 		}
 

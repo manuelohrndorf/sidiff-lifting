@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.sidiff.difference.lifting.ui.widgets.ComparisonModeWidget;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
+import org.silift.common.util.emf.ComparisonMode;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -139,7 +140,7 @@ public class ApplyPatchPage01 extends WizardPage {
 		}
 	}
 
-	public int getComparisonMode() {
+	public ComparisonMode getComparisonMode() {
 		return comparisonWidget.getSelection();
 	}
 	

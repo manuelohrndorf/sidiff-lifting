@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.silift.common.util.emf.ComparisonMode;
 
 /**
  * The argument manager is the central interface for the patch engine in order
@@ -20,7 +21,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
  */
 public interface IArgumentManager {
 
-	public void init(AsymmetricDifference patch, Resource targetModel);
+	public void init(AsymmetricDifference patch, Resource targetModel, ComparisonMode scope);
 
 	/**
 	 * @return the origin model

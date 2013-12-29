@@ -21,6 +21,7 @@ import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.patch.animation.internal.AnimationAdapter;
 import org.sidiff.difference.patch.animation.internal.GridLayouter;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.emf.ComparisonMode;
 
 public class GMFAnimation {
 	
@@ -45,7 +46,7 @@ public class GMFAnimation {
 					if(resource.getURI().toString().endsWith(".ecore")){
 						if(createMatching){
 							IMatcher matcher = MatcherUtil.getMatcherByKey(URIFragmentMatcher.KEY, changingResource, resource);
-							SymmetricDifference matching = matcher.createMatching(changingResource, resource, 0, false);
+							SymmetricDifference matching = matcher.createMatching(changingResource, resource, ComparisonMode.COMPARE_RESOURCE, false);
 							EcoreUtil.resolveAll(matching);
 							if(checkMatching(matching)){
 								editorMatchings.add(new EditorMatching(matching, diagramEditor));
