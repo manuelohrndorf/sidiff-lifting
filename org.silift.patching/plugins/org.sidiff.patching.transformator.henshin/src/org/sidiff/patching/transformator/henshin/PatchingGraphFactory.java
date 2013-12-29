@@ -1,4 +1,4 @@
-package org.sidiff.patching.transformator.henshin.impl;
+package org.sidiff.patching.transformator.henshin;
 
 import java.util.Iterator;
 
@@ -8,7 +8,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.silift.common.util.emf.ComparisonMode;
-import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.ExternalReference;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;

@@ -1,4 +1,4 @@
-package org.sidiff.patching.transformator.henshin.impl;
+package org.sidiff.patching.transformator.henshin;
 
 import java.util.ArrayList;
 import java.util.Collection;
