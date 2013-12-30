@@ -123,9 +123,12 @@ public class CreatePatchPage02 extends WizardPage {
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			addWidget(algorithmsGroup, builderWidget);
-		}
+//FIXME
+//		if (builderWidget.getDifferenceBuilders().size() > 1) {
+//			addWidget(algorithmsGroup, builderWidget);
+//		}
+		addWidget(algorithmsGroup, builderWidget);
+		
 	}
 
 	private void addWidget(Composite parent, IWidget widget) {

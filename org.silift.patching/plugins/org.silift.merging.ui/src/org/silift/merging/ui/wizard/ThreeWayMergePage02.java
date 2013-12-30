@@ -123,9 +123,11 @@ public class ThreeWayMergePage02 extends WizardPage {
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			addWidget(algorithmsGroup, builderWidget);
-		}
+// FIXME		
+//		if (builderWidget.getDifferenceBuilders().size() > 1) {
+//			addWidget(algorithmsGroup, builderWidget);
+//		}
+		addWidget(algorithmsGroup, builderWidget);
 	}
 
 	private void addWidget(Composite parent, IWidget widget) {
