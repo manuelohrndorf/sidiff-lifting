@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -58,14 +59,16 @@ public class ApplyPatchWizard extends Wizard {
 	private ApplyPatchPage01 applyPatchPage01;
 	private ApplyPatchPage02 applyPatchPage02;
 
+	private IFile file;
 	private Patch patch;
 	private String patchName;
 	private boolean validationState;
 
-	public ApplyPatchWizard(Patch patch, String patchName) {
+	public ApplyPatchWizard(Patch patch, IFile file) {
 		this.setWindowTitle("Apply Patch Wizard");
+		this.file = file;
 		this.patch = patch;
-		this.patchName = patchName;
+		this.patchName = file.getName();
 
 	}
 
@@ -73,6 +76,7 @@ public class ApplyPatchWizard extends Wizard {
 	public void addPages() {
 		applyPatchPage01 = new ApplyPatchPage01("ApplyPatchPage", "Apply Patch: " + patchName,
 				getImageDescriptor("icon.png"));
+		applyPatchPage01.setFilterPath(file.getParent().getLocation().toString());
 		addPage(applyPatchPage01);
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage", "Apply Patch: " + patchName,

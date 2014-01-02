@@ -59,7 +59,7 @@ public class PatchApplyHandler extends AbstractHandler {
 					final AsymmetricDifference difference = (AsymmetricDifference) root;
 					final Patch patch = new Patch(difference);
 					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							new ApplyPatchWizard(patch, ((IFile) firstElement).getName()));
+							new ApplyPatchWizard(patch, (IFile) firstElement));
 					wizardDialog.open();
 				}
 				else {

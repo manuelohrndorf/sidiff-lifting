@@ -155,5 +155,9 @@ public class ApplyPatchPage01 extends WizardPage {
 	public ValidationModeWidget getValidationWidget(){
 		return validationWidget;
 	}
+	
+	public void setFilterPath(String filterPath){
+		this.filterPath = filterPath;
+	}
 
 }
