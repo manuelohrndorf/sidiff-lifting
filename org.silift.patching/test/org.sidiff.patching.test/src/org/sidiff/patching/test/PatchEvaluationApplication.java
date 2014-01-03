@@ -25,7 +25,7 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.exceptions.PatchNotExecuteableException;
+import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
@@ -109,125 +109,112 @@ public class PatchEvaluationApplication implements IApplication {
 		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms)\\\\\n");
 		for (TestSuite testSuite : testSuites) {
 
-			try {
-				LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
-				PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
-						.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
-						testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE,
-						Scope.RESOURCE, false);
-				buffer.append("--- Test " + testSuite.getId() + " ---\n");
-				LogUtil.log(LogEvent.NOTICE, "Applying patch");
+			LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
+			PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
+					.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
+					testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE, Scope.RESOURCE,
+					false);
+			buffer.append("--- Test " + testSuite.getId() + " ---\n");
+			LogUtil.log(LogEvent.NOTICE, "Applying patch");
 
-				// Some patch metrics
-				int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
-				int dif = testSuite.getDifference().getSymmetric().getChanges().size();
-				int op = testSuite.getAsymmetricDifference().getOperationInvocations().size();
-				int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());
-				buffer.append("Correspondences: " + cor + "\nDifferences: " + dif + "\nOperations: " + op
-						+ "\nLongest dependency chain: " + max + "\n");
+			// Some patch metrics
+			int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
+			int dif = testSuite.getDifference().getSymmetric().getChanges().size();
+			int op = testSuite.getAsymmetricDifference().getOperationInvocations().size();
+			int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());
+			buffer.append("Correspondences: " + cor + "\nDifferences: " + dif + "\nOperations: " + op
+					+ "\nLongest dependency chain: " + max + "\n");
 
-				// Time to apply patch
-				long start = System.currentTimeMillis();
-				patchEngine.applyPatchOperationValidation();
+			// Time to apply patch
+			long start = System.currentTimeMillis();
+			patchEngine.applyPatch();
 
-				long delta = System.currentTimeMillis() - start;
-				LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
-				buffer.append("Time to apply: " + delta + "seconds\n\n");
+			long delta = System.currentTimeMillis() - start;
+			LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
+			buffer.append("Time to apply: " + delta + "seconds\n\n");
 
-				latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + " & "
-						+ delta + "\\\\\n");
+			latexTable.append(testSuite.getId() + " & " + cor + " & " + dif + " & " + op + " & " + max + " & " + delta
+					+ "\\\\\n");
 
-				// Distribution of Operations
-				buffer.append("Operation & amount\\\\\n");
-				Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference()
-						.getOperationInvocations());
-				buffer.append(mapToLatexTable(dist) + "\n");
+			// Distribution of Operations
+			buffer.append("Operation & amount\\\\\n");
+			Map<String, Integer> dist = getOperationDistribution(testSuite.getAsymmetricDifference()
+					.getOperationInvocations());
+			buffer.append(mapToLatexTable(dist) + "\n");
 
-				// TODO (TK): More Details from report..
-				// for (ReportEntry entry :
-				// patchEngine.createPatchReport().getEntries()) {
-				// Status status = entry.getStatus();
-				// String description = entry.getDescription();
-				// buffer.append("ReportEntry: " + status + ": " + description +
-				// "\n");
-				// }
+			// More Details from report..
+			for (ValidationEntry entry : patchEngine.getPatchReportManager().getLastReport().getValidationEntries()) {
+				buffer.append("ValidationEntry: " + entry.getDescription() + "\n");
+			}
+			buffer.append("\n");
 
-				// Saving patch
-				// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
-				// folder, testSuite.getId()+".patch");
+			// Saving patch
+			// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
+			// folder, testSuite.getId()+".patch");
 
-				Resource resourcePatched = null;
-				Resource resourceModified = null;
+			Resource resourcePatched = null;
+			Resource resourceModified = null;
 
-				if (!type.equals("sysml")) {
-					// Saving patched Resource
-					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
-							.getAbsolutePath() + "/";
-					String patchedFileBase = folder
-							+ new File(testSuite.getOriginal().getURI().toFileString()).getName();
-					ResourceSet resourceSetPatched = new ResourceSetImpl();
-					URI patchedUri = URI.createFileURI(patchedFileBase + ".patched.xmi");
-					resourcePatched = resourceSetPatched.createResource(patchedUri);
-					resourcePatched.getContents().add(patchEngine.getPatchedResource().getContents().get(0));
-					resourcePatched.save(Collections.EMPTY_MAP);
-
-					// Saving modified Resource (into simple XMI without ids)
-					String modifiedFileBase = folder
-							+ new File(testSuite.getModified().getURI().toFileString()).getName();
-					ResourceSet resourceSetModified = new ResourceSetImpl();
-					URI modifiedUri = URI.createFileURI(modifiedFileBase + ".xmi");
-					resourceModified = resourceSetModified.createResource(modifiedUri);
-					resourceModified.getContents().addAll(testSuite.getModified().getContents());
-					resourceModified.save(Collections.EMPTY_MAP);
-
-				} else {
-					// Saving patched Resource
-					resourcePatched = patchEngine.getPatchedResource();
-					resourcePatched.save(Collections.EMPTY_MAP);
-
-					// Saving modified Resource (into "my sysml" without ids)
-					String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
-							.getAbsolutePath() + "/";
-					String modifiedFileBase = folder
-							+ new File(testSuite.getModified().getURI().toFileString()).getName();
-					ResourceSet resourceSetModified = new ResourceSetImpl();
-					URI modifiedUri = URI.createFileURI(modifiedFileBase + ".sysml");
-					resourceModified = resourceSetModified.createResource(modifiedUri);
-					resourceModified.getContents().addAll(testSuite.getModified().getContents());
-					resourceModified.save(Collections.EMPTY_MAP);
-				}
-
-				// ... and now reload resources again
+			if (!type.equals("sysml")) {
+				// Saving patched Resource
+				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
+						.getAbsolutePath() + "/";
+				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
 				ResourceSet resourceSetPatched = new ResourceSetImpl();
-				resourcePatched = resourceSetPatched.getResource(resourcePatched.getURI(), true);
+				URI patchedUri = URI.createFileURI(patchedFileBase + ".patched.xmi");
+				resourcePatched = resourceSetPatched.createResource(patchedUri);
+				resourcePatched.getContents().add(patchEngine.getPatchedResource().getContents().get(0));
+				resourcePatched.save(Collections.EMPTY_MAP);
+
+				// Saving modified Resource (into simple XMI without ids)
+				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
 				ResourceSet resourceSetModified = new ResourceSetImpl();
-				resourceModified = resourceSetModified.getResource(resourceModified.getURI(), true);
-
-				resourcePatched.save(Collections.EMPTY_MAP);
+				URI modifiedUri = URI.createFileURI(modifiedFileBase + ".xmi");
+				resourceModified = resourceSetModified.createResource(modifiedUri);
+				resourceModified.getContents().addAll(testSuite.getModified().getContents());
 				resourceModified.save(Collections.EMPTY_MAP);
 
-				boolean normalize = true;
-				EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched, normalize);
-
-				// Saving patched Resource without IDs and normalized (just to
-				// inspect the output manually)
+			} else {
+				// Saving patched Resource
+				resourcePatched = patchEngine.getPatchedResource();
 				resourcePatched.save(Collections.EMPTY_MAP);
+
+				// Saving modified Resource (into "my sysml" without ids)
+				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
+						.getAbsolutePath() + "/";
+				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
+				ResourceSet resourceSetModified = new ResourceSetImpl();
+				URI modifiedUri = URI.createFileURI(modifiedFileBase + ".sysml");
+				resourceModified = resourceSetModified.createResource(modifiedUri);
+				resourceModified.getContents().addAll(testSuite.getModified().getContents());
 				resourceModified.save(Collections.EMPTY_MAP);
-
-				if (changes.isEmpty()) {
-					buffer.append("Patched model is equal to modified!\n");
-				} else {
-					buffer.append("ERROR: Patched model is not equal to modified!\n"
-							+ ModelCompare.getFormatedList(changes));
-				}
-
-			} catch (PatchNotExecuteableException e) {
-				e.printStackTrace();
-				LogUtil.log(LogEvent.ERROR, "Test " + testSuite.getId() + " failed with exception!", e.getCause());
-				buffer.append("Failed with exception! Henshin rule cannot be applied! (" + e.getMessage() + ")\n");
 			}
 
-			buffer.append("--------------\n\n");
+			// ... and now reload resources again
+			ResourceSet resourceSetPatched = new ResourceSetImpl();
+			resourcePatched = resourceSetPatched.getResource(resourcePatched.getURI(), true);
+			ResourceSet resourceSetModified = new ResourceSetImpl();
+			resourceModified = resourceSetModified.getResource(resourceModified.getURI(), true);
+
+			resourcePatched.save(Collections.EMPTY_MAP);
+			resourceModified.save(Collections.EMPTY_MAP);
+
+			boolean normalize = true;
+			EList<Change> changes = ModelCompare.technicalEqual(resourceModified, resourcePatched, normalize);
+
+			// Saving patched Resource without IDs and normalized (just to
+			// inspect the output manually)
+			resourcePatched.save(Collections.EMPTY_MAP);
+			resourceModified.save(Collections.EMPTY_MAP);
+
+			if (changes.isEmpty()) {
+				buffer.append("Patched model is equal to modified!\n");
+			} else {
+				buffer.append("ERROR: Patched model is not equal to modified!\n"
+						+ ModelCompare.getFormatedList(changes));
+			}
+
+			buffer.append("------------------------------------------------------\n\n\n");
 		}
 
 		FileWriter writer = new FileWriter(modelFolder.getAbsolutePath() + "/report.txt");

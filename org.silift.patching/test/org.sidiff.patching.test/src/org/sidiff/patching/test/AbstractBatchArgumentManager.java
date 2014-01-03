@@ -8,6 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.emf.Scope;
@@ -15,10 +18,6 @@ import org.silift.common.util.emf.Scope;
 public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
 	private Map<ObjectParameterBinding, ArgumentWrapper> argumentResolutions;
-
-	public AbstractBatchArgumentManager() {
-		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
-	}
 
 	@Override
 	public abstract Resource getOriginModel();
@@ -49,7 +48,22 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
 	@Override
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope) {
-		// usually done in constructor of subclasses
+		// init argument wrappers and provide initial resolutions
+		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
+		for (OperationInvocation invocation : patch.getOperationInvocations()) {
+			for (ParameterBinding binding : invocation.getParameterBindings()) {
+				if (binding instanceof ObjectParameterBinding){
+					ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
+					ArgumentWrapper arg = new ArgumentWrapper(objBinding);
+					if (objBinding.getActualA() != null){
+						// try to resolve originObject
+						EObject targetObject = resolve(objBinding.getActualA());
+						arg.resolveTo(targetObject);
+					}
+					argumentResolutions.put(objBinding, arg);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -60,7 +74,12 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
 	@Override
 	public void addArgumentResolution(ObjectParameterBinding binding, EObject targetObject) {
-		// not needed in batch mode
+		argumentResolutions.get(binding).resolveTo(targetObject);
+		
+		// do also resolve target bindings to which binding is mapped
+		for (ParameterMapping mapping : binding.getOutgoing()) {
+			addArgumentResolution(mapping.getTarget(), targetObject);
+		}
 	}
 
 	@Override

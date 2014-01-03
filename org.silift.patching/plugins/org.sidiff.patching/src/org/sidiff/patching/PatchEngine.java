@@ -210,67 +210,6 @@ public class PatchEngine {
 		}
 	}
 
-	// #################################### org.sidiff.patching.test
-	// ####################################
-
-	public void applyPatchOperationValidation() throws PatchNotExecuteableException {
-		// int initialErrors = getValidationErrorAmount(this.patchedResource);
-		// int previousErrors = initialErrors;
-		// for (OperationInvocation operationInvocation : orderedOperations) {
-		// ArrayList<ReportEntry> validationReports = new
-		// ArrayList<ReportEntry>();
-		// if (operationInvocation.isApply() &&
-		// !(appliedOperations.contains(operationInvocation))) {
-		// try {
-		// apply(operationInvocation);
-		// appliedOperations.add(operationInvocation);
-		// int currentErrors = getValidationErrorAmount(this.patchedResource);
-		// if (previousErrors != currentErrors) {
-		// String messageStr =
-		// "Validation Errors: %1$s -> %2$s Operation: %3$s (Basemodel Errors: %4$s)";
-		// String message = String.format(messageStr, previousErrors,
-		// currentErrors, operationInvocation
-		// .getChangeSet().getName(), initialErrors);
-		// validationReports.add(new ReportEntry(Status.WARNING,
-		// Type.VALIDATION, message));
-		// patchReport.getIterativeValidationEntries().put(operationInvocation,
-		// validationReports);
-		// }
-		// previousErrors = currentErrors;
-		// } catch (OperationNotExecutableException e) {
-		// throw new PatchNotExecuteableException(e.getMessage() + " failed!");
-		// } catch (ParameterMissingException e) {
-		// throw new PatchNotExecuteableException(e.getMessage());
-		// }
-		// } else {
-		// LogUtil.log(LogEvent.NOTICE, "Skipping operation " +
-		// operationInvocation.getChangeSet().getName());
-		// }
-		// }
-	}
-
-	// private int getValidationErrorAmount(Resource resource) {
-	// Collection<ReportEntry> validationReport = validator.test(resource);
-	// int amount = 0;
-	// for (ReportEntry reportEntry : validationReport) {
-	// Status status = reportEntry.getStatus();
-	// if (status == Status.WARNING || status == Status.FAILED) {
-	// amount++;
-	// }
-	// }
-	// return amount;
-	// }
-
-	// ##################################################################################################
-
-	public PatchReport getPatchReport() {
-		return reportManager.getLastReport();
-	}
-
-	public PatchReportManager getPatchReportManager() {
-		return reportManager;
-	}
-
 	/**
 	 * Apply operation invocation. Note that this method tries to perform the
 	 * operation execution on the command stack of the target editing domain.
@@ -490,6 +429,10 @@ public class PatchEngine {
 		return operationManager;
 	}
 
+	public PatchReportManager getPatchReportManager() {
+		return reportManager;
+	}
+	
 	public Boolean getReliabilitiesComputed() {
 		return reliabilitiesComputed;
 	}
