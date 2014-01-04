@@ -31,18 +31,13 @@ public class SysMLCorrespondence extends AbstractBatchArgumentManager {
 	}
 
 	@Override
-	public Resource getOriginModel() {
-		return difference.getSymmetric().getModelA();
-	}
-
-	@Override
 	public Resource getTargetModel() {
 		return target;
 	}
 
 	@Override
-	public EObject resolve(EObject eObject) {
-		if (eObject.eResource().equals(getOriginModel())) {
+	protected EObject resolve(EObject eObject) {
+		if (eObject.eResource().equals(difference.getSymmetric().getModelA())) {
 			return copier.get(eObject);
 		} else {
 			return eObject;

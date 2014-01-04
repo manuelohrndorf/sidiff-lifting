@@ -87,7 +87,7 @@ public class GMFTestSuitBuilder {
 		
 		Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, matcher);
 
-		IArgumentManager correspondence = new GMFCorrespondence(difference);
+		GMFCorrespondence correspondence = new GMFCorrespondence(difference);
 		
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
 	}

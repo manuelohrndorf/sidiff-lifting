@@ -21,11 +21,6 @@ public class SMGPatchCorrespondence extends AbstractBatchArgumentManager {
 	}
 
 	@Override
-	public Resource getOriginModel() {
-		return modelA;
-	}
-
-	@Override
 	public Resource getTargetModel() {
 		return modelB;
 	}

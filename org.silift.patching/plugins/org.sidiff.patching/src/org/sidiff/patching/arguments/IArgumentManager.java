@@ -24,16 +24,6 @@ public interface IArgumentManager {
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope);
 
 	/**
-	 * @return the origin model
-	 */
-	public Resource getOriginModel();
-
-	/**
-	 * @return the model on which the patch should be applied
-	 */
-	public Resource getTargetModel();
-
-	/**
 	 * For a given parameter binding of the patch, this method returns the
 	 * corresponding argument wrapper for the target model.
 	 * 

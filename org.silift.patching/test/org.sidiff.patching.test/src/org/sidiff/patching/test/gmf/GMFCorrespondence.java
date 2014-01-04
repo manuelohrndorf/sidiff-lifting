@@ -16,8 +16,6 @@ public class GMFCorrespondence extends AbstractBatchArgumentManager {
 	private Copier copier;
 	private Resource target;
 
-	
-
 	public GMFCorrespondence(Difference difference) {
 		this.difference = difference;
 		copier = new Copier();
@@ -32,12 +30,7 @@ public class GMFCorrespondence extends AbstractBatchArgumentManager {
 		
 		init(difference.getAsymmetric(), target, Scope.RESOURCE);
 	}
-
-	@Override
-	public Resource getOriginModel() {
-		return difference.getSymmetric().getModelA();
-	}
-
+	
 	@Override
 	public Resource getTargetModel() {
 		return target;
@@ -45,7 +38,7 @@ public class GMFCorrespondence extends AbstractBatchArgumentManager {
 
 	@Override
 	protected EObject resolve(EObject originObject) {
-		if (originObject.eResource().equals(getOriginModel())) {
+		if (originObject.eResource().equals(difference.getSymmetric().getModelA())) {
 			return copier.get(originObject);
 		} else {
 			return originObject;

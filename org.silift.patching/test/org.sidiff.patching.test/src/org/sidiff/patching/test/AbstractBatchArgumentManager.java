@@ -19,10 +19,11 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
 	private Map<ObjectParameterBinding, ArgumentWrapper> argumentResolutions;
 
-	@Override
-	public abstract Resource getOriginModel();
-
-	@Override
+	/**
+	 * Template method which is to be implemented by subclasses.
+	 * 
+	 * @return
+	 */
 	public abstract Resource getTargetModel();
 
 	/**

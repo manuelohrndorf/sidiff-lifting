@@ -148,16 +148,6 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public Resource getOriginModel() {
-		return originModel;
-	}
-
-	@Override
-	public Resource getTargetModel() {
-		return targetModel;
-	}
-
-	@Override
 	public ArgumentWrapper getArgument(ObjectParameterBinding binding) {
 		return argumentResolutions.get(binding);
 	}

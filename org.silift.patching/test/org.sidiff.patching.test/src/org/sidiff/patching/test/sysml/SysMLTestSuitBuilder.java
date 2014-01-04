@@ -98,7 +98,7 @@ public class SysMLTestSuitBuilder {
 		
 		Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, matcher);
 
-		IArgumentManager correspondence = new SysMLCorrespondence(difference);
+		SysMLCorrespondence correspondence = new SysMLCorrespondence(difference);
 
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
 	}
