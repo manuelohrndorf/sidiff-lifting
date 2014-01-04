@@ -186,7 +186,8 @@ public class ApplyPatchWizard extends Wizard {
 
 					// Use interactive argument manager
 					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
-
+					argumentManager.setMinReliability(reliability);
+					
 					// Find transformation engine (no other available right now)
 					String documentType = null;
 					if (EMFModelAccessEx.isProfiled(resourceResult.get())) {
@@ -202,8 +203,7 @@ public class ApplyPatchWizard extends Wizard {
 						return Status.CANCEL_STATUS;
 					}
 
-					monitor.subTask("Initialize PatchEngine");
-					argumentManager.setMinReliability(reliability);
+					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
 							scope, matcher.canComputeReliability());
