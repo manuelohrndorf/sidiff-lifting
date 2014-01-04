@@ -14,10 +14,10 @@ import org.sidiff.common.logging.LogUtil;
 
 public class ModelAdapter {
 
-	private List<ModelAdapter.IModelChangeListener> listeners;
+	private List<IModelChangeListener> listeners;
 
 	public ModelAdapter(Resource resource) {
-		this.listeners = new ArrayList<ModelAdapter.IModelChangeListener>();
+		this.listeners = new ArrayList<IModelChangeListener>();
 
 		EContentAdapter adapter = new EContentAdapter() {
 			public void notifyChanged(Notification notification) {
@@ -114,33 +114,6 @@ public class ModelAdapter {
 
 	public void removeListern(IModelChangeListener listener) {
 		listeners.remove(listener);
-	}
-
-	/**
-	 * Information about model changes. The model changes that are reported
-	 * mostly correspond to our definitions of low-level changes with the
-	 * following abbreviations:
-	 * <ul>
-	 * <li>Only non-containment reference changes are reported as reference
-	 * changes.</li>
-	 * <li>Containment references changes are not separately reported. Here,
-	 * only the AddObject and removeObject changes are reported.</li>
-	 * <li>Each value setting of an attribute is reported, not only
-	 * AttributeValueChanges</li>
-	 * </ul>
-	 * 
-	 */
-	public interface IModelChangeListener {
-
-		public void objectAdded(EObject eObject);
-
-		public void objectRemoved(EObject eObject);
-
-		public void referenceAdded(EReference referenceType, EObject src, EObject tgt);
-
-		public void referenceRemoved(EReference referenceType, EObject src, EObject tgt);
-
-		public void attributeValueSet(EAttribute attribute, EObject object, Object value);
 	}
 
 }

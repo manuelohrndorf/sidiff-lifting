@@ -26,7 +26,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
+import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
 import org.sidiff.patching.ui.view.filter.NullValueParameterFilter;

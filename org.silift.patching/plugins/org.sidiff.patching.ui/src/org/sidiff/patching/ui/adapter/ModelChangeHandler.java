@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.patching.arguments.IArgumentManager;
 
-public class ModelChangeHandler implements ModelAdapter.IModelChangeListener {
+public class ModelChangeHandler implements IModelChangeListener {
 
 	private IArgumentManager argumentManager;
 
