@@ -23,9 +23,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.report.OperationExecutionEntry;
-import org.sidiff.patching.report.OperationExecutionEntry.OperationExecutionKind;
-import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.PatchReportManager;
+import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.view.filter.ReportViewFilter;
@@ -192,7 +192,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
 						return PASSED_IMG;
 					}
-					if (execEntry.getKind() == OperationExecutionKind.WARNING) {
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
 						return WARNING_IMG;
 					}
 					if (execEntry.getKind() == OperationExecutionKind.SKIPPED) {
@@ -304,7 +304,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 					if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed) {
 						input.add(execEntry);
 					}
-					if (execEntry.getKind() == OperationExecutionKind.WARNING && showWarning) {
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning) {
 						input.add(execEntry);
 					}
 					if (execEntry.getKind() == OperationExecutionKind.SKIPPED && showSkipped) {

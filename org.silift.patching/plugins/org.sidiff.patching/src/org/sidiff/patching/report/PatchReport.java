@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.patching.report.OperationExecutionEntry.OperationExecutionKind;
 import org.sidiff.patching.validation.IValidationError;
 
 /**

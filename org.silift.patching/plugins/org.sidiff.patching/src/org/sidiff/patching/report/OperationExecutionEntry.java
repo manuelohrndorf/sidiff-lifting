@@ -7,10 +7,6 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 
 public class OperationExecutionEntry extends ReportEntry {
 
-	public enum OperationExecutionKind {
-		PASSED, SKIPPED, EXEC_FAILED, WARNING, REVERTED, REVERT_FAILED;
-	}
-
 	private OperationInvocation operationInvocation;
 	private OperationExecutionKind kind;
 	private Map<ParameterBinding, Object> invocationArguments;
