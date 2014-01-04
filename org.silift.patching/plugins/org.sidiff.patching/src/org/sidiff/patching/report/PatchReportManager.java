@@ -55,7 +55,7 @@ public class PatchReportManager {
 		notifyReportChanged();
 	}
 
-	public void operationFailed(OperationInvocation op, Map<ParameterBinding, Object> args, Exception error) {
+	public void operationExecFailed(OperationInvocation op, Map<ParameterBinding, Object> args, Exception error) {
 		getLastReport().operationFailed(op, args, error);
 		notifyReportChanged();
 	}

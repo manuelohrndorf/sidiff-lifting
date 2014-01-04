@@ -234,7 +234,7 @@ public class PatchEngine {
 					success.add(Boolean.TRUE);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
-					reportManager.operationFailed(op, inArgs, e);
+					reportManager.operationExecFailed(op, inArgs, e);
 					success.add(Boolean.FALSE);
 				}
 			}
