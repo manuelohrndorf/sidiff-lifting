@@ -27,11 +27,9 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.exceptions.PatchNotExecuteableException;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
-import org.sidiff.patching.report.PatchReport;
 import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.util.PatchUtil;
@@ -55,7 +53,8 @@ public class PatchEngine {
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
 	private Boolean reliabilitiesComputed;
-
+	private ExecutionMode executionMode;
+	
 	private ValidationManager validationManager;
 	private OperationManager operationManager;
 	private IArgumentManager argumentManager;
@@ -82,7 +81,8 @@ public class PatchEngine {
 		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
 		this.reliabilitiesComputed = reliabilitiesComputed;
-
+		this.executionMode = executionMode;
+		
 		// Ordered set of operations to be executed
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
 
@@ -144,7 +144,7 @@ public class PatchEngine {
 							Collection<IValidationError> newErrors = reportManager.getLastReport()
 									.getLastValidationEntry().getNewValidationErrors();
 
-							if (!newErrors.isEmpty()) {
+							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
 								// TODO: Fehler Dialog
 								// Fehler anzeigen und Optionen zur Verfügung
 								// stellen:
@@ -185,7 +185,7 @@ public class PatchEngine {
 							Collection<IValidationError> newErrors = reportManager.getLastReport()
 									.getLastValidationEntry().getNewValidationErrors();
 
-							if (!newErrors.isEmpty()) {
+							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
 								// TODO: Fehler Dialog
 								// Fehler anzeigen und Optionen zur Verfügung
 								// stellen:

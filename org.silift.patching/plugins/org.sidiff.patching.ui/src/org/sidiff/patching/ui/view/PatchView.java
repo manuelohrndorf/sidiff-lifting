@@ -25,8 +25,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.operation.OperationInvocationStatus;
-import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.adapter.ModelAdapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
