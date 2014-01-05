@@ -30,6 +30,7 @@ import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
 import org.sidiff.patching.ui.view.filter.NullValueParameterFilter;
+import org.sidiff.patching.ui.view.filter.OutParameterFilter;
 import org.sidiff.patching.ui.view.filter.ValueParameterFilter;
 import org.sidiff.patching.validation.ValidationMode;
 
@@ -51,6 +52,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	private Action nullValueParameterFilterAction;
 	private ValueParameterFilter valueParameterFilter;
 	private Action valueParameterFilterAction;
+	private OutParameterFilter outParameterFilter;
+	private Action outParameterFilterAction;
 	
 	//----------- Validation -------------------
 	private Action iterativeValidationAction;
@@ -183,6 +186,17 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		patchViewer.addFilter(valueParameterFilter);
 		valueParameterFilterAction.setChecked(true);
 		
+		this.outParameterFilter = new OutParameterFilter();
+		this.outParameterFilterAction = new Action("Hide Out-Parameter"){
+			@Override
+			public void run(){
+				updatefilter(outParameterFilterAction);
+			}
+		};
+		
+		patchViewer.addFilter(outParameterFilter);
+		outParameterFilterAction.setChecked(true);
+		
 		//----------- Validation ------------------
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
@@ -249,6 +263,12 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			} else {
 				patchViewer.removeFilter(valueParameterFilter);
 			}
+		} else if(action == outParameterFilterAction){
+			if(action.isChecked()){
+				patchViewer.addFilter(outParameterFilter);
+			}else{
+				patchViewer.removeFilter(outParameterFilter);
+			}
 		}
 	}
 
@@ -268,6 +288,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		rootMenuManager.add(filterSubmenu);
 		filterSubmenu.add(nullValueParameterFilterAction);
 		filterSubmenu.add(valueParameterFilterAction);
+		filterSubmenu.add(outParameterFilterAction);
 		
 		IMenuManager validateModeSubmenu = new MenuManager("Validation");
 		rootMenuManager.add(validateModeSubmenu);
