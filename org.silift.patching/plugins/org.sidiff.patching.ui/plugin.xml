@@ -23,6 +23,10 @@
             id="org.sidiff.patching.ui.PatchApplyCommand"
             name="Apply Patch">
       </command>
+      <command
+            id="org.sidiff.patching.ui.commandQualifiedArgumentName"
+            name="QualifiedArgumentName">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -34,6 +38,10 @@
                   definitionId="org.sidiff.patching.ui.patchApplyDefinition">
             </reference>
          </activeWhen>
+      </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.QualifiedArgumentNameHandler"
+            commandId="org.sidiff.patching.ui.commandQualifiedArgumentName">
       </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
@@ -48,6 +56,14 @@
            name="org.sidiff.patching.ui.separator"
            visible="false">
      </separator>
+  </menuContribution>
+  <menuContribution
+        locationURI="toolbar:org.sidiff.patching.ui.view.PatchView">
+     <command
+           commandId="org.sidiff.patching.ui.commandQualifiedArgumentName"
+           icon="icons/url_16x16.gif"
+           style="toggle">
+     </command>
   </menuContribution>
   </extension>
    <extension
