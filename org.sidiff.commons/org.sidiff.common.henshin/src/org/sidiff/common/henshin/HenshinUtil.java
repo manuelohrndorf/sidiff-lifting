@@ -87,7 +87,7 @@ public class HenshinUtil {
 			// Exactly one mainUnit assertion
 			int mainUnitCount = 0;
 			for (Unit unit : ts.getUnits()) {
-				if (unit.getName().equals(INamingConventions.MAINUNIT)) {
+				if (unit.getName().equals(INamingConventions.MAIN_UNIT)) {
 					mainUnitCount++;
 				}
 			}

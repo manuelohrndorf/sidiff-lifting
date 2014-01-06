@@ -797,12 +797,12 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		int mainUnitCount = 0;
 		for (Unit unit : module.getUnits()) {
 			if(!(unit instanceof Rule)) { // if it's a unit (seq, priority, etc.)
-				if (unit.getName().equals(INamingConventions.MAINUNIT)){
+				if (unit.getName().equals(INamingConventions.MAIN_UNIT)){
 					mainUnitCount++;
 				}
 				for (Unit subUnit : unit.getSubUnits(true)) {
 					if(!(subUnit instanceof Rule)) { // if it's a unit (seq, priority, etc.)
-						if (subUnit.getName().equals(INamingConventions.MAINUNIT)){
+						if (subUnit.getName().equals(INamingConventions.MAIN_UNIT)){
 							mainUnitCount++;
 						}
 						
@@ -825,7 +825,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		/** Unit creation *************************************************/	
 		PriorityUnit prioUnit = henshinFactory.createPriorityUnit();
 		prioUnit.setActivated(true);
-		prioUnit.setName("mainUnit");		
+		prioUnit.setName(INamingConventions.MAIN_UNIT);		
 				
 		/** Parameter and Mapping creation ********************************/
 		

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLWriter;
@@ -180,7 +181,7 @@ public class PatchCreator {
 				LogUtil.log(LogEvent.NOTICE, "serialize "+ rbi.getEditRule().getExecuteModule().getName() + " to " + erSavePath);
 				EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
 				Module newMod = (Module)EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
-				rbi.getEditRule().setExecuteMainUnit(newMod.getUnit("mainUnit"));
+				rbi.getEditRule().setExecuteMainUnit(newMod.getUnit(INamingConventions.MAIN_UNIT));
 				
 				
 				// MANIFEST

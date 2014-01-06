@@ -20,12 +20,12 @@ public class ApplicationCondition {
 	private NestedCondition nestedCondition;
 	private boolean inverted;
 	
-	private Set<Node> lhsContextNodes;
-	private Set<Node> acContextNodes;
+	private Set<Node> lhsBoundaryNodes;
+	private Set<Node> acBoundaryNodes;
 	private Set<Node> nonBoundaryNodes;
 	
-	private Map<Node, Node> lhsContextNode2acContextNode;
-	private Map<Node, Node> acContextNode2LhsContextNode;
+	private Map<Node, Node> lhsBoundaryNode2acBoundaryNode;
+	private Map<Node, Node> acBoundaryNode2LhsBoundaryNode;
 	
 	public ApplicationCondition(NestedCondition nestedCondition, boolean inverted) {
 		this.nestedCondition = nestedCondition;
@@ -34,24 +34,24 @@ public class ApplicationCondition {
 		init();
 	}
 
-	public Set<Node> getLhsContextNodes() {
-		return lhsContextNodes;
+	public Set<Node> getLhsBoundaryNodes() {
+		return lhsBoundaryNodes;
 	}
 
-	public Set<Node> getAcContextNodes() {
-		return acContextNodes;
+	public Set<Node> getAcBoundaryNodes() {
+		return acBoundaryNodes;
 	}
 
 	public Set<Node> getNonBoundaryNodes() {
 		return nonBoundaryNodes;
 	}
 	
-	public Node getAcContextNode(Node lhsContextNode){
-		return lhsContextNode2acContextNode.get(lhsContextNode);
+	public Node getAcBoundaryNode(Node lhsContextNode){
+		return lhsBoundaryNode2acBoundaryNode.get(lhsContextNode);
 	}
 	
-	public Node getLhsContextNode(Node acContextNode){
-		return acContextNode2LhsContextNode.get(acContextNode);
+	public Node getLhsBoundaryNode(Node acContextNode){
+		return acBoundaryNode2LhsBoundaryNode.get(acContextNode);
 	}
 	
 	public NestedCondition getNestedCondition() {
@@ -63,11 +63,11 @@ public class ApplicationCondition {
 	}
 	
 	private void init() {
-		lhsContextNodes = new HashSet<Node>();
-		acContextNodes = new HashSet<Node>();
+		lhsBoundaryNodes = new HashSet<Node>();
+		acBoundaryNodes = new HashSet<Node>();
 		nonBoundaryNodes = new HashSet<Node>();
-		acContextNode2LhsContextNode = new HashMap<Node, Node>();
-		lhsContextNode2acContextNode = new HashMap<Node, Node>();
+		acBoundaryNode2LhsBoundaryNode = new HashMap<Node, Node>();
+		lhsBoundaryNode2acBoundaryNode = new HashMap<Node, Node>();
 		
 		inverted = nestedCondition.eContainer() instanceof Not;
 		
@@ -76,10 +76,10 @@ public class ApplicationCondition {
 			for (Mapping mapping : nestedCondition.getMappings()) {
 				if (mapping.getImage() == node) {
 					// it's a boundary node
-					lhsContextNodes.add(mapping.getOrigin());
-					acContextNodes.add(mapping.getImage());
-					acContextNode2LhsContextNode.put(mapping.getImage(), mapping.getOrigin());
-					lhsContextNode2acContextNode.put(mapping.getOrigin(), mapping.getImage());
+					lhsBoundaryNodes.add(mapping.getOrigin());
+					acBoundaryNodes.add(mapping.getImage());
+					acBoundaryNode2LhsBoundaryNode.put(mapping.getImage(), mapping.getOrigin());
+					lhsBoundaryNode2acBoundaryNode.put(mapping.getOrigin(), mapping.getImage());
 					boundary = true;
 					break;
 				} 

@@ -272,7 +272,7 @@ public class ParameterInfo {
 		if (isUnitParameter(parameter)) {
 			// wir untertuetzen derzeit keine Schachtelung von Units
 			// ==> parameter ist bereit outermost
-			assert (parameter.getUnit().getName().equals("mainUnit")) : "Geschachtelte Units !?";
+			assert (parameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
 			return parameter;
 
 		} else {
@@ -280,7 +280,7 @@ public class ParameterInfo {
 			Rule rule = (Rule) parameter.getUnit();
 			if (rule.getRootRule() == rule) {
 				// rule is a kernel rule
-				Unit mainUnit = rule.getModule().getUnit("mainUnit");
+				Unit mainUnit = rule.getModule().getUnit(INamingConventions.MAIN_UNIT);
 				for (ParameterMapping mapping : mainUnit.getParameterMappings()) {
 					if (mapping.getSource().equals(parameter)) {
 						return mapping.getTarget();
