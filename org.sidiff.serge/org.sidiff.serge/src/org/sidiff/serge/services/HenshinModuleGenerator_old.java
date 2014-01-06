@@ -39,6 +39,9 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 import org.sidiff.common.emf.extensions.impl.Mask;
+import org.sidiff.common.henshin.HenshinConditionUtil;
+import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.FormulaCombineOperator;
 import org.sidiff.common.henshin.INamingConventions;
@@ -175,7 +178,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 							// create multiplicity preconditions if any
 							if(multiplicityPreconditionsIntegrated) {
-								Rule inverseRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverseModule).get(0);
+								Rule inverseRule = HenshinModuleAnalysis.getAllRules(inverseModule).get(0);
 								createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 							}
 							if(multiplicityPreconditionsSeparately) {
@@ -195,7 +198,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 							// create multiplicity preconditions if any
 							if(multiplicityPreconditionsIntegrated) {
-								Rule rule4variant = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module4variant).get(0);
+								Rule rule4variant = HenshinModuleAnalysis.getAllRules(module4variant).get(0);
 								createIntegratedPreconditionsForMultiplicities(rule4variant, OperationType.CREATE);
 							}
 							if(multiplicityPreconditionsSeparately) {
@@ -219,7 +222,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 								// create multiplicity preconditions if any
 								if(multiplicityPreconditionsIntegrated) {
-									Rule inverseRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverseModule).get(0);
+									Rule inverseRule = HenshinModuleAnalysis.getAllRules(inverseModule).get(0);
 									createIntegratedPreconditionsForMultiplicities(inverseRule, OperationType.DELETE);
 								}
 								if(multiplicityPreconditionsSeparately) {
@@ -522,7 +525,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 				if(contextCounter>0) { 
 					// copy SET_Module
 					SET_Module = EcoreUtil.copy(origSET_Module);
-					rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(SET_Module).get(0);
+					rule = HenshinModuleAnalysis.getAllRules(SET_Module).get(0);
 					nameExtensionForConstraint = "In"+Common.toCamelCase(context.getName());
 				}
 				// create context node and create preserved Edge in RHS & LHS
@@ -725,7 +728,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 		// find out which (sub) packages have actually been used (via node type usage)
 		List<EPackage> actuallyUsedEPackages = new ArrayList<EPackage>();
-		for(Rule rule: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
+		for(Rule rule: HenshinModuleAnalysis.getAllRules(module)) {
 			List<Node> allNodesInRule = new ArrayList<Node>();
 			allNodesInRule.addAll(rule.getRhs().getNodes());
 			allNodesInRule.addAll(rule.getLhs().getNodes());
@@ -817,7 +820,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 	private void mainUnitCreation(Module module, EClassifier eClassifier, OperationType tsType) {
 		
 		removeAllNonRuleUnits(module);
-		List<Rule> rulesUnderModule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module);
+		List<Rule> rulesUnderModule = HenshinModuleAnalysis.getAllRules(module);
 		
 		/** Unit creation *************************************************/	
 		PriorityUnit prioUnit = henshinFactory.createPriorityUnit();
@@ -1278,8 +1281,8 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		if(module.getName().startsWith(ADD_prefix)) {
 			name = module.getName().replaceFirst(ADD_prefix, REMOVE_prefix);
 			description = module.getDescription().replaceFirst("Adds to","Removes");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
-			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
+			inverse =  HenshinModuleUtil.createInverse(name,description,module);
+			Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("addTo", "removeFrom"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Adds to", "Removes from"));
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,NEWTGT,true).setName(OLDTGT);  //rename Node in LHS
@@ -1288,8 +1291,8 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		else if(module.getName().startsWith(SET_prefix)) {
 			name = module.getName().replaceFirst(SET_prefix, UNSET_prefix);
 			description = module.getDescription().replaceFirst("Sets","Unsets");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
-			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
+			inverse =  HenshinModuleUtil.createInverse(name,description,module);
+			Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, NEWTGT,true).setName(OLDTGT);  //rename Node in LHS
@@ -1298,8 +1301,8 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		else if(module.getName().startsWith(CREATE_prefix)) {
 			name = module.getName().replaceFirst(CREATE_prefix, DELETE_prefix);
 			description = module.getDescription().replaceFirst("Creates","Deletes");
-			inverse =  HenshinRuleAnalysisUtilEx.createInverse(name,description,module);
-			Rule firstRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(inverse).get(0);
+			inverse =  HenshinModuleUtil.createInverse(name,description,module);
+			Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
 			//TODO speedup DELETEs: remove parameters + node names for all children and existings
@@ -1317,7 +1320,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		// create UNSET from copy of SET and set DefaultValue for the <<create>> parameter
 		Module UNSET_Module = EcoreUtil.copy(SET_Module);
 		String outputFileNameUNSET = outputFileName.replace(SET_prefix, UNSET_prefix);
-		Node unsetRHSNode = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getRhs().getNodes().get(0);
+		Node unsetRHSNode = HenshinModuleAnalysis.getAllRules(UNSET_Module).get(0).getRhs().getNodes().get(0);
 
 		// get the attribute's default value and set it
 		Object defaultValue = ea.getDefaultValue();
@@ -1337,13 +1340,13 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		// rename everything from SET to UNSET
 		UNSET_Module.setName(UNSET_Module.getName().replace(SET_prefix, UNSET_prefix));
 		UNSET_Module.setDescription(UNSET_Module.getDescription().replace("Sets", "Unsets"));
-		Rule unsetRule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0);
+		Rule unsetRule = HenshinModuleAnalysis.getAllRules(UNSET_Module).get(0);
 		unsetRule.setName(unsetRule.getName().replace("set", "unset"));
 		unsetRule.setDescription(unsetRule.getDescription().replace("Sets", "Sets"));
 
 		// create mainUnits & put Module in map for later serializing
 		removeAllNonRuleUnits(UNSET_Module);
-		HenshinRuleAnalysisUtilEx.getRulesUnderModule(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
+		HenshinModuleAnalysis.getAllRules(UNSET_Module).get(0).getParameters().clear(); //remove parameters that came from inverse
 		mainUnitCreation(UNSET_Module, eClassifier, OperationType.UNSET);
 		moduleMap.put(UNSET_Module, outputFileNameUNSET);
 
@@ -1598,7 +1601,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 						// create multiplicity preconditions, if any
 						if(multiplicityPreconditionsIntegrated) {
-							Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(REMOVE_Module).get(0);
+							Rule rule = HenshinModuleAnalysis.getAllRules(REMOVE_Module).get(0);
 							createIntegratedPreconditionsForMultiplicities(rule, OperationType.REMOVE);
 						}
 						if(multiplicityPreconditionsSeparately) {
@@ -1610,7 +1613,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 					
 					// create multiplicity preconditions, if any
 					if(multiplicityPreconditionsIntegrated) {
-						Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(ADD_Module).get(0);
+						Rule rule = HenshinModuleAnalysis.getAllRules(ADD_Module).get(0);
 						createIntegratedPreconditionsForMultiplicities(rule, OperationType.ADD);
 					}
 					if(multiplicityPreconditionsSeparately) {
@@ -1685,7 +1688,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		
 		// create multiplicity preconditions, if any
 		if(multiplicityPreconditionsIntegrated) {
-			Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
+			Rule rule = HenshinModuleAnalysis.getAllRules(MOVE_Module).get(0);
 			createIntegratedPreconditionsForMultiplicities(rule, OperationType.MOVE);
 		}
 		if(multiplicityPreconditionsSeparately) {
@@ -1723,7 +1726,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		createBasicRule(MOVE_Module, eRefA, mask.getOriginalEClassifier(), contextA, eRefB, contextB);
 		
 		// create Attribute, containing the masked type
-		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);
+		Rule rule = HenshinModuleAnalysis.getAllRules(MOVE_Module).get(0);
 		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, (EClass)mask.getOriginalEClassifier(), SEL);
 		HenshinRuleAnalysisUtilEx.createPreservedAttribute(np, mask.getEAttributeContainingFakeType(), "\""+mask.getTypeExtension().getName()+"\"", false);
 
@@ -1964,7 +1967,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 			
 			
 			// put Formulas together
-			HenshinRuleAnalysisUtilEx.addFormula(nestedCondition, rule.getLhs(), FormulaCombineOperator.AND);
+			HenshinConditionUtil.addFormula(nestedCondition, rule.getLhs(), FormulaCombineOperator.AND);
 		}
 		
 	}
@@ -2022,7 +2025,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 			newNOTFormular.setChild(nestedCondition);
 			
 			// put Formulas together
-			HenshinRuleAnalysisUtilEx.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);			
+			HenshinConditionUtil.addFormula(newNOTFormular, rule.getLhs(), FormulaCombineOperator.AND);			
 			
 		}			
 	}
@@ -2321,7 +2324,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 	 */
 	private void createElementsForConstraints_SET(Module module, OperationType opType, ConstraintType cType) {
 
-		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0);
+		Rule rule = HenshinModuleAnalysis.getAllRules(module).get(0);
 
 		List<Attribute> createAttributes = new ArrayList<Attribute>();			
 		// add all <<create>> Attributes under <<preserved> Nodes
@@ -2343,7 +2346,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 	private void createElementsForConstraints_CREATE(Module module) throws ConstraintException {
 
-		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0);
+		Rule rule = HenshinModuleAnalysis.getAllRules(module).get(0);
 		
 		// regard every <<create>> node	
 		//TODO check constraints other than name uniqueness here, if available
@@ -2409,7 +2412,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		// In both the selected and the new node we need to create the Attributes which must be unique
 		// but only locally. Global uniqueness needs only to be covered in CREATEs and SETs.
 		
-		Rule rule = HenshinRuleAnalysisUtilEx.getRulesUnderModule(MOVE_Module).get(0);		
+		Rule rule = HenshinModuleAnalysis.getAllRules(MOVE_Module).get(0);		
 		Node selectedNode = HenshinRuleAnalysisUtilEx.getNodeByName(rule, SEL,true);
 		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, selectedNode.getType(), SEL);
 		
@@ -2494,7 +2497,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 
 	private void replaceNewsWithToBeDeleted(Module module) {
 		
-		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
+		for(Rule r: HenshinModuleAnalysis.getAllRules(module)) {
 			for(Node n: r.getLhs().getNodes()) {
 				String nN = n.getName();
 				if(nN!=null && nN.equals(NEW)) {
@@ -2520,7 +2523,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 		//retain only ChildX/ExistingX/ToBeDeleted Parameters
 		List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
 
-		for(Rule r: HenshinRuleAnalysisUtilEx.getRulesUnderModule(module)) {
+		for(Rule r: HenshinModuleAnalysis.getAllRules(module)) {
 			for(Parameter p: r.getParameters()) {
 				
 				if(p.getName().startsWith(CHILD) || p.getName().startsWith(EX) || p.getName().startsWith(DEL)) {
@@ -2544,7 +2547,7 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 			}
 		}			
 		//remove unnecessary parameters
-		HenshinRuleAnalysisUtilEx.getRulesUnderModule(module).get(0).getParameters().removeAll(unnecessaryParameters);
+		HenshinModuleAnalysis.getAllRules(module).get(0).getParameters().removeAll(unnecessaryParameters);
 	}
 
 }

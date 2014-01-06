@@ -5,12 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -18,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -47,77 +42,6 @@ public class HenshinRuleAnalysisUtilEx {
 		AND,OR,XOR
 	}
 	
-
-	/**
-	 * This method adds a new Formula to the given LHS. If the LHS already contains a Formula,
-	 * a new container Formula will be created under the LHS where the old Formula and the new Formula will be combined.
-	 * The old and the new Formula can be combined with AND, OR or XOR.
-	 * @param new_formula
-	 * 						the new Formula
-	 * @param lhs
-	 * 						the containing LHS.
-	 * @param operator
-	 * 						defines how existing Formulas shall be combined with the new one.
-	 */
-	public static void addFormula(Formula new_formula, Graph lhs, FormulaCombineOperator operator) {
-		Formula existingFormula = lhs.getFormula();
-		
-		if(existingFormula!=null) {
-			BinaryFormula combiningFormula = null;
-			
-			switch(operator) {
-			case AND:
-				combiningFormula = HenshinFactory.eINSTANCE.createAnd();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			case OR:
-				combiningFormula = HenshinFactory.eINSTANCE.createOr();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			case XOR:
-				combiningFormula = HenshinFactory.eINSTANCE.createXor();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			}
-		}else{
-			
-			lhs.setFormula(new_formula);
-			
-		}
-	}
-	
-	
-	
-	/**
-	 * Get all rules of the module.
-	 * 
-	 * @param module
-	 *            the module.
-	 * @return all Rules contained by the module in an unmodifiable list.
-	 */
-	public static EList<Rule> getRules(Module module) {
-		EList<Rule> rules = new BasicEList<Rule>();
-		
-		for (Unit unit : module.getUnits()) {
-			if (unit instanceof Rule) {
-				Rule rule = (Rule) unit;
-				rules.add(rule);
-				rules.addAll(rule.getAllMultiRules());
-			}
-		}
-		
-		for (Module subModule : module.getSubModules()) {
-			rules.addAll(getRules(subModule));
-		}
-		
-		return ECollections.unmodifiableEList(rules);
-	}
 
 	/**
 	 * @param rule
@@ -558,91 +482,6 @@ public class HenshinRuleAnalysisUtilEx {
 		
 		assert (false) : "No lhs node found";
 		return null;
-	}
-	
-	/**
-	 * Creates a new Module that is an inverse of an input Module
-	 * @param name
-	 * 				the name for the new Module.
-	 * @param description
-	 * 				the description for the new Module.
-	 * @param inputModule
-	 * 				the Henshin Module from which an inverse should be created.
-	 * @return the new Module.
-	 */	
-	public static Module createInverse(String name, String description, Module inputModule) {
-		
-		// create inverse
-		Module module = EcoreUtil.copy(inputModule);
-		module.setName(name);
-		module.setDescription(description);
-		for(Unit unit: module.getUnits()) {
-			if(unit instanceof Rule){
-				
-				Rule r = (Rule)unit;
-				Graph lhs = r.getRhs();
-				lhs.setName("LHS");
-				Graph rhs = r.getLhs();
-				rhs.setName("RHS");
-				r.setLhs(lhs);
-				r.setRhs(rhs);
-			
-				for(Mapping m: r.getMappings()) {
-					Node origin = m.getImage();
-					Graph orginGraph = m.getImage().getGraph();
-					origin.setGraph(orginGraph);
-				
-					Node image = m.getOrigin();
-					Graph imageGraph = m.getOrigin().getGraph();
-					image.setGraph(imageGraph);
-				
-					m.setImage(image);
-					m.setOrigin(origin);
-				
-				}
-			
-				// remove attributes under <<delete>> nodes and their ParameterMappings
-				// and not used Parameters will be deleted automatically then.
-				for(Node n:r.getLhs().getNodes()) {
-					List<ParameterMapping> removableMappings = new ArrayList<ParameterMapping>();
-				
-					if(isDeletionNode(n)) {
-						for(Attribute a:n.getAttributes()) {
-						
-							for(ParameterMapping pm:r.getParameterMappings()) {
-								if(	pm.getTarget().getName().equals(a.getValue()) ||
-										pm.getSource().getName().equals(a.getValue())) {
-								
-									removableMappings.add(pm);
-								}
-							}
-						}
-						n.getAttributes().clear();
-					}
-					r.getParameterMappings().removeAll(removableMappings);
-				}
-
-			}
-
-		}
-		return module;
-		
-	}
-	
-	
-	/**
-	 * Retrieves all Rules under a Module.
-	 * @param module
-	 * @return List of Rules
-	 */
-	public static List<Rule> getRulesUnderModule(Module module) {
-		List<Rule> ruleList = new ArrayList<Rule>();
-		for(Unit unit: module.getUnits()) {
-			if(unit instanceof Rule) {
-				ruleList.add((Rule)unit);
-			}
-		}
-		return ruleList;
 	}
 	
 	/**
@@ -1211,28 +1050,7 @@ public class HenshinRuleAnalysisUtilEx {
 	
 	}
 	
-	/**
-	 * Returns a list of rules that equal a given name.
-	 * @param name
-	 * 				the name a rule must have to match.
-	 * @param module
-	 * 				the Module under which to search.
-	 * @return a list of matched rules.
-	 */
-	public static List<Rule> getRulesByName(String name, Module module) {
-		ArrayList<Rule> ruleList = new ArrayList<Rule>();
-		
-		for(Unit u: module.getUnits()) {
-			if(u instanceof Rule){
-				Rule r = (Rule) u;
-			
-				if(r.getName().equals(name)) {
-					ruleList.add(r);
-				}
-			}
-		}
-		return ruleList;
-	}
+
 	
 	/**
 	 * Returns a parameter under a given unit if its name equals the given name.
@@ -1329,57 +1147,6 @@ public class HenshinRuleAnalysisUtilEx {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Returns the target nodes of the given outgoing edge.
-	 * 
-	 * @param source
-	 *            the source node of the edge.
-	 * @param edgeType
-	 *            the EReference edge type.
-	 * @return the target node.
-	 */
-	public static NodePair getNodeOfOutgoingEdge(NodePair source, EReference edgeType) {
-
-		NodePair nodePair = new NodePair();
-
-		for (Edge lhsEdge : source.getLhsNode().getOutgoing()) {
-			if (equalReferenceType(lhsEdge.getType(), edgeType)) {
-				nodePair.setLhsNode(lhsEdge.getTarget());
-				nodePair.setRhsNode(getRemoteNode(lhsEdge.getTarget().getGraph().getRule().getMappings(), lhsEdge.getTarget()));
-				break;
-			}
-		}
-
-		return nodePair;
-	}
-
-	/**
-	 * Returns the source nodes of the given incoming edge.
-	 * 
-	 * @param target
-	 *            the target node of the edge.
-	 * @param edgeType
-	 *            the EReference edge type.
-	 * @return all source node.
-	 */
-	public static List<NodePair> getNodeOfIncomingEdge(NodePair target, EReference edgeType) {
-
-		List<NodePair> incoming = new LinkedList<NodePair>();
-
-		for (Edge lhsEdge : target.getLhsNode().getIncoming()) {
-			if (equalReferenceType(lhsEdge.getType(), edgeType)) {
-
-				NodePair nodePair = new NodePair();
-				nodePair.setLhsNode(lhsEdge.getSource());
-				nodePair.setRhsNode(getRemoteNode(lhsEdge.getSource().getGraph().getRule().getMappings(), lhsEdge.getSource()));
-
-				incoming.add(nodePair);
-			}
-		}
-
-		return incoming;
 	}
 
 	public static Attribute getAttributeByType(Collection<Attribute> attributes, EAttribute type) {
@@ -1506,21 +1273,6 @@ public class HenshinRuleAnalysisUtilEx {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * Returns a list containing all unit of the module
-	 * (including all rules).
-	 * 
-	 * @param module
-	 *            the module.
-	 * @return a list containing all unit of the module.
-	 */
-	public static List<Unit> getAllUnits(Module module) {
-		List<Unit> units = new LinkedList<Unit>();
-		units = module.getUnits();
-
-		return units;
 	}
 	
 	/**
@@ -1781,10 +1533,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return whether the Node is a LHS of a Rule.
 	 */
 	public static boolean isLHSNode(Node node) {
-		if (isLHS(node.getGraph())) {
-			return true;
-		}
-		return false;
+		return node.getGraph().isLhs();
 	}
 	
 	/**
@@ -1795,10 +1544,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return whether the Edge is a LHS of a Rule.
 	 */
 	public static boolean isLHSEdge(Edge edge) {
-		if (isLHS(edge.getGraph())) {
-			return true;
-		}
-		return false;
+		return edge.getGraph().isLhs();
 	}
 	
 	/**
@@ -1820,10 +1566,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return whether the Node is a RHS of a Rule.
 	 */
 	public static boolean isRHSNode(Node node) {
-		if (isRHS(node.getGraph())) {
-			return true;
-		}
-		return false;
+		return node.getGraph().isRhs();
 	}
 
 	/**
@@ -1834,10 +1577,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return whether the Edge is a RHS of a Rule.
 	 */
 	public static boolean isRHSEdge(Edge edge) {
-		if (isRHS(edge.getGraph())) {
-			return true;
-		}
-		return false;
+		return edge.getGraph().isRhs();		
 	}
 	
 	/**
@@ -1927,7 +1667,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 		Node rhsNode = null;
 
-		if (isRHS(node.getGraph())) {
+		if (node.getGraph().isRhs()) {
 			rhsNode = node;
 		} else {
 			rhsNode = getRemoteNode(
@@ -2036,7 +1776,7 @@ public class HenshinRuleAnalysisUtilEx {
 	}*/
 	
 	/**
-	 * Returns the {@link TransformationSystem} the given unit is (recursively) 
+	 * Returns the {@link Module} the given unit is (recursively) 
 	 * contained in. If unit is contained in no transformation system at all, this method
 	 * does not throw an exception but simply returns <code>null</code>.
 	 * 
@@ -2092,25 +1832,6 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * @param graph
-	 * @return whether the {@link Graph} is a LHS of a {@link Rule}
-	 */
-	public static boolean isLHS(Graph graph) {
-		return (graph.eContainer() != null) && (graph.eContainer() instanceof Rule)
-				&& (graph.getRule().getLhs() == graph);
-		
-	}
-	
-	/**
-	 * @param graph
-	 * @return whether the {@link Graph} is a RHS of a {@link Rule}
-	 */
-	public static boolean isRHS(Graph graph) {
-		return (graph.eContainer() != null) && (graph.eContainer() instanceof Rule)
-				&& (graph.getRule().getRhs() == graph);
-	}
-	
-	/**
 	 * Checks if the given edge represents a 'deletion' edge. This is the case,
 	 * if it is contained in a LHS and if there is no corresponding image edge
 	 * in the RHS.<br>
@@ -2123,7 +1844,7 @@ public class HenshinRuleAnalysisUtilEx {
 		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
 				&& edge.getGraph().getRule() != null) {
 			Rule rule = edge.getGraph().getRule();
-			return isLHS(edge.getGraph())
+			return edge.getGraph().isLhs()
 					&& (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
 		} else
 			return false;
@@ -2142,7 +1863,7 @@ public class HenshinRuleAnalysisUtilEx {
 		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
 				&& edge.getGraph().getRule() != null) {
 			Rule rule = edge.getGraph().getRule();
-			return isRHS(edge.getGraph())
+			return edge.getGraph().isRhs()
 					&& (getEdgeOrigin(edge, rule.getMappings()) == null);
 		} else
 			return false;
