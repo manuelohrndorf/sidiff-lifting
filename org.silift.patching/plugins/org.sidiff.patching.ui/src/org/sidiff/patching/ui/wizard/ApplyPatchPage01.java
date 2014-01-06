@@ -98,7 +98,7 @@ public class ApplyPatchPage01 extends WizardPage {
 	private void createWidgets() {
 		
 		//Target model:
-		targetWidget = new TargetModelWidget(filterPath);
+		targetWidget = new TargetModelWidget();
 		addWidget(container, targetWidget);
 
 		// Comparison mode:

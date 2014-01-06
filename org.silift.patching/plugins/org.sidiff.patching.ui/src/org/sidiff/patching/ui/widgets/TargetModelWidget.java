@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.widgets;
 
+import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -22,10 +23,8 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 	private Button modelChooseButton;
 	private Text targetModelText;
 	private String file;
-	private String filterPath;
 
-	public TargetModelWidget(String filterpath) {
-		this.filterPath = filterpath;
+	public TargetModelWidget() {
 	}
 
 	/**
@@ -59,9 +58,8 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 //		modelChooseButton.setFont(JFaceResources.getDialogFont());
 		modelChooseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				FileDialog dialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OPEN);
-				dialog.setFilterPath(filterPath);
-				file = dialog.open();
+				file = WorkspaceResourceDialog.openFileSelection(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+						"Target model selection", "Select the target model for patch application", false, null,null)[0].getRawLocation().toOSString();
 				if (file != null && file != "") {
 					targetModelText.setText(file);
 				}
