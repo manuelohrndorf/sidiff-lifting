@@ -2,7 +2,6 @@ package org.silift.merging.ui.wizard;
 
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -15,10 +14,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
-import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
+import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.patching.ui.widgets.ValidationModeWidget;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
@@ -31,6 +31,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 	private Composite container;
 
 	private MergeModelsWidget mergeModelsWidget;
+	private ValidationModeWidget validationWidget;
 	private ScopeWidget scopeWidget;
 	private RulebaseWidget rulebaseWidget;
 
@@ -113,6 +114,11 @@ public class ThreeWayMergePage01 extends WizardPage {
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		addWidget(container, scopeWidget);
+		
+		// Validation mode:
+		validationWidget = new ValidationModeWidget();
+		addWidget(container, validationWidget);
+		
 
 		// Algorithms:
 		Group algorithmsGroup = new Group(container, SWT.NONE);
@@ -151,6 +157,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 
 		validateWidget(mergeModelsWidget);
 		validateWidget(scopeWidget);
+		validateWidget(validationWidget);
 		validateWidget(rulebaseWidget);
 	}
 
@@ -168,9 +175,16 @@ public class ThreeWayMergePage01 extends WizardPage {
 	public MergeModels getMergeModels(){
 		return mergeModelsWidget.getMergeModels();
 	}
-
-	public boolean isValidateModels() {
-		return mergeModelsWidget.isValidateModels();
+	
+	public ValidationModeWidget getValidationModeWidget(){
+		return validationWidget;
+	}
+	
+	public boolean isValidateModels(){
+		if(validationWidget.getSelection() == ValidationMode.NO){
+			return false;
+		}
+		return true;
 	}
 	
 	public Scope getScope() {

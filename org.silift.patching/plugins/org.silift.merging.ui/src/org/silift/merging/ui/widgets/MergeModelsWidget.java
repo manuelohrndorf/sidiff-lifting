@@ -33,11 +33,6 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	private Button modelBaseButton1;
 	private Button modelBaseButton2;
 	private Button modelBaseButton3;
-	
-	private Button buttonValidateModels;
-	
-	
-	private boolean validateModels = false;
 
 	public MergeModelsWidget(MergeModels mergeModels) {
 		this.mergeModels = mergeModels;
@@ -209,24 +204,6 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 		});
 	    
 	    
-		/*
-		 *  Validate models
-		 */
-
-		buttonValidateModels = new Button(modelsGroup, SWT.CHECK);
-		{
-			buttonValidateModels.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
-					1));
-			buttonValidateModels.setSelection(validateModels);
-			buttonValidateModels.setText("Validate Models");
-		}
-		buttonValidateModels.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validateModels = buttonValidateModels.getSelection();
-			}
-		});
-
 		return container;
 	}
 
@@ -248,9 +225,6 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			return null;
 	}
 
-	public boolean isValidateModels() {
-		return validateModels;
-	}
 
 	@Override
 	public boolean validate() {
@@ -276,8 +250,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	public void addSelectionListener(SelectionListener listener) {
 		if(modelBaseButton1 == null || modelBaseButton2 == null || modelBaseButton3 == null
 				|| modelMineButton1 == null || modelMineButton2 == null || modelMineButton3 == null ||
-				modelTheirsButton1 == null || modelTheirsButton2 == null || modelTheirsButton3 == null ||
-				buttonValidateModels == null){
+				modelTheirsButton1 == null || modelTheirsButton2 == null || modelTheirsButton3 == null){
 			throw new RuntimeException("Create controls first!");
 		}
 		modelBaseButton1.addSelectionListener(listener);

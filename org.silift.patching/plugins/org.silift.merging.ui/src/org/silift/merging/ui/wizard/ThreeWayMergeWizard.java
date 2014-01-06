@@ -11,6 +11,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
 
@@ -67,6 +68,7 @@ public class ThreeWayMergeWizard extends Wizard {
 		//Gather all information
 		
 		//Get configured MergeModels
+		final ValidationMode validationMode = this.threeWayMergePage01.getValidationModeWidget().getSelection();
 		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
 		System.err.println("FileBase: "+ configuredMergeModels.getFileBase().getRawLocation());
 		System.err.println("FileMine: "+ configuredMergeModels.getFileMine().getRawLocation());
