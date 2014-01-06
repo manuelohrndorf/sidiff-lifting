@@ -27,7 +27,7 @@ public class ApplicationCondition {
 	private Map<Node, Node> lhsBoundaryNode2acBoundaryNode;
 	private Map<Node, Node> acBoundaryNode2LhsBoundaryNode;
 	
-	public ApplicationCondition(NestedCondition nestedCondition, boolean inverted) {
+	public ApplicationCondition(NestedCondition nestedCondition) {
 		this.nestedCondition = nestedCondition;
 		this.inverted = inverted;
 
