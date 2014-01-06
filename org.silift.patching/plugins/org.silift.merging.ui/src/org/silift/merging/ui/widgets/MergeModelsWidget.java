@@ -1,12 +1,7 @@
 package org.silift.merging.ui.widgets;
 
-import java.awt.FlowLayout;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,7 +11,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -27,42 +21,26 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	private MergeModels mergeModels;
 	
 	private Composite container;
+	
+	private Button modelMineButton1;
+	private Button modelMineButton2;
+	private Button modelMineButton3;
+	
+	private Button modelTheirsButton1;
+	private Button modelTheirsButton2;
+	private Button modelTheirsButton3;
+	
+	private Button modelBaseButton1;
+	private Button modelBaseButton2;
+	private Button modelBaseButton3;
+	
 	private Button buttonValidateModels;
 	
-	private JComboBox<String> modelBaseBox;
-	private JLabel modelBaseLabel;
-	private JPanel modelBasePanel;
 	
-	private JComboBox<String> modelMineBox;
-	private JComboBox<String> modelTheirsBox;
-
 	private boolean validateModels = false;
 
 	public MergeModelsWidget(MergeModels mergeModels) {
 		this.mergeModels = mergeModels;
-	}
-
-	private String[] getFileNames() {
-		String resourceMine_name = mergeModels.getFileMine().getName();
-		String resourceTheirs_name = mergeModels.getFileTheirs().getName();
-		String resourceBase_name = mergeModels.getFileBase().getName();
-
-		IContainer parentMine = mergeModels.getFileMine().getParent();
-		IContainer parentTheirs = mergeModels.getFileTheirs().getParent();
-		IContainer parentBase = mergeModels.getFileBase().getParent();
-
-		/*
-		 * TODO ?
-		while (resourceA_name.equals(resourceB_name)) {
-			resourceA_name = parentA.getName() + "/" + resourceA_name;
-			resourceB_name = parentB.getName() + "/" + resourceB_name;
-			parentA = parentA.getParent();
-			parentB = parentB.getParent();
-		}
-		*/
-
-		String[] result = { resourceMine_name, resourceTheirs_name, resourceBase_name };
-		return result;
 	}
 
 	/**
@@ -79,9 +57,6 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			container.setLayout(grid);
 		}
 
-		// Generate model file names:
-		String[] names = getFileNames();
-
 
 		Group modelsGroup = new Group(container, SWT.NONE);
 		{
@@ -91,20 +66,149 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			modelsGroup.setLayout(grid);
 			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-			modelsGroup.setText("Select role of models:");
+			modelsGroup.setText("Select roles of used models:");
 		}
 		
-		//Base Model
-		 modelBaseLabel = new JLabel("Select base model:");
-		
-		modelBaseBox = new JComboBox<String>(names);
-		modelBaseBox.setSelectedIndex(2);
-		
-		modelBasePanel = new JPanel(new FlowLayout());
-		modelBasePanel.add(modelBaseLabel);
-		modelBasePanel.add(modelBaseBox);
+		Group modelBaseGroup = new Group(modelsGroup, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 10;
+			grid.marginHeight = 10;
+			modelBaseGroup.setLayout(grid);
+			modelBaseGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+			modelBaseGroup.setText("Base model");
+		}
+        
+	    modelBaseButton1 = new Button(modelBaseGroup, SWT.RADIO);
+	    modelBaseButton1.setData(mergeModels.getFileBase());
+	    modelBaseButton1.setText(mergeModels.getFileBase().getName());
+	    modelBaseButton1.setSelection(true);
+	    mergeModels.setModelBase((IFile) modelBaseButton1.getData());
+	    
+	    modelBaseButton1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelBase((IFile) modelBaseButton1.getData());
+			}
+		});
+	    
+	    modelBaseButton2 = new Button(modelBaseGroup, SWT.RADIO);
+	    modelBaseButton2.setData(mergeModels.getFileMine());
+	    modelBaseButton2.setText(mergeModels.getFileMine().getName());
+	    
+	    modelBaseButton2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelBase((IFile) modelBaseButton2.getData());
+			}
+		});
+	    
+	    modelBaseButton3 = new Button(modelBaseGroup, SWT.RADIO); 
+	    modelBaseButton3.setData(mergeModels.getFileTheirs());
+	    modelBaseButton3.setText(mergeModels.getFileTheirs().getName());
+	    
+	    modelBaseButton3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelBase((IFile) modelBaseButton3.getData());
+			}
+		});
+		
+		Group modelMineGroup = new Group(modelsGroup, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 10;
+			grid.marginHeight = 10;
+			modelMineGroup.setLayout(grid);
+			modelMineGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
+			modelMineGroup.setText("My model");
+		}
+		
+	    modelMineButton1 = new Button(modelMineGroup, SWT.RADIO);
+	    modelMineButton1.setData(mergeModels.getFileBase());
+	    modelMineButton1.setText(mergeModels.getFileBase().getName());
+	    
+	    modelMineButton1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelMine((IFile) modelMineButton1.getData());
+			}
+		});
+	    
+	    
+	    modelMineButton2 = new Button(modelMineGroup, SWT.RADIO);
+	    modelMineButton2.setData(mergeModels.getFileMine());
+	    modelMineButton2.setText(mergeModels.getFileMine().getName());
+	    modelMineButton2.setSelection(true);
+		mergeModels.setModelMine((IFile) modelMineButton2.getData());
+	    
+	    modelMineButton2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelMine((IFile) modelMineButton2.getData());
+			}
+		});
+	    
+	    modelMineButton3 = new Button(modelMineGroup, SWT.RADIO);
+	    modelMineButton3.setData(mergeModels.getFileTheirs());
+	    modelMineButton3.setText(mergeModels.getFileTheirs().getName());
+	    
+	    modelMineButton3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelMine((IFile) modelMineButton3.getData());
+			}
+		});
+	    
+		Group modelTheirsGroup = new Group(modelsGroup, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 10;
+			grid.marginHeight = 10;
+			modelTheirsGroup.setLayout(grid);
+			modelTheirsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+			modelTheirsGroup.setText("Their model");
+		}
+        
+	    modelTheirsButton1 = new Button(modelTheirsGroup, SWT.RADIO);
+	    modelTheirsButton1.setData(mergeModels.getFileBase());
+	    modelTheirsButton1.setText(mergeModels.getFileBase().getName());
+	    
+	    modelTheirsButton1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelTheirs((IFile) modelTheirsButton1.getData());
+			}
+		});
+	    
+	    modelTheirsButton2 = new Button(modelTheirsGroup, SWT.RADIO);
+	    modelTheirsButton2.setData(mergeModels.getFileMine());
+	    modelTheirsButton2.setText(mergeModels.getFileMine().getName());
+	    
+	    modelTheirsButton2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelTheirs((IFile) modelTheirsButton2.getData());
+			}
+		});
+	    
+	    modelTheirsButton3 = new Button(modelTheirsGroup, SWT.RADIO);
+	    modelTheirsButton3.setData(mergeModels.getFileTheirs());
+	    modelTheirsButton3.setText(mergeModels.getFileTheirs().getName());
+	    modelTheirsButton3.setSelection(true);
+		mergeModels.setModelTheirs((IFile) modelTheirsButton3.getData());
+	    
+	    modelTheirsButton3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mergeModels.setModelTheirs((IFile) modelTheirsButton3.getData());
+			}
+		});
+	    
+	    
 		/*
 		 *  Validate models
 		 */
@@ -136,6 +240,13 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 		container.setLayoutData(layoutData);
 	}
 
+	public MergeModels getMergeModels(){
+		if(validate()){
+			return this.mergeModels;
+		}
+		else
+			return null;
+	}
 
 	public boolean isValidateModels() {
 		return validateModels;
@@ -143,7 +254,9 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 	@Override
 	public boolean validate() {
-		if (modelBaseBox.getSelectedIndex() == 0) {
+		if((modelBaseButton1.getSelection() ^ modelMineButton1.getSelection() ^ modelTheirsButton1.getSelection()) &&
+				(modelBaseButton2.getSelection() ^ modelMineButton2.getSelection() ^ modelTheirsButton2.getSelection()) &&
+				(modelBaseButton3.getSelection() ^ modelMineButton3.getSelection() ^ modelTheirsButton3.getSelection())){ 
 			return true;
 		} else {
 			return false;
@@ -155,15 +268,48 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 		if (validate()) {
 			return "";
 		} else {
-			return "Please select a source model!";
+			return "Please define only one role for each model!";
 		}
 	}
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
+		if(modelBaseButton1 == null || modelBaseButton2 == null || modelBaseButton3 == null
+				|| modelMineButton1 == null || modelMineButton2 == null || modelMineButton3 == null ||
+				modelTheirsButton1 == null || modelTheirsButton2 == null || modelTheirsButton3 == null ||
+				buttonValidateModels == null){
+			throw new RuntimeException("Create controls first!");
+		}
+		modelBaseButton1.addSelectionListener(listener);
+		modelBaseButton2.addSelectionListener(listener);
+		modelBaseButton3.addSelectionListener(listener);
+		modelMineButton1.addSelectionListener(listener);
+		modelMineButton2.addSelectionListener(listener);
+		modelMineButton3.addSelectionListener(listener);
+		modelTheirsButton1.addSelectionListener(listener);
+		modelTheirsButton2.addSelectionListener(listener);
+		modelTheirsButton3.addSelectionListener(listener);
 	}
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
+		if(modelBaseButton1 != null)
+			modelBaseButton1.removeSelectionListener(listener);
+		if(modelBaseButton2 != null)
+			modelBaseButton2.removeSelectionListener(listener);
+		if(modelBaseButton3 != null)
+			modelBaseButton3.removeSelectionListener(listener);
+		if(modelMineButton1 != null)
+			modelMineButton1.removeSelectionListener(listener);
+		if(modelMineButton2 != null)
+			modelMineButton2.removeSelectionListener(listener);
+		if(modelMineButton3 != null)
+			modelMineButton3.removeSelectionListener(listener);
+		if(modelTheirsButton1 != null)
+			modelTheirsButton1.removeSelectionListener(listener);
+		if(modelTheirsButton2 != null)
+			modelTheirsButton2.removeSelectionListener(listener);
+		if(modelTheirsButton3 != null)
+			modelTheirsButton3.removeSelectionListener(listener);
 	}
 }

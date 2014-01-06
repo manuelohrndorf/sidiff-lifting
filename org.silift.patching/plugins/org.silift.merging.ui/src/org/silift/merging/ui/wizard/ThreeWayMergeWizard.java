@@ -1,37 +1,18 @@
 package org.silift.merging.ui.wizard;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
-import org.silift.patching.patch.PatchCreator;
 
 public class ThreeWayMergeWizard extends Wizard {
 
@@ -83,6 +64,17 @@ public class ThreeWayMergeWizard extends Wizard {
 	
 	private void finish() {
 		
+		//Gather all information
+		
+		//Get configured MergeModels
+		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
+		System.err.println("FileBase: "+ configuredMergeModels.getFileBase().getRawLocation());
+		System.err.println("FileMine: "+ configuredMergeModels.getFileMine().getRawLocation());
+		System.err.println("FileTheirs: "+ configuredMergeModels.getFileTheirs().getRawLocation());
+		
+		//TODO
+	
+		/*
 		InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		Resource resourceA = inputModels.getResourceA();
 		Resource resourceB = inputModels.getResourceB();
@@ -132,6 +124,7 @@ public class ThreeWayMergeWizard extends Wizard {
 		} catch (OperationCanceledException e) {
 
 		}
+		*/
 	}
 
 	public LiftingSettings readSettings() {

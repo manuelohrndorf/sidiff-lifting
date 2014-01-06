@@ -42,6 +42,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage) {
 		super(pageName, title, titleImage);
 
+		this.mergeModels = mergeModels;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -158,6 +159,14 @@ public class ThreeWayMergePage01 extends WizardPage {
 			setErrorMessage(widget.getValidationMessage());
 			setPageComplete(false);
 		}
+	}
+	
+	public MergeModelsWidget getMergeModelsWidget(){
+		return mergeModelsWidget;
+	}
+	
+	public MergeModels getMergeModels(){
+		return mergeModelsWidget.getMergeModels();
 	}
 
 	public boolean isValidateModels() {

@@ -1,6 +1,6 @@
 package org.silift.merging.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -17,6 +17,7 @@ import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -24,12 +25,16 @@ import org.silift.merging.ui.util.MergeModels;
 
 public class ThreeWayMergePage02 extends WizardPage {
 
+	private String DEFAULT_MESSAGE = "Merge three models";
+
 	private Composite container;
 
 	private MatchingEngineWidget matcherWidget;
+	private ReliabilityWidget reliabilityWidget;
 	private DifferenceBuilderWidget builderWidget;
 
 	private SelectionAdapter validationListener;
+	private SelectionAdapter informationListener;
 
 	private MergeModels mergeModels;
 	
@@ -45,6 +50,13 @@ public class ThreeWayMergePage02 extends WizardPage {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						validate();
+					}
+				};
+				// Listen for widget information messages:
+				informationListener = new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						readInformationMessages();
 					}
 				};
 	}
@@ -97,7 +109,10 @@ public class ThreeWayMergePage02 extends WizardPage {
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Create a patch from the changes between the models: origin -> changed");
+		setMessage(DEFAULT_MESSAGE);
+		
+		// Initialize information message:
+		readInformationMessages();
 	}
 
 	private void createWidgets() {
@@ -120,6 +135,10 @@ public class ThreeWayMergePage02 extends WizardPage {
 		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 		addWidget(algorithmsGroup, matcherWidget);
 
+		//Reliability
+		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
+		addWidget(algorithmsGroup, reliabilityWidget);
+		
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 
@@ -139,6 +158,8 @@ public class ThreeWayMergePage02 extends WizardPage {
 		// Add validation:
 		if ((widget instanceof IWidgetSelection) && (widget instanceof IWidgetValidation)) {
 			((IWidgetSelection) widget).addSelectionListener(validationListener);
+			((IWidgetSelection) widget).addSelectionListener(informationListener);
+
 		}
 	}
 
@@ -163,6 +184,15 @@ public class ThreeWayMergePage02 extends WizardPage {
 		} else {
 			return builderWidget.getDifferenceBuilders().values()
 					.toArray(new ITechnicalDifferenceBuilder[0])[0];
+		}
+	}
+	
+	private void readInformationMessages() {
+		if ((getErrorMessage() == null) || getErrorMessage().equals("")) {
+			setMessage(reliabilityWidget.getInformationMessage(), IMessageProvider.INFORMATION);
+		}
+		if ((getMessage() == null) || getMessage().equals("")) {
+			setMessage(DEFAULT_MESSAGE);
 		}
 	}
 

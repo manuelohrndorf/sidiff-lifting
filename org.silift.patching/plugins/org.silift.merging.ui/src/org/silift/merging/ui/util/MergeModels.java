@@ -31,22 +31,6 @@ public class MergeModels {
 		this.resourceBase = resourceBase;
 	}
 
-	public void swap() {
-		/*
-		 * TODO
-		if ((fileA != null) && (fileB != null)) {
-			IFile tmp = fileA;
-			fileA = fileB;
-			fileB = tmp;
-		}
-
-		if ((resourceA != null) && (resourceB != null)) {
-			Resource tmp = resourceA;
-			resourceA = resourceB;
-			resourceB = tmp;
-		}
-		*/
-	}
 
 	public IFile getFileMine() {
 		if (fileMine == null) {
@@ -108,4 +92,20 @@ public class MergeModels {
 
 		return documentType;
 	}
+
+	public void setModelMine(IFile fileMine) {
+		this.fileMine = fileMine;
+		this.resourceMine = LiftingFacade.loadModel(this.fileMine.getLocation().toOSString());
+	}
+
+	public void setModelTheirs(IFile fileTheirs) {
+		this.fileTheirs = fileTheirs;
+		this.resourceTheirs = LiftingFacade.loadModel(this.fileTheirs.getLocation().toOSString());
+	}
+
+	public void setModelBase(IFile fileBase) {
+		this.fileBase = fileBase;
+		this.resourceBase = LiftingFacade.loadModel(this.fileBase.getLocation().toOSString());
+	}
+
 }
