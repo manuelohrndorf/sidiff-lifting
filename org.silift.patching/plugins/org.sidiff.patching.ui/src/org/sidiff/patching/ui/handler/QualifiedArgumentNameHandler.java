@@ -3,6 +3,7 @@ package org.sidiff.patching.ui.handler;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 
 
@@ -10,7 +11,7 @@ public class QualifiedArgumentNameHandler extends AbstractHandler{
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// TODO Auto-generated method stub
+		HandlerUtil.toggleCommandState(event.getCommand());
 		return null;
 	}
 
