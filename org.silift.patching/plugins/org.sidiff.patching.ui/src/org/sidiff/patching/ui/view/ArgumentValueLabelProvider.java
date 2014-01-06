@@ -21,7 +21,8 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	private IArgumentManager argumentManager;
 	private OperationManager operationManager;
 	private boolean showReliabilities = false;
-
+	private boolean showQualifiedArgumentNames = false;
+	
 	private final Image ERROR = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
 	private final Image WARNING = Activator.getImageDescriptor("warning_16x16.gif").createImage();
 
@@ -43,16 +44,16 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				if (argument.isResolved()) {
 					if (isInParameter(binding)){
 						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
-						return Util.getName(argument.getTargetObject())
+						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()))
 								+ (showReliabilities ? " (" + reliability + ")" : "");
 					}else{
-						return Util.getName(argument.getTargetObject());
+						return  (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()));
 					} 
 				} else {
 					if (isInParameter(binding)){
-						return "(" + Util.getName((EObject) opWrapper.getInvocationArgument(binding)) + ")";
+						return "(" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName((EObject)opWrapper.getInvocationArgument(binding)) : Util.getName((EObject) opWrapper.getInvocationArgument(binding))) + ")";
 					} else {
-						return "(" + Util.getName(argument.getProxyObject()) + ")";
+						return "(" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
 					}	
 				}
 			} else {
@@ -60,16 +61,16 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				if (argument.isResolved()) {
 					if (isInParameter(binding)){
 						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
-						return Util.getName(argument.getTargetObject())
+						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()))
 								+ (showReliabilities ? " (" + reliability + ")" : "");
 					}else{
-						return Util.getName(argument.getTargetObject());
+						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()));
 					}
 				} else {
 					if (isInParameter(binding)) {
-						return "(Missing object: " + Util.getName(argument.getProxyObject()) + ")";
+						return "(Missing object: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
 					} else {
-						return "(Not yet created: " + Util.getName(argument.getProxyObject()) + ")";
+						return "(Not yet created: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
 					}
 				}
 			}
@@ -180,5 +181,13 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	private boolean isInParameter(ObjectParameterBinding binding) {
 		return binding.getFormalParameter().getDirection() == ParameterDirection.IN;
+	}
+
+	public boolean isShowQualifiedArgumentName() {
+		return showQualifiedArgumentNames;
+	}
+
+	public void setShowQualifiedArgumentName(boolean showQualifiedArgumentName) {
+		this.showQualifiedArgumentNames = showQualifiedArgumentName;
 	}
 }

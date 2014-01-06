@@ -380,4 +380,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	public void reportChanged() {
 		patchViewer.refresh();
 	}
+	
+	public void toggleQualifiedArgumentNames(boolean b){
+		valueLabelProvider.setShowQualifiedArgumentName(b);
+		patchViewer.refresh();
+	}
 }
