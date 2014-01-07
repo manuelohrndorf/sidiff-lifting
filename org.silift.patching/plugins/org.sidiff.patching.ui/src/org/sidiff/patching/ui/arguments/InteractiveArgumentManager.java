@@ -139,7 +139,9 @@ public class InteractiveArgumentManager implements IArgumentManager {
 					if (objBinding.getActualA() != null){
 						// try to resolve originObject
 						EObject targetObject = resolveOriginObject(objBinding.getActualA());
-						arg.resolveTo(targetObject);
+						if (targetObject != null){
+							arg.resolveTo(targetObject);
+						}						
 					}
 					argumentResolutions.put(objBinding, arg);
 				}

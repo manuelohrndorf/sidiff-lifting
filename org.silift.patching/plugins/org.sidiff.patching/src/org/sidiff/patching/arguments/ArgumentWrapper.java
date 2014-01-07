@@ -54,6 +54,7 @@ public class ArgumentWrapper {
 	}
 
 	public void resolveTo(EObject targetObject) {
+		assert(targetObject != null);
 		this.targetObject = targetObject;
 		resolved = true;
 	}

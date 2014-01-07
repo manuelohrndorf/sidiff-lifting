@@ -58,7 +58,6 @@ public class OperationInvocationWrapper {
 	}
 
 	public void setSkipped() {
-		assert (!operationInvocation.isApply());
 		cleanArguments();
 		status = OperationInvocationStatus.SKIPPED;
 		executionError = null;
