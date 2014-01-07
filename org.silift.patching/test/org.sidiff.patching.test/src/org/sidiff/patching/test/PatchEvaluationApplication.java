@@ -34,11 +34,14 @@ import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
+import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.Scope;
 
 public class PatchEvaluationApplication implements IApplication {
 
+	static final boolean INSPECT_VALIDATION_ERRORS = true;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -147,6 +150,15 @@ public class PatchEvaluationApplication implements IApplication {
 			// More Details from report..
 			for (ValidationEntry entry : patchEngine.getPatchReportManager().getLastReport().getValidationEntries()) {
 				buffer.append("ValidationEntry: " + entry.getDescription() + "\n");
+				if (INSPECT_VALIDATION_ERRORS){					
+					for (IValidationError error : entry.getCurrentValidationErrors()) {
+						buffer.append("\t" + "msg: " + error.getMessage() + " | src: " + error.getSource());
+						if (error.getException() != null){
+							buffer.append(" | exception: " + error.getException().getMessage());
+						}
+						buffer.append("\n");
+					}
+				}
 			}
 			buffer.append("\n");
 			for (OperationExecutionEntry entry : patchEngine.getPatchReportManager().getLastReport().getExecutionEntries()) {
