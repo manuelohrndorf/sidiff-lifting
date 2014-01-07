@@ -1,5 +1,7 @@
 package org.sidiff.patching.ui.view;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -22,6 +24,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
@@ -127,6 +131,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		createActions();
 		createMenus();
 		createToolbar();
+		this.updateCommands();
 
 	}
 
@@ -309,6 +314,20 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// toolbarManager.add(preCheckAction);
 	}
 
+	private void updateCommands(){
+		ICommandService commandService = (ICommandService)this.getSite().getService(ICommandService.class);
+		
+		// QualifiedArgumentName
+		Command command = commandService.getCommand("org.sidiff.patching.ui.commandQualifiedArgumentName");
+		try {
+			System.out.println(!HandlerUtil.toggleCommandState(command));
+			this.valueLabelProvider.setShowQualifiedArgumentName(!HandlerUtil.toggleCommandState(command));
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+	}
+	
 	@Override
 	public void itemChecked(OperationInvocation op, boolean checked) {
 		op.setApply(checked);
