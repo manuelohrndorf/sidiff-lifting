@@ -55,11 +55,11 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 		noValidationButton.setText("No Validation");
 		noValidationButton.setSelection(true);
 
-		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
-		iterativeValidationButton.setText("Iterative Validation");
-		
 		modelValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		modelValidationButton.setText("Model Validation");
+		
+		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
+		iterativeValidationButton.setText("Iterative Validation");
 
 		noValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -68,6 +68,13 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			}
 		});
 
+		modelValidationButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				validationMode = ValidationMode.FINAL;
+			}
+		});
+		
 		iterativeValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -75,12 +82,6 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			}
 		});
 		
-		modelValidationButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.FINAL;
-			}
-		});
 
 		return container;
 	}
@@ -105,7 +106,7 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	@Override
 	public boolean validate() {
-		if (noValidationButton.getSelection() || iterativeValidationButton.getSelection() || modelValidationButton.getSelection()){
+		if (noValidationButton.getSelection() || modelValidationButton.getSelection()|| iterativeValidationButton.getSelection() ){
 			return true;
 		} else {
 			return false;
@@ -127,17 +128,17 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			throw new RuntimeException("Create controls first!");
 		}
 		noValidationButton.addSelectionListener(listener);
-		iterativeValidationButton.addSelectionListener(listener);
 		modelValidationButton.addSelectionListener(listener);
+		iterativeValidationButton.addSelectionListener(listener);
 	}
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
 		if (noValidationButton != null)
 			noValidationButton.removeSelectionListener(listener);
-		if (iterativeValidationButton != null)
-			iterativeValidationButton.removeSelectionListener(listener);
 		if (modelValidationButton != null)
 			modelValidationButton.removeSelectionListener(listener);
+		if (iterativeValidationButton != null)
+			iterativeValidationButton.removeSelectionListener(listener);
 	}
 }

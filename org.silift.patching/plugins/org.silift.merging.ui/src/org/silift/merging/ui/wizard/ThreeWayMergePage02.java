@@ -203,4 +203,11 @@ public class ThreeWayMergePage02 extends WizardPage {
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
 	}
+	
+	public int getReliability(){
+		return reliabilityWidget.getReliability();
+	}
+	public ReliabilityWidget getReliabilityWidget(){
+		return reliabilityWidget;
+	}
 }
