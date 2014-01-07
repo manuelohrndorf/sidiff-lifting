@@ -1076,6 +1076,16 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Returns the number of parameters contained in the given rule.
+	 * @param  rulee
+	 * @return number of parameters 
+	 */
+	public static int getNumberOfParameters(Rule rule){
+		
+		return rule.getParameters().size();
+	}
+	
+	/**
 	 * This function is copied from the Henshin ModelHelper but enhanced with a
 	 * type check: An edge is only mapped if the type of the remoteEdge is also
 	 * equal. Mapping of source and target node is not sufficient.
