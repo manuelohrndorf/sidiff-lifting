@@ -27,13 +27,13 @@ public class PatchReport {
 		entries = new ArrayList<ReportEntry>();
 	}
 
-	void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> args) {
-		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.PASSED, args));
+	void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
+		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.PASSED, inArgs, outArgs));
 		// TODO (TK): check for modified args and set state to WARNING
 	}
 
-	void operationFailed(OperationInvocation op, Map<ParameterBinding, Object> args, Exception error) {
-		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.EXEC_FAILED, args, error));
+	void operationFailed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Exception error) {
+		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.EXEC_FAILED, inArgs, error));
 	}
 
 	void operationSkipped(OperationInvocation op) {

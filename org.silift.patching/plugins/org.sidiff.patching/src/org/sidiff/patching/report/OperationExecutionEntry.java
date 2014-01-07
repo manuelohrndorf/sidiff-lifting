@@ -9,7 +9,8 @@ public class OperationExecutionEntry extends ReportEntry {
 
 	private OperationInvocation operationInvocation;
 	private OperationExecutionKind kind;
-	private Map<ParameterBinding, Object> invocationArguments;
+	private Map<ParameterBinding, Object> inArgs;
+	private Map<ParameterBinding, Object> outArgs;
 	private Exception error;
 
 	// skipped
@@ -21,16 +22,19 @@ public class OperationExecutionEntry extends ReportEntry {
 	}
 
 	// passed and modified
-	OperationExecutionEntry(OperationInvocation op, OperationExecutionKind kind, Map<ParameterBinding, Object> args) {
+	OperationExecutionEntry(OperationInvocation op, OperationExecutionKind kind, Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
 		this(op, kind);
 
-		this.invocationArguments = args;
+		this.inArgs = inArgs;
+		this.outArgs = outArgs;
 	}
 
 	// failed
-	OperationExecutionEntry(OperationInvocation op, OperationExecutionKind kind, Map<ParameterBinding, Object> args,
+	OperationExecutionEntry(OperationInvocation op, OperationExecutionKind kind, Map<ParameterBinding, Object> inArgs,
 			Exception error) {
-		this(op, kind, args);
+		this(op, kind);
+		
+		this.inArgs = inArgs;
 		this.error = error;
 	}
 
@@ -53,8 +57,12 @@ public class OperationExecutionEntry extends ReportEntry {
 		return error;
 	}
 
-	public Map<ParameterBinding, Object> getInvocationArguments() {
-		return invocationArguments;
+	public Map<ParameterBinding, Object> getInArgs() {
+		return inArgs;
+	}
+	
+	public Map<ParameterBinding, Object> getOutArgs() {
+		return outArgs;
 	}
 
 	@Override

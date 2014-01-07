@@ -50,13 +50,13 @@ public class PatchReportManager {
 		}
 	}
 
-	public void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> args) {
-		getLastReport().operationPassed(op, args);
+	public void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
+		getLastReport().operationPassed(op, inArgs, outArgs);
 		notifyReportChanged();
 	}
 
-	public void operationExecFailed(OperationInvocation op, Map<ParameterBinding, Object> args, Exception error) {
-		getLastReport().operationFailed(op, args, error);
+	public void operationExecFailed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Exception error) {
+		getLastReport().operationFailed(op, inArgs, error);
 		notifyReportChanged();
 	}
 

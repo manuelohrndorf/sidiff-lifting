@@ -40,37 +40,31 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			ArgumentWrapper argument = argumentManager.getArgument(binding);
 			
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				// Already executed: Show execution parameters
-				if (argument.isResolved()) {
-					if (isInParameter(binding)){
-						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
-						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()))
-								+ (showReliabilities ? " (" + reliability + ")" : "");
-					}else{
-						return  (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()));
-					} 
-				} else {
-					if (isInParameter(binding)){
-						return "(" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName((EObject)opWrapper.getInvocationArgument(binding)) : Util.getName((EObject) opWrapper.getInvocationArgument(binding))) + ")";
-					} else {
-						return "(" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
-					}	
+				// Already executed: Show execution args
+				EObject object = (EObject)opWrapper.getArgument(binding);
+				String res = "[" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + "]";
+				if (showReliabilities && isInParameter(binding)){
+					float reliability = argumentManager.getReliability(binding, object);
+					res += " (" + reliability + ")";
 				}
+				return res;
 			} else {
 				// Not executed: Show current state of the argument selection	
 				if (argument.isResolved()) {
+					EObject object = argument.getTargetObject();
 					if (isInParameter(binding)){
-						float reliability = argumentManager.getReliability(binding, argument.getTargetObject());
-						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()))
+						float reliability = argumentManager.getReliability(binding, object);
+						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object))
 								+ (showReliabilities ? " (" + reliability + ")" : "");
 					}else{
-						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getTargetObject()) : Util.getName(argument.getTargetObject()));
+						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object));
 					}
 				} else {
+					EObject object = argument.getProxyObject();
 					if (isInParameter(binding)) {
-						return "(Missing object: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
+						return "(Missing object: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + ")";
 					} else {
-						return "(Not yet created: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(argument.getProxyObject()) : Util.getName(argument.getProxyObject())) + ")";
+						return "(Not yet created: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + ")";
 					}
 				}
 			}
@@ -81,7 +75,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 			
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				Object actual = opWrapper.getInvocationArgument(binding);
+				Object actual = opWrapper.getArgument(binding);
 				if (actual != null) {
 					return actual.toString();
 				} else {

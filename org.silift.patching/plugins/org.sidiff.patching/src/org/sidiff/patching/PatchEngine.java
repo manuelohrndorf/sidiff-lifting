@@ -229,8 +229,8 @@ public class PatchEngine {
 				try {
 					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
 					setOutArguments(op.getParameterBindings(), outArgs);
-					operationManager.getStatusWrapper(op).setPassed(inArgs);
-					reportManager.operationPassed(op, inArgs);
+					operationManager.getStatusWrapper(op).setPassed(inArgs, outArgs);
+					reportManager.operationPassed(op, inArgs, outArgs);
 					success.add(Boolean.TRUE);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);

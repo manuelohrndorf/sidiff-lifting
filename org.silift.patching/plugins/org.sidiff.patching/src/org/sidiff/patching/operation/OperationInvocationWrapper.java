@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.rulebase.ParameterDirection;
 
 /**
  * Encapsulates an operation invocation and keeps further information about the
@@ -30,41 +31,53 @@ public class OperationInvocationWrapper {
 	private Exception executionError;
 
 	/**
-	 * Argumente (EObjects in target bzw. "primitive" values), die beim letzten
-	 * erfolgreichen/erfolglosen Ausführen der OperationInvocation verwendet
-	 * wurden.
+	 * IN-Argumente (EObjects in target bzw. "primitive" values), die beim
+	 * letzten erfolgreichen/erfolglosen Ausführen der OperationInvocation
+	 * verwendet wurden.
 	 */
-	private Map<ParameterBinding, Object> arguments;
+	private Map<ParameterBinding, Object> inArgs;
+
+	/**
+	 * OUT-Argumente (EObjects), die beim letzten erfolgreichen Ausführen der
+	 * OperationInvocation erzeugt wurden.
+	 */
+	private Map<ParameterBinding, Object> outArgs;
 
 	OperationInvocationWrapper(OperationInvocation operationInvocation) {
 		this.operationInvocation = operationInvocation;
 
 		// Extract arguments
-		arguments = new HashMap<ParameterBinding, Object>();
-		for (ParameterBinding binding : operationInvocation.getParameterBindings()) {
-			if (binding instanceof ParameterBinding) {
-				arguments.put((ParameterBinding) binding, null);
-			}
+		inArgs = new HashMap<ParameterBinding, Object>();
+		for (ParameterBinding binding : operationInvocation.getInParameterBindings()) {
+			inArgs.put(binding, null);
+		}
+		outArgs = new HashMap<ParameterBinding, Object>();
+		for (ParameterBinding binding : operationInvocation.getOutParameterBindings()) {
+			outArgs.put(binding, null);
 		}
 
 		// set status
 		status = OperationInvocationStatus.INIT;
 	}
 
-	public void setPassed(Map<ParameterBinding, Object> arguments) {
-		copyArguments(arguments);
+	public void setPassed(Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
+
+		copyArguments(inArgs, this.inArgs);
+		copyArguments(outArgs, this.outArgs);
 		status = OperationInvocationStatus.PASSED;
 		executionError = null;
 	}
 
 	public void setSkipped() {
-		cleanArguments();
+		cleanArguments(inArgs);
+		cleanArguments(outArgs);
 		status = OperationInvocationStatus.SKIPPED;
 		executionError = null;
 	}
 
-	public void setFailed(Map<ParameterBinding, Object> arguments, Exception executionError) {
-		copyArguments(arguments);
+	public void setFailed(Map<ParameterBinding, Object> inArgs, Exception executionError) {
+		copyArguments(inArgs, this.inArgs);
+		cleanArguments(outArgs);
 		status = OperationInvocationStatus.FAILED;
 		this.executionError = executionError;
 	}
@@ -81,9 +94,24 @@ public class OperationInvocationWrapper {
 		return executionError;
 	}
 
-	public Object getInvocationArgument(ParameterBinding binding) {
+	public Object getArgument(ParameterBinding binding) {
+		if (binding.getFormalParameter().getDirection() == ParameterDirection.IN) {
+			return getInArgument(binding);
+		} else {
+			return getOutArgument(binding);
+		}
+	}
+
+	public Object getInArgument(ParameterBinding binding) {
 		assert (status == OperationInvocationStatus.PASSED || status == OperationInvocationStatus.FAILED);
-		return arguments.get(binding);
+
+		return inArgs.get(binding);
+	}
+
+	public Object getOutArgument(ParameterBinding binding) {
+		assert (status == OperationInvocationStatus.PASSED);
+
+		return outArgs.get(binding);
 	}
 
 	public boolean isUndoable(Map<ParameterBinding, Object> arguments) {
@@ -106,15 +134,15 @@ public class OperationInvocationWrapper {
 		return true;
 	}
 
-	private void copyArguments(Map<ParameterBinding, Object> arguments) {
-		for (ParameterBinding binding : arguments.keySet()) {
-			this.arguments.put(binding, arguments.get(binding));
+	private void copyArguments(Map<ParameterBinding, Object> from, Map<ParameterBinding, Object> to) {
+		for (ParameterBinding binding : from.keySet()) {
+			to.put(binding, from.get(binding));
 		}
 	}
 
-	private void cleanArguments() {
-		for (ParameterBinding binding : arguments.keySet()) {
-			this.arguments.put(binding, null);
+	private void cleanArguments(Map<ParameterBinding, Object> args) {
+		for (ParameterBinding binding : args.keySet()) {
+			args.put(binding, null);
 		}
 	}
 

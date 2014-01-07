@@ -14,12 +14,18 @@ public class Util {
 		// FIXME[MO@06.11.13]: This isn't generic -> emf instance level
 		if (eObject instanceof EAnnotation) {
 			EAnnotation annotation = (EAnnotation) eObject;
-			return "Annotation of " + getName(annotation.getEModelElement());
+			String res = "Annotation: " + annotation.getSource();
+			return res;
 		}
 
 		else if (eObject instanceof EStringToStringMapEntryImpl) {
 			EStringToStringMapEntryImpl entryImpl = (EStringToStringMapEntryImpl) eObject;
-			return "MapEntry in \"" + getName(entryImpl.eContainer()) + "\"";
+			String res = "MapEntry: " + entryImpl.getKey() + " -> " + entryImpl.getValue();
+			if (entryImpl.eContainer() != null){
+				res += " in \"" + getName(entryImpl.eContainer()) + "\"";
+			}
+			
+			return res;
 		}
 
 		else {
