@@ -25,6 +25,8 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.sidiff.patching.report.OperationExecutionEntry;
+import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
@@ -147,7 +149,13 @@ public class PatchEvaluationApplication implements IApplication {
 				buffer.append("ValidationEntry: " + entry.getDescription() + "\n");
 			}
 			buffer.append("\n");
-
+			for (OperationExecutionEntry entry : patchEngine.getPatchReportManager().getLastReport().getExecutionEntries()) {
+				if (entry.getKind() == OperationExecutionKind.EXEC_FAILED){
+					buffer.append("Failed OperationInvocation: " + entry.getDescription() + "\n");
+				}
+			}
+			buffer.append("\n");
+			
 			// Saving patch
 			// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
 			// folder, testSuite.getId()+".patch");
