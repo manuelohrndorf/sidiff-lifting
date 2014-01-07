@@ -27,6 +27,7 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.OperationExecutionKind;
+import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
@@ -41,6 +42,7 @@ import org.silift.common.util.emf.Scope;
 public class PatchEvaluationApplication implements IApplication {
 
 	static final boolean INSPECT_VALIDATION_ERRORS = true;
+	static final boolean INSPECT_PASSED_OPERATIONS = true;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -148,23 +150,32 @@ public class PatchEvaluationApplication implements IApplication {
 			buffer.append(mapToLatexTable(dist) + "\n");
 
 			// More Details from report..
-			for (ValidationEntry entry : patchEngine.getPatchReportManager().getLastReport().getValidationEntries()) {
-				buffer.append("ValidationEntry: " + entry.getDescription() + "\n");
-				if (INSPECT_VALIDATION_ERRORS){					
-					for (IValidationError error : entry.getCurrentValidationErrors()) {
-						buffer.append("\t" + "msg: " + error.getMessage() + " | src: " + error.getSource());
-						if (error.getException() != null){
-							buffer.append(" | exception: " + error.getException().getMessage());
+			for (ReportEntry entry : patchEngine.getPatchReportManager().getLastReport().getEntries()) {
+				if (entry instanceof ValidationEntry){
+					ValidationEntry validationEntry = (ValidationEntry) entry;
+					buffer.append("=> ValidationEntry: " + validationEntry.getDescription() + "\n");
+					if (INSPECT_VALIDATION_ERRORS){					
+						for (IValidationError error : validationEntry.getCurrentValidationErrors()) {
+							buffer.append("\t" + "msg: " + error.getMessage() + " | src: " + error.getSource());
+							if (error.getException() != null){
+								buffer.append(" | exception: " + error.getException().getMessage());
+							}
+							buffer.append("\n");
 						}
-						buffer.append("\n");
+					}
+				} else {
+					OperationExecutionEntry executionEntry = (OperationExecutionEntry) entry;
+					if (executionEntry.getKind() == OperationExecutionKind.EXEC_FAILED){
+						buffer.append("Failed OperationInvocation: " + executionEntry.getDescription() + "\n");
+					}
+					if (executionEntry.getKind() == OperationExecutionKind.PASSED && INSPECT_PASSED_OPERATIONS){
+						buffer.append("Executed OperationInvocation: " + executionEntry.getDescription() + "\n");
+					}
+					if (executionEntry.getKind() == OperationExecutionKind.EXEC_WARNING && INSPECT_PASSED_OPERATIONS){
+						buffer.append("Executed OperationInvocation (with warning): " + executionEntry.getDescription() + "\n");
 					}
 				}
-			}
-			buffer.append("\n");
-			for (OperationExecutionEntry entry : patchEngine.getPatchReportManager().getLastReport().getExecutionEntries()) {
-				if (entry.getKind() == OperationExecutionKind.EXEC_FAILED){
-					buffer.append("Failed OperationInvocation: " + entry.getDescription() + "\n");
-				}
+				
 			}
 			buffer.append("\n");
 			
