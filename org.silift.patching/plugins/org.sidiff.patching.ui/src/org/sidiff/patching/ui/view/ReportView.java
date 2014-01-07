@@ -219,13 +219,38 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 			@Override
 			public String getText(Object element) {
 				ReportEntry entry = (ReportEntry) element;
+//				if (entry instanceof OperationExecutionEntry) {
+//					return "Execution";
+//				}
+//				if (entry instanceof ValidationEntry) {
+//					return "Validation";
+//				}
 				if (entry instanceof OperationExecutionEntry) {
-					return "Execution";
+					OperationExecutionEntry execEntry = (OperationExecutionEntry) entry;
+					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
+						return "PASSED";
+					}
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
+						return "WARNING";
+					}
+					if (execEntry.getKind() == OperationExecutionKind.SKIPPED) {
+						return "SKIPPED";
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
+						return "REVERTED";
+					}
+					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED) {
+						return "EXEC_FAILED";
+					}
+					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED) {
+						return "REVERT_FAILED";
+					}
 				}
-				if (entry instanceof ValidationEntry) {
+				if (entry instanceof ValidationEntry){
 					return "Validation";
 				}
-
+				
+				
 				return null;
 			}
 		});
