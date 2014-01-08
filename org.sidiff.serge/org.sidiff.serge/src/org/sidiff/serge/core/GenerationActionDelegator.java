@@ -65,7 +65,6 @@ public class GenerationActionDelegator {
 						CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
 						generator.generate();
 						
-						//...
 						
 						
 						}

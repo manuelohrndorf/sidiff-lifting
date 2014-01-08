@@ -77,6 +77,10 @@ public class CreateGenerator {
 			Common.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);
 
 		}
+		
+		// create mainUnit
+		Common.mainUnitCreation(module, child, OperationType.CREATE);
+		
 		return module;
 		
 	}
