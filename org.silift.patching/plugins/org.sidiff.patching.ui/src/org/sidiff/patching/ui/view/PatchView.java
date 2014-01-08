@@ -73,6 +73,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout glComposite = new GridLayout();
 		composite.setLayout(glComposite);
+
 		
 //		Composite editComposite = new Composite(composite, SWT.NONE);
 //		GridLayout glEditComposite = new GridLayout(4,false);
@@ -89,6 +90,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 //				patchViewer.refresh();
 //			}
 //		}); 
+
 
 		// TreeViewer
 		patchViewer = new TreeViewer(composite, SWT.BORDER);
@@ -156,7 +158,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 //		if(!this.engine.getReliabilitiesComputed()){
 //			reliabilitiesButton.setVisible(false);
 //		}
-		
+	
 		engine.getPatchReportManager().addPatchReportListener(this);
 	}
 	
@@ -370,6 +372,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	@Override
 	public void valueChanged() {
+		
+		patchViewer.refresh();
 		
 	}
 

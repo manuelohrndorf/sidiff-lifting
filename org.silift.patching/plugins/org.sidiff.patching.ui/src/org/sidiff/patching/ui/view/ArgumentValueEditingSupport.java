@@ -6,19 +6,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.IArgumentManager;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
+	private List<String> itemStrings;
 	private IArgumentManager argumentManager;
 	private IValueChangedListener listener;
 
@@ -28,25 +33,44 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 	@Override
 	protected CellEditor getCellEditor(Object element) {
-		ObjectParameterBinding binding = (ObjectParameterBinding) element;
+		if(element instanceof ObjectParameterBinding){
+			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 
-		this.itemObjects = new ArrayList<CellObject>();
-		
-		Map<Resource, Collection<EObject>> potentialArgs = argumentManager.getPotentialArguments(binding);
-		Collection<EObject> args = new ArrayList<EObject>();
-		for (Resource r : potentialArgs.keySet()) {
-			args.addAll(potentialArgs.get(r));			
+			this.itemObjects = new ArrayList<CellObject>();
+
+			Map<Resource, Collection<EObject>> potentialArgs = argumentManager.getPotentialArguments(binding);
+			Collection<EObject> args = new ArrayList<EObject>();
+			for (Resource r : potentialArgs.keySet()) {
+				args.addAll(potentialArgs.get(r));			
+			}
+			//TODO: Categorize potential args by their resource in the UI.
+			for (EObject eObject : args) {
+				float reliability = argumentManager.getReliability(binding, eObject);
+				CellObject cellObject = new CellObject(reliability, eObject);
+				itemObjects.add(cellObject);
+			}
+
+			Collections.sort(itemObjects);
+			String[] items = getItemsStringArray();
+			return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);
 		}
-		//TODO: Categorize potential args by their resource in the UI.
-		for (EObject eObject : args) {
-			float reliability = argumentManager.getReliability(binding, eObject);
-			CellObject cellObject = new CellObject(reliability, eObject);
-			itemObjects.add(cellObject);
+		else if (element instanceof ValueParameterBinding){
+			ValueParameterBinding binding = (ValueParameterBinding) element;
+			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
+					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
+
+				this.itemStrings = new ArrayList<String>();
+				this.itemStrings.add("true");
+				this.itemStrings.add("false");
+				String[] items = new String[]{"true","false"};	
+				
+				return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);
+			}
+			else{
+				return new TextCellEditor(((TreeViewer) getViewer()).getTree());
+			}
 		}
-		
-		Collections.sort(itemObjects);
-		String[] items = getItemsStringArray();
-		return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);
+		return null;
 	}
 
 	private String[] getItemsStringArray() {
@@ -63,12 +87,26 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			return !binding.isMappingTarget();
 		}
+		else if (element instanceof ValueParameterBinding){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	protected Object getValue(Object element) {
-		return itemObjects.indexOf(element);
+	
+		if(element instanceof ObjectParameterBinding)
+			return itemObjects.indexOf(element);
+		else if(element instanceof ValueParameterBinding){
+			ValueParameterBinding binding = (ValueParameterBinding) element;
+			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
+					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
+				return itemStrings.indexOf(binding.getActual());
+			}
+			return binding.getActual();
+		}
+		return null;
 	}
 
 	@Override
@@ -83,8 +121,21 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				argumentManager.addArgumentResolution(binding, elementB);
 			}
 		}
-		getViewer().refresh();
+		else if(element instanceof ValueParameterBinding){
+			ValueParameterBinding binding = (ValueParameterBinding) element;
+			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
+					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
+				int index = ((Integer) value).intValue();
+				if (index != -1) {
+					binding.setActual(itemStrings.get(index));
+				}
+			}
+			else{
+				binding.setActual((String) value);
+			}
+		}
 		this.listener.valueChanged();
+		getViewer().refresh();
 	}
 
 	public void setArgumentManager(IArgumentManager manager) {
@@ -128,5 +179,5 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			return Util.getName(eObject) + " (" + reliability + ")";
 		}
 	}
-
+	
 }
