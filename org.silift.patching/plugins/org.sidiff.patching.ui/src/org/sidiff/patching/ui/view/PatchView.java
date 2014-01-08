@@ -320,7 +320,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		// QualifiedArgumentName
 		Command command = commandService.getCommand("org.sidiff.patching.ui.commandQualifiedArgumentName");
 		try {
-			System.out.println(!HandlerUtil.toggleCommandState(command));
 			this.valueLabelProvider.setShowQualifiedArgumentName(!HandlerUtil.toggleCommandState(command));
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
