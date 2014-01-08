@@ -31,6 +31,9 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private Set<Module> unsetReferenceModules	= new HashSet<Module>();
 	private Set<Module> changeModules			= new HashSet<Module>();
 	
+	// Ultimate Set for all modules
+	private Set<Set<Module>> allModules			= new HashSet<Set<Module>>();
+	
 	@Override
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
 		
@@ -40,6 +43,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.VariantPostprocessor(eClassifier);
 	
+				//TODO retain createModules of variants concerning those that are not valid after replacement
+				
 				deleteModules = GAD.generate_DELETE(variantModules);
 	
 				moveModules = GAD.generate_MOVE(eClassifier);
@@ -57,6 +62,26 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);
 	
 				changeModules = GAD.generate_CHANGE(eClassifier);
+				
+				
+				allModules.add(createModules);
+				allModules.add(variantModules);
+				allModules.add(deleteModules);
+				allModules.add(moveModules);
+				allModules.add(moveCombinationModules);
+				allModules.add(moveUpModules);
+				allModules.add(moveDownModules);
+				allModules.add(addModules);
+				allModules.add(removeModules);
+				allModules.add(setAttributeModules);
+				allModules.add(unsetAttributeModules);
+				allModules.add(setReferenceModules);
+				allModules.add(unsetReferenceModules);
+				allModules.add(changeModules);
+				
+				
+				ModuleSerializer serializer = new ModuleSerializer();
+				serializer.serialize(allModules);
 				
 				
 			}

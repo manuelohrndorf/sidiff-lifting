@@ -511,6 +511,7 @@ public class Common {
 	/**
 	 * The Method that creates the "mainUnit", its parameters and parameter mappings to rule parameters or vice versa
 	 * (depending on the parameter nature (in or out)). Internally it also removes all unnecessary units and unnecessary existing parameters.
+	 * Furthermore, imports are reorganized.
 	 * @param module
 	 * @param eClassifier
 	 * @param tsType
@@ -657,6 +658,10 @@ public class Common {
 		}		
 		// Add unit to module
 		module.getUnits().add(prioUnit);
+		
+		// kick out unnecessary sub package imports when super package import available
+		// and set main meta-model packages as first import
+		organizeImports(module);
 	}
 	
 	
@@ -711,4 +716,58 @@ public class Common {
 		//remove unnecessary parameters
 		HenshinModuleAnalysis.getAllRules(module).get(0).getParameters().removeAll(unnecessaryParameters);
 	}
+	
+	/**
+	 * This method removes unnecessary imports of EPackages that are
+	 * sub packages of imported super packages. Additionally, this method
+	 * removes all EPackage imports whose model elements have not been used.
+	 * Also the meta model EPackage will always be set as the first import.
+	 * @param module
+	 */
+	private static void organizeImports(Module module) {
+
+		// find out which (sub) packages have actually been used (via node type usage)
+		List<EPackage> actuallyUsedEPackages = new ArrayList<EPackage>();
+		for(Rule rule: HenshinModuleAnalysis.getAllRules(module)) {
+			List<Node> allNodesInRule = new ArrayList<Node>();
+			allNodesInRule.addAll(rule.getRhs().getNodes());
+			allNodesInRule.addAll(rule.getLhs().getNodes());
+			for(Node node: allNodesInRule) {
+				EPackage usedEPackage = node.getType().getEPackage();
+				if(!actuallyUsedEPackages.contains(usedEPackage)) {
+					actuallyUsedEPackages.add(usedEPackage);
+				}
+			}
+		}
+		
+		// get EPackage of main meta-model
+		EPackage mainMetaModel = Configuration.getInstance().EPACKAGESSTACK.firstElement();
+		// get sub EPackages of main meta-model
+		List<EPackage> subsOfMain = new ArrayList<EPackage>();
+		try {
+			subsOfMain.addAll(Common.getAllSubEPackages(mainMetaModel));
+		} catch (EPackageNotFoundException e) {
+			e.printStackTrace();
+		}
+	
+		// remove the following EPackages:
+		// a) unused EPackages which are not the EPackage of the meta-model
+		// b) sub EPackages of the meta-model
+		Iterator<EPackage> itImports = module.getImports().iterator();
+		while(itImports.hasNext()) {
+			
+			EPackage currentEPackage = itImports.next();				
+			// if currentEPackage is not the meta-model itself....
+			if(!mainMetaModel.equals(currentEPackage)) {
+				// ..but a sub package of the meta-model			
+				// ..or actually not used: remove it.					
+				boolean actuallyUsed = actuallyUsedEPackages.contains(currentEPackage);
+				if( subsOfMain.contains(currentEPackage) || !actuallyUsed) {
+					itImports.remove();
+				}				
+			}		
+		}
+		
+	}
+
 }

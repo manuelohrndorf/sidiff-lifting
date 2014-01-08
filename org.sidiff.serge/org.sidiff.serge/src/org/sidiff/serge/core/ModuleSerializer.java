@@ -2,7 +2,9 @@ package org.sidiff.serge.core;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,6 +18,11 @@ import org.sidiff.common.henshin.INamingConventions;
 
 public class ModuleSerializer {
 
+	/**
+	 * Serializes one module.
+	 * 
+	 * @param module
+	 */
 	public void serialize(Module module) {
 		
 		String outputFileName = module.getName() + GlobalConstants.EXECUTE_suffix;
@@ -23,11 +30,6 @@ public class ModuleSerializer {
 		// assertions / checks
 		checkModuleFileNameEquality(module, outputFileName);		
 		checkMainUnitIsUnique(module);
-		
-// TODO: Frage: Schon durch mainUnitGenerator erledigt..?		
-//		// kick out unnecessary sub package imports when super package import available
-//		// and set main meta-model packages as first import
-//		organizeImports(module);
 		
 		// create resource out of module and outputFileName
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -48,6 +50,12 @@ public class ModuleSerializer {
 		}
 	}
 	
+	/**
+	 * Checks whether module name and file name are equal dismissing the filename extension.
+	 * 
+	 * @param module
+	 * @param outputFileName
+	 */
 	private void checkModuleFileNameEquality(Module module,
 			String outputFileName) {
 		
@@ -69,6 +77,12 @@ public class ModuleSerializer {
 
 
 
+	/**
+	 * By convention, the main entry point for module execution must be named "mainUnit".
+	 * This method checks whether there is exactly one "mainUnit".
+	 * 
+	 * @param module
+	 */
 	private void checkMainUnitIsUnique(Module module) {
 			
 		//Exactly one mainUnit assertion
@@ -89,5 +103,25 @@ public class ModuleSerializer {
 			}
 		}
 		assert(mainUnitCount == 1) : "Multiple or no main units in Module " + module.getName()+". Should be exactly one";		
+	}
+
+	/**
+	 * Convenience method to serialize multiple sets of modules.
+	 * @param allModules
+	 */
+	public void serialize(Set<Set<Module>> allModules) {
+		
+		Iterator<Set<Module>> setIterator = allModules.iterator();
+		
+		while(setIterator.hasNext()) {
+			
+			Set<Module> currentSet = setIterator.next();
+			for(Module module: currentSet) {
+			
+				serialize(module);
+				
+			}
+		}
+		
 	}
 }

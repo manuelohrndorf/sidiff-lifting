@@ -44,6 +44,8 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException 
 	 */
 	public Set<Module> generate_CREATE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+		
+		Set<Module> modules = new HashSet<Module>();	
 	
 		if(FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.CREATE)) {
 		
@@ -61,12 +63,11 @@ public class GenerationActionDelegator {
 					for(EClassifier context: contexts) {
 						
 						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE, c.REDUCETOSUPERTYPE_CREATEDELETE)) {
-						
-						
-						CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
-						generator.generate();
-						
-						
+											
+							CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
+							Module resultModule = generator.generate();
+							
+							modules.add(resultModule);
 						
 						}
 						
@@ -77,7 +78,7 @@ public class GenerationActionDelegator {
 			}
 			/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
 			else{
-			
+					
 			
 				//..
 			
@@ -85,7 +86,7 @@ public class GenerationActionDelegator {
 			
 		
 		}
-		return null;
+		return modules;
 	}
 	
 	/**
