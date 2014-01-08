@@ -62,7 +62,7 @@ public class GenerationActionDelegator {
 						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE, c.REDUCETOSUPERTYPE_CREATEDELETE)) {
 						
 						
-						CreateGenerator generator = new CreateGenerator(eRef, context);
+						CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
 						generator.generate();
 						
 						//...

@@ -50,7 +50,7 @@ public class Configuration {
 	public String OUTPUTFOLDERPATH				  = null;
 	public String BASEMODELRULEFOLDERPATH		  = null;
 	
-	public static Stack<EPackage> EPACKAGESSTACK = null;	
+	public Stack<EPackage> EPACKAGESSTACK = null;	
 	public static EClassifierInfoManagement ECM  = null;
 	
 	private static Configuration instance = null;
