@@ -31,6 +31,14 @@
                id="org.eclipse.ui.commands.toggleState">
          </state>
       </command>
+      <command
+            id="org.sidiff.patching.ui.commandReliability"
+            name="Reliability">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -46,6 +54,10 @@
       <handler
             class="org.sidiff.patching.ui.handler.QualifiedArgumentNameHandler"
             commandId="org.sidiff.patching.ui.commandQualifiedArgumentName">
+      </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.ReliabilityHandler"
+            commandId="org.sidiff.patching.ui.commandReliability">
       </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
@@ -68,6 +80,12 @@
            icon="icons/url_16x16.gif"
            style="toggle"
            tooltip="show qualified argument names">
+     </command>
+     <command
+           commandId="org.sidiff.patching.ui.commandReliability"
+           label="Reliability"
+           style="toggle"
+           tooltip="show reliability">
      </command>
   </menuContribution>
   </extension>

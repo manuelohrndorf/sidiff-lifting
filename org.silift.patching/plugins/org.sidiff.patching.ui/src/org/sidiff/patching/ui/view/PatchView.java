@@ -17,11 +17,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.commands.ICommandService;
@@ -68,7 +65,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	//----------- Execution -------------------
 	private Action applyPatchAction;
 	
-	private Button reliabilitiesButton;
+//	private Button reliabilitiesButton;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -77,21 +74,21 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		GridLayout glComposite = new GridLayout();
 		composite.setLayout(glComposite);
 		
-		Composite editComposite = new Composite(composite, SWT.NONE);
-		GridLayout glEditComposite = new GridLayout(4,false);
-		editComposite.setLayout(glEditComposite);
+//		Composite editComposite = new Composite(composite, SWT.NONE);
+//		GridLayout glEditComposite = new GridLayout(4,false);
+//		editComposite.setLayout(glEditComposite);
 		
-		reliabilitiesButton = new Button(editComposite, SWT.CHECK);
-		reliabilitiesButton.setText("Show Reliabilities");
-		reliabilitiesButton.setSelection(false);
-		reliabilitiesButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Handle the selection event
-				valueLabelProvider.setShowReliablities(reliabilitiesButton.getSelection());
-				patchViewer.refresh();
-			}
-		}); 
+//		reliabilitiesButton = new Button(editComposite, SWT.CHECK);
+//		reliabilitiesButton.setText("Show Reliabilities");
+//		reliabilitiesButton.setSelection(false);
+//		reliabilitiesButton.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				// Handle the selection event
+//				valueLabelProvider.setShowReliablities(reliabilitiesButton.getSelection());
+//				patchViewer.refresh();
+//			}
+//		}); 
 
 		// TreeViewer
 		patchViewer = new TreeViewer(composite, SWT.BORDER);
@@ -156,9 +153,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			else
 				noValidationAction.setChecked(true);
 		
-		if(!this.engine.getReliabilitiesComputed()){
-			reliabilitiesButton.setVisible(false);
-		}
+//		if(!this.engine.getReliabilitiesComputed()){
+//			reliabilitiesButton.setVisible(false);
+//		}
 		
 		engine.getPatchReportManager().addPatchReportListener(this);
 	}
@@ -325,6 +322,13 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
+		command = commandService.getCommand("org.sidiff.patching.ui.commandReliability");
+		try {
+			this.valueLabelProvider.setShowReliablities(!HandlerUtil.toggleCommandState(command));
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -401,6 +405,11 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	
 	public void toggleQualifiedArgumentNames(boolean b){
 		valueLabelProvider.setShowQualifiedArgumentName(b);
+		patchViewer.refresh();
+	}
+	
+	public void toggleReliability(boolean b){
+		valueLabelProvider.setShowReliablities(b);
 		patchViewer.refresh();
 	}
 }
