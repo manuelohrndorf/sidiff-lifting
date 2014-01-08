@@ -1,6 +1,7 @@
 package org.sidiff.serge.core;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -92,9 +93,13 @@ public class GenerationActionDelegator {
 	 * to the inverse creation method {@link DeleteGenerator}.
 	 * 
 	 * @param set of create modules
+	 * @return 
 	 */
-	public void generate_DELETE(Set<Module> variantModules) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_DELETE(Set<Module> variantModules) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -104,9 +109,13 @@ public class GenerationActionDelegator {
 	 * For each setup the generation process will be delegated to {@link MoveGenerator}
 	 * 
 	 * @param eClassifier
+	 * @return 
 	 */
-	public void generate_MOVE(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_MOVE(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -116,9 +125,13 @@ public class GenerationActionDelegator {
 	 * For each setup the generation process will be delegated to {@link MoveUpGenerator}
 	 * 
 	 * @param eClassifier
+	 * @return 
 	 */
-	public void generate_MOVE_UP(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_MOVE_UP(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -128,9 +141,13 @@ public class GenerationActionDelegator {
 	 * For each setup the generation process will be delegated to {@link MoveDownGenerator}
 	 * 
 	 * @param eClassifier
+	 * @return 
 	 */
-	public void generate_MOVE_DOWN(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -140,9 +157,13 @@ public class GenerationActionDelegator {
 	 * For each setup the generation process will be delegated to {@link MoveCombinationGenerator}
 	 * 
 	 * @param eClassifier
+	 * @return 
 	 */
-	public void generate_MOVE_COMBINATION(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_MOVE_COMBINATION(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -164,9 +185,13 @@ public class GenerationActionDelegator {
 	 * to the inverse creation method {@link RemoveGenerator}.
 	 * 
 	 * @param set of remove modules
+	 * @return 
 	 */
-	public void generate_REMOVE(Set<Module> addModules) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_REMOVE(Set<Module> addModules) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 
@@ -189,9 +214,13 @@ public class GenerationActionDelegator {
 	 * <br/> Whereby the inverse can be considered as the resetting to default values if any.
 	 * 
 	 * @param set of set attribute modules
+	 * @return 
 	 */
-	public void generate_UNSET_ATTRIBUTE(Set<Module> set_attribute_Modules) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_UNSET_ATTRIBUTE(Set<Module> set_attribute_Modules) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	/**
@@ -213,9 +242,13 @@ public class GenerationActionDelegator {
 	 * <br/> Whereby the inverse can be considered as the resetting to default values if any.
 	 * 
 	 * @param set of set reference modules
+	 * @return 
 	 */
-	public void generate_UNSET_REFERENCE(Set<Module> set_reference_Modules) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_UNSET_REFERENCE(Set<Module> set_reference_Modules) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 		
 	}
 	
@@ -225,9 +258,13 @@ public class GenerationActionDelegator {
 	 * For each setup the generation process will be delegated to {@link ChangeGenerator}
 	 * 
 	 * @param eClassifier
+	 * @return 
 	 */
-	public void generate_CHANGE(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_CHANGE(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
 	}
 
 	/**

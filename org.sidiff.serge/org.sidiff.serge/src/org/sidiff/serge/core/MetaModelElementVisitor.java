@@ -18,9 +18,18 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	// Sets for module variants and inverse creations
 	private Set<Module> createModules 			= new HashSet<Module>();
 	private Set<Module> variantModules			= new HashSet<Module>();
+	private Set<Module> deleteModules 			= new HashSet<Module>();
+	private Set<Module> moveModules 			= new HashSet<Module>();
+	private Set<Module> moveCombinationModules 	= new HashSet<Module>();
+	private Set<Module> moveDownModules 		= new HashSet<Module>();
+	private Set<Module> moveUpModules 			= new HashSet<Module>();
 	private Set<Module> addModules 				= new HashSet<Module>();
-	private Set<Module> set_attribute_Modules 	= new HashSet<Module>();
-	private Set<Module> set_reference_Modules	= new HashSet<Module>();
+	private Set<Module> removeModules 			= new HashSet<Module>();
+	private Set<Module> setAttributeModules 	= new HashSet<Module>();
+	private Set<Module> setReferenceModules		= new HashSet<Module>();
+	private Set<Module> unsetAttributeModules 	= new HashSet<Module>();
+	private Set<Module> unsetReferenceModules	= new HashSet<Module>();
+	private Set<Module> changeModules			= new HashSet<Module>();
 	
 	@Override
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
@@ -31,23 +40,25 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.VariantPostprocessor(eClassifier);
 	
-				GAD.generate_DELETE(variantModules);
+				deleteModules = GAD.generate_DELETE(variantModules);
 	
-				GAD.generate_MOVE(eClassifier);
-				GAD.generate_MOVE_COMBINATION(eClassifier);
-				GAD.generate_MOVE_DOWN(eClassifier);
-				GAD.generate_MOVE_UP(eClassifier);
+				moveModules = GAD.generate_MOVE(eClassifier);
+				moveCombinationModules = GAD.generate_MOVE_COMBINATION(eClassifier);
+				moveDownModules = GAD.generate_MOVE_DOWN(eClassifier);
+				moveUpModules = GAD.generate_MOVE_UP(eClassifier);
 	
 				addModules = GAD.generate_ADD(eClassifier);
-				GAD.generate_REMOVE(addModules);
+				removeModules = GAD.generate_REMOVE(addModules);
 	
-				set_attribute_Modules = GAD.generate_SET_ATTRIBUTE(eClassifier);
-				GAD.generate_UNSET_ATTRIBUTE(set_attribute_Modules);
+				setAttributeModules = GAD.generate_SET_ATTRIBUTE(eClassifier);
+				setReferenceModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
 	
-				set_reference_Modules = GAD.generate_SET_REFERENCE(eClassifier);
-				GAD.generate_UNSET_REFERENCE(set_reference_Modules);
+				setReferenceModules = GAD.generate_SET_REFERENCE(eClassifier);
+				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);
 	
-				GAD.generate_CHANGE(eClassifier);
+				changeModules = GAD.generate_CHANGE(eClassifier);
+				
+				
 			}
 			catch(Exception e) {
 				System.err.println(e);
