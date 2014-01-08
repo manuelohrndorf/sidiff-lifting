@@ -36,8 +36,9 @@ public class ModifiedDetector {
 
 	/**
 	 * Initialize method: 
+	 * Needs matcher for initialization of annotation service
 	 * - Configure AnnotationService 
-	 * - Remove HASH Annotations added previously by SiDiff 
+	 * - Remove Annotations added previously by 
 	 * - Annotate both models 
 	 * - Fill up the modified map
 	 */
@@ -47,25 +48,10 @@ public class ModifiedDetector {
 		AnnotationService annotator = new AnnotationServiceImpl();
 		annotator.configure("org.sidiff.ecore.core.annotations.xml");
 
-		//TODO
-		/**
-		 * Look into SiDiff removeAnnotations for computing transitive closure:
-		 * Even if no annotation has been made, SiDiff will try to
-		 * remove/find those defined in the corresponding SiDiff annotationcfg.
-		 * If Sidiff has not been used for matching beforehand with the right annotation config,
-		 * removing the annotations will fail at this point.
-		 * SiDiff has to been adapted that even if defined in die config, there 
-		 * is no need for the existence of such annotations at this point...
-		 * Reporter : DR
-		 * Fixer : Team
-		 * Date : 01.11.2013
-		 * 
-		 * Quick&Dirt Fix: Commented removing out
-		 */
-		// Remove HASH Annotations added previously by SiDiff
-		//annotator.removeAnnotations(modelA, HASH_KEY);
-		//annotator.removeAnnotations(modelB, HASH_KEY);
-
+		// If created in matching phase beforehand, remove Annotations
+		annotator.removeAnnotations(this.modelA);
+		annotator.removeAnnotations(this.modelB);
+		
 		// Annotate both models
 		annotator.annotate(this.modelA);
 		annotator.annotate(this.modelB);
