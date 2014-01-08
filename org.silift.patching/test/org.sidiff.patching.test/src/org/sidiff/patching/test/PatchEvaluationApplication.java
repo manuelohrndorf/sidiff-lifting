@@ -120,7 +120,7 @@ public class PatchEvaluationApplication implements IApplication {
 			PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
 					.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
 					testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE, Scope.RESOURCE,
-					false);
+					false, testSuite.getPatchInterruptHandler());
 			buffer.append("--- Test " + testSuite.getId() + " ---\n");
 			LogUtil.log(LogEvent.NOTICE, "Applying patch");
 

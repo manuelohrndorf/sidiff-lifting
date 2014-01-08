@@ -3,6 +3,7 @@ package org.sidiff.patching.test;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 
 public class TestSuite {
@@ -12,9 +13,10 @@ public class TestSuite {
 	Resource modified;
 	AbstractBatchArgumentManager argumentManager;
 	ITransformationEngine transformationEngine;
+	IPatchInterruptHandler patchInterruptHandler;
 
 	public TestSuite(String id, Difference difference, Resource original, Resource modified,
-			AbstractBatchArgumentManager argumentManager, ITransformationEngine transformationEngine) {
+			AbstractBatchArgumentManager argumentManager, ITransformationEngine transformationEngine, IPatchInterruptHandler patchInterruptHandler) {
 		super();
 		this.id = id;
 		this.difference = difference;
@@ -22,6 +24,7 @@ public class TestSuite {
 		this.modified = modified;
 		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
+		this.patchInterruptHandler = patchInterruptHandler;
 	}
 
 
@@ -51,6 +54,10 @@ public class TestSuite {
 	
 	public ITransformationEngine getTransformationEngine() {
 		return transformationEngine;
+	}
+
+	public IPatchInterruptHandler getPatchInterruptHandler(){
+		return patchInterruptHandler;
 	}
 
 }

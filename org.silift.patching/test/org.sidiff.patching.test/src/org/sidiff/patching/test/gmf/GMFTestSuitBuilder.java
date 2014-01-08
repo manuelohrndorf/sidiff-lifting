@@ -18,6 +18,8 @@ import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.test.BatchInterruptHandler;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
@@ -27,6 +29,7 @@ public class GMFTestSuitBuilder {
 	private IMatcher matcher;
 
 	private ITransformationEngine transformationEngine;
+	private IPatchInterruptHandler patchInterruptHandler;
 
 	public GMFTestSuitBuilder(File modelFolder) {
 		this.modelFolder = modelFolder;
@@ -89,7 +92,11 @@ public class GMFTestSuitBuilder {
 
 		GMFCorrespondence correspondence = new GMFCorrespondence(difference);
 		
-		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine);
+		if(patchInterruptHandler == null){
+			patchInterruptHandler = new BatchInterruptHandler();
+		}
+		
+		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine, patchInterruptHandler);
 	}
 
 }

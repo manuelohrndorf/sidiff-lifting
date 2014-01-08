@@ -24,6 +24,8 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.symmetric.Correspondence;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.test.BatchInterruptHandler;
 import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -60,7 +62,9 @@ public class FileToModelConverter {
 				return null;
 			}
 			
-			testSuites.add(new TestSuite(id, difference, original, modified, correspondence, transformationEngine));
+			IPatchInterruptHandler	patchInterruptHandler = new BatchInterruptHandler();
+			
+			testSuites.add(new TestSuite(id, difference, original, modified, correspondence, transformationEngine, patchInterruptHandler));
 		}
 		return testSuites;
 	}

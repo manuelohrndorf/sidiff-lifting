@@ -27,6 +27,8 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.interrupt.PatchInterruptOption;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
@@ -60,6 +62,7 @@ public class PatchEngine {
 	private IArgumentManager argumentManager;
 	private ITransformationEngine transformationEngine;
 	private PatchReportManager reportManager;
+	private IPatchInterruptHandler patchInterruptHandler;
 
 	/**
 	 * The PatchEngine handles manipulations on target model.
@@ -71,10 +74,11 @@ public class PatchEngine {
 	 * @param executionMode
 	 * @param validationMode
 	 * @param reliabilitiesComputed
+	 * @param patchInterruptHandler
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
 			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode,
-			Scope scope, Boolean reliabilitiesComputed) {
+			Scope scope, Boolean reliabilitiesComputed, IPatchInterruptHandler patchInterruptHandler) {
 
 		this.difference = difference;
 		this.patchedResource = patchedResource;
@@ -104,6 +108,9 @@ public class PatchEngine {
 
 		// Init report manager
 		this.reportManager = new PatchReportManager();
+		
+		//Init patch interrupt handler
+		this.patchInterruptHandler = patchInterruptHandler;
 	}
 
 	/**
@@ -145,16 +152,19 @@ public class PatchEngine {
 									.getLastValidationEntry().getNewValidationErrors();
 
 							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
-								// TODO: Fehler Dialog
-								// Fehler anzeigen und Optionen zur Verfügung
-								// stellen:
-								// Option 1.: ignore and continue
-								// Option 2.: revert and continue;
-								// Option 3.: revert and exit current patch
-								// application
-
-								// Yet, we assume the selection of Option 1
-								// -> do nothing
+								
+								PatchInterruptOption option = patchInterruptHandler.getInterruptOption(false,operationInvocation,
+										validationErrors);
+								
+								if(option != PatchInterruptOption.IGNORE){
+									operationInvocation.setApply(false);
+									revert(operationInvocation);
+									validationErrors = validationManager.validateTargetModel();
+									validationChanged = reportManager.updateValidationEntries(validationErrors);
+								}
+								
+								if(option == PatchInterruptOption.ABORT)
+									break;						
 							}
 						}
 					}
@@ -186,16 +196,19 @@ public class PatchEngine {
 									.getLastValidationEntry().getNewValidationErrors();
 
 							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
-								// TODO: Fehler Dialog
-								// Fehler anzeigen und Optionen zur Verfügung
-								// stellen:
-								// Option 1.: ignore and continue
-								// Option 2.: revert and continue;
-								// Option 3.: revert and exit current patch
-								// application
-
-								// Yet, we assume the selection of Option 1
-								// -> do nothing
+								PatchInterruptOption option = patchInterruptHandler.getInterruptOption(true,operationInvocation,
+										validationErrors);
+								
+								if(option != PatchInterruptOption.IGNORE){
+									operationInvocation.setApply(true);
+									apply(operationInvocation);
+									validationErrors = validationManager.validateTargetModel();
+									validationChanged = reportManager.updateValidationEntries(validationErrors);
+								}
+								
+								if(option == PatchInterruptOption.ABORT){
+									break;						
+								}
 							}
 						}
 					}

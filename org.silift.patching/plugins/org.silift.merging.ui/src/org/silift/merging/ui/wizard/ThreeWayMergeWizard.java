@@ -42,11 +42,13 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
+import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.PatchView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
@@ -218,11 +220,13 @@ public class ThreeWayMergeWizard extends Wizard {
 								"No Transformator Service found!", "No suitable Transformator Service found!");
 						return Status.CANCEL_STATUS;
 					}
+					
+					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
 
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
-							scope, matcher.canComputeReliability());
+							scope, matcher.canComputeReliability(), patchInterruptHandler);
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
 
