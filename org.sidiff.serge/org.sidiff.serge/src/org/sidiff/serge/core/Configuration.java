@@ -1,5 +1,7 @@
 package org.sidiff.serge.core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
@@ -7,6 +9,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
 
 @SuppressWarnings("unused")
 public class Configuration {
@@ -43,6 +46,8 @@ public class Configuration {
 	public String ROOTNAME;
 	public static EClassifier ROOT;
 	public static Boolean ROOTECLASSCANBENESTED;
+	
+	public HashMap<ImplicitRequirementType,ArrayList<EClassifier>> implicitRequirements;
 	
 	public Boolean PROFILEAPPLICATIONINUSE;
 	public Boolean DISABLEVARIANTS;
@@ -90,7 +95,7 @@ public class Configuration {
 	 * @param eClassifier
 	 * @return
 	 */	
-	protected static boolean isRoot(EClassifier eClassifier) {
+	protected boolean isRoot(EClassifier eClassifier) {
 		return ROOT==eClassifier;
 	}
 	
@@ -121,5 +126,19 @@ public class Configuration {
 		
 		return true;
 	}
+	
+//	/**
+//	 * Checks whether an EClassifier is implicitly required because it inherits its features
+//	 * to sub types which are white listed. Implicitly required EClassifiers are not required in CREATE/DELETES.
+//	 * Only in SET/ADD/CHANGE transformations.
+//	 * @param eClassifier
+//	 * @return
+//	 */
+//	protected static boolean isImplicitlyRequiredForFeatureInheritance(EClassifier eClassifier) {
+//		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier)) {
+//			return true;
+//		}
+//		return false;
+//	}
 
 }

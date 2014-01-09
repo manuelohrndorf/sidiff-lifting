@@ -9,13 +9,18 @@ import java.util.Map.Entry;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.emf.extensions.impl.EcoreHelper;
+import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.serge.generators.actions.AddGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 
@@ -187,10 +192,60 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return Set of disparate add modules for the given eclass.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_ADD(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Module> generate_ADD(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+		
+		if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+
+		//TODO implicit requirements
+		// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+		if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+		
+		EClass eClass = (EClass) eClassifier;
+						
+		// EReferences and their EOpposites, if any		
+		for(EReference eRef: eClass.getEAllReferences()) {
+
+			// don't consider derived, not changeable, unsettable and transient references
+			if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
+
+				// eRef == no containment reference  *************************************************************/
+				if(!eRef.isContainment()) {
+					EReference eOpposite = eRef.getEOpposite();
+
+					// and skip eRefs where it's EOpposite is a containment
+					if((eOpposite!=null && !eOpposite.isContainment()) || eOpposite==null) {
+
+						EClass contextType = (EClass)eRef.getEType();
+
+						if (!FILTER.isAllowedAsDangling(contextType,OperationType.ADD,c.REDUCETOSUPERTYPE_ADDREMOVE))  continue;
+
+						int lower = eRef.getLowerBound();
+						int upper = eRef.getUpperBound();
+						
+						if(!eRef.isContainment() 
+							&&  (upper==-1 || upper-lower>0) && c.CREATE_ADDS
+							&& (
+								(EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_ADDREMOVE)
+								|| !EcoreHelper.isInheritedReference(eRef, eClassifier)
+							   )
+						   ) {
+
+							AddGenerator generator = new AddGenerator(eRef, contextType);
+							Module resultModule = generator.generate(eClassifier);
+							
+							modules.add(resultModule);
+
+						}
+					}
+				}
+			}
+		}
+		return modules;
 	}
 
 	/**
