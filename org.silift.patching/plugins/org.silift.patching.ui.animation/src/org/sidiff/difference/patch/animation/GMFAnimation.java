@@ -25,9 +25,13 @@ import org.silift.common.util.emf.Scope;
 
 public class GMFAnimation {
 	
-	private static Map<Resource, AnimationAdapter> animatedResources = new HashMap<Resource, AnimationAdapter>();
+	public static int MODE_DEFAULT = 0;
+	public static int MODE_TRIGGER = 1;
 	
-	public static void enableAnimation(Resource changingResource, boolean createMatching){		
+	private static Map<Resource, AnimationAdapter> animatedResources = new HashMap<Resource, AnimationAdapter>();
+	private static List<AnimationAdapter> attachedAdapters = new ArrayList<AnimationAdapter>();
+	
+	public static void enableAnimation(Resource changingResource, boolean createMatching, int mode){		
 		List<EditorMatching> editorMatchings = new ArrayList<EditorMatching>();
 
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -58,10 +62,17 @@ public class GMFAnimation {
 				}
 			}
 		}
-		AnimationAdapter adapter = new AnimationAdapter(editorMatchings.toArray(new EditorMatching[editorMatchings.size()]));
-
+		AnimationAdapter adapter = new AnimationAdapter(editorMatchings.toArray(new EditorMatching[editorMatchings.size()]), mode == MODE_TRIGGER);
+		attachedAdapters.add(adapter);
+		
 		changingResource.eAdapters().add(adapter);
 		animatedResources.put(changingResource, adapter);
+	}
+	
+	public static void trigger(){
+		for(AnimationAdapter animationAdapter : attachedAdapters){
+			animationAdapter.trigger();
+		}
 	}
 	
 	private static boolean checkMatching(SymmetricDifference matching) {
