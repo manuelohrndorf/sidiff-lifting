@@ -29,7 +29,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private Set<Module> setReferenceModules		= new HashSet<Module>();
 	private Set<Module> unsetAttributeModules 	= new HashSet<Module>();
 	private Set<Module> unsetReferenceModules	= new HashSet<Module>();
-	private Set<Module> changeModules			= new HashSet<Module>();
+	private Set<Module> changeLiteralModules	= new HashSet<Module>();
+	private Set<Module> changeReferenceModules	= new HashSet<Module>();
 	
 	// Ultimate Set for all modules
 	private Set<Set<Module>> allModules			= new HashSet<Set<Module>>();
@@ -61,7 +62,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				setReferenceModules = GAD.generate_SET_REFERENCE(eClassifier);
 				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);
 	
-				changeModules = GAD.generate_CHANGE(eClassifier);
+				changeLiteralModules = GAD.generate_CHANGE_Literals(eClassifier);
+				changeReferenceModules = GAD.generate_CHANGE_Reference(eClassifier);
 				
 				
 				allModules.add(createModules);
@@ -77,7 +79,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				allModules.add(unsetAttributeModules);
 				allModules.add(setReferenceModules);
 				allModules.add(unsetReferenceModules);
-				allModules.add(changeModules);
+				allModules.add(changeLiteralModules);
+				allModules.add(changeReferenceModules);
 				
 				
 				ModuleSerializer serializer = new ModuleSerializer();

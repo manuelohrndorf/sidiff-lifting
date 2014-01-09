@@ -375,19 +375,35 @@ public class GenerationActionDelegator {
 	
 	/**
 	 * General CHANGe-generation method, that finds all relevant
-	 * contexts and references that represent different CHANGe-Modules for this eClassifier.
-	 * For each setup the generation process will be delegated to {@link ChangeGenerator}
+	 * EAttributes that require CHANGe-Modules for different EEnumLiterals
+	 * For each setup the generation process will be delegated to {@link ChangeLiteralGenerator}
 	 * 
 	 * @param eClassifier
 	 * @return 
 	 */
-	public Set<Module> generate_CHANGE(EClassifier eClassifier) {
+	public Set<Module> generate_CHANGE_Literals(EClassifier eClassifier) {
 		
 		Set<Module> modules	= new HashSet<Module>();
 		// TODO ...
 		return modules;
 	}
 
+	/**
+	 * General CHANGe-generation method, that finds all relevant
+	 * references that require CHANGe-Modules.
+	 * For each setup the generation process will be delegated to {@link ChangeReferenceGenerator}
+	 * 
+	 * @param eClassifier
+	 * @return 
+	 */
+	public Set<Module> generate_CHANGE_Reference(EClassifier eClassifier) {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		// TODO ...
+		return modules;
+	}
+
+	
 	/**
 	 * General variant-generation method, that finds all variants of each given
 	 * module. A variant either replaces the given module or it is added as an additional
