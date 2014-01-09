@@ -87,7 +87,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 		}
 		reliabilityGroup.setText("Minimal Reliability:");
 
-		scale = new Scale(reliabilityGroup, SWT.BORDER);
+		scale = new Scale(reliabilityGroup, SWT.NONE);
 		scale.setMaximum(100);
 		scale.setIncrement(5);
 		scale.setSelection(this.reliability);
