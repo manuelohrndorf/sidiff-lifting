@@ -46,15 +46,18 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			//Collection<Object> args = new ArrayList<Object>();
 			int resourceCategory = 0;
 			for (Resource r : potentialArgs.keySet()) {
-				CellObject cellObject = new CellObject(resourceCategory, "--------------------");
-				itemObjects.add(cellObject);
-				resourceCategory--;
-				for(Object object : potentialArgs.get(r)){
-					float reliability = argumentManager.getReliability(binding, (EObject)object);
-					cellObject = new CellObject(resourceCategory, reliability, object);
+				if(!potentialArgs.get(r).isEmpty()){
+					ArrayList<EObject> resource = (ArrayList<EObject>) potentialArgs.get(r);
+					CellObject cellObject = new CellObject(resourceCategory, " - " + resource.get(0).eResource().getURI().toString() + " - ");
 					itemObjects.add(cellObject);
+					resourceCategory++;
+					for(Object object : potentialArgs.get(r)){
+						float reliability = argumentManager.getReliability(binding, (EObject)object);
+						cellObject = new CellObject(resourceCategory, reliability, object);
+						itemObjects.add(cellObject);
+					}
+					resourceCategory++;
 				}
-				resourceCategory--;
 			}
 			//TODO:(cpietsch) Categorize potential args by their resource in the UI (not finished).
 
@@ -149,7 +152,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				}
 			}
 			else{
-				if(((String)value).startsWith("---"))
+				if(((String)value).startsWith(" - "))
 					binding.setActual((String) value);
 			}
 		}
@@ -200,7 +203,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 		@Override
 		public int compareTo(CellObject cellObject) {
-			int compare = Integer.compare(cellObject.resourceCategory, resourceCategory);
+			int compare = Integer.compare(resourceCategory, cellObject.resourceCategory);
 			if(compare != 0){
 				return compare;
 			}else{
