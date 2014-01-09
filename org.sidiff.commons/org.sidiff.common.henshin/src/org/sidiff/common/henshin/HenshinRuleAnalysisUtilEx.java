@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -44,6 +47,31 @@ public class HenshinRuleAnalysisUtilEx {
 	
 
 	/**
+	 * Get all rules of the module.
+	 * 
+	 * @param module
+	 *            the module.
+	 * @return all Rules contained by the module in an unmodifiable list.
+	 */
+	public static EList<Rule> getRules(Module module) {
+		EList<Rule> rules = new BasicEList<Rule>();
+		
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				Rule rule = (Rule) unit;
+				rules.add(rule);
+				rules.addAll(rule.getAllMultiRules());
+			}
+		}
+		
+		for (Module subModule : module.getSubModules()) {
+			rules.addAll(getRules(subModule));
+		}
+		
+		return ECollections.unmodifiableEList(rules);
+	}
+
+	/**
 	 * @param rule
 	 * @param nodename
 	 * @param isLhs
@@ -55,6 +83,78 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Copies a given node into the given graph.
+	 * 
+	 * @param graph
+	 *            The graph which will contain the node.
+	 * @param node
+	 *            The node to copy.
+	 * @return The new created Node.
+	 */
+	public static Node copyNode(Graph graph, Node node) {
+		// Now create new Node:
+		Node newNode = HenshinFactory.eINSTANCE.createNode();
+		newNode.setGraph(graph);
+		newNode.setType(node.getType());
+		newNode.setName(node.getName());
+		return newNode;
+	}
+	
+	/**
+	 * Create a new node inside a given graph.
+	 * 
+	 * @param graph
+	 *            The graph which will contain the node.
+	 * @param type
+	 *            The type of the node.
+	 * @return The new created Node.
+	 */
+	public static Node createNode(Graph graph, EClass type) {
+		// Now create new Node:
+		Node newNode = HenshinFactory.eINSTANCE.createNode();
+		newNode.setGraph(graph);
+		newNode.setType(type);
+		newNode.setName("");
+		return newNode;
+	}
+	
+	
+	/**
+	 * Creates a NAC/PAC edge between two nodes within a rule.
+	 * 
+	 * @param from
+	 *            Source node of the new edge.
+	 * @param to
+	 *            The target node of the new edge.
+	 * @param type
+	 *            Edge type.
+	 * @param rule
+	 *            The new created edge.
+	 */
+	public static Edge createEdge(Node from, Node to, EReference type, Graph graph) {
+		Edge edge = HenshinFactory.eINSTANCE.createEdge(from, to, type);
+		graph.getEdges().add(edge);
+		return edge;
+	}
+
+	/**
+	 * Returns all attributes of a graph.
+	 * 
+	 * @param rule
+	 *            The Henshin graph.
+	 * @return A list of all attributes.
+	 */
+	public static List<Attribute> getAttributes(Graph graph) {
+		List<Attribute> attributes = new LinkedList<Attribute>();
+
+		for (Node node : graph.getNodes()) {
+			attributes.addAll(node.getAttributes());
+		}
+
+		return attributes;
 	}
 	
 	/**
@@ -1464,8 +1564,6 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static boolean isForbiddenNode(Node node) {
 
-		// TODO: What about a formula?
-		
 		// Load node container
 		Object container = node.getGraph().eContainer();
 
