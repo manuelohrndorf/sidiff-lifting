@@ -38,11 +38,15 @@ public class ThreeWayMergePage02 extends WizardPage {
 
 	private MergeModels mergeModels;
 	
+	private ThreeWayMergePage01 page01;
+	
 	public ThreeWayMergePage02(
-			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage) {
+			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, ThreeWayMergePage01 page01) {
 		super(pageName, title, titleImage);
 		
 		this.mergeModels = mergeModels;
+		
+		this.page01 = page01;
 
 		// Listen for validation failures:
 		validationListener =
@@ -132,7 +136,7 @@ public class ThreeWayMergePage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), this.page01.getScopeWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 
 		//Reliability

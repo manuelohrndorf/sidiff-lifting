@@ -83,13 +83,13 @@ public class ThreeWayMergeWizard extends Wizard {
 		addPage(threeWayMergePage01);
 		
 		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
-				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"));
+				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), threeWayMergePage01);
 		addPage(threeWayMergePage02);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return threeWayMergePage01.isPageComplete();
+		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete() ;
 	}
 
 	@Override

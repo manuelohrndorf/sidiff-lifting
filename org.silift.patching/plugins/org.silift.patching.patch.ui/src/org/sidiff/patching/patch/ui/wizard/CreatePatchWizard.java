@@ -54,13 +54,13 @@ public class CreatePatchWizard extends Wizard {
 		
 		createPatchPage02 = new CreatePatchPage02(
 				inputModels,
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
+				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), createPatchPage01);
 		addPage(createPatchPage02);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return createPatchPage01.isPageComplete();
+		return createPatchPage01.isPageComplete() && createPatchPage02.isPageComplete();
 	}
 
 	@Override

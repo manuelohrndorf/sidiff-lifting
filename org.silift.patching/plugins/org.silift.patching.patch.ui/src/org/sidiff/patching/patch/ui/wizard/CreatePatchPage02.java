@@ -32,12 +32,16 @@ public class CreatePatchPage02 extends WizardPage {
 	private SelectionAdapter validationListener;
 
 	private InputModels inputModels;
+	
+	private CreatePatchPage01 page01;
 
 	public CreatePatchPage02(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage) {
+			String pageName, String title, ImageDescriptor titleImage, CreatePatchPage01 page01) {
 		super(pageName, title, titleImage);
 
 		this.inputModels = inputModels;
+		
+		this.page01 = page01;
 
 		// Listen for validation failures:
 		validationListener =
@@ -117,7 +121,7 @@ public class CreatePatchPage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget = new MatchingEngineWidget(inputModels, page01.getScopeWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:

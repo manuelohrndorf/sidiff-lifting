@@ -84,13 +84,13 @@ public class ApplyPatchWizard extends Wizard {
 		addPage(applyPatchPage01);
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage", "Apply Patch: " + patchName,
-				getImageDescriptor("icon.png"));
+				getImageDescriptor("icon.png"),applyPatchPage01);
 		addPage(applyPatchPage02);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return applyPatchPage01.isPageComplete();
+		return applyPatchPage01.isPageComplete() && applyPatchPage02.isPageComplete();
 	}
 
 	@Override

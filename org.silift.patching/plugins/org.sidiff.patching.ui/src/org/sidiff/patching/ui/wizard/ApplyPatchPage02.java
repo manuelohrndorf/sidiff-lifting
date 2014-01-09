@@ -36,14 +36,17 @@ public class ApplyPatchPage02 extends WizardPage {
 
 	private AsymmetricDifference difference;
 	private InputModels inputModels;
+	
+	private ApplyPatchPage01 page01;
 
 	public ApplyPatchPage02(Patch patch,
-			String pageName, String title, ImageDescriptor titleImage) {
+			String pageName, String title, ImageDescriptor titleImage, ApplyPatchPage01 page01) {
 		super(pageName, title, titleImage);
 
 		this.difference = patch.getDifference();
 		this.inputModels = new InputModels(this.difference.getOriginModel(), this.difference.getChangedModel());
 
+		this.page01 = page01;
 		// Listen for validation failures:
 		validationListener = new SelectionAdapter() {
 			@Override
@@ -132,7 +135,7 @@ public class ApplyPatchPage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget = new MatchingEngineWidget(inputModels, this.page01.getScopeWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 		
 		//Reliability
