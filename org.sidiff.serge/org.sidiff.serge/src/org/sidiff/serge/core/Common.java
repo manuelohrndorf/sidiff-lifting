@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
@@ -516,7 +517,7 @@ public class Common {
 	 * @param eClassifier
 	 * @param tsType
 	 */
-	public static void mainUnitCreation(Module module, EClassifier eClassifier, OperationType tsType) {
+	public static void mainUnitCreation(Module module, OperationType tsType) {
 		
 		removeAllNonRuleUnits(module);
 		List<Rule> rulesUnderModule = HenshinModuleAnalysis.getAllRules(module);
@@ -669,7 +670,7 @@ public class Common {
 	 * Method that removes all units (not rules) inside a module.
 	 * @param module
 	 */
-	private static void removeAllNonRuleUnits(Module module) {
+	public static void removeAllNonRuleUnits(Module module) {
 		Iterator<Unit> itUnit = module.getUnits().iterator();
 		while(itUnit.hasNext()) {
 			Unit unit = itUnit.next();
@@ -769,5 +770,80 @@ public class Common {
 		}
 		
 	}
+	
+	/**
+	 * Inverts every parameter and node name beginning beginning or equal to "New"
+	 * to "ToBeDeleted"
+	 * @param module
+	 */
+	public static void replaceNewsWithToBeDeleted(Module module) {
+		
+		for(Rule r: HenshinModuleAnalysis.getAllRules(module)) {
+			for(Node n: r.getLhs().getNodes()) {
+				String nN = n.getName();
+				if(nN!=null && nN.equals(GlobalConstants.NEW)) {
+					n.setName(GlobalConstants.DEL);
+				}
+			}
+			for(Node n: r.getRhs().getNodes()) {
+				if(n.getName().equals(GlobalConstants.NEW)) {
+					n.setName(GlobalConstants.DEL);
+				}
+			}
+			for(Parameter p: r.getParameters()) {
+				String pN = p.getName();
+				if(pN!=null && pN.equals(GlobalConstants.NEW)) {
+					p.setName(GlobalConstants.DEL);	
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Creates an inverse of a module.
+	 * E.g. DELETE for CREATE or REMOVE for ADD etc.
+	 * @param module
+	 * @return
+	 * 		the inverted module.
+	 */
+	public static Module createInverse(Module module) {
+			
+			String name 		= "";
+			String description	= "";
+			Module inverse = null;
+			
+			if(module.getName().startsWith(GlobalConstants.ADD_prefix)) {
+				name = module.getName().replaceFirst(GlobalConstants.ADD_prefix, GlobalConstants.REMOVE_prefix);
+				description = module.getDescription().replaceFirst("Adds to","Removes");
+				inverse =  HenshinModuleUtil.createInverse(name,description,module);
+				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule.setName(firstRule.getName().replaceFirst("addTo", "removeFrom"));
+				firstRule.setDescription(firstRule.getDescription().replaceFirst("Adds to", "Removes from"));
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,true).setName(GlobalConstants.OLDTGT);  //rename Node in LHS
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,false).setName(GlobalConstants.OLDTGT); //rename Node in RHS
+			}
+			else if(module.getName().startsWith(GlobalConstants.SET_prefix)) {
+				name = module.getName().replaceFirst(GlobalConstants.SET_prefix, GlobalConstants.UNSET_prefix);
+				description = module.getDescription().replaceFirst("Sets","Unsets");
+				inverse =  HenshinModuleUtil.createInverse(name,description,module);
+				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
+				firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT,true).setName(GlobalConstants.OLDTGT);  //rename Node in LHS
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,false).setName(GlobalConstants.OLDTGT); //rename Node in RHS
+			}
+			else if(module.getName().startsWith(GlobalConstants.CREATE_prefix)) {
+				name = module.getName().replaceFirst(GlobalConstants.CREATE_prefix, GlobalConstants.DELETE_prefix);
+				description = module.getDescription().replaceFirst("Creates","Deletes");
+				inverse =  HenshinModuleUtil.createInverse(name,description,module);
+				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
+				firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
+				
+			}
+			return inverse;
+		}
+
 
 }

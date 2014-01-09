@@ -4,7 +4,9 @@ public interface GlobalConstants {
 	
 	public static final String CREATE_prefix 			= "CREATE_";
 	public static final String DELETE_prefix			= "DELETE_";
+	@Deprecated
 	public static final String SET_prefix 				= "SET_";
+	@Deprecated
 	public static final String UNSET_prefix 			= "UNSET_";
 	public static final String ADD_prefix 				= "ADD_";
 	public static final String REMOVE_prefix 			= "REMOVE_";

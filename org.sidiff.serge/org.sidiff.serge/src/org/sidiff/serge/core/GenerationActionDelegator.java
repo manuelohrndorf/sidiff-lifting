@@ -12,9 +12,12 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.generators.actions.CreateGenerator;
+import org.sidiff.serge.generators.actions.DeleteGenerator;
 
 public class GenerationActionDelegator {
 
@@ -96,10 +99,19 @@ public class GenerationActionDelegator {
 	 * @param set of create modules
 	 * @return 
 	 */
-	public Set<Module> generate_DELETE(Set<Module> variantModules) {
-		
+	public Set<Module> generate_DELETE(Set<Module> createModulesSet) {
+
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		for(Module createModule: createModulesSet) {
+			
+			DeleteGenerator generator = new DeleteGenerator(createModule);
+			Module resultModule = generator.generate();
+			
+			modules.add(resultModule);
+			
+		}
+		
 		return modules;
 		
 	}

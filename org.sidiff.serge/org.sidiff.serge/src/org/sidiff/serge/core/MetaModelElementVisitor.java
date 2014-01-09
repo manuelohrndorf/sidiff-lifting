@@ -45,7 +45,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	
 				//TODO retain createModules of variants concerning those that are not valid after replacement
 				
-				deleteModules = GAD.generate_DELETE(variantModules);
+				deleteModules = GAD.generate_DELETE(createModules);
 	
 				moveModules = GAD.generate_MOVE(eClassifier);
 				moveCombinationModules = GAD.generate_MOVE_COMBINATION(eClassifier);

@@ -79,7 +79,7 @@ public class CreateGenerator {
 		}
 		
 		// create mainUnit
-		Common.mainUnitCreation(module, child, OperationType.CREATE);
+		Common.mainUnitCreation(module, OperationType.CREATE);
 		
 		return module;
 		

@@ -1,6 +1,10 @@
 package org.sidiff.serge.generators.actions;
 
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.Configuration.OperationType;
 
 public class DeleteGenerator {
 	
@@ -11,8 +15,17 @@ public class DeleteGenerator {
 		this.createModule = createModule;
 	}
 	
-	public Module generate(){
-		// TODO: copy and invert the createModule and delete silly paramters
-		return null;
+	public Module generate(){	
+		
+		// inverse creation and string replaces
+		Module inverseModule = Common.createInverse(createModule);
+		LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
+		Common.replaceNewsWithToBeDeleted(inverseModule);
+
+		// remove old mainUnit and re-create mainUnit
+		Common.removeAllNonRuleUnits(inverseModule);	
+		Common.mainUnitCreation(inverseModule, OperationType.DELETE);		
+				
+		return inverseModule;
 	}
 }
