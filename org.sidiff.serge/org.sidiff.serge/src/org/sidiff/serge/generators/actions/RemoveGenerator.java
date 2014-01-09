@@ -1,6 +1,10 @@
 package org.sidiff.serge.generators.actions;
 
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.Configuration.OperationType;
 
 public class RemoveGenerator {
 	
@@ -12,7 +16,13 @@ public class RemoveGenerator {
 	}
 	
 	public Module generate(){
-		// TODO: copy and invert.
-		return null;
+		
+		Module REMOVE_Module = Common.createInverse(addModule);
+		LogUtil.log(LogEvent.NOTICE, "Generating REMOVE : " + REMOVE_Module.getName());
+
+		// create mainUnit
+		Common.mainUnitCreation(REMOVE_Module, OperationType.REMOVE);
+		
+		return REMOVE_Module;
 	}
 }

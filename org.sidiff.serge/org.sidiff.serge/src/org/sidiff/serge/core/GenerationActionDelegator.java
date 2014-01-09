@@ -19,10 +19,12 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.generators.actions.AddGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
+import org.sidiff.serge.generators.actions.RemoveGenerator;
 
 public class GenerationActionDelegator {
 
@@ -55,44 +57,47 @@ public class GenerationActionDelegator {
 		
 		Set<Module> modules = new HashSet<Module>();	
 	
-		if(FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.CREATE)) {
+		if(c.CREATE_CREATES) {
 		
-			EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+			if(FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.CREATE)) {
 			
-			/** In case of no Stereotype, create CREATE normally ******************************************************************************/
-			if(!c.PROFILEAPPLICATIONINUSE || (c.PROFILEAPPLICATIONINUSE && !eInf.isStereotype())) {
+				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 				
-				/** Create Modules for every parent in which the EClass may exist. ************************************************************/
-				HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
-				for(Entry<EReference,List<EClassifier>> pcEntry: optionalParents.entrySet()) {			
-					List<EClassifier> contexts = pcEntry.getValue();
-					EReference eRef = pcEntry.getKey();
-	
-					for(EClassifier context: contexts) {
-						
-						if(FILTER.isAllowedAsDangling(context, OperationType.CREATE, c.REDUCETOSUPERTYPE_CREATEDELETE)) {
-											
-							CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
-							Module resultModule = generator.generate();
+				/** In case of no Stereotype, create CREATE normally ******************************************************************************/
+				if(!c.PROFILEAPPLICATIONINUSE || (c.PROFILEAPPLICATIONINUSE && !eInf.isStereotype())) {
+					
+					/** Create Modules for every parent in which the EClass may exist. ************************************************************/
+					HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
+					for(Entry<EReference,List<EClassifier>> pcEntry: optionalParents.entrySet()) {			
+						List<EClassifier> contexts = pcEntry.getValue();
+						EReference eRef = pcEntry.getKey();
+		
+						for(EClassifier context: contexts) {
 							
-							modules.add(resultModule);
-						
+							if(FILTER.isAllowedAsDangling(context, OperationType.CREATE, c.REDUCETOSUPERTYPE_CREATEDELETE)) {
+												
+								CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
+								Module resultModule = generator.generate();
+								
+								modules.add(resultModule);
+							
+							}
+							
+							
 						}
 						
-						
 					}
-					
 				}
+				/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
+				else{
+						
+				
+					//TODO ProfileModelIntegration
+				
+				}
+				
+			
 			}
-			/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
-			else{
-					
-			
-				//TODO ProfileModelIntegration
-			
-			}
-			
-		
 		}
 		return modules;
 	}
@@ -103,18 +108,24 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param set of create modules
 	 * @return 
+	 * @throws ModuleForInverseCreationRequiredException 
 	 */
-	public Set<Module> generate_DELETE(Set<Module> createModulesSet) {
+	public Set<Module> generate_DELETE(Set<Module> createModulesSet) throws ModuleForInverseCreationRequiredException {
 
 		Set<Module> modules	= new HashSet<Module>();
 		
-		for(Module createModule: createModulesSet) {
+		if(c.CREATE_DELETES) {
 			
-			DeleteGenerator generator = new DeleteGenerator(createModule);
-			Module resultModule = generator.generate();
+			if(!c.CREATE_CREATES) throw new ModuleForInverseCreationRequiredException(OperationType.DELETE);
 			
-			modules.add(resultModule);
-			
+			for(Module createModule: createModulesSet) {
+				
+				DeleteGenerator generator = new DeleteGenerator(createModule);
+				Module resultModule = generator.generate();
+				
+				modules.add(resultModule);
+				
+			}
 		}
 		
 		return modules;
@@ -132,7 +143,13 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_MOVE(EClassifier eClassifier) {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_MOVES) {
+			
+			// TODO ...
+			
+		}
+		
 		return modules;
 		
 	}
@@ -148,7 +165,13 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_MOVE_UP(EClassifier eClassifier) {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_MOVE_UPS) {
+			
+			// TODO ...
+			
+		}
+		
 		return modules;
 		
 	}
@@ -164,7 +187,13 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_MOVE_DOWNS) {
+			
+			// TODO ...
+			
+		}
+		
 		return modules;
 		
 	}
@@ -180,7 +209,13 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_MOVE_COMBINATION(EClassifier eClassifier) {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_MOVE_COMBINATIONS) {
+		
+			// TODO ...
+			
+		}
+		
 		return modules;
 		
 	}
@@ -197,49 +232,53 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_ADD(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 		
-		if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
-
-		//TODO implicit requirements
-		// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
-		if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
-		
-		EClass eClass = (EClass) eClassifier;
-						
-		// EReferences and their EOpposites, if any		
-		for(EReference eRef: eClass.getEAllReferences()) {
-
-			// don't consider derived, not changeable, unsettable and transient references
-			if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
-
-				// eRef == no containment reference  *************************************************************/
-				if(!eRef.isContainment()) {
-					EReference eOpposite = eRef.getEOpposite();
-
-					// and skip eRefs where it's EOpposite is a containment
-					if((eOpposite!=null && !eOpposite.isContainment()) || eOpposite==null) {
-
-						EClass contextType = (EClass)eRef.getEType();
-
-						if (!FILTER.isAllowedAsDangling(contextType,OperationType.ADD,c.REDUCETOSUPERTYPE_ADDREMOVE))  continue;
-
-						int lower = eRef.getLowerBound();
-						int upper = eRef.getUpperBound();
-						
-						if(!eRef.isContainment() 
-							&&  (upper==-1 || upper-lower>0) && c.CREATE_ADDS
-							&& (
-								(EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_ADDREMOVE)
-								|| !EcoreHelper.isInheritedReference(eRef, eClassifier)
-							   )
-						   ) {
-
-							AddGenerator generator = new AddGenerator(eRef, contextType);
-							Module resultModule = generator.generate(eClassifier);
+		if(c.CREATE_ADDS) {
+			
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+	
+			//TODO implicit requirements
+			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			
+			EClass eClass = (EClass) eClassifier;
 							
-							modules.add(resultModule);
-
+			// EReferences and their EOpposites, if any		
+			for(EReference eRef: eClass.getEAllReferences()) {
+	
+				// don't consider derived, not changeable, unsettable and transient references
+				if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
+	
+					// eRef == no containment reference  *************************************************************/
+					if(!eRef.isContainment()) {
+						EReference eOpposite = eRef.getEOpposite();
+	
+						// and skip eRefs where it's EOpposite is a containment
+						if((eOpposite!=null && !eOpposite.isContainment()) || eOpposite==null) {
+	
+							EClass contextType = (EClass)eRef.getEType();
+	
+							if (!FILTER.isAllowedAsDangling(contextType,OperationType.ADD,c.REDUCETOSUPERTYPE_ADDREMOVE))  continue;
+	
+							int lower = eRef.getLowerBound();
+							int upper = eRef.getUpperBound();
+							
+							if(!eRef.isContainment() 
+								&& (upper==-1 || upper-lower>0)
+								&& (
+									(EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_ADDREMOVE)
+									|| !EcoreHelper.isInheritedReference(eRef, eClassifier)
+								   )
+							   ) {
+	
+								AddGenerator generator = new AddGenerator(eRef, contextType);
+								Module resultModule = generator.generate(eClassifier);
+								
+								modules.add(resultModule);
+	
+							}
 						}
 					}
 				}
@@ -254,11 +293,25 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param set of remove modules
 	 * @return 
+	 * @throws ModuleForInverseCreationRequiredException 
 	 */
-	public Set<Module> generate_REMOVE(Set<Module> addModules) {
+	public Set<Module> generate_REMOVE(Set<Module> addModules) throws ModuleForInverseCreationRequiredException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_REMOVES) {
+		
+			if(!c.CREATE_ADDS) throw new ModuleForInverseCreationRequiredException(OperationType.REMOVE);
+						
+			for(Module addModule: addModules) {
+				
+				RemoveGenerator generator = new RemoveGenerator(addModule);
+				Module resultModule = generator.generate();
+				
+				modules.add(resultModule);
+				
+			}
+		}
 		return modules;
 		
 	}
