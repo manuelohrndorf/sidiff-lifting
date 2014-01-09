@@ -231,13 +231,15 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 						editorMatching.matching.addCorrespondence(newCorrespondence);
 					}
 				}
+				
+				// copy the change to viewed modelinstance
+				if(reference.isMany()){
+					((List<EObject>) viewedContainer.eGet(reference)).add(addedViewedObject);
+				} else {
+					viewedContainer.eSet(reference, EcoreUtil.copy(addedViewedObject));
+				}
 			}
-			
-			if(reference.isMany()){
-				((List<EObject>) viewedContainer.eGet(reference)).add(addedViewedObject);
-			} else {
-				viewedContainer.eSet(reference, EcoreUtil.copy(addedViewedObject));
-			}
+
 
 			View containerView = getReferencingView(viewedContainer);
 

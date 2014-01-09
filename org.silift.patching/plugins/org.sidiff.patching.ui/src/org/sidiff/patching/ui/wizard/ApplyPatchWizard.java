@@ -36,10 +36,12 @@ import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
@@ -137,7 +139,7 @@ public class ApplyPatchWizard extends Wizard {
 			}
 		}
 
-		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());
+		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment() + "diag");
 
 		Job job = new Job("Patching Model") {
 			private EditingDomain editingDomain;
@@ -161,9 +163,9 @@ public class ApplyPatchWizard extends Wizard {
 									EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
 									resource = editor.getDiagram().getElement().eResource();
 									editingDomain = editor.getEditingDomain();
-
+									
 									// FIXME: Diagram animation:
-									// GMFAnimation.enableAnimation(resource,false);
+									 GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
 								} else if (editorPart instanceof IEditingDomainProvider) {
 									IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 									resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
@@ -211,6 +213,14 @@ public class ApplyPatchWizard extends Wizard {
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler);
+					
+					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
+						
+						@Override
+						public void reportChanged() {
+							GMFAnimation.trigger();
+						}
+					});
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(40);
 
