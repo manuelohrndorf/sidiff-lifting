@@ -80,7 +80,21 @@ public class EcoreHelper {
 		return EANNO_KEY_PATHFragment;
 	}
 	
-	
+	/**
+	 * Checks if a given EReference is inherited
+	 * @param the EReference
+	 * @param concerningEClassifier is the class to check on
+	 * @return true if inherited
+	 */
+	public static boolean isInheritedReference(EReference eRef, EClassifier concerningEClassifier) {
+		
+		if(concerningEClassifier instanceof EClass) {
+			EClass eClass = (EClass) concerningEClassifier;
+			return !eClass.getEReferences().contains(eRef);
+		}
+		
+		return true;
+	}
 
 	public static Map<EObject,EObject> createIndependantMetaModelCopy(EPackage mainMetaModel, Resource newResourceToContainCopy, String newNS_URI) throws Exception {
 				
