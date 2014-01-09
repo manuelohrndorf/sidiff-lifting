@@ -11,6 +11,8 @@ import org.sidiff.patching.interrupt.PatchInterruptOption;
 import org.sidiff.patching.validation.IValidationError;
 
 public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
+	
+	private final static String LINE_SEPERATOR = System.getProperty("line.separator");
 
 	@Override
 	public PatchInterruptOption getInterruptOption(Boolean revertedOperation,
@@ -32,13 +34,13 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 			StringBuffer validationErrorString = new StringBuffer();
 			for(IValidationError error : validationErrors){
 				validationErrorString.append(error.getMessage());
-				validationErrorString.append(System.lineSeparator());
+				validationErrorString.append(LINE_SEPERATOR);
 			}
 		 MessageDialog dialog = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 				 "Operation " + operationInvocation.getChangeSet().getName() + ": Validation Error",
 				 null,
 				 "The following validation errors have occured:"
-				 + System.lineSeparator() + validationErrorString,
+				 + LINE_SEPERATOR + validationErrorString,
 				 MessageDialog.WARNING, options, 0);
 	    		int result = dialog.open();
 	    		switch (result) {
