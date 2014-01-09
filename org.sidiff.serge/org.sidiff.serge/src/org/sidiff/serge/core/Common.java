@@ -405,7 +405,7 @@ public class Common {
 				
 				break;
 				
-			case CHANGE:
+			case CHANGE_REFERENCE:
 				
 				// CHANGE ***************************************************************************************************/
 				rule = HenshinFactory.eINSTANCE.createRule();

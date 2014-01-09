@@ -22,6 +22,7 @@ import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.generators.actions.AddGenerator;
+import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
@@ -395,11 +396,61 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_CHANGE_Reference(EClassifier eClassifier) {
+	public Set<Module> generate_CHANGE_Reference(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_CHANGE_REFERENCES) {
+			
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.CHANGE_REFERENCE)) return null;
+	
+			//TODO implicit requirements
+			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			
+			EClass eClass = (EClass) eClassifier;
+							
+			// EReferences and their EOpposites, if any		
+			for(EReference eRef: eClass.getEAllReferences()) {
+	
+				// don't consider derived, not changeable, unsettable and transient references
+				if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
+	
+					// eRef == no containment reference  *************************************************************/
+					if(!eRef.isContainment()) {
+						EReference eOpposite = eRef.getEOpposite();
+	
+						// and skip eRefs where it's EOpposite is a containment
+						if((eOpposite!=null && !eOpposite.isContainment()) || eOpposite==null) {
+	
+							EClass contextType = (EClass)eRef.getEType();
+	
+							if (!FILTER.isAllowedAsDangling(contextType,OperationType.ADD,c.REDUCETOSUPERTYPE_ADDREMOVE))  continue;
+	
+							int lower = eRef.getLowerBound();
+							int upper = eRef.getUpperBound();
+							
+							if( !eRef.isContainment() && (upper==lower)
+								&& ( 
+									( !EcoreHelper.isInheritedReference(eRef, eClassifier) 
+									  || (EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_CHANGE_REFERENCE))
+								   )
+								){	
+								ChangeReferenceGenerator generator = new ChangeReferenceGenerator(eRef, contextType);
+								Module resultModule = generator.generate(eClassifier);
+								
+								modules.add(resultModule);
+	
+							}
+						}
+					}
+				}
+			}
+		}
 		return modules;
 	}
 

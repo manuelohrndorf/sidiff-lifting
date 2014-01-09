@@ -119,9 +119,9 @@ public class ElementFilter {
 			case REMOVE:
 				if (!c.CREATE_REMOVES) return false;
 				break;
-			case CHANGE:
+			case CHANGE_REFERENCE:
 				if (
-					(!c.CREATE_CHANGES)
+					(!c.CREATE_CHANGE_REFERENCES)
 					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
 					)
 				return false;	

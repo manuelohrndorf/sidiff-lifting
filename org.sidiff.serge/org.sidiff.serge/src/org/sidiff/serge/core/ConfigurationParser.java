@@ -82,7 +82,7 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
 		c.REDUCETOSUPERTYPE_SETUNSET=Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
 		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
-		c.REDUCETOSUPERTYPE_CHANGE=Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE_REFERENCE=Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
 		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode));
 		c.REDUCETOSUPERTYPE_CREATEDELETE=Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode));
 		
@@ -96,7 +96,7 @@ public class ConfigurationParser {
 		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
 		currentNode = doc.getElementsByTagName("Changes").item(0);
-		c.CREATE_CHANGES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_CHANGE_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));	
 		currentNode = doc.getElementsByTagName("Adds").item(0);
 		c.CREATE_ADDS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
