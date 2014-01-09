@@ -19,7 +19,6 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -44,16 +43,20 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			this.itemObjects = new ArrayList<CellObject>();
 
 			Map<Resource, Collection<EObject>> potentialArgs = argumentManager.getPotentialArguments(binding);
-			Collection<EObject> args = new ArrayList<EObject>();
+			//Collection<Object> args = new ArrayList<Object>();
+			int resourceCategory = 0;
 			for (Resource r : potentialArgs.keySet()) {
-				args.addAll(potentialArgs.get(r));			
-			}
-			//TODO: Categorize potential args by their resource in the UI.
-			for (EObject eObject : args) {
-				float reliability = argumentManager.getReliability(binding, eObject);
-				CellObject cellObject = new CellObject(reliability, eObject);
+				CellObject cellObject = new CellObject(resourceCategory, "--------------------");
 				itemObjects.add(cellObject);
+				resourceCategory--;
+				for(Object object : potentialArgs.get(r)){
+					float reliability = argumentManager.getReliability(binding, (EObject)object);
+					cellObject = new CellObject(resourceCategory, reliability, object);
+					itemObjects.add(cellObject);
+				}
+				resourceCategory--;
 			}
+			//TODO:(cpietsch) Categorize potential args by their resource in the UI (not finished).
 
 			Collections.sort(itemObjects);
 			String[] items = getItemsStringArray();
@@ -129,8 +132,11 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			if (index == -1) {
 				argumentManager.resetArgumentResolution(binding);
 			} else {
-				EObject elementB = itemObjects.get(index).getEObject();
-				argumentManager.addArgumentResolution(binding, elementB);
+				Object object = itemObjects.get(index).getObject();
+				if(object instanceof EObject){
+					EObject elementB = (EObject)object;
+					argumentManager.addArgumentResolution(binding, elementB);
+				}
 			}
 		}
 		else if(element instanceof ValueParameterBinding){
@@ -143,7 +149,8 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				}
 			}
 			else{
-				binding.setActual((String) value);
+				if(((String)value).startsWith("---"))
+					binding.setActual((String) value);
 			}
 		}
 		this.listener.valueChanged();
@@ -167,32 +174,48 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	}
 	
 	private class CellObject implements Comparable<CellObject> {
+		
+		private Object object;
+		private int resourceCategory;
+		private String name;
 		private float reliability;
-		private EObject eObject;
-
-		public CellObject(float reliability, EObject eObject) {
+		
+		public CellObject(int resourceCategory, Object object){
+			this.resourceCategory = resourceCategory;
+			this.reliability = 0.f;
+			this.object = object;
+			this.name = object.toString();
+		}
+		public CellObject(int resourceCategory, float reliability, Object object) {
 			super();
+			this.resourceCategory = resourceCategory;
 			this.reliability = reliability;
-			this.eObject = eObject;
+			this.object = object;
+			this.name = Util.getName((EObject)object);
 		}
 
-		public EObject getEObject() {
-			return eObject;
+		public Object getObject() {
+			return object;
 		}
 
 		@Override
 		public int compareTo(CellObject cellObject) {
-			int compare = Float.compare(cellObject.reliability, reliability);
-			if (compare != 0) {
+			int compare = Integer.compare(cellObject.resourceCategory, resourceCategory);
+			if(compare != 0){
 				return compare;
-			} else {
-				return Util.getName(eObject).compareTo(Util.getName(cellObject.getEObject()));
+			}else{
+				compare = Float.compare(cellObject.reliability, reliability);
+				if (compare != 0) {
+					return compare;
+				} else {
+					return name.compareTo(cellObject.name);
+				}
 			}
 		}
 		
 		@Override
 		public String toString() {
-			return Util.getName(eObject) + " (" + reliability + ")";
+			return (object instanceof EObject)? name + " (" + reliability + ")" : name;
 		}
 	}
 	
