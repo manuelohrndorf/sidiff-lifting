@@ -25,6 +25,8 @@ public class SubTypeReplacer {
 		
 		//TODO
 		
+		//TODO dont forget that abstract replacements might be necessary after sub type replaces also
+		
 		return variantModules;			
 	}
 }
