@@ -3,20 +3,82 @@ package org.sidiff.serge.generators.actions;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.Configuration;
+import org.sidiff.serge.core.GlobalConstants;
+import org.sidiff.serge.core.Configuration.OperationType;
 
 public class ChangeLiteralGenerator {
 
+	/**
+	 * The EAttribute that will have another EEnumLiteral as value.
+	 */
 	private EAttribute eAttribute;
 
+	
+	private static Configuration config = Configuration.getInstance();
+	
+	/**
+	 * Constructor.
+	 */
 	public ChangeLiteralGenerator(EAttribute eAttribute, EEnumLiteral eEnumLiteral) {
-		assert(eAttribute.getLowerBound() == 1 && eAttribute.getUpperBound() == 1);
-		
+
+		assert(eAttribute.getLowerBound() == 1 && eAttribute.getUpperBound() == 1);		
 		this.eAttribute = eAttribute;
+		
 	}
 
-	public Module generate(EClassifier contextOfEAttribute, EEnumLiteral eEnumLiteral) {
-		return null;
+	public Module generate(EClassifier contextOfEAttribute, EEnumLiteral oldEENumliteral, EEnumLiteral newEENumliteral) {
+
+		// CHANGE for EAttribute with EEnumLiteral as EType ****************************************************************/
+		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE_LITERAL : "
+				+ contextOfEAttribute.getName() + eAttribute.getName()+ "From"
+				+ oldEENumliteral.getName()
+				+ "To "+newEENumliteral.getName());
+
+		// create CHANGE_Module
+		Module CHANGE_LITERAL_Module = HenshinFactory.eINSTANCE.createModule();
+
+		// Add imports for meta model
+		CHANGE_LITERAL_Module.getImports().addAll(config.EPACKAGESSTACK);
+
+		// create rule
+		Rule rule = HenshinFactory.eINSTANCE.createRule();
+		rule.setActivated(true);
+		rule.setName("change"+contextOfEAttribute.getName()
+				+Common.toCamelCase(eAttribute.getName())+GlobalConstants.FROM
+				+Common.toCamelCase(oldEENumliteral.getName())
+				+GlobalConstants.TO+newEENumliteral.getName());
+		rule.setDescription("Changes the attribute value of "
+				+eAttribute.getName() +GlobalConstants.FROM
+				+oldEENumliteral.getName()
+				+GlobalConstants.TO+newEENumliteral.getName());
+		CHANGE_LITERAL_Module.getUnits().add(rule);
+
+		NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, eAttribute.eContainer().eClass());
+
+		HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, eAttribute, "\""+oldEENumliteral.getName()+"\"", false);
+		containerNodePair.getRhsNode().getAttribute(eAttribute).setValue("\""+newEENumliteral.getName()+"\"");
+
+		// set outputFilename, Module name and description
+		String name = GlobalConstants.CHANGE_LITERAL_prefix + contextOfEAttribute.getName() 
+				+"_"+eAttribute.getName()
+				+GlobalConstants.FROM+oldEENumliteral.getName()
+				+GlobalConstants.TO+newEENumliteral.getName();
+		CHANGE_LITERAL_Module.setName(name);
+		CHANGE_LITERAL_Module.setDescription(rule.getDescription());
+
+		// create mainUnits & put TS in map for later serializing
+		Common.mainUnitCreation(CHANGE_LITERAL_Module, OperationType.CHANGE_LITERAL);
+
+		return CHANGE_LITERAL_Module;
 	}
 	
 }

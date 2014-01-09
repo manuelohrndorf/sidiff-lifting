@@ -1,13 +1,18 @@
 package org.sidiff.serge.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -16,12 +21,15 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.generators.actions.AddGenerator;
+import org.sidiff.serge.generators.actions.ChangeLiteralGenerator;
 import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
@@ -381,11 +389,99 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_CHANGE_Literals(EClassifier eClassifier) {
+	public Set<Module> generate_CHANGE_Literals(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(c.CREATE_CHANGE_LITERALS) {
+			
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+	
+			//TODO implicit requirements
+			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			
+			EClass eClass = (EClass) eClassifier;
+			
+			// EAttributes which shall be considered
+			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
+			if(c.REDUCETOSUPERTYPE_CHANGE_LITERALS) {
+				//all own eattributes
+				List<EAttribute> ownEAttributes = eClass.getEAttributes();
+				if(ownEAttributes!=null) {
+					easToConsider.addAll(ownEAttributes);
+				}
+				
+				//also include all inherited EAttributes, for which SERGEe Constraints are defined
+				List<EAttribute> easOfConstraintsToConsider = ECM.getAllInheritedEAttributesInvolvedInConstraints(eClassifier);
+				if(easOfConstraintsToConsider!=null) {
+					easToConsider.addAll(easOfConstraintsToConsider);
+				}
+				
+			}else{
+				//all inherited eattributes
+				easToConsider = eClass.getEAllAttributes();
+			}
+
+			for(EAttribute ea: easToConsider) {
+				// don't consider derived, not changeable, unsettable and transient references
+				if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
+					
+					int lowerBound = ea.getLowerBound();
+					int upperBound = ea.getUpperBound();		
+					
+					/********** un-supported yet: isMany *************************************************************************************/
+					if((lowerBound == 0) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
+					}
+					else if ((lowerBound == 1) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
+					}
+					
+					if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
+						
+						EEnum eenum = (EEnum) ea.getEType();
+												
+						// build up combinations
+						Map<EEnumLiteral,List<EEnumLiteral>> combinations = new HashMap<EEnumLiteral,List<EEnumLiteral>>();
+
+						for(EEnumLiteral literal :eenum.getELiterals()) {
+							combinations.put(literal, new ArrayList<EEnumLiteral>(eenum.getELiterals()));
+						}//here combination with self is still included.						
+						
+						// build CHANGE modules for every combination:						
+						for(Entry<EEnumLiteral,List<EEnumLiteral>> entry: combinations.entrySet()) {									
+							EEnumLiteral oldLiteral = entry.getKey();
+							
+							//to remove combination with self, remove self from old values
+							entry.getValue().remove(oldLiteral);
+							
+							// now create module for every literal combination
+							for(EEnumLiteral newLiteral: entry.getValue()) {
+
+								ChangeLiteralGenerator generator = new ChangeLiteralGenerator(ea, oldLiteral);
+								modules.add(generator.generate(eClassifier, oldLiteral, newLiteral));
+								
+							}
+							
+						}
+
+					}
+					
+				}
+			}
+
+		}
 		return modules;
 	}
 

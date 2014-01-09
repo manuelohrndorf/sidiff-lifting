@@ -35,23 +35,23 @@ public class ChangeReferenceGenerator {
 
 	public Module generate(EClassifier target) throws OperationTypeNotImplementedException {
 
-		String name = GlobalConstants.CHANGE_prefix + contextClass.getName() + "_(" + reference.getName()+ ")" + GlobalConstants.TGT+target.getName(); 
+		String name = GlobalConstants.CHANGE_REFERENCE_prefix + contextClass.getName() + "_(" + reference.getName()+ ")" + GlobalConstants.TGT+target.getName(); 
 		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + name);
 
-		Module CHANGE_Module = HenshinFactory.eINSTANCE.createModule();
-		CHANGE_Module.setName(name);
+		Module CHANGE_REFERENCE_Module = HenshinFactory.eINSTANCE.createModule();
+		CHANGE_REFERENCE_Module.setName(name);
 
-		CHANGE_Module.setDescription("CHANGEs "+contextClass.getName() +"'s reference "+ reference.getName() + " the target "+ target.getName());
+		CHANGE_REFERENCE_Module.setDescription("CHANGEs "+contextClass.getName() +"'s reference "+ reference.getName() + " the target "+ target.getName());
 
 		// add imports
-		CHANGE_Module.getImports().addAll(config.EPACKAGESSTACK);
+		CHANGE_REFERENCE_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(CHANGE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
+		Common.createBasicRule(CHANGE_REFERENCE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
 
 		// create mainUnit and put in map
-		Common.mainUnitCreation(CHANGE_Module, OperationType.CHANGE_REFERENCE);
+		Common.mainUnitCreation(CHANGE_REFERENCE_Module, OperationType.CHANGE_REFERENCE);
 
-		return CHANGE_Module;
+		return CHANGE_REFERENCE_Module;
 	}
 }

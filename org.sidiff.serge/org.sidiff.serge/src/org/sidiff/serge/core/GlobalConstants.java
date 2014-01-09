@@ -10,7 +10,8 @@ public interface GlobalConstants {
 	public static final String UNSET_prefix 			= "UNSET_";
 	public static final String ADD_prefix 				= "ADD_";
 	public static final String REMOVE_prefix 			= "REMOVE_";
-	public static final String CHANGE_prefix 			= "CHANGE_";
+	public static final String CHANGE_REFERENCE_prefix 	= "CHANGE_REFERENCE_";
+	public static final String CHANGE_LITERAL_prefix 	= "CHANGE_LITERAL_";
 	public static final String MOVE_prefix 				= "MOVE_";
 	public static final String EXECUTE_suffix			= "_execute.henshin";
 	public static final String INITIALCHECK_suffix		= "_initialcheck.henshin";
