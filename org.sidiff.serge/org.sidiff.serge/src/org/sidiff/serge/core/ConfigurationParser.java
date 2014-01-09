@@ -51,6 +51,7 @@ public class ConfigurationParser {
 		//TODO other optypes
 		//TODO workspace_loc
 		String workspace_loc = null;
+		String fSep = System.getProperty("file.separator");
 		
 		
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
@@ -72,7 +73,12 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
 		c.PROFILEAPPLICATIONINUSE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
-		c.OUTPUTFOLDERPATH=String.valueOf(Common.getAttributeValue("absolutePath", currentNode));
+		String configOutputPath=String.valueOf(Common.getAttributeValue("absolutePath", currentNode));
+		if(!configOutputPath.endsWith(fSep)) {
+			c.OUTPUTFOLDERPATH = configOutputPath+fSep;
+		}else{
+			c.OUTPUTFOLDERPATH = configOutputPath;
+		}		
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
 		c.REDUCETOSUPERTYPE_SETUNSET=Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
 		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));

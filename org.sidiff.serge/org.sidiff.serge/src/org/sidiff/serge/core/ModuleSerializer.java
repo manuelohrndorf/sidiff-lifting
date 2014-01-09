@@ -25,15 +25,15 @@ public class ModuleSerializer {
 	 */
 	public void serialize(Module module) {
 		
-		String outputFileName = module.getName() + GlobalConstants.EXECUTE_suffix;
+		String outputFilePath = Configuration.getInstance().OUTPUTFOLDERPATH + module.getName() + GlobalConstants.EXECUTE_suffix;
 		
 		// assertions / checks
-		checkModuleFileNameEquality(module, outputFileName);		
+		checkModuleFileNameEquality(module, outputFilePath);		
 		checkMainUnitIsUnique(module);
 		
 		// create resource out of module and outputFileName
 		ResourceSet resourceSet = new ResourceSetImpl();
-		URI fileUri = URI.createFileURI(outputFileName);
+		URI fileUri = URI.createFileURI(outputFilePath);
 		Resource resource = resourceSet.createResource(fileUri);
 		resource.getContents().add(module);
 
@@ -116,10 +116,12 @@ public class ModuleSerializer {
 		while(setIterator.hasNext()) {
 			
 			Set<Module> currentSet = setIterator.next();
+			if(currentSet!=null) {
 			for(Module module: currentSet) {
-			
-				serialize(module);
 				
+					serialize(module);
+					
+				}
 			}
 		}
 		
