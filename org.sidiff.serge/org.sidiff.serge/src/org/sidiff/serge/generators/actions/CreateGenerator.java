@@ -79,7 +79,8 @@ public class CreateGenerator {
 		}
 		
 		// create mainUnit
-		Common.mainUnitCreation(module, OperationType.CREATE);
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(module, OperationType.CREATE);
+		mainUnitGenerator.generate();
 		
 		return module;
 		

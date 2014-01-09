@@ -105,7 +105,10 @@ public class AbstractTypeReplacer {
 					}
 				}				
 				intermediateResults.add(copy);
-			}					
+			}	
+			
+			// TODO this is unfinished
+			
 		}
 		
 		return variantModules;			

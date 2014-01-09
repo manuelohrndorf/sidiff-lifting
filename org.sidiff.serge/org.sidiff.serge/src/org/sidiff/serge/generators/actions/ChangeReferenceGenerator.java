@@ -49,8 +49,9 @@ public class ChangeReferenceGenerator {
 		// create rule
 		Common.createBasicRule(CHANGE_REFERENCE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
 
-		// create mainUnit and put in map
-		Common.mainUnitCreation(CHANGE_REFERENCE_Module, OperationType.CHANGE_REFERENCE);
+		// create mainUnit
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(CHANGE_REFERENCE_Module, OperationType.CHANGE_REFERENCE);
+		mainUnitGenerator.generate();
 
 		return CHANGE_REFERENCE_Module;
 	}

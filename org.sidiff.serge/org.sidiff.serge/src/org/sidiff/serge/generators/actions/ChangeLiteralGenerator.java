@@ -75,8 +75,9 @@ public class ChangeLiteralGenerator {
 		CHANGE_LITERAL_Module.setName(name);
 		CHANGE_LITERAL_Module.setDescription(rule.getDescription());
 
-		// create mainUnits & put TS in map for later serializing
-		Common.mainUnitCreation(CHANGE_LITERAL_Module, OperationType.CHANGE_LITERAL);
+		// create mainUnit
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(CHANGE_LITERAL_Module, OperationType.CHANGE_LITERAL);
+		mainUnitGenerator.generate();
 
 		return CHANGE_LITERAL_Module;
 	}

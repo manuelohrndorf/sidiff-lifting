@@ -21,7 +21,8 @@ public class RemoveGenerator {
 		LogUtil.log(LogEvent.NOTICE, "Generating REMOVE : " + REMOVE_Module.getName());
 
 		// create mainUnit
-		Common.mainUnitCreation(REMOVE_Module, OperationType.REMOVE);
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(REMOVE_Module, OperationType.REMOVE);
+		mainUnitGenerator.generate();
 		
 		return REMOVE_Module;
 	}

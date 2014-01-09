@@ -56,8 +56,9 @@ public class AddGenerator {
 		// create rule
 		Common.createBasicRule(ADD_Module, outReference, eClassifier, contextClass, null, null, OperationType.ADD);
 
-		// create mainUnits
-		Common.mainUnitCreation(ADD_Module, OperationType.ADD);
+		// create mainUnit
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(ADD_Module, OperationType.ADD);
+		mainUnitGenerator.generate();
 
 		return ADD_Module;
 	}

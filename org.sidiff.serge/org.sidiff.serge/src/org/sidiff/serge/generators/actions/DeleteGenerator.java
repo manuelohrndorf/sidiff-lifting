@@ -22,9 +22,9 @@ public class DeleteGenerator {
 		LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 		Common.replaceNewsWithToBeDeleted(inverseModule);
 
-		// remove old mainUnit and re-create mainUnit
-		Common.removeAllNonRuleUnits(inverseModule);	
-		Common.mainUnitCreation(inverseModule, OperationType.DELETE);		
+		// mainUnit and re-create mainUnit
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(inverseModule, OperationType.DELETE);
+		mainUnitGenerator.generate();		
 				
 		return inverseModule;
 	}
