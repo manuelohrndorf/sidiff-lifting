@@ -139,6 +139,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.valueLabelProvider.init(engine.getArgumentManager(), engine.getOperationManager());
 		this.operationLabelProvider.init(engine.getOperationManager());
 		this.editingSupport.setArgumentManager(engine.getArgumentManager());
+		this.editingSupport.setOperationManager(engine.getOperationManager());
 		this.patchViewer.setInput(engine.getAsymmetricDifference());
 		this.patchViewer.expandAll();
 		this.patchViewer.getTree().getColumns()[1].pack();

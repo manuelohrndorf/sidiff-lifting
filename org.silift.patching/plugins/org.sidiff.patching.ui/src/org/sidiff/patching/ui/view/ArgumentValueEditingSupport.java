@@ -6,25 +6,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
 	private List<String> itemStrings;
 	private IArgumentManager argumentManager;
+	private OperationManager operationManager;
 	private IValueChangedListener listener;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
@@ -83,6 +88,13 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 	@Override
 	protected boolean canEdit(Object element) {
+		//Only editable if not applied beforehand
+		ParameterBinding parBinding = (ParameterBinding) element;
+		OperationInvocation op = (OperationInvocation) parBinding.eContainer();
+		OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
+		if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+			return false;
+		}
 		if (element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			return !binding.isMappingTarget();
@@ -140,6 +152,10 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 	public void setArgumentManager(IArgumentManager manager) {
 		this.argumentManager = manager;
+	}
+	
+	public void setOperationManager(OperationManager manager) {
+		this.operationManager = manager;
 	}
 	
 	public void setListener(IValueChangedListener listener) {

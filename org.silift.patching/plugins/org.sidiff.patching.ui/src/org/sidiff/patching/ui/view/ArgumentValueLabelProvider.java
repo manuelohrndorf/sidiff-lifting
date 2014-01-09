@@ -7,6 +7,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.ArgumentWrapper;
@@ -150,18 +151,21 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	@Override
 	public Color getForeground(Object element) {
-		if (element instanceof ObjectParameterBinding) {
+		if (element instanceof ParameterBinding) {
 			Display display = Activator.getDefault().getWorkbench().getDisplay();
-			ObjectParameterBinding binding = (ObjectParameterBinding) element;
+			ParameterBinding binding = (ParameterBinding) element;
 			OperationInvocation op = (OperationInvocation) binding.eContainer();
 			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
 
 			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return new Color(display, 150, 150, 150);
 			} else {
-				ArgumentWrapper argument = argumentManager.getArgument(binding);
-				if (isInParameter(binding) && !argument.isResolved()) {
-					return new Color(display, 200, 0, 0);
+				if(element instanceof ObjectParameterBinding){
+					ObjectParameterBinding objBinding = (ObjectParameterBinding) element;
+					ArgumentWrapper argument = argumentManager.getArgument(objBinding);
+					if (isInParameter(objBinding) && !argument.isResolved()) {
+						return new Color(display, 200, 0, 0);
+					}
 				}
 			}
 		}
