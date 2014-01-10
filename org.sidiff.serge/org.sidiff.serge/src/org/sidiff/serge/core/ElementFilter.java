@@ -136,9 +136,9 @@ public class ElementFilter {
 				return false;
 //				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
-			case MOVE_COMBINATION:
+			case MOVE_REFERENCE_COMBINATION:
 				if (
-					(!c.CREATE_MOVE_COMBINATIONS)
+					(!c.CREATE_MOVE_REFERENCE_COMBINATIONS)
 					|| (c.isAnUnnestableRoot(eClassifier))
 					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
 			)
@@ -237,7 +237,7 @@ public class ElementFilter {
 //				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
-			case MOVE_COMBINATION:
+			case MOVE_REFERENCE_COMBINATION:
 //				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;

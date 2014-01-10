@@ -38,6 +38,7 @@ import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.MoveGenerator;
 import org.sidiff.serge.generators.actions.MoveMaskedElementGenerator;
+import org.sidiff.serge.generators.actions.MoveReferenceCombinationGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.serge.generators.actions.SetReferenceGenerator;
@@ -229,9 +230,7 @@ public class GenerationActionDelegator {
 				}
 			}
 		}
-
-
-		
+	
 		return modules;
 		
 	}
@@ -283,19 +282,85 @@ public class GenerationActionDelegator {
 	/**
 	 * General MOVE-Combination-generation method, that finds all relevant
 	 * contexts and references that represent different MOVE-Combination-Modules for this eClassifier.
-	 * For each setup the generation process will be delegated to {@link MoveCombinationGenerator}
+	 * For each setup the generation process will be delegated to {@link MoveReferenceCombinationGenerator}
 	 * 
 	 * @param eClassifier
 	 * @return 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_MOVE_COMBINATION(EClassifier eClassifier) {
+	public Set<Module> generate_MOVE_REFERENCE_COMBINATION(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		
-		if(c.CREATE_MOVE_COMBINATIONS) {
-		
-			// TODO ...
+
+		if(c.CREATE_MOVE_REFERENCE_COMBINATIONS && FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_REFERENCE_COMBINATION)) {
+
+			// get possible eClassifier Masks for additional move generation of masked classifiers.
+			List<Mask> eClassifierMasks = new ArrayList<Mask>();
+			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier).getMasks());
 			
+			// get all possible contexts (mandatory & optional) and the according references
+			HashMap<EReference,List<EClassifier>> allParents = ECM.getAllParentContexts(eClassifier, c.CREATE_MOVE_REFERENCE_COMBINATIONS);
+			HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
+			for(EReference eRef: allParents.keySet()) {
+
+				assert(eRef.isContainment()) : "eRef is no containment but should be";
+
+				// don't consider containment references where multiplicity is fixed
+				// in such cases a SWAP (complex) operation is necessary
+				if(!(eRef.getLowerBound()==eRef.getUpperBound())) {
+
+					// don't consider derived, not changeable, unsettable and transient references
+					if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isUnsettable() && !eRef.isTransient()) {
+
+						EClass parent = (EClass) eRef.eContainer();
+
+						// if parent is allowed, put it in allAllowedParent-List
+						if (FILTER.isAllowedAsDangling(parent, OperationType.MOVE_REFERENCE_COMBINATION, c.REDUCETOSUPERTYPE_MOVE_REFERENCE_COMBINATION)) {
+							if(allAllowedParents.get(eRef)==null) {
+								List<EClass> newParentList = new ArrayList<EClass>();
+								newParentList.add(parent);
+								allAllowedParents.put(eRef, newParentList);
+							}else{
+								allAllowedParents.get(eRef).add(parent);
+							}
+						}
+
+						// all EReferences
+						ArrayList<EReference> allReferences = new ArrayList<EReference>();
+						allReferences.addAll(allAllowedParents.keySet());
+
+						for(Entry<EReference,List<EClass>> entry: allAllowedParents.entrySet()) {
+
+							EReference eRefA = entry.getKey();
+							List<EClass> contexts_eRefA = entry.getValue();
+
+							//inter-eRef combinations (switching of EReferences when moving)
+							for(EClass contextA_eRefA: contexts_eRefA) {
+
+								// get all other EReferences
+								ArrayList<EReference> allOtherEReferences = new ArrayList<EReference>();
+								allOtherEReferences.addAll(allAllowedParents.keySet());
+								allOtherEReferences.remove(contextA_eRefA);
+
+								for(EReference eRefB: allOtherEReferences) {
+									for(EClass contextB_eRefB: allAllowedParents.get(eRefB)) {
+										
+										// generate normal moves
+										MoveReferenceCombinationGenerator generator = new MoveReferenceCombinationGenerator(eClassifier, eRefA, contextA_eRefA, contextB_eRefB, eRef, OperationType.MOVE_REFERENCE_COMBINATION);
+										modules.add(generator.generate());
+
+										// also generate all moves for masked eClassifiers, if any
+										for(Mask mask: eClassifierMasks) {
+											MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(mask, eClassifier, eRefA, contextA_eRefA, contextB_eRefB, eRef,  OperationType.MOVE_REFERENCE_COMBINATION);
+											modules.add(generatorForMasks.generate());
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		
 		return modules;

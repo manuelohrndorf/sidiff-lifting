@@ -95,6 +95,7 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("Moves").item(0);
 		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = c.REFERENCESWITCHING_MOVE; //TODO xml/dtd adjusment still missing
 		currentNode = doc.getElementsByTagName("Changes").item(0);
 		c.CREATE_CHANGE_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));	

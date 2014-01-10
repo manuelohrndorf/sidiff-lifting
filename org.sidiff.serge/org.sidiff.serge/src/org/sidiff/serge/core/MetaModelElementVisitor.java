@@ -49,7 +49,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				deleteModules = GAD.generate_DELETE(createModules);
 	
 				moveModules = GAD.generate_MOVE(eClassifier);
-				moveCombinationModules = GAD.generate_MOVE_COMBINATION(eClassifier);
+				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(eClassifier);
 				moveDownModules = GAD.generate_MOVE_DOWN(eClassifier);
 				moveUpModules = GAD.generate_MOVE_UP(eClassifier);
 	

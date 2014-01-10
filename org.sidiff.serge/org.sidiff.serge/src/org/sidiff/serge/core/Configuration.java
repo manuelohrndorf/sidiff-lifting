@@ -19,7 +19,7 @@ public class Configuration {
 	public boolean CREATE_MOVES;
 	public boolean CREATE_MOVE_UPS;
 	public boolean CREATE_MOVE_DOWNS;
-	public boolean CREATE_MOVE_COMBINATIONS;
+	public boolean CREATE_MOVE_REFERENCE_COMBINATIONS;
 	public boolean CREATE_ADDS;
 	public boolean CREATE_REMOVES;
 	public boolean CREATE_SET_ATTRIBUTES;
@@ -41,6 +41,9 @@ public class Configuration {
 	public boolean REDUCETOSUPERTYPE_CHANGE_REFERENCE;
 	public boolean REDUCETOSUPERTYPE_CHANGE_LITERALS;
 	public boolean REDUCETOSUPERTYPE_MOVE;
+	public boolean REDUCETOSUPERTYPE_MOVE_REFERENCE_COMBINATION;
+	public boolean REDUCETOSUPERTYPE_MOVE_UP;
+	public boolean REDUCETOSUPERTYPE_MOVE_DOWN;
 	public boolean REDUCETOSUPERTYPE_CREATEDELETE;
 
 	public boolean LITERALSWITCHING_CHANGE;
@@ -69,7 +72,7 @@ public class Configuration {
 										SET_REFERENCE,UNSET_ATTRIBUTE,
 										UNSET_REFERENCE,
 										ADD,REMOVE,CHANGE_LITERAL, CHANGE_REFERENCE,
-										MOVE,MOVE_COMBINATION,MOVE_UP,MOVE_DOWN; }
+										MOVE,MOVE_REFERENCE_COMBINATION,MOVE_UP,MOVE_DOWN; }
 	
 
 	

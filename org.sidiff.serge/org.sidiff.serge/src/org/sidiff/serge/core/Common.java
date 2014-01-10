@@ -449,6 +449,28 @@ public class Common {
 			
 				break;
 				
+			case MOVE_REFERENCE_COMBINATION:
+				
+				// MOVE_REFERENCE_COMBINATION *********************************************************************************/
+				rule = HenshinFactory.eINSTANCE.createRule();
+				rule.setActivated(true);
+				rule.setName("move"+eClassifier.getName() + GlobalConstants.FROM +targetA.getName() + "_"+eRefA.getName()+ GlobalConstants.TO +targetB.getName()+"_"+targetB.getName()+"");
+				rule.setDescription("Moves "+eClassifier.getName() + " from " +targetA.getName() + "(Reference:"+eRefA.getName()+") to"+targetB.getName()+"(Reference:"+targetB.getName()+")");
+				module.getUnits().add(rule);
+	
+				// create preserved node for eClass
+				selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, (EClass) eClassifier);
+	
+				oldNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.OLDSRC, (EClass) targetA);		
+				newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.NEWSRC, (EClass) targetB);
+	
+				// create <<delete>> edge to old target for EReference and it's EOpposite, if any
+				HenshinRuleAnalysisUtilEx.createDeleteEdge(oldNodePair.getLhsNode(), selectedNodePair.getLhsNode(), eRefA, rule);
+				// create <<create>> edge for new target for EReference and it's EOpposite, if any
+				HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRefB);
+			
+				break;
+				
 			case CREATE:
 	
 				// CamelCasing of target-context name
