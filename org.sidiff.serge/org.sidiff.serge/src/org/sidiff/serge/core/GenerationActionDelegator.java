@@ -37,6 +37,7 @@ import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
+import org.sidiff.serge.generators.actions.SetReferenceGenerator;
 import org.sidiff.serge.generators.actions.UnsetAttributeGenerator;
 
 public class GenerationActionDelegator {
@@ -407,7 +408,7 @@ public class GenerationActionDelegator {
 			}
 		}
 		
-		return null;
+		return modules;
 	}
 
 	/**
@@ -445,10 +446,64 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return Set of disparate set reference modules for the given eClassifier.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+		
+		
+		Set<Module> modules	= new HashSet<Module>();
+		
+		if(c.CREATE_ADDS) {
+			
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+	
+			//TODO implicit requirements
+			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			
+			EClass eClass = (EClass) eClassifier;
+							
+			// EReferences and their EOpposites, if any		
+			for(EReference eRef: eClass.getEAllReferences()) {
+	
+				// don't consider derived, not changeable, unsettable and transient references
+				if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
+	
+					// eRef == no containment reference  *************************************************************/
+					if(!eRef.isContainment()) {
+						EReference eOpposite = eRef.getEOpposite();
+	
+						// and skip eRefs where it's EOpposite is a containment
+						if((eOpposite!=null && !eOpposite.isContainment()) || eOpposite==null) {
+	
+							EClassifier target = eRef.getEType();
+	
+							if (!FILTER.isAllowedAsDangling(target,OperationType.ADD,c.REDUCETOSUPERTYPE_ADDREMOVE))  continue;
+	
+							int lower = eRef.getLowerBound();
+							int upper = eRef.getUpperBound();		
+							
+							// eRef == no containment reference  and (0..1) and
+							// only continue, if ref is inherited and no reduction to super type is wished
+							// or ref is not inherited
+							if(!eRef.isContainment() && lower==0 && upper==1
+								 && (
+									  (EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES)
+									   || !EcoreHelper.isInheritedReference(eRef, eClassifier)
+									)						
+							   ) {
+
+								SetReferenceGenerator generator = new SetReferenceGenerator(eRef, eClassifier, target);
+								modules.add(generator.generate());
+							}
+						}
+					}
+				}
+			}
+		}
+		return modules;
 	}
 	
 	/**
