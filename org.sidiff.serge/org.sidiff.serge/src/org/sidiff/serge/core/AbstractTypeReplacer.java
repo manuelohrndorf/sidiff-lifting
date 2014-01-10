@@ -47,7 +47,7 @@ public class AbstractTypeReplacer {
 	 * @param
 	 * 		 Needs to know what operation type this module considers (create or move e.g.)
 	 * @param
-	 * 		 Needs to know wheather preferSuperTypes is set for this operation type.
+	 * 		 Needs to know whether preferSuperTypes is set for this operation type.
 	 * @return
 	 * 		  A set of possible modules that do not contain any abstract child nodes anymore.
 	 * @throws OperationTypeNotImplementedException 

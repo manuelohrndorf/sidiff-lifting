@@ -1,10 +1,9 @@
 package org.sidiff.serge.core;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -18,16 +17,12 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;

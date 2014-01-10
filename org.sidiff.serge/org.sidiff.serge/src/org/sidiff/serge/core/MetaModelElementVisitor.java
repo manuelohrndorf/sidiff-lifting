@@ -9,8 +9,27 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
+/**
+ * Todo-List for Reintegration:
+ * 
+ * - VariantProcesser (AbstractTypeReplacer and SubTypeReplacer) needs to be completed
+ * - variantModules >> createModules. Some createModules must be removed due to lack of consistency.
+ * - isAllowedForModuleBase: complete support for other OperationTypes
+ * - isAllowedForDangling: complete support for other OperationTypes
+ * - What about implicitlyRequired stuff?
+ * - ConstraintApplicatior needs implementation
+ * - XML/DTD must be adjusted to new OperationType differenciation
+ * - Configuration and ConfigurationParser also
+ * - Implementation of MoveUp and MoveDown needs implementation
+ *
+ * - Generally: The refactoring was done on expense of runtime performance:
+ * Often same lists/sets have to be iterated several times.
+ * To increase speed we should think about using threads in the future.
+ * 
+ * @author mrindt
+ *
+ */
 public class MetaModelElementVisitor implements EClassVisitor{
 
 	private GenerationActionDelegator GAD 		= GenerationActionDelegator.getInstance();
@@ -41,30 +60,56 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
 			assert(eClassifier instanceof EClass);
 			try{
+				
+				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
+				
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.VariantPostprocessor(eClassifier);
-	
-				//TODO retain createModules of variants concerning those that are not valid after replacement
 				
-				deleteModules = GAD.generate_DELETE(createModules);
-	
+				//TODO createModles must be extended by variants but also
+				//in some cases, they need to be replaced because only their variants are valid.
+				// --> new algorithm to do that required.
+				
+				constraintApplicator.applyOn(createModules);
+				
+				deleteModules = GAD.generate_DELETE(createModules);	
+				constraintApplicator.applyOn(deleteModules);
+				
 				moveModules = GAD.generate_MOVE(eClassifier);
+				constraintApplicator.applyOn(moveModules);
+				
 				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(eClassifier);
+				constraintApplicator.applyOn(moveCombinationModules);
+							
 				moveDownModules = GAD.generate_MOVE_DOWN(eClassifier);
+				constraintApplicator.applyOn(moveDownModules);
+				
 				moveUpModules = GAD.generate_MOVE_UP(eClassifier);
+				constraintApplicator.applyOn(moveUpModules);
 	
 				addModules = GAD.generate_ADD(eClassifier);
+				constraintApplicator.applyOn(addModules);
+				
 				removeModules = GAD.generate_REMOVE(addModules);
+				constraintApplicator.applyOn(removeModules);
 	
 				setAttributeModules = GAD.generate_SET_ATTRIBUTE(eClassifier);
+				constraintApplicator.applyOn(setAttributeModules);
+				
 				setReferenceModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
+				constraintApplicator.applyOn(setReferenceModules);
 	
 				setReferenceModules = GAD.generate_SET_REFERENCE(eClassifier);
+				constraintApplicator.applyOn(setReferenceModules);
+				
 				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);
+				constraintApplicator.applyOn(unsetReferenceModules);
 	
 				changeLiteralModules = GAD.generate_CHANGE_Literals(eClassifier);
-				changeReferenceModules = GAD.generate_CHANGE_Reference(eClassifier);
+				constraintApplicator.applyOn(changeLiteralModules);
 				
+				changeReferenceModules = GAD.generate_CHANGE_Reference(eClassifier);
+				constraintApplicator.applyOn(changeReferenceModules);
 				
 				allModules.add(createModules);
 				allModules.add(variantModules);
@@ -82,7 +127,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				allModules.add(changeLiteralModules);
 				allModules.add(changeReferenceModules);
 				
-				
+	
 				ModuleSerializer serializer = new ModuleSerializer();
 				serializer.serialize(allModules);
 				

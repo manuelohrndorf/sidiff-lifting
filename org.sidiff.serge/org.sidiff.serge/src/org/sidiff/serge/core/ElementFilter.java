@@ -14,10 +14,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
-import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
-import org.sidiff.serge.generators.actions.CreateGenerator;
-import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
 
 public class ElementFilter {
 
