@@ -243,11 +243,11 @@ public class PatchEngine {
 					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
 					setOutArguments(op.getParameterBindings(), outArgs);
 					operationManager.getStatusWrapper(op).setPassed(inArgs, outArgs);
-//					reportManager.operationPassed(op, inArgs, outArgs);
+					reportManager.operationPassed(op, inArgs, outArgs);
 					success.add(Boolean.TRUE);
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
-//					reportManager.operationExecFailed(op, inArgs, e);
+					reportManager.operationExecFailed(op, inArgs, e);
 					success.add(Boolean.FALSE);
 				}
 			}
@@ -270,7 +270,7 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
-		reportManager.operationPassed(op, new HashMap<ParameterBinding, Object>(), new HashMap<ParameterBinding, Object>());
+//		reportManager.operationPassed(op, new HashMap<ParameterBinding, Object>(), new HashMap<ParameterBinding, Object>());
 
 		return success.get(0).booleanValue();
 	}
