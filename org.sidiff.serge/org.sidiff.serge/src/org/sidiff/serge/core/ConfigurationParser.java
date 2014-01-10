@@ -106,6 +106,8 @@ public class ConfigurationParser {
 		c.CREATE_SET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		currentNode = doc.getElementsByTagName("Unsets").item(0);
 		c.CREATE_UNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_SET_REFERENCES=c.CREATE_SET_ATTRIBUTES; //TODO xml/dtd adjusment still missing
+		c.CREATE_UNSET_REFERENCES=c.CREATE_SET_ATTRIBUTES;//TODO xml/dtd adjusment still missing
 		
 		
 		// read ProfiledModel Settings if available

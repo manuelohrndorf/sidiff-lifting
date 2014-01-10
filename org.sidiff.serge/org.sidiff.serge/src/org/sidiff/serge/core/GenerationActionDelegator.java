@@ -39,6 +39,7 @@ import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.serge.generators.actions.SetReferenceGenerator;
 import org.sidiff.serge.generators.actions.UnsetAttributeGenerator;
+import org.sidiff.serge.generators.actions.UnsetReferenceGenerator;
 
 public class GenerationActionDelegator {
 
@@ -425,7 +426,7 @@ public class GenerationActionDelegator {
 		
 		Set<Module> modules	= new HashSet<Module>();
 		
-		if(!c.CREATE_UNSET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.SET_ATTRIBUTE);
+		if(!c.CREATE_UNSET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
 		
 		for(Module setAttributeModule: setAttributeModules) {
 			
@@ -513,11 +514,24 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param set of set reference modules
 	 * @return 
+	 * @throws OperationTypeNotImplementedException 
+	 * @throws ModuleForInverseCreationRequiredException 
 	 */
-	public Set<Module> generate_UNSET_REFERENCE(Set<Module> set_reference_Modules) {
+	public Set<Module> generate_UNSET_REFERENCE(Set<Module> setReferenceModules) throws OperationTypeNotImplementedException, ModuleForInverseCreationRequiredException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(!c.CREATE_UNSET_REFERENCES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_REFERENCE);
+		
+		for(Module setReferenceModule: setReferenceModules) {
+			
+			UnsetReferenceGenerator generator = new UnsetReferenceGenerator(setReferenceModule);
+			Module resultModule = generator.generate();
+			
+			modules.add(resultModule);
+			
+		}
+		
 		return modules;
 		
 	}
