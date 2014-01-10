@@ -35,6 +35,7 @@ import org.sidiff.serge.generators.actions.ChangeLiteralGenerator;
 import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
+import org.sidiff.serge.generators.actions.MoveGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.serge.generators.actions.SetReferenceGenerator;
@@ -151,21 +152,71 @@ public class GenerationActionDelegator {
 	/**
 	 * General MOVE-generation method, that finds all relevant
 	 * contexts and references that represent different MOVE-Modules for this eClassifier.
+	 * The generated MOVE-Modules will represent moves of EClassifiers between context EClassifiers over one
+	 * specific containment EReference type.
 	 * For each setup the generation process will be delegated to {@link MoveGenerator}
 	 * 
 	 * @param eClassifier
 	 * @return 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_MOVE(EClassifier eClassifier) {
+	public Set<Module> generate_MOVE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		
-		if(c.CREATE_MOVES) {
-			
-			// TODO ...
-			
+
+		if(c.CREATE_MOVES && FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE)) {
+
+			// get all possible contexts (mandatory & optional) and the according references
+			HashMap<EReference,List<EClassifier>> allParents = ECM.getAllParentContexts(eClassifier, c.REDUCETOSUPERTYPE_MOVE);
+			HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
+			for(EReference eRef: allParents.keySet()) {
+
+				assert(eRef.isContainment()) : "eRef is no containment but should be";
+
+				// don't consider containment references where multiplicity is fixed
+				// in such cases a SWAP (complex) operation is necessary
+				if(!(eRef.getLowerBound()==eRef.getUpperBound())) {
+
+					// don't consider derived, not changeable, unsettable and transient references
+					if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isUnsettable() && !eRef.isTransient()) {
+
+						EClass parent = (EClass) eRef.eContainer();
+
+						// if parent is allowed, put it in allAllowedParent-List
+						if (FILTER.isAllowedAsDangling(parent, OperationType.MOVE, c.REDUCETOSUPERTYPE_MOVE)) {
+							if(allAllowedParents.get(eRef)==null) {
+								List<EClass> newParentList = new ArrayList<EClass>();
+								newParentList.add(parent);
+								allAllowedParents.put(eRef, newParentList);
+							}else{
+								allAllowedParents.get(eRef).add(parent);
+							}
+						}
+
+						// all EReferences
+						ArrayList<EReference> allReferences = new ArrayList<EReference>();
+						allReferences.addAll(allAllowedParents.keySet());
+
+						for(Entry<EReference,List<EClass>> entry: allAllowedParents.entrySet()) {
+
+							EReference eRefA = entry.getKey();
+							List<EClass> contexts_eRefA = entry.getValue();
+
+							//internal-eRef combinations along same EReference
+							for(EClass contextA_eRef: contexts_eRefA) {
+								for(EClass contextB_eRefA: contexts_eRefA) {							
+
+									MoveGenerator generator = new MoveGenerator(eClassifier, eRefA, contextA_eRef, contextB_eRefA);
+									modules.add(generator.generate());
+
+								}
+							}					
+						}
+					}
+				}
+			}
 		}
-		
+
 		return modules;
 		
 	}
