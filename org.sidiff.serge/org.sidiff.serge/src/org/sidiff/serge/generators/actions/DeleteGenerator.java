@@ -5,6 +5,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class DeleteGenerator {
 	
@@ -15,10 +16,10 @@ public class DeleteGenerator {
 		this.createModule = createModule;
 	}
 	
-	public Module generate(){	
+	public Module generate() throws OperationTypeNotImplementedException{	
 		
 		// inverse creation and string replaces
-		Module inverseModule = Common.createInverse(createModule);
+		Module inverseModule = Common.createInverse(createModule, OperationType.CREATE);
 		LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 		Common.replaceNewsWithToBeDeleted(inverseModule);
 

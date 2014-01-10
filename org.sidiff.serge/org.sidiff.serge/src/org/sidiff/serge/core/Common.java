@@ -540,45 +540,78 @@ public class Common {
 	/**
 	 * Creates an inverse of a module.
 	 * E.g. DELETE for CREATE or REMOVE for ADD etc.
-	 * @param module
+	 * @param 
+	 * 			module
+	 * @param 
+	 * 			operationType of the input module
 	 * @return
 	 * 		the inverted module.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public static Module createInverse(Module module) {
+	public static Module createInverse(Module module, OperationType inputOperationType) throws OperationTypeNotImplementedException {
 			
 			String name 		= "";
 			String description	= "";
 			Module inverse = null;
+			Rule firstRule = null;
 			
-			if(module.getName().startsWith(GlobalConstants.ADD_prefix)) {
+			switch(inputOperationType) {
+			
+			case CREATE:
+				
+				name = module.getName().replaceFirst(GlobalConstants.CREATE_prefix, GlobalConstants.DELETE_prefix);
+				description = module.getDescription().replaceFirst("Creates","Deletes");
+				inverse =  HenshinModuleUtil.createInverse(name,description,module);
+				firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
+				firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
+				
+				break;
+				
+			case ADD:
+				
 				name = module.getName().replaceFirst(GlobalConstants.ADD_prefix, GlobalConstants.REMOVE_prefix);
 				description = module.getDescription().replaceFirst("Adds to","Removes");
 				inverse =  HenshinModuleUtil.createInverse(name,description,module);
-				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 				firstRule.setName(firstRule.getName().replaceFirst("addTo", "removeFrom"));
 				firstRule.setDescription(firstRule.getDescription().replaceFirst("Adds to", "Removes from"));
 				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,true).setName(GlobalConstants.OLDTGT);  //rename Node in LHS
 				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,false).setName(GlobalConstants.OLDTGT); //rename Node in RHS
-			}
-			else if(module.getName().startsWith(GlobalConstants.SET_prefix)) {
+				
+				break;
+				
+			case SET_ATTRIBUTE:
+				
 				name = module.getName().replaceFirst(GlobalConstants.SET_prefix, GlobalConstants.UNSET_prefix);
 				description = module.getDescription().replaceFirst("Sets","Unsets");
 				inverse =  HenshinModuleUtil.createInverse(name,description,module);
-				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 				firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
 				firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
 				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT,true).setName(GlobalConstants.OLDTGT);  //rename Node in LHS
 				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,false).setName(GlobalConstants.OLDTGT); //rename Node in RHS
-			}
-			else if(module.getName().startsWith(GlobalConstants.CREATE_prefix)) {
-				name = module.getName().replaceFirst(GlobalConstants.CREATE_prefix, GlobalConstants.DELETE_prefix);
-				description = module.getDescription().replaceFirst("Creates","Deletes");
-				inverse =  HenshinModuleUtil.createInverse(name,description,module);
-				Rule firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
-				firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
-				firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
 				
+				break;
+				
+			case SET_REFERENCE:
+				
+				name = module.getName().replaceFirst(GlobalConstants.SET_prefix, GlobalConstants.UNSET_prefix);
+				description = module.getDescription().replaceFirst("Sets","Unsets");
+				inverse =  HenshinModuleUtil.createInverse(name,description,module);
+				firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+				firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
+				firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT,true).setName(GlobalConstants.OLDTGT);  //rename Node in LHS
+				HenshinRuleAnalysisUtilEx.getNodeByName(firstRule,GlobalConstants.NEWTGT,false).setName(GlobalConstants.OLDTGT); //rename Node in RHS
+				
+				break;
+			
+			default:
+				throw new OperationTypeNotImplementedException(inputOperationType.toString());
+			
 			}
+
 			return inverse;
 		}
 

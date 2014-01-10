@@ -5,6 +5,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class RemoveGenerator {
 	
@@ -15,9 +16,9 @@ public class RemoveGenerator {
 		this.addModule = addModule;
 	}
 	
-	public Module generate(){
+	public Module generate() throws OperationTypeNotImplementedException{
 		
-		Module REMOVE_Module = Common.createInverse(addModule);
+		Module REMOVE_Module = Common.createInverse(addModule, OperationType.ADD);
 		LogUtil.log(LogEvent.NOTICE, "Generating REMOVE : " + REMOVE_Module.getName());
 
 		// create mainUnit

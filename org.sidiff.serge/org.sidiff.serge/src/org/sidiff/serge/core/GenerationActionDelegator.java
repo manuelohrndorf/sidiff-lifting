@@ -36,7 +36,7 @@ import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
-import org.sidiff.serge.generators.actions.SetAttributeValueGenerator;
+import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 
 public class GenerationActionDelegator {
 
@@ -121,8 +121,9 @@ public class GenerationActionDelegator {
 	 * @param set of create modules
 	 * @return 
 	 * @throws ModuleForInverseCreationRequiredException 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_DELETE(Set<Module> createModulesSet) throws ModuleForInverseCreationRequiredException {
+	public Set<Module> generate_DELETE(Set<Module> createModulesSet) throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 
 		Set<Module> modules	= new HashSet<Module>();
 		
@@ -306,8 +307,9 @@ public class GenerationActionDelegator {
 	 * @param set of remove modules
 	 * @return 
 	 * @throws ModuleForInverseCreationRequiredException 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_REMOVE(Set<Module> addModules) throws ModuleForInverseCreationRequiredException {
+	public Set<Module> generate_REMOVE(Set<Module> addModules) throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
 		
@@ -397,7 +399,7 @@ public class GenerationActionDelegator {
 					/**********SET / UNSET ATTRIBUTES *******************************************************************************/
 					else if( ((lowerBound == 0) && (upperBound == 1)) || ((lowerBound == 1) && (upperBound == 1))){
 
-						SetAttributeValueGenerator generator = new SetAttributeValueGenerator(eClassifier, ea);
+						SetAttributeGenerator generator = new SetAttributeGenerator(eClassifier, ea);
 						generator.generate();
 					}
 				}

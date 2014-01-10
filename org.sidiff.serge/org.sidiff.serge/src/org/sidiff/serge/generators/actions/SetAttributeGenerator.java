@@ -16,7 +16,7 @@ import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.core.Configuration.OperationType;
 
-public class SetAttributeValueGenerator {
+public class SetAttributeGenerator {
 	
 	/**
 	 * The EAttribute to set.
@@ -36,7 +36,7 @@ public class SetAttributeValueGenerator {
 	/**
 	 * Constructor
 	 */
-	public SetAttributeValueGenerator(EClassifier contextClassifier, EAttribute eAttribute) {
+	public SetAttributeGenerator(EClassifier contextClassifier, EAttribute eAttribute) {
 		this.contextClassifier = contextClassifier;
 		this.eAttribute = eAttribute;
 	}
