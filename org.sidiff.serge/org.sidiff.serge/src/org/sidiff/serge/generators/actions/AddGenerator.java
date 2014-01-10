@@ -26,35 +26,47 @@ public class AddGenerator {
 	/**
 	 * Context class whose outgoing EReference shall point to a further eClassifier.
 	 */
-	private EClass contextClass;
+	private EClassifier contextClassifier;
+	
+	/**
+	 * The eClassifier which should be added.
+	 */
+	private EClassifier eClassifier;
 	
 	/**
 	 * The configuration.
 	 */
 	private static Configuration config = Configuration.getInstance();
 
-	public AddGenerator(EReference outReference, EClass contextClass) {
+	/**
+	 * The Constructor
+	 * @param outReference
+	 * @param contextClassifier
+	 * @param eClassifier
+	 */
+	public AddGenerator(EReference outReference, EClass contextClassifier, EClassifier eClassifier) {
 		super();
 		this.outReference = outReference;
-		this.contextClass = contextClass;
+		this.contextClassifier = contextClassifier;
+		this.eClassifier = eClassifier;
 	}
 	
-	public Module generate(EClassifier eClassifier) throws OperationTypeNotImplementedException{
+	public Module generate() throws OperationTypeNotImplementedException{
 		
-		String name = GlobalConstants.ADD_prefix + eClassifier.getName() + "_(" + outReference.getName()+")"+GlobalConstants.TGT+contextClass.getName(); 
+		String name = GlobalConstants.ADD_prefix + eClassifier.getName() + "_(" + outReference.getName()+")"+GlobalConstants.TGT+contextClassifier.getName(); 
 		LogUtil.log(LogEvent.NOTICE, "Generating ADD : " + name);
 
 		Module ADD_Module = HenshinFactory.eINSTANCE.createModule();
 		ADD_Module.setName(name);
 
 		ADD_Module.setDescription("Adds to "+eClassifier.getName() +"'s reference "+ outReference.getName()
-				+ " the target "+ contextClass.getName());
+				+ " the target "+ contextClassifier.getName());
 
 		// add imports
 		ADD_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(ADD_Module, outReference, eClassifier, contextClass, null, null, OperationType.ADD);
+		Common.createBasicRule(ADD_Module, outReference, eClassifier, contextClassifier, null, null, OperationType.ADD);
 
 		// create mainUnit
 		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(ADD_Module, OperationType.ADD);

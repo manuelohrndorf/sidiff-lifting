@@ -12,13 +12,17 @@ public class VariantGenerator {
 	 */
 	private Module createModule;
 
+	/**
+	 * Constructor
+	 * @param createModule
+	 */
 	public VariantGenerator(Module createModule) {
 		super();
 		this.createModule = createModule;
 	}
 
 	public Set<Module> generate(){
-		// TODO: puhhh, type replacements
+		// TODO: delegate to AbstractTypeReplacer and SuperTypeReplacer when implemented
 		return null;
 	}
 }

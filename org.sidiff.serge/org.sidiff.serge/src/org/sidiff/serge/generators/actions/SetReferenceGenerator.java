@@ -35,7 +35,12 @@ public class SetReferenceGenerator {
 	 */
 	private Configuration config = Configuration.getInstance();
 	
-	
+	/**
+	 * Constructor
+	 * @param eReference
+	 * @param contextEClassifier
+	 * @param target
+	 */
 	public SetReferenceGenerator(EReference eReference, EClassifier contextEClassifier, EClassifier target) {
 		
 		assert (!eReference.isContainment() && eReference.getLowerBound() == 0 && eReference

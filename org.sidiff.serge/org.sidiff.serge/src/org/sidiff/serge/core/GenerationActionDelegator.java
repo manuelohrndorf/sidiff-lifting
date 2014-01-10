@@ -242,7 +242,7 @@ public class GenerationActionDelegator {
 		
 		if(c.CREATE_MOVE_UPS) {
 			
-			// TODO ...
+			// TODO implement MoveUp
 			
 		}
 		
@@ -264,7 +264,7 @@ public class GenerationActionDelegator {
 		
 		if(c.CREATE_MOVE_DOWNS) {
 			
-			// TODO ...
+			// TODO implement MoveDown
 			
 		}
 		
@@ -413,8 +413,8 @@ public class GenerationActionDelegator {
 								   )
 							   ) {
 	
-								AddGenerator generator = new AddGenerator(eRef, contextType);
-								Module resultModule = generator.generate(eClassifier);
+								AddGenerator generator = new AddGenerator(eRef, contextType, eClassifier);
+								Module resultModule = generator.generate();
 								
 								modules.add(resultModule);
 	
@@ -738,8 +738,8 @@ public class GenerationActionDelegator {
 							// now create module for every literal combination
 							for(EEnumLiteral newLiteral: entry.getValue()) {
 
-								ChangeLiteralGenerator generator = new ChangeLiteralGenerator(ea, oldLiteral);
-								modules.add(generator.generate(eClassifier, oldLiteral, newLiteral));
+								ChangeLiteralGenerator generator = new ChangeLiteralGenerator(ea, oldLiteral, eClassifier, oldLiteral, newLiteral);
+								modules.add(generator.generate());
 								
 							}
 							
@@ -805,8 +805,8 @@ public class GenerationActionDelegator {
 									  || (EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_CHANGE_REFERENCE))
 								   )
 								){	
-								ChangeReferenceGenerator generator = new ChangeReferenceGenerator(eRef, contextType);
-								Module resultModule = generator.generate(eClassifier);
+								ChangeReferenceGenerator generator = new ChangeReferenceGenerator(eRef, contextType, eClassifier);
+								Module resultModule = generator.generate();
 								
 								modules.add(resultModule);
 	
@@ -839,7 +839,7 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate create modules for the given input modules.
 	 */
 	public Set<Module> VariantPostprocessor(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+		// TODO implement VariantPostprocessor
 		return null;
 	}
 

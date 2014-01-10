@@ -22,7 +22,6 @@ public class CreateGenerator {
 	 * Incoming containment reference type (if available) 
 	 */
 	private EReference containmentReference;
-	private static HenshinFactory henshinFactory = HenshinFactory.eINSTANCE;
 	
 	/**
 	 * Context EClassifier (Can be a sub type of the original type set in a reference).
@@ -44,6 +43,12 @@ public class CreateGenerator {
 	 */
 	private Configuration config = Configuration.getInstance();
 
+	/**
+	 * Constructor
+	 * @param containmentReference
+	 * @param contextClassifier
+	 * @param childInfo
+	 */
 	public CreateGenerator(EReference containmentReference, EClassifier contextClassifier, EClassifierInfo childInfo) {
 		assert(containmentReference.isContainment());
 		
@@ -55,13 +60,12 @@ public class CreateGenerator {
 	
 	public Module generate() throws OperationTypeNotImplementedException{	
 
-		// Create file name and Module				
-		Module module = henshinFactory.createModule();
+		// Create Module				
+		Module module = HenshinFactory.eINSTANCE.createModule();
 		String name = GlobalConstants.CREATE_prefix + child.getName()+ GlobalConstants.IN + contextClassifier.getName()+"_("+containmentReference.getName()+")";
 		LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
 		module.setDescription("Creates one "+child.getName()+" in " + contextClassifier.getName());
 		module.setName(name);
-
 
 		// Add imports for meta model
 		module.getImports().addAll(config.EPACKAGESSTACK);

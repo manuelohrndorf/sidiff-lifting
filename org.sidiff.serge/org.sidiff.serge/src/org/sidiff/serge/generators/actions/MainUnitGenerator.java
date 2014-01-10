@@ -44,6 +44,11 @@ public class MainUnitGenerator {
 	 */
 	private Stack<EPackage> imports = Configuration.getInstance().EPACKAGESSTACK;
 
+	/**
+	 * Constructor
+	 * @param module
+	 * @param opType
+	 */
 	public MainUnitGenerator(Module module,  OperationType opType) {
 		this.module = module;
 		this.opType = opType;

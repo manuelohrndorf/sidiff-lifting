@@ -21,6 +21,7 @@ import org.sidiff.common.logging.LogUtil;
  * - ConstraintApplicatior needs implementation
  * - XML/DTD must be adjusted to new OperationType differenciation
  * - Configuration and ConfigurationParser also
+ * - ProfileModelIntegration
  * - Implementation of MoveUp and MoveDown needs implementation
  *
  * - Generally: The refactoring was done on expense of runtime performance:

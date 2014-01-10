@@ -35,6 +35,8 @@ public class SetAttributeGenerator {
 	
 	/**
 	 * Constructor
+	 * @param contextClassifier
+	 * @param eAttribute
 	 */
 	public SetAttributeGenerator(EClassifier contextClassifier, EAttribute eAttribute) {
 		this.contextClassifier = contextClassifier;

@@ -271,14 +271,14 @@ public class ElementFilter {
 	
 	public Boolean eAttributeIsAllowed(EAttribute eAttribute) {
 		
-		//TODO
+		//TODO eAttributeIsAllowed
 		
 		return true;
 	}
 	
 	public Boolean eReferenceIsAllowed(EReference eREference)  {
 		
-		//TODO
+		//TODO eReferenceIsAllowed
 		
 		return true;
 	}
@@ -401,20 +401,21 @@ public class ElementFilter {
 	 * 2. nothing is on the white list and EClasses other than this are blacklisted<br />
 	 * 3. white list is not empty and current EClass is not blacklisted<br />
 	 * 4. EClass is implicitly required by white listed EClasses (only if asPivot==false)<br />
-	 * 5. EClass is implicitly required by not white listed but recursively required EClasses (only if asPivot==false) //TODO<br />
+	 * 5. EClass is implicitly required by not white listed but recursively required EClasses (only if asPivot==false)<br />
 	 * 6. EClass is required by incoming neighbour references of white listed EClasses<br />
-	 * 7. EClass is required by incoming neighbour references of recursively required EClasses //TODO<br />
+	 * 7. EClass is required by incoming neighbour references of recursively required EClasses<br />
 	 * 8. EClass is required by incoming parent references of white listed EClasses<br />
 	 * 9. EClass is required by incoming parent references of recursively required EClasses<br />
  	 * 10. EClass is required by incoming child references of white listed EClasses<br />
- 	 * 11. EClass is required by incoming child references of recursively required EClasses //TODO<br />
- 	 * 12. more? //TODO
+ 	 * 11. EClass is required by incoming child references of recursively required EClasses<br />
+ 	 * 12. more?
 	 * 
 	 * @param eClassifier
 	 * @param asPivot
 	 * @param preferSupertypes
 	 * @return
 	 */
+	@Deprecated
 	protected static boolean isAllowed(EClassifier eClassifier, Boolean asPivot, Boolean preferSupertypes) {
 		
 		EClassifierInfo eClassifierInfo = ECM.getEClassifierInfo(eClassifier);

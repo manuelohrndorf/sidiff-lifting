@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
 
-public class SubTypeReplacer {
+public class SuperTypeReplacer {
 
 	/**
 	 * The original module that needs to be examined for replacables.
@@ -17,7 +17,7 @@ public class SubTypeReplacer {
 	 */
 	private Set<Module> variantModules = new HashSet<Module>();
 	
-	public SubTypeReplacer (Module originalModule){
+	public SuperTypeReplacer (Module originalModule){
 		this.origModule = origModule;
 	}
 	

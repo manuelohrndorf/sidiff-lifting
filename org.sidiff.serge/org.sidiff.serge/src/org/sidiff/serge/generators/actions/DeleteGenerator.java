@@ -9,8 +9,15 @@ import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class DeleteGenerator {
 	
+	/**
+	 * The input create module.
+	 */
 	private Module createModule;
 
+	/**
+	 * Constructor
+	 * @param createModule
+	 */
 	public DeleteGenerator(Module createModule) {
 		super();
 		this.createModule = createModule;

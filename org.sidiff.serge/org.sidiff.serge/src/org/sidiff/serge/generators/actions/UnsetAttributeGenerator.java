@@ -1,6 +1,5 @@
 package org.sidiff.serge.generators.actions;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;

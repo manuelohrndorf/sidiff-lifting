@@ -22,20 +22,44 @@ public class ChangeLiteralGenerator {
 	 */
 	private EAttribute eAttribute;
 
+	/**
+	 * The context of the EAttribute.
+	 */
+	private EClassifier contextOfEAttribute;
 	
+	/**
+	 * The old literal.
+	 */
+	private EEnumLiteral oldEENumliteral;
+	
+	/**
+	 * The new literal.
+	 */
+	private EEnumLiteral newEENumliteral;
+	
+	/**
+	 * The configuration.
+	 */
 	private static Configuration config = Configuration.getInstance();
 	
 	/**
-	 * Constructor.
+	 * Constructor
+	 * @param eAttribute
+	 * @param eEnumLiteral
+	 * @param contextOfEAttribute
+	 * @param oldEENumliteral
+	 * @param newEENumliteral
 	 */
-	public ChangeLiteralGenerator(EAttribute eAttribute, EEnumLiteral eEnumLiteral) {
+	public ChangeLiteralGenerator(EAttribute eAttribute, EEnumLiteral eEnumLiteral, EClassifier contextOfEAttribute, EEnumLiteral oldEENumliteral, EEnumLiteral newEENumliteral) {
 
 		assert(eAttribute.getLowerBound() == 1 && eAttribute.getUpperBound() == 1);		
 		this.eAttribute = eAttribute;
-		
+		this.contextOfEAttribute = contextOfEAttribute;
+		this.oldEENumliteral = oldEENumliteral;
+		this.newEENumliteral = newEENumliteral;		
 	}
 
-	public Module generate(EClassifier contextOfEAttribute, EEnumLiteral oldEENumliteral, EEnumLiteral newEENumliteral) {
+	public Module generate() {
 
 		// CHANGE for EAttribute with EEnumLiteral as EType ****************************************************************/
 		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE_LITERAL : "

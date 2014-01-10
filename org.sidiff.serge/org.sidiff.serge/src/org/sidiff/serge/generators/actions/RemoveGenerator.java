@@ -9,8 +9,15 @@ import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class RemoveGenerator {
 	
+	/**
+	 * The input add module.
+	 */
 	private Module addModule;
 
+	/**
+	 * Constructor
+	 * @param addModule
+	 */
 	public RemoveGenerator(Module addModule) {
 		super();
 		this.addModule = addModule;

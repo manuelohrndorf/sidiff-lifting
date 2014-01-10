@@ -23,17 +23,32 @@ public class ChangeReferenceGenerator {
 	 * The class from which the reference is outgoing.
 	 */
 	private EClassifier contextClass;
+
+	/**
+	 * The target.
+	 */
+	private EClassifier target;
 	
+	/**
+	 * The configuration
+	 */
 	private Configuration config = Configuration.getInstance();
 
-	public ChangeReferenceGenerator(EReference reference, EClass contextClass) {
+	/**
+	 * Constructor
+	 * @param reference
+	 * @param contextClass
+	 * @param target
+	 */
+	public ChangeReferenceGenerator(EReference reference, EClass contextClass, EClassifier target) {
 		assert(reference.getLowerBound() == 1 && reference.getUpperBound() == 1);
 		
 		this.reference = reference;
 		this.contextClass = contextClass;
+		this.target = target;
 	}
 
-	public Module generate(EClassifier target) throws OperationTypeNotImplementedException {
+	public Module generate() throws OperationTypeNotImplementedException {
 
 		String name = GlobalConstants.CHANGE_REFERENCE_prefix + contextClass.getName() + "_(" + reference.getName()+ ")" + GlobalConstants.TGT+target.getName(); 
 		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE_REFERENCE : " + name);
