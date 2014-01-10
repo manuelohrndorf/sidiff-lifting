@@ -16,10 +16,12 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
@@ -34,6 +36,7 @@ import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
+import org.sidiff.serge.generators.actions.SetAttributeValueGenerator;
 
 public class GenerationActionDelegator {
 
@@ -332,9 +335,75 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return Set of disparate set attribute modules for the given eClassifier.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_SET_ATTRIBUTE(EClassifier eClassifier) {
-		// TODO Auto-generated method stub
+	public Set<Module> generate_SET_ATTRIBUTE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+		
+		Set<Module> modules	= new HashSet<Module>();
+		
+		if(c.CREATE_SET_ATTRIBUTES) {
+			
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+	
+			//TODO implicit requirements
+			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			
+			EClass eClass = (EClass) eClassifier;		
+
+			// EAttributes which shall be considered
+			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
+			if(c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES) {
+				//all own eattributes
+				List<EAttribute> ownEAttributes = eClass.getEAttributes();
+				if(ownEAttributes!=null) {
+					easToConsider.addAll(ownEAttributes);
+				}
+
+				//also include all inherited EAttributes, for which SERGEe Constraints are defined
+				List<EAttribute> easOfConstraintsToConsider = ECM.getAllInheritedEAttributesInvolvedInConstraints(eClassifier);
+				if(easOfConstraintsToConsider!=null) {
+					easToConsider.addAll(easOfConstraintsToConsider);
+				}
+
+			}else{
+				//all inherited eattributes
+				easToConsider = eClass.getEAllAttributes();
+			}
+
+			for(EAttribute ea: easToConsider) {
+				// don't consider derived, not changeable, unsettable and transient references
+				if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
+
+					int lowerBound = ea.getLowerBound();
+					int upperBound = ea.getUpperBound();
+
+					/********** un-supported yet: isMany *************************************************************************************/
+					if((lowerBound == 0) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
+					}
+					else if ((lowerBound == 1) && (upperBound == -1)) {
+						//TODO multivalued eattribs
+						System.out.println("----------------ea:"+ea.getName()
+								+" of "+ea.eContainer().eClass().getName()
+								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
+					}
+
+					/**********SET / UNSET ATTRIBUTES *******************************************************************************/
+					else if( ((lowerBound == 0) && (upperBound == 1)) || ((lowerBound == 1) && (upperBound == 1))){
+
+						SetAttributeValueGenerator generator = new SetAttributeValueGenerator(eClassifier, ea);
+						generator.generate();
+					}
+				}
+			}
+		}
+		
 		return null;
 	}
 

@@ -8,6 +8,10 @@ public interface GlobalConstants {
 	public static final String SET_prefix 				= "SET_";
 	@Deprecated
 	public static final String UNSET_prefix 			= "UNSET_";
+	public static final String SET_ATTRIBUTE_prefix 	= "SET_ATTRIBUTE_";
+	public static final String UNSET_ATTRIBUTE_prefix 	= "UNSET_ATTRIBUTE_";
+	public static final String SET_REFERENCE_prefix 	= "SET_REFERENCE_";
+	public static final String UNSET_REFERENCE_prefix 	= "UNSET_REFERENCE_";
 	public static final String ADD_prefix 				= "ADD_";
 	public static final String REMOVE_prefix 			= "REMOVE_";
 	public static final String CHANGE_REFERENCE_prefix 	= "CHANGE_REFERENCE_";

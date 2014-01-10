@@ -2,10 +2,78 @@ package org.sidiff.serge.generators.actions;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.Configuration;
+import org.sidiff.serge.core.GlobalConstants;
+import org.sidiff.serge.core.Configuration.OperationType;
 
 public class SetAttributeValueGenerator {
 	
-	private EAttribute attribute;
+	/**
+	 * The EAttribute to set.
+	 */
+	private EAttribute eAttribute;
 	
-	private EClass contextClass;
+	/**
+	 *The context of the EAttribute.
+	 */
+	private EClassifier contextClassifier;
+	
+	/**
+	 * The configuration.
+	 */
+	private Configuration config = Configuration.getInstance();
+	
+	/**
+	 * Constructor
+	 */
+	public SetAttributeValueGenerator(EClassifier contextClassifier, EAttribute eAttribute) {
+		this.contextClassifier = contextClassifier;
+		this.eAttribute = eAttribute;
+	}
+	
+	public Module generate() {
+		// SET for EAttributes ***************************************************************************/
+		LogUtil.log(LogEvent.NOTICE, "Generating SET : " + contextClassifier.getName() + " attribute "+ eAttribute.getName());
+
+		// create SET_Module
+		Module SET_ATTRIBUTE_Module = HenshinFactory.eINSTANCE.createModule();
+
+		// Add imports for meta model
+		SET_ATTRIBUTE_Module.getImports().addAll(config.EPACKAGESSTACK);
+
+		// create rule
+		Rule rule = HenshinFactory.eINSTANCE.createRule();
+		rule.setActivated(true);
+		rule.setName("set"+contextClassifier.getName()+Common.toCamelCase(eAttribute.getName()));
+		rule.setDescription("Sets the EAttribute "+eAttribute.getName());
+		SET_ATTRIBUTE_Module.getUnits().add(rule);
+
+		// create preserved node for eClass
+		NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, (EClass) contextClassifier);
+		Node rhsNode = selectedNodePair.getRhsNode();
+
+		// create attribute
+		HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, eAttribute, Common.toCamelCase(eAttribute.getName()));
+
+		// set module name and description
+		String name = GlobalConstants.SET_ATTRIBUTE_prefix + contextClassifier.getName() +"_"+Common.toCamelCase(eAttribute.getName());
+		SET_ATTRIBUTE_Module.setName(name);
+		SET_ATTRIBUTE_Module.setDescription("Sets "+contextClassifier.getName()+" "+Common.toCamelCase(eAttribute.getName()));
+		
+		// create mainUnit
+		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(SET_ATTRIBUTE_Module, OperationType.SET_ATTRIBUTE);
+		mainUnitGenerator.generate();
+		
+		return SET_ATTRIBUTE_Module;
+	}
 }
