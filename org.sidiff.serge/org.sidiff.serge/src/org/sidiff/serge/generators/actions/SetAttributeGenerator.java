@@ -43,7 +43,7 @@ public class SetAttributeGenerator {
 	
 	public Module generate() {
 		// SET for EAttributes ***************************************************************************/
-		LogUtil.log(LogEvent.NOTICE, "Generating SET : " + contextClassifier.getName() + " attribute "+ eAttribute.getName());
+		LogUtil.log(LogEvent.NOTICE, "Generating SET_ATTRIBUTE: " + contextClassifier.getName() + " attribute "+ eAttribute.getName());
 
 		// create SET_Module
 		Module SET_ATTRIBUTE_Module = HenshinFactory.eINSTANCE.createModule();

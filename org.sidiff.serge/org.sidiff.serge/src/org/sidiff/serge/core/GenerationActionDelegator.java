@@ -37,6 +37,7 @@ import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
+import org.sidiff.serge.generators.actions.UnsetAttributeGenerator;
 
 public class GenerationActionDelegator {
 
@@ -416,11 +417,24 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param set of set attribute modules
 	 * @return 
+	 * @throws ModuleForInverseCreationRequiredException 
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_UNSET_ATTRIBUTE(Set<Module> set_attribute_Modules) {
+	public Set<Module> generate_UNSET_ATTRIBUTE(Set<Module> setAttributeModules) throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 		
 		Set<Module> modules	= new HashSet<Module>();
-		// TODO ...
+		
+		if(!c.CREATE_UNSET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.SET_ATTRIBUTE);
+		
+		for(Module setAttributeModule: setAttributeModules) {
+			
+			UnsetAttributeGenerator generator = new UnsetAttributeGenerator(setAttributeModule);
+			Module resultModule = generator.generate();
+			
+			modules.add(resultModule);
+			
+		}
+		
 		return modules;
 		
 	}
@@ -504,21 +518,7 @@ public class GenerationActionDelegator {
 					
 					int lowerBound = ea.getLowerBound();
 					int upperBound = ea.getUpperBound();		
-					
-					/********** un-supported yet: isMany *************************************************************************************/
-					if((lowerBound == 0) && (upperBound == -1)) {
-						//TODO multivalued eattribs
-						System.out.println("----------------ea:"+ea.getName()
-								+" of "+ea.eContainer().eClass().getName()
-								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
-					}
-					else if ((lowerBound == 1) && (upperBound == -1)) {
-						//TODO multivalued eattribs
-						System.out.println("----------------ea:"+ea.getName()
-								+" of "+ea.eContainer().eClass().getName()
-								+ "isMany: ["+lowerBound+","+upperBound+"]--------------");
-					}
-					
+										
 					if((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
 						
 						EEnum eenum = (EEnum) ea.getEType();

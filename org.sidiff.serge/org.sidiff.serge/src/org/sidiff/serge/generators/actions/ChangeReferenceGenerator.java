@@ -36,7 +36,7 @@ public class ChangeReferenceGenerator {
 	public Module generate(EClassifier target) throws OperationTypeNotImplementedException {
 
 		String name = GlobalConstants.CHANGE_REFERENCE_prefix + contextClass.getName() + "_(" + reference.getName()+ ")" + GlobalConstants.TGT+target.getName(); 
-		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE : " + name);
+		LogUtil.log(LogEvent.NOTICE, "Generating CHANGE_REFERENCE : " + name);
 
 		Module CHANGE_REFERENCE_Module = HenshinFactory.eINSTANCE.createModule();
 		CHANGE_REFERENCE_Module.setName(name);
