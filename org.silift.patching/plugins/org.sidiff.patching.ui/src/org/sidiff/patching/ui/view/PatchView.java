@@ -12,11 +12,13 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,6 +29,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.report.IPatchReportListener;
+import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.CheckBoxMouseListener.ICheckBoxListener;
@@ -48,7 +51,12 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	private ArgumentValueEditingSupport editingSupport;
 	private ArgumentValueLabelProvider valueLabelProvider;
 
+	//----------- Qualified Argument Names ----
+	private Action showQualifiedNamesAction;
+	//----------- Reliability -----------------
+	private Action showReliabilityAction;
 	//----------- Filter ----------------------
+	private DropDownAction filterMenu;
 	private NullValueParameterFilter nullValueParameterFilter;
 	private Action nullValueParameterFilterAction;
 	private ValueParameterFilter valueParameterFilter;
@@ -130,7 +138,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		createActions();
 		createMenus();
 		createToolbar();
-		this.updateCommands();
+//		this.updateCommands();
 
 	}
 
@@ -167,8 +175,27 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	 * 
 	 */
 	private void createActions() {
+		//----------- Qualified Argument Names ----
+		this.showQualifiedNamesAction = new Action("Qualified Argument Names", IAction.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				toggleQualifiedArgumentNames(this.isChecked());
+			}
+		};
+		this.showQualifiedNamesAction.setImageDescriptor(Activator.getImageDescriptor("url_16x16.gif"));
 		
+		//----------- Reliability -----------------
+		this.showReliabilityAction = new Action("Reliability", IAction.AS_CHECK_BOX){
+			@Override
+			public void run() {
+				toggleReliability(this.isChecked());
+			}
+		};
+		showReliabilityAction.setImageDescriptor(Activator.getImageDescriptor("reliability_16x16.gif"));
+
 		//----------- Filter ----------------------
+		this.filterMenu= new DropDownAction("Filter");
+		this.filterMenu.setImageDescriptor(Activator.getImageDescriptor("filter_16x16.png"));
 		this.nullValueParameterFilter = new NullValueParameterFilter();
 		this.nullValueParameterFilterAction = new Action("Hide NullValueParameter in Patch") {
 			@Override
@@ -201,6 +228,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		
 		patchViewer.addFilter(outParameterFilter);
 		outParameterFilterAction.setChecked(true);
+		filterMenu.add(nullValueParameterFilterAction);
+		filterMenu.add(valueParameterFilterAction);
+		filterMenu.add(outParameterFilterAction);
 		
 		//----------- Validation ------------------
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
@@ -289,11 +319,11 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	}
 
 	private void fillMenu(IMenuManager rootMenuManager) {
-		IMenuManager filterSubmenu = new MenuManager("Filters");
-		rootMenuManager.add(filterSubmenu);
-		filterSubmenu.add(nullValueParameterFilterAction);
-		filterSubmenu.add(valueParameterFilterAction);
-		filterSubmenu.add(outParameterFilterAction);
+//		IMenuManager filterSubmenu = new MenuManager("Filters");
+//		rootMenuManager.add(filterSubmenu);
+//		filterSubmenu.add(nullValueParameterFilterAction);
+//		filterSubmenu.add(valueParameterFilterAction);
+//		filterSubmenu.add(outParameterFilterAction);
 		
 		IMenuManager validateModeSubmenu = new MenuManager("Validation");
 		rootMenuManager.add(validateModeSubmenu);
@@ -310,29 +340,31 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
-		
+		toolbarManager.add(showReliabilityAction);
+		toolbarManager.add(showQualifiedNamesAction);
+		toolbarManager.add(filterMenu);
 		// toolbarManager.add(preCheckAction);
 	}
 
-	private void updateCommands(){
-		ICommandService commandService = (ICommandService)this.getSite().getService(ICommandService.class);
-		
-		// QualifiedArgumentName
-		Command command = commandService.getCommand("org.sidiff.patching.ui.commandQualifiedArgumentName");
-		try {
-			this.valueLabelProvider.setShowQualifiedArgumentName(!HandlerUtil.toggleCommandState(command));
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		command = commandService.getCommand("org.sidiff.patching.ui.commandReliability");
-		try {
-			this.valueLabelProvider.setShowReliablities(!HandlerUtil.toggleCommandState(command));
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	private void updateCommands(){
+//		ICommandService commandService = (ICommandService)this.getSite().getService(ICommandService.class);
+//		
+//		// QualifiedArgumentName
+//		Command command = commandService.getCommand("org.sidiff.patching.ui.commandQualifiedArgumentName");
+//		try {
+//			this.valueLabelProvider.setShowQualifiedArgumentName(!HandlerUtil.toggleCommandState(command));
+//		} catch (ExecutionException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		};
+//		command = commandService.getCommand("org.sidiff.patching.ui.commandReliability");
+//		try {
+//			this.valueLabelProvider.setShowReliablities(!HandlerUtil.toggleCommandState(command));
+//		} catch (ExecutionException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Override
 	public void itemChecked(OperationInvocation op, boolean checked) {
