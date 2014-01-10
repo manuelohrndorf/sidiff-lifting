@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
+import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
@@ -36,6 +37,7 @@ import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
 import org.sidiff.serge.generators.actions.CreateGenerator;
 import org.sidiff.serge.generators.actions.DeleteGenerator;
 import org.sidiff.serge.generators.actions.MoveGenerator;
+import org.sidiff.serge.generators.actions.MoveMaskedElementGenerator;
 import org.sidiff.serge.generators.actions.RemoveGenerator;
 import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.serge.generators.actions.SetReferenceGenerator;
@@ -166,6 +168,10 @@ public class GenerationActionDelegator {
 
 		if(c.CREATE_MOVES && FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE)) {
 
+			// get possible eClassifier Masks for additional move generation of masked classifiers.
+			List<Mask> eClassifierMasks = new ArrayList<Mask>();
+			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier).getMasks());
+			
 			// get all possible contexts (mandatory & optional) and the according references
 			HashMap<EReference,List<EClassifier>> allParents = ECM.getAllParentContexts(eClassifier, c.REDUCETOSUPERTYPE_MOVE);
 			HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
@@ -206,8 +212,15 @@ public class GenerationActionDelegator {
 							for(EClass contextA_eRef: contexts_eRefA) {
 								for(EClass contextB_eRefA: contexts_eRefA) {							
 
+									// generate normal moves
 									MoveGenerator generator = new MoveGenerator(eClassifier, eRefA, contextA_eRef, contextB_eRefA);
 									modules.add(generator.generate());
+									
+									// also generate all moves for masked eClassifiers, if any
+									for(Mask mask: eClassifierMasks) {
+										MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(mask, eClassifier, eRefA, contextA_eRef, contextB_eRefA, eRef, null);
+										modules.add(generatorForMasks.generate());
+									}
 
 								}
 							}					
@@ -217,6 +230,8 @@ public class GenerationActionDelegator {
 			}
 		}
 
+
+		
 		return modules;
 		
 	}
@@ -477,17 +492,19 @@ public class GenerationActionDelegator {
 		
 		Set<Module> modules	= new HashSet<Module>();
 		
-		if(!c.CREATE_UNSET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
+		if(c.CREATE_UNSET_ATTRIBUTES) {
+			
+			if(!c.CREATE_SET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
 		
-		for(Module setAttributeModule: setAttributeModules) {
-			
-			UnsetAttributeGenerator generator = new UnsetAttributeGenerator(setAttributeModule);
-			Module resultModule = generator.generate();
-			
-			modules.add(resultModule);
-			
+			for(Module setAttributeModule: setAttributeModules) {
+					
+				UnsetAttributeGenerator generator = new UnsetAttributeGenerator(setAttributeModule);
+				Module resultModule = generator.generate();
+					
+				modules.add(resultModule);
+					
+			}
 		}
-		
 		return modules;
 		
 	}
@@ -572,15 +589,18 @@ public class GenerationActionDelegator {
 		
 		Set<Module> modules	= new HashSet<Module>();
 		
-		if(!c.CREATE_UNSET_REFERENCES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_REFERENCE);
-		
-		for(Module setReferenceModule: setReferenceModules) {
+		if(c.CREATE_UNSET_REFERENCES) {
+				
+			if(!c.CREATE_SET_REFERENCES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_REFERENCE);
 			
-			UnsetReferenceGenerator generator = new UnsetReferenceGenerator(setReferenceModule);
-			Module resultModule = generator.generate();
-			
-			modules.add(resultModule);
-			
+			for(Module setReferenceModule: setReferenceModules) {
+				
+				UnsetReferenceGenerator generator = new UnsetReferenceGenerator(setReferenceModule);
+				Module resultModule = generator.generate();
+				
+				modules.add(resultModule);
+				
+			}
 		}
 		
 		return modules;

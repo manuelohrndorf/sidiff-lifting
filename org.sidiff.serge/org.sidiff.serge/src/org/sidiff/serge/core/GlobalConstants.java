@@ -17,6 +17,10 @@ public interface GlobalConstants {
 	public static final String CHANGE_REFERENCE_prefix 	= "CHANGE_REFERENCE_";
 	public static final String CHANGE_LITERAL_prefix 	= "CHANGE_LITERAL_";
 	public static final String MOVE_prefix 				= "MOVE_";
+	public static final String MOVE_MASKED_prefix 		= "MOVE_";
+	public static final String MOVE_COMBI_prefix		= "MOVE_COMBI_";
+	public static final String MOVE_UP_prefix			= "MOVE_UP_";
+	public static final String MOVE_DOWN_prefix			= "MOVE_DOWN_";
 	public static final String EXECUTE_suffix			= "_execute.henshin";
 	public static final String INITIALCHECK_suffix		= "_initialcheck.henshin";
 	public static final String TGT						= "_TGT_";
