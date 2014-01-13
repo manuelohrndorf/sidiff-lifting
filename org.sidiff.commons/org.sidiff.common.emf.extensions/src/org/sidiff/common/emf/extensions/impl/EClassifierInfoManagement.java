@@ -533,6 +533,17 @@ public class EClassifierInfoManagement {
 	}
 
 	
+	public Set<EClassifier> getAllSubTypesAsEClassifiers(EClassifier eClassifier) {
+		Set<EClassifier> set = new HashSet<EClassifier>();
+		
+		for(EClassifier subType: subTypeMap.get(eClassifier)) {
+			set.add(subType);
+			set.addAll(getAllSubTypesAsEClassifiers(subType));			
+		}
+		return set;
+	}
+	
+	
 	public List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClassifier eClassifier) {
 		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
 		
