@@ -37,6 +37,7 @@ import org.sidiff.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.serge.generators.actions.SetReferenceGenerator;
 import org.sidiff.serge.generators.actions.UnsetAttributeGenerator;
 import org.sidiff.serge.generators.actions.UnsetReferenceGenerator;
+import org.sidiff.serge.generators.actions.VariantGenerator;
 
 public class GenerationActionDelegator {
 
@@ -835,12 +836,22 @@ public class GenerationActionDelegator {
 	 * Variants are necessary for the completeness and correctness of module generation.
 	 * For each setup the generation process will be delegated to {@link VariantPostprocessor}
 	 * 
-	 * @param eClassifier
-	 * @return Set of disparate create modules for the given input modules.
+	 * @param inputModules
+	 * 			A Set of modules. For each module the replacables will be processed.
+	 * @return
+	 *  		Set of disparate modules representing the complete set after all necessary replacements.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> VariantPostprocessor(EClassifier eClassifier) {
-		// TODO implement VariantPostprocessor
-		return null;
+	public Set<Module> process_Replacables(Set<Module> inputModules, OperationType opType, boolean reduceToSuperType) throws OperationTypeNotImplementedException {
+		
+		Set<Module> modules = new HashSet<Module>();
+		
+		for(Module module: inputModules) {
+			VariantGenerator generator = new VariantGenerator(module, opType, reduceToSuperType);
+			modules.addAll(generator.generate());
+		}
+		
+		return modules;
 	}
 
 }

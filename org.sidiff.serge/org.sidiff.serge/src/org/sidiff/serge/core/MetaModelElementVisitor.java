@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.core.Configuration.OperationType;
 
 /**
  * Todo-List for Reintegration:
@@ -65,7 +66,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
 				
 				createModules 	= GAD.generate_CREATE(eClassifier);
-				variantModules 	= GAD.VariantPostprocessor(eClassifier);
+				variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
 				
 				//TODO createModles must be extended by variants but also
 				//in some cases, they need to be replaced because only their variants are valid.

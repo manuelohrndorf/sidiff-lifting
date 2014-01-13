@@ -1,28 +1,71 @@
 package org.sidiff.serge.generators.actions;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.query.conditions.eobjects.TypeRelation;
+import org.sidiff.serge.core.AbstractTypeReplacer;
+import org.sidiff.serge.core.TypeReplacer;
+import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.core.SuperTypeReplacer;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class VariantGenerator {
 
 	/**
-	 * The original create module in which we want to replace supertypes with
+	 * The original input module in which we want to replace supertypes with
 	 * subtypes and abstract types with concrete types.
 	 */
-	private Module createModule;
+	private Module originalModule;
+	
+	/**
+	 * The operation type of the original input model.
+	 */
+	private OperationType opType;
+	
+	/**
+	 * Value that states if reduction to super type is wished.
+	 */
+	private boolean reduceToSuperType;
+	
 
 	/**
 	 * Constructor
-	 * @param createModule
+	 * @param originalModule
 	 */
-	public VariantGenerator(Module createModule) {
-		super();
-		this.createModule = createModule;
+	public VariantGenerator(Module originalModule, OperationType opType, boolean reduceToSuperType) {
+		this.originalModule = originalModule;
+		this.opType = opType;
+		this.reduceToSuperType = reduceToSuperType;
 	}
 
-	public Set<Module> generate(){
-		// TODO: delegate to AbstractTypeReplacer and SuperTypeReplacer when implemented
-		return null;
+	public Set<Module> generate() throws OperationTypeNotImplementedException{
+		
+		Set<Module> modules = new HashSet<Module>();
+		
+		
+		TypeReplacer typeReplacer = new TypeReplacer(originalModule);
+		modules.addAll(typeReplacer.replace());
+		
+		
+	
+		
+//		// delegate to AbstractTypeReplacer
+//		AbstractTypeReplacer abstrReplacer = new AbstractTypeReplacer(originalModule);
+//		tmpModules.addAll(abstrReplacer.generateModulesByAbstractChildNodeReplaces(opType, reduceToSuperType));		
+//		
+//		// delegate to SuperTypeReplacer
+//		for(Module module : tmpModules) { 
+//			SuperTypeReplacer supReplacer = new SuperTypeReplacer(module);
+//			modules.addAll(supReplacer.generateModulesBySuperTypeReplacesOfDanglingNodes());
+//		}
+//
+//		//TODO have th
+
+		
+		return modules;
 	}
+	
+	
 }
