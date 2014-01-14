@@ -532,13 +532,22 @@ public class EClassifierInfoManagement {
 		return set;
 	}
 
-	
-	public Set<EClassifier> getAllSubTypesAsEClassifiers(EClassifier eClassifier) {
+	/**
+	 * This method delivers every possible sub type of an input eClassifier recursively.
+	 * In case a sub type is abstract, this sub type will not be included in the result set
+	 * but its sub types will be.
+	 * 
+	 * @param eClassifier
+	 * @return
+	 */
+	public Set<EClassifier> getAllSubTypesAsEClassifiersWithoutAbstracts(EClassifier eClassifier) {
 		Set<EClassifier> set = new HashSet<EClassifier>();
 		
 		for(EClassifier subType: subTypeMap.get(eClassifier)) {
-			set.add(subType);
-			set.addAll(getAllSubTypesAsEClassifiers(subType));			
+			if(subType instanceof EClassifier && !((EClass)subType).isAbstract()) {
+				set.add(subType);
+			}
+			set.addAll(getAllSubTypesAsEClassifiersWithoutAbstracts(subType));			
 		}
 		return set;
 	}
