@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MatrixRow {
 
-	private static List<Object> row = new ArrayList<Object>();
+	private List<Object> row = new ArrayList<Object>();
 	
 	public MatrixRow(List<Object> objects) {
 		for(Object object: objects) {

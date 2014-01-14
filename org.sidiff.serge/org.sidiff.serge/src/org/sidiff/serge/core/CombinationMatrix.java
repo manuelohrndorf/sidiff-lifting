@@ -7,8 +7,8 @@ import org.eclipse.emf.henshin.model.Node;
 
 public class CombinationMatrix {
 
-	private static List<MatrixRow> combinationMatrix = null;
-	private static List<Node> nodeListAsColumnIdentifier = null;
+	private List<MatrixRow> combinationMatrix = null;
+	private List<Node> nodeListAsColumnIdentifier = null;
 	
 	public CombinationMatrix(List<Node> nodeListAsColumnIdentifier) {
 
