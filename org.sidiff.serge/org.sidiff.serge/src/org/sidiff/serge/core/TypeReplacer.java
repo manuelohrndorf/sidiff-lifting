@@ -32,7 +32,7 @@ public class TypeReplacer {
 	/**
 	 * Map of possible replacement types for a each node
 	 */
-	private Map<Node, Set<EClassifier>> nodeReplacementMap;	
+	private Map<Node, Set<EClassifier>> nodeReplacementMap = null;	
 	
 	/**
 	 * Matrix containing the possible node type replacements
@@ -54,15 +54,26 @@ public class TypeReplacer {
 	private void initializeMatrixForVariants() {
 		
 		
-		List<Node> nodesRequiringReplaces = HenshinRuleAnalysisUtilEx.getChildNodesWithinAContainmentRelation(
+		List<Node> childNodes = HenshinRuleAnalysisUtilEx.getChildNodesWithinAContainmentRelation(
 				originalModule, HenshinRuleAnalysisUtilEx.NodeKindSelection.CREATE,false);
 		
+		// remove node entries if they are neither abstract nor super type
+		// because then there is no replacement needed		
+		Iterator<Node> childNodeIterator = childNodes.iterator();
+		while(childNodeIterator.hasNext()) {
+			Node childNode = childNodeIterator.next();
+			if(!childNode.getType().isAbstract() 
+					&& ECM.getAllSubTypesAsEClassifiersWithoutAbstracts(childNode.getType()).isEmpty()) {
+				childNodeIterator.remove();
+			}
+			
+		}
 		
 		// Create a Replacement Matrix for the nodesRequiringReplaces
-		matrix = new CombinationMatrix(nodesRequiringReplaces);		
+		matrix = new CombinationMatrix(childNodes);		
 		
 		// gather possible replacements per node
-		for(Node nodeRequiringReplace: nodesRequiringReplaces) {
+		for(Node nodeRequiringReplace: childNodes) {
 
 			// the original type
 			EClassifier originalTypeOfNode = nodeRequiringReplace.getType();
@@ -87,10 +98,10 @@ public class TypeReplacer {
 		
 		
 		// get the first node to replace if any and start building matrix
-		if(!nodesRequiringReplaces.isEmpty()) {
+		if(!childNodes.isEmpty()) {
 			
 			// the first node and its original type
-			Node initialNode = nodesRequiringReplaces.get(0);
+			Node initialNode = childNodes.get(0);
 			
 			// create row for each replacement for the first node
 			for(EClassifier replacement: nodeReplacementMap.get(initialNode)) {
@@ -114,47 +125,45 @@ public class TypeReplacer {
 	}
 	
 	private void continueFillMatrix(MatrixRow row, Integer column) {
-		
+
 		Node nextNodeToReplace = matrix.getNodeByColumn(column);
-		
-			if(nextNodeToReplace!=null) {
-			
-			//type of nextNodeToReplace
-			EClassifier originalType = nextNodeToReplace.getType();
-			
+
+		if(nextNodeToReplace!=null) {
+
+			//get replacements for nextNodeToReplace
 			Integer columnIndex = matrix.getColumnIndexOfNode(nextNodeToReplace);
-			Set<EClassifier> replacements = nodeReplacementMap.get(originalType);
-			
+			Set<EClassifier> replacements = nodeReplacementMap.get(nextNodeToReplace);
+
 			if(replacements!=null) {
-				
+
 				// iterator over replacements
 				Iterator<EClassifier> repIterator = replacements.iterator();
-				
+
 				// first replacement
 				EClassifier firstReplacement = repIterator.next();
-				
+
 				// update row with first replacement		
 				row.setEntryAtPosition(columnIndex, firstReplacement);		
-				
+
 				// continue adjusting this row with replacements in next columns
 				if(matrix.getNodeByColumn(column+1)!=null) {
 					continueFillMatrix(row,column+1);				
 				}	
-				
+
 				// if there are more possible replacements for this node, create copy of current
 				// row and replace node type in it
 				while(repIterator.hasNext()) {
-					
+
 					// create new row by copying the existing one
 					EClassifier nextReplace = repIterator.next();
 					MatrixRow newRowByCopy = new MatrixRow(row.getEntries());
-						
+
 					// update row with nextReplace		
 					newRowByCopy.setEntryAtPosition(columnIndex, nextReplace);
-					
+
 					// add it to matrix
 					matrix.addRow(newRowByCopy);
-					
+
 					// continue adjusting this row with replacements in next columns
 					if(matrix.getNodeByColumn(column+1)!=null) {
 						continueFillMatrix(newRowByCopy,column+1);				
