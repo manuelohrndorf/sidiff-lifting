@@ -30,15 +30,15 @@ public class CombinationMatrix {
 	}
 	
 	public int getColumnIndexOfNode(Node node) {
-		return nodeListAsColumnIdentifier.indexOf(node)+1;
+		return nodeListAsColumnIdentifier.indexOf(node);
 	}
 
 	public Node getNodeByColumn(Integer columnIndex) {
 		
-		if(columnIndex+1 > nodeListAsColumnIdentifier.size()) {
+		if(columnIndex >= nodeListAsColumnIdentifier.size()) {
 			return null;
 		}
-		return nodeListAsColumnIdentifier.get(columnIndex+1);
+		return nodeListAsColumnIdentifier.get(columnIndex);
 	}
 	
 	public List<MatrixRow> getRows() {

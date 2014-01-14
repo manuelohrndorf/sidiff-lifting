@@ -125,40 +125,43 @@ public class TypeReplacer {
 			Integer columnIndex = matrix.getColumnIndexOfNode(nextNodeToReplace);
 			Set<EClassifier> replacements = nodeReplacementMap.get(originalType);
 			
-			// iterator over replacements
-			Iterator<EClassifier> repIterator = replacements.iterator();
-			
-			// first replacement
-			EClassifier firstReplacement = repIterator.next();
-			
-			// update row with first replacement		
-			row.setEntryAtPosition(columnIndex, firstReplacement);		
-			
-			// continue adjusting this row with replacements in next columns
-			if(matrix.getNodeByColumn(column+1)!=null) {
-				continueFillMatrix(row,column+1);				
-			}	
-			
-			// if there are more possible replacements for this node, create copy of current
-			// row and replace node type in it
-			while(repIterator.hasNext()) {
+			if(replacements!=null) {
 				
-				// create new row by copying the existing one
-				EClassifier nextReplace = repIterator.next();
-				MatrixRow newRowByCopy = new MatrixRow(row.getEntries());
-					
-				// update row with nextReplace		
-				newRowByCopy.setEntryAtPosition(columnIndex, nextReplace);
+				// iterator over replacements
+				Iterator<EClassifier> repIterator = replacements.iterator();
 				
-				// add it to matrix
-				matrix.addRow(newRowByCopy);
+				// first replacement
+				EClassifier firstReplacement = repIterator.next();
+				
+				// update row with first replacement		
+				row.setEntryAtPosition(columnIndex, firstReplacement);		
 				
 				// continue adjusting this row with replacements in next columns
 				if(matrix.getNodeByColumn(column+1)!=null) {
-					continueFillMatrix(newRowByCopy,column+1);				
-				}		
+					continueFillMatrix(row,column+1);				
+				}	
+				
+				// if there are more possible replacements for this node, create copy of current
+				// row and replace node type in it
+				while(repIterator.hasNext()) {
+					
+					// create new row by copying the existing one
+					EClassifier nextReplace = repIterator.next();
+					MatrixRow newRowByCopy = new MatrixRow(row.getEntries());
+						
+					// update row with nextReplace		
+					newRowByCopy.setEntryAtPosition(columnIndex, nextReplace);
+					
+					// add it to matrix
+					matrix.addRow(newRowByCopy);
+					
+					// continue adjusting this row with replacements in next columns
+					if(matrix.getNodeByColumn(column+1)!=null) {
+						continueFillMatrix(newRowByCopy,column+1);				
+					}		
+				}
 			}
-		}
+			}
 
 	}
 	
