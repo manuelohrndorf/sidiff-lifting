@@ -49,6 +49,14 @@ public class PatchReportManager {
 			return null;
 		}
 	}
+	
+	public PatchReport get(int i){
+		return reports.get(i);
+	}
+
+	public List<PatchReport> getReports() {
+		return reports;
+	}
 
 	public void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
 		getLastReport().operationPassed(op, inArgs, outArgs);

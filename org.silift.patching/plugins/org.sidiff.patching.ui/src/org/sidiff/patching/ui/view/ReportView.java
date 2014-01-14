@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -43,8 +44,12 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	private Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 	private Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 
+	private int reportStackEntry;
+	
 	private TableViewer reportViewer;
 
+	private DropDownAction reportStackAction;
+	
 	private ReportViewFilter reportFilter;
 	private Action reportFilterAction;
 
@@ -144,6 +149,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 			}
 		});
 
+		reportStackEntry = 0;
 		// Result view
 		reportViewer = new TableViewer(composite, SWT.SINGLE | SWT.FULL_SELECTION);
 		reportViewer.setContentProvider(new ArrayContentProvider());
@@ -158,6 +164,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 
 		createActions();
 		createMenus();
+		createToolbar();
 
 	}
 
@@ -277,6 +284,8 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	}
 
 	private void createActions() {
+		this.reportStackAction = new DropDownAction("Reports");
+		this.reportStackAction.setImageDescriptor(Activator.getImageDescriptor("empty_report_stack_16x16.gif"));
 		this.reportFilterAction = new Action("Hide successful executions in Report") {
 			@Override
 			public void run() {
@@ -312,14 +321,21 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 		rootMenuManager.add(filterSubmenu);
 		filterSubmenu.add(reportFilterAction);
 	}
-
+	
+	private void createToolbar() {
+		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(reportStackAction);
+		// toolbarManager.add(preCheckAction);
+	}
+	
 	@Override
 	public void setFocus() {
 
 	}
 
 	private void update() {
-		List<ReportEntry> allEntries = reportManager.getLastReport().getEntries();
+		reportStackEntry = reportManager.getReports().size()-1;
+		List<ReportEntry> allEntries = reportManager.get(reportStackEntry).getEntries();
 		List<ReportEntry> input = new ArrayList<ReportEntry>();
 
 		if (allEntries != null) {
