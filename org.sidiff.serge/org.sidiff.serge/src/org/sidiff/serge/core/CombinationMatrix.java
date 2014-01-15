@@ -61,6 +61,20 @@ public class CombinationMatrix {
 		return matrixRows;
 	}
 	
+	/**
+	 * Method that delivers the corresponding original node for a replacement
+	 * in a row.
+	 * @param replacement
+	 * @param row
+	 * @return
+	 * 		The corresponding original node.
+	 */
+	public Node getOriginalNode(Object replacement, MatrixRow row) {
+		Integer rowPosition = row.getPositionOfObject(replacement);
+		
+		return (Node)matrixColumns.getObjectByColumn(rowPosition);
+		
+	}
 	
 	/**
 	 * Method that calculates and builds up the Matrix content
