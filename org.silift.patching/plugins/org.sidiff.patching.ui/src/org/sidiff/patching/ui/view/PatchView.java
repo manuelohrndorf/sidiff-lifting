@@ -449,4 +449,10 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		valueLabelProvider.setShowReliablities(b);
 		patchViewer.refresh();
 	}
+
+	@Override
+	public void pushReport(int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }

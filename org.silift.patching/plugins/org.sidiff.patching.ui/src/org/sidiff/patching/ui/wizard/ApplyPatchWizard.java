@@ -220,6 +220,12 @@ public class ApplyPatchWizard extends Wizard {
 						public void reportChanged() {
 							GMFAnimation.trigger();
 						}
+
+						@Override
+						public void pushReport(int i) {
+							// TODO Auto-generated method stub
+							
+						}
 					});
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(40);

@@ -21,6 +21,7 @@ public class PatchReportManager {
 
 	public void startPatchApplication() {
 		reports.add(new PatchReport());
+		notifyPushReport(reports.size()-1);
 		notifyReportChanged();
 	}
 
@@ -101,6 +102,12 @@ public class PatchReportManager {
 	private void notifyReportChanged() {
 		for (IPatchReportListener listener : listeners) {
 			listener.reportChanged();
+		}
+	}
+	
+	private void notifyPushReport(int index){
+		for(IPatchReportListener listener : listeners){
+			listener.pushReport(index);
 		}
 	}
 }

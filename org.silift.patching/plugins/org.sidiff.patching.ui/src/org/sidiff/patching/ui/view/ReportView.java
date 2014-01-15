@@ -284,8 +284,20 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	}
 
 	private void createActions() {
-		this.reportStackAction = new DropDownAction("Reports");
+		this.reportStackAction = new DropDownAction("Reports"){
+			@Override
+			public void run(){
+				for(int i = 0; i < reportStackAction.getActions().size();i++){
+					if(i==reportStackAction.getActions().size()-1)
+						reportStackAction.getActions().get(i).setChecked(true);
+					else
+						reportStackAction.getActions().get(i).setChecked(false);
+				}
+				update();
+			}
+		};
 		this.reportStackAction.setImageDescriptor(Activator.getImageDescriptor("empty_report_stack_16x16.gif"));
+		this.reportStackAction.setEnabled(false);
 		this.reportFilterAction = new Action("Hide successful executions in Report") {
 			@Override
 			public void run() {
@@ -334,10 +346,9 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	}
 
 	private void update() {
-		reportStackEntry = reportManager.getReports().size()-1;
 		List<ReportEntry> allEntries = reportManager.get(reportStackEntry).getEntries();
 		List<ReportEntry> input = new ArrayList<ReportEntry>();
-
+			
 		if (allEntries != null) {
 			for (ReportEntry reportEntry : allEntries) {
 				if (reportEntry instanceof OperationExecutionEntry) {
@@ -373,6 +384,24 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	@Override
 	public void reportChanged() {
 		update();
+	}
+
+	@Override
+	public void pushReport(int i) {
+		final int index = i;
+		Action action = new Action("Report "+ (i+1), Action.AS_RADIO_BUTTON) {
+			@Override
+			public void run() {
+				reportStackEntry = index;
+				update();
+			}
+		};
+		reportStackAction.add(action);
+		if(!reportStackAction.isEnabled() && reportManager.getReports().size() > 1){	
+			reportStackAction.setEnabled(true);
+			reportStackAction.setImageDescriptor(Activator.getImageDescriptor("report_stack_16x16.gif"));
+		}
+		reportStackEntry = reportManager.getReports().size()-1;
 	}
 
 }

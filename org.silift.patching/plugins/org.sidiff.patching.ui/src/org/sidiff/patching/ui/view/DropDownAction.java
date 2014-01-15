@@ -80,4 +80,8 @@ public class DropDownAction extends Action implements IMenuCreator, IPropertyCha
 		action.addPropertyChangeListener(this);
 	}
 
+	public List<IAction> getActions() {
+		return actions;
+	}
+
 }
