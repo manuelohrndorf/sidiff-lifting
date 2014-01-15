@@ -157,6 +157,8 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 		reportViewer.getTable().setLinesVisible(true);
 		reportViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 
+		getSite().setSelectionProvider(reportViewer);
+		
 		// Report Filter
 		reportFilter = new ReportViewFilter();
 
@@ -165,6 +167,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 		createActions();
 		createMenus();
 		createToolbar();
+		
 
 	}
 
