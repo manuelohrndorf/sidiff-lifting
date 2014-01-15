@@ -131,7 +131,6 @@ public class TypeReplacer {
 		if(nextNodeToReplace!=null) {
 
 			//get replacements for nextNodeToReplace
-			Integer columnIndex = matrix.getColumnIndexOfNode(nextNodeToReplace);
 			Set<EClassifier> replacements = nodeReplacementMap.get(nextNodeToReplace);
 
 			if(replacements!=null) {
@@ -143,7 +142,7 @@ public class TypeReplacer {
 				EClassifier firstReplacement = repIterator.next();
 
 				// update row with first replacement		
-				row.setEntryAtPosition(columnIndex, firstReplacement);		
+				row.setEntryAtPosition(column, firstReplacement);		
 
 				// continue adjusting this row with replacements in next columns
 				if(matrix.getNodeByColumn(column+1)!=null) {
@@ -159,7 +158,7 @@ public class TypeReplacer {
 					MatrixRow newRowByCopy = new MatrixRow(row.getEntries());
 
 					// update row with nextReplace		
-					newRowByCopy.setEntryAtPosition(columnIndex, nextReplace);
+					newRowByCopy.setEntryAtPosition(column, nextReplace);
 
 					// add it to matrix
 					matrix.addRow(newRowByCopy);

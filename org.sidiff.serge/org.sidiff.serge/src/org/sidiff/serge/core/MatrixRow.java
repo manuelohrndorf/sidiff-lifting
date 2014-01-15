@@ -15,7 +15,12 @@ public class MatrixRow {
 	}
 	
 	public void setEntryAtPosition(Integer index, Object object) {
-		row.set(index, object);
+		try{
+			row.set(index,object);
+		}
+		catch(IndexOutOfBoundsException e) {
+			row.add(index, object);
+		}
 	}
 	
 	public List<Object> getEntries() {
