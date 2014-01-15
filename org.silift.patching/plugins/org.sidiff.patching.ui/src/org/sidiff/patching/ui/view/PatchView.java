@@ -282,7 +282,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 				engine.applyPatch();
 			}
 		};
-		this.applyPatchAction.setToolTipText("Apply Patch");
+		this.applyPatchAction.setToolTipText("Apply changes");
+		this.applyPatchAction.setImageDescriptor(Activator.getImageDescriptor("patch_exc_16x16.gif"));
 	}
 
 	private void updatefilter(Action action) {
@@ -333,13 +334,14 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		validateModeSubmenu.add(new Separator());
 		validateModeSubmenu.add(manualValidationAction);
 		
-		IMenuManager execMenu = new MenuManager("Application");
-		rootMenuManager.add(execMenu);
-		execMenu.add(applyPatchAction);
+//		IMenuManager execMenu = new MenuManager("Application");
+//		rootMenuManager.add(execMenu);
+//		execMenu.add(applyPatchAction);
 	}
 
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(applyPatchAction);
 		toolbarManager.add(showReliabilityAction);
 		toolbarManager.add(showQualifiedNamesAction);
 		toolbarManager.add(filterMenu);
@@ -383,7 +385,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		}
 		
 		patchViewer.refresh();
-		engine.applyPatch();
+		//engine.applyPatch();
 	}
 
 	@Override

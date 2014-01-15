@@ -138,8 +138,8 @@ public class ApplyPatchWizard extends Wizard {
 						resource.getContents().get(0), false);
 			}
 		}
-
-		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment() + "diag");
+		//TODO open diagram file
+		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());// + "diag");
 
 		Job job = new Job("Patching Model") {
 			private EditingDomain editingDomain;
