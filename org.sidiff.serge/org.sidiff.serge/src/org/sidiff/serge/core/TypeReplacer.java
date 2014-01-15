@@ -169,7 +169,7 @@ public class TypeReplacer {
 					}		
 				}
 			}
-			}
+		}
 
 	}
 	
@@ -178,22 +178,43 @@ public class TypeReplacer {
 		
 		Set<Module> modules = new HashSet<Module>();		
 
-		for(MatrixRow row: matrix.getRows()) {
-			
-			for(Object entry: row.getEntries()) {
-				if(entry instanceof Boolean) {
-					System.out.print(((Boolean) entry).booleanValue() + " ");
-				}
-				else{
-					System.out.print(((EClassifier)entry).getName()+ " ");	
-				}
-				
-			}	
-			System.out.print("\n");
-		}
+		//uncomment to save syso printouts
+		debugHelp_MatrixPrintout();
+		
+		
 		
 		
 		return modules;
 		
 	}
+	
+	private void debugHelp_MatrixPrintout() {
+		
+		System.out.print("----------------------------------------------------\n"
+						+"Replacement Matrix for: "+originalModule.getName() + "\n\n");
+		
+		
+		System.out.print("DirtyBit\t");
+		for(Node nodeToReplace: matrix.getColumnsAfterDirtyBit()) {
+			System.out.print(nodeToReplace.getType().getName() + "\t\t");		
+		}
+		System.out.println("\n");
+		
+		
+		for(MatrixRow row: matrix.getRows()) {
+			
+			for(Object entry: row.getEntries()) {
+				if(entry instanceof Boolean) {
+					System.out.print(((Boolean) entry).booleanValue() + "\t\t");
+				}
+				else{
+					System.out.print(((EClassifier)entry).getName()+ "\t\t");	
+				}
+				
+			}	
+			System.out.print("\n");
+		}
+		System.out.print("\n\n");
+	}
+	
 }

@@ -44,4 +44,9 @@ public class CombinationMatrix {
 	public List<MatrixRow> getRows() {
 		return combinationMatrix;
 	}
+	
+	public List<Node> getColumnsAfterDirtyBit() {
+		return nodeListAsColumnIdentifier;
+	}
+	
  }
