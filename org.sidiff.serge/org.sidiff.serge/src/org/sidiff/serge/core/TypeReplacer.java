@@ -1,9 +1,12 @@
 package org.sidiff.serge.core;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -50,22 +53,43 @@ public class TypeReplacer {
 		
 		for(MatrixRow row: matrix.getRows()) {
 			
+			// for each row create a copy
+			Module copy = EcoreUtil.copy(originalModule);
+			
+			// iterate over all replacement entries in row
 			for(EClassifier replacement: row.getOnlyReplacementClassifierEntries()) {
 				Node originalNode = matrix.getOriginalNode(replacement, row);
 				
 				//TODO isAlllowedAsDangling for replacement...
 				//TODO make sure, that first child is base of module is not replaced...
 				// incase of non abstract
-							
+
+				// find and replace type of corresponding node in copy
+				Iterator<EObject> iterOrig = originalModule.eAllContents();
+				Iterator<EObject> iterCopy = copy.eAllContents();
+				while(iterOrig.hasNext()) {
+					EObject origElem = iterOrig.next();
+					EObject copyElem = iterCopy.next();
+					
+					if(origElem.equals(originalNode)) {
+						((Node)copyElem).setType((EClass)replacement);
+					}
+				}
 				
-				// create copy
-				Module copy = EcoreUtil.copy(originalModule);
+				//Set a new name for this variant module (e.g. blabla_Variant1234)
+				long id = System.nanoTime();				
+				if(copy.getName().matches(".*(_Variant\\d*\\w*)$")) {
+					copy.setDescription(copy.getDescription().replaceAll("(Variant\\d*)$", "Variant"+String.valueOf(id)));
+					copy.setName(copy.getName().replaceAll("(Variant\\d*)$", "Variant"+String.valueOf(id)));
+				}else{
+					copy.setDescription(copy.getDescription()+" Variant"+id);
+					copy.setName(copy.getName()	+"_Variant"+id);			
+				}			
 				
-				//TODO map all nodes between original and copy!!!!! och nö
-				
-				//TODO replace, variant naming by regex
 				//TODO check mandatories
 				//TODO check mandatories need replaces....
+				
+				modules.add(copy);
 				
 			}
 			
