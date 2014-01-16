@@ -49,14 +49,15 @@ public class TypeReplacer {
 	 * Constructor
 	 * @param originalModule
 	 * @param opType
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public TypeReplacer(Module originalModule, OperationType opType, boolean reduceToSuperType) {
+	public TypeReplacer(Module originalModule, OperationType opType, boolean reduceToSuperType) throws OperationTypeNotImplementedException {
 		
 		this.originalModule 	= originalModule;
 		this.opType 			= opType;
 		this.reduceToSuperType  = reduceToSuperType;
 		
-		matrix = new CombinationMatrix();
+		matrix = new CombinationMatrix(opType, reduceToSuperType);
 		matrix.calculateFor(originalModule);
 
 	}
@@ -71,10 +72,15 @@ public class TypeReplacer {
 	 */
 	public Set<Module> replace() throws OperationTypeNotImplementedException {
 		
-		Set<Module> modules = new HashSet<Module>();		
-
+		Set<Module> modules = new HashSet<Module>();
+		
+		if(matrix.columnIsDirty()) {
+			
+			//TODO
+		}
 		
 		//TODO check for dirty bit --> new matrix
+		//TODO dirty bit might not be necessary anymore.. at least not for rows. ..check tghat
 		
 		for(MatrixRow row: matrix.getRows()) {
 			
@@ -85,7 +91,6 @@ public class TypeReplacer {
 			for(EClassifier replacement: row.getOnlyReplacementClassifierEntries()) {
 				Node originalNode = matrix.getOriginalNode(replacement, row);
 				
-				//TODO isAlllowedAsDangling for replacement...
 				//TODO make sure, that first child is base of module is not replaced...
 				// incase of non abstract
 
@@ -97,14 +102,18 @@ public class TypeReplacer {
 					EObject copyElem = iterCopy.next();
 					
 					if(origElem.equals(originalNode)) {
-						((Node)copyElem).setType((EClass)replacement);
+						Node copiedNode = ((Node)copyElem);
+						copiedNode.setType((EClass)replacement);
+						
+						// create mandatories that might me necessary after replacements
+						Rule rule = HenshinRuleAnalysisUtilEx.getRules(copy).get(0);
+						EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
+						Common.createMandatoryChildren(rule, replacementInfo, copiedNode, opType, reduceToSuperType);
+						Common.createMandatoryNeighbours(rule, replacementInfo, copiedNode, opType, reduceToSuperType);
+						
 					}
 					
-					// create mandatories that might me necessary after replacements
-					Rule rule = HenshinRuleAnalysisUtilEx.getRules(copy).get(0);
-					EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
-					Common.createMandatoryChildren(rule, replacementInfo, (Node)copyElem, opType, reduceToSuperType);
-					Common.createMandatoryNeighbours(rule, replacementInfo, (Node)copyElem, opType, reduceToSuperType);
+
 					
 				}
 				

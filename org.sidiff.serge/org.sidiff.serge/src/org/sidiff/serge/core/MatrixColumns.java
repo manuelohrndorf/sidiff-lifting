@@ -17,12 +17,12 @@ public class MatrixColumns {
 	
 	/**
 	 * Adds the given Nodes to the list of column entries.
-	 * It also sets default value for dirty bit.
+	 * It also sets default value "false" for the dirty bit.
 	 * @param nodes
 	 */
 	public void addNodes(List<Node> nodes) {
 		
-		columns.add(true);	
+		columns.add(false);	
 		columns.addAll(nodes);
 		
 	}
@@ -65,4 +65,19 @@ public class MatrixColumns {
 		return columns;
 	}
 	
+	/**
+	 * Method that sets the dirty bit of a column containing
+	 * the original nodes of a module to true.
+	 * A column representing the original nodes of a module can
+	 * be considered dirty, if their types can not be left like that
+	 * in the original module because they are not well formed.
+	 * Example: a < < create > > child node may not be abstract.
+	 */
+	public void setDirty() {
+		columns.add(0, true);
+	}
+	
+	public Boolean isDirty() {
+		return (Boolean)columns.get(0);
+	}
 }

@@ -14,6 +14,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class CombinationMatrix {
 
@@ -36,20 +38,38 @@ public class CombinationMatrix {
 	 * The original module this matrix is based upon.
 	 */
 	private Module originalModule = null;
+		
+	/**
+	 * The operaiton type of the originalModule
+	 */
+	private OperationType opType = null;
+	
+	/**
+	 * If super type reduction for the given operation type is preferred for dangling mandatories
+	 */
+	private Boolean reduceToSuperType = null;
 	
 	/**
 	 * The EClassifierInfoManagement
 	 */
 	private EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
+		
+	/**
+	 * The ElementFilter required for denying eClassifiers as replacements.
+	 */
+	private ElementFilter FILTER = ElementFilter.getInstance();
 	
 	/**
 	 * Constructor
 	 */
-	public CombinationMatrix() {
+	public CombinationMatrix(OperationType opType, Boolean reduceToSuperType) {
 
-		matrixRows			= new ArrayList<MatrixRow>();
-		matrixColumns 		= new MatrixColumns();
-		nodeReplacementMap	= new HashMap<Node, Set<EClassifier>>();
+		this.opType				= opType;
+		this.reduceToSuperType 	= reduceToSuperType;
+		
+		matrixRows				= new ArrayList<MatrixRow>();
+		matrixColumns 			= new MatrixColumns();
+		nodeReplacementMap		= new HashMap<Node, Set<EClassifier>>();
 	}
 	
 	/**
@@ -77,11 +97,24 @@ public class CombinationMatrix {
 	}
 	
 	/**
+	 * Returns whether a column is dirty.
+	 * A column representing the original nodes of a module can
+	 * be considered dirty, if their types can not be left like that
+	 * in the original module because they are not well formed.
+	 * Example: a < < create > > child node may not be abstract.
+	 * @return
+	 */
+	public boolean columnIsDirty() {
+		return matrixColumns.isDirty();
+	}
+	
+	/**
 	 * Method that calculates and builds up the Matrix content
 	 * for a given originalModule.
 	 * @param originalModule
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public void calculateFor(Module originalModule) {
+	public void calculateFor(Module originalModule) throws OperationTypeNotImplementedException {
 		
 		this.originalModule = originalModule;
 		
@@ -109,6 +142,9 @@ public class CombinationMatrix {
 
 			// the original type
 			EClassifier originalTypeOfNode = nodeRequiringReplace.getType();
+			if(((EClass)originalTypeOfNode).isAbstract()) {
+				matrixColumns.setDirty();
+			}
 			
 			// get all possible replacements for the original type if it is a super type
 			Set<EClassifier> possibleSubtypes = ECM.getAllSubTypesAsEClassifiersWithoutAbstracts(originalTypeOfNode);
@@ -124,6 +160,16 @@ public class CombinationMatrix {
 			replacementsForCurrentNode.addAll(possibleConcretes);
 			replacementsForCurrentNode.addAll(possibleSubtypes);
 			
+			// remove replacements that are not allowed as danglings
+			Iterator<EClassifier> iterRepType = replacementsForCurrentNode.iterator();
+			while(iterRepType.hasNext()) {
+				EClassifier currentReplace = iterRepType.next();
+				if(FILTER.isAllowedAsDangling(currentReplace, opType, reduceToSuperType)) {
+					iterRepType.remove();
+				}
+			}
+			
+			
 			// add node and its possible replacements into nodeReplacementMap
 			nodeReplacementMap.put(nodeRequiringReplace, replacementsForCurrentNode);
 		}
@@ -137,7 +183,7 @@ public class CombinationMatrix {
 			
 			// create row for each replacement for the first node
 			for(EClassifier replacement: nodeReplacementMap.get(initialNode)) {
-				
+							
 				// initial rows
 				List<Object> initialRowEntries = new ArrayList<Object>();
 				initialRowEntries.add(false); //set dirty bit
@@ -254,4 +300,5 @@ public class CombinationMatrix {
 		}
 		System.out.print("\n\n");
 	}
+	
  }
