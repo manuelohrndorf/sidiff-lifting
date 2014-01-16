@@ -45,7 +45,7 @@ public class VariantGenerator {
 		Set<Module> modules = new HashSet<Module>();
 		
 		
-		TypeReplacer typeReplacer = new TypeReplacer(originalModule);
+		TypeReplacer typeReplacer = new TypeReplacer(originalModule, opType, reduceToSuperType);
 		modules.addAll(typeReplacer.replace());
 		
 		

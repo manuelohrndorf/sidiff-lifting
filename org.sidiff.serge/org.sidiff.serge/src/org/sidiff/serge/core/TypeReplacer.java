@@ -7,10 +7,16 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class TypeReplacer {
 	
@@ -18,6 +24,16 @@ public class TypeReplacer {
 	 * The original module that needs to be examined for replacables.
 	 */
 	private Module originalModule = null;
+	
+	/**
+	 * The operaiton type of the originalModule
+	 */
+	private OperationType opType = null;
+	
+	/**
+	 * If super type reduction for the given operation type is preferred for dangling mandatories
+	 */
+	private Boolean reduceToSuperType = null;
 	
 	/**
 	 * The EClassifierInfoManagement.
@@ -32,9 +48,13 @@ public class TypeReplacer {
 	/**
 	 * Constructor
 	 * @param originalModule
+	 * @param opType
 	 */
-	public TypeReplacer(Module originalModule) {
-		this.originalModule = originalModule;
+	public TypeReplacer(Module originalModule, OperationType opType, boolean reduceToSuperType) {
+		
+		this.originalModule 	= originalModule;
+		this.opType 			= opType;
+		this.reduceToSuperType  = reduceToSuperType;
 		
 		matrix = new CombinationMatrix();
 		matrix.calculateFor(originalModule);
@@ -42,9 +62,14 @@ public class TypeReplacer {
 	}
 	
 
-	
-
-	public Set<Module> replace() {
+	/**
+	 * The replacement method, that replaces every possible node type
+	 * that requires a replace to represent another valid variant of a module.
+	 * @return
+	 * 		The complete set of variants that can result from valid replacements.
+	 * @throws OperationTypeNotImplementedException 
+	 */
+	public Set<Module> replace() throws OperationTypeNotImplementedException {
 		
 		Set<Module> modules = new HashSet<Module>();		
 
@@ -74,6 +99,13 @@ public class TypeReplacer {
 					if(origElem.equals(originalNode)) {
 						((Node)copyElem).setType((EClass)replacement);
 					}
+					
+					// create mandatories that might me necessary after replacements
+					Rule rule = HenshinRuleAnalysisUtilEx.getRules(copy).get(0);
+					EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
+					Common.createMandatoryChildren(rule, replacementInfo, (Node)copyElem, opType, reduceToSuperType);
+					Common.createMandatoryNeighbours(rule, replacementInfo, (Node)copyElem, opType, reduceToSuperType);
+					
 				}
 				
 				//Set a new name for this variant module (e.g. blabla_Variant1234)
@@ -86,22 +118,14 @@ public class TypeReplacer {
 					copy.setName(copy.getName()	+"_Variant"+id);			
 				}			
 				
-				//TODO check mandatories
-				//TODO check mandatories need replaces....
-				
+
+				// add module to result list
 				modules.add(copy);
 				
-			}
-			
+				//TODO let original module be added to modules if it is also consistent
+			}		
 		}
-		
-		
-		
-		
 		return modules;
-		
 	}
-	
-
 	
 }
