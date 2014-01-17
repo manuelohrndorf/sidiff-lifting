@@ -1058,10 +1058,10 @@ public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 						NodePair preservedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, existingName, (EClass) neighbour);
 						newNeighbourNode = preservedNodePair.getRhsNode();		
 						// create edge for mandatory neighbour
-						HenshinRuleAnalysisUtilEx.createPreservedEdge(rule, eClassNode, newNeighbourNode, eRef);						
+						HenshinRuleAnalysisUtilEx.createCreateEdge(eClassNode, newNeighbourNode, eRef);						
 						// create edge for eOpposite, if any
 						if(eOpposite!=null) {
-							HenshinRuleAnalysisUtilEx.createPreservedEdge(rule,newNeighbourNode, eClassNode, eOpposite);
+							HenshinRuleAnalysisUtilEx.createCreateEdge(newNeighbourNode, eClassNode, eOpposite);
 						}
 						// recursively check neighbour's mandatories and create them
 						createMandatoryChildren(rule, ecm.getEClassifierInfo(neighbour), newNeighbourNode);
