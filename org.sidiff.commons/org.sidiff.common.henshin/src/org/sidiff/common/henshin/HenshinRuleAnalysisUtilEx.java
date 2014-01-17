@@ -180,25 +180,6 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Creates a << preserve >> edge for the given rule.
-	 * Expecting one source and one target node
-	 * 
-	 * @param rule
-	 *            the Henshin rule.
-	 * @param src
-	 *            the source node of the new edge.
-	 * @param tgt
-	 *            the target node of the new edge.
-	 * @param type
-	 *            the type of the new edge.
-	 */
-	public static void createPreservedEdge(Rule rule, Node src, Node tgt, EReference type) {
-		Edge rhsEdge = HenshinFactory.eINSTANCE.createEdge(src, tgt, type);
-		rhsEdge.setGraph(rule.getRhs());
-
-	}
-
-	/**
 	 * Creates a << preserve >> node with an String ("attrValue") attribute.
 	 * 
 	 * @param rule
