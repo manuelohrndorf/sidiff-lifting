@@ -49,6 +49,8 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.patch.animation.GMFAnimation.EditorMatching;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricFactory;
@@ -106,6 +108,11 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 				return;
 			}
 			
+			LogUtil.log(LogEvent.DEBUG, String.format("SET:\n\t"
+					+ "Changed Object: %s\n\t"
+					+ "Feature: %s\n\t"
+					+ "New Value: %s\n\t", changedObject, feature, newValue));
+			
 			if(editorMatching.matching != null){
 				if(newValue instanceof EObject){
 					newValue = editorMatching.matching.getCorrespondingObjectInB((EObject) newValue);
@@ -143,9 +150,16 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		}
 		final EClass referenceClass = reference.getEContainingClass();
 		final EObject changedContainer = (EObject) notification.getNotifier();
-		
+				
 		EObject viewedContainer = changedContainer;
 		EObject removedViewedObject = removedObject;
+
+		LogUtil.log(LogEvent.DEBUG, String.format("REMOVE:\n\t"
+				+ "Removed Object: %s\n\t"
+				+ "Reference: %s\n\t"
+				+ "Reference Class: %s\n\t"
+				+ "Changed Container: %s\n\t", removedObject, reference, referenceClass, changedContainer));
+
 		
 		if(editorMatching.matching != null){
 			viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
@@ -153,13 +167,16 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		}
 		
 		if(reference.isContainment()){
-			View removedView = getReferencingView(removedViewedObject);
+			Collection<View> removedViews = getReferencingViews(removedViewedObject);
+			
+			LogUtil.log(LogEvent.DEBUG, String.format("\tRemoved Views: %s", removedViews));
+			if(!removedViews.isEmpty()){
+				for(View removedView : removedViews){
+					DeleteCommand deleteCommand = new DeleteCommand(removedView);
+					ICommandProxy command = new ICommandProxy(deleteCommand);
 
-			if(removedView != null){
-				DeleteCommand deleteCommand = new DeleteCommand(removedView);
-				ICommandProxy command = new ICommandProxy(deleteCommand);
-
-				editorMatching.editor.getDiagramEditDomain().getDiagramCommandStack().execute(command);
+					editorMatching.editor.getDiagramEditDomain().getDiagramCommandStack().execute(command);
+				}
 			}
 		} else {
 			View containerView = getReferencingView(viewedContainer);
@@ -182,11 +199,14 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 					if(object instanceof Edge){
 						Edge edge = (Edge) object;
 						if(edge.getType().equalsIgnoreCase(semanticHint)){
-							toBeDeleted.add(edge);
+							if(edge.getElement() == removedObject || edgeMatches(edge, removedObject, changedContainer, reference, elementType)){
+								toBeDeleted.add(edge);
+							} 
 						}
 					}
 				}
-				
+
+				LogUtil.log(LogEvent.DEBUG, String.format("\tRemoved Views: %s", toBeDeleted));
 				for(Edge edge : toBeDeleted){
 					DeleteCommand deleteCommand = new DeleteCommand(edge);
 					ICommandProxy command = new ICommandProxy(deleteCommand);
@@ -195,6 +215,20 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 				}
 			}
 		}
+	}
+	
+	
+	private boolean edgeMatches(Edge edge, EObject objectA, EObject objectB, EReference reference, IElementType elementType){
+		//TODO this no guaranteed match as it is possible for two classes to have two edges between them that both are without object 
+		View viewA = getReferencingView(objectA);
+		View viewB = getReferencingView(objectB);
+		
+		if(edge.getTarget() == viewA && edge.getSource() == viewB || edge.getTarget() == viewB && edge.getSource() == viewA){
+			if(elementType.getId().toLowerCase().contains(reference.getName())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void execute_move() {
@@ -214,6 +248,12 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			final EObject addedObject = (EObject) notification.getNewValue();
 			final EReference reference = (EReference) notification.getFeature();
 			final EClass referenceClass = reference.getEContainingClass();
+			
+			LogUtil.log(LogEvent.DEBUG, String.format("ADD:\n\t"
+					+ "Added Object: %s\n\t"
+					+ "Reference: %s\n\t"
+					+ "Reference Class: %s\n\t"
+					+ "Changed Container: %s\n\t", addedObject, reference, referenceClass, changedContainer));
 			
 			EObject viewedContainer = changedContainer;
 			EObject addedViewedObject = addedObject;

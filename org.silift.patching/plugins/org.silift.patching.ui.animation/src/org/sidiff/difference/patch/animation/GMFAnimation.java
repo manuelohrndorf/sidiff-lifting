@@ -31,7 +31,10 @@ public class GMFAnimation {
 	private static Map<Resource, AnimationAdapter> animatedResources = new HashMap<Resource, AnimationAdapter>();
 	private static List<AnimationAdapter> attachedAdapters = new ArrayList<AnimationAdapter>();
 	
-	public static void enableAnimation(Resource changingResource, boolean createMatching, int mode){		
+	public static void enableAnimation(Resource changingResource, boolean createMatching, int mode){	
+		animatedResources.clear();
+		attachedAdapters.clear();
+		
 		List<EditorMatching> editorMatchings = new ArrayList<EditorMatching>();
 
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
