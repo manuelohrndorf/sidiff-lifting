@@ -38,6 +38,7 @@ import org.sidiff.serge.generators.actions.SetReferenceGenerator;
 import org.sidiff.serge.generators.actions.UnsetAttributeGenerator;
 import org.sidiff.serge.generators.actions.UnsetReferenceGenerator;
 import org.sidiff.serge.generators.actions.VariantGenerator;
+import org.silift.common.util.access.EMFMetaAccessEx;
 
 public class GenerationActionDelegator {
 
@@ -95,18 +96,12 @@ public class GenerationActionDelegator {
 								modules.add(resultModule);
 							
 							}
-							
-							
 						}
-						
 					}
 				}
 				/** In case of Stereotype, there are no contexts! Just create Rule with <<create>> Node for Stereotype ****************************/
 				else{
-						
-				
 					//TODO ProfileModelIntegration
-				
 				}
 				
 			
@@ -475,11 +470,15 @@ public class GenerationActionDelegator {
 			
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 			
-			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD)) return null;
+			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.SET_ATTRIBUTE)){
+				return null;
+			}
 	
 			//TODO implicit requirements
 			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) return null;
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)){
+				return null;
+			}
 			
 			EClass eClass = (EClass) eClassifier;		
 
@@ -504,8 +503,8 @@ public class GenerationActionDelegator {
 			}
 
 			for(EAttribute ea: easToConsider) {
-				// don't consider derived, not changeable, unsettable and transient references
-				if(!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
+				// don't consider derived, not changeable, and transient attributes
+				if(!EMFMetaAccessEx.isUnconsideredStructualFeature(ea)) {
 
 					int lowerBound = ea.getLowerBound();
 					int upperBound = ea.getUpperBound();
@@ -528,7 +527,8 @@ public class GenerationActionDelegator {
 					else if( ((lowerBound == 0) && (upperBound == 1)) || ((lowerBound == 1) && (upperBound == 1))){
 
 						SetAttributeGenerator generator = new SetAttributeGenerator(eClassifier, ea);
-						generator.generate();
+						Module module = generator.generate();
+						modules.add(module);
 					}
 				}
 			}
@@ -548,25 +548,23 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException 
 	 */
 	public Set<Module> generate_UNSET_ATTRIBUTE(Set<Module> setAttributeModules) throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
-		
 		Set<Module> modules	= new HashSet<Module>();
 		
 		if(c.CREATE_UNSET_ATTRIBUTES) {
-			
-			if(!c.CREATE_SET_ATTRIBUTES) throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
+			if(!c.CREATE_SET_ATTRIBUTES){
+				throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
+			}
 		
-			for(Module setAttributeModule: setAttributeModules) {
-					
+			for(Module setAttributeModule: setAttributeModules) {			
 				UnsetAttributeGenerator generator = new UnsetAttributeGenerator(setAttributeModule);
 				Module resultModule = generator.generate();
-					
 				modules.add(resultModule);
-					
 			}
 		}
-		return modules;
 		
+		return modules;
 	}
+	
 	/**
 	 * General SET-REFERENCE-generation method, that finds all relevant
 	 * contexts and references that represent different SET-REFERENCE for this eClassifier.
@@ -576,9 +574,7 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate set reference modules for the given eClassifier.
 	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
-		
-		
+	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) throws OperationTypeNotImplementedException {	
 		Set<Module> modules	= new HashSet<Module>();
 		
 		if(c.CREATE_ADDS) {
@@ -596,8 +592,8 @@ public class GenerationActionDelegator {
 			// EReferences and their EOpposites, if any		
 			for(EReference eRef: eClass.getEAllReferences()) {
 	
-				// don't consider derived, not changeable, unsettable and transient references
-				if(!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
+				// don't consider derived, not changeable, and transient references
+				if(!EMFMetaAccessEx.isUnconsideredStructualFeature(eRef)) {
 	
 					// eRef == no containment reference  *************************************************************/
 					if(!eRef.isContainment()) {

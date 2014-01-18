@@ -110,20 +110,15 @@ public class ModuleSerializer {
 	 * @param allModules
 	 */
 	public void serialize(Set<Set<Module>> allModules) {
-		
 		Iterator<Set<Module>> setIterator = allModules.iterator();
 		
-		while(setIterator.hasNext()) {
-			
+		while(setIterator.hasNext()) {	
 			Set<Module> currentSet = setIterator.next();
 			if(currentSet!=null) {
-			for(Module module: currentSet) {
-				
-					serialize(module);
-					
+				for(Module module: currentSet) {
+					serialize(module);	
 				}
 			}
 		}
-		
 	}
 }

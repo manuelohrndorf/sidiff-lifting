@@ -5,7 +5,9 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -61,6 +63,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 		
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
 			assert(eClassifier instanceof EClass);
+			
 			try{
 				
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
@@ -68,50 +71,23 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
 				
-				//TODO createModles must be extended by variants but also
+				//TODO createModules must be extended by variants but also
 				//in some cases, they need to be replaced because only their variants are valid.
 				// --> new algorithm to do that required.
 				
-				constraintApplicator.applyOn(createModules);
-				
 				deleteModules = GAD.generate_DELETE(createModules);	
-				constraintApplicator.applyOn(deleteModules);
-				
 				moveModules = GAD.generate_MOVE(eClassifier);
-				constraintApplicator.applyOn(moveModules);
-				
-				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(eClassifier);
-				constraintApplicator.applyOn(moveCombinationModules);
-							
+				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(eClassifier);			
 				moveDownModules = GAD.generate_MOVE_DOWN(eClassifier);
-				constraintApplicator.applyOn(moveDownModules);
-				
 				moveUpModules = GAD.generate_MOVE_UP(eClassifier);
-				constraintApplicator.applyOn(moveUpModules);
-	
 				addModules = GAD.generate_ADD(eClassifier);
-				constraintApplicator.applyOn(addModules);
-				
 				removeModules = GAD.generate_REMOVE(addModules);
-				constraintApplicator.applyOn(removeModules);
-	
-				setAttributeModules = GAD.generate_SET_ATTRIBUTE(eClassifier);
-				constraintApplicator.applyOn(setAttributeModules);
-				
-				setReferenceModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
-				constraintApplicator.applyOn(setReferenceModules);
-	
+				setAttributeModules = GAD.generate_SET_ATTRIBUTE(eClassifier);				
+//				unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
 				setReferenceModules = GAD.generate_SET_REFERENCE(eClassifier);
-				constraintApplicator.applyOn(setReferenceModules);
-				
-				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);
-				constraintApplicator.applyOn(unsetReferenceModules);
-	
+				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);	
 				changeLiteralModules = GAD.generate_CHANGE_Literals(eClassifier);
-				constraintApplicator.applyOn(changeLiteralModules);
-				
 				changeReferenceModules = GAD.generate_CHANGE_Reference(eClassifier);
-				constraintApplicator.applyOn(changeReferenceModules);
 				
 				allModules.add(createModules);
 				allModules.add(variantModules);
@@ -129,14 +105,13 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				allModules.add(changeLiteralModules);
 				allModules.add(changeReferenceModules);
 				
-	
+				constraintApplicator.applyOn(allModules);
+				
 				ModuleSerializer serializer = new ModuleSerializer();
 				serializer.serialize(allModules);
-				
-				
 			}
 			catch(Exception e) {
-				System.err.println(e);
+				e.printStackTrace();
 			}
 
 	}
