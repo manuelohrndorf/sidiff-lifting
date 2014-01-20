@@ -79,7 +79,9 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Node getNodeByName(Rule rule, String nodename, boolean isLhs) {
 		for (Node node : (isLhs) ? rule.getLhs().getNodes() : rule.getRhs().getNodes()) {
-			if (nodename.equals(node.getName())) return node;
+			if (nodename.equals(node.getName())) {
+				return node;
+			}
 		}
 		
 		return null;
@@ -450,8 +452,9 @@ public class HenshinRuleAnalysisUtilEx {
 		if (rule.getParameter(name) == null) {
 			Parameter parameter = HenshinFactory.eINSTANCE.createParameter();
 			parameter.setName(name);
-			if(type != null)
+			if(type != null) {
 				parameter.setType(type);
+			}
 			rule.getParameters().add(parameter);
 			return parameter;
 		}
@@ -771,7 +774,7 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Returns all <<forbid>> edges of a rule.
+	 * Returns all << forbid >> edges of a rule.
 	 * 
 	 * @param rule
 	 * 			the Henshin rule.
@@ -783,7 +786,12 @@ public class HenshinRuleAnalysisUtilEx {
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
-				res.addAll(nc.getConclusion().getEdges());
+				for (Edge edge : nc.getConclusion().getEdges()) {
+					// Edge must not be mapped to LHS
+					if (!isEdgeMapped(nc.getMappings(), edge)){
+						res.add(edge);
+					}		
+				}	
 			}
 		}
 		
@@ -1186,8 +1194,9 @@ public class HenshinRuleAnalysisUtilEx {
 
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
-				if (remoteEdge.getTarget() == remoteTargetNode && equalReferenceType(edge.getType(), remoteEdge.getType()))
+				if (remoteEdge.getTarget() == remoteTargetNode && equalReferenceType(edge.getType(), remoteEdge.getType())) {
 					return true;
+				}
 			}
 		}
 
@@ -1212,8 +1221,9 @@ public class HenshinRuleAnalysisUtilEx {
 
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
-				if (remoteEdge.getTarget() == remoteTargetNode && equalReferenceType(edge.getType(), remoteEdge.getType()))
+				if (remoteEdge.getTarget() == remoteTargetNode && equalReferenceType(edge.getType(), remoteEdge.getType())) {
 					return remoteEdge;
+				}
 			}
 		}
 
@@ -1911,10 +1921,12 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
 		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == node)
+			if (mapping.getOrigin() == node) {
 				return mapping.getImage();
-			if (mapping.getImage() == node)
+			}
+			if (mapping.getImage() == node) {
 				return mapping.getOrigin();
+			}
 		}
 		
 		return null;
@@ -1935,8 +1947,9 @@ public class HenshinRuleAnalysisUtilEx {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isLhs()
 					&& (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
-		} else
+		} else {
 			return false;
+		}
 	}// isDeletionEdge
 	
 	/**
@@ -1954,8 +1967,9 @@ public class HenshinRuleAnalysisUtilEx {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isRhs()
 					&& (getEdgeOrigin(edge, rule.getMappings()) == null);
-		} else
+		} else {
 			return false;
+		}
 	}// isCreationEdge
 	
 	/**
@@ -1967,12 +1981,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Edge getEdgeImage(Edge edge, Graph targetGraph,
 			List<Mapping> mappings) {
-		if (edge.getSource() == null || edge.getTarget() == null)
+		if (edge.getSource() == null || edge.getTarget() == null) {
 			return null;
+		}
 		Node source = getNodeImage(edge.getSource(), targetGraph, mappings);
 		Node target = getNodeImage(edge.getTarget(), targetGraph, mappings);
-		if (source == null || target == null)
+		if (source == null || target == null) {
 			return null;
+		}
 		return source.getOutgoing(edge.getType(), target);
 	}
 	
@@ -2001,8 +2017,9 @@ public class HenshinRuleAnalysisUtilEx {
 			List<Mapping> mappings) {
 		for (Mapping mapping : mappings) {
 			if (mapping.getOrigin() == origin
-					&& mapping.getImage().getGraph() == targetGraph)
+					&& mapping.getImage().getGraph() == targetGraph) {
 				return mapping;
+			}
 		}
 		return null;
 	}
@@ -2014,12 +2031,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return Edge image.
 	 */
 	public static Edge getEdgeOrigin(Edge edge, List<Mapping> mappings) {
-		if (edge.getSource() == null || edge.getTarget() == null)
+		if (edge.getSource() == null || edge.getTarget() == null) {
 			return null;
+		}
 		Node source = getNodeOrigin(edge.getSource(), mappings);
 		Node target = getNodeOrigin(edge.getTarget(), mappings);
-		if (source == null || target == null)
+		if (source == null || target == null) {
 			return null;
+		}
 		return source.getOutgoing(edge.getType(), target);
 	}
 	
@@ -2032,8 +2051,9 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Mapping getNodeOriginMapping(Node image,
 			List<Mapping> mappings) {
 		for (Mapping mapping : mappings) {
-			if (mapping.getImage() == image)
+			if (mapping.getImage() == image) {
 				return mapping;
+			}
 		}
 		return null;
 	}
