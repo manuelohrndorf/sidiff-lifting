@@ -47,11 +47,6 @@ public class MoveReferenceCombinationGenerator {
 	private static Configuration config = Configuration.getInstance();
 
 	/**
-	 * The current Operation Type to generate for
-	 */
-	private OperationType opType;
-	
-	/**
 	 * Constructor
 	 * @param eClassifier
 	 * @param oldEReference
@@ -59,7 +54,7 @@ public class MoveReferenceCombinationGenerator {
 	 * @param newContext
 	 */
 	public MoveReferenceCombinationGenerator(EClassifier eClassifier, EReference oldEReference,
-			EClassifier oldContext, EClassifier newContext, EReference newEReference, OperationType opType) {
+			EClassifier oldContext, EClassifier newContext, EReference newEReference) {
 
 
 		this.eClassifier = eClassifier;
@@ -67,8 +62,6 @@ public class MoveReferenceCombinationGenerator {
 		this.newEReference = newEReference;
 		this.oldContext = oldContext;
 		this.newContext = newContext;
-		this.opType = opType;
-		
 	}
 	
 	public Module generate() throws OperationTypeNotImplementedException {
@@ -96,11 +89,6 @@ public class MoveReferenceCombinationGenerator {
 		// create rule
 		Common.createBasicRule(MOVE_Module, oldEReference, eClassifier, oldContext, newEReference, newContext, OperationType.MOVE_REFERENCE_COMBINATION);
 
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(MOVE_Module, OperationType.MOVE_REFERENCE_COMBINATION);
-		mainUnitGenerator.generate();
-
 		return MOVE_Module;
-
 	}
 }

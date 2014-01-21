@@ -27,10 +27,6 @@ public class UnsetAttributeGenerator {
 		Module UNSET_ATTRIBUTE_Module = Common.createInverse(inputSetModule, OperationType.SET_ATTRIBUTE);
 		LogUtil.log(LogEvent.NOTICE, "Generating UNSET_ATTRIBUTE : " + UNSET_ATTRIBUTE_Module.getName());
 
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(UNSET_ATTRIBUTE_Module, OperationType.UNSET_ATTRIBUTE);
-		mainUnitGenerator.generate();
-		
 		return UNSET_ATTRIBUTE_Module;
 	}
 }

@@ -82,12 +82,7 @@ public class CreateGenerator {
 
 		}
 		
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(module, OperationType.CREATE);
-		mainUnitGenerator.generate();
-		
 		return module;
-		
 	}
 	
 }

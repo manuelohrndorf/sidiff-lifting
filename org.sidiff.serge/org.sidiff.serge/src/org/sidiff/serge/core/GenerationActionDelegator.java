@@ -335,7 +335,7 @@ public class GenerationActionDelegator {
 									for(EClass contextB_eRefB: allAllowedParents.get(eRefB)) {
 										
 										// generate normal moves
-										MoveReferenceCombinationGenerator generator = new MoveReferenceCombinationGenerator(eClassifier, eRefA, contextA_eRefA, contextB_eRefB, eRef, OperationType.MOVE_REFERENCE_COMBINATION);
+										MoveReferenceCombinationGenerator generator = new MoveReferenceCombinationGenerator(eClassifier, eRefA, contextA_eRefA, contextB_eRefB, eRef);
 										modules.add(generator.generate());
 
 										// also generate all moves for masked eClassifiers, if any

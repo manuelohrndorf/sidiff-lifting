@@ -1,6 +1,5 @@
 package org.sidiff.serge.generators.actions;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -9,8 +8,8 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class SetReferenceGenerator {
@@ -68,10 +67,6 @@ public class SetReferenceGenerator {
 		// create rule
 		Common.createBasicRule(SET_REFERENCE_Module, eReference, contextEClassifier, target, null, null, OperationType.SET_REFERENCE);
 
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(SET_REFERENCE_Module, OperationType.SET_REFERENCE);
-		mainUnitGenerator.generate();
-		
 		return SET_REFERENCE_Module;
 	}
 

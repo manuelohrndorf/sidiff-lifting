@@ -3,10 +3,7 @@ package org.sidiff.serge.generators.actions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -16,191 +13,127 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
+import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.GlobalConstants;
-import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
 public class MainUnitGenerator {
 
-
 	/**
-	 * The module to generate a main unit inside.
+	 * The module to generate a main unit for.
 	 */
 	private Module module;
 	
 	/**
-	 * The operationType to generate a mainUnit for.
+	 * The main unit which is generated.
 	 */
-	private OperationType opType;
-
+	private PriorityUnit prioUnit;
+	
 	/**
-	 * Imports to EPackages that need to be included.
-	 */
-	private Stack<EPackage> imports = Configuration.getInstance().EPACKAGESSTACK;
-
-	/**
-	 * Constructor
+	 * Constructor.
+	 * 
 	 * @param module
-	 * @param opType
 	 */
-	public MainUnitGenerator(Module module,  OperationType opType) {
+	public MainUnitGenerator(Module module) {
 		this.module = module;
-		this.opType = opType;
 	}
 
 	public void generate() {
 		
-		// remove all existing units because we only support one.
-		removeAllNonRuleUnits(module);
-		List<Rule> rulesUnderModule = HenshinModuleAnalysis.getAllRules(module);
-		
-		/** Unit creation *************************************************/	
-		PriorityUnit prioUnit = HenshinFactory.eINSTANCE.createPriorityUnit();
+		prioUnit = HenshinFactory.eINSTANCE.createPriorityUnit();
 		prioUnit.setActivated(true);
-		prioUnit.setName(INamingConventions.MAIN_UNIT);		
-				
-		/** Parameter and Mapping creation ********************************/
+		prioUnit.setName(INamingConventions.MAIN_UNIT);	
 		
-		// In case of DELETE module, remove unnecessary parameters
-		if(opType==OperationType.DELETE) {
-			removeUnnecessaryParametersForDELETE(module, prioUnit);
-		}
+		List<Rule> rulesUnderModule = HenshinModuleAnalysis.getAllRules(module);
+		assert(rulesUnderModule.size() == 1);
 		
-		// Create the mandatory "selectedEObject"-Parameter with type information
-		Parameter selectedEObjectParameter = HenshinFactory.eINSTANCE.createParameter(GlobalConstants.SELEO);
-		Node selectedEObjectNode = HenshinRuleAnalysisUtilEx.getNodeByName(rulesUnderModule.get(0), GlobalConstants.SEL, true);
-		selectedEObjectParameter.setType(selectedEObjectNode.getType());
-		prioUnit.getParameters().add(selectedEObjectParameter);
-			
-		for(Rule rule: rulesUnderModule) {
-					
-			//we only need to consider RHS (it covers <<preserved>> and <<create>> Nodes/Attributes)
-			//Since <<delete>> Node Parameters are renamed <<create>> Node Parameters and therefore
-			//we don't have to check LHS here. Also because <<delete>> Attributes never appear
-			//(even not in UNSETs because they only revert Attribute values to Default, if any).
-			for(Node nInRHS : rule.getRhs().getNodes()) {
-				String nodeName = nInRHS.getName();
-				EClass nodeType = nInRHS.getType();
-				/** Add Parameter for RHS Nodes ********************************/
-				if(nodeName!=null && !nodeName.equals("")) {
-					// ..to rule
-					Parameter pForRule = HenshinFactory.eINSTANCE.createParameter(nodeName);
-					pForRule.setType(nodeType);
-					if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, nodeName)==null) {
-						pForRule.setUnit(rule);
-						rule.getParameters().add(pForRule);
-						// ..to unit
-						if(!pForRule.getName().equals(GlobalConstants.SEL)
-								&& HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForRule.getName())==null) {
-							Parameter pForUnit = HenshinFactory.eINSTANCE.createParameter(nodeName);
-							pForUnit.setType(nodeType);
-							prioUnit.getParameters().add(pForUnit);
-						}
-					}
-				}
+		Rule rule = rulesUnderModule.get(0);
+		generateUnitParameters(rule);
 				
-				/** Add Parameter for RHS Attributes ***************************/
-				for(Attribute a: nInRHS.getAttributes()) {
-					EClassifier attributeType = a.getType().getEType();
-					Object defaultValue = a.getType().getDefaultValue();
-					String defaultValueName = null;
-					if(defaultValue!=null) {
-						defaultValueName = defaultValue.toString();
-					}
-					
-					//Don't create Parameter if:
-					// attribute is in quotation marks "..." (like specific literal values, e.g. "initial").
-					// Else create Parameter.
-					if((a.getValue()!="null" 
-							&& !a.getValue().startsWith("\"") 
-							&& ((defaultValueName!=null && !a.getValue().equals(defaultValueName))
-							|| defaultValueName==null))) {
-						Parameter pForRule = HenshinFactory.eINSTANCE.createParameter(a.getValue());
-						pForRule.setType(attributeType);
-						Parameter pForUnit = HenshinFactory.eINSTANCE.createParameter(a.getValue());
-						pForUnit.setType(attributeType);
-						if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, pForRule.getName())==null) {
-							// ..to rule
-							rule.getParameters().add(pForRule);
-							pForRule.setUnit(rule);
-							// ..to unit
-							if(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, pForUnit.getName())==null) {
-								prioUnit.getParameters().add(pForUnit);
-								pForUnit.setUnit(prioUnit);
-							}
-						}
-					}
-				}
-			}			
-			
-			// Create Mappings
-			for(Parameter p :rule.getParameters()) {
-				// == selectedEObject
-				assert(p.getName()!=null): rule.getName();
-				if(p.getName().equals(GlobalConstants.SEL)) {
-					ParameterMapping selEObjectMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-					selEObjectMapping.setSource(selectedEObjectParameter);
-					selEObjectMapping.setTarget(p);			
-					prioUnit.getParameterMappings().add(selEObjectMapping);
-				}
-				// == selected element is the toBeDeleted (in case there is no context to delete from)
-				else if(HenshinRuleAnalysisUtilEx.getParameterByName(rule, GlobalConstants.SEL)==null && p.getName().equals(GlobalConstants.DEL)) {
-					ParameterMapping selEObjectMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-					selEObjectMapping.setSource(selectedEObjectParameter);
-					selEObjectMapping.setTarget(p);			
-					prioUnit.getParameterMappings().add(selEObjectMapping);
-				}
-				// == new / out-parameter
-				else if(p.getName().matches(GlobalConstants.NEW+"[0-9]*") || (rule.getName().startsWith("create") && p.getName().matches(GlobalConstants.CHILD+"[0-9]*"))) {
-					ParameterMapping pm = HenshinFactory.eINSTANCE.createParameterMapping();
-					pm.setSource(p);
-					pm.setTarget(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
-					if(!prioUnit.getParameterMappings().contains(pm)) {
-						prioUnit.getParameterMappings().add(pm);
-					}
-				}
-				else if(p.getName().matches(GlobalConstants.NEW+"[0-9]*") || (rule.getName().startsWith("delete") && p.getName().matches(GlobalConstants.CHILD+"[0-9]*"))) {
-					ParameterMapping pm = HenshinFactory.eINSTANCE.createParameterMapping();
-					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
-					pm.setTarget(p);
-					if(!prioUnit.getParameterMappings().contains(pm)) {
-						prioUnit.getParameterMappings().add(pm);
-					}
-				}
-				
-				else if(p.getName().matches(GlobalConstants.NEWTGT+"[0-9]*")|| p.getName().matches(GlobalConstants.NEWSRC+"[0-9]*")) {
-					ParameterMapping pm = HenshinFactory.eINSTANCE.createParameterMapping();
-					pm.setTarget(p);
-					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
-					if(!prioUnit.getParameterMappings().contains(pm)) {
-						prioUnit.getParameterMappings().add(pm);
-					}
-					
-				// == every other in-parameter
-				}else{
-					ParameterMapping pm = HenshinFactory.eINSTANCE.createParameterMapping();
-					pm.setSource(HenshinRuleAnalysisUtilEx.getParameterByName(prioUnit, p.getName()));
-					pm.setTarget(p);
-					if(!prioUnit.getParameterMappings().contains(pm)) {
-						prioUnit.getParameterMappings().add(pm);
-					}		
-				}
-			}					
-			// Add rule to unit
-			prioUnit.getSubUnits().add(rule);						
-		}		
+		// Add rule to unit
+		prioUnit.getSubUnits().add(rule);	
+		
 		// Add unit to module
 		module.getUnits().add(prioUnit);
 		
 		// kick out unnecessary sub package imports when super package import available
 		// and set main meta-model packages as first import
 		organizeImports(module);
+	}
+	
+	/**
+	 * Generates the unit parameters and the respective mappings.
+	 */
+	private void generateUnitParameters(Rule rule){
+		// LHS nodes
+		for (Node lhsNode : rule.getLhs().getNodes()){
+			Parameter objectInParam = null;
+			objectInParam = rule.getParameter(lhsNode.getName());
+			if (objectInParam != null){
+				generateUnitParameter(objectInParam, ParameterDirection.IN);
+			}
+			
+			for (Attribute attribute : lhsNode.getAttributes()) {
+				Parameter valueInParam = null;
+				valueInParam = rule.getParameter(attribute.getValue());
+				if (valueInParam != null){
+					generateUnitParameter(valueInParam, ParameterDirection.IN);
+				}
+			}
+		}
+		
+		// RHS nodes
+		for (Node rhsNode : rule.getRhs().getNodes()){
+			if (HenshinRuleAnalysisUtilEx.isCreationNode(rhsNode)){
+				Parameter objectOutParam = null;
+				objectOutParam = rule.getParameter(rhsNode.getName());
+				if (objectOutParam != null){
+					generateUnitParameter(objectOutParam, ParameterDirection.OUT);
+				}
+				
+				for (Attribute attribute : rhsNode.getAttributes()) {
+					Parameter valueInParam = null;
+					valueInParam = rule.getParameter(attribute.getValue());
+					if (valueInParam != null){
+						generateUnitParameter(valueInParam, ParameterDirection.IN);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Generates a unit parameter and the correct mapping.
+	 * 
+	 * @param ruleParameter
+	 * @param direction
+	 */
+	private void generateUnitParameter(Parameter ruleParameter, ParameterDirection direction){
+		// Parameter
+		Parameter unitParameter = HenshinFactory.eINSTANCE.createParameter(ruleParameter.getName());
+		if (unitParameter.getName().equals(GlobalConstants.SEL)){
+			unitParameter.setName(GlobalConstants.SELEO);
+		}
+		unitParameter.setType(ruleParameter.getType());
+		
+		// Mapping
+		ParameterMapping pm = HenshinFactory.eINSTANCE.createParameterMapping();
+		if (direction.equals(ParameterDirection.IN)){
+			pm.setSource(unitParameter);
+			pm.setTarget(ruleParameter);
+		} else {
+			pm.setSource(ruleParameter);
+			pm.setTarget(unitParameter);
+		}
+		
+		// Add to unit
+		prioUnit.getParameters().add(unitParameter);
+		prioUnit.getParameterMappings().add(pm);
 	}
 	
 	
@@ -211,7 +144,7 @@ public class MainUnitGenerator {
 	 * Also the meta model EPackage will always be set as the first import.
 	 * @param module
 	 */
-	private static void organizeImports(Module module) {
+	private void organizeImports(Module module) {
 
 		// find out which (sub) packages have actually been used (via node type usage)
 		List<EPackage> actuallyUsedEPackages = new ArrayList<EPackage>();
@@ -256,57 +189,4 @@ public class MainUnitGenerator {
 		}		
 	}
 	
-	
-	/**
-	 * Method that removes parameters which are not needed for an inverse.
-	 * E.g. a DELETE-Module does not need EAttributes which were necessary for the
-	 * creation of an EClassifier inside a CREATE-Module.
-	 * @param module
-	 * @param mainUnit
-	 */
-	private static void removeUnnecessaryParametersForDELETE(Module module, Unit mainUnit) {
-		//retain only ChildX/ExistingX/ToBeDeleted Parameters
-		List<Parameter> unnecessaryParameters = new ArrayList<Parameter>();
-
-		for(Rule r: HenshinModuleAnalysis.getAllRules(module)) {
-			for(Parameter p: r.getParameters()) {
-				
-				if(p.getName().startsWith(GlobalConstants.CHILD) || p.getName().startsWith(GlobalConstants.EX) || p.getName().startsWith(GlobalConstants.DEL)) {
-					
-					boolean alreadyContained = false;
-					for(Parameter pInInverseUnit: mainUnit.getParameters()) {
-						if(pInInverseUnit.equals(p.getName())) {
-							alreadyContained = true;
-							break;
-						}
-					}
-					
-					if(!alreadyContained) {
-						Parameter newEClassParam = HenshinFactory.eINSTANCE.createParameter(p.getName());
-						newEClassParam.setType(p.getType());
-						mainUnit.getParameters().add(newEClassParam);
-					}												
-				}else{
-					unnecessaryParameters.add(p);
-				}
-			}
-		}			
-		//remove unnecessary parameters
-		HenshinModuleAnalysis.getAllRules(module).get(0).getParameters().removeAll(unnecessaryParameters);
-	}
-	
-	
-	/**
-	 * Method that removes all units (not rules) inside a module.
-	 * @param module
-	 */
-	private static void removeAllNonRuleUnits(Module module) {
-		Iterator<Unit> itUnit = module.getUnits().iterator();
-		while(itUnit.hasNext()) {
-			Unit unit = itUnit.next();
-			if(!(unit instanceof Rule)) {
-				itUnit.remove(); //removes the current unit (not the iterator)
-			}
-		}		
-	}
 }

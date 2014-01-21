@@ -13,7 +13,6 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.GlobalConstants;
-import org.sidiff.serge.core.Configuration.OperationType;
 
 public class ChangeLiteralGenerator {
 
@@ -98,10 +97,6 @@ public class ChangeLiteralGenerator {
 				+GlobalConstants.TO+newEENumliteral.getName();
 		CHANGE_LITERAL_Module.setName(name);
 		CHANGE_LITERAL_Module.setDescription(rule.getDescription());
-
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(CHANGE_LITERAL_Module, OperationType.CHANGE_LITERAL);
-		mainUnitGenerator.generate();
 
 		return CHANGE_LITERAL_Module;
 	}

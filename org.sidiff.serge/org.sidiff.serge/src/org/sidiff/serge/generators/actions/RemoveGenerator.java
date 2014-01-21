@@ -28,10 +28,6 @@ public class RemoveGenerator {
 		Module REMOVE_Module = Common.createInverse(addModule, OperationType.ADD);
 		LogUtil.log(LogEvent.NOTICE, "Generating REMOVE : " + REMOVE_Module.getName());
 
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(REMOVE_Module, OperationType.REMOVE);
-		mainUnitGenerator.generate();
-		
 		return REMOVE_Module;
 	}
 }

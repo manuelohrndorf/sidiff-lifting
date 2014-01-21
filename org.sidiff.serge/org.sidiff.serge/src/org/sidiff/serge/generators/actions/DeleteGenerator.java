@@ -29,11 +29,7 @@ public class DeleteGenerator {
 		Module inverseModule = Common.createInverse(createModule, OperationType.CREATE);
 		LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 		Common.replaceNewsWithToBeDeleted(inverseModule);
-
-		// mainUnit and re-create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(inverseModule, OperationType.DELETE);
-		mainUnitGenerator.generate();		
-				
+		
 		return inverseModule;
 	}
 }

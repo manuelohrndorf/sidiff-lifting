@@ -14,7 +14,6 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.GlobalConstants;
-import org.sidiff.serge.core.Configuration.OperationType;
 
 public class SetAttributeGenerator {
 	
@@ -71,10 +70,6 @@ public class SetAttributeGenerator {
 		String name = GlobalConstants.SET_ATTRIBUTE_prefix + contextClassifier.getName() +"_"+Common.toCamelCase(eAttribute.getName());
 		SET_ATTRIBUTE_Module.setName(name);
 		SET_ATTRIBUTE_Module.setDescription("Sets "+contextClassifier.getName()+" "+Common.toCamelCase(eAttribute.getName()));
-		
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(SET_ATTRIBUTE_Module, OperationType.SET_ATTRIBUTE);
-		mainUnitGenerator.generate();
 		
 		return SET_ATTRIBUTE_Module;
 	}

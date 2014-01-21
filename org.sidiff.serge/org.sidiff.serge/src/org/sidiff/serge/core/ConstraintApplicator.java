@@ -36,11 +36,6 @@ public class ConstraintApplicator {
 				}
 			}
 		}
-
-		// TODO also make sure: inverse creation must delete existing
-		// constraints.
-		// TK: I think we don't have to consider that if constraints are
-		// generated at the very end.
 	}
 
 }

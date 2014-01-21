@@ -9,8 +9,8 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class ChangeReferenceGenerator {
@@ -63,10 +63,6 @@ public class ChangeReferenceGenerator {
 
 		// create rule
 		Common.createBasicRule(CHANGE_REFERENCE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
-
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(CHANGE_REFERENCE_Module, OperationType.CHANGE_REFERENCE);
-		mainUnitGenerator.generate();
 
 		return CHANGE_REFERENCE_Module;
 	}

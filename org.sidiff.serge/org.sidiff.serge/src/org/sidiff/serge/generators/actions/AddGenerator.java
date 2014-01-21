@@ -6,14 +6,12 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class AddGenerator {
@@ -67,10 +65,6 @@ public class AddGenerator {
 
 		// create rule
 		Common.createBasicRule(ADD_Module, outReference, eClassifier, contextClassifier, null, null, OperationType.ADD);
-
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(ADD_Module, OperationType.ADD);
-		mainUnitGenerator.generate();
 
 		return ADD_Module;
 	}

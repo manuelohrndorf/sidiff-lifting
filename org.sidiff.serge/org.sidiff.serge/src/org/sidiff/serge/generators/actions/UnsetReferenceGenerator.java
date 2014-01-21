@@ -29,12 +29,7 @@ public class UnsetReferenceGenerator {
 		Module inverseModule = Common.createInverse(setReferenceModule, OperationType.SET_REFERENCE);
 		LogUtil.log(LogEvent.NOTICE, "Generating UNSET_REFERENCE : " + inverseModule.getName());			
 		Common.replaceNewsWithToBeDeleted(inverseModule);
-
-		// mainUnit and re-create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(inverseModule, OperationType.UNSET_REFERENCE);
-		mainUnitGenerator.generate();		
-				
+	
 		return inverseModule;
-		
 	}
 }

@@ -21,15 +21,11 @@ import org.sidiff.serge.core.Configuration.OperationType;
  * - isAllowedForModuleBase: complete support for other OperationTypes
  * - isAllowedForDangling: complete support for other OperationTypes
  * - What about implicitlyRequired stuff?
- * - ConstraintApplicatior needs implementation
  * - XML/DTD must be adjusted to new OperationType differenciation
  * - Configuration and ConfigurationParser also
  * - ProfileModelIntegration
- * - Implementation of MoveUp and MoveDown needs implementation
+ * - Implementation of MoveUp and MoveDown
  *
- * - Generally: The refactoring was done on expense of runtime performance:
- * Often same lists/sets have to be iterated several times.
- * To increase speed we should think about using threads in the future.
  * 
  * @author mrindt
  *
@@ -73,8 +69,6 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			
 			try{
 				
-				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
-				
 				createModules 	= GAD.generate_CREATE(eClassifier);
 				variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
 				
@@ -112,8 +106,15 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				allModules.add(changeLiteralModules);
 				allModules.add(changeReferenceModules);
 				
+				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
 				constraintApplicator.applyOn(allModules);
 				
+				RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
+				ruleParameterApplicator.applyOn(allModules);
+				
+				MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
+				mainUnitApplicator.applyOn(allModules);
+								
 				ModuleSerializer serializer = new ModuleSerializer();
 				serializer.serialize(allModules);
 			}

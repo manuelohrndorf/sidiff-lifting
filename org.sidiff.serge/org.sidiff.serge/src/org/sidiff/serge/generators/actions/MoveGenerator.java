@@ -54,7 +54,6 @@ public class MoveGenerator {
 		this.eReference = eReference;
 		this.oldContext = oldContext;
 		this.newContext = newContext;
-		
 	}
 	
 	public Module generate() throws OperationTypeNotImplementedException {
@@ -83,11 +82,6 @@ public class MoveGenerator {
 		// create rule
 		Common.createBasicRule(MOVE_Module, eReference, eClassifier, oldContext, eReference, newContext, OperationType.MOVE);
 		
-		// create mainUnit
-		MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(MOVE_Module, OperationType.MOVE);
-		mainUnitGenerator.generate();
-		
 		return MOVE_Module;
-	
 	}
 }
