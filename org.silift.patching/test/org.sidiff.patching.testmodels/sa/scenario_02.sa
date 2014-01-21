@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SA:Architecture xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SA="http://SA/1.0">
+  <component name="Stack" instance="//@instances.0">
+    <port_types name="StackPort" port_instance="//@instances.0/@inPorts.0 //@instances.0/@outPorts.0"/>
+  </component>
+  <component xsi:type="SA:SoftwareComponent" name="FunctionalBlock" instance="//@instances.0/@subcomponent.0 //@instances.1/@subcomponent.0">
+    <port_types name="FBPort" port_instance="//@instances.0/@subcomponent.0/@inPorts.0 //@instances.0/@subcomponent.0/@outPorts.0 //@instances.0/@subcomponent.0/@inPorts.1 //@instances.0/@subcomponent.0/@inPorts.2 //@instances.0/@subcomponent.0/@outPorts.2 //@instances.1/@subcomponent.0/@inPorts.0 //@instances.1/@subcomponent.0/@outPorts.0 //@instances.1/@subcomponent.0/@inPorts.1 //@instances.1/@subcomponent.0/@inPorts.2 //@instances.1/@subcomponent.0/@outPorts.2 //@instances.1/@subcomponent.0/@inPorts.3 //@instances.1/@subcomponent.0/@inPorts.4 //@instances.1/@subcomponent.0/@inPorts.5 //@instances.1/@subcomponent.0/@inPorts.6 //@instances.1/@subcomponent.0/@outPorts.1 //@instances.1/@subcomponent.0/@outPorts.3 //@instances.1/@subcomponent.0/@outPorts.4 //@instances.1/@subcomponent.0/@outPorts.5 //@instances.1/@subcomponent.0/@outPorts.6 //@instances.0/@subcomponent.0/@inPorts.3 //@instances.0/@subcomponent.0/@outPorts.1 //@instances.0/@subcomponent.0/@outPorts.3"/>
+  </component>
+  <component xsi:type="SA:Actuator" name="Separator" instance="//@instances.0/@subcomponent.1"/>
+  <component xsi:type="SA:MechanicDevice" name="Cylinder" instance="//@instances.1/@subcomponent.5" power_supply=""/>
+  <component xsi:type="SA:MechanicDevice" name="Vacuum" instance="//@instances.1/@subcomponent.5/@subcomponent.2">
+    <port_types name="VacuumPort" port_instance="//@instances.1/@subcomponent.5/@subcomponent.2/@inPorts.0 //@instances.1/@subcomponent.5/@subcomponent.2/@outPorts.0"/>
+  </component>
+  <component xsi:type="SA:MechanicDevice" name="Slide" instance="//@instances.2" power_supply="">
+    <port_types name="SlidePort" port_instance="//@instances.2/@inPorts.0 //@instances.2/@outPorts.0"/>
+  </component>
+  <component name="Crane" instance="//@instances.1">
+    <port_types name="CranePort" port_instance="//@instances.1/@inPorts.0 //@instances.1/@outPorts.0 //@instances.1/@inPorts.1 //@instances.1/@outPorts.1"/>
+  </component>
+  <component xsi:type="SA:Sensor" name="TactileDigital" instance="//@instances.0/@subcomponent.1/@subcomponent.0 //@instances.0/@subcomponent.1/@subcomponent.1 //@instances.0/@subcomponent.2 //@instances.1/@subcomponent.3 //@instances.1/@subcomponent.4 //@instances.1/@subcomponent.1 //@instances.1/@subcomponent.2 //@instances.1/@subcomponent.5/@subcomponent.0 //@instances.1/@subcomponent.5/@subcomponent.1" type="">
+    <port_types name="TactileDigitalPort" port_instance="//@instances.0/@subcomponent.1/@subcomponent.0/@inPorts.0 //@instances.0/@subcomponent.1/@subcomponent.0/@outPorts.0 //@instances.0/@subcomponent.1/@subcomponent.1/@inPorts.0 //@instances.0/@subcomponent.2/@inPorts.0 //@instances.0/@subcomponent.2/@outPorts.0 //@instances.1/@subcomponent.5/@subcomponent.0/@inPorts.0 //@instances.1/@subcomponent.5/@subcomponent.0/@outPorts.0 //@instances.1/@subcomponent.5/@subcomponent.1/@inPorts.0 //@instances.1/@subcomponent.5/@subcomponent.1/@outPorts.0 //@instances.1/@subcomponent.1/@inPorts.0 //@instances.1/@subcomponent.1/@outPorts.0 //@instances.1/@subcomponent.2/@inPorts.0 //@instances.1/@subcomponent.2/@outPorts.0 //@instances.1/@subcomponent.3/@inPorts.0 //@instances.1/@subcomponent.3/@outPorts.0 //@instances.1/@subcomponent.4/@inPorts.0 //@instances.1/@subcomponent.4/@outPorts.0 //@instances.0/@subcomponent.1/@subcomponent.1/@outPorts.0"/>
+  </component>
+  <component xsi:type="SA:Sensor" name="InductiveDigital" instance="//@instances.0/@subcomponent.3" power_supply="" type="">
+    <port_types name="InductiveDigitalPort" port_instance="//@instances.0/@subcomponent.3/@inPorts.0 //@instances.0/@subcomponent.3/@outPorts.0"/>
+  </component>
+  <connectors name="StackToCrane_Connector" port="//@instances.1/@inPorts.0 //@instances.0/@outPorts.0"/>
+  <connectors name="CraneToStack_Connector" port="//@instances.1/@outPorts.0 //@instances.0/@inPorts.0"/>
+  <connectors name="ExtractedSToStackFB_Connector" port="//@instances.0/@subcomponent.1/@subcomponent.0/@outPorts.0 //@instances.0/@subcomponent.0/@inPorts.0"/>
+  <connectors name="StackFBToExtractedS_Connector" port="//@instances.0/@subcomponent.1/@subcomponent.0/@inPorts.0 //@instances.0/@subcomponent.0/@outPorts.0"/>
+  <connectors name="StackFBToRetractedS_Connector" port="//@instances.0/@subcomponent.1/@subcomponent.1/@inPorts.0 //@instances.0/@subcomponent.0/@outPorts.1"/>
+  <connectors name="RetractedSToStackFB_Connector" port="//@instances.0/@subcomponent.1/@subcomponent.1/@outPorts.0 //@instances.0/@subcomponent.0/@inPorts.1"/>
+  <connectors name="StackFBToWPpresents_Connector" port="//@instances.0/@subcomponent.0/@outPorts.2 //@instances.0/@subcomponent.2/@inPorts.0"/>
+  <connectors name="WPpresentsToStackFB_Connector" port="//@instances.0/@subcomponent.0/@inPorts.2 //@instances.0/@subcomponent.2/@outPorts.0"/>
+  <connectors name="CraneFBToUpS_Connector" port="//@instances.1/@subcomponent.0/@outPorts.0 //@instances.1/@subcomponent.5/@subcomponent.0/@inPorts.0"/>
+  <connectors name="UpSToCraneFB_Connector" port="//@instances.1/@subcomponent.0/@inPorts.0 //@instances.1/@subcomponent.5/@subcomponent.0/@outPorts.0"/>
+  <connectors name="DownSToCraneFB_Connector" port="//@instances.1/@subcomponent.0/@inPorts.1 //@instances.1/@subcomponent.5/@subcomponent.1/@outPorts.0"/>
+  <connectors name="CraneFBToDownS_Connector" port="//@instances.1/@subcomponent.0/@outPorts.1 //@instances.1/@subcomponent.5/@subcomponent.1/@inPorts.0"/>
+  <connectors name="CraneFBToVacuum_Connector" port="//@instances.1/@subcomponent.0/@outPorts.2 //@instances.1/@subcomponent.5/@subcomponent.2/@inPorts.0"/>
+  <connectors name="VacuumToCraneFB_Connector" port="//@instances.1/@subcomponent.0/@inPorts.2 //@instances.1/@subcomponent.5/@subcomponent.2/@outPorts.0"/>
+  <connectors name="CraneToSlide_Connector" port="//@instances.1/@outPorts.1 //@instances.2/@inPorts.0"/>
+  <connectors name="SlideToCrane_Connector" port="//@instances.1/@inPorts.1 //@instances.2/@outPorts.0"/>
+  <connectors name="StackFBToMetalpresents_Connector" port="//@instances.0/@subcomponent.0/@outPorts.3 //@instances.0/@subcomponent.3/@inPorts.0"/>
+  <connectors name="MetalpresentsToStackFB_Connector" port="//@instances.0/@subcomponent.3/@outPorts.0 //@instances.0/@subcomponent.0/@inPorts.3"/>
+  <connectors name="CranFBToMaxLeftS_Connector" port="//@instances.1/@subcomponent.0/@outPorts.3 //@instances.1/@subcomponent.1/@inPorts.0"/>
+  <connectors name="MaxLeftSToCraneFB_Connector" port="//@instances.1/@subcomponent.0/@inPorts.3 //@instances.1/@subcomponent.1/@outPorts.0"/>
+  <connectors name="CraneFBToMaxRightS_Connector" port="//@instances.1/@subcomponent.0/@outPorts.4 //@instances.1/@subcomponent.2/@inPorts.0"/>
+  <connectors name="MaxRightSToCraneFB_Connector" port="//@instances.1/@subcomponent.0/@inPorts.4 //@instances.1/@subcomponent.2/@outPorts.0"/>
+  <connectors name="CraneFBToAtPositionSlideS_Connector" port="//@instances.1/@subcomponent.3/@inPorts.0 //@instances.1/@subcomponent.0/@outPorts.5"/>
+  <connectors name="AtPositionSlideSToCraneFB_Connector" port="//@instances.1/@subcomponent.3/@outPorts.0 //@instances.1/@subcomponent.0/@inPorts.5"/>
+  <connectors name="CraneFBToAtPositonStackS_Connector" port="//@instances.1/@subcomponent.4/@inPorts.0 //@instances.1/@subcomponent.0/@outPorts.6"/>
+  <connectors name="AtPositionStackSToCraneFB_Connector" port="//@instances.1/@subcomponent.4/@outPorts.0 //@instances.1/@subcomponent.0/@inPorts.6"/>
+  <instances name="stack" type="//@component.0">
+    <subcomponent name="stackFB" type="//@component.1">
+      <inPorts name="ExtractedSToStackFB_StackFBPort" connect="//@connectors.2" type="//@component.1/@port_types.0"/>
+      <inPorts name="RetractedSToStackFB_StackFBPort" connect="//@connectors.5" type="//@component.1/@port_types.0"/>
+      <inPorts name="WPpresentsToStackFB_StackFBPort" connect="//@connectors.7" type="//@component.1/@port_types.0"/>
+      <inPorts name="MetalpresentsToStackFB_StackFBPort" connect="//@connectors.17" type="//@component.1/@port_types.0"/>
+      <outPorts name="StackFBToExtractedS_StackFBPort" connect="//@connectors.3" type="//@component.1/@port_types.0"/>
+      <outPorts name="StackFBToRetractedS_StackFBPort" connect="//@connectors.4" type="//@component.1/@port_types.0"/>
+      <outPorts name="StackFBToWPpresents_StackFBPort" connect="//@connectors.6" type="//@component.1/@port_types.0"/>
+      <outPorts name="StackFBToMetalpresents_StackFB_Port" connect="//@connectors.16" type="//@component.1/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="separator" type="//@component.2">
+      <subcomponent name="extractedS" type="//@component.7">
+        <inPorts name="StackFBToExtractedS_ExtractedSPort" connect="//@connectors.3" type="//@component.7/@port_types.0"/>
+        <outPorts name="ExtractedSToStackFB_ExtractedSPort" connect="//@connectors.2" type="//@component.7/@port_types.0"/>
+      </subcomponent>
+      <subcomponent name="retractedS" type="//@component.7">
+        <inPorts name="StackFBToRetractedS_RetractedSPort" connect="//@connectors.4" type="//@component.7/@port_types.0"/>
+        <outPorts name="RetractedSToStackFB_RetractedSPort" connect="//@connectors.5" type="//@component.7/@port_types.0"/>
+      </subcomponent>
+    </subcomponent>
+    <subcomponent name="WPpresents" type="//@component.7">
+      <inPorts name="StackFBToWPpresents_WPpresentsPort" connect="//@connectors.6" type="//@component.7/@port_types.0"/>
+      <outPorts name="WPpresentsToStackFB_WPpresentsPort" connect="//@connectors.7" type="//@component.7/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="Metalpresents" type="//@component.8">
+      <inPorts name="StackFBToMetalpresents_MetalpresentsPort" connect="//@connectors.16" type="//@component.8/@port_types.0"/>
+      <outPorts name="MetalpresentsToStackFB_MetalpresentsPort" connect="//@connectors.17" type="//@component.8/@port_types.0"/>
+    </subcomponent>
+    <inPorts name="CraneToStack_StackPort" connect="//@connectors.1" type="//@component.0/@port_types.0"/>
+    <outPorts name="StackToCrane_StackPort" connect="//@connectors.0" type="//@component.0/@port_types.0"/>
+  </instances>
+  <instances name="crane" type="//@component.6">
+    <subcomponent name="craneFB" type="//@component.1">
+      <inPorts name="UpSToCraneFB_CraneFBPort" connect="//@connectors.9" type="//@component.1/@port_types.0"/>
+      <inPorts name="DownSToCraneFB_CraneFBPort" connect="//@connectors.10" type="//@component.1/@port_types.0"/>
+      <inPorts name="VacuumToCraneFB_CraneFBPort" connect="//@connectors.13" type="//@component.1/@port_types.0"/>
+      <inPorts name="MaxLeftSToCraneFB_CraneFBPort" connect="//@connectors.19" type="//@component.1/@port_types.0"/>
+      <inPorts name="MaxRightSToCraneFB_CraneFBPort" connect="//@connectors.21" type="//@component.1/@port_types.0"/>
+      <inPorts name="AtPositionSlideSToCraneFB_CraneFBPort" connect="//@connectors.23" type="//@component.1/@port_types.0"/>
+      <inPorts name="AtPositionStackSToCraneFB_CraneFBPort" connect="//@connectors.25" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToUpS_CraneFBPort" connect="//@connectors.8" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToDownS_CraneFBPort" connect="//@connectors.11" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToVacuum_CraneFBPort" connect="//@connectors.12" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToMaxLeftS_CraneFBPort" connect="//@connectors.18" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToMaxRightS_CraneFBPort" connect="//@connectors.20" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToAtPositionSlideS_CraneFBPort" connect="//@connectors.22" type="//@component.1/@port_types.0"/>
+      <outPorts name="CraneFBToAtPositionStackS_CraneFBPort" connect="//@connectors.24" type="//@component.1/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="maxLeftST" type="//@component.7">
+      <inPorts name="CraneFBToMaxLeftS_MaxLeftSPort" connect="//@connectors.18" type="//@component.7/@port_types.0"/>
+      <outPorts name="MaxLeftSToCraneFB_MaxLeftSPort" connect="//@connectors.19" type="//@component.7/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="maxRightST" type="//@component.7">
+      <inPorts name="CraneFBToMaxRightS_MaxRightSPort" connect="//@connectors.20" type="//@component.7/@port_types.0"/>
+      <outPorts name="MaxRightSToCraneFB_MaxRightSPort" connect="//@connectors.21" type="//@component.7/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="atPositionSlideST" type="//@component.7">
+      <inPorts name="CraneFBToAtPositionSlideS_AtPositionSlideSPort" connect="//@connectors.22" type="//@component.7/@port_types.0"/>
+      <outPorts name="AtPositionSlideSToCraneFB_AtPositionSlideSPort" connect="//@connectors.23" type="//@component.7/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="atPositionStackST" type="//@component.7">
+      <inPorts name="CraneFBToAtPositionStackS_AtPositionStackSPort" connect="//@connectors.24" type="//@component.7/@port_types.0"/>
+      <outPorts name="AtPositionStackSToCraneFB_AtPositionStackSPort" connect="//@connectors.25" type="//@component.7/@port_types.0"/>
+    </subcomponent>
+    <subcomponent name="cylinder" type="//@component.3">
+      <subcomponent name="upS" type="//@component.7">
+        <inPorts name="CraneFBToUpS_UpSPort" connect="//@connectors.8" type="//@component.7/@port_types.0"/>
+        <outPorts name="UpSToCraneFB_UpSPort" connect="//@connectors.9" type="//@component.7/@port_types.0"/>
+      </subcomponent>
+      <subcomponent name="downS" type="//@component.7">
+        <inPorts name="CraneFBToDownS_DownSPort" connect="//@connectors.11" type="//@component.7/@port_types.0"/>
+        <outPorts name="DownSToCraneFB_DownSPort" connect="//@connectors.10" type="//@component.7/@port_types.0"/>
+      </subcomponent>
+      <subcomponent name="vacuum" type="//@component.4">
+        <inPorts name="CraneFBToVacuum_VacuumPort" connect="//@connectors.12" type="//@component.4/@port_types.0"/>
+        <outPorts name="VacuumToCraneFB_VacuumPort" connect="//@connectors.13" type="//@component.4/@port_types.0"/>
+      </subcomponent>
+    </subcomponent>
+    <inPorts name="StackToCrane_CranePort" connect="//@connectors.0" type="//@component.6/@port_types.0"/>
+    <inPorts name="SlideToCrane_CranePort" connect="//@connectors.15" type="//@component.6/@port_types.0"/>
+    <outPorts name="CraneToStack_CranePort" connect="//@connectors.1" type="//@component.6/@port_types.0"/>
+    <outPorts name="CraneToSlide_CranePort" connect="//@connectors.14" type="//@component.6/@port_types.0"/>
+  </instances>
+  <instances name="slide" type="//@component.5">
+    <inPorts name="CraneToSlide_SlidePort" connect="//@connectors.14" type="//@component.5/@port_types.0"/>
+    <outPorts name="SlideToCrane_SlidePort" connect="//@connectors.15" type="//@component.5/@port_types.0"/>
+  </instances>
+</SA:Architecture>
