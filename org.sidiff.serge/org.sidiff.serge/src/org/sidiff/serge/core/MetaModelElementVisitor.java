@@ -64,6 +64,13 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
 			assert(eClassifier instanceof EClass);
 			
+			allModules.clear();
+			
+			// FIXME: Workaround to exclude Generation of Operations on Ecore
+			if (EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(eClassifier)){
+				return;
+			}
+			
 			try{
 				
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();

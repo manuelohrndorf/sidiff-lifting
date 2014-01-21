@@ -25,9 +25,9 @@ public class UpperBoundCheckGenerator extends AbstractBoundCheckGenerator {
 
 				if (ub > 0 && balance > 0) {
 					assert (ub >= preserved + balance);
-					int offset = ub - (preserved + balance);
+					int offset = (ub - (preserved + balance)) + 1;
 					if (offset > 0) {
-						Formula formula = createBoundCheck(offset, preservedNode.getLhsNode(), outType, false);
+						Formula formula = createBoundCheck(offset, preservedNode.getLhsNode(), outType, true);
 						HenshinConditionUtil.addFormula(formula, editRule.getLhs(), FormulaCombineOperator.AND);
 					}
 				}

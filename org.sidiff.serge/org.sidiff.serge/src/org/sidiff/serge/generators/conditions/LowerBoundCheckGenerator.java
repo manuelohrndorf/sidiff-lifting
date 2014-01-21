@@ -22,11 +22,11 @@ public class LowerBoundCheckGenerator extends AbstractBoundCheckGenerator {
 				int lb = outType.getLowerBound();				
 				int balance = getBalance(preservedNode, outType);
 				int preserved = getPreservedCount(preservedNode, outType);
-				
+			
 				if ((lb > 0) && (balance < 0) && (preserved < lb)){
-					int offset = (lb - preserved) + balance;
+					int offset = ((lb - preserved) + balance) + 1;
 					if (offset > 0){
-						Formula formula = createBoundCheck(offset, preservedNode.getLhsNode(), outType, true);
+						Formula formula = createBoundCheck(offset, preservedNode.getLhsNode(), outType, false);
 						HenshinConditionUtil.addFormula(formula, editRule.getLhs(), FormulaCombineOperator.AND);
 					}
 				}

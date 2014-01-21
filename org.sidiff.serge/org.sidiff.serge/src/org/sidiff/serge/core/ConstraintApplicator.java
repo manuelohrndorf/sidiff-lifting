@@ -13,32 +13,34 @@ public class ConstraintApplicator {
 
 	public void applyOn(Set<Set<Module>> allModules) {
 		// TODO re-implementation of possible constraints:
-		//  1. required nodes to ensure lowerbound multiplicities are matched
-		//  2. forbid nodes to exclude upperbound multiplicity surpassing
-		//	3. local name uniqueness
-		//  4. global name uniqueness
-		
+		// 1. required nodes to ensure lowerbound multiplicities are matched
+		// 2. forbid nodes to exclude upperbound multiplicity surpassing
+		// 3. local name uniqueness
+		// 4. global name uniqueness
+
 		Iterator<Set<Module>> setIterator = allModules.iterator();
-		
-		while(setIterator.hasNext()) {	
+
+		while (setIterator.hasNext()) {
 			Set<Module> currentSet = setIterator.next();
-			if(currentSet!=null) {
-				for(Module module: currentSet) {
+			if (currentSet != null) {
+				for (Module module : currentSet) {
 					for (Unit unit : module.getUnits()) {
-						if (unit instanceof Rule){
-							// TODO: Reihenfolge entscheidend..?
-							
+						if (unit instanceof Rule) {
 							LowerBoundCheckGenerator lbGenerator = new LowerBoundCheckGenerator((Rule) unit);
-						
+							lbGenerator.generate();
+							
 							UpperBoundCheckGenerator ubGenerator = new UpperBoundCheckGenerator((Rule) unit);
+							ubGenerator.generate();
 						}
 					}
 				}
 			}
 		}
-		
-		// TODO also make sure: inverse creation must delete existing constraints.
-		// TK: I think we don't have to consider that if constraints are generated at the very end.
+
+		// TODO also make sure: inverse creation must delete existing
+		// constraints.
+		// TK: I think we don't have to consider that if constraints are
+		// generated at the very end.
 	}
 
 }

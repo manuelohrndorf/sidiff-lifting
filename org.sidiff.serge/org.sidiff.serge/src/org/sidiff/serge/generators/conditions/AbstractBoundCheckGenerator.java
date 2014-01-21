@@ -47,6 +47,17 @@ public abstract class AbstractBoundCheckGenerator extends AbstractConditionGener
 		src2Out.get(key).add(edgeType);
 	}
 
+	/**
+	 * "Balance" outgoing references of type edgeType which are created/deleted
+	 * for node preservedNode. Positive integer means that more references are
+	 * created than deleted, 0 means that an equal number of references are
+	 * created and deleted, and a negative integer means that more references
+	 * are deleted.
+	 * 
+	 * @param preservedNode
+	 * @param edgeType
+	 * @return
+	 */
 	protected int getBalance(NodePair preservedNode, EReference edgeType) {
 		int created = 0;
 		int deleted = 0;
