@@ -1,6 +1,7 @@
 package org.silift.common.util.access;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -32,28 +33,25 @@ public class EMFModelAccessEx {
 
 		List<String> documentTypes = new LinkedList<String>();
 		documentTypes.addAll(docTypes);	
-
-		// TODO Revise this section
+		
 		if (documentTypes.size() == 1) {
 			// documentType is nonambiguous
 			return documentTypes.get(0);
 		}
 
-		// UML and a profile application
-		// => return profile nsURI
-		else {
-			int umlIndex = 0;
-			while(!documentTypes.get(umlIndex).contains("UML")){
-				umlIndex++;			
+		// Remove irrelevant docTypes
+		for (Iterator<String> iterator = documentTypes.iterator(); iterator.hasNext();) {
+			String docType = (String) iterator.next();
+			if (docType.contains("UML") || docType.contains("Henshin/Trace")){
+				iterator.remove();
 			}
-			
-			if (umlIndex != 0)
-				return documentTypes.get(umlIndex - 1);
-			else
-				return documentTypes.get(umlIndex + 1);
-
 		}
-
+		
+		if (documentTypes.size() == 1){
+			return documentTypes.get(0);
+		} else {
+			return docTypes.iterator().next();
+		}
 	}
 
 	/**
