@@ -3,7 +3,6 @@ package org.sidiff.patching.test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,7 +28,9 @@ import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.report.ValidationEntry;
-import org.sidiff.patching.test.gmf.GMFTestSuitBuilder;
+import org.sidiff.patching.test.ft.FtTestSuiteBuilder;
+import org.sidiff.patching.test.gmf.GMFTestSuiteBuilder;
+import org.sidiff.patching.test.sa.SaTestSuiteBuilder;
 import org.sidiff.patching.test.smg.FileToModelConverter;
 import org.sidiff.patching.test.smg.SMGFileManager;
 import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
@@ -43,8 +44,7 @@ public class PatchEvaluationApplication implements IApplication {
 
 	static final boolean INSPECT_VALIDATION_ERRORS = true;
 	static final boolean INSPECT_PASSED_OPERATIONS = true;
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
@@ -68,9 +68,9 @@ public class PatchEvaluationApplication implements IApplication {
 			throw new FileNotFoundException(modelFolder.getPath());
 		}
 
-		if (type == null || !(type.equals("gmf") || !(type.equals("smg")) || !(type.equals("sysml")))) {
-			throw new InvalidParameterException("Unkown type!");
-		}
+		assert (type != null);
+		assert (type.equals("gmf") || type.equals("smg") || type.equals("sysml") || type.equals("sa") || type
+				.equals("ft"));
 
 		// // Experiment run
 		// String experimentRun = "01->02";
@@ -93,7 +93,19 @@ public class PatchEvaluationApplication implements IApplication {
 
 		// Preparing GMF Testsuites
 		if (type.equals("gmf")) {
-			GMFTestSuitBuilder builder = new GMFTestSuitBuilder(modelFolder);
+			GMFTestSuiteBuilder builder = new GMFTestSuiteBuilder(modelFolder);
+			testSuites = builder.getTestSuites();
+		}
+
+		// Preparing SA Testsuites
+		if (type.equals("sa")) {
+			SaTestSuiteBuilder builder = new SaTestSuiteBuilder(modelFolder);
+			testSuites = builder.getTestSuites();
+		}
+
+		// Preparing FT Testsuites
+		if (type.equals("ft")) {
+			FtTestSuiteBuilder builder = new FtTestSuiteBuilder(modelFolder);
 			testSuites = builder.getTestSuites();
 		}
 
@@ -151,13 +163,13 @@ public class PatchEvaluationApplication implements IApplication {
 
 			// More Details from report..
 			for (ReportEntry entry : patchEngine.getPatchReportManager().getLastReport().getEntries()) {
-				if (entry instanceof ValidationEntry){
+				if (entry instanceof ValidationEntry) {
 					ValidationEntry validationEntry = (ValidationEntry) entry;
 					buffer.append("=> ValidationEntry: " + validationEntry.getDescription() + "\n");
-					if (INSPECT_VALIDATION_ERRORS){					
+					if (INSPECT_VALIDATION_ERRORS) {
 						for (IValidationError error : validationEntry.getCurrentValidationErrors()) {
 							buffer.append("\t" + "msg: " + error.getMessage() + " | src: " + error.getSource());
-							if (error.getException() != null){
+							if (error.getException() != null) {
 								buffer.append(" | exception: " + error.getException().getMessage());
 							}
 							buffer.append("\n");
@@ -165,20 +177,21 @@ public class PatchEvaluationApplication implements IApplication {
 					}
 				} else {
 					OperationExecutionEntry executionEntry = (OperationExecutionEntry) entry;
-					if (executionEntry.getKind() == OperationExecutionKind.EXEC_FAILED){
+					if (executionEntry.getKind() == OperationExecutionKind.EXEC_FAILED) {
 						buffer.append("Failed OperationInvocation: " + executionEntry.getDescription() + "\n");
 					}
-					if (executionEntry.getKind() == OperationExecutionKind.PASSED && INSPECT_PASSED_OPERATIONS){
+					if (executionEntry.getKind() == OperationExecutionKind.PASSED && INSPECT_PASSED_OPERATIONS) {
 						buffer.append("Executed OperationInvocation: " + executionEntry.getDescription() + "\n");
 					}
-					if (executionEntry.getKind() == OperationExecutionKind.EXEC_WARNING && INSPECT_PASSED_OPERATIONS){
-						buffer.append("Executed OperationInvocation (with warning): " + executionEntry.getDescription() + "\n");
+					if (executionEntry.getKind() == OperationExecutionKind.EXEC_WARNING && INSPECT_PASSED_OPERATIONS) {
+						buffer.append("Executed OperationInvocation (with warning): " + executionEntry.getDescription()
+								+ "\n");
 					}
 				}
-				
+
 			}
 			buffer.append("\n");
-			
+
 			// Saving patch
 			// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
 			// folder, testSuite.getId()+".patch");

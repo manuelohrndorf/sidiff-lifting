@@ -1,4 +1,4 @@
-package org.sidiff.patching.test;
+package org.sidiff.patching.test.sysml;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.sidiff.patching.test.INormalizer;
 
 public class SysMLNormalizer implements INormalizer {
 

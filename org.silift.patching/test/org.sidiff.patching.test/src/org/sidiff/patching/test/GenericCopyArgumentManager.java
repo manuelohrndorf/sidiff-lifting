@@ -1,4 +1,4 @@
-package org.sidiff.patching.test.gmf;
+package org.sidiff.patching.test;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -7,16 +7,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.patching.test.AbstractBatchArgumentManager;
 import org.silift.common.util.emf.Scope;
 
-public class GMFCorrespondence extends AbstractBatchArgumentManager {
+public class GenericCopyArgumentManager extends AbstractBatchArgumentManager {
 
 	private Difference difference;
 	private Copier copier;
 	private Resource target;
 
-	public GMFCorrespondence(Difference difference) {
+	public GenericCopyArgumentManager(Difference difference) {
 		this.difference = difference;
 		copier = new Copier();
 		copier.copyAll(difference.getSymmetric().getModelA().getContents());

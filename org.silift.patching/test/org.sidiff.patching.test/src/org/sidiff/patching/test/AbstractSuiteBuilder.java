@@ -1,4 +1,4 @@
-package org.sidiff.patching.test.gmf;
+package org.sidiff.patching.test;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -16,22 +16,18 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
-import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
-import org.sidiff.patching.test.BatchInterruptHandler;
-import org.sidiff.patching.test.TestSuite;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 
-public class GMFTestSuitBuilder {
+public abstract class AbstractSuiteBuilder {
 	private File modelFolder;
 	private IMatcher matcher;
 
 	private ITransformationEngine transformationEngine;
 	private IPatchInterruptHandler patchInterruptHandler;
 
-	public GMFTestSuitBuilder(File modelFolder) {
+	public AbstractSuiteBuilder(File modelFolder) {
 		this.modelFolder = modelFolder;
 	}
 
@@ -41,7 +37,8 @@ public class GMFTestSuitBuilder {
 			
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith("ecore") && !name.contains("patch");
+				String fileExt = getFileExtension();
+				return name.toLowerCase().endsWith(fileExt) && !name.contains("patch");
 			}
 		};
 		File[] files = modelFolder.listFiles(filter);
@@ -69,11 +66,7 @@ public class GMFTestSuitBuilder {
 		Resource modified = resourceSetModified.getResource(URI.createFileURI(modifiedFile.getAbsolutePath()), true);
 		
 		if (matcher == null) {
-			matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", original, modified);
-			if (matcher == null) {
-				LogUtil.log(LogEvent.ERROR, "UUIDMatcher not found!");
-				return null;
-			}
+			matcher = getMatcher(original, modified);
 		}
 		
 		if (transformationEngine == null){	
@@ -90,7 +83,7 @@ public class GMFTestSuitBuilder {
 		
 		Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, matcher);
 
-		GMFCorrespondence correspondence = new GMFCorrespondence(difference);
+		AbstractBatchArgumentManager correspondence = getArgumentManager(difference);
 		
 		if(patchInterruptHandler == null){
 			patchInterruptHandler = new BatchInterruptHandler();
@@ -98,5 +91,11 @@ public class GMFTestSuitBuilder {
 		
 		return new TestSuite(id, difference, original, modified, correspondence, transformationEngine, patchInterruptHandler);
 	}
+	
+	protected abstract String getFileExtension();
+	
+	protected abstract IMatcher getMatcher(Resource original, Resource modified);
+	
+	protected abstract AbstractBatchArgumentManager getArgumentManager(Difference patch);
 
 }
