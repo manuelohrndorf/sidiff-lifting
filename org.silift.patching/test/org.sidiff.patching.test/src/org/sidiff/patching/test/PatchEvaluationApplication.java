@@ -21,6 +21,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
@@ -42,8 +43,10 @@ import org.silift.common.util.emf.Scope;
 
 public class PatchEvaluationApplication implements IApplication {
 
-	static final boolean INSPECT_VALIDATION_ERRORS = true;
-	static final boolean INSPECT_PASSED_OPERATIONS = true;
+	static final boolean INSPECT_VALIDATION_ERRORS = false;
+	static final boolean INSPECT_PASSED_OPERATIONS = false;
+	static final boolean SAVE_ASYM_DIFFERENCE = false;
+	static final boolean SAVE_SYM_DIFFERENCE = false;
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -192,6 +195,10 @@ public class PatchEvaluationApplication implements IApplication {
 			}
 			buffer.append("\n");
 
+			// Save various out files..
+			String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile().getAbsolutePath()
+					+ "/";
+
 			// Saving patch
 			// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
 			// folder, testSuite.getId()+".patch");
@@ -201,8 +208,6 @@ public class PatchEvaluationApplication implements IApplication {
 
 			if (!type.equals("sysml")) {
 				// Saving patched Resource
-				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
-						.getAbsolutePath() + "/";
 				String patchedFileBase = folder + new File(testSuite.getOriginal().getURI().toFileString()).getName();
 				ResourceSet resourceSetPatched = new ResourceSetImpl();
 				URI patchedUri = URI.createFileURI(patchedFileBase + ".patched.xmi");
@@ -224,8 +229,6 @@ public class PatchEvaluationApplication implements IApplication {
 				resourcePatched.save(Collections.EMPTY_MAP);
 
 				// Saving modified Resource (into "my sysml" without ids)
-				String folder = new File(testSuite.getOriginal().getURI().toFileString()).getParentFile()
-						.getAbsolutePath() + "/";
 				String modifiedFileBase = folder + new File(testSuite.getModified().getURI().toFileString()).getName();
 				ResourceSet resourceSetModified = new ResourceSetImpl();
 				URI modifiedUri = URI.createFileURI(modifiedFileBase + ".sysml");
