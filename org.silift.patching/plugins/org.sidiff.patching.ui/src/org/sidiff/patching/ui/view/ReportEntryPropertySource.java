@@ -46,19 +46,19 @@ public class ReportEntryPropertySource implements IPropertySource {
 	public Object getPropertyValue(Object id) {
 		String output = "";
 		if (id.equals("description")) {
-			return reportEntry.getDescription();
-		}
+			output = reportEntry.getDescription();
+		}else
 		if(reportEntry instanceof OperationExecutionEntry){
 			if(id.equals("kind")){
-				return ((OperationExecutionEntry)reportEntry).getKind();
-			}
+				output=((OperationExecutionEntry)reportEntry).getKind().name();
+			}else
 			if(id.equals("inArgs")){
 				output = mapToString(((OperationExecutionEntry)reportEntry).getInArgs());
 	
-			}
+			}else
 			if(id.equals("outArgs")){
 				output = mapToString(((OperationExecutionEntry)reportEntry).getOutArgs());
-			}
+			}else
 			if(id.equals("error")){
 				//output = ((OperationExecutionEntry)reportEntry).getError().toString();
 			}
@@ -84,24 +84,28 @@ public class ReportEntryPropertySource implements IPropertySource {
 
 	}
 	
+	
 	private String mapToString(Map<ParameterBinding, Object> map){
 		String string = "";
 		int it = 0;
-		for(ParameterBinding binding : map.keySet()){
-			string += binding.getFormalName() +": ";
-			if(binding instanceof ObjectParameterBinding){
-				EObject obj = (EObject)map.get(binding);
-				EStructuralFeature feature = obj.eClass().getEStructuralFeature("name");
-				if(feature != null) {
-					string += obj.eGet(feature);
-				}									
-			}else{
-				string += map.get(binding);
+		if(map != null && !map.isEmpty()){
+			for (ParameterBinding binding : map.keySet()) {
+				string += binding.getFormalName() + ": ";
+				if (binding instanceof ObjectParameterBinding) {
+					EObject obj = (EObject) map.get(binding);
+					EStructuralFeature feature = obj.eClass()
+							.getEStructuralFeature("name");
+					if (feature != null) {
+						string += obj.eGet(feature);
+					}
+				} else {
+					string += map.get(binding);
+				}
+				if (!(it == map.size() - 1)) {
+					string += ", ";
+				}
+				it++;
 			}
-			if(!(it == map.size()-1)){
-				string += ", ";
-			}
-			it++;
 		}
 		return string;
 	}
