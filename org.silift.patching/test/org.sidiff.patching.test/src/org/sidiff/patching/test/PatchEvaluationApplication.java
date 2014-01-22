@@ -22,6 +22,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
@@ -39,6 +40,7 @@ import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationMode;
+import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
 
 public class PatchEvaluationApplication implements IApplication {
@@ -200,8 +202,18 @@ public class PatchEvaluationApplication implements IApplication {
 					+ "/";
 
 			// Saving patch
-			// AsymmetricDiffFacade.serializeDifference(testSuite.getDifference(),
-			// folder, testSuite.getId()+".patch");
+			if (SAVE_SYM_DIFFERENCE) {
+				File symOut = new File(folder + System.getProperty("file.separator")
+						+ testSuite.getId().replace("->", "-") + "." + LiftingFacade.SYMMETRIC_DIFF_EXT);
+				URI uriSymOut = URI.createFileURI(symOut.getAbsolutePath());
+				EMFStorage.eSaveAs(uriSymOut, testSuite.getDifference().getSymmetric());
+			}
+			if (SAVE_ASYM_DIFFERENCE) {
+				File asymOut = new File(folder + System.getProperty("file.separator")
+						+ testSuite.getId().replace("->", "-") + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT);
+				URI uriAsymOut = URI.createFileURI(asymOut.getAbsolutePath());
+				EMFStorage.eSaveAs(uriAsymOut, testSuite.getDifference().getAsymmetric());
+			}
 
 			Resource resourcePatched = null;
 			Resource resourceModified = null;
