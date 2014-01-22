@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.report.OperationExecutionEntry;
@@ -33,23 +33,24 @@ public class ReportEntryPropertySource implements IPropertySource {
 		// TODO Auto-generated method stub
 		if(reportEntry instanceof OperationExecutionEntry){
 			return new IPropertyDescriptor[]{
-				new TextPropertyDescriptor("description", "Description"),
-				new TextPropertyDescriptor("kind", "Kind"),
-				new TextPropertyDescriptor("inArgs", "Input Arguments"),
-				new TextPropertyDescriptor("outArgs", "Output Arguments"),
-				new TextPropertyDescriptor("error", "Error")
+				new PropertyDescriptor("description", "Description"),
+				new PropertyDescriptor("kind", "Kind"),
+				new PropertyDescriptor("inArgs", "Input Arguments"),
+				new PropertyDescriptor("outArgs", "Output Arguments"),
+				new PropertyDescriptor("error", "Error")
 			};
 		}else if(reportEntry instanceof ValidationEntry){
 			Object errors[] = ((ValidationEntry) reportEntry).getNewValidationErrors().toArray();
-			TextPropertyDescriptor[] descriptors = new TextPropertyDescriptor[errors.length];
+			PropertyDescriptor[] descriptors = new PropertyDescriptor[errors.length];
 			for(int i=0; i < errors.length; i++){
-				descriptors[i] = new TextPropertyDescriptor("err"+i, ((IValidationError)errors[i]).getSource());
+				descriptors[i] = new PropertyDescriptor("err"+i, ((IValidationError)errors[i]).getSource());
+				descriptors[i].setCategory("New Validation Errors");
 			}
 			return descriptors;
 			
 		}else{	
 			return new IPropertyDescriptor[]{
-				new TextPropertyDescriptor("description", "Description") };
+				new PropertyDescriptor("description", "Description") };
 		}
 	}
 

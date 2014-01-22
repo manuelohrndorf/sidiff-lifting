@@ -32,12 +32,13 @@ public class ValidationEntry extends ReportEntry {
 
 	public Collection<IValidationError> getNewValidationErrors() {
 		Collection<IValidationError> res = new ArrayList<IValidationError>();
-		for (IValidationError e : currentErrors) {
-			if (!previousErrors.contains(e)) {
-				res.add(e);
+		if(currentErrors != null){
+			for (IValidationError e : currentErrors) {
+				if (!previousErrors.contains(e)) {
+					res.add(e);
+				}
 			}
 		}
-		
 		return res;
 	}
 	

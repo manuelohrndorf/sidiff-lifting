@@ -65,6 +65,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	private Action outParameterFilterAction;
 	
 	//----------- Validation -------------------
+	private DropDownAction validateMenu;
 	private Action iterativeValidationAction;
 	private Action finalValidationAction;
 	private Action noValidationAction;
@@ -233,6 +234,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		filterMenu.add(outParameterFilterAction);
 		
 		//----------- Validation ------------------
+		validateMenu = new DropDownAction("Validate");
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -274,6 +276,12 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		iterativeValidationAction.setEnabled(false);
 		finalValidationAction.setEnabled(false);
 		noValidationAction.setEnabled(false);
+		
+		validateMenu.add(noValidationAction);
+		validateMenu.add(finalValidationAction);
+		validateMenu.add(iterativeValidationAction);
+		validateMenu.add(manualValidationAction);
+		
 		
 		//----------- Execution ------------------
 		this.applyPatchAction = new Action("Apply Patch", IAction.AS_PUSH_BUTTON){
@@ -326,13 +334,13 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 //		filterSubmenu.add(valueParameterFilterAction);
 //		filterSubmenu.add(outParameterFilterAction);
 		
-		IMenuManager validateModeSubmenu = new MenuManager("Validation");
-		rootMenuManager.add(validateModeSubmenu);
-		validateModeSubmenu.add(iterativeValidationAction);
-		validateModeSubmenu.add(finalValidationAction);
-		validateModeSubmenu.add(noValidationAction);
-		validateModeSubmenu.add(new Separator());
-		validateModeSubmenu.add(manualValidationAction);
+//		IMenuManager validateModeSubmenu = new MenuManager("Validation");
+//		rootMenuManager.add(validateModeSubmenu);
+//		validateModeSubmenu.add(iterativeValidationAction);
+//		validateModeSubmenu.add(finalValidationAction);
+//		validateModeSubmenu.add(noValidationAction);
+//		validateModeSubmenu.add(new Separator());
+//		validateModeSubmenu.add(manualValidationAction);
 		
 //		IMenuManager execMenu = new MenuManager("Application");
 //		rootMenuManager.add(execMenu);
@@ -344,6 +352,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		toolbarManager.add(applyPatchAction);
 		toolbarManager.add(showReliabilityAction);
 		toolbarManager.add(showQualifiedNamesAction);
+		toolbarManager.add(validateMenu);
 		toolbarManager.add(filterMenu);
 		// toolbarManager.add(preCheckAction);
 	}
