@@ -71,7 +71,7 @@ public class ReportEntryPropertySource implements IPropertySource {
 				output = mapToString(((OperationExecutionEntry)reportEntry).getOutArgs());
 			}else
 			if(id.equals("error")){
-				//output = ((OperationExecutionEntry)reportEntry).getError().toString();
+				output = ((OperationExecutionEntry)reportEntry).getError().getMessage();
 			}
 		}else 
 			if(reportEntry instanceof ValidationEntry){
