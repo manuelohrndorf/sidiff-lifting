@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.view;
 
+
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -11,6 +12,8 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.ReportEntry;
+import org.sidiff.patching.report.ValidationEntry;
+import org.sidiff.patching.validation.IValidationError;
 
 public class ReportEntryPropertySource implements IPropertySource {
 
@@ -36,7 +39,15 @@ public class ReportEntryPropertySource implements IPropertySource {
 				new TextPropertyDescriptor("outArgs", "Output Arguments"),
 				new TextPropertyDescriptor("error", "Error")
 			};
-		}else{
+		}else if(reportEntry instanceof ValidationEntry){
+			Object errors[] = ((ValidationEntry) reportEntry).getNewValidationErrors().toArray();
+			TextPropertyDescriptor[] descriptors = new TextPropertyDescriptor[errors.length];
+			for(int i=0; i < errors.length; i++){
+				descriptors[i] = new TextPropertyDescriptor("err"+i, ((IValidationError)errors[i]).getSource());
+			}
+			return descriptors;
+			
+		}else{	
 			return new IPropertyDescriptor[]{
 				new TextPropertyDescriptor("description", "Description") };
 		}
@@ -62,7 +73,14 @@ public class ReportEntryPropertySource implements IPropertySource {
 			if(id.equals("error")){
 				//output = ((OperationExecutionEntry)reportEntry).getError().toString();
 			}
-		}
+		}else 
+			if(reportEntry instanceof ValidationEntry){
+				Object errors[] = ((ValidationEntry) reportEntry).getNewValidationErrors().toArray();
+				for(int i=0; i < errors.length; i++){
+					if(id.equals("err"+i))
+						output = ((IValidationError)errors[i]).getMessage();
+				}
+			}
 		return output;
 	}
 
