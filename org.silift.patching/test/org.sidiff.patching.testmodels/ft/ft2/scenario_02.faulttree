@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:FaultTree="http://FaultTree/1.0" xmlns:trace="http://www.eclipse.org/emf/2011/Henshin/Trace">
+  <FaultTree:Root>
+    <failure_instance name="cranePositionFailure" type="/0/@failure_type.0"/>
+    <failure_instance name="cylinderPositionFailure" type="/0/@failure_type.0"/>
+    <failure_instance name="vacuumTimingFailure" type="/0/@failure_type.2"/>
+    <failure_instance name="slideCapacityExceedFailure" type="/0/@failure_type.1"/>
+    <failure_type instance="/0/@failure_instance.0 /0/@failure_instance.1" name="PositionFailure"/>
+    <failure_type instance="/0/@failure_instance.3" name="CapacityExceedFailure"/>
+    <failure_type instance="/0/@failure_instance.2" name="TimingFailure"/>
+    <error_instance name="craneImplError" type="/0/@error_type.0"/>
+    <error_instance name="maxLeftSTactileError" type="/0/@error_type.1"/>
+    <error_instance name="maxRightSTactileError" type="/0/@error_type.1"/>
+    <error_instance name="toSlideSTactileError" type="/0/@error_type.1"/>
+    <error_instance name="toStackSTactileError" type="/0/@error_type.1"/>
+    <error_instance name="vacuumWrongTimeError" type="/0/@error_type.2"/>
+    <error_instance name="vacuumLostError" type="/0/@error_type.4"/>
+    <error_instance name="slideExceeds" type="/0/@error_type.3"/>
+    <error_type name="ImplError" error="/0/@error_instance.0"/>
+    <error_type name="SensorError" error="/0/@error_instance.1 /0/@error_instance.2 /0/@error_instance.3 /0/@error_instance.4"/>
+    <error_type name="VacuumTimingError" error="/0/@error_instance.5"/>
+    <error_type name="ExternalCauses" error="/0/@error_instance.7"/>
+    <error_type name="VacuumError" error="/0/@error_instance.6"/>
+  </FaultTree:Root>
+  <trace:Trace target="/0/@error_instance.0">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.0"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.1">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.1"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.2">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.2"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.3">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.3"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.4">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.4"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.5">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.5/@subcomponent.2"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.6">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.5/@subcomponent.2"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@error_instance.7">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.2"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@failure_instance.0">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.0"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@failure_instance.1">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.5"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@failure_instance.2">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.1/@subcomponent.5/@subcomponent.2"/>
+  </trace:Trace>
+  <trace:Trace target="/0/@failure_instance.3">
+    <source href="/de.stuttgart.informatik.PPU.SAmodels/model/scenario_02.sa#//@instances.2"/>
+  </trace:Trace>
+</xmi:XMI>
