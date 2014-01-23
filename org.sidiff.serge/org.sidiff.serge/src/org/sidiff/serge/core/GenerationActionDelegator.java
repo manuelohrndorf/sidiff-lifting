@@ -628,7 +628,7 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate set reference modules for the given eClassifier.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_SET_REFERENCE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+	public Set<Module> generate_SET_REFERENCE(EClass eClassifier) throws OperationTypeNotImplementedException {
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_ADDS) {
@@ -863,7 +863,7 @@ public class GenerationActionDelegator {
 				}
 
 				// skip containment references
-				if (!eRef.isContainment()) {
+				if (eRef.isContainment()) {
 					continue;
 				}
 

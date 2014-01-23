@@ -246,6 +246,9 @@ public class ElementFilter {
 //				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
 				//..
 				break;
+			case CHANGE_REFERENCE:
+				//...
+				break;
 			case SET_ATTRIBUTE:
 				//..
 				break;
