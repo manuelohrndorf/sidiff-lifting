@@ -21,10 +21,15 @@ import org.sidiff.common.henshin.NodePair;
 public abstract class AbstractBoundCheckGenerator extends AbstractConditionGenerator {
 
 	protected Map<NodePair, Set<EReference>> src2Out;
-
+	
+	private int ubCounter;
+	private int lbCounter;
+	
 	public AbstractBoundCheckGenerator(Rule editRule) {
 		super(editRule);
 		buildSrc2OutIndex();
+		ubCounter = 0;
+		lbCounter = 0;
 	}
 
 	private void buildSrc2OutIndex() {
@@ -90,7 +95,16 @@ public abstract class AbstractBoundCheckGenerator extends AbstractConditionGener
 
 	protected Formula createBoundCheck(int offset, Node lhsBoundaryNode, EReference edgeType, boolean invert) {
 		NestedCondition cond = HenshinFactory.eINSTANCE.createNestedCondition();
-		Graph graph = HenshinFactory.eINSTANCE.createGraph("ub");
+		Graph graph = HenshinFactory.eINSTANCE.createGraph();
+		if (invert){
+			// ub check
+			graph.setName("ub" + ubCounter);
+			ubCounter++;
+		} else {
+			// lb check
+			graph.setName("lb" + lbCounter);
+			lbCounter++;
+		}
 		cond.setConclusion(graph);
 
 		// Create AC graph
