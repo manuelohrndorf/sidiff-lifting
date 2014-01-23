@@ -62,33 +62,36 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			
 			allModules.clear();
 			
+			EClass contextClass = (EClass) eClassifier;
+			
 			// FIXME: Workaround to exclude Generation of Operations on Ecore
-			if (EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(eClassifier)){
+			if (EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(contextClass)){
 				return;
 			}
 			
 			try{
 				
-				createModules 	= GAD.generate_CREATE(eClassifier);
+				createModules 	= GAD.generate_CREATE(contextClass);
 				variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
 				
-				//TODO createModules must be extended by variants but also
+//TODO createModules must be extended by variants but also
 				//in some cases, they need to be replaced because only their variants are valid.
 				// --> new algorithm to do that required.
 				
 				deleteModules = GAD.generate_DELETE(createModules);	
-				moveModules = GAD.generate_MOVE(eClassifier);
-				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(eClassifier);			
-				moveDownModules = GAD.generate_MOVE_DOWN(eClassifier);
-				moveUpModules = GAD.generate_MOVE_UP(eClassifier);
-				addModules = GAD.generate_ADD(eClassifier);
+				moveModules = GAD.generate_MOVE(contextClass);
+				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(contextClass);			
+				moveDownModules = GAD.generate_MOVE_DOWN(contextClass);
+				moveUpModules = GAD.generate_MOVE_UP(contextClass);
+				addModules = GAD.generate_ADD(contextClass);
 				removeModules = GAD.generate_REMOVE(addModules);
-				setAttributeModules = GAD.generate_SET_ATTRIBUTE(eClassifier);				
+				setAttributeModules = GAD.generate_SET_ATTRIBUTE(contextClass);				
+// FIXME: What do we mean with unset attribute?
 //				unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
-				setReferenceModules = GAD.generate_SET_REFERENCE(eClassifier);
+				setReferenceModules = GAD.generate_SET_REFERENCE(contextClass);
 				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);	
-				changeLiteralModules = GAD.generate_CHANGE_Literals(eClassifier);
-				changeReferenceModules = GAD.generate_CHANGE_Reference(eClassifier);
+				changeLiteralModules = GAD.generate_CHANGE_Literals(contextClass);
+				changeReferenceModules = GAD.generate_CHANGE_Reference(contextClass);
 				
 				allModules.add(createModules);
 				allModules.add(variantModules);

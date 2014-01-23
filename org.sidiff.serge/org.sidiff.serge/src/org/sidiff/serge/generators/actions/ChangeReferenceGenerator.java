@@ -12,17 +12,19 @@ import org.sidiff.serge.core.Configuration;
 import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.silift.common.util.access.EMFMetaAccessEx;
 
 public class ChangeReferenceGenerator {
 
 	/**
-	 * The reference whose target should be changed
-	 */
-	private EReference reference;
-	/**
 	 * The class from which the reference is outgoing.
 	 */
 	private EClassifier contextClass;
+	
+	/**
+	 * The reference whose target should be changed
+	 */
+	private EReference reference;
 
 	/**
 	 * The target.
@@ -40,12 +42,13 @@ public class ChangeReferenceGenerator {
 	 * @param contextClass
 	 * @param target
 	 */
-	public ChangeReferenceGenerator(EReference reference, EClass contextClass, EClassifier target) {
-		assert(reference.getLowerBound() == 1 && reference.getUpperBound() == 1);
+	public ChangeReferenceGenerator(EReference reference, EClass contextClass) {
+		assert((reference.getLowerBound() >=1) && (reference.getLowerBound() == reference.getUpperBound()));
+		assert(EMFMetaAccessEx.isAssignableTo(contextClass, (EClass) reference.eContainer()));
 		
 		this.reference = reference;
 		this.contextClass = contextClass;
-		this.target = target;
+		this.target = reference.getEReferenceType();
 	}
 
 	public Module generate() throws OperationTypeNotImplementedException {
@@ -66,4 +69,5 @@ public class ChangeReferenceGenerator {
 
 		return CHANGE_REFERENCE_Module;
 	}
+	
 }
