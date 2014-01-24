@@ -819,6 +819,17 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Returns whether the edge is << require >> or not.
+	 * 
+	 * @param edge
+	 *            the edge to test.
+	 * @return true if edge is << require >>; false otherwise.
+	 */
+	public static boolean isRequireEdge(Edge edge){
+		return getRequireEdges(edge.getGraph().getRule()).contains(edge);
+	}
+	
+	/**
 	 * Returns all << preserve >> attributes of a rule and also << delete >>
 	 * attributes in a << preserve >> node. A << delete >> attribute in a <<
 	 * preserve >> node acts like a << preserve >> attribute.
