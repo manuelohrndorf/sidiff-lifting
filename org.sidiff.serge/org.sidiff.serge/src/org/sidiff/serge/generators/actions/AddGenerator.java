@@ -1,16 +1,15 @@
 package org.sidiff.serge.generators.actions;
 
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.core.Common;
 import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
@@ -22,15 +21,16 @@ public class AddGenerator {
 	private EReference outReference;
 
 	/**
-	 * Context class whose outgoing EReference shall point to a further eClassifier.
+	 * Context class whose outgoing EReference shall point to a further
+	 * eClassifier.
 	 */
-	private EClassifier contextClassifier;
-	
+	private EClass contextClass;
+
 	/**
 	 * The eClassifier which should be added.
 	 */
-	private EClassifier eClassifier;
-	
+	private EClass targetClass;
+
 	/**
 	 * The configuration.
 	 */
@@ -38,34 +38,56 @@ public class AddGenerator {
 
 	/**
 	 * The Constructor
+	 * 
 	 * @param outReference
 	 * @param contextClassifier
 	 * @param eClassifier
 	 */
-	public AddGenerator(EReference outReference, EClass contextClassifier, EClassifier eClassifier) {
+	public AddGenerator(EReference outReference, EClass contextClassifier) {
 		super();
 		this.outReference = outReference;
-		this.contextClassifier = contextClassifier;
-		this.eClassifier = eClassifier;
+		this.contextClass = contextClassifier;
+		this.targetClass = outReference.getEReferenceType();
 	}
-	
-	public Module generate() throws OperationTypeNotImplementedException{
-		
-		String name = GlobalConstants.ADD_prefix + eClassifier.getName() + "_(" + outReference.getName()+")"+GlobalConstants.TGT+contextClassifier.getName(); 
+
+	public Module generate() throws OperationTypeNotImplementedException {
+		String name = GlobalConstants.ADD_prefix + contextClass.getName() + "_(" + outReference.getName() + ")"
+				+ GlobalConstants.TGT + targetClass.getName();
 		LogUtil.log(LogEvent.NOTICE, "Generating ADD : " + name);
 
-		Module ADD_Module = HenshinFactory.eINSTANCE.createModule();
-		ADD_Module.setName(name);
+		Module module = HenshinFactory.eINSTANCE.createModule();
+		module.setName(name);
 
-		ADD_Module.setDescription("Adds to "+eClassifier.getName() +"'s reference "+ outReference.getName()
-				+ " the target "+ contextClassifier.getName());
+		module.setDescription("Adds to " + contextClass.getName() + "'s reference " + outReference.getName()
+				+ " the target " + targetClass.getName());
 
 		// add imports
-		ADD_Module.getImports().addAll(config.EPACKAGESSTACK);
+		module.getImports().addAll(config.EPACKAGESSTACK);
 
-		// create rule
-		Common.createBasicRule(ADD_Module, outReference, eClassifier, contextClassifier, null, null, OperationType.ADD);
+		// create Rule
+		Rule rule = createRule();
+		module.getUnits().add(rule);
 
-		return ADD_Module;
+		return module;
+	}
+
+	private Rule createRule() {
+		Rule rule = HenshinFactory.eINSTANCE.createRule();
+		rule.setActivated(true);
+		rule.setName("addTo" + contextClass.getName() + "_" + outReference.getName() + "_" + targetClass.getName());
+		rule.setDescription("Adds to " + contextClass.getName() + "'s reference " + outReference.getName()
+				+ " the target " + targetClass.getName());
+
+		// create preserved node for eClass
+		NodePair selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL,
+				contextClass);
+		NodePair newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.NEWTGT, targetClass);
+
+		// create <<create>> edge for new target for EReference and it's
+		// EOpposite, if any
+		HenshinRuleAnalysisUtilEx.createCreateEdge(selectedNodePair.getRhsNode(), newNodePair.getRhsNode(),
+				outReference);
+		
+		return rule;
 	}
 }
