@@ -48,7 +48,8 @@ public class PatchEvaluationApplication implements IApplication {
 	static final boolean INSPECT_VALIDATION_ERRORS = false;
 	static final boolean INSPECT_PASSED_OPERATIONS = false;
 	static final boolean SAVE_ASYM_DIFFERENCE = false;
-	static final boolean SAVE_SYM_DIFFERENCE = false;
+	static final boolean SAVE_SYM_DIFFERENCE = true;
+	static final boolean SAVE_OPERATION_DISTRIBUTION = true;
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -128,6 +129,9 @@ public class PatchEvaluationApplication implements IApplication {
 			m.put("uml", new SysMLResourceFactory());
 		}
 
+		// Distribution of operation invocations
+		OperationDistribution distribution = new OperationDistribution();
+
 		// Convert filegroups to modelgroups
 		StringBuffer buffer = new StringBuffer();
 		StringBuffer latexTable = new StringBuffer("Version & Corresp. & Differ. & Opera. & LDC & Duration(ms)\\\\\n");
@@ -148,6 +152,8 @@ public class PatchEvaluationApplication implements IApplication {
 			int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());
 			buffer.append("Correspondences: " + cor + "\nDifferences: " + dif + "\nOperations: " + op
 					+ "\nLongest dependency chain: " + max + "\n");
+
+			distribution.append(testSuite.getId(), testSuite.getDifference());
 
 			// Time to apply patch
 			long start = System.currentTimeMillis();
@@ -282,6 +288,11 @@ public class PatchEvaluationApplication implements IApplication {
 		writer.write(buffer.toString());
 		writer.close();
 
+		// Distribution
+		if (SAVE_OPERATION_DISTRIBUTION) {
+			distribution.toCSV(modelFolder.getAbsolutePath() + "/distribution.csv");
+		}
+		
 		// Generate PieChart
 		// String filename = modelFolder.getAbsolutePath() + "/charts/" +
 		// "SiLiftPipeLine_timeRatio.png";

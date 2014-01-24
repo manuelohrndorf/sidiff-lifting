@@ -54,8 +54,8 @@ public class FtNormalizer implements INormalizer {
 
 		@Override
 		public int compare(EObject o1, EObject o2) {
-			String str1 = "";
-			String str2 = "";
+			String str1 = o1.eClass().getName();
+			String str2 = o2.eClass().getName();
 
 			EStructuralFeature attrName1 = o1.eClass().getEStructuralFeature("name");
 			EStructuralFeature attrName2 = o2.eClass().getEStructuralFeature("name");
@@ -63,11 +63,11 @@ public class FtNormalizer implements INormalizer {
 			EStructuralFeature attrId2 = o2.eClass().getEStructuralFeature("id");
 
 			if (attrName1 != null && attrName2 != null) {
-				str1 = (String) o1.eGet(attrName1);
-				str2 = (String) o2.eGet(attrName2);
+				str1 = (String) o1.eGet(attrName1) + str1;
+				str2 = (String) o2.eGet(attrName2) + str2;
 			} else if (attrId1 != null && attrId2 != null) {
-				str1 += o1.eGet(attrId1);
-				str2 += o2.eGet(attrId2);				
+				str1 += o1.eGet(attrId1) + str1;
+				str2 += o2.eGet(attrId2) + str2;				
 			}
 
 			return str1.compareTo(str2);

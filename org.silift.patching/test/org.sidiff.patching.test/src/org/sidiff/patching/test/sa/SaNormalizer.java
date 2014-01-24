@@ -55,16 +55,16 @@ public class SaNormalizer implements INormalizer {
 
 		@Override
 		public int compare(EObject o1, EObject o2) {
-			String name1 = "";
-			String name2 = "";
+			String name1 = o1.eClass().getName();
+			String name2 = o2.eClass().getName();
 			
 			EStructuralFeature attrName = o1.eClass().getEStructuralFeature("name");
 			if (attrName != null && attrName instanceof EAttribute) {
-				name1 = (String) o1.eGet(attrName);
+				name1 = (String) o1.eGet(attrName) + name1;
 			}
 			attrName = o2.eClass().getEStructuralFeature("name");
 			if (attrName != null && attrName instanceof EAttribute) {
-				name2 = (String) o2.eGet(attrName);
+				name2 = (String) o2.eGet(attrName) + name2;
 			}
 				
 			return name1.compareTo(name2);
