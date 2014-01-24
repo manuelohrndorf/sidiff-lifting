@@ -14,7 +14,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.filter.DuplicateFilter;
-import org.sidiff.serge.filter.ExecutionFilter;
+import org.sidiff.serge.filter.ExecutableFilter;
 
 /**
  * Todo-List for Reintegration:
@@ -122,7 +122,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				constraintApplicator.applyOn(allModules);
 				
 				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
-				ExecutionFilter executionFilter = new ExecutionFilter();
+				ExecutableFilter executionFilter = new ExecutableFilter();
 				executionFilter.applyOn(allModules);
 				
 				LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");

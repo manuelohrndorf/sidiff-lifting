@@ -16,7 +16,7 @@ import org.sidiff.serge.util.RuleExecutionChecker;
  * 
  * @author kehrer
  */
-public class ExecutionFilter {
+public class ExecutableFilter {
 
 	public void applyOn(Set<Set<Module>> allModules) {
 
@@ -31,7 +31,7 @@ public class ExecutionFilter {
 				// Remove module if rule is not executable at all.
 				RuleExecutionChecker executionChecker = new RuleExecutionChecker(rule);
 				if (!executionChecker.isExecutable()) {
-					LogUtil.log(LogEvent.NOTICE, "Filter not executable operation : " + module.getName());
+					LogUtil.log(LogEvent.NOTICE, "Filter not executable operation: " + module.getName());
 					moduleIterator.remove();
 				}
 			}

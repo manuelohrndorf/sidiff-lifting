@@ -7,9 +7,11 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EReferenceInfo;
+import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 
@@ -55,7 +57,7 @@ public class RuleExecutionChecker {
 					if (EReferenceInfo.isBounded(outType) && (sum_toBeMatched > outType.getUpperBound())) {
 						return false;
 					}
-					if (sum_forbid > outType.getLowerBound()) {
+					if (EReferenceInfo.isRequired(outType) && (sum_forbid > 0)) {
 						return false;
 					}
 				}
@@ -74,6 +76,16 @@ public class RuleExecutionChecker {
 			for (Edge edge : preservedNode.getRhsNode().getOutgoing()) {
 				addEdge(preservedNode.getLhsNode(), edge);
 			}
+			// include edges from nested conditions
+			for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
+				ApplicationCondition condition = new ApplicationCondition(nc);
+				Node acBoundaryNode = condition.getAcBoundaryNode(preservedNode.getLhsNode());
+				if (acBoundaryNode != null){
+					for (Edge edge : acBoundaryNode.getOutgoing()) {
+						addEdge(preservedNode.getLhsNode(), edge);
+					}
+				}
+			}			
 		}
 		for (Node deletionNode : HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes(rule)) {
 			for (Edge edge : deletionNode.getOutgoing()) {
