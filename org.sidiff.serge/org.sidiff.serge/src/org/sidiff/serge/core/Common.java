@@ -346,30 +346,6 @@ public class Common {
 
 		switch (opType) {
 
-		case ADD:
-
-			// ADD
-			// ***************************************************************************************************/
-			rule = HenshinFactory.eINSTANCE.createRule();
-			rule.setActivated(true);
-			rule.setName("addTo" + eClassifier.getName() + "_" + eRefA.getName() + "_" + targetA.getName());
-			rule.setDescription("Adds to " + eClassifier.getName() + "'s reference " + eRefA.getName() + " the target "
-					+ targetA.getName());
-			module.getUnits().add(rule);
-
-			// create preserved node for eClass
-			selectedNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL,
-					(EClass) eClassifier);
-			rhsNode = selectedNodePair.getRhsNode();
-
-			newNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.NEWTGT, (EClass) targetA);
-
-			// create <<create>> edge for new target for EReference and it's
-			// EOpposite, if any
-			HenshinRuleAnalysisUtilEx.createCreateEdge(rhsNode, newNodePair.getRhsNode(), eRefA);
-
-			break;
-
 		case SET_REFERENCE:
 
 			// SET
