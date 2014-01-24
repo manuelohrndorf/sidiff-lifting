@@ -7,10 +7,10 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.core.Common;
-import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.Configuration.OperationType;
-import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.silift.common.util.access.EMFMetaAccessEx;
 

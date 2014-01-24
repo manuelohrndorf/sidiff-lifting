@@ -15,6 +15,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.INamingConventions;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.GlobalConstants;
 
 public class ModuleSerializer {
 

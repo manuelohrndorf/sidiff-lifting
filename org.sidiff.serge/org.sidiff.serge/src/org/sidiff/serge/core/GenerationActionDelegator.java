@@ -19,9 +19,11 @@ import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
 import org.sidiff.common.emf.extensions.impl.Mask;
-import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.serge.filter.ElementFilter;
 import org.sidiff.serge.generators.actions.AddGenerator;
 import org.sidiff.serge.generators.actions.ChangeLiteralGenerator;
 import org.sidiff.serge.generators.actions.ChangeReferenceGenerator;
@@ -403,63 +405,68 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate add modules for the given eclass.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_ADD(EClassifier eClassifier) throws OperationTypeNotImplementedException {
+	public Set<Module> generate_ADD(EClass contextClass) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_ADDS) {
 
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
+			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(contextClass);
 
-			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
+			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.ADD)){
 				return null;
-
+			}
+				
 			// TODO implicit requirements
 			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
 			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier))
+			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(contextClass)){
 				return null;
-
-			EClass eClass = (EClass) eClassifier;
-
+			}
+			
 			// EReferences and their EOpposites, if any
-			for (EReference eRef : eClass.getEAllReferences()) {
+			for (EReference eRef : contextClass.getEAllReferences()) {
 
-				// don't consider derived, not changeable, unsettable and
-				// transient references
-				if (!eRef.isDerived() && eRef.isChangeable() && !eRef.isTransient()) {
-
-					// eRef == no containment reference
-					// *************************************************************/
-					if (!eRef.isContainment()) {
-						EReference eOpposite = eRef.getEOpposite();
-
-						// and skip eRefs where it's EOpposite is a containment
-						if ((eOpposite != null && !eOpposite.isContainment()) || eOpposite == null) {
-
-							EClass contextType = (EClass) eRef.getEType();
-
-							if (!FILTER.isAllowedAsDangling(contextType, OperationType.ADD,
-									c.REDUCETOSUPERTYPE_ADDREMOVE))
-								continue;
-
-							int lower = eRef.getLowerBound();
-							int upper = eRef.getUpperBound();
-
-							if (!eRef.isContainment()
-									&& (upper == -1 || upper - lower > 0)
-									&& ((EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_ADDREMOVE) || !EcoreHelper
-											.isInheritedReference(eRef, eClassifier))) {
-
-								AddGenerator generator = new AddGenerator(eRef, contextType, eClassifier);
-								Module resultModule = generator.generate();
-
-								modules.add(resultModule);
-
-							}
-						}
-					}
+				// skip derived, not changeable and transient
+				// references
+				if (EMFMetaAccessEx.isUnconsideredStructualFeature(eRef)) {
+					continue;
 				}
+
+				// skip containment references
+				if (eRef.isContainment()) {
+					continue;
+				}
+
+				// skip eRefs where it's EOpposite is a containment
+				if (eRef.getEOpposite() != null && eRef.getEOpposite().isContainment()) {
+					continue;
+				}
+				
+				// not many
+				if (!eRef.isMany()){ 
+					continue;
+				}	
+				
+				// fixed
+				if (eRef.getLowerBound() == eRef.getUpperBound()){
+					continue;
+				}
+				
+				if (!FILTER.isAllowedAsDangling(eRef.getEReferenceType(), OperationType.ADD,
+									c.REDUCETOSUPERTYPE_ADDREMOVE)){
+					continue;
+				}
+
+				// Maybe skip when we reduce reference change to supertype
+				if (c.REDUCETOSUPERTYPE_ADDREMOVE && EcoreHelper.isInheritedReference(eRef, contextClass)) {
+					continue;
+				}
+
+				// Delegate to generator
+				AddGenerator generator = new AddGenerator(eRef, contextClass);
+				Module resultModule = generator.generate();
+				modules.add(resultModule);
 			}
 		}
 		return modules;

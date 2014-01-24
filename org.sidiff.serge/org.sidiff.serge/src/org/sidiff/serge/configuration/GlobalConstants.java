@@ -1,4 +1,4 @@
-package org.sidiff.serge.core;
+package org.sidiff.serge.configuration;
 
 public interface GlobalConstants {
 	

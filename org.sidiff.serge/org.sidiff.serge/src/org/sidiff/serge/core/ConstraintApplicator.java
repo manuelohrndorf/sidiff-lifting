@@ -9,6 +9,12 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.serge.generators.conditions.LowerBoundCheckGenerator;
 import org.sidiff.serge.generators.conditions.UpperBoundCheckGenerator;
 
+/**
+ * Applies application conditions to all rules. The generation of the conditions
+ * itself is delegetad to the respective condition generators.
+ * 
+ * @author kehrer
+ */
 public class ConstraintApplicator {
 
 	public void applyOn(Set<Set<Module>> allModules) {
@@ -28,7 +34,7 @@ public class ConstraintApplicator {
 						if (unit instanceof Rule) {
 							LowerBoundCheckGenerator lbGenerator = new LowerBoundCheckGenerator((Rule) unit);
 							lbGenerator.generate();
-							
+
 							UpperBoundCheckGenerator ubGenerator = new UpperBoundCheckGenerator((Rule) unit);
 							ubGenerator.generate();
 						}

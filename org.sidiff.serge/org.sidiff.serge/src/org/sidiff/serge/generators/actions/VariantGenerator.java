@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.query.conditions.eobjects.TypeRelation;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.core.AbstractTypeReplacer;
 import org.sidiff.serge.core.TypeReplacer;
-import org.sidiff.serge.core.Configuration.OperationType;
 import org.sidiff.serge.core.SuperTypeReplacer;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 

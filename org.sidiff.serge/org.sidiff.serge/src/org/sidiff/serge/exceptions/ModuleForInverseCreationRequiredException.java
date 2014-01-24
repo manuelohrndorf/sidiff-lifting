@@ -1,6 +1,6 @@
 package org.sidiff.serge.exceptions;
 
-import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 
 @SuppressWarnings("serial")
 public class ModuleForInverseCreationRequiredException extends Exception{

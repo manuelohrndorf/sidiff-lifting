@@ -5,11 +5,11 @@ import java.util.Stack;
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
-import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.ConfigurationParser;
-import org.sidiff.serge.core.ElementFilter;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.ConfigurationParser;
 import org.sidiff.serge.core.MetaModelElementVisitor;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.filter.ElementFilter;
 
 public class Serge {
 

@@ -1,4 +1,4 @@
-package org.sidiff.serge.core;
+package org.sidiff.serge.configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +103,7 @@ public class Configuration {
 	 * @param eClassifier
 	 * @return
 	 */	
-	protected boolean isRoot(EClassifier eClassifier) {
+	public boolean isRoot(EClassifier eClassifier) {
 		return ROOT==eClassifier;
 	}
 	
@@ -114,7 +114,7 @@ public class Configuration {
 	 * @return
 	 */
 	@Deprecated
-	protected static boolean rootCanBeNested(EClassifier eClassifier) {
+	public static boolean rootCanBeNested(EClassifier eClassifier) {
 		return ROOTECLASSCANBENESTED;
 	}
 	
@@ -125,7 +125,7 @@ public class Configuration {
 	 * @param concerningEClassifier is the class to check on
 	 * @return true if inherited
 	 */
-	protected static boolean isInheritedReference(EReference eRef, EClassifier concerningEClassifier) {
+	public static boolean isInheritedReference(EReference eRef, EClassifier concerningEClassifier) {
 		
 		if(concerningEClassifier instanceof EClass) {
 			EClass eClass = (EClass) concerningEClassifier;

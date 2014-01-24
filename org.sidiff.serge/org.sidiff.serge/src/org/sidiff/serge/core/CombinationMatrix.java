@@ -14,8 +14,11 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.serge.filter.ElementFilter;
+import org.sidiff.serge.util.MatrixColumns;
+import org.sidiff.serge.util.MatrixRow;
 
 public class CombinationMatrix {
 

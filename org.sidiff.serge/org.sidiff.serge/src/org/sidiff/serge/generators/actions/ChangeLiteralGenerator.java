@@ -10,9 +10,9 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.core.Common;
-import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.GlobalConstants;
 
 public class ChangeLiteralGenerator {
 

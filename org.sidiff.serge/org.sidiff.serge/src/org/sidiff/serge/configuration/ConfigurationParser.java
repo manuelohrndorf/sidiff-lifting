@@ -1,4 +1,4 @@
-package org.sidiff.serge.core;
+package org.sidiff.serge.configuration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,9 +27,12 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
+import org.sidiff.serge.core.Common;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.filter.ElementFilter;
+import org.sidiff.serge.filter.ElementFilter.ImplicitRequirementType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

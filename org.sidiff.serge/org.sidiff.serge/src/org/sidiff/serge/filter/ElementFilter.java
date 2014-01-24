@@ -1,4 +1,4 @@
-package org.sidiff.serge.core;
+package org.sidiff.serge.filter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
+import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class ElementFilter {

@@ -1,4 +1,4 @@
-package org.sidiff.serge.core;
+package org.sidiff.serge.util;
 
 import java.util.ArrayList;
 import java.util.List;

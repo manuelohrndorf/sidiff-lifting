@@ -23,10 +23,13 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
-import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.serge.filter.ElementFilter;
 import org.w3c.dom.NamedNodeMap;
 
 public class Common {

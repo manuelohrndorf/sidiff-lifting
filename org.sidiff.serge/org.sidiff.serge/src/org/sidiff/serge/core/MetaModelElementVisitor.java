@@ -11,7 +11,10 @@ import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.serge.core.Configuration.OperationType;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.Configuration.OperationType;
+import org.sidiff.serge.filter.DuplicateFilter;
+import org.sidiff.serge.filter.ExecutionFilter;
 
 /**
  * Todo-List for Reintegration:
@@ -109,15 +112,28 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				allModules.add(changeLiteralModules);
 				allModules.add(changeReferenceModules);
 				
+				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
+				DuplicateFilter duplicateFilter = new DuplicateFilter();
+				duplicateFilter.filterAddSet(addModules, setReferenceModules);
+				duplicateFilter.filterRemoveUnset(removeModules, unsetReferenceModules);
+				
+				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
 				constraintApplicator.applyOn(allModules);
 				
+				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
+				ExecutionFilter executionFilter = new ExecutionFilter();
+				executionFilter.applyOn(allModules);
+				
+				LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 				RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
 				ruleParameterApplicator.applyOn(allModules);
 				
+				LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
 				MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 				mainUnitApplicator.applyOn(allModules);
 								
+				LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 				ModuleSerializer serializer = new ModuleSerializer();
 				serializer.serialize(allModules);
 			}

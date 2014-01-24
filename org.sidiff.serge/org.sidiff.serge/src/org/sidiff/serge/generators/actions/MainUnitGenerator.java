@@ -17,9 +17,9 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
+import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.core.Common;
-import org.sidiff.serge.core.Configuration;
-import org.sidiff.serge.core.GlobalConstants;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
 public class MainUnitGenerator {

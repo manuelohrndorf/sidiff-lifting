@@ -49,9 +49,9 @@ import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.core.Common;
-import org.sidiff.serge.core.ModuleFilenamePair;
 import org.sidiff.serge.exceptions.ConstraintException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.util.ModuleFilenamePair;
 
 public class HenshinModuleGenerator_old extends AbstractGenerator_old {
 	
