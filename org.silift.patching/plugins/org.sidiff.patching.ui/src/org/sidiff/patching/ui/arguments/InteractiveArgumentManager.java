@@ -25,6 +25,7 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
@@ -120,15 +121,18 @@ public class InteractiveArgumentManager implements IArgumentManager {
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 
 		// initial set of modified target objects
-		modDetector = new ModifiedDetector(originModel, targetModel, matching);
-		modDetector.initialize();
-		modifiedTargetObjects = new HashSet<EObject>();
-		for (Correspondence c : matching.getCorrespondences()) {
-			if (modDetector.isModified(c.getObjB())){
-				modifiedTargetObjects.add(c.getObjB());
+		// FIXME(TK): ModifiedDetector aus argumentManager ausgliedern
+		if (EMFModelAccessEx.getCharacteristicDocumentType(targetModel).equals(EcorePackage.eNS_URI)){
+			modDetector = new ModifiedDetector(originModel, targetModel, matching);
+			modDetector.initialize();
+			modifiedTargetObjects = new HashSet<EObject>();
+			for (Correspondence c : matching.getCorrespondences()) {
+				if (modDetector.isModified(c.getObjB())){
+					modifiedTargetObjects.add(c.getObjB());
+				}
 			}
 		}
-		
+			
 		// init argument wrappers and provide initial resolutions
 		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
 		for (OperationInvocation invocation : patch.getOperationInvocations()) {
@@ -251,7 +255,11 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 	@Override
 	public boolean isModified(EObject targetObject) {
-		return modDetector.isModified(targetObject);
+		if (modDetector != null){
+			return modDetector.isModified(targetObject);
+		} else {
+			return false;
+		}
 	}
 	
 	
