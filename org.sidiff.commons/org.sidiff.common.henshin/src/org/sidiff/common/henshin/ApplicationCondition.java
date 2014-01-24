@@ -29,8 +29,7 @@ public class ApplicationCondition {
 	
 	public ApplicationCondition(NestedCondition nestedCondition) {
 		this.nestedCondition = nestedCondition;
-		this.inverted = inverted;
-
+		
 		init();
 	}
 
