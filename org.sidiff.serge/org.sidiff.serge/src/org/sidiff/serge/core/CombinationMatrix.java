@@ -201,7 +201,7 @@ public class CombinationMatrix {
 		}
 		
 		// uncomment this if not dbugging
-		debugHelp_MatrixPrintout();
+		// debugHelp_MatrixPrintout();
 	}
 	
 	/**
@@ -282,6 +282,7 @@ public class CombinationMatrix {
 				System.out.print(((Node)object).getType().getName() + "\t\t");	
 			}
 		}
+
 		System.out.println("\n");
 		
 		// print out row values
