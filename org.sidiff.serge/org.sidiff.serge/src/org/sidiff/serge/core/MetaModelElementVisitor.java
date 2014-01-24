@@ -1,5 +1,6 @@
 package org.sidiff.serge.core;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,8 +14,6 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.filter.DuplicateFilter;
-import org.sidiff.serge.filter.ExecutableFilter;
 
 /**
  * Todo-List for Reintegration:
@@ -38,32 +37,27 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private GenerationActionDelegator GAD 		= GenerationActionDelegator.getInstance();
 	
 	// Sets for module variants and inverse creations
-	private Set<Module> createModules 			= new HashSet<Module>();
-	private Set<Module> variantModules			= new HashSet<Module>();
-	private Set<Module> deleteModules 			= new HashSet<Module>();
-	private Set<Module> moveModules 			= new HashSet<Module>();
-	private Set<Module> moveCombinationModules 	= new HashSet<Module>();
-	private Set<Module> moveDownModules 		= new HashSet<Module>();
-	private Set<Module> moveUpModules 			= new HashSet<Module>();
-	private Set<Module> addModules 				= new HashSet<Module>();
-	private Set<Module> removeModules 			= new HashSet<Module>();
-	private Set<Module> setAttributeModules 	= new HashSet<Module>();
-	private Set<Module> setReferenceModules		= new HashSet<Module>();
-	private Set<Module> unsetAttributeModules 	= new HashSet<Module>();
-	private Set<Module> unsetReferenceModules	= new HashSet<Module>();
-	private Set<Module> changeLiteralModules	= new HashSet<Module>();
-	private Set<Module> changeReferenceModules	= new HashSet<Module>();
-	
-	// Ultimate Set for all modules
-	private Set<Set<Module>> allModules			= new HashSet<Set<Module>>();
+	private Set<Module> allCreateModules 			= new HashSet<Module>();
+	private Set<Module> allVariantModules			= new HashSet<Module>();
+	private Set<Module> allDeleteModules 			= new HashSet<Module>();
+	private Set<Module> allMoveModules 			= new HashSet<Module>();
+	private Set<Module> allMoveCombinationModules 	= new HashSet<Module>();
+	private Set<Module> allMoveDownModules 		= new HashSet<Module>();
+	private Set<Module> allMoveUpModules 			= new HashSet<Module>();
+	private Set<Module> allAddModules 				= new HashSet<Module>();
+	private Set<Module> allRemoveModules 			= new HashSet<Module>();
+	private Set<Module> allSetAttributeModules 	= new HashSet<Module>();
+	private Set<Module> allSetReferenceModules		= new HashSet<Module>();
+	private Set<Module> allUnsetAttributeModules 	= new HashSet<Module>();
+	private Set<Module> allUnsetReferenceModules	= new HashSet<Module>();
+	private Set<Module> allChangeLiteralModules	= new HashSet<Module>();
+	private Set<Module> allChangeReferenceModules	= new HashSet<Module>();
 	
 	@Override
 	public void eClassifier(EClassifier eClassifier, String fullyQualifiedPath) {
 		
 			LogUtil.log(LogEvent.NOTICE, "***** " + eClassifier.getName() + " ***********************************************");
 			assert(eClassifier instanceof EClass);
-			
-			allModules.clear();
 			
 			EClass contextClass = (EClass) eClassifier;
 			
@@ -74,68 +68,82 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			
 			try{
 				
-				createModules 	= GAD.generate_CREATE(contextClass);
-				variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
+				Set<Module> createModules 	= GAD.generate_CREATE(contextClass);
+				if (createModules != null){
+					allCreateModules.addAll(createModules);
+				}
+				
+				Set<Module> variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
+				if (variantModules != null){
+					allVariantModules.addAll(variantModules);
+				}
 				
 //TODO createModules must be extended by variants but also
 				//in some cases, they need to be replaced because only their variants are valid.
 				// --> new algorithm to do that required.
 				
-				deleteModules = GAD.generate_DELETE(createModules);	
-				moveModules = GAD.generate_MOVE(contextClass);
-				moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(contextClass);			
-				moveDownModules = GAD.generate_MOVE_DOWN(contextClass);
-				moveUpModules = GAD.generate_MOVE_UP(contextClass);
-				addModules = GAD.generate_ADD(contextClass);
-				removeModules = GAD.generate_REMOVE(addModules);
-				setAttributeModules = GAD.generate_SET_ATTRIBUTE(contextClass);				
+				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
+				if (deleteModules != null){
+					allDeleteModules.addAll(deleteModules);
+				}
+				
+				Set<Module> moveModules = GAD.generate_MOVE(contextClass);
+				if (moveModules != null){
+					allMoveModules.addAll(moveModules);
+				}
+				
+				Set<Module> moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(contextClass);			
+				if (moveCombinationModules != null){
+					allMoveCombinationModules.addAll(moveCombinationModules);
+				}
+				
+				Set<Module> moveDownModules = GAD.generate_MOVE_DOWN(contextClass);
+				if (moveDownModules != null){
+					allMoveDownModules.addAll(moveDownModules);
+				}
+				
+				Set<Module> moveUpModules = GAD.generate_MOVE_UP(contextClass);
+				if (moveUpModules != null){
+					allMoveUpModules.addAll(moveUpModules);
+				}
+				
+				Set<Module> addModules = GAD.generate_ADD(contextClass);
+				if (addModules != null){
+					allAddModules.addAll(addModules);
+				}
+				
+				Set<Module> removeModules = GAD.generate_REMOVE(addModules);
+				if (removeModules != null){
+					allRemoveModules.addAll(removeModules);
+				}
+				
+				Set<Module> setAttributeModules = GAD.generate_SET_ATTRIBUTE(contextClass);	
+				if (setAttributeModules != null){
+					allSetAttributeModules.addAll(setAttributeModules);
+				}
+				
 // FIXME: What do we mean with unset attribute?
 //				unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
-				setReferenceModules = GAD.generate_SET_REFERENCE(contextClass);
-				unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);	
-				changeLiteralModules = GAD.generate_CHANGE_Literals(contextClass);
-				changeReferenceModules = GAD.generate_CHANGE_Reference(contextClass);
 				
-				allModules.add(createModules);
-				allModules.add(variantModules);
-				allModules.add(deleteModules);
-				allModules.add(moveModules);
-				allModules.add(moveCombinationModules);
-				allModules.add(moveUpModules);
-				allModules.add(moveDownModules);
-				allModules.add(addModules);
-				allModules.add(removeModules);
-				allModules.add(setAttributeModules);
-				allModules.add(unsetAttributeModules);
-				allModules.add(setReferenceModules);
-				allModules.add(unsetReferenceModules);
-				allModules.add(changeLiteralModules);
-				allModules.add(changeReferenceModules);
+				Set<Module> setReferenceModules = GAD.generate_SET_REFERENCE(contextClass);
+				if (setReferenceModules != null){
+					allSetReferenceModules.addAll(setReferenceModules);
+				}
 				
-				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
-				DuplicateFilter duplicateFilter = new DuplicateFilter();
-				duplicateFilter.filterAddSet(addModules, setReferenceModules);
-				duplicateFilter.filterRemoveUnset(removeModules, unsetReferenceModules);
+				Set<Module> unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);	
+				if (unsetReferenceModules != null){
+					allUnsetReferenceModules.addAll(unsetReferenceModules);
+				}
 				
-				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
-				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
-				constraintApplicator.applyOn(allModules);
+				Set<Module> changeLiteralModules = GAD.generate_CHANGE_Literals(contextClass);
+				if (changeLiteralModules != null){
+					allChangeLiteralModules.addAll(changeLiteralModules);
+				}
 				
-				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
-				ExecutableFilter executionFilter = new ExecutableFilter();
-				executionFilter.applyOn(allModules);
-				
-				LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
-				RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
-				ruleParameterApplicator.applyOn(allModules);
-				
-				LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
-				MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
-				mainUnitApplicator.applyOn(allModules);
-								
-				LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
-				ModuleSerializer serializer = new ModuleSerializer();
-				serializer.serialize(allModules);
+				Set<Module> changeReferenceModules = GAD.generate_CHANGE_Reference(contextClass);
+				if (changeReferenceModules != null){
+					allChangeReferenceModules.addAll(changeReferenceModules);
+				}
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -146,6 +154,38 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	@Override
 	public void finish() {
 		LogUtil.log(LogEvent.NOTICE, "finished");		
+	}
+	
+	public Set<Set<Module>> getAllModules(){
+		Set<Set<Module>> allModules	= new HashSet<Set<Module>>();
+		
+		allModules.add(allCreateModules);
+		allModules.add(allVariantModules);
+		allModules.add(allDeleteModules);
+		allModules.add(allMoveModules);
+		allModules.add(allMoveCombinationModules);
+		allModules.add(allMoveUpModules);
+		allModules.add(allMoveDownModules);
+		allModules.add(allAddModules);
+		allModules.add(allRemoveModules);
+		allModules.add(allSetAttributeModules);
+		allModules.add(allUnsetAttributeModules);
+		allModules.add(allSetReferenceModules);
+		allModules.add(allUnsetReferenceModules);
+		allModules.add(allChangeLiteralModules);
+		allModules.add(allChangeReferenceModules);
+		
+		return allModules;
+	}
+	
+	public Set<Module> getAllModulesAsSet(){
+		Set<Set<Module>> allModules = getAllModules();
+		Set<Module> res = new HashSet<Module>();
+		for (Set<Module> moduleSet : allModules) {
+			res.addAll(moduleSet);
+		}
+		
+		return Collections.unmodifiableSet(res);
 	}
 
 }
