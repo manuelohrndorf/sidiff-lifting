@@ -40,11 +40,19 @@ public class ReportEntryPropertySource implements IPropertySource {
 				new PropertyDescriptor("error", "Error")
 			};
 		}else if(reportEntry instanceof ValidationEntry){
-			Object errors[] = ((ValidationEntry) reportEntry).getNewValidationErrors().toArray();
-			PropertyDescriptor[] descriptors = new PropertyDescriptor[errors.length];
-			for(int i=0; i < errors.length; i++){
-				descriptors[i] = new PropertyDescriptor("err"+i, ((IValidationError)errors[i]).getSource());
-				descriptors[i].setCategory("New Validation Errors");
+			Object currentValidationErrors[] = ((ValidationEntry) reportEntry).getCurrentValidationErrors().toArray();
+			PropertyDescriptor[] descriptors = new PropertyDescriptor[currentValidationErrors.length];
+			for(int i=0; i < currentValidationErrors.length; i++){
+				IValidationError error = (IValidationError)currentValidationErrors[i];
+				descriptors[i] = new PropertyDescriptor("err"+i, error.getSource());
+				if(((ValidationEntry) reportEntry).getNewValidationErrors().contains(error)){
+					descriptors[i].setCategory("New Validation Errors");
+				}else if(((ValidationEntry) reportEntry).getRemovedValidationErrors().contains(error)){
+					descriptors[i].setCategory("Removed Validation Errors");
+					
+				}else{
+					descriptors[i].setCategory("Remaining Validation Errors");
+				}
 			}
 			return descriptors;
 			
@@ -77,7 +85,7 @@ public class ReportEntryPropertySource implements IPropertySource {
 			}
 		}else 
 			if(reportEntry instanceof ValidationEntry){
-				Object errors[] = ((ValidationEntry) reportEntry).getNewValidationErrors().toArray();
+				Object errors[] = ((ValidationEntry) reportEntry).getCurrentValidationErrors().toArray();
 				for(int i=0; i < errors.length; i++){
 					if(id.equals("err"+i))
 						output = ((IValidationError)errors[i]).getMessage();

@@ -34,7 +34,7 @@ public class ValidationEntry extends ReportEntry {
 		Collection<IValidationError> res = new ArrayList<IValidationError>();
 		if(currentErrors != null){
 			for (IValidationError e : currentErrors) {
-				if (!previousErrors.contains(e)) {
+				if (previousErrors != null && !previousErrors.contains(e)) {
 					res.add(e);
 				}
 			}
@@ -44,9 +44,11 @@ public class ValidationEntry extends ReportEntry {
 	
 	public Collection<IValidationError> getRemovedValidationErrors() {
 		Collection<IValidationError> res = new ArrayList<IValidationError>();
-		for (IValidationError e : previousErrors) {
-			if (!currentErrors.contains(e)) {
-				res.add(e);
+		if(previousErrors != null){
+			for (IValidationError e : previousErrors) {
+				if (!currentErrors.contains(e)) {
+					res.add(e);
+				}
 			}
 		}
 		
