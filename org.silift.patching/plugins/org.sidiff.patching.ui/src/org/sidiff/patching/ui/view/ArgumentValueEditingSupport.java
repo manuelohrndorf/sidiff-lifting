@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -92,6 +93,11 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		return items;
 	}
 
+	@Override
+	protected void initializeCellEditorValue(CellEditor cellEditor, ViewerCell cell) {
+		cellEditor.setValue(1);
+	}
+	
 	@Override
 	protected boolean canEdit(Object element) {
 		//Only editable if not applied beforehand
