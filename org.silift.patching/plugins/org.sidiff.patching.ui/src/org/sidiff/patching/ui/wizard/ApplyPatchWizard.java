@@ -172,15 +172,18 @@ public class ApplyPatchWizard extends Wizard {
 									editingDomain = editor.getEditingDomain();
 								}
 								resourceResult.set(resource);
-								if (validationMode != ValidationMode.NO)
-									EMFValidate.validateObject(resourceResult.get().getContents().get(0));
+								if (validationMode != ValidationMode.NO){
+									//TODO: Nur Multiplicity-Check (hat nichts mit validationMode zu tun)
+									//EMFValidate.validateObject(resourceResult.get().getContents().get(0));
+								}
 								validationState = true;
 							} catch (PartInitException e) {
 								e.printStackTrace();
-							} catch (InvalidModelException e) {
-								ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-								validationState = false;
-							}
+							} 
+//							catch (InvalidModelException e) {
+//								ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+//								validationState = false;
+//							}
 						}
 					});
 					if (!validationState) {
