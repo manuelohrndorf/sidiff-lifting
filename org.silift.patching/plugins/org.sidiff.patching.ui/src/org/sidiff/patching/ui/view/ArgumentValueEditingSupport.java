@@ -101,18 +101,20 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	@Override
 	protected boolean canEdit(Object element) {
 		//Only editable if not applied beforehand
-		ParameterBinding parBinding = (ParameterBinding) element;
-		OperationInvocation op = (OperationInvocation) parBinding.eContainer();
-		OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
-		if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-			return false;
-		}
-		if (element instanceof ObjectParameterBinding) {
-			ObjectParameterBinding binding = (ObjectParameterBinding) element;
-			return !binding.isMappingTarget();
-		}
-		else if (element instanceof ValueParameterBinding){
-			return true;
+		if (element instanceof ParameterBinding){
+			ParameterBinding parBinding = (ParameterBinding) element;
+			OperationInvocation op = (OperationInvocation) parBinding.eContainer();
+			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
+			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				return false;
+			}
+			if (element instanceof ObjectParameterBinding) {
+				ObjectParameterBinding binding = (ObjectParameterBinding) element;
+				return !binding.isMappingTarget();
+			}
+			else if (element instanceof ValueParameterBinding){
+				return true;
+			}
 		}
 		return false;
 	}
