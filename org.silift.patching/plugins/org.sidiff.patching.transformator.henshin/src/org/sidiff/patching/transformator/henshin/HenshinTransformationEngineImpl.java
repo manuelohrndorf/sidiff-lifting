@@ -14,7 +14,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.ParameterList;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -167,11 +166,13 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 		try {
 			boolean reverted = application.undo(null);
 			if (reverted){
+				executedOperations.remove(operationInvocation);
 				LogUtil.log(LogEvent.NOTICE, "Successfully undone!" );
 			}else{
 				throw new OperationNotUndoableException(operationName);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new OperationNotUndoableException(operationName);
 		}
 	}
@@ -188,17 +189,7 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	 */
 	private Object getArgument(ParameterBinding binding, Map<ParameterBinding, Object> inputParameters) {
 		Object argument = inputParameters.get(binding);
-		if (argument instanceof List) {
-			List commonList = (List) argument;
-			ParameterList pvl = new ParameterList();
-			for (Object object : commonList) {
-				pvl.addValue(object);
-			}
-			return pvl;
-
-		} else {
 			return argument;
-		}
 	}
 
 	private void synchronizeResourceWithGraph() {
