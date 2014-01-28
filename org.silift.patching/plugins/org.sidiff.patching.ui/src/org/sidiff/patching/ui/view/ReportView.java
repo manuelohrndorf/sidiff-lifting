@@ -172,8 +172,10 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	}
 
 	public void setPatchReportManager(PatchReportManager reportManager) {
+		this.resetView();
 		this.reportManager = reportManager;
 		reportManager.addPatchReportListener(this);
+		update();
 	}
 
 	@Override
@@ -349,39 +351,42 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	}
 
 	private void update() {
-		List<ReportEntry> allEntries = reportManager.get(reportStackEntry).getEntries();
 		List<ReportEntry> input = new ArrayList<ReportEntry>();
-			
-		if (allEntries != null) {
-			for (ReportEntry reportEntry : allEntries) {
-				if (reportEntry instanceof OperationExecutionEntry) {
-					OperationExecutionEntry execEntry = (OperationExecutionEntry) reportEntry;
-					if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed) {
-						input.add(execEntry);
+		if(!reportManager.getReports().isEmpty()){
+			List<ReportEntry> allEntries = reportManager.get(reportStackEntry).getEntries();
+				
+			if (allEntries != null) {
+				for (ReportEntry reportEntry : allEntries) {
+					if (reportEntry instanceof OperationExecutionEntry) {
+						OperationExecutionEntry execEntry = (OperationExecutionEntry) reportEntry;
+						if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed) {
+							input.add(execEntry);
+						}
+						if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning) {
+							input.add(execEntry);
+						}
+						if (execEntry.getKind() == OperationExecutionKind.SKIPPED && showSkipped) {
+							input.add(execEntry);
+						}
+						if (execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted) {
+							input.add(execEntry);
+						}
+						if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED && showExecFailed) {
+							input.add(execEntry);
+						}
+						if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED && showRevertFailed) {
+							input.add(execEntry);
+						}
+					} else {
+						input.add(reportEntry);
 					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning) {
-						input.add(execEntry);
-					}
-					if (execEntry.getKind() == OperationExecutionKind.SKIPPED && showSkipped) {
-						input.add(execEntry);
-					}
-					if (execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted) {
-						input.add(execEntry);
-					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED && showExecFailed) {
-						input.add(execEntry);
-					}
-					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED && showRevertFailed) {
-						input.add(execEntry);
-					}
-				} else {
-					input.add(reportEntry);
 				}
 			}
 		}
 
 		reportViewer.setInput(input);
 		reportViewer.getTable().getColumns()[2].pack();
+		
 	}
 
 	@Override
@@ -400,11 +405,20 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 			}
 		};
 		reportStackAction.add(action);
+		reportStackAction.getActions().get(reportStackEntry).setChecked(false);
+		
+		action.setChecked(true);
 		if(!reportStackAction.isEnabled() && reportManager.getReports().size() > 1){	
 			reportStackAction.setEnabled(true);
 			reportStackAction.setImageDescriptor(Activator.getImageDescriptor("report_stack_16x16.gif"));
 		}
 		reportStackEntry = reportManager.getReports().size()-1;
+	}
+	
+	public void resetView(){
+		reportStackEntry = 0;
+		reportStackAction.clearMenu();
+		reportStackAction.setEnabled(false);
 	}
 
 }

@@ -83,5 +83,10 @@ public class DropDownAction extends Action implements IMenuCreator, IPropertyCha
 	public List<IAction> getActions() {
 		return actions;
 	}
+	
+	public void clearMenu(){
+		menu = null;
+		actions.clear();
+	}
 
 }
