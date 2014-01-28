@@ -406,7 +406,9 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 	public void dispose() {		
 		super.dispose();
 		
-		engine.getPatchReportManager().removePatchReportListener(this);
+		if (engine != null && engine.getPatchReportManager() != null){
+			engine.getPatchReportManager().removePatchReportListener(this);
+		}		
 	}
 	
 	@Override
