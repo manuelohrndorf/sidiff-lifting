@@ -246,7 +246,7 @@ public class PatchEngine {
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
 					
-					applicationResult.success = true;
+					applicationResult.success = false;
 					applicationResult.inArgs = inArgs;					
 					applicationResult.error = e;
 				}
@@ -310,7 +310,7 @@ public class PatchEngine {
 				} catch (OperationNotUndoableException e) {
 					op.setApply(true);
 					
-					revertResult.success = true;
+					revertResult.success = false;
 					revertResult.error = e;
 				}
 			}
