@@ -175,6 +175,10 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 			e.printStackTrace();
 			throw new OperationNotUndoableException(operationName);
 		}
+		
+		// TODO: we don't need to call this after each operation invocation
+		// once when path is finished would be enough.
+		synchronizeResourceWithGraph();
 	}
 
 	/**
