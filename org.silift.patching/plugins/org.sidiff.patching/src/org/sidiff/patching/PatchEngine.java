@@ -228,7 +228,7 @@ public class PatchEngine {
 	private boolean apply(OperationInvocation operationInvocation) {
 
 		final OperationInvocation op = operationInvocation;
-		final ArrayList<Boolean> success = new ArrayList<Boolean>();
+		final ApplicationResult applicationResult = new ApplicationResult();
 
 		AbstractCommand command = new AbstractCommand() {
 
@@ -238,13 +238,17 @@ public class PatchEngine {
 				try {
 					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
 					setOutArguments(op.getParameterBindings(), outArgs);
-					operationManager.getStatusWrapper(op).setPassed(inArgs, outArgs);
-					reportManager.operationPassed(op, inArgs, outArgs);
-					success.add(Boolean.TRUE);
+					operationManager.getStatusWrapper(op).setPassed(inArgs, outArgs);					
+					
+					applicationResult.success = true;
+					applicationResult.inArgs = inArgs;
+					applicationResult.outArgs = outArgs;
 				} catch (ParameterMissingException | OperationNotExecutableException e) {
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
-					reportManager.operationExecFailed(op, inArgs, e);
-					success.add(Boolean.FALSE);
+					
+					applicationResult.success = true;
+					applicationResult.inArgs = inArgs;					
+					applicationResult.error = e;
 				}
 			}
 
@@ -266,12 +270,23 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
-		// reportManager.operationPassed(op, new HashMap<ParameterBinding,
-		// Object>(), new HashMap<ParameterBinding, Object>());
-
-		return success.get(0).booleanValue();
+		
+		if (applicationResult.success){
+			reportManager.operationPassed(op, applicationResult.inArgs, applicationResult.outArgs);
+		} else {
+			reportManager.operationExecFailed(op, applicationResult.inArgs, applicationResult.error);
+		}
+		
+		return applicationResult.success;
 	}
 
+	private class ApplicationResult {
+		boolean success;
+		Map<ParameterBinding, Object> inArgs;
+		Map<ParameterBinding, Object> outArgs;
+		Exception error;
+	}
+	
 	/**
 	 * Revert a specific operation invocation. Note that this method tries to
 	 * perform the undo operation on the command stack of the target editing
@@ -281,7 +296,7 @@ public class PatchEngine {
 	 */
 	private boolean revert(OperationInvocation operationInvocation) {
 		final OperationInvocation op = operationInvocation;
-		final ArrayList<Boolean> success = new ArrayList<Boolean>();
+		final RevertResult revertResult = new RevertResult();
 
 		AbstractCommand command = new AbstractCommand() {
 
@@ -290,12 +305,13 @@ public class PatchEngine {
 				try {
 					transformationEngine.undo(op);
 					operationManager.getStatusWrapper(op).setSkipped();
-					reportManager.operationReverted(op);
-					success.add(Boolean.TRUE);
+					
+					revertResult.success = true;
 				} catch (OperationNotUndoableException e) {
 					op.setApply(true);
-					reportManager.operationRevertFailed(op, e);
-					success.add(Boolean.FALSE);
+					
+					revertResult.success = true;
+					revertResult.error = e;
 				}
 			}
 
@@ -318,7 +334,18 @@ public class PatchEngine {
 			command.execute();
 		}
 
-		return success.get(0).booleanValue();
+		if (revertResult.success){
+			reportManager.operationReverted(op);
+		} else {
+			reportManager.operationRevertFailed(op, revertResult.error);
+		}
+		
+		return revertResult.success;
+	}
+
+	private class RevertResult {
+		boolean success;		
+		Exception error;
 	}
 
 	/**
