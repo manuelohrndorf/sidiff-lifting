@@ -29,7 +29,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
@@ -39,10 +38,12 @@ import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
@@ -230,6 +231,20 @@ public class ThreeWayMergeWizard extends Wizard {
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler);
+					
+					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
+						
+						@Override
+						public void reportChanged() {
+							GMFAnimation.trigger();
+						}
+
+						@Override
+						public void pushReport(int i) {
+							// TODO Auto-generated method stub
+							
+						}
+					});	
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
 
