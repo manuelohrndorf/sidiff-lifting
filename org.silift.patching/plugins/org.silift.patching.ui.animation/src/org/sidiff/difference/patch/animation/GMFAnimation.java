@@ -2,8 +2,10 @@ package org.sidiff.difference.patch.animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -16,7 +18,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.uri.URIFragmentMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.patch.animation.internal.AnimationAdapter;
 import org.sidiff.difference.patch.animation.internal.GridLayouter;
@@ -48,15 +49,31 @@ public class GMFAnimation {
 				
 				GridLayouter layouter = GridLayouter.getInstance();
 				layouter.setup(diagramEditor);
-				
+
 				for(Resource resource : editingDomain.getResourceSet().getResources()){
 					if(resource.getURI().toString().endsWith(".ecore")){
 						if(createMatching){
-							IMatcher matcher = MatcherUtil.getMatcherByKey(URIFragmentMatcher.KEY, changingResource, resource);
-							SymmetricDifference matching = matcher.createMatching(changingResource, resource, Scope.RESOURCE, false);
-							EcoreUtil.resolveAll(matching);
-							if(checkMatching(matching)){
-								editorMatchings.add(new EditorMatching(matching, diagramEditor));
+							IMatcher usedMatcher = null;
+							// Search registered matcher extension points
+							Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(changingResource, resource);
+							if(matcherSet.size() > 0){
+								for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
+									IMatcher matcher = iterator.next();
+								//Use URI Fragment Matcher if available
+									if(matcher.getKey().equals("URIFragmentMatcher")){
+										usedMatcher = matcher;
+									}
+								}
+								//else use any
+								if (usedMatcher == null){
+									usedMatcher = matcherSet.iterator().next();
+								}
+								//Get one random matcher
+								SymmetricDifference matching = usedMatcher.createMatching(changingResource, resource, Scope.RESOURCE, false);
+								EcoreUtil.resolveAll(matching);
+								if(checkMatching(matching)){
+									editorMatchings.add(new EditorMatching(matching, diagramEditor));
+								}
 							}
 						} else {
 							editorMatchings.add(new EditorMatching(null, diagramEditor));

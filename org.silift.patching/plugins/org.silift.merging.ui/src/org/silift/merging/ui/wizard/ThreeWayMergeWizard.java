@@ -41,6 +41,7 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -161,7 +162,7 @@ public class ThreeWayMergeWizard extends Wizard {
 						}
 					}
 
-					final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());
+					final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment()+"diag");
 
 					monitor.subTask("Opening editor for target resource");
 					final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
@@ -180,7 +181,7 @@ public class ThreeWayMergeWizard extends Wizard {
 									editingDomain = editor.getEditingDomain();
 
 									// FIXME: Diagram animation:
-									// GMFAnimation.enableAnimation(resource,false);
+									 GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
 								} else if (editorPart instanceof IEditingDomainProvider) {
 									IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 									resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
@@ -229,7 +230,7 @@ public class ThreeWayMergeWizard extends Wizard {
 
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
-							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
+							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.MERGING, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler);
 					
 					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {

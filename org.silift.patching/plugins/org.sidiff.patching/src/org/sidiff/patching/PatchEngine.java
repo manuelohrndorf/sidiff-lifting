@@ -50,12 +50,17 @@ public class PatchEngine {
 		INTERACTIVE, BATCH
 	}
 
+	public enum PatchMode {
+		PATCHING, MERGING
+	}
+
 	private AsymmetricDifference difference;
 	private List<OperationInvocation> orderedOperations;
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
 	private Boolean reliabilitiesComputed;
 	private ExecutionMode executionMode;
+	private PatchMode patchMode;
 
 	private ValidationManager validationManager;
 	private OperationManager operationManager;
@@ -77,8 +82,9 @@ public class PatchEngine {
 	 * @param patchInterruptHandler
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
-			ITransformationEngine transformationEngine, ExecutionMode executionMode, ValidationMode validationMode,
-			Scope scope, Boolean reliabilitiesComputed, IPatchInterruptHandler patchInterruptHandler) {
+			ITransformationEngine transformationEngine, ExecutionMode executionMode, PatchMode patchMode,
+			ValidationMode validationMode, Scope scope, Boolean reliabilitiesComputed,
+			IPatchInterruptHandler patchInterruptHandler) {
 
 		this.difference = difference;
 		this.patchedResource = patchedResource;
@@ -86,6 +92,7 @@ public class PatchEngine {
 		this.transformationEngine = transformationEngine;
 		this.reliabilitiesComputed = reliabilitiesComputed;
 		this.executionMode = executionMode;
+		this.patchMode = patchMode;
 
 		// Ordered set of operations to be executed
 		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
@@ -93,7 +100,7 @@ public class PatchEngine {
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
 		this.operationManager = new OperationManager(orderedOperations);
-		this.argumentManager.init(difference, patchedResource, scope);
+		this.argumentManager.init(difference, patchedResource, scope, patchMode);
 
 		// Initialize all operationInvocations owning
 		// modified parameters as "not applicable"
@@ -142,8 +149,8 @@ public class PatchEngine {
 				// Iterative Validation
 				if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {
 					Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-
 					boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
+					
 					if (validationChanged) {
 						Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry()
 								.getNewValidationErrors();
@@ -157,11 +164,12 @@ public class PatchEngine {
 								operationInvocation.setApply(false);
 								revert(operationInvocation);
 								validationErrors = validationManager.validateTargetModel();
-								validationChanged = reportManager.updateValidationEntries(validationErrors);
+								reportManager.updateValidationEntries(validationErrors);
 							}
 
-							if (option == PatchInterruptOption.ABORT)
+							if (option == PatchInterruptOption.ABORT) {
 								break;
+							}
 						}
 					}
 				}
@@ -199,7 +207,7 @@ public class PatchEngine {
 									operationInvocation.setApply(true);
 									apply(operationInvocation);
 									validationErrors = validationManager.validateTargetModel();
-									validationChanged = reportManager.updateValidationEntries(validationErrors);
+									reportManager.updateValidationEntries(validationErrors);
 								}
 
 								if (option == PatchInterruptOption.ABORT) {
@@ -347,9 +355,9 @@ public class PatchEngine {
 		boolean success;		
 		Exception error;
 	}
-
+	
 	/**
-	 * Finds parameter values and put them into a map ParameterBinding ->
+	 * Finds parameter values and puts them into a map ParameterBinding ->
 	 * Object.
 	 * 
 	 * @param parameterBindings

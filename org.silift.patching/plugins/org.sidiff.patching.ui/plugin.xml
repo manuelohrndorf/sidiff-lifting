@@ -90,4 +90,32 @@
          </adapter>
       </factory>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <view
+               id="org.sidiff.patching.ui.view.PatchView"
+               minimized="false"
+               ratio="0.50"
+               relationship="stack"
+               relative="org.eclipse.jdt.ui.PackageExplorer"
+               visible="false">
+         </view>
+         <view
+               id="org.sidiff.patching.ui.view.ReportView"
+               minimized="false"
+               relationship="bottom"
+               relative="org.sidiff.patching.ui.view.PatchView"
+               visible="false">
+         </view>
+         <view
+               id="org.eclipse.ui.views.PropertySheet"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ProblemView"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
 </plugin>

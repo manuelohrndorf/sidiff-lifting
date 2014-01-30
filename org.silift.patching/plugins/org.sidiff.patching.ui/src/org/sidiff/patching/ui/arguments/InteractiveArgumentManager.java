@@ -22,15 +22,16 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.silift.common.util.access.EMFMetaAccessEx;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
+import org.silift.common.util.emf.Scope;
 import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 
 /**
@@ -89,6 +90,11 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	private Scope scope;
 	
 	/**
+	 * The patch mode (patching or merging).
+	 */
+	private PatchMode patchMode;
+	
+	/**
 	 * The ModifiedDetector to which we delegate when we check if an object of
 	 * the origin model has been modified in the target model.
 	 */
@@ -103,11 +109,12 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope) {
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
 		this.scope = scope;
+		this.patchMode = patchMode;
 		
 		// now we initialize the internal state...
 
@@ -121,8 +128,9 @@ public class InteractiveArgumentManager implements IArgumentManager {
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 
 		// initial set of modified target objects
+		// only if the current patchEngine is in @link{PatchMode.Merging}
 		// FIXME(TK): ModifiedDetector aus argumentManager ausgliedern
-		if (EMFModelAccessEx.getCharacteristicDocumentType(targetModel).equals(EcorePackage.eNS_URI)){
+		if (EMFModelAccessEx.getCharacteristicDocumentType(targetModel).equals(EcorePackage.eNS_URI) && this.patchMode == PatchMode.MERGING ){
 			modDetector = new ModifiedDetector(originModel, targetModel, matching);
 			modDetector.initialize();
 			modifiedTargetObjects = new HashSet<EObject>();

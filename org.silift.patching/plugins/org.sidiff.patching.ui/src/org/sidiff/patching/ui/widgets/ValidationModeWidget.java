@@ -17,7 +17,7 @@ import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 
-	private ValidationMode validationMode = ValidationMode.NO;
+	private ValidationMode validationMode = ValidationMode.ITERATIVE;
 
 	private Composite container;
 	private Button noValidationButton;
@@ -53,13 +53,13 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 		noValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		noValidationButton.setText("No Validation");
-		noValidationButton.setSelection(true);
 
 		modelValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		modelValidationButton.setText("Model Validation");
 		
 		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		iterativeValidationButton.setText("Iterative Validation");
+		iterativeValidationButton.setSelection(true);
 
 		noValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override

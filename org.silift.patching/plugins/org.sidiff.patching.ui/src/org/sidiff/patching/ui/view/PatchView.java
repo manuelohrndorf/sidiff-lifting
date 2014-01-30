@@ -153,9 +153,13 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.patchViewer.expandAll();
 		this.patchViewer.getTree().getColumns()[1].pack();
 		
+		ValidationMode tmpMode = this.engine.getValidationMode();
+		
 		iterativeValidationAction.setEnabled(true);
 		finalValidationAction.setEnabled(true);
 		noValidationAction.setEnabled(true);		
+		
+		this.engine.setValidationMode(tmpMode);
 		
 		if(this.engine.getValidationMode() == ValidationMode.FINAL)
 			finalValidationAction.setChecked(true);
@@ -235,6 +239,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		
 		//----------- Validation ------------------
 		validateMenu = new DropDownAction("Validate");
+		this.validateMenu.setImageDescriptor(Activator.getImageDescriptor("validation_16x16.gif"));
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -243,7 +248,6 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			
 		};
 		this.iterativeValidationAction.setToolTipText("The model will be validated after each operation invocation.");
-		this.iterativeValidationAction.setChecked(false);
 		
 		this.finalValidationAction = new Action("Final Validation", IAction.AS_RADIO_BUTTON){
 			@Override
@@ -260,7 +264,11 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 			}
 		};
 		this.noValidationAction.setToolTipText("The model won't be validated.");
-		
+	
+		/*
+		 * TODO
+		 * implement
+		 * 
 		this.manualValidationAction = new Action("Manual Validation", IAction.AS_PUSH_BUTTON){
 			@Override
 			public void run() {
@@ -273,6 +281,8 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		this.manualValidationAction.setToolTipText("Validate the model.");
 		
 		this.manualValidationAction.setEnabled(true);
+		*/
+		
 		iterativeValidationAction.setEnabled(false);
 		finalValidationAction.setEnabled(false);
 		noValidationAction.setEnabled(false);
@@ -280,7 +290,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		validateMenu.add(noValidationAction);
 		validateMenu.add(finalValidationAction);
 		validateMenu.add(iterativeValidationAction);
-		validateMenu.add(manualValidationAction);
+		//validateMenu.add(manualValidationAction);
 		
 		
 		//----------- Execution ------------------
@@ -408,7 +418,7 @@ public class PatchView extends ViewPart implements ICheckBoxListener, IModelChan
 		
 		if (engine != null && engine.getPatchReportManager() != null){
 			engine.getPatchReportManager().removePatchReportListener(this);
-		}		
+		}
 	}
 	
 	@Override

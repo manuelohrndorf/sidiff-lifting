@@ -39,6 +39,7 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -139,7 +140,7 @@ public class ApplyPatchWizard extends Wizard {
 			}
 		}
 		//TODO open diagram file
-		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment());// + "diag");
+		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment() + "diag");
 
 		Job job = new Job("Patching Model") {
 			private EditingDomain editingDomain;
@@ -214,7 +215,7 @@ public class ApplyPatchWizard extends Wizard {
 
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(),
-							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, validationMode,
+							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.PATCHING, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler);
 					
 					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {

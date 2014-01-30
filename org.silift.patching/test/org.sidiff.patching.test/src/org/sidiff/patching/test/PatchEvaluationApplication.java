@@ -26,6 +26,7 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchEngine.ExecutionMode;
+import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.ReportEntry;
@@ -140,7 +141,7 @@ public class PatchEvaluationApplication implements IApplication {
 			LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
 			PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
 					.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
-					testSuite.getTransformationEngine(), ExecutionMode.BATCH, ValidationMode.ITERATIVE, Scope.RESOURCE,
+					testSuite.getTransformationEngine(), ExecutionMode.BATCH, PatchMode.PATCHING, ValidationMode.ITERATIVE, Scope.RESOURCE,
 					false, testSuite.getPatchInterruptHandler());
 			buffer.append("--- Test " + testSuite.getId() + " ---\n");
 			LogUtil.log(LogEvent.NOTICE, "Applying patch");

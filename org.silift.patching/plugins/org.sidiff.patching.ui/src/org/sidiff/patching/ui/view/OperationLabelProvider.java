@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -28,7 +29,7 @@ public class OperationLabelProvider extends ColumnLabelProvider {
 	private final Image op_in2 = Activator.getImageDescriptor("ObjectParameterBinding_in2.gif").createImage();
 	private final Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
 	private final Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
-
+	private final Image multi_op_in = Activator.getImageDescriptor("MultipleObjectParameterBinding_in.png").createImage();
 	public void init(OperationManager statusManager) {
 		this.statusManager = statusManager;
 	}
@@ -42,7 +43,9 @@ public class OperationLabelProvider extends ColumnLabelProvider {
 			} else {
 				return unchecked;
 			}
-		} else if (element instanceof ObjectParameterBinding) {
+		} else if (element instanceof MultiParameterBinding){
+			return multi_op_in;
+		}else if(element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding parameterBinding = (ObjectParameterBinding) element;
 			if (parameterBinding.getFormalParameter().getDirection() == ParameterDirection.IN) {
 				if (parameterBinding.getActualA() == null) {

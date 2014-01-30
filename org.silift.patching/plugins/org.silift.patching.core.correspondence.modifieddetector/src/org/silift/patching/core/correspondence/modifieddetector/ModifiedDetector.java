@@ -46,8 +46,9 @@ public class ModifiedDetector {
 
 		// Configure AnnotationService
 		AnnotationService annotator = new AnnotationServiceImpl();
-		annotator.configure("org.sidiff.ecore.core.annotations.xml");
-
+		annotator.configure("platform:/plugin/org.silift.patching.core.correspondence.modifieddetector/config/"
+				+ "org.sidiff.ecore.core.annotations.xml");		 
+		    
 		// If created in matching phase beforehand, remove Annotations
 		annotator.removeAnnotations(this.modelA);
 		annotator.removeAnnotations(this.modelB);

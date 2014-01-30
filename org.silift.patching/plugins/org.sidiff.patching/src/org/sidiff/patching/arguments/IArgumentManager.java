@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.patching.PatchEngine.PatchMode;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -21,7 +22,7 @@ import org.silift.common.util.emf.Scope;
  */
 public interface IArgumentManager {
 
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope);
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode);
 
 	/**
 	 * For a given parameter binding of the patch, this method returns the
