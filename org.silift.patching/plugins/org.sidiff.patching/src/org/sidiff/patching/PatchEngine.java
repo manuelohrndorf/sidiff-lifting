@@ -68,6 +68,7 @@ public class PatchEngine {
 	private ITransformationEngine transformationEngine;
 	private PatchReportManager reportManager;
 	private IPatchInterruptHandler patchInterruptHandler;
+	private Boolean validationChanged;
 
 	/**
 	 * The PatchEngine handles manipulations on target model.
@@ -118,6 +119,9 @@ public class PatchEngine {
 
 		// Init patch interrupt handler
 		this.patchInterruptHandler = patchInterruptHandler;
+		
+		this.validationChanged = false;
+
 	}
 
 	/**
@@ -145,9 +149,31 @@ public class PatchEngine {
 			if (operationInvocation.isApply() && !(operationWrapper.getStatus() == OperationInvocationStatus.PASSED)) {
 
 				boolean success = apply(operationInvocation);
-				//TODO 
-				// REVISE DR: 04.02.2014
-				// Check if single execution works correctly
+				
+				if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {				
+					if (this.validationChanged) {
+						this.validationChanged = false;
+						Collection<IValidationError> newErrors = reportManager.getLastReport()
+								.getLastValidationEntry().getNewValidationErrors();
+						Collection<IValidationError> validationErrors = newErrors;
+
+						if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
+							PatchInterruptOption option = patchInterruptHandler.getInterruptOption(false,
+									operationInvocation, validationErrors);
+
+							if (option != PatchInterruptOption.IGNORE) {
+								operationInvocation.setApply(true);
+								apply(operationInvocation);
+								validationErrors = validationManager.validateTargetModel();
+								reportManager.updateValidationEntries(validationErrors);
+							}
+
+							if (option == PatchInterruptOption.ABORT) {
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -168,12 +194,12 @@ public class PatchEngine {
 					boolean success = revert(operationInvocation);
 
 					if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {
-						Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-						boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
-						if (validationChanged) {
+						if (this.validationChanged) {
+							this.validationChanged = false;
 							Collection<IValidationError> newErrors = reportManager.getLastReport()
 									.getLastValidationEntry().getNewValidationErrors();
-
+							Collection<IValidationError> validationErrors = newErrors;
+							
 							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
 								PatchInterruptOption option = patchInterruptHandler.getInterruptOption(true,
 										operationInvocation, validationErrors);
@@ -215,12 +241,6 @@ public class PatchEngine {
 
 		// Start new patch application
 		reportManager.startPatchApplication();
-
-		// Initial validation (if needed)
-		if (getValidationMode() != ValidationMode.MANUAL) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			reportManager.updateValidationEntries(validationErrors);
-		}
 		
 		AbstractCommand command = new AbstractCommand() {
 
@@ -265,34 +285,17 @@ public class PatchEngine {
 		} else {
 			command.execute();
 		}
-		// Iterative Validation
-		if (applicationResult.success && (getValidationMode() == ValidationMode.ITERATIVE)) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
-
-			if (validationChanged) {
-				Collection<IValidationError> newErrors = reportManager.getLastReport().getLastValidationEntry()
-						.getNewValidationErrors();
-
-				if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
-
-					PatchInterruptOption option = patchInterruptHandler.getInterruptOption(false,
-							op, validationErrors);
-
-					if (option != PatchInterruptOption.IGNORE) {
-						revert(op);
-						validationErrors = validationManager.validateTargetModel();
-						reportManager.updateValidationEntries(validationErrors);
-					}
-
-				}
-			}
-		}
 		
 		if (applicationResult.success){
 			reportManager.operationPassed(op, applicationResult.inArgs, applicationResult.outArgs);
 		} else {
 			reportManager.operationExecFailed(op, applicationResult.inArgs, applicationResult.error);
+		}
+		
+		// Iterative validation (if needed)
+		if (getValidationMode() == ValidationMode.ITERATIVE) {
+			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
 		}
 		
 		reportManager.finishPatchApplication();
@@ -320,12 +323,6 @@ public class PatchEngine {
 
 		// Start new patch application
 		reportManager.startPatchApplication();
-
-		// Initial validation (if needed)
-		if (getValidationMode() != ValidationMode.MANUAL) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			reportManager.updateValidationEntries(validationErrors);
-		}
 		
 		AbstractCommand command = new AbstractCommand() {
 
@@ -363,32 +360,16 @@ public class PatchEngine {
 			command.execute();
 		}
 		
-		//Iterative validation
-		if (revertResult.success && (getValidationMode() == ValidationMode.ITERATIVE)) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			boolean validationChanged = reportManager.updateValidationEntries(validationErrors);
-			if (validationChanged) {
-				Collection<IValidationError> newErrors = reportManager.getLastReport()
-						.getLastValidationEntry().getNewValidationErrors();
-
-				if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
-					PatchInterruptOption option = patchInterruptHandler.getInterruptOption(true,
-							operationInvocation, validationErrors);
-
-					if (option != PatchInterruptOption.IGNORE) {
-						operationInvocation.setApply(true);
-						apply(operationInvocation);
-						validationErrors = validationManager.validateTargetModel();
-						reportManager.updateValidationEntries(validationErrors);
-					}
-				}
-			}
-		}
-
 		if (revertResult.success){
 			reportManager.operationReverted(op);
 		} else {
 			reportManager.operationRevertFailed(op, revertResult.error);
+		}		
+		
+		// Iterative validation (if needed)
+		if (getValidationMode() == ValidationMode.ITERATIVE) {
+			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
+			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
 		}
 		
 		reportManager.finishPatchApplication();
