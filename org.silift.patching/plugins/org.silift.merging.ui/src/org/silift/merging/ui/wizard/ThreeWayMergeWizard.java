@@ -51,7 +51,7 @@ import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
-import org.sidiff.patching.ui.view.PatchView;
+import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.access.EMFModelAccessEx;
@@ -250,22 +250,22 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.worked(30);
 
 					monitor.subTask("Open Merge View");
-					final AtomicReference<PatchView> patchViewReference = new AtomicReference<PatchView>();
+					final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
 						public void run() {
 							try {
-								PatchView patchView = (PatchView) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-										.getActivePage().showView(PatchView.ID);
+								OperationExplorerView patchView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+										.getActivePage().showView(OperationExplorerView.ID);
 								patchView.setPatchEngine(patchEngine);
-								patchViewReference.set(patchView);
+								operationExplorerViewReference.set(patchView);
 							} catch (PartInitException e) {
 								e.printStackTrace();
 							}
 						}
 					});
-					PatchView patchView = patchViewReference.get();
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 					monitor.worked(20);
 
 					monitor.subTask("Open Report View");
@@ -292,7 +292,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.subTask("Adding Modellistener");
 					ModelAdapter adapter = new ModelAdapter(resourceResult.get());
 					adapter.addListener(new ModelChangeHandler(argumentManager));
-					adapter.addListener(patchView);
+					adapter.addListener(operationExplorerView);
 					monitor.worked(10);
 				} catch (Exception e) {
 					e.printStackTrace();
