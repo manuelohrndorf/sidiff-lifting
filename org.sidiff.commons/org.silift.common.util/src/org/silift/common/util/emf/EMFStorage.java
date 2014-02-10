@@ -29,13 +29,10 @@ public class EMFStorage {
 		public URI deresolve(URI uri) {
 			return uri;
 		}
-	}
-	
+	}	
 	
 	/**
-	 * 
 	 * URI will be replaced by the last segment
-	 *
 	 */
 	private static class ResolveLastSegment extends URIHandlerImpl {
 		@Override
@@ -48,9 +45,7 @@ public class EMFStorage {
 	
 	
 	/**
-	 * 
 	 * URI will be replaced by the shortest relative URI.
-	 *
 	 */
 	private static class DeresolveRelative extends URIHandlerImpl{
 		@Override
@@ -58,6 +53,19 @@ public class EMFStorage {
 			return !uri.isPlatform() || (uri.segmentCount() > 0 && baseURI.segmentCount() > 0 && uri.segment(0).equals(baseURI.segment(0))) ? super.deresolve(uri) : uri;
 		}
 	}
+	
+	/**
+	 * Deresolve as platform resource URI.
+	 */
+	private static class PlatformResourceDeresolve extends URIHandlerImpl {
+		@Override
+		public URI deresolve(URI uri) {
+			if (!uri.isPlatformResource() && uri.isFile()) {
+				return uriToPlatformUri(uri).appendFragment(uri.fragment());
+			}
+			return uri;
+		}
+	}	
 
 	/**
 	 * Save EMF resource which is already contained in a resource.
@@ -79,9 +87,9 @@ public class EMFStorage {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
-	 * Save EMF resource to given URI path.
+	 * Save EMF resource to given URI path. References will be saved as platform resource URIs.
 	 * 
 	 * @param path
 	 *            the save path.
@@ -95,7 +103,7 @@ public class EMFStorage {
 
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		options.put(XMIResource.OPTION_URI_HANDLER, new DoNotDeresolve());
+		options.put(XMIResource.OPTION_URI_HANDLER, new PlatformResourceDeresolve());
 
 		try {
 			resource.save(options);
@@ -129,10 +137,11 @@ public class EMFStorage {
 		
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		if(relative)
+		if(relative) {
 			options.put(XMIResource.OPTION_URI_HANDLER, new DeresolveRelative());
-		else
+		} else {
 			options.put(XMIResource.OPTION_URI_HANDLER, new ResolveLastSegment());
+		}
 
 		try {
 			resource.save(options);
@@ -207,6 +216,28 @@ public class EMFStorage {
 			return rootEObject.eResource().getURI();
 		}
 	}
+	
+	/**
+	 * Converts a (e.g. platform) URI to a file URI.
+	 * 
+	 * @param uri The URI to convert.
+	 * @return The given URI as file URI.
+	 */
+	public static URI uriToFileUri(URI uri) {
+		URI fileURI = pathToFileUri(uriToPath(uri));
+		return fileURI;
+	}
+	
+	/**
+	 * Converts a (e.g. file) URI to a platform resource URI.
+	 * 
+	 * @param uri The URI to convert.
+	 * @return The given URI as file URI.
+	 */
+	public static URI uriToPlatformUri(URI uri) {
+		URI fileURI = pathToUri(uriToPath(uri));
+		return fileURI;
+	}
 
 	/**
 	 * Converts a file path to an platform resource URI.
@@ -220,8 +251,19 @@ public class EMFStorage {
 		return fileToUri(file);
 	}
 	
+	/**
+	 * Converts a file path to an platform resource URI.
+	 * 
+	 * @param path
+	 *            The path to convert.
+	 * @return The given path as platform resource URI.
+	 */
+	public static URI pathToFileUri(String path) {
+		File file = pathToFile(path);
+		return fileToFileUri(file);
+	}
+	
 	public static java.net.URI pathToRelativeUri(String base, String path) {
-		
 		return new File(base).toURI().relativize(new File(path).toURI());
 	}
 
@@ -263,13 +305,19 @@ public class EMFStorage {
 	}
 
 	/**
-	 * Converts a <code>File</code> to an absolute file path.
+	 * Converts a <code>File</code> inside the workspace to an absolute file path.
 	 * 
 	 * @param file The <code>File</code> to convert.
 	 * @return The given <code>File</code> as absolute file path
 	 */
 	public static String fileToPath(File file) {
-		return file.getAbsolutePath();
+		if (file.isAbsolute()) {
+			return file.getAbsolutePath();
+		} else {
+			return new File(
+					ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() 
+					+ file.getPath()).getAbsolutePath();	
+		}
 	}
 
 	/**
@@ -281,6 +329,16 @@ public class EMFStorage {
 	public static URI fileToUri(File file) {
 		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
 		return URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);
+	}
+	
+	/**
+	 * Converts a <code>File</code> to a file  URI.
+	 * 
+	 * @param file The <code>File</code> to convert.
+	 * @return The given file as file URI.
+	 */
+	public static URI fileToFileUri(File file) {
+		return URI.createFileURI(fileToPath(file));
 	}
 
 	/**
