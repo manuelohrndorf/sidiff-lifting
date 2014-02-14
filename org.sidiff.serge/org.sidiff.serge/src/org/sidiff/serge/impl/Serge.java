@@ -18,6 +18,7 @@ import org.sidiff.serge.core.ModuleSerializer;
 import org.sidiff.serge.core.NameMapper;
 import org.sidiff.serge.core.RuleParameterApplicator;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.filter.DuplicateFilter;
 import org.sidiff.serge.filter.ElementFilter;
 import org.sidiff.serge.filter.ExecutableFilter;
 
@@ -78,6 +79,10 @@ public class Serge {
 			ExecutableFilter executionFilter = new ExecutableFilter();
 			executionFilter.applyOn(allModules);
 			
+			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
+			DuplicateFilter duplicateFilter = new DuplicateFilter();
+			duplicateFilter.filterIdentical(allModules);
+			
 			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 			RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
 			ruleParameterApplicator.applyOn(allModules);
@@ -94,7 +99,7 @@ public class Serge {
 			
 			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 			ModuleSerializer serializer = new ModuleSerializer();
-			serializer.serialize(allModules);
+			serializer.serialize(moduleSet);
 		
 			LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
 			
