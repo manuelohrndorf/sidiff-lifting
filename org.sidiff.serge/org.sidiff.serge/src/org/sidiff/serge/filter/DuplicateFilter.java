@@ -1,5 +1,6 @@
 package org.sidiff.serge.filter;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.util.RuleExecutionChecker;
 import org.sidiff.serge.util.RuleSemanticsChecker;
 
 /**
@@ -23,6 +25,31 @@ public class DuplicateFilter {
 
 	public DuplicateFilter() {
 
+	}
+
+	/**
+	 * Filters Modules with identical names.
+	 * 
+	 * @param allModules
+	 */
+	public void filterIdentical(Set<Set<Module>> allModules) {
+		Set<String> moduleNames = new HashSet<String>();
+
+		Iterator<Set<Module>> moduleSetIterator = allModules.iterator();
+		while (moduleSetIterator.hasNext()) {
+			Set<Module> moduleSet = moduleSetIterator.next();
+			Iterator<Module> moduleIterator = moduleSet.iterator();
+			while (moduleIterator.hasNext()) {
+				Module module = moduleIterator.next();
+
+				if (moduleNames.contains(module.getName())) {
+					LogUtil.log(LogEvent.NOTICE, "Filter identical operation: " + module.getName());
+					moduleIterator.remove();
+				} else {
+					moduleNames.add(module.getName());
+				}
+			}
+		}
 	}
 
 	public void filterAddSet(Set<Module> addModules, Set<Module> setReferenceModules) {
