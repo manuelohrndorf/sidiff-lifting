@@ -24,6 +24,7 @@ public class EMFStorage {
 	/**
 	 * Do nothing while saving the URI.
 	 */
+	@SuppressWarnings("unused")
 	private static class DoNotDeresolve extends URIHandlerImpl {
 		@Override
 		public URI deresolve(URI uri) {
@@ -68,7 +69,8 @@ public class EMFStorage {
 	}	
 
 	/**
-	 * Save EMF resource which is already contained in a resource.
+	 * Save EMF resource which is already contained in a resource. References
+	 * will be saved as platform resource URIs.
 	 * 
 	 * @param root
 	 *            the root object that will be saved.
@@ -79,7 +81,7 @@ public class EMFStorage {
 
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		options.put(XMIResource.OPTION_URI_HANDLER, new DoNotDeresolve());
+		options.put(XMIResource.OPTION_URI_HANDLER, new PlatformResourceDeresolve());
 
 		try {
 			resource.save(options);
