@@ -1,0 +1,365 @@
+package org.sidiff.patching.ui.view;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.report.IPatchReportListener;
+import org.sidiff.patching.ui.Activator;
+import org.sidiff.patching.ui.adapter.IModelChangeListener;
+import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
+import org.sidiff.patching.ui.view.filter.ExecutedOperationsFilter;
+import org.sidiff.patching.validation.ValidationMode;
+
+public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor {
+
+	public static final String ID = "org.sidiff.patching.ui.view.OperationExplorerView";
+
+	private final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
+	private final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
+
+	private PatchEngine engine;
+
+	private TreeViewer patchViewer;
+	private OperationLabelProvider operationLabelProvider;
+
+	// ----------- Execution -------------------
+	private Action applyPatchAction;
+
+	// Collapse
+	private Action collapseAllAction;
+
+	// ----------- Filter -------------------
+	private Action filterOperationsAction;
+	private ExecutedOperationsFilter executedOperationsFilter;
+
+	// ----------- Validation -------------------
+	private DropDownAction validateMenu;
+	private Action iterativeValidationAction;
+	private Action finalValidationAction;
+	private Action noValidationAction;
+
+	@Override
+	public void createPartControl(Composite parent) {
+
+		// TreeViewer
+		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
+		patchViewer.setContentProvider(new PatchContentProvider());
+		patchViewer.setAutoExpandLevel(0);
+
+		operationLabelProvider = new OperationLabelProvider();
+		patchViewer.setLabelProvider(operationLabelProvider);
+
+		patchViewer.addDoubleClickListener(new IDoubleClickListener() {
+
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				TreeViewer viewer = (TreeViewer) event.getViewer();
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				Object selectedNode = selection.getFirstElement();
+				if (selectedNode instanceof OperationInvocationWrapper) {
+					OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
+					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+						engine.revert(operationWrapper.getOperationInvocation());
+					} else {
+						engine.apply(operationWrapper.getOperationInvocation(),true);
+					}
+
+				}
+			};
+		});
+
+		// ContextMenu
+		MenuManager menuMgr = new MenuManager();
+		Menu menu = menuMgr.createContextMenu(patchViewer.getControl());
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				// IWorkbench wb = PlatformUI.getWorkbench();
+				// IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+				if (patchViewer.getSelection().isEmpty()) {
+					return;
+				}
+
+				if (patchViewer.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) patchViewer.getSelection();
+					Object selectedNode = selection.getFirstElement();
+					if (selectedNode instanceof OperationInvocationWrapper) {
+						final OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
+						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED) {
+							manager.add(new Action("Apply operation", apply) {
+
+								@Override
+								public void run() {
+									engine.apply(operationWrapper.getOperationInvocation(),true);
+								};
+							});
+						} else {
+							manager.add(new Action("Revert operation", revert) {
+							
+								@Override
+								public void run() {
+									engine.revert(operationWrapper.getOperationInvocation());
+								};
+							});
+						}
+						
+						manager.add(new Action("Show Properties View") {
+							
+							@Override
+							public void run(){
+								try {
+									PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+									getActivePage().showView(IPageLayout.ID_PROP_SHEET);
+								} catch (PartInitException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						});					
+
+					}
+
+				}
+			}
+		});
+		menuMgr.setRemoveAllWhenShown(true);
+		patchViewer.getControl().setMenu(menu);
+
+		getSite().setSelectionProvider(patchViewer);
+
+		createActions(patchViewer);
+		createMenus();
+		createToolbar();
+
+	}
+
+	public void setPatchEngine(PatchEngine patchEngine) {
+		this.engine = patchEngine;
+		this.patchViewer.setInput(engine.getOperationManager());
+
+		filterOperationsAction.setEnabled(true);
+
+		ValidationMode tmpMode = this.engine.getValidationMode();
+
+		iterativeValidationAction.setEnabled(true);
+		finalValidationAction.setEnabled(true);
+		noValidationAction.setEnabled(true);
+
+		this.engine.setValidationMode(tmpMode);
+
+		if (this.engine.getValidationMode() == ValidationMode.FINAL)
+			finalValidationAction.setChecked(true);
+		else if (this.engine.getValidationMode() == ValidationMode.ITERATIVE)
+			iterativeValidationAction.setChecked(true);
+		else
+			noValidationAction.setChecked(true);
+
+		engine.getPatchReportManager().addPatchReportListener(this);
+	}
+
+	/**
+	 * 
+	 */
+	private void createActions(TreeViewer viewer) {
+
+		final TreeViewer treeViewer = viewer;
+		// ----------- Filter Operations ----
+		this.executedOperationsFilter = new ExecutedOperationsFilter();
+		this.filterOperationsAction = new Action("Hide Successful Operations", IAction.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				updateFilter(filterOperationsAction);
+			}
+		};
+		this.filterOperationsAction.setToolTipText("Hide all succesfully executed operations");
+		this.filterOperationsAction.setImageDescriptor(Activator.getImageDescriptor("filter_applied.gif"));
+
+		// Init filter enabled
+		this.filterOperationsAction.setChecked(true);
+		updateFilter(this.filterOperationsAction);
+
+		// ----------- Validation ------------------
+		validateMenu = new DropDownAction("Validate");
+		this.validateMenu.setImageDescriptor(Activator.getImageDescriptor("validation_16x16.gif"));
+		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.ITERATIVE);
+			}
+
+		};
+		this.iterativeValidationAction.setToolTipText("The model will be validated after each operation invocation.");
+
+		this.finalValidationAction = new Action("Final Validation", IAction.AS_RADIO_BUTTON) {
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.FINAL);
+			}
+		};
+		this.finalValidationAction
+				.setToolTipText("The model will be validatetd after applying the selected operation invocations.");
+
+		this.noValidationAction = new Action("No Validation", IAction.AS_RADIO_BUTTON) {
+			@Override
+			public void run() {
+				engine.setValidationMode(ValidationMode.NO);
+			}
+		};
+		this.noValidationAction.setToolTipText("The model won't be validated.");
+
+		iterativeValidationAction.setEnabled(false);
+		finalValidationAction.setEnabled(false);
+		noValidationAction.setEnabled(false);
+
+		validateMenu.add(noValidationAction);
+		validateMenu.add(finalValidationAction);
+		validateMenu.add(iterativeValidationAction);
+
+		// ----------- Execution ------------------
+		this.applyPatchAction = new Action("Apply all non conflicting changes", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				engine.applyPatch();
+			}
+		};
+		this.applyPatchAction.setToolTipText("Apply all non conflicting changes to the model");
+		this.applyPatchAction.setImageDescriptor(Activator.getImageDescriptor("patch_exc_16x16.gif"));
+
+		// ----------- Collapse All ------------------
+		this.collapseAllAction = new Action("Collapse all", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				treeViewer.collapseAll();
+
+			}
+		};
+		this.collapseAllAction.setToolTipText("Collapse all");
+		this.collapseAllAction.setImageDescriptor(Activator.getImageDescriptor("collapseall.png"));
+	}
+
+	private void updateFilter(Action action) {
+		if (action.equals(filterOperationsAction)) {
+			if (action.isChecked()) {
+				patchViewer.addFilter(executedOperationsFilter);
+			} else {
+				patchViewer.removeFilter(executedOperationsFilter);
+			}
+		}
+	}
+
+	private void createMenus() {
+		IMenuManager rootMenuManager = getViewSite().getActionBars().getMenuManager();
+		rootMenuManager.setRemoveAllWhenShown(true);
+		rootMenuManager.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager mgr) {
+				fillMenu(mgr);
+			}
+		});
+		fillMenu(rootMenuManager);
+	}
+
+	private void fillMenu(IMenuManager rootMenuManager) {
+
+	}
+
+	private void createToolbar() {
+		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(applyPatchAction);
+		toolbarManager.add(filterOperationsAction);
+		toolbarManager.add(collapseAllAction);
+		toolbarManager.add(validateMenu);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		if (engine != null && engine.getPatchReportManager() != null) {
+			engine.getPatchReportManager().removePatchReportListener(this);
+		}
+	}
+
+	@Override
+	public void setFocus() {
+		patchViewer.getControl().setFocus();
+	}
+
+	@Override
+	public void valueChanged() {
+
+		patchViewer.refresh();
+
+	}
+
+	@Override
+	public void objectAdded(EObject eObject) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void objectRemoved(EObject eObject) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void referenceAdded(EReference referenceType, EObject src, EObject tgt) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void referenceRemoved(EReference referenceType, EObject src, EObject tgt) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void attributeValueSet(EAttribute attribute, EObject object, Object value) {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void reportChanged() {
+		patchViewer.refresh();
+	}
+
+	@Override
+	public void pushReport(int i) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getContributorId() {
+		return getSite().getId();
+	}
+	
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySheetPage.class)
+			return new TabbedPropertySheetPage(this);
+		return super.getAdapter(adapter);
+	}
+}

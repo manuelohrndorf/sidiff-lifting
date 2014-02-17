@@ -3,7 +3,6 @@ package org.sidiff.patching.ui.arguments;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -25,8 +26,10 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.MultiArgumentWrapper;
+import org.sidiff.patching.arguments.ObjectArgumentWrapper;
+import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.silift.common.util.access.EMFMetaAccessEx;
-import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
@@ -35,8 +38,8 @@ import org.silift.common.util.emf.Scope;
 import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 
 /**
- * An implementation of {@link IArgumentManager} that internally delegates
- * the computation of the initial correspondences to a SiLift {@link IMatcher}.
+ * An implementation of {@link IArgumentManager} that internally delegates the
+ * computation of the initial correspondences to a SiLift {@link IMatcher}.
  * Corrections to the correspondences (e.g. in interactive mode) are managed.
  * 
  * @author kehrer
@@ -58,7 +61,7 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	 * The patch which is to be applied.
 	 */
 	private AsymmetricDifference patch;
-	
+
 	/**
 	 * The origin model.
 	 */
@@ -88,37 +91,37 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	 * The scope (resource only or complete resource set).
 	 */
 	private Scope scope;
-	
+
 	/**
 	 * The patch mode (patching or merging).
 	 */
 	private PatchMode patchMode;
-	
+
 	/**
 	 * The ModifiedDetector to which we delegate when we check if an object of
 	 * the origin model has been modified in the target model.
 	 */
 	private ModifiedDetector modDetector;
-	
-	private Set<EObject> modifiedTargetObjects;
 
-	private Map<ObjectParameterBinding, ArgumentWrapper> argumentResolutions;
-	
+	private Map<ParameterBinding, ArgumentWrapper> argumentResolutions;
+
 	public InteractiveArgumentManager(IMatcher matcher) {
 		this.matcher = matcher;
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
+			ModifiedDetector modifiedDetector) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
 		this.scope = scope;
 		this.patchMode = patchMode;
-		
+		this.modDetector = modifiedDetector;
+
 		// now we initialize the internal state...
 
-		// do matching		
+		// do matching
 		matching = matcher.createMatching(originModel, targetModel, scope, true);
 
 		// collect referenced registry and ResourceSet resources
@@ -127,42 +130,47 @@ public class InteractiveArgumentManager implements IArgumentManager {
 		packageRegistryResources = extContainer.getReferencedRegistryModels();
 		resourceSetResources = extContainer.getReferencedResourceSetModels();
 
-		// initial set of modified target objects
-		// only if the current patchEngine is in @link{PatchMode.Merging}
-		// FIXME(TK): ModifiedDetector aus argumentManager ausgliedern
-		if (EMFModelAccessEx.getCharacteristicDocumentType(targetModel).equals(EcorePackage.eNS_URI) && this.patchMode == PatchMode.MERGING ){
-			modDetector = new ModifiedDetector(originModel, targetModel, matching);
-			modDetector.initialize();
-			modifiedTargetObjects = new HashSet<EObject>();
-			for (Correspondence c : matching.getCorrespondences()) {
-				if (modDetector.isModified(c.getObjB())){
-					modifiedTargetObjects.add(c.getObjB());
-				}
-			}
-		}
-			
 		// init argument wrappers and provide initial resolutions
-		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
+		argumentResolutions = new HashMap<ParameterBinding, ArgumentWrapper>();
 		for (OperationInvocation invocation : patch.getOperationInvocations()) {
 			for (ParameterBinding binding : invocation.getParameterBindings()) {
-				if (binding instanceof ObjectParameterBinding){
+				if (binding instanceof ObjectParameterBinding) {
 					ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
-					ArgumentWrapper arg = new ArgumentWrapper(objBinding);
-					if (objBinding.getActualA() != null){
+					ObjectArgumentWrapper arg = new ObjectArgumentWrapper(objBinding, this);
+					if (objBinding.getActualA() != null) {
 						// try to resolve originObject
 						EObject targetObject = resolveOriginObject(objBinding.getActualA());
-						if (targetObject != null){
+						if (targetObject != null) {
 							arg.resolveTo(targetObject);
-						}						
+						}
 					}
-					argumentResolutions.put(objBinding, arg);
+					argumentResolutions.put(binding, arg);
+				}
+				if (binding instanceof ValueParameterBinding) {
+					ValueParameterBinding valueParameterBinding = (ValueParameterBinding) binding;
+					ValueArgumentWrapper arg = new ValueArgumentWrapper(valueParameterBinding, this);
+					arg.setValue(valueParameterBinding.getActual());
+					argumentResolutions.put(binding, arg);
+				}
+				if (binding instanceof MultiParameterBinding) {
+					MultiParameterBinding multiParameterBinding = (MultiParameterBinding) binding;
+					MultiArgumentWrapper arg = new MultiArgumentWrapper(multiParameterBinding, this);
+					for (ObjectArgumentWrapper nestedArg : arg.getNestedWrappers()) {
+						ObjectParameterBinding objBinding = nestedArg.getObjectBinding();
+						// try to resolve originObject
+						EObject targetObject = resolveOriginObject(objBinding.getActualA());
+						if (targetObject != null) {
+							nestedArg.resolveTo(targetObject);
+						}
+					}
+					argumentResolutions.put(binding, arg);
 				}
 			}
 		}
 	}
 
 	@Override
-	public ArgumentWrapper getArgument(ObjectParameterBinding binding) {
+	public ArgumentWrapper getArgument(ParameterBinding binding) {
 		return argumentResolutions.get(binding);
 	}
 
@@ -170,19 +178,19 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
 		EObject originObject = binding.getActualA();
 		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
-		
+
 		// from target model.
 		List<EObject> args = new ArrayList<EObject>();
 		addPossibleArgument(args, targetModel, originObject);
 		res.put(targetModel, args);
-		
+
 		// from package registry
 		for (Resource r : packageRegistryResources) {
 			args = new ArrayList<EObject>();
 			addPossibleArgument(args, r, originObject);
 			res.put(r, args);
 		}
-		
+
 		// from ResourceSet
 		for (Resource r : resourceSetResources) {
 			args = new ArrayList<EObject>();
@@ -213,8 +221,9 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 	@Override
 	public void addArgumentResolution(ObjectParameterBinding binding, EObject targetObject) {
-		argumentResolutions.get(binding).resolveTo(targetObject);
-		
+		ObjectArgumentWrapper objectArgWrapper = (ObjectArgumentWrapper) argumentResolutions.get(binding);
+		objectArgWrapper.resolveTo(targetObject);
+
 		// do also resolve target bindings to which binding is mapped
 		for (ParameterMapping mapping : binding.getOutgoing()) {
 			addArgumentResolution(mapping.getTarget(), targetObject);
@@ -223,29 +232,46 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 	@Override
 	public void resetArgumentResolution(ObjectParameterBinding binding) {
-		argumentResolutions.get(binding).resetResolution();
+		ObjectArgumentWrapper objectArgWrapper = (ObjectArgumentWrapper) argumentResolutions.get(binding);
+		objectArgWrapper.resetResolution();
 	}
 
 	@Override
 	public void removeTargetObject(EObject targetObject) {
-		for (ObjectParameterBinding b : argumentResolutions.keySet()) {
-			ArgumentWrapper arg = argumentResolutions.get(b);
-			if (arg.isResolved() && arg.getTargetObject() == targetObject){
-				arg.resetResolution();
+		for (ParameterBinding b : argumentResolutions.keySet()) {
+			if (b instanceof ObjectParameterBinding) {
+				ObjectArgumentWrapper arg = (ObjectArgumentWrapper) argumentResolutions.get(b);
+				if (arg.isResolved() && arg.getTargetObject() == targetObject) {
+					arg.resetResolution();
+				}
+			}
+			if (b instanceof MultiParameterBinding) {
+				MultiArgumentWrapper multiArg = (MultiArgumentWrapper) argumentResolutions.get(b);
+				for (Iterator<ObjectArgumentWrapper> iterator = multiArg.getNestedWrappers().iterator(); iterator
+						.hasNext();) {
+					ObjectArgumentWrapper nestedArg = iterator.next();
+					if (nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject) {
+						iterator.remove();
+					}
+				}
 			}
 		}
 	}
 
 	@Override
 	public void addTargetObject(EObject targetObject) {
-		for (ObjectParameterBinding b : argumentResolutions.keySet()) {
-			ArgumentWrapper arg = argumentResolutions.get(b);
-			if (!arg.isResolved() && arg.getTargetObject() == targetObject){
-				arg.restoreResolution();
+		for (ParameterBinding b : argumentResolutions.keySet()) {
+			if (b instanceof ObjectParameterBinding) {
+				ObjectArgumentWrapper arg = (ObjectArgumentWrapper) argumentResolutions.get(b);
+				if (!arg.isResolved() && arg.getTargetObject() == targetObject) {
+					arg.restoreResolution();
+				}
 			}
+			// We do not need to restore multi argument resolutions because they
+			// have been deleted.
 		}
 	}
-	
+
 	@Override
 	public void setMinReliability(float minReliability) {
 		this.minReliability = minReliability;
@@ -254,23 +280,21 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	@Override
 	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
 		EObject originObject = binding.getActualA();
-		if (originObject != null && matching.getCorrespondingObjectInB(originObject) == targetObject){
+		if (originObject != null && matching.getCorrespondingObjectInB(originObject) == targetObject) {
 			return matching.getReliability(originObject, targetObject);
 		}
-		
+
 		return 0.0f;
 	}
 
 	@Override
 	public boolean isModified(EObject targetObject) {
-		if (modDetector != null){
+		if(modDetector != null){
 			return modDetector.isModified(targetObject);
-		} else {
-			return false;
 		}
+		return false;
 	}
-	
-	
+
 	private EObject resolveOriginObject(EObject originObject) {
 
 		if (matching.getCorrespondingObjectInB(originObject) != null) {

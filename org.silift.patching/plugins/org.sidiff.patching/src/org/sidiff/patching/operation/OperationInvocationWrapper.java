@@ -1,11 +1,16 @@
 package org.sidiff.patching.operation;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.patching.arguments.ArgumentWrapper;
+import org.sidiff.patching.arguments.IArgumentManager;
 
 /**
  * Encapsulates an operation invocation and keeps further information about the
@@ -14,6 +19,11 @@ import org.sidiff.difference.rulebase.ParameterDirection;
  * @author kehrer
  */
 public class OperationInvocationWrapper {
+
+	/**
+	 * The operation manager
+	 */
+	private OperationManager operationManager;
 
 	/**
 	 * The operation invocation to be encapsulated.
@@ -43,8 +53,22 @@ public class OperationInvocationWrapper {
 	 */
 	private Map<ParameterBinding, Object> outArgs;
 
-	OperationInvocationWrapper(OperationInvocation operationInvocation) {
+	/**
+	 * The argument manager of this patch session.
+	 */
+	private IArgumentManager argumentManager;
+
+	/**
+	 * List of all actual arguments (each argument being encapsulated by an
+	 * argument wrapper)
+	 */
+	private List<ArgumentWrapper> allActualArguments;
+
+	OperationInvocationWrapper(OperationInvocation operationInvocation, OperationManager operationManager,
+			IArgumentManager argumentManager) {
 		this.operationInvocation = operationInvocation;
+		this.operationManager = operationManager;
+		this.argumentManager = argumentManager;
 
 		// Extract arguments
 		inArgs = new HashMap<ParameterBinding, Object>();
@@ -55,6 +79,15 @@ public class OperationInvocationWrapper {
 		for (ParameterBinding binding : operationInvocation.getOutParameterBindings()) {
 			outArgs.put(binding, null);
 		}
+
+		// and now the actual ones
+		allActualArguments = new ArrayList<ArgumentWrapper>(operationInvocation.getParameterBindings().size());
+		for (ParameterBinding binding : operationInvocation.getParameterBindings()) {
+			ArgumentWrapper wrapper = argumentManager.getArgument(binding);
+			assert (wrapper != null);
+			allActualArguments.add(wrapper);
+		}
+		allActualArguments = Collections.unmodifiableList(allActualArguments);
 
 		// set status
 		status = OperationInvocationStatus.INIT;
@@ -94,24 +127,50 @@ public class OperationInvocationWrapper {
 		return executionError;
 	}
 
-	public Object getArgument(ParameterBinding binding) {
+	/**
+	 * Returns a list of all actual arguments (each argument being encapsulated
+	 * by an argument wrapper).
+	 * 
+	 * @return
+	 */
+	public List<ArgumentWrapper> getAllActualArguments() {
+		return allActualArguments;
+	}
+
+	/**
+	 * Returns the actual argument (wrapped by an ArgumentWrapper) for the given
+	 * parameter binding.
+	 * 
+	 * @param binding
+	 * @return
+	 */
+	public ArgumentWrapper getActualArgument(ParameterBinding binding) {
+		return argumentManager.getArgument(binding);
+	}
+
+	/**
+	 * Returns the object which has been used as actual argument for the given
+	 * parameter binding in terms of the last execution of the operation. Note
+	 * that if binding is an OUT parameter, an object that has been created by
+	 * the last execution of the operation is returned.
+	 * 
+	 * @param binding
+	 * @return
+	 */
+	public Object getExecutionArgument(ParameterBinding binding) {
 		if (binding.getFormalParameter().getDirection() == ParameterDirection.IN) {
-			return getInArgument(binding);
+			return inArgs.get(binding);
 		} else {
-			return getOutArgument(binding);
+			return outArgs.get(binding);
 		}
 	}
 
-	public Object getInArgument(ParameterBinding binding) {
-		assert (status == OperationInvocationStatus.PASSED || status == OperationInvocationStatus.FAILED);
-
-		return inArgs.get(binding);
-	}
-
-	public Object getOutArgument(ParameterBinding binding) {
-		assert (status == OperationInvocationStatus.PASSED);
-
-		return outArgs.get(binding);
+	/**
+	 * 
+	 * @return the argument manager for the current patch session.
+	 */
+	public IArgumentManager getArgumentManager() {
+		return argumentManager;
 	}
 
 	public boolean isUndoable(Map<ParameterBinding, Object> arguments) {
@@ -132,6 +191,46 @@ public class OperationInvocationWrapper {
 		// return false;
 		// }
 		return true;
+	}
+
+	public List<OperationInvocationWrapper> getPredecessors() {
+		List<OperationInvocation> operationPredecessors = operationInvocation.getPredecessors();
+		List<OperationInvocationWrapper> wrapperPredecessors = new ArrayList<OperationInvocationWrapper>(
+				operationPredecessors.size());
+		for (OperationInvocation operation : operationPredecessors) {
+			wrapperPredecessors.add(operationManager.getStatusWrapper(operation));
+		}
+
+		return Collections.unmodifiableList(wrapperPredecessors);
+	}
+
+	public String getText() {
+		return operationManager.getOrderedOperationWrappers().indexOf(this) + ": "
+				+ operationInvocation.getChangeSet().getName();
+	}
+
+	public boolean hasUnresolvedInArguments() {
+		for (ArgumentWrapper argumentWrapper : allActualArguments) {
+			if (argumentWrapper.getParameterBinding().getFormalParameter().getDirection() == ParameterDirection.IN) {
+				if (!argumentWrapper.isResolved()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean hasModifiedInArguments() {
+		for (ArgumentWrapper argumentWrapper : allActualArguments) {
+			if (argumentWrapper.getParameterBinding().getFormalParameter().getDirection() == ParameterDirection.IN) {
+				if (argumentWrapper.isModified()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	private void copyArguments(Map<ParameterBinding, Object> from, Map<ParameterBinding, Object> to) {

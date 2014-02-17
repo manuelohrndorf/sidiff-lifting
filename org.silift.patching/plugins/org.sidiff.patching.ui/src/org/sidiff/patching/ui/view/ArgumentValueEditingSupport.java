@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -29,7 +30,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
 	private List<String> itemStrings;
 	private IArgumentManager argumentManager;
-	private OperationManager operationManager;
+	private OperationInvocationWrapper operationInvocationWrapper;
 	private IValueChangedListener listener;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
@@ -60,11 +61,9 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 					resourceCategory++;
 				}
 			}
-			//TODO:(cpietsch) Categorize potential args by their resource in the UI (not finished).
-
 			Collections.sort(itemObjects);
 			String[] items = getItemsStringArray();
-			return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);
+			return new ComboBoxCellEditor(((TableViewer) getViewer()).getTable(), items, SWT.READ_ONLY);
 		}
 		else if (element instanceof ValueParameterBinding){
 			ValueParameterBinding binding = (ValueParameterBinding) element;
@@ -76,10 +75,10 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				this.itemStrings.add("false");
 				String[] items = new String[]{"true","false"};	
 				
-				return new ComboBoxCellEditor(((TreeViewer) getViewer()).getTree(), items, SWT.READ_ONLY);
+				return new ComboBoxCellEditor(((TableViewer) getViewer()).getTable(), items, SWT.READ_ONLY);
 			}
 			else{
-				return new TextCellEditor(((TreeViewer) getViewer()).getTree());
+				return new TextCellEditor(((TableViewer) getViewer()).getTable());
 			}
 		}
 		return null;
@@ -95,7 +94,8 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 	@Override
 	protected void initializeCellEditorValue(CellEditor cellEditor, ViewerCell cell) {
-		cellEditor.setValue(1);
+		if (cellEditor instanceof ComboBoxCellEditor)
+			cellEditor.setValue(1);
 	}
 	
 	@Override
@@ -103,9 +103,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		//Only editable if not applied beforehand
 		if (element instanceof ParameterBinding){
 			ParameterBinding parBinding = (ParameterBinding) element;
-			OperationInvocation op = (OperationInvocation) parBinding.eContainer();
-			OperationInvocationWrapper opWrapper = operationManager.getStatusWrapper(op);
-			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return false;
 			}
 			if (element instanceof ObjectParameterBinding) {
@@ -172,8 +170,9 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		this.argumentManager = manager;
 	}
 	
-	public void setOperationManager(OperationManager manager) {
-		this.operationManager = manager;
+	public void setOperationInvocationWrapper(OperationInvocationWrapper operationInvocationWrapper) {
+		this.operationInvocationWrapper = operationInvocationWrapper;
+		this.argumentManager = operationInvocationWrapper.getArgumentManager();
 	}
 	
 	public void setListener(IValueChangedListener listener) {

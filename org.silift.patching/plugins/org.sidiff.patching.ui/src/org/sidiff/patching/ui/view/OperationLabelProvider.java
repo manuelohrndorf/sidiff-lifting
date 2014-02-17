@@ -2,108 +2,60 @@ package org.sidiff.patching.ui.view;
 
 import java.util.Arrays;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.StyledCellLabelProvider;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.sidiff.difference.asymmetric.MultiParameterBinding;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.ui.Activator;
 
-public class OperationLabelProvider extends ColumnLabelProvider {
+public class OperationLabelProvider extends StyledCellLabelProvider {
 
-	private OperationManager statusManager;
-
-	private final Image checked = Activator.getImageDescriptor("16px-checkbox-checked.png").createImage();
-	private final Image unchecked = Activator.getImageDescriptor("16px-checkbox-unchecked.png").createImage();
-	private final Image op_in = Activator.getImageDescriptor("ObjectParameterBinding_in.gif").createImage();
-	private final Image op_in2 = Activator.getImageDescriptor("ObjectParameterBinding_in2.gif").createImage();
-	private final Image op_out = Activator.getImageDescriptor("ObjectParameterBinding_out.gif").createImage();
-	private final Image vp = Activator.getImageDescriptor("ValueParameterBinding.gif").createImage();
-	private final Image multi_op_in = Activator.getImageDescriptor("MultipleObjectParameterBinding_in.png").createImage();
-	public void init(OperationManager statusManager) {
-		this.statusManager = statusManager;
-	}
+	private final Image applied = Activator.getImageDescriptor("applied.gif").createImage();
+	private final Image applicable = Activator.getImageDescriptor("applicable.gif").createImage();
+	private final Image modified = Activator.getImageDescriptor("warning_16x16.gif").createImage();
+	private final Image conflicting = Activator.getImageDescriptor("conflict.gif").createImage();
 
 	@Override
-	public Image getImage(Object element) {
-		if (element instanceof OperationInvocation) {
-			OperationInvocation invocation = (OperationInvocation) element;
-			if (invocation.isApply()) {
-				return checked;
+	public void update(ViewerCell cell) {
+		Object element = cell.getElement();
+		Image image = null;
+		String text = null;
+		Display display = Activator.getDefault().getWorkbench().getDisplay();
+		StyleRange styleRange = new StyleRange();
+		if (element instanceof OperationInvocationWrapper) {
+			OperationInvocationWrapper wrapper = (OperationInvocationWrapper) element;
+			text = wrapper.getText();
+			if (wrapper.getStatus() == OperationInvocationStatus.PASSED) {
+				image = applied;
+				styleRange.strikeout = true;
+				styleRange.foreground = new Color(display, 0, 200, 0);
+			} else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
+				image = conflicting;
+			} else if (wrapper.hasUnresolvedInArguments()) {
+				image = conflicting;
+			} else if (wrapper.hasModifiedInArguments()) {
+				image = modified;
 			} else {
-				return unchecked;
-			}
-		} else if (element instanceof MultiParameterBinding){
-			return multi_op_in;
-		}else if(element instanceof ObjectParameterBinding) {
-			ObjectParameterBinding parameterBinding = (ObjectParameterBinding) element;
-			if (parameterBinding.getFormalParameter().getDirection() == ParameterDirection.IN) {
-				if (parameterBinding.getActualA() == null) {
-					return op_in2;
-				} else {
-					return op_in;
-				}
-			} else {
-				return op_out;
-			}
-		} else if (element instanceof ValueParameterBinding) {
-			return vp;
-		}
-		return null;
-	}
-
-	@Override
-	public String getText(Object element) {
-		if (element instanceof OperationInvocation) {
-			OperationInvocation operationInvocation = (OperationInvocation) element;
-			return operationInvocation.getChangeSet().getName();
-		} else if (element instanceof ParameterBinding) {
-			ParameterBinding substitution = (ParameterBinding) element;
-			return substitution.getFormalName();
-		}
-		return element.toString();
-	}
-
-	@Override
-	public Color getForeground(Object element) {
-		if (element instanceof OperationInvocation) {
-			Display display = Activator.getDefault().getWorkbench().getDisplay();
-			OperationInvocation operationInvocation = (OperationInvocation) element;
-			OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(operationInvocation);
-
-			if (opWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				return new Color(display, 0, 200, 0);
-			} else if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
-				return new Color(display, 200, 0, 0);
-			} else {
-				return super.getForeground(element);
+				image = applicable;
 			}
 		}
-		return super.getForeground(element);
+
+		styleRange.start = 1;
+		styleRange.length = text.length() + 1;
+		StyleRange[] styleRanges = { styleRange };
+		cell.setImage(image);
+		cell.setText(" " + text);
+		cell.setStyleRanges(styleRanges);
 	}
 
-	@Override
-	public String getToolTipText(Object element) {
-		if (element instanceof OperationInvocation) {
-			OperationInvocation invocation = (OperationInvocation) element;
-			return getFormatedChangeSetInfo(invocation);
-		}
-		return null;
-	}
-
-	private String getFormatedChangeSetInfo(OperationInvocation operationInvocation) {
-		String info = operationInvocation.getChangeSet().getName();
-		OperationInvocationWrapper opWrapper = statusManager.getStatusWrapper(operationInvocation);
+	private String getFormatedChangeSetInfo(OperationInvocationWrapper opWrapper) {
+		String info = opWrapper.getText();
 
 		if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
 			Exception exception = opWrapper.getExecutionError();

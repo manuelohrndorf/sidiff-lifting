@@ -7,8 +7,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.PatchEngine.PatchMode;
 import org.silift.common.util.emf.Scope;
+import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 
 /**
  * The argument manager is the central interface for the patch engine in order
@@ -22,7 +24,7 @@ import org.silift.common.util.emf.Scope;
  */
 public interface IArgumentManager {
 
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode);
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, ModifiedDetector modifiedDetector);
 
 	/**
 	 * For a given parameter binding of the patch, this method returns the
@@ -32,7 +34,7 @@ public interface IArgumentManager {
 	 *            parameter binding of the patch
 	 * @return argument wrapper for the target model.
 	 */
-	public ArgumentWrapper getArgument(ObjectParameterBinding binding);
+	public ArgumentWrapper getArgument(ParameterBinding binding);
 
 	/**
 	 * Get the potential arguments for a given object parameter binding.

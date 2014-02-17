@@ -120,20 +120,6 @@ public class ThreeWayMergePage01 extends WizardPage {
 		addWidget(container, validationWidget);
 		
 
-		// Algorithms:
-		Group algorithmsGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			algorithmsGroup.setLayout(grid);
-
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			algorithmsGroup.setLayoutData(data);
-
-			algorithmsGroup.setText("Algorithms:");
-		}
-
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 		addWidget(container, rulebaseWidget);

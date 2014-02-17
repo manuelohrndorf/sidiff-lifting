@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.command.AbstractCommand;
@@ -22,8 +21,9 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.ObjectArgumentWrapper;
+import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
@@ -34,11 +34,11 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.util.PatchUtil;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.Scope;
+import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 
 /**
  * 
@@ -54,8 +54,6 @@ public class PatchEngine {
 		PATCHING, MERGING
 	}
 
-	private AsymmetricDifference difference;
-	private List<OperationInvocation> orderedOperations;
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
 	private Boolean reliabilitiesComputed;
@@ -85,9 +83,8 @@ public class PatchEngine {
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
 			ITransformationEngine transformationEngine, ExecutionMode executionMode, PatchMode patchMode,
 			ValidationMode validationMode, Scope scope, Boolean reliabilitiesComputed,
-			IPatchInterruptHandler patchInterruptHandler) {
+			IPatchInterruptHandler patchInterruptHandler, ModifiedDetector modifiedDetector) {
 
-		this.difference = difference;
 		this.patchedResource = patchedResource;
 		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
@@ -95,22 +92,11 @@ public class PatchEngine {
 		this.executionMode = executionMode;
 		this.patchMode = patchMode;
 
-		// Ordered set of operations to be executed
-		this.orderedOperations = PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations());
-
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
-		this.operationManager = new OperationManager(orderedOperations);
-		this.argumentManager.init(difference, patchedResource, scope, patchMode);
-
-		// Initialize all operationInvocations owning
-		// modified parameters as "not applicable"
-		for (OperationInvocation operationInvocation : orderedOperations) {
-			if (hasModifiedParameters(operationInvocation)) {
-				operationInvocation.setApply(false);
-			}
-		}
-
+		this.argumentManager.init(difference, patchedResource, scope, patchMode, modifiedDetector);
+		this.operationManager = new OperationManager(difference, argumentManager);
+		
 		// Init transformation engine
 		this.transformationEngine.init(patchedResource, executionMode, scope);
 
@@ -121,7 +107,6 @@ public class PatchEngine {
 		this.patchInterruptHandler = patchInterruptHandler;
 		
 		this.validationChanged = false;
-
 	}
 
 	/**
@@ -144,11 +129,11 @@ public class PatchEngine {
 		}
 
 		// Try to execute operations which are to apply
-		for (OperationInvocation operationInvocation : orderedOperations) {
+		for (OperationInvocation operationInvocation : operationManager.getOrderedOperations()) {
 			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
-			if (operationInvocation.isApply() && !(operationWrapper.getStatus() == OperationInvocationStatus.PASSED)) {
+			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED)) {
 
-				boolean success = apply(operationInvocation);
+				boolean success = apply(operationInvocation, false);
 				
 				if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {				
 					if (this.validationChanged) {
@@ -162,58 +147,13 @@ public class PatchEngine {
 									operationInvocation, validationErrors);
 
 							if (option != PatchInterruptOption.IGNORE) {
-								operationInvocation.setApply(true);
-								apply(operationInvocation);
+								revert(operationInvocation);
 								validationErrors = validationManager.validateTargetModel();
 								reportManager.updateValidationEntries(validationErrors);
 							}
 
 							if (option == PatchInterruptOption.ABORT) {
 								break;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// Try to undo operations which are to revert
-		ListIterator<OperationInvocation> li = orderedOperations.listIterator(orderedOperations.size());
-		while (li.hasPrevious()) {
-			OperationInvocation operationInvocation = (OperationInvocation) li.previous();
-			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
-			if (!operationInvocation.isApply()) {
-				if (operationWrapper.getStatus() == OperationInvocationStatus.INIT) {
-					operationWrapper.setSkipped();
-					reportManager.operationSkipped(operationInvocation);
-				} else if (operationWrapper.getStatus() == OperationInvocationStatus.FAILED
-						|| operationWrapper.getStatus() == OperationInvocationStatus.SKIPPED) {
-					// nothing to do
-				} else {
-
-					boolean success = revert(operationInvocation);
-
-					if (success && (getValidationMode() == ValidationMode.ITERATIVE)) {
-						if (this.validationChanged) {
-							this.validationChanged = false;
-							Collection<IValidationError> newErrors = reportManager.getLastReport()
-									.getLastValidationEntry().getNewValidationErrors();
-							Collection<IValidationError> validationErrors = newErrors;
-							
-							if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
-								PatchInterruptOption option = patchInterruptHandler.getInterruptOption(true,
-										operationInvocation, validationErrors);
-
-								if (option != PatchInterruptOption.IGNORE) {
-									operationInvocation.setApply(true);
-									apply(operationInvocation);
-									validationErrors = validationManager.validateTargetModel();
-									reportManager.updateValidationEntries(validationErrors);
-								}
-
-								if (option == PatchInterruptOption.ABORT) {
-									break;
-								}
 							}
 						}
 					}
@@ -232,15 +172,19 @@ public class PatchEngine {
 	 * Apply operation invocation. Note that this method tries to perform the
 	 * operation execution on the command stack of the target editing domain.
 	 * 
-	 * @param operationInvocation
+	 * @param operationInvocation Operation Invocation to apply
+	 * @param singleOperation Boolean to define whether this operation invocation will be executed alone
+	 * 
 	 */
-	public boolean apply(OperationInvocation operationInvocation) {
+	public boolean apply(OperationInvocation operationInvocation, Boolean singleOperation) {
 
 		final OperationInvocation op = operationInvocation;
 		final ApplicationResult applicationResult = new ApplicationResult();
 
-		// Start new patch application
-		reportManager.startPatchApplication();
+		// Start new patch application (only if this execution is "alone")
+		if(singleOperation){
+			reportManager.startPatchApplication();
+		}
 		
 		AbstractCommand command = new AbstractCommand() {
 
@@ -298,7 +242,9 @@ public class PatchEngine {
 			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
 		}
 		
-		reportManager.finishPatchApplication();
+		if(singleOperation){
+			reportManager.finishPatchApplication();
+		}
 		
 		return applicationResult.success;
 	}
@@ -334,8 +280,6 @@ public class PatchEngine {
 					
 					revertResult.success = true;
 				} catch (OperationNotUndoableException e) {
-					op.setApply(true);
-					
 					revertResult.success = false;
 					revertResult.error = e;
 				}
@@ -364,7 +308,7 @@ public class PatchEngine {
 			reportManager.operationReverted(op);
 		} else {
 			reportManager.operationRevertFailed(op, revertResult.error);
-		}		
+		}
 		
 		// Iterative validation (if needed)
 		if (getValidationMode() == ValidationMode.ITERATIVE) {
@@ -407,7 +351,7 @@ public class PatchEngine {
 
 						assert (nestedBinding instanceof ObjectParameterBinding) : "Currently we support only EObjects in a parameter list";
 
-						ArgumentWrapper argument = argumentManager.getArgument((ObjectParameterBinding) nestedBinding);
+						ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(nestedBinding);
 						if (argument.isResolved()) {
 							arguments.add(argument.getTargetObject());
 							LogUtil.log(LogEvent.NOTICE, "\t argument(" + i + "): '" + argument.getTargetObject() + "'");
@@ -417,7 +361,7 @@ public class PatchEngine {
 					}
 
 				} else if (binding instanceof ObjectParameterBinding) {
-					ArgumentWrapper argument = argumentManager.getArgument((ObjectParameterBinding) binding);
+					ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument((ObjectParameterBinding) binding);
 					if (argument.isResolved()) {
 						parameters.put(binding, argument.getTargetObject());
 						LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameter.getName() + " to "
@@ -427,10 +371,10 @@ public class PatchEngine {
 					}
 
 				} else if (binding instanceof ValueParameterBinding) {
-					ValueParameterBinding valueBinding = (ValueParameterBinding) binding;
+					ValueArgumentWrapper argument = (ValueArgumentWrapper) argumentManager.getArgument(binding);
 					LogUtil.log(LogEvent.NOTICE, "Setting valueParameter " + parameter.getName() + " to "
-							+ valueBinding.getActual());
-					parameters.put(binding, valueBinding.getActual());
+							+ argument.getValue());
+					parameters.put(binding, argument.getValue());
 				}
 			}
 		}
@@ -447,38 +391,13 @@ public class PatchEngine {
 	private void setOutArguments(EList<ParameterBinding> parameterBindings, Map<ParameterBinding, Object> resultMap) {
 		for (ParameterBinding binding : parameterBindings) {
 			if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
-				if (binding instanceof ObjectParameterBinding) {
-					ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
-					EObject outTargetObject = (EObject) resultMap.get(objectBinding);
-					argumentManager.addArgumentResolution(objectBinding, outTargetObject);
-				}
+				// We can be sure that binding is an object parameter binding
+				ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
+				EObject outTargetObject = (EObject) resultMap.get(objectBinding);
+				argumentManager.addArgumentResolution(objectBinding, outTargetObject);
+				
 			}
 		}
-	}
-
-	/**
-	 * Checks an operationInvocation for modified parameters.
-	 * 
-	 * @param operationInvocation
-	 *            the operationInvocation to check
-	 * @return if parameters have been modified
-	 */
-	private boolean hasModifiedParameters(OperationInvocation operationInvocation) {
-
-		for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
-			Parameter formalParameter = parameterBinding.getFormalParameter();
-			if (formalParameter.getDirection() == ParameterDirection.IN) {
-				if (parameterBinding instanceof ObjectParameterBinding) {
-					ObjectParameterBinding binding = (ObjectParameterBinding) parameterBinding;
-					ArgumentWrapper argument = argumentManager.getArgument(binding);
-					if (argument.isResolved() && argumentManager.isModified(argument.getTargetObject())) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-
 	}
 
 	public ValidationMode getValidationMode() {
@@ -487,10 +406,6 @@ public class PatchEngine {
 
 	public void setValidationMode(ValidationMode validationMode) {
 		this.validationManager.setValidationMode(validationMode);
-	}
-
-	public AsymmetricDifference getAsymmetricDifference() {
-		return difference;
 	}
 
 	public IArgumentManager getArgumentManager() {
@@ -507,10 +422,6 @@ public class PatchEngine {
 
 	public Boolean getReliabilitiesComputed() {
 		return reliabilitiesComputed;
-	}
-
-	public Collection<OperationInvocation> getOrderedOperationInvocations() {
-		return orderedOperations;
 	}
 
 	public Resource getPatchedResource() {

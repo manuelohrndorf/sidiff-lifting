@@ -24,51 +24,6 @@ import org.silift.common.util.file.ZipUtil;
 
 public class PatchUtil {
 
-	private static int stage = 0;
-
-	/**
-	 * Sorts OperationInvocations in a processable order (i.e. an order that is
-	 * consistent with the partial order given by the sequential dependencies
-	 * between operation invocations) and returns a flat list.
-	 * 
-	 * @return sorted list of OperationInvocation
-	 */
-	public static List<OperationInvocation> getOrderdOperationInvocations(
-			EList<OperationInvocation> unorderdOperationInvocations) {
-		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
-		operationInvocations = sortDFS(unorderdOperationInvocations);
-		return Collections.unmodifiableList(operationInvocations);
-	}
-
-	/**
-	 * Sorts the OperationInvocations in dependency order using the depth-first
-	 * search algorithm
-	 * 
-	 * @param unorderdOperationInvocations
-	 */
-	private static List<OperationInvocation> sortDFS(List<OperationInvocation> unorderdOperationInvocations) {
-		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
-		for (OperationInvocation operationInvocation : unorderdOperationInvocations) {
-			if (operationInvocation.getOutgoing().isEmpty()) {
-				addIncomingOperations(operationInvocations, operationInvocation);
-			}
-		}
-		return operationInvocations;
-	}
-
-	private static void addIncomingOperations(List<OperationInvocation> operationInvocations,
-			OperationInvocation invocation) {
-		if (!operationInvocations.contains(invocation)) {
-			stage++;
-			for (OperationInvocation operationInvocation : invocation.getSuccessors()) {
-				addIncomingOperations(operationInvocations, operationInvocation);
-			}
-			operationInvocations.add(0, invocation);
-			LogUtil.log(LogEvent.DEBUG, "Stage: " + stage + " " + invocation.getChangeSet().getName());
-			stage--;
-		}
-	}
-
 	public static Resource copyWithId(Resource from, URI uri, boolean withId, Copier copier) {
 		copier.copyAll(from.getContents());
 		copier.copyReferences();

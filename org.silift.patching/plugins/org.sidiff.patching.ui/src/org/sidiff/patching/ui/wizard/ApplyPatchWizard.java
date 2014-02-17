@@ -31,10 +31,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
-import org.sidiff.common.emf.EMFValidate;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
@@ -50,12 +48,13 @@ import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
-import org.sidiff.patching.ui.view.PatchView;
+import org.sidiff.patching.ui.perspective.SiLiftPerspective;
+import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.emf.Scope;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.patch.PatchCreator;
 
@@ -116,7 +115,7 @@ public class ApplyPatchWizard extends Wizard {
 	private void finish() {
 
 		// Gather all information
-		// TODO Implement wrapper class like in Lifting, could be named
+		// TODO Implement container class like in Lifting, could be named
 		// PatchingSettings
 		final String separator = System.getProperty("file.separator");
 		final String filename = this.applyPatchPage01.getTargetWidget().getFilename();
@@ -211,12 +210,13 @@ public class ApplyPatchWizard extends Wizard {
 						return Status.CANCEL_STATUS;
 					}
 					
+					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-
+			
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.PATCHING, validationMode,
-							scope, matcher.canComputeReliability(), patchInterruptHandler);
+							scope, matcher.canComputeReliability(), patchInterruptHandler, null);
 					
 					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
 						
@@ -232,43 +232,36 @@ public class ApplyPatchWizard extends Wizard {
 						}
 					});
 					patchEngine.setPatchedEditingDomain(editingDomain);
-					monitor.worked(40);
+					monitor.worked(60);
 
-					monitor.subTask("Open Patch View");
-					final AtomicReference<PatchView> patchViewReference = new AtomicReference<PatchView>();
-					Display.getDefault().syncExec(new Runnable() {
-
-						@Override
-						public void run() {
-							try {
-								PatchView patchView = (PatchView) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-										.getActivePage().showView(PatchView.ID);
-								patchView.setPatchEngine(patchEngine);
-								patchViewReference.set(patchView);
-							} catch (PartInitException e) {
-								e.printStackTrace();
-							}
-						}
-					});
-					PatchView patchView = patchViewReference.get();
-					monitor.worked(20);
-
-					monitor.subTask("Open Report View");
+					monitor.subTask("Opening SiLift Perspective");
+					final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
 					final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
 						public void run() {
 							try {
-								ReportView reportView = (ReportView) PlatformUI.getWorkbench()
-										.getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
+								Activator.getDefault().getWorkbench().showPerspective(SiLiftPerspective.ID,  PlatformUI.getWorkbench().getActiveWorkbenchWindow()); 
+								
+								//Opening and setting operation explorer view
+								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OperationExplorerView.ID);
+								operationExplorerView.setPatchEngine(patchEngine);
+								operationExplorerViewReference.set(operationExplorerView);
+								
+								//Opening and setting report view
+								ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
 								reportView.setPatchReportManager(patchEngine.getPatchReportManager());
 								reportViewReference.set(reportView);
+								
 							} catch (PartInitException e) {
+								e.printStackTrace();
+							} catch (WorkbenchException e) {
 								e.printStackTrace();
 							}
 						}
 					});
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 					ReportView reportView = reportViewReference.get();
 					monitor.worked(20);
 
@@ -277,7 +270,7 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.subTask("Adding Modellistener");
 					ModelAdapter adapter = new ModelAdapter(resourceResult.get());
 					adapter.addListener(new ModelChangeHandler(argumentManager));
-					adapter.addListener(patchView);
+					adapter.addListener(operationExplorerView);
 					monitor.worked(20);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

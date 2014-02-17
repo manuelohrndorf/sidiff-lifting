@@ -10,7 +10,9 @@ import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.core.annotation.AnnotationService;
 import org.sidiff.core.annotation.impl.AnnotationServiceImpl;
+import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.emf.Scope;
 
 public class ModifiedDetector {
 
@@ -26,11 +28,10 @@ public class ModifiedDetector {
 	private SymmetricDifference correspondenceMap;
 	private Map<EObject, Boolean> modifiedMap;
 
-	public ModifiedDetector(Resource modelA, Resource modelB,
-			SymmetricDifference correspondenceMap) {
+	public ModifiedDetector(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) {
 		this.modelA = modelA;
 		this.modelB = modelB;
-		this.correspondenceMap = correspondenceMap;
+		this.correspondenceMap = matcher.createMatching(modelA, modelB, scope, false);
 		this.modifiedMap = new HashMap<EObject, Boolean>();
 	}
 

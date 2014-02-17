@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
@@ -28,6 +29,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
@@ -51,6 +53,7 @@ import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
@@ -59,6 +62,7 @@ import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
 import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
+import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
 import org.silift.patching.patch.PatchCreator;
 
 public class ThreeWayMergeWizard extends Wizard {
@@ -226,12 +230,22 @@ public class ThreeWayMergeWizard extends Wizard {
 						return Status.CANCEL_STATUS;
 					}
 					
+					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
 
+					// Try to find a suitable modified detector
+					// FIXME(TK): Modified Detector muss ueber Extension Point registriert und abgeholt werden.
+					//            Dann entfaellt auch die Abfrage auf den Modelltyp Ecore...
+					ModifiedDetector modDetector = null;
+					if (EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get()).equals(EcorePackage.eNS_URI)){
+						modDetector = new ModifiedDetector(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher, scope);
+						modDetector.initialize();
+					}
+					
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.MERGING, validationMode,
-							scope, matcher.canComputeReliability(), patchInterruptHandler);
+							scope, matcher.canComputeReliability(), patchInterruptHandler, modDetector);
 					
 					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
 						
@@ -249,43 +263,35 @@ public class ThreeWayMergeWizard extends Wizard {
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
 
-					monitor.subTask("Open Merge View");
+					monitor.subTask("Opening SiLift Perspective");
 					final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
-					Display.getDefault().syncExec(new Runnable() {
-
-						@Override
-						public void run() {
-							try {
-								OperationExplorerView patchView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-										.getActivePage().showView(OperationExplorerView.ID);
-								patchView.setPatchEngine(patchEngine);
-								operationExplorerViewReference.set(patchView);
-							} catch (PartInitException e) {
-								e.printStackTrace();
-							}
-						}
-					});
-					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
-					monitor.worked(20);
-
-					monitor.subTask("Open Report View");
 					final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
 						public void run() {
 							try {
-								ReportView reportView = (ReportView) PlatformUI.getWorkbench()
-										.getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
+								Activator.getDefault().getWorkbench().showPerspective(SiLiftPerspective.ID,  PlatformUI.getWorkbench().getActiveWorkbenchWindow()); 
+								
+								//Opening and setting operation explorer view
+								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OperationExplorerView.ID);
+								operationExplorerView.setPatchEngine(patchEngine);
+								operationExplorerViewReference.set(operationExplorerView);
+								
+								//Opening and setting report view
+								ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
 								reportView.setPatchReportManager(patchEngine.getPatchReportManager());
 								reportViewReference.set(reportView);
 							} catch (PartInitException e) {
 								e.printStackTrace();
+							} catch (WorkbenchException e) {
+								e.printStackTrace();
 							}
 						}
 					});
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 					ReportView reportView = reportViewReference.get();
-					monitor.worked(10);
+					monitor.worked(20);
 
 					// ModelChangeHandler works independent; PatchView is
 					// interested in model changes

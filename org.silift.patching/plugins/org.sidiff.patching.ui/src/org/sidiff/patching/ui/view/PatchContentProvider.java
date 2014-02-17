@@ -1,11 +1,9 @@
 package org.sidiff.patching.ui.view;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.patching.util.PatchUtil;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 
 public class PatchContentProvider implements ITreeContentProvider {
 
@@ -26,35 +24,28 @@ public class PatchContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object object) {
-		if (object instanceof AsymmetricDifference) {
-			AsymmetricDifference difference = (AsymmetricDifference) object;
-			return PatchUtil.getOrderdOperationInvocations(difference.getOperationInvocations()).toArray();
-		} else if (object instanceof OperationInvocation) {
-			OperationInvocation operationInvocation = (OperationInvocation) object;
-			return operationInvocation.getParameterBindings().toArray();
+		if (object instanceof OperationManager) {
+			OperationManager manager = (OperationManager) object;
+			return manager.getOrderedOperationWrappers().toArray();
+		} else if (object instanceof OperationInvocationWrapper) {
+			OperationInvocationWrapper wrapper = (OperationInvocationWrapper) object;
+			return wrapper.getPredecessors().toArray();
 		}
 		return null;
 	}
 
 	@Override
 	public Object getParent(Object element) {
-		if (element instanceof EObject) {
+		/*if (element instanceof EObject) {
 			EObject eObject = (EObject) element;
 			return eObject.eContainer();
-		}
+		}*/
 		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object object) {
-		if (object instanceof AsymmetricDifference) {
-			AsymmetricDifference difference = (AsymmetricDifference) object;
-			return !difference.getOperationInvocations().isEmpty();
-		} else if (object instanceof OperationInvocation) {
-			OperationInvocation operationInvocation = (OperationInvocation) object;
-			return !operationInvocation.getParameterBindings().isEmpty();
-		}
-		return false;
+		return getChildren(object).length > 0;
 	}
 
 

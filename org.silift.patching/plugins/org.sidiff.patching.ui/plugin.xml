@@ -4,16 +4,19 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="org.sidiff.patching.ui.view.PatchView"
-            id="org.sidiff.patching.ui.view.PatchView"
-            name="Patch"
-            restorable="true"
-            icon = "icons/patch.png">
+            allowMultiple="false"
+            class="org.sidiff.patching.ui.view.OperationExplorerView"
+            icon="icons/operation_explorer.gif"
+            id="org.sidiff.patching.ui.view.OperationExplorerView"
+            name="Operation Explorer"
+            restorable="true">
       </view>
       <view
+            allowMultiple="false"
             class="org.sidiff.patching.ui.view.ReportView"
+            icon="icons/execution_report.gif"
             id="org.sidiff.patching.ui.view.ReportView"
-            name="Report"
+            name="Execution Report"
             restorable="true">
       </view>
    </extension>
@@ -22,6 +25,21 @@
             categoryId="org.silift.patching.ui.category.silift"
             id="org.sidiff.patching.ui.PatchApplyCommand"
             name="Apply Patch">
+      </command>
+      <command
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.sidiff.patching.ui.showQualifiedArgumentsCommand"
+            name="Show Qualified Arguments">
+      </command>
+      <command
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.sidiff.patching.ui.ShowReliabilitiesCommand"
+            name="Show Reliabilities">
+      </command>
+      <command
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.sidiff.patching.ui.showUnchangedAttributes"
+            name="Show Unchanged Attributes">
       </command>
    </extension>
    <extension
@@ -34,6 +52,18 @@
                   definitionId="org.sidiff.patching.ui.patchApplyDefinition">
             </reference>
          </activeWhen>
+      </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.ShowQualifiedArgumentsHandler"
+            commandId="org.sidiff.patching.ui.showQualifiedArgumentsCommand">
+      </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.ShowReliabilitiesHandler"
+            commandId="org.sidiff.patching.ui.ShowReliabilitiesCommand">
+      </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.ShowUnchangedAttributes"
+            commandId="org.sidiff.patching.ui.showUnchangedAttributes">
       </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
@@ -48,6 +78,28 @@
            name="org.sidiff.patching.ui.separator"
            visible="false">
      </separator>
+  </menuContribution>
+  <menuContribution
+        allPopups="false"
+        locationURI="toolbar:org.eclipse.ui.views.PropertySheet">
+     <command
+           commandId="org.sidiff.patching.ui.showQualifiedArgumentsCommand"
+           icon="icons/url_16x16.gif"
+           style="toggle"
+           tooltip="Enables qualified argument names">
+     </command>
+     <command
+           commandId="org.sidiff.patching.ui.ShowReliabilitiesCommand"
+           icon="icons/reliability_16x16.gif"
+           style="toggle"
+           tooltip="Enables reliability values of the matching result">
+     </command>
+     <command
+           commandId="org.sidiff.patching.ui.showUnchangedAttributes"
+           icon="icons/filter_attributes.gif"
+           style="toggle"
+           tooltip="Toggles visibility of unchanged attributes">
+     </command>
   </menuContribution>
   </extension>
    <extension
@@ -83,6 +135,13 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
+            adaptableType="org.sidiff.patching.operation.OperationInvocationWrapper"
+            class="org.sidiff.patching.ui.view.OperationInvocationWrapperAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+       <factory
             adaptableType="org.sidiff.patching.report.ReportEntry"
             class="org.sidiff.patching.ui.view.ReportEntryAdapterFactory">
          <adapter
@@ -90,32 +149,59 @@
          </adapter>
       </factory>
    </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor contributorId="org.sidiff.patching.ui.view.OperationExplorerView">
+      	<propertyCategory category="operationInvocation"/>
+      </propertyContributor>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="org.sidiff.patching.ui.view.OperationExplorerView">
+         <propertyTab category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab" label="Operation"/>
+         <propertyTab afterTab="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab"
+            category="operationInvocation" id="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+            label="Arguments"/>
+         <propertyTab
+               afterTab="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+               category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.InputTab"
+               indented="true"
+               label="Input">
+         </propertyTab>
+         <propertyTab
+               afterTab="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+               category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.OutputTab"
+               indented="true"
+               label="Output">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="org.sidiff.patching.ui.view.OperationExplorerView">
+         <propertySection
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.OperationSection"
+               tab="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab">
+               <input type="org.sidiff.patching.operation.OperationInvocationWrapper"/>
+         </propertySection>
+         <propertySection
+               class="org.sidiff.patching.ui.view.InputParameterSection"
+               id="org.sidiff.patching.ui.arguments.InputParameterSection"
+               tab="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.InputTab">
+            <input
+                  type="org.sidiff.patching.operation.OperationInvocationWrapper">
+            </input>
+         </propertySection>
+      </propertySections>
+   </extension>
    <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-         <view
-               id="org.sidiff.patching.ui.view.PatchView"
-               minimized="false"
-               ratio="0.50"
-               relationship="stack"
-               relative="org.eclipse.jdt.ui.PackageExplorer"
-               visible="false">
-         </view>
-         <view
-               id="org.sidiff.patching.ui.view.ReportView"
-               minimized="false"
-               relationship="bottom"
-               relative="org.sidiff.patching.ui.view.PatchView"
-               visible="false">
-         </view>
-         <view
-               id="org.eclipse.ui.views.PropertySheet"
-               minimized="false"
-               relationship="stack"
-               relative="org.eclipse.ui.views.ProblemView"
-               visible="true">
-         </view>
-      </perspectiveExtension>
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.sidiff.patching.ui.perspective.SiLiftPerspective"
+            icon="icons/perspectiveIcon.png"
+            id="org.sidiff.patching.ui.perspective.SiLiftPerspective"
+            name="SiLift">
+      </perspective>
    </extension>
 </plugin>
