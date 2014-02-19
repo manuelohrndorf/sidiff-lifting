@@ -116,9 +116,9 @@ public class PatchEngine {
 	 * {@link #apply(OperationInvocation)} and
 	 * {@link #revert(OperationInvocation)}, respectively.
 	 * 
-	 * @param applyConflictingOperations defines whether conflicting {@link OperationInvocation} shall be applied
+	 * @param applyConflictingOperationInvocations defines whether conflicting {@link OperationInvocation} shall be applied
 	 *  A Operation Invocation is NON-CONFLICTING, iff:
-	 *  - its execution has failed
+	 *  - its execution has not failed
 	 * 	- it has no unresolved arguments
 	 *  - it has no modified arguments
 	 * 
