@@ -243,7 +243,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.applyPatchAction = new Action("Apply all non conflicting changes", IAction.AS_PUSH_BUTTON) {
 			@Override
 			public void run() {
-				engine.applyPatch();
+				engine.applyPatch(false);
 			}
 		};
 		this.applyPatchAction.setToolTipText("Apply all non conflicting changes to the model");

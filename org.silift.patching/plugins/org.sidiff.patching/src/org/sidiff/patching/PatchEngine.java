@@ -116,9 +116,16 @@ public class PatchEngine {
 	 * {@link #apply(OperationInvocation)} and
 	 * {@link #revert(OperationInvocation)}, respectively.
 	 * 
+	 * @param applyConflictingOperations defines whether conflicting {@link OperationInvocation} shall be applied
+	 *  A Operation Invocation is NON-CONFLICTING, iff:
+	 *  - its execution has failed
+	 * 	- it has no unresolved arguments
+	 *  - it has no modified arguments
+	 * 
 	 * @return
 	 */
-	public void applyPatch() {
+	public void applyPatch(boolean applyConflictingOperationInvocations) {
+		
 		// Start new patch application
 		reportManager.startPatchApplication();
 
@@ -131,7 +138,12 @@ public class PatchEngine {
 		// Try to execute operations which are to apply
 		for (OperationInvocation operationInvocation : operationManager.getOrderedOperations()) {
 			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
-			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED)) {
+			
+			Boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED ||
+					operationWrapper.hasModifiedInArguments() || operationWrapper.hasUnresolvedInArguments();
+			
+			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED) && 
+					(applyConflictingOperationInvocations || !conflictingOperation)) {
 
 				boolean success = apply(operationInvocation, false);
 				
@@ -167,6 +179,7 @@ public class PatchEngine {
 			reportManager.updateValidationEntries(validationErrors);
 		}
 	}
+		
 
 	/**
 	 * Apply operation invocation. Note that this method tries to perform the
