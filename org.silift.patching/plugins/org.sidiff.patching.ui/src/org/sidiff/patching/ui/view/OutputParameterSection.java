@@ -20,10 +20,10 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 
-public class InputParameterSection extends AbstractPropertySection implements IValueChangedListener {
+public class OutputParameterSection extends AbstractPropertySection implements IValueChangedListener {
 
 	private OperationInvocationWrapper operationInvocationWrapper;
-	private TableViewer inputArgumentsViewer;
+	private TableViewer outputArgumentsViewer;
 	private ArgumentValueLabelProvider argumentValueLabelProvider;
 	private ArgumentValueEditingSupport editingSupport;
 
@@ -42,17 +42,13 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		this.operationInvocationWrapper = (OperationInvocationWrapper) input;
 		this.argumentValueLabelProvider.init(operationInvocationWrapper);
 		this.editingSupport.setOperationInvocationWrapper(operationInvocationWrapper);
-		this.inputArgumentsViewer.setInput(operationInvocationWrapper.getOperationInvocation().getInParameterBindings());
+		this.outputArgumentsViewer.setInput(operationInvocationWrapper.getOperationInvocation().getOutParameterBindings());
 		
 	}
 	
 	
 	@Override
 	public void refresh() {
-//        inputArgumentsText.removeModifyListener(listener);
-//        OperationInvocationWrapperPropertySource properties = (OperationInvocationWrapperPropertySource)Platform.getAdapterManager().getAdapter(operationInvocationWrapper, IPropertySource.class);
-//        inputArgumentsText.setText(properties.getPropertyValue("status").toString());
-//        inputArgumentsText.addModifyListener(listener);
   
     }
 	
@@ -66,13 +62,13 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 
-		this.inputArgumentsViewer = new TableViewer(composite, SWT.FILL);
-		this.inputArgumentsViewer.setContentProvider(new ArrayContentProvider());
-		this.inputArgumentsViewer.getTable().setHeaderVisible(true);
-		this.inputArgumentsViewer.getTable().setLinesVisible(true);
-		this.inputArgumentsViewer.getTable().setLayoutData(data);
+		this.outputArgumentsViewer = new TableViewer(composite, SWT.FILL);
+		this.outputArgumentsViewer.setContentProvider(new ArrayContentProvider());
+		this.outputArgumentsViewer.getTable().setHeaderVisible(true);
+		this.outputArgumentsViewer.getTable().setLinesVisible(true);
+		this.outputArgumentsViewer.getTable().setLayoutData(data);
 		this.argumentValueLabelProvider = new ArgumentValueLabelProvider();
-		this.editingSupport = new ArgumentValueEditingSupport(inputArgumentsViewer);
+		this.editingSupport = new ArgumentValueEditingSupport(outputArgumentsViewer);
 		this.editingSupport.setListener(this);
 		createColumns();
 		
@@ -99,7 +95,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	}
 
 	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
-		final TableViewerColumn viewerColumn = new TableViewerColumn(inputArgumentsViewer, SWT.NONE);
+		final TableViewerColumn viewerColumn = new TableViewerColumn(outputArgumentsViewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
 		column.setWidth(bound);
@@ -117,7 +113,6 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	@Override
 	public void valueChanged() {
 		this.refresh();
-		
 	}
 
 }
