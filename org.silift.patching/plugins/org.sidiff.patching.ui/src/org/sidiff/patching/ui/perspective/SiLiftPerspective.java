@@ -15,14 +15,12 @@ IPersistableEditor {
 	
 	@Override
 	public void saveState(IMemento memento) {
-		// TODO Auto-generated method stub
-
+		// NO support for state saving now
 	}
 
 	@Override
 	public void restoreState(IMemento memento) {
-		// TODO Auto-generated method stub
-
+		// NO support for state restoring now
 	}
 
 	@Override
@@ -48,18 +46,23 @@ IPersistableEditor {
 		String editorArea = layout.getEditorArea();
 
 		// Place project and operation explorer
-		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, editorArea);
-		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
-		left.addView(OperationExplorerView.ID);
+		IFolderLayout left_top = layout.createFolder("left_top", IPageLayout.LEFT, 0.25f, editorArea);
+		left_top.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		left_top.addView(OperationExplorerView.ID);
 		
 		// Place report 		
-		IFolderLayout bottom_left = layout.createFolder("bottom_left", IPageLayout.BOTTOM, 0.5f, OperationExplorerView.ID);
-		bottom_left.addView(ReportView.ID);
+		IFolderLayout left_bottom = layout.createFolder("left_bottom", IPageLayout.BOTTOM, 0.5f, 
+				OperationExplorerView.ID);
+		left_bottom.addView(ReportView.ID);
 		
-		// Place outline and properties
-		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.7f, editorArea);
-		bottom.addView(IPageLayout.ID_OUTLINE);
-		bottom.addView(IPageLayout.ID_PROP_SHEET);
+		// Place properties
+		IFolderLayout right_top = layout.createFolder("right_bottom", IPageLayout.RIGHT, 0.25f, editorArea);
+		right_top.addView(IPageLayout.ID_PROP_SHEET);
+		
+		// Place outline
+		IFolderLayout right_bottom = layout.createFolder("right_bottom", IPageLayout.BOTTOM, 0.5f, 
+				IPageLayout.ID_PROP_SHEET);
+		right_bottom.addView(IPageLayout.ID_OUTLINE);
 		
 	}
 }

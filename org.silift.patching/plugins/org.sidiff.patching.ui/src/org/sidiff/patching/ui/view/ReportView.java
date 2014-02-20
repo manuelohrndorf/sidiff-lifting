@@ -78,7 +78,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		composite.setLayout(new GridLayout());
 
 		Composite editComposite = new Composite(composite, SWT.NONE);
-		GridLayout glEditComposite = new GridLayout(4, false);
+		GridLayout glEditComposite = new GridLayout(3, false);
 		editComposite.setLayout(glEditComposite);
 
 		passedButton = new Button(editComposite, SWT.CHECK);
