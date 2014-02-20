@@ -69,11 +69,6 @@ public class PatchReportManager {
 		notifyReportChanged();
 	}
 
-	public void operationSkipped(OperationInvocation op) {
-		getLastReport().operationSkipped(op);
-		notifyReportChanged();
-	}
-
 	public void operationReverted(OperationInvocation op) {
 		getLastReport().operationReverted(op);
 		notifyReportChanged();

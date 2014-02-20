@@ -18,8 +18,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
@@ -34,12 +37,13 @@ import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedList
 import org.sidiff.patching.ui.view.filter.ExecutedOperationsFilter;
 import org.sidiff.patching.validation.ValidationMode;
 
-public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor {
+public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
 
 	public static final String ID = "org.sidiff.patching.ui.view.OperationExplorerView";
 
 	private final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
 	private final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
+	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
 
 	private PatchEngine engine;
 
@@ -72,6 +76,9 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		operationLabelProvider = new OperationLabelProvider();
 		patchViewer.setLabelProvider(operationLabelProvider);
+		
+		//Register part listener (for editor)
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
 
 		patchViewer.addDoubleClickListener(new IDoubleClickListener() {
 
@@ -127,15 +134,14 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 							});
 						}
 						
-						manager.add(new Action("Show Properties View") {
+						manager.add(new Action("Show Properties View", properties) {
 							
 							@Override
 							public void run(){
 								try {
 									PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 									getActivePage().showView(IPageLayout.ID_PROP_SHEET);
-								} catch (PartInitException e) {
-									// TODO Auto-generated catch block
+								} catch (PartInitException e) {									
 									e.printStackTrace();
 								}
 							}
@@ -154,11 +160,19 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		createActions(patchViewer);
 		createMenus();
 		createToolbar();
+		
+		//Clear initially
+		this.clearView();
+
 
 	}
 
 	public void setPatchEngine(PatchEngine patchEngine) {
-		this.engine = patchEngine;
+		
+		this.engine = patchEngine;		
+		
+		this.initView();
+		
 		this.patchViewer.setInput(engine.getOperationManager());
 
 		filterOperationsAction.setEnabled(true);
@@ -177,8 +191,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			iterativeValidationAction.setChecked(true);
 		else
 			noValidationAction.setChecked(true);
-
-		engine.getPatchReportManager().addPatchReportListener(this);
+		
 	}
 
 	/**
@@ -301,10 +314,12 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		if (engine != null && engine.getPatchReportManager() != null) {
 			engine.getPatchReportManager().removePatchReportListener(this);
 		}
+
 	}
 
 	@Override
 	public void setFocus() {
+		
 		patchViewer.getControl().setFocus();
 	}
 
@@ -347,7 +362,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	@Override
 	public void pushReport(int i) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -361,5 +376,71 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		if (adapter == IPropertySheetPage.class)
 			return new TabbedPropertySheetPage(this);
 		return super.getAdapter(adapter);
+	}	
+
+	@Override
+	public void partActivated(IWorkbenchPart part) {
+		
+		
 	}
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		
+		
+	}
+
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		
+		if (part instanceof EditorPart){
+			//Check if at least one editor is still open
+			if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0){
+				this.clearView();
+			}
+		}
+		
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		
+		
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPart part) {
+		
+	}
+	
+	private void clearView(){		
+		this.patchViewer.getTree().clearAll(true);	
+		this.patchViewer.getTree().setVisible(false);
+		this.applyPatchAction.setEnabled(false);
+		this.collapseAllAction.setEnabled(false);
+		this.filterOperationsAction.setEnabled(false);
+		this.validateMenu.setEnabled(false);	
+		
+		if (engine != null && engine.getPatchReportManager() != null) {
+			engine.getPatchReportManager().removePatchReportListener(this);
+		}
+
+	}
+	
+	private void initView(){	
+		
+		if (engine != null && engine.getPatchReportManager() != null) {
+			engine.getPatchReportManager().addPatchReportListener(this);
+		}
+		
+		this.patchViewer.getTree().setVisible(true);
+		this.applyPatchAction.setEnabled(true);
+		this.collapseAllAction.setEnabled(true);
+		this.filterOperationsAction.setEnabled(true);
+		this.validateMenu.setEnabled(true);			
+	}
+
+	
+	
+
 }

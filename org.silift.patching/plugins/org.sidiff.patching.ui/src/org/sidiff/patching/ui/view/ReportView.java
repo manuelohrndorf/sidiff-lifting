@@ -21,6 +21,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.report.OperationExecutionEntry;
@@ -31,7 +35,7 @@ import org.sidiff.patching.report.ValidationEntry;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.view.filter.ReportViewFilter;
 
-public class ReportView extends ViewPart implements IPatchReportListener {
+public class ReportView extends ViewPart implements IPatchReportListener,IPartListener{
 	
 	public static final String ID = "org.sidiff.patching.ui.view.ReportView";
 
@@ -39,7 +43,6 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 
 	private Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
 	private Image WARNING_IMG = Activator.getImageDescriptor("warning.png").createImage();
-	private Image SKIPPED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
 	private Image REVERTED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
 	private Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 	private Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
@@ -55,21 +58,22 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 
 	private boolean showPassed = true;
 	private boolean showWarning = true;
-	private boolean showSkipped = true;
 	private boolean showReverted = true;
 	private boolean showExecFailed = true;
 	private boolean showRevertFailed = true;
 
 	private Button passedButton;
 	private Button warningButton;
-	private Button skippedButton;
 	private Button revertedButton;
 	private Button execFailedButton;
 	private Button revertFailedButton;
 
 	@Override
 	public void createPartControl(Composite parent) {
-
+		
+		//Register part listener (for editor)
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
+		
 		Composite composite = new Composite(parent, SWT.FILL);
 		composite.setLayout(new GridLayout());
 
@@ -97,18 +101,6 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 			public void widgetSelected(SelectionEvent e) {
 				// Handle the selection event
 				showWarning = warningButton.getSelection();
-				update();
-			}
-		});
-
-		skippedButton = new Button(editComposite, SWT.CHECK);
-		skippedButton.setText("SKIPPED");
-		skippedButton.setSelection(true);
-		skippedButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				// Handle the selection event
-				showSkipped = skippedButton.getSelection();
 				update();
 			}
 		});
@@ -167,14 +159,15 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 		createActions();
 		createMenus();
 		createToolbar();
-		
+
+		//Clear initially
+		this.clearView();
 
 	}
 
 	public void setPatchReportManager(PatchReportManager reportManager) {
-		this.resetView();
 		this.reportManager = reportManager;
-		reportManager.addPatchReportListener(this);
+		this.initView();
 		update();
 	}
 
@@ -206,10 +199,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 					}
 					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
 						return WARNING_IMG;
-					}
-					if (execEntry.getKind() == OperationExecutionKind.SKIPPED) {
-						return SKIPPED_IMG;
-					}
+					}					
 					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
 						return REVERTED_IMG;
 					}
@@ -231,12 +221,6 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 			@Override
 			public String getText(Object element) {
 				ReportEntry entry = (ReportEntry) element;
-//				if (entry instanceof OperationExecutionEntry) {
-//					return "Execution";
-//				}
-//				if (entry instanceof ValidationEntry) {
-//					return "Validation";
-//				}
 				if (entry instanceof OperationExecutionEntry) {
 					OperationExecutionEntry execEntry = (OperationExecutionEntry) entry;
 					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
@@ -244,10 +228,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 					}
 					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
 						return "WARNING";
-					}
-					if (execEntry.getKind() == OperationExecutionKind.SKIPPED) {
-						return "SKIPPED";
-					}
+					}				
 					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
 						return "REVERTED";
 					}
@@ -342,7 +323,6 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
 		toolbarManager.add(reportStackAction);
-		// toolbarManager.add(preCheckAction);
 	}
 	
 	@Override
@@ -364,10 +344,7 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 						}
 						if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning) {
 							input.add(execEntry);
-						}
-						if (execEntry.getKind() == OperationExecutionKind.SKIPPED && showSkipped) {
-							input.add(execEntry);
-						}
+						}					
 						if (execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted) {
 							input.add(execEntry);
 						}
@@ -415,10 +392,65 @@ public class ReportView extends ViewPart implements IPatchReportListener {
 		reportStackEntry = reportManager.getReports().size()-1;
 	}
 	
-	public void resetView(){
+	private void clearView(){		
 		reportStackEntry = 0;
 		reportStackAction.clearMenu();
 		reportStackAction.setEnabled(false);
+		reportViewer.getTable().clearAll();
+		
+		this.reportFilterAction.setEnabled(false);
+		this.passedButton.setEnabled(false);
+		this.warningButton.setEnabled(false);
+		this.revertedButton.setEnabled(false);
+		this.execFailedButton.setEnabled(false);
+		this.revertFailedButton.setEnabled(false);		
+		
+		if(reportManager != null)
+			reportManager.removePatchReportListener(this);
+	}
+	
+	private void initView(){
+		
+		if(reportManager != null)
+			reportManager.addPatchReportListener(this);
+		
+		this.reportFilterAction.setEnabled(true);
+		this.passedButton.setEnabled(true);
+		this.warningButton.setEnabled(true);
+		this.revertedButton.setEnabled(true);
+		this.execFailedButton.setEnabled(true);
+		this.revertFailedButton.setEnabled(true);		
+	}	
+
+	@Override
+	public void partActivated(IWorkbenchPart part) {
+		
+	}
+
+	@Override
+	public void partBroughtToTop(IWorkbenchPart part) {
+		
+	}
+
+	@Override
+	public void partClosed(IWorkbenchPart part) {
+		if (part instanceof EditorPart){
+			//Check if at least one editor is still open
+			if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0){
+				this.clearView();
+			}
+		}
+		
+	}
+
+	@Override
+	public void partDeactivated(IWorkbenchPart part) {
+		
+	}
+
+	@Override
+	public void partOpened(IWorkbenchPart part) {
+		
 	}
 
 }

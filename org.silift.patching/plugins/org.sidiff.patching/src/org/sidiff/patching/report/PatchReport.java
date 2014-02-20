@@ -36,10 +36,6 @@ public class PatchReport {
 		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.EXEC_FAILED, inArgs, error));
 	}
 
-	void operationSkipped(OperationInvocation op) {
-		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.SKIPPED));
-	}
-
 	void operationReverted(OperationInvocation op) {
 		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.REVERTED));
 	}
