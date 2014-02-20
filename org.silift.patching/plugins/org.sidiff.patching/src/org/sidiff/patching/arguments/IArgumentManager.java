@@ -10,7 +10,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.PatchEngine.PatchMode;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
+import org.silift.modifieddetector.IModifiedDetector;
 
 /**
  * The argument manager is the central interface for the patch engine in order
@@ -24,7 +24,7 @@ import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector
  */
 public interface IArgumentManager {
 
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, ModifiedDetector modifiedDetector);
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, IModifiedDetector modifiedDetector);
 
 	/**
 	 * For a given parameter binding of the patch, this method returns the

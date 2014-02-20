@@ -35,7 +35,7 @@ import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
+import org.silift.modifieddetector.IModifiedDetector;
 
 /**
  * An implementation of {@link IArgumentManager} that internally delegates the
@@ -101,7 +101,7 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	 * The ModifiedDetector to which we delegate when we check if an object of
 	 * the origin model has been modified in the target model.
 	 */
-	private ModifiedDetector modDetector;
+	private IModifiedDetector modDetector;
 
 	private Map<ParameterBinding, ArgumentWrapper> argumentResolutions;
 
@@ -111,7 +111,7 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 	@Override
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
-			ModifiedDetector modifiedDetector) {
+			IModifiedDetector modifiedDetector) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;

@@ -38,7 +38,7 @@ import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
+import org.silift.modifieddetector.IModifiedDetector;
 
 /**
  * 
@@ -60,6 +60,7 @@ public class PatchEngine {
 	private ExecutionMode executionMode;
 	private PatchMode patchMode;
 
+	private IModifiedDetector modifiedDetector;
 	private ValidationManager validationManager;
 	private OperationManager operationManager;
 	private IArgumentManager argumentManager;
@@ -83,15 +84,16 @@ public class PatchEngine {
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
 			ITransformationEngine transformationEngine, ExecutionMode executionMode, PatchMode patchMode,
 			ValidationMode validationMode, Scope scope, Boolean reliabilitiesComputed,
-			IPatchInterruptHandler patchInterruptHandler, ModifiedDetector modifiedDetector) {
+			IPatchInterruptHandler patchInterruptHandler, IModifiedDetector modifiedDetector) {
 
 		this.patchedResource = patchedResource;
+		this.modifiedDetector = modifiedDetector;
 		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
 		this.reliabilitiesComputed = reliabilitiesComputed;
 		this.executionMode = executionMode;
-		this.patchMode = patchMode;
-
+		this.patchMode = patchMode;		
+		
 		// Init managers
 		this.validationManager = new ValidationManager(validationMode, patchedResource);
 		this.argumentManager.init(difference, patchedResource, scope, patchMode, modifiedDetector);

@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
@@ -62,7 +61,8 @@ import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
 import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
-import org.silift.patching.core.correspondence.modifieddetector.ModifiedDetector;
+import org.silift.modifieddetector.IModifiedDetector;
+import org.silift.modifieddetector.util.ModifiedDetectorUtil;
 import org.silift.patching.patch.PatchCreator;
 
 public class ThreeWayMergeWizard extends Wizard {
@@ -232,20 +232,19 @@ public class ThreeWayMergeWizard extends Wizard {
 					
 					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-
-					// Try to find a suitable modified detector
-					// FIXME(TK): Modified Detector muss ueber Extension Point registriert und abgeholt werden.
-					//            Dann entfaellt auch die Abfrage auf den Modelltyp Ecore...
-					ModifiedDetector modDetector = null;
-					if (EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get()).equals(EcorePackage.eNS_URI)){
-						modDetector = new ModifiedDetector(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher, scope);
-						modDetector.initialize();
+					
+					// Get modified detector
+					IModifiedDetector modifiedDetector = ModifiedDetectorUtil.getAvailableModifiedDetector(documentType);
+					
+					//Init detector if available
+					if(modifiedDetector != null){
+						modifiedDetector.init(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher, scope);
 					}
 					
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.MERGING, validationMode,
-							scope, matcher.canComputeReliability(), patchInterruptHandler, modDetector);
+							scope, matcher.canComputeReliability(), patchInterruptHandler, modifiedDetector);
 					
 					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
 						
