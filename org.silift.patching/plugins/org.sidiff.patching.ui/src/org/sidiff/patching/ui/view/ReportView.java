@@ -396,7 +396,8 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		reportStackEntry = 0;
 		reportStackAction.clearMenu();
 		reportStackAction.setEnabled(false);
-		reportViewer.getTable().clearAll();
+		reportViewer.getTable().clearAll();;
+		reportViewer.getTable().setVisible(false);
 		
 		this.reportFilterAction.setEnabled(false);
 		this.passedButton.setEnabled(false);
@@ -414,6 +415,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		if(reportManager != null)
 			reportManager.addPatchReportListener(this);
 		
+		reportViewer.getTable().setVisible(true);
 		this.reportFilterAction.setEnabled(true);
 		this.passedButton.setEnabled(true);
 		this.warningButton.setEnabled(true);
