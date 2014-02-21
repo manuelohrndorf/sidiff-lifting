@@ -158,15 +158,20 @@ public class ThreeWayMergeWizard extends Wizard {
 					savePath = savePath.replace(targetResource.getURI().lastSegment(), "merged");
 					EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
 							targetResource.getContents().get(0), true);
+					
+					String filePath = savePath + separator + targetResource.getURI().lastSegment();
 
 					if (!diagramResourceSet.getResources().isEmpty()) {
+						filePath+= "diag";			
 						for (Resource resource : diagramResourceSet.getResources()) {
 							EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()),
 									resource.getContents().get(0), false);
 						}
 					}
+					
+					final String finalFilePath = filePath;
 
-					final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment()+"diag");
+					final File fileToOpen = new File(finalFilePath);
 
 					monitor.subTask("Opening editor for target resource");
 					final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
@@ -184,8 +189,9 @@ public class ThreeWayMergeWizard extends Wizard {
 									resource = editor.getDiagram().getElement().eResource();
 									editingDomain = editor.getEditingDomain();
 
-									// FIXME: Diagram animation:
-									 GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
+									if(finalFilePath.endsWith("diag")){
+										GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
+									}
 								} else if (editorPart instanceof IEditingDomainProvider) {
 									IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 									resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
@@ -245,20 +251,22 @@ public class ThreeWayMergeWizard extends Wizard {
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.MERGING, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler, modifiedDetector);
-					
-					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
-						
-						@Override
-						public void reportChanged() {
-							GMFAnimation.trigger();
-						}
 
-						@Override
-						public void pushReport(int i) {
-							// TODO Auto-generated method stub
-							
-						}
-					});	
+					if(finalFilePath.endsWith("diag")){
+						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
+
+							@Override
+							public void reportChanged() {
+								GMFAnimation.trigger();
+							}
+
+							@Override
+							public void pushReport(int i) {
+								// TODO Auto-generated method stub
+
+							}
+						});	
+					}
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
 

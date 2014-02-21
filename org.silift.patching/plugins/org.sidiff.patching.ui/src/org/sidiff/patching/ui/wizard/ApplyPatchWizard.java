@@ -131,15 +131,20 @@ public class ApplyPatchWizard extends Wizard {
 		savePath = savePath.replace(targetResource.getURI().lastSegment(), "patched");
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
 				targetResource.getContents().get(0), true);
+		
+		String filePath = savePath + separator + targetResource.getURI().lastSegment();
 
 		if (!diagramResourceSet.getResources().isEmpty()) {
+			filePath+= "diag";			
 			for (Resource resource : diagramResourceSet.getResources()) {
 				EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()),
 						resource.getContents().get(0), false);
 			}
 		}
-		//TODO open diagram file
-		final File fileToOpen = new File(savePath + separator + targetResource.getURI().lastSegment() + "diag");
+		
+		final String finalFilePath = filePath;
+		
+		final File fileToOpen = new File(finalFilePath);
 
 		Job job = new Job("Patching Model") {
 			private EditingDomain editingDomain;
@@ -154,6 +159,7 @@ public class ApplyPatchWizard extends Wizard {
 						@Override
 						public void run() {
 							try {
+								
 								IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 										.getActivePage();
 								IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
@@ -163,9 +169,10 @@ public class ApplyPatchWizard extends Wizard {
 									EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
 									resource = editor.getDiagram().getElement().eResource();
 									editingDomain = editor.getEditingDomain();
-									
-									// FIXME: Diagram animation:
+
+									if(finalFilePath.endsWith("diag")){
 									 GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
+									}
 								} else if (editorPart instanceof IEditingDomainProvider) {
 									IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 									resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
@@ -218,19 +225,21 @@ public class ApplyPatchWizard extends Wizard {
 							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.PATCHING, validationMode,
 							scope, matcher.canComputeReliability(), patchInterruptHandler, null);
 					
-					patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
-						
-						@Override
-						public void reportChanged() {
-							GMFAnimation.trigger();
-						}
+					if(finalFilePath.endsWith("diag")){
+						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
 
-						@Override
-						public void pushReport(int i) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
+							@Override
+							public void reportChanged() {
+								GMFAnimation.trigger();
+							}
+
+							@Override
+							public void pushReport(int i) {
+								// TODO Auto-generated method stub
+
+							}
+						});
+					}
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(60);
 
