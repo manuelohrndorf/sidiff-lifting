@@ -2,7 +2,7 @@
 <feature
       id="org.silift.tools.rulebaseeditor"
       label="SiLift Rulebase Editor"
-      version="1.0.0"
+      version="0.1.0.qualifier"
       provider-name="Software Engineering Group, University of Siegen">
 
    <description url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/">
@@ -142,14 +142,15 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </license>
 
    <url>
-      <update label="SiLift UpdateSite" url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/updateSite"/>
+      <update label="SiLift UpdateSite" url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/updatesite"/>
    </url>
 
    <requires>
-      <import feature="org.silift.core" version="1.0.0"/>
-      <import plugin="org.eclipse.emf.henshin.diagram"/>
-      <import plugin="org.eclipse.emf.henshin.edit"/>
-      <import plugin="org.eclipse.emf.henshin.editor"/>
+      <import feature="org.silift.core" version="0.1.0.qualifier" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.diagram" version="0.9.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.edit" version="0.9.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.editor" version="0.9.6" match="greaterOrEqual"/>
+      <import feature="org.silift.henshin.extensions" version="0.1.0.qualifier" match="greaterOrEqual"/>
    </requires>
 
    <plugin
