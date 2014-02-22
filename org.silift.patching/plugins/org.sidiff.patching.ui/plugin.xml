@@ -87,18 +87,36 @@
            icon="icons/url_16x16.gif"
            style="toggle"
            tooltip="Enables qualified argument names">
+        <visibleWhen
+              checkEnabled="false">
+           <reference
+                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+           </reference>
+        </visibleWhen>
      </command>
      <command
            commandId="org.sidiff.patching.ui.ShowReliabilitiesCommand"
            icon="icons/reliability_16x16.gif"
            style="toggle"
            tooltip="Enables reliability values of the matching result">
+        <visibleWhen
+              checkEnabled="false">
+           <reference
+                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+           </reference>
+        </visibleWhen>
      </command>
      <command
            commandId="org.sidiff.patching.ui.showUnchangedAttributes"
            icon="icons/filter_attributes.gif"
            style="toggle"
            tooltip="Toggles visibility of unchanged attributes">
+        <visibleWhen
+              checkEnabled="false">
+           <reference
+                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+           </reference>
+        </visibleWhen>
      </command>
   </menuContribution>
   </extension>
@@ -212,5 +230,16 @@
             id="org.sidiff.patching.ui.perspective.SiLiftPerspective"
             name="SiLift">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+         <iterate>
+            <instanceof
+                  value="org.sidiff.patching.operation.OperationInvocationWrapper">
+            </instanceof>
+         </iterate>
+      </definition>
    </extension>
 </plugin>
