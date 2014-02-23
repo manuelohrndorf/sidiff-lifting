@@ -149,6 +149,14 @@
             </iterate>
          </and>
       </definition>
+      <definition
+            id="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+         <iterate>
+            <instanceof
+                  value="org.sidiff.patching.operation.OperationInvocationWrapper">
+            </instanceof>
+         </iterate>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">
@@ -230,16 +238,5 @@
             id="org.sidiff.patching.ui.perspective.SiLiftPerspective"
             name="SiLift">
       </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
-         <iterate>
-            <instanceof
-                  value="org.sidiff.patching.operation.OperationInvocationWrapper">
-            </instanceof>
-         </iterate>
-      </definition>
    </extension>
 </plugin>
