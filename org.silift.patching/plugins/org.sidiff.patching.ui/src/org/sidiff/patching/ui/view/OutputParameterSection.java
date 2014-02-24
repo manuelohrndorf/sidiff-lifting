@@ -114,5 +114,13 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 	public void valueChanged() {
 		this.refresh();
 	}
+	
+	public void showQualifiedArgumentName(boolean b){
+		this.argumentValueLabelProvider.setShowQualifiedArgumentName(b);
+	}
+	
+	public void showReliability(boolean b){
+		this.argumentValueLabelProvider.setShowReliablities(b);
+	}
 
 }

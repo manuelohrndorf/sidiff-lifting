@@ -49,6 +49,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	
 	@Override
 	public void refresh() {
+		super.refresh();
 //        inputArgumentsText.removeModifyListener(listener);
 //        OperationInvocationWrapperPropertySource properties = (OperationInvocationWrapperPropertySource)Platform.getAdapterManager().getAdapter(operationInvocationWrapper, IPropertySource.class);
 //        inputArgumentsText.setText(properties.getPropertyValue("status").toString());
@@ -118,6 +119,14 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	public void valueChanged() {
 		this.refresh();
 		
+	}
+	
+	public void showQualifiedArgumentName(boolean b){
+		this.argumentValueLabelProvider.setShowQualifiedArgumentName(b);
+	}
+	
+	public void showReliability(boolean b){
+		this.argumentValueLabelProvider.setShowReliablities(b);
 	}
 
 }
