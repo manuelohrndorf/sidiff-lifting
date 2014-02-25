@@ -98,7 +98,7 @@
         <visibleWhen
               checkEnabled="false">
            <reference
-                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+                 definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
         </visibleWhen>
      </command>
@@ -110,7 +110,7 @@
         <visibleWhen
               checkEnabled="false">
            <reference
-                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+                 definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
         </visibleWhen>
      </command>
@@ -122,7 +122,7 @@
         <visibleWhen
               checkEnabled="false">
            <reference
-                 definitionId="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
+                 definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
         </visibleWhen>
      </command>
@@ -158,12 +158,13 @@
          </and>
       </definition>
       <definition
-            id="org.sidiff.patching.ui.definition.instanceOf.OperationInvocationWrapper">
-         <iterate>
-            <instanceof
-                  value="org.sidiff.patching.operation.OperationInvocationWrapper">
-            </instanceof>
-         </iterate>
+            id="org.sidiff.patching.ui.definition.PropertiesView">
+         <with
+               variable="activePartId">
+            <equals
+                  value="org.sidiff.patching.ui.view.OperationExplorerView">
+            </equals>
+         </with>
       </definition>
    </extension>
    <extension
