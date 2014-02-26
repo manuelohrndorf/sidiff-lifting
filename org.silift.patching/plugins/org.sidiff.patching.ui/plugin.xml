@@ -95,8 +95,7 @@
            icon="icons/url_16x16.gif"
            style="toggle"
            tooltip="Enables qualified argument names">
-        <visibleWhen
-              checkEnabled="false">
+        <visibleWhen>
            <reference
                  definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
@@ -107,8 +106,7 @@
            icon="icons/reliability_16x16.gif"
            style="toggle"
            tooltip="Enables reliability values of the matching result">
-        <visibleWhen
-              checkEnabled="false">
+        <visibleWhen>
            <reference
                  definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
@@ -119,8 +117,7 @@
            icon="icons/filter_attributes.gif"
            style="toggle"
            tooltip="Toggles visibility of unchanged attributes">
-        <visibleWhen
-              checkEnabled="false">
+        <visibleWhen>
            <reference
                  definitionId="org.sidiff.patching.ui.definition.PropertiesView">
            </reference>
@@ -160,9 +157,9 @@
       <definition
             id="org.sidiff.patching.ui.definition.PropertiesView">
          <with
-               variable="activePartId">
+               variable="activeWorkbenchWindow.activePerspective">
             <equals
-                  value="org.sidiff.patching.ui.view.OperationExplorerView">
+                  value="org.sidiff.patching.ui.perspective.SiLiftPerspective">
             </equals>
          </with>
       </definition>
