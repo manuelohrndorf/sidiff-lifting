@@ -12,10 +12,13 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
@@ -65,12 +68,48 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private Action iterativeValidationAction;
 	private Action finalValidationAction;
 	private Action noValidationAction;
+	
+	//FIXME cpietsch 26.02.2014: notify properties view
+	private void updatePropertyViewViaSelectionListener(TreeViewer viewer){
+		ISelection selection = viewer.getSelection();
+		viewer.setSelection(null);
+		viewer.setSelection(selection);
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 
 		// TreeViewer
-		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
+		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL){
+			public void setSelection(ISelection selection, boolean reveal) {
+				/**
+				 * <p>
+				 * If the new selection differs from the current selection the hook
+				 * <code>updateSelection</code> is called.
+				 * </p>
+				 * <p>
+				 * If <code>setSelection</code> is called from within
+				 * <code>preserveSelection</code>, the call to
+				 * <code>updateSelection</code> is delayed until the end of
+				 * <code>preserveSelection</code>.
+				 * </p>
+				 * <p>
+				 * Subclasses do not typically override this method, but implement
+				 * <code>setSelectionToWidget</code> instead.
+				 * </p>
+				 */
+				Control control = getControl();
+				if (control == null || control.isDisposed()) {
+					return;
+				}
+				
+				setSelectionToWidget(selection, reveal);
+				ISelection sel = getSelection();
+				updateSelection(sel);
+				firePostSelectionChanged(new SelectionChangedEvent(this, sel));
+				
+			}
+		};
 		patchViewer.setContentProvider(new PatchContentProvider());
 		patchViewer.setAutoExpandLevel(0);
 
@@ -94,7 +133,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 					} else {
 						engine.apply(operationWrapper.getOperationInvocation(),true);
 					}
-
+					updatePropertyViewViaSelectionListener(viewer);
 				}
 			};
 		});
@@ -122,6 +161,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 								@Override
 								public void run() {
 									engine.apply(operationWrapper.getOperationInvocation(),true);
+									updatePropertyViewViaSelectionListener(patchViewer);
 								};
 							});
 						} else {
@@ -130,6 +170,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 								@Override
 								public void run() {
 									engine.revert(operationWrapper.getOperationInvocation());
+									updatePropertyViewViaSelectionListener(patchViewer);
 								};
 							});
 						}
@@ -257,6 +298,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			@Override
 			public void run() {
 				engine.applyPatch(false);
+				updatePropertyViewViaSelectionListener(patchViewer);
 			}
 		};
 		this.applyPatchAction.setToolTipText("Apply all non conflicting changes to the model");
