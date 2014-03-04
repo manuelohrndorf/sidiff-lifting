@@ -180,6 +180,8 @@ public class PatchEngine {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}
+		
+		reportManager.finishPatchApplication();
 	}
 		
 

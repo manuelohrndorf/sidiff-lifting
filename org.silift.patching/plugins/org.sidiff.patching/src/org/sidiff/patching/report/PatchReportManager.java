@@ -21,11 +21,17 @@ public class PatchReportManager {
 
 	public void startPatchApplication() {
 		reports.add(new PatchReport());
-		notifyPushReport(reports.size()-1);
 		notifyReportChanged();
 	}
 
 	public void finishPatchApplication() {
+		int index = reports.size()-1;
+		if(reports.get(index).getEntries().size() > 1 
+				|| reports.get(index).updateValidationEntries(reports.get(index).getLastValidationEntry().getCurrentValidationErrors())){
+			notifyPushReport(index);	
+		}else{
+			reports.remove(index);
+		}
 		notifyReportChanged();
 	}
 
