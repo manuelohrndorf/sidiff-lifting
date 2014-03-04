@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.PatchEngine.PatchMode;
 import org.silift.common.util.emf.Scope;
 import org.silift.modifieddetector.IModifiedDetector;
@@ -36,6 +37,17 @@ public interface IArgumentManager {
 	 */
 	public ArgumentWrapper getArgument(ParameterBinding binding);
 
+	/**
+	 * For a given value parameter binding of the patch, this method sets a
+	 * new value.
+	 * 
+	 * @param binding
+	 *            parameter binding of the patch
+	 * @param value
+	 *            new value
+	 */
+	public void setArgument(ValueParameterBinding binding, Object value);
+	
 	/**
 	 * Get the potential arguments for a given object parameter binding.
 	 * 

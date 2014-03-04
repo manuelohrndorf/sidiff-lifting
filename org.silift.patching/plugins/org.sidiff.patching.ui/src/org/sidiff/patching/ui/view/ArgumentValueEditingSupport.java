@@ -155,11 +155,14 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				int index = ((Integer) value).intValue();
 				if (index != -1) {
 					binding.setActual(itemStrings.get(index));
+					argumentManager.setArgument(binding, itemStrings.get(index));
 				}
 			}
 			else{
-				if(((String)value).startsWith(" - "))
+				if(!((String)value).startsWith(" - ")){
 					binding.setActual((String) value);
+					argumentManager.setArgument(binding, value);
+				}
 			}
 		}
 		this.listener.valueChanged();

@@ -173,6 +173,12 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	public ArgumentWrapper getArgument(ParameterBinding binding) {
 		return argumentResolutions.get(binding);
 	}
+	
+	@Override
+	public void setArgument(ValueParameterBinding binding, Object value){
+		ValueArgumentWrapper argWrapper = (ValueArgumentWrapper)argumentResolutions.get(binding);
+		argWrapper.setValue((String)value);
+	}
 
 	@Override
 	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
