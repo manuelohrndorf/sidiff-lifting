@@ -58,7 +58,7 @@ public class Serge {
 	 */
 	public void generate() throws EPackageNotFoundException {
 
-		if(!ePackagesStack.isEmpty()){
+		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
 			ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
 		
