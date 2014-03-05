@@ -19,6 +19,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
+import org.sidiff.patching.ui.view.filter.UnchangedArgumentsFilter;
 
 public class InputParameterSection extends AbstractPropertySection implements IValueChangedListener {
 
@@ -26,6 +27,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	private TableViewer inputArgumentsViewer;
 	private ArgumentValueLabelProvider argumentValueLabelProvider;
 	private ArgumentValueEditingSupport editingSupport;
+	private UnchangedArgumentsFilter argumentsFilter;
 
 //	private ModifyListener listener = new ModifyListener() {
 //	    @Override
@@ -67,6 +69,8 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 
+		this.argumentsFilter = new UnchangedArgumentsFilter();
+		
 		this.inputArgumentsViewer = new TableViewer(composite, SWT.FILL);
 		this.inputArgumentsViewer.setContentProvider(new ArrayContentProvider());
 		this.inputArgumentsViewer.getTable().setHeaderVisible(true);
@@ -127,6 +131,16 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	
 	public void showReliability(boolean b){
 		this.argumentValueLabelProvider.setShowReliablities(b);
+	}
+	
+	public void showUnchangedArguments(boolean b){
+		if(b){
+			this.inputArgumentsViewer.addFilter(argumentsFilter);
+		}
+		else{
+			this.inputArgumentsViewer.removeFilter(argumentsFilter);
+
+		}
 	}
 
 }

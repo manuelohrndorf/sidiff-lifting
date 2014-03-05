@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
@@ -41,7 +42,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				// Already executed: Show execution args
 				EObject object = (EObject)operationInvocationWrapper.getExecutionArgument(binding);
-				String res = "[" + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + "]";
+				String res = "[" + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + "]";
 				if (showReliabilities && isInParameter(binding)){
 					float reliability = argumentManager.getReliability(binding, object);
 					res += " (" + reliability + ")";
@@ -53,17 +54,17 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 					EObject object = argument.getTargetObject();
 					if (isInParameter(binding)){
 						float reliability = argumentManager.getReliability(binding, object);
-						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object))
+						return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object))
 								+ (showReliabilities ? " (" + reliability + ")" : "");
 					}else{
-						return (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object));
+						return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object));
 					}
 				} else {
 					EObject object = argument.getProxyObject();
 					if (isInParameter(binding)) {
-						return "(Missing object: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + ")";
+						return "(Missing object: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
 					} else {
-						return "(Not yet created: " + (showQualifiedArgumentNames ? Util.getQualifiedArgumentName(object) : Util.getName(object)) + ")";
+						return "(Not yet created: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
 					}
 				}
 			}
@@ -72,7 +73,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
 			
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				Object actual = operationInvocationWrapper.getExecutionArgument(binding);
+				Object actual = operationInvocationWrapper.getExecutionArgument(binding);				
 				if (actual != null) {
 					return actual.toString();
 				} else {

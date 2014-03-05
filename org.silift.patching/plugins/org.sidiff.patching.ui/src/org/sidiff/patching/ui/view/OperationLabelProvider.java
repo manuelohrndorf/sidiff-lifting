@@ -31,6 +31,7 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 		if (element instanceof OperationInvocationWrapper) {
 			OperationInvocationWrapper wrapper = (OperationInvocationWrapper) element;
 			text = wrapper.getText();
+			text += wrapper.getChangedArguments();
 			if (wrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				image = applied;
 				styleRange.strikeout = true;

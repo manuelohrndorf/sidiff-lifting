@@ -81,6 +81,13 @@ public class ObjectArgumentWrapper extends ArgumentWrapper {
 		}
 	}
 	
+
+	@Override
+	public boolean isDefaultValue() {
+		//Objects do not have a default value
+		return false;
+	}
+	
 	@Override
 	public ParameterBinding getParameterBinding() {
 		return getObjectBinding();

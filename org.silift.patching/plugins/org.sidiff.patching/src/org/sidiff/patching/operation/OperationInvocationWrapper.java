@@ -6,11 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.ecore.NameUtil;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 
 /**
  * Encapsulates an operation invocation and keeps further information about the
@@ -233,6 +238,46 @@ public class OperationInvocationWrapper {
 		return false;
 	}
 
+	public ArrayList<String> getChangedArguments() {
+		ArrayList<String> arguments = new ArrayList<>();		
+		for (ArgumentWrapper argumentWrapper : allActualArguments) {
+			ParameterBinding binding = argumentWrapper.getParameterBinding();
+			if (binding.getFormalParameter().getDirection() == ParameterDirection.IN) {				
+				if (!argumentWrapper.isDefaultValue()) {					
+					if(binding instanceof ValueParameterBinding){
+						ValueParameterBinding valBinding = (ValueParameterBinding) binding;
+						if (this.getStatus() == OperationInvocationStatus.PASSED) {
+							Object actual = this.getExecutionArgument(valBinding);				
+							if (actual != null) {
+								arguments.add(actual.toString());
+							}
+						} else{
+							arguments.add(valBinding.getActual());					
+						}
+					}
+					else if (binding instanceof ObjectParameterBinding) {
+						ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
+						if (this.getStatus() == OperationInvocationStatus.PASSED) {
+							EObject object = (EObject)this.getExecutionArgument(objBinding);
+							arguments.add(NameUtil.getName(object));								
+						} else {
+							if (argumentWrapper.isResolved()) {
+								EObject object = ((ObjectArgumentWrapper) argumentWrapper).getTargetObject();
+								arguments.add(NameUtil.getName(object));								
+
+							} else {
+								EObject object = ((ObjectArgumentWrapper) argumentWrapper).getProxyObject();
+								arguments.add(NameUtil.getName(object));								
+							}
+						}						
+					}
+				}
+			}
+		}
+
+		return arguments;
+	}
+	
 	private void copyArguments(Map<ParameterBinding, Object> from, Map<ParameterBinding, Object> to) {
 		for (ParameterBinding binding : from.keySet()) {
 			to.put(binding, from.get(binding));

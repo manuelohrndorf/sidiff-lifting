@@ -11,14 +11,13 @@ import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.sidiff.patching.ui.view.InputParameterSection;
-import org.sidiff.patching.ui.view.OutputParameterSection;
 
-public class ShowQualifiedArgumentsHandler extends AbstractHandler {
+public class ShowUnchangedArguments extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		PropertySheet propertySheet;
-		State state = event.getCommand().getState("org.sidiff.patching.ui.state.showQualifiedArgumentName");
+		State state = event.getCommand().getState("org.sidiff.patching.ui.state.showUnchangedArguments");
 		try {
 			propertySheet = (PropertySheet)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
 			if(propertySheet.getCurrentPage() instanceof TabbedPropertySheetPage){
@@ -29,11 +28,8 @@ public class ShowQualifiedArgumentsHandler extends AbstractHandler {
 					for(ISection sec: page.getCurrentTab().getSections()){
 						if(sec instanceof InputParameterSection){
 							InputParameterSection section = (InputParameterSection)page.getCurrentTab().getSectionAtIndex(0);
-							section.showQualifiedArgumentName(!(Boolean)state.getValue());
+							section.showUnchangedArguments(!(Boolean)state.getValue());
 							
-						}else if(sec instanceof OutputParameterSection){
-							OutputParameterSection section = (OutputParameterSection)page.getCurrentTab().getSectionAtIndex(0);
-							section.showQualifiedArgumentName(!(Boolean)state.getValue());
 						}
 					}
 				}
@@ -48,6 +44,4 @@ public class ShowQualifiedArgumentsHandler extends AbstractHandler {
 		
 		return null;
 	}
-
-
 }

@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -204,7 +205,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			this.resourceCategory = resourceCategory;
 			this.reliability = reliability;
 			this.object = object;
-			this.name = Util.getName((EObject)object);
+			this.name = NameUtil.getName((EObject)object);
 		}
 
 		public Object getObject() {

@@ -27,4 +27,6 @@ public abstract class ArgumentWrapper {
 	
 	public abstract boolean isResolved();
 	
+	public abstract boolean isDefaultValue();
+	
 }

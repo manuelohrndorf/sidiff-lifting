@@ -115,7 +115,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		operationLabelProvider = new OperationLabelProvider();
 		patchViewer.setLabelProvider(operationLabelProvider);
-		
+				
 		//Register part listener (for editor)
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
 
@@ -361,7 +361,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	@Override
 	public void setFocus() {
-		
 		patchViewer.getControl().setFocus();
 	}
 

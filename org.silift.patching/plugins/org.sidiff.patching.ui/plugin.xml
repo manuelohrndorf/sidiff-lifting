@@ -46,8 +46,12 @@
       </command>
       <command
             categoryId="org.silift.patching.ui.category.silift"
-            id="org.sidiff.patching.ui.showUnchangedAttributes"
-            name="Show Unchanged Attributes">
+            id="org.sidiff.patching.ui.showUnchangedArguments"
+            name="Show Unchanged Arguments">
+         <state
+               class="org.eclipse.jface.commands.ToggleState"
+               id="org.sidiff.patching.ui.state.showUnchangedArguments">
+         </state>
       </command>
    </extension>
    <extension
@@ -70,8 +74,8 @@
             commandId="org.sidiff.patching.ui.ShowReliabilitiesCommand">
       </handler>
       <handler
-            class="org.sidiff.patching.ui.handler.ShowUnchangedAttributes"
-            commandId="org.sidiff.patching.ui.showUnchangedAttributes">
+            class="org.sidiff.patching.ui.handler.ShowUnchangedArguments"
+            commandId="org.sidiff.patching.ui.showUnchangedArguments">
       </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
@@ -113,10 +117,10 @@
         </visibleWhen>
      </command>
      <command
-           commandId="org.sidiff.patching.ui.showUnchangedAttributes"
-           icon="icons/filter_attributes.gif"
+           commandId="org.sidiff.patching.ui.showUnchangedArguments"
+           icon="icons/filter_changed_attributes.gif"
            style="toggle"
-           tooltip="Toggles visibility of unchanged attributes">
+           tooltip="Enables the visibility of unchanged arguments">
         <visibleWhen>
            <reference
                  definitionId="org.sidiff.patching.ui.definition.PropertiesView">

@@ -65,4 +65,10 @@ public class MultiArgumentWrapper extends ArgumentWrapper {
 		
 		return true;
 	}
+
+	@Override
+	public boolean isDefaultValue() {
+		//Objects do not have a default value
+		return false;
+	}
 }
