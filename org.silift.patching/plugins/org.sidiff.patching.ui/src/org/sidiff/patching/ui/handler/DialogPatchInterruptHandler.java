@@ -1,7 +1,6 @@
 package org.sidiff.patching.ui.handler;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
@@ -24,11 +23,11 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 			
 			if(revertedOperation){
 				title = "Reverting Operation: Validation Error";
-				options = new String[] {"Ignore", "Reapply and continue", "Reapply and abort"};
+				options = new String[] {"Ignore", "Reapply Operation"};
 			}
 			else{
 				title = "Applying Operation: Validation Error";
-				options = new String[] {"Ignore", "Revert and continue", "Revert and abort"};
+				options = new String[] {"Ignore", "Revert Operation"};
 			}
 		
 			StringBuffer validationErrorString = new StringBuffer();
@@ -37,9 +36,9 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 				validationErrorString.append(LINE_SEPERATOR);
 			}
 		 MessageDialog dialog = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				 "Operation " + operationInvocation.getChangeSet().getName() + ": Validation Error",
+				 "Validation Error after Operation " + operationInvocation.getChangeSet().getName(),
 				 null,
-				 "The following validation errors have occured:"
+				 "The following validation error has occured:"
 				 + LINE_SEPERATOR + validationErrorString,
 				 MessageDialog.WARNING, options, 0);
 	    		int result = dialog.open();
@@ -47,9 +46,7 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 				case 0:
 					return PatchInterruptOption.IGNORE;
 				case 1:
-					return PatchInterruptOption.CONTINUE;
-				case 2:
-					return PatchInterruptOption.ABORT;
+					return PatchInterruptOption.UNDO;			
 				default:
 					return PatchInterruptOption.IGNORE;
 				}
