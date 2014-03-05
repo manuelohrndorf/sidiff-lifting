@@ -69,13 +69,15 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 
-		this.argumentsFilter = new UnchangedArgumentsFilter();
-		
 		this.inputArgumentsViewer = new TableViewer(composite, SWT.FILL);
 		this.inputArgumentsViewer.setContentProvider(new ArrayContentProvider());
 		this.inputArgumentsViewer.getTable().setHeaderVisible(true);
 		this.inputArgumentsViewer.getTable().setLinesVisible(true);
 		this.inputArgumentsViewer.getTable().setLayoutData(data);
+
+		this.argumentsFilter = new UnchangedArgumentsFilter();
+		this.inputArgumentsViewer.addFilter(this.argumentsFilter);
+		
 		this.argumentValueLabelProvider = new ArgumentValueLabelProvider();
 		this.editingSupport = new ArgumentValueEditingSupport(inputArgumentsViewer);
 		this.editingSupport.setListener(this);
@@ -134,12 +136,11 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	}
 	
 	public void showUnchangedArguments(boolean b){
-		if(b){
-			this.inputArgumentsViewer.addFilter(argumentsFilter);
+		if(!b){
+			this.inputArgumentsViewer.addFilter(this.argumentsFilter);
 		}
 		else{
-			this.inputArgumentsViewer.removeFilter(argumentsFilter);
-
+			this.inputArgumentsViewer.removeFilter(this.argumentsFilter);
 		}
 	}
 

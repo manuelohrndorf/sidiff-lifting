@@ -28,7 +28,7 @@ public class ShowUnchangedArguments extends AbstractHandler {
 					for(ISection sec: page.getCurrentTab().getSections()){
 						if(sec instanceof InputParameterSection){
 							InputParameterSection section = (InputParameterSection)page.getCurrentTab().getSectionAtIndex(0);
-							section.showUnchangedArguments(!(Boolean)state.getValue());
+							section.showUnchangedArguments((Boolean)state.getValue());
 							
 						}
 					}
