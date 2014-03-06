@@ -21,9 +21,13 @@ public class PatchReportManager {
 
 	public void startPatchApplication() {
 		reports.add(new PatchReport());
-		notifyReportChanged();
+		//notifyReportChanged();
 	}
 
+	public void cancelPatchApplication(){
+		reports.remove(reports.size()-1);
+	}
+	
 	public void finishPatchApplication() {
 		int index = reports.size()-1;
 		if(reports.get(index).getEntries().size() > 1 

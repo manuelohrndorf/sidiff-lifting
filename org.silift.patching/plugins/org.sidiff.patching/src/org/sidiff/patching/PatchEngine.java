@@ -173,6 +173,8 @@ public class PatchEngine {
 
 		final OperationInvocation op = operationInvocation;
 		final ApplicationResult applicationResult = new ApplicationResult();
+		
+		boolean canceled = false;
 
 		// Start new patch application (only if this execution is "alone")
 		if(singleOperation){
@@ -254,6 +256,8 @@ public class PatchEngine {
 							operationInvocation, validationErrors);
 
 					if (option != PatchInterruptOption.IGNORE) {
+						reportManager.cancelPatchApplication();
+						canceled = true;
 						revert(operationInvocation);
 						validationErrors = validationManager.validateTargetModel();
 						reportManager.updateValidationEntries(validationErrors);
@@ -269,7 +273,9 @@ public class PatchEngine {
 				Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 				reportManager.updateValidationEntries(validationErrors);
 			}
-			reportManager.finishPatchApplication();
+			if(!canceled){
+				reportManager.finishPatchApplication();
+			}
 		}
 		
 		return applicationResult.success;
@@ -293,6 +299,7 @@ public class PatchEngine {
 		final OperationInvocation op = operationInvocation;
 		final RevertResult revertResult = new RevertResult();
 
+		boolean canceled = false;
 		// Start new patch application
 		reportManager.startPatchApplication();
 
@@ -361,6 +368,8 @@ public class PatchEngine {
 							operationInvocation, validationErrors);
 
 					if (option != PatchInterruptOption.IGNORE) {
+						reportManager.cancelPatchApplication();
+						canceled = true;
 						apply(operationInvocation, true);
 						validationErrors = validationManager.validateTargetModel();
 						reportManager.updateValidationEntries(validationErrors);
@@ -376,7 +385,9 @@ public class PatchEngine {
 			reportManager.updateValidationEntries(validationErrors);
 		}	
 		
-		reportManager.finishPatchApplication();
+		if(!canceled){
+			reportManager.finishPatchApplication();
+		}
 		
 		return revertResult.success;
 	}
