@@ -103,7 +103,7 @@ public class PatchEngine {
 		this.transformationEngine.init(patchedResource, executionMode, scope);
 
 		// Init report manager
-		this.reportManager = new PatchReportManager();
+		this.reportManager = new PatchReportManager(validationMode);
 
 		// Init patch interrupt handler
 		this.patchInterruptHandler = patchInterruptHandler;

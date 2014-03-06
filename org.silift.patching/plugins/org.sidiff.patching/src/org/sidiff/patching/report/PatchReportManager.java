@@ -8,15 +8,18 @@ import java.util.Map;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.validation.IValidationError;
+import org.sidiff.patching.validation.ValidationMode;
 
 public class PatchReportManager {
 
 	private List<IPatchReportListener> listeners;
 	private List<PatchReport> reports;
-
-	public PatchReportManager() {
+	private ValidationMode validationMode;
+	
+	public PatchReportManager(ValidationMode mode) {
 		reports = new ArrayList<PatchReport>();
 		listeners = new ArrayList<IPatchReportListener>();
+		validationMode = mode;
 	}
 
 	public void startPatchApplication() {
@@ -30,8 +33,9 @@ public class PatchReportManager {
 	
 	public void finishPatchApplication() {
 		int index = reports.size()-1;
-		if(reports.get(index).getEntries().size() > 1 
-				|| reports.get(index).updateValidationEntries(reports.get(index).getLastValidationEntry().getCurrentValidationErrors())){
+		if((validationMode == ValidationMode.NO && reports.get(index).getEntries().size() > 0) 
+				|| (validationMode != ValidationMode.NO && reports.get(index).getEntries().size() > 1) 
+				|| (validationMode != ValidationMode.NO && reports.get(index).updateValidationEntries(reports.get(index).getLastValidationEntry().getCurrentValidationErrors()))){
 			notifyPushReport(index);	
 		}else{
 			reports.remove(index);
