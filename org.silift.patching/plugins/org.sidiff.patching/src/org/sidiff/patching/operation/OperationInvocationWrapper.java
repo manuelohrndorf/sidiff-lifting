@@ -243,7 +243,7 @@ public class OperationInvocationWrapper {
 		for (ArgumentWrapper argumentWrapper : allActualArguments) {
 			ParameterBinding binding = argumentWrapper.getParameterBinding();
 			if (binding.getFormalParameter().getDirection() == ParameterDirection.IN) {				
-				if (!argumentWrapper.isDefaultValue()) {					
+				if (!binding.isDefaultValue()) {					
 					if(binding instanceof ValueParameterBinding){
 						ValueParameterBinding valBinding = (ValueParameterBinding) binding;
 						if (this.getStatus() == OperationInvocationStatus.PASSED) {

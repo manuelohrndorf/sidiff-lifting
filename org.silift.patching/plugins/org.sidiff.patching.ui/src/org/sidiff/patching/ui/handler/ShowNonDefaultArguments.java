@@ -12,12 +12,12 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.sidiff.patching.ui.view.InputParameterSection;
 
-public class ShowUnchangedArguments extends AbstractHandler {
+public class ShowNonDefaultArguments extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		PropertySheet propertySheet;
-		State state = event.getCommand().getState("org.sidiff.patching.ui.state.showUnchangedArguments");
+		State state = event.getCommand().getState("org.sidiff.patching.ui.state.showNonDefaultArguments");
 		try {
 			propertySheet = (PropertySheet)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.ui.views.PropertySheet");
 			if(propertySheet.getCurrentPage() instanceof TabbedPropertySheetPage){
@@ -28,7 +28,7 @@ public class ShowUnchangedArguments extends AbstractHandler {
 					for(ISection sec: page.getCurrentTab().getSections()){
 						if(sec instanceof InputParameterSection){
 							InputParameterSection section = (InputParameterSection)page.getCurrentTab().getSectionAtIndex(0);
-							section.showUnchangedArguments((Boolean)state.getValue());
+							section.showUnchangedArguments(!(Boolean)state.getValue());
 							
 						}
 					}

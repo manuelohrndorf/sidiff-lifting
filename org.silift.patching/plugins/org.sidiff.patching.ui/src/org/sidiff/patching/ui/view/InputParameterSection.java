@@ -138,9 +138,12 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	public void showUnchangedArguments(boolean b){
 		if(!b){
 			this.inputArgumentsViewer.addFilter(this.argumentsFilter);
+			this.inputArgumentsViewer.refresh();
 		}
 		else{
 			this.inputArgumentsViewer.removeFilter(this.argumentsFilter);
+			this.inputArgumentsViewer.refresh();
+
 		}
 	}
 

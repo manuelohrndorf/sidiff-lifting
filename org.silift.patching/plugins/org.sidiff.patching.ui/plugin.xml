@@ -46,11 +46,11 @@
       </command>
       <command
             categoryId="org.silift.patching.ui.category.silift"
-            id="org.sidiff.patching.ui.showUnchangedArguments"
-            name="Show Unchanged Arguments">
+            id="org.sidiff.patching.ui.showNonDefaultArguments"
+            name="Show Non Default Arguments">
          <state
                class="org.eclipse.jface.commands.ToggleState"
-               id="org.sidiff.patching.ui.state.showUnchangedArguments">
+               id="org.sidiff.patching.ui.state.showNonDefaultArguments">
          </state>
       </command>
    </extension>
@@ -74,8 +74,8 @@
             commandId="org.sidiff.patching.ui.ShowReliabilitiesCommand">
       </handler>
       <handler
-            class="org.sidiff.patching.ui.handler.ShowUnchangedArguments"
-            commandId="org.sidiff.patching.ui.showUnchangedArguments">
+            class="org.sidiff.patching.ui.handler.ShowNonDefaultArguments"
+            commandId="org.sidiff.patching.ui.showNonDefaultArguments">
       </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
@@ -117,10 +117,10 @@
         </visibleWhen>
      </command>
      <command
-           commandId="org.sidiff.patching.ui.showUnchangedArguments"
+           commandId="org.sidiff.patching.ui.showNonDefaultArguments"
            icon="icons/filter_changed_attributes.gif"
            style="toggle"
-           tooltip="Enables the visibility of unchanged arguments">
+           tooltip="Enables the visibility of non-defaulting arguments">
         <visibleWhen>
            <reference
                  definitionId="org.sidiff.patching.ui.definition.PropertiesView">

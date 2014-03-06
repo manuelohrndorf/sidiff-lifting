@@ -43,25 +43,4 @@ public class ValueArgumentWrapper extends ArgumentWrapper {
 		// Always resolved..
 		return true;
 	}
-
-
-	@Override
-	public boolean isDefaultValue() {
-
-		//Check if there is a default value at all
-		if(this.binding.getFormalParameter().getType().getDefaultValue() == null){
-			//Check if there is a value at all
-			if(value == null){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		
-		//Check whether the current value equals the default value
-		else{
-			return this.binding.getFormalParameter().getType().getDefaultValue().toString().equals(value);
-		}
-	}
 }
