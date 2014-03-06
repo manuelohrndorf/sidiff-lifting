@@ -36,9 +36,9 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 				validationErrorString.append(LINE_SEPERATOR);
 			}
 		 MessageDialog dialog = new MessageDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				 "Validation Error after Operation " + operationInvocation.getChangeSet().getName(),
+				 "Validation Error(s) after Operation " + operationInvocation.getChangeSet().getName(),
 				 null,
-				 "The following validation error has occured:"
+				 "The following validation error(s) has(have) occurred:"
 				 + LINE_SEPERATOR + validationErrorString,
 				 MessageDialog.WARNING, options, 0);
 	    		int result = dialog.open();
