@@ -14,28 +14,36 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.operation.OperationManager;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
 	private List<CellObject> itemObjects;
 	private List<String> itemStrings;
 	private IArgumentManager argumentManager;
 	private OperationInvocationWrapper operationInvocationWrapper;
-	private IValueChangedListener listener;
+	private List<IValueChangedListener> listeners;
+	private OperationExplorerView operationEView;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
 		super(viewer);
+		listeners = new ArrayList<IValueChangedListener>();
+		try {
+			operationEView = (OperationExplorerView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.sidiff.patching.ui.view.OperationExplorerView");
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listeners.add(operationEView);
 	}
 
 	@Override
@@ -166,7 +174,9 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				}
 			}
 		}
-		this.listener.valueChanged();
+		for(IValueChangedListener listener : listeners){
+			listener.valueChanged();
+		}
 		getViewer().refresh();
 	}
 
@@ -180,7 +190,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	}
 	
 	public void setListener(IValueChangedListener listener) {
-		this.listener = listener;
+		listeners.add(listener);
 	}
 	
 	public interface IValueChangedListener {
