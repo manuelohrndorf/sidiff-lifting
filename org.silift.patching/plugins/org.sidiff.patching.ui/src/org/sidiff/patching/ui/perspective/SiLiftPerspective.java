@@ -37,7 +37,6 @@ IPersistableEditor {
 		layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
 		layout.addShowViewShortcut(OperationExplorerView.ID);
 		layout.addShowViewShortcut(ReportView.ID);
-		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 	}
 
@@ -52,14 +51,16 @@ IPersistableEditor {
 		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		left.addView(OperationExplorerView.ID);
 		
-		// Place report 		
+		// Place properties
 		IFolderLayout bottom_left = layout.createFolder("bottom_left", IPageLayout.BOTTOM, 0.5f, OperationExplorerView.ID);
-		bottom_left.addView(ReportView.ID);
+		bottom_left.addView(IPageLayout.ID_PROP_SHEET);
+
+		// Place report 		
+		IFolderLayout bottom = 	layout.createFolder("bottom", IPageLayout.BOTTOM, 0.7f, editorArea);
+		bottom.addView(ReportView.ID);
+
 		
-		// Place outline and properties
-		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.7f, editorArea);
-		bottom.addView(IPageLayout.ID_OUTLINE);
-		bottom.addView(IPageLayout.ID_PROP_SHEET);
+		
 		
 	}
 }
