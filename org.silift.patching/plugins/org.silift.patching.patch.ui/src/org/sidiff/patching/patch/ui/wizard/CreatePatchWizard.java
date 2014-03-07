@@ -1,7 +1,6 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,14 +8,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -65,24 +62,10 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		
-		try {
-			getContainer().run(false, false, new IRunnableWithProgress() {
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					finish();
-				}
-			});
-		} catch (InvocationTargetException e1) {
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-
-		return true;
+		return finish();
 	}
 	
-	private void finish() {
+	private boolean finish() {
 		Resource resourceA = inputModels.getResourceA();
 		Resource resourceB = inputModels.getResourceB();
 		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
@@ -114,6 +97,7 @@ public class CreatePatchWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "done...");
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			return false;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 
@@ -131,6 +115,7 @@ public class CreatePatchWizard extends Wizard {
 		} catch (OperationCanceledException e) {
 
 		}
+		return true;
 	}
 
 	public LiftingSettings readSettings() {
