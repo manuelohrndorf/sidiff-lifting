@@ -1,7 +1,6 @@
 package org.silift.merging.ui.wizard;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.filesystem.EFS;
@@ -20,7 +19,6 @@ import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -97,27 +95,9 @@ public class ThreeWayMergeWizard extends Wizard {
 	public boolean canFinish() {
 		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete() ;
 	}
-
+	
 	@Override
 	public boolean performFinish() {
-		
-		try {
-			getContainer().run(false, false, new IRunnableWithProgress() {
-				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-					finish();
-				}
-			});
-		} catch (InvocationTargetException e1) {
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-
-		return true;
-	}
-	
-	private void finish() {
 
 		//Gather all information
 		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
@@ -145,8 +125,9 @@ public class ThreeWayMergeWizard extends Wizard {
 						fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(liftingSettings));
 						PipelineUtils.sortDifference(fullDiff.getSymmetric());
 
-					}catch(InvalidModelException e){
+					}catch(final InvalidModelException e){
 						ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+						return Status.CANCEL_STATUS;
 					}
 					
 					monitor.worked(30);
@@ -317,6 +298,7 @@ public class ThreeWayMergeWizard extends Wizard {
 			}
 		};
 		job.schedule();
+		return true;
 	}
 
 	public LiftingSettings readSettings() {
