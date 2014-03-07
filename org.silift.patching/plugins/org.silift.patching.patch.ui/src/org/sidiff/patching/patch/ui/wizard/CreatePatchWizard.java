@@ -8,14 +8,19 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -26,6 +31,7 @@ import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.silift.common.util.ui.UIUtil;
 import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 
@@ -62,17 +68,34 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		return finish();
+		final LiftingSettings settings = readSettings();
+		
+		Job job = new Job("Creating Patch") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				boolean status = finish(settings);
+				
+				if (status) {
+					return Status.OK_STATUS;
+				} else {
+					return Status.CANCEL_STATUS;
+				}
+			}
+		};
+		job.schedule();
+		return true;
 	}
 	
-	private boolean finish() {
+	private boolean finish(LiftingSettings settings) {
 		Resource resourceA = inputModels.getResourceA();
 		Resource resourceB = inputModels.getResourceB();
 		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 
-		// Start calculation:
-		LiftingSettings settings = readSettings();
-		try{
+		/*
+		 *  Start calculation
+		 */
+		
+		try {
 			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(settings));
 			PipelineUtils.sortDifference(fullDiff.getSymmetric());
 
@@ -92,9 +115,29 @@ public class CreatePatchWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation());
+			final String patchPath = patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation());
 
 			LogUtil.log(LogEvent.NOTICE, "done...");
+			
+			/*
+			 * Update workspace UI
+			 */
+			
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+						UIUtil.openEditor(patchPath);	
+					} catch (CoreException e) {
+						e.printStackTrace();
+					} catch (OperationCanceledException e) {
+
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		}catch(InvalidModelException e){
 			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			return false;
@@ -106,15 +149,7 @@ public class CreatePatchWizard extends Wizard {
 					new String[] { "OK" }, 0);
 			dialog.open();
 		}
-
-		// Refresh workspace:
-		try {
-			inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (CoreException e) {
-			e.printStackTrace();
-		} catch (OperationCanceledException e) {
-
-		}
+		
 		return true;
 	}
 
