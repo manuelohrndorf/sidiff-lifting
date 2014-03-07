@@ -21,7 +21,6 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.patching.util.PatchUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.file.FileOperations;
@@ -130,7 +129,7 @@ public class PatchCreator {
 	}
 
 
-	public void serializePatch(IPath path) throws FileNotFoundException{
+	public String serializePatch(IPath path) throws FileNotFoundException{
 		
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
@@ -221,7 +220,10 @@ public class PatchCreator {
 		
 		// zip all necessary files
 		ZipUtil.zip(savePath, savePath, AsymmetricDiffFacade.PATCH_EXTENSION);
-		FileOperations.removeFolder(savePath);	
+		FileOperations.removeFolder(savePath);
+		
+		// Return path of saved zip:
+		return savePath + "." + AsymmetricDiffFacade.PATCH_EXTENSION;
 	}
 	
 	
