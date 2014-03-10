@@ -10,14 +10,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.patching.validation.ValidationMode;
-import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 
-	private ValidationMode validationMode = ValidationMode.ITERATIVE;
+	private ValidationMode validationMode = ValidationMode.NO;
 
 	private Composite container;
 	private Button noValidationButton;
@@ -52,14 +51,14 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 		comparisonGroup.setText("Validation mode:");
 
 		noValidationButton = new Button(comparisonGroup, SWT.RADIO);
-		noValidationButton.setText("No Validation");
+		noValidationButton.setText("No Validation");	
 
 		modelValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		modelValidationButton.setText("Model Validation");
 		
 		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		iterativeValidationButton.setText("Iterative Validation");
-		iterativeValidationButton.setSelection(true);
+
 
 		noValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -82,7 +81,7 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			}
 		});
 		
-
+		noValidationButton.setSelection(true);
 		return container;
 	}
 
