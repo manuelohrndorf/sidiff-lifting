@@ -49,7 +49,8 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 	
 	@Override
 	public void refresh() {
-  
+		super.refresh();
+		this.outputArgumentsViewer.getTable().redraw();
     }
 	
 	@Override

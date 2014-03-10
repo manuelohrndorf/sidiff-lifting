@@ -52,6 +52,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	@Override
 	public void refresh() {
 		super.refresh();
+		this.inputArgumentsViewer.getTable().redraw();
 //        inputArgumentsText.removeModifyListener(listener);
 //        OperationInvocationWrapperPropertySource properties = (OperationInvocationWrapperPropertySource)Platform.getAdapterManager().getAdapter(operationInvocationWrapper, IPropertySource.class);
 //        inputArgumentsText.setText(properties.getPropertyValue("status").toString());
