@@ -28,6 +28,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	private ArgumentValueLabelProvider argumentValueLabelProvider;
 	private ArgumentValueEditingSupport editingSupport;
 	private UnchangedArgumentsFilter argumentsFilter;
+	private Composite parent;
 
 //	private ModifyListener listener = new ModifyListener() {
 //	    @Override
@@ -52,7 +53,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	@Override
 	public void refresh() {
 		super.refresh();
-		this.inputArgumentsViewer.getTable().redraw();
+		this.parent.pack();
 //        inputArgumentsText.removeModifyListener(listener);
 //        OperationInvocationWrapperPropertySource properties = (OperationInvocationWrapperPropertySource)Platform.getAdapterManager().getAdapter(operationInvocationWrapper, IPropertySource.class);
 //        inputArgumentsText.setText(properties.getPropertyValue("status").toString());
@@ -62,6 +63,7 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+		this.parent = parent;
 		super.createControls(parent, aTabbedPropertySheetPage);
 		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;

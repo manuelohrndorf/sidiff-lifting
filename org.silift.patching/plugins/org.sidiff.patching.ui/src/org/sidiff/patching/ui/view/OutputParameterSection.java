@@ -26,6 +26,7 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 	private TableViewer outputArgumentsViewer;
 	private ArgumentValueLabelProvider argumentValueLabelProvider;
 	private ArgumentValueEditingSupport editingSupport;
+	private Composite parent;
 
 //	private ModifyListener listener = new ModifyListener() {
 //	    @Override
@@ -50,11 +51,12 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 	@Override
 	public void refresh() {
 		super.refresh();
-		this.outputArgumentsViewer.getTable().redraw();
+		this.parent.pack();
     }
 	
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
+		this.parent = parent;
 		super.createControls(parent, aTabbedPropertySheetPage);
 		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;
