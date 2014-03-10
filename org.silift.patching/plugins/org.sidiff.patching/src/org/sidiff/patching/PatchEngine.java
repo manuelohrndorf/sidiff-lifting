@@ -315,7 +315,7 @@ public class PatchEngine {
 			public void execute() {
 				try {
 					transformationEngine.undo(op);
-					operationManager.getStatusWrapper(op).setSkipped();
+					operationManager.getStatusWrapper(op).setReverted();
 					
 					revertResult.success = true;
 				} catch (OperationNotUndoableException e) {

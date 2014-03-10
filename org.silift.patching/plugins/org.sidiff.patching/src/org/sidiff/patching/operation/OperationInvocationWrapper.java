@@ -106,10 +106,10 @@ public class OperationInvocationWrapper {
 		executionError = null;
 	}
 
-	public void setSkipped() {
+	public void setReverted() {
 		cleanArguments(inArgs);
 		cleanArguments(outArgs);
-		status = OperationInvocationStatus.SKIPPED;
+		status = OperationInvocationStatus.REVERTED;
 		executionError = null;
 	}
 
