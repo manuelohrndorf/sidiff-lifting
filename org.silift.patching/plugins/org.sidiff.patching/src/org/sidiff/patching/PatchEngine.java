@@ -391,6 +391,10 @@ public class PatchEngine {
 		
 		return revertResult.success;
 	}
+	
+	public void ignore(OperationInvocation op){
+		operationManager.getStatusWrapper(op).setIgnored();
+	}
 
 	private class RevertResult {
 		boolean success;		

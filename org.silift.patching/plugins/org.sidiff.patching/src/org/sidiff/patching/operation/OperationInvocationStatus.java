@@ -7,5 +7,5 @@ package org.sidiff.patching.operation;
  */
 public enum OperationInvocationStatus {
 
-	INIT, PASSED, REVERTED, FAILED,
+	INIT, PASSED, REVERTED, FAILED, IGNORED
 }

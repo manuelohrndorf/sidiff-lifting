@@ -46,6 +46,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	private final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
 	private final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
+	private final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
 	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
 
 	private PatchEngine engine;
@@ -175,6 +176,25 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 							});
 						}
 						
+						if(operationWrapper.getStatus() != OperationInvocationStatus.IGNORED && operationWrapper.getStatus() != OperationInvocationStatus.PASSED){
+							manager.add(new Action("Ingnore operation", ignore) {
+								
+								@Override
+								public void run(){
+									engine.ignore(operationWrapper.getOperationInvocation());
+									updatePropertyViewViaSelectionListener(patchViewer);
+									patchViewer.refresh();
+								}
+							});
+						}else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
+							manager.add(new Action() {
+								@Override
+								public void run(){
+									
+								}
+							});
+						}
+						
 						manager.add(new Action("Show Properties View", properties) {
 							
 							@Override
@@ -249,7 +269,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				updateFilter(filterOperationsAction);
 			}
 		};
-		this.filterOperationsAction.setToolTipText("Hide all succesfully executed operations");
+		this.filterOperationsAction.setToolTipText("Hide all succesfully executed or ignored operations");
 		this.filterOperationsAction.setImageDescriptor(Activator.getImageDescriptor("filter_applied.gif"));
 
 		// Init filter enabled

@@ -20,6 +20,7 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 	private final Image applicable = Activator.getImageDescriptor("applicable.gif").createImage();
 	private final Image modified = Activator.getImageDescriptor("warning_16x16.gif").createImage();
 	private final Image conflicting = Activator.getImageDescriptor("conflict.gif").createImage();
+	private final Image ignored = Activator.getImageDescriptor("ignored.gif").createImage();
 
 	@Override
 	public void update(ViewerCell cell) {
@@ -36,7 +37,12 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 				image = applied;
 				styleRange.strikeout = true;
 				styleRange.foreground = new Color(display, 0, 200, 0);
-			} else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
+			} else if(wrapper.getStatus() == OperationInvocationStatus.IGNORED){
+				image = ignored;
+				styleRange.strikeout = true;
+				styleRange.foreground = new Color(display, 128, 128, 128);
+			}
+			else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
 				image = conflicting;
 			} else if (wrapper.hasUnresolvedInArguments()) {
 				image = conflicting;

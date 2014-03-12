@@ -11,7 +11,8 @@ public class ExecutedOperationsFilter extends ViewerFilter {
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (element instanceof OperationInvocationWrapper) {
 			OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) element;
-			return operationWrapper.getStatus()!=OperationInvocationStatus.PASSED;
+			return operationWrapper.getStatus()!=OperationInvocationStatus.PASSED 
+					&& operationWrapper.getStatus()!=OperationInvocationStatus.IGNORED;
 
 		}
 		return true;

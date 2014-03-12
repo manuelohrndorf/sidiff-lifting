@@ -119,6 +119,10 @@ public class OperationInvocationWrapper {
 		status = OperationInvocationStatus.FAILED;
 		this.executionError = executionError;
 	}
+	
+	public void setIgnored(){
+		status = OperationInvocationStatus.IGNORED;
+	}
 
 	public OperationInvocation getOperationInvocation() {
 		return operationInvocation;
