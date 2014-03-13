@@ -321,14 +321,14 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		validateMenu.add(iterativeValidationAction);
 
 		// ----------- Execution ------------------
-		this.applyPatchAction = new Action("Apply all non conflicting changes", IAction.AS_PUSH_BUTTON) {
+		this.applyPatchAction = new Action("Apply all non conflicting and unignored changes", IAction.AS_PUSH_BUTTON) {
 			@Override
 			public void run() {
 				engine.applyPatch(false);
 				updatePropertyViewViaSelectionListener(patchViewer);
 			}
 		};
-		this.applyPatchAction.setToolTipText("Apply all non conflicting changes to the model");
+		this.applyPatchAction.setToolTipText("Apply all non conflicting and unignored changes");
 		this.applyPatchAction.setImageDescriptor(Activator.getImageDescriptor("patch_exc_16x16.gif"));
 
 		// ----------- Collapse All ------------------

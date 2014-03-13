@@ -143,9 +143,10 @@ public class PatchEngine {
 			
 			Boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED ||
 					operationWrapper.hasModifiedInArguments() || operationWrapper.hasUnresolvedInArguments();
+			Boolean ignoredOperation = operationWrapper.getStatus() == OperationInvocationStatus.IGNORED;
 
 			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED) && 
-					(applyConflictingOperationInvocations || !conflictingOperation)) {
+					(applyConflictingOperationInvocations || !conflictingOperation) && !ignoredOperation) {
 
 				apply(operationInvocation, false);
 			}
