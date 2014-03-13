@@ -395,6 +395,10 @@ public class PatchEngine {
 	public void ignore(OperationInvocation op){
 		operationManager.getStatusWrapper(op).setIgnored();
 	}
+	
+	public void unignore(OperationInvocation op){
+		operationManager.getStatusWrapper(op).setUnIgnored();
+	}
 
 	private class RevertResult {
 		boolean success;		

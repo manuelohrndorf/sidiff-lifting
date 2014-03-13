@@ -1,15 +1,11 @@
 package org.sidiff.patching.ui.view;
 
-import java.util.Arrays;
-
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.sidiff.patching.exceptions.OperationNotExecutableException;
-import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.ui.Activator;
@@ -60,23 +56,4 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 		cell.setText(" " + text);
 		cell.setStyleRanges(styleRanges);
 	}
-
-	private String getFormatedChangeSetInfo(OperationInvocationWrapper opWrapper) {
-		String info = opWrapper.getText();
-
-		if (opWrapper.getStatus() == OperationInvocationStatus.FAILED) {
-			Exception exception = opWrapper.getExecutionError();
-			if (exception instanceof ParameterMissingException) {
-				ParameterMissingException parameterMissingException = (ParameterMissingException) exception;
-				String[] parameterNames = parameterMissingException.getParameterNames();
-				info += "\n\nMissing parameter" + (parameterNames.length > 1 ? "s: " : ": ")
-						+ Arrays.toString(parameterNames);
-			} else if (exception instanceof OperationNotExecutableException) {
-				info += "\n\nTransformator could not apply!";
-			}
-		}
-
-		return info;
-	}
-
 }

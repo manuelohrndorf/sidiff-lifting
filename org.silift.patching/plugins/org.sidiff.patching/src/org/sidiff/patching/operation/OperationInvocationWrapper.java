@@ -123,6 +123,10 @@ public class OperationInvocationWrapper {
 	public void setIgnored(){
 		status = OperationInvocationStatus.IGNORED;
 	}
+	
+	public void setUnIgnored(){
+		status = OperationInvocationStatus.INIT;
+	}
 
 	public OperationInvocation getOperationInvocation() {
 		return operationInvocation;

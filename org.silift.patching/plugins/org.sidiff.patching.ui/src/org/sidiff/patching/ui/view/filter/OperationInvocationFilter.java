@@ -5,7 +5,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
-public class ExecutedOperationsFilter extends ViewerFilter {
+public class OperationInvocationFilter extends ViewerFilter {
 	
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {

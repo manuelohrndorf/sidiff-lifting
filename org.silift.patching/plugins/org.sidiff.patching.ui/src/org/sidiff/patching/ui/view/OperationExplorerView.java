@@ -37,7 +37,7 @@ import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
-import org.sidiff.patching.ui.view.filter.ExecutedOperationsFilter;
+import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
 import org.sidiff.patching.validation.ValidationMode;
 
 public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
@@ -47,6 +47,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
 	private final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
 	private final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
+	private final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
 	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
 
 	private PatchEngine engine;
@@ -62,7 +63,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	// ----------- Filter -------------------
 	private Action filterOperationsAction;
-	private ExecutedOperationsFilter executedOperationsFilter;
+	private OperationInvocationFilter executedOperationsFilter;
 
 	// ----------- Validation -------------------
 	private DropDownAction validateMenu;
@@ -129,12 +130,17 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				Object selectedNode = selection.getFirstElement();
 				if (selectedNode instanceof OperationInvocationWrapper) {
 					OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
-					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
+					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED
+							&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED ) {
 						engine.revert(operationWrapper.getOperationInvocation());
-					} else {
+					} else if (operationWrapper.getStatus() != OperationInvocationStatus.IGNORED){
 						engine.apply(operationWrapper.getOperationInvocation(),true);
 					}
+					else if (operationWrapper.getStatus() == OperationInvocationStatus.IGNORED) {
+						engine.unignore(operationWrapper.getOperationInvocation());						
+					}
 					updatePropertyViewViaSelectionListener(viewer);
+					patchViewer.refresh();
 				}
 			};
 		});
@@ -156,7 +162,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 					Object selectedNode = selection.getFirstElement();
 					if (selectedNode instanceof OperationInvocationWrapper) {
 						final OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
-						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED) {
+						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED && operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Apply operation", apply) {
 
 								@Override
@@ -165,7 +171,16 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 									updatePropertyViewViaSelectionListener(patchViewer);
 								};
 							});
-						} else {
+							manager.add(new Action("Ignore operation", ignore) {
+
+								@Override
+								public void run(){
+									engine.ignore(operationWrapper.getOperationInvocation());
+									updatePropertyViewViaSelectionListener(patchViewer);
+									patchViewer.refresh();
+								}
+							});
+						} else	if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED && operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Revert operation", revert) {
 							
 								@Override
@@ -175,22 +190,14 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 								};
 							});
 						}
-						
-						if(operationWrapper.getStatus() != OperationInvocationStatus.IGNORED && operationWrapper.getStatus() != OperationInvocationStatus.PASSED){
-							manager.add(new Action("Ingnore operation", ignore) {
+						else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
+							manager.add(new Action("Unignore operation", unignore) {
 								
 								@Override
 								public void run(){
-									engine.ignore(operationWrapper.getOperationInvocation());
+									engine.unignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
 									patchViewer.refresh();
-								}
-							});
-						}else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
-							manager.add(new Action() {
-								@Override
-								public void run(){
-									
 								}
 							});
 						}
@@ -262,7 +269,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		final TreeViewer treeViewer = viewer;
 		// ----------- Filter Operations ----
-		this.executedOperationsFilter = new ExecutedOperationsFilter();
+		this.executedOperationsFilter = new OperationInvocationFilter();
 		this.filterOperationsAction = new Action("Hide Successful Operations", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
