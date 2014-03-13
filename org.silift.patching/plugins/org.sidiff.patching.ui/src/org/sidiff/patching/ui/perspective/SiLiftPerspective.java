@@ -52,12 +52,12 @@ IPersistableEditor {
 		left.addView(OperationExplorerView.ID);
 		
 		// Place properties
-		IFolderLayout bottom_left = layout.createFolder("bottom_left", IPageLayout.BOTTOM, 0.5f, OperationExplorerView.ID);
-		bottom_left.addView(IPageLayout.ID_PROP_SHEET);
+		IFolderLayout bottom_left = layout.createFolder("bottom_left", IPageLayout.BOTTOM, 0.7f, OperationExplorerView.ID);
+		bottom_left.addView(ReportView.ID);
 
 		// Place report 		
 		IFolderLayout bottom = 	layout.createFolder("bottom", IPageLayout.BOTTOM, 0.7f, editorArea);
-		bottom.addView(ReportView.ID);
+		bottom.addView(IPageLayout.ID_PROP_SHEET);
 
 		
 		
