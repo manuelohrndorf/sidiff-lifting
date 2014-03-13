@@ -33,6 +33,9 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	private OperationInvocationWrapper operationInvocationWrapper;
 	private List<IValueChangedListener> listeners;
 	private OperationExplorerView operationEView;
+	
+	private boolean showReliabilities = false;
+	private boolean showQualifiedArgumentNames = false;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
 		super(viewer);
@@ -239,8 +242,25 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		
 		@Override
 		public String toString() {
-			return (object instanceof EObject)? name + " (" + reliability + ")" : name;
+			if(object instanceof EObject){
+				EObject eObject = (EObject)object;
+				return (showQualifiedArgumentNames? NameUtil.getQualifiedArgumentName(eObject):name) + (showReliabilities?" (" + reliability + ")":"");
+			}else{
+				return name;
+			}
 		}
+	}
+	
+	public void setShowReliablities(boolean b) {
+		showReliabilities = b;
+	}
+	
+	public boolean isShowQualifiedArgumentName() {
+		return showQualifiedArgumentNames;
+	}
+
+	public void setShowQualifiedArgumentName(boolean showQualifiedArgumentName) {
+		this.showQualifiedArgumentNames = showQualifiedArgumentName;
 	}
 	
 }

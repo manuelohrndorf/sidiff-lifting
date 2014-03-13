@@ -132,10 +132,12 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	
 	public void showQualifiedArgumentName(boolean b){
 		this.argumentValueLabelProvider.setShowQualifiedArgumentName(b);
+		this.editingSupport.setShowQualifiedArgumentName(b);
 	}
 	
 	public void showReliability(boolean b){
 		this.argumentValueLabelProvider.setShowReliablities(b);
+		this.editingSupport.setShowReliablities(b);
 	}
 	
 	public void showUnchangedArguments(boolean b){
