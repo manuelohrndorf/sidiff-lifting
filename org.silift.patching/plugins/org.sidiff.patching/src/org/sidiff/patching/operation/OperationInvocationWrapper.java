@@ -218,7 +218,7 @@ public class OperationInvocationWrapper {
 	}
 
 	public String getText() {
-		return operationManager.getOrderedOperationWrappers().indexOf(this) + ": "
+		return operationManager.getOrderedOperationWrappers().indexOf(this)+1 + ": "
 				+ operationInvocation.getChangeSet().getName();
 	}
 
