@@ -22,6 +22,7 @@ import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.merging.ui.util.MergeModels;
+import org.silift.settings.PatchingSettings;
 
 public class ThreeWayMergePage02 extends WizardPage {
 
@@ -38,16 +39,15 @@ public class ThreeWayMergePage02 extends WizardPage {
 
 	private MergeModels mergeModels;
 	
-	private ThreeWayMergePage01 page01;
+	private PatchingSettings settings;
 	
 	public ThreeWayMergePage02(
-			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, ThreeWayMergePage01 page01) {
+			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 		
 		this.mergeModels = mergeModels;
 		
-		this.page01 = page01;
-
+		this.settings = settings;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -136,7 +136,7 @@ public class ThreeWayMergePage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), this.page01.getScopeWidget());
+		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), settings.getScope());
 		addWidget(algorithmsGroup, matcherWidget);
 
 		//Reliability
@@ -213,5 +213,11 @@ public class ThreeWayMergePage02 extends WizardPage {
 	}
 	public ReliabilityWidget getReliabilityWidget(){
 		return reliabilityWidget;
+	}
+	
+	public void updateSettings(){
+		settings.setTechBuilder(builderWidget.getSelection());
+		settings.setMatcher(matcherWidget.getSelection());
+		settings.setMinReliability(reliabilityWidget.getReliability());
 	}
 }

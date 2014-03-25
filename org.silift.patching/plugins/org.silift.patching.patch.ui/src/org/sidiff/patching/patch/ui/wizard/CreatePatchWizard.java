@@ -19,21 +19,22 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.silift.common.util.ui.UIUtil;
 import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
+import org.silift.settings.LiftingSettings;
+import org.silift.settings.LiftingSettings.RecognitionEngineMode;
 
 public class CreatePatchWizard extends Wizard {
 
@@ -41,23 +42,26 @@ public class CreatePatchWizard extends Wizard {
 	private CreatePatchPage02 createPatchPage02;
 
 	private InputModels inputModels;
+	private LiftingSettings settings;
 
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Patch Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
+		settings = new LiftingSettings();
+		settings.setRecognitionEngineMode(RecognitionEngineMode.POST_PROCESSED);
 	}
 
 	@Override
 	public void addPages() {
 		createPatchPage01 = new CreatePatchPage01(
-				inputModels,
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"));
+				inputModels, 
+				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings);
 		addPage(createPatchPage01);
 		
 		createPatchPage02 = new CreatePatchPage02(
 				inputModels,
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), createPatchPage01);
+				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings);
 		addPage(createPatchPage02);
 	}
 
@@ -65,10 +69,29 @@ public class CreatePatchWizard extends Wizard {
 	public boolean canFinish() {
 		return createPatchPage01.isPageComplete() && createPatchPage02.isPageComplete();
 	}
+	
+	@Override
+	 public IWizardPage getNextPage(IWizardPage page){
+		if(page instanceof CreatePatchPage01)
+			((CreatePatchPage01)page).updateSettings();
+		else if (page instanceof CreatePatchPage02)
+			((CreatePatchPage02)page).updateSettings();
+		return super.getNextPage(page);
+	 }
+	
+	@Override
+	public IWizardPage getPreviousPage(IWizardPage page){
+		if(page instanceof CreatePatchPage01)
+			((CreatePatchPage01)page).updateSettings();
+		else if (page instanceof CreatePatchPage02)
+			((CreatePatchPage02)page).updateSettings();
+		return super.getPreviousPage(page);
+	}
 
 	@Override
 	public boolean performFinish() {
-		final LiftingSettings settings = readSettings();
+		createPatchPage01.updateSettings();
+		createPatchPage02.updateSettings();
 		
 		Job job = new Job("Creating Patch") {
 			@Override
@@ -96,7 +119,7 @@ public class CreatePatchWizard extends Wizard {
 		 */
 		
 		try {
-			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(settings));
+			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
 			PipelineUtils.sortDifference(fullDiff.getSymmetric());
 
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
@@ -151,33 +174,6 @@ public class CreatePatchWizard extends Wizard {
 		}
 		
 		return true;
-	}
-
-	public LiftingSettings readSettings() {
-
-		/*
-		 * Do lifting settings
-		 */
-
-		LiftingSettings liftingSettings = new LiftingSettings();
-
-		liftingSettings.setValidate(createPatchPage01.isValidateModels());
-		// Used matcher
-		liftingSettings.setMatcher(createPatchPage02.getSelectedMatchingEngine());
-
-		//Used technical difference builder
-		liftingSettings.setTechnicalDifferenceBuilder(createPatchPage02.getSelectedTechnicalDifferenceBuilder());
-
-		// Do lifting..?
-		liftingSettings.setDoLifting(true);
-
-		// Use Postprocessor..?
-		liftingSettings.setPostProcess(true);
-
-		// Used rulebases
-		liftingSettings.setUsedRulebases(createPatchPage01.getSelectedRulebases());
-
-		return liftingSettings;
 	}
 
 	protected ImageDescriptor getImageDescriptor(String name) {

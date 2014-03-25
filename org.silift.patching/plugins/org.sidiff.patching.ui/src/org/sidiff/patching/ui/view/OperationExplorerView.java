@@ -38,7 +38,7 @@ import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
-import org.sidiff.patching.validation.ValidationMode;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
 
@@ -60,6 +60,8 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	// Collapse
 	private Action collapseAllAction;
+	// Expand
+	private Action expandAllAction;
 
 	// ----------- Filter -------------------
 	private Action filterOperationsAction;
@@ -202,6 +204,25 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 							});
 						}
 						
+						if(operationWrapper.getStatus() != OperationInvocationStatus.IGNORED && operationWrapper.getStatus() != OperationInvocationStatus.PASSED){
+							manager.add(new Action("Ingnore operation", ignore) {
+								
+								@Override
+								public void run(){
+									engine.ignore(operationWrapper.getOperationInvocation());
+									updatePropertyViewViaSelectionListener(patchViewer);
+									patchViewer.refresh();
+								}
+							});
+						}else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
+							manager.add(new Action() {
+								@Override
+								public void run(){
+									
+								}
+							});
+						}
+						
 						manager.add(new Action("Show Properties View", properties) {
 							
 							@Override
@@ -253,9 +274,9 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		this.engine.setValidationMode(tmpMode);
 
-		if (this.engine.getValidationMode() == ValidationMode.FINAL)
+		if (this.engine.getValidationMode() == ValidationMode.MODEL_VALIDATION)
 			finalValidationAction.setChecked(true);
-		else if (this.engine.getValidationMode() == ValidationMode.ITERATIVE)
+		else if (this.engine.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)
 			iterativeValidationAction.setChecked(true);
 		else
 			noValidationAction.setChecked(true);
@@ -289,7 +310,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
-				engine.setValidationMode(ValidationMode.ITERATIVE);
+				engine.setValidationMode(ValidationMode.ITERATIVE_VALIDATION);
 			}
 
 		};
@@ -298,7 +319,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.finalValidationAction = new Action("Final Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
-				engine.setValidationMode(ValidationMode.FINAL);
+				engine.setValidationMode(ValidationMode.MODEL_VALIDATION);
 			}
 		};
 		this.finalValidationAction
@@ -307,7 +328,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.noValidationAction = new Action("No Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
-				engine.setValidationMode(ValidationMode.NO);
+				engine.setValidationMode(ValidationMode.NO_VALIDATION);
 			}
 		};
 		this.noValidationAction.setToolTipText("The model won't be validated.");
@@ -341,6 +362,17 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		};
 		this.collapseAllAction.setToolTipText("Collapse all");
 		this.collapseAllAction.setImageDescriptor(Activator.getImageDescriptor("collapseall.png"));
+		
+		// ----------- Expand All ------------------
+				this.expandAllAction = new Action("Expand all", IAction.AS_PUSH_BUTTON) {
+					@Override
+					public void run() {
+						treeViewer.expandAll();;
+
+					}
+				};
+				this.expandAllAction.setToolTipText("Expand all");
+				this.expandAllAction.setImageDescriptor(Activator.getImageDescriptor("expandall.gif"));
 	}
 
 	private void updateFilter(Action action) {
@@ -373,6 +405,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		toolbarManager.add(applyPatchAction);
 		toolbarManager.add(filterOperationsAction);
 		toolbarManager.add(collapseAllAction);
+		toolbarManager.add(expandAllAction);
 		toolbarManager.add(validateMenu);
 	}
 
@@ -486,6 +519,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.patchViewer.getTree().setVisible(false);
 		this.applyPatchAction.setEnabled(false);
 		this.collapseAllAction.setEnabled(false);
+		this.expandAllAction.setEnabled(false);
 		this.filterOperationsAction.setEnabled(false);
 		this.validateMenu.setEnabled(false);	
 		
@@ -504,6 +538,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.patchViewer.getTree().setVisible(true);
 		this.applyPatchAction.setEnabled(true);
 		this.collapseAllAction.setEnabled(true);
+		this.expandAllAction.setEnabled(true);
 		this.filterOperationsAction.setEnabled(true);
 		this.validateMenu.setEnabled(true);			
 	}

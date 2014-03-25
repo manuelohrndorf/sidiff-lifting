@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -30,17 +31,13 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.LiftingSettings;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -53,7 +50,6 @@ import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
-import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
@@ -62,6 +58,12 @@ import org.silift.merging.ui.util.MergeModels;
 import org.silift.modifieddetector.IModifiedDetector;
 import org.silift.modifieddetector.util.ModifiedDetectorUtil;
 import org.silift.patching.patch.PatchCreator;
+import org.silift.settings.ExecutionMode;
+import org.silift.settings.LiftingSettings;
+import org.silift.settings.PatchMode;
+import org.silift.settings.PatchingSettings;
+import org.silift.settings.LiftingSettings.RecognitionEngineMode;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 public class ThreeWayMergeWizard extends Wizard {
 
@@ -70,6 +72,7 @@ public class ThreeWayMergeWizard extends Wizard {
 
 	private MergeModels mergeModels;
 	private boolean validationState;
+	private PatchingSettings patchingSettings;
 
 	//Later used Differencef
 	Difference fullDiff = null;
@@ -78,19 +81,38 @@ public class ThreeWayMergeWizard extends Wizard {
 		this.setWindowTitle("Three-Way-Merge Wizard");
 		
 		this.mergeModels = new MergeModels(fileMine, fileTheirs, fileBase);
+		this.patchingSettings = new PatchingSettings();
 	}
 
 	@Override
 	public void addPages() {
 		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels,
-				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"));
+				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage01);
 		
 		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
-				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), threeWayMergePage01);
+				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage02);
 	}
 
+	@Override
+	 public IWizardPage getNextPage(IWizardPage page){
+		if(page instanceof ThreeWayMergePage01)
+			((ThreeWayMergePage01)page).updateSettings();
+		else if (page instanceof ThreeWayMergePage02)
+			((ThreeWayMergePage02)page).updateSettings();
+		return super.getNextPage(page);
+	 }
+	
+	@Override
+	public IWizardPage getPreviousPage(IWizardPage page){
+		if(page instanceof ThreeWayMergePage01)
+			((ThreeWayMergePage01)page).updateSettings();
+		else if (page instanceof ThreeWayMergePage02)
+			((ThreeWayMergePage02)page).updateSettings();
+		return super.getPreviousPage(page);
+	}
+	
 	@Override
 	public boolean canFinish() {
 		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete() ;
@@ -98,14 +120,20 @@ public class ThreeWayMergeWizard extends Wizard {
 	
 	@Override
 	public boolean performFinish() {
-
+		threeWayMergePage01.updateSettings();
+		threeWayMergePage02.updateSettings();
+		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
+		patchingSettings.setPatchMode(PatchMode.MERGING);
 		//Gather all information
 		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
-		final Scope scope = this.threeWayMergePage01.getScopeWidget().getSelection();
-		final ValidationMode validationMode = this.threeWayMergePage01.getValidationModeWidget().getSelection();
-		final LiftingSettings liftingSettings  = readSettings();
-		final Integer reliability = this.threeWayMergePage02.getReliabilityWidget().getReliability();
-		final IMatcher matcher = this.threeWayMergePage02.getSelectedMatchingEngine();
+		final Scope scope = patchingSettings.getScope();
+		final ValidationMode validationMode = patchingSettings.getValidationMode();
+		final LiftingSettings liftingSettings  = new LiftingSettings(patchingSettings.getScope(), patchingSettings.getRuleBases(), 
+													patchingSettings.getMatcher(), patchingSettings.getTechBuilder(), 
+													patchingSettings.getValidationMode()==ValidationMode.NO_VALIDATION?false:true,
+													RecognitionEngineMode.POST_PROCESSED);
+		final Integer reliability = patchingSettings.getMinReliability();
+		final IMatcher matcher = patchingSettings.getMatcher();
 
 		//First create a patch between BASE<->THEIRS
 		final InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
@@ -122,7 +150,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.subTask("Creating a patch between BASE<->THEIRS");
 
 					try{
-						fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, new AsymmetricDiffSettings(liftingSettings));
+						fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
 						PipelineUtils.sortDifference(fullDiff.getSymmetric());
 
 					}catch(final InvalidModelException e){
@@ -179,7 +207,7 @@ public class ThreeWayMergeWizard extends Wizard {
 									editingDomain = editor.getEditingDomain();
 								}
 								resourceResult.set(resource);
-								if (validationMode != ValidationMode.NO){
+								if (validationMode != ValidationMode.NO_VALIDATION){
 									//TODO: Nur Multiplicity-Check (hat nichts mit validationMode zu tun)
 									// EMFValidate.validateObject(resourceResult.get().getContents().get(0));
 								}
@@ -230,8 +258,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					
 					monitor.subTask("Initialize PatchEngine");					
 					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
-							argumentManager, transformationEngine, ExecutionMode.INTERACTIVE, PatchMode.MERGING, validationMode,
-							scope, matcher.canComputeReliability(), patchInterruptHandler, modifiedDetector);
+							argumentManager, transformationEngine, patchingSettings, patchInterruptHandler, modifiedDetector);
 
 					if(finalFilePath.endsWith("diag")){
 						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
@@ -301,32 +328,6 @@ public class ThreeWayMergeWizard extends Wizard {
 		return true;
 	}
 
-	public LiftingSettings readSettings() {
-
-		/*
-		 * Do lifting settings
-		 */
-
-		LiftingSettings liftingSettings = new LiftingSettings();
-
-		liftingSettings.setValidate(threeWayMergePage01.isValidateModels());
-		// Used matcher
-		liftingSettings.setMatcher(threeWayMergePage02.getSelectedMatchingEngine());
-
-		//Used technical difference builder
-		liftingSettings.setTechnicalDifferenceBuilder(threeWayMergePage02.getSelectedTechnicalDifferenceBuilder());
-
-		// Do lifting..?
-		liftingSettings.setDoLifting(true);
-
-		// Use Postprocessor..?
-		liftingSettings.setPostProcess(true);
-
-		// Used rulebases
-		liftingSettings.setUsedRulebases(threeWayMergePage01.getSelectedRulebases());
-
-		return liftingSettings;
-	}
 
 	protected ImageDescriptor getImageDescriptor(String name) {
 		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(Activator.PLUGIN_ID),

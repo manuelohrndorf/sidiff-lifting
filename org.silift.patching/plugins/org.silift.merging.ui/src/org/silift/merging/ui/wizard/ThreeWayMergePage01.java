@@ -12,19 +12,19 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.merging.ui.widgets.MergeModelsWidget;
+import org.silift.settings.PatchingSettings;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 public class ThreeWayMergePage01 extends WizardPage {
 
@@ -37,13 +37,15 @@ public class ThreeWayMergePage01 extends WizardPage {
 
 	private SelectionAdapter validationListener;
 	private MergeModels mergeModels;
+	private PatchingSettings settings;
 
 
 	public ThreeWayMergePage01(
-			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage) {
+			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 
 		this.mergeModels = mergeModels;
+		this.settings = settings;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -167,7 +169,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 	}
 	
 	public boolean isValidateModels(){
-		if(validationWidget.getSelection() == ValidationMode.NO){
+		if(validationWidget.getSelection() == ValidationMode.NO_VALIDATION){
 			return false;
 		}
 		return true;
@@ -183,5 +185,11 @@ public class ThreeWayMergePage01 extends WizardPage {
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
+	}
+	
+	public void updateSettings(){
+		settings.setValidationMode(validationWidget.getSelection());
+		settings.setScope(scopeWidget.getSelection());
+		settings.setRuleBases(rulebaseWidget.getSelection());
 	}
 }

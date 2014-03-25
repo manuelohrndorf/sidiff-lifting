@@ -36,23 +36,17 @@ import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
-import org.sidiff.patching.validation.ValidationMode;
-import org.silift.common.util.emf.Scope;
 import org.silift.modifieddetector.IModifiedDetector;
+import org.silift.settings.ExecutionMode;
+import org.silift.settings.PatchMode;
+import org.silift.settings.PatchingSettings;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 /**
  * 
  * @author Dennis Koch, kehrer, dreuling
  */
 public class PatchEngine {
-
-	public enum ExecutionMode {
-		INTERACTIVE, BATCH
-	}
-
-	public enum PatchMode {
-		PATCHING, MERGING
-	}
 
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
@@ -82,33 +76,34 @@ public class PatchEngine {
 	 * @param patchInterruptHandler
 	 */
 	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
-			ITransformationEngine transformationEngine, ExecutionMode executionMode, PatchMode patchMode,
-			ValidationMode validationMode, Scope scope, Boolean reliabilitiesComputed,
+			ITransformationEngine transformationEngine, PatchingSettings settings,
 			IPatchInterruptHandler patchInterruptHandler, IModifiedDetector modifiedDetector) {
 
 		this.patchedResource = patchedResource;
 		this.modifiedDetector = modifiedDetector;
 		this.argumentManager = argumentManager;
 		this.transformationEngine = transformationEngine;
-		this.reliabilitiesComputed = reliabilitiesComputed;
-		this.executionMode = executionMode;
-		this.patchMode = patchMode;		
+		this.reliabilitiesComputed = settings.getMatcher().canComputeReliability();
+		this.executionMode = settings.getExecutionMode();
+		this.patchMode = settings.getPatchMode();		
 		
 		// Init managers
-		this.validationManager = new ValidationManager(validationMode, patchedResource);
-		this.argumentManager.init(difference, patchedResource, scope, patchMode, modifiedDetector);
+		this.validationManager = new ValidationManager(settings.getValidationMode(), patchedResource);
+		this.argumentManager.init(difference, patchedResource, settings.getScope(), patchMode, modifiedDetector);
 		this.operationManager = new OperationManager(difference, argumentManager);
 		
 		// Init transformation engine
-		this.transformationEngine.init(patchedResource, executionMode, scope);
+		this.transformationEngine.init(patchedResource, executionMode, settings.getScope());
 
 		// Init report manager
-		this.reportManager = new PatchReportManager(validationMode);
+		this.reportManager = new PatchReportManager(settings.getValidationMode());
 
 		// Init patch interrupt handler
 		this.patchInterruptHandler = patchInterruptHandler;
 		
 		this.validationChanged = false;
+		
+		LogUtil.log(LogEvent.NOTICE, settings.toString());
 	}
 
 	/**
@@ -132,7 +127,7 @@ public class PatchEngine {
 		reportManager.startPatchApplication();
 
 		// Initial validation (if needed)
-		if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}
@@ -153,7 +148,7 @@ public class PatchEngine {
 		}
 
 		// Final validation (if needed)
-		if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}
@@ -182,7 +177,7 @@ public class PatchEngine {
 			reportManager.startPatchApplication();
 			
 			// Initial validation (if needed)
-			if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+			if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 				Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 				reportManager.updateValidationEntries(validationErrors);
 			}
@@ -239,13 +234,13 @@ public class PatchEngine {
 		}
 		
 		// Iterative validation (if needed)
-		if (getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
 		}
 		
 		
-		if (applicationResult.success && (getValidationMode() == ValidationMode.ITERATIVE)) {				
+		if (applicationResult.success && (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)) {				
 			if (this.validationChanged) {
 				this.validationChanged = false;
 				Collection<IValidationError> newErrors = reportManager.getLastReport()
@@ -270,7 +265,7 @@ public class PatchEngine {
 		if(singleOperation){
 			
 			// Final validation (if needed)
-			if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+			if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 				Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 				reportManager.updateValidationEntries(validationErrors);
 			}
@@ -305,7 +300,7 @@ public class PatchEngine {
 		reportManager.startPatchApplication();
 
 		// Initial validation (if needed)
-		if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}
@@ -351,13 +346,13 @@ public class PatchEngine {
 		}
 		
 		// Iterative validation (if needed)
-		if (getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
 		}
 		
 		
-		if (revertResult.success && (getValidationMode() == ValidationMode.ITERATIVE)) {				
+		if (revertResult.success && (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)) {				
 			if (this.validationChanged) {
 				this.validationChanged = false;
 				Collection<IValidationError> newErrors = reportManager.getLastReport()
@@ -381,7 +376,7 @@ public class PatchEngine {
 		
 		
 		// Final validation (if needed)
-		if (getValidationMode() == ValidationMode.FINAL || getValidationMode() == ValidationMode.ITERATIVE) {
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			reportManager.updateValidationEntries(validationErrors);
 		}	

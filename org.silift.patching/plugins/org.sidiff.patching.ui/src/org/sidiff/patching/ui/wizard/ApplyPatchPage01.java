@@ -17,6 +17,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.settings.PatchingSettings;
 
 public class ApplyPatchPage01 extends WizardPage {
 
@@ -30,10 +31,11 @@ public class ApplyPatchPage01 extends WizardPage {
 
 	private SelectionAdapter validationListener;
 	private String filterPath;
+	private PatchingSettings settings;
 
-	public ApplyPatchPage01(String pageName, String title, ImageDescriptor titleImage) {
+	public ApplyPatchPage01(String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
 		super(pageName, title, titleImage);
-		
+		this.settings = settings;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -160,4 +162,9 @@ public class ApplyPatchPage01 extends WizardPage {
 		this.filterPath = filterPath;
 	}
 
+	public void updateSettings(){
+		settings.setScope(scopeWidget.getSelection());
+		settings.setValidationMode(validationWidget.getSelection());
+	}
+	
 }

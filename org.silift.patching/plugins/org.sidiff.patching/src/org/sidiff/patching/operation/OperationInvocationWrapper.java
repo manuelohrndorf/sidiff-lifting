@@ -120,12 +120,12 @@ public class OperationInvocationWrapper {
 		this.executionError = executionError;
 	}
 	
-	public void setIgnored(){
-		status = OperationInvocationStatus.IGNORED;
-	}
-	
 	public void setUnIgnored(){
 		status = OperationInvocationStatus.INIT;
+	}
+	
+	public void setIgnored(){
+		status = OperationInvocationStatus.IGNORED;
 	}
 
 	public OperationInvocation getOperationInvocation() {

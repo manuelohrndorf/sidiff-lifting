@@ -22,6 +22,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.settings.LiftingSettings;
 
 public class CreatePatchPage01 extends WizardPage {
 
@@ -36,13 +37,14 @@ public class CreatePatchPage01 extends WizardPage {
 	private SelectionAdapter validationListener;
 
 	private InputModels inputModels;
+	private LiftingSettings settings;
 
 	public CreatePatchPage01(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage) {
+			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings) {
 		super(pageName, title, titleImage);
 
 		this.inputModels = inputModels;
-
+		this.settings = settings;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -179,5 +181,11 @@ public class CreatePatchPage01 extends WizardPage {
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
+	}
+	
+	public void updateSettings(){
+		settings.setScope(scopeWidget.getSelection());
+		settings.setRuleBases(rulebaseWidget.getSelection());
+		settings.setValidate(sourceWidget.isValidateModels());
 	}
 }

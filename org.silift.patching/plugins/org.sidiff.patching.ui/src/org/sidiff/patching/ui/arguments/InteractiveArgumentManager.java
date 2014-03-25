@@ -23,7 +23,6 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -36,6 +35,7 @@ import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.common.util.emf.Scope;
 import org.silift.modifieddetector.IModifiedDetector;
+import org.silift.settings.PatchMode;
 
 /**
  * An implementation of {@link IArgumentManager} that internally delegates the

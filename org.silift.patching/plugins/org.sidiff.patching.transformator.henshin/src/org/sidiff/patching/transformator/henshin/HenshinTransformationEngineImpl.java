@@ -25,12 +25,12 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.patching.PatchEngine.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.silift.common.util.emf.Scope;
+import org.silift.settings.ExecutionMode;
 
 /**
  * Transformation Engine based on calling Henshin Transformator.

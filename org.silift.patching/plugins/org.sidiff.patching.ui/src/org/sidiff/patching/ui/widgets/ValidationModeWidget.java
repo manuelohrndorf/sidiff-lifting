@@ -9,14 +9,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 
-	private ValidationMode validationMode = ValidationMode.NO;
+	private ValidationMode validationMode = ValidationMode.NO_VALIDATION;
 
 	private Composite container;
 	private Button noValidationButton;
@@ -63,21 +63,21 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 		noValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.NO;
+				validationMode = ValidationMode.NO_VALIDATION;
 			}
 		});
 
 		modelValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.FINAL;
+				validationMode = ValidationMode.MODEL_VALIDATION;
 			}
 		});
 		
 		iterativeValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.ITERATIVE;
+				validationMode = ValidationMode.ITERATIVE_VALIDATION;
 			}
 		});
 		

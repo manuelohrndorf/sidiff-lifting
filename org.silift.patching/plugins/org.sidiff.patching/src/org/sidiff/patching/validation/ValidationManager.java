@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.patching.validation.emf.EMFValidator;
+import org.silift.settings.PatchingSettings.ValidationMode;
 
 public class ValidationManager {
 	

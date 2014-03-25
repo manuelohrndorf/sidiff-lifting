@@ -19,6 +19,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.settings.LiftingSettings;
 
 public class CreatePatchPage02 extends WizardPage {
 
@@ -33,15 +34,15 @@ public class CreatePatchPage02 extends WizardPage {
 
 	private InputModels inputModels;
 	
-	private CreatePatchPage01 page01;
+	private LiftingSettings settings;
 
 	public CreatePatchPage02(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage, CreatePatchPage01 page01) {
+			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings) {
 		super(pageName, title, titleImage);
 
 		this.inputModels = inputModels;
 		
-		this.page01 = page01;
+		this.settings = settings;
 
 		// Listen for validation failures:
 		validationListener =
@@ -121,7 +122,7 @@ public class CreatePatchPage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels, page01.getScopeWidget());
+		matcherWidget = new MatchingEngineWidget(inputModels, settings.getScope());
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
@@ -177,5 +178,10 @@ public class CreatePatchPage02 extends WizardPage {
 
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
+	}
+	
+	public void updateSettings(){
+		settings.setMatcher(matcherWidget.getSelection());
+		settings.setTechBuilder(builderWidget.getSelection());
 	}
 }

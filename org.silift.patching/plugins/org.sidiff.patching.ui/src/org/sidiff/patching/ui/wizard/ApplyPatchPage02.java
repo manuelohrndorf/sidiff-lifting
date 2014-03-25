@@ -21,6 +21,7 @@ import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.patching.patch.Patch;
+import org.silift.settings.PatchingSettings;
 
 public class ApplyPatchPage02 extends WizardPage {
 
@@ -37,16 +38,16 @@ public class ApplyPatchPage02 extends WizardPage {
 	private AsymmetricDifference difference;
 	private InputModels inputModels;
 	
-	private ApplyPatchPage01 page01;
+	private PatchingSettings settings;
 
 	public ApplyPatchPage02(Patch patch,
-			String pageName, String title, ImageDescriptor titleImage, ApplyPatchPage01 page01) {
+			String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 
 		this.difference = patch.getDifference();
 		this.inputModels = new InputModels(this.difference.getOriginModel(), this.difference.getChangedModel());
 
-		this.page01 = page01;
+		this.settings = settings;
 		// Listen for validation failures:
 		validationListener = new SelectionAdapter() {
 			@Override
@@ -135,7 +136,7 @@ public class ApplyPatchPage02 extends WizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels, this.page01.getScopeWidget());
+		matcherWidget = new MatchingEngineWidget(inputModels, settings.getScope());
 		addWidget(algorithmsGroup, matcherWidget);
 		
 		//Reliability
@@ -190,5 +191,10 @@ public class ApplyPatchPage02 extends WizardPage {
 
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
+	}
+	
+	public void updateSettings(){
+		settings.setMatcher(matcherWidget.getSelection());
+		settings.setMinReliability(reliabilityWidget.getReliability());
 	}
 }
