@@ -21,7 +21,7 @@ import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.patching.patch.Patch;
-import org.silift.settings.PatchingSettings;
+import org.silift.settings.patching.PatchingSettings;
 
 public class ApplyPatchPage02 extends WizardPage {
 

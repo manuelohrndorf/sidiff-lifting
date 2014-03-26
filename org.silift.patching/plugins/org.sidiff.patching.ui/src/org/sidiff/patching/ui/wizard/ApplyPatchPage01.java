@@ -17,7 +17,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.settings.PatchingSettings;
+import org.silift.settings.patching.PatchingSettings;
 
 public class ApplyPatchPage01 extends WizardPage {
 

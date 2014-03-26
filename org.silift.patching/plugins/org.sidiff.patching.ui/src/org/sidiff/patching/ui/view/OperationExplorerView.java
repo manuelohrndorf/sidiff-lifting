@@ -38,7 +38,7 @@ import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
-import org.silift.settings.PatchingSettings.ValidationMode;
+import org.silift.settings.patching.PatchingSettings.ValidationMode;
 
 public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
 

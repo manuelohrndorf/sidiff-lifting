@@ -35,7 +35,7 @@ import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.common.util.emf.Scope;
 import org.silift.modifieddetector.IModifiedDetector;
-import org.silift.settings.PatchMode;
+import org.silift.settings.patching.PatchMode;
 
 /**
  * An implementation of {@link IArgumentManager} that internally delegates the

@@ -10,7 +10,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.ExternalReference;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
-import org.silift.settings.ExecutionMode;
+import org.silift.settings.patching.ExecutionMode;
 
 /**
  * Factory that creates a Henshin graph which contains all objects (and only

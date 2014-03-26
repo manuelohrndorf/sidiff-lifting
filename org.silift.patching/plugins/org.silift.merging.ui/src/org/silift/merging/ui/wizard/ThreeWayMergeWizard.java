@@ -58,12 +58,12 @@ import org.silift.merging.ui.util.MergeModels;
 import org.silift.modifieddetector.IModifiedDetector;
 import org.silift.modifieddetector.util.ModifiedDetectorUtil;
 import org.silift.patching.patch.PatchCreator;
-import org.silift.settings.ExecutionMode;
 import org.silift.settings.LiftingSettings;
-import org.silift.settings.PatchMode;
-import org.silift.settings.PatchingSettings;
 import org.silift.settings.LiftingSettings.RecognitionEngineMode;
-import org.silift.settings.PatchingSettings.ValidationMode;
+import org.silift.settings.patching.ExecutionMode;
+import org.silift.settings.patching.PatchMode;
+import org.silift.settings.patching.PatchingSettings;
+import org.silift.settings.patching.PatchingSettings.ValidationMode;
 
 public class ThreeWayMergeWizard extends Wizard {
 
