@@ -11,7 +11,7 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.silift.common.util.emf.Scope;
 import org.silift.modifieddetector.IModifiedDetector;
-import org.silift.settings.patching.PatchMode;
+import org.silift.patching.settings.PatchMode;
 
 /**
  * The argument manager is the central interface for the patch engine in order

@@ -19,7 +19,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.settings.LiftingSettings;
+import org.silift.difference.lifting.settings.LiftingSettings;
 
 public class CreatePatchPage02 extends WizardPage {
 

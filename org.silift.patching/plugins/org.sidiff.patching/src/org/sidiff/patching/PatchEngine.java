@@ -37,10 +37,10 @@ import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
 import org.silift.modifieddetector.IModifiedDetector;
-import org.silift.settings.patching.ExecutionMode;
-import org.silift.settings.patching.PatchMode;
-import org.silift.settings.patching.PatchingSettings;
-import org.silift.settings.patching.PatchingSettings.ValidationMode;
+import org.silift.patching.settings.ExecutionMode;
+import org.silift.patching.settings.PatchMode;
+import org.silift.patching.settings.PatchingSettings;
+import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 /**
  * 

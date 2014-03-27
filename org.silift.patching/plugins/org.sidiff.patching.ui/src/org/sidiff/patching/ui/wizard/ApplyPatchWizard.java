@@ -54,10 +54,10 @@ import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.patch.PatchCreator;
-import org.silift.settings.patching.ExecutionMode;
-import org.silift.settings.patching.PatchMode;
-import org.silift.settings.patching.PatchingSettings;
-import org.silift.settings.patching.PatchingSettings.ValidationMode;
+import org.silift.patching.settings.ExecutionMode;
+import org.silift.patching.settings.PatchMode;
+import org.silift.patching.settings.PatchingSettings;
+import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 public class ApplyPatchWizard extends Wizard {
 

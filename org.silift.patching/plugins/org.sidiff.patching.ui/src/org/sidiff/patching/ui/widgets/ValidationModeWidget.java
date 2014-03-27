@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Group;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.settings.patching.PatchingSettings.ValidationMode;
+import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 

@@ -9,7 +9,7 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.silift.common.util.emf.Scope;
-import org.silift.settings.patching.ExecutionMode;
+import org.silift.patching.settings.ExecutionMode;
 
 public interface ITransformationEngine {
 

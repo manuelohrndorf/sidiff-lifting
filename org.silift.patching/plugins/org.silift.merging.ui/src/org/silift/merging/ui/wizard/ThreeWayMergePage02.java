@@ -22,7 +22,7 @@ import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.merging.ui.util.MergeModels;
-import org.silift.settings.patching.PatchingSettings;
+import org.silift.patching.settings.PatchingSettings;
 
 public class ThreeWayMergePage02 extends WizardPage {
 
