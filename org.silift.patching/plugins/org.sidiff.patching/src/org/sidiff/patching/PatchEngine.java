@@ -97,7 +97,7 @@ public class PatchEngine {
 		this.reportManager = new PatchReportManager(settings.getValidationMode());
 
 		// Init patch interrupt handler
-		this.patchInterruptHandler = patchInterruptHandler;
+		this.patchInterruptHandler = settings.getInterruptHandler();
 		
 		this.validationChanged = false;
 		
