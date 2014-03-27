@@ -75,14 +75,12 @@ public class PatchEngine {
 	 * @param reliabilitiesComputed
 	 * @param patchInterruptHandler
 	 */
-	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IArgumentManager argumentManager,
-			ITransformationEngine transformationEngine, PatchingSettings settings,
-			IPatchInterruptHandler patchInterruptHandler, IModifiedDetector modifiedDetector) {
+	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, PatchingSettings settings) {
 
 		this.patchedResource = patchedResource;
-		this.modifiedDetector = modifiedDetector;
-		this.argumentManager = argumentManager;
-		this.transformationEngine = transformationEngine;
+		this.modifiedDetector = settings.getModifiedDetector();
+		this.argumentManager = settings.getArgumentManager();
+		this.transformationEngine = settings.getTransformationEngine();
 		this.reliabilitiesComputed = settings.getMatcher().canComputeReliability();
 		this.executionMode = settings.getExecutionMode();
 		this.patchMode = settings.getPatchMode();		

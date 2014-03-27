@@ -222,6 +222,7 @@ public class ApplyPatchWizard extends Wizard {
 					// Use interactive argument manager
 					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
 					argumentManager.setMinReliability(reliability);
+					settings.setArgumentManager(argumentManager);
 					
 					// Find transformation engine (no other available right now)
 					String documentType = null;
@@ -237,12 +238,15 @@ public class ApplyPatchWizard extends Wizard {
 								"No Transformator Service found!", "No suitable Transformator Service found!");
 						return Status.CANCEL_STATUS;
 					}
+					settings.setTransformationEngine(transformationEngine);
 					
 					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-			
+					settings.setInterruptHandler(patchInterruptHandler);
+					
+					
 					monitor.subTask("Initialize PatchEngine");			
-					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), argumentManager, transformationEngine, settings, patchInterruptHandler, null);
+					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), settings);
 				
 					if(finalFilePath.endsWith("diag")){
 						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {

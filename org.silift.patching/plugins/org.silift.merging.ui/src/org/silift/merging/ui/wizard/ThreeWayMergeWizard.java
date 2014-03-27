@@ -1,6 +1,7 @@
 package org.silift.merging.ui.wizard;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.filesystem.EFS;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -118,8 +120,7 @@ public class ThreeWayMergeWizard extends Wizard {
 		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete() ;
 	}
 	
-	@Override
-	public boolean performFinish() {
+	private void finish(){
 		threeWayMergePage01.updateSettings();
 		threeWayMergePage02.updateSettings();
 		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
@@ -229,7 +230,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					// Use interactive argument manager
 					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
 					argumentManager.setMinReliability(reliability);
-
+					patchingSettings.setArgumentManager(argumentManager);
 					// Find transformation engine (no other available right now)
 					String documentType = null;
 					if (EMFModelAccessEx.isProfiled(resourceResult.get())) {
@@ -244,21 +245,20 @@ public class ThreeWayMergeWizard extends Wizard {
 								"No Transformator Service found!", "No suitable Transformator Service found!");
 						return Status.CANCEL_STATUS;
 					}
-					
+					patchingSettings.setTransformationEngine(transformationEngine);
 					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-					
+					patchingSettings.setInterruptHandler(patchInterruptHandler);
 					// Get modified detector
 					IModifiedDetector modifiedDetector = ModifiedDetectorUtil.getAvailableModifiedDetector(documentType);
-					
+					patchingSettings.setModifiedDetector(modifiedDetector);
 					//Init detector if available
 					if(modifiedDetector != null){
 						modifiedDetector.init(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher, scope);
 					}
 					
 					monitor.subTask("Initialize PatchEngine");					
-					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
-							argumentManager, transformationEngine, patchingSettings, patchInterruptHandler, modifiedDetector);
+					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(), patchingSettings);
 
 					if(finalFilePath.endsWith("diag")){
 						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
@@ -325,6 +325,23 @@ public class ThreeWayMergeWizard extends Wizard {
 			}
 		};
 		job.schedule();
+	}
+	
+	@Override
+	public boolean performFinish() {
+		try {
+			getContainer().run(false, false, new IRunnableWithProgress() {
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					finish();
+				}
+			});
+		} catch (InvocationTargetException e1) {
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
 		return true;
 	}
 
