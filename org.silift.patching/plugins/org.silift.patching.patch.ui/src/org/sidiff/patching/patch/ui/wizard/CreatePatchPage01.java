@@ -22,9 +22,11 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.LiftingSettings;
+import org.silift.difference.lifting.settings.SettingsItem;
 
-public class CreatePatchPage01 extends WizardPage {
+public class CreatePatchPage01 extends WizardPage implements ISettingsChangedListener {
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -53,6 +55,7 @@ public class CreatePatchPage01 extends WizardPage {
 						validate();
 					}
 				};
+		this.settings.addSettingsChangedListener(this);
 	}
 
 	@Override
@@ -103,7 +106,7 @@ public class CreatePatchPage01 extends WizardPage {
 		setMessage(DEFAULT_MESSAGE);
 		
 		// Initial validation:
-		validate();
+		//validate();
 	}
 
 	private void createWidgets() {
@@ -154,6 +157,8 @@ public class CreatePatchPage01 extends WizardPage {
 		validateWidget(sourceWidget);
 		validateWidget(scopeWidget);
 		validateWidget(rulebaseWidget);
+		
+		updateSettings();
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -187,5 +192,11 @@ public class CreatePatchPage01 extends WizardPage {
 		settings.setScope(scopeWidget.getSelection());
 		settings.setRuleBases(rulebaseWidget.getSelection());
 		settings.setValidate(sourceWidget.isValidateModels());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		// TODO Auto-generated method stub
+		
 	}
 }

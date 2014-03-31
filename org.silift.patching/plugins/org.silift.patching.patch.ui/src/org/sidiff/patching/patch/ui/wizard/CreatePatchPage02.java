@@ -19,9 +19,11 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.LiftingSettings;
+import org.silift.difference.lifting.settings.SettingsItem;
 
-public class CreatePatchPage02 extends WizardPage {
+public class CreatePatchPage02 extends WizardPage implements ISettingsChangedListener{
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -52,6 +54,7 @@ public class CreatePatchPage02 extends WizardPage {
 						validate();
 					}
 				};
+		this.settings.addSettingsChangedListener(this);
 	}
 
 	@Override
@@ -102,7 +105,7 @@ public class CreatePatchPage02 extends WizardPage {
 		setMessage(DEFAULT_MESSAGE);
 		
 		// Initial validation:
-		validate();
+		//validate();
 	}
 
 	private void createWidgets() {
@@ -154,6 +157,7 @@ public class CreatePatchPage02 extends WizardPage {
 
 		validateWidget(matcherWidget);
 		validateWidget(builderWidget);
+		updateSettings();
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -183,5 +187,13 @@ public class CreatePatchPage02 extends WizardPage {
 	public void updateSettings(){
 		settings.setMatcher(matcherWidget.getSelection());
 		settings.setTechBuilder(builderWidget.getSelection());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		if(item.equals(SettingsItem.SCOPE)){
+			this.matcherWidget.setScope(settings.getScope());
+		}
+		
 	}
 }
