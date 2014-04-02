@@ -17,9 +17,11 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ApplyPatchPage01 extends WizardPage {
+public class ApplyPatchPage01 extends WizardPage implements ISettingsChangedListener{
 
 	private String DEFAULT_MESSAGE = "Apply a patch to a model";
 	
@@ -95,6 +97,7 @@ public class ApplyPatchPage01 extends WizardPage {
 		
 		// Initial validation:
 		validate();
+		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -129,7 +132,7 @@ public class ApplyPatchPage01 extends WizardPage {
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-
+		updateSettings();
 		validateWidget(targetWidget);
 		validateWidget(scopeWidget);
 		validateWidget(validationWidget);
@@ -165,6 +168,12 @@ public class ApplyPatchPage01 extends WizardPage {
 	public void updateSettings(){
 		settings.setScope(scopeWidget.getSelection());
 		settings.setValidationMode(validationWidget.getSelection());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

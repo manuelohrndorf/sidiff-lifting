@@ -20,10 +20,12 @@ import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ApplyPatchPage02 extends WizardPage {
+public class ApplyPatchPage02 extends WizardPage implements ISettingsChangedListener {
 
 	private String DEFAULT_MESSAGE = "Apply a patch to a model";
 	
@@ -63,6 +65,7 @@ public class ApplyPatchPage02 extends WizardPage {
 				readInformationMessages();
 			}
 		};
+		
 	}
 
 	@Override
@@ -117,6 +120,8 @@ public class ApplyPatchPage02 extends WizardPage {
 		
 		// Initialize information message:
 		readInformationMessages();
+		
+		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -161,7 +166,7 @@ public class ApplyPatchPage02 extends WizardPage {
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-
+		updateSettings();
 		validateWidget(matcherWidget);
 	}
 
@@ -196,5 +201,13 @@ public class ApplyPatchPage02 extends WizardPage {
 	public void updateSettings(){
 		settings.setMatcher(matcherWidget.getSelection());
 		settings.setMinReliability(reliabilityWidget.getReliability());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		if(item.equals(SettingsItem.SCOPE)){
+			this.matcherWidget.setScope(this.settings.getScope());
+			this.validate();
+		}
 	}
 }

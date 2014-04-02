@@ -83,10 +83,11 @@ public class ApplyPatchWizard extends Wizard {
 		applyPatchPage01 = new ApplyPatchPage01("ApplyPatchPage", "Apply Patch: " + patchName,
 				getImageDescriptor("icon.png"), settings);
 		applyPatchPage01.setFilterPath(file.getParent().getLocation().toString());
-		addPage(applyPatchPage01);
+		
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage", "Apply Patch: " + patchName,
 				getImageDescriptor("icon.png"),settings);
+		addPage(applyPatchPage01);
 		addPage(applyPatchPage02);
 	}
 
