@@ -232,9 +232,10 @@ public class EMFStorage {
 	
 	/**
 	 * Converts a (e.g. file) URI to a platform resource URI.
+	 * Returns an file URI if the URI is not workspace relative.
 	 * 
 	 * @param uri The URI to convert.
-	 * @return The given URI as file URI.
+	 * @return The given URI as platform resource URI.
 	 */
 	public static URI uriToPlatformUri(URI uri) {
 		URI fileURI = pathToUri(uriToPath(uri));
@@ -324,13 +325,19 @@ public class EMFStorage {
 
 	/**
 	 * Converts a <code>File</code> to a platform resource URI.
+	 * Returns an file URI if the URI is not workspace relative.
 	 * 
 	 * @param file The <code>File</code> to convert.
 	 * @return The given file as platform resource URI.
 	 */
 	public static URI fileToUri(File file) {
-		IFile iFile = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI())[0];
-		return URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);
+		IFile[] iFiles = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(file.toURI());
+		
+		if (iFiles.length > 0) {
+			return URI.createPlatformResourceURI(iFiles[0].getFullPath().toString(), true);
+		} else {
+			return URI.createFileURI(file.getAbsolutePath());
+		}
 	}
 	
 	/**
