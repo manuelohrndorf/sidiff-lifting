@@ -55,7 +55,6 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 						validate();
 					}
 				};
-		this.settings.addSettingsChangedListener(this);
 	}
 
 	@Override
@@ -106,7 +105,8 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 		setMessage(DEFAULT_MESSAGE);
 		
 		// Initial validation:
-		//validate();
+		validate();
+		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -153,12 +153,10 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-
+		updateSettings();
 		validateWidget(sourceWidget);
 		validateWidget(scopeWidget);
-		validateWidget(rulebaseWidget);
-		
-		updateSettings();
+		validateWidget(rulebaseWidget);		
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
