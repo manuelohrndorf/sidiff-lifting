@@ -21,12 +21,14 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.merging.ui.widgets.MergeModelsWidget;
 import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
-public class ThreeWayMergePage01 extends WizardPage {
+public class ThreeWayMergePage01 extends WizardPage implements ISettingsChangedListener {
 
 	private Composite container;
 
@@ -105,6 +107,8 @@ public class ThreeWayMergePage01 extends WizardPage {
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
 		setMessage("Merge three models");
+		
+		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -142,7 +146,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-
+		updateSettings();
 		validateWidget(mergeModelsWidget);
 		validateWidget(scopeWidget);
 		validateWidget(validationWidget);
@@ -191,5 +195,11 @@ public class ThreeWayMergePage01 extends WizardPage {
 		settings.setValidationMode(validationWidget.getSelection());
 		settings.setScope(scopeWidget.getSelection());
 		settings.setRuleBases(rulebaseWidget.getSelection());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		// TODO Auto-generated method stub
+		
 	}
 }

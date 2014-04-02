@@ -21,10 +21,12 @@ import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ThreeWayMergePage02 extends WizardPage {
+public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedListener {
 
 	private String DEFAULT_MESSAGE = "Merge three models";
 
@@ -117,6 +119,8 @@ public class ThreeWayMergePage02 extends WizardPage {
 		
 		// Initialize information message:
 		readInformationMessages();
+		
+		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -170,7 +174,7 @@ public class ThreeWayMergePage02 extends WizardPage {
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-
+		updateSettings();
 		validateWidget(matcherWidget);
 		validateWidget(builderWidget);
 	}
@@ -219,5 +223,14 @@ public class ThreeWayMergePage02 extends WizardPage {
 		settings.setTechBuilder(builderWidget.getSelection());
 		settings.setMatcher(matcherWidget.getSelection());
 		settings.setMinReliability(reliabilityWidget.getReliability());
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		if(item.equals(SettingsItem.SCOPE)){
+			this.matcherWidget.setScope(settings.getScope());
+			this.validate();
+		}
+		
 	}
 }
