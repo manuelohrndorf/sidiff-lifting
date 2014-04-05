@@ -171,6 +171,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 								public void run() {
 									engine.apply(operationWrapper.getOperationInvocation(),true);
 									updatePropertyViewViaSelectionListener(patchViewer);
+									patchViewer.refresh();
 								};
 							});
 							manager.add(new Action("Ignore operation", ignore) {
@@ -200,25 +201,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 									engine.unignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
 									patchViewer.refresh();
-								}
-							});
-						}
-						
-						if(operationWrapper.getStatus() != OperationInvocationStatus.IGNORED && operationWrapper.getStatus() != OperationInvocationStatus.PASSED){
-							manager.add(new Action("Ingnore operation", ignore) {
-								
-								@Override
-								public void run(){
-									engine.ignore(operationWrapper.getOperationInvocation());
-									updatePropertyViewViaSelectionListener(patchViewer);
-									patchViewer.refresh();
-								}
-							});
-						}else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
-							manager.add(new Action() {
-								@Override
-								public void run(){
-									
 								}
 							});
 						}
