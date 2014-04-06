@@ -375,7 +375,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Node createForbidNode(Rule rule, EClass type) {
 		
-		//TODO this method requires a differentiation of Formulas like Not, And, Or, Xor..
+		//FIXME This method requires a differentiation of Formulas like Not, And, Or, Xor..
 		
 		Formula formula = rule.getLhs().getFormula();
 		NestedCondition nestedCondition = null;

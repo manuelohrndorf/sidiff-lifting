@@ -308,7 +308,7 @@ public class ParameterInfo {
 	/**
 	 * Parses the parameter from a Henshin attribute.
 	 * 
-	 * TODO: That isn't really perfect. Check the Henshin script interpreter
+	 * FIXME: That isn't really perfect. Check the Henshin script interpreter
 	 * syntax. I.e., check if parameter is a variable in the Syntax-Tree of the JavaScript Expression.
 	 * 
 	 * @param rule
