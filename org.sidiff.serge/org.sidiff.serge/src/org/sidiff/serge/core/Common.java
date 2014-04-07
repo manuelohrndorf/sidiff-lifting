@@ -152,35 +152,33 @@ public class Common {
 			OperationType opType, boolean reduceToSuperType) throws OperationTypeNotImplementedException {
 
 		for (Entry<EReference, List<EClassifier>> childEntry : eClassifierInfo.getMandatoryChildren().entrySet()) {
-			List<EClassifier> children = childEntry.getValue();
 			EReference eRef = childEntry.getKey();
 
-			for (EClassifier child : children) {
+			EClassifier child = eRef.getEType();
 
-				if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType, reduceToSuperType))
-					continue;
+			if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType, reduceToSuperType))
+				continue;
 
-				for (int i = 0; i < eRef.getLowerBound(); i++) {
+			for (int i = 0; i < eRef.getLowerBound(); i++) {
 
-					Node newChildNode = null;
-					String name = getFreeNodeName(GlobalConstants.CHILD, rule);
-					// create node for mandatory child
-					newChildNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), name, (EClass) child);
-					// create edge for mandatory child
-					HenshinRuleAnalysisUtilEx.createCreateEdge(eClassifierNode, newChildNode, eRef);
-					// Add necessary attributes to the new eClass node
-					createAttributes((EClass) child, newChildNode, rule);
-					// recursively check for child's mandatories and create them
-					if (EClassifierInfoManagement.getInstance().getEClassifierInfo(child).hasMandatories()) {
-						createMandatoryChildren(rule,
-								EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-								opType, reduceToSuperType);
-						createMandatoryNeighbours(rule,
-								EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-								opType, reduceToSuperType);
-					}
-
+				Node newChildNode = null;
+				String name = getFreeNodeName(GlobalConstants.CHILD, rule);
+				// create node for mandatory child
+				newChildNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), name, (EClass) child);
+				// create edge for mandatory child
+				HenshinRuleAnalysisUtilEx.createCreateEdge(eClassifierNode, newChildNode, eRef);
+				// Add necessary attributes to the new eClass node
+				createAttributes((EClass) child, newChildNode, rule);
+				// recursively check for child's mandatories and create them
+				if (EClassifierInfoManagement.getInstance().getEClassifierInfo(child).hasMandatories()) {
+					createMandatoryChildren(rule,
+							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
+							opType, reduceToSuperType);
+					createMandatoryNeighbours(rule,
+							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
+							opType, reduceToSuperType);
 				}
+
 			}
 		}
 	}

@@ -204,7 +204,7 @@ public class CombinationMatrix {
 		}
 		
 		// uncomment this if not dbugging
-		// debugHelp_MatrixPrintout();
+		debugHelp_MatrixPrintout();
 	}
 	
 	/**

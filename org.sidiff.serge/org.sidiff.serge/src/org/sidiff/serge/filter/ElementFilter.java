@@ -97,7 +97,7 @@ public class ElementFilter {
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
 					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					|| (!whiteListed && !providesFeaturesForSubtypes )
+					|| (!whiteListed && !assumeAllOnWhitelist && !providesFeaturesForSubtypes )
 					|| (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes)
 					)
 				return false;
