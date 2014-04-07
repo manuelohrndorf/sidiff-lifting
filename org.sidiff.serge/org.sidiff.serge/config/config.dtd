@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT Config (GeneralSettings+, MetaModelSettings, ProfiledModelSettings?, Transformations+, Root+, WhiteList+, BlackList+)>
+<!ELEMENT Config (GeneralSettings, MetaModelSettings, ProfiledModelSettings?, Transformations, Root, WhiteList, BlackList)>
 <!ELEMENT GeneralSettings (preventInconsistency,multiplicityPreconditions,reduceToSuperType,disableVariants,modelUsesProfileMechanism, outputFolder, createAllAttributes)>
 <!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?,MaskedClassifiers?)>
 <!ELEMENT ProfiledModelSettings (BaseModelRules)>
@@ -9,7 +9,7 @@
 <!ELEMENT Constraints (NameUniqueness*) >
 <!ELEMENT MaskedClassifiers (Mask*) >
 <!ELEMENT NameUniqueness EMPTY>
-<!ELEMENT Transformations (Creates+,Deletes+,Moves+,Sets+,Unsets+,Adds+,Removes+,Changes+)>
+<!ELEMENT Transformations (Creates,Deletes,Moves,Sets,Unsets,Adds,Removes,Changes)>
 <!ELEMENT Root EMPTY>
 <!ELEMENT BlackList (EClassifier*)>
 <!ELEMENT WhiteList (EClassifier*)>
