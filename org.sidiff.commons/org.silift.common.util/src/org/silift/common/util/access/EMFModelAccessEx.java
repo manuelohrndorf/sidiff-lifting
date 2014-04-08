@@ -104,9 +104,10 @@ public class EMFModelAccessEx {
 		return documentTypes;
 	}
 
-	// TODO: Prüfen und dokumentieren!!
+	
 
 	public static boolean isProfiled(Resource model) {
+		// TODO: Question: Is this really a valid check for profiled models?
 		return getDocumentTypes(model).size() > 1;
 	}
 

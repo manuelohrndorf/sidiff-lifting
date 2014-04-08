@@ -5,7 +5,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 /**
  * Patch class containing all important attributes and files
  * 
- *TODO complete this class
+ * TODO complete this class
  * 
  * @author dreuling
  *

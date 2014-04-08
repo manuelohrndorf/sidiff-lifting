@@ -41,8 +41,7 @@ public class ShowQualifiedArgumentsHandler extends AbstractHandler {
 				state.setValue(!(Boolean)state.getValue());
 					
 			}
-		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
+		} catch (PartInitException e) {			
 			e.printStackTrace();
 		}
 		

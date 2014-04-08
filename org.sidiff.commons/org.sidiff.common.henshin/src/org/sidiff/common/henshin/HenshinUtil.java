@@ -44,7 +44,8 @@ public class HenshinUtil {
 	 * @param rule
 	 * @param path
 	 */
-	public static void serializeTempRule(Rule rule, String path) {
+	public static void serializeTempRule(Rule rule) {
+		String path = System.getProperty("java.io.tmpdir");
 		Module newModule = HenshinFactory.eINSTANCE.createModule();
 		// TransformationSystem newTS =
 		// HenshinFactory.eINSTANCE.createTransformationSystem();

@@ -138,8 +138,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 	}
 
 	private void execute_remove_many() {
-		// TODO Auto-generated method stub
-		
+			
 	}
 
 	private void execute_remove() {
@@ -219,7 +218,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 	
 	
 	private boolean edgeMatches(Edge edge, EObject objectA, EObject objectB, EReference reference, IElementType elementType){
-		//TODO this no guaranteed match as it is possible for two classes to have two edges between them that both are without object 
+		//TODO this is no guaranteed match as it is possible for two classes to have two edges between them that both are without object 
 		View viewA = getReferencingView(objectA);
 		View viewB = getReferencingView(objectB);
 		
@@ -231,13 +230,11 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		return false;
 	}
 
-	private void execute_move() {
-		// TODO Auto-generated method stub
+	private void execute_move() {		
 		
 	}
 
 	private void execute_add_many() {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -42,8 +42,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		listeners = new ArrayList<IValueChangedListener>();
 		try {
 			operationEView = (OperationExplorerView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.sidiff.patching.ui.view.OperationExplorerView");
-		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
+		} catch (PartInitException e) {			
 			e.printStackTrace();
 		}
 		listeners.add(operationEView);
@@ -113,8 +112,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	@Override
 	protected boolean canEdit(Object element) {
 		//Only editable if not applied beforehand
-		if (element instanceof ParameterBinding){
-			ParameterBinding parBinding = (ParameterBinding) element;
+		if (element instanceof ParameterBinding){			
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return false;
 			}
