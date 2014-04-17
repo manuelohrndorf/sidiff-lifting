@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT Config (GeneralSettings, MetaModelSettings, ProfiledModelSettings?, Transformations, Root, WhiteList, BlackList)>
-<!ELEMENT GeneralSettings (preventInconsistency,multiplicityPreconditions,reduceToSuperType,disableVariants,modelUsesProfileMechanism, outputFolder, createAllAttributes)>
-<!ELEMENT MetaModelSettings (MainModel, RequiredModel*,Constraints?,MaskedClassifiers?)>
+<!ELEMENT Config (	GeneralSettings,
+									MetaModelSettings,
+								 	ProfiledModelSettings?,
+								 	Transformations,
+									Root,
+								 	WhiteList,
+									BlackList)>
+<!ELEMENT GeneralSettings (	preventInconsistency,
+													multiplicityPreconditions,
+													reduceToSuperType,
+													disableVariants,
+													modelUsesProfileMechanism,
+													outputFolder,
+													createAllAttributes)>
+<!ELEMENT MetaModelSettings (	 MainModel,
+														 RequiredModel*,
+														 Constraints?,
+														 MaskedClassifiers?)>
 <!ELEMENT ProfiledModelSettings (BaseModelRules)>
 <!ELEMENT BaseModelRules EMPTY>
 <!ELEMENT MainModel EMPTY>
@@ -9,7 +24,19 @@
 <!ELEMENT Constraints (NameUniqueness*) >
 <!ELEMENT MaskedClassifiers (Mask*) >
 <!ELEMENT NameUniqueness EMPTY>
-<!ELEMENT Transformations (Creates,Deletes,Moves,Sets,Unsets,Adds,Removes,Changes)>
+<!ELEMENT Transformations (	Creates,
+													Deletes,
+													Moves,
+													MoveUps,
+													MoveDowns,
+													SetAttributes,
+													UnsetAttributes,
+													SetReferences,
+													UnsetReferences,
+													Adds,
+													Removes,
+													ChangeLiterals,
+													ChangeReferences)>
 <!ELEMENT Root EMPTY>
 <!ELEMENT BlackList (EClassifier*)>
 <!ELEMENT WhiteList (EClassifier*)>
@@ -25,51 +52,69 @@
 <!ELEMENT Creates EMPTY>
 <!ELEMENT Deletes EMPTY>
 <!ELEMENT Moves EMPTY>
-<!ELEMENT Sets EMPTY>
-<!ELEMENT Unsets EMPTY>
+<!ELEMENT MoveDowns EMPTY>
+<!ELEMENT MoveUps EMPTY>
+<!ELEMENT SetAttributes EMPTY>
+<!ELEMENT UnSetAttributes EMPTY>
+<!ELEMENT SetReferences EMPTY>
+<!ELEMENT UnsetReferences EMPTY>
 <!ELEMENT Adds EMPTY>
 <!ELEMENT Removes EMPTY>
-<!ELEMENT Changes EMPTY>
+<!ELEMENT ChangeLiterals EMPTY>
+<!ELEMENT ChangeReferences EMPTY>
 
 <!ELEMENT EClassifier EMPTY>
 <!ATTLIST MainModel nsUri CDATA #REQUIRED>
 <!ATTLIST RequiredModel nsUri CDATA #REQUIRED>
 <!ATTLIST BaseModelRules path CDATA #REQUIRED>
 <!ATTLIST NameUniqueness 
-				scope CDATA #REQUIRED
-				eClassifier CDATA #REQUIRED
-				eAttributeName CDATA #REQUIRED
-				eAttributeIsInherited CDATA #REQUIRED
-				overrideInheritedConstraintsIfAny CDATA #REQUIRED
-				applyOnSubTypes CDATA #REQUIRED>
+					scope CDATA #REQUIRED
+					eClassifier CDATA #REQUIRED
+					eAttributeName CDATA #REQUIRED
+					eAttributeIsInherited  (true|false)  #REQUIRED
+					overrideInheritedConstraintsIfAny  (true|false)  #REQUIRED
+					applyOnSubTypes  (true|false)  #REQUIRED>
 <!ATTLIST Mask 	name CDATA #REQUIRED
-				eClassifier CDATA #REQUIRED
-				eAttribute CDATA #REQUIRED
-				eAttributeValue CDATA #REQUIRED>		
+					eClassifier CDATA #REQUIRED
+					eAttribute CDATA #REQUIRED
+					eAttributeValue CDATA #REQUIRED>		
 <!ATTLIST Root name CDATA #REQUIRED>
-<!ATTLIST Root nested CDATA #REQUIRED>
-<!ATTLIST EClassifier name CDATA #REQUIRED>
-<!ATTLIST preventInconsistency value CDATA #REQUIRED>
-<!ATTLIST multiplicityPreconditions integrated CDATA #REQUIRED
-									separately CDATA #REQUIRED>
-<!ATTLIST disableVariants value CDATA #REQUIRED>
-<!ATTLIST createAllAttributes value CDATA #REQUIRED>
-<!ATTLIST modelUsesProfileMechanism value CDATA #REQUIRED>
+<!ATTLIST Root nested  (true|false)  #REQUIRED>
+<!ATTLIST EClassifier name  (true|false)  #REQUIRED>
+<!ATTLIST preventInconsistency value  (true|false)  #REQUIRED>
+<!ATTLIST multiplicityPreconditions
+					integrated  (true|false)  #REQUIRED
+					separately  (true|false)  #REQUIRED>
+<!ATTLIST disableVariants value  (true|false)  #REQUIRED>
+<!ATTLIST createAllAttributes value  (true|false)  #REQUIRED>
+<!ATTLIST modelUsesProfileMechanism value  (true|false)  #REQUIRED>
 <!ATTLIST outputFolder absolutePath CDATA #REQUIRED>
 
-<!ATTLIST reduceToSuperType CREATE_DELETE CDATA #REQUIRED
-							MOVE CDATA #REQUIRED
-							SET_UNSET CDATA #REQUIRED							
-							ADD_REMOVE CDATA #REQUIRED
-							CHANGE CDATA #REQUIRED>
+<!ATTLIST reduceToSuperType
+					CREATE_DELETE  (true|false)  #REQUIRED
+					MOVE  (true|false)  #REQUIRED
+					MOVE_UP  (true|false)  #REQUIRED
+					MOVE_DOWN  (true|false)  #REQUIRED
+					SET_UNSET_ATTRIBUTE  (true|false)  #REQUIRED
+					SET_UNSET_REFERENCE  (true|false)  #REQUIRED							
+					ADD_REMOVE  (true|false)  #REQUIRED
+					CHANGE_REFERENCE  (true|false)  #REQUIRED
+					CHANGE_LITERAL  (true|false)  #REQUIRED>
 
-<!ATTLIST Creates allow CDATA #REQUIRED>
-<!ATTLIST Deletes allow CDATA #REQUIRED>
-<!ATTLIST Moves allow CDATA #REQUIRED
-				allowReferenceSwitching CDATA #REQUIRED>
-<!ATTLIST Sets allow CDATA #REQUIRED>
-<!ATTLIST Unsets allow CDATA #REQUIRED>
-<!ATTLIST Adds allow CDATA #REQUIRED>
-<!ATTLIST Removes allow CDATA #REQUIRED>
-<!ATTLIST Changes allow CDATA #REQUIRED
-				  allowLiteralSwitching CDATA #REQUIRED>
+<!ATTLIST Creates allow (true|false) #REQUIRED>
+<!ATTLIST Deletes allow  (true|false)  #REQUIRED>
+<!ATTLIST Moves allow  (true|false)  #REQUIRED
+					allowReferenceSwitching  (true|false)  #REQUIRED>
+<!ATTLIST MoveUps allow  (true|false)  #REQUIRED
+					allowReferenceSwitching  (true|false)  #REQUIRED>
+<!ATTLIST MoveDowns allow  (true|false)  #REQUIRED
+					allowReferenceSwitching  (true|false)  #REQUIRED>
+<!ATTLIST SetAttributes allow  (true|false)  #REQUIRED>
+<!ATTLIST UnsetAttributes allow  (true|false)  #REQUIRED>
+<!ATTLIST SetReferences allow  (true|false)  #REQUIRED>
+<!ATTLIST UnsetReferences allow  (true|false)  #REQUIRED>
+<!ATTLIST Adds allow  (true|false)  #REQUIRED>
+<!ATTLIST Removes allow  (true|false)  #REQUIRED>
+<!ATTLIST ChangeReferences allow  (true|false)  #REQUIRED>
+<!ATTLIST ChangeLiterals allow  (true|false)  #REQUIRED
+				  allowLiteralSwitching  (true|false)  #REQUIRED>
