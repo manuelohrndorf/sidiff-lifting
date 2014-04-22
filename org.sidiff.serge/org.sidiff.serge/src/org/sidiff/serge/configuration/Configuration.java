@@ -33,8 +33,7 @@ public class Configuration {
 	public boolean MULTIPLICITYPRECONDITIONSSEPARATELY;
 	public boolean CREATENOTREQUIREDANDNOTIDATTRIBUTES;
 	public boolean PREVENTINCONSISTENCYTHROUGHSKIPPING;
-	@Deprecated
-	public boolean REDUCETOSUPERTYPE_SETUNSET;
+	
 	public boolean REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES;
 	public boolean REDUCETOSUPERTYPE_SETUNSET_REFERENCES;
 	public boolean REDUCETOSUPERTYPE_ADDREMOVE;
@@ -48,6 +47,9 @@ public class Configuration {
 
 	public boolean LITERALSWITCHING_CHANGE;
 	public boolean REFERENCESWITCHING_MOVE;	
+	public boolean REFERENCESWITCHING_MOVE_UP;
+	public boolean REFERENCESWITCHING_MOVE_DOWN;	
+	
 	
 	public EPackage METAMODEL;
 	

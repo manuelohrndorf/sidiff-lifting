@@ -40,25 +40,23 @@ import org.w3c.dom.NodeList;
 
 public class ConfigurationParser {
 	
-	private static Configuration c 							= Configuration.getInstance();
-	private static EClassifierInfoManagement ECM 			= EClassifierInfoManagement.getInstance();
-	private static ElementFilter filter 					= ElementFilter.getInstance();
+	private static Configuration c 									= Configuration.getInstance();
+	private static EClassifierInfoManagement ECM 	= EClassifierInfoManagement.getInstance();
+	private static ElementFilter filter 						= ElementFilter.getInstance();
 	
 	private static Stack<EPackage> calculatedEPackagesStack	= new Stack<EPackage>();
-	private static List<String> stringWhiteList 			= new ArrayList<String>();
-	private static List<String> stringBlackList 			= new ArrayList<String>();
-	private static String rootName							= null;
+	private static List<String> stringWhiteList 		= new ArrayList<String>();
+	private static List<String> stringBlackList 		= new ArrayList<String>();
+	private static String rootName									= null;
 
 	public void parse (String pathToConfig) throws Exception {
 			
-		//TODO other optypes
-		//TODO workspace_loc
+		//TODO removal of workspace_loc usage
 		String workspace_loc = null;
 		String fSep = System.getProperty("file.separator");
 		
 		
-		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));
-		
+		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
 		Element docElem = doc.getDocumentElement();
 		org.w3c.dom.Node currentNode = null;
 		NodeList currentChildNodes = null;
@@ -77,43 +75,75 @@ public class ConfigurationParser {
 		c.PROFILEAPPLICATIONINUSE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
 		String configOutputPath=String.valueOf(Common.getAttributeValue("absolutePath", currentNode));
+			
 		if(!configOutputPath.endsWith(fSep)) {
 			c.OUTPUTFOLDERPATH = configOutputPath+fSep;
 		}else{
 			c.OUTPUTFOLDERPATH = configOutputPath;
-		}		
-		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);
-		c.REDUCETOSUPERTYPE_SETUNSET=Boolean.valueOf(Common.getAttributeValue("SET_UNSET", currentNode));
+		}
+		
+		// reduce to supertype settings
+		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);		
 		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
-		c.REDUCETOSUPERTYPE_CHANGE_REFERENCE=Boolean.valueOf(Common.getAttributeValue("CHANGE", currentNode));
-		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE_LITERALS=Boolean.valueOf(Common.getAttributeValue("CHANGE_LITERAL", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE_REFERENCE=Boolean.valueOf(Common.getAttributeValue("CHANGE_REFERENCE", currentNode));
 		c.REDUCETOSUPERTYPE_CREATEDELETE=Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE_DOWN=Boolean.valueOf(Common.getAttributeValue("MOVE_DOWN", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE_UP=Boolean.valueOf(Common.getAttributeValue("MOVE_UP", currentNode));
+		c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("SET_UNSET_ATTRIBUTE", currentNode));
+		c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("SET_UNSET_REFERENCE", currentNode));
 		
 	
-		// retrieve and set operation types
+		// enable/disable transformation types and its settings
 		currentNode = doc.getElementsByTagName("Creates").item(0);
 		c.CREATE_CREATES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		
 		currentNode = doc.getElementsByTagName("Deletes").item(0);
 		c.CREATE_DELETES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		
 		currentNode = doc.getElementsByTagName("Moves").item(0);
 		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
-		c.CREATE_MOVE_REFERENCE_COMBINATIONS = c.REFERENCESWITCHING_MOVE; //TODO xml/dtd adjusment still missing
-		currentNode = doc.getElementsByTagName("Changes").item(0);
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
+		
+		currentNode = doc.getElementsByTagName("MoveUps").item(0);
+		c.CREATE_MOVE_UPS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
+
+		currentNode = doc.getElementsByTagName("MoveDowns").item(0);
+		c.CREATE_MOVE_DOWNS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
+		
+		currentNode = doc.getElementsByTagName("ChangeLiterals").item(0);
+		c.CREATE_CHANGE_LITERALS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));
+		
+		currentNode = doc.getElementsByTagName("ChangeReferences").item(0);
 		c.CREATE_CHANGE_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));	
+		
 		currentNode = doc.getElementsByTagName("Adds").item(0);
 		c.CREATE_ADDS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		
 		currentNode = doc.getElementsByTagName("Removes").item(0);
 		c.CREATE_REMOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Sets").item(0);
+		
+		currentNode = doc.getElementsByTagName("SetAttributes").item(0);
 		c.CREATE_SET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		currentNode = doc.getElementsByTagName("Unsets").item(0);
+		
+		currentNode = doc.getElementsByTagName("SetReferences").item(0);
+		c.CREATE_SET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		
+		currentNode = doc.getElementsByTagName("UnsetAttributes").item(0);
 		c.CREATE_UNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.CREATE_SET_REFERENCES=c.CREATE_SET_ATTRIBUTES; //TODO xml/dtd adjusment still missing
-		c.CREATE_UNSET_REFERENCES=c.CREATE_SET_ATTRIBUTES;//TODO xml/dtd adjusment still missing
+		
+		currentNode = doc.getElementsByTagName("UnsetReferences").item(0);
+		c.CREATE_UNSET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		
 		
+		//TODO remove this? base model rules path
 		// read ProfiledModel Settings if available
 		if(c.PROFILEAPPLICATIONINUSE) {
 			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
