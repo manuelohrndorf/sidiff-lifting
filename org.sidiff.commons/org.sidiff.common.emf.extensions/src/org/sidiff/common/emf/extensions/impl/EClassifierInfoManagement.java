@@ -21,9 +21,11 @@ public class EClassifierInfoManagement {
 
 	private HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<EClassifier, EClassifierInfo>();
 	private HashMap<EClassifier,Set<EClassifier>> abstractToConcreteEClassifierMap = new HashMap<EClassifier,Set<EClassifier>>();
+	private HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<EClassifier, List<EClassifier>>();
+	private Set<EClassifier> profileStereotypesSet = new HashSet<EClassifier>();
+	private Set<EClassifier> profileMetaclassSet = new HashSet<EClassifier>();
 	private static EClassifierInfoManagement instance = null;
 	private Boolean stereotypeMapping = false;
-	private HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<EClassifier, List<EClassifier>>();
 	
 	public static EClassifierInfoManagement getInstance() {
 		if (instance==null) {
@@ -37,7 +39,6 @@ public class EClassifierInfoManagement {
 	}
 	
 	public void gatherInformation(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
-		stereotypeMapping = enableStereotypeMapping;
 		
 		//convert stack to array
 		EPackage[] ePackageArray = new EPackage[ePackagesStack.size()];
@@ -552,6 +553,33 @@ public class EClassifierInfoManagement {
 		return set;
 	}
 	
+	/**
+	 * This method delivers all stereotypes that are extending the given eClassifier as meta-class
+	 * and also all stereotypes  that inherit from stereotypes which have this eClassifier as meta-class
+	 * (directly or over further inheritences).
+	 * @param eClassifier
+	 * @return
+	 */
+	public Set<EClassifier> getAllStereotypes(EClassifier eClassifier) {
+		
+		Set<EClassifier> connectedStereotypes = new HashSet<EClassifier>();
+		EClassifierInfo eInfo = getEClassifierInfo(eClassifier);
+		
+		// all directly connected stereotypes via 'extensions'
+		connectedStereotypes.addAll(eInfo.getStereotypes());
+		for(EClassifier stereotype: profileStereotypesSet) {
+			// try to find all indirectly connected stereotypes via inheritances
+			// of connected stereotypes
+			List<EClass> stereoSupertypes = stereotype.eClass().getEAllSuperTypes();
+			for(EClassifier supertype: stereoSupertypes) {
+				if(connectedStereotypes.contains(supertype)) {
+					connectedStereotypes.add(stereotype);
+					break;
+				}
+			}
+		}
+		return connectedStereotypes;
+	}
 	
 	public List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClassifier eClassifier) {
 		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
@@ -592,6 +620,13 @@ public class EClassifierInfoManagement {
 	}
 	
 	
+	public Set<EClassifier> getAllProfileStereotypes() {	
+		return profileStereotypesSet;
+	}
+	
+	public Set<EClassifier> getAllProfileMetaClasses() {
+		return profileMetaclassSet;
+	}
 	
 	public boolean hasAbstractMandatoryChildren(EClassifierInfo eClassInfo) {
 		for(EClassifier child: eClassInfo.getMandatoryChildren().values().iterator().next()) {
@@ -1008,7 +1043,9 @@ public class EClassifierInfoManagement {
 					eClassInfoOfMetaClass = new EClassifierInfo(metaClass);
 					eClassifierInfoMap.put(metaClass,eClassInfoOfMetaClass);
 				}
-				eClassInfoOfMetaClass.addStereotype(eClassifierInfo.getTheEClassifier());
+				eClassInfoOfMetaClass.addStereotype(eClassifier);
+				profileMetaclassSet.add(metaClass);
+				profileStereotypesSet.add(eClassifier);
 			}
 		}		
 	}
