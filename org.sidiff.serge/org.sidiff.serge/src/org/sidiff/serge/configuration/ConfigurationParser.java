@@ -32,7 +32,6 @@ import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.filter.ElementFilter;
-import org.sidiff.serge.filter.ElementFilter.ImplicitRequirementType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -428,62 +427,10 @@ public class ConfigurationParser {
 		for(String eClassName: stringWhiteList) {
 			EClassifier eClassifier = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
 			filter.getWhiteList().add(eClassifier);
-		}		
-		findMoreRequiredClassifier(filter.getWhiteList());
+		}
 	}
 	
 	
-	/**
-	 * This method extends the whiteList by classifiers (meta classes) that are extended by stereotypes
-	 * when using the the profile mechanismn. Meta classes are necessary because profile model instances
-	 * contain not only objects for stereotypes but also for their meta classes.<br/><br/>
-	 * This method also fills the implicitRequirementList with EClasses.
-	 * An EClass is implicitly required if it is supertype for other EClasses on the
-	 * whitelist (or EClasses not on the blacklist) because it contains EAttributes and
-	 * ERferences which are inherited and relevant for the sub types.
-	 * @param oldList
-	 */
-	private static void findMoreRequiredClassifier(List<EClassifier> oldList) {
-		
-		ArrayList<EClassifier> currentList = new ArrayList<EClassifier>(oldList);
-		
-		// find implicit requirement by stereotyping / meta class extension
-		if(c.PROFILEAPPLICATIONINUSE) {
-
-			for(EClassifier req: oldList) {
-				for(EClassifier metaClass:ECM.getEClassifierInfo(req).getExtendedMetaClasses()){
-					if(!filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.EXTENDED_METACLASSES).contains(metaClass)) {
-						filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.EXTENDED_METACLASSES).add(metaClass);
-					}
-				}
-
-			}
-		}
-		filter.setWhiteList(currentList);
-
-		// find implicit requirements of supertypes
-		for(EClassifier req: currentList) {
-			
-			if(req instanceof EClass) {
-				EClass reqEClass = (EClass) req;
-				
-				for(EAttribute ea: reqEClass.getEAllAttributes()) {
-					
-					//if EAttribute is derived from SuperType
-					if(!ea.eContainer().equals(req)) {					
-						EClass superType = (EClass) ea.eContainer();
-						//if supertype is not explicitly set on blacklist or already on whitelist
-						if(!filter.getBlackList().contains(superType) & !filter.getWhiteList().contains(superType)) {
-							//add superType to implicit requirement list.
-							if(!filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.INHERITING_SUPERTYPES).contains(superType)) {
-								filter.getImplicitRequirements(ElementFilter.ImplicitRequirementType.INHERITING_SUPERTYPES).add(superType);
-							}
-						}
-					}				
-				}	
-			}
-		}
-	}
 
 
 

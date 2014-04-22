@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,10 +27,6 @@ public class ElementFilter {
 	private static EClassifierInfoManagement ECM;
 	private static ElementFilter instance = null;
 	
-	private static HashMap<ImplicitRequirementType,ArrayList<EClassifier>> implicitRequirements;
-	
-	public static enum ImplicitRequirementType {INHERITING_SUPERTYPES, EXTENDED_METACLASSES;}
-	
 	public static ElementFilter getInstance() {
 		if (instance==null) {
 			instance = new ElementFilter();
@@ -43,10 +40,6 @@ public class ElementFilter {
 	private ElementFilter() {
 		c = Configuration.getInstance();
 		ECM = EClassifierInfoManagement.getInstance();
-		
-		implicitRequirements = new HashMap<ImplicitRequirementType, ArrayList<EClassifier>>();
-		implicitRequirements.put(ImplicitRequirementType.INHERITING_SUPERTYPES, new ArrayList<EClassifier>());
-		implicitRequirements.put(ImplicitRequirementType.EXTENDED_METACLASSES, new ArrayList<EClassifier>());
 	}
 	
 	/** Public SETTER **************************************************************************/
@@ -68,10 +61,6 @@ public class ElementFilter {
 	public ArrayList<EClassifier> getWhiteList() {
 		return whiteList;
 	}
-
-	public ArrayList<EClassifier> getImplicitRequirements(ImplicitRequirementType type) {
-		return implicitRequirements.get(type);
-	}
 	
 	/**
 	 * This method delivers false if the given eClassifier should not recieve a transformation module
@@ -90,10 +79,8 @@ public class ElementFilter {
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
-		boolean requiredByNeighbours = false;
-		boolean requiredByParents = false;	
-		boolean requiredByChildren = false;
+		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
+		boolean requiredByStereotypes = c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier);
 		
 		switch(opType) {
 		
@@ -104,71 +91,62 @@ public class ElementFilter {
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
 					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					|| (!whiteListed && !assumeAllOnWhitelist && !providesFeaturesForSubtypes )
-					|| (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes)
+					|| (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
+					|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
 					)
 				return false;				
 				break;
 				
 			case ADD:				
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
 					return false;
-				}
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;				
+				}			
 				break;
 				
 			case CHANGE_REFERENCE:
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
 					return false;
-				}
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
+				}		
 				break;
 				
 			case MOVE:
 				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
+					|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
 					return false;
 				}
-//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
 				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
-					return false;
-				}
-	//			if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						return false;
+					}
 				break;
 				
 			case MOVE_UP:
 				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
-					return false;
-				}
-//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						return false;
+					}
 				break;
 				
 			case MOVE_DOWN:
 				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
-					return false;
-				}
-//				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						return false;
+					}
 				break;
 				
 			case SET_ATTRIBUTE:
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
 					return false;
-				}
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;		
+				}			
 				break;
 				
 			case SET_REFERENCE:
-				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
 					return false;
-				}
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
-				
+				}			
 				break;
 			
 			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
@@ -204,7 +182,7 @@ public class ElementFilter {
 	 * @param eClassifier
 	 * @param opType
 	 * @param preferSupertypes
-	 * @return
+	 * @return false or true
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType, Boolean preferSupertypes) throws OperationTypeNotImplementedException {
@@ -214,81 +192,105 @@ public class ElementFilter {
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
+		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
 		boolean requiredByNeighbours = isRequiredByWhitelistedIncomingNeighbors(eClassifier, preferSupertypes);
 		boolean requiredByParents = isRequiredByWhitelistedIncomingParent(eClassifier, preferSupertypes);	
 		boolean requiredByChildren = isRequiredByWhitelistedChildren(eClassifier);
-		boolean hardCutOff = blackListed && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING;
+		
+		// The two scenarios of hard cut-offs:
+		// 1. blacklisted and no inconsistency prevention enabled
+		// 2. whitelist is not empty, however the blacklist is. Addionally  no inconsistency prevention is enabled.
+		boolean hardCutOff = ((blackListed && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING)
+											  || (blackList.isEmpty() && !assumeAllOnWhitelist && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING));
 		
 		switch(opType) {
 		
 			case CREATE:
-//				if (!isAllowed(context,false,reduceToSuperType_CREATEDELETE)) continue;
+				
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
-			case DELETE:
-				//..
-				break;
+				
 			case ADD:
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
-			case REMOVE:
-				//..
-				break;
+
 			case MOVE:
-//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case MOVE_REFERENCE_COMBINATION:
-//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case MOVE_UP:
-//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case MOVE_DOWN:
-//				if (isAllowed(parent,false,reduceToSuperType_MOVE)) continue;
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case CHANGE_REFERENCE:
-				//...
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case SET_ATTRIBUTE:
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
 			case SET_REFERENCE:
-				//..
+				if( hardCutOff
+						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+					return false;
+				}
 				break;
+				
+				
+			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
 			case UNSET_ATTRIBUTE:
-				//..
-				break;
+				return true;
+				
 			case UNSET_REFERENCE:
-				//..
-				break;
+				return true;
+				
+			case DELETE:
+				return true;
+				
+			case REMOVE:
+				return true;
+				
+			// -----unsupported ---------------------------/	
 			default:
 				throw new OperationTypeNotImplementedException(opType.toString());
 		}
-		
-		
-		
+
 		return true;
 	}
 	
-	
-	
-	public Boolean eAttributeIsAllowed(EAttribute eAttribute) {
-		
-		//TODO eAttributeIsAllowed
-		
-		return true;
-	}
-	
-	public Boolean eReferenceIsAllowed(EReference eREference)  {
-		
-		//TODO eReferenceIsAllowed
-		
-		return true;
-	}
 	
 	/***** Convenience Methods  ************************************************************/
 	
@@ -382,8 +384,7 @@ public class ElementFilter {
 							requiredByChildren = true;
 							break;
 						}						
-					}
-					
+					}				
 				}
 			}
 		}
@@ -391,9 +392,41 @@ public class ElementFilter {
 		return requiredByChildren;
 	}
 	
+	/**
+	 * Checks if an EClassifier is required because it provides features for its sub types
+	 * which are white listed.
+	 * @param eClassifier
+	 * @return
+	 */
+	private static Boolean isRequiredByWhitelistedSubtypes(EClassifier eClassifier) {
+
+		boolean isRequired = false;
+		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
+		Set<EClassifierInfo> subTypes = ECM.getAllSubTypes(eInfo);
+		List<EClassifier> stereotypes = eInfo.getStereotypes();
+		
+		return isRequired;
+	}
 	
-
-
+	/**
+	 * Checks if an EClassifier is a profile meta-class of any white listed stereotype. 
+	 * @param eClassifier
+	 * @return
+	 */
+	private static Boolean isRequiredByWhitelistedStereotype(EClassifier eClassifier) {
+		
+		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
+		
+		Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
+		for(EClassifier stereotype: stereotypes) {
+			if(whiteList.contains(stereotype)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * Checks whether an EClass is allowed to be used by configuration details:<br /> <br />
 	 * Set the parameter asPivot to true, if the focus of the transformation lies on the
@@ -430,7 +463,7 @@ public class ElementFilter {
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean providesFeaturesForSubtypes = implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier);
+		boolean providesFeaturesForSubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
 		boolean requiredByNeighbours = false;
 		boolean requiredByParents = false;	
 		boolean requiredByChildren = false;
@@ -542,19 +575,6 @@ public class ElementFilter {
 		return true;
 	}	
 	
-	/**
-	 * Checks whether an EClassifier is implicitly required because it inherits its features
-	 * to sub types which are white listed. Implicitly required EClassifiers are not required in CREATE/DELETES.
-	 * Only in SET/ADD/CHANGE transformations.
-	 * @param eClassifier
-	 * @return
-	 */
-	protected static boolean isImplicitlyRequiredForFeatureInheritance(EClassifier eClassifier) {
-		if(implicitRequirements.get(ImplicitRequirementType.INHERITING_SUPERTYPES).contains(eClassifier)) {
-			return true;
-		}
-		return false;
-	}
 	
 	/**
 	 * This method delivers a list with all names of EClassifiers contained in the given list.
