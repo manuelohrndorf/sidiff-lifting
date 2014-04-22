@@ -592,11 +592,6 @@ public class Common {
 			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("setAttribute", "unsetAtttribute"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set (an attribute)", "Unset (an attribute)"));
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, true).setName(
-					GlobalConstants.OLDTGT); // rename Node in LHS
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, false).setName(
-					GlobalConstants.OLDTGT); // rename Node in RHS
-
 			break;
 
 		case SET_REFERENCE:
@@ -607,11 +602,6 @@ public class Common {
 			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("setReference", "unsetReference"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set (a reference)", "Unset (a reference)"));
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, true).setName(
-					GlobalConstants.OLDTGT); // rename Node in LHS
-			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, false).setName(
-					GlobalConstants.OLDTGT); // rename Node in RHS
-
 			break;
 
 		default:

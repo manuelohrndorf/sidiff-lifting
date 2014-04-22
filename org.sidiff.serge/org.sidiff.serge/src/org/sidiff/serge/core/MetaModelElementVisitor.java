@@ -73,77 +73,77 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			try{
 				
 				Set<Module> createModules 	= GAD.generate_CREATE(contextClass);
-				if (createModules != null){
+				if (!createModules.isEmpty()){
 					allCreateModules.addAll(createModules);
 				}
 				
 				Set<Module> variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
-				if (variantModules != null){
+				if (!variantModules.isEmpty()){
 					allVariantModules.addAll(variantModules);
 				}
 								
 				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
-				if (deleteModules != null){
+				if (!deleteModules.isEmpty()){
 					allDeleteModules.addAll(deleteModules);
 				}
 				
 				Set<Module> moveModules = GAD.generate_MOVE(contextClass);
-				if (moveModules != null){
+				if (!moveModules.isEmpty()){
 					allMoveModules.addAll(moveModules);
 				}
 				
 				Set<Module> moveCombinationModules = GAD.generate_MOVE_REFERENCE_COMBINATION(contextClass);			
-				if (moveCombinationModules != null){
+				if (!moveCombinationModules.isEmpty()){
 					allMoveCombinationModules.addAll(moveCombinationModules);
 				}
 				
 				Set<Module> moveDownModules = GAD.generate_MOVE_DOWN(contextClass);
-				if (moveDownModules != null){
+				if (!moveDownModules.isEmpty()){
 					allMoveDownModules.addAll(moveDownModules);
 				}
 				
 				Set<Module> moveUpModules = GAD.generate_MOVE_UP(contextClass);
-				if (moveUpModules != null){
+				if (!moveUpModules.isEmpty()){
 					allMoveUpModules.addAll(moveUpModules);
 				}
 				
 				Set<Module> addModules = GAD.generate_ADD(contextClass);
-				if (addModules != null){
+				if (!addModules.isEmpty()){
 					allAddModules.addAll(addModules);
 				}
 				
 				Set<Module> removeModules = GAD.generate_REMOVE(addModules);
-				if (removeModules != null){
+				if (!removeModules.isEmpty()){
 					allRemoveModules.addAll(removeModules);
 				}
 				
 				Set<Module> setAttributeModules = GAD.generate_SET_ATTRIBUTE(contextClass);	
-				if (setAttributeModules != null){
+				if (!setAttributeModules.isEmpty()){
 					allSetAttributeModules.addAll(setAttributeModules);
 				}
 				
 				Set<Module> unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);	
-				if (unsetAttributeModules != null){ //unset attributes revert attribute values back to default.
+				if (!unsetAttributeModules.isEmpty()){ //unset attributes revert attribute values back to default.
 					allUnsetAttributeModules.addAll(unsetAttributeModules);
 				}
 				
 				Set<Module> setReferenceModules = GAD.generate_SET_REFERENCE(contextClass);
-				if (setReferenceModules != null){
+				if (!setReferenceModules.isEmpty()){
 					allSetReferenceModules.addAll(setReferenceModules);
 				}
 				
 				Set<Module> unsetReferenceModules = GAD.generate_UNSET_REFERENCE(setReferenceModules);	
-				if (unsetReferenceModules != null){
+				if (!unsetReferenceModules.isEmpty()){
 					allUnsetReferenceModules.addAll(unsetReferenceModules);
 				}
 				
 				Set<Module> changeLiteralModules = GAD.generate_CHANGE_Literals(contextClass);
-				if (changeLiteralModules != null){
+				if (!changeLiteralModules.isEmpty()){
 					allChangeLiteralModules.addAll(changeLiteralModules);
 				}
 				
 				Set<Module> changeReferenceModules = GAD.generate_CHANGE_Reference(contextClass);
-				if (changeReferenceModules != null){
+				if (!changeReferenceModules.isEmpty()){
 					allChangeReferenceModules.addAll(changeReferenceModules);
 				}
 			}

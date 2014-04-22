@@ -80,7 +80,8 @@ public class ElementFilter {
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
 		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByStereotypes = c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier);
+		boolean requiredByStereotypes = (c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier))
+																		|| (!c.PROFILEAPPLICATIONINUSE);
 		
 		switch(opType) {
 		
@@ -98,55 +99,77 @@ public class ElementFilter {
 				break;
 				
 			case ADD:				
-				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
+				if (!requiredByStereotypes && !c.isRoot(eClassifier)) {
 					return false;
 				}			
 				break;
 				
 			case CHANGE_REFERENCE:
-				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
+				if (
+						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
+						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
+						|| (!requiredByStereotypes)
+						) {
+					return false;
+				}		
+				break;
+				
+			case CHANGE_LITERAL:
+				if (
+						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
+						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
+						|| (!requiredByStereotypes)
+						) {
 					return false;
 				}		
 				break;
 				
 			case MOVE:
 				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 					return false;
 				}
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
 				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 						return false;
 					}
 				break;
 				
 			case MOVE_UP:
 				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 						return false;
 					}
 				break;
 				
 			case MOVE_DOWN:
 				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))) {
+						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 						return false;
 					}
 				break;
 				
 			case SET_ATTRIBUTE:
-				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
+				if (
+						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
+						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
+						|| (!requiredByStereotypes)
+						) {
 					return false;
 				}			
 				break;
 				
 			case SET_REFERENCE:
-				if (requiredByStereotypes && !c.isRoot(eClassifier)) {
+				if (
+						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
+						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
+						|| (!requiredByStereotypes)
+						) {
 					return false;
-				}			
+				}	
 				break;
 			
 			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/

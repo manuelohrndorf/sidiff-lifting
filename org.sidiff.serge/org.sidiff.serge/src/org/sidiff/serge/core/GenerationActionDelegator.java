@@ -411,16 +411,9 @@ public class GenerationActionDelegator {
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(contextClass);
 
 			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.ADD)){
-				return null;
+				return modules;
 			}
-				
-			// TODO implicit requirements
-			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
-			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(contextClass)){
-				return null;
-			}
-			
+							
 			// EReferences and their EOpposites, if any
 			for (EReference eRef : contextClass.getEAllReferences()) {
 
@@ -521,14 +514,7 @@ public class GenerationActionDelegator {
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.SET_ATTRIBUTE)) {
-				return null;
-			}
-
-			// TODO implicit requirements
-			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
-			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
-				return null;
+				return modules;
 			}
 
 			EClass eClass = (EClass) eClassifier;
@@ -635,18 +621,12 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_SET_REFERENCE(EClass eClassifier) throws OperationTypeNotImplementedException {
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_ADDS) {
+		if (c.CREATE_SET_REFERENCES) {
 
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
-				return null;
-
-			// TODO implicit requirements
-			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
-			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				return null;
+				return modules;
 
 			EClass eClass = (EClass) eClassifier;
 
@@ -750,13 +730,7 @@ public class GenerationActionDelegator {
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
-				return null;
-
-			// TODO implicit requirements
-			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
-			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				return null;
+				return modules;
 
 			EClass eClass = (EClass) eClassifier;
 
@@ -847,14 +821,7 @@ public class GenerationActionDelegator {
 			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(contextClass);
 
 			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.CHANGE_REFERENCE)) {
-				return null;
-			}
-
-			// TODO implicit requirements
-			// if (!isImplicitlyRequiredForFeatureInheritance(eClassifier)))
-			// return;
-			if (c.PROFILEAPPLICATIONINUSE && eClassInfo.isExtendedMetaClass() && !c.isRoot(contextClass)) {
-				return null;
+				return modules;
 			}
 
 			// EReferences and their EOpposites, if any
@@ -928,14 +895,16 @@ public class GenerationActionDelegator {
 	public Set<Module> process_Replacables(Set<Module> inputModules, OperationType opType, boolean reduceToSuperType)
 			throws OperationTypeNotImplementedException {
 
-		Set<Module> modules = new HashSet<Module>();
-
-		for (Module module : inputModules) {
-			VariantGenerator generator = new VariantGenerator(module, opType, reduceToSuperType);
-			modules.addAll(generator.generate());
+		Set<Module> modules = new HashSet<Module>();;
+		if(!c.DISABLEVARIANTS) {
+			
+			for (Module module : inputModules) {
+				VariantGenerator generator = new VariantGenerator(module, opType, reduceToSuperType);
+				modules.addAll(generator.generate());
+			}
 		}
-
 		return modules;
+
 	}
 
 }
