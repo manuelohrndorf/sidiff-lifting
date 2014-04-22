@@ -24,7 +24,15 @@ import org.sidiff.serge.filter.ExecutableFilter;
 
 public class Serge {
 
+	/**
+	 * The involved meta-models.
+	 */
 	private static Stack<EPackage> ePackagesStack = null;
+	
+	/**
+	 * The SERGe configuration.
+	 */
+	private static Configuration config = null;
 	
 	/**
 	 * Initial setup for SERGe.
@@ -35,17 +43,17 @@ public class Serge {
 		
 		try {
 			// create empty instances
-			Configuration c = Configuration.getInstance();
+			config = Configuration.getInstance();
 			EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 			ElementFilter.getInstance();
 			
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(pathToConfig);
-			ECM.gatherInformation(c.PROFILEAPPLICATIONINUSE, c.EPACKAGESSTACK);
+			ECM.gatherInformation(config.PROFILEAPPLICATIONINUSE, config.EPACKAGESSTACK);
 			
 			// get ePackageStack for usage in generate()
-			ePackagesStack = c.EPACKAGESSTACK;
+			ePackagesStack = config.EPACKAGESSTACK;
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,17 +79,24 @@ public class Serge {
 //			duplicateFilter.filterAddSet(addModules, setReferenceModules);
 //			duplicateFilter.filterRemoveUnset(removeModules, unsetReferenceModules);
 			
-			LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
-			ConstraintApplicator constraintApplicator = new ConstraintApplicator();
-			constraintApplicator.applyOn(allModules);
 			
-			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
-			ExecutableFilter executionFilter = new ExecutableFilter();
-			executionFilter.applyOn(allModules);
+			if (config.MULTIPLICITYPRECONDITIONSINTEGRATED){
+				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
+				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
+				constraintApplicator.applyOn(allModules);
+			}
 			
-			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
-			DuplicateFilter duplicateFilter = new DuplicateFilter();
-			duplicateFilter.filterIdentical(allModules);
+			if (config.ENABLE_EXECUTION_CHECK_FILTER){
+				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
+				ExecutableFilter executionFilter = new ExecutableFilter();
+				executionFilter.applyOn(allModules);
+			}
+			
+			if(config.ENABLE_DUPLICATE_FILTER) {
+				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
+				DuplicateFilter duplicateFilter = new DuplicateFilter();
+				duplicateFilter.filterIdentical(allModules);
+			}
 			
 			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 			RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
@@ -93,9 +108,11 @@ public class Serge {
 							
 			Set<Module> moduleSet = eClassVisitor.getAllModulesAsSet();
 			
-			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
-			NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
-			nameMapper.replaceNames();
+			if(config.ENABLE_NAME_MAPPER) {
+				LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
+				NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
+				nameMapper.replaceNames();
+			}
 			
 			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 			ModuleSerializer serializer = new ModuleSerializer();

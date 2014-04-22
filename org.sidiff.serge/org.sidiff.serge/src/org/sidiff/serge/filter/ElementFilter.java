@@ -73,7 +73,16 @@ public class ElementFilter {
 		return implicitRequirements.get(type);
 	}
 	
-	
+	/**
+	 * This method delivers false if the given eClassifier should not recieve a transformation module
+	 * in which the eClassifier is considered as <b>focal point</b> (or module basis). For example the eClassifier "State" is
+	 * considered in focus for the generation of a "CREATE_State_In_Region" transformation module.
+	 * There can be various cases in which an eClassifier should be avoided as a focal point when running certain module generations.
+	 * @param eClassifier
+	 * @param opType
+	 * @return false or true
+	 * @throws OperationTypeNotImplementedException
+	 */
 	public Boolean isAllowedAsModuleBasis(EClassifier eClassifier, Configuration.OperationType opType) throws OperationTypeNotImplementedException {
 		
 		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
@@ -89,10 +98,8 @@ public class ElementFilter {
 		switch(opType) {
 		
 			case CREATE:
-				// deny eClassifier usage on the following conditions:
 				if (
-					(!c.CREATE_CREATES)
-					|| (!(eClassifier instanceof EClass))
+					(!(eClassifier instanceof EClass))
 					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
@@ -100,100 +107,84 @@ public class ElementFilter {
 					|| (!whiteListed && !assumeAllOnWhitelist && !providesFeaturesForSubtypes )
 					|| (assumeAllOnWhitelist && blackListed && !providesFeaturesForSubtypes)
 					)
-				return false;
+				return false;				
+				break;
 				
-				break;
-			case DELETE:
-				if (!c.CREATE_DELETES) return false;
-				break;
 			case ADD:				
-				if (
-					(!c.CREATE_ADDS)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				)
-				return false;
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+					return false;
+				}
 //				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;				
 				break;
-			case REMOVE:
-				if (!c.CREATE_REMOVES) return false;
-				break;
+				
 			case CHANGE_REFERENCE:
-				if (
-					(!c.CREATE_CHANGE_REFERENCES)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					)
-				return false;	
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+					return false;
+				}
 //				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
 				break;
+				
 			case MOVE:
-				if (
-					(!c.CREATE_MOVES)
-					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				)
-				return false;
+				if ((c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
+					return false;
+				}
 //				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
+				
 			case MOVE_REFERENCE_COMBINATION:
-				if (
-					(!c.CREATE_MOVE_REFERENCE_COMBINATIONS)
-					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-			)
-				return false;
+				if ((c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
+					return false;
+				}
 	//			if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
+				
 			case MOVE_UP:
-				if (
-					(!c.CREATE_MOVE_UPS)
-					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				)
-				return false;
+				if ((c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
+					return false;
+				}
 //				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
+				
 			case MOVE_DOWN:
-				if (
-					(!c.CREATE_MOVE_DOWNS)
-					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				)
-				return false;
+				if ((c.isAnUnnestableRoot(eClassifier))
+					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))) {
+					return false;
+				}
 //				if (!isAllowed(eClassifier,true,reduceToSuperType_MOVE) || createMOVES==false)  return;
 				break;
+				
 			case SET_ATTRIBUTE:
-				if (
-					(!c.CREATE_SET_ATTRIBUTES)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-				)		
-				return false;
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
+					return false;
+				}
 //				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;		
 				break;
+				
 			case SET_REFERENCE:
-				if (
-					(!c.CREATE_SET_REFERENCES)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					)
+				if (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier)) {
 					return false;
+				}
 //				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
 				
 				break;
+			
+			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
 			case UNSET_ATTRIBUTE:
-				if (
-					(!c.CREATE_UNSET_ATTRIBUTES)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					)
-				return false;
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
-				break;
+				return true;
+				
 			case UNSET_REFERENCE:
-				if (
-					(!c.CREATE_UNSET_REFERENCES)
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
-					)
-				return false;
-//				if (!(isAllowed(eClassifier,true,false) && !isImplicitlyRequiredForFeatureInheritance(eClassifier)))  return false;
-				break;
+				return true;
+				
+			case DELETE:
+				return true;
+				
+			case REMOVE:
+				return true;
+				
+			// -----unsupported ---------------------------/
 			default:
 				throw new OperationTypeNotImplementedException(opType.toString());
 		}
@@ -204,6 +195,18 @@ public class ElementFilter {
 		return true;
 	}
 	
+	/**
+	 *  This method delivers false if the given eClassifier should not be mentioned inside a transformation module
+	 * with focus on another eClassifier. The eClassifier here is NOT considered as focal point; i.e. it is merely
+	 * considered as a <b>dangling</b> element.  For example the eClassifier "Region" is
+	 * considered as a dangling element in the generation of a "CREATE_State_In_Region" transformation module.
+	 * There can be various cases in which an eClassifier should be avoided as dangling when running certain module generations.
+	 * @param eClassifier
+	 * @param opType
+	 * @param preferSupertypes
+	 * @return
+	 * @throws OperationTypeNotImplementedException
+	 */
 	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType, Boolean preferSupertypes) throws OperationTypeNotImplementedException {
 		
 		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);

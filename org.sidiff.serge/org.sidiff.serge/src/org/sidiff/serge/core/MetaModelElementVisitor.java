@@ -22,12 +22,16 @@ import org.sidiff.serge.configuration.Configuration.OperationType;
  * - variantModules >> createModules. Some createModules must be removed due to lack of consistency.
  * - isAllowedForModuleBase: complete support for other OperationTypes
  * - isAllowedForDangling: complete support for other OperationTypes
+ * - why use getAllModulesAsSet() ?
  * - What about implicitlyRequired stuff?
- * - XML/DTD must be adjusted to new OperationType differenciation
- * - Configuration and ConfigurationParser also
  * - ProfileModelIntegration
- * - Implementation of MoveUp and MoveDown
- *
+ * -  differenciation normal moves, ups, downs (comply with xml/dtd)
+ * - implement MoveDown
+ * - implement MoveUp
+ * - contraint generation
+ * - filter identical / filter duplicate? What will that do exactly?
+ * - add comment to when rule might not be executable in ExecutionChecker
+ * - remove all the deprecated marks, old classes, old todos/fixmes
  * 
  * @author mrindt
  *
@@ -37,20 +41,20 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private GenerationActionDelegator GAD 		= GenerationActionDelegator.getInstance();
 	
 	// Sets for module variants and inverse creations
-	private Set<Module> allCreateModules 			= new HashSet<Module>();
-	private Set<Module> allVariantModules			= new HashSet<Module>();
-	private Set<Module> allDeleteModules 			= new HashSet<Module>();
-	private Set<Module> allMoveModules 			= new HashSet<Module>();
+	private Set<Module> allCreateModules 						= new HashSet<Module>();
+	private Set<Module> allVariantModules					= new HashSet<Module>();
+	private Set<Module> allDeleteModules 						= new HashSet<Module>();
+	private Set<Module> allMoveModules 							= new HashSet<Module>();
 	private Set<Module> allMoveCombinationModules 	= new HashSet<Module>();
-	private Set<Module> allMoveDownModules 		= new HashSet<Module>();
-	private Set<Module> allMoveUpModules 			= new HashSet<Module>();
-	private Set<Module> allAddModules 				= new HashSet<Module>();
-	private Set<Module> allRemoveModules 			= new HashSet<Module>();
-	private Set<Module> allSetAttributeModules 	= new HashSet<Module>();
-	private Set<Module> allSetReferenceModules		= new HashSet<Module>();
-	private Set<Module> allUnsetAttributeModules 	= new HashSet<Module>();
-	private Set<Module> allUnsetReferenceModules	= new HashSet<Module>();
-	private Set<Module> allChangeLiteralModules	= new HashSet<Module>();
+	private Set<Module> allMoveDownModules 					= new HashSet<Module>();
+	private Set<Module> allMoveUpModules 						= new HashSet<Module>();
+	private Set<Module> allAddModules 							= new HashSet<Module>();
+	private Set<Module> allRemoveModules 						= new HashSet<Module>();
+	private Set<Module> allSetAttributeModules 			= new HashSet<Module>();
+	private Set<Module> allSetReferenceModules			= new HashSet<Module>();
+	private Set<Module> allUnsetAttributeModules 		= new HashSet<Module>();
+	private Set<Module> allUnsetReferenceModules		= new HashSet<Module>();
+	private Set<Module> allChangeLiteralModules		= new HashSet<Module>();
 	private Set<Module> allChangeReferenceModules	= new HashSet<Module>();
 	
 	@Override
@@ -77,11 +81,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				if (variantModules != null){
 					allVariantModules.addAll(variantModules);
 				}
-				
-//TODO createModules must be extended by variants but also
-				//in some cases, they need to be replaced because only their variants are valid.
-				// --> new algorithm to do that required.
-				
+								
 				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
 				if (deleteModules != null){
 					allDeleteModules.addAll(deleteModules);
@@ -122,8 +122,10 @@ public class MetaModelElementVisitor implements EClassVisitor{
 					allSetAttributeModules.addAll(setAttributeModules);
 				}
 				
-// FIXME: What do we mean with unset attribute?
-//				unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);
+				Set<Module> unsetAttributeModules = GAD.generate_UNSET_ATTRIBUTE(setAttributeModules);	
+				if (unsetAttributeModules != null){ //unset attributes revert attribute values back to default.
+					allUnsetAttributeModules.addAll(unsetAttributeModules);
+				}
 				
 				Set<Module> setReferenceModules = GAD.generate_SET_REFERENCE(contextClass);
 				if (setReferenceModules != null){

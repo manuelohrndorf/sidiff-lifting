@@ -46,22 +46,39 @@
 	<Transformations>
 		<Creates allow="true" />
 		<Deletes allow="true" />
-		<Moves allow="true" allowReferenceSwitching="true" />
-		<MoveUps allow="true" allowReferenceSwitching="true" />
-		<MoveDowns allow="true" allowReferenceSwitching="true" />
-		<SetAttributes allow="true" />
-		<UnsetAttributes allow="true" />
-		<SetReferences allow="true" />
-		<UnsetReferences allow="true" />
-		<Adds allow="true" />
-		<Removes allow="true" />
-		<ChangeLiterals allow="true" allowLiteralSwitching="true" />
-		<ChangeReferences allow="true" />
+		<Moves allow="false" allowReferenceSwitching="true" />
+		<MoveUps allow="false" allowReferenceSwitching="true" />
+		<MoveDowns allow="false" allowReferenceSwitching="true" />
+		<SetAttributes allow="false" />
+		<UnsetAttributes allow="false" />
+		<SetReferences allow="false" />
+		<UnsetReferences allow="false" />
+		<Adds allow="false" />
+		<Removes allow="false" />
+		<ChangeLiterals allow="false" allowLiteralSwitching="true" />
+		<ChangeReferences allow="false" />
 	</Transformations>
 	
-	<Root name="" nested="true" />
-	work
-	<WhiteList />
+	<Root name="StateMachine" nested="true" />
+	<WhiteList>
+	
+	<!-- 
+		<EClassifier name="Activity" />		
+		<EClassifier name="Constraint" />		
+		<EClassifier name="Enumeration" />
+		<EClassifier name="EnumerationLiteral" />	
+		<EClassifier name="FinalState" />		
+		<EClassifier name="LiteralBoolean" />
+		<EClassifier name="LiteralString" />		
+		<EClassifier name="OpaqueBehavior" />
+	 -->
+		<EClassifier name="Package" />		
+		<EClassifier name="Pseudostate" />
+		<EClassifier name="Region" />
+		<EClassifier name="State" />
+		<EClassifier name="StateMachine" />
+		<EClassifier name="Transition" />		
+	</WhiteList>
 	<BlackList>	
 		<!--  Using "Constraint"(UML) is not adviced when MOVEs, which include switching of references, are enabled -->
 		<!--  <EClassifier name="Constraint" /> -->

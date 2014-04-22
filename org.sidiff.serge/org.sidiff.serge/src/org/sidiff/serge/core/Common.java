@@ -586,12 +586,12 @@ public class Common {
 
 		case SET_ATTRIBUTE:
 
-			name = module.getName().replaceFirst(GlobalConstants.SET_prefix, GlobalConstants.UNSET_prefix);
-			description = module.getDescription().replaceFirst("Sets", "Unsets");
+			name = module.getName().replaceFirst(GlobalConstants.SET_ATTRIBUTE_prefix, GlobalConstants.UNSET_ATTRIBUTE_prefix);
+			description = module.getDescription().replaceFirst("Sets (an attribute)", "Unsets (an attribute)");
 			inverse = HenshinModuleUtil.createInverse(name, description, module);
 			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
-			firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
-			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
+			firstRule.setName(firstRule.getName().replaceFirst("setAttribute", "unsetAtttribute"));
+			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set (an attribute)", "Unset (an attribute)"));
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, true).setName(
 					GlobalConstants.OLDTGT); // rename Node in LHS
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, false).setName(
@@ -601,12 +601,12 @@ public class Common {
 
 		case SET_REFERENCE:
 
-			name = module.getName().replaceFirst(GlobalConstants.SET_prefix, GlobalConstants.UNSET_prefix);
-			description = module.getDescription().replaceFirst("Sets", "Unsets");
+			name = module.getName().replaceFirst(GlobalConstants.SET_REFERENCE_prefix, GlobalConstants.UNSET_REFERENCE_prefix);
+			description = module.getDescription().replaceFirst("Sets (a reference)", "Unsets (a reference)");
 			inverse = HenshinModuleUtil.createInverse(name, description, module);
 			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
-			firstRule.setName(firstRule.getName().replaceFirst("set", "unset"));
-			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set", "Unset"));
+			firstRule.setName(firstRule.getName().replaceFirst("setReference", "unsetReference"));
+			firstRule.setDescription(firstRule.getDescription().replaceFirst("Set (a reference)", "Unset (a reference)"));
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, true).setName(
 					GlobalConstants.OLDTGT); // rename Node in LHS
 			HenshinRuleAnalysisUtilEx.getNodeByName(firstRule, GlobalConstants.NEWTGT, false).setName(

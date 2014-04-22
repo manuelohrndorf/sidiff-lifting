@@ -13,7 +13,23 @@ import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
 
 @SuppressWarnings("unused")
 public class Configuration {
-		
+	
+	// Tool specific configurations
+	
+	public String OUTPUTFOLDERPATH				  	= null;
+	public String BASEMODELRULEFOLDERPATH	= null;
+
+	public boolean CREATE_SUBFOLDERS_FOR_MODULES = true;
+	public boolean COPY_CONFIG = true;
+	public boolean REMOVE_MANUALS = false;
+	public boolean OVERWRITE_CONFIG = true;
+	public boolean OVERWRITE_MODULES = true;
+	public boolean ENABLE_DUPLICATE_FILTER = false;
+	public boolean ENABLE_EXECUTION_CHECK_FILTER = false;
+	public boolean ENABLE_NAME_MAPPER = false;
+	
+	// Meta-model dependend configurations
+	
 	public boolean CREATE_CREATES;
 	public boolean CREATE_DELETES;
 	public boolean CREATE_MOVES;
@@ -50,7 +66,6 @@ public class Configuration {
 	public boolean REFERENCESWITCHING_MOVE_UP;
 	public boolean REFERENCESWITCHING_MOVE_DOWN;	
 	
-	
 	public EPackage METAMODEL;
 	
 	public String ROOTNAME;
@@ -61,9 +76,6 @@ public class Configuration {
 	
 	public Boolean PROFILEAPPLICATIONINUSE;
 	public Boolean DISABLEVARIANTS;
-	
-	public String OUTPUTFOLDERPATH				  = null;
-	public String BASEMODELRULEFOLDERPATH		  = null;
 	
 	public Stack<EPackage> EPACKAGESSTACK = null;	
 	public static EClassifierInfoManagement ECM  = null;

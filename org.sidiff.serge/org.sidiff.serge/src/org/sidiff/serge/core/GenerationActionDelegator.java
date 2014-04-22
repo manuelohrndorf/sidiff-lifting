@@ -173,13 +173,11 @@ public class GenerationActionDelegator {
 
 		if (c.CREATE_MOVES && FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE)) {
 
-			// get possible eClassifier Masks for additional move generation of
-			// masked classifiers.
+			// get possible eClassifier Masks for additional move generation of masked classifiers.
 			List<Mask> eClassifierMasks = new ArrayList<Mask>();
 			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier).getMasks());
 
-			// get all possible contexts (mandatory & optional) and the
-			// according references
+			// get all possible contexts (mandatory & optional) and the  according references
 			HashMap<EReference, List<EClassifier>> allParents = ECM.getAllParentContexts(eClassifier,
 					c.REDUCETOSUPERTYPE_MOVE);
 			HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
@@ -188,8 +186,7 @@ public class GenerationActionDelegator {
 				assert (eRef.isContainment()) : "eRef is no containment but should be";
 
 				// don't consider containment references where multiplicity is
-				// fixed
-				// in such cases a SWAP (complex) operation is necessary
+				// fixed. In such cases a SWAP (complex) operation is necessary
 				if (!(eRef.getLowerBound() == eRef.getUpperBound())) {
 
 					// don't consider derived, not changeable, unsettable and
@@ -488,7 +485,7 @@ public class GenerationActionDelegator {
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_REMOVES) {
-
+			
 			if (!c.CREATE_ADDS)
 				throw new ModuleForInverseCreationRequiredException(OperationType.REMOVE);
 
@@ -921,7 +918,6 @@ public class GenerationActionDelegator {
 	 * so on. </br></br> Variants are necessary for the completeness and
 	 * correctness of module generation. For each setup the generation process
 	 * will be delegated to {@link VariantPostprocessor}
-	 * 
 	 * @param inputModules
 	 *            A Set of modules. For each module the replacables will be
 	 *            processed.
