@@ -51,6 +51,14 @@ public class ReplacementTable {
 		return !tableHeader.isEmpty();
 	}
 	
+	public ReplacementTableHeader getHeader() {
+		return tableHeader;
+	}
+	
+	public Set<ReplacementTableRow> getRows() {
+		return tableRows;
+	}
+	
 	private void fillRows(ReplacementTableHeader tableHeader) {
 		
 		if(tableHeader.isEmpty()) return;

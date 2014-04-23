@@ -26,6 +26,10 @@ public class ReplacementTableRow implements Iterable<EClassifier> {
 		return row.get(index);
 	}
 
+	public int getIndexOf(EClassifier eClassifier) {
+		return row.indexOf(eClassifier);
+	}
+	
 	/**
 	 * Inserts the EClassifier at the given index. If the position
 	 * is already occupied, the node will be appended.

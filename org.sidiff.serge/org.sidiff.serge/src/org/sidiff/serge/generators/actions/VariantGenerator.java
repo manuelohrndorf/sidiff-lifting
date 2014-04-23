@@ -1,10 +1,14 @@
 package org.sidiff.serge.generators.actions;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.query.conditions.eobjects.TypeRelation;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.NodeKindSelection;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.core.AbstractTypeReplacer;
 import org.sidiff.serge.core.TypeReplacer;
@@ -45,28 +49,8 @@ public class VariantGenerator {
 		
 		Set<Module> modules = new HashSet<Module>();
 			
-		TypeReplacer typeReplacer = new TypeReplacer(originalModule);
+		TypeReplacer typeReplacer = new TypeReplacer(originalModule, opType, reduceToSuperType);
 		modules.addAll(typeReplacer.replace());
-		
-		
-//		TypeReplacer_old typeReplacer = new TypeReplacer_old(originalModule, opType, reduceToSuperType);
-//		modules.addAll(typeReplacer.replace());
-//		
-		
-	
-		
-//		// delegate to AbstractTypeReplacer
-//		AbstractTypeReplacer abstrReplacer = new AbstractTypeReplacer(originalModule);
-//		tmpModules.addAll(abstrReplacer.generateModulesByAbstractChildNodeReplaces(opType, reduceToSuperType));		
-//		
-//		// delegate to SuperTypeReplacer
-//		for(Module module : tmpModules) { 
-//			SuperTypeReplacer supReplacer = new SuperTypeReplacer(module);
-//			modules.addAll(supReplacer.generateModulesBySuperTypeReplacesOfDanglingNodes());
-//		}
-//
-//		//TODO have th
-
 		
 		return modules;
 	}

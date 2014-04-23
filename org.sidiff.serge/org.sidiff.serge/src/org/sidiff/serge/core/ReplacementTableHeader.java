@@ -57,6 +57,10 @@ public class ReplacementTableHeader implements Iterable<Node> {
 	public Node get(int index) {
 		return tableHeader.get(index);
 	}
+	public int getIndexOf(Node node) {
+		return tableHeader.indexOf(node);
+	}
+	
 	/**
 	 * Inserts the node at the given index. If the position
 	 * is already occupied, the node will be appended.

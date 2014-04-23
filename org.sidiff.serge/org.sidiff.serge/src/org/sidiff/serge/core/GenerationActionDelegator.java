@@ -891,6 +891,7 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate modules representing the complete set after all
 	 *         necessary replacements.
 	 * @throws OperationTypeNotImplementedException
+	 * @throws ModuleViolatesConsistencyException 
 	 */
 	public Set<Module> process_Replacables(Set<Module> inputModules, OperationType opType, boolean reduceToSuperType)
 			throws OperationTypeNotImplementedException {

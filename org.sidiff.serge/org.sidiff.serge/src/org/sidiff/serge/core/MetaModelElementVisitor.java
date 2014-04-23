@@ -78,6 +78,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				if (!variantModules.isEmpty()){
 					allVariantModules.addAll(variantModules);
 				}
+				
+				//TODO remove old orignnal module in case it may not exist without replaces..
 								
 				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
 				if (!deleteModules.isEmpty()){
