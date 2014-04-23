@@ -80,8 +80,7 @@ public class ElementFilter {
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
 		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByStereotypes = (c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier))
-																		|| (!c.PROFILEAPPLICATIONINUSE);
+		boolean requiredByStereotypes = (c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier));
 		
 		switch(opType) {
 		
