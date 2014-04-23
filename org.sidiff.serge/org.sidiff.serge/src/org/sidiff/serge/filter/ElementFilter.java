@@ -80,7 +80,7 @@ public class ElementFilter {
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
 		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByStereotypes = (c.PROFILEAPPLICATIONINUSE  && isRequiredByWhitelistedStereotype(eClassifier));
+		boolean requiredByStereotypes = isRequiredByWhitelistedStereotype(eClassifier);
 		
 		switch(opType) {
 		
@@ -90,7 +90,7 @@ public class ElementFilter {
 					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (c.PROFILEAPPLICATIONINUSE && eInf.isExtendedMetaClass() && !c.isRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier))
 					|| (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
 					|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
 					)
@@ -98,29 +98,30 @@ public class ElementFilter {
 				break;
 				
 			case ADD:				
-				if (!requiredByStereotypes && !c.isRoot(eClassifier)) {
+				if (
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes)&& (!c.isRoot(eClassifier)))
+						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes) && (!c.isRoot(eClassifier))) 
+						) {
 					return false;
-				}			
+				}	
 				break;
 				
 			case CHANGE_REFERENCE:
 				if (
-						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
-						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
-						|| (!requiredByStereotypes)
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
+						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
-				}		
+				}	
 				break;
 				
 			case CHANGE_LITERAL:
 				if (
-						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
-						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
-						|| (!requiredByStereotypes)
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
+						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
-				}		
+				}	
 				break;
 				
 			case MOVE:
@@ -153,9 +154,8 @@ public class ElementFilter {
 				
 			case SET_ATTRIBUTE:
 				if (
-						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
-						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
-						|| (!requiredByStereotypes)
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
+						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}			
@@ -163,9 +163,8 @@ public class ElementFilter {
 				
 			case SET_REFERENCE:
 				if (
-						 (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
-						|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
-						|| (!requiredByStereotypes)
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
+						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}	
@@ -425,7 +424,15 @@ public class ElementFilter {
 		boolean isRequired = false;
 		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
 		Set<EClassifierInfo> subTypes = ECM.getAllSubTypes(eInfo);
-		List<EClassifier> stereotypes = eInfo.getStereotypes();
+		
+		for(EClassifierInfo subTypeInfo: subTypes) {
+			EClassifier subtype = subTypeInfo.getTheEClassifier();
+			if(whiteList.contains(subtype)) {
+				isRequired = true;
+				break;
+			}
+		}
+		
 		
 		return isRequired;
 	}
@@ -437,12 +444,14 @@ public class ElementFilter {
 	 */
 	private static Boolean isRequiredByWhitelistedStereotype(EClassifier eClassifier) {
 		
-		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
-		
-		Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
-		for(EClassifier stereotype: stereotypes) {
-			if(whiteList.contains(stereotype)) {
-				return true;
+		if(c.PROFILEAPPLICATIONINUSE) {
+			EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
+			
+			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
+			for(EClassifier stereotype: stereotypes) {
+				if(whiteList.contains(stereotype)) {
+					return true;
+				}
 			}
 		}
 		return false;
