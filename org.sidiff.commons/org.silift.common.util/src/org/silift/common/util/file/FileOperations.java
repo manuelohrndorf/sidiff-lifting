@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +113,37 @@ public class FileOperations {
 			if (outChannel != null)
 				outChannel.close();
 		}
+	}
+	
+	/**
+	 * Calculate the MD5 hash value of the given file.
+	 * 
+	 * @param file
+	 *            The file path.
+	 * @return The MD5 hash as byte array.
+	 * @throws IOException
+	 */
+	public static byte[] readMD5FileHash(String file) throws IOException {
+		DigestInputStream digestInputStream = null;
+		
+		try {
+			MessageDigest digest = MessageDigest.getInstance("MD5");
+		    FileInputStream fileInputStream = new FileInputStream(file);
+		    digestInputStream = new DigestInputStream(fileInputStream, digest);
+			
+		    byte[] buffer = new byte[8192];
+		    while(digestInputStream.read(buffer) != -1);
+		    
+		    return digest.digest();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} finally {
+			if (digestInputStream != null) {
+				digestInputStream.close();	
+			}
+		}
+		
+		return null;
 	}
 	
 	
