@@ -167,7 +167,7 @@ public class CombinationMatrix {
 			Iterator<EClassifier> iterRepType = replacementsForCurrentNode.iterator();
 			while(iterRepType.hasNext()) {
 				EClassifier currentReplace = iterRepType.next();
-				if(FILTER.isAllowedAsDangling(currentReplace, opType, reduceToSuperType)) {
+				if(!FILTER.isAllowedAsDangling(currentReplace, opType, reduceToSuperType)) {
 					iterRepType.remove();
 				}
 			}
@@ -197,8 +197,12 @@ public class CombinationMatrix {
 				// continue to fill row horizontally and also matrix vertically
 				// with additional new rows resulting of recursive replaces. 
 				int currentColumn = matrixColumns.getColumnIndexOfNode(initialNode);
-				if( matrixColumns.getObjectByColumn(currentColumn+1)!=null) {
+				
+				try{
 					continueFillMatrix(row,currentColumn+1);				
+				}
+				catch(IndexOutOfBoundsException e) {
+					//do nothing
 				}
 			}
 		}

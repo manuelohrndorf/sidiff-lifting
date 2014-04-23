@@ -8,6 +8,7 @@ import org.eclipse.emf.query.conditions.eobjects.TypeRelation;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.core.AbstractTypeReplacer;
 import org.sidiff.serge.core.TypeReplacer;
+import org.sidiff.serge.core.TypeReplacer_old;
 import org.sidiff.serge.core.SuperTypeReplacer;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
@@ -43,11 +44,14 @@ public class VariantGenerator {
 	public Set<Module> generate() throws OperationTypeNotImplementedException{
 		
 		Set<Module> modules = new HashSet<Module>();
-		
-		
-		TypeReplacer typeReplacer = new TypeReplacer(originalModule, opType, reduceToSuperType);
+			
+		TypeReplacer typeReplacer = new TypeReplacer(originalModule);
 		modules.addAll(typeReplacer.replace());
 		
+		
+//		TypeReplacer_old typeReplacer = new TypeReplacer_old(originalModule, opType, reduceToSuperType);
+//		modules.addAll(typeReplacer.replace());
+//		
 		
 	
 		
