@@ -229,63 +229,63 @@ public class ElementFilter {
 			case CREATE:
 				
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case ADD:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 
 			case MOVE:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case MOVE_UP:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case MOVE_DOWN:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case CHANGE_REFERENCE:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case SET_ATTRIBUTE:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;
 				
 			case SET_REFERENCE:
 				if( hardCutOff
-						|| (!hardCutOff && !whiteListed && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
 					return false;
 				}
 				break;

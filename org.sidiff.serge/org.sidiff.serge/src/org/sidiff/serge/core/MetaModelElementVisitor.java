@@ -20,10 +20,7 @@ import org.sidiff.serge.configuration.Configuration.OperationType;
  * 
  * - VariantProcesser (AbstractTypeReplacer and SubTypeReplacer) needs to be completed
  * - variantModules >> createModules. Some createModules must be removed due to lack of consistency.
- * - isAllowedForModuleBase: complete support for other OperationTypes
- * - isAllowedForDangling: complete support for other OperationTypes
  * - why use getAllModulesAsSet() ?
- * - What about implicitlyRequired stuff?
  * - ProfileModelIntegration
  * -  differenciation normal moves, ups, downs (comply with xml/dtd)
  * - implement MoveDown
