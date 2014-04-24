@@ -149,15 +149,29 @@ public class ThreeWayMergeWizard extends Wizard {
 				try {
 					monitor.beginTask("Merging", 120);
 					monitor.subTask("Creating a patch between BASE<->THEIRS");
-
+					
+					// Start difference calculations:
 					try{
 						fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
-						PipelineUtils.sortDifference(fullDiff.getSymmetric());
-
-					}catch(final InvalidModelException e){
-						ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-						return Status.CANCEL_STATUS;
+					} catch(InvalidModelException e){
+						ValidateDialog validateDialog = new ValidateDialog();
+						boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+						
+						if (skipValidation) {
+							try {
+								// Retry without validation:
+								liftingSettings.setValidate(false);
+								// FIXME: validationMode = ValidationMode.NO_VALIDATION;
+								fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
+							} catch (InvalidModelException e1) {
+								// We should never get here...
+								e1.printStackTrace();
+							}
+						} else {
+							return Status.CANCEL_STATUS;
+						}
 					}
+					PipelineUtils.sortDifference(fullDiff.getSymmetric());
 					
 					monitor.worked(30);
 					//Now apply that patch onto MINE
