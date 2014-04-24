@@ -110,18 +110,42 @@ public class CreatePatchWizard extends Wizard {
 	}
 	
 	private boolean finish(LiftingSettings settings) {
+		
+		Difference fullDiff = null;
 		Resource resourceA = inputModels.getResourceA();
 		Resource resourceB = inputModels.getResourceB();
 		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 
 		/*
-		 *  Start calculation
+		 *  Start calculation:
 		 */
-		
-		try {
-			Difference fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-			PipelineUtils.sortDifference(fullDiff.getSymmetric());
 
+		try {
+			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
+		} catch (InvalidModelException e) {
+			ValidateDialog validateDialog = new ValidateDialog();
+			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+
+			if (skipValidation) {
+				try {
+					// Retry without validation:
+					settings.setValidate(false);
+					fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
+				} catch (InvalidModelException e1) {
+					// We should never get here...
+					e1.printStackTrace();
+				}
+			} else {
+				return false;
+			}
+		}
+		PipelineUtils.sortDifference(fullDiff.getSymmetric());
+		
+		/*
+		 * Create patch:
+		 */
+
+		try {
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
 
@@ -161,9 +185,6 @@ public class CreatePatchWizard extends Wizard {
 					}
 				}
 			});
-		}catch(InvalidModelException e){
-			ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-			return false;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 
@@ -171,6 +192,7 @@ public class CreatePatchWizard extends Wizard {
 					"Error", null, "File not found!", MessageDialog.ERROR,
 					new String[] { "OK" }, 0);
 			dialog.open();
+			return false;
 		}
 		
 		return true;
