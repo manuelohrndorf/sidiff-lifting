@@ -110,42 +110,25 @@ public class CreatePatchWizard extends Wizard {
 	}
 	
 	private boolean finish(LiftingSettings settings) {
-		
-		Difference fullDiff = null;
-		Resource resourceA = inputModels.getResourceA();
-		Resource resourceB = inputModels.getResourceB();
-		PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 
 		/*
 		 *  Start calculation:
 		 */
-
-		try {
-			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-		} catch (InvalidModelException e) {
-			ValidateDialog validateDialog = new ValidateDialog();
-			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-
-			if (skipValidation) {
-				try {
-					// Retry without validation:
-					settings.setValidate(false);
-					fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-				} catch (InvalidModelException e1) {
-					// We should never get here...
-					e1.printStackTrace();
-				}
-			} else {
-				return false;
-			}
+		
+		Resource resourceA = inputModels.getResourceA();
+		Resource resourceB = inputModels.getResourceB();
+		Difference fullDiff = calculateDifference(resourceA, resourceB);
+		
+		if (fullDiff == null) {
+			return false;
 		}
-		PipelineUtils.sortDifference(fullDiff.getSymmetric());
 		
 		/*
 		 * Create patch:
 		 */
 
 		try {
+			PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
 
@@ -196,6 +179,29 @@ public class CreatePatchWizard extends Wizard {
 		}
 		
 		return true;
+	}
+	
+	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
+		Difference fullDiff = null;
+		
+		try{
+			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
+		} catch(InvalidModelException e){
+			ValidateDialog validateDialog = new ValidateDialog();
+			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			
+			if (skipValidation) {
+				// Retry without validation:
+				settings.setValidate(false);
+				fullDiff = calculateDifference(resourceA, resourceB);
+			}
+		}
+		
+		if (fullDiff != null) {
+			PipelineUtils.sortDifference(fullDiff.getSymmetric());
+		}
+		
+		return fullDiff;
 	}
 
 	protected ImageDescriptor getImageDescriptor(String name) {
