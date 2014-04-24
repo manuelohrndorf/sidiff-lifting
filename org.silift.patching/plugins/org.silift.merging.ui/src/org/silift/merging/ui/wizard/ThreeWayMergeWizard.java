@@ -161,7 +161,7 @@ public class ThreeWayMergeWizard extends Wizard {
 							try {
 								// Retry without validation:
 								liftingSettings.setValidate(false);
-								// FIXME: validationMode = ValidationMode.NO_VALIDATION;
+								patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
 								fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
 							} catch (InvalidModelException e1) {
 								// We should never get here...
