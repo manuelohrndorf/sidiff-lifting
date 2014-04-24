@@ -76,7 +76,7 @@ public class ThreeWayMergeWizard extends Wizard {
 	private boolean validationState;
 	private PatchingSettings patchingSettings;
 
-	//Later used Differencef
+	// Symmetric and asymmetric difference:
 	Difference fullDiff = null;
 	
 	public ThreeWayMergeWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
@@ -125,18 +125,16 @@ public class ThreeWayMergeWizard extends Wizard {
 		threeWayMergePage02.updateSettings();
 		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 		patchingSettings.setPatchMode(PatchMode.MERGING);
-		//Gather all information
+		
+		// Gather all information
 		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
 		final Scope scope = patchingSettings.getScope();
 		final ValidationMode validationMode = patchingSettings.getValidationMode();
-		final LiftingSettings liftingSettings  = new LiftingSettings(patchingSettings.getScope(), patchingSettings.getRuleBases(), 
-													patchingSettings.getMatcher(), patchingSettings.getTechBuilder(), 
-													patchingSettings.getValidationMode()==ValidationMode.NO_VALIDATION?false:true,
-													RecognitionEngineMode.POST_PROCESSED);
+
 		final Integer reliability = patchingSettings.getMinReliability();
 		final IMatcher matcher = patchingSettings.getMatcher();
 
-		//First create a patch between BASE<->THEIRS
+		// First create a patch between BASE<->THEIRS
 		final InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		final Resource resourceA = inputModels.getResourceA();
 		final Resource resourceB = inputModels.getResourceB();
@@ -151,30 +149,14 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.subTask("Creating a patch between BASE<->THEIRS");
 					
 					// Start difference calculations:
-					try{
-						fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
-					} catch(InvalidModelException e){
-						ValidateDialog validateDialog = new ValidateDialog();
-						boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-						
-						if (skipValidation) {
-							try {
-								// Retry without validation:
-								liftingSettings.setValidate(false);
-								patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
-								fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
-							} catch (InvalidModelException e1) {
-								// We should never get here...
-								e1.printStackTrace();
-							}
-						} else {
-							return Status.CANCEL_STATUS;
-						}
-					}
-					PipelineUtils.sortDifference(fullDiff.getSymmetric());
+					fullDiff = calculateDifference(resourceA, resourceB);
 					
+					if (fullDiff == null) {
+						return Status.CANCEL_STATUS;
+					}
 					monitor.worked(30);
-					//Now apply that patch onto MINE
+
+					// Now apply that patch onto MINE
 					final String separator = System.getProperty("file.separator");
 					Resource targetResource = configuredMergeModels.getResourceMine();
 					ResourceSet diagramResourceSet = PatchCreator.deriveDiagrammFile(targetResource);
@@ -339,6 +321,38 @@ public class ThreeWayMergeWizard extends Wizard {
 			}
 		};
 		job.schedule();
+	}
+	
+	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
+		Difference fullDiff = null;
+		
+		// Create the lifting settings from the patching settings:
+		LiftingSettings liftingSettings  = new LiftingSettings(
+				patchingSettings.getScope(), 
+				patchingSettings.getRuleBases(), 
+				patchingSettings.getMatcher(), 
+				patchingSettings.getTechBuilder(), 
+				patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false : true,
+				RecognitionEngineMode.POST_PROCESSED);
+		
+		try{
+			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
+		} catch(InvalidModelException e){
+			ValidateDialog validateDialog = new ValidateDialog();
+			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			
+			if (skipValidation) {
+				// Retry without validation:
+				patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
+				fullDiff = calculateDifference(resourceA, resourceB);
+			}
+		}
+		
+		if (fullDiff != null) {
+			PipelineUtils.sortDifference(fullDiff.getSymmetric());
+		}
+		
+		return fullDiff;
 	}
 	
 	@Override
