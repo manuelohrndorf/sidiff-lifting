@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
-import org.sidiff.serge.services.AbstractGenerator_old.ImplicitRequirementType;
 
 @SuppressWarnings("unused")
 public class Configuration {
@@ -71,8 +70,6 @@ public class Configuration {
 	public String ROOTNAME;
 	public static EClassifier ROOT;
 	public static Boolean ROOTECLASSCANBENESTED;
-	
-	public HashMap<ImplicitRequirementType,ArrayList<EClassifier>> implicitRequirements;
 	
 	public Boolean PROFILEAPPLICATIONINUSE;
 	public Boolean DISABLEVARIANTS;

@@ -11,7 +11,7 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.common.xml.XMLResolver;
-import org.sidiff.serge.services.SergeService;
+import org.sidiff.serge.app.SergeApp;
 
 public class Activator extends AbstractUIPlugin implements BundleActivator {
 
@@ -42,7 +42,7 @@ public class Activator extends AbstractUIPlugin implements BundleActivator {
 		//TODO differenciation between EclipseApplication or OSGI-Application/Service run
 		// current workaround in SergeService argument input == null check.
 		
-		ServiceHelper.registerService(context, SergeService.class, new SergeService(), null, ServiceHelper.DEFAULT);
+		ServiceHelper.registerService(context, SergeApp.class, new SergeApp(), null, ServiceHelper.DEFAULT);
 		super.start(context);
 		plugin = this;
 
