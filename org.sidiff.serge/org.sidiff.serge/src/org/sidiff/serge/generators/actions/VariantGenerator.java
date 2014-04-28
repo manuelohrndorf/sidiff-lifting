@@ -1,19 +1,11 @@
 package org.sidiff.serge.generators.actions;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.query.conditions.eobjects.TypeRelation;
-import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.NodeKindSelection;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.AbstractTypeReplacer;
 import org.sidiff.serge.core.TypeReplacer;
-import org.sidiff.serge.core.TypeReplacer_old;
-import org.sidiff.serge.core.SuperTypeReplacer;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class VariantGenerator {

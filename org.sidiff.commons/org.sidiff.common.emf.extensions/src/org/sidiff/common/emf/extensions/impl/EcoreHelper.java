@@ -8,9 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Stack;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -26,16 +24,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.ecore.util.EcoreUtil.CrossReferencer;
 import org.sidiff.common.emf.EMFUtil;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
 
 public class EcoreHelper {
 	
@@ -212,7 +206,6 @@ public class EcoreHelper {
 		EObject annoContainer_Orig = eanno_Orig.eContainer();
 		EObject annoContainer_Slice = eObjectMap.get(annoContainer_Orig);
 		if(annoContainer_Slice!=null) {
-			EModelElement emo = (EModelElement) annoContainer_Slice;
 			
 			eanno_Slice = EcoreFactory.eINSTANCE.createEAnnotation();
 			eanno_Slice.setSource(eanno_Orig.getSource());

@@ -49,9 +49,7 @@ public class ConfigurationParser {
 	private static String rootName									= null;
 
 	public void parse (String pathToConfig) throws Exception {
-			
-		//TODO removal of workspace_loc usage
-		String workspace_loc = null;
+		
 		String fSep = System.getProperty("file.separator");
 		
 		
@@ -220,7 +218,7 @@ public class ConfigurationParser {
 		LogUtil.log(LogEvent.NOTICE, "Analyzing Meta-Model...");
 		
 		// retrieve all other required EPackages
-		gatherAllRequiredEPackages(metaModel, workspace_loc);
+		gatherAllRequiredEPackages(metaModel);
 	
 		// forward all necessary EPackage to Generator
 		c.EPACKAGESSTACK=calculatedEPackagesStack;
@@ -335,7 +333,7 @@ public class ConfigurationParser {
 	/*** TESTING Meta Model Slicer ******************************************************************************/
 //	generator.sliceMetaModel();
 	
-	private static void gatherAllRequiredEPackages(EPackage metaModel, String workspace_loc) {
+	private static void gatherAllRequiredEPackages(EPackage metaModel) {
 
 		// add all sub EPackages to epackages
 		List<EPackage> subPackages = new ArrayList<EPackage>();
@@ -347,7 +345,7 @@ public class ConfigurationParser {
 			}
 		}
 		calculatedEPackagesStack.addAll(subPackages);
-		
+				
 		// try to find unresolved proxies and try to resolve them
 		Map<EObject, Collection<Setting>> map = EcoreUtil.UnresolvedProxyCrossReferencer.find(metaModel);
 		for(Entry<EObject, Collection<Setting>> entry : map.entrySet()) {
@@ -357,9 +355,8 @@ public class ConfigurationParser {
 
 
 					// resolve eProxyURI of referenced meta model
-					assert(workspace_loc!=null): "Add workspace_log variable into your run configuration at the bottom";
-
-					String completePath = Common.convertEProxyURIToFilePath(targetedClassifier.toString(), workspace_loc);
+					String absolutPathOfMetaModel = metaModel.eResource().getURI().toString();
+					String completePath = Common.convertEProxyURIToFilePath(targetedClassifier.toString(), absolutPathOfMetaModel);
 
 					File ecoreFile = new File(completePath);
 

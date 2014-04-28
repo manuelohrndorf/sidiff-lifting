@@ -1,10 +1,8 @@
 package org.sidiff.serge.core;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
@@ -21,7 +19,7 @@ public class ReplacementTable {
 	public ReplacementTable(Module module) {
 		tableHeader = new ReplacementTableHeader(module);
 		tableRows = new HashSet<ReplacementTableRow>();
-		ECM = ECM.getInstance();
+		ECM = EClassifierInfoManagement.getInstance();
 		fillRows(tableHeader);
 	}
 	
@@ -118,8 +116,7 @@ public class ReplacementTable {
 				tableRows.addAll(newRows);				
 			}	
 		}
-		
-		
+			
 	}
 	
 	private ReplacementTableRow copy(ReplacementTableRow row) {

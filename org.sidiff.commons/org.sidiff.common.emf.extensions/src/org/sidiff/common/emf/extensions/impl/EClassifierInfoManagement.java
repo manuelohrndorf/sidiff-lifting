@@ -725,7 +725,7 @@ public class EClassifierInfoManagement {
 	 * @return
 	 */
 	private Set<EClassifier> findMandatoryNeighbour(EReference eRef) {
-		EReference eOpposite = eRef.getEOpposite();
+
 		if (!eRef.isContainment() && eRef.getLowerBound() > 0) {
 			HashSet<EClassifier> hs = new HashSet<EClassifier>();
 			hs.add(eRef.getEType());

@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;

@@ -3,7 +3,6 @@ package org.sidiff.serge.debug;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.serge.Serge;
-import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
 /**
  * This class should be used if SERGe is run with OSGi for debug/testing purpose.

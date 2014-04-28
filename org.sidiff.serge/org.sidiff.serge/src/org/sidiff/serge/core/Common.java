@@ -73,8 +73,12 @@ public class Common {
 	 * @param workspace_loc
 	 * @return
 	 */
-	public static String convertEProxyURIToFilePath(String eProxyURIString, String workspace_loc) {
+	public static String convertEProxyURIToFilePath(String eProxyURIString, String containingMetaModelPath) {
 
+		//TODO replace workspace_loc (in EProxyURIToFilePath converter)
+		// find out absolut path from containingMetaModelPath...
+		String formerWorkspacke_loc = "";
+		
 		// convert eProxyURI into correct plugin-path inside workspace
 		String proxyUri = eProxyURIString;
 		proxyUri = proxyUri.replaceFirst("[\\w\\.@\\s\\(:]*[plugin/]+/", ""); // org...(eProxyURI:
@@ -85,7 +89,7 @@ public class Common {
 			proxyUri = proxyUri.replace("/", "\\");
 		}
 
-		return workspace_loc + FILE_SEPERATOR + proxyUri;
+		return formerWorkspacke_loc + FILE_SEPERATOR + proxyUri;
 	}
 
 	/**

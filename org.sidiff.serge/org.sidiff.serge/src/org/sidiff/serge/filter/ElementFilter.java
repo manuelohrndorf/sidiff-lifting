@@ -1,13 +1,11 @@
 package org.sidiff.serge.filter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -18,6 +16,13 @@ import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
+/**
+ * This class is responsible for filtering out EClassifiers  in different
+ * scenarios. It also contains the blacklist and whitelist.
+ * 
+ * @author mrindt
+ *
+ */
 public class ElementFilter {
 
 	private static ArrayList<EClassifier> blackList;	
@@ -207,8 +212,6 @@ public class ElementFilter {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public Boolean isAllowedAsDangling(EClassifier eClassifier, Configuration.OperationType opType, Boolean preferSupertypes) throws OperationTypeNotImplementedException {
-		
-		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 
 		boolean blackListed	= blackList.contains(eClassifier);
 		boolean whiteListed	= whiteList.contains(eClassifier);
@@ -444,9 +447,7 @@ public class ElementFilter {
 	 */
 	private static Boolean isRequiredByWhitelistedStereotype(EClassifier eClassifier) {
 		
-		if(c.PROFILEAPPLICATIONINUSE) {
-			EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
-			
+		if(c.PROFILEAPPLICATIONINUSE) {			
 			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
 			for(EClassifier stereotype: stereotypes) {
 				if(whiteList.contains(stereotype)) {
@@ -456,155 +457,6 @@ public class ElementFilter {
 		}
 		return false;
 	}
-	
-	
-	/**
-	 * Checks whether an EClass is allowed to be used by configuration details:<br /> <br />
-	 * Set the parameter asPivot to true, if the focus of the transformation lies on the
-	 * given EClass (e.g. CREATE_Operation..., or SET_Operation_Name, MOVE_OperationInClass; Here the focus lies on Operation).
-	 * Set it to false, if the focus does not lie on the given EClass (e.g. CREATE_ParameterInOperation).
-	 * <br /><br />
-	 * Set preferSuperTypes to true, if EClasses that are sub types of white listed super types shall be denied. 
-	 * <br /><br />
-	 * An EClass can also be denied if the global variable preventInconsistency is false and EClass is blackListed (hard cutoff)<br/>
-	 * An EClass can be allowed if preventInconsistency is true:<br />
-	 * 1. nothing is on the white list and nothing is on the blacklist<br />
-	 * 2. nothing is on the white list and EClasses other than this are blacklisted<br />
-	 * 3. white list is not empty and current EClass is not blacklisted<br />
-	 * 4. EClass is implicitly required by white listed EClasses (only if asPivot==false)<br />
-	 * 5. EClass is implicitly required by not white listed but recursively required EClasses (only if asPivot==false)<br />
-	 * 6. EClass is required by incoming neighbour references of white listed EClasses<br />
-	 * 7. EClass is required by incoming neighbour references of recursively required EClasses<br />
-	 * 8. EClass is required by incoming parent references of white listed EClasses<br />
-	 * 9. EClass is required by incoming parent references of recursively required EClasses<br />
- 	 * 10. EClass is required by incoming child references of white listed EClasses<br />
- 	 * 11. EClass is required by incoming child references of recursively required EClasses<br />
- 	 * 12. more?
-	 * 
-	 * @param eClassifier
-	 * @param asPivot
-	 * @param preferSupertypes
-	 * @return
-	 */
-	@Deprecated
-	protected static boolean isAllowed(EClassifier eClassifier, Boolean asPivot, Boolean preferSupertypes) {
-		
-		EClassifierInfo eClassifierInfo = ECM.getEClassifierInfo(eClassifier);
-		
-		boolean blackListed	= blackList.contains(eClassifier);
-		boolean whiteListed	= whiteList.contains(eClassifier);
-		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean providesFeaturesForSubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByNeighbours = false;
-		boolean requiredByParents = false;	
-		boolean requiredByChildren = false;
-
-		
-		
-		//in case use of EClass is in its own context ---------------------------------------------/
-		if(asPivot) {
-			if(whiteListed
-					|| providesFeaturesForSubtypes
-					|| (blackListed==false && assumeAllOnWhitelist)) {
-				return true;
-			}else{
-				return false;
-			}		
-		}
-		
-		//in case use of EClass is inside another context (as neighbour or child or as parent) --/
-		else{
-			
-			// hard cutoff classifiers
-			if(!c.PREVENTINCONSISTENCYTHROUGHSKIPPING){
-				if(blackListed) { //hard cut
-					return false;
-				}
-
-			// soft cutoff classifiers
-			}else {
-				
-				/*** check if eClass is required by white listed incoming neighbour contexts *************************/
-				
-				for(Entry<EReference, List<EClassifier>> entry: eClassifierInfo.getMandatoryNeighbourContext().entrySet()) {
-
-					// find out if reference is pointing to eClass or to a super type of the eClass
-					EReference eRef = entry.getKey();
-					boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
-					
-					for(EClassifier mnc: entry.getValue()) {										
-						
-						if(eClassIsDirectTarget && whiteList.contains(mnc)) {
-							requiredByNeighbours = true;
-							break;
-						}
-						else if(!eClassIsDirectTarget && whiteList.contains(mnc) && !preferSupertypes) {
-							requiredByNeighbours = true;
-							break;
-						}					
-					}		
-				}
-
-				/*** check if EClassifier is required by white listed incoming parent contexts ****************************/
-				
-				for(Entry<EReference, List<EClassifier>> entry: eClassifierInfo.getMandatoryParentContext().entrySet()) {
-
-					// find out if reference is pointing to eClass or to a super type of the eClass
-					EReference eRef = entry.getKey();
-					boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
-					
-					for(EClassifier mpc: entry.getValue()) {										
-						
-						if(eClassIsDirectTarget && whiteList.contains(mpc)) {
-							requiredByParents = true;
-							break;
-						}
-						else if(!eClassIsDirectTarget && whiteList.contains(mpc) && !preferSupertypes) {
-							requiredByParents = true;
-							break;
-						}					
-					}		
-				}
-				
-				/*** check if EClassifier is required by white listed children ****************************************************/
-				
-				for(EClassifier whiteListedEClass: whiteList) {
-					for(Entry<EReference,List<EClassifier>> entry: ECM.getAllParentContext(whiteListedEClass, false).entrySet()) {
-						EReference eRefChildToParent = entry.getKey().getEOpposite();
-						if(eRefChildToParent!=null) {
-							int lb = eRefChildToParent.getLowerBound();
-							int ub = eRefChildToParent.getUpperBound();
-							boolean notFixedAndRequired = (ub-lb>0) && lb>0;
-
-							if(notFixedAndRequired) {					
-
-								List<EClassifier> parentContexts = entry.getValue();
-								if(parentContexts.contains(eClassifier)) {
-									requiredByChildren = true;
-									break;
-								}						
-							}
-							
-						}
-					}
-				}
-				
-				/** decide ****************************************************************************************************/	
-				
-				if(	whiteListed
-						|| requiredByChildren
-						|| (requiredByNeighbours && asPivot)
-						|| (requiredByParents && asPivot)
-						|| (blackListed==false && assumeAllOnWhitelist)) {
-					return true;
-				}
-				else{
-					return false;
-				}
-			}			
-		}		
-		return true;
-	}	
 	
 	
 	/**
@@ -627,7 +479,7 @@ public class ElementFilter {
 	public void sliceMetaModel() {
 		
 		Stack<EPackage> ePackagesStack = c.EPACKAGESSTACK;
-		EPackage metaModel = ePackagesStack.firstElement(); //TODO first or last?
+		EPackage metaModel = ePackagesStack.firstElement();
 		
 		MetaModelSlicer mms = new MetaModelSlicer();
 		String newNS_URI = new String(metaModel.getNsURI());

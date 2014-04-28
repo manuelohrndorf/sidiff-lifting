@@ -228,7 +228,7 @@ public class GenerationActionDelegator {
 									// eClassifiers, if any
 									for (Mask mask : eClassifierMasks) {
 										MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(
-												mask, eClassifier, eRefA, contextA_eRef, contextB_eRefA, eRef, null);
+												mask, eRefA, contextA_eRef, contextB_eRefA, eRef, null);
 										modules.add(generatorForMasks.generate());
 									}
 
@@ -375,7 +375,7 @@ public class GenerationActionDelegator {
 										// eClassifiers, if any
 										for (Mask mask : eClassifierMasks) {
 											MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(
-													mask, eClassifier, eRefA, contextA_eRefA, contextB_eRefB, eRef,
+													mask, eRefA, contextA_eRefA, contextB_eRefB, eRef,
 													OperationType.MOVE_REFERENCE_COMBINATION);
 											modules.add(generatorForMasks.generate());
 										}
@@ -407,8 +407,6 @@ public class GenerationActionDelegator {
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_ADDS) {
-
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(contextClass);
 
 			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.ADD)){
 				return modules;
@@ -510,8 +508,6 @@ public class GenerationActionDelegator {
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_SET_ATTRIBUTES) {
-
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
 
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.SET_ATTRIBUTE)) {
 				return modules;
@@ -623,8 +619,6 @@ public class GenerationActionDelegator {
 
 		if (c.CREATE_SET_REFERENCES) {
 
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
-
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
 				return modules;
 
@@ -727,8 +721,6 @@ public class GenerationActionDelegator {
 
 		if (c.CREATE_CHANGE_LITERALS) {
 
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(eClassifier);
-
 			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
 				return modules;
 
@@ -817,8 +809,6 @@ public class GenerationActionDelegator {
 		Set<Module> modules = new HashSet<Module>();
 
 		if (c.CREATE_CHANGE_REFERENCES) {
-
-			EClassifierInfo eClassInfo = ECM.getEClassifierInfo(contextClass);
 
 			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.CHANGE_REFERENCE)) {
 				return modules;

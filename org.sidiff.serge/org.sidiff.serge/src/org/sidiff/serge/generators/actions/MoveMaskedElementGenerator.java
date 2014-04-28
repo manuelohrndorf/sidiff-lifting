@@ -1,7 +1,5 @@
 package org.sidiff.serge.generators.actions;
 
-import java.util.HashMap;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
@@ -15,17 +13,12 @@ import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
+import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.core.Common;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class MoveMaskedElementGenerator {
-
-	/**
-	 * The eClassifier to be moved.
-	 */
-	private EClassifier eClassifier;
 	
 	/**
 	 * The old EReference that that points from the old context classifier to the
@@ -71,11 +64,10 @@ public class MoveMaskedElementGenerator {
 	 * @param oldContext
 	 * @param newContext
 	 */
-	public MoveMaskedElementGenerator(Mask mask, EClassifier eClassifier, EReference oldEReference,
+	public MoveMaskedElementGenerator(Mask mask, EReference oldEReference,
 			EClassifier oldContext, EClassifier newContext, EReference newEReference, OperationType opType) {
 
 		this.mask = mask;
-		this.eClassifier = eClassifier;
 		this.oldEReference = oldEReference;
 		this.newEReference = newEReference;
 		this.oldContext = oldContext;
