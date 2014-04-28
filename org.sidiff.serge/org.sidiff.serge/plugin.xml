@@ -8,34 +8,5 @@
   http://www.eclipse.org/legal/epl-v10.html
  -->
 <plugin>
-   <extension
-         id="org.sidiff.serge.services.SergeService"
-         name="SergeService"
-         point="org.eclipse.core.runtime.applications">
-      <application
-            cardinality="singleton-global"
-            thread="main"
-            visible="true">
-         <run
-               class="org.sidiff.serge.services.SergeService">
-         </run>
-      </application>
-   </extension>
-   <extension
-         id="org.sidiff.serge.popup.actions.contextmenuaction"
-         name="SergeContextMenuAction"
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            id="org.sidiff.serge.popup.actions.ContextMenuAction"
-            nameFilter="*.srg"
-            objectClass="org.eclipse.core.resources.IFile">
-         <action
-               class="org.sidiff.serge.popup.actions.ContextMenuAction"
-               enablesFor="1"
-               id="org.sidiff.serge.popup.actions.ContextMenuAction"
-               label="Generate CPEOs with SERGe">
-         </action>
-      </objectContribution>
-   </extension>
 
 </plugin>

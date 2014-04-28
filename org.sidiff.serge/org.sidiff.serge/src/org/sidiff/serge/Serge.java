@@ -1,4 +1,4 @@
-package org.sidiff.serge.impl;
+package org.sidiff.serge;
 
 import java.util.Set;
 import java.util.Stack;
@@ -7,8 +7,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.io.IOUtil;
+import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.xml.XMLResolver;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.ConfigurationParser;
 import org.sidiff.serge.core.ConstraintApplicator;
@@ -34,12 +37,20 @@ public class Serge {
 	 */
 	private static Configuration config = null;
 	
+	public Serge(String pathToConfig) {
+		
+		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
+		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
+		
+		init(pathToConfig);
+	}
+	
 	/**
 	 * Initial setup for SERGe.
 	 * 
 	 * @param pathToConfig
 	 */
-	public void init(String pathToConfig) {
+	private void init(String pathToConfig) {
 		
 		try {
 			// create empty instances
