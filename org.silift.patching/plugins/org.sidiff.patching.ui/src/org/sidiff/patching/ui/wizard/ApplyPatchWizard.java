@@ -25,7 +25,6 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -96,29 +95,10 @@ public class ApplyPatchWizard extends Wizard {
 		return applyPatchPage01.isPageComplete() && applyPatchPage02.isPageComplete();
 	}
 
-	@Override
-	 public IWizardPage getNextPage(IWizardPage page){
-		if(page instanceof ApplyPatchPage01)
-			((ApplyPatchPage01)page).updateSettings();
-		else if (page instanceof ApplyPatchPage01)
-			((ApplyPatchPage02)page).updateSettings();
-		return super.getNextPage(page);
-	 }
-	
-	@Override
-	public IWizardPage getPreviousPage(IWizardPage page){
-		if(page instanceof ApplyPatchPage01)
-			((ApplyPatchPage01)page).updateSettings();
-		else if (page instanceof ApplyPatchPage02)
-			((ApplyPatchPage02)page).updateSettings();
-		return super.getPreviousPage(page);
-	}
-	
+
 	@Override
 	public boolean performFinish() {
 
-		applyPatchPage01.updateSettings();
-		applyPatchPage02.updateSettings();
 		settings.setExecutionMode(ExecutionMode.INTERACTIVE);
 		settings.setPatchMode(PatchMode.PATCHING);
 		try {

@@ -14,10 +14,14 @@ import org.eclipse.swt.widgets.Group;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.Settings;
+import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 
-public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation {
+public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
+	private Settings settings;
 	private MergeModels mergeModels;
 	
 	private Composite container;
@@ -284,5 +288,20 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			modelTheirsButton2.removeSelectionListener(listener);
 		if(modelTheirsButton3 != null)
 			modelTheirsButton3.removeSelectionListener(listener);
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+		this.settings.addSettingsChangedListener(this);
 	}
 }

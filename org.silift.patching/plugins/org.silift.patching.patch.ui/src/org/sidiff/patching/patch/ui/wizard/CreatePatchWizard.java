@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -70,28 +69,9 @@ public class CreatePatchWizard extends Wizard {
 		return createPatchPage01.isPageComplete() && createPatchPage02.isPageComplete();
 	}
 	
-	@Override
-	 public IWizardPage getNextPage(IWizardPage page){
-		if(page instanceof CreatePatchPage01)
-			((CreatePatchPage01)page).updateSettings();
-		else if (page instanceof CreatePatchPage02)
-			((CreatePatchPage02)page).updateSettings();
-		return super.getNextPage(page);
-	 }
-	
-	@Override
-	public IWizardPage getPreviousPage(IWizardPage page){
-		if(page instanceof CreatePatchPage01)
-			((CreatePatchPage01)page).updateSettings();
-		else if (page instanceof CreatePatchPage02)
-			((CreatePatchPage02)page).updateSettings();
-		return super.getPreviousPage(page);
-	}
 
 	@Override
 	public boolean performFinish() {
-		createPatchPage01.updateSettings();
-		createPatchPage02.updateSettings();
 		
 		Job job = new Job("Creating Patch") {
 			@Override

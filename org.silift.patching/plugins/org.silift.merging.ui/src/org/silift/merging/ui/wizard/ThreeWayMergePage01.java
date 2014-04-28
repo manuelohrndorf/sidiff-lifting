@@ -28,7 +28,7 @@ import org.silift.merging.ui.widgets.MergeModelsWidget;
 import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
-public class ThreeWayMergePage01 extends WizardPage implements ISettingsChangedListener {
+public class ThreeWayMergePage01 extends WizardPage {
 
 	private Composite container;
 
@@ -108,26 +108,29 @@ public class ThreeWayMergePage01 extends WizardPage implements ISettingsChangedL
 		 *       Set at least to setMessage(" ")!               */
 		setMessage("Merge three models");
 		
-		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
 
 		// Models:
-		mergeModelsWidget = new MergeModelsWidget(mergeModels);;
+		mergeModelsWidget = new MergeModelsWidget(mergeModels);
+		mergeModelsWidget.setSettings(this.settings);
 		addWidget(container, mergeModelsWidget);
 		
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
+		scopeWidget.setSettings(this.settings);
 		addWidget(container, scopeWidget);
 		
 		// Validation mode:
 		validationWidget = new ValidationModeWidget();
+		validationWidget.setSettings(this.settings);
 		addWidget(container, validationWidget);
 		
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+		rulebaseWidget.setSettings(this.settings);
 		addWidget(container, rulebaseWidget);
 	}
 
@@ -146,7 +149,6 @@ public class ThreeWayMergePage01 extends WizardPage implements ISettingsChangedL
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		updateSettings();
 		validateWidget(mergeModelsWidget);
 		validateWidget(scopeWidget);
 		validateWidget(validationWidget);
@@ -189,17 +191,5 @@ public class ThreeWayMergePage01 extends WizardPage implements ISettingsChangedL
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
-	}
-	
-	public void updateSettings(){
-		settings.setValidationMode(validationWidget.getSelection());
-		settings.setScope(scopeWidget.getSelection());
-		settings.setRuleBases(rulebaseWidget.getSelection());
-	}
-
-	@Override
-	public void settingsChanged(SettingsItem item) {
-		// TODO Auto-generated method stub
-		
 	}
 }

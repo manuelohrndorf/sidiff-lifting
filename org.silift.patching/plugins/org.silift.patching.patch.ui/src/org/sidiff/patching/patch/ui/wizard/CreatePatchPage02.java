@@ -23,7 +23,7 @@ import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.LiftingSettings;
 import org.silift.difference.lifting.settings.SettingsItem;
 
-public class CreatePatchPage02 extends WizardPage implements ISettingsChangedListener{
+public class CreatePatchPage02 extends WizardPage{
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -105,7 +105,6 @@ public class CreatePatchPage02 extends WizardPage implements ISettingsChangedLis
 		
 		// Initial validation:
 		validate();
-		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -125,11 +124,13 @@ public class CreatePatchPage02 extends WizardPage implements ISettingsChangedLis
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels, settings.getScope());
+		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget.setSettings(this.settings);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
+		builderWidget.setSettings(this.settings);
 
 //FIXME
 //		if (builderWidget.getDifferenceBuilders().size() > 1) {
@@ -154,7 +155,6 @@ public class CreatePatchPage02 extends WizardPage implements ISettingsChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		updateSettings();
 		validateWidget(matcherWidget);
 		validateWidget(builderWidget);
 	}
@@ -181,19 +181,5 @@ public class CreatePatchPage02 extends WizardPage implements ISettingsChangedLis
 
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
-	}
-	
-	public void updateSettings(){
-		settings.setMatcher(matcherWidget.getSelection());
-		settings.setTechBuilder(builderWidget.getSelection());
-	}
-
-	@Override
-	public void settingsChanged(SettingsItem item) {
-		if(item.equals(SettingsItem.SCOPE)){
-			this.matcherWidget.setScope(settings.getScope());
-			this.validate();
-		}
-		
 	}
 }

@@ -12,10 +12,15 @@ import org.eclipse.swt.widgets.Group;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.Settings;
+import org.silift.difference.lifting.settings.SettingsItem;
+import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
-public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation {
+public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
+	private Settings settings;
 	private ValidationMode validationMode = ValidationMode.NO_VALIDATION;
 
 	private Composite container;
@@ -64,6 +69,7 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.NO_VALIDATION;
+				((PatchingSettings)settings).setValidationMode(validationMode);
 			}
 		});
 
@@ -71,6 +77,7 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.MODEL_VALIDATION;
+				((PatchingSettings)settings).setValidationMode(validationMode);
 			}
 		});
 		
@@ -78,10 +85,12 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.ITERATIVE_VALIDATION;
+				((PatchingSettings)settings).setValidationMode(validationMode);
 			}
 		});
 		
 		noValidationButton.setSelection(true);
+		((PatchingSettings)settings).setValidationMode(this.validationMode);
 		return container;
 	}
 
@@ -139,5 +148,19 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			modelValidationButton.removeSelectionListener(listener);
 		if (iterativeValidationButton != null)
 			iterativeValidationButton.removeSelectionListener(listener);
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Settings settings) {
+		this.settings = settings;
 	}
 }

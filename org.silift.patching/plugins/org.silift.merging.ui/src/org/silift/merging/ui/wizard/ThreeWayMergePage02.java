@@ -26,7 +26,7 @@ import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedListener {
+public class ThreeWayMergePage02 extends WizardPage{
 
 	private String DEFAULT_MESSAGE = "Merge three models";
 
@@ -120,7 +120,6 @@ public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedL
 		// Initialize information message:
 		readInformationMessages();
 		
-		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
@@ -140,16 +139,18 @@ public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedL
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), settings.getScope());
+		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+		matcherWidget.setSettings(this.settings);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		//Reliability
 		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
+		reliabilityWidget.setSettings(this.settings);
 		addWidget(algorithmsGroup, reliabilityWidget);
 		
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
-
+		builderWidget.setSettings(this.settings);
 // FIXME		
 //		if (builderWidget.getDifferenceBuilders().size() > 1) {
 //			addWidget(algorithmsGroup, builderWidget);
@@ -174,7 +175,6 @@ public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedL
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		updateSettings();
 		validateWidget(matcherWidget);
 		validateWidget(builderWidget);
 	}
@@ -217,20 +217,5 @@ public class ThreeWayMergePage02 extends WizardPage implements ISettingsChangedL
 	}
 	public ReliabilityWidget getReliabilityWidget(){
 		return reliabilityWidget;
-	}
-	
-	public void updateSettings(){
-		settings.setTechBuilder(builderWidget.getSelection());
-		settings.setMatcher(matcherWidget.getSelection());
-		settings.setMinReliability(reliabilityWidget.getReliability());
-	}
-
-	@Override
-	public void settingsChanged(SettingsItem item) {
-		if(item.equals(SettingsItem.SCOPE)){
-			this.matcherWidget.setScope(settings.getScope());
-			this.validate();
-		}
-		
 	}
 }

@@ -22,11 +22,9 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.LiftingSettings;
-import org.silift.difference.lifting.settings.SettingsItem;
 
-public class CreatePatchPage01 extends WizardPage implements ISettingsChangedListener {
+public class CreatePatchPage01 extends WizardPage {
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -106,17 +104,18 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 		
 		// Initial validation:
 		validate();
-		settings.addSettingsChangedListener(this);
 	}
 
 	private void createWidgets() {
 
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Patch Direction");
+		sourceWidget.setSettings(this.settings);
 		addWidget(container, sourceWidget);
 		
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
+		scopeWidget.setSettings(this.settings);
 		addWidget(container, scopeWidget);
 
 		// Algorithms:
@@ -135,6 +134,7 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
+		rulebaseWidget.setSettings(this.settings);
 		addWidget(container, rulebaseWidget);
 	}
 
@@ -153,7 +153,6 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		updateSettings();
 		validateWidget(sourceWidget);
 		validateWidget(scopeWidget);
 		validateWidget(rulebaseWidget);		
@@ -184,17 +183,5 @@ public class CreatePatchPage01 extends WizardPage implements ISettingsChangedLis
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
-	}
-	
-	public void updateSettings(){
-		settings.setScope(scopeWidget.getSelection());
-		settings.setRuleBases(rulebaseWidget.getSelection());
-		settings.setValidate(sourceWidget.isValidateModels());
-	}
-
-	@Override
-	public void settingsChanged(SettingsItem item) {
-		// TODO Auto-generated method stub
-		
 	}
 }

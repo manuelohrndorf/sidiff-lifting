@@ -17,11 +17,16 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
+import org.silift.difference.lifting.settings.ISettingsChangedListener;
+import org.silift.difference.lifting.settings.Settings;
+import org.silift.difference.lifting.settings.SettingsItem;
+import org.silift.patching.settings.PatchingSettings;
 
-public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation {
+public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation, ISettingsChangedListener {
 
 	private final int defaultReliability = 50;
-	
+
+	private Settings settings;
 	private MatchingEngineWidget matchingEngineWidget;
 
 	private Composite container;
@@ -112,12 +117,14 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 			public void handleEvent(Event event) {
 				scale.setSelection(spinner.getSelection());
 				reliability = spinner.getSelection();
+				((PatchingSettings)settings).setMinReliability(reliability);
 			}
 		});
 		
 		// Initialize...
 		checkMatcher();
 		
+		((PatchingSettings)settings).setMinReliability(reliability);
 		return container;
 	}
 
@@ -163,5 +170,19 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 			spinner.removeSelectionListener(listener);
 		if(scale != null)
 			scale.removeSelectionListener(listener);
+	}
+
+	@Override
+	public void settingsChanged(SettingsItem item) {
+		
+	}
+
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Settings settings) {
+		this.settings = settings;
+		this.settings.addSettingsChangedListener(this);
 	}
 }

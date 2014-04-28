@@ -22,7 +22,6 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -97,23 +96,6 @@ public class ThreeWayMergeWizard extends Wizard {
 		addPage(threeWayMergePage02);
 	}
 
-	@Override
-	 public IWizardPage getNextPage(IWizardPage page){
-		if(page instanceof ThreeWayMergePage01)
-			((ThreeWayMergePage01)page).updateSettings();
-		else if (page instanceof ThreeWayMergePage02)
-			((ThreeWayMergePage02)page).updateSettings();
-		return super.getNextPage(page);
-	 }
-	
-	@Override
-	public IWizardPage getPreviousPage(IWizardPage page){
-		if(page instanceof ThreeWayMergePage01)
-			((ThreeWayMergePage01)page).updateSettings();
-		else if (page instanceof ThreeWayMergePage02)
-			((ThreeWayMergePage02)page).updateSettings();
-		return super.getPreviousPage(page);
-	}
 	
 	@Override
 	public boolean canFinish() {
@@ -121,8 +103,6 @@ public class ThreeWayMergeWizard extends Wizard {
 	}
 	
 	private void finish(){
-		threeWayMergePage01.updateSettings();
-		threeWayMergePage02.updateSettings();
 		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 		patchingSettings.setPatchMode(PatchMode.MERGING);
 		
