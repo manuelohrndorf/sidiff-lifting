@@ -2,6 +2,22 @@ package org.sidiff.common.emf.extensions.impl;
 
 import org.eclipse.emf.ecore.*;
 
+/**
+ * A Mask object can be created for an EClassifier. In some meta-models, EClassifiers  contain
+ * EAttributes which declare additional type information. However, EMF will only return
+ * the EClassifier type if  getType()  is called allthough one might more specific
+ * information about the type maintained inside the EAttribute.
+ * <br/><br/>
+ * Thus, this class can be used to create Masks for EClassifiers. A Mask contains the respective EClassifier,
+ * the more specific type, the respective EAttribute and a name one would normaly expect the containing EClassifier
+ * in its specific representation to have.
+ * <br/><br/>
+ * An example for the UML: a Mask for a 'Pseudostate' can be created for its EAttribute(-Value) 'kind=initial'. The Mask's
+ * name would then be 'InitialPseudostate'.
+ * 
+ * @author mrindt
+ *
+ */
 public class Mask {
 
 	private String name;
