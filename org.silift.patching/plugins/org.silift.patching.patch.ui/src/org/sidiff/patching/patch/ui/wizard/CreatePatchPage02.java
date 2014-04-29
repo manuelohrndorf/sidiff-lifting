@@ -1,5 +1,7 @@
 package org.sidiff.patching.patch.ui.wizard;
 
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -23,7 +25,7 @@ import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.LiftingSettings;
 import org.silift.difference.lifting.settings.SettingsItem;
 
-public class CreatePatchPage02 extends WizardPage{
+public class CreatePatchPage02 extends WizardPage implements IPageChangedListener{
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -126,6 +128,7 @@ public class CreatePatchPage02 extends WizardPage{
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels);
 		matcherWidget.setSettings(this.settings);
+		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
@@ -181,5 +184,10 @@ public class CreatePatchPage02 extends WizardPage{
 
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		validate();
 	}
 }

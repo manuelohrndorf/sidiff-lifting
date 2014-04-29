@@ -1,6 +1,8 @@
 package org.silift.merging.ui.wizard;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -21,12 +23,10 @@ import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
-import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ThreeWayMergePage02 extends WizardPage{
+public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {
 
 	private String DEFAULT_MESSAGE = "Merge three models";
 
@@ -141,6 +141,7 @@ public class ThreeWayMergePage02 extends WizardPage{
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
 		matcherWidget.setSettings(this.settings);
+		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		//Reliability
@@ -217,5 +218,10 @@ public class ThreeWayMergePage02 extends WizardPage{
 	}
 	public ReliabilityWidget getReliabilityWidget(){
 		return reliabilityWidget;
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		validate();
 	}
 }

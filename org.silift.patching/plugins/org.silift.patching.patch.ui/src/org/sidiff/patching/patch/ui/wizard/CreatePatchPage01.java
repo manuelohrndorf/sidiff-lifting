@@ -2,6 +2,8 @@ package org.sidiff.patching.patch.ui.wizard;
 
 import java.util.Set;
 
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -24,7 +26,7 @@ import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.difference.lifting.settings.LiftingSettings;
 
-public class CreatePatchPage01 extends WizardPage {
+public class CreatePatchPage01 extends WizardPage implements IPageChangedListener {
 
 	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
 	
@@ -116,6 +118,7 @@ public class CreatePatchPage01 extends WizardPage {
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
+		scopeWidget.setPageChangedListener(this);
 		addWidget(container, scopeWidget);
 
 		// Algorithms:
@@ -180,5 +183,10 @@ public class CreatePatchPage01 extends WizardPage {
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		validate();
 	}
 }

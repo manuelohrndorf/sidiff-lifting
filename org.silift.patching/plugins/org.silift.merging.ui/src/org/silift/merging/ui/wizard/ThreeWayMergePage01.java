@@ -2,6 +2,8 @@ package org.silift.merging.ui.wizard;
 
 import java.util.Set;
 
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -17,18 +19,15 @@ import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
-import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.merging.ui.widgets.MergeModelsWidget;
 import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
-public class ThreeWayMergePage01 extends WizardPage {
+public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListener {
 
 	private Composite container;
 
@@ -120,6 +119,7 @@ public class ThreeWayMergePage01 extends WizardPage {
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
+		scopeWidget.setPageChangedListener(this);
 		addWidget(container, scopeWidget);
 		
 		// Validation mode:
@@ -187,5 +187,10 @@ public class ThreeWayMergePage01 extends WizardPage {
 
 	public Set<IRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		validate();
 	}
 }

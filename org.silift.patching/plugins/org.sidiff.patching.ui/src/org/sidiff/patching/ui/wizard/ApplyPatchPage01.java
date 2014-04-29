@@ -1,5 +1,7 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -21,7 +23,7 @@ import org.silift.difference.lifting.settings.ISettingsChangedListener;
 import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ApplyPatchPage01 extends WizardPage{
+public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener{
 
 	private String DEFAULT_MESSAGE = "Apply a patch to a model";
 	
@@ -109,6 +111,7 @@ public class ApplyPatchPage01 extends WizardPage{
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
+		scopeWidget.setPageChangedListener(this);
 		addWidget(container, scopeWidget);
 		
 		
@@ -160,5 +163,10 @@ public class ApplyPatchPage01 extends WizardPage{
 	
 	public void setFilterPath(String filterPath){
 		this.filterPath = filterPath;
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		validate();
 	}	
 }
