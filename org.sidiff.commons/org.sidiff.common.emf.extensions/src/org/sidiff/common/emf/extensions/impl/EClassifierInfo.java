@@ -9,7 +9,16 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
-
+/**
+ * An instance of this class will hold additional information for a specific EClassifier
+ * that is collected by the analysis of a meta-model with the {@link EClassiferInfoManagement}.
+ * These additional information (e.g. mandatory children, optional neighbors, stereotypes, 
+ * attached constraints, etc.)
+ * are made available by various public methods.
+ * 
+ * @author mrindt
+ *
+ */
 public class EClassifierInfo {
 
 	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};

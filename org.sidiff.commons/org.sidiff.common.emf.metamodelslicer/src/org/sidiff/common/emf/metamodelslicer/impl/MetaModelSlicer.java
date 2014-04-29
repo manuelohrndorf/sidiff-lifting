@@ -25,6 +25,13 @@ import org.sidiff.common.emf.extensions.impl.EcoreHelper;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 
+/**
+ * This class will allow the slicing of a meta-model.
+ * Still unfinished.
+ * 
+ * @author mrindt
+ *
+ */
 public class MetaModelSlicer {
 
 	private Registry ePackageRegistry		 = EPackageRegistryImpl.INSTANCE;

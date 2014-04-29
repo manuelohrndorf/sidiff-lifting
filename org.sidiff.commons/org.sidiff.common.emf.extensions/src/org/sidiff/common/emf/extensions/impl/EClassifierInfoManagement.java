@@ -17,6 +17,15 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 
+/**
+ * This singleton class can be used to gather and maintain additional collected
+ * information for EClassifiers of a meta-model (e.g. mandatory children, sub types, stereotypes).
+ * It will hold a list of {@link EClassifierInfo}s  and provide
+ * convenience query methods on a meta-model.
+ * 
+ * @author mrindt
+ *
+ */
 public class EClassifierInfoManagement {
 
 	private HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<EClassifier, EClassifierInfo>();
