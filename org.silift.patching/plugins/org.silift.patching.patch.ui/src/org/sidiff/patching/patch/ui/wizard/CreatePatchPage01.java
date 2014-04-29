@@ -173,9 +173,6 @@ public class CreatePatchPage01 extends WizardPage {
 		return sourceWidget.isInverseDirection();
 	}
 	
-	public Scope getScope() {
-		return scopeWidget.getSelection();
-	}
 	
 	public ScopeWidget getScopeWidget() {
 		return scopeWidget;

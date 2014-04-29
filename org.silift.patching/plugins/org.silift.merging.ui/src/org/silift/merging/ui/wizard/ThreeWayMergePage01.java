@@ -181,10 +181,6 @@ public class ThreeWayMergePage01 extends WizardPage {
 		return true;
 	}
 	
-	public Scope getScope() {
-		return scopeWidget.getSelection();
-	}
-	
 	public ScopeWidget getScopeWidget() {
 		return scopeWidget;
 	}

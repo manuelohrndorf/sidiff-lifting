@@ -145,10 +145,6 @@ public class ApplyPatchPage01 extends WizardPage{
 			setPageComplete(false);
 		}
 	}
-
-	public Scope getScope() {
-		return scopeWidget.getSelection();
-	}
 	
 	public TargetModelWidget getTargetWidget(){
 		return targetWidget;
