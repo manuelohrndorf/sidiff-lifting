@@ -1,4 +1,4 @@
-package org.sidiff.profileapplicator.impl;
+package org.sidiff.profileapplicator.core;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package org.sidiff.profileapplicator.impl;
+package org.sidiff.profileapplicator.core;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.profileapplicator.services.ProfileApplicator;
 
 public class ProfileApplicatorThread extends Thread {
 
@@ -31,11 +30,11 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
-	 * The defined {@link ProfileApplicator} which executed this thread The
+	 * The defined {@link Applicator} which executed this thread The
 	 * global configuration is just needed once and never changed by any of the
 	 * threads, hence this solution
 	 */
-	private ProfileApplicator applicator;
+	private Applicator applicator;
 
 	/**
 	 * 
@@ -46,7 +45,7 @@ public class ProfileApplicatorThread extends Thread {
 	 * @param applicator
 	 *            the profile applicator which executed this thread
 	 */
-	public ProfileApplicatorThread(File sourceFile, ProfileApplicator applicator) {
+	public ProfileApplicatorThread(File sourceFile, Applicator applicator) {
 
 		this.sourceFile = sourceFile;
 		this.applicator = applicator;
