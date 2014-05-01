@@ -23,7 +23,7 @@ public class Configuration {
 	public boolean REMOVE_MANUALS = false;
 	public boolean OVERWRITE_CONFIG = true;
 	public boolean OVERWRITE_MODULES = true;
-	public boolean ENABLE_DUPLICATE_FILTER = false;
+	public boolean ENABLE_DUPLICATE_FILTER = true;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
 	public boolean ENABLE_NAME_MAPPER = true;
 	

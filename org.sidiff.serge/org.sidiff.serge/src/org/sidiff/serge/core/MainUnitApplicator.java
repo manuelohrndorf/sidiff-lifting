@@ -1,19 +1,19 @@
 package org.sidiff.serge.core;
 
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.generators.actions.MainUnitGenerator;
 
 public class MainUnitApplicator {
 
-	public void applyOn(Set<Set<Module>> allModules) {
+	public void applyOn(Map<OperationType, Set<Module>> allModules) {
 
-		Iterator<Set<Module>> setIterator = allModules.iterator();
-
-		while (setIterator.hasNext()) {
-			Set<Module> currentSet = setIterator.next();
+		for (OperationType opType : allModules.keySet()) {
+			Set<Module> currentSet = allModules.get(opType);
+		
 			if (currentSet != null) {
 				for (Module module : currentSet) {
 					MainUnitGenerator mainUnitGenerator = new MainUnitGenerator(module);

@@ -1,7 +1,9 @@
 package org.sidiff.serge.core;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -79,8 +81,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 					allVariantModules.addAll(variantModules);
 				}
 				
-				//TODO remove old orignnal module in case it may not exist without replaces..
-								
+				//TODO remove old original module in case it may not exist without replaces..
+				
 				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
 				if (!deleteModules.isEmpty()){
 					allDeleteModules.addAll(deleteModules);
@@ -157,36 +159,26 @@ public class MetaModelElementVisitor implements EClassVisitor{
 		LogUtil.log(LogEvent.NOTICE, "finished");		
 	}
 	
-	public Set<Set<Module>> getAllModules(){
-		Set<Set<Module>> allModules	= new HashSet<Set<Module>>();
+	public Map<OperationType, Set<Module>> getAllModules(){
+		Map<OperationType, Set<Module>> allModules	= new HashMap<OperationType, Set<Module>>();
 		
-		allModules.add(allCreateModules);
-		allModules.add(allVariantModules);
-		allModules.add(allDeleteModules);
-		allModules.add(allMoveModules);
-		allModules.add(allMoveCombinationModules);
-		allModules.add(allMoveUpModules);
-		allModules.add(allMoveDownModules);
-		allModules.add(allAddModules);
-		allModules.add(allRemoveModules);
-		allModules.add(allSetAttributeModules);
-		allModules.add(allUnsetAttributeModules);
-		allModules.add(allSetReferenceModules);
-		allModules.add(allUnsetReferenceModules);
-		allModules.add(allChangeLiteralModules);
-		allModules.add(allChangeReferenceModules);
+		allModules.put(OperationType.CREATE, allCreateModules);
+		allModules.get(OperationType.CREATE).addAll(allVariantModules);
+		allModules.put(OperationType.DELETE, allDeleteModules);
+		allModules.put(OperationType.MOVE, allMoveModules);
+		allModules.put(OperationType.MOVE_REFERENCE_COMBINATION, allMoveCombinationModules);
+		allModules.put(OperationType.MOVE_UP, allMoveUpModules);
+		allModules.put(OperationType.MOVE_DOWN, allMoveDownModules);
+		allModules.put(OperationType.ADD, allAddModules);
+		allModules.put(OperationType.REMOVE, allRemoveModules);
+		allModules.put(OperationType.SET_ATTRIBUTE, allSetAttributeModules);
+		allModules.put(OperationType.UNSET_ATTRIBUTE, allUnsetAttributeModules);
+		allModules.put(OperationType.SET_REFERENCE, allSetReferenceModules);
+		allModules.put(OperationType.UNSET_REFERENCE, allUnsetReferenceModules);
+		allModules.put(OperationType.CHANGE_LITERAL, allChangeLiteralModules);
+		allModules.put(OperationType.CHANGE_REFERENCE, allChangeReferenceModules);
 		
 		return allModules;
-	}
-	
-	public Set<Module> getAllModulesAsSet(){
-		Set<Set<Module>> allModules = getAllModules();
-		Set<Module> res = new HashSet<Module>();
-		for (Set<Module> moduleSet : allModules) {
-			res.addAll(moduleSet);
-		}
-		
-		return Collections.unmodifiableSet(res);
 	}
 
 }

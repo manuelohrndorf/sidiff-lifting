@@ -1,21 +1,21 @@
 package org.sidiff.serge.core;
 
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.generators.actions.RuleParameterGenerator;
 
 public class RuleParameterApplicator {
 
-	public void applyOn(Set<Set<Module>> allModules) {
+	public void applyOn(Map<OperationType, Set<Module>> allModules) {
 
-		Iterator<Set<Module>> setIterator = allModules.iterator();
+		for (OperationType opType : allModules.keySet()) {
+			Set<Module> currentSet = allModules.get(opType);
 
-		while (setIterator.hasNext()) {
-			Set<Module> currentSet = setIterator.next();
 			if (currentSet != null) {
 				for (Module module : currentSet) {
 					for (Unit unit : module.getUnits()) {

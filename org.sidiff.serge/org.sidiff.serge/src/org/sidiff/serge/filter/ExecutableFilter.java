@@ -1,6 +1,7 @@
 package org.sidiff.serge.filter;
 
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
@@ -8,6 +9,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.util.ModuleConsistencyChecker;
 import org.sidiff.serge.util.RuleExecutionChecker;
 
@@ -20,11 +22,11 @@ import org.sidiff.serge.util.RuleExecutionChecker;
  */
 public class ExecutableFilter {
 
-	public void applyOn(Set<Set<Module>> allModules) {
+	public void applyOn(Map<OperationType, Set<Module>> allModules) {
 
-		Iterator<Set<Module>> moduleSetIterator = allModules.iterator();
-		while (moduleSetIterator.hasNext()) {
-			Set<Module> moduleSet = moduleSetIterator.next();
+		for (OperationType opType : allModules.keySet()) {
+			Set<Module> moduleSet = allModules.get(opType);
+					
 			Iterator<Module> moduleIterator = moduleSet.iterator();
 			while (moduleIterator.hasNext()) {
 				Module module = moduleIterator.next();

@@ -2,6 +2,7 @@ package org.sidiff.serge.filter;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
@@ -9,6 +10,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.util.RuleSemanticsChecker;
 
 /**
@@ -31,12 +33,12 @@ public class DuplicateFilter {
 	 * 
 	 * @param allModules
 	 */
-	public void filterIdentical(Set<Set<Module>> allModules) {
+	public void filterIdenticalByName(Map<OperationType, Set<Module>> allModules) {
 		Set<String> moduleNames = new HashSet<String>();
 
-		Iterator<Set<Module>> moduleSetIterator = allModules.iterator();
-		while (moduleSetIterator.hasNext()) {
-			Set<Module> moduleSet = moduleSetIterator.next();
+		for (OperationType opType : allModules.keySet()) {
+			Set<Module> moduleSet = allModules.get(opType);
+		
 			Iterator<Module> moduleIterator = moduleSet.iterator();
 			while (moduleIterator.hasNext()) {
 				Module module = moduleIterator.next();
@@ -61,7 +63,7 @@ public class DuplicateFilter {
 
 				RuleSemanticsChecker checker = new RuleSemanticsChecker(addRule, setRule);
 				if (checker.isEqual()) {
-					LogUtil.log(LogEvent.NOTICE, "Filter duplicate: " + addModule.getName());
+					LogUtil.log(LogEvent.NOTICE, "Filter duplicate (ADD/SET_REFERENCE): " + addModule.getName());
 					addModulesIterator.remove();
 					break;
 				}
@@ -70,6 +72,6 @@ public class DuplicateFilter {
 	}
 
 	public void filterRemoveUnset(Set<Module> removeModules, Set<Module> unsetReferenceModules) {
-		// TODO
+		// TODO: implement this filter (TK)
 	}
 }

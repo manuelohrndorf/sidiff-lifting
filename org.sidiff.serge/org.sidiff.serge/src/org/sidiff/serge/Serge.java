@@ -1,5 +1,7 @@
 package org.sidiff.serge;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -13,6 +15,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLResolver;
 import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.ConfigurationParser;
 import org.sidiff.serge.core.ConstraintApplicator;
 import org.sidiff.serge.core.MainUnitApplicator;
@@ -83,13 +86,7 @@ public class Serge {
 		
 			// Postprocessing...
 			
-			Set<Set<Module>> allModules = eClassVisitor.getAllModules();
-			
-//			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
-//			DuplicateFilter duplicateFilter = new DuplicateFilter();
-//			duplicateFilter.filterAddSet(addModules, setReferenceModules);
-//			duplicateFilter.filterRemoveUnset(removeModules, unsetReferenceModules);
-			
+			Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
 			
 			if (config.MULTIPLICITYPRECONDITIONSINTEGRATED){
 				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
@@ -106,7 +103,9 @@ public class Serge {
 			if(config.ENABLE_DUPLICATE_FILTER) {
 				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
 				DuplicateFilter duplicateFilter = new DuplicateFilter();
-				duplicateFilter.filterIdentical(allModules);
+				duplicateFilter.filterIdenticalByName(allModules);
+				duplicateFilter.filterAddSet(allModules.get(OperationType.ADD), allModules.get(OperationType.SET_REFERENCE));
+				duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
 			}
 			
 			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
@@ -116,8 +115,14 @@ public class Serge {
 			LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
 			MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 			mainUnitApplicator.applyOn(allModules);
-							
-			Set<Module> moduleSet = eClassVisitor.getAllModulesAsSet();
+			
+			// Name Mapping and Serialization...
+			
+			Set<Module> moduleSet = new HashSet<Module>();
+			for (OperationType opType : allModules.keySet()) {
+				Set<Module> opSet = allModules.get(opType);
+				moduleSet.addAll(opSet);
+			}
 			
 			if(config.ENABLE_NAME_MAPPER) {
 				LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
