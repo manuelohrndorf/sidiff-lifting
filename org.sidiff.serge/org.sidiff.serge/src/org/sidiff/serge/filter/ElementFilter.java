@@ -130,31 +130,43 @@ public class ElementFilter {
 				break;
 				
 			case MOVE:
-				if ((c.isAnUnnestableRoot(eClassifier))
-					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
+				if (c.isAnUnnestableRoot(eClassifier)){
 					return false;
 				}
+//				if ((c.isAnUnnestableRoot(eClassifier))
+//					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
+//					return false;
+//				}
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
-				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
-						return false;
-					}
+				if (c.isAnUnnestableRoot(eClassifier)){
+					return false;
+				}
+//				if ((c.isAnUnnestableRoot(eClassifier))
+//					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
+//					return false;
+//				}
 				break;
 				
 			case MOVE_UP:
-				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
-						return false;
-					}
+				if (c.isAnUnnestableRoot(eClassifier)){
+					return false;
+				}
+//				if ((c.isAnUnnestableRoot(eClassifier))
+//					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
+//					return false;
+//				}
 				break;
 				
 			case MOVE_DOWN:
-				if ((c.isAnUnnestableRoot(eClassifier))
-						|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
-						return false;
-					}
+				if (c.isAnUnnestableRoot(eClassifier)){
+					return false;
+				}
+//				if ((c.isAnUnnestableRoot(eClassifier))
+//					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
+//					return false;
+//				}
 				break;
 				
 			case SET_ATTRIBUTE:
