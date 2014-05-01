@@ -25,7 +25,7 @@ public class Configuration {
 	public boolean OVERWRITE_MODULES = true;
 	public boolean ENABLE_DUPLICATE_FILTER = false;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
-	public boolean ENABLE_NAME_MAPPER = false;
+	public boolean ENABLE_NAME_MAPPER = true;
 	
 	// Meta-model dependend configurations
 	
