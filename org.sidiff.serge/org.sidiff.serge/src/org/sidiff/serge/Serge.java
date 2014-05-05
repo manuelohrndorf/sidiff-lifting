@@ -27,6 +27,7 @@ import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.filter.DuplicateFilter;
 import org.sidiff.serge.filter.ElementFilter;
 import org.sidiff.serge.filter.ExecutableFilter;
+import org.sidiff.serge.settings.SergeSettings;
 
 public class Serge {
 
@@ -40,20 +41,22 @@ public class Serge {
 	 */
 	private static Configuration config = null;
 	
-	public Serge(String pathToConfig) {
+	public Serge(SergeSettings settings) {
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
 		
-		init(pathToConfig);
+		init(settings);
 	}
 	
 	/**
 	 * Initial setup for SERGe.
 	 * 
-	 * @param pathToConfig
+	 * @param settings 
 	 */
-	private void init(String pathToConfig) {
+	private void init(SergeSettings settings) {
+		
+		//TODO 05.05.14 DR: Use all settings instead of just the path to config
 		
 		try {
 			// create empty instances
@@ -63,7 +66,7 @@ public class Serge {
 			
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
-			parser.parse(pathToConfig);
+			parser.parse(settings.getConfigPath());
 			ECM.gatherInformation(config.PROFILEAPPLICATIONINUSE, config.EPACKAGESSTACK);
 			
 			// get ePackageStack for usage in generate()

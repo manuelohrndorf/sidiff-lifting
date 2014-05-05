@@ -27,6 +27,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.common.xml.XMLResolver;
+import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -35,6 +36,9 @@ import org.w3c.dom.NodeList;
 
 public class Applicator {
 
+	//TODO DR 05.05.14: Work "directly" on @see{ProfileApplicatorSettings}
+	//instead of parsing into new parameters here
+	
 	// Folder for input edit rules
 	private String inputFolderPath = null;
 
@@ -63,12 +67,12 @@ public class Applicator {
 	// Defaults to 1
 	private int numberThreads = 1;
 
-	public Applicator(String pathToConfig, String pathToInputFolder, String pathToOutputFolder, int numberOfThreads) {
+	public Applicator(ProfileApplicatorSettings settings) {
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("ProfileApplicatorConfig.dtdmap.xml"));
 		
-		init(pathToConfig, pathToInputFolder, pathToOutputFolder, numberOfThreads);
+		init(settings);
 	}
 	
 	
@@ -245,15 +249,15 @@ public class Applicator {
 	 * and define the applicator accordingly
 	 * 
 	 */
-	private void init(String pathToConfig,
-			String pathToInputFolder, String pathToOutputFolder,
-			int numberOfThreads) {
+	private void init(ProfileApplicatorSettings settings) {
 
 			// Interpreting the XML configuration file
-			configPath = pathToConfig;
-			inputFolderPath = pathToInputFolder;
-			outputFolderPath = pathToOutputFolder;
-			numberThreads = numberOfThreads;
+			//TODO DR 05.05.14: Needs to implement ALL settings, not just the legacy ones
+			
+			configPath = settings.getConfigPath();
+			inputFolderPath = settings.getInputFolderPath();
+			outputFolderPath = settings.getOutputFolderPath();
+			numberThreads = settings.getNumberOfThreads();
 
 			LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 

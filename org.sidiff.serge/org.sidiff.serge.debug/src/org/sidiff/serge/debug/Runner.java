@@ -3,6 +3,7 @@ package org.sidiff.serge.debug;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.serge.Serge;
+import org.sidiff.serge.settings.SergeSettings;
 
 /**
  * This class should be used if SERGe is run with OSGi for debug/testing purpose.
@@ -18,7 +19,10 @@ public class Runner implements IApplication{
 		String[] argument = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		String INPUT_CONFIG_PATH = argument[0];
 		
-		Serge serge = new Serge(INPUT_CONFIG_PATH);
+		//Init default settings
+		SergeSettings settings = new SergeSettings(null, INPUT_CONFIG_PATH);
+		
+		Serge serge = new Serge(settings);
 		serge.generate();
 				
 		return null;

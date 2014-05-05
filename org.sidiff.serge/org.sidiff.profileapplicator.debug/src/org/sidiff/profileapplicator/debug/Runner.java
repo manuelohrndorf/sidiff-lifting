@@ -2,8 +2,8 @@ package org.sidiff.profileapplicator.debug;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.sidiff.common.services.ServiceHelper;
 import org.sidiff.profileapplicator.ProfileApplicator;
+import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 
 /**
  * This class should be used if ProfileApplicator is run with OSGi for debug/testing purpose.
@@ -25,18 +25,20 @@ public class Runner implements IApplication{
 		String INPUT_CONFIG_PATH = argument[1];
 		String OUTPUT_FOLDER_PATH = argument[2] + FILE_SEPERATOR;	
 		
-		int NUMBER_OF_THREADS = 1;
+		ProfileApplicatorSettings settings = new ProfileApplicatorSettings(
+				OUTPUT_FOLDER_PATH, INPUT_CONFIG_PATH, INPUT_FOLDER_PATH);
 		
 		//optional number of threads
 		if(argument.length == 4)
-			NUMBER_OF_THREADS = Integer.parseInt(argument[3]);	
+			settings.setNumberOfThreads(Integer.parseInt(argument[3]));	
+		
 		
 
 					
 		/*** Start generating rules*********************************************************************/
 		
 		ProfileApplicator profileApplicator =
-				new ProfileApplicator(INPUT_CONFIG_PATH, INPUT_FOLDER_PATH, OUTPUT_FOLDER_PATH, NUMBER_OF_THREADS);
+				new ProfileApplicator(settings);
 		profileApplicator.applyProfile();
 
 		return null;

@@ -1,6 +1,7 @@
 package org.sidiff.profileapplicator;
 
 import org.sidiff.profileapplicator.core.Applicator;
+import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 
 public class ProfileApplicator {
 
@@ -9,14 +10,11 @@ public class ProfileApplicator {
 	/**
 	 * The constructor.
 	 * 
-	 * @param pathToConfig
-	 * @param pathToInputFolder
-	 * @param pathToOutputFolder
-	 * @param numberOfThreads
+	 * @param settings ProfileApplicatorSettings 
 	 */
-	public ProfileApplicator(String pathToConfig, String pathToInputFolder, String pathToOutputFolder, int numberOfThreads) {
+	public ProfileApplicator(ProfileApplicatorSettings settings) {
 		
-		applicator = new Applicator(pathToConfig, pathToInputFolder, pathToOutputFolder,numberOfThreads);
+		applicator = new Applicator(settings);
 
 	}
 	
