@@ -20,7 +20,7 @@ public class ProfileApplicatorSettings {
 		this.outputFolderPath = outputFolderPath;
 		this.configPath = configPath;
 		this.inputFolderPath = inputFolderPath;
-		this.numberOfThreads = 8;
+		this.numberOfThreads = 1;
 		this.useSubfolders = false;
 		this.deleteGeneratedTransformations = false;
 		this.overwriteGeneratedTransformations = false;
