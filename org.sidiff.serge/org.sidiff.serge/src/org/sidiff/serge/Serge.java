@@ -67,7 +67,7 @@ public class Serge {
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(settings.getConfigPath());
-			ECM.gatherInformation(config.PROFILEAPPLICATIONINUSE, config.EPACKAGESSTACK);
+			ECM.gatherInformation(config.PROFILE_APPLICATION_IN_USE, config.EPACKAGESSTACK);
 			
 			// get ePackageStack for usage in generate()
 			ePackagesStack = config.EPACKAGESSTACK;
@@ -91,7 +91,7 @@ public class Serge {
 			
 			Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
 			
-			if (config.MULTIPLICITYPRECONDITIONSINTEGRATED){
+			if (config.MULTIPLICITY_PRECONDITIONS_INTEGRATED){
 				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
 				constraintApplicator.applyOn(allModules);

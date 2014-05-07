@@ -9,9 +9,8 @@
 <!ELEMENT GeneralSettings (	preventInconsistency,
 													multiplicityPreconditions,
 													reduceToSuperType,
-													disableVariants,
+													disableVariantsWithSupertypeReplacement,
 													modelUsesProfileMechanism,
-													outputFolder,
 													createAllAttributes)>
 <!ELEMENT MetaModelSettings (	 MainModel,
 														 RequiredModel*,
@@ -44,10 +43,9 @@
 <!ELEMENT preventInconsistency EMPTY>
 <!ELEMENT multiplicityPreconditions EMPTY>
 <!ELEMENT reduceToSuperType EMPTY>
-<!ELEMENT disableVariants EMPTY>
+<!ELEMENT disableVariantsWithSupertypeReplacement EMPTY>
 <!ELEMENT createAllAttributes EMPTY>
 <!ELEMENT modelUsesProfileMechanism EMPTY>
-<!ELEMENT outputFolder EMPTY>
 
 <!ELEMENT Creates EMPTY>
 <!ELEMENT Deletes EMPTY>
@@ -85,10 +83,9 @@
 <!ATTLIST multiplicityPreconditions
 					integrated  (true|false)  #REQUIRED
 					separately  (true|false)  #REQUIRED>
-<!ATTLIST disableVariants value  (true|false)  #REQUIRED>
+<!ATTLIST disableVariantsWithSupertypeReplacement value  (true|false)  #REQUIRED>
 <!ATTLIST createAllAttributes value  (true|false)  #REQUIRED>
 <!ATTLIST modelUsesProfileMechanism value  (true|false)  #REQUIRED>
-<!ATTLIST outputFolder absolutePath CDATA #REQUIRED>
 
 <!ATTLIST reduceToSuperType
 					CREATE_DELETE  (true|false)  #REQUIRED
@@ -104,11 +101,10 @@
 <!ATTLIST Creates allow (true|false) #REQUIRED>
 <!ATTLIST Deletes allow  (true|false)  #REQUIRED>
 <!ATTLIST Moves allow  (true|false)  #REQUIRED
-					allowReferenceSwitching  (true|false)  #REQUIRED>
-<!ATTLIST MoveUps allow  (true|false)  #REQUIRED
-					allowReferenceSwitching  (true|false)  #REQUIRED>
-<!ATTLIST MoveDowns allow  (true|false)  #REQUIRED
-					allowReferenceSwitching  (true|false)  #REQUIRED>
+					allowReferenceSwitching  (true|false)  #REQUIRED
+					allowReferenceCombinations  (true|false)  #REQUIRED>
+<!ATTLIST MoveUps allow  (true|false)  #REQUIRED>
+<!ATTLIST MoveDowns allow  (true|false)  #REQUIRED>
 <!ATTLIST SetAttributes allow  (true|false)  #REQUIRED>
 <!ATTLIST UnsetAttributes allow  (true|false)  #REQUIRED>
 <!ATTLIST SetReferences allow  (true|false)  #REQUIRED>

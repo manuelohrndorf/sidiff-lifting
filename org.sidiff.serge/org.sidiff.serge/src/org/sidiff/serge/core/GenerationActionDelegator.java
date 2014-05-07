@@ -82,7 +82,7 @@ public class GenerationActionDelegator {
 				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 
 				/** In case of no Stereotype, create CREATE normally ******************************************************************************/
-				if (!c.PROFILEAPPLICATIONINUSE || (c.PROFILEAPPLICATIONINUSE && !eInf.isStereotype())) {
+				if (!c.PROFILE_APPLICATION_IN_USE || (c.PROFILE_APPLICATION_IN_USE && !eInf.isStereotype())) {
 
 					/**
 					 * Create Modules for every parent in which the EClass may
@@ -887,7 +887,7 @@ public class GenerationActionDelegator {
 			throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();;
-		if(!c.DISABLEVARIANTS) {
+		if(!c.DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT) {
 			
 			for (Module module : inputModules) {
 				VariantGenerator generator = new VariantGenerator(module, opType, reduceToSuperType);

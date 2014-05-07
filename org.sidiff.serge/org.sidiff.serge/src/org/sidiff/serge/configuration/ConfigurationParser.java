@@ -50,8 +50,13 @@ public class ConfigurationParser {
 
 	public void parse (String pathToConfig) throws Exception {
 		
-		String fSep = System.getProperty("file.separator");
+		/** OUTPUTFOLDER ***
+		 * temporarily adjust ur output folder here
+		 */		
+		//TODO: as soon as STPLer are finished, remove hardcoded outputfolder
+		c.OUTPUTFOLDERPATH = "/home/michaela/workspace/SERGe/TEST/";
 		
+		String fSep = System.getProperty("file.separator");
 		
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
 		Element docElem = doc.getDocumentElement();
@@ -60,24 +65,17 @@ public class ConfigurationParser {
 		
 		// retrieve and set general settings	
 		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
-		c.PREVENTINCONSISTENCYTHROUGHSKIPPING =Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.PREVENT_INCONSISTENCY_THROUGHSKIPPING =Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("multiplicityPreconditions").item(0);		
-		c.MULTIPLICITYPRECONDITIONSINTEGRATED=Boolean.valueOf(Common.getAttributeValue("integrated", currentNode));
-		c.MULTIPLICITYPRECONDITIONSSEPARATELY=Boolean.valueOf(Common.getAttributeValue("separately", currentNode));
-		currentNode = doc.getElementsByTagName("disableVariants").item(0);		
-		c.DISABLEVARIANTS=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.MULTIPLICITY_PRECONDITIONS_INTEGRATED=Boolean.valueOf(Common.getAttributeValue("integrated", currentNode));
+		c.MULTIPLICITY_PRECONDITIONS_SEPARATELY=Boolean.valueOf(Common.getAttributeValue("separately", currentNode));
+		currentNode = doc.getElementsByTagName("disableVariantsWithSupertypeReplacement").item(0);		
+		c.DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
-		c.CREATENOTREQUIREDANDNOTIDATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		c.PROFILEAPPLICATIONINUSE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
-		currentNode = doc.getElementsByTagName("outputFolder").item(0);		
-		String configOutputPath=String.valueOf(Common.getAttributeValue("absolutePath", currentNode));
-			
-		if(!configOutputPath.endsWith(fSep)) {
-			c.OUTPUTFOLDERPATH = configOutputPath+fSep;
-		}else{
-			c.OUTPUTFOLDERPATH = configOutputPath;
-		}
+		c.PROFILE_APPLICATION_IN_USE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		currentNode = doc.getElementsByTagName("outputFolder").item(0);	
 		
 		// reduce to supertype settings
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);		
@@ -102,17 +100,15 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("Moves").item(0);
 		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
-		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = Boolean.valueOf(Common.getAttributeValue("allowReferenceCombinations", currentNode));
 		
 		currentNode = doc.getElementsByTagName("MoveUps").item(0);
 		c.CREATE_MOVE_UPS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
-		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
 
 		currentNode = doc.getElementsByTagName("MoveDowns").item(0);
 		c.CREATE_MOVE_DOWNS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
 		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
-		c.CREATE_MOVE_REFERENCE_COMBINATIONS = !c.DISABLEVARIANTS; //TODO MOVE_REFERENCE_COMBINATIONS still not on dtd/config
 		
 		currentNode = doc.getElementsByTagName("ChangeLiterals").item(0);
 		c.CREATE_CHANGE_LITERALS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
@@ -142,7 +138,7 @@ public class ConfigurationParser {
 		
 		//TODO remove this? base model rules path
 		// read ProfiledModel Settings if available
-		if(c.PROFILEAPPLICATIONINUSE) {
+		if(c.PROFILE_APPLICATION_IN_USE) {
 			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
 			c.BASEMODELRULEFOLDERPATH=String.valueOf(Common.getAttributeValue("path", currentNode));
 		}
@@ -406,7 +402,7 @@ public class ConfigurationParser {
 			filter.getBlackList().add(skip);
 		}
 		
-		if(c.PREVENTINCONSISTENCYTHROUGHSKIPPING) {
+		if(c.PREVENT_INCONSISTENCY_THROUGHSKIPPING) {
 			filter.setBlackList(findMoreSkips(filter.getBlackList()));
 		}	
 	}

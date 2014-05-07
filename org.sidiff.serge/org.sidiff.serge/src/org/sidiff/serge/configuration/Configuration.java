@@ -20,6 +20,9 @@ public class Configuration {
 
 	public boolean CREATE_SUBFOLDERS_FOR_MODULES = true;
 	public boolean COPY_CONFIG = true;
+	public boolean OVERWRITE_COPY_CONFIG = true;
+	public boolean SAVE_LOG = true;
+	public boolean OVERWRITE_SAVE_LOG = true;
 	public boolean REMOVE_MANUALS = false;
 	public boolean OVERWRITE_CONFIG = true;
 	public boolean OVERWRITE_MODULES = true;
@@ -44,10 +47,10 @@ public class Configuration {
 	public boolean CREATE_CHANGE_REFERENCES;
 	public boolean CREATE_CHANGE_LITERALS;
 	
-	public boolean MULTIPLICITYPRECONDITIONSINTEGRATED;
-	public boolean MULTIPLICITYPRECONDITIONSSEPARATELY;
-	public boolean CREATENOTREQUIREDANDNOTIDATTRIBUTES;
-	public boolean PREVENTINCONSISTENCYTHROUGHSKIPPING;
+	public boolean MULTIPLICITY_PRECONDITIONS_INTEGRATED;
+	public boolean MULTIPLICITY_PRECONDITIONS_SEPARATELY;
+	public boolean CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES;
+	public boolean PREVENT_INCONSISTENCY_THROUGHSKIPPING;
 	
 	public boolean REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES;
 	public boolean REDUCETOSUPERTYPE_SETUNSET_REFERENCES;
@@ -71,8 +74,8 @@ public class Configuration {
 	public static EClassifier ROOT;
 	public static Boolean ROOTECLASSCANBENESTED;
 	
-	public Boolean PROFILEAPPLICATIONINUSE;
-	public Boolean DISABLEVARIANTS;
+	public Boolean PROFILE_APPLICATION_IN_USE;
+	public Boolean DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT;
 	
 	public Stack<EPackage> EPACKAGESSTACK = null;	
 	public static EClassifierInfoManagement ECM  = null;

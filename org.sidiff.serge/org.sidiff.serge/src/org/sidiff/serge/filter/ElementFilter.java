@@ -236,8 +236,8 @@ public class ElementFilter {
 		// The two scenarios of hard cut-offs:
 		// 1. blacklisted and no inconsistency prevention enabled
 		// 2. whitelist is not empty, however the blacklist is. Addionally  no inconsistency prevention is enabled.
-		boolean hardCutOff = ((blackListed && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING)
-											  || (blackList.isEmpty() && !assumeAllOnWhitelist && !c.PREVENTINCONSISTENCYTHROUGHSKIPPING));
+		boolean hardCutOff = ((blackListed && !c.PREVENT_INCONSISTENCY_THROUGHSKIPPING)
+											  || (blackList.isEmpty() && !assumeAllOnWhitelist && !c.PREVENT_INCONSISTENCY_THROUGHSKIPPING));
 		
 		switch(opType) {
 		
@@ -459,7 +459,7 @@ public class ElementFilter {
 	 */
 	private static Boolean isRequiredByWhitelistedStereotype(EClassifier eClassifier) {
 		
-		if(c.PROFILEAPPLICATIONINUSE) {			
+		if(c.PROFILE_APPLICATION_IN_USE) {			
 			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
 			for(EClassifier stereotype: stereotypes) {
 				if(whiteList.contains(stereotype)) {

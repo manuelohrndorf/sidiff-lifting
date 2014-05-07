@@ -4,11 +4,18 @@
 	<GeneralSettings>
 		<preventInconsistency value="true" />
 		<multiplicityPreconditions integrated="false" separately="false" />
-		<reduceToSuperType  CREATE_DELETE="false" MOVE="false" SET_UNSET="false" ADD_REMOVE="false" CHANGE="false" />
-		<disableVariants value="true"/>
-		<createAllAttributes value="true" />		
-   		<modelUsesProfileMechanism value="true"/>
-   		<outputFolder absolutePath="/media/mrindt/data/Workspaces/Linux/SERGE_Refactoring/RESULTS/statemachine" />
+		<reduceToSuperType
+			ADD_REMOVE="true"
+			CHANGE_LITERAL="true"
+			CHANGE_REFERENCE="true"
+			CREATE_DELETE="true"
+			MOVE="true"
+			MOVE_DOWN="true"
+			MOVE_UP="true"
+			SET_UNSET_ATTRIBUTE="true"
+			SET_UNSET_REFERENCE="true" />
+		<disableVariantsWithSupertypeReplacement value="true"/>
+		<createAllAttributes value="true" />
 	</GeneralSettings>
 	
 	<MetaModelSettings>
@@ -31,14 +38,19 @@
 	</ProfiledModelSettings>
 	
 	<Transformations>
-		<Creates allow="false" />
-		<Deletes allow="false" />
-		<Moves allow="false" allowReferenceSwitching="false" />
-		<Sets allow="true" />
-		<Unsets allow="false" />
-		<Adds allow="false" />
-		<Removes allow="false" />
-		<Changes allow="false" allowLiteralSwitching="false"/>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" allowReferenceSwitching="true" allowReferenceCombinations="true" />
+		<MoveUps allow="true"/>
+		<MoveDowns allow="true"/>
+		<SetAttributes allow="true" />
+		<UnsetAttributes allow="true" />
+		<SetReferences allow="true" />
+		<UnsetReferences allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<ChangeLiterals allow="true" allowLiteralSwitching="true" />
+		<ChangeReferences allow="true" />
 	</Transformations>
 
 	<!-- nested=true: means the root element can also appear

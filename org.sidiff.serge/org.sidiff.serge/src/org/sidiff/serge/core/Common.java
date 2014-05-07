@@ -242,7 +242,7 @@ public class Common {
 			if (!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
 				String eaName = getFreeAttributeName(ea.getName(), rule);
 
-				boolean createNotRequiredAndNotIDAttributes = Configuration.getInstance().CREATENOTREQUIREDANDNOTIDATTRIBUTES;
+				boolean createNotRequiredAndNotIDAttributes = Configuration.getInstance().CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES;
 				if (createNotRequiredAndNotIDAttributes || !createNotRequiredAndNotIDAttributes
 						&& (ea.isRequired() || ea.isID())) {
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(inEClassNode, ea,

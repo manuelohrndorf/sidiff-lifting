@@ -1,6 +1,5 @@
 package org.sidiff.serge.core;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,16 +19,13 @@ import org.sidiff.serge.configuration.Configuration.OperationType;
 /**
  * Todo-List for Reintegration:
  * 
- * - VariantProcesser (AbstractTypeReplacer and SubTypeReplacer) needs to be completed
- * - variantModules >> createModules. Some createModules must be removed due to lack of consistency.
  * - why use getAllModulesAsSet() ?
  * - ProfileModelIntegration
- * -  differenciation normal moves, ups, downs (comply with xml/dtd)
  * - implement MoveDown
  * - implement MoveUp
  * - contraint generation
- * - filter identical / filter duplicate? What will that do exactly?
- * - add comment to when rule might not be executable in ExecutionChecker
+ * - more detailed comment in filter identical / filter duplicates
+ * - more detailed comments to when rule might not be executable in ExecutionChecker
  * - remove all the deprecated marks, old classes, old todos/fixmes
  * 
  * @author mrindt
@@ -80,8 +76,6 @@ public class MetaModelElementVisitor implements EClassVisitor{
 				if (!variantModules.isEmpty()){
 					allVariantModules.addAll(variantModules);
 				}
-				
-				//TODO remove old original module in case it may not exist without replaces..
 				
 				Set<Module> deleteModules = GAD.generate_DELETE(createModules);	
 				if (!deleteModules.isEmpty()){
