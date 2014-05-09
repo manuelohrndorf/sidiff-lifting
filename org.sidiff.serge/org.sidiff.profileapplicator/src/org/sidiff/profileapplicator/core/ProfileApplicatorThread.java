@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.profileapplicator.ProfileApplicator;
 
 public class ProfileApplicatorThread extends Thread {
 
@@ -30,11 +31,11 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
-	 * The defined {@link Applicator} which executed this thread The
+	 * The defined {@link ProfileApplicator} which executed this thread The
 	 * global configuration is just needed once and never changed by any of the
 	 * threads, hence this solution
 	 */
-	private Applicator applicator;
+	private ProfileApplicator applicator;
 
 	/**
 	 * 
@@ -45,7 +46,7 @@ public class ProfileApplicatorThread extends Thread {
 	 * @param applicator
 	 *            the profile applicator which executed this thread
 	 */
-	public ProfileApplicatorThread(File sourceFile, Applicator applicator) {
+	public ProfileApplicatorThread(File sourceFile, ProfileApplicator applicator) {
 
 		this.sourceFile = sourceFile;
 		this.applicator = applicator;
@@ -76,7 +77,7 @@ public class ProfileApplicatorThread extends Thread {
 
 		// Create resourceSet for source
 		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
-				applicator.getInputFolderPath());
+				applicator.getSettings().getInputFolderPath());
 
 		// Create EGraph for source
 		EGraph srcGraph = new EGraphImpl();
@@ -138,7 +139,7 @@ public class ProfileApplicatorThread extends Thread {
 			try {
 				// Create resourceSet as working copy
 				workResourceSet = new HenshinResourceSet(
-						applicator.getInputFolderPath());
+						applicator.getSettings().getInputFolderPath());
 
 				// Create Module EGraph and its children as working copy
 				workGraph = new EGraphImpl();
@@ -171,7 +172,7 @@ public class ProfileApplicatorThread extends Thread {
 			String stereoTypeName = "_" + stereoType.getName() + "("
 					+ baseType.getName() + ")" + "_";				
 
-			// Just for perfomance purposes:
+			// Just for performance purposes:
 			// Check if modified module already exists in target folder
 			Pattern baseTypePattern = Pattern.compile(baseTypeName);
 			String moduleName = new String(((Module) workGraph.getRoots().get(0))
@@ -182,11 +183,11 @@ public class ProfileApplicatorThread extends Thread {
 			// Test if result file already exists
 			// Could be created by another thread or the previous run
 			// -> No Matching/Transformation needed
-			File targetFolder = new File(applicator.getOutputFolderPath());
+			File targetFolder = new File(applicator.getSettings().getOutputFolderPath());
 			ArrayList<File> targetFiles = new ArrayList<File>(
 					Arrays.asList(targetFolder.listFiles()));
 
-			String outputName = applicator.getOutputFolderPath() + moduleName
+			String outputName = applicator.getSettings().getOutputFolderPath() + moduleName
 					+ "_execute.henshin";
 
 			boolean alreadyCreated = false;
@@ -196,14 +197,23 @@ public class ProfileApplicatorThread extends Thread {
 				if (targetFile.getAbsolutePath().equals(outputName)) {
 					alreadyCreated = true;
 					LogUtil.log(LogEvent.DEBUG,
-							"File already created, skipped: " + outputName);
+							"File already created: " + outputName);
+					if(this.applicator.getSettings().isOverwriteGeneratedTransformations()){
+						LogUtil.log(LogEvent.DEBUG,
+								"Will be overwritten...");
+						
+					}
+					else {
+						LogUtil.log(LogEvent.DEBUG,
+								"Will be skipped...");						
+					}
 
 				}
 
 			}
 
-			// If target file has not been created before
-			if (!alreadyCreated) {
+			// If target file has not been created before or file shall be overwritten according to settings
+			if (!alreadyCreated || this.applicator.getSettings().isOverwriteGeneratedTransformations()) {
 
 				// Create Henshin Engine
 				Engine engine = new EngineImpl();
@@ -296,7 +306,7 @@ public class ProfileApplicatorThread extends Thread {
 
 	public String saveModule(HenshinResourceSet resSet, EGraph graph) {
 
-		String outputName = applicator.getOutputFolderPath()
+		String outputName = applicator.getSettings().getOutputFolderPath()
 				+ ((Module) graph.getRoots().get(0)).getName()
 				+ "_execute.henshin";
 		resSet.saveEObject(graph.getRoots().get(0), outputName);
