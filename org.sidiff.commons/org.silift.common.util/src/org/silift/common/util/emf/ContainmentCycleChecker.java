@@ -61,9 +61,13 @@ public class ContainmentCycleChecker {
 		if(path.size()>0)cycle.add(path.get(0));
 		Collections.reverse(cycle);
 		Collections.reverse(refCycle);
-		if(!cycle.contains(refCycle.get(0).eContainer())){
-			refCycle.remove(0);
+		ArrayList<EReference> tmp = new ArrayList<EReference>();
+		for(EReference ref: refCycle){
+			if(!cycle.contains(ref.eContainer())){
+				tmp.add(ref);
+			}
 		}
+		refCycle.removeAll(tmp);
 		return refCycle;
 	}
 
@@ -118,10 +122,10 @@ public class ContainmentCycleChecker {
 
 //########################## !!!!!!!!!!!!!!!!!!!!! ####################################		
 		
-		Resource resource = resSet.getResource(
-				URI.createURI("../SA.ecore"), true);
 //		Resource resource = resSet.getResource(
-//				URI.createURI("../SimpleUMLMM.ecore"), true);
+//				URI.createURI("../SA.ecore"), true);
+		Resource resource = resSet.getResource(
+				URI.createURI("../SimpleUMLMM.ecore"), true);
 
 		
 //########################## !!!!!!!!!!!!!!!!!!!!! ####################################				
