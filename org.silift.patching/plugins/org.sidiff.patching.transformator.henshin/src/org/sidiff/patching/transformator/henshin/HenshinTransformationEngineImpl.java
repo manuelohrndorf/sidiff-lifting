@@ -92,7 +92,7 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	public Map<ParameterBinding, Object> execute(OperationInvocation operationInvocation, Map<ParameterBinding, Object> inputParameters)
 			throws ParameterMissingException, OperationNotExecutableException {
 		assert (graph != null) : "Model not set and therefore no EGraph!";
-		String operationName = operationInvocation.getEditRule().getExecuteModule().getName();
+		String operationName = operationInvocation.resolveEditRule().getExecuteModule().getName();
 		LogUtil.log(LogEvent.NOTICE, "Executing operation " + operationName);
 
 		// hard binding between operation and henshin should be splitted
@@ -156,7 +156,7 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	public void undo(OperationInvocation operationInvocation)
 			throws OperationNotUndoableException {
 		
-		String operationName = operationInvocation.getEditRule().getExecuteModule().getName();
+		String operationName = operationInvocation.resolveEditRule().getExecuteModule().getName();
 		LogUtil.log(LogEvent.NOTICE, "Undoing operation " + operationName);
 		
 		//Get corresponding unit application
