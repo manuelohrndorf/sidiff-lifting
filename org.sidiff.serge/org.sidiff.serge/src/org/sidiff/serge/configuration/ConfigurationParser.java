@@ -50,12 +50,6 @@ public class ConfigurationParser {
 
 	public void parse (String pathToConfig) throws Exception {
 		
-		/** OUTPUTFOLDER ***
-		 * temporarily adjust ur output folder here
-		 */		
-		//TODO: as soon as STPLer are finished, remove hardcoded outputfolder
-		c.OUTPUTFOLDERPATH = "/home/michaela/workspace/SERGe/TEST/";
-		
 		String fSep = System.getProperty("file.separator");
 		
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	

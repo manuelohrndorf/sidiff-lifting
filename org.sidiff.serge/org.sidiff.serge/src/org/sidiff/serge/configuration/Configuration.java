@@ -15,17 +15,8 @@ public class Configuration {
 	
 	// Tool specific configurations
 	
-	public String OUTPUTFOLDERPATH				  	= null;
 	public String BASEMODELRULEFOLDERPATH	= null;
 
-	public boolean CREATE_SUBFOLDERS_FOR_MODULES = true;
-	public boolean COPY_CONFIG = true;
-	public boolean OVERWRITE_COPY_CONFIG = true;
-	public boolean SAVE_LOG = true;
-	public boolean OVERWRITE_SAVE_LOG = true;
-	public boolean REMOVE_MANUALS = false;
-	public boolean OVERWRITE_CONFIG = true;
-	public boolean OVERWRITE_MODULES = true;
 	public boolean ENABLE_DUPLICATE_FILTER = true;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
 	public boolean ENABLE_NAME_MAPPER = true;

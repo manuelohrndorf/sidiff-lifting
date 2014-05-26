@@ -41,23 +41,15 @@ public class Serge {
 	 */
 	private static Configuration config = null;
 	
+	private SergeSettings settings = null;
+	
 	public Serge(SergeSettings settings) {
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
 		
-		init(settings);
-	}
-	
-	/**
-	 * Initial setup for SERGe.
-	 * 
-	 * @param settings 
-	 */
-	private void init(SergeSettings settings) {
-		
-		//TODO 05.05.14 DR: Use all settings instead of just the path to config
-		
+		this.settings = settings;
+				
 		try {
 			// create empty instances
 			config = Configuration.getInstance();
@@ -77,6 +69,7 @@ public class Serge {
 		}		
 		
 	}
+
 	
 	/**
 	 * Method to start the generation process.
@@ -134,7 +127,7 @@ public class Serge {
 			}
 			
 			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
-			ModuleSerializer serializer = new ModuleSerializer();
+			ModuleSerializer serializer = new ModuleSerializer(settings);
 			serializer.serialize(moduleSet);
 		
 			LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
@@ -142,7 +135,6 @@ public class Serge {
 		}else{
 			throw new EPackageNotFoundException();
 		}
-
 	}
 
 }

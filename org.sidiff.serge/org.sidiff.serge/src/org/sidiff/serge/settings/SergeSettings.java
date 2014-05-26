@@ -12,6 +12,7 @@ public class SergeSettings {
 	private boolean overwriteConfigInTargetFolder;
 	private boolean saveLogs;
 	private boolean deleteLogs;
+
 	
 	public SergeSettings(String outputFolderPath, String configPath){
 		super();
@@ -20,8 +21,8 @@ public class SergeSettings {
 		this.useSubfolders = false;
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = false;
-		this.overwriteGeneratedTransformations = false;
-		this.overwriteConfigInTargetFolder = false;
+		this.overwriteGeneratedTransformations = true;
+		this.overwriteConfigInTargetFolder = true;
 		this.saveLogs = true;
 		this.deleteLogs = false;
 	}

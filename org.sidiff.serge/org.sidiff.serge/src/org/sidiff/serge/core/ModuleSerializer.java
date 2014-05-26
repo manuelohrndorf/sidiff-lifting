@@ -14,11 +14,21 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.settings.SergeSettings;
 
 public class ModuleSerializer {
 
+	private SergeSettings settings = null;
+	
+	/**
+	 * Constructor
+	 * @param settings
+	 */
+	public ModuleSerializer (SergeSettings settings) {
+		this.settings = settings;
+	}
+	
 	/**
 	 * Serializes one module.
 	 * 
@@ -26,7 +36,7 @@ public class ModuleSerializer {
 	 */
 	private void serialize(Module module) {
 
-		String outputFilePath = Configuration.getInstance().OUTPUTFOLDERPATH + module.getName()
+		String outputFilePath = settings.getOutputFolderPath() + module.getName()
 				+ GlobalConstants.EXECUTE_suffix;
 
 		// assertions / checks

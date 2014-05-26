@@ -19,8 +19,11 @@ public class Runner implements IApplication{
 		String[] argument = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		String INPUT_CONFIG_PATH = argument[0];
 		
+		//TODO: remove this when wizard ready
+		String tempOutputPath = "/home/michaela/workspace/SERGe/TEST/";
+			
 		//Init default settings
-		SergeSettings settings = new SergeSettings(null, INPUT_CONFIG_PATH);
+		SergeSettings settings = new SergeSettings(tempOutputPath, INPUT_CONFIG_PATH);
 		
 		Serge serge = new Serge(settings);
 		serge.generate();
