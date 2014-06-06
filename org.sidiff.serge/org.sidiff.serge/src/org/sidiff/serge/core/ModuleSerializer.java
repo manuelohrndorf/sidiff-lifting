@@ -36,7 +36,7 @@ public class ModuleSerializer {
 	 */
 	private void serialize(Module module) {
 
-		String outputFilePath = settings.getOutputFolderPath() + module.getName()
+		String outputFilePath = settings.getOutputFolderPath() + System.getProperty("file.separator") + module.getName()
 				+ GlobalConstants.EXECUTE_suffix;
 
 		// assertions / checks
