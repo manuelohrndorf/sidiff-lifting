@@ -71,7 +71,6 @@ public class SergeWizard extends Wizard implements INewWizard {
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				try {
 					Serge serge = new Serge(settings);
-					System.out.println(settings.getOutputFolderPath());
 					serge.generate();
 				} catch (EPackageNotFoundException e) {
 					EPackageNotFoundDialog.openErrorDialog(Activator.PLUGIN_ID, e);
