@@ -1,6 +1,7 @@
 package org.sidiff.serge.generators.actions;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -85,7 +86,7 @@ public class ChangeLiteralGenerator {
 				+GlobalConstants.TO+newEENumliteral.getName());
 		CHANGE_LITERAL_Module.getUnits().add(rule);
 
-		NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, eAttribute.eContainer().eClass());
+		NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, (EClass) eAttribute.eContainer());
 
 		HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, eAttribute, "\""+oldEENumliteral.getName()+"\"", false);
 		containerNodePair.getRhsNode().getAttribute(eAttribute).setValue("\""+newEENumliteral.getName()+"\"");
