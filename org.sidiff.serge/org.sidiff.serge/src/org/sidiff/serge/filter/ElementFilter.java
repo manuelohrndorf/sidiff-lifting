@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
-import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
+//import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
@@ -96,16 +96,16 @@ public class ElementFilter {
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
 					|| (requiredByStereotypes && !c.isRoot(eClassifier))
-					|| (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes )
-					|| (assumeAllOnWhitelist && blackListed && !requiredBySubtypes)
+					|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
+					|| (blackListed && !requiredBySubtypes)
 					)
 				return false;				
 				break;
 				
 			case ADD:				
 				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes)&& (!c.isRoot(eClassifier)))
-						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes) && (!c.isRoot(eClassifier))) 
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes)&& (!c.isRoot(eClassifier)))
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes) && (!c.isRoot(eClassifier))) 
 						) {
 					return false;
 				}	
@@ -113,8 +113,8 @@ public class ElementFilter {
 				
 			case CHANGE_REFERENCE:
 				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
-						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}	
@@ -122,17 +122,24 @@ public class ElementFilter {
 				
 			case CHANGE_LITERAL:
 				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
-						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}	
 				break;
 				
 			case MOVE:
-				if (c.isAnUnnestableRoot(eClassifier)){
+				if (
+						(!(eClassifier instanceof EClass))
+						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+						|| (!eInf.selfMayHaveTransformations())
+						|| (c.isAnUnnestableRoot(eClassifier))
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))
+						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
+						|| (blackListed && !requiredBySubtypes)
+						)
 					return false;
-				}
 //				if ((c.isAnUnnestableRoot(eClassifier))
 //					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 //					return false;
@@ -140,9 +147,16 @@ public class ElementFilter {
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
-				if (c.isAnUnnestableRoot(eClassifier)){
+					if (
+						(!(eClassifier instanceof EClass))
+						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+						|| (!eInf.selfMayHaveTransformations())
+						|| (c.isAnUnnestableRoot(eClassifier))
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))
+						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
+						|| (blackListed && !requiredBySubtypes)
+					)
 					return false;
-				}
 //				if ((c.isAnUnnestableRoot(eClassifier))
 //					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 //					return false;
@@ -150,9 +164,16 @@ public class ElementFilter {
 				break;
 				
 			case MOVE_UP:
-				if (c.isAnUnnestableRoot(eClassifier)){
+				if (
+						(!(eClassifier instanceof EClass))
+						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+						|| (!eInf.selfMayHaveTransformations())
+						|| (c.isAnUnnestableRoot(eClassifier))
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))
+						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
+						|| (blackListed && !requiredBySubtypes)
+					)
 					return false;
-				}
 //				if ((c.isAnUnnestableRoot(eClassifier))
 //					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 //					return false;
@@ -160,9 +181,16 @@ public class ElementFilter {
 				break;
 				
 			case MOVE_DOWN:
-				if (c.isAnUnnestableRoot(eClassifier)){
+				if (
+						(!(eClassifier instanceof EClass))
+						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+						|| (!eInf.selfMayHaveTransformations())
+						|| (c.isAnUnnestableRoot(eClassifier))
+						|| (requiredByStereotypes && !c.isRoot(eClassifier))
+						|| (!whiteListed && !assumeAllOnWhitelist  /*&& !requiredBySubtypes*/)
+						|| (blackListed && !requiredBySubtypes)
+					)
 					return false;
-				}
 //				if ((c.isAnUnnestableRoot(eClassifier))
 //					|| (!requiredByStereotypes && !c.isRoot(eClassifier))) {
 //					return false;
@@ -171,8 +199,8 @@ public class ElementFilter {
 				
 			case SET_ATTRIBUTE:
 				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
-						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						( (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/) && (!requiredByStereotypes))
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}			
@@ -180,8 +208,8 @@ public class ElementFilter {
 				
 			case SET_REFERENCE:
 				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes ) && (!requiredByStereotypes))
-						|| ((assumeAllOnWhitelist && blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						( (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/) && (!requiredByStereotypes))
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
 						) {
 					return false;
 				}	
@@ -486,18 +514,18 @@ public class ElementFilter {
 		return list;
 	}
 	
-	/****** Meta Model Slicer TESTING **********************************************************************************/
-	
-	public void sliceMetaModel() {
-		
-		Stack<EPackage> ePackagesStack = c.EPACKAGESSTACK;
-		EPackage metaModel = ePackagesStack.firstElement();
-		
-		MetaModelSlicer mms = new MetaModelSlicer();
-		String newNS_URI = new String(metaModel.getNsURI());
-		newNS_URI = newNS_URI.concat("_sliced");
-		List<EPackage> ePackages = new ArrayList<EPackage>(ePackagesStack);
-		List<String> whiteListAsStrings = extractAllEClassifierNames(whiteList);
-		mms.slice(metaModel, ePackages, whiteListAsStrings, blackList,newNS_URI, newNS_URI);
-	}
+//	/****** Meta Model Slicer TESTING **********************************************************************************/
+//	
+//	public void sliceMetaModel() {
+//		
+//		Stack<EPackage> ePackagesStack = c.EPACKAGESSTACK;
+//		EPackage metaModel = ePackagesStack.firstElement();
+//		
+//		MetaModelSlicer mms = new MetaModelSlicer();
+//		String newNS_URI = new String(metaModel.getNsURI());
+//		newNS_URI = newNS_URI.concat("_sliced");
+//		List<EPackage> ePackages = new ArrayList<EPackage>(ePackagesStack);
+//		List<String> whiteListAsStrings = extractAllEClassifierNames(whiteList);
+//		mms.slice(metaModel, ePackages, whiteListAsStrings, blackList,newNS_URI, newNS_URI);
+//	}
 }
