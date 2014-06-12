@@ -222,7 +222,7 @@ public class Common {
 			if(!incEOpposites.isEmpty()) {
 				int currentIncomings = incEOpposites.size();
 				if(eRef.getUpperBound() == currentIncomings) {
-					break;	
+					continue;	
 				}
 			}
 			

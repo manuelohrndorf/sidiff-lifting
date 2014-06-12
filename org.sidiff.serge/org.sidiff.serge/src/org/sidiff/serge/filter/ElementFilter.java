@@ -272,7 +272,7 @@ public class ElementFilter {
 			case CREATE:
 				
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))) {
 					return false;
 				}
 				break;
