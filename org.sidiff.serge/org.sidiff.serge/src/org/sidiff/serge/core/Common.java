@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -213,6 +215,17 @@ public class Common {
 		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours().entrySet()) {
 			EReference eRef = neighbourEntry.getKey();
 
+			// cancel if this reference is already available in the rule
+			// at its maximum (upperbound) regarding this eClassifierNode 
+			EReference eOpposite = eRef.getEOpposite();
+			EList<Edge> incEOpposites = eClassifierNode.getIncoming(eOpposite);
+			if(!incEOpposites.isEmpty()) {
+				int currentIncomings = incEOpposites.size();
+				if(eRef.getUpperBound() == currentIncomings) {
+					break;	
+				}
+			}
+			
 			assert (eRef.getLowerBound() > 0);
 
 			EClass neighbour = eRef.getEReferenceType();
