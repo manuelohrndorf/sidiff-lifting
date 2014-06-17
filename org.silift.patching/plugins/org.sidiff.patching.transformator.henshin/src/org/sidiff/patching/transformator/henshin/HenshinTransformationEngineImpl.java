@@ -98,10 +98,6 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)
 		EditRule editRule = operationInvocation.resolveEditRule();
-		// =====
-		// FIXME: Check-Dangling WORKAROUND
-		danglingConstraintWorkaround(editRule);
-		// =====
 		Unit unit = editRule.getExecuteMainUnit();
 		Engine engine = new EngineImpl();
 		UnitApplication application = new UnitApplicationImpl(engine);
@@ -215,39 +211,5 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 			}
 		}
 	}
-
-	// ================================================================
-	/**
-	 * Dangling constraint WORKAROUND:
-	 * 
-	 * Problem:<br/>
-	 * Das neue Konzept der geschachtelten Regeln weist gegenüber den früheren
-	 * AmalgamationUnits an einer Stelle semantisch ab: Von Kernel-Regeln wird
-	 * die Dangling-Bedingung geprüft, ohne daß die Effekte der Multi-Regeln
-	 * berücksichtigt werden. Dabei könnten ja gerade durch die Multi-Regeln
-	 * entscheidende Kanten gelöscht werden, so dass die Dangling Bedingung
-	 * erfüllt wäre.
-	 * 
-	 * Lösung<br/>
-	 * Kernel-Regeln (also Regeln mit eingebetteten Multi-Regeln) setzen wir für
-	 * die Patch-Ausführung pauschal auf checkDangling = false.
-	 */
-	private void danglingConstraintWorkaround(EditRule editRule) {
-		for (Rule r : editRule.getExecuteModule().getRules()) {
-			danglingConstraintWorkaround(r);
-		}
-	}
-
-	private void danglingConstraintWorkaround(Rule rule) {
-		if (!rule.getMultiRules().isEmpty()) {
-			// its a kernel rule
-			rule.setCheckDangling(false);
-		}
-
-		for (Rule mr : rule.getMultiRules()) {
-			danglingConstraintWorkaround(mr);
-		}
-	}
-	// ================================================================
 
 }
