@@ -13,6 +13,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
@@ -21,9 +24,6 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
-import org.silift.difference.lifting.settings.LiftingSettings;
-import org.silift.difference.lifting.settings.SettingsItem;
 
 public class CreatePatchPage02 extends WizardPage implements IPageChangedListener{
 

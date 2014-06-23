@@ -27,11 +27,11 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.silift.common.util.ui.UIUtil;
-import org.silift.difference.lifting.settings.LiftingSettings;
-import org.silift.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 
@@ -47,8 +47,8 @@ public class CreatePatchWizard extends Wizard {
 		this.setWindowTitle("New Patch Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
-		settings = new LiftingSettings();
-		settings.setRecognitionEngineMode(RecognitionEngineMode.POST_PROCESSED);
+		settings = new LiftingSettings(inputModels.getDocumentType());
+		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 	}
 
 	@Override
