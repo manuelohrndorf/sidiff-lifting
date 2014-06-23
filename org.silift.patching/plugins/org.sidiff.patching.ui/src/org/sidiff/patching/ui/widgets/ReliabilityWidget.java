@@ -12,14 +12,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
+import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
+import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
-import org.silift.difference.lifting.settings.Settings;
-import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation, ISettingsChangedListener {
@@ -173,8 +172,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 	}
 
 	@Override
-	public void settingsChanged(SettingsItem item) {
-		
+	public void settingsChanged(Enum<?> item) {
 	}
 
 	public Settings getSettings() {
