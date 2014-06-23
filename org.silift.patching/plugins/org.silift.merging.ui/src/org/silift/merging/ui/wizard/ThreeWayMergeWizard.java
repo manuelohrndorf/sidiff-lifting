@@ -34,6 +34,8 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
@@ -54,8 +56,6 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
-import org.silift.difference.lifting.settings.LiftingSettings;
-import org.silift.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.modifieddetector.IModifiedDetector;
@@ -309,11 +309,11 @@ public class ThreeWayMergeWizard extends Wizard {
 		// Create the lifting settings from the patching settings:
 		LiftingSettings liftingSettings  = new LiftingSettings(
 				patchingSettings.getScope(), 
-				patchingSettings.getRuleBases(), 
-				patchingSettings.getMatcher(), 
-				patchingSettings.getTechBuilder(), 
+				patchingSettings.getMatcher(),
+				patchingSettings.getTechBuilder(),
+				patchingSettings.getRuleBases(),
 				patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false : true,
-				RecognitionEngineMode.POST_PROCESSED);
+				RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		
 		try{
 			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);

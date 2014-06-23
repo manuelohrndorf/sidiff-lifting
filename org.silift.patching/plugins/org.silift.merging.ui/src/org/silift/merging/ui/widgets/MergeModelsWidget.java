@@ -11,12 +11,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
+import org.sidiff.difference.lifting.settings.Settings;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.difference.lifting.settings.ISettingsChangedListener;
-import org.silift.difference.lifting.settings.Settings;
-import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.merging.ui.util.MergeModels;
 
 public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
@@ -291,9 +290,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	@Override
-	public void settingsChanged(SettingsItem item) {
-		// TODO Auto-generated method stub
-		
+	public void settingsChanged(Enum<?> item) {
 	}
 
 	public Settings getSettings() {
