@@ -2,6 +2,7 @@ package org.silift.patching.settings;
 
 import java.util.Set;
 
+import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -9,8 +10,6 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.silift.common.util.emf.Scope;
-import org.silift.difference.lifting.settings.Settings;
-import org.silift.difference.lifting.settings.SettingsItem;
 import org.silift.modifieddetector.IModifiedDetector;
 
 public class PatchingSettings extends Settings {
@@ -31,6 +30,7 @@ public class PatchingSettings extends Settings {
 			IPatchInterruptHandler interruptHandler,
 			ITransformationEngine transformationEngine,
 			IModifiedDetector modifiedDetector) {
+		
 		super();
 		this.validationMode = validationMode;
 		this.minReliability = minReliability;
@@ -48,7 +48,7 @@ public class PatchingSettings extends Settings {
 			IMatcher matcher, ITechnicalDifferenceBuilder techBuilder,
 			ValidationMode validationMode, int minReliability, ExecutionMode executionMode,
 			PatchMode patchMode) {
-		super(scope, ruleBases, matcher, techBuilder);
+		super(scope, matcher, techBuilder, ruleBases);
 		this.validationMode = validationMode;
 		this.minReliability = minReliability;
 		this.executionMode = executionMode;
@@ -71,7 +71,7 @@ public class PatchingSettings extends Settings {
 	public void setValidationMode(ValidationMode validationMode) {
 		if(this.validationMode == null || !this.validationMode.equals(validationMode)){
 			this.validationMode = validationMode;
-			notifyListeners(SettingsItem.VALIDATION_MODE);
+			notifyListeners(PatchingSettingsItem.VALIDATION_MODE);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class PatchingSettings extends Settings {
 	public void setMinReliability(int minReliability) {
 		if(this.minReliability != minReliability){
 			this.minReliability = minReliability;
-			notifyListeners(SettingsItem.RELIABILITY);
+			notifyListeners(PatchingSettingsItem.RELIABILITY);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class PatchingSettings extends Settings {
 	public void setExecutionMode(ExecutionMode executionMode) {
 		if(this.executionMode == null || !this.executionMode.equals(executionMode)){
 			this.executionMode = executionMode;
-			notifyListeners(SettingsItem.EXEC_MODE);
+			notifyListeners(PatchingSettingsItem.EXEC_MODE);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class PatchingSettings extends Settings {
 	public void setPatchMode(PatchMode patchMode) {
 		if(this.patchMode == null || !this.patchMode.equals(patchMode)){
 			this.patchMode = patchMode;
-			notifyListeners(SettingsItem.PATCH_MODE);
+			notifyListeners(PatchingSettingsItem.PATCH_MODE);
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class PatchingSettings extends Settings {
 	public void setArgumentManager(IArgumentManager argumentManager) {
 		if(this.argumentManager == null || !this.argumentManager.equals(argumentManager)){
 			this.argumentManager = argumentManager;
-			notifyListeners(SettingsItem.ARG_MANAGER);
+			notifyListeners(PatchingSettingsItem.ARG_MANAGER);
 		}
 	}
 
@@ -143,7 +143,7 @@ public class PatchingSettings extends Settings {
 	public void setInterruptHandler(IPatchInterruptHandler interruptHandler) {
 		if(this.interruptHandler == null || !this.interruptHandler.equals(interruptHandler)){
 			this.interruptHandler = interruptHandler;
-			notifyListeners(SettingsItem.INTERRUPT_HANDLER);
+			notifyListeners(PatchingSettingsItem.INTERRUPT_HANDLER);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class PatchingSettings extends Settings {
 	public void setTransformationEngine(ITransformationEngine transformationEngine) {
 		if(this.transformationEngine == null || !this.transformationEngine.equals(transformationEngine)){
 			this.transformationEngine = transformationEngine;
-			notifyListeners(SettingsItem.TRANSFORMATION_ENGINE);
+			notifyListeners(PatchingSettingsItem.TRANSFORMATION_ENGINE);
 		}
 	}
 
@@ -173,7 +173,7 @@ public class PatchingSettings extends Settings {
 	public void setModifiedDetector(IModifiedDetector modifiedDetector) {
 		if(this.modifiedDetector == null || !this.modifiedDetector.equals(modifiedDetector)){
 			this.modifiedDetector = modifiedDetector;
-			notifyListeners(SettingsItem.MODIFIED_DETECTOR);
+			notifyListeners(PatchingSettingsItem.MODIFIED_DETECTOR);
 		}
 	}
 
