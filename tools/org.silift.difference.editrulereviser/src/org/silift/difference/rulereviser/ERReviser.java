@@ -3,6 +3,7 @@ package org.silift.difference.rulereviser;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
@@ -10,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -27,12 +29,12 @@ public class ERReviser {
 		IN, OUT
 	}
 	
-	String workingDirectory;
-	HenshinResourceSet resourceSet;
-	Module module;
+	private String workingDirectory;
+	private HenshinResourceSet resourceSet;
+	private Module module;
 
-	
-	Map<Rule, Map<Parameter, ParameterDirection>> rule2parameterDirections;
+	private TreeMap<Integer, Parameter> nodeDegree;
+	private HashMap<Rule, Map<Parameter, ParameterDirection>> rule2parameterDirections;
 	
 	int toBeDeletedIterator = 0;
 	int preservedIterator = 0;
@@ -47,15 +49,14 @@ public class ERReviser {
 		module = resourceSet.getModule(moduleName);
 		
 		EcoreUtil.resolveAll(module);
-		
-
-		rule2parameterDirections = new HashMap<>();
 	}
 	
 	public void reviseHenshinModule(){
 		
 		for(Unit unit: module.getUnits()){
 			if(unit instanceof Rule){
+				rule2parameterDirections = new HashMap<>();
+				nodeDegree = new TreeMap<Integer, Parameter>();
 				Rule rule =(Rule) EcoreUtil.copy(unit);
 				for(Node node : rule.getLhs().getNodes()){
 					checkNodeParameter(rule, node, node.getAction().getType());
@@ -100,7 +101,11 @@ public class ERReviser {
 		mainUnit.getSubUnits().add(rule);
 		for(Parameter ruleParameter:rule.getParameters()){
 			Parameter unitParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
-			unitParameter.setName(ruleParameter.getName());
+			if(ruleParameter.equals(nodeDegree.lastEntry().getValue())){
+				unitParameter.setName("selectedEObject");
+			}else{
+				unitParameter.setName(ruleParameter.getName());
+			}
 			mainUnit.getParameters().add(unitParameter);
 			ParameterMapping mapping = HenshinFactoryImpl.eINSTANCE.createParameterMapping();
 			mainUnit.getParameterMappings().add(mapping);
@@ -167,6 +172,8 @@ public class ERReviser {
 			name = node.getName();
 		}
 		
+		
+		
 		Parameter parameter = rule.getParameter(node.getName());
 		if(parameter == null){
 			parameter = HenshinFactoryImpl.eINSTANCE.createParameter(name);
@@ -175,6 +182,10 @@ public class ERReviser {
 		if(type.equals(Action.Type.CREATE)){
 			parameterDirections.put(parameter, ParameterDirection.OUT);
 		}else{
+			if(type.equals(Action.Type.PRESERVE)){
+				
+				nodeDegree.put(deriveNodeDegree(node)+deriveNodeDegree(rule.getMappings().getImage(node, rule.getRhs())), parameter);
+			}
 			parameterDirections.put(parameter, ParameterDirection.IN);
 		}
 		rule2parameterDirections.put(rule, parameterDirections);
@@ -182,6 +193,17 @@ public class ERReviser {
 	}
 
 	
+	private int deriveNodeDegree(Node node){
+		int degree = 0;
+		for (Edge edge: node.getOutgoing()){
+			if(edge.getType().isContainment()){
+				degree = degree +10;
+			}else{
+				degree++;
+			}
+		}
+		return degree;
+	}
 	
 	
 	
