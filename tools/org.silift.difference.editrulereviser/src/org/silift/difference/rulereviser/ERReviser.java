@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -57,11 +58,25 @@ public class ERReviser {
 			if(unit instanceof Rule){
 				Rule rule =(Rule) EcoreUtil.copy(unit);
 				for(Node node : rule.getLhs().getNodes()){
-					checkRuleParameters(rule, node, node.getAction().getType());
+					checkNodeParameter(rule, node, node.getAction().getType());
+					for(Attribute attribute : node.getAttributes()){
+						System.out.println(attribute.getValue());
+						checkAttributeParameter(rule, attribute, attribute.getAction().getType());
+					}
+				}
+				for(Node node : rule.getRhs().getNodes()){
+					if(node.getAction() != null && node.getAction().getType().equals(Action.Type.CREATE)){
+					checkNodeParameter(rule, node, node.getAction().getType());
+					for(Attribute attribute : node.getAttributes()){
+						System.out.println(attribute.getValue());
+						checkAttributeParameter(rule, attribute, attribute.getAction().getType());
+					}
+				}
 				}
 				Unit mainUnit = createMainUnit(rule);
 				Module newModule = createModule(mainUnit);
 				saveRule(newModule);
+				toBeDeletedIterator = preservedIterator =newIterator = 0;
 			}
 		}
 	}
@@ -101,8 +116,29 @@ public class ERReviser {
 	}
 	
 	
+	private void checkAttributeParameter(Rule rule, Attribute attribute, Action.Type type){
+		Map<Parameter, ParameterDirection> parameterDirections;
+		if(rule2parameterDirections.get(rule)!=null){
+			parameterDirections = rule2parameterDirections.get(rule);
+		}else{
+			parameterDirections = new HashMap<Parameter, ParameterDirection>();
+		}
+		
+		Parameter parameter = rule.getParameter(attribute.getValue());
+		
+		if(parameter!=null){
+			if(type.equals(Action.Type.CREATE)){
+				parameterDirections.put(parameter, ParameterDirection.IN);
+			}else{
+				parameterDirections.put(parameter, ParameterDirection.OUT);
+			}
+		}
+		
+		rule2parameterDirections.put(rule, parameterDirections);
+		
+	}
 	
-	private void checkRuleParameters(Rule rule, Node node, Action.Type type){
+	private void checkNodeParameter(Rule rule, Node node, Action.Type type){
 		Map<Parameter, ParameterDirection> parameterDirections;
 		if(rule2parameterDirections.get(rule)!=null){
 			parameterDirections = rule2parameterDirections.get(rule);
@@ -115,6 +151,7 @@ public class ERReviser {
 			switch(type){
 				case PRESERVE:
 					name = "preserved_"+node.getType().getName()+preservedIterator++;
+					rule.getMappings().getImage(node, rule.getRhs()).setName(name);
 					break;
 				case DELETE:
 					name = "toBeDeleted_"+node.getType().getName()+toBeDeletedIterator++;
@@ -125,6 +162,7 @@ public class ERReviser {
 				default:
 			}
 			node.setName(name);
+			
 		}else{
 			name = node.getName();
 		}
@@ -149,7 +187,7 @@ public class ERReviser {
 	
 	private void saveRule(Module module){
 		HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
-		Resource resource = henshinResourceSet.createResource(URI.createFileURI(workingDirectory+"\\"+module.getName() +"_execute.henshin"));
+		Resource resource = henshinResourceSet.createResource(URI.createFileURI(workingDirectory+System.getProperty("file.separator")+module.getName() +"_execute.henshin"));
 		resource.getContents().add(module);
 		try {
 			resource.save(null);
