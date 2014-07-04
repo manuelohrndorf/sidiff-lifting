@@ -83,23 +83,23 @@ public class HenshinUtil {
 			// We don't allow multiple Rules per TransformationSystem for our
 			// atomics			
 			int ruleCount = 0;
-			for(Unit unit : ts.getUnits()){
-				if(unit instanceof Rule){
-					ruleCount++;
-				}
-			}
-			assert (ruleCount == 1) : "TransformationSystem has more than one rule "
-					+ path + " " + ts.getName();
-
+			
 			// Exactly one mainUnit assertion
 			int mainUnitCount = 0;
 			for (Unit unit : ts.getUnits()) {
 				if (unit.getName().equals(INamingConventions.MAIN_UNIT)) {
 					mainUnitCount++;
 				}
+				if(unit instanceof Rule){
+					ruleCount++;
+				}
 			}
 			assert (mainUnitCount == 1) : "Multiple or no main units in Transformations System "
-					+ ts.getName() + ". Should be exactly one";
+					+ ts.getName() + ". Should be exactly one";			
+
+			assert (ruleCount == 1) : "TransformationSystem has more than one rule "
+					+ path + " " + ts.getName();
+
 
 		}
 
