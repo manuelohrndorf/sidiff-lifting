@@ -81,8 +81,14 @@ public class HenshinUtil {
 
 		if (editRule) {
 			// We don't allow multiple Rules per TransformationSystem for our
-			// atomics
-			assert (ts.getRules().size() == 1) : "TransformationSystem has more than one rule "
+			// atomics			
+			int ruleCount = 0;
+			for(Unit unit : ts.getUnits()){
+				if(unit instanceof Rule){
+					ruleCount++;
+				}
+			}
+			assert (ruleCount == 1) : "TransformationSystem has more than one rule "
 					+ path + " " + ts.getName();
 
 			// Exactly one mainUnit assertion
