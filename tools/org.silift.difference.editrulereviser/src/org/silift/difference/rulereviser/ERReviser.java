@@ -1,7 +1,9 @@
 package org.silift.difference.rulereviser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -12,7 +14,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
@@ -55,26 +60,14 @@ public class ERReviser {
 		
 		for(Unit unit: module.getUnits()){
 			if(unit instanceof Rule){
+				
 				rule2parameterDirections = new HashMap<>();
 				nodeDegree = new TreeMap<Integer, Parameter>();
 				Rule rule =(Rule) EcoreUtil.copy(unit);
-				for(Node node : rule.getLhs().getNodes()){
-					checkNodeParameter(rule, node, node.getAction().getType());
-					for(Attribute attribute : node.getAttributes()){
-						System.out.println(attribute.getValue());
-						checkAttributeParameter(rule, attribute, attribute.getAction().getType());
-					}
-				}
-				for(Node node : rule.getRhs().getNodes()){
-					if(node.getAction() != null && node.getAction().getType().equals(Action.Type.CREATE)){
-					checkNodeParameter(rule, node, node.getAction().getType());
-					for(Attribute attribute : node.getAttributes()){
-						System.out.println(attribute.getValue());
-						checkAttributeParameter(rule, attribute, attribute.getAction().getType());
-					}
-				}
-				}
-				Unit mainUnit = createMainUnit(rule);
+				reviseACs(rule);
+				reviseNodeParameters(rule);
+				
+				Unit mainUnit = reviseMainUnit(module, rule);
 				Module newModule = createModule(mainUnit);
 				saveRule(newModule);
 				toBeDeletedIterator = preservedIterator =newIterator = 0;
@@ -206,6 +199,93 @@ public class ERReviser {
 	}
 	
 	
+	private Unit reviseMainUnit(Module module, Rule rule){
+		if(module.getUnit("mainUnit")==null){
+			return createMainUnit(rule);
+		}else{
+			Unit mainUnit =(Unit) EcoreUtil.copy(module.getUnit("mainUnit"));
+			return mainUnit;
+		}
+	}
+	
+	private void reviseNodeParameters(Rule rule){
+		for(Node node : rule.getLhs().getNodes()){
+			checkNodeParameter(rule, node, node.getAction().getType());
+			for(Attribute attribute : node.getAttributes()){
+				System.out.println(attribute.getValue());
+				checkAttributeParameter(rule, attribute, attribute.getAction().getType());
+			}
+		}
+		for(Node node : rule.getRhs().getNodes()){
+			if(node.getAction() != null && node.getAction().getType().equals(Action.Type.CREATE)){
+				checkNodeParameter(rule, node, node.getAction().getType());
+				for(Attribute attribute : node.getAttributes()){
+					System.out.println(attribute.getValue());
+					checkAttributeParameter(rule, attribute, attribute.getAction().getType());
+				}
+			}
+		}
+	}
+	
+	private void reviseACs(Rule rule){
+		ArrayList<Node> acNodes = new ArrayList<Node>();
+		ArrayList<Edge> acEdges = new ArrayList<Edge>();
+		for(NestedCondition nc : rule.getLhs().getNestedConditions()){
+			Graph graph = nc.getConclusion();
+			//gather all edges and nodes of the ac
+			for(Node node: graph.getNodes()){
+				if(node.getAction() != null && node.getAction().getType().equals(Action.Type.FORBID)){
+					acNodes.add(node);
+					for(Edge edge : node.getIncoming()){
+						acEdges.add(edge);
+						acNodes.add(edge.getSource());
+					}
+					for(Edge edge : node.getOutgoing()){
+						acEdges.add(edge);
+						acNodes.add(edge.getTarget());
+					}
+				}
+			}
+			//delete all incoming and outgoing edges of a node not involved in the ac graph
+			for(Node node : acNodes){
+				for(Iterator<Edge> itIncoming = node.getIncoming().iterator(); itIncoming.hasNext();){
+					Edge incoming = (Edge)itIncoming.next();
+					if(!acEdges.contains(incoming)){
+						itIncoming.remove();
+					}
+				}
+				for(Iterator<Edge> itOutgoing = node.getOutgoing().iterator(); itOutgoing.hasNext();){
+					Edge outgoing = (Edge)itOutgoing.next();
+					if(!acEdges.contains(outgoing)){
+						itOutgoing.remove();
+					}
+				}
+			}
+			
+			//delete all edges not involved in the ac graph
+			for(Iterator<Edge> iterator = graph.getEdges().iterator(); iterator.hasNext();){
+				Edge edge = (Edge)iterator.next();
+				if(!acEdges.contains(edge)){
+					iterator.remove();
+				}
+			}
+			
+			//delete all nodes not involved in the ac graph
+			for(Iterator<Node> iterator = graph.getNodes().iterator(); iterator.hasNext();){
+				Node node = (Node)iterator.next();
+				if(!acNodes.contains(node)){
+					for(Iterator<Mapping> mappingIterator = nc.getMappings().iterator(); mappingIterator.hasNext();){
+						Mapping mapping = (Mapping)mappingIterator.next();
+						if(mapping.getImage().equals(node)){
+							mappingIterator.remove();
+						}
+					}
+					iterator.remove();
+				}
+			}
+			
+		}
+	}
 	
 	private void saveRule(Module module){
 		HenshinResourceSet henshinResourceSet = new HenshinResourceSet();
