@@ -63,7 +63,8 @@ public class EditRuleAnalysis {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 
-		if (isNodeWithDeletionEdges(lhsNode)) {
+		//TODO MO: Has to be checked if this is correct!!!
+		if (isNodeWithDeletionEdges(lhsNode) || isNodeWithCreationAttributes(rhsNode)) {
 			return true;
 		} 
 		
