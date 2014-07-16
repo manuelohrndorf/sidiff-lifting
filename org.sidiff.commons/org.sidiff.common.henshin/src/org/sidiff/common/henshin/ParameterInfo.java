@@ -43,9 +43,10 @@ public class ParameterInfo {
 	 * @return
 	 */
 	public static ParameterDirection getParameterDirection(Parameter parameter) {
-		assert(isUnitParameter(parameter)) : "The IN/OUT-query is currently only supported for unit parameters!";
-		
-		EList<ParameterMapping> mappings = parameter.getUnit().getParameterMappings();
+		assert (isUnitParameter(parameter)) : "The IN/OUT-query is currently only supported for unit parameters!";
+
+		EList<ParameterMapping> mappings = parameter.getUnit()
+				.getParameterMappings();
 
 		boolean in = false;
 		boolean out = false;
@@ -77,11 +78,17 @@ public class ParameterInfo {
 	 * parameter. Parameters of type EDataType or one of its subclasses are
 	 * considered as object parameter.
 	 * 
+	 * Note that this method returns null if no type can be found
+	 * 
 	 * @param parameter
 	 * @return
 	 */
 	public static ParameterKind getParameterKind(Parameter parameter) {
 		EClassifier type = getRealType(parameter);
+		if (type == null) {
+			return null;
+		}
+
 		if (EDataType.class.isAssignableFrom(type.getClass())) {
 			return ParameterKind.VALUE;
 		} else {
@@ -136,17 +143,22 @@ public class ParameterInfo {
 	 * Works both for OBJECT and VALUE parameters.
 	 * 
 	 * @param parameter
+	 * @param checkDeclaredType
+	 *            try to use the type definition which is statically declared in
+	 *            the parameter declaration
 	 * @return
 	 */
-	public static EClassifier getRealType(Parameter parameter) {
-		
-		if(parameter.getType()!=null)
+	public static EClassifier getRealType(Parameter parameter,
+			boolean checkDeclaredType) {
+
+		if (checkDeclaredType && parameter.getType() != null) {
 			return parameter.getType();
-		
+		}
+
 		Parameter oppositeParameter = getInnermostParameter(parameter);
-		
-		assert(oppositeParameter != null);
-		
+
+		assert (oppositeParameter != null);
+
 		Rule rule = (Rule) oppositeParameter.eContainer();
 		Node node = null;
 
@@ -160,7 +172,8 @@ public class ParameterInfo {
 		// the next step is necessary since rule.getNodeByName searches only in
 		// LHS
 		for (Node n : rule.getRhs().getNodes()) {
-			if ((n.getName() != null) && (n.getName().equals(oppositeParameter.getName()))) {
+			if ((n.getName() != null)
+					&& (n.getName().equals(oppositeParameter.getName()))) {
 				node = n;
 				return node.getType();
 			}
@@ -168,6 +181,17 @@ public class ParameterInfo {
 
 		// node not found in RHS/LHS : oppositeParameter points to an attribute
 		return findTypeOfAnAttribute(oppositeParameter);
+	}
+
+	/**
+	 * Gets the type of the given parameter.<br/>
+	 * Works both for OBJECT and VALUE parameters.
+	 * 
+	 * @param parameter
+	 * @return
+	 */
+	public static EClassifier getRealType(Parameter parameter) {
+		return getRealType(parameter, true);
 	}
 
 	private static EDataType findTypeOfAnAttribute(Parameter oppositeParameter) {
@@ -186,7 +210,7 @@ public class ParameterInfo {
 
 		// get the type (if its the correct attribute)
 		for (Attribute rA : rightAttributes) {
-			if(getUsedParameters(rule, rA).contains(oppositeParameter)){
+			if (getUsedParameters(rule, rA).contains(oppositeParameter)) {
 				return rA.getType().getEAttributeType();
 			}
 		}
@@ -201,8 +225,8 @@ public class ParameterInfo {
 		}
 
 		// get the type (if its the correct attribute)
-		for (Attribute lA : leftAttributes) {						
-			if(getUsedParameters(rule, lA).contains(oppositeParameter)){
+		for (Attribute lA : leftAttributes) {
+			if (getUsedParameters(rule, lA).contains(oppositeParameter)) {
 				return lA.getType().getEAttributeType();
 			}
 		}
@@ -219,12 +243,13 @@ public class ParameterInfo {
 	 * 
 	 * 
 	 * @param parameter
-	 * @return 
+	 * @return
 	 */
 	public static Parameter getInnermostParameter(Parameter parameter) {
 		if (isUnitParameter(parameter)) {
 			// Go through the mappings and find the opposite parameter
-			for (ParameterMapping mapping : parameter.getUnit().getParameterMappings()) {
+			for (ParameterMapping mapping : parameter.getUnit()
+					.getParameterMappings()) {
 
 				/** if its an outgoing-parameter (outPort) **/
 				if (mapping.getTarget().equals(parameter)) {
@@ -266,13 +291,14 @@ public class ParameterInfo {
 	 * 
 	 * 
 	 * @param parameter
-	 * @return 
+	 * @return
 	 */
 	public static Parameter getOutermostParameter(Parameter parameter) {
 		if (isUnitParameter(parameter)) {
 			// wir untertuetzen derzeit keine Schachtelung von Units
 			// ==> parameter ist bereit outermost
-			assert (parameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
+			assert (parameter.getUnit().getName()
+					.equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
 			return parameter;
 
 		} else {
@@ -309,7 +335,8 @@ public class ParameterInfo {
 	 * Parses the parameter from a Henshin attribute.
 	 * 
 	 * FIXME: That isn't really perfect. Check the Henshin script interpreter
-	 * syntax. I.e., check if parameter is a variable in the Syntax-Tree of the JavaScript Expression.
+	 * syntax. I.e., check if parameter is a variable in the Syntax-Tree of the
+	 * JavaScript Expression.
 	 * 
 	 * @param rule
 	 *            the rule which contains the node which contains the attribute.
@@ -317,7 +344,8 @@ public class ParameterInfo {
 	 *            the Henshin attribute.
 	 * @return a list of parsed parameters.
 	 */
-	public static Set<Parameter> getUsedParameters(Rule rule, Attribute attribute) {
+	public static Set<Parameter> getUsedParameters(Rule rule,
+			Attribute attribute) {
 
 		Set<Parameter> parameters = new HashSet<Parameter>();
 		String value = attribute.getValue();
@@ -345,7 +373,8 @@ public class ParameterInfo {
 		}
 
 		// Split by operators
-		String[] parametersString = parameterAttribute.toString().split("[+-/*]");
+		String[] parametersString = parameterAttribute.toString().split(
+				"[+-/*]");
 
 		for (String stringP : parametersString) {
 			String p = stringP.trim();
