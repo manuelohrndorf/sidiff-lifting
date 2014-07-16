@@ -45,8 +45,7 @@ public class ParameterInfo {
 	public static ParameterDirection getParameterDirection(Parameter parameter) {
 		assert (isUnitParameter(parameter)) : "The IN/OUT-query is currently only supported for unit parameters!";
 
-		EList<ParameterMapping> mappings = parameter.getUnit()
-				.getParameterMappings();
+		EList<ParameterMapping> mappings = parameter.getUnit().getParameterMappings();
 
 		boolean in = false;
 		boolean out = false;
@@ -148,8 +147,7 @@ public class ParameterInfo {
 	 *            the parameter declaration
 	 * @return
 	 */
-	public static EClassifier getRealType(Parameter parameter,
-			boolean checkDeclaredType) {
+	public static EClassifier getRealType(Parameter parameter, boolean checkDeclaredType) {
 
 		if (checkDeclaredType && parameter.getType() != null) {
 			return parameter.getType();
@@ -157,7 +155,11 @@ public class ParameterInfo {
 
 		Parameter oppositeParameter = getInnermostParameter(parameter);
 
-		assert (oppositeParameter != null);
+		// Begin Assertions
+		assert (oppositeParameter != null) : "Unmapped parameter" + parameter.getName();
+		assert (!(isUnitParameter(parameter) && parameter == oppositeParameter)) : "Unmapped Unit parameter"
+				+ parameter.getName();
+		// End Assertions
 
 		Rule rule = (Rule) oppositeParameter.eContainer();
 		Node node = null;
@@ -172,8 +174,7 @@ public class ParameterInfo {
 		// the next step is necessary since rule.getNodeByName searches only in
 		// LHS
 		for (Node n : rule.getRhs().getNodes()) {
-			if ((n.getName() != null)
-					&& (n.getName().equals(oppositeParameter.getName()))) {
+			if ((n.getName() != null) && (n.getName().equals(oppositeParameter.getName()))) {
 				node = n;
 				return node.getType();
 			}
@@ -248,8 +249,7 @@ public class ParameterInfo {
 	public static Parameter getInnermostParameter(Parameter parameter) {
 		if (isUnitParameter(parameter)) {
 			// Go through the mappings and find the opposite parameter
-			for (ParameterMapping mapping : parameter.getUnit()
-					.getParameterMappings()) {
+			for (ParameterMapping mapping : parameter.getUnit().getParameterMappings()) {
 
 				/** if its an outgoing-parameter (outPort) **/
 				if (mapping.getTarget().equals(parameter)) {
@@ -297,8 +297,7 @@ public class ParameterInfo {
 		if (isUnitParameter(parameter)) {
 			// wir untertuetzen derzeit keine Schachtelung von Units
 			// ==> parameter ist bereit outermost
-			assert (parameter.getUnit().getName()
-					.equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
+			assert (parameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
 			return parameter;
 
 		} else {
@@ -344,8 +343,7 @@ public class ParameterInfo {
 	 *            the Henshin attribute.
 	 * @return a list of parsed parameters.
 	 */
-	public static Set<Parameter> getUsedParameters(Rule rule,
-			Attribute attribute) {
+	public static Set<Parameter> getUsedParameters(Rule rule, Attribute attribute) {
 
 		Set<Parameter> parameters = new HashSet<Parameter>();
 		String value = attribute.getValue();
@@ -373,8 +371,7 @@ public class ParameterInfo {
 		}
 
 		// Split by operators
-		String[] parametersString = parameterAttribute.toString().split(
-				"[+-/*]");
+		String[] parametersString = parameterAttribute.toString().split("[+-/*]");
 
 		for (String stringP : parametersString) {
 			String p = stringP.trim();
