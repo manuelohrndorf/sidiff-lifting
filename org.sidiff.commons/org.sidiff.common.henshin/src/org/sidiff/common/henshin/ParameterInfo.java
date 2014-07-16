@@ -104,7 +104,7 @@ public class ParameterInfo {
 	 * @return the Node which is finally identified by the given
 	 *         object-parameter
 	 */
-	public static Node getIdentifiedNode(Parameter parameter, boolean lhs) {
+	public static Node getInnermostIdentifiedNode(Parameter parameter, boolean lhs) {
 		assert (getParameterKind(parameter).equals(ParameterKind.OBJECT)) : "Nodes are only identified by object parameters. However, "
 				+ parameter.getName() + " is a value parameter!";
 
