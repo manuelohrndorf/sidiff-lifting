@@ -647,13 +647,14 @@ public class GenerationActionDelegator {
 							int lower = eRef.getLowerBound();
 							int upper = eRef.getUpperBound();
 
-							// eRef == no containment reference and (0..1) and
-							// only continue, if ref is inherited and no
+							// eRef == no containment reference and (0..1)
+							// continue only
+							// if it has no EOpposites which has ub-lb>1 (this is already covered in ADD_Rules) 
+							// and if ref is either inherited and no
 							// reduction to super type is wished
 							// or ref is not inherited
-							if (!eRef.isContainment()
-									&& lower == 0
-									&& upper == 1
+							if (!eRef.isContainment() && lower == 0	&& upper == 1
+									&& !(eRef.getEOpposite()!=null && eRef.getEOpposite().getUpperBound()-eRef.getEOpposite().getLowerBound()>1)
 									&& ((EcoreHelper.isInheritedReference(eRef, eClassifier) && !c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES) || !EcoreHelper
 											.isInheritedReference(eRef, eClassifier))) {
 
