@@ -1,5 +1,7 @@
 package org.sidiff.common.henshin;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByImage;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +12,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
@@ -197,5 +200,104 @@ public class HenshinMultiRuleAnalysis {
 				}
 			}
 		}
+	}
+	
+	
+	/**
+	 * Collects all parameters which are not embedded from the Kernel-Rule.
+	 * 
+	 * @param multiRule
+	 *            The Multi-Rule to process.
+	 * @return All (real) Multi-Rule parameters.
+	 */
+	public static List<Parameter> getMultiRuleParameters(Rule multiRule) {
+		
+		List<Parameter> multiParameters = new ArrayList<Parameter>();
+		
+		for (Parameter parameter : multiRule.getParameters()) {
+			if (multiRule.getKernelRule().getParameter(parameter.getName()) == null) {
+				multiParameters.add(parameter);
+			}
+		}
+		
+		return multiParameters;
+	}
+	
+	/**
+	 * Collects all mappings of << preserve >> nodes which are not mapped to the Kernel-Rule.
+	 * 
+	 * @param multiRule
+	 *            The Multi-Rule to process.
+	 * @return All (real) Multi-Rule mappings of << preserve >> nodes.
+	 */
+	public static List<Mapping> getMultiRulePreservedNodes(Rule multiRule) {
+		
+		List<Mapping> multiRulePresevedNodesMapping = new ArrayList<Mapping>();
+		
+		for (Mapping mapping : multiRule.getMappings()) {
+			if ((findMappingByImage(multiRule.getMultiMappings(), mapping.getImage()) == null)
+					&& (findMappingByImage(multiRule.getMultiMappings(), mapping.getOrigin()) == null)) {
+				multiRulePresevedNodesMapping.add(mapping);
+			}
+		}
+		
+		return multiRulePresevedNodesMapping;
+	}
+
+	/**
+	 * Collects all nodes which are not mapped to the Kernel-Rule.
+	 * 
+	 * @param multiRule
+	 *            The Multi-Rule to process.
+	 * @return All (real) Multi-Rule nodes.
+	 */
+	public static List<Node> getMultiRuleNodes(Rule multiRule) {
+		
+		List<Node> multiNodes = new ArrayList<Node>();
+		
+		for (Node lhsNode : multiRule.getLhs().getNodes()) {
+			if (findMappingByImage(multiRule.getMultiMappings(), lhsNode) == null) {
+				// Node is not mapped => Node is a Multi-Rule node:
+				multiNodes.add(lhsNode);
+			}
+		}
+		
+		for (Node rhsNode : multiRule.getRhs().getNodes()) {
+			if (findMappingByImage(multiRule.getMultiMappings(), rhsNode) == null) {
+				// Node is not mapped => Node is a Multi-Rule node:
+				multiNodes.add(rhsNode);
+			}
+		}
+		
+		return multiNodes;
+	}
+	
+	/**
+	 * Collects all edges which are not mapped to the Kernel-Rule.
+	 * 
+	 * @param multiRule
+	 *            The Multi-Rule to process.
+	 * @return All (real) Multi-Rule edges.
+	 */
+	public static List<Edge> getMultiRuleEdges(Rule multiRule) {
+		List<Edge> multiEdges = new ArrayList<Edge>();
+
+		for (Edge lhsEdge : multiRule.getLhs().getEdges()) {
+			if ((findMappingByImage(multiRule.getMultiMappings(), lhsEdge.getSource()) == null)
+					|| (findMappingByImage(multiRule.getMultiMappings(), lhsEdge.getTarget())== null)) {
+				// Source or edge target is not mapped => Edge is a Multi-Rule node:
+				multiEdges.add(lhsEdge);
+			}
+		}
+		
+		for (Edge rhsEdge : multiRule.getRhs().getEdges()) {
+			if ((findMappingByImage(multiRule.getMultiMappings(), rhsEdge.getSource()) == null)
+					|| (findMappingByImage(multiRule.getMultiMappings(), rhsEdge.getTarget())== null)) {
+				// Source or edge target is not mapped => Edge is a Multi-Rule node:
+				multiEdges.add(rhsEdge);
+			}
+		}
+		
+		return multiEdges;
 	}
 }
