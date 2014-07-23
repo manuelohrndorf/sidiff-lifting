@@ -93,16 +93,107 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @param graph
 	 *            The graph which will contain the node.
 	 * @param node
-	 *            The node to copy.
+	 *            The node to copy
+	 * @param attributes
+	 *            Set <code>true</code> to copy all attributes; <code>false</code> otherwise;
 	 * @return The new created Node.
 	 */
-	public static Node copyNode(Graph graph, Node node) {
+	public static Node copyNode(Graph graph, Node node, boolean attributes) {
 		// Now create new Node:
 		Node newNode = HenshinFactory.eINSTANCE.createNode();
 		newNode.setGraph(graph);
 		newNode.setType(node.getType());
 		newNode.setName(node.getName());
+		
+		// Copy attributes
+		if (attributes) {
+			for (Attribute attribute : node.getAttributes()) {
+				copyAttribute(newNode, attribute);
+			}
+		}
+		
 		return newNode;
+	}
+	
+	/**
+	 * Copies a given << preserve >> node into the given rule.
+	 * 
+	 * @param rule
+	 *            The rule which will contain the node.
+	 * @param node
+	 *            The node to copy.
+	 * @param attributes
+	 *            Set <code>true</code> to copy all attributes; <code>false</code> otherwise;
+	 * @return The new created << preserve >> node.
+	 */
+	public static NodePair copyPreserveNodes(Rule rule, NodePair node, boolean attributes) {
+		Node lhsNode = copyNode(rule.getLhs(), node.getLhsNode(), attributes);
+		Node rhsNode = copyNode(rule.getLhs(), node.getRhsNode(), attributes);
+		HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode);
+		return new NodePair(lhsNode, rhsNode); 
+	}
+	
+	/**
+	 * Copies a given attribute into a given node.
+	 * 
+	 * @param node
+	 *            The node which will contain the attribute.
+	 * @param attribute
+	 *            The attribute to copy.
+	 * @return The copied attribute.
+	 */
+	public static Attribute copyAttribute(Node node, Attribute attribute) {
+		Attribute newAttribute = HenshinFactory.eINSTANCE.createAttribute();
+		newAttribute.setType(attribute.getType());
+		newAttribute.setValue(attribute.getValue());
+		
+		node.getAttributes().add(newAttribute);
+		
+		return newAttribute;
+	}
+	
+	/**
+	 * Copies a given edge into the graph of the source/target node.
+	 * 
+	 * @param src
+	 *            The source node of the copied edge.
+	 * @param tgt
+	 *            The target node of the copied edge.
+	 * @param edge
+	 *            The edge to copy.
+	 * @return The copied edge.
+	 */
+	public static Edge copyEdge(Edge edge, Node src, Node tgt) {
+		
+		assert (src.getGraph() == tgt.getGraph()) : "Source and target node of the edge have to be in the same graph";
+		
+		Edge newEdge = HenshinFactory.eINSTANCE.createEdge();
+		newEdge.setIndex(edge.getIndex());
+		newEdge.setSource(src);
+		newEdge.setTarget(tgt);
+		newEdge.setType(edge.getType());
+		
+		src.getGraph().getEdges().add(newEdge);
+		
+		return edge;
+	}
+	
+	/**
+	 * Copies a given parameter.
+	 * 
+	 * @param rule
+	 *            The rule which will contain the copied parameter.
+	 * @param parameter
+	 *            The parameter to copy.
+	 * @return The copied parameter.
+	 */
+	public static Parameter copyParameter(Unit unit, Parameter parameter) {
+		Parameter newParameter = HenshinFactory.eINSTANCE.createParameter();
+		newParameter.setDescription(parameter.getDescription());
+		newParameter.setName(parameter.getName());
+		newParameter.setType(parameter.getType());
+		newParameter.setUnit(unit);
+		return newParameter;
 	}
 	
 	/**
