@@ -188,6 +188,9 @@ public class ParameterInfo {
 	 * Gets the type of the given parameter.<br/>
 	 * Works both for OBJECT and VALUE parameters.
 	 * 
+	 * Note that this variant of getRealType() checks the declared type of the
+	 * parameter, i.e. calls getRealType(parameter,true).
+	 * 
 	 * @param parameter
 	 * @return
 	 */
