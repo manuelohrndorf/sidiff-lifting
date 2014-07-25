@@ -1,6 +1,5 @@
 package org.sidiff.serge.core;
 
-import java.awt.PageAttributes.OriginType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,8 +30,8 @@ import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
+import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
@@ -693,7 +692,9 @@ public class Common {
 							break;
 						}
 					}
-				}	
+				}
+		default:
+			break;	
 		}
 		return pairs;
 	}

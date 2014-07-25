@@ -10,7 +10,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.GlobalConstants;
-import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 /**
  * The InverseModuleMap contains a map for modules, which are inverses of each other.
@@ -88,7 +87,7 @@ public class InverseModuleMapper{
 	}
 	
 	/**
-	 * This method takes finds every pair in the given module set and delegates the mapping
+	 * This method finds every pair in the given module set and delegates the mapping
 	 * to {@link #addInverseModulePair(...)}
 	 * @param allModules
 	 */
