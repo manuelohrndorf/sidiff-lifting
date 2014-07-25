@@ -98,7 +98,7 @@ public class InverseModuleMapper{
 		Set<Module> creates = allModules.get(OperationType.CREATE);
 		Set<Module> deletes = allModules.get(OperationType.DELETE);
 		
-		Set<Map<Module,Module>> set1 = Common.getInverseModulesByName(creates, deletes, OperationType.CREATE);
+		Set<Map<Module,Module>> set1 = getInverseModulesByName(creates, deletes, OperationType.CREATE);
 		for(Map<Module,Module> pair: set1) {
 			Module a = pair.entrySet().iterator().next().getKey();
 			Module b= pair.entrySet().iterator().next().getValue();
@@ -109,7 +109,7 @@ public class InverseModuleMapper{
 		Set<Module> adds = allModules.get(OperationType.ADD);
 		Set<Module> removes = allModules.get(OperationType.REMOVE);
 		
-		Set<Map<Module,Module>> set2 = Common.getInverseModulesByName(adds, removes, OperationType.ADD);
+		Set<Map<Module,Module>> set2 = getInverseModulesByName(adds, removes, OperationType.ADD);
 		for(Map<Module,Module> pair: set2) {
 			Module a = pair.entrySet().iterator().next().getKey();
 			Module b= pair.entrySet().iterator().next().getValue();
@@ -120,7 +120,7 @@ public class InverseModuleMapper{
 		Set<Module> setAttributes = allModules.get(OperationType.SET_ATTRIBUTE);
 		Set<Module> unsetAttributes = allModules.get(OperationType.UNSET_ATTRIBUTE);
 
-		Set<Map<Module,Module>> set3 = Common.getInverseModulesByName(setAttributes, unsetAttributes, OperationType.SET_ATTRIBUTE);
+		Set<Map<Module,Module>> set3 = getInverseModulesByName(setAttributes, unsetAttributes, OperationType.SET_ATTRIBUTE);
 		for(Map<Module,Module> pair: set3) {
 			Module a = pair.entrySet().iterator().next().getKey();
 			Module b= pair.entrySet().iterator().next().getValue();
@@ -131,7 +131,7 @@ public class InverseModuleMapper{
 		Set<Module> setReferences = allModules.get(OperationType.SET_REFERENCE);
 		Set<Module> unsetReferences = allModules.get(OperationType.UNSET_REFERENCE);
 		
-		Set<Map<Module,Module>> set4 = Common.getInverseModulesByName(setReferences, unsetReferences, OperationType.SET_REFERENCE);
+		Set<Map<Module,Module>> set4 = getInverseModulesByName(setReferences, unsetReferences, OperationType.SET_REFERENCE);
 		for(Map<Module,Module> pair: set4) {
 			Module a = pair.entrySet().iterator().next().getKey();
 			Module b= pair.entrySet().iterator().next().getValue();
@@ -139,5 +139,79 @@ public class InverseModuleMapper{
 		}
 		
 	}
-	
+
+	/**
+	 * Convenience method to find and map inverse modules in given sets by their names.
+	 * No corresponding parameter mapping will be done here. Only corresponding modules are found.
+	 * @param sm1
+	 * @param sm2
+	 * @param orginalOPType
+	 * @return
+	 */
+	private Set<Map<Module,Module>> getInverseModulesByName(Set<Module> sm1, Set<Module> sm2, OperationType orginalOPType) {
+
+		Set<Map<Module,Module>> pairs = new HashSet<Map<Module,Module>>();
+
+		switch(orginalOPType) {
+
+		case CREATE:
+			for(Module m1: sm1) {
+				for(Module m2: sm2) {
+					String name1 = m1.getName();
+					String expectedName2 = name1.replaceFirst(GlobalConstants.CREATE_prefix, GlobalConstants.DELETE_prefix);
+					if(m2.getName().equals(expectedName2)) {
+						Map<Module,Module> pair = new HashMap<Module, Module>();
+						pair.put(m1,m2);
+						pairs.add(pair);
+						break;
+					}
+				}
+			}
+		case ADD:		
+			for(Module m1: sm1) {
+				for(Module m2: sm2) {
+					String name1 = m1.getName();
+					String expectedName2 = name1.replaceFirst(GlobalConstants.ADD_prefix, GlobalConstants.REMOVE_prefix);
+					if(m2.getName().equals(expectedName2)) {
+						Map<Module,Module> pair = new HashMap<Module, Module>();
+						pair.put(m1,m2);
+						pairs.add(pair);
+						break;
+					}
+				}
+			}
+
+		case SET_ATTRIBUTE:	
+			for(Module m1: sm1) {
+				for(Module m2: sm2) {
+					String name1 = m1.getName();
+					String expectedName2 = name1.replaceFirst(GlobalConstants.SET_ATTRIBUTE_prefix, GlobalConstants.UNSET_ATTRIBUTE_prefix);
+					if(m2.getName().equals(expectedName2)) {
+						Map<Module,Module> pair = new HashMap<Module, Module>();
+						pair.put(m1,m2);
+						pairs.add(pair);
+						break;
+					}
+				}
+			}
+
+		case SET_REFERENCE:		
+			for(Module m1: sm1) {
+				for(Module m2: sm2) {
+					String name1 = m1.getName();
+					String expectedName2 = name1.replaceFirst(GlobalConstants.SET_REFERENCE_prefix, GlobalConstants.UNSET_REFERENCE_prefix);
+					if(m2.getName().equals(expectedName2)) {
+						Map<Module,Module> pair = new HashMap<Module, Module>();
+						pair.put(m1,m2);
+						pairs.add(pair);
+						break;
+					}
+				}
+			}
+		default:
+			break;	
+		}
+		return pairs;
+	}
+
 }

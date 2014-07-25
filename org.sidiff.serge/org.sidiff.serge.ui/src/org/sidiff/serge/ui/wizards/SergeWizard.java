@@ -11,8 +11,9 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.progress.UIJob;
+import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.Serge;
-import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.settings.SergeSettings;
 import org.sidiff.serge.ui.Activator;
 import org.sidiff.serge.ui.dialogs.EPackageNotFoundDialog;
@@ -75,6 +76,8 @@ public class SergeWizard extends Wizard implements INewWizard {
 				} catch (EPackageNotFoundException e) {
 					EPackageNotFoundDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 					return Status.CANCEL_STATUS;
+				} catch (OperationTypeNotImplementedException e) {
+					e.printStackTrace();
 				} 					
 				
 				return Status.OK_STATUS;

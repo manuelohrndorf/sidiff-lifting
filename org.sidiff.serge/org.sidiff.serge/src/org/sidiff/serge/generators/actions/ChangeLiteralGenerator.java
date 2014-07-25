@@ -13,7 +13,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.GlobalConstants;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 
 public class ChangeLiteralGenerator {
 
@@ -77,8 +77,8 @@ public class ChangeLiteralGenerator {
 		Rule rule = HenshinFactory.eINSTANCE.createRule();
 		rule.setActivated(true);
 		rule.setName("change"+contextOfEAttribute.getName()
-				+Common.toCamelCase(eAttribute.getName())+GlobalConstants.FROM
-				+Common.toCamelCase(oldEENumliteral.getName())
+				+ModuleInternalsApplicator.toCamelCase(eAttribute.getName())+GlobalConstants.FROM
+				+ModuleInternalsApplicator.toCamelCase(oldEENumliteral.getName())
 				+GlobalConstants.TO+newEENumliteral.getName());
 		rule.setDescription("Changes the attribute value of "
 				+eAttribute.getName() +GlobalConstants.FROM

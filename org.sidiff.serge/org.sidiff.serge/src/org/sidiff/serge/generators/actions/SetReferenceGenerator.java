@@ -7,9 +7,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class SetReferenceGenerator {
@@ -65,7 +65,7 @@ public class SetReferenceGenerator {
 		SET_REFERENCE_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(SET_REFERENCE_Module, eReference, contextEClassifier, target, null, null, OperationType.SET_REFERENCE);
+		ModuleInternalsApplicator.createBasicRule(SET_REFERENCE_Module, eReference, contextEClassifier, target, null, null, OperationType.SET_REFERENCE);
 
 		return SET_REFERENCE_Module;
 	}

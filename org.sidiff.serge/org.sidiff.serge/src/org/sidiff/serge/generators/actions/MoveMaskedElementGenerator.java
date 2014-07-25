@@ -15,7 +15,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.GlobalConstants;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class MoveMaskedElementGenerator {
@@ -101,7 +101,7 @@ public class MoveMaskedElementGenerator {
 		MOVE_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(MOVE_Module, oldEReference, mask.getOriginalEClassifier(), oldContext, newEReference, newContext, opType);
+		ModuleInternalsApplicator.createBasicRule(MOVE_Module, oldEReference, mask.getOriginalEClassifier(), oldContext, newEReference, newContext, opType);
 
 		// create Attribute, containing the masked type
 		Rule rule = HenshinModuleAnalysis.getAllRules(MOVE_Module).get(0);

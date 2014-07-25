@@ -13,14 +13,14 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.GlobalConstants;
-import org.sidiff.serge.core.Common;
-import org.sidiff.serge.exceptions.EPackageNotFoundException;
 
 public class MainUnitGenerator {
 
@@ -165,7 +165,7 @@ public class MainUnitGenerator {
 		// get sub EPackages of main meta-model
 		List<EPackage> subsOfMain = new ArrayList<EPackage>();
 		try {
-			subsOfMain.addAll(Common.getAllSubEPackages(mainMetaModel));
+			subsOfMain.addAll(EMFUtil.getAllSubEPackages(mainMetaModel));
 		} catch (EPackageNotFoundException e) {
 			e.printStackTrace();
 		}

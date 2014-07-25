@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -18,22 +18,23 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.Mask;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
-import org.sidiff.serge.core.Common;
 import org.sidiff.serge.exceptions.EAttributeNotFoundException;
 import org.sidiff.serge.exceptions.EClassifierUnresolvableException;
-import org.sidiff.serge.exceptions.EPackageNotFoundException;
 import org.sidiff.serge.filter.ElementFilter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -59,82 +60,82 @@ public class ConfigurationParser {
 		
 		// retrieve and set general settings	
 		currentNode = doc.getElementsByTagName("preventInconsistency").item(0);
-		c.PREVENT_INCONSISTENCY_THROUGHSKIPPING =Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.PREVENT_INCONSISTENCY_THROUGHSKIPPING =Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("multiplicityPreconditions").item(0);		
-		c.MULTIPLICITY_PRECONDITIONS_INTEGRATED=Boolean.valueOf(Common.getAttributeValue("integrated", currentNode));
-		c.MULTIPLICITY_PRECONDITIONS_SEPARATELY=Boolean.valueOf(Common.getAttributeValue("separately", currentNode));
+		c.MULTIPLICITY_PRECONDITIONS_INTEGRATED=Boolean.valueOf(getAttributeValue("integrated", currentNode));
+		c.MULTIPLICITY_PRECONDITIONS_SEPARATELY=Boolean.valueOf(getAttributeValue("separately", currentNode));
 		currentNode = doc.getElementsByTagName("disableVariantsWithSupertypeReplacement").item(0);		
-		c.DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT=Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
-		c.CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES=Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		c.PROFILE_APPLICATION_IN_USE=Boolean.valueOf(Common.getAttributeValue("value", currentNode));
+		c.PROFILE_APPLICATION_IN_USE=Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);	
 		
 		// reduce to supertype settings
 		currentNode = doc.getElementsByTagName("reduceToSuperType").item(0);		
-		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(Common.getAttributeValue("ADD_REMOVE", currentNode));
-		c.REDUCETOSUPERTYPE_CHANGE_LITERALS=Boolean.valueOf(Common.getAttributeValue("CHANGE_LITERAL", currentNode));
-		c.REDUCETOSUPERTYPE_CHANGE_REFERENCE=Boolean.valueOf(Common.getAttributeValue("CHANGE_REFERENCE", currentNode));
-		c.REDUCETOSUPERTYPE_CREATEDELETE=Boolean.valueOf(Common.getAttributeValue("CREATE_DELETE", currentNode));
-		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(Common.getAttributeValue("MOVE", currentNode));
-		c.REDUCETOSUPERTYPE_MOVE_DOWN=Boolean.valueOf(Common.getAttributeValue("MOVE_DOWN", currentNode));
-		c.REDUCETOSUPERTYPE_MOVE_UP=Boolean.valueOf(Common.getAttributeValue("MOVE_UP", currentNode));
-		c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("SET_UNSET_ATTRIBUTE", currentNode));
-		c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("SET_UNSET_REFERENCE", currentNode));
+		c.REDUCETOSUPERTYPE_ADDREMOVE=Boolean.valueOf(getAttributeValue("ADD_REMOVE", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE_LITERALS=Boolean.valueOf(getAttributeValue("CHANGE_LITERAL", currentNode));
+		c.REDUCETOSUPERTYPE_CHANGE_REFERENCE=Boolean.valueOf(getAttributeValue("CHANGE_REFERENCE", currentNode));
+		c.REDUCETOSUPERTYPE_CREATEDELETE=Boolean.valueOf(getAttributeValue("CREATE_DELETE", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE=Boolean.valueOf(getAttributeValue("MOVE", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE_DOWN=Boolean.valueOf(getAttributeValue("MOVE_DOWN", currentNode));
+		c.REDUCETOSUPERTYPE_MOVE_UP=Boolean.valueOf(getAttributeValue("MOVE_UP", currentNode));
+		c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES=Boolean.valueOf(getAttributeValue("SET_UNSET_ATTRIBUTE", currentNode));
+		c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES=Boolean.valueOf(getAttributeValue("SET_UNSET_REFERENCE", currentNode));
 		
 	
 		// enable/disable transformation types and its settings
 		currentNode = doc.getElementsByTagName("Creates").item(0);
-		c.CREATE_CREATES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_CREATES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("Deletes").item(0);
-		c.CREATE_DELETES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_DELETES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("Moves").item(0);
-		c.CREATE_MOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
-		c.CREATE_MOVE_REFERENCE_COMBINATIONS = Boolean.valueOf(Common.getAttributeValue("allowReferenceCombinations", currentNode));
+		c.CREATE_MOVES=Boolean.valueOf(getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_REFERENCE_COMBINATIONS = Boolean.valueOf(getAttributeValue("allowReferenceCombinations", currentNode));
 		
 		currentNode = doc.getElementsByTagName("MoveUps").item(0);
-		c.CREATE_MOVE_UPS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_UPS=Boolean.valueOf(getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(getAttributeValue("allowReferenceSwitching", currentNode));
 
 		currentNode = doc.getElementsByTagName("MoveDowns").item(0);
-		c.CREATE_MOVE_DOWNS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(Common.getAttributeValue("allowReferenceSwitching", currentNode));
+		c.CREATE_MOVE_DOWNS=Boolean.valueOf(getAttributeValue("allow", currentNode));
+		c.REFERENCESWITCHING_MOVE=Boolean.valueOf(getAttributeValue("allowReferenceSwitching", currentNode));
 		
 		currentNode = doc.getElementsByTagName("ChangeLiterals").item(0);
-		c.CREATE_CHANGE_LITERALS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
-		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(Common.getAttributeValue("allowLiteralSwitching", currentNode));
+		c.CREATE_CHANGE_LITERALS=Boolean.valueOf(getAttributeValue("allow", currentNode));
+		c.LITERALSWITCHING_CHANGE=Boolean.valueOf(getAttributeValue("allowLiteralSwitching", currentNode));
 		
 		currentNode = doc.getElementsByTagName("ChangeReferences").item(0);
-		c.CREATE_CHANGE_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_CHANGE_REFERENCES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("Adds").item(0);
-		c.CREATE_ADDS=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_ADDS=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("Removes").item(0);
-		c.CREATE_REMOVES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_REMOVES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("SetAttributes").item(0);
-		c.CREATE_SET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_SET_ATTRIBUTES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("SetReferences").item(0);
-		c.CREATE_SET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_SET_REFERENCES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("UnsetAttributes").item(0);
-		c.CREATE_UNSET_ATTRIBUTES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_UNSET_ATTRIBUTES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		currentNode = doc.getElementsByTagName("UnsetReferences").item(0);
-		c.CREATE_UNSET_REFERENCES=Boolean.valueOf(Common.getAttributeValue("allow", currentNode));
+		c.CREATE_UNSET_REFERENCES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		
 		//TODO remove this? base model rules path
 		// read ProfiledModel Settings if available
 		if(c.PROFILE_APPLICATION_IN_USE) {
 			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
-			c.BASEMODELRULEFOLDERPATH=String.valueOf(Common.getAttributeValue("path", currentNode));
+			c.BASEMODELRULEFOLDERPATH=String.valueOf(getAttributeValue("path", currentNode));
 		}
 		
 		/**** Read BlackList & WhiteList Elements as Strings ***************************************************/
@@ -146,7 +147,7 @@ public class ConfigurationParser {
 			currentChildNodes = currentNode.getChildNodes();
 			for(int i=0; i<currentChildNodes.getLength(); i++) {
 				if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
-					stringBlackList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
+					stringBlackList.add(getAttributeValue("name", currentChildNodes.item(i)));
 				}
 			}
 		}
@@ -156,7 +157,7 @@ public class ConfigurationParser {
 		currentChildNodes = currentNode.getChildNodes();
 		for(int i=0; i<currentChildNodes.getLength(); i++) {
 			if(currentChildNodes.item(i).getNodeName().equals("EClassifier")) {
-				stringWhiteList.add(Common.getAttributeValue("name", currentChildNodes.item(i)));
+				stringWhiteList.add(getAttributeValue("name", currentChildNodes.item(i)));
 			}
 		}
 		
@@ -164,12 +165,12 @@ public class ConfigurationParser {
 		
 		// retrieve and set meta-model	
 		currentNode = doc.getElementsByTagName("MainModel").item(0);
-		String nsUri = String.valueOf(Common.getAttributeValue("nsUri", currentNode));
+		String nsUri = String.valueOf(getAttributeValue("nsUri", currentNode));
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
 		c.METAMODEL=metaModel;
 		calculatedEPackagesStack.add(metaModel);
 		try {
-			calculatedEPackagesStack.addAll(Common.getAllSubEPackages(metaModel));
+			calculatedEPackagesStack.addAll(EMFUtil.getAllSubEPackages(metaModel));
 		} catch (EPackageNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -179,7 +180,7 @@ public class ConfigurationParser {
 		NodeList requiredModelNodes = doc.getElementsByTagName("RequiredModel");
 		for(int i=0; i<=requiredModelNodes.getLength()-1; i++) {
 			Node requiredNode = requiredModelNodes.item(i);
-			String uri = String.valueOf(Common.getAttributeValue("nsUri", requiredNode));
+			String uri = String.valueOf(getAttributeValue("nsUri", requiredNode));
 			EPackage reqModel = EPackage.Registry.INSTANCE.getEPackage(uri);
 			
 			if(reqModel==null) {
@@ -195,13 +196,13 @@ public class ConfigurationParser {
 		
 		// retrieve and root and nested attribute	
 		currentNode = docElem.getElementsByTagName("Root").item(0);
-		rootName = String.valueOf(Common.getAttributeValue("name", currentNode));
+		rootName = String.valueOf(getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
 			//resolve root
-			EClassifier root = Common.resolveStringAsEClassifier(rootName, calculatedEPackagesStack);
+			EClassifier root = resolveStringAsEClassifier(rootName, calculatedEPackagesStack);
 			c.ROOT=root;
 		}
-		c.ROOTECLASSCANBENESTED=Boolean.valueOf(Common.getAttributeValue("nested", currentNode));
+		c.ROOTECLASSCANBENESTED=Boolean.valueOf(getAttributeValue("nested", currentNode));
 		
 		/**** Meta-Model Analysis / Post-Processing Phase **********************************************************/
 	
@@ -230,12 +231,12 @@ public class ConfigurationParser {
 			for(int i=0; i<currentChildNodes.getLength(); i++) {
 				if(currentChildNodes.item(i).getNodeName().equals("Mask")) {
 					Node maskNode = currentChildNodes.item(i);
-					String maskName = Common.getAttributeValue("name", maskNode);
-					String eClassName = Common.getAttributeValue("eClassifier", maskNode);
-					String eAttributeName = Common.getAttributeValue("eAttribute", maskNode);
-					String eAttributeValue = Common.getAttributeValue("eAttributeValue", maskNode);
+					String maskName = getAttributeValue("name", maskNode);
+					String eClassName = getAttributeValue("eClassifier", maskNode);
+					String eAttributeName = getAttributeValue("eAttribute", maskNode);
+					String eAttributeValue = getAttributeValue("eAttributeValue", maskNode);
 				
-					EClassifier maskContainer = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
+					EClassifier maskContainer = resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
 					EAttribute eAttribute = (EAttribute) ((EClass) maskContainer).getEStructuralFeature(eAttributeName);
 					EClassifier valueContainer = eAttribute.getEType();
 					EEnumLiteral valueLiteral = null;
@@ -259,12 +260,12 @@ public class ConfigurationParser {
 		NodeList c_nameUniqueness = doc.getElementsByTagName("NameUniqueness");
 		for(int i=0; i<=c_nameUniqueness.getLength()-1; i++) {
 			Node c = c_nameUniqueness.item(i);
-			String scope = String.valueOf(Common.getAttributeValue("scope", c));
-			String eClass = String.valueOf(Common.getAttributeValue("eClassifier", c));
-			String eAttributeName = String.valueOf(Common.getAttributeValue("eAttributeName", c));
-			Boolean eAttributeIsInherited = Boolean.valueOf(Common.getAttributeValue("eAttributeIsInherited", c));
-			Boolean overrideInheritedConstraints = Boolean.valueOf(Common.getAttributeValue("overrideInheritedConstraintsIfAny", c));
-			Boolean applyOnSubTypes = Boolean.valueOf(Common.getAttributeValue("applyOnSubTypes", c));
+			String scope = String.valueOf(getAttributeValue("scope", c));
+			String eClass = String.valueOf(getAttributeValue("eClassifier", c));
+			String eAttributeName = String.valueOf(getAttributeValue("eAttributeName", c));
+			Boolean eAttributeIsInherited = Boolean.valueOf(getAttributeValue("eAttributeIsInherited", c));
+			Boolean overrideInheritedConstraints = Boolean.valueOf(getAttributeValue("overrideInheritedConstraintsIfAny", c));
+			Boolean applyOnSubTypes = Boolean.valueOf(getAttributeValue("applyOnSubTypes", c));
 			EClass constrainedEClass = null;
 			EAttribute constrainedEAttribute = null;
 			
@@ -346,7 +347,7 @@ public class ConfigurationParser {
 
 					// resolve eProxyURI of referenced meta model
 					String absolutPathOfMetaModel = metaModel.eResource().getURI().toString();
-					String completePath = Common.convertEProxyURIToFilePath(targetedClassifier.toString(), absolutPathOfMetaModel);
+					String completePath = convertEProxyURIToFilePath(targetedClassifier.toString(), absolutPathOfMetaModel);
 
 					File ecoreFile = new File(completePath);
 
@@ -392,7 +393,7 @@ public class ConfigurationParser {
 		filter.setBlackList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringBlackList) {
-			EClassifier skip = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
+			EClassifier skip = resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
 			filter.getBlackList().add(skip);
 		}
 		
@@ -412,7 +413,7 @@ public class ConfigurationParser {
 		filter.setWhiteList(new ArrayList<EClassifier>());
 		
 		for(String eClassName: stringWhiteList) {
-			EClassifier eClassifier = Common.resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
+			EClassifier eClassifier = resolveStringAsEClassifier(eClassName, calculatedEPackagesStack);
 			filter.getWhiteList().add(eClassifier);
 		}
 	}
@@ -457,5 +458,60 @@ public class ConfigurationParser {
 		
 	}
 	
+	private String getAttributeValue(String attribName, org.w3c.dom.Node node) {
+
+		NamedNodeMap attribs = node.getAttributes();
+		for (int i = 0; i < attribs.getLength(); i++) {
+			if (attribs.item(i).getNodeName().equals(attribName)) {
+				return attribs.item(i).getNodeValue();
+			}
+		}
+
+		return null;
+	}
+	
+	private static EClassifier resolveStringAsEClassifier(String eClassifierName, Stack<EPackage> ePackagesStack)
+			throws EClassifierUnresolvableException {
+		EClassifier resolvedEClassifier = null;
+
+		for (EPackage ePackage : ePackagesStack) {
+			resolvedEClassifier = ePackage.getEClassifier(eClassifierName);
+			if (resolvedEClassifier != null) {
+				return resolvedEClassifier;
+			}
+		}
+		throw new EClassifierUnresolvableException(eClassifierName);
+	}
+	
+	/**
+	 * This method converts an unresolved EObject / EProxyURI into a correct
+	 * file path. e.g.
+	 * "org.something.de@1234 (eProxyURI: platform:/plugin/org.something.de/model/my.ecore#//someclassifier"
+	 * into "C:\myworkspace\org.something.de\model\my.ecore". The workspace
+	 * location needs to be given in as an argument (retrievable via run
+	 * configuration variable).
+	 * 
+	 * @param eProxyURIString
+	 * @param workspace_loc
+	 * @return
+	 */
+	private static String convertEProxyURIToFilePath(String eProxyURIString, String containingMetaModelPath) {
+
+		//TODO replace workspace_loc (in EProxyURIToFilePath converter)
+		// find out absolut path from containingMetaModelPath...
+		String formerWorkspacke_loc = "";
+		
+		// convert eProxyURI into correct plugin-path inside workspace
+		String proxyUri = eProxyURIString;
+		proxyUri = proxyUri.replaceFirst("[\\w\\.@\\s\\(:]*[plugin/]+/", ""); // org...(eProxyURI:
+																				// platform:/plugin/)
+		proxyUri = proxyUri.replaceFirst("#[\\/]{2}[\\w\\d]*[\\)]$", ""); // #//classifier)
+		String FILE_SEPERATOR = System.getProperty("file.separator");
+		if (!FILE_SEPERATOR.equals("/")) {
+			proxyUri = proxyUri.replace("/", "\\");
+		}
+
+		return formerWorkspacke_loc + FILE_SEPERATOR + proxyUri;
+	}
 	
 }

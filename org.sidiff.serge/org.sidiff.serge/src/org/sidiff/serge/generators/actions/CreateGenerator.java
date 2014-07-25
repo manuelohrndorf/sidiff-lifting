@@ -11,9 +11,9 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class CreateGenerator {
@@ -71,14 +71,14 @@ public class CreateGenerator {
 		module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Rule rule = Common.createBasicRule(module, containmentReference, child, contextClassifier, null, null, OperationType.CREATE);
+		Rule rule = ModuleInternalsApplicator.createBasicRule(module, containmentReference, child, contextClassifier, null, null, OperationType.CREATE);
 		Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 
 		// create mandatories if any
 		if(childInfo.hasMandatories()) {
 
-			Common.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);			
-			Common.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);
+			ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);			
+			ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);
 
 		}
 		

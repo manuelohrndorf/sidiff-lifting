@@ -7,9 +7,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class MoveReferenceCombinationGenerator {
@@ -87,7 +87,7 @@ public class MoveReferenceCombinationGenerator {
 		MOVE_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(MOVE_Module, oldEReference, eClassifier, oldContext, newEReference, newContext, OperationType.MOVE_REFERENCE_COMBINATION);
+		ModuleInternalsApplicator.createBasicRule(MOVE_Module, oldEReference, eClassifier, oldContext, newEReference, newContext, OperationType.MOVE_REFERENCE_COMBINATION);
 
 		return MOVE_Module;
 	}

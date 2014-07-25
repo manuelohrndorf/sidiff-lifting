@@ -79,8 +79,8 @@ public class TypeReplacer {
 
 					// create mandatories that might me necessary after replacements
 					EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
-					Common.createMandatoryChildren(rule, replacementInfo, nodeInCopy, opType, reduceToSuperType);
-					Common.createMandatoryNeighbours(rule, replacementInfo, nodeInCopy, opType, reduceToSuperType);
+					ModuleInternalsApplicator.createMandatoryChildren(rule, replacementInfo, nodeInCopy, opType, reduceToSuperType);
+					ModuleInternalsApplicator.createMandatoryNeighbours(rule, replacementInfo, nodeInCopy, opType, reduceToSuperType);
 
 					//Set a new name for this variant module (e.g. blabla_Variant1234)
 					long id = System.nanoTime();				

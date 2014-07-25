@@ -8,9 +8,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.configuration.GlobalConstants;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.silift.common.util.access.EMFMetaAccessEx;
 
@@ -65,7 +65,7 @@ public class ChangeReferenceGenerator {
 		CHANGE_REFERENCE_Module.getImports().addAll(config.EPACKAGESSTACK);
 
 		// create rule
-		Common.createBasicRule(CHANGE_REFERENCE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
+		ModuleInternalsApplicator.createBasicRule(CHANGE_REFERENCE_Module, reference, contextClass, target, null, null, OperationType.CHANGE_REFERENCE);
 
 		return CHANGE_REFERENCE_Module;
 	}

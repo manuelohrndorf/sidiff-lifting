@@ -13,7 +13,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.GlobalConstants;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.ModuleInternalsApplicator;
 
 public class SetAttributeGenerator {
 	
@@ -55,7 +55,7 @@ public class SetAttributeGenerator {
 		// create rule
 		Rule rule = HenshinFactory.eINSTANCE.createRule();
 		rule.setActivated(true);
-		rule.setName("set"+contextClassifier.getName()+Common.toCamelCase(eAttribute.getName()));
+		rule.setName("set"+contextClassifier.getName()+ModuleInternalsApplicator.toCamelCase(eAttribute.getName()));
 		rule.setDescription("Sets the EAttribute "+eAttribute.getName());
 		SET_ATTRIBUTE_Module.getUnits().add(rule);
 
@@ -64,12 +64,12 @@ public class SetAttributeGenerator {
 		Node rhsNode = selectedNodePair.getRhsNode();
 
 		// create attribute
-		HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, eAttribute, Common.toCamelCase(eAttribute.getName()));
+		HenshinRuleAnalysisUtilEx.createCreateAttribute(rhsNode, eAttribute, ModuleInternalsApplicator.toCamelCase(eAttribute.getName()));
 
 		// set module name and description
-		String name = GlobalConstants.SET_ATTRIBUTE_prefix + contextClassifier.getName() +"_"+Common.toCamelCase(eAttribute.getName());
+		String name = GlobalConstants.SET_ATTRIBUTE_prefix + contextClassifier.getName() +"_"+ModuleInternalsApplicator.toCamelCase(eAttribute.getName());
 		SET_ATTRIBUTE_Module.setName(name);
-		SET_ATTRIBUTE_Module.setDescription("Sets "+contextClassifier.getName()+" "+Common.toCamelCase(eAttribute.getName()));
+		SET_ATTRIBUTE_Module.setDescription("Sets "+contextClassifier.getName()+" "+ModuleInternalsApplicator.toCamelCase(eAttribute.getName()));
 		
 		return SET_ATTRIBUTE_Module;
 	}

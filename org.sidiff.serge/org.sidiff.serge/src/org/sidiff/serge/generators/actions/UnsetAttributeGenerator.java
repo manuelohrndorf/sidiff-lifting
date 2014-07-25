@@ -4,7 +4,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration.OperationType;
-import org.sidiff.serge.core.Common;
+import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class UnsetAttributeGenerator {
@@ -24,8 +24,11 @@ public class UnsetAttributeGenerator {
 
 	public Module generate() throws OperationTypeNotImplementedException {
 		
-		Module UNSET_ATTRIBUTE_Module = Common.createInverse(inputSetModule, OperationType.SET_ATTRIBUTE);
-		LogUtil.log(LogEvent.NOTICE, "Generating UNSET_ATTRIBUTE : " + UNSET_ATTRIBUTE_Module.getName());
+		InverseGenerator inverseGenerator = new InverseGenerator(inputSetModule, OperationType.SET_ATTRIBUTE);
+		LogUtil.log(LogEvent.NOTICE, "Generating UNSET_ATTRIBUTE : " 
+									+ inputSetModule.getName().replace(GlobalConstants.SET_ATTRIBUTE_prefix, GlobalConstants.UNSET_ATTRIBUTE_prefix));
+		Module UNSET_ATTRIBUTE_Module = inverseGenerator.generate();
+		
 		
 		return UNSET_ATTRIBUTE_Module;
 	}

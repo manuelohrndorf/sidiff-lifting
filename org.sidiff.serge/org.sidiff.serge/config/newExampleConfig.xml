@@ -15,9 +15,9 @@
 			MOVE_UP="true"
 			SET_UNSET_ATTRIBUTE="true"
 			SET_UNSET_REFERENCE="true" />
-		<disableVariantsWithSupertypeReplacement value="false" />
+		<disableVariantsWithSupertypeReplacement value="true" />
 		<modelUsesProfileMechanism value="false" />
-		<createAllAttributes value="true" />
+		<createAllAttributes value="false" />
 	</GeneralSettings>
 	<MetaModelSettings>
 		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
@@ -45,7 +45,7 @@
 	<Transformations>
 		<Creates allow="true" />
 		<Deletes allow="true" />
-		<Moves allow="true" allowReferenceSwitching="true" allowReferenceCombinations="true" />
+		<Moves allow="true" allowReferenceSwitching="false" allowReferenceCombinations="false" />
 		<MoveUps allow="true"/>
 		<MoveDowns allow="true"/>
 		<SetAttributes allow="true" />
@@ -58,7 +58,7 @@
 		<ChangeReferences allow="true" />
 	</Transformations>
 	
-	<Root name="StateMachine" nested="true" />
+	<Root name="Model" nested="true" />
 	<WhiteList>
 	
 	<!-- 
@@ -70,16 +70,21 @@
 		<EClassifier name="LiteralBoolean" />
 		<EClassifier name="LiteralString" />		
 		<EClassifier name="OpaqueBehavior" />
-	 -->
+	 
 		<EClassifier name="Package" />		
 		<EClassifier name="Pseudostate" />
 		<EClassifier name="Region" />
 		<EClassifier name="State" />
 		<EClassifier name="StateMachine" />
 		<EClassifier name="Transition" />		
+		-->
 	</WhiteList>
 	<BlackList>	
 		<!--  Using "Constraint"(UML) is not adviced when MOVEs, which include switching of references, are enabled -->
 		<!--  <EClassifier name="Constraint" /> -->
+		 <EClassifier name="Constraint" />
+		  <EClassifier name="ActionInputPin" />
+		   <EClassifier name="ValuePin" />
+		    <EClassifier name="Pin" />
 	</BlackList>
 </Config>

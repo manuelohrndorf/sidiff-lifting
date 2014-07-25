@@ -64,7 +64,7 @@ public class SergeWizardPage1 extends WizardPage {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.verticalSpacing = 9;
+//		layout.verticalSpacing = 9;
 		initialize();
 		//dialogChanged();
 		setControl(container);
@@ -78,13 +78,13 @@ public class SergeWizardPage1 extends WizardPage {
 		Group grpOutputPaths = new Group(container, SWT.NONE);
 		grpOutputPaths.setLayout(new GridLayout(1, false));
 		GridData gd_grpOutputPaths = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-		gd_grpOutputPaths.widthHint = 394;
+//		gd_grpOutputPaths.widthHint = 394;
 		grpOutputPaths.setLayoutData(gd_grpOutputPaths);
 		grpOutputPaths.setText("Output");
 		
 		Composite composite = new Composite(grpOutputPaths, SWT.NONE);
 		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_composite.widthHint = 380;
+//		gd_composite.widthHint = 380;
 		composite.setLayoutData(gd_composite);
 		composite.setLayout(new GridLayout(3, false));
 		
@@ -120,14 +120,14 @@ public class SergeWizardPage1 extends WizardPage {
 		
 		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
 		GridData gd_grpMetamodelSpecificConfiguration = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-		gd_grpMetamodelSpecificConfiguration.widthHint = 383;
+//		gd_grpMetamodelSpecificConfiguration.widthHint = 383;
 		grpMetamodelSpecificConfiguration.setLayoutData(gd_grpMetamodelSpecificConfiguration);
 		grpMetamodelSpecificConfiguration.setText("Metamodel Specific Configuration");
 		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
 		
 		Composite composite_1 = new Composite(grpMetamodelSpecificConfiguration, SWT.NONE);
 		GridData gd_composite_1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_composite_1.widthHint = 383;
+//		gd_composite_1.widthHint = 383;
 		composite_1.setLayoutData(gd_composite_1);
 		composite_1.setLayout(new GridLayout(5, false));
 		
@@ -153,7 +153,7 @@ public class SergeWizardPage1 extends WizardPage {
 		});
 		
 		GridData gd_btnBrowseConfig = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnBrowseConfig.widthHint = 75;
+//		gd_btnBrowseConfig.widthHint = 75;
 		btnBrowseConfig.setLayoutData(gd_btnBrowseConfig);
 		btnBrowseConfig.setText("Browse");		
 		
