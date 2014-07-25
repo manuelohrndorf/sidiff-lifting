@@ -18,12 +18,15 @@ import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.ConfigurationParser;
 import org.sidiff.serge.core.ConstraintApplicator;
+import org.sidiff.serge.core.InverseModuleMapper;
+import org.sidiff.serge.core.InverseModuleMapSerializer;
 import org.sidiff.serge.core.MainUnitApplicator;
 import org.sidiff.serge.core.MetaModelElementVisitor;
 import org.sidiff.serge.core.ModuleSerializer;
 import org.sidiff.serge.core.NameMapper;
 import org.sidiff.serge.core.RuleParameterApplicator;
 import org.sidiff.serge.exceptions.EPackageNotFoundException;
+import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.filter.DuplicateFilter;
 import org.sidiff.serge.filter.ElementFilter;
 import org.sidiff.serge.filter.ExecutableFilter;
@@ -73,8 +76,9 @@ public class Serge {
 	
 	/**
 	 * Method to start the generation process.
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public void generate() throws EPackageNotFoundException {
+	public void generate() throws EPackageNotFoundException, OperationTypeNotImplementedException {
 
 		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
@@ -104,13 +108,27 @@ public class Serge {
 				duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
 			}
 			
+			// Rule Parameter Application
+			
 			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 			RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
 			ruleParameterApplicator.applyOn(allModules);
 			
+			// MainUnit Application
+			
 			LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
 			MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 			mainUnitApplicator.applyOn(allModules);
+			
+			// InverseModulePair collection and log serialization
+			
+			if(config.ENABLE_INVERSE_MAPPING) {
+				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
+				InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
+				inverseModuleMapper.findAndMapInversePairs(allModules);
+				InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
+				inverseModuleSerializer.serialize(inverseModuleMapper);
+			}
 			
 			// Name Mapping and Serialization...
 			
@@ -126,10 +144,12 @@ public class Serge {
 				nameMapper.replaceNames();
 			}
 			
+			// Serialize modules
+			
 			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 			ModuleSerializer serializer = new ModuleSerializer(settings);
 			serializer.serialize(moduleSet);
-		
+			
 			LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
 			
 		}else{

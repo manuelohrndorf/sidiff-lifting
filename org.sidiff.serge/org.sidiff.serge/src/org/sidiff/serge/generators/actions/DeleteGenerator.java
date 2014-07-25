@@ -3,8 +3,11 @@ package org.sidiff.serge.generators.actions;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.core.Common;
+import org.sidiff.serge.core.InverseModuleMapper;
+import org.sidiff.serge.core.InverseModuleMapSerializer;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 public class DeleteGenerator {
@@ -14,6 +17,11 @@ public class DeleteGenerator {
 	 */
 	private Module createModule;
 
+	/**
+	 * Configuration access
+	 */
+	private Configuration config = Configuration.getInstance();
+	
 	/**
 	 * Constructor
 	 * @param createModule
@@ -29,7 +37,7 @@ public class DeleteGenerator {
 		Module inverseModule = Common.createInverse(createModule, OperationType.CREATE);
 		LogUtil.log(LogEvent.NOTICE, "Generating DELETE : " + inverseModule.getName());			
 		Common.replaceNewsWithToBeDeleted(inverseModule);
-		
+			
 		return inverseModule;
 	}
 }

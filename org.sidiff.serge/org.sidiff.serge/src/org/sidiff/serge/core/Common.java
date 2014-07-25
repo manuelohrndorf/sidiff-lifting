@@ -1,8 +1,13 @@
 package org.sidiff.serge.core;
 
+import java.awt.PageAttributes.OriginType;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.EList;
@@ -629,4 +634,67 @@ public class Common {
 		return inverse;
 	}
 
+	public static Set<Map<Module,Module>> getInverseModulesByName(Set<Module> sm1, Set<Module> sm2, OperationType orginalOPType) {
+		
+		Set<Map<Module,Module>> pairs = new HashSet<Map<Module,Module>>();
+		
+		switch(orginalOPType) {
+
+			case CREATE:
+				for(Module m1: sm1) {
+					for(Module m2: sm2) {
+						String name1 = m1.getName();
+						String expectedName2 = name1.replaceFirst(GlobalConstants.CREATE_prefix, GlobalConstants.DELETE_prefix);
+						if(m2.getName().equals(expectedName2)) {
+							Map<Module,Module> pair = new HashMap<Module, Module>();
+							pair.put(m1,m2);
+							pairs.add(pair);
+							break;
+						}
+					}
+				}
+			case ADD:		
+				for(Module m1: sm1) {
+					for(Module m2: sm2) {
+						String name1 = m1.getName();
+						String expectedName2 = name1.replaceFirst(GlobalConstants.ADD_prefix, GlobalConstants.REMOVE_prefix);
+						if(m2.getName().equals(expectedName2)) {
+							Map<Module,Module> pair = new HashMap<Module, Module>();
+							pair.put(m1,m2);
+							pairs.add(pair);
+							break;
+						}
+					}
+				}
+	
+			case SET_ATTRIBUTE:	
+				for(Module m1: sm1) {
+					for(Module m2: sm2) {
+						String name1 = m1.getName();
+						String expectedName2 = name1.replaceFirst(GlobalConstants.SET_ATTRIBUTE_prefix, GlobalConstants.UNSET_ATTRIBUTE_prefix);
+						if(m2.getName().equals(expectedName2)) {
+							Map<Module,Module> pair = new HashMap<Module, Module>();
+							pair.put(m1,m2);
+							pairs.add(pair);
+							break;
+						}
+					}
+				}
+	
+			case SET_REFERENCE:		
+				for(Module m1: sm1) {
+					for(Module m2: sm2) {
+						String name1 = m1.getName();
+						String expectedName2 = name1.replaceFirst(GlobalConstants.SET_REFERENCE_prefix, GlobalConstants.UNSET_REFERENCE_prefix);
+						if(m2.getName().equals(expectedName2)) {
+							Map<Module,Module> pair = new HashMap<Module, Module>();
+							pair.put(m1,m2);
+							pairs.add(pair);
+							break;
+						}
+					}
+				}	
+		}
+		return pairs;
+	}
 }

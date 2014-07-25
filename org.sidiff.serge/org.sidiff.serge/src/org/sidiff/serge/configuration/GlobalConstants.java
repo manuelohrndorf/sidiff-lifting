@@ -34,4 +34,6 @@ public interface GlobalConstants {
 	public static final String NEWSRC	= "NewSource";
 	public static final String OLDTGT		= "OldTarget";
 	public static final String OLDSRC	= "OldSource";
+	
+	public static final String UNITNAME = "mainUnit";
 }

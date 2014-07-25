@@ -20,6 +20,7 @@ public class Configuration {
 	public boolean ENABLE_DUPLICATE_FILTER = true;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
 	public boolean ENABLE_NAME_MAPPER = true;
+	public boolean ENABLE_INVERSE_MAPPING = true;
 	
 	// Meta-model dependend configurations
 	
