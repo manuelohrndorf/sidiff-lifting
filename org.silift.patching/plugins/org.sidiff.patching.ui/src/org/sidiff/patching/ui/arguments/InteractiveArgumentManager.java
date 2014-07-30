@@ -110,14 +110,12 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
-			IModifiedDetector modifiedDetector) {
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
 		this.scope = scope;
 		this.patchMode = patchMode;
-		this.modDetector = modifiedDetector;
 
 		// now we initialize the internal state...
 
@@ -170,14 +168,22 @@ public class InteractiveArgumentManager implements IArgumentManager {
 	}
 
 	@Override
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
+			IModifiedDetector modifiedDetector) {
+
+		init(patch, targetModel, scope, patchMode);
+		this.modDetector = modifiedDetector;
+	}
+
+	@Override
 	public ArgumentWrapper getArgument(ParameterBinding binding) {
 		return argumentResolutions.get(binding);
 	}
-	
+
 	@Override
-	public void setArgument(ValueParameterBinding binding, Object value){
-		ValueArgumentWrapper argWrapper = (ValueArgumentWrapper)argumentResolutions.get(binding);
-		argWrapper.setValue((String)value);
+	public void setArgument(ValueParameterBinding binding, Object value) {
+		ValueArgumentWrapper argWrapper = (ValueArgumentWrapper) argumentResolutions.get(binding);
+		argWrapper.setValue((String) value);
 	}
 
 	@Override
@@ -295,7 +301,7 @@ public class InteractiveArgumentManager implements IArgumentManager {
 
 	@Override
 	public boolean isModified(EObject targetObject) {
-		if(modDetector != null){
+		if (modDetector != null) {
 			return modDetector.isModified(targetObject);
 		}
 		return false;

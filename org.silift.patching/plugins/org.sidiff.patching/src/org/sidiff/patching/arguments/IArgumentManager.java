@@ -27,6 +27,8 @@ public interface IArgumentManager {
 
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, IModifiedDetector modifiedDetector);
 
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode);
+	
 	/**
 	 * For a given parameter binding of the patch, this method returns the
 	 * corresponding argument wrapper for the target model.
