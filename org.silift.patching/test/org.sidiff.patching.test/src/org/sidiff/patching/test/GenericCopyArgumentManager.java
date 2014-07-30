@@ -6,8 +6,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.silift.common.util.emf.Scope;
+import org.silift.patching.settings.PatchMode;
 
 public class GenericCopyArgumentManager extends AbstractBatchArgumentManager {
 
@@ -27,7 +29,7 @@ public class GenericCopyArgumentManager extends AbstractBatchArgumentManager {
 		target = resourceSet.createResource(uri);
 		target.getContents().add(copier.get(difference.getSymmetric().getModelA().getContents().get(0)));
 		
-		init(difference.getAsymmetric(), target, Scope.RESOURCE);
+		init(difference.getAsymmetric(), target, Scope.RESOURCE, PatchMode.PATCHING);
 	}
 	
 	@Override

@@ -25,8 +25,6 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.PatchEngine.ExecutionMode;
-import org.sidiff.patching.PatchEngine.PatchMode;
 import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.ReportEntry;
@@ -40,9 +38,12 @@ import org.sidiff.patching.test.smg.SMGFileManager.TestFileGroup;
 import org.sidiff.patching.test.sysml.SysMLResourceFactory;
 import org.sidiff.patching.test.sysml.SysMLTestSuitBuilder;
 import org.sidiff.patching.validation.IValidationError;
-import org.sidiff.patching.validation.ValidationMode;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
+import org.silift.patching.settings.ExecutionMode;
+import org.silift.patching.settings.PatchMode;
+import org.silift.patching.settings.PatchingSettings;
+import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 public class PatchEvaluationApplication implements IApplication {
 
@@ -139,10 +140,29 @@ public class PatchEvaluationApplication implements IApplication {
 		for (TestSuite testSuite : testSuites) {
 
 			LogUtil.log(LogEvent.NOTICE, "Testing " + testSuite.getId());
+
+			PatchingSettings patchingSettings = new PatchingSettings();
+			patchingSettings.setArgumentManager(testSuite.getCorrespondence());
+			// patchingSettings.setBuildGraphPerRule(buildGraphPerRule);
+			patchingSettings.setExecutionMode(ExecutionMode.BATCH);
+			;
+			patchingSettings.setInterruptHandler(testSuite.getPatchInterruptHandler());
+			// patchingSettings.setMatcher(matcher);
+			// patchingSettings.setMinReliability(minReliability);
+			// patchingSettings.setModifiedDetector(modifiedDetector);
+			// patchingSettings.setNumberOfThreads(numberOfThreads);
+			patchingSettings.setPatchMode(PatchMode.PATCHING);
+			// patchingSettings.setRuleBases(ruleBases);
+			// patchingSettings.setRuleSetReduction(ruleSetReduction);
+			// patchingSettings.setRulesPerThread(rulesPerThread);
+			patchingSettings.setScope(Scope.RESOURCE);
+			// patchingSettings.setTechBuilder(techBuilder);
+			patchingSettings.setTransformationEngine(testSuite.getTransformationEngine());
+			// patchingSettings.setUseThreadPool(useThreadPool);
+			patchingSettings.setValidationMode(ValidationMode.ITERATIVE_VALIDATION);
+
 			PatchEngine patchEngine = new PatchEngine(testSuite.getAsymmetricDifference(), testSuite
-					.getCorrespondence().getTargetModel(), testSuite.getCorrespondence(),
-					testSuite.getTransformationEngine(), ExecutionMode.BATCH, PatchMode.PATCHING, ValidationMode.ITERATIVE, Scope.RESOURCE,
-					false, testSuite.getPatchInterruptHandler());
+					.getCorrespondence().getTargetModel(), patchingSettings);
 			buffer.append("--- Test " + testSuite.getId() + " ---\n");
 			LogUtil.log(LogEvent.NOTICE, "Applying patch");
 
@@ -158,7 +178,7 @@ public class PatchEvaluationApplication implements IApplication {
 
 			// Time to apply patch
 			long start = System.currentTimeMillis();
-			patchEngine.applyPatch();
+			patchEngine.applyPatch(true);
 
 			long delta = System.currentTimeMillis() - start;
 			LogUtil.log(LogEvent.NOTICE, "Time to apply: " + delta + "ms");
@@ -293,7 +313,7 @@ public class PatchEvaluationApplication implements IApplication {
 		if (SAVE_OPERATION_DISTRIBUTION) {
 			distribution.toCSV(modelFolder.getAbsolutePath() + "/distribution.csv");
 		}
-		
+
 		// Generate PieChart
 		// String filename = modelFolder.getAbsolutePath() + "/charts/" +
 		// "SiLiftPipeLine_timeRatio.png";

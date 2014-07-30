@@ -11,13 +11,17 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.silift.common.util.emf.Scope;
+import org.silift.modifieddetector.IModifiedDetector;
+import org.silift.patching.settings.PatchMode;
 
 public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 
-	private Map<ObjectParameterBinding, ArgumentWrapper> argumentResolutions;
+	private Map<ObjectParameterBinding, ObjectArgumentWrapper> argumentResolutions;
 
 	/**
 	 * Template method which is to be implemented by subclasses.
@@ -35,27 +39,32 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 	protected abstract EObject resolve(EObject originObject);
 
 	@Override
-	public ArgumentWrapper getArgument(ObjectParameterBinding binding) {
+	public ArgumentWrapper getArgument(ParameterBinding binding) {
 		if (argumentResolutions.get(binding) != null) {
 			return argumentResolutions.get(binding);
 		}
 
-		ArgumentWrapper argument = new ArgumentWrapper(binding);
-		argument.resolveTo(resolve(binding.getActualA()));
-		argumentResolutions.put(binding, argument);
+		ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
+		ObjectArgumentWrapper argument = new ObjectArgumentWrapper(objBinding, this);
+		argument.resolveTo(resolve(objBinding.getActualA()));
+		argumentResolutions.put(objBinding, argument);
 
 		return argument;
 	}
 
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, IModifiedDetector modifiedDetector) {
+		init(patch, targetModel, scope, patchMode);
+	};
+	
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope) {
+	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
 		// init argument wrappers and provide initial resolutions
-		argumentResolutions = new HashMap<ObjectParameterBinding, ArgumentWrapper>();
+		argumentResolutions = new HashMap<ObjectParameterBinding, ObjectArgumentWrapper>();
 		for (OperationInvocation invocation : patch.getOperationInvocations()) {
 			for (ParameterBinding binding : invocation.getParameterBindings()) {
 				if (binding instanceof ObjectParameterBinding){
 					ObjectParameterBinding objBinding = (ObjectParameterBinding) binding;
-					ArgumentWrapper arg = new ArgumentWrapper(objBinding);
+					ObjectArgumentWrapper arg = new ObjectArgumentWrapper(objBinding, this);
 					if (objBinding.getActualA() != null){
 						// try to resolve originObject
 						EObject targetObject = resolve(objBinding.getActualA());
@@ -88,6 +97,12 @@ public abstract class AbstractBatchArgumentManager implements IArgumentManager {
 		// not needed in batch mode
 	}
 
+	@Override
+	public void setArgument(ValueParameterBinding binding, Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void removeTargetObject(EObject targetObject) {
 		// not needed in batch mode

@@ -78,7 +78,7 @@ public class OperationDistribution {
 		distribution.get(evolScenario).put(opName, ++sum);
 	}
 	
-	private String getOperationName(OperationInvocation op){
-		return op.getEditRule().getExecuteMainUnit().getModule().getName();
+	private String getOperationName(OperationInvocation op){		
+		return op.resolveEditRule().getExecuteMainUnit().getModule().getName();
 	}
 }

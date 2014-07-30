@@ -20,9 +20,8 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffSettings;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.LiftingSettings;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.test.BatchInterruptHandler;
@@ -49,10 +48,9 @@ public class FileToModelConverter {
 			Resource modified = getResource(resourceSet, testFileGroup.modified);
 
 			String documentType = EMFModelAccess.getDocumentType(original);
-			LiftingSettings liftingSettings = new LiftingSettings(documentType);
-			AsymmetricDiffSettings settings = new AsymmetricDiffSettings(liftingSettings);
-			settings.setMatcher(new SMGMatcher(getCorrespondences(resourceSet, testFileGroup.matching)));
-			Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, settings);
+			LiftingSettings liftingSettings = new LiftingSettings(documentType);			
+			liftingSettings.setMatcher(new SMGMatcher(getCorrespondences(resourceSet, testFileGroup.matching)));
+			Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, liftingSettings);
 
 			SMGPatchCorrespondence correspondence = new SMGPatchCorrespondence(difference.getAsymmetric().getOriginModel());
 			
