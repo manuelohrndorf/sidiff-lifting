@@ -50,7 +50,6 @@ public class PatchEngine {
 
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
-	private Boolean reliabilitiesComputed;
 	private ExecutionMode executionMode;
 	private PatchMode patchMode;
 
@@ -80,8 +79,7 @@ public class PatchEngine {
 		this.patchedResource = patchedResource;
 		this.modifiedDetector = settings.getModifiedDetector();
 		this.argumentManager = settings.getArgumentManager();
-		this.transformationEngine = settings.getTransformationEngine();
-		this.reliabilitiesComputed = settings.getMatcher().canComputeReliability();
+		this.transformationEngine = settings.getTransformationEngine();		
 		this.executionMode = settings.getExecutionMode();
 		this.patchMode = settings.getPatchMode();		
 		
@@ -491,10 +489,6 @@ public class PatchEngine {
 
 	public PatchReportManager getPatchReportManager() {
 		return reportManager;
-	}
-
-	public Boolean getReliabilitiesComputed() {
-		return reliabilitiesComputed;
 	}
 
 	public Resource getPatchedResource() {

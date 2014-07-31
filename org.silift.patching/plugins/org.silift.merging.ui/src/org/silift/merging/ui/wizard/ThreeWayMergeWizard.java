@@ -74,38 +74,39 @@ public class ThreeWayMergeWizard extends Wizard {
 	private MergeModels mergeModels;
 	private boolean validationState;
 	private PatchingSettings patchingSettings;
+	private LiftingSettings liftingSettings;
 
 	// Symmetric and asymmetric difference:
 	Difference fullDiff = null;
-	
+
 	public ThreeWayMergeWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
 		this.setWindowTitle("Three-Way-Merge Wizard");
-		
+
 		this.mergeModels = new MergeModels(fileMine, fileTheirs, fileBase);
 		this.patchingSettings = new PatchingSettings();
+		this.liftingSettings = new LiftingSettings();
 	}
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels,
-				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), patchingSettings);
+		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels, "ThreeWayMergePage", "Merge three models",
+				getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage01);
-		
-		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
-				"ThreeWayMergePage", "Merge three models", getImageDescriptor("icon.png"), patchingSettings);
+
+		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels, "ThreeWayMergePage", "Merge three models",
+				getImageDescriptor("icon.png"), liftingSettings, patchingSettings);
 		addPage(threeWayMergePage02);
 	}
 
-	
 	@Override
 	public boolean canFinish() {
-		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete() ;
+		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete();
 	}
-	
-	private void finish(){
+
+	private void finish() {
 		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 		patchingSettings.setPatchMode(PatchMode.MERGING);
-		
+
 		// Gather all information
 		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
 		final Scope scope = patchingSettings.getScope();
@@ -127,10 +128,10 @@ public class ThreeWayMergeWizard extends Wizard {
 				try {
 					monitor.beginTask("Merging", 120);
 					monitor.subTask("Creating a patch between BASE<->THEIRS");
-					
+
 					// Start difference calculations:
 					fullDiff = calculateDifference(resourceA, resourceB);
-					
+
 					if (fullDiff == null) {
 						return Status.CANCEL_STATUS;
 					}
@@ -142,19 +143,21 @@ public class ThreeWayMergeWizard extends Wizard {
 					ResourceSet diagramResourceSet = PatchCreator.deriveDiagrammFile(targetResource);
 					String savePath = EMFStorage.uriToPath(targetResource.getURI());
 					savePath = savePath.replace(targetResource.getURI().lastSegment(), "merged");
-					EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
+					EMFStorage.eSaveAs(
+							EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
 							targetResource.getContents().get(0), true);
-					
+
 					String filePath = savePath + separator + targetResource.getURI().lastSegment();
 
 					if (!diagramResourceSet.getResources().isEmpty()) {
-						filePath+= "diag";			
+						filePath += "diag";
 						for (Resource resource : diagramResourceSet.getResources()) {
-							EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()),
+							EMFStorage.eSaveAs(
+									EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()),
 									resource.getContents().get(0), false);
 						}
 					}
-					
+
 					final String finalFilePath = filePath;
 
 					final File fileToOpen = new File(finalFilePath);
@@ -175,7 +178,7 @@ public class ThreeWayMergeWizard extends Wizard {
 									resource = editor.getDiagram().getElement().eResource();
 									editingDomain = editor.getEditingDomain();
 
-									if(finalFilePath.endsWith("diag")){
+									if (finalFilePath.endsWith("diag")) {
 										GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
 									}
 								} else if (editorPart instanceof IEditingDomainProvider) {
@@ -184,18 +187,20 @@ public class ThreeWayMergeWizard extends Wizard {
 									editingDomain = editor.getEditingDomain();
 								}
 								resourceResult.set(resource);
-								if (validationMode != ValidationMode.NO_VALIDATION){
-									//TODO: Nur Multiplicity-Check (hat nichts mit validationMode zu tun)
+								if (validationMode != ValidationMode.NO_VALIDATION) {
+									// TODO: Nur Multiplicity-Check (hat nichts
+									// mit validationMode zu tun)
 									// EMFValidate.validateObject(resourceResult.get().getContents().get(0));
 								}
-								validationState = true;								
+								validationState = true;
 							} catch (PartInitException e) {
 								e.printStackTrace();
-							} 
-//							catch (InvalidModelException e) {
-//								ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-//								validationState = false;
-//							}
+							}
+							// catch (InvalidModelException e) {
+							// ValidateDialog.openErrorDialog(Activator.PLUGIN_ID,
+							// e);
+							// validationState = false;
+							// }
 						}
 					});
 					if (!validationState) {
@@ -226,17 +231,20 @@ public class ThreeWayMergeWizard extends Wizard {
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
 					patchingSettings.setInterruptHandler(patchInterruptHandler);
 					// Get modified detector
-					IModifiedDetector modifiedDetector = ModifiedDetectorUtil.getAvailableModifiedDetector(documentType);
+					IModifiedDetector modifiedDetector = ModifiedDetectorUtil
+							.getAvailableModifiedDetector(documentType);
 					patchingSettings.setModifiedDetector(modifiedDetector);
-					//Init detector if available
-					if(modifiedDetector != null){
-						modifiedDetector.init(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher, scope);
+					// Init detector if available
+					if (modifiedDetector != null) {
+						modifiedDetector.init(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher,
+								scope);
 					}
-					
-					monitor.subTask("Initialize PatchEngine");					
-					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(), patchingSettings);
 
-					if(finalFilePath.endsWith("diag")){
+					monitor.subTask("Initialize PatchEngine");
+					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
+							patchingSettings);
+
+					if (finalFilePath.endsWith("diag")) {
 						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
 
 							@Override
@@ -249,7 +257,7 @@ public class ThreeWayMergeWizard extends Wizard {
 								// TODO Auto-generated method stub
 
 							}
-						});	
+						});
 					}
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
@@ -262,15 +270,22 @@ public class ThreeWayMergeWizard extends Wizard {
 						@Override
 						public void run() {
 							try {
-								Activator.getDefault().getWorkbench().showPerspective(SiLiftPerspective.ID,  PlatformUI.getWorkbench().getActiveWorkbenchWindow()); 
-								
-								//Opening and setting operation explorer view
-								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OperationExplorerView.ID);
+								Activator
+										.getDefault()
+										.getWorkbench()
+										.showPerspective(SiLiftPerspective.ID,
+												PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+
+								// Opening and setting operation explorer view
+								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+										.showView(OperationExplorerView.ID);
 								operationExplorerView.setPatchEngine(patchEngine);
 								operationExplorerViewReference.set(operationExplorerView);
-								
-								//Opening and setting report view
-								ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
+
+								// Opening and setting report view
+								ReportView reportView = (ReportView) PlatformUI.getWorkbench()
+										.getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
 								reportView.setPatchReportManager(patchEngine.getPatchReportManager());
 								reportViewReference.set(reportView);
 							} catch (PartInitException e) {
@@ -302,39 +317,38 @@ public class ThreeWayMergeWizard extends Wizard {
 		};
 		job.schedule();
 	}
-	
+
 	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
 		Difference fullDiff = null;
-		
-		// Create the lifting settings from the patching settings:
-		LiftingSettings liftingSettings  = new LiftingSettings(
-				patchingSettings.getScope(), 
-				patchingSettings.getMatcher(),
-				patchingSettings.getTechBuilder(),
-				patchingSettings.getRuleBases(),
-				patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false : true,
-				RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
-		
-		try{
+
+		// Init the lifting settings from the patching settings:
+		liftingSettings.setScope(patchingSettings.getScope());
+		liftingSettings.setMatcher(patchingSettings.getMatcher());
+		liftingSettings.setRuleBases(patchingSettings.getRuleBases());
+		liftingSettings
+				.setValidate(patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false : true);
+		liftingSettings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
+
+		try {
 			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
-		} catch(InvalidModelException e){
+		} catch (InvalidModelException e) {
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-			
+
 			if (skipValidation) {
 				// Retry without validation:
 				patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
 		}
-		
+
 		if (fullDiff != null) {
 			PipelineUtils.sortDifference(fullDiff.getSymmetric());
 		}
-		
+
 		return fullDiff;
 	}
-	
+
 	@Override
 	public boolean performFinish() {
 		try {
@@ -352,7 +366,6 @@ public class ThreeWayMergeWizard extends Wizard {
 
 		return true;
 	}
-
 
 	protected ImageDescriptor getImageDescriptor(String name) {
 		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(Activator.PLUGIN_ID),

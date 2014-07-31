@@ -14,6 +14,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
@@ -40,31 +41,33 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 	private SelectionAdapter informationListener;
 
 	private MergeModels mergeModels;
-	
-	private PatchingSettings settings;
-	
-	public ThreeWayMergePage02(
-			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
+
+	private PatchingSettings patchingSettings;
+	private LiftingSettings liftingSettings;
+
+	public ThreeWayMergePage02(MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
+			LiftingSettings liftingSettings, PatchingSettings settings) {
 		super(pageName, title, titleImage);
-		
+
 		this.mergeModels = mergeModels;
+
+		this.patchingSettings = settings;
+		this.liftingSettings = liftingSettings;
 		
-		this.settings = settings;
 		// Listen for validation failures:
-		validationListener =
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						validate();
-					}
-				};
-				// Listen for widget information messages:
-				informationListener = new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						readInformationMessages();
-					}
-				};
+		validationListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				validate();
+			}
+		};
+		// Listen for widget information messages:
+		informationListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				readInformationMessages();
+			}
+		};
 	}
 
 	@Override
@@ -113,13 +116,15 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 		validate();
 
 		// Set dialog message:
-		/* Note: Needed to force correct layout for scrollbar!? *
-		 *       Set at least to setMessage(" ")!               */
+		/*
+		 * Note: Needed to force correct layout for scrollbar!? * Set at least
+		 * to setMessage(" ")!
+		 */
 		setMessage(DEFAULT_MESSAGE);
-		
+
 		// Initialize information message:
 		readInformationMessages();
-		
+
 	}
 
 	private void createWidgets() {
@@ -139,23 +144,25 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
-		matcherWidget.setSettings(this.settings);
+		matcherWidget = new MatchingEngineWidget(
+				new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+		matcherWidget.setSettings(this.patchingSettings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
 
-		//Reliability
+		// Reliability
 		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
-		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget.setSettings(this.patchingSettings);
 		addWidget(algorithmsGroup, reliabilityWidget);
-		
+
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
-		builderWidget.setSettings(this.settings);
-// FIXME		
-//		if (builderWidget.getDifferenceBuilders().size() > 1) {
-//			addWidget(algorithmsGroup, builderWidget);
-//		}
+		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(),
+				mergeModels.getFileTheirs()));
+		builderWidget.setSettings(this.liftingSettings);
+		// FIXME
+		// if (builderWidget.getDifferenceBuilders().size() > 1) {
+		// addWidget(algorithmsGroup, builderWidget);
+		// }
 		addWidget(algorithmsGroup, builderWidget);
 	}
 
@@ -191,11 +198,10 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 		if (builderWidget.getDifferenceBuilders().size() > 1) {
 			return builderWidget.getSelection();
 		} else {
-			return builderWidget.getDifferenceBuilders().values()
-					.toArray(new ITechnicalDifferenceBuilder[0])[0];
+			return builderWidget.getDifferenceBuilders().values().toArray(new ITechnicalDifferenceBuilder[0])[0];
 		}
 	}
-	
+
 	private void readInformationMessages() {
 		if ((getErrorMessage() == null) || getErrorMessage().equals("")) {
 			setMessage(reliabilityWidget.getInformationMessage(), IMessageProvider.INFORMATION);
@@ -212,11 +218,12 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 	public MatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
 	}
-	
-	public int getReliability(){
+
+	public int getReliability() {
 		return reliabilityWidget.getReliability();
 	}
-	public ReliabilityWidget getReliabilityWidget(){
+
+	public ReliabilityWidget getReliabilityWidget() {
 		return reliabilityWidget;
 	}
 
