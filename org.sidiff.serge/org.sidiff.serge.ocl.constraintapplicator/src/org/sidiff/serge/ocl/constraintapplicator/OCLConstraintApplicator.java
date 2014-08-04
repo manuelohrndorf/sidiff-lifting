@@ -14,13 +14,25 @@ import org.sidiff.serge.ocl.constraintapplicator.store.ModuleSetModifier;
 
 public class OCLConstraintApplicator {
 
-	
+	/**
+	 * The general OCLConstraintApplicator settings object.
+	 */
 	private OCLCASettings settings;
 	
+	
+	/**
+	 * Constructor.
+	 * @param settings
+	 */
 	public OCLConstraintApplicator(OCLCASettings settings) {
 		this.settings = settings;
 	}
 	
+	/**
+	 * The entry point for OCLConstraintApplicator processing.
+	 * From here the analysis of Constraints and Modules and also
+	 * the corresponding modification on module sets is initiated.
+	 */
 	public void applyConstraints() {
 		
 		try {
@@ -40,7 +52,7 @@ public class OCLConstraintApplicator {
 					c2mstore.addAffectedModules(oclxpp,affectedModules);
 				}
 			}
-			c2mstore.linkMultipleMultipleModuleAffections();
+			c2mstore.linkMultipleModuleAffections();
 			
 			//Modify ModuleSet accordingly
 			ModuleSetModifier msModifier = new ModuleSetModifier();
@@ -49,9 +61,7 @@ public class OCLConstraintApplicator {
 		
 		} catch (ParserException | OCLExpressionPatternNotImplementedExeption e) {
 			e.printStackTrace();
-		}
-		
-	
+		}	
 		
 	}
 	

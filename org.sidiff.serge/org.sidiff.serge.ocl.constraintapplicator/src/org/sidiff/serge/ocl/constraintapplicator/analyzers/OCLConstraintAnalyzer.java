@@ -20,13 +20,28 @@ import org.sidiff.serge.ocl.constraintapplicator.store.Constraint2ModuleStore;
 
 public class OCLConstraintAnalyzer {
 
-	
+	/**
+	 * The settings object for the OCLConstraintApplicator.
+	 */
 	private OCLCASettings settings;
 	
+	/**
+	 * Constructor.
+	 * @param settings
+	 */
 	public OCLConstraintAnalyzer(OCLCASettings settings) {
 		this.settings = settings;
 	}
 	
+	/**
+	 * This method iterates though the meta-model, regards each OCLExpression and
+	 * tries to find out if one of our defined OCLExpressionPattern matches it.
+	 * If so, the corresponding OCLExpressionPattern is added to the Constraint2ModuleStore
+	 * for later processing.
+	 * @return
+	 * @throws ParserException
+	 * @throws OCLExpressionPatternNotImplementedExeption
+	 */
 	public Constraint2ModuleStore indentifyConstraintPatterns() throws ParserException, OCLExpressionPatternNotImplementedExeption{
 		
 		EPackage metaModel = settings.getMetaModelEPackage();
@@ -83,6 +98,16 @@ public class OCLConstraintAnalyzer {
 		return c2ms;
 	}
 	
+	/**
+	 * This method takes an OCLExpression and the EClassifier, under which the OCLExpression is stored in the meta-model,
+	 * and identifies the outer OCL expression type (e.g. OperationCallExp, IfExp ..). The evaluation of such an
+	 * expression is then delegated to the corresponding Evaluator (e.g. OperationCallEvaluator) for further analysis.
+	 * If one of our defined OCLExpressionPattern can be found, it will be returned by this method.
+	 * @param oclxp
+	 * @param containerEClassifier
+	 * @return OCLExpressionPattern
+	 * @throws OCLExpressionPatternNotImplementedExeption
+	 */
 	private OCLExpressionPattern checkForPattern(OCLExpression<EClassifier> oclxp, EClassifier containerEClassifier) throws OCLExpressionPatternNotImplementedExeption {
 		
 		OCLExpressionPattern foundPattern = null;
