@@ -31,12 +31,12 @@ import org.sidiff.serge.ui.dialogs.EPackageNotFoundDialog;
 
 public class SergeWizard extends Wizard implements INewWizard {
 	private SergeWizardPage1 page;
+	
+
 	private SergeWizardPage2 page2;
 	private ISelection selection;
 	
 	SergeSettings settings;
-	
-
 	
 
 	/**

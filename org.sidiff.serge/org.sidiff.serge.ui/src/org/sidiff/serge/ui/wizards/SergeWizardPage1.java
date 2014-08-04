@@ -13,18 +13,26 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.serge.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.RowData;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -43,6 +51,7 @@ public class SergeWizardPage1 extends WizardPage {
 	private Boolean bConfig;
 	
 	private SergeSettings settings;
+	
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -62,76 +71,60 @@ public class SergeWizardPage1 extends WizardPage {
 	 */
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
 //		layout.verticalSpacing = 9;
 		initialize();
 		//dialogChanged();
 		setControl(container);
 		setPageComplete(false);
+
 		
-		final JFileChooser OutputFolderChooser = new JFileChooser();
-		final JFileChooser ConfigChooser = new JFileChooser();
+		final DirectoryDialog eOutputFolderChooser = new DirectoryDialog(this.getShell());
+		final FileDialog eConfigChooser = new FileDialog(this.getShell());
 		bConfig = false;
-		bOutputFolder = false;		
+		bOutputFolder = false;
+		container.setLayout(new GridLayout(1, false));
+		
 		
 		Group grpOutputPaths = new Group(container, SWT.NONE);
+		grpOutputPaths.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpOutputPaths.setLayout(new GridLayout(1, false));
-		GridData gd_grpOutputPaths = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-//		gd_grpOutputPaths.widthHint = 394;
-		grpOutputPaths.setLayoutData(gd_grpOutputPaths);
 		grpOutputPaths.setText("Output");
 		
 		Composite composite = new Composite(grpOutputPaths, SWT.NONE);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		composite.setLayout(new RowLayout(SWT.HORIZONTAL));
 //		gd_composite.widthHint = 380;
-		composite.setLayoutData(gd_composite);
-		composite.setLayout(new GridLayout(3, false));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblSelectOutputFolder = new Label(composite, SWT.NONE);
-		lblSelectOutputFolder.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblSelectOutputFolder.setText("Select Output Folder");
 		
 		txtSelectOutputFolder = new Text(composite, SWT.BORDER);
-		txtSelectOutputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		txtSelectOutputFolder.setLayoutData(new RowData(317, SWT.DEFAULT));
 		
 		Button btnBrowseOutputFolder = new Button(composite, SWT.NONE);
 		btnBrowseOutputFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				OutputFolderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				@SuppressWarnings("unused")
-				int OutputFolder = OutputFolderChooser.showOpenDialog(OutputFolderChooser);
-				settings.setOutputFolderPath(OutputFolderChooser.getSelectedFile().getAbsolutePath());
+				settings.setOutputFolderPath(eOutputFolderChooser.open());				
 				txtSelectOutputFolder.setText(settings.getOutputFolderPath());
-				if (txtSelectOutputFolder.getText() != null && txtSelectOutputFolder.getText() != ""){
-					bOutputFolder = true;
-					if (bOutputFolder && bConfig){
-						setPageComplete(true);
-					}
-				}
 			}
 		});
 		btnBrowseOutputFolder.setText("Browse");
 		
 		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
-		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
 		cbtnSubfolder.setText("Create sub-folders for transformation kinds (create, delete, ...)");
 		
 		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
-		GridData gd_grpMetamodelSpecificConfiguration = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-//		gd_grpMetamodelSpecificConfiguration.widthHint = 383;
-		grpMetamodelSpecificConfiguration.setLayoutData(gd_grpMetamodelSpecificConfiguration);
+		grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpMetamodelSpecificConfiguration.setText("Metamodel Specific Configuration");
 		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
 		
 		Composite composite_1 = new Composite(grpMetamodelSpecificConfiguration, SWT.NONE);
-		GridData gd_composite_1 = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 //		gd_composite_1.widthHint = 383;
-		composite_1.setLayoutData(gd_composite_1);
+		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		composite_1.setLayout(new GridLayout(5, false));
 		
-		Button btnRefinedConfig = new Button(composite_1, SWT.RADIO);
+		final Button btnRefinedConfig = new Button(composite_1, SWT.RADIO);
 		btnRefinedConfig.setText("Refined Config");
 		btnRefinedConfig.setSelection((settings.getConfigPath()!=null));
 		new Label(composite_1, SWT.NONE);		
@@ -140,21 +133,10 @@ public class SergeWizardPage1 extends WizardPage {
 		btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				@SuppressWarnings("unused")
-				int Config = ConfigChooser.showOpenDialog(ConfigChooser);
-				txtConfig.setText(ConfigChooser.getSelectedFile().getAbsolutePath());
-				if (txtConfig.getText() != null && txtConfig.getText() != ""){
-					bConfig = true;
-					if (bOutputFolder && bConfig){
-						setPageComplete(true);
-					}
-				}
+				settings.setConfigPath(eConfigChooser.open());
+				txtConfig.setText(settings.getConfigPath());
 			}
 		});
-		
-		GridData gd_btnBrowseConfig = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-//		gd_btnBrowseConfig.widthHint = 75;
-		btnBrowseConfig.setLayoutData(gd_btnBrowseConfig);
 		btnBrowseConfig.setText("Browse");		
 		
 		txtConfig = new Text(composite_1, SWT.BORDER);
@@ -164,7 +146,7 @@ public class SergeWizardPage1 extends WizardPage {
 			bConfig = true;
 		}
 		
-		Button btnDefaultConfig = new Button(composite_1, SWT.RADIO);
+		final Button btnDefaultConfig = new Button(composite_1, SWT.RADIO);
 		btnDefaultConfig.setText("Default Config");
 		new Label(composite_1, SWT.NONE);
 		
@@ -181,15 +163,36 @@ public class SergeWizardPage1 extends WizardPage {
 				@SuppressWarnings("unused")
 				EPackage documentTypePackage = EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl());
 				txtImportPackage.setText(documentTypePackage.getNsURI());				
-				if (txtImportPackage.getText() != null && txtImportPackage.getText() != ""){
-					bConfig = true;
-					if (bOutputFolder && bConfig){
-						setPageComplete(true);
-					}
-				}
 			}
 		});
 		
+		txtSelectOutputFolder.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (txtSelectOutputFolder.getText().length() == 0) {bOutputFolder = false;} else {bOutputFolder = true;}
+				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+			}
+		});
+		
+		txtConfig.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
+				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+				btnRefinedConfig.setSelection(true);
+				btnDefaultConfig.setSelection(false);
+			}
+		});
+		
+		txtImportPackage.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
+				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+				btnDefaultConfig.setSelection(true);
+				btnRefinedConfig.setSelection(false);
+			}
+		});
 		
 	}
 
