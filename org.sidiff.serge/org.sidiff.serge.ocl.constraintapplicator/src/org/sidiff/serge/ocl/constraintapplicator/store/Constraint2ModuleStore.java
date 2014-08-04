@@ -87,7 +87,7 @@ public class Constraint2ModuleStore {
 	 * are affected by different OCLExpressionPatterns.
 	 */
 	public void linkMultipleModuleAffections() {
-		// for each ConstraintModulePair add additonalModuleAffections
+		//TODO for each ConstraintModulePair add additonalModuleAffections
 		//...
 	}
 

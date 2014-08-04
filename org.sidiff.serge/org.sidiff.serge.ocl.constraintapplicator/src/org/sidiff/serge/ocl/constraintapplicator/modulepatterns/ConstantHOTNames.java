@@ -1,5 +1,10 @@
 package org.sidiff.serge.ocl.constraintapplicator.modulepatterns;
 
+/**
+ * Class to hold names of HOTs.
+ * @author mrindt
+ *
+ */
 public class ConstantHOTNames {
 
 	

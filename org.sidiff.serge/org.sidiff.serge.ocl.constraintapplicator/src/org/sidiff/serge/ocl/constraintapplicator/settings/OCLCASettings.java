@@ -2,6 +2,13 @@ package org.sidiff.serge.ocl.constraintapplicator.settings;
 
 import org.eclipse.emf.ecore.EPackage;
 
+/**
+ * The OCLConstraintApplicator settings class.
+ * It will contain input and output paths etc.
+ * 
+ * @author mrindt
+ *
+ */
 public class OCLCASettings {
 
 	private String inputPath;

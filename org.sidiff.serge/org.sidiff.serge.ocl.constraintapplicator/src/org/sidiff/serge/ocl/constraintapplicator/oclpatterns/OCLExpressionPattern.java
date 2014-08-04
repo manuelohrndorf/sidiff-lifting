@@ -7,6 +7,15 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleMatchPattern;
 
+/**
+ * Abstract class for an OCLExpressionPattern.
+ * Its sub-classes define our supported OCL patterns
+ * which will allow the modification of an existing
+ * module set of edit rules.
+ * 
+ * @author mrindt
+ *
+ */
 public abstract class OCLExpressionPattern {
 
 	protected OCLExpression<EClassifier> oclxp;
