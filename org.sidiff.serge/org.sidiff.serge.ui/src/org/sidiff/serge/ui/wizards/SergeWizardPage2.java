@@ -53,7 +53,7 @@ public class SergeWizardPage2 extends WizardPage {
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 4;
+		layout.numColumns = 2;
 		container.setLayout(layout);
 		layout.verticalSpacing = 9;
 		initialize();
@@ -63,7 +63,7 @@ public class SergeWizardPage2 extends WizardPage {
 		
 		Group grpTransformationSettings = new Group(container, SWT.SHADOW_IN);
 		grpTransformationSettings.setLayout(new GridLayout(2, false));
-		GridData gd_grpTransformationSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1);
+		GridData gd_grpTransformationSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
 		gd_grpTransformationSettings.widthHint = 424;
 		grpTransformationSettings.setLayoutData(gd_grpTransformationSettings);
 		grpTransformationSettings.setText("Transformation Settings");
@@ -98,7 +98,7 @@ public class SergeWizardPage2 extends WizardPage {
 
 		
 		Group grpConfigSerialization = new Group(container, SWT.SHADOW_IN);
-		grpConfigSerialization.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
+		grpConfigSerialization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		grpConfigSerialization.setText("Config Serialization");
 		grpConfigSerialization.setLayout(new GridLayout(1, false));
 		
@@ -113,7 +113,7 @@ public class SergeWizardPage2 extends WizardPage {
 		
 		Group grpLogSerialization = new Group(container, SWT.SHADOW_IN);
 		grpLogSerialization.setLayout(new GridLayout(1, false));
-		GridData gd_grpLogSerialization = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1);
+		GridData gd_grpLogSerialization = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		gd_grpLogSerialization.widthHint = 184;
 		grpLogSerialization.setLayoutData(gd_grpLogSerialization);
 		grpLogSerialization.setText("Log Serialization");
@@ -125,8 +125,6 @@ public class SergeWizardPage2 extends WizardPage {
 				Button cbtnDeletePreviousTags = new Button(grpLogSerialization, SWT.CHECK);
 				cbtnDeletePreviousTags.setText("Delete previous logs");
 				cbtnDeletePreviousTags.setSelection(settings.isDeleteLogs());
-				new Label(container, SWT.NONE);
-				new Label(container, SWT.NONE);
 
 	}
 
