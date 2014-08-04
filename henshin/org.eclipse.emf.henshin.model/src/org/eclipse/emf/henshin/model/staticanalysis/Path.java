@@ -99,10 +99,19 @@ public class Path {
 			Node source = nodes.get(i);
 			Edge edge = edges.get(i);
 			Node realSource = edge.getSource();
-			while (realSource.getGraph()!=source.getGraph()) {
-				NestedCondition nested = (NestedCondition) realSource.getGraph().eContainer();
-				realSource = nested.getMappings().getOrigin(realSource);
-			}
+            while (realSource.getGraph()!=source.getGraph()) {
+                NestedCondition nested = (NestedCondition) realSource.getGraph().eContainer();
+                // BEGIN WORKAROUND                
+                Node glueNode = nested.getMappings().getOrigin(realSource);
+               
+                // Node is a NAC/PAC node:
+                if (glueNode == null) {
+                    break;
+                } else {
+                    realSource = glueNode;
+                }
+                // END WORKAROUND
+            }
 			if (realSource==source || !revertInverse) {
 				refs.add(edge.getType());
 			} else {
