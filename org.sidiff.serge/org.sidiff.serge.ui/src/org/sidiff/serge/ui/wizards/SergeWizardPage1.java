@@ -170,7 +170,10 @@ public class SergeWizardPage1 extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				if (txtSelectOutputFolder.getText().length() == 0) {bOutputFolder = false;} else {bOutputFolder = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage("");} else {setPageComplete(false);}
+				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
+				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
+				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
 			}
 		});
 		
@@ -178,7 +181,10 @@ public class SergeWizardPage1 extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage("");} else {setPageComplete(false);}
+				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
+				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
+				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
 				btnRefinedConfig.setSelection(true);
 				btnDefaultConfig.setSelection(false);
 			}
@@ -188,12 +194,16 @@ public class SergeWizardPage1 extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent e) {
 				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true);} else {setPageComplete(false);}
+				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage("");} else {setPageComplete(false);}
+				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
+				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
+				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
 				btnDefaultConfig.setSelection(true);
 				btnRefinedConfig.setSelection(false);
 			}
 		});
 		
+		setErrorMessage("Output Folder Path ist Missing");
 	}
 
 	/**
