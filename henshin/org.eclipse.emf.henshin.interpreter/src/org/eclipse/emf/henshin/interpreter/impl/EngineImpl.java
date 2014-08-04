@@ -432,6 +432,12 @@ public class EngineImpl implements Engine {
 					
 				}
 			}
+			//// FIXME: WORKAROUND ////
+			/*
+			 * Caching führt zu fehlerhaften AttributeConditions bei der Verwendung von Parametern und Multi-Regeln.
+			 */
+			clearCache();
+			//// FIXME: WORKAROUND ////
 		}
 
 		/**
