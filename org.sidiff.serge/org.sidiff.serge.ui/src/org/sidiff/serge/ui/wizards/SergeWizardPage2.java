@@ -53,7 +53,7 @@ public class SergeWizardPage2 extends WizardPage {
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 3;
+		layout.numColumns = 4;
 		container.setLayout(layout);
 		layout.verticalSpacing = 9;
 		initialize();
@@ -62,33 +62,43 @@ public class SergeWizardPage2 extends WizardPage {
 
 		
 		Group grpTransformationSettings = new Group(container, SWT.SHADOW_IN);
-		grpTransformationSettings.setLayout(new GridLayout(1, false));
-		GridData gd_grpTransformationSettings = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1);
-		gd_grpTransformationSettings.widthHint = 393;
+		grpTransformationSettings.setLayout(new GridLayout(2, false));
+		GridData gd_grpTransformationSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1);
+		gd_grpTransformationSettings.widthHint = 424;
 		grpTransformationSettings.setLayoutData(gd_grpTransformationSettings);
 		grpTransformationSettings.setText("Transformation Settings");
 		
 		Button cbtnDeleteExisting = new Button(grpTransformationSettings, SWT.CHECK);
-		cbtnDeleteExisting.setText("Delete existing, manually created transformations");
+		cbtnDeleteExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		cbtnDeleteExisting.setText("Delete existing, manually created transformations ");
 		cbtnDeleteExisting.setSelection(settings.isDeleteManualTransformations());
 		
 		Button btnDeleteExisting = new Button(grpTransformationSettings, SWT.RADIO);
+		btnDeleteExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		btnDeleteExisting.setText("Delete existing, generated transformations");
 		btnDeleteExisting.setSelection(settings.isDeleteGeneratedTransformations());
-
-		Button btnKeepExisting = new Button(grpTransformationSettings, SWT.RADIO);
-		btnKeepExisting.setText("Keep existing, generated transformations");
-		btnKeepExisting.setSelection(!settings.isDeleteGeneratedTransformations());
-
-		Button cbtnOverwriteExisting = new Button(grpTransformationSettings, SWT.CHECK);
-		cbtnOverwriteExisting.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		cbtnOverwriteExisting.setText("Overwrite existing, generated transformation");
-		cbtnOverwriteExisting.setSelection(settings.isOverwriteGeneratedTransformations());
-		new Label(container, SWT.NONE);
+		
+				Button btnKeepExisting = new Button(grpTransformationSettings, SWT.RADIO);
+				btnKeepExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+				btnKeepExisting.setText("Keep existing, generated transformations");
+				btnKeepExisting.setSelection(!settings.isDeleteGeneratedTransformations());
+						
+						Composite composite = new Composite(grpTransformationSettings, SWT.NONE);
+						GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1);
+						gd_composite.widthHint = 31;
+						gd_composite.heightHint = 5;
+						composite.setLayoutData(gd_composite);
+				
+						Button cbtnOverwriteExisting = new Button(grpTransformationSettings, SWT.CHECK);
+						GridData gd_cbtnOverwriteExisting = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+						gd_cbtnOverwriteExisting.widthHint = 506;
+						cbtnOverwriteExisting.setLayoutData(gd_cbtnOverwriteExisting);
+						cbtnOverwriteExisting.setText("Overwrite existing, generated transformation");
+						cbtnOverwriteExisting.setSelection(settings.isOverwriteGeneratedTransformations());
 
 		
 		Group grpConfigSerialization = new Group(container, SWT.SHADOW_IN);
-		grpConfigSerialization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		grpConfigSerialization.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
 		grpConfigSerialization.setText("Config Serialization");
 		grpConfigSerialization.setLayout(new GridLayout(1, false));
 		
@@ -103,7 +113,7 @@ public class SergeWizardPage2 extends WizardPage {
 		
 		Group grpLogSerialization = new Group(container, SWT.SHADOW_IN);
 		grpLogSerialization.setLayout(new GridLayout(1, false));
-		GridData gd_grpLogSerialization = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		GridData gd_grpLogSerialization = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1);
 		gd_grpLogSerialization.widthHint = 184;
 		grpLogSerialization.setLayoutData(gd_grpLogSerialization);
 		grpLogSerialization.setText("Log Serialization");
@@ -115,6 +125,7 @@ public class SergeWizardPage2 extends WizardPage {
 				Button cbtnDeletePreviousTags = new Button(grpLogSerialization, SWT.CHECK);
 				cbtnDeletePreviousTags.setText("Delete previous logs");
 				cbtnDeletePreviousTags.setSelection(settings.isDeleteLogs());
+				new Label(container, SWT.NONE);
 				new Label(container, SWT.NONE);
 
 	}
