@@ -91,7 +91,7 @@ public class SergeWizardPage1 extends WizardPage {
 		grpOutputPaths.setText("Output");
 		
 		Composite composite = new Composite(grpOutputPaths, SWT.NONE);
-		composite.setLayout(new RowLayout(SWT.HORIZONTAL));
+		composite.setLayout(new GridLayout(3, false));
 //		gd_composite.widthHint = 380;
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
@@ -99,7 +99,7 @@ public class SergeWizardPage1 extends WizardPage {
 		lblSelectOutputFolder.setText("Select Output Folder");
 		
 		txtSelectOutputFolder = new Text(composite, SWT.BORDER);
-		txtSelectOutputFolder.setLayoutData(new RowData(317, SWT.DEFAULT));
+		txtSelectOutputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Button btnBrowseOutputFolder = new Button(composite, SWT.NONE);
 		btnBrowseOutputFolder.addSelectionListener(new SelectionAdapter() {
@@ -112,7 +112,9 @@ public class SergeWizardPage1 extends WizardPage {
 		btnBrowseOutputFolder.setText("Browse");
 		
 		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
+		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		cbtnSubfolder.setText("Create sub-folders for transformation kinds (create, delete, ...)");
+		new Label(composite, SWT.NONE);
 		
 		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
 		grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
