@@ -1,9 +1,11 @@
 package org.sidiff.serge.ocl.constraintapplicator.oclpatterns;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleContainmentPattern;
 import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleNamePattern;
+import org.sidiff.serge.ocl.constraintapplicator.oclevaluators.ExpressionDetails;
 
 /**
  * This class specifies the OCLExpressionPattern ReferenceListCondition.
@@ -22,14 +24,26 @@ import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleNamePatter
 public class ReferenceListCondition extends OCLExpressionPattern {
 
 	/**
-	 * Constructor
-	 * @param oclxp
-	 * @param containerClassifier
+	 * The operator.
 	 */
-	public ReferenceListCondition(OCLExpression<EClassifier> oclxp, EClassifier containerClassifier) {
+	private String operator = null;
+	
+	/**
+	 * The involved EReference.
+	 */
+	private EReference eReference = null;
+	
+	/**
+	 * Constructor.
+	 * @param oclxp
+	 * @param expDetails
+	 */
+	public ReferenceListCondition(OCLExpression<EClassifier> oclxp, ExpressionDetails expDetails) {
 		
 		this.oclxp = oclxp;
-		this.container = containerClassifier;
+		this.container = expDetails.getInvolvedContext();
+		this.eReference = expDetails.getInvolvedEReference();
+		this.operator = expDetails.getOperator();
 		
 		ModuleNamePattern mnp = new ModuleNamePattern();
 		

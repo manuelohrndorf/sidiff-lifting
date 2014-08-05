@@ -37,4 +37,12 @@ public class ConstraintModulePair {
 		this.oclxpp = oclxpp;
 		
 	}
+	
+	public Module getModule() {
+		return module;
+	}
+	
+	public OCLExpressionPattern getOCLExpressionPattern() {
+		return oclxpp;
+	}
 }

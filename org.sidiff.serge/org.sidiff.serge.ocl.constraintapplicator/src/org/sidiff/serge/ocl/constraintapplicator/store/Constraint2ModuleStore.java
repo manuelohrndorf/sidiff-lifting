@@ -39,7 +39,7 @@ public class Constraint2ModuleStore {
 	/**
 	 * Set of pairs of type (OCLExpressionPattern,Module).
 	 */
-	private Set<ConstraintModulePair> constraintModulePair;
+	private Set<ConstraintModulePair> constraintModulePairs;
 	
 	
 	/**
@@ -51,7 +51,6 @@ public class Constraint2ModuleStore {
 		// load modules
 		String inputPath = settings.getInputPath();		
 		moduleSet = new HenshinResourceSet(inputPath);
-		
 	}
 	
 	/**
@@ -78,7 +77,7 @@ public class Constraint2ModuleStore {
 	public void addAffectedModules(OCLExpressionPattern oclxpp, Set<Module> affectedModules) {
 		for(Module m: affectedModules) {
 			ConstraintModulePair cmPair = new ConstraintModulePair(m, oclxpp);
-			constraintModulePair.add(cmPair);
+			constraintModulePairs.add(cmPair);
 		}
 	}
 	

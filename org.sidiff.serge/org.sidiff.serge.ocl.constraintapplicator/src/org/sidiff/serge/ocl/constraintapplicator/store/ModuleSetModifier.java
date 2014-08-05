@@ -14,14 +14,6 @@ public class ModuleSetModifier {
 
 	
 	/**
-	 * Replaces a module in the module set.
-	 * @param pair
-	 */
-	private void replaceModule(ConstraintModulePair pair) {
-		//..
-	}
-	
-	/**
 	 * Modifies a module in the module set.
 	 * @param pair
 	 */

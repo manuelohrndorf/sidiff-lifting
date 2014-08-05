@@ -29,30 +29,59 @@ public class OperationCallEvaluator extends AbstractEvaluator{
 	 * @return
 	 * @throws OCLExpressionPatternNotImplementedExeption
 	 */
-	public OCLExpressionPattern evaluate(OCLExpression oclxp, EClassifier containerClassifier) throws OCLExpressionPatternNotImplementedExeption {
+	public OCLExpressionPattern evaluate(OCLExpression<EClassifier> oclxp, EClassifier containerClassifier) throws OCLExpressionPatternNotImplementedExeption {
 		
 		OCLExpressionPattern oclxpp = null;
 		
-		if(isFlatAttributeValueCondition(oclxp)) {
-			oclxpp = new AttributeValueCondition(oclxp,containerClassifier);
+		ExpressionDetails expDetails = matchFlatAttributeValueCondition(oclxp);
+		
+		if(expDetails!=null) {
+			oclxpp = new AttributeValueCondition(oclxp,expDetails);	
+			return oclxpp;	
 		}
 		
-		else if(isFlatAttributeValueDependencyCondition(oclxp)) {
-			oclxpp = new AttributeValueDependencyCondition(oclxp,containerClassifier);
+		// if not returned yet, try to match other pattern
+		expDetails = matchFlatAttributeValueDependencyCondition(oclxp);
+		if(expDetails!=null) {
+			oclxpp = new AttributeValueDependencyCondition(oclxp, expDetails);	
+			return oclxpp;	
 		}
 		
-		else if(isFlatReferenceListCondition(oclxp)) {
-			oclxpp = new ReferenceListCondition(oclxp,containerClassifier);
+		// if not returned yet, try to match other pattern		
+		expDetails = matchFlatReferenceListCondition(oclxp);
+		if(expDetails!=null){
+			oclxpp = new ReferenceListCondition(oclxp, expDetails);
+			return oclxpp;	
 		}
 		
-		else if(isFlatReferenceAssignmentCondition(oclxp)) {
-			oclxpp = new ReferenceAssignmentCondition(oclxp,containerClassifier);
+		// if not returned yet, try to match other pattern
+		expDetails = matchFlatReferenceAssignmentCondition(oclxp);
+		if(expDetails!=null){
+			oclxpp = new ReferenceAssignmentCondition(oclxp,expDetails);
+			return oclxpp;	
 		}
 		
-		else {
+		// if still null, then we currently have no pattern to match
+		if(expDetails==null) {
 			throw new OCLExpressionPatternNotImplementedExeption(oclxp);
 		}
 		
-		return oclxpp;	
+		return oclxpp;
+
+		
+	}
+	
+	/**
+	 * Fetches the details of an OCLExpression (e.g. involved EAttributes)
+	 * @param oclxp
+	 * @return ExpressionDetails
+	 */
+	private static ExpressionDetails getExpressionDetails(OCLExpression oclxp) {
+		
+		// ...
+		
+		
+		return null;
+		
 	}
 }

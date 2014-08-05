@@ -1,6 +1,10 @@
 package org.sidiff.serge.ocl.constraintapplicator.oclevaluators;
 
 import org.eclipse.ocl.expressions.OCLExpression;
+import org.sidiff.serge.ocl.constraintapplicator.oclpatterns.AttributeValueCondition;
+import org.sidiff.serge.ocl.constraintapplicator.oclpatterns.AttributeValueDependencyCondition;
+import org.sidiff.serge.ocl.constraintapplicator.oclpatterns.ReferenceAssignmentCondition;
+import org.sidiff.serge.ocl.constraintapplicator.oclpatterns.ReferenceListCondition;
 
 /**
  * Abstract Evaluator class which other evaluators extend.
@@ -16,13 +20,15 @@ public abstract class AbstractEvaluator {
 	 * without further encapsulated OCLExpressions.
 	 * See also {@link AttributeValueCondition} 
 	 * @param oclxp
-	 * @return true or false
+	 * @return ExpressionDetails {@link ExpressionDetails} if it matches
 	 */
-	public static boolean isFlatAttributeValueCondition(OCLExpression oclxp) {
+	public static ExpressionDetails matchFlatAttributeValueCondition(OCLExpression oclxp) {
+		
+		ExpressionDetails expDetails = null;
 		
 		//..
 		
-		return false;
+		return expDetails;
 		
 	}
 
@@ -31,13 +37,15 @@ public abstract class AbstractEvaluator {
 	 * without further encapsulated OCLExpressions.
 	 * See also {@link AttributeValueDependencyCondition} 
 	 * @param oclxp
-	 * @return true or false
+	 * @return ExpressionDetails {@link ExpressionDetails} if it matches
 	 */
-	public static boolean isFlatAttributeValueDependencyCondition(OCLExpression oclxp) {
+	public static ExpressionDetails matchFlatAttributeValueDependencyCondition(OCLExpression oclxp) {
+		
+		ExpressionDetails expDetails = null;
 		
 		//..
 		
-		return false;
+		return expDetails;
 	}
 	
 	/**
@@ -45,14 +53,15 @@ public abstract class AbstractEvaluator {
 	 * without further encapsulated OCLExpressions.
 	 * See also {@link ReferenceListCondition} 
 	 * @param oclxp
-	 * @return true or false
+	 * @return ExpressionDetails {@link ExpressionDetails} if it matches
 	 */
-	public static boolean isFlatReferenceListCondition(OCLExpression oclxp) {
+	public static ExpressionDetails matchFlatReferenceListCondition(OCLExpression oclxp) {
+		
+		ExpressionDetails expDetails = null;
 		
 		//..
 		
-		return false;
-		
+		return expDetails;
 	}
 	
 	/**
@@ -60,14 +69,16 @@ public abstract class AbstractEvaluator {
 	 * without further encapsulated OCLExpressions.
 	 * See also {@link ReferenceAssignmentCondition} 
 	 * @param oclxp
-	 * @return true or false
+	 * @return ExpressionDetails {@link ExpressionDetails} if it matches
 	 */
-	public static boolean isFlatReferenceAssignmentCondition(OCLExpression oclxp) {
+	public static ExpressionDetails matchFlatReferenceAssignmentCondition(OCLExpression oclxp) {
 		
+		ExpressionDetails expDetails = null;
 		
 		//..
 		
-		return false;
+		return expDetails;
 	}
+
 	
 }

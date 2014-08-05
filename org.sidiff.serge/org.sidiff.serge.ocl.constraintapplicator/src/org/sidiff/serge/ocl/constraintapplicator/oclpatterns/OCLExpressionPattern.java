@@ -24,4 +24,18 @@ public abstract class OCLExpressionPattern {
 	
 	protected Set<ModuleMatchPattern> respectiveModuleMatchPatterns;
 	
+	
+	public OCLExpression<EClassifier> getOCLExpression() {
+		return oclxp;
+	}
+
+
+	public EModelElement getContainer() {
+		return container;
+	}
+
+
+	public Boolean getIsEncapsulated() {
+		return isEncapsulated;
+	}
 }

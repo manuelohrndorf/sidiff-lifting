@@ -1,9 +1,11 @@
 package org.sidiff.serge.ocl.constraintapplicator.oclpatterns;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleContainmentPattern;
 import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleNamePattern;
+import org.sidiff.serge.ocl.constraintapplicator.oclevaluators.ExpressionDetails;
 
 /**
  * This class specifies the OCLExpressionPattern AttributeValueCondition.
@@ -22,14 +24,27 @@ import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleNamePatter
 public class AttributeValueCondition extends OCLExpressionPattern{
 	
 	/**
+	 * The operator.
+	 */
+	private String operator = null;
+	
+	/**
+	 * The involved EAttribute.
+	 */
+	private EAttribute eAttribute = null;
+	
+	
+	/**
 	 * Constructor.
 	 * @param oclxp
-	 * @param containerClassifier
+	 * @param expDetails
 	 */
-	public AttributeValueCondition(OCLExpression<EClassifier> oclxp, EClassifier containerClassifier) {
+	public AttributeValueCondition(OCLExpression<EClassifier> oclxp, ExpressionDetails expDetails) {
 		
 		this.oclxp = oclxp;
-		this.container = containerClassifier;
+		this.container = expDetails.getInvolvedContext();
+		this.eAttribute = expDetails.getInvolvedEAttribute();
+		this.operator = expDetails.getOperator();
 		
 		ModuleNamePattern mnp = new ModuleNamePattern();
 		
