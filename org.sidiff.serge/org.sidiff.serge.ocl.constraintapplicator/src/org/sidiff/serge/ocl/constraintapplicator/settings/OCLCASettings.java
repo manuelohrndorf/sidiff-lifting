@@ -21,6 +21,7 @@ public class OCLCASettings {
 		
 		this.inputPath = inputPath;
 		this.outputPath = outputPath;
+		this.metaModelEPackage = metaModelEPackage;
 		this.eAnnotationConstraintKey = eAnnotationConstraintKey;
 		
 	}

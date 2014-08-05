@@ -21,7 +21,7 @@ public class Runner implements IApplication{
 		//temporarily hard coded testing values
 		String inputPath ="/home/michaela/workspace/OCLConst/uml2.editrules.detailed/transformations";
 		String outputPath ="/home/michaela/workspace/OCLConst/uml2.editrules.detailed/transformations/modified";
-		EPackage metaModelPackage =EPackageRegistryImpl.INSTANCE.getEPackage("http://www.eclipse.org/uml2/5.0.0/UML");
+		EPackage metaModelPackage =EPackageRegistryImpl.INSTANCE.getEPackage("http://www.eclipse.org/uml2/4.0.0/UML");
 		String eAnnotationConstraintKey ="http://www.eclipse.org/emf/2002/GenModel";
 		
 		
@@ -32,6 +32,7 @@ public class Runner implements IApplication{
 				eAnnotationConstraintKey);
 		
 		OCLConstraintApplicator oclConstraintApplicator = new OCLConstraintApplicator(settings);
+		oclConstraintApplicator.applyConstraints();
 		
 		return null;
 	}

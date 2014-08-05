@@ -1,18 +1,10 @@
 package org.sidiff.serge.ocl.constraintapplicator.store;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.eclipse.ocl.OCL;
-import org.eclipse.ocl.ecore.Constraint;
-import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
-import org.eclipse.ocl.expressions.OCLExpression;
-import org.eclipse.ocl.helper.OCLHelper;
-import org.sidiff.serge.ocl.constraintapplicator.modulepatterns.ModuleMatchPattern;
 import org.sidiff.serge.ocl.constraintapplicator.oclpatterns.OCLExpressionPattern;
 import org.sidiff.serge.ocl.constraintapplicator.settings.OCLCASettings;
 
@@ -34,12 +26,12 @@ public class Constraint2ModuleStore {
 	/**
 	 * Set of all found and supported OCLExpressionPatterns.
 	 */
-	private Set<OCLExpressionPattern> oclXPPatternSet;
+	private Set<OCLExpressionPattern> oclXPPatternSet = new HashSet<OCLExpressionPattern>();
 	
 	/**
 	 * Set of pairs of type (OCLExpressionPattern,Module).
 	 */
-	private Set<ConstraintModulePair> constraintModulePairs;
+	private Set<ConstraintModulePair> constraintModulePairs = new HashSet<ConstraintModulePair>();
 	
 	
 	/**

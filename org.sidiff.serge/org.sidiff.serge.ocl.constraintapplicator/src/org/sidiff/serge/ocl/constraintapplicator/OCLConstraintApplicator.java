@@ -46,18 +46,24 @@ public class OCLConstraintApplicator {
 			// Load existing ModulesSet and
 			// find modules affected by found OCLExpressionPatterns
 			ModuleSetAnalyzer msAnalyzer = new ModuleSetAnalyzer();
-			for(OCLExpressionPattern oclxpp: c2mstore.getAllConstraints()) {
-				Set<Module> affectedModules = msAnalyzer.findAffectedModules(oclxpp);
-				if(affectedModules!=null) {
-					c2mstore.addAffectedModules(oclxpp,affectedModules);
+			Set<OCLExpressionPattern> oclxpps = c2mstore.getAllConstraints();
+			
+			if(!oclxpps.isEmpty()) {
+				for(OCLExpressionPattern oclxpp: c2mstore.getAllConstraints()) {
+					Set<Module> affectedModules = msAnalyzer.findAffectedModules(oclxpp);
+					if(affectedModules!=null) {
+						c2mstore.addAffectedModules(oclxpp,affectedModules);
+					}
 				}
+				c2mstore.linkMultipleModuleAffections();
+				
+				//Modify ModuleSet accordingly
+				ModuleSetModifier msModifier = new ModuleSetModifier();
+				msModifier.modify(c2mstore);
 			}
-			c2mstore.linkMultipleModuleAffections();
-			
-			//Modify ModuleSet accordingly
-			ModuleSetModifier msModifier = new ModuleSetModifier();
-			msModifier.modify(c2mstore);
-			
+			else{
+				System.out.println("No OCLExpressions or OCLExpressionPatterns found.");
+			}
 		
 		} catch (ParserException | OCLExpressionPatternNotImplementedExeption e) {
 			e.printStackTrace();
