@@ -14,6 +14,6 @@ public class OCLExpressionPatternNotImplementedExeption extends Exception{
 	 * @param oclExpression
 	 */
 	public OCLExpressionPatternNotImplementedExeption(OCLExpression oclExpression) {
-		super(oclExpression.getName() + "not yet supported By OCLConstraintApplicator");
+		super("Null-value or the follwoing expression "+ oclExpression.getName() + " is not yet supported by OCLConstraintApplicator");
 	}
 }
