@@ -1,9 +1,15 @@
 package org.sidiff.serge.core;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -14,6 +20,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.INamingConventions;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.GlobalConstants;
@@ -34,12 +42,29 @@ public class ModuleSerializer {
 	private Configuration config = Configuration.getInstance();
 	
 	/**
+	 * FilenameFilter for *.henshin and *.henshin_diagram
+	 */
+	private FilenameFilter henshinFileNameFilter = null;
+	
+	/**
 	 * Constructor
 	 * @param settings
 	 */
 	public ModuleSerializer (SergeSettings settings) {
 		this.settings = settings;
+		
+		// establishing henshin file extension filter
+		henshinFileNameFilter = new FilenameFilter() {	
+			@Override
+			public boolean accept(File f, String fileName) {
+				return fileName.endsWith(GlobalConstants.HENSHIN_EXT) || fileName.endsWith(GlobalConstants.HENSHIN_DIA_EXT);
+			}
+		};
+		
 	}
+	
+	
+
 	
 	/**
 	 * Serializes one module.
@@ -52,21 +77,36 @@ public class ModuleSerializer {
 		String outputFolderPath = settings.getOutputFolderPath() + System.getProperty("file.separator") ;		
 		String moduleFileName =  module.getName() + GlobalConstants.EXECUTE_suffix;
 		
-		// add trailing subfolder if wished so
 		if(settings.isUseSubfolders()) {
-			outputFolderPath +=  findFittingSubfolderName(module);		
+			outputFolderPath += findFittingSubfolderName(module);
 		}
-
-		// assertions / checks
-		checkModuleFileNameEquality(module, outputFolderPath+moduleFileName);
-		checkMainUnitIsUnique(module);
+		
+		// assertions / checks file name and module name equality and mainunit uniqueness
+		checkModuleFileNameEquality(module, moduleFileName);
+		checkMainUnitIsUnique(module);		
 
 		// create resource out of module and outputFileName
 		ResourceSet resourceSet = new ResourceSetImpl();
 		URI fileUri = URI.createFileURI(outputFolderPath+moduleFileName);
+		
+		
+		// check if file already exist and skip if overwriting is disabled
+		if(!settings.isOverwriteGeneratedTransformations()) {
+			File folder = new File(outputFolderPath);
+			for(File f:  folder.listFiles(henshinFileNameFilter)) {
+				if(module.getName().concat(GlobalConstants.EXECUTE_suffix).equals(f.getName())) {
+					LogUtil.log(LogEvent.NOTICE, "Already exists: " + module.getName()
+							+ "  Overwriting was disabled. Thus serialization for this module will be skipped. ");
+					return;
+				}
+			}
+		}
+		
+		// continue building resource for saving
 		Resource resource = resourceSet.createResource(fileUri);
 		resource.getContents().add(module);
 
+		
 		// create option map for saving
 		Map<String, Boolean> options = new HashMap<String, Boolean>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, true);
@@ -143,6 +183,39 @@ public class ModuleSerializer {
 	 * @throws OperationTypeNotImplementedException 
 	 */
 	public void serialize(Set<Module> allModules) throws OperationTypeNotImplementedException  {
+	
+		// if deletion of previous runs is wished, do so
+		if(settings.isDeleteGeneratedTransformations()) {
+			String outputFolderPath = settings.getOutputFolderPath() + System.getProperty("file.separator") ;		
+
+			List<String> folderPaths = new ArrayList<String>();
+			folderPaths.add(outputFolderPath);
+
+			// add subfolder, which have to be checked on deletion of previous runs
+			if(settings.isUseSubfolders()) {
+				folderPaths.add(outputFolderPath+"CREATE");
+				folderPaths.add(outputFolderPath+"DELETE");
+				folderPaths.add(outputFolderPath+"MOVE");
+				folderPaths.add(outputFolderPath+"SET");
+				folderPaths.add(outputFolderPath+"UNSET");
+				folderPaths.add(outputFolderPath+"CHANGE");
+				folderPaths.add(outputFolderPath+"ADD");
+				folderPaths.add(outputFolderPath+"REMOVE");
+
+			}
+
+			for(String folderPath: folderPaths) {
+				File folder = new File(folderPath);
+				if(folder.exists()) {
+					File[] henshinFiles = folder.listFiles(henshinFileNameFilter);
+		
+					for(File file : henshinFiles) {
+						file.delete();
+					}
+				}
+			}
+		}
+	
 		for (Module module : allModules) {
 				serialize(module);
 		}

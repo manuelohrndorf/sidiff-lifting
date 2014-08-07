@@ -5,12 +5,39 @@ public class SergeSettings {
 	private String outputFolderPath;
 	private String configPath;
 	
+	/**
+	 * This enables/disables subfolder creation/usage for different operation kinds
+	 * (e.g. CREATE, DELETE)
+	 */
 	private boolean useSubfolders;
+	/**
+	 * This enables/disables the deletion of any existing contents in "manual" folders
+	 */
 	private boolean deleteManualTransformations;
+	/**
+	 * This enables/disables the deletion of previously generated transformations.
+	 */
 	private boolean deleteGeneratedTransformations;
+	
+	/**
+	 * This enables/disables overwriting existing, generated transformations.
+	 * Note: it will only enable/disable overwriting transformations which
+	 * are produced during the current run with current configurations.
+	 * It will not overwrite transformations, that have been produced with
+	 * a different configuration (to delete those, use flag 'deleteGeneratedTransformations').
+	 */
 	private boolean overwriteGeneratedTransformations;
+	/**
+	 * This enables/disables the overwriting of previously saved config files
+	 */
 	private boolean overwriteConfigInTargetFolder;
+	/**
+	 * This enables/disables saving logs (e.g. inverse_module.log)
+	 */
 	private boolean saveLogs;
+	/**
+	 * This enables/disables the deletion of previous logs.
+	 */
 	private boolean deleteLogs;
 
 	
@@ -21,7 +48,7 @@ public class SergeSettings {
 		this.useSubfolders = true;
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = false;
-		this.overwriteGeneratedTransformations = true;
+		this.overwriteGeneratedTransformations = false;
 		this.overwriteConfigInTargetFolder = true;
 		this.saveLogs = true;
 		this.deleteLogs = false;
