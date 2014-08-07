@@ -122,7 +122,7 @@ public class Serge {
 			
 			// InverseModulePair collection and log serialization
 			
-			if(config.ENABLE_INVERSE_MAPPING) {
+			if(settings.isSaveLogs()) {
 				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 				InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 				inverseModuleMapper.findAndMapInversePairs(allModules);
