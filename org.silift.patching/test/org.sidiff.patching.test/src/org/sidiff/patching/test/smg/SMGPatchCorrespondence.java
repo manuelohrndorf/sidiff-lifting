@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.patching.test.AbstractBatchArgumentManager;
 
 public class SMGPatchCorrespondence extends AbstractBatchArgumentManager {
@@ -26,7 +27,12 @@ public class SMGPatchCorrespondence extends AbstractBatchArgumentManager {
 	}
 
 	@Override
-	public EObject resolve(EObject eObject) {
+	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
+		return 1.0f;
+	}
+
+	@Override
+	public EObject resolveOriginObject(EObject eObject) {
 		if (isContainedInModelA(eObject)) {
 			String fragment = EcoreUtil.getURI(eObject).fragment();
 			EObject correspondence = this.modelB.getEObject(fragment);

@@ -6,14 +6,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.patching.test.AbstractBatchArgumentManager;
+import org.silift.common.util.emf.Scope;
+import org.silift.patching.settings.PatchMode;
 
 public class SysMLCorrespondence extends AbstractBatchArgumentManager {
 
 	private Difference difference;
 	private Copier copier;
-	private Resource target;
 
 	public SysMLCorrespondence(Difference difference) {
 		this.difference = difference;
@@ -24,19 +26,26 @@ public class SysMLCorrespondence extends AbstractBatchArgumentManager {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		URI uri = difference.getSymmetric().getModelA().getURI();
 		uri.appendFragment("copy");
-		target = resourceSet.createResource(uri);
+		Resource target = resourceSet.createResource(uri);
 		for (EObject origRoot : difference.getSymmetric().getModelA().getContents()) {
 			target.getContents().add(copier.get(origRoot));
-		}	
+		}
+		
+		init(difference.getAsymmetric(), target, Scope.RESOURCE, PatchMode.PATCHING);
 	}
 
+	@Override
+	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
+		return 1.0f;
+	}
+	
 	@Override
 	public Resource getTargetModel() {
-		return target;
+		return super.getTargetModel();
 	}
 
 	@Override
-	protected EObject resolve(EObject eObject) {
+	protected EObject resolveOriginObject(EObject eObject) {
 		if (eObject.eResource().equals(difference.getSymmetric().getModelA())) {
 			return copier.get(eObject);
 		} else {

@@ -16,6 +16,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.patching.batch.handler.BatchInterruptHandler;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
