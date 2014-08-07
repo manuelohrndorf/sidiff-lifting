@@ -1,5 +1,7 @@
 package org.sidiff.serge.ui.wizards;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -73,6 +75,9 @@ public class SergeWizard extends Wizard implements INewWizard {
 				try {
 					Serge serge = new Serge(settings);
 					serge.generate();
+				}catch (IOException e) {
+					//TODO dialog for problems while accessing harddisk
+					e.printStackTrace();
 				} catch (EPackageNotFoundException e) {
 					EPackageNotFoundDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 					return Status.CANCEL_STATUS;

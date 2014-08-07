@@ -1,5 +1,12 @@
 package org.sidiff.serge;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -77,8 +84,9 @@ public class Serge {
 	/**
 	 * Method to start the generation process.
 	 * @throws OperationTypeNotImplementedException 
+	 * @throws IOException 
 	 */
-	public void generate() throws EPackageNotFoundException, OperationTypeNotImplementedException {
+	public void generate() throws EPackageNotFoundException, OperationTypeNotImplementedException, IOException {
 
 		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
@@ -120,7 +128,7 @@ public class Serge {
 			MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 			mainUnitApplicator.applyOn(allModules);
 			
-			// InverseModulePair collection and log serialization
+			// InverseModulePair collection and log serialization + copy config file
 			
 			if(settings.isSaveLogs()) {
 				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
@@ -128,7 +136,15 @@ public class Serge {
 				inverseModuleMapper.findAndMapInversePairs(allModules);
 				InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
 				inverseModuleSerializer.serialize(inverseModuleMapper);
+				
+				// copy config file to target transformation folder
+				Path sourceConfig = Paths.get(settings.getConfigPath());
+				Path targetConfig = Paths.get(settings.getOutputFolderPath() + System.getProperty("file.separator")+ "configUsedBy.serge");
+				Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
+				
 			}
+
+			
 			
 			// Name Mapping and Serialization...
 			
