@@ -11,15 +11,13 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.sidiff.serge.settings.SergeSettings;
 
-public class InverseModuleMapSerializer {
+public class InverseModuleMapSerializer extends LogSerializer{
 
-	/**
-	 * Serge settings
-	 */
-	private SergeSettings settings = null;
 	
 	public InverseModuleMapSerializer(SergeSettings settings) {
-		this.settings = settings;		
+		
+		super(settings);
+
 	}
 	
 	public void serialize(InverseModuleMapper inverseModuleMapper) {

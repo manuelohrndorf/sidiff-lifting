@@ -38,4 +38,5 @@ public interface GlobalConstants {
 	public static final String UNITNAME = "mainUnit";
 	public static final String HENSHIN_EXT = ".henshin";
 	public static final String HENSHIN_DIA_EXT = ".henshin_diagram";
+	public static final String LOG_EXT = ".log";
 }

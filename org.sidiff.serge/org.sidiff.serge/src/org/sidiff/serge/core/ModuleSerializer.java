@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -23,7 +21,6 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.serge.configuration.Configuration;
-import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.GlobalConstants;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.serge.settings.SergeSettings;
@@ -34,7 +31,6 @@ public class ModuleSerializer {
 	 * The Settings.
 	 */
 	private SergeSettings settings = null;
-	
 	
 	/**
 	 * The Configuration.
@@ -51,6 +47,7 @@ public class ModuleSerializer {
 	 * @param settings
 	 */
 	public ModuleSerializer (SergeSettings settings) {
+
 		this.settings = settings;
 		
 		// establishing henshin file extension filter
@@ -182,8 +179,8 @@ public class ModuleSerializer {
 	 * @param allModules
 	 * @throws OperationTypeNotImplementedException 
 	 */
-	public void serialize(Set<Module> allModules) throws OperationTypeNotImplementedException  {
-	
+	public void serialize(Set<Module> allModules) throws OperationTypeNotImplementedException  {		
+		
 		// if deletion of previous runs is wished, do so
 		if(settings.isDeleteGeneratedTransformations()) {
 			String outputFolderPath = settings.getOutputFolderPath() + System.getProperty("file.separator") ;		

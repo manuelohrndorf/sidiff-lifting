@@ -47,11 +47,11 @@ public class SergeSettings {
 		this.configPath = configPath;
 		this.useSubfolders = true;
 		this.deleteManualTransformations = false;
-		this.deleteGeneratedTransformations = false;
-		this.overwriteGeneratedTransformations = false;
+		this.deleteGeneratedTransformations = true;
+		this.overwriteGeneratedTransformations = true;
 		this.overwriteConfigInTargetFolder = true;
 		this.saveLogs = true;
-		this.deleteLogs = false;
+		this.deleteLogs = true;
 	}
 	
 	public SergeSettings(String outputFolderPath, String configPath,
