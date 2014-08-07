@@ -1,6 +1,7 @@
 package org.sidiff.serge.filter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -10,8 +11,10 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.common.emf.extensions.impl.Mask;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.serge.configuration.Configuration;
+import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.exceptions.OperationTypeNotImplementedException;
 
 /**
@@ -511,6 +514,69 @@ public class ElementFilter {
 		}
 		return list;
 	}
+	
+	
+	public HashMap<EReference, List<EClass>>getAllAllowedParentContexts(EClassifier childEClassifier,
+			Boolean reduceToSupertype, OperationType operationType) 
+			throws OperationTypeNotImplementedException {
+		
+		HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
+		
+		// get possible eClassifier Masks for additional move generation of masked classifiers.
+		List<Mask> eClassifierMasks = new ArrayList<Mask>();
+		eClassifierMasks.addAll(ECM.getEClassifierInfo(childEClassifier).getMasks());
+
+		// get all possible contexts (mandatory & optional) and the  according references
+		HashMap<EReference, List<EClassifier>> allParents = ECM.getAllParentContexts(childEClassifier,
+				reduceToSupertype);
+
+		for (EReference eRef : allParents.keySet()) {
+
+			assert (eRef.isContainment()) : "eRef is no containment but should be";
+
+			// don't consider containment references where multiplicity is
+			// fixed. In such cases a SWAP (complex) operation is necessary
+			if (!(eRef.getLowerBound() == eRef.getUpperBound())) {
+
+				// don't consider derived, not changeable, unsettable and
+				// transient references
+				if (!eRef.isDerived() && eRef.isChangeable() && !eRef.isUnsettable() && !eRef.isTransient()) {
+
+					EClass parent = (EClass) eRef.eContainer();
+
+					// if parent is allowed, put it in allAllowedParent-List
+					if (isAllowedAsDangling(parent, operationType, reduceToSupertype)) {
+						if (allAllowedParents.get(eRef) == null) {
+							List<EClass> newParentList = new ArrayList<EClass>();
+							newParentList.add(parent);
+							allAllowedParents.put(eRef, newParentList);
+						} else {
+							allAllowedParents.get(eRef).add(parent);
+						}
+					}
+
+					// all EReferences
+					ArrayList<EReference> allReferences = new ArrayList<EReference>();
+					allReferences.addAll(allAllowedParents.keySet());
+					
+					
+					
+					
+					
+					
+				}
+				
+			}
+		}
+		return allAllowedParents;		
+	}
+				
+	
+	
+	
+	
+	
+	
 	
 //	/****** Meta Model Slicer TESTING **********************************************************************************/
 //	
