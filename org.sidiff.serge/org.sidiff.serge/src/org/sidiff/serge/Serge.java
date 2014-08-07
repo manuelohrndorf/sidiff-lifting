@@ -160,6 +160,17 @@ public class Serge {
 
 			
 			
+			// delete contents of manual folder if wished so
+			if(settings.isDeleteManualTransformations()) {
+				File manualFolder = new File(settings.getOutputFolderPath() + "manual");
+				if(manualFolder.exists()) {
+					for(File f: manualFolder.listFiles()) {
+						f.delete();
+						
+					}		
+				}
+			}
+			
 			// Name Mapping and Serialization...
 			
 			Set<Module> moduleSet = new HashSet<Module>();
