@@ -49,7 +49,7 @@ public class SergeSettings {
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = true;
 		this.overwriteGeneratedTransformations = true;
-		this.overwriteConfigInTargetFolder = true;
+		this.overwriteConfigInTargetFolder = false;
 		this.saveLogs = true;
 		this.deleteLogs = true;
 	}

@@ -7,10 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Timer;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
@@ -138,8 +140,20 @@ public class Serge {
 				inverseModuleSerializer.serialize(inverseModuleMapper);
 				
 				// copy config file to target transformation folder
+				String timestamp = new java.text.SimpleDateFormat("YYYYMMdd").format(new Date());
 				Path sourceConfig = Paths.get(settings.getConfigPath());
-				Path targetConfig = Paths.get(settings.getOutputFolderPath() + System.getProperty("file.separator")+ "configUsedBy.serge");
+				Path targetConfig = Paths.get(settings.getOutputFolderPath()
+																				+ System.getProperty("file.separator")
+																				+ "usedConfig"
+																				+ "_"+ timestamp + ".serge");
+				if(Files.exists(targetConfig) && !settings.isOverwriteConfigInTargetFolder()) {
+					timestamp = new java.text.SimpleDateFormat("YYYYMMdd_hhmmss").format(new Date());
+					targetConfig = Paths.get(settings.getOutputFolderPath()
+																		+ System.getProperty("file.separator")
+																		+ "usedConfig"
+																		+ "_"+ timestamp + ".serge");
+							
+				}
 				Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
 				
 			}
