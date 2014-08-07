@@ -135,7 +135,9 @@ public class Serge {
 			Set<Module> moduleSet = new HashSet<Module>();
 			for (OperationType opType : allModules.keySet()) {
 				Set<Module> opSet = allModules.get(opType);
-				moduleSet.addAll(opSet);
+				if(!opSet.isEmpty()) {
+					moduleSet.addAll(opSet);
+				}
 			}
 			
 			if(config.ENABLE_NAME_MAPPER) {

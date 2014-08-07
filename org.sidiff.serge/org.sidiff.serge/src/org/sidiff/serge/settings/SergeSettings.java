@@ -18,7 +18,7 @@ public class SergeSettings {
 		super();
 		this.outputFolderPath = outputFolderPath;
 		this.configPath = configPath;
-		this.useSubfolders = false;
+		this.useSubfolders = true;
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = false;
 		this.overwriteGeneratedTransformations = true;

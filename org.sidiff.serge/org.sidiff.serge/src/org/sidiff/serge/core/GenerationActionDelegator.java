@@ -228,7 +228,7 @@ public class GenerationActionDelegator {
 									// eClassifiers, if any
 									for (Mask mask : eClassifierMasks) {
 										MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(
-												mask, eRefA, contextA_eRef, contextB_eRefA, eRef, null);
+												mask, eRefA, contextA_eRef, contextB_eRefA, eRef, OperationType.MOVE);
 										modules.add(generatorForMasks.generate());
 									}
 
@@ -275,17 +275,19 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) {
+	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_MOVE_DOWNS) {
+		if (c.CREATE_MOVE_DOWNS
+					&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_DOWN)) {
+			
 
-			// TODO implement MoveDown
 
 		}
-
+		
 		return modules;
 
 	}
