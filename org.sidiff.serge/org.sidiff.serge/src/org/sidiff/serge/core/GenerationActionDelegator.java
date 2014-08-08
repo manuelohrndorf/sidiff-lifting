@@ -218,15 +218,35 @@ public class GenerationActionDelegator {
 	 * 
 	 * @param eClassifier
 	 * @return
+	 * @throws OperationTypeNotImplementedException 
 	 */
-	public Set<Module> generate_MOVE_UP(EClassifier eClassifier) {
+	public Set<Module> generate_MOVE_UP(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
+		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
+		
+		if (c.CREATE_MOVE_UPS
+			&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_UP)) {
 
-		if (c.CREATE_MOVE_UPS) {
+			// get possible eClassifier Masks for additional move generation of masked classifiers.
+			List<Mask> eClassifierMasks = new ArrayList<Mask>();
+			eClassifierMasks.addAll(eInfo.getMasks());
 
-			// TODO implement MoveUp
+			// get all possible contexts (mandatory & optional) and the according references
+			HashMap<EReference, List<EClass>> allAllowedParents = FILTER.getAllAllowedParentContexts(
+					eClassifier, c.REDUCETOSUPERTYPE_MOVE_UP, OperationType.MOVE_UP);
+			
+			// get all possible, recursivly contained mandatory & optional children inclusively their subtypes
+			HashMap<EReference, List<EClassifier>>allDirectChildren =  eInfo.getAllDirectChildren(eClassifier);
 
+			// find out where a child can also be a parent
+			for(Entry<EReference, List<EClass>> parentRef2List: allAllowedParents.entrySet()) {
+				List<EClass> parents = parentRef2List.getValue();				
+				
+
+				
+				
+			}
 		}
 
 		return modules;

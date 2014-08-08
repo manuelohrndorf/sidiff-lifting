@@ -435,7 +435,7 @@ public class ElementFilter {
 		boolean requiredByChildren = false;
 		
 		for(EClassifier whiteListedEClass: whiteList) {
-			for(Entry<EReference,List<EClassifier>> entry: ECM.getAllParentContext(whiteListedEClass, false).entrySet()) {
+			for(Entry<EReference,List<EClassifier>> entry: ECM.getAllParentContexts(whiteListedEClass, false).entrySet()) {
 				EReference eRefChildToParent = entry.getKey().getEOpposite();
 				if(eRefChildToParent!=null) {
 					int lb = eRefChildToParent.getLowerBound();
@@ -515,7 +515,14 @@ public class ElementFilter {
 		return list;
 	}
 	
-	
+	/**
+	 * This method delivers all allowed parent context regarding a childEClassifer.
+	 * @param childEClassifier
+	 * @param reduceToSupertype
+	 * @param operationType
+	 * @return
+	 * @throws OperationTypeNotImplementedException
+	 */
 	public HashMap<EReference, List<EClass>>getAllAllowedParentContexts(EClassifier childEClassifier,
 			Boolean reduceToSupertype, OperationType operationType) 
 			throws OperationTypeNotImplementedException {
@@ -558,23 +565,11 @@ public class ElementFilter {
 					// all EReferences
 					ArrayList<EReference> allReferences = new ArrayList<EReference>();
 					allReferences.addAll(allAllowedParents.keySet());
-					
-					
-					
-					
-					
-					
-				}
-				
+				}		
 			}
 		}
 		return allAllowedParents;		
 	}
-				
-	
-	
-	
-	
 	
 	
 	

@@ -121,6 +121,19 @@ public class EClassifierInfo {
 	
 	/** Convenience methods ***************************************************************/
 	
+	public HashMap<EReference, List<EClassifier>> getAllDirectChildren(EClassifier childEClassifier)  {
+		
+		HashMap<EReference, List<EClassifier>> allDirectChildren = new HashMap<EReference, List<EClassifier>>();
+		
+		// get all direct children (mandatory and optional)
+		allDirectChildren.putAll(getMandatoryChildren());
+		allDirectChildren.putAll(getOptionalChildren());
+
+		return allDirectChildren;
+		
+	}
+	
+	
 	public HashSet<EClassifier> getClassifiersOfAttributesForEClassifier(EClassifier eClassifier)
 	{
 		HashSet<EClassifier> attributeClassifiers = new HashSet<EClassifier>();
