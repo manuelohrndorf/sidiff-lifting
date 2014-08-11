@@ -9,6 +9,11 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.silift.common.util.emf.EMFStorage;
 
 public class EMFModelAccessEx {
 
@@ -129,6 +134,31 @@ public class EMFModelAccessEx {
 		assert (isProfiled(model)) : model + " is not a profile!";
 
 		return getCharacteristicDocumentType(model);
+	}
+	
+	/**
+	 * derives the diagram file and all other files if exist
+	 * @param model
+	 * @return
+	 */
+	public static ResourceSet deriveDiagramFile(Resource model){
+		String path = EMFStorage.uriToPath(model.getURI());
+		ResourceSet resourceSet = new ResourceSetImpl();
+		try{
+			if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
+				path += "diag";
+				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
+			}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
+				path = path.replace(".uml", ".di");
+				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
+				path = path.replace(".di", ".notation");
+				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
+			}
+			// TODO other domains
+		}catch(Exception e){
+			LogUtil.log(LogEvent.NOTICE, e.getMessage());
+		}
+		return resourceSet;
 	}
 
 }
