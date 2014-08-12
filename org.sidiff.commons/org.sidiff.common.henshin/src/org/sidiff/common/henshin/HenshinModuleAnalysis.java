@@ -33,5 +33,31 @@ public class HenshinModuleAnalysis {
 		
 		return ECollections.unmodifiableEList(rules);
 	}
+	
+	/**
+	 * Get all kernel rules of the module, including submodules
+	 * 
+	 * @param module
+	 *            the module.
+	 * @return all Kernel Rules contained by the module in an unmodifiable list.
+	 */
+	public static EList<Rule> getAllKernelRules(Module module) {
+		EList<Rule> rules = new BasicEList<Rule>();
+		
+		for (Unit unit : module.getUnits()) {
+			if (unit instanceof Rule) {
+				Rule rule = (Rule) unit;
+				if(!rule.isMultiRule()){
+					rules.add(rule);
+				}
+			}
+		}
+		
+		for (Module subModule : module.getSubModules()) {
+			rules.addAll(getAllRules(subModule));
+		}
+		
+		return ECollections.unmodifiableEList(rules);
+	}
 
 }
