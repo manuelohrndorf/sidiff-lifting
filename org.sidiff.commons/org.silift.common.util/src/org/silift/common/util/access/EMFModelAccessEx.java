@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -159,6 +160,22 @@ public class EMFModelAccessEx {
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 		}
 		return resourceSet;
+	}
+
+	
+	/**
+	 * Returns the URI fragment of the given object.
+	 * 
+	 * @param eObject
+	 *            the object
+	 * @return the object URI fragment.
+	 */
+	public static String getURIFragment(EObject eObject) {
+		if (eObject.eIsProxy()) {
+			return ((InternalEObject) eObject).eProxyURI().fragment();
+		} else {
+			return eObject.eResource().getURIFragment(eObject);
+		}
 	}
 
 }
