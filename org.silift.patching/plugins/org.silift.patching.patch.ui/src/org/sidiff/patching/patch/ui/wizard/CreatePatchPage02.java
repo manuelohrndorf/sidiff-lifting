@@ -13,9 +13,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
@@ -24,6 +22,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 
 public class CreatePatchPage02 extends WizardPage implements IPageChangedListener{
 
@@ -32,6 +31,7 @@ public class CreatePatchPage02 extends WizardPage implements IPageChangedListene
 	private Composite container;
 
 	private MatchingEngineWidget matcherWidget;
+	private SymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
 	private DifferenceBuilderWidget builderWidget;
 
 	private SelectionAdapter validationListener;
@@ -130,6 +130,11 @@ public class CreatePatchPage02 extends WizardPage implements IPageChangedListene
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
+		
+		// Symbolic Link Resolver:
+		symbolicLinkHandlerWidget = new SymbolicLinkHandlerWidget();
+		symbolicLinkHandlerWidget.setSettings(this.settings);
+		addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);

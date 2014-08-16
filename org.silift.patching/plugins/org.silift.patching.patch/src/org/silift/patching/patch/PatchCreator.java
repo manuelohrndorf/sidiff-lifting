@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.logging.LogEvent;
@@ -18,6 +18,7 @@ import org.sidiff.common.xml.XMLWriter;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -25,6 +26,9 @@ import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.file.FileOperations;
 import org.silift.common.util.file.ZipUtil;
+import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 
 public class PatchCreator {
@@ -33,6 +37,8 @@ public class PatchCreator {
 	public static final String FOLDER_MODEL_A = "modelA";
 	public static final String FOLDER_MODEL_B = "modelB";
 	
+	private LiftingSettings settings;
+	private Collection<SymbolicLinks> symbolicLinksSet;
 	private Resource resourceA;
 	private Resource resourceB;
 	private ResourceSet resourceADiag;
@@ -57,16 +63,17 @@ public class PatchCreator {
 	private String relativeAsymDiffPath;
 	
 	
-	private ArrayList<HashMap<String,String>> editRules;
-	private ArrayList<HashMap<String,String>> differences;
-	private ArrayList<HashMap<String,String>> settings;
+	private ArrayList<HashMap<String,String>> manifest_EditRules;
+	private ArrayList<HashMap<String,String>> manifest_Differences;
+	private ArrayList<HashMap<String,String>> manifest_Settings;
 	
 	
-	public PatchCreator(Resource resourceA, Resource resourceB){
+	public PatchCreator(Resource resourceA, Resource resourceB, LiftingSettings settings){
+		this.settings = settings;
 		this.resourceA = resourceA;
 		this.resourceB = resourceB;
-		this.resourceADiag = deriveDiagrammFile(resourceA);
-		this.resourceBDiag = deriveDiagrammFile(resourceB);
+		this.resourceADiag = EMFModelAccessEx.deriveDiagramFile(resourceA);
+		this.resourceBDiag = EMFModelAccessEx.deriveDiagramFile(resourceB);
 		separator = System.getProperty("file.separator");
 	}
 	
@@ -117,17 +124,7 @@ public class PatchCreator {
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
-
-
-	public ArrayList<HashMap<String, String>> getSettings() {
-		return settings;
-	}
-
-
-	public void setSettings(ArrayList<HashMap<String, String>> settings) {
-		this.settings = settings;
-	}
-
+	
 
 	public String serializePatch(IPath path) throws FileNotFoundException{
 		
@@ -136,6 +133,7 @@ public class PatchCreator {
 		
 		savePath = path.toOSString()+separator+"PATCH(origin_"+resourceA_name+"_to_"+"modified_"+resourceB_name+")";
 		
+		if(!settings.useSymbolicLinks()){
 		String modelADir = savePath+separator + FOLDER_MODEL_A;
 		String modelBDir = savePath+separator + FOLDER_MODEL_B;
 		
@@ -170,8 +168,12 @@ public class PatchCreator {
 		
 		symmetricDifference.setUriModelA(relativeResASavePath);
 		symmetricDifference.setUriModelB(relativeResBSavePath);
-		
-		editRules = new ArrayList<HashMap<String,String>>();
+		}else{
+			ISymbolicLinkHandler handler = settings.getSymbolicLinkHandler();
+			symbolicLinksSet = handler.generateSymbolicLinks(asymmetricDifference, false);
+			SymbolicLinkHandlerUtil.serializeSymbolicLinks(symbolicLinksSet, asymmetricDifference, savePath);
+		}
+		manifest_EditRules = new ArrayList<HashMap<String,String>>();
 		for(RuleBase rb : asymmetricDifference.getRuleBases()){
 			for(RuleBaseItem rbi : rb.getItems()){
 				Module module = rbi.getEditRule().getExecuteModule();
@@ -189,7 +191,7 @@ public class PatchCreator {
 				attributes.put("name", module.getName());
 				attributes.put("href", relSavePath);
 				attributes.put("version", rbi.getVersion());
-				editRules.add(attributes);
+				manifest_EditRules.add(attributes);
 			}
 		}
 		
@@ -206,15 +208,15 @@ public class PatchCreator {
 		relativeAsymDiffPath = EMFStorage.pathToRelativeUri(savePath, asymmetricDiffSavePath).toString();
 		
 		// MANIFEST
-		differences = new ArrayList<HashMap<String, String>>();
+		manifest_Differences = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> symAtritbutes = new HashMap<String, String>();
 		symAtritbutes.put("name", symmetricDiff_name);
 		symAtritbutes.put("href", relativeSymDiffPath);
-		differences.add(symAtritbutes);
+		manifest_Differences.add(symAtritbutes);
 		HashMap<String, String> asymAtritbutes = new HashMap<String, String>();
 		asymAtritbutes.put("name", asymmetricDiff_name);
 		asymAtritbutes.put("href", relativeAsymDiffPath);
-		differences.add(asymAtritbutes);
+		manifest_Differences.add(asymAtritbutes);
 		
 		createManifest(savePath);
 		
@@ -228,13 +230,35 @@ public class PatchCreator {
 	
 	
 	private void createManifest(String path) throws FileNotFoundException {
+		manifest_Settings = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> conf_Matcher = new HashMap<String, String>();
+		conf_Matcher.put("matcher", settings.getMatcher().getName());
+		conf_Matcher.put("key", settings.getMatcher().getKey());
+		manifest_Settings.add(conf_Matcher);
+		
+		if(settings.useSymbolicLinks()){
+			HashMap<String, String> conf_SymbolicLinkHandler = new HashMap<String, String>();
+			conf_SymbolicLinkHandler.put("symboliclinkhandler", settings.getSymbolicLinkHandler().getName());
+			conf_SymbolicLinkHandler.put("key", settings.getSymbolicLinkHandler().getKey());
+			manifest_Settings.add(conf_SymbolicLinkHandler);
+		}
+		
 		XMLWriter writer = new XMLWriter(new FileOutputStream(new File(path+separator+"MANIFEST.xml")));
 		writer.initDocument("manifest");
-		createManifestElement(writer, "modelA", resourceA_name, relativeResASavePath);
-		createManifestElement(writer, "modelB", resourceB_name, relativeResBSavePath);
-		createManifestElement(writer, "editrules", "editrule", editRules);;
-		createManifestElement(writer, "differences", "difference", differences);
-		createManifestElement(writer, "settings", "setting", settings);
+		if(settings.useSymbolicLinks()){
+			char c = 'A';
+			for(int i=0; i < symbolicLinksSet.size(); i++){
+				String fileName = "LinksModel" + c + "." + SymbolicLinkHandlerUtil.SYMBOLIC_LINKS_EXT;
+				createManifestElement(writer, "model"+c, "LinksModel"+c, fileName);
+				c++;
+			}
+		}else{
+			createManifestElement(writer, "modelA", resourceA_name, relativeResASavePath);
+			createManifestElement(writer, "modelB", resourceB_name, relativeResBSavePath);
+		}
+		createManifestElement(writer, "editrules", "editrule", manifest_EditRules);;
+		createManifestElement(writer, "differences", "difference", manifest_Differences);
+		createManifestElement(writer, "settings", "setting", manifest_Settings);
 		writer.finishDocument();
 	}
 	
@@ -252,26 +276,4 @@ public class PatchCreator {
 		}
 		xmlWriter.generateEndTag(name);
 	}
-	
-	public static ResourceSet deriveDiagrammFile(Resource model){
-		String path = EMFStorage.uriToPath(model.getURI());
-		ResourceSet resourceSet = new ResourceSetImpl();
-		try{
-			if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
-				path += "diag";
-				resourceSet.getResources().add(LiftingFacade.loadModel(path));
-			}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
-				path = path.replace(".uml", ".di");
-				resourceSet.getResources().add(LiftingFacade.loadModel(path));
-				path = path.replace(".di", ".notation");
-				resourceSet.getResources().add(LiftingFacade.loadModel(path));
-			}
-			
-			// TODO other domains
-		}catch(Exception e){
-			LogUtil.log(LogEvent.NOTICE, e.getMessage());
-		}
-		return resourceSet;
-	}
-
 }

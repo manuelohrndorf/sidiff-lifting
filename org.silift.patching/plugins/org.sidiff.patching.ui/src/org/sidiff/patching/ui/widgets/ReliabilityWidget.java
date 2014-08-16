@@ -1,8 +1,6 @@
 package org.sidiff.patching.ui.widgets;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,11 +12,12 @@ import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.matcher.IMatcher;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation, ISettingsChangedListener {
@@ -26,45 +25,51 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 	private final int defaultReliability = 50;
 
 	private Settings settings;
-	private MatchingEngineWidget matchingEngineWidget;
-
 	private Composite container;
 	private Scale scale;
 	private Spinner spinner;
 	private int reliability;
 
-	public ReliabilityWidget(Integer reliability, MatchingEngineWidget matchingEngineWidget) {
+	public ReliabilityWidget(Integer reliability) {
 		if(reliability != null)
 			this.reliability = reliability;
 		else
 			this.reliability = defaultReliability;
 		
 		// Connect to matching engine widget:
-		this.matchingEngineWidget = matchingEngineWidget;
-		
-		matchingEngineWidget.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				checkMatcher();
-			}
-		});
+//		this.matchingEngineWidget = matchingEngineWidget;
+//		
+//		matchingEngineWidget.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				checkMatcher();
+//			}
+//		});
 	}
 	
-	private boolean checkMatcher() {
-		IMatcher matcher = matchingEngineWidget.getSelection();
-		
-		if((matcher != null) && matcher.canComputeReliability()){
-			scale.setEnabled(true);
-			spinner.setEnabled(true);
-			container.setEnabled(true);
-			return true;
+	private boolean checkComputability() {
+		if(settings.useSymbolicLinks()){
+			ISymbolicLinkHandler symbolicLinkHandler = settings.getSymbolicLinkHandler();
+			if((symbolicLinkHandler != null) && symbolicLinkHandler.canComputeReliability()){
+				scale.setEnabled(true);
+				spinner.setEnabled(true);
+				container.setEnabled(true);
+				return true;
+			}
+		}else{
+			IMatcher matcher = settings.getMatcher();
+
+			if ((matcher != null) && matcher.canComputeReliability()) {
+				scale.setEnabled(true);
+				spinner.setEnabled(true);
+				container.setEnabled(true);
+				return true;
+			}
 		}
-		else{
-			scale.setEnabled(false);
-			spinner.setEnabled(false);
-			container.setEnabled(false);
-			return false;
-		}
+		scale.setEnabled(false);
+		spinner.setEnabled(false);
+		container.setEnabled(false);
+		return false;
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 		});
 		
 		// Initialize...
-		checkMatcher();
+		checkComputability();
 		
 		((PatchingSettings)settings).setMinReliability(reliability);
 		return container;
@@ -138,7 +143,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 	}
 
 	public int getReliability() {
-		if (checkMatcher()) {
+		if (checkComputability()) {
 			return this.reliability;
 		} else {
 			return -1;
@@ -147,10 +152,14 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 
 	@Override
 	public String getInformationMessage() {
-		if (checkMatcher()) {
+		if (checkComputability()) {
 			return "";
 		} else {
-			return "Selected Matching Engine does not support Reliability!";
+			if(settings.useSymbolicLinks()){
+				return "Selected Symbolic Link Handler does not support Reliability!";
+			}else{
+				return "Selected Matching Engine does not support Reliability!";
+			}
 		}
 	}
 
@@ -173,6 +182,9 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if(item.equals(SettingsItem.MATCHER) || item.equals(SettingsItem.SYMBOLIC_LINK_HANDLER)){
+			checkComputability();
+		}
 	}
 
 	public Settings getSettings() {

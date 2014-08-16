@@ -33,7 +33,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
@@ -45,14 +44,15 @@ import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
+import org.sidiff.patching.ui.arguments.InteractiveSymblArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.patching.patch.Manifest;
 import org.silift.patching.patch.Patch;
-import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.settings.ExecutionMode;
 import org.silift.patching.settings.PatchMode;
 import org.silift.patching.settings.PatchingSettings;
@@ -65,14 +65,16 @@ public class ApplyPatchWizard extends Wizard {
 
 	private IFile file;
 	private Patch patch;
+	private Manifest manifest;
 	private String patchName;
 	private boolean validationState;
 	private PatchingSettings settings;
 
-	public ApplyPatchWizard(Patch patch, IFile file) {
+	public ApplyPatchWizard(Patch patch, Manifest manifest, IFile file) {
 		this.setWindowTitle("Apply Patch Wizard");
 		this.file = file;
 		this.patch = patch;
+		this.manifest = manifest;
 		this.patchName = file.getName();
 		this.settings = new PatchingSettings();
 	}
@@ -85,7 +87,7 @@ public class ApplyPatchWizard extends Wizard {
 		
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage", "Apply Patch: " + patchName,
-				getImageDescriptor("icon.png"),settings);
+				getImageDescriptor("icon.png"),settings, manifest);
 		addPage(applyPatchPage01);
 		addPage(applyPatchPage02);
 	}
@@ -123,12 +125,10 @@ public class ApplyPatchWizard extends Wizard {
 		final String separator = System.getProperty("file.separator");
 		final String filename = this.applyPatchPage01.getTargetWidget().getFilename();
 		final ValidationMode validationMode = settings.getValidationMode();
-		final Integer reliability = settings.getMinReliability();
-		final IMatcher matcher = settings.getMatcher();
 
 		final URI fileURI = URI.createFileURI(filename);
 		Resource targetResource = EMFStorage.eLoad(fileURI).eResource();
-		ResourceSet diagramResourceSet = PatchCreator.deriveDiagrammFile(targetResource);
+		ResourceSet diagramResourceSet = EMFModelAccessEx.deriveDiagramFile(targetResource);
 		String savePath = EMFStorage.uriToPath(targetResource.getURI());
 		savePath = savePath.replace(targetResource.getURI().lastSegment(), "patched");
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
@@ -201,8 +201,13 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
-					argumentManager.setMinReliability(reliability);
+					IArgumentManager argumentManager;
+					if(settings.useSymbolicLinks()){
+						argumentManager = new InteractiveSymblArgumentManager(settings.getSymbolicLinkHandler());
+					}else{
+						argumentManager = new InteractiveArgumentManager(settings.getMatcher());
+					}
+					argumentManager.setMinReliability(settings.getMinReliability());
 					settings.setArgumentManager(argumentManager);
 					
 					// Find transformation engine (no other available right now)

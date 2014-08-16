@@ -151,7 +151,7 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Reliability
-		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
+		reliabilityWidget = new ReliabilityWidget(50);
 		reliabilityWidget.setSettings(this.patchingSettings);
 		addWidget(algorithmsGroup, reliabilityWidget);
 

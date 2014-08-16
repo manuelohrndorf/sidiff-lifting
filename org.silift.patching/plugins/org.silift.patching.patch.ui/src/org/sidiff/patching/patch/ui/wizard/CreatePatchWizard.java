@@ -1,9 +1,6 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -108,17 +105,9 @@ public class CreatePatchWizard extends Wizard {
 		 */
 
 		try {
-			PatchCreator patchCreator = new PatchCreator(resourceA, resourceB);
+			PatchCreator patchCreator = new PatchCreator(resourceA, resourceB, settings);
 			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
 			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
-
-			ArrayList<HashMap<String, String>> conf = new ArrayList<HashMap<String, String>>();
-			HashMap<String, String> conf_Matcher = new HashMap<String, String>();
-			conf_Matcher.put("matcher", settings.getMatcher().getName());
-			conf_Matcher.put("key", settings.getMatcher().getKey());
-			conf.add(conf_Matcher);
-
-			patchCreator.setSettings(conf);
 
 			// Print report:
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");

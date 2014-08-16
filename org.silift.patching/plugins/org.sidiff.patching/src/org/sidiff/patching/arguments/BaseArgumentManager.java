@@ -86,11 +86,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 
 		// now we initialize the internal state...
 
-		// collect referenced registry and ResourceSet resources
-		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();
-		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, scope);
-		packageRegistryResources = extContainer.getReferencedRegistryModels();
-		resourceSetResources = extContainer.getReferencedResourceSetModels();
+		this.collectReferencedRegistryAndResourceSetResources();
 
 		// init argument wrappers and provide initial resolutions
 		argumentResolutions = new HashMap<ParameterBinding, ArgumentWrapper>();
@@ -214,12 +210,30 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	}
 
 	/**
+	 * Setter method.
+	 * 
+	 * @param packageRegistryResources
+	 */
+	protected void setPackageRegistryResources(Set<Resource> packageRegistryResources) {
+		this.packageRegistryResources = packageRegistryResources;
+	}
+
+	/**
 	 * Getter method.
 	 * 
 	 * @return
 	 */
 	protected Set<Resource> getResourceSetResources() {
 		return resourceSetResources;
+	}
+
+	/**
+	 * Setter method.
+	 * 
+	 * @param resourceSetResources
+	 */
+	protected void setResourceSetResources(Set<Resource> resourceSetResources) {
+		this.resourceSetResources = resourceSetResources;
 	}
 
 	/**
@@ -265,4 +279,14 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * @return
 	 */
 	protected abstract EObject resolveOriginObject(EObject originObject);
+	
+	/**
+	 * collect referenced registry and ResourceSet resources
+	 */
+	protected void collectReferencedRegistryAndResourceSetResources(){
+		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();
+		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, scope);
+		packageRegistryResources = extContainer.getReferencedRegistryModels();
+		resourceSetResources = extContainer.getReferencedResourceSetModels();
+	}
 }

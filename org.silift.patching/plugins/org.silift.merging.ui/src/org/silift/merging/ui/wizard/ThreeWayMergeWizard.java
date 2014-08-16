@@ -140,7 +140,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					// Now apply that patch onto MINE
 					final String separator = System.getProperty("file.separator");
 					Resource targetResource = configuredMergeModels.getResourceMine();
-					ResourceSet diagramResourceSet = PatchCreator.deriveDiagrammFile(targetResource);
+					ResourceSet diagramResourceSet = EMFModelAccessEx.deriveDiagramFile(targetResource);
 					String savePath = EMFStorage.uriToPath(targetResource.getURI());
 					savePath = savePath.replace(targetResource.getURI().lastSegment(), "merged");
 					EMFStorage.eSaveAs(

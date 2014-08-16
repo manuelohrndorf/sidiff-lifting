@@ -16,12 +16,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
+import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.patching.patch.Manifest;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.settings.PatchingSettings;
 
@@ -31,7 +33,8 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 	
 	private Composite container;
 
-	private MatchingEngineWidget matcherWidget;
+	private ApplyPatchMatchingEngineWidget matcherWidget;
+	private ApplyPatchSymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
 	private ReliabilityWidget reliabilityWidget;
 	
 	private SelectionAdapter validationListener;
@@ -41,15 +44,22 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 	private InputModels inputModels;
 	
 	private PatchingSettings settings;
+	private Manifest manifest;
+	boolean use_SymbolicLinks=false;
 
 	public ApplyPatchPage02(Patch patch,
-			String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
+			String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings, Manifest manifest) {
 		super(pageName, title, titleImage);
 
 		this.difference = patch.getDifference();
 		this.inputModels = new InputModels(this.difference.getOriginModel(), this.difference.getChangedModel());
-
 		this.settings = settings;
+		this.manifest = manifest;
+		
+		if(manifest.getSymbolicLinkHandlerName()!=null){
+			use_SymbolicLinks=true;
+		}
+		
 		// Listen for validation failures:
 		validationListener = new SelectionAdapter() {
 			@Override
@@ -139,14 +149,19 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 			algorithmsGroup.setText("Algorithms:");
 		}
 
-		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
-		matcherWidget.setSettings(this.settings);
-		matcherWidget.setPageChangedListener(this);
-		addWidget(algorithmsGroup, matcherWidget);
-		
+		if(use_SymbolicLinks){
+			// Symbolic Link Resolver:
+			symbolicLinkHandlerWidget = new ApplyPatchSymbolicLinkHandlerWidget(settings, manifest);
+			addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
+		}else{
+			// Matcher:
+			matcherWidget = new ApplyPatchMatchingEngineWidget(inputModels, manifest);
+			matcherWidget.setSettings(this.settings);
+			matcherWidget.setPageChangedListener(this);
+			addWidget(algorithmsGroup, matcherWidget);
+		}
 		//Reliability
-		reliabilityWidget = new ReliabilityWidget(50, matcherWidget);
+		reliabilityWidget = new ReliabilityWidget(50);
 		reliabilityWidget.setSettings(this.settings);
 		addWidget(container, reliabilityWidget);
 
@@ -168,7 +183,11 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		validateWidget(matcherWidget);
+		if(use_SymbolicLinks){
+			validateWidget(symbolicLinkHandlerWidget);
+		}else{
+			validateWidget(matcherWidget);
+		}
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -195,7 +214,7 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 		return reliabilityWidget;
 	}
 
-	public MatchingEngineWidget getMatcherWidget() {
+	public ApplyPatchMatchingEngineWidget getMatcherWidget() {
 		return matcherWidget;
 	}
 
