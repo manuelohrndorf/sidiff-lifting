@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
@@ -38,6 +40,7 @@ public class EClassifierInfo {
 	private ArrayList<EClassifier> stereotypes = new ArrayList<EClassifier>();
 	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<EClassifier>();
 	
+	private Set<ContainmentCycle> containmentCycles = new HashSet<ContainmentCycle>();
 	
 	private List<Mask> masks = new ArrayList<Mask>(); 
 	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
@@ -94,6 +97,9 @@ public class EClassifierInfo {
 	public List<Mask> getMasks() {
 		return masks;
 	}
+	public Set<ContainmentCycle> getContainmentCycles() {
+		return containmentCycles;
+	}
 
 	/** Setter ****************************************************************************/
 	
@@ -117,6 +123,9 @@ public class EClassifierInfo {
 		if(!masks.contains(mask)) {
 			masks.add(mask);
 		}
+	}
+	public void addContainmentCycle(ContainmentCycle cc) {
+		containmentCycles.add(cc);
 	}
 	
 	/** Convenience methods ***************************************************************/

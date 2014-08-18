@@ -69,6 +69,10 @@ public class EClassifierInfoManagement {
 		gatherSubtypeHierarchy(ePackageArray);
 		mapConcreteEClassifiersToAbstractSuperTypes(ePackagesStack);
 		gatherAllEClassifierInfos(ePackagesStack);
+		
+		// find and store Containment Cycles
+		ContainmentCycleDetector ccDetector = new ContainmentCycleDetector();
+		ccDetector.detectContainmentCycles(ePackagesStack);
 	}
 	
 	@Deprecated
@@ -1200,5 +1204,5 @@ public class EClassifierInfoManagement {
 		}		
 	}
 
-
+	
 }
