@@ -7,6 +7,14 @@ import java.util.Stack;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
+/**
+ * An instance of this class depicts a containment cycle which can be outer or inner.
+ * outer = the end of a path points back to the first entry (the origin of a path).
+ * inner = the end of a path points back to a previous but not the first entry in the path.
+ * 
+ * @author mrindt
+ *
+ */
 public class ContainmentCycle {
 
 	/**
@@ -62,4 +70,7 @@ public class ContainmentCycle {
 		return message;
 	}
 	
+	public Boolean isInnerCircle() {
+		return containsInnerCircle;
+	}
 }
