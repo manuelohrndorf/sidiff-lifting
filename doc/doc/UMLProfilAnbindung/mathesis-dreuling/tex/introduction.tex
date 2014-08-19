@@ -1,0 +1,74 @@
+\chapter*{Introduction}\label{introduction}
+The paradigm shift from coding to modeling can easily be called one of the
+biggest changes in progress in the area of software development. 
+The main reason for this change has been the rising complexity of software,
+whether it be in product families, different versions or the software itself.
+Developers are trying to restrain this complexity by using modeling languages
+and tools, which focus on the semantics of the given problem instead of
+underlying programming languages.
+Elevating the abstraction level eases the understanding of the problem and can
+be one solution to cope with the rising complexity of software.
+
+One important aspect to facilitate this paradigm shift is the definition of
+modeling languages conforming to problems in practical domains of software. The
+\ac{UML} has been introduced as such general-purpose modeling language and has
+been accepted by the \ac{ISO} as industry standard for modeling
+software-intensive systems since 2000. Although the modeling language already
+supports many areas of software development like \textit{activities} or \textit{data modeling}, the \ac{UML} provides the generic facility for possible adaptions in
+new areas or domains via its own \textit{profiling} mechanism: The \ac{UML} or
+subsets of it can be extended by declaring own domain specific elements, adding
+new properties to already existent modeling elements. The profiling mechanism is defined in an additive manner, therefore all profiled \ac{UML} elements are
+still conforming to the \ac{UML} standard. Two popular examples of \ac{UML}
+Profiles used by software developers in practice are \ac{SysML} and \ac{MARTE}.
+
+Another important aspect for supporting \ac{MDSD} are the modeling tools
+themselves, which should provide all needed and well-known features 
+supported by text-based tools. To keep complex software manageable, there has to be the possibility to work in
+sufficient large teams in parallel, without giving up the freedom of single
+developers. Text-based tools are providing all necessary features for working
+in teams since decades like the detection of correspondences and
+differences between two revisions of software. The \textit{SiDiff} tool provides
+such features for modeling languages: By implementing different
+matching services, SiDiff can compute corresponding elements between two models
+and is therefore the foundation of supporting parallel work in software
+development. The \textit{SiLift} tool takes the support one step further in the
+modeling tool pipeline: The detected differences are lifted upon a more
+understandable level for the developer by presenting the changes via edit
+operations. On this level of abstraction the changes are more comprehensive for
+the developer,
+which is crucial to parallel work paradigms. In the context of product families another feature is
+well known from text-based tools, which has mostly been absent in the modeling
+area: Patching of software. By making use of both SiDiff and SiLift another tool
+has been developed, which facilitates this functionality in the modeling domain.
+By supporting these three functionalities, \textit{Matching}, \textit{Lifting}
+and \textit{Patching}, all basic features needed for parallel development are
+available in \ac{MDSD}.
+
+Supporting modeling languages, which conform to problems in
+practical domains, in modeling tools, which facilitate well-known features in
+parallel development areas, is a big step for the paradigm
+shift to \ac{MDSD}. This Master's Thesis describes this integration process and
+is structured as follows:
+
+\textbf{Chapter \ref{environment_and_tools}} introduces the mentioned
+environment consisting of the modeling language \ac{UML} including its profile
+mechanism and the tools used for the integration.
+
+\textbf{Chapter \ref{integration}} describes the concepts of the whole
+integration process in a detailed manner, considering each pipeline step of the
+modeling tools.
+
+\textbf{Chapter \ref{realization}} illustrates the implementation of the
+concepts described beforehand, whereas details and problems are
+demonstrated.
+
+\textbf{Chapter \ref{sysml}} analyzes a \ac{SysML} case study in a comprehensive
+way, which will be used in the following chapter as input for testing the created solutions.
+
+\textbf{Chapter \ref{solution}} sums up the integration success by
+testing the solution using the case study described in the preceding chapter.
+
+\textbf{Chapter \ref{conclusionfuturework}} considers the results from all
+preceding chapters and presents a possible outlook and future work.
+
+

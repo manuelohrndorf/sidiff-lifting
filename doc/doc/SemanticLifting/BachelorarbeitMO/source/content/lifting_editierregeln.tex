@@ -1,0 +1,152 @@
+\chapter{Erstellen der Editierregeln}
+\label{editierregeln}
+
+Um Modelle bearbeiten zu können, benötigen wir darauf ausgelegte Werkzeuge. In der Regel werden dazu
+grafische Editoren oder Transformationstechniken benutzt. Welche Technik zur Bearbeitung eines
+Modells verwendet wurde und welche Semantik hinter den einzelnen Veränderungen im Modell steckt, ist
+zum Zeitpunkt der Differenzberechnung nicht mehr direkt nachzuvollziehen. Das Problem ist, dass dem
+generischen Differenzberechner keine Informationen über die Semantik der möglichen
+Editieroperationen vorliegt. Um die Semantik wiederherzustellen, müssen wir allerdings wissen,
+welche Editieroperationen für einen bestimmten Modelltyp existieren und wie diese aussehen. Hierzu
+werden s.g. Editierregeln verwendet. Die Editierregeln sind die Grundlage für das spätere Semantic-Lifting.
+Eine Editierregel beschreibt eine Editieroperation, die vom Entwickler auf einem Modell eines
+bestimmten Typs ausgeführt werden kann. Dabei hat jeder Modelltyp auf Basis seines Metamodells und der
+Semantik andere Editieroperationen. Daher müssen auch die Editierregeln für jeden Modelltyp einzeln
+angegeben werden.
+
+\section{Identifikation von Editierregeln}
+
+Zunächst stellt sich an dieser Stelle die Frage, welche Editierregeln benötigt werden, um das
+vollständige Bearbeiten eines Modells zu ermöglichen. Grundsätzlich können hier natürlich
+verschiedene Ansätze gewählt werden. Eine Möglichkeit wäre es, falls vorhanden, den Editor für den
+bestimmten Modelltyp zu analysieren und festzustellen, welche Editieroperationen zur Verfügung
+gestellt werden. Eine weitere Möglichkeit besteht darin, das eigentliche Metamodell und die damit
+verbundenen Constraints zur Erstellung der Editierregeln zu verwenden.
+
+Da das Semantic-Lifting ein generischer Ansatz ist, kann zu diesem Zeitpunkt noch keine Aussage über
+die später in der Praxis verwendeten Metamodelle getroffen werden. Die eigentliche Entscheidung,
+welche Editierregeln benötigt werden und wie diese aussehen, bleibt damit zum Teil auch dem
+Entwickler überlassen, der die Semantic-Lifting-Engine für ein bestimmtes Metamodell
+konfiguriert. Dabei sollte bedacht werden, dass eben nicht immer eindeutig klar ist, auf welche Art
+das Modell bearbeitet wurde. Unterschiedliche Editoren können für ein und dasselbe Metamodell
+unterschiedliche Editieroperationen haben.
+
+Die Editierregeln müssen also alle Editieroperationen nachbilden, die grundlegend möglich wären.
+Trivial aber entscheidend an dieser Stelle ist, dass später nur solche Editieroperationen geliftet
+werden, für die auch eine Editierregel oder eine entsprechende Zerlegung von mehreren Editierregeln
+existiert. Aufgrund dieser Überlegungen erschien eine Analyse des Metamodells zur Ableitung der
+Editierregeln am sinnvollsten. An Hand des Metamodells lässt sich am besten schematisch und formal
+nachvollziehen, welche Editierregeln benötigt werden. Allgemein formuliert werden zunächst die
+Editierregeln benötigt, mit denen für ein Modell neue Elemente erzeugt, bestehende Elemente entfernt
+oder ggf. abgeändert werden können. Ziel ist es eine Basismenge an Editierregeln zu erzeugen, die
+sich an folgende Definition anlehnt. Statt \textit{"`atomic pattern"'} wird hier im Folgenden der
+Begriff der \textbf{Atomic-Editierregel} verwendet:
+
+\begin{quote}
+"`Atomic patterns constitute basic elements for composing modeling patterns. They are governed by
+two characteristics: On the one hand, they maintain model consistency, of course. On the other hand,
+they cannot be split into smaller modeling patterns keeping model consistency. Therefore, they form
+the smallest units of consistent model changes.
+
+By using atomic patterns only, it is possible to create all eligible instances of a specific
+modeling language. E.g., for each model element defined by the modeling language, at least one
+particular atomic modeling pattern exists performing the minimum of required modeling steps to
+create this model element. Otherwise this model element is no eligible element of the modeling
+language, e.g. due to prohibition by constraints."' \cite{W2010} (S.11)
+\end{quote}
+
+\section{Editierregeln für Ecore}
+
+Betrachtet man das Ecore Metamodell (Abbildung \ref{fig:ecore_metamodel}), so lassen sich 69
+Atomic-Editier"-regel identifizieren. Abstrakte Klassen (nicht deren Attribute und Referenzen),
+abgeleitete Referenzen und nicht veränderbare Attribute müssen nicht betrachtet werden. Die Regeln
+sollen wie in der Definition beschrieben, die Konsistenz des Modells aufrecht erhalten. Man muss
+bedenken, dass die Ecore Editoren auch Editieroperationen zulassen, die das Modell inkonsistent
+werden lassen. Zum Beispiel können Klassen ohne Namen oder Attribute ohne Typ angelegt werden. Die
+Atomic-Editierregeln lassen sich wie unten aufgelistet in mehrere Kategorien einteilen. Die
+Aufteilung in diese Kategorien dürfte sich aber in der Regel auch auf jeden anderen Modelltyp
+übertragen lassen.
+
+\begin{itemize}
+  \item \textbf{11 $\times$ Add <Class>:} Hinzufügen eines Modell-Elements.
+  \item \textbf{11 $\times$ Remove <Class>:} Entfernen eines Modell-Elements.
+  \item \textbf{11 $\times$ Move <Class>:} Verschieben eines bestehenden Modell-Elements.
+  \item \textbf{5 $\times$ Add Reference <Class> <Reference>:} Hinzufügen einer optionalen Referenz zu
+  einem bestehenden Modell-Element.
+  \item \textbf{5 $\times$ Remove Reference <Class> <Reference>:} Entfernen einer optionalen Referenz zu
+  einem bestehenden Modell-Element.
+  \item \textbf{3 $\times$ Change Reference <Class>:} Verändern einer benötigten Referenz eines
+  bestehenden Modell-Elements.
+  \item \textbf{23 $\times$ Attribute Value Change <Class> <Attribute>:} Ändern eines Attributs eines
+  bestehenden Modell-Elements.
+\end{itemize}
+Regeln, die nicht in die Kategorie der Atomic-Editierregel fallen, werden im Folgenden als
+\textbf{Advanced-Editierregel} bezeichnet. Eine Advanced-Editierregel kann im Prinzip als eine
+Zusammensetzung bzw. Spezialisierung von Atomic-Editierregeln betrachtet werden.
+
+% Der Editieranteil einer Advanced-Editierregel muss sich in mehrere Atomic-Editierregel zerlegen
+% lassen. D.h. eine Advanced-Editierregel kann ggf. noch zusätzliche Einschränkungen dahingehend
+% enthalten, dass ein bestimmter Zustand des Modells gegeben sein muss damit die Regel angewendet
+% werden kann.
+
+% 18 Advanced-Edit-Rules:
+% 
+% \begin{itemize}
+% \item Create/Remove referenced EClass
+% \item Create/Remove sub EClass
+% \item Create/Remove super EClass
+% \item Move EAttribute to neigbour
+% \item Pull up EAttribute
+% \item Push down EAttribute
+% \item Rename EAttribute/EClass/EDataType/EEnum/EEnumLiteral/EOperation/
+% EPackage/EParameter/EReference
+% \end{itemize}
+
+\section{EMF-Refactor}
+
+Um die Editierregeln zu formulieren werden Henshin Transformationssysteme (TS) verwendet. Diese
+Transformationssysteme müssen bestimmten Konventionen entsprechen, damit sie später für das
+Semantic-Lifting weiterverarbeitet werden können. Die Konventionen entsprechen denen von
+EMF-Refactor Regeln. EMF-Refactor ist ein Werkzeug um benutzerdefinierte Refactorings für Ecore
+basierte Modelle anzulegen. Die einmal angelegten Refactorings können dann über den baumbasierten
+EMF-Editor auf das Modell angewendet werden.  Der Unterschied zwischen einem Refactoring und einer
+Editieroperation besteht darin, dass ein Refactoring nur die Struktur des Modells verändert, nicht
+aber das Verhalten wie bei einer Editieroperation. Der Aufbau von Editierregeln für
+Editieroperationen unterscheidet sich aber nicht von dem für Refactorings, daher lässt sich das
+Konzept problemlos übernehmen. EMF-Refactor definiert drei Henshin Transformationssysteme, aus denen
+ein Refactoring besteht.
+
+\begin{itemize}
+  \item \textbf{Initial-Check-TS} (\textit{Precondition})\textbf{:} Hier werden grundlegende Tests
+  durchgeführt, ob das Refactoring angewendet werden darf. Dazu wird für jede Situation, in der das
+  Refactoring nicht angewendet werden darf, eine Regel formuliert. In diesen Regeln wird genau die
+  Situation dargestellt, die nicht auftreten darf. Das Refactoring darf nur dann ausgeführt werden,
+  wenn keine Initial-Check-Regel zutrifft, bzw. anwendbar ist. Dazu wird eine Independent-Unit
+  verwendet, die alle Regeln enthält. Eine Independent-Unit ist dann anwendbar, wenn genau eine
+  Regel der Unit anwendbar ist. D.h. die Independent-Unit darf zum ausführen des Refactorings nicht
+  anwendbar sein. Theoretisch können auch mehrere Units verschachtelt werden. Um dem EMF-Refactor
+  kenntlich zumachen, welche Unit beim Initial-Check ausgeführt werden soll, muss diese Unit mit dem
+  Namen \textit{mainUnit} gekennzeichnet werden.
+  
+  \item \textbf{Final-Check-TS}  (\textit{Precondition})\textbf{:} Der Final-Check unterscheidet
+  sich strukturell nicht vom Initial-Check. Auch hier muss es eine Unit mit Namen \textit{mainUnit} 
+  geben, die nicht anwendbar sein darf, damit das Refactoring durchgeführt werden kann. Im
+ Unterschied zum Initial-Check wird der Final-Check durchgeführt, nachdem die für das Refactoring
+ benötigten Daten vom Benutzer abgefragt wurden. Hier wird überprüft, ob die eingegebenen Daten für
+ das Refactoring verwendet werden können. Zum Beispiel könnte beim Erstellen einer Klasse überprüft
+ werden, ob eine Klasse mit dem gleichen Namen schon existiert.
+ 
+  \item \textbf{Execute-TS:} In der Execute Phase wird das eigentliche Refactoring ausgeführt. Die
+  in diesem Transformationssystem enthaltenen Regeln geben an, welche Änderungen an dem Modell
+  durchgeführt werden sollen. Auch hier muss wieder eine \textit{mainUnit} spezifiziert werden.
+\end{itemize}
+Für das Semantic-Lifting ist hauptsächlich das Execute-TS von Bedeutung. Das Refactoring für eine
+bestimmte Modellierungssprache wird hier auf Basis des Metamodells angegeben. Daher lassen sich aus
+den Regeln die eigentlichen low-level Änderungen ablesen, die durch das Semantic-Lifting wieder
+erkannt werden sollen. Im Fall des Initial- und Final-Check gehen wir zunächst einmal davon aus,
+dass, wenn ein angewandtes Refactoring erkannt wurde, auch die Vorbedingungen
+(\textit{engl. precondition}) für dieses Refactoring erfüllt waren.
+
+Damit die Henshin Transformationssysteme durch die Semantic-Lifting-Engine verarbeitet werden
+können, müssen diese den EMF-Refactor Konventionen entsprechen. Genauere Angaben und Beispiele sind
+auf \cite{ERe} zu finden.

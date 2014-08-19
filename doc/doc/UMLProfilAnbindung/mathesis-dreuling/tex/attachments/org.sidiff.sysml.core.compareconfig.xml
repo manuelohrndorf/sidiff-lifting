@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Comparison>
+	<Settings documentType="http://www.eclipse.org/uml2/4.0.0/UML"
+		normalizeWeights="false" />
+
+	<Configurations>
+
+		<Class name="Abstraction" threshold="0.4">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+				weight="1.0" />
+		</Class>
+
+		<Class name="Model" threshold="0.4">
+			<CompareFunction class="Children" parameter="SCGreedyMatchedOrSimilar"
+				policy="unfulfilled" weight="1.0" />
+		</Class>
+		<Class name="StateMachine" threshold="0.1">
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;region" policy="mandatory"
+				weight="0.6" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+				weight="0.1" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.025" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isAbstract]" weight="0.025" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isActive]" weight="0.025" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.025" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isReentrant]" weight="0.025" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;submachineState" policy="unfulfilled"
+				weight="0.025" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;specification" policy="fulfilled"
+				weight="0.025" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;connectionPoint" policy="unfulfilled"
+				weight="0.025" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;extendedStateMachine" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;powertypeExtent" policy="unfulfilled"
+				weight="0.025" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;representation" policy="unfulfilled"
+				weight="0.025" />
+		</Class>
+
+		<Class name="Region" threshold="0.2">
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;subvertex" policy="unfulfilled"
+				weight="0.4" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;transition" policy="unfulfilled"
+				weight="0.2" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="mandatory" weight="0.2" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;extendedRegion" policy="unfulfilled"
+				weight="0.1" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+				weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.025" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.025" />
+		</Class>
+
+		<Class name="State" threshold="0.1">
+			<If condition="FixedAttributeValueCondition" parameter="isComposite,false"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;container" policy="unfulfilled"
+						weight="0.1" />
+					<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;entry"
+						policy="unfulfilled" weight="0.05" />
+					<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;exit"
+						policy="unfulfilled" weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;doActivity" policy="unfulfilled"
+						weight="0.15" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.15" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="unfulfilled" weight="0.2" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;connection" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;connectionPoint" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;deferrableTrigger" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;stateInvariant" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;redefinedState" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;submachine" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;isOrthogonal]" weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;isSubmachineState]" weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.025" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="isComposite,true"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;region" policy="unfulfilled"
+						weight="0.6" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;container" policy="unfulfilled"
+						weight="0.1" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="unfulfilled" weight="0.05" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;redefinedState" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="SingleNeighbour"
+						parameter="ECMatchedOrSimilar;submachine" policy="unfulfilled"
+						weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;isSubmachineState]" weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.025" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.025" />
+				</Then>
+			</If>
+
+		</Class>
+
+		<Class name="Activity" threshold="0.3">
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="mandatory" weight="0.1" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;name]" policy="fulfilled"
+				weight="0.3" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;variable" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;structuredNode" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;node" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isReadOnly]" weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;edge" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;partition" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isSingleExecution]" weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;group" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isAbstract]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isActive]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isReentrant]" weight="0.05" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;specification" policy="fulfilled"
+				weight="0.05" />
+
+		</Class>
+
+		<Class name="Pseudostate" threshold="0.2">
+
+			<If condition="FixedAttributeValueCondition" parameter="kind,initial"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.5" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="unfulfilled" weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.2" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="unfulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" policy="unfulfilled"
+						weight="0.05" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,join"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.05" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.15" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.3" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,fork"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.15" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.05" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.3" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.1" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,junction"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.2" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,choice"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.2" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,entryPoint"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+						weight="0.1" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.1" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.3" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,exitPoint"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+						weight="0.1" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.1" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.3" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,shallowHistory"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.2" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,deepHistory"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="fulfilled"
+						weight="0.05" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;outgoing" policy="unfulfilled"
+						weight="0.2" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.2" />
+				</Then>
+			</If>
+			<If condition="FixedAttributeValueCondition" parameter="kind,terminate"
+				weight="1.0">
+				<Then>
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+						weight="0.1" />
+					<CompareFunction class="Self"
+						parameter="ECAttributeStatic[CEquals;visibility]" weight="0.1" />
+					<CompareFunction class="Parent" parameter="ECMatched"
+						policy="mandatory" weight="0.3" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+						policy="fulfilled" weight="0.1" />
+					<CompareFunction class="RemoteNodes"
+						parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+						policy="unfulfilled" weight="0.1" />
+					<CompareFunction class="NeighboursSingleReference"
+						parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+						weight="0.3" />
+				</Then>
+			</If>
+
+		</Class>
+
+		<Class name="Transition" threshold="0.1">
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;source"
+				weight="0.4" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;target"
+				weight="0.3" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;guard"
+				policy="unfulfilled" weight="0.2" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringIndexOf[ci];name]" policy="unfulfilled"
+				weight="0.1" />
+
+		</Class>
+
+		<Class name="FinalState" threshold="0.2">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.6" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;incoming" policy="unfulfilled"
+				weight="0.1" />
+			<CompareFunction class="RemoteNodes"
+				parameter="SCGreedyMatchedOrSimilar;Outgoing.outgoing#Transition/Outgoing.target#*"
+				policy="unfulfilled" weight="0.15" />
+			<CompareFunction class="RemoteNodes"
+				parameter="SCGreedyMatchedOrSimilar;Outgoing.incoming#Transition/Outgoing.source#*"
+				policy="unfulfilled" weight="0.15" />
+		</Class>
+		<Class name="Constraint" threshold="0.3">
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="LCLongestCommonSubsequence[ECMatchedOrSimilar;0.5f];constrainedElement"
+				policy="unfulfilled" weight="0.2" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.3" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.2" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;specification" policy="fulfilled"
+				weight="0.3" />
+		</Class>
+
+		<Class name="LiteralString" threshold="0.2">
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.4" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.2" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];value]" policy="unfulfilled"
+				weight="0.2" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+		</Class>
+		<Class name="LiteralBoolean" threshold="0.2">
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.4" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.1" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+		</Class>
+
+		<Class name="Operation" threshold="0.2">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.2" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isLeaf]" weight="0.05" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isQuery]" weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;precondition" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;postcondition" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;redefinedOperation" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;bodyCondition" policy="unfulfilled"
+				weight="0.05" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;type"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;class"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;interface"
+				policy="unfulfilled" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;lower]" weight="0.05" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;upper]" weight="0.05" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;datatype"
+				policy="unfulfilled" weight="0.05" />
+		</Class>
+
+		<Class name="Property" threshold="0.3">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.2" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="fulfilled" weight="0.2" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;association" policy="fulfilled"
+				weight="0.3" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;type"
+				policy="fulfilled" weight="0.2" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;class"
+				policy="fulfilled" weight="0.1" />
+		</Class>
+
+		<Class name="Parameter" threshold="0.3">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.3" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;visibility]" weight="0.05" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="0.3" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;parameterSet" policy="unfulfilled"
+				weight="0.1" />
+			<CompareFunction class="Self" parameter="CEquals"
+				weight="0.1" />
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;defaultValue" policy="unfulfilled"
+				weight="0.1" />
+		</Class>
+
+		<Class name="OpaqueBehavior" threshold="0.3">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" weight="0.4" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				weight="0.6" />
+		</Class>
+
+		<Class name="Package" threshold="0.33333334">
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;packageMerge" policy="unfulfilled"
+				weight="0.33333334" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;packagedElement" policy="unfulfilled"
+				weight="0.33333334" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;profileApplication" policy="unfulfilled"
+				weight="0.33333334" />
+		</Class>
+
+		<Class name="Association" threshold="0.3">
+			<CompareFunction class="Children" weight="0.3"
+				parameter="SCGreedyMatchedOrSimilar" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="LCLongestCommonSubsequence[ECMatchedOrSimilar;0.5f];memberEnd"
+				weight="0.4" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;name]" weight="0.3" />
+		</Class>
+
+		<Class name="Generalization" threshold="0.33333334">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isSubstitutable]" policy="unfulfilled"
+				weight="0.16666667" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;general"
+				weight="0.25" />
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="SCGreedyMatchedOrSimilar;generalizationSet" policy="unfulfilled"
+				weight="0.33333334" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				weight="0.25" />
+		</Class>
+
+		<Class name="Class" threshold="0.4">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" weight="0.5" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				weight="0.1" />
+			<CompareFunction class="Children" weight="0.4"
+				parameter="SCGreedyMatchedOrSimilar" />
+		</Class>
+
+		<Class name="Port" threshold="0.3">
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[VCStringLCS[ci];name]" policy="fulfilled"
+				weight="0.3" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="fulfilled" weight="0.3" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;type"
+				policy="fulfilled" weight="0.1" />
+			<CompareFunction class="SingleNeighbour" parameter="ECMatchedOrSimilar;class"
+				policy="fulfilled" weight="0.3" />
+		</Class>
+
+		<Class name="ProfileApplication" threshold="0.33333334">
+			<CompareFunction class="SingleNeighbour"
+				parameter="ECMatchedOrSimilar;appliedProfile" weight="0.33333334" />
+			<CompareFunction class="Self"
+				parameter="ECAttributeStatic[CEquals;isStrict]" weight="0.33333334" />
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				weight="0.33333334" />
+		</Class>
+
+		<Class name="Enumeration" threshold="1.0">
+			<CompareFunction class="NeighboursSingleReference"
+				parameter="LCLongestCommonSubsequence[ECMatchedOrSimilar;0.5f];ownedLiteral"
+				policy="unfulfilled" weight="1.0" />
+		</Class>
+		<Class name="EnumerationLiteral" threshold="1.0">
+			<CompareFunction class="Parent" parameter="ECMatchedOrSimilar"
+				policy="unfulfilled" weight="1.0" />
+		</Class>
+
+
+
+	</Configurations>
+
+</Comparison>

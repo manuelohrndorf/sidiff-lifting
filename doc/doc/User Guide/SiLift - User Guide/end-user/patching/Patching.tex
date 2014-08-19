@@ -1,0 +1,27 @@
+%************************
+\subsection{Patchen von Modellen}
+%************************
+Neben dem semantischen Liften von Differenzen besteht die Möglichkeit einen Patch zu erstellen und auf ein anderes Modell anzuwenden.\\
+
+Abbildung \ref{silift-tutorial_patching_scenario} zeigt ein typisches Szenario der Patch-Anwendung.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{patching/graphics/silift-tutorial_patching_scenario.png}
+\caption{Ablauf einer Patch-Anwendung}
+\label{silift-tutorial_patching_scenario}
+\end{figure}
+
+
+
+\texttt{Repository 1} stellt den Entwichklungsprozess eines Modells dar, welches zu einem bestimmten Zeitpunkt (hier \texttt{Model V1}) in ein zweites Repository übertragen und dort ggf. weiterentwickelt wird (vgl. \ref{silift-tutorial_patching_scenario}, \texttt{Repository 2}, \texttt{Model Vt}).\footnote{\texttt{Model Vt} und \texttt{V1} bzw. \texttt{V2} können auch unabhängig von einander entwickelt worden sein.} 
+Des Weiteren wird das Modell auch in \texttt{Repository 1} weiterentwickelt bzw. überarbeitet.
+Dieses Refactoring soll nun auf \texttt{Model Vt} in \texttt{Repository 2} angewandt werden, ohne dass die bereits vorgenommenen Änderungen an diesem verloren gehen.
+Zu diesem Zweck wird eine \textit{asymmetrische Differenz} zwischen \texttt{Model V1} und \texttt{Model V2} gebildet und in Form eines Patches auf \texttt{Model Vt} angewandt (vgl. \ref{silift-tutorial_patching_scenario}, \texttt{Workspace}).\\
+Sofern in beiden Modellen Änderungen an dem gleichen Element vorgenommen wurden,  können einzelne Editieroperationen des Patches ggf. nicht mehr angewandt werden.\\
+
+Im Folgendem lernen Sie, wie Sie mit Hilfe von SiLift einen Patch erstellen und auf ein ein Modell anwenden können.
+
+\input{patching/Create-A-Patch}
+
+\input{patching/Apply-A-Patch}

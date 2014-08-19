@@ -1,0 +1,163 @@
+%*************************************************************************
+\section{SiLift benutzen}
+%*************************************************************************
+%************************
+\subsection{Vergleich von Modellen}
+%************************
+Die Bedienung von SiLift als Vergleichswerkzeug soll am folgenden Beispiel demonstriert werden.
+Ausgangsbasis sind die \textit{Ecore-Modelle} in Abbildung \ref{classdiagram_example}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{lifting/graphics/ecore-classdiagram_example.png}
+\caption{Ecore-Modelle}
+\label{classdiagram_example}
+\end{figure}
+
+Dabei stellt \texttt{model\_vb} das Ausgangsmodell und \texttt{model\_v1} das im Laufe eines Entwicklungsprozesses veränderte Modell dar.
+Die entscheidenden Änderungen sind zum einen das Attribut \texttt{name}, welches durch den Entwicklungsprozess in die nun \textit{abstrakte} Klasse \texttt{Person} verschoben wurde und das neue Attribut \texttt{section} in der Klasse \texttt{Developer}.\\
+Als nächstes selektieren Sie die beiden \textit{ecore}-Files im \textit{Package Explorer} und öffnen mit der rechten Maustaste das Kontextmenü.
+Wählen Sie \texttt{SiLift} $\triangleright$ \texttt{Compare with each other} aus (vgl. Abb. \ref{silift-contextmenu_compare}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{lifting/graphics/silift-contextmenu_compare.png}
+\caption{SiLift über das Kontextmenü starten}
+\label{silift-contextmenu_compare}
+\end{figure}
+
+Es öffnet sich ein Wizard-Dialog, der sich über zwei Seiten erstreckt und mehrere Konfigurationsmöglichkeiten bietet (Abb. \ref{silift-wizard_compare_page1} und \ref{silift-wizard_compare_page2}).
+Um diese besser zu verstehen, folgt ein kleiner Exkurs über die Architektur von \textit{SiLift}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{lifting/graphics/silift-wizard_compare_page1.png}
+\caption{Einstellungen für das Erstellen gelifteter Differenzen: Seite 1}
+\label{silift-wizard_compare_page1}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{lifting/graphics/silift-wizard_compare_page2.png}
+\caption{Einstellungen für das Erstellen gelifteter Differenzen: Seite 2}
+\label{silift-wizard_compare_page2}
+\end{figure}
+
+\input{architecture/SiLift-Pipeline}
+
+Über den Wizard kann man an jeder Position der Pipeline eingreifen und somit das Verhalten von SiLift beeinflussen. Zusätzlich lassen sich noch folgende Einstellungen vornehmen:
+%Was jetzt noch fehlt, sind die Optionen \textit{Select source model}, \textit{Merge Imports}, \textit{Recognition-Engine} und der \textit{Comparison mode}:
+
+\begin{itemize}
+
+\item \textbf{Select source model}: Die Differenzberechnung zwischen zwei Modellen ist nicht kommutativ.
+I.d.R. handelt es sich bei den zu vergleichenden Modellen um unterschiedliche Revisionen ein und desselben Modells.
+In den meisten Fällen wird man die ältere Revision (Modell VB) mit der neueren (Modell V1) vergleichen wollen.
+Dennoch kann auch der andere Fall eintreten.
+In \textit{Select source model} können Sie die Richtung der Differenzberechnung festlegen.\\
+Zusätzlich kann man die Modelle vor der Differenzbildung noch validieren (vgl. Abb. \ref{silift-wizard_compare_page1}).
+
+%\item \textbf{Merge Imports}: Diese Option ist in der aktuellen Version entfernt worden.
+%Modelle können andere Modelle importieren und auf Objekte dieser referenzieren. Ist dies der Fall muss diese Option aktiviert sein, damit auch diese Modelle bzw. die referenzierten Objekte berücksichtigt werden.
+
+\item \textbf{Scope}: Ein Modell muss nicht in sich geschlossen sein, sondern kann auf andere Modelle bzw. deren Elemente verweisen.
+Mit Hilfe des Scopes kann man festlegen, ob diese Modelle bei der Erzeugung der Differenz ignoriert (\texttt{Single resource}), oder mit in diese aufgenommen werden sollen (\texttt{Complete resourceset}, vgl. Abb. \ref{silift-wizard_compare_page1}).
+
+
+\item \textbf{Recognition-Engine}: Mit der Wahl einer \textit{Recognition-Engine} wird festgelegt, ob und wie die technischen Differenzen geliftet werden.
+Wie der Name bereits andeutet, wird bei der Auswahl von \texttt{No Semantic Lifting} keine semantische Differnz erzeugt.
+Für das Erzeugen einer semantischen Differenz stehen zum einen die \texttt{Simple Recognition Engine}, zum anderen die \texttt{Post Processed Recognition Engine} zur Verfügung.
+Der Unterschied liegt im Auftreten von Überlappungen der \textit{Semantic Change Sets}, die vor allem bei der zusätzlichen Verwendung von komplexen \textit{Rule Bases} auftreten.
+Wenn Sie komplexe Erkennungsregeln nutzen (und auch sonst) ist es daher ratsam die \texttt{Post Processed Recognition Engine} zu nutzen, um eben diese Überlappungen zu vermeiden (vgl. Abb. \ref{silift-wizard_compare_page2}).
+
+\end{itemize}
+
+Nachdem Sie nun die Konfigurationsmöglichkeiten kennengelernt haben wird es Zeit \textit{SiLift} auf die zuvor erstellten Modelle anzuwenden.
+In unserem Beispiel ist \texttt{company\_vb} unsser Basismodell. Des Weiteren wählen wir den \texttt{NamedElement Matcher} und deaktivieren zunächst die komplexen Erkennungsregeln (vgl. Abb. \ref{silift-tutorial_compare_config}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{lifting/graphics/silift-tutorial_compare_config.png}
+\caption{Einstellungen für das Erstellen einer gelifteten Differenz ohne komplexe Erkennungsregeln}
+\label{silift-tutorial_compare_config}
+\end{figure}
+
+Das Ergebnis wird in der \texttt{company\_vb\_x\_company\_v1\_NamedElement\_lifted\_post\-pro\-cessed.symmetric} gespeichert und lässt sich mit dem \textit{Difference Model Editor} öffnen (vgl. Abb. \ref{silift-tutorial_compare_atomic_lifted}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{lifting/graphics/silift-tutorial_compare_atomic_lifted.png}
+\caption{\texttt{company\_vb\_x\_company\_v1\_NamedElement\_lifted\_post\-pro\-cessed.symmetric}}
+\label{silift-tutorial_compare_atomic_lifted}
+\end{figure}
+
+Jedes \textit{Sematic Change Set} steht für eine \textit{Editieroperation}, welche im Laufe des Entwicklungszyklus auf Modell VB angewandt wurde.
+Somit werden Ihnen die Differenzen nun auf eine intuitive Weise präsentiert, ohne dass Sie das Metamodell in alle Einzelheiten kennen müssen.
+Durch das Aufklappen eines Change Sets können jedoch die jeweiligen technischen Differenzen weiterhin angezeigt werden (vgl. Abb. \ref{silift-tutorial_compare_atomic_lifted}).
+Zusätzlich werden die gefundenen Korrespondenzen aufgelistet.\\
+Neben dem baumbasierten Editor lassen sich die Differenzen mittels eines graphischen Editors anzeigen.
+Dieser lässt sich, wie in Abbildung \ref{silift-tutorial_compare_arrange_compare_view} dargestellt, aufrufen.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{lifting/graphics/silift-tutorial_compare_arrange_compare_view.png}
+\caption{Aufruf des graphischen Editors (Compare View)}
+\label{silift-tutorial_compare_arrange_compare_view}
+\end{figure}
+
+Durch Auswahl eines Change Sets werden die betroffenen Elemente in den Diagrammen \textit{gehighlightet} (vgl. Abb. \ref{silift-tutorial_compare_compare_view}).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{lifting/graphics/silift-tutorial_compare_compare_view.png}
+\caption{SiLift Compare View: vb nach v1 (nur atomare Editieroperationen)}
+\label{silift-tutorial_compare_compare_view}
+\end{figure}
+
+Wenn wir uns nochmals die oben beschriebenen Änderungen ins Gedächtnis rufen, so lassen sich diesen die Editieroperationen wie folgt zuordnen:
+
+\begin{itemize}
+\item \texttt{Move Attribute To Another Class}: Verschiebe Attribut \texttt{name} von \texttt{Developer} nach \texttt{Person}.
+\item \texttt{Create Attribute}: Erstelle neues Attribut \texttt{section} in \texttt{Developer}.
+\item \texttt{SET EClass Abstract}: Die Klasse \texttt{Person} ist nun \textit{abstrakt}.
+\item \texttt{Delete Attribute}: Entferne Attribut \texttt{name} aus \texttt{Manager}.
+\end{itemize}
+
+Nochmal zur Erinnerung: Die geliftete Differenz aus Abbildung \ref{silift-tutorial_compare_compare_view} wurde mit Hilfe der atomaren Erkennungsregeln erstellt.
+Diese werden wiederum aus den atomaren Editierregeln abgeleitet.
+Eine atomare Editierregel kann nicht in noch kleinere Regeln aufgeteilt werden, ohne dass deren Anwendung zu einem inkonsistenten Modell führen würde.
+Diese Regeln umfassen i.d.R. das Erstellen (\texttt{create}), Entfernen (\texttt{remove}) und Verschieben (\texttt{move}) von Modellelementen sowie das Ändern von Attributwerten (\texttt{set}).\\
+Betrachten wir die beiden Change Sets \texttt{Delete Attribute} und \texttt{Move Attribute To Another Class}.
+In diesem Szenario wurde das Attribut \texttt{name} in der Klasse \texttt{Manager} gelöscht und aus der Klasse \texttt{Developer} nach \texttt{Person} verschoben.
+Gleichzeitig ließe sich diese Differenz der Modelle jedoch auch als ein \textit{Refactoring} der Vererbungsbeziehung verstehen, indem übereinstimmende Attribute der Unterklassen in die Oberklasse verschoben wurden.
+Die für ein solches Refactoring erforderliche Erkennungsregel umfasst also mehrere atomare Regeln.
+Um solche Refactorings zu erkennen starten wir SiLift nun zusätzlich mit der komplexen \textit{Rule Base} (vgl. Abb. \ref{silift-tutorial_compare_config_complex}). Die restlichen Einstellungen können Sie aus Abbildung \ref{silift-tutorial_compare_config} übernehmen.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{lifting/graphics/silift-tutorial_compare_config_complex.png}
+\caption{Einstellungen für das Erstellen einer gelifteten Differenz mit komplexen Erkennungsregeln}
+\label{silift-tutorial_compare_config_complex}
+\end{figure}
+
+Das Ergebnis ist eine geliftete Differenz die anstatt vier nur noch drei Change Sets beinhaltet  (Abb. \ref{silift-tutorial_compare_compare_view_complex}).
+Hier wurden die atomaren Regeln \texttt{Delete Attribute} und \texttt{Move Attribute To Another Class} durch die komplexe Regel \texttt{Pull Up Attribute} ersetzt.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{lifting/graphics/silift-tutorial_compare_compare_view_complex.png}
+\caption{SiLift Compare View: vb nach v1 (incl. komplexen Editieroperationen)}
+\label{silift-tutorial_compare_compare_view_complex}
+\end{figure}
+
+Wie bereits erwähnt setzen sich komplexe Regeln aus atomaren und anderen komplexen Regeln zusammen.
+Betrachten wir Abbildung \ref{silift-tutorial_compare_atomic_vs_complex}, so deckt die komplexe Regel \texttt{Pull Up Attribute} alle technischen Differenzen der beiden atomaren Regeln \texttt{Delete Attribute} und \texttt{Move Attribute To Another Class} ab.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{lifting/graphics/silift-tutorial_compare_atomic_vs_complex.png}
+\caption{Vergleich atomarer und komplexer Erkennungsregeln}
+\label{silift-tutorial_compare_atomic_vs_complex}
+\end{figure}
+
+Durch komplexe Erkennungsregeln lassen sich somit größere Refactorings auf eine intuitive Weise darstellen.\\

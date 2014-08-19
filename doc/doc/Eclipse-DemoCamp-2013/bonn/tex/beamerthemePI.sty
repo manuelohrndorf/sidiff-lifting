@@ -1,0 +1,116 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Beamer Theme Praktische Informatik %%%%%%%%%
+%%%%%%%%%       Universität Siegen           %%%%%%%%%
+%%%%%%%%%     Author: Dennis Reuling         %%%%%%%%%
+%%%%%%%%% dreuling@informatik.uni-siegen.de  %%%%%%%%%
+%%%%%%%%%        Date: 19.07.2013            %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\setbeamercovered{transparent}
+
+\pgfdeclareimage[width=1.6cm]{university-logo}{logoSiegen}
+\pgfdeclareimage[width=1cm]{pi-logo}{logoPI}
+
+\logo{\pgfuseimage{university-logo}}
+
+\definecolor[named]{UniBlau}{cmyk}{1,.88,0,.05}
+\usecolortheme[named=UniBlau]{structure}
+
+\useoutertheme[width=50pt,height=30pt,hideothersubsections]{sidebar}
+\usecolortheme{sidebartab}
+
+%Gray theme
+%\usecolortheme{dove}
+
+%Blue theme
+\usecolortheme{rose}
+
+\useinnertheme{rectangles}
+
+%Colors
+
+\setbeamercolor{title}{bg=,fg=UniBlau}
+\setbeamercolor{subtitle}{bg=,fg=black}
+\setbeamercolor{author}{bg=,fg=black}
+\setbeamercolor{institute}{bg=,fg=darkgray}
+\setbeamercolor{date}{bg=,fg=gray}
+\setbeamercolor{normal text}{bg=white}
+\setbeamercolor{block title}{bg=lightgray,fg=UniBlau}
+\setbeamercolor{block body}{bg=lightgray!25,fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{background canvas}{bg=}
+
+\setbeamercolor{section in sidebar}{bg=white,fg=black}
+\setbeamercolor{subsection in sidebar}{bg=white,fg=black}
+\setbeamercolor{author in sidebar}{bg=, fg=gray}
+\setbeamercolor{title in sidebar}{bg=,fg=black}
+
+
+\setbeamerfont{title in sidebar}{size=\scriptsize,series=\bfseries}
+\setbeamerfont{author in sidebar}{size=\tiny}
+\setbeamerfont{subsection in sidebar}{size=\tiny}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{title}{size=\huge,parent=structure}
+\setbeamerfont{subtitle}{size=\Large,parent=title}
+\setbeamerfont{date}{size=\tiny}
+
+
+\newcommand<>{\cEmph}[1]{{\only#2{\itshape}\structure{#1}}}
+\setlength\leftmargini  {1em}
+\setlength\leftmarginii  {1em}
+\setlength\leftmarginiii  {1em}
+\setbeamertemplate{itemize subitem}{-}
+
+\setbeamertemplate{title page}
+{\begin{centering}
+\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par
+\medskip
+\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par
+\bigskip
+\inserttitlegraphic\par
+\medskip
+\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\ (\insertshortdate)\par
+\vfill
+\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par
+\vfill
+\insertlogo \hspace*{1.5cm} \pgfuseimage{pi-logo} \par
+\end{centering}
+}
+
+\setbeamertemplate{frametitle}
+{
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \vspace*{-1.1cm}
+  \begin{beamercolorbox}[center,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}
+\tikz\draw[draw=none,left color=structure.bg,right color=structure.fg!25!structure.bg](0,0) rectangle (\paperwidth-50pt,30pt);
+  \vspace*{-1.6cm}
+
+    \strut\insertframetitle\strut\par%
+  \end{beamercolorbox}%
+}
+
+\setbeamertemplate{sidebar canvas left}[vertical shading][top=bg,bottom=structure.fg!25!structure.bg]
+
+\setbeamertemplate{footline}{
+
+\hspace*{4.5ex}\raisebox{5ex}[-5ex]{%
+\pgfuseimage{pi-logo}}
+
+\hspace*{8ex}\raisebox{1.5ex}[-1.5ex]{%
+\tiny\insertframenumber{} / \inserttotalframenumber}%
+
+\hspace*{25ex}\raisebox{1.5ex}[-1.5ex]{%
+\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\ (\insertshortdate)
+}}
+\mode
+<all>
+

@@ -1,0 +1,76 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}   % Umlaute etc. verwenden
+\usepackage[final]{graphicx}    % Grafiken einbinden
+\usepackage{url}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{wrapfig}
+\parindent 0pt
+\usepackage[onehalfspacing]{setspace}
+\usepackage{enumerate}
+
+% direkt PDF generieren
+\usepackage[pdftex,
+    pdftitle={SiLift - Benutzerhandbuch Entwickler},
+	pdfauthor={}]{hyperref}
+    
+% Bis zu welcher Tiefe nummerieren?
+\setcounter{secnumdepth}{3}
+
+
+\begin{document}
+
+% Der Titel der Seminararbeit, sowie der Autor
+\title{SiLift - Benutzerhandbuch für Entwickler}
+\author{Universität Siegen - Praktische Informatik}
+
+%\date{\today}
+
+\maketitle
+
+%*************************************************************************
+%\section{Abstract}
+%*************************************************************************
+%\begin{abstract}
+
+%\end{abstract}
+
+\newpage
+
+%INHALTSVERZEICHNIS
+\tableofcontents
+\newpage
+
+\input{introduction/Introduction}
+
+\input{requirements/Requirements}
+
+\input{architecture/SiLift-Pipeline}
+
+\input{matching/Matching-Engine}
+
+\input{techbuilder/Technical-Difference-Builder}
+
+\input{editrules/Creating-Editrules}
+
+\input{recognitionrules/Generating-Recognitionrules}
+
+
+\begin{center}
+\textbf{ENDE}
+\end{center}
+
+\newpage
+
+\section{Links und weitere Informationen}
+
+\begin{itemize}
+\item \textbf{EMF-Compare}: \url{http://www.eclipse.org/emf/compare}
+\item \textbf{EMF-Henshin}: \url{http://www.eclipse.org/henshin/}
+\item \textbf{SERGe:} \url{http://pi.informatik.uni-siegen.de/mrindt/SERGe.php}
+\item \textbf{SiDiff}: \url{http://pi.informatik.uni-siegen.de/Projekte/sidiff/}
+\item \textbf{SiLift}: \url{http://pi.informatik.uni-siegen.de/Projekte/SiLift/}
+\end{itemize} 
+\end{document}

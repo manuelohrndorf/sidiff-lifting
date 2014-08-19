@@ -1,0 +1,110 @@
+Applying Higher-order Model Transformations to the Semantical Lifting of Model Differences
+
+
+1. Introduction
+- Ganz kurz: 
+	* State-based differencing
+	* pipeline
+	* internal vs. external representation
+	* Low-level diffs
+	* Was verstehen wir unter Semantical Lifting
+	* Ansatz in ASE-Paper
+	* Beispiel EdRule + RecRule
+	-> HOT
+
+
+2. Source- and Target Meta-model | Transformation Metamodel | Transformation Overview
+
+2.1 Henshin Transformation Meta-model
+- Obviously, endogenous transformation
+-> Henshin meta-model \cite{} Henshin transformation meta-model, which is also an EMF meta-model (and moreover uses the Ecore meta-model for typing purposes, nur dann wenn Ecore Models tranfomiert werden).
+- Kern beschreiben und als Abbildung bringen:
+		* zunächst: Ausklammern: Application Conditions (i.e. AttributeCondition and Formula): Nicht wichtig, da wir sicher sein können, dass EditRule bereits angewendet wurde.
+		* dann Rule, Graph, Node, Edge, Attribute, Mapping
+- Node and Edge are typed over any EMF meta-model.
+  Usually, this is the meta-model related to a respective modeling domain (e.g. UML class models, statemachines or any DSL). This is the case for edit rules. need no further be discussed
+	RecognRules operate on model differences. A representation is briefly recalled in the following section.
+
+2.2 RecRule related Types | Difference Metamodel
+
+2.3 Traces?? 
+	(hier eher weglassen, müssen 2.1 und 2.2 dann wirklich eigene Sections werden??)
+	-> vermutlich nach 4.1 verschieben. Notwendigkeit für Traces auch deshalb, weil Henhsin nun In-Place Trafos unterstützt
+
+
+3. Transformation Specification
+3.1 Implizite Kanten (aus BA)
+3.2 Generierungsmuster (aus BA)
+(Parameter lassen wir hier weg)
+
+
+4. Implementation in EMF-Henshin
+4.1 Intermediate Structure and Transformation Phases
+	- Im Prinzip aus BA mit folgenden Änderungen/Ergänzungen
+		- Intermediate Structure muss gezeigt werden
+		- Einzelne Rules wie "Create-Implicite-Edge" bezeichnen wir dennoch als Phase, auch wenn hier später genau eine Regel für existiert
+4.2 Transformation Rules
+	- Ergeben sich straight forward aus Specification (Section 3) und Design Entscheidungen (Section 4.1)
+	- Können wir vielleicht eine interessante Regel exemplarisch zeigen
+	- Alle anderen Packen wir auf eine Webseite, die wir im Papier als Referenz angeben
+4.3 Rule Application Strategy
+	- Scheduling:
+	- Location: 
+
+
+5. Evaluation ?
+- Variante 1: Wiederdurchführung der Evaluation aus ASE-Papier mit generierten Recogn.Rules
+	- gleiche Ergebnisse was die erkannten Change Sets angeht
+	- Allerdings andere Werte für Metriken da anderes Differenzmodell
+
+
+- Variante 2: Die Evaluation mit GMF
+		org.eclipse.gmp/org.eclipse.gmf.tooling/plugins
+																										1. codegen
+																										2. graphdef
+																										3. map
+																										4. tooldef
+
+
+- Variante 3: Vergleich mit Java-Impl, am besten große Tabelle welche Aufwände jeweils betrieben werden müssen ?
+				Henshin									Java
+
+Regel   Anz Nodes, Anz Edges		LOC		
+
+xx			12				11						25
+
+
+
+
+
+6. Conclusion | Summary
+
+In this paper, we have shown ....
+
+Our experience:\\
+Bausteine der imperativen Programmierung, um komplexe Transformationsalgorithmen in Henshin zu implementieren, sind readily available (die Units). Methods providing structurally complex return types can be realized by the definition of an intermediate helper structure. This pattern can be generalized and applied to all types of rule-based transformations. 
+Two other patterns that are used specifically apply to higher-order transformations. Firstly, providing the explicit information of preserved edges facilitates queries on the rule serving as input of the HOT. Secondly, the mirroring of preserved parts from LHS to RHS facilitates the creation of the output rule. The second pattern is very specific to the transformation domain described in this paper as most parts of a recognition rule are preserved. It can generalized to all HOTs generating transformation rules that are mainly used for pattern matching purposes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

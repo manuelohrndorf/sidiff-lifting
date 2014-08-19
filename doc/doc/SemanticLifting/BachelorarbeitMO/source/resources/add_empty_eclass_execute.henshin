@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_K-sv0NuyEeCgpcTTwOB4AQ">
+  <rules xmi:id="_K-tW4NuyEeCgpcTTwOB4AQ" name="add_empty_EClass">
+    <parameters xmi:id="_K-tW49uyEeCgpcTTwOB4AQ" name="selectedEPackage"/>
+    <parameters xmi:id="_K-tW5NuyEeCgpcTTwOB4AQ" name="eClass_name"/>
+    <lhs xmi:id="_K-tW5duyEeCgpcTTwOB4AQ" name="LHS">
+      <nodes xmi:id="_K-tW5tuyEeCgpcTTwOB4AQ" name="selectedEPackage">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_K-tW59uyEeCgpcTTwOB4AQ" name="RHS">
+      <nodes xmi:id="_K-tW6NuyEeCgpcTTwOB4AQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <outgoing href="#_XD1JgNZrEeCkgaGOVlI3zg"/>
+        <outgoing href="#_y-bmANu3EeC47s4vZhySxw"/>
+      </nodes>
+      <nodes xmi:id="_K-tW6duyEeCgpcTTwOB4AQ" name="">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_K-tW6tuyEeCgpcTTwOB4AQ" value="eClass_name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <incoming href="#_XD1JgNZrEeCkgaGOVlI3zg"/>
+        <incoming href="#_y-bmANu3EeC47s4vZhySxw"/>
+      </nodes>
+      <edges xmi:id="_y-bmANu3EeC47s4vZhySxw" source="_K-tW6NuyEeCgpcTTwOB4AQ" target="_K-tW6duyEeCgpcTTwOB4AQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_K-tW7NuyEeCgpcTTwOB4AQ" origin="_K-tW5tuyEeCgpcTTwOB4AQ" image="_K-tW6NuyEeCgpcTTwOB4AQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_K-tW7duyEeCgpcTTwOB4AQ" description="Adds a new EClass to an EPackage." name="mainUnit" subUnits="_K-tW4NuyEeCgpcTTwOB4AQ">
+    <parameters xmi:id="_K-tW7tuyEeCgpcTTwOB4AQ" name="selectedEObject"/>
+    <parameters xmi:id="_K-tW79uyEeCgpcTTwOB4AQ" description="The name of the new EClass." name="input_eClass_name"/>
+    <parameterMappings xmi:id="_K-t98NuyEeCgpcTTwOB4AQ" source="_K-tW7tuyEeCgpcTTwOB4AQ" target="_K-tW49uyEeCgpcTTwOB4AQ"/>
+    <parameterMappings xmi:id="_K-t98duyEeCgpcTTwOB4AQ" source="_K-tW79uyEeCgpcTTwOB4AQ" target="_K-tW5NuyEeCgpcTTwOB4AQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

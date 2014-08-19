@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_aNFQYBnWEeKdAq7SOuGfUQ" description="Deletes one EAttribute in EClass" name="DELETE_EAttributeInEClass">
+  <rules xmi:id="_aNFQYRnWEeKdAq7SOuGfUQ" description="deletes one EAttribute in the context: EClass" name="deleteEAttribute">
+    <parameters xmi:id="_aNFQYhnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aNFQYxnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <lhs xmi:id="_aNFQZBnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aNFQZRnWEeKdAq7SOuGfUQ" name="Selected" outgoing="_aNFQZxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_aNFQZhnWEeKdAq7SOuGfUQ" name="toBeDeleted" incoming="_aNFQZxnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <edges xmi:id="_aNFQZxnWEeKdAq7SOuGfUQ" source="_aNFQZRnWEeKdAq7SOuGfUQ" target="_aNFQZhnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_aNFQaRnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aNFQahnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_aNFQaxnWEeKdAq7SOuGfUQ" origin="_aNFQZRnWEeKdAq7SOuGfUQ" image="_aNFQahnWEeKdAq7SOuGfUQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_aNFQbBnWEeKdAq7SOuGfUQ" description="Deletes one EAttribute depending on available contexts in model instance" name="mainUnit" subUnits="_aNFQYRnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aNFQbRnWEeKdAq7SOuGfUQ" name="toBeDeleted"/>
+    <parameters xmi:id="_aNFQbhnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameterMappings xmi:id="_aNFQbxnWEeKdAq7SOuGfUQ" source="_aNFQbhnWEeKdAq7SOuGfUQ" target="_aNFQYhnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNFQcBnWEeKdAq7SOuGfUQ" source="_aNFQbRnWEeKdAq7SOuGfUQ" target="_aNFQYxnWEeKdAq7SOuGfUQ"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

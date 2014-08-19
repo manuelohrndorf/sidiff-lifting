@@ -1,0 +1,60 @@
+\chapter{Schlussfolgerung}
+\label{schlussfolgerung}
+
+In dieser Arbeit wurde ein Proof-Of-Concept des in \cite{KeKT2011ASE} beschriebenen Konzepts
+durchgeführt. Dabei wurde für ein ausgewähltes Metamodell ein vollständiger Durchlauf durch alle
+Phasen des Konzepts beschrieben. Von der Erstellung der Editierregeln und der automatischen
+Generierung der entsprechenden Erkennungsregeln, über die Berechnung einer technischen Differenz,
+bis hin zur vollständig semantisch gelifteten Differenz. 
+
+Es wurde gezeigt, dass es möglich ist mit Hilfe von Henshin als Mustererkennungswerkzeug den
+low-level Änderungen einer technischen Differenz wieder eine bestimmte Editieroperation zuzuordnen,
+was in den Praxistests auch zu durchweg guten und vor allem aus Benutzersicht lesbaren Ergebnissen
+geführt hat. Durch die Strukturierung der Differenz lässt sich auf den ersten Blick nachvollziehen
+welche und wie viele Änderungsschritte an einem Modell durchgeführt wurden, ohne jede low-level
+Änderung einzeln zu betrachten. Außerdem werden dem Benutzer einige grafische Werkzeuge an die Hand
+gegeben, um die Semantic-Lifiting-Engine zu konfigurieren und um die Berechnung zu steuern.
+
+In der Praxis hat sich auch gezeigt, dass der Algorithmus auf relativ gute Berechnungszeiten
+kommt. Auf technischer Ebene wurde dies durch ein paar auf den Algorithmus angepasster
+Optimierungen erreicht (Abschnitt \ref{filter} und \ref{optimierung}). Hier könnte aber bei
+einer genaueren Analyse wahrscheinlich noch Potenzial für weitere Optimierungen gefunden werden. Zum
+Beispiel durch eine genauere (ggf. statische) Analyse der Erkennungsregeln um nicht anwendbare
+Regeln noch gezielter auszufiltern. Ggf. könnte auch eine Minimierung des Arbeitsgraphen auf dem die
+Erkennungsregeln arbeiten einen Performance Gewinn bringen. Ein Großteil des Arbeitsgraphen wird
+häufig für die Erkennung der Editieroperationen nicht benötigt.
+
+Zwei Teile, die konzeptuell Probleme bereitet haben, waren zum einen das Liften von sequentiell
+abhängigen Editieroperationen (Abschnitt \ref{sequential}) und zum anderen das Referenzieren von
+importierten Modellen (Abschnitt \ref{resource_sets}). Letzteres könnte man auch als
+technisches Problem ansehen. Für beide Probleme wurden aber auch Lösungsansätze geliefert. In der
+Praxis tun diese in den meisten Fällen ihren Dienst. Aus theoretischer Sicht ist hier aber noch
+etwas Analysebedarf. Ansonsten ließen sich die anderen Teile des Algorithmus wie im Konzept
+\cite{KeKT2011ASE} beschrieben ohne letztendliche Probleme umsetzen.
+
+Aufbauende Projekte auf dieser Arbeit, könnten vor allem sich an die Differenz Pipline 
+(Abbildung \ref{fig:diff_pipeline}) anschließende Funktionalitäten sein. Neben der Gruppierung von
+low-level Änderungen wäre es für den Benutzer sicherlich hilfreich, wenn die entsprechenden
+Änderungen auch anschaulich visualisiert werden könnten. Um die gewonnen Differenzen dann
+weiter zu verwerten, könnten sich aber auch typische Repository Funktionen, wie z.B. das Mergen von
+Modellen auf Basis der einzelnen Editierschritte, anschließen. Der Vorteil bei Mergen auf
+semantischer Ebene ist, dass ein dazu berechneter Patch auch auf Modelle angewendet werden kann die
+sich vom Ausgangsmodell unterscheiden.
+
+Ein weiterer Punkt der bei der Erstellung der Editierregeln (Abschnitt \ref{editierregeln}) auffällt
+ist, dass die Erzeugung der Atomic-Editierregeln relativ schematisch von der Hand geht. In der
+Praxis verbraucht diese Aufgabe aber selbst für kleinere Metamodelle einiges an Zeit und erfordert
+außerdem ein genaues Verständnis des Metamodells. Um den Konfigurationsaufwand des Algorithmus zu
+minimieren wäre es denkbar, dem Benutzer beim Erstellen der Editierregel einen Großteil der Arbeit
+abzunehmen, indem man die Regeln soweit wie möglich automatisch aus dem Metamodell ableitet.
+
+Insgesamt lässt sich sagen, dass die technischen Ergebnisse der Implementierung mit den erwarteten
+aus dem Konzept \cite{KeKT2011ASE} übereinstimmen. Die Editieroperationen werden wieder erkannt,
+wodurch sich die Komplexität der Differenz aus Benutzersicht stark verringert. Außerdem gibt es in
+diesem Bereich bisher keine vergleichbaren Ansätze.
+\begin{quote}
+"`We are not aware of a generic algorithm which semantically lifts the low-level differences and
+which can be adapted to a large variety of model types."' \cite{KeKT2011ASE} (S.10)
+\end{quote}
+Alles in allem lassen sich die aus diesem Projekt resultierenden Ergebnisse also durchaus als
+vielversprechend bezeichnen.

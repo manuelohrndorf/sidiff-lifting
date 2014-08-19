@@ -1,0 +1,102 @@
+Index: src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java
+===================================================================
+--- src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java	(revision 1979)
++++ src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java	(working copy)
+@@ -212,6 +212,9 @@
+ 		// The next match:
+ 		private Match nextMatch;
+ 
++		// The given partial match:
++		private Match partialMatch;
++
+ 		// Flag indicating whether the next match was computed:
+ 		private boolean computedNextMatch;
+ 
+@@ -241,6 +244,7 @@
+ 			this.rule = rule;
+ 			this.ruleInfo = getRuleInfo(rule);
+ 			this.graph = graph;
++			this.partialMatch = partialMatch;
+ 			this.usedObjects = usedObjects;
+ 			this.solutionFinder = createSolutionFinder(partialMatch);
+ 		}
+@@ -321,26 +325,65 @@
+ 				Set<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
+ 				usedKernelObjects.addAll(nextMatch.getNodeTargets());
+ 
+-				// Create the partial multi match:
+-				Match partialMultiMatch = new MatchImpl(multiRule);
+-				for (Parameter param : rule.getParameters()) {
+-					Parameter multiParam = multiRule.getParameter(param.getName());
+-					if (multiParam!=null) {
+-						partialMultiMatch.setParameterValue(multiParam, nextMatch.getParameterValue(param));
++				// The partial multi-matches:
++				List<Match> partialMultiMatches = partialMatch.getMultiMatches(multiRule);
++				
++				if (partialMultiMatches.isEmpty()) {
++					// Find all multi-matches (no partial multi-matches):
++					Match partialMultiMatch = new MatchImpl(multiRule);
++					findMultiMatch(multiRule, partialMultiMatch, usedKernelObjects);
++				} else {
++					// Find all complete multi-matches for each partially given multi-match:
++					for (Match partialMultiMatch : partialMultiMatches) {
++						Match internalPartialMultiMatch = copyMultiMatch(partialMultiMatch);
++						findMultiMatch(multiRule, internalPartialMultiMatch, usedKernelObjects);
+ 					}
+ 				}
+-				for (Mapping mapping : multiRule.getMultiMappings()) {
+-					partialMultiMatch.setNodeTarget(mapping.getImage(),
+-							nextMatch.getNodeTarget(mapping.getOrigin()));
++			}
++		}
++		
++		/*
++		 * Creates a copy of a match including the original (not copied) multi-matches.
++		 */
++		private Match copyMultiMatch(Match match) {
++			Match matchCopy = new MatchImpl(match, false);
++			
++			for (Rule multiRule : match.getRule().getMultiRules()) {
++				for (Match childMultiMatch : match.getMultiMatches(multiRule)) {
++					matchCopy.getMultiMatches(multiRule).add(childMultiMatch);
+ 				}
++			}
++			
++			return matchCopy;
++		}
++		
++		/*
++		 * Find all matches for a multi-rule (with given partial match).
++		 */
++		private void findMultiMatch(Rule multiRule, Match partialMultiMatch, Set<EObject> usedKernelObjects) {
+ 
+-				// Find all multi-matches:
+-				MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
+-				List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
+-				while (matchFinder.hasNext()) {
+-					nestedMatches.add(matchFinder.next());
++			// Add the kernel parameters to the partial multi-match:
++			for (Parameter param : rule.getParameters()) {
++				Parameter multiParam = multiRule.getParameter(param.getName());
++				if (multiParam!=null) {
++					Object parameterValue = nextMatch.getParameterValue(param);
++					if (parameterValue!=null) {
++						partialMultiMatch.setParameterValue(multiParam, parameterValue);	
++					}
+ 				}
++			}
++			
++			// Add the kernel match to the partial multi-match:
++			for (Mapping mapping : multiRule.getMultiMappings()) {
++				partialMultiMatch.setNodeTarget(mapping.getImage(),
++						nextMatch.getNodeTarget(mapping.getOrigin()));
++			}
+ 
++			// Find all multi-matches:
++			MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
++			List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
++			while (matchFinder.hasNext()) {
++				nestedMatches.add(matchFinder.next());
+ 			}
+ 		}
+ 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_5vSFgD8TEeOKPd99njWeMg" name="Model">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_5vSFgT8TEeOKPd99njWeMg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_81TbQD8TEeOKPd99njWeMg" name="Company">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Map_gD8UEeOKPd99njWeMg" name="employee" type="_EIMaED8UEeOKPd99njWeMg" association="_Mar0sD8UEeOKPd99njWeMg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Map_gT8UEeOKPd99njWeMg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Map_gj8UEeOKPd99njWeMg" value="*"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_EIMaED8UEeOKPd99njWeMg" name="Person">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Mar0sT8UEeOKPd99njWeMg" name="employer" type="_81TbQD8TEeOKPd99njWeMg" association="_Mar0sD8UEeOKPd99njWeMg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Mar0sj8UEeOKPd99njWeMg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Mar0sz8UEeOKPd99njWeMg" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_FdDUMD8UEeOKPd99njWeMg" name="Developer">
+    <generalization xmi:type="uml:Generalization" xmi:id="_b-s8MD8UEeOKPd99njWeMg" general="_EIMaED8UEeOKPd99njWeMg"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_CyBb4D8VEeOKPd99njWeMg" name="name" visibility="public">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JTpyUD8UEeOKPd99njWeMg" name="Manager">
+    <generalization xmi:type="uml:Generalization" xmi:id="_chZZkD8UEeOKPd99njWeMg" general="_EIMaED8UEeOKPd99njWeMg"/>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_3l_BQD8UEeOKPd99njWeMg" name="name">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Mar0sD8UEeOKPd99njWeMg" name="worksFor" memberEnd="_Mar0sT8UEeOKPd99njWeMg _Map_gD8UEeOKPd99njWeMg"/>
+</uml:Model>

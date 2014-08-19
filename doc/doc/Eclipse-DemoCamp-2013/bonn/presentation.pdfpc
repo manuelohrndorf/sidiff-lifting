@@ -1,0 +1,210 @@
+[file]
+presentation.pdf
+[duration]
+20
+[end_user_slide]
+21
+[notes]
+### 1
+- Good evening, everyone!
+- Today we want to present our tool SiLift. 
+### 2
+- My name is MO I'm a master student in comp. science 
+  at uni. of si. and research assistant at SEG since 2012. 
+- And this is DR. After his M. Sc. he now works as a research
+  scientist at SEG.
+- Main researches of the group are in Model driven software
+  development.
+- We want to show you some of our work in relation to the 
+  SiLift project.
+### 3
+- I will start this presentation with a little modeling example...
+- Then Dennis will show us the end-user-tool environment 
+- Finally I tell you a bit about the SiLift conceptional approach.
+### 4
+- Let us start with a short introduction...
+### 5
+- To give you a first idea of SiLift 
+- let's have a look at its use cases.
+- SiLift is version management tool in the context of MDSD
+- As the name says. Models are in the center of development process here.
+- SiLift provides tools for comparing, patching, and merging of models.
+- We will show you that with a little example...
+### 6
+- This is a UML class diagram which shows the relationship of a
+  company to its employee.
+- Now I do some changes to this model.
+SLIDECHANGE
+- The first design decision is to restrict the navigability...
+SLIDECHANGE
+- The next step is a structural refactoring.
+  We pull up the attributes “name”...
+### 7
+- Now we have two versions of the model.
+- origin/changed -> refer to as model A/B
+- Imagine we are developing this model in a team...
+- Now you want to discover those changes.  
+- You need some kind version management tool. 
+- It has to outline those changes in a meaningful way.
+### 8
+- We already know those tools from coding programs. 
+- They compare two versions of a file in a textual manner.
+- This doesn’t fulfill the requirements...
+- of a meaningful report on model changes.
+### 9
+- If you are familiar with the E-M-F you may
+  have heard of EMF-Compare.
+- ...from a structural point of view.
+- This is far better than a textual compare…
+- But the changes reported by EMF-Compare are based on 
+  the internal representation of the model.
+- and for great numbers of changes it is easy to lose the overview here.
+### 10
+- A tool user who is not familiar with the meta 
+  representation of the modeling language ...
+- ...usually prefers model changes to be explained in 
+ terms of edit operations. + Show EO
+SLIDECHANGE
+- The basic goal of SiLift is to show AND work with 
+  those changes from an operational point of view.
+### 11
+- Now Dennis will show that to us in the tooling part.
+
+SPEAKERCHANGE
+
+- Good evening everyone!
+- After Manuel introduced you to SiLift and
+ the problems arising in other versioning tools
+ i want to demonstrate you the SiLift Tools
+- So now let us take a look how the SiLift approach
+ works in PRACTICAL use
+### 12
+- First i want to show the use case of differencing:
+  We want to find out which changes have been done between
+  A<->B
+### 13
+- The difference viewer presents the changes
+ on an OPERATION level, understandable by tool-users
+- LEFT:
+	Two edit operations detected: RESTRICT/PULLUP
+- RIGHT:
+	Corresponding models
+- MARKED:
+	Restrict navigability, corresponding elements
+        marked red in the models
+- Contrary to EMF Compare for example, the user
+ can directly comprehend the changes via edit operations
+### 14
+- Now consider the use case of patching
+- A developer wants to create a list of changes
+  which can be applied onto models
+- This is often used for product families for example
+- We assume that we have created such a patch, 
+  named DELTA, and now want to apply it
+### 15
+- This is an overview of the created patch, consisting of:
+	LEFT: Edit operations included in this patch
+	RIGHT: The corresponding model elements
+- As you can see, it looks similiar to the Difference Viewer,
+ whereas in this Patch-Editor one can disable operations which
+ shall not be applied later on.
+SLIDECHANGE
+- This has been done to the Operation RESTRICT, marked in Blue,
+ which will not be applied, if this patch would be executed
+
+After we have edited this patch now, we want to apply it
+### 16
+- This is the SiLift view for applying patchs onto another model
+LEFT COLUMN:
+	- The executed operations are listed on top
+	whereas a patch report/log is shown below
+RIGHT COLUMN:
+	- Like before: models and corresponding elements are shown
+- Let us take a closer look at the two executed operations
+SLIDECHANGE
+BLUE: Operation
+RED: Arguments / Corresponding elements
+RESTRICT...
+SLIDECHANGE
+PULL_UP...
+### 17
+- This was an simple example.
+- To show you a more complicated use case, let us take a closer look at merging
+- In this use case two developers are working in parallel
+- Developer B has now comitted his changes, whereas developer C now wants to merge his changes with the ones done by B
+- Additionally to the patch scenario, in this case there could be changes which are now un applicable to the model C
+- We will look from developer C's view
+- Merging in SiLift is done via two Patches, here DELTA...
+### 18
+- As you can see, the tool environment looks identical 
+ to the patch scenario shown before
+- To explain the changes i want to analyse the two
+edit operations contained in the patch
+SLIDECHANGE
+- Again: BLUE : Operation / RED : Arguments
+- As Developer C has deleted the COMPANY seen in the origin model in right top, the RESTRICT could not been applied
+SLIDECHANGE
+- Whereas the PullUP could be executed, as all arguments found
+- Developer B has modified the PERSON class which is presented as a warning to Developer C.
+- With this approach the Changes can be merged, in this case PUL
+### 19
+- Now that you have seen the  SiLift tools as end-user, Manuel
+will give you an overview of the approach itself
+- This next part is interesting if you are in the role of a developer 
+  who wants configure SiLift for its own use.
+
+SPEAKERCHANGE
+### 20
+- first step -> find the “equal” parts -> called Matching
+- Since SiLift comes only with some simple matching alg.
+- We can ALSO use EMF-Compare for that process. + In this case...
+- next step -> called diff. derivation
+- That means, with help of the matching -> derive created/deleted
+- The so derived create/delete changes are referred to as L.L.
+- And now we take those L.L. and try to lift them up...
+### 21
+- ...to a level of semantic meaningful edit operations.
+- first step -> EO detection -> assigning L.L. to EO
+- additional information -> what an EO looks like
+- Therefore, we use edit-rules.
+- An ER contains the knowledge about the domain (Bsp).
+- unordered set of EO -> next goal -> patch of EO
+- Therefore we need to order all edit-operations sequentially. + Bsp.
+- This step is called D.A. -> It's also based on those ER.
+### 22
+- language that is processible by an algorithm
+- imperative concepts + semantic + complex instruction.
+- So we use rules based on graph theoretical concepts.
+- The semantic of such a rule can be read like...
+- PUA LHS -> multiple subclasses with the same attribute.
+- PUA RHS -> attribute is only contained by the superclass.
+- Applying such a rule -> effect of a PUA
+### 23
+- The graph transformation tool we use is called EMF-Henshin.
+- Henshin graphical editor integrates the left-hand and right-hand-side.
+- Basically there are three parts...
+- I don’t want to go more into to detail about that.
+- BTW you don’t have to be a graph theoretical expert to setup those rules.
+### 24
+- Finally, i want to summarize what we have shown today
+### 25
+- We have seen SiLift is a model versioning tool.
+- It supports high-level operation based diff...
+- We have UI tool support.
+- It could be configured for every EMF based model.
+- For more information please visit our website...
+- and do not hesitate to contact us.
+- that's it ... thank you!
+
+
+
+
+
+
+
+
+
+
+
+
+

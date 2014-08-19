@@ -1,0 +1,52 @@
+\chapter{Differenz Pipeline}
+\label{diffPipe}
+
+Die folgenden Abschnitte dokumentieren die Implementierung des in \cite{KeKT2011ASE} beschriebenen
+Konzepts des Semantic-Liftings. Die einzelnen Teile des Konzepts werden dabei in Bezug auf
+ihre technische Umsetzung nochmal im Detail untersucht. Es wird dabei auch auf aufgetretene Probleme
+und ggf. auf deren Lösungsansatz eingegangen.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.2]{images/difference_pipeline.png}
+  \caption{Differenz Pipeline \cite{KeKT2011ASE}}
+  \label{fig:diff_pipeline}
+\end{figure}
+
+Die Architektur des Semantic-Lifting Algorithmus lässt sich als Pipeline beschreiben, wie in
+Abbildung \ref{fig:diff_pipeline} dargestellt. Als Eingabe für diese Pipeline dienen immer zwei
+Versionen eines Modells. Diese beiden Versionen werden im Folgenden immer als \textbf{Modell A} und
+\textbf{Modell B} bezeichnet, wobei Modell A  als die Ausgangsversion des Modells betrachtet wird,
+während Modell B eine spätere Version des Modells darstellt, in der im Vergleich zu Modell A
+verschiedene Teile hinzugefügt oder entfernt wurden. Als technische Grundlage für die
+Implementierung dient das Eclipse Modeling Framework (EMF). Daher können nur Modelle verglichen
+werden, die auf dem EMF eigenen Metamodell Ecore basieren. Im Rahmen dieses Proof-Of-Concepts
+verwenden wir Ecore direkt als Metamodell für die zu vergleichenden Modelle. Grundsätzlich können
+aber auch z.B. auf Ecore basierende UML Klassendiagramme oder Zustandsautomaten als Eingabe dienen,
+wie Abbildung \ref{fig:metaebenen} illustriert. In allen Fällen bildet Ecore einen
+selbstreferentiellen Abschluss der Abstraktionsebenen als Meta-Metamodell.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/metaebenen.png}
+  \caption{Metaebenen}
+  \label{fig:metaebenen}
+\end{figure}
+
+Die Modelle A und B werden dann in den folgenden Schritten weiter verarbeitet. Der erste Schritt auf
+dem Weg zur semantisch gelifteten Differenz ist das Matching (Abschnitt \ref{sec:matching}). In
+dieser Phase wird versucht den Elementen aus Modell A die entsprechend gleichen Element aus Modell B
+zuzuordnen. Den nächsten Schritt bildet die Differenz-Ableitung (Abschnitt
+\ref{sec:diff:derivation}), in der die später zu verarbeitende technische Differenz aus den
+Matchings erzeugt wird. Im letzten Schritt erfolgt das Semantic-Lifting (Abschnitt
+\ref{sec:lifting}), hier wird aus der technischen Differenz eine semantisch geliftete Differenz
+berechnet.
+
+% Matching
+\input{content/matching}
+
+% Differenz-Ableitung
+\input{content/difference_derivation}
+
+% Semantic-Lifiting
+\input{content/lifting}

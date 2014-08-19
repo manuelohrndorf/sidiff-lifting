@@ -1,0 +1,240 @@
+% Als Dokumentenklasse wird die 'report' Klasse von Koma-Script verwendet.
+% Die Schriftgroesse kann hier eingestellt werden (10pt, 11pt, 12pt)
+%\documentclass[a4paper,titlepage,12pt]{scrreprt}
+
+\documentclass[a4paper,titlepage,11pt]{scrbook}
+\KOMAoptions{captions=tableheading,parskip=full, headsepline=true, footsepline=false,
+cleardoublepage=plain, headings=twolinechapter, numbers=noendperiod, appendixprefix=true,
+chapterprefix=true}
+
+%
+% Hier werden benoetigte Pakete geladen. Manche sind nicht immer noetig und koennen 
+% nach eigenen Geschmack entfernt werden. Zum experimentieren einfach die Zeile mit 
+% einem '%' Zeichen auskommentieren.
+%
+
+\usepackage{ifpdf}% Gibt den Schalter \ifpdf, der angibt ob PDF oder DVI/PS ausgegeben wird.
+\author{Dennis Reuling}
+
+\usepackage[cmyk]{xcolor}%  Erweiterte Unterstuetzung von Farben. Die 'cmyk' Option behebt Farbprobleme wenn Transparenz verwenden wird.
+
+\usepackage{filecontents}%  Erlaubt LaTeX-Code in andere Dateien zu schreiben
+
+% zur Veränderung von Aufzählungszeichen (z.B. enumerate beginnend bei a),b),...)
+\usepackage{paralist}
+
+\usepackage{listings}
+
+\usepackage{amsmath}
+
+%customize the captions of floating environments
+\usepackage[margin=10pt,font=small,labelfont=bf,textfont=sl]{caption}
+
+\lstset{
+    language=Java,
+    keywordstyle=\bfseries\ttfamily\color{blue},
+    identifierstyle=\ttfamily\color{black},
+    commentstyle=\color[rgb]{0.457,0.723,0.0},
+    stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    numberstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    numbersep=4pt,
+    tabsize=2,
+    breaklines=true,
+    keepspaces=true,
+%   prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    breakatwhitespace=false,
+    aboveskip={1.5\baselineskip},
+    columns=flexible,
+    frame=single key,
+    captionpos=b
+    }
+
+% Hyperref bzw. PDF Einstellungen (PDF links, Bookmarks, Info-Felder, etc.)
+% Das 'hyperref' Paket wird verwenden. Einstellungen koennen mittels Paketoptionen,
+% mittels \hypersetup{} oder mit der Konfigurationsdatei 'hyperref.cfg' veraendert werden.
+% Manche Einstellungen muessen allerdings sehr frueh festgelegt werden und koennen spaeter
+% nicht mehr veraendert werden. Der beste Platz diese festzulegen ist die Konfigurationsdatei die 
+% vom Paket zur rechten Zeit eingelesen wird.
+% Es wird die 'filecontents' Umgebung benutzt um die 'hyperref.cfg' mit den passenden Einstellungen
+% zu erzeugen. Alternative kann dies auch manuell angelegt werden.
+\begin{filecontents}{hyperref.cfg}
+\hypersetup{
+ pdfauthor={Dennis Reuling}
+ pdfsubject={Integration of UML Profiles into the SiDiff and SiLift tools},
+ pdfkeywords={UML, Profiles, Stereotypes, SiDiff, SiLift, SysML, AIS Case
+ Study}, pdftitle={Integration of UML Profiles into the SiDiff and SiLift tools},
+ backref=true,
+ pagebackref=true,
+ hyperfigures,
+ hyperindex,
+ bookmarksopen,
+ bookmarksopenlevel=1,
+ bookmarksnumbered,
+ pageanchor,
+ plainpages=false,
+ % Hyperlink Farben:
+ urlcolor=blue,
+ pagecolor=black,
+ menucolor=black,
+ citecolor=green,
+ anchorcolor=black,
+ filecolor=black,
+ linkcolor=black,
+ colorlinks=true, % Links einfaerben oder umranden
+}
+\end{filecontents}
+\usepackage{hyperref}% Hyperlinks 
+
+%\usepackage{url}
+% Normalerweise ist es nicht elegant, URLs nach einem Bindestrich zu trennen, aber 
+% die lange URL zur PlaystationMoveMe-Referenz passt sonst nicht auf eine Seite
+\def\UrlBreaks{\do\_\do-\do\/}
+
+% ohne 'renewcommand{\backref}[1]{(S. {#1})}' stehen bei Verwendung von Bibtex im Literatur-
+% verzeichnis lediglich die Seitenzahlen (ohne Zusatz 'S.') der Seiten, die die entsprechenden 
+% Referenzierungen enthalten. 
+\usepackage{backref}
+\renewcommand{\backref}[1]{(S. {#1})}
+
+\renewcommand*{\lstlistlistingname}{List of Listings}
+
+\usepackage{pdfpages}% Andere PDF Dokumente einbinden (z.B. als Anhang)
+
+\usepackage{graphicx}% zum einbinden von Bildern
+% Definition von verwendeten Graphikformaten
+\ifpdf
+  \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
+\else
+  \DeclareGraphicsExtensions{.eps}
+\fi
+\graphicspath{{images/}{anhang/}}	% Pfade fr Grafiken angeben
+
+\usepackage[english]{babel}%  Englische Sprache mit neuer Rechtschreibung
+
+%\usepackage[ngerman]{varioref}% Definiert 
+
+\usepackage[T1]{fontenc}      % T1 Schriften verwenden
+\usepackage[utf8]{inputenc} % Erlaubt deutsche Umlaute in .tex Dateien. Je nach System kann statt 'latin1' auch 'utf8' o.a. verwendet werden
+\usepackage{lmodern}          % Schriftart mit deutschen Umlauten
+
+\usepackage{float} 
+
+\usepackage{longtable} % Erlaubt ueberlange Tabellen ueber mehrere Seiten
+\usepackage{flafter}   % Fliessumgebungen ('figure' and 'table') erst nach deren Deklaration verwenden.
+
+\usepackage[printonlyused]{acronym} % Abkuerzungsverzeichnis
+
+
+%%%%
+% Stileinstellungen
+\usepackage{setspace} % 
+%\singlespacing%    Einfacher Zeilenabstand
+\onehalfspacing%    1 1/2 Zeilenabstand (entspricht angeblich den doppelten Zeilenabstand in Word)
+%\doublespacing%    Doppelter Zeilenabstand
+
+\frenchspacing%     Kein doppeltes Leerzeichen nach '.' etc.
+%%%%
+
+% Mit folgenden Werten kann man die Silbentrennung einstellen (0..10000).
+%\hyphenpenalty=10000 
+%\exhyphenpenalty=10000
+%\hyphenpenalty=10 \exhyphenpenalty=10
+
+\setcounter{secnumdepth}{3}	% Hier stellt man ein bis zu welcher Ordnung berschriften nummeriert werden (Beginnt bei 0 (Kapitel) und geht bis 5 (Subparagraph)
+\setcounter{tocdepth}{3}	% Hier stellt man ein bis zu welcher Ordnung berschriften ins Inhaltsverzeichnis bernommen werden (ebenfalls 0 - 5)
+%
+
+% Anzahl und max. Seitenanteil von Abbildungen und Tabellen einstellen
+\setcounter{topnumber}{5}
+\setcounter{bottomnumber}{5}
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\textfloatsep}{3ex}
+\renewcommand{\floatsep}{3ex}
+
+% Nicht empfohlene Einstellungen:
+%\sloppy    % Schlampige Absatzformatierung (wie M$ Word)
+%\usepackage{wordlike}    % Simuliert M$ Word 
+
+
+%% Header-Layout
+\pagestyle{headings}
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep}
+%\headheight=35pt
+%\fancyhf{}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+%\lhead{\includegraphics[height=1cm]{ivr_logo_doku}\\
+%Interactive Volume Rendering in Virtual Reality}
+%\rhead{\rightmark}
+%\renewcommand{\headrulewidth}{0.4pt}
+
+% footer
+%\rfoot{\thepage}
+
+%redefine plain pagestyle - used for chapter pages.
+%\fancypagestyle{plain}{
+%  \fancyhf{}
+%  \rfoot{\thepage}
+%  \renewcommand{\headrulewidth}{0pt}
+%}
+
+% Erstelle Index
+\makeindex
+
+%------ the real document begins here ------
+\begin{document}
+
+%------ layout for title page ------
+
+\pagenumbering{roman} % Roemische Kleinbuchstaben als Seitennummern (i,ii,iii,iv,v,vi,...). 'Roman' gibt Grossbuchstaben.
+
+%------ preface, table of contents, summary ------
+\include{titlepage}
+\include{abstract}
+\include{statement}
+\include{acknowledgement}
+
+\ifpdf\pdfbookmark{\contentsname}{tableofcontents}\fi%   PDF Bookmark Eintrag fuer das Inhaltsverzeichnis.
+{\singlespacing
+\tableofcontents
+}
+\listoffigures   % Abbildungsverzeichnis
+\lstlistoflistings
+\include{abbreviations} % Abkuerzungsverzeichnis
+\cleardoublepage
+% Layout der Seiten
+\pagenumbering{arabic} % Normale Seitennummern
+
+%------ text of diploma thesis ------
+\addcontentsline{toc}{chapter}{Introduction}
+\pagestyle{plain}
+\include{introduction}
+\pagestyle{headings}
+\include{environment_tools}
+\include{integration_umlprofiles}
+\include{realization}
+\include{sysml_casestudy}
+\include{solution}
+\include{conclusion_futurework}
+
+%------ appendix ------
+\include{appendix}
+
+%***** Bibliographie  *****
+%Die Literatur wird in einem eigenen Dokument im BibTeX Format erfasst: in diesem Fall: referenzen.bib
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\addcontentsline{toc}{chapter}{Bibliography}
+
+%\include{literatur}
+
+
+%------ end of document ------
+\end{document}

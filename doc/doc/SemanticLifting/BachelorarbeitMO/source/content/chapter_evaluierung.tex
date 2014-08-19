@@ -1,0 +1,66 @@
+\chapter{Evaluierung}
+\label{evaluierung}
+
+Für die Evaluierung wurde ein Ecore Modell aus dem Eclipse Modeling Framework (EMF) ausgewählt
+(org.eclipse.emf.codegen.ecore). Verglichen wurden einmal die Versionen 1.0 bis 10.0 und in
+5er Schritten die Versionen 1.0 bis 45.0. Die Ergebnisse der Semantic-Lifting Berechnungen sind in
+folgender Tabelle \ref{eval} aufgelistet.
+
+\begin{table}[h!]
+\centering
+\caption{GenModel Auswertung}
+\begin{tabular}{lccccccc}
+\hline
+\textsc{Version} & SCS & GLL/ULL & KF & K & LS & ML & LL\\
+\hline
+\hline
+01x02 & 7 & 10/0 & 1,4 & 105 & 2 & 345 & 797\\
+02x03 & 6 & 24/0 & 4 & 106 & 1 & 147 & 411\\
+03x04 & 1 & 4/0 & 4 & 112 & 1 & 122 & 223\\
+04x05 & 1 & 4/0 & 4 & 113 & 1 & 129 & 104\\
+05x06 & 1 & 1/0 & 2,6 & 114 & 1 & 113 & 81\\
+06x07 & 9 & 23/0 & 4 & 114 & 2 & 120 & 464\\
+07x08 & 1 & 4/0 & 4 & 121 & 1 & 126 & 111\\
+08x09 & 1 & 4/0 & 4 & 122 & 1 & 146 & 240\\
+09x10 & 1 & 4/0 & 4 & 123 & 1 & 144 & 110\\
+\hline
+01x05 & 15 & 42/0 & 2,8 & 105 & 2 & 393 & 1246\\
+05x10 & 13 & 36/0 & 2,8 & 114 & 2 & 387 & 960\\
+10x15 & 20 & 64/0 & 3,2 & 122 & 3 & 279 & 2779\\
+15x20 & 13 & 46/0 & 3,5 & 136 & 3 & 248 & 1275\\
+20x25 & 14 & 49/0 & 3,5 & 148 & 2 & 419 & 1823\\
+25x30 & 6 & 21/0 & 3,5 & 161 & 2 & 213 & 675\\
+30x35 & 17 & 64/0 & 3,8 & 167 & 2 & 214 & 3007\\
+35x40 & 7 & 27/0 & 3,9 & 184 & 1 & 195 & 582\\
+40x45 & 14 & 37/0 & 2,6 & 191 & 2 & 228 & 797\\
+\hline
+\end{tabular}
+\label{eval}
+\end{table}
+
+ \begin{itemize}
+   \item \textbf{SCS:} Anzahl der Semantic-Chang-Sets.
+   \item \textbf{GLL/ULL:} Gruppierte / Ungruppierte low-level Änderungen.
+   \item \textbf{KF:} Der mittlere Kompressionsfaktor  $\frac{SCS}{GLL}$.
+   \item \textbf{K:} Anzahl der Korrespondenzen
+   \item \textbf{LS:} Lifting Schritte zum 
+   liften sequenziell abhängiger Editieroperationen.
+   \item \textbf{ML:} Laufzeit von Matching und Differenz-Ableitung in \textit{ms}.
+   \item \textbf{LL:} Lifting Laufzeit in \textit{ms}.
+ \end{itemize}
+ Was zunächst positiv auffällt ist, dass alle Editieroperationen erkannt wurden, so dass keine
+ ungruppierten low-level Änderungen in der Differenz zurück bleiben. Die dadurch erreichte
+ Kompression liegt im Mittel bei 3,2, was bei Ecore auch in etwa zu erwarten ist, da meistens 3
+ low-level Änderungen anfallen, wenn ein Objekt mit Referenzen vom Container zum Objekt und vom
+ Objekt zum Container eingefügt wird. 
+ 
+ Was bei den Korrespondenzen auffällt ist, dass die Modelle in der Regel wachsen und nur selten
+ Objekte entfernt werden. Auch sind die Anzahl der Änderungen von einer Modell Version zur
+ nächsten in den meisten Fällen relativ klein. Um auch sequentiell abhängige Editieroperationen zu
+ erkennen, werden für dieses Modell nie mehr als 3 Lifting Schritte benötigt, was zeigt, dass die
+ Abhängigkeiten zwischen den Editieroperationen meistens nicht allzu komplex werden.
+ 
+Die Laufzeit des Semantic-Lifting hängt hauptsächlich von der Anzahl der low-level Änderungen
+ ab und nicht von der Anzahl der Korrespondenzen. Also auch nicht von der Größe des Modells. Dieses
+ ist genau das Verhalten, welches die Optimierungen in Abschnitt \ref{optimierung} bewirken soll.
+ Insgesamt sind die Ergebnisse also schon sehr nah an dem, was erwartet wurde.

@@ -1,0 +1,128 @@
+\chapter{Recognition-Engine}
+\label{recognition}
+
+Die Recognition-Engine ist das eigentliche Kernstück des Semantic-Liftings. Durch das Aufrufen der
+Recognition-Engine werden die Erkennungsregeln auf die technische Differenz angewendet, wodurch die
+Semantic-Change-Sets erzeugt werden.
+
+\section{Aufbauen des Henshin Arbeitsgraphen}
+
+Bevor die Erkennungsregeln auf Differenz angewandt werden können muss zunächst der Henshin
+Arbeitsgraph aufgebaut werden. Im Arbeitsgraphen müssen alle Objekte enthalten sein, auf die die
+Erkennungsregeln abgebildet werden.
+
+\begin{itemize}
+  \item Die technische Modell Differenz, welche geliftet werden soll.
+  \item Die Modell A und B Instanzen.
+  \item Das Metamodell von Modell A und B (in unserem Fall Ecore) für das Matching der Typknoten.
+  \item Ecore als Meta-Metamodell für das Matching des Typs der Typknoten (\texttt{EReference,
+  EAttribute}).
+\end{itemize}
+
+\section{Filtern der Erkennungsregeln}
+\label{filter}
+
+In der Praxis hat sich gezeigt, dass die Differenzen zwischen zwei Modell Revisionen in der Regel
+relativ klein sind. Aufgrund dieser Annahme lassen sich an dieser Stelle bereits einige
+Erkennungsregeln ausfiltern, für die es keinen Match im Arbeitsgraphen geben kann. Zu diesem Zweck
+werden zunächst die low-level Änderungen für jeden Typ in der Differenz gezählt. Im nächsten Schritt
+werden dann die low-level Änderungsknoten jeder Erkennungsregel gezählt und mit der Anzahl der
+jeweiligen low-level Änderungen in der Differenz verglichen. Ist die Anzahl der Änderungen in der
+Erkennungsregel größer als in der Differenz, werden diese Regeln ausgefiltert. Enthält eine
+Differenz z.B. keine Attribute-Value-Changes, dann werden alle Erkennungsregeln ausgefiltert, die
+ein oder mehr Attribute-Value-Change Knoten enthalten.
+
+\section{Optimierung der Erkennungsregeln}
+\label{optimierung}
+
+Die technische Abbildung einer LHS auf den Arbeitsgraphen wird in Henshin durch die Reihenfolge der
+Knoten in der Liste des LHS-Graphen beeinflusst. Henshin sucht in der Reihenfolge, in der die Knoten
+in der Liste liegen, nach passenden Objekten, auf die der Knoten abgebildet werden kann. Wurden die
+ersten Knoten in der Liste bereits auf Objekte abgebildet, schränkt dies die Auswahl der möglichen
+Objekte für weitere folgende Knoten ein. Es empfiehlt sich also, Knoten in der Liste nach vorne zu
+ziehen, für die es einzeln betrachtet nur wenige Abbildungsmöglichkeiten gibt.
+
+Wenn man davon ausgeht, dass ein Modell in der Praxis in den meisten Fällen zunehmend anwächst und
+die Differenzen zwischen den einzelnen Revisionen relativ klein bleiben (also wenig Änderungen),
+dann lassen sich für die Typknoten und Änderungsknoten am wenigsten Abbildungsmöglichkeiten finden.
+Für die Correspondence-Knoten und Modell Knoten gibt es hingegen die meisten Möglichkeiten, diese
+auf den Arbeitsgraphen abzubilden. Aufgrund dieser Überlegungen ergibt sich die folgende Reihenfolge der
+Knoten im LHS-Graphen:
+
+\begin{enumerate}
+  \item \textbf{Differenzknoten:} Die Differenz als Wurzelknoten ist innerhalb des Arbeitsgraphen
+  eindeutig, sie bringt allerdings keine wirkliche Einschränkung der Abbildungsmöglichkeiten für
+  den Rest des Transformationsgraphen.
+ 
+  \item \textbf{Typknoten:} Da der Typ einer Referenz oder eines Attributs über den Namen auf das
+  Metamodell abgebildet wird, sind die Typknoten einzeln betrachtet nicht zwangsläufig eindeutig.
+  Man kann aber davon ausgehen, dass innerhalb eines Modells die Anzahl der Referenzen und Attribute
+  mit dem gleichen Namen in der Praxis eher gering ist.
+ 
+  \item \textbf{Änderungsknoten:} Die Änderungsknoten werden zusätzlich anhand der Anzahl der
+  Änderungen in der Differenz sortiert, wobei Änderungen mit geringerer Anzahl nach vorne gezogen
+  und häufig vorkommende Änderungen in der Liste nach hinten sortiert werden.
+ 
+  \item \textbf{Modell A und B Knoten:} An dieser Stelle werden die einzelnen low-level Änderungen
+  über die Modell A bzw. B Objekte miteinander verbunden bzw. einander korrekt zugeordnet. Dies ist
+  besonders dann entscheidend, wenn es mehrere low-level Änderungen gibt, deren Referenzen auf
+  Objekte des gleichen Typs zeigen. Dies ist z.B. der Fall, wenn eine Editieroperation mehrfach auf
+  verschiedene Objekte angewendet wurde.
+ 
+  \item \textbf{Correspondence-Knoten:} Durch die Correspondences wird zum Schluss der Bezug
+  zwischen Modell A und Modell B hergestellt.
+  % Betrachten wir noch einmal unser Beispiel aus Abbildung \ref{fig:add_eclass}. 
+  % -> Vllt besser Add EReference
+  Beispielsweise beim Einfügen einer \texttt{EReference}  in ein Modell dient die \texttt{EClass}
+  als Container Objekt. Für dieses Container Objekt muss nun eine passende Correspondence gefunden
+  werden. Wurden für die Abbildung der Erkennungsregel bereits die Typ-, Änderungs- und Modell B
+  Knoten gefunden, dann lässt sich die Correspondence (falls vorhanden) in diesem Fall sofort
+  eindeutig festlegen.
+  
+  Umgekehrt wäre es sehr aufwändig (bei einem großen Modell) nacheinander alle Correspondences mit
+  \texttt{EClasses} zu betrachten und dann für jede Correspondence zu überprüfen ob diese  durch 
+  eine Add-Reference mit einem Add-Object verbunden ist. Daher sollten die Correspondeces erst zum
+  Schluss des Matchings auf den Arbeitsgraphen abgebildet werde.
+\end{enumerate}
+Auf diese Weise hängt die Berechnungszeit von der Anzahl der Änderungen im Modell ab. Ansonsten
+würde die Berechnungszeit mit zunehmender Größe der Modelle immer länger werden, was zu einer
+sehr schlechten Skalierbarkeit des Algorithmus im Bezug auf wachsende Modell Revisionen führen
+würde.
+
+Da man nicht mit Sicherheit davon ausgehen kann, dass die Reihenfolge der Knoten zwischen
+Generieren, Serialisieren und Laden gleich geblieben ist, werden die Knoten erst direkt vor dem
+Matching sortiert.
+
+\section{Ausführen der Erkennungsregeln}
+
+Das Ausführen der Erkennungsregeln lässt sich in drei Phasen unterteilen:
+
+\begin{enumerate}
+  \item \textbf{Parallelisierungsphase:} Die erste Phase ist eine rein technische Optimierung. Sie
+  basiert darauf, dass die Erkennungsregeln unabhängig voneinander auf die Differenz abgebildet und
+  angewendet werden können. Um dies auszunutzen, soll die Matching- und Anwendungsphase
+  parallelisiert werden. Dazu werden die Regeln immer in Blöcken an einzelne Threads übergeben.
+  Die Block-Größe, also die Anzahl der Regeln pro Thread, kann in der Recognition-Engine
+  konfiguriert werden. Bei Mehr-Kern-Systemen lies sich dadurch eine deutlich bessere Auslastung der
+  CPU erreichen, da sich die Last durch die Aufteilung effektiver auf die einzelnen CPU-Kerne
+  verteilen lässt.
+  
+  \item \textbf{Matchingphase:} In dieser Phase wird die linke Seite jeder Regel (LHS) auf den
+  Arbeitsgraphen abgebildet. Wodurch die s.g. \textit{Matches} erzeugt werden. Ein Match
+  gibt genau den Teil des Arbeitsgraphen an, der in der Anwendungsphase durch die rechte Seite der
+  Regel (RHS) ersetzt wird. Ein Match für eine Regel muss nicht eindeutig sein. D.h. für
+  jede Regel können mehrere und zum Teil auch sich überschneidende Matches existieren. Im
+  Idealfall entspricht die Anzahl der Matches für jede Erkennungsregel der Häufigkeit, mit
+  der die Editierregel auf das Modell angewendet wurde. Welche Probleme sich durch Überschneidungen
+  von Matches ergeben und wie diese behandelt werden, wird im nächsten Abschnitt 
+  \ref{post_processing} Post-Processing beschprochen.
+  
+  \item \textbf{Anwendungsphase:} Wie bereits erwähnt werden in der Anwendungsphase alle Matches
+  durch die entsprechende rechte Seite der Erkennungsregel ersetzt. Der einzige Teil, der nicht im
+  Schnitt von LHS und RHS enthalten ist, ist das Semantic-Change-Set und die Kanten zu den
+  jeweiligen low-level Änderungen. Das ist eben genau der Teil, welcher der Differenz hinzugefügt
+  wird. D.h. nach diesem Schritt sind die Semantic-Change-Sets mit den dazu gehörigen low-level
+  Änderungen in der Differenz enthalten. Da sich allerdings ggf. die Matches überschneiden können,
+  überschneiden sich jetzt auch die entsprechenden Semantic-Change-Sets. D.h.
+  eine low-level Änderung kommt dann in mehreren Semantic-Change-Sets vor.
+\end{enumerate}

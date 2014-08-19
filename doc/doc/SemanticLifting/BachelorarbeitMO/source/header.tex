@@ -1,0 +1,479 @@
+%
+% header.tex
+%
+\documentclass[%
+	pdftex,%              PDFTex verwenden
+	a4paper,%             A4 Papier
+%	oneside,%             Einseitig
+	twoside,%	      Zweiseitig
+%	bibtotocnumbered,%    Literaturverzeichnis nummeriert einfügen
+%	idxtotoc,%            Index ins Verzeichnis einfügen
+%	halfparskip,%         Europäischer Satz mit abstand zwischen Absätzen
+%	chapterprefix,%       Kapitel anschreiben als Kapitel
+	headsepline,%         Linie nach Kopfzeile
+%	footsepline,%         Linie vor Fusszeile
+	11pt,%                Größere Schrift, besser lesbar am bildschrim
+	openright,%			  Anfang immer auf rechter Seite 
+	pointlessnumbers,%	  Nummerierung der Kapitel ohne abschließenden Punkt
+%	smallheadings,%		  Kleinere Überschrifen
+  headinclude,%
+  ]{scrreprt}
+
+
+
+
+
+%\usepackage{parskip}
+%\usepackage{setspace}
+
+
+\usepackage{url}
+
+
+%
+% Paket für die Indexerstellung.
+%
+\usepackage{makeidx}
+
+
+%
+% Paket für Übersetzungen ins Deutsche
+%
+%\usepackage[german, ngerman]{babel}
+\usepackage[ngerman]{babel}
+ 
+%
+% Pakete um Latin1 Zeichnensätze verwenden zu können und die dazu
+% passenden Schriften.
+%
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{textcomp}
+\usepackage{lmodern}  % Schriftart mit deutschen Umlauten
+
+%
+% Paket zum Erweitern der Tabelleneigenschaften
+%
+\usepackage{array}
+
+
+\newcommand{\todo}[1]{\textbf{\textsc{\textcolor{red}{(TODO: #1)}}}}
+
+
+
+%
+% Paket um Grafiken einbetten zu können
+%
+\usepackage[pdftex]{graphicx}
+\usepackage{wrapfig}
+
+%
+% Spezielle Schrift verwenden.
+%
+\renewcommand{\encodingdefault}{T1}
+%\renewcommand{\familydefault}{pfr}
+%\renewcommand{\sfdefault}{pfr}
+
+%
+% Spezielle Schrift im Koma-Script setzen.
+%
+% old:
+%\setkomafont{sectioning}{\normalfont\bfseries}
+%\setkomafont{llabel}{\normalfont\bfseries}
+%\setkomafont{pagehead}{\normalfont\itshape}
+%\setkomafont{descriptionlabel}{\normalfont\bfseries}
+% new
+%\setkomafont{sectioning}{\sffamily\bfseries}
+%\setkomafont{captionlabel}{\sffamily\bfseries}
+%\setkomafont{captionlabel}{\sffamily}
+%\setkomafont{pagehead}{\sffamily\small\itshape}
+%\setkomafont{pagehead}{\sffamily\small}
+%\setkomafont{descriptionlabel}{\sffamily\bfseries}
+
+%
+% Zeilenumbruch bei Bildbeschreibungen.
+%
+\setcapindent{1em}
+
+
+\usepackage[size=normalsize]{caption}
+
+
+%Fussonotennummerierung durch das gesamte Dokument
+\usepackage{chngcntr}
+\counterwithout{footnote}{chapter}
+
+
+%
+% kopf und fusszeilen
+%
+%\usepackage[automark]{scrpage2}
+%\pagestyle{scrheadings}
+%\pagestyle{empty}
+
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\thechapter\ #1}}{}}
+
+%
+%% Kopf- und Fusszeilen formatieren
+\fancypagestyle{normal}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RO,LE]{\thepage}
+}
+% Anfang eines neuen Kapitels etc.
+\fancypagestyle{plain}{
+\renewcommand\headrulewidth{0.0pt}
+\fancyhf{}
+\fancyfoot[CO]{\thepage}
+}
+% Header für das Inhaltsverzeichnis
+\fancypagestyle{ihv}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{INHALTSVERZEICHNIS}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für das Abkürzungsverzeichnis
+\fancypagestyle{akv}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{ABKÜRZUNGSVERZEICHNIS}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für den Anhang
+\fancypagestyle{app}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{ANHANG}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für das Abbildungsverzeichnis
+\fancypagestyle{abv}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{ABBILDUNGSVERZEICHNIS}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für das Literaturverzeichnis
+\fancypagestyle{bib}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{LITERATURVERZEICHNIS}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für den Index
+\fancypagestyle{swv}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{INDEX}
+\fancyhead[RO,LE]{\thepage}
+}
+% Header für Listings
+\fancypagestyle{lst}{
+\fancyhf{}
+\renewcommand\headrulewidth{0.4pt}
+\fancyhead[RE,LO]{LISTINGS}
+\fancyhead[RO,LE]{\thepage}
+}
+
+%
+% 2-seitiger Druck
+%
+%\rohead[\pagemark]{\pagemark}
+%\rehead[\leftmark]{\leftmark}
+%\lohead[\rightmark]{\rightmark}
+%\lehead[\pagemark]{\pagemark}
+%\ifoot[]{}
+%\cfoot[]{}
+%\ofoot[]{}
+%
+% 1-seitiger Druck
+%
+%\rohead[]{\pagemark}
+%\rehead[]{}
+%\lohead[]{\leftmark}
+%\lehead[]{\pagemark}
+%\ifoot[]{}
+%\cfoot[]{}
+%\ofoot[]{}
+%\chead[]{}
+
+
+%%Zeilenumbruch nach Paragraph
+% \usepackage{titlesec}
+% \titleformat{\paragraph}%
+% {\bf}%
+% {\theparagraph}%
+% {0.5em}%
+% {}
+
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+
+% \setlength\LTpre{-0.2cm}
+% \setlength\LTpost{-1cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathematik-Einstellungen
+
+%
+% mathematische symbole aus dem AMS Paket.
+%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{shadethm}
+
+%\usepackage{thmbox}
+
+
+% Equation Counter
+\numberwithin{equation}{section}
+
+% Definitionen
+\newtheoremstyle{examplestyle}% name of the style to be used
+  {10mm}% measure of space to leave above the theorem. E.g.: 3pt
+  {10mm}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bfseries}% name of head font
+  {\newline}% punctuation between head and body
+  {10mm}% space after theorem head
+  {}% Manually specify head
+
+\theoremstyle{examplestyle}
+
+\definecolor{shadethmcolor}{rgb}{.95,.95,.95}     % Farbe des Hintergrundes 
+%\definecolor{shaderulecolor}{rgb}{0.0,0.0,1.0}   % Farbe des Rahmens
+%\setlength{\shadeboxrule}{1pt}   		  % Breite des Rahmens
+
+\newshadetheorem{definition}{Definition}[section]
+\newshadetheorem{lemma}{Lemma}[section]
+\newshadetheorem{beweis}{Beweis}[section]
+\newshadetheorem{voraussetzung}{Voraussetzung}[section]
+
+% Ende Mathematik-Einstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%
+% Paket um Textteile drehen zu können
+%
+\usepackage{rotating}
+%\usepackage{lscape}
+
+%
+% Package für Farben im PDF
+%
+\usepackage{color}
+
+
+%
+% Seitenabmessungen
+%
+\setlength{\topmargin}{0pt}
+\setlength{\voffset}{0cm}
+\setlength{\textheight}{20.5 cm}
+%\setlength{\headsep}{0.7cm}
+\setlength{\evensidemargin}{1.15cm}
+\setlength{\oddsidemargin}{0.2cm}
+\setlength{\marginparwidth}{0.5cm}
+\setlength{\textwidth}{14.7cm}
+\setlength{\headwidth}{14.7cm}
+\setlength{\skip\footins}{15mm}
+%\setlength{\footskip}{2cm}
+
+
+%
+% Bis zu welcher Strukturtiefe soll nummeriert werden
+%
+\setcounter{secnumdepth}{2} 
+
+%
+% Hack um doublepages zu löschen
+%
+\makeatletter
+\def\cleardoublepage{\clearpage\thispagestyle{empty}%
+  \if@twoside \ifodd\c@page\else
+  \hbox{}\newpage%
+  \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+%
+% Paket für Links innerhalb des PDF Dokumentes
+%
+% \definecolor{LinkColor}{rgb}{0,0,0.5}
+\definecolor{LinkColor}{rgb}{0,0,0}
+\usepackage[%
+	pdftitle={A Rule-Based Approach to the  Semantic Lifting of Model Differences in the context of
+	Model Versioning},%
+	pdfauthor={Manuel Ohrndorf},%
+	pdfcreator={},
+	pdfsubject={Bachelorarbeit},
+	pdfkeywords={Modelldifferenzen},
+	plainpages=false,
+	pdfpagelabels,
+	bookmarksnumbered=true,
+	bookmarksopen=true,
+	pdfpagemode=UseOutlines]
+	{hyperref}
+\hypersetup{colorlinks=true,%
+	linkcolor=LinkColor,%
+	citecolor=LinkColor,%
+	filecolor=LinkColor,%
+	menucolor=LinkColor,%
+	pagecolor=LinkColor,%
+	urlcolor=LinkColor}
+
+%
+% Paket um Listings sauber zu formatieren.
+%
+\usepackage{listings}
+\lstloadlanguages{TeX}
+
+%
+% Neue Sprachdialekte
+%
+%
+% Pseudocode
+%
+\lstdefinelanguage{pseudo}{
+	keywords={in, if, endif, else, for , endfor, function, return, break, true, false, when, each, new, boolean},
+	sensitive=true,
+	comment=[l]{//}
+}
+
+%              
+% WORKAROUND, damit lstlistoflistings funktioniert:
+% Quelle: http://www.komascript.de/node/477
+%
+\makeatletter% --> De-TeX-FAQ
+\renewcommand*{\lstlistoflistings}{%
+  \begingroup
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \lol@heading
+    \setlength{\parskip}{\z@}%
+    \setlength{\parindent}{\z@}%
+    \setlength{\parfillskip}{\z@ \@plus 1fil}%
+    \@starttoc{lol}%
+    \if@restonecol\twocolumn\fi
+  \endgroup
+}
+\makeatother% --> \makeatletter
+
+%
+% Abkürzungsverzeichnis
+%
+\usepackage{nomencl}
+% Befehl umbenennen in abk
+\let\abk\nomenclature
+% Deutsche Überschrift
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+% Punkte zw. Abkürzung und Erklärung
+\setlength{\nomlabelwidth}{.20\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+% Zeilenabstände verkleinern
+\setlength{\nomitemsep}{-\parsep}
+\makenomenclature
+
+%
+%Für Gedanken an der Seite => mit der letzten Zeile wird das wieder auskommentiert
+%
+\newcommand{\marginlabel}[1]{\mbox{}\marginpar{\raggedleft\hspace{0pt}#1}}
+\newcommand{\Gedanke}[1]{\marginlabel{#1}}
+%\renewcommand{\Gedanke}[1]{}           % outcomment this to get Gedanken!
+
+%
+% ---------------------------------------------------------------------------
+% Listing Definationen für Code
+%
+% 
+
+
+
+\definecolor{lbcolor}{rgb}{0.95,0.95,0.95}
+\definecolor{commentcolor}{rgb}{0.4,0.4,0.4}
+\lstset{language=pseudo,
+	numbers=left,
+	stepnumber=1,
+	numbersep=5pt,
+	numberstyle=\tiny,
+%	breaklines=true,
+% 	breakautoindent=true,
+% 	postbreak=\space,
+	tabsize=2,
+	basicstyle=\small,
+	commentstyle=\color{commentcolor}\itshape,
+	stringstyle=\ttfamily,
+	keywordstyle=\color{black}\bfseries,
+	showspaces=false,
+	showstringspaces=false,
+	extendedchars=true,
+	backgroundcolor=\color{lbcolor}}
+%
+% ---------------------------------------------------------------------------
+%
+
+%
+% Zeilenabstand
+%
+\renewcommand{\baselinestretch}{1.2}
+
+%% Schusterjungen und Hurenkinder vermeiden
+%\clubpenalty = 10000 %Schusterjunge
+%\widowpenalty = 10000 %Hurenkind
+
+
+% Wird statt siehe bspw. die Abk. s. bevorzugt:
+\renewcommand{\seename}{s.}
+
+%
+% Löst das Problem der franz. Anführungszeichen über verbatim-Umgebung
+%
+%\newcommand {\franzL} {\begin{verbatim}<<\end{verbatim}}
+%\newcommand {\franzR} {\begin{verbatim}>>\end{verbatim}}
+%\newcommand {\frq} {\begin{verbatim}<\end{verbatim}}
+%\newcommand {\flq} {\begin{verbatim}<\end{verbatim}}
+
+%
+% Neue Umgebungen
+% ---------------------------------------------------------------------------
+
+\newenvironment{ListChanges}%
+	{\begin{list}{$\diamondsuit$}{}}%
+	{\end{list}}
+
+%
+% Index erzeugen
+%
+\makeindex
+
+%
+% EOF
+%
+
+
+
+%\usepackage{tabularx} 
+%\usepackage{amsmath} 
+% 
+%\usepackage{multicol} 
+%\usepackage{float} 
+%\usepackage{amssymb} 
+%
+%\usepackage{pifont}  
+%\include{codestyle} 

@@ -1,0 +1,79 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}   % Umlaute etc. verwenden
+\usepackage[final]{graphicx}    % Grafiken einbinden
+\usepackage{url}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{wrapfig}
+\parindent 0pt
+\usepackage[onehalfspacing]{setspace}
+\usepackage{enumerate}
+
+% direkt PDF generieren
+\usepackage[pdftex,
+    pdftitle={SiLift - Benutzerhandbuch Endanwender},
+	pdfauthor={}]{hyperref}
+    
+% Bis zu welcher Tiefe nummerieren?
+\setcounter{secnumdepth}{3}
+
+
+\begin{document}
+
+% Der Titel der Seminararbeit, sowie der Autor
+\title{SiLift - Benutzerhandbuch für Endanwender}
+\author{Universität Siegen - Praktische Informatik}
+
+%\date{\today}
+
+\maketitle
+
+%*************************************************************************
+%\section{Abstract}
+%*************************************************************************
+%\begin{abstract}
+
+%\end{abstract}
+
+\newpage
+
+%INHALTSVERZEICHNIS
+\tableofcontents
+\newpage
+
+\input{introduction/Introduction}
+
+\input{requirements/Requirements}
+
+\input{lifting/Semantic-Lifting}
+
+\input{patching/Patching}
+
+\input{merging/Three-Way-Merge}
+
+%************************
+
+\begin{center}
+\textbf{ENDE}
+\end{center}
+
+\newpage
+
+\section{Links und weitere Informationen}
+
+\begin{itemize}
+\item \textbf{EMF-Compare}: \url{http://www.eclipse.org/emf/compare}
+\item \textbf{SiDiff}: \url{http://pi.informatik.uni-siegen.de/Projekte/sidiff/}
+\item \textbf{SiLift}: \url{http://pi.informatik.uni-siegen.de/Projekte/SiLift/}
+\end{itemize} 
+
+%***** Bibliographie  *****
+%Die Literatur wird in einem eigenen Dokument im BibTeX Format erfasst: in diesem Fall: referenzen.bib
+%\bibliography{referenzen}
+% --- Literaturstellen nummerieren
+%\bibliographystyle{alphadin}
+
+
+\end{document}

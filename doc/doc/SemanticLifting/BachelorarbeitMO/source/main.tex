@@ -1,0 +1,101 @@
+\input{header}
+
+ 
+\begin{document}
+
+%\input{misc/glossary}
+
+%
+% Counter für Teile des Dokumentes
+%
+%\newcounter{Dokumentteil}
+%\addtocounter{Dokumentteil}{1}
+
+
+\pagenumbering{roman}
+
+\pagestyle{empty}
+\input{titlepage}
+\cleardoublepage
+
+
+
+\input{kurzfassung}
+\clearpage
+
+\setcounter{page}{0} 
+
+
+\pagestyle{ihv}
+\tableofcontents
+\cleardoublepage
+
+
+\pagestyle{normal}
+
+
+
+
+\pagenumbering{arabic}
+
+%
+% ---------------------------------------------------------------------------
+%
+
+
+\input{content}
+\cleardoublepage
+
+
+
+%
+% ---------------------------------------------------------------------------
+%
+%
+% Verzeichnisse
+%
+\pagestyle{abv}
+\listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+\cleardoublepage
+
+%\listoftables
+%\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+%\thispagestyle{empty}
+%\cleardoublepage
+
+
+% \pagestyle{akv}
+% \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+% \printnomenclature
+% \cleardoublepage
+%
+%%\printglossary
+%%\cleardoublepage
+%
+\pagestyle{bib}
+\bibliography{database}
+\bibliographystyle{alphadin}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\cleardoublepage
+
+
+%
+% Anhang
+%
+
+% \pagestyle{app}
+% \appendix
+% \input{appendix}
+% \cleardoublepage
+
+
+% \pagestyle{swv}
+% \printindex
+% \addcontentsline{toc}{chapter}{Index}
+% \cleardoublepage
+
+\input{erklaerung}
+\cleardoublepage
+
+\end{document}

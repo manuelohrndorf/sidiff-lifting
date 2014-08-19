@@ -1,0 +1,115 @@
+\documentclass[10pt]{beamer}
+%\documentclass[handout,10pt]{beamer}
+
+\mode<presentation>
+{
+\usetheme{PI}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{etex}
+\usepackage{listings}
+\usepackage{pstricks-add}
+\usepackage{url}					
+\usepackage{booktabs}			
+\usepackage{dcolumn}			
+\usepackage{bm}						
+\usepackage[left]{eurosym}
+\usepackage{subfigure}		
+\usepackage{color}				
+\usepackage{epstopdf}	
+\usepackage[absolute,overlay]{textpos} 
+\usepackage{multirow}
+\usepackage{textpos}
+\usepackage{tikz}
+\usepackage{pst-pdf}
+\usepackage{graphicx}
+\usepackage{pgfpages}
+
+\lstset{
+    language=XML,
+    keywordstyle=\bfseries\ttfamily\color{blue},
+    identifierstyle=\ttfamily\color{black},
+    commentstyle=\color[rgb]{0.457,0.723,0.0},
+    stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+    showstringspaces=false,
+    basicstyle=\scriptsize,
+    numberstyle=\scriptsize,
+    numbers=left,
+    stepnumber=1,
+    numbersep=4pt,
+    tabsize=2,
+    breaklines=true,
+    keepspaces=true,
+    breakatwhitespace=false,
+    aboveskip={1.5\baselineskip},
+    columns=flexible,
+    frame=single key,
+    captionpos=b,
+    morekeywords={name,class,threshold,weight,parameter}
+    }
+
+%Create Handout?
+\only<handout>{\pgfpagesuselayout{4 on 1}[a4paper,landscape]}
+
+%Use BeamerNotes?
+%\setbeameroption{show notes on second screen=right}
+\graphicspath{{images/}}
+
+\title[SiLift]{High-level Differencing, Patching and Merging of EMF Models}
+%\subtitle{SubTitle}
+\author[D. Reuling \\ M. Ohrndorf]{Dennis Reuling -- Manuel Ohrndorf}
+\date[18.11.2013]{Eclipse DemoCamp}
+\pgfdeclareimage[height=1.5cm]{titlegraphic}{logoTitle}
+\titlegraphic{\pgfuseimage{titlegraphic}}
+
+\hypersetup{
+	pdfauthor={Dennis Reuling, Manuel Ohrndorf},
+    pdfsubject={SiLift: High-level Differencing, Patching and Merging of EMF Model}
+	pdfkeywords={SiLift, EMF Compare, Differences, Operations, Lifting, Patching,
+	Merging} }
+
+%\beamerdefaultoverlayspecification{<+$\rightarrow$}
+
+\begin{document}
+
+ \pgfdeclareverticalshading{fadeBlue}{\paperwidth}%
+ {color(0cm)=(bg);color(1cm)=(structure.fg!25!structure.bg)}
+
+\begingroup
+\makeatletter
+%\setbeamertemplate{background canvas}[vertical shading][top=bg,bottom=structure.fg!25!structure.bg]
+\only<presentation>{\setlength{\hoffset}{-25pt}}
+\beamertemplatenavigationsymbolsempty
+\makeatother
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+\endgroup
+
+%no subsections in toc
+\setcounter{tocdepth}{1}
+
+\include{aboutus}
+\begingroup
+\makeatletter
+\setbeamertemplate{sidebar left}{}
+\makeatother
+\begin{frame}
+  \frametitle{Agenda}
+  \tableofcontents
+\end{frame}
+\endgroup
+
+\AtBeginSection[]%
+{%
+\frame{\sectionpage}
+}
+
+\include{introduction}
+\include{tooling}
+\include{silift}
+\include{summary}
+
+\end{document}

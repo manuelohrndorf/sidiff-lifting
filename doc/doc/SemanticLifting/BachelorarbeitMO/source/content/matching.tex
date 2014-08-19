@@ -1,0 +1,112 @@
+\section{Matching}
+\label{sec:matching}
+
+Als Matching wird in diesem Zusammenhang der Prozess bezeichnet, in dem die beiden Modelle A und B
+miteinander verglichen werden. Dazu werden zustandsbasierte Vergleichsalgorithmen verwendet, welche
+eine symmetrische Differenz auf der Basis des aktuellen Zustands der beiden Modelle berechnen.  Ziel
+des Matchings ist es herauszufinden welche Elemente in beiden Modellen übereinstimmen. Diese
+Übereinstimmungen werden als Korrespondenzen (\textit{engl. Correspondence}) zwischen Modellen A und
+B bezeichnet. \cite{KeKT2011ASE} (S.3)
+
+\begin{quote}
+\centering
+$A \Delta B := \{x \mid (((x \in  A)\wedge(x \not\in B))\vee((x \in B)\wedge(x \not\in A))) \}$
+\end{quote}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[scale=0.4]{images/symmetrische_Differenz.png}
+  \caption{Symmetrische Differenz}
+  \label{fig:sym_diff}
+\end{figure}
+
+Die Korrespondenzen geben zunächst die Schnittmenge zwischen den Modellen an. Für die Berechnung der
+korrespondierenden Elemente gibt es grundsätzlich verschiedene (zustandsbasierte) Techniken und
+Algorithmen:
+
+\begin{itemize}
+  \item \textbf{ID-basiert:} In diesem Ansatz wird davon ausgegangen, dass jedes Modell-Element eine
+  eindeutige statische ID besitzt. D.h. diese ID wird beim Erzeugen des Elements vergeben und darf
+  sich auch im weiteren Entwicklungsverlauf des Modells nicht verändern. Der Hauptvorteil dieses
+  Ansatzes besteht darin, dass keine spezielle Konfiguration für unterschiedliche Modelltypen nötig
+  ist. Außerdem lassen sich Korrespondenzen sehr effizient berechnen. Dieser Ansatz funktioniert
+  allerdings nicht für Modelle, die unabhängig voneinander erzeugt wurden. Außerdem muss die Vergabe
+  von IDs durch die verschiedenen Entwicklungsumgebungen gewährleistet sein. \cite{KPRP2009} (S.2)
+  
+  \item \textbf{Signaturbasiert:} In diesem Ansatz wird eine Signatur zum vergleichen der
+  Modell-Elemente verwendet. Im Gegensatz zu einer ID ist die Signatur nicht statisch. Eine Signatur
+  wird dynamisch aus den Werten der Eigenschaften eines Elements berechnet. Daher können auf diese
+  Weise auch Modelle verglichen werden, die unabhängig voneinander entwickelt wurden. Dieser
+  Ansatz ist allerdings mit deutlich mehr Aufwand verbunden, da für jeden Modell-Element-Typ eine
+  Berechnungsfunktion für die jeweilige Signatur angelegt werden muss. \cite{KPRP2009} (S.3)
+  
+  \item \textbf{Ähnlichkeitsbasiert:} In diesem Ansatz werden Modelle als typisierte, attributierte
+  Graphen behandelt. Die einzelnen Modell-Elemente werden dabei durch die Summe ihrer Eigenschaften
+  identifiziert. Dabei sind nicht alle Eigenschaften gleich wichtig. Hierzu wird in den meisten
+  Algorithmen eine Konfiguration benötigt die das relative Gewicht der einzelnen Eigenschaften
+  angibt. Herauszufinden welche Gewichtung der Eigenschaften für eine Modellierungssprache ein
+  möglichst optimales Ergebnis liefert, ist allerdings häufig ein "`trial-and-error"' Prozess.
+  Außerdem können generische Ansätze keine Rücksicht auf die Semantik der Modellierungssprache
+  nehmen, welche die Genauigkeit verbessern und die Anzahl der individuellen Vergleiche verringern
+  würde. \cite{KPRP2009} (S.3)
+  
+  \item \textbf{Sprachspezifisch:} Ein sprachspezifischer Matching Algorithmus wurde speziell für
+  eine Modellierungssprache implementiert. Da diese Algorithmen die Semantik ihrer
+  Modellierungsprache kennen ist hier in der Regel auch kein Semantic-Lifting notwendig. Daher wird
+  hier auch nicht näher auf solche Algorithmen eingegangen. Der Nachteil dieses Ansatzes bestehen
+  im hohen Entwicklungsaufwand und der auf die Modellierungssprache eingeschränkten Benutzbarkeit.
+\end{itemize}
+Zur Berechnung der Korrespondenzen für das Semantic-Lifting kann grundsätzlich ein beliebiger
+Algorithmus verwendet werden. Die Korrespondenzen müssen nur immer in die interne Darstellung
+konvertiert werden. (Siehe \texttt{Correspondeces} Abbildung \ref{fig:diffmodel}.) Ein Vergleich
+verschiedener Ansätze ist in \cite{KPRP2009} zu finden. Im folgenden wird nun auf die im Rahmen
+dieser Arbeit verwendeten Algorithmen eingegangen.
+
+% Beim Vergleichen von Modellen spielt immer auch die Struktur eine wichtige Rolle. In Ecore werden
+% Modelle in Form einer Baumartigen Aggregationsstruktur aufgebaut. Die einzelnen Elemente dieser
+% Struktur sind typisiert und ggf. attributiert. Dabei können Elemente dieser Struktur hinzugefügt
+% oder entfernt werden. Im Sinne einer Struktur kann man auch von Verschiebung einzelner Elemente
+% sprechen, wenn ein Element aus einem Teilbaum einem anderen zugeordnet wird. Die Verschiebung äußert
+% sich in einem Modell durch das verändern der Referenzen zwischen Container und Element. Ist das
+% Element kein Blatt in der Baumstruktur so können auf diese Weise auch ganze Teilbäume verschoben
+% werden. In vielen Fällen kann es wünschenswert sein ein Verschieben als solches zu erkennen und
+% nicht als löschen und einfügen von Elementen. In diesem Fall würden dann Korrespondenzen zwischen
+% den Verschobenen Elementen bzw. Teilbäumen angelegt, nicht aber zwischen den veränderten Referenzen
+% der Container und  der Elemente bzw. Wurzeln der Teilbäume. Korrespondenzen können außerdem
+% zwischen nicht gleichen Elementen auftreten. Zum Beispiel kann ein Element auf Grund seiner
+% strukturellen Anordnung als Korrespondierend angesehen werden, möglicherweise wurden aber Attribute
+% wie der Name des Elements verändert. Auf Grund dieser verschiedenen Eigenschaften muss
+% die Menge der Korrespondenzen je nach verwendetem Matching Algorithmus nicht immer Eindeutig sein.
+
+\subsection{SiDiff}
+\label{sidiff}
+
+SiDiff ist ein an der Universität-Siegen entwickelter Metamodell unabhängiger Ansatz, um Modelle zu
+vergleichen. Der Algorithmus ist hauptsächlich darauf ausgelegt Modell-Elemente nach ihrer
+Ähnlichkeit zu vergleichen (ähnlichkeitsbasiert), unterstützt aber auch Ansätze zum ID-basierten
+oder signaturbasierten Modellvergleich. Der Hauptvorteil von SiDiff besteht darin, dass dem
+Benutzer eine sehr frei konfigurierbare Umgebung geboten wird, die auf jeden Modelltyp angepasst
+werden kann. Der Modelltyp muss sich lediglich als graphähnliche Struktur darstellen lassen. Der
+generische Algorithmus muss für jeden Modelltyp konfiguriert werden. Eine Konfiguration besteht aus
+einer Transformation vom Originaldokument in die interne Repräsentation, einer Definition für die
+Gewichtung der Eigenschaften der zu vergleichenden Modell-Elemente für die Berechnung der
+Ähnlichkeiten und einer Spezifizierung der auszugebenden Daten. \cite{SiDiff}
+
+% SiDiff is an meta model-independent approach to model comparison. It is primarily based on the
+% notion of similarity between model elements, but covers other approaches like id-based or
+% signature-based model comparison as well. The main advantage of SiDiff is that it offers a highly
+% configurable environment and is therefore easily adaptable to any model type where models can be
+% represented in a graph-like structure
+% 
+% The generic algorithm must be configured for each type of model. A configuration consists of a
+% transformations from the original document into an internal structure, the definition of the
+% similarity of elements, a specification of the output, and further details.
+
+\subsection{Named-Element-Matcher}
+\label{nem}
+
+Der Named-Element-Matcher wurde im Rahmen diese Projekts als Testwerkzeug verwendet, er vergleicht
+die beiden Modelle A und B einfach anhand der Namen der einzelnen Elemente. Der Matcher eignet sich
+vor allem für selbst konstruierte Testfälle, da das Ergebnis des matchings relativ gut abzusehen
+ist. Dieser Algorithmus lässt sich als ein signaturbasierter Algorithmus einordnen. Als Signatur
+wird in diesem Fall eben nur der Namen benutzt.
