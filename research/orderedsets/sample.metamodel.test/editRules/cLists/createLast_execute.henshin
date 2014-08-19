@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZEOvsC5sEeOTloCTn5KdOw">
+  <imports href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_aRNgMC5sEeOTloCTn5KdOw" name="createLast">
+    <parameters xmi:id="_bI4vEC5sEeOTloCTn5KdOw" name="parent"/>
+    <parameters xmi:id="_bI4vES5sEeOTloCTn5KdOw" name="newElement"/>
+    <lhs xmi:id="_aRTm0C5sEeOTloCTn5KdOw" name="Lhs">
+      <nodes xmi:id="_ehXGwC5sEeOTloCTn5KdOw" name="parent">
+        <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aRTm0S5sEeOTloCTn5KdOw" name="Rhs">
+      <nodes xmi:id="_ehXGwS5sEeOTloCTn5KdOw" name="parent" outgoing="_nHX6Uy5sEeOTloCTn5KdOw">
+        <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList"/>
+      </nodes>
+      <nodes xmi:id="_nHX6UC5sEeOTloCTn5KdOw" name="newElement" incoming="_nHX6Uy5sEeOTloCTn5KdOw">
+        <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+      </nodes>
+      <edges xmi:id="_nHX6Uy5sEeOTloCTn5KdOw" source="_ehXGwS5sEeOTloCTn5KdOw" target="_nHX6UC5sEeOTloCTn5KdOw">
+        <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ehXGwi5sEeOTloCTn5KdOw" origin="_ehXGwC5sEeOTloCTn5KdOw" image="_ehXGwS5sEeOTloCTn5KdOw"/>
+    <multiRules xmi:id="_kgmKcDZxEeO4or8BVWAQWg">
+      <lhs xmi:id="_kgv7cDZxEeO4or8BVWAQWg" name="Lhs">
+        <nodes xmi:id="_kgv7ejZxEeO4or8BVWAQWg" name="parent" outgoing="_l82A4C5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList"/>
+        </nodes>
+        <nodes xmi:id="_l81Z0C5sEeOTloCTn5KdOw" incoming="_l82A4C5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+        </nodes>
+        <edges xmi:id="_l82A4C5sEeOTloCTn5KdOw" source="_kgv7ejZxEeO4or8BVWAQWg" target="_l81Z0C5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+        </edges>
+        <formula xsi:type="henshin:Not" xmi:id="_kgv7gzZxEeO4or8BVWAQWg">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_kgv7hDZxEeO4or8BVWAQWg">
+            <conclusion xmi:id="_kgv7hTZxEeO4or8BVWAQWg">
+              <nodes xmi:id="_kgv7hjZxEeO4or8BVWAQWg" name="parent" outgoing="_kgv7ijZxEeO4or8BVWAQWg _E_5pQy5tEeOTloCTn5KdOw">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList"/>
+              </nodes>
+              <nodes xmi:id="_kgv7iDZxEeO4or8BVWAQWg" incoming="_kgv7ijZxEeO4or8BVWAQWg _Y2uiADV5EeOaKPXIc8XELQ" outgoing="_IJfQYC5tEeOTloCTn5KdOw">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+              </nodes>
+              <nodes xmi:id="_E_5pQC5tEeOTloCTn5KdOw" incoming="_E_5pQy5tEeOTloCTn5KdOw _IJfQYC5tEeOTloCTn5KdOw" outgoing="_Y2uiADV5EeOaKPXIc8XELQ">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+              </nodes>
+              <edges xmi:id="_kgv7ijZxEeO4or8BVWAQWg" source="_kgv7hjZxEeO4or8BVWAQWg" target="_kgv7iDZxEeO4or8BVWAQWg">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+              </edges>
+              <edges xmi:id="_E_5pQy5tEeOTloCTn5KdOw" source="_kgv7hjZxEeO4or8BVWAQWg" target="_E_5pQC5tEeOTloCTn5KdOw">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+              </edges>
+              <edges xmi:id="_IJfQYC5tEeOTloCTn5KdOw" source="_kgv7iDZxEeO4or8BVWAQWg" target="_E_5pQC5tEeOTloCTn5KdOw">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item/succ"/>
+              </edges>
+              <edges xmi:id="_Y2uiADV5EeOaKPXIc8XELQ" source="_E_5pQC5tEeOTloCTn5KdOw" target="_kgv7iDZxEeO4or8BVWAQWg">
+                <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item/pre"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_kgv7hzZxEeO4or8BVWAQWg" origin="_kgv7ejZxEeO4or8BVWAQWg" image="_kgv7hjZxEeO4or8BVWAQWg"/>
+            <mappings xmi:id="_kgv7iTZxEeO4or8BVWAQWg" origin="_l81Z0C5sEeOTloCTn5KdOw" image="_kgv7iDZxEeO4or8BVWAQWg"/>
+          </child>
+        </formula>
+      </lhs>
+      <rhs xmi:id="_kgv7cTZxEeO4or8BVWAQWg" name="Rhs">
+        <nodes xmi:id="_kgv7cjZxEeO4or8BVWAQWg" name="parent" outgoing="_kgv7eTZxEeO4or8BVWAQWg _l82A4S5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList"/>
+        </nodes>
+        <nodes xmi:id="_l81Z0S5sEeOTloCTn5KdOw" incoming="_l82A4S5sEeOTloCTn5KdOw _2rjZ4C5sEeOTloCTn5KdOw" outgoing="_1U4h4C5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+        </nodes>
+        <nodes xmi:id="_kgv7dzZxEeO4or8BVWAQWg" name="newElement" incoming="_kgv7eTZxEeO4or8BVWAQWg _1U4h4C5sEeOTloCTn5KdOw" outgoing="_2rjZ4C5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item"/>
+        </nodes>
+        <edges xmi:id="_kgv7eTZxEeO4or8BVWAQWg" source="_kgv7cjZxEeO4or8BVWAQWg" target="_kgv7dzZxEeO4or8BVWAQWg">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+        </edges>
+        <edges xmi:id="_l82A4S5sEeOTloCTn5KdOw" source="_kgv7cjZxEeO4or8BVWAQWg" target="_l81Z0S5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//CList/items"/>
+        </edges>
+        <edges xmi:id="_2rjZ4C5sEeOTloCTn5KdOw" source="_kgv7dzZxEeO4or8BVWAQWg" target="_l81Z0S5sEeOTloCTn5KdOw">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item/pre"/>
+        </edges>
+        <edges xmi:id="_1U4h4C5sEeOTloCTn5KdOw" source="_l81Z0S5sEeOTloCTn5KdOw" target="_kgv7dzZxEeO4or8BVWAQWg">
+          <type href="../../../sample.metamodel.refined/model/SampleMetamodel.ecore#//Item/succ"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_kgv7fzZxEeO4or8BVWAQWg" origin="_kgv7ejZxEeO4or8BVWAQWg" image="_kgv7cjZxEeO4or8BVWAQWg"/>
+      <mappings xmi:id="_l81Z0i5sEeOTloCTn5KdOw" origin="_l81Z0C5sEeOTloCTn5KdOw" image="_l81Z0S5sEeOTloCTn5KdOw"/>
+      <multiMappings xmi:id="_kgv7czZxEeO4or8BVWAQWg" origin="_ehXGwS5sEeOTloCTn5KdOw" image="_kgv7cjZxEeO4or8BVWAQWg"/>
+      <multiMappings xmi:id="_kgv7eDZxEeO4or8BVWAQWg" origin="_nHX6UC5sEeOTloCTn5KdOw" image="_kgv7dzZxEeO4or8BVWAQWg"/>
+      <multiMappings xmi:id="_kgv7ezZxEeO4or8BVWAQWg" origin="_ehXGwC5sEeOTloCTn5KdOw" image="_kgv7ejZxEeO4or8BVWAQWg"/>
+    </multiRules>
+  </units>
+</henshin:Module>

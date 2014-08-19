@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+  <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="platform:/resource/sample.metamodel.refined.editrules/"
+       target="platform:/plugin/sample.metamodel.refined.editrules/">
+    </mapping>
+  </extension>
+  <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="platform:/resource/sample.metamodel.refined.recognitionrules/"
+       target="platform:/plugin/sample.metamodel.refined.recognitionrules/">
+    </mapping>
+  </extension>
+  <extension
+        point="org.sidiff.difference.rulebase.rulebase_extension">
+        <rulebase rulebase="org.sidiff.sysml.recognitionrules.atomic.CListRulebaseMandatory"/>   
+  </extension>
+    <extension
+        point="org.sidiff.difference.rulebase.rulebase_extension">
+        <rulebase rulebase="org.sidiff.sysml.recognitionrules.atomic.CListRulebaseOptional"/>   
+  </extension>
+</plugin>
