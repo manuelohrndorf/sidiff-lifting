@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_R61dwNk-EeKomu7rfXwhHg" name="extract_eclass" description="Creates a new EClass and moves the relevant features and operations from the old EClass into the new one">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_R-hq8Nk-EeKomu7rfXwhHg" name="extractEClass" description="">
+    <parameters xmi:id="_R-hq8dk-EeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_R-hq8tk-EeKomu7rfXwhHg" name="NewClassName"/>
+    <parameters xmi:id="_R-hq89k-EeKomu7rfXwhHg" name="NewReferenceName"/>
+    <parameters xmi:id="_R-hq9Nk-EeKomu7rfXwhHg" name="NewClass"/>
+    <parameters xmi:id="_R-hq9dk-EeKomu7rfXwhHg" name="NewReference"/>
+    <parameters xmi:id="_OkE7IO8oEeK6DsLh7TPvSA" name="SelectedAttributes"/>
+    <parameters xmi:id="_MBN80O8oEeK6DsLh7TPvSA" name="SelectedOperations"/>
+    <lhs xmi:id="_R-hq9tk-EeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_R-hq99k-EeKomu7rfXwhHg" name="Selected" incoming="_R-hq-dk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_R-hq-Nk-EeKomu7rfXwhHg" outgoing="_R-hq-dk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_R-hq-dk-EeKomu7rfXwhHg" source="_R-hq-Nk-EeKomu7rfXwhHg" target="_R-hq99k-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_R-hq-tk-EeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_R-hq-9k-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrBNk-EeKomu7rfXwhHg" outgoing="_R-hrAtk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_R-hq_Nk-EeKomu7rfXwhHg" name="NewClass" incoming="_R-hrA9k-EeKomu7rfXwhHg _R-hrBdk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_R-hq_dk-EeKomu7rfXwhHg" value="NewClassName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_R-hq_tk-EeKomu7rfXwhHg" name="NewReference" incoming="_R-hrAtk-EeKomu7rfXwhHg" outgoing="_R-hrA9k-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_R-hq_9k-EeKomu7rfXwhHg" value="NewReferenceName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_R-hrANk-EeKomu7rfXwhHg" value="1">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_R-hrAdk-EeKomu7rfXwhHg" outgoing="_R-hrBNk-EeKomu7rfXwhHg _R-hrBdk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_R-hrAtk-EeKomu7rfXwhHg" source="_R-hq-9k-EeKomu7rfXwhHg" target="_R-hq_tk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_R-hrA9k-EeKomu7rfXwhHg" source="_R-hq_tk-EeKomu7rfXwhHg" target="_R-hq_Nk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_R-hrBNk-EeKomu7rfXwhHg" source="_R-hrAdk-EeKomu7rfXwhHg" target="_R-hq-9k-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_R-hrBdk-EeKomu7rfXwhHg" source="_R-hrAdk-EeKomu7rfXwhHg" target="_R-hq_Nk-EeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_R-hrBtk-EeKomu7rfXwhHg" origin="_R-hq99k-EeKomu7rfXwhHg" image="_R-hq-9k-EeKomu7rfXwhHg"/>
+    <mappings xmi:id="_R-hrB9k-EeKomu7rfXwhHg" origin="_R-hq-Nk-EeKomu7rfXwhHg" image="_R-hrAdk-EeKomu7rfXwhHg"/>
+    <multiRules xmi:id="_R-hrCNk-EeKomu7rfXwhHg" name="m1_extract_eclass_attributes">
+      <parameters xmi:id="_HVFk4O8oEeK6DsLh7TPvSA" name="SelectedAttributes"/>
+      <lhs xmi:id="_R-hrCdk-EeKomu7rfXwhHg" name="LHS">
+        <nodes xmi:id="_R-hrCtk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrDtk-EeKomu7rfXwhHg" outgoing="_R-hrDdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_R-hrC9k-EeKomu7rfXwhHg" name="SelectedAttributes" incoming="_R-hrDdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        </nodes>
+        <nodes xmi:id="_R-hrDNk-EeKomu7rfXwhHg" outgoing="_R-hrDtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        </nodes>
+        <edges xmi:id="_R-hrDdk-EeKomu7rfXwhHg" source="_R-hrCtk-EeKomu7rfXwhHg" target="_R-hrC9k-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+        </edges>
+        <edges xmi:id="_R-hrDtk-EeKomu7rfXwhHg" source="_R-hrDNk-EeKomu7rfXwhHg" target="_R-hrCtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_R-hrD9k-EeKomu7rfXwhHg" name="RHS">
+        <nodes xmi:id="_R-hrENk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrHNk-EeKomu7rfXwhHg" outgoing="_R-hrGNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_R-hrEdk-EeKomu7rfXwhHg" name="NewReference" incoming="_R-hrGNk-EeKomu7rfXwhHg" outgoing="_R-hrGtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+          <attributes xmi:id="_R-hrEtk-EeKomu7rfXwhHg" value="NewReferenceName">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
+          <attributes xmi:id="_R-hrE9k-EeKomu7rfXwhHg" value="1">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_R-hrFNk-EeKomu7rfXwhHg" name="SelectedAttributes" incoming="_R-hrGdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        </nodes>
+        <nodes xmi:id="_R-hrFdk-EeKomu7rfXwhHg" name="NewClass" incoming="_R-hrGtk-EeKomu7rfXwhHg _R-hrG9k-EeKomu7rfXwhHg" outgoing="_R-hrGdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+          <attributes xmi:id="_R-hrFtk-EeKomu7rfXwhHg" value="NewClassName">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_R-hrF9k-EeKomu7rfXwhHg" outgoing="_R-hrG9k-EeKomu7rfXwhHg _R-hrHNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        </nodes>
+        <edges xmi:id="_R-hrGNk-EeKomu7rfXwhHg" source="_R-hrENk-EeKomu7rfXwhHg" target="_R-hrEdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+        </edges>
+        <edges xmi:id="_R-hrGdk-EeKomu7rfXwhHg" source="_R-hrFdk-EeKomu7rfXwhHg" target="_R-hrFNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+        </edges>
+        <edges xmi:id="_R-hrGtk-EeKomu7rfXwhHg" source="_R-hrEdk-EeKomu7rfXwhHg" target="_R-hrFdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+        </edges>
+        <edges xmi:id="_R-hrG9k-EeKomu7rfXwhHg" source="_R-hrF9k-EeKomu7rfXwhHg" target="_R-hrFdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+        <edges xmi:id="_R-hrHNk-EeKomu7rfXwhHg" source="_R-hrF9k-EeKomu7rfXwhHg" target="_R-hrENk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_R-hrHdk-EeKomu7rfXwhHg" origin="_R-hrCtk-EeKomu7rfXwhHg" image="_R-hrENk-EeKomu7rfXwhHg"/>
+      <mappings xmi:id="_R-hrHtk-EeKomu7rfXwhHg" origin="_R-hrC9k-EeKomu7rfXwhHg" image="_R-hrFNk-EeKomu7rfXwhHg"/>
+      <mappings xmi:id="_R-hrH9k-EeKomu7rfXwhHg" origin="_R-hrDNk-EeKomu7rfXwhHg" image="_R-hrF9k-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_YKnZwNk-EeKomu7rfXwhHg" origin="_R-hq-Nk-EeKomu7rfXwhHg" image="_R-hrDNk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_bIQ2oNk-EeKomu7rfXwhHg" origin="_R-hrAdk-EeKomu7rfXwhHg" image="_R-hrF9k-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_XJVi8Nk-EeKomu7rfXwhHg" origin="_R-hq99k-EeKomu7rfXwhHg" image="_R-hrCtk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_fpm64Nk-EeKomu7rfXwhHg" origin="_R-hq-9k-EeKomu7rfXwhHg" image="_R-hrENk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_ho55INk-EeKomu7rfXwhHg" origin="_R-hq_Nk-EeKomu7rfXwhHg" image="_R-hrFdk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_xOcDkNk-EeKomu7rfXwhHg" origin="_R-hq_tk-EeKomu7rfXwhHg" image="_R-hrEdk-EeKomu7rfXwhHg"/>
+    </multiRules>
+    <multiRules xmi:id="_R-hrINk-EeKomu7rfXwhHg" name="m2_extract_eclass_operations">
+      <parameters xmi:id="_JaaSoO8oEeK6DsLh7TPvSA" name="SelectedOperations"/>
+      <lhs xmi:id="_R-hrIdk-EeKomu7rfXwhHg" name="LHS">
+        <nodes xmi:id="_R-hrItk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrJtk-EeKomu7rfXwhHg" outgoing="_R-hrJdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_R-hrI9k-EeKomu7rfXwhHg" name="SelectedOperations" incoming="_R-hrJdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+        </nodes>
+        <nodes xmi:id="_R-hrJNk-EeKomu7rfXwhHg" outgoing="_R-hrJtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        </nodes>
+        <edges xmi:id="_R-hrJdk-EeKomu7rfXwhHg" source="_R-hrItk-EeKomu7rfXwhHg" target="_R-hrI9k-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eOperations"/>
+        </edges>
+        <edges xmi:id="_R-hrJtk-EeKomu7rfXwhHg" source="_R-hrJNk-EeKomu7rfXwhHg" target="_R-hrItk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_R-hrJ9k-EeKomu7rfXwhHg" name="RHS">
+        <nodes xmi:id="_R-hrKNk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrNNk-EeKomu7rfXwhHg" outgoing="_R-hrMNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_R-hrKdk-EeKomu7rfXwhHg" name="NewReference" incoming="_R-hrMNk-EeKomu7rfXwhHg" outgoing="_R-hrMtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+          <attributes xmi:id="_R-hrKtk-EeKomu7rfXwhHg" value="NewReferenceName">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
+          <attributes xmi:id="_R-hrK9k-EeKomu7rfXwhHg" value="1">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_R-hrLNk-EeKomu7rfXwhHg" name="SelectedOperations" incoming="_R-hrMdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+        </nodes>
+        <nodes xmi:id="_R-hrLdk-EeKomu7rfXwhHg" name="NewClass" incoming="_R-hrMtk-EeKomu7rfXwhHg _R-hrM9k-EeKomu7rfXwhHg" outgoing="_R-hrMdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+          <attributes xmi:id="_R-hrLtk-EeKomu7rfXwhHg" value="NewClassName">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+          </attributes>
+        </nodes>
+        <nodes xmi:id="_R-hrL9k-EeKomu7rfXwhHg" outgoing="_R-hrM9k-EeKomu7rfXwhHg _R-hrNNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        </nodes>
+        <edges xmi:id="_R-hrMNk-EeKomu7rfXwhHg" source="_R-hrKNk-EeKomu7rfXwhHg" target="_R-hrKdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+        </edges>
+        <edges xmi:id="_R-hrMdk-EeKomu7rfXwhHg" source="_R-hrLdk-EeKomu7rfXwhHg" target="_R-hrLNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eOperations"/>
+        </edges>
+        <edges xmi:id="_R-hrMtk-EeKomu7rfXwhHg" source="_R-hrKdk-EeKomu7rfXwhHg" target="_R-hrLdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+        </edges>
+        <edges xmi:id="_R-hrM9k-EeKomu7rfXwhHg" source="_R-hrL9k-EeKomu7rfXwhHg" target="_R-hrLdk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+        <edges xmi:id="_R-hrNNk-EeKomu7rfXwhHg" source="_R-hrL9k-EeKomu7rfXwhHg" target="_R-hrKNk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_R-hrNdk-EeKomu7rfXwhHg" origin="_R-hrItk-EeKomu7rfXwhHg" image="_R-hrKNk-EeKomu7rfXwhHg"/>
+      <mappings xmi:id="_R-hrNtk-EeKomu7rfXwhHg" origin="_R-hrI9k-EeKomu7rfXwhHg" image="_R-hrLNk-EeKomu7rfXwhHg"/>
+      <mappings xmi:id="_R-hrN9k-EeKomu7rfXwhHg" origin="_R-hrJNk-EeKomu7rfXwhHg" image="_R-hrL9k-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_2jDX0Nk-EeKomu7rfXwhHg" origin="_R-hq-Nk-EeKomu7rfXwhHg" image="_R-hrJNk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_ERoAoNk_EeKomu7rfXwhHg" origin="_R-hrAdk-EeKomu7rfXwhHg" image="_R-hrL9k-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_1J6aoNk-EeKomu7rfXwhHg" origin="_R-hq99k-EeKomu7rfXwhHg" image="_R-hrItk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_Nr8mANk_EeKomu7rfXwhHg" origin="_R-hq-9k-EeKomu7rfXwhHg" image="_R-hrKNk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_G18XgNk_EeKomu7rfXwhHg" origin="_R-hq_Nk-EeKomu7rfXwhHg" image="_R-hrLdk-EeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_ZeHzkNk_EeKomu7rfXwhHg" origin="_R-hq_tk-EeKomu7rfXwhHg" image="_R-hrKdk-EeKomu7rfXwhHg"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_3zkOINnmEeKKF_wVIKZRPw" name="mainUnit" description="Extracts a class from a given class." subUnits="_R-hq8Nk-EeKomu7rfXwhHg">
+    <parameters xmi:id="_BbRvQNnnEeKKF_wVIKZRPw" name="Selected"/>
+    <parameters xmi:id="_BbRvQdnnEeKKF_wVIKZRPw" name="NewClassName"/>
+    <parameters xmi:id="_BbRvQtnnEeKKF_wVIKZRPw" name="NewReferenceName"/>
+    <parameters xmi:id="_BbRvQ9nnEeKKF_wVIKZRPw" name="NewClass"/>
+    <parameters xmi:id="_BbRvRNnnEeKKF_wVIKZRPw" name="NewReference"/>
+    <parameters xmi:id="_YO9sEO8oEeK6DsLh7TPvSA" name="SelectedAttributes"/>
+    <parameters xmi:id="_YO9sEe8oEeK6DsLh7TPvSA" name="SelectedOperations"/>
+    <parameterMappings xmi:id="_EykbMNnnEeKKF_wVIKZRPw" source="_BbRvQNnnEeKKF_wVIKZRPw" target="_R-hq8dk-EeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="__aS5gNnnEeKKF_wVIKZRPw" source="_BbRvQdnnEeKKF_wVIKZRPw" target="_R-hq8tk-EeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_D1U6YNnoEeKKF_wVIKZRPw" source="_BbRvQtnnEeKKF_wVIKZRPw" target="_R-hq89k-EeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_GyRzsNnoEeKKF_wVIKZRPw" source="_R-hq9Nk-EeKomu7rfXwhHg" target="_BbRvQ9nnEeKKF_wVIKZRPw"/>
+    <parameterMappings xmi:id="_J3DzUNnoEeKKF_wVIKZRPw" source="_R-hq9dk-EeKomu7rfXwhHg" target="_BbRvRNnnEeKKF_wVIKZRPw"/>
+    <parameterMappings xmi:id="_bKfCAO8oEeK6DsLh7TPvSA" source="_YO9sEO8oEeK6DsLh7TPvSA" target="_OkE7IO8oEeK6DsLh7TPvSA"/>
+    <parameterMappings xmi:id="_hSeT8O8oEeK6DsLh7TPvSA" source="_YO9sEe8oEeK6DsLh7TPvSA" target="_MBN80O8oEeK6DsLh7TPvSA"/>
+  </units>
+</henshin:Module>
