@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yx_sYNlKEeKomu7rfXwhHg" name="CREATE_EObjectInEAnnotation" description="Creates one EObject in EAnnotation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yyie8NlKEeKomu7rfXwhHg" name="mainUnit" description="Creates one EObject depending on available contexts in model instance" subUnits="_Yyie9dlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_Yyie8dlKEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_Yyie8tlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_Yyie89lKEeKomu7rfXwhHg" source="_Yyie8tlKEeKomu7rfXwhHg" target="_Yyie9tlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_Yyie9NlKEeKomu7rfXwhHg" source="_Yyie99lKEeKomu7rfXwhHg" target="_Yyie8dlKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_Yyie9dlKEeKomu7rfXwhHg" name="createEObjectInEAnnotation" description="creates one EObject in the context: EAnnotation">
+    <parameters xmi:id="_Yyie9tlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_Yyie99lKEeKomu7rfXwhHg" name="New"/>
+    <lhs xmi:id="_Yyie-NlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_Yyie-dlKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Yyie-tlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_Yyie-9lKEeKomu7rfXwhHg" name="Selected" outgoing="_Yyie_dlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_Yyie_NlKEeKomu7rfXwhHg" name="New" incoming="_Yyie_dlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <edges xmi:id="_Yyie_dlKEeKomu7rfXwhHg" source="_Yyie-9lKEeKomu7rfXwhHg" target="_Yyie_NlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Yyie_tlKEeKomu7rfXwhHg" origin="_Yyie-dlKEeKomu7rfXwhHg" image="_Yyie-9lKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

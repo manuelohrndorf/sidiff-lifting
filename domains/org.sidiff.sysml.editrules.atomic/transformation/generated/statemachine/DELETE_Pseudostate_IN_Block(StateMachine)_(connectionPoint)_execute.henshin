@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5i5p4FHsEeOlW6ElqrxP9A" name="DELETE_Pseudostate_IN_Block(StateMachine)_(connectionPoint)" description="Deletes one Pseudostate in StateMachine">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5i5p4VHsEeOlW6ElqrxP9A" name="deletePseudostate_IN_StateMachine" description="deletes one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_5i5p4lHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_5i5p41HsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <lhs xmi:id="_5i5p5FHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5i5p5VHsEeOlW6ElqrxP9A" name="Selected" incoming="_5i5p6FHsEeOlW6ElqrxP9A _VK1Ac1HzEeON9vs-A8lEPA" outgoing="_5i5p51HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_5i5p5lHsEeOlW6ElqrxP9A" name="ToBeDeleted" incoming="_5i5p51HsEeOlW6ElqrxP9A" outgoing="_5i5p6FHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_VK1AcFHzEeON9vs-A8lEPA" outgoing="_VK1Ac1HzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_5i5p51HsEeOlW6ElqrxP9A" source="_5i5p5VHsEeOlW6ElqrxP9A" target="_5i5p5lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_5i5p6FHsEeOlW6ElqrxP9A" source="_5i5p5lHsEeOlW6ElqrxP9A" target="_5i5p5VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+      <edges xmi:id="_VK1Ac1HzEeON9vs-A8lEPA" source="_VK1AcFHzEeON9vs-A8lEPA" target="_5i5p5VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5i5p6VHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5i5p6lHsEeOlW6ElqrxP9A" name="Selected" incoming="_VK1AdFHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_VK1AclHzEeON9vs-A8lEPA" outgoing="_VK1AdFHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_VK1AdFHzEeON9vs-A8lEPA" source="_VK1AclHzEeON9vs-A8lEPA" target="_5i5p6lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5i5p61HsEeOlW6ElqrxP9A" origin="_5i5p5VHsEeOlW6ElqrxP9A" image="_5i5p6lHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_VK1AcVHzEeON9vs-A8lEPA" origin="_VK1AcFHzEeON9vs-A8lEPA" image="_VK1AclHzEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5i5p7FHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5i5p4VHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5i5p7VHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_5i5p7lHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_5i5p71HsEeOlW6ElqrxP9A" source="_5i5p7VHsEeOlW6ElqrxP9A" target="_5i5p4lHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5i5p8FHsEeOlW6ElqrxP9A" source="_5i5p7lHsEeOlW6ElqrxP9A" target="_5i5p41HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

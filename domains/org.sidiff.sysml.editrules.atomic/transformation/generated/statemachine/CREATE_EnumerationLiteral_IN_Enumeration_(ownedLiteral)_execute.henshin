@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5td7IFHsEeOlW6ElqrxP9A" name="CREATE_EnumerationLiteral_IN_Enumeration_(ownedLiteral)" description="Creates one EnumerationLiteral in Enumeration">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5teiMFHsEeOlW6ElqrxP9A" name="createEnumerationLiteral_IN_Enumeration" description="creates one EnumerationLiteral in the context: Enumeration">
+    <parameters xmi:id="_5teiMVHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_5teiMlHsEeOlW6ElqrxP9A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameters xmi:id="_5teiM1HsEeOlW6ElqrxP9A" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_5teiNFHsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_5teiNVHsEeOlW6ElqrxP9A" name="Lhs">
+      <nodes xmi:id="_5teiNlHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_5teiN1HsEeOlW6ElqrxP9A" name="Rhs">
+      <nodes xmi:id="_5teiOFHsEeOlW6ElqrxP9A" name="Selected" incoming="_5teiPVHsEeOlW6ElqrxP9A" outgoing="_5teiPFHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_5teiOVHsEeOlW6ElqrxP9A" name="New" incoming="_5teiPFHsEeOlW6ElqrxP9A" outgoing="_5teiPVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+        <attributes xmi:id="_5teiOlHsEeOlW6ElqrxP9A" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_5teiO1HsEeOlW6ElqrxP9A" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_5teiPFHsEeOlW6ElqrxP9A" source="_5teiOFHsEeOlW6ElqrxP9A" target="_5teiOVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration/ownedLiteral"/>
+      </edges>
+      <edges xmi:id="_5teiPVHsEeOlW6ElqrxP9A" source="_5teiOVHsEeOlW6ElqrxP9A" target="_5teiOFHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral/enumeration"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5teiPlHsEeOlW6ElqrxP9A" origin="_5teiNlHsEeOlW6ElqrxP9A" image="_5teiOFHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5teiP1HsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5teiMFHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5teiQFHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_5teiQVHsEeOlW6ElqrxP9A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameters xmi:id="_5teiQlHsEeOlW6ElqrxP9A" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_5teiQ1HsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_5teiRFHsEeOlW6ElqrxP9A" source="_5teiQFHsEeOlW6ElqrxP9A" target="_5teiMVHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5teiRVHsEeOlW6ElqrxP9A" source="_5teiMlHsEeOlW6ElqrxP9A" target="_5teiQVHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5teiRlHsEeOlW6ElqrxP9A" source="_5teiQlHsEeOlW6ElqrxP9A" target="_5teiM1HsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5teiR1HsEeOlW6ElqrxP9A" source="_5teiQ1HsEeOlW6ElqrxP9A" target="_5teiNFHsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

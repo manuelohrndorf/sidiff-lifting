@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5v49AFHsEeOlW6ElqrxP9A" name="REMOVE_Activity_(precondition)_TGT_Constraint" description="Removes Activity's reference precondition the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5v49AVHsEeOlW6ElqrxP9A" name="removeFromActivity_precondition_Constraint" description="Removes from Activity's reference precondition the target Constraint">
+    <parameters xmi:id="_5v49AlHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5v49A1HsEeOlW6ElqrxP9A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_5v49BFHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5v49BVHsEeOlW6ElqrxP9A" name="Selected" outgoing="_5v49B1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_5v49BlHsEeOlW6ElqrxP9A" name="OldTarget" incoming="_5v49B1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_5v49B1HsEeOlW6ElqrxP9A" source="_5v49BVHsEeOlW6ElqrxP9A" target="_5v49BlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior/precondition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5v49CFHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5v49CVHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_5v49ClHsEeOlW6ElqrxP9A" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_5v49C1HsEeOlW6ElqrxP9A" origin="_5v49BVHsEeOlW6ElqrxP9A" image="_5v49CVHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_5v49DFHsEeOlW6ElqrxP9A" origin="_5v49BlHsEeOlW6ElqrxP9A" image="_5v49ClHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5v49DVHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5v49AVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5v49DlHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5v49D1HsEeOlW6ElqrxP9A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_5v49EFHsEeOlW6ElqrxP9A" source="_5v49DlHsEeOlW6ElqrxP9A" target="_5v49AlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5v49EVHsEeOlW6ElqrxP9A" source="_5v49D1HsEeOlW6ElqrxP9A" target="_5v49A1HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

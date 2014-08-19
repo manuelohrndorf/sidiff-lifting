@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xgAKcFHsEeOwv-kVbb2fiQ" name="SET_ConstraintProperty(Port)_Name" description="Sets Port Name">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xgAKcVHsEeOwv-kVbb2fiQ" name="setPortName" description="Sets the EAttribute name">
+    <parameters xmi:id="_xgAKclHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgAKc1HsEeOwv-kVbb2fiQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_xgAKdFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xgAKdVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_IiuCs1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_IiuCsFHuEeOn7I6wZW1Exw" outgoing="_IiuCs1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_IiuCs1HuEeOn7I6wZW1Exw" source="_IiuCsFHuEeOn7I6wZW1Exw" target="_xgAKdVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xgAxgFHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xgAxgVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_IiuCtFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_xgAxglHsEeOwv-kVbb2fiQ" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IiuCslHuEeOn7I6wZW1Exw" outgoing="_IiuCtFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_IiuCtFHuEeOn7I6wZW1Exw" source="_IiuCslHuEeOn7I6wZW1Exw" target="_xgAxgVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xgAxg1HsEeOwv-kVbb2fiQ" origin="_xgAKdVHsEeOwv-kVbb2fiQ" image="_xgAxgVHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_IiuCsVHuEeOn7I6wZW1Exw" origin="_IiuCsFHuEeOn7I6wZW1Exw" image="_IiuCslHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xgAxhFHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xgAKcVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xgAxhVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgAxhlHsEeOwv-kVbb2fiQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_xgAxh1HsEeOwv-kVbb2fiQ" source="_xgAxhVHsEeOwv-kVbb2fiQ" target="_xgAKclHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xgAxiFHsEeOwv-kVbb2fiQ" source="_xgAxhlHsEeOwv-kVbb2fiQ" target="_xgAKc1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

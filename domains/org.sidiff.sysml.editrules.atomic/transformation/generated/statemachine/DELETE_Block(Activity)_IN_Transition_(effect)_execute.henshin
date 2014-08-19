@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5uXTAFHsEeOlW6ElqrxP9A" name="DELETE_Block(Activity)_IN_Transition_(effect)" description="Deletes one Activity in Transition">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5uXTAVHsEeOlW6ElqrxP9A" name="deleteActivity_IN_Transition" description="deletes one Activity in the context: Transition">
+    <parameters xmi:id="_5uXTAlHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5uXTA1HsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_2ie-IlHyEeON9vs-A8lEPA" name="Deleted_Block(Activity)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <lhs xmi:id="_5uXTBFHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5uXTBVHsEeOlW6ElqrxP9A" name="Selected" outgoing="_5uXTB1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_5uXTBlHsEeOlW6ElqrxP9A" name="ToBeDeleted" incoming="_5uXTB1HsEeOlW6ElqrxP9A _2ie-IVHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_2ie-IFHyEeON9vs-A8lEPA" name="Deleted_Block(Activity)_" outgoing="_2ie-IVHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_5uXTB1HsEeOlW6ElqrxP9A" source="_5uXTBVHsEeOlW6ElqrxP9A" target="_5uXTBlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/effect"/>
+      </edges>
+      <edges xmi:id="_2ie-IVHyEeON9vs-A8lEPA" source="_2ie-IFHyEeON9vs-A8lEPA" target="_5uXTBlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5uXTCFHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5uXTCVHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_5uXTClHsEeOlW6ElqrxP9A" origin="_5uXTBVHsEeOlW6ElqrxP9A" image="_5uXTCVHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5uXTC1HsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5uXTAVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5uXTDFHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5uXTDVHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_2ie-JFHyEeON9vs-A8lEPA" name="Deleted_Block(Activity)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameterMappings xmi:id="_5uXTDlHsEeOlW6ElqrxP9A" source="_5uXTDFHsEeOlW6ElqrxP9A" target="_5uXTAlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5uXTD1HsEeOlW6ElqrxP9A" source="_5uXTDVHsEeOlW6ElqrxP9A" target="_5uXTA1HsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_2ie-I1HyEeON9vs-A8lEPA" source="_2ie-JFHyEeON9vs-A8lEPA" target="_2ie-IlHyEeON9vs-A8lEPA"/>
+  </units>
+</henshin:Module>

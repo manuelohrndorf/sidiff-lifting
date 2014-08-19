@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xPVxwMFJEeOHN6JUsu4eRA" name="CREATE_Constraint_IN_FeatureModel_(constraints)" description="Creates one Constraint in FeatureModel">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xPVxwcFJEeOHN6JUsu4eRA" name="createConstraint_IN_FeatureModel" description="creates one Constraint in the context: FeatureModel">
+    <parameters xmi:id="_xPVxwsFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xPVxw8FJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_xPVxxMFJEeOHN6JUsu4eRA" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xPVxxcFJEeOHN6JUsu4eRA" name="Code">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xPVxxsFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <lhs xmi:id="_xPVxx8FJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xPVxyMFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xPVxycFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xPVxysFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xPVxz8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+      <nodes xmi:id="_xPVxy8FJEeOHN6JUsu4eRA" name="New" incoming="_xPVxz8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+        <attributes xmi:id="_xPVxzMFJEeOHN6JUsu4eRA" value="Language">
+          <type href="http://www.eclipse.org/featuremodel#//Rule/language"/>
+        </attributes>
+        <attributes xmi:id="_xPVxzcFJEeOHN6JUsu4eRA" value="Code">
+          <type href="http://www.eclipse.org/featuremodel#//Rule/code"/>
+        </attributes>
+        <attributes xmi:id="_xPVxzsFJEeOHN6JUsu4eRA" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Constraint/id"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_xPVxz8FJEeOHN6JUsu4eRA" source="_xPVxysFJEeOHN6JUsu4eRA" target="_xPVxy8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel/constraints"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xPVx0MFJEeOHN6JUsu4eRA" origin="_xPVxyMFJEeOHN6JUsu4eRA" image="_xPVxysFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xPVx0cFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xPVxwcFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xPVx0sFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xPVx08FJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_xPVx1MFJEeOHN6JUsu4eRA" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xPVx1cFJEeOHN6JUsu4eRA" name="Code">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xPVx1sFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameterMappings xmi:id="_xPVx18FJEeOHN6JUsu4eRA" source="_xPVx0sFJEeOHN6JUsu4eRA" target="_xPVxwsFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPVx2MFJEeOHN6JUsu4eRA" source="_xPVxw8FJEeOHN6JUsu4eRA" target="_xPVx08FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPVx2cFJEeOHN6JUsu4eRA" source="_xPVx1MFJEeOHN6JUsu4eRA" target="_xPVxxMFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPVx2sFJEeOHN6JUsu4eRA" source="_xPVx1cFJEeOHN6JUsu4eRA" target="_xPVxxcFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPVx28FJEeOHN6JUsu4eRA" source="_xPVx1sFJEeOHN6JUsu4eRA" target="_xPVxxsFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

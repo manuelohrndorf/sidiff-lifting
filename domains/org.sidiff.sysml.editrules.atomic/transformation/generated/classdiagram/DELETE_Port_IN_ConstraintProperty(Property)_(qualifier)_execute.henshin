@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xeRsIFHsEeOwv-kVbb2fiQ" name="DELETE_Port_IN_ConstraintProperty(Property)_(qualifier)" description="Deletes one Port in Property">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xeSTMFHsEeOwv-kVbb2fiQ" name="deletePort_IN_Property" description="deletes one Port in the context: Property">
+    <parameters xmi:id="_xeSTMVHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xeSTMlHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_xeSTM1HsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xeSTNFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xeSTN1HsEeOwv-kVbb2fiQ _G0HL01HuEeOn7I6wZW1Exw" outgoing="_xeSTNlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xeSTNVHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xeSTNlHsEeOwv-kVbb2fiQ" outgoing="_xeSTN1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_G0HL0FHuEeOn7I6wZW1Exw" outgoing="_G0HL01HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_xeSTNlHsEeOwv-kVbb2fiQ" source="_xeSTNFHsEeOwv-kVbb2fiQ" target="_xeSTNVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/qualifier"/>
+      </edges>
+      <edges xmi:id="_xeSTN1HsEeOwv-kVbb2fiQ" source="_xeSTNVHsEeOwv-kVbb2fiQ" target="_xeSTNFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/associationEnd"/>
+      </edges>
+      <edges xmi:id="_G0HL01HuEeOn7I6wZW1Exw" source="_G0HL0FHuEeOn7I6wZW1Exw" target="_xeSTNFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xeSTOFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xeSTOVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_G0HL1FHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_G0HL0lHuEeOn7I6wZW1Exw" outgoing="_G0HL1FHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_G0HL1FHuEeOn7I6wZW1Exw" source="_G0HL0lHuEeOn7I6wZW1Exw" target="_xeSTOVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xeSTOlHsEeOwv-kVbb2fiQ" origin="_xeSTNFHsEeOwv-kVbb2fiQ" image="_xeSTOVHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_G0HL0VHuEeOn7I6wZW1Exw" origin="_G0HL0FHuEeOn7I6wZW1Exw" image="_G0HL0lHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xeSTO1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xeSTMFHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xeSTPFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xeSTPVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_xeSTPlHsEeOwv-kVbb2fiQ" source="_xeSTPFHsEeOwv-kVbb2fiQ" target="_xeSTMVHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xeSTP1HsEeOwv-kVbb2fiQ" source="_xeSTPVHsEeOwv-kVbb2fiQ" target="_xeSTMlHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

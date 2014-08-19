@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xR4vcMFJEeOHN6JUsu4eRA" name="MOVE_REF_COMBI_Feature_FROM_Group_(features)_TO_Group_(features)" description="MOVEs Feature from Group(Reference:features) to Group(Reference:features">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xR4vccFJEeOHN6JUsu4eRA" name="moveFeature_FROM_Group_features_TO_Group_Group" description="Moves Feature from Group(Reference:features) toGroup(Reference:Group)">
+    <parameters xmi:id="_xR4vcsFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xR4vc8FJEeOHN6JUsu4eRA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xR4vdMFJEeOHN6JUsu4eRA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <lhs xmi:id="_xR4vdcFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xR4vdsFJEeOHN6JUsu4eRA" name="Selected" incoming="_xR4vecFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_xR4vd8FJEeOHN6JUsu4eRA" name="OldSource" outgoing="_xR4vecFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+      <nodes xmi:id="_xR4veMFJEeOHN6JUsu4eRA" name="NewSource">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+      <edges xmi:id="_xR4vecFJEeOHN6JUsu4eRA" source="_xR4vd8FJEeOHN6JUsu4eRA" target="_xR4vdsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group/features"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_xR4vesFJEeOHN6JUsu4eRA">
+        <conclusion xmi:id="_xR4ve8FJEeOHN6JUsu4eRA" name="lb0">
+          <nodes xmi:id="_xR4vfMFJEeOHN6JUsu4eRA" outgoing="_xR4vfsFJEeOHN6JUsu4eRA">
+            <type href="http://www.eclipse.org/featuremodel#//Group"/>
+          </nodes>
+          <nodes xmi:id="_xR4vfcFJEeOHN6JUsu4eRA" incoming="_xR4vfsFJEeOHN6JUsu4eRA">
+            <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+          </nodes>
+          <edges xmi:id="_xR4vfsFJEeOHN6JUsu4eRA" source="_xR4vfMFJEeOHN6JUsu4eRA" target="_xR4vfcFJEeOHN6JUsu4eRA">
+            <type href="http://www.eclipse.org/featuremodel#//Group/features"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_xR4vf8FJEeOHN6JUsu4eRA" origin="_xR4vd8FJEeOHN6JUsu4eRA" image="_xR4vfMFJEeOHN6JUsu4eRA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_xR4vgMFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xR4vgcFJEeOHN6JUsu4eRA" name="Selected" incoming="_xR4vhMFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_xR4vgsFJEeOHN6JUsu4eRA" name="OldSource">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+      <nodes xmi:id="_xR4vg8FJEeOHN6JUsu4eRA" name="NewSource" outgoing="_xR4vhMFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+      <edges xmi:id="_xR4vhMFJEeOHN6JUsu4eRA" source="_xR4vg8FJEeOHN6JUsu4eRA" target="_xR4vgcFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group/features"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xR4vhcFJEeOHN6JUsu4eRA" origin="_xR4vdsFJEeOHN6JUsu4eRA" image="_xR4vgcFJEeOHN6JUsu4eRA"/>
+    <mappings xmi:id="_xR4vhsFJEeOHN6JUsu4eRA" origin="_xR4vd8FJEeOHN6JUsu4eRA" image="_xR4vgsFJEeOHN6JUsu4eRA"/>
+    <mappings xmi:id="_xR4vh8FJEeOHN6JUsu4eRA" origin="_xR4veMFJEeOHN6JUsu4eRA" image="_xR4vg8FJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xR4viMFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xR4vccFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xR4vicFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xR4visFJEeOHN6JUsu4eRA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xR4vi8FJEeOHN6JUsu4eRA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameterMappings xmi:id="_xR4vjMFJEeOHN6JUsu4eRA" source="_xR4vicFJEeOHN6JUsu4eRA" target="_xR4vcsFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xR4vjcFJEeOHN6JUsu4eRA" source="_xR4visFJEeOHN6JUsu4eRA" target="_xR4vc8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xR4vjsFJEeOHN6JUsu4eRA" source="_xR4vi8FJEeOHN6JUsu4eRA" target="_xR4vdMFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

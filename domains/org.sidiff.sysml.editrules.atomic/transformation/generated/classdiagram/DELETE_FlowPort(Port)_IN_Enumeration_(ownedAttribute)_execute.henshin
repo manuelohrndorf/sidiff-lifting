@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xc398FHsEeOwv-kVbb2fiQ" name="DELETE_FlowPort(Port)_IN_Enumeration_(ownedAttribute)" description="Deletes one Port in Enumeration">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xc398VHsEeOwv-kVbb2fiQ" name="deletePort_IN_Enumeration" description="deletes one Port in the context: Enumeration">
+    <parameters xmi:id="_xc398lHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xc3981HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_QHHBMlHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <lhs xmi:id="_xc399FHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xc399VHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xc4lAVHsEeOwv-kVbb2fiQ" outgoing="_xc4lAFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_xc399lHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xc4lAFHsEeOwv-kVbb2fiQ _QHHBMVHuEeOn7I6wZW1Exw" outgoing="_xc4lAVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_QHHBMFHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_" outgoing="_QHHBMVHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xc4lAFHsEeOwv-kVbb2fiQ" source="_xc399VHsEeOwv-kVbb2fiQ" target="_xc399lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//DataType/ownedAttribute"/>
+      </edges>
+      <edges xmi:id="_xc4lAVHsEeOwv-kVbb2fiQ" source="_xc399lHsEeOwv-kVbb2fiQ" target="_xc399VHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/datatype"/>
+      </edges>
+      <edges xmi:id="_QHHBMVHuEeOn7I6wZW1Exw" source="_QHHBMFHuEeOn7I6wZW1Exw" target="_xc399lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xc4lAlHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xc4lA1HsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xc4lBFHsEeOwv-kVbb2fiQ" origin="_xc399VHsEeOwv-kVbb2fiQ" image="_xc4lA1HsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xc4lBVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xc398VHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xc4lBlHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xc4lB1HsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_QHHBNFHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameterMappings xmi:id="_xc4lCFHsEeOwv-kVbb2fiQ" source="_xc4lBlHsEeOwv-kVbb2fiQ" target="_xc398lHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xc4lCVHsEeOwv-kVbb2fiQ" source="_xc4lB1HsEeOwv-kVbb2fiQ" target="_xc3981HsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_QHHBM1HuEeOn7I6wZW1Exw" source="_QHHBNFHuEeOn7I6wZW1Exw" target="_QHHBMlHuEeOn7I6wZW1Exw"/>
+  </units>
+</henshin:Module>

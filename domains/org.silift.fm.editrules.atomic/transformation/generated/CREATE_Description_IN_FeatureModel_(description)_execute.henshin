@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xPfiwMFJEeOHN6JUsu4eRA" name="CREATE_Description_IN_FeatureModel_(description)" description="Creates one Description in FeatureModel">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xPfiwcFJEeOHN6JUsu4eRA" name="createDescription_IN_FeatureModel" description="creates one Description in the context: FeatureModel">
+    <parameters xmi:id="_xPfiwsFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xPfiw8FJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Description"/>
+    </parameters>
+    <parameters xmi:id="_xPfixMFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xPfixcFJEeOHN6JUsu4eRA" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_xPfixsFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xPfix8FJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_xPfiyMFJEeOHN6JUsu4eRA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_xPfiycFJEeOHN6JUsu4eRA">
+          <conclusion xmi:id="_xPfiysFJEeOHN6JUsu4eRA" name="ub0">
+            <nodes xmi:id="_xPfiy8FJEeOHN6JUsu4eRA" outgoing="_xPfizcFJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+            </nodes>
+            <nodes xmi:id="_xPfizMFJEeOHN6JUsu4eRA" incoming="_xPfizcFJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//Description"/>
+            </nodes>
+            <edges xmi:id="_xPfizcFJEeOHN6JUsu4eRA" source="_xPfiy8FJEeOHN6JUsu4eRA" target="_xPfizMFJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//FeatureModel/description"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_xPfizsFJEeOHN6JUsu4eRA" origin="_xPfix8FJEeOHN6JUsu4eRA" image="_xPfiy8FJEeOHN6JUsu4eRA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_xPfiz8FJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xPfi0MFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xPfi1MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+      <nodes xmi:id="_xPfi0cFJEeOHN6JUsu4eRA" name="New" incoming="_xPfi1MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Description"/>
+        <attributes xmi:id="_xPfi0sFJEeOHN6JUsu4eRA" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Description/id"/>
+        </attributes>
+        <attributes xmi:id="_xPfi08FJEeOHN6JUsu4eRA" value="Text">
+          <type href="http://www.eclipse.org/featuremodel#//Description/text"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_xPfi1MFJEeOHN6JUsu4eRA" source="_xPfi0MFJEeOHN6JUsu4eRA" target="_xPfi0cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel/description"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xPfi1cFJEeOHN6JUsu4eRA" origin="_xPfix8FJEeOHN6JUsu4eRA" image="_xPfi0MFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xPfi1sFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xPfiwcFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xPfi18FJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xPfi2MFJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Description"/>
+    </parameters>
+    <parameters xmi:id="_xPfi2cFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xPfi2sFJEeOHN6JUsu4eRA" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_xPfi28FJEeOHN6JUsu4eRA" source="_xPfi18FJEeOHN6JUsu4eRA" target="_xPfiwsFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPfi3MFJEeOHN6JUsu4eRA" source="_xPfiw8FJEeOHN6JUsu4eRA" target="_xPfi2MFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPfi3cFJEeOHN6JUsu4eRA" source="_xPfi2cFJEeOHN6JUsu4eRA" target="_xPfixMFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPfi3sFJEeOHN6JUsu4eRA" source="_xPfi2sFJEeOHN6JUsu4eRA" target="_xPfixcFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

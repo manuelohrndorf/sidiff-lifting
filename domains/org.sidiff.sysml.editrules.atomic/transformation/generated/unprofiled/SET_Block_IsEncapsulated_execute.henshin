@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_BPWYMFHtEeOU3q7xwvXrEQ" name="SET_Block_IsEncapsulated" description="Sets Block IsEncapsulated">
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_BPW_QFHtEeOU3q7xwvXrEQ" name="setBlockIsEncapsulated" description="Sets the EAttribute isEncapsulated">
+    <parameters xmi:id="_BPW_QVHtEeOU3q7xwvXrEQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameters xmi:id="_BPW_QlHtEeOU3q7xwvXrEQ" name="IsEncapsulated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_BPW_Q1HtEeOU3q7xwvXrEQ" name="Lhs">
+      <nodes xmi:id="_BPW_RFHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_BPW_RVHtEeOU3q7xwvXrEQ" name="Rhs">
+      <nodes xmi:id="_BPW_RlHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+        <attributes xmi:id="_BPW_R1HtEeOU3q7xwvXrEQ" value="IsEncapsulated">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/isEncapsulated"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_BPW_SFHtEeOU3q7xwvXrEQ" origin="_BPW_RFHtEeOU3q7xwvXrEQ" image="_BPW_RlHtEeOU3q7xwvXrEQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_BPW_SVHtEeOU3q7xwvXrEQ" name="mainUnit" subUnits="_BPW_QFHtEeOU3q7xwvXrEQ">
+    <parameters xmi:id="_BPW_SlHtEeOU3q7xwvXrEQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameters xmi:id="_BPW_S1HtEeOU3q7xwvXrEQ" name="IsEncapsulated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_BPW_TFHtEeOU3q7xwvXrEQ" source="_BPW_SlHtEeOU3q7xwvXrEQ" target="_BPW_QVHtEeOU3q7xwvXrEQ"/>
+    <parameterMappings xmi:id="_BPW_TVHtEeOU3q7xwvXrEQ" source="_BPW_S1HtEeOU3q7xwvXrEQ" target="_BPW_QlHtEeOU3q7xwvXrEQ"/>
+  </units>
+</henshin:Module>

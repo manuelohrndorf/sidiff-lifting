@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_PZiDAMFLEeO7aKBLuvHLfQ" name="RR_CREATE_Description_IN_Feature_(description)" description="Recognize: Creates one Description in Feature">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_PZiDAcFLEeO7aKBLuvHLfQ" name="recognitionR-createDescription_IN_Feature" description="Recognize: creates one Description in the context: Feature">
+    <parameters xmi:id="_PZiDAsFLEeO7aKBLuvHLfQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_PZiDA8FLEeO7aKBLuvHLfQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Description"/>
+    </parameters>
+    <parameters xmi:id="_PZiDBMFLEeO7aKBLuvHLfQ" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_PZiDBcFLEeO7aKBLuvHLfQ" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_PZiDBsFLEeO7aKBLuvHLfQ" name="Lhs">
+      <nodes xmi:id="_PZiDB8FLEeO7aKBLuvHLfQ" name="B.Selected" incoming="_PZiDEcFLEeO7aKBLuvHLfQ" outgoing="_PZiDFMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_PZiDCMFLEeO7aKBLuvHLfQ" name="" outgoing="_PZiDEMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_PZiDCcFLEeO7aKBLuvHLfQ" name="B.New" incoming="_PZiDEMFLEeO7aKBLuvHLfQ _PZiDEsFLEeO7aKBLuvHLfQ _PZiDFMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Description"/>
+        <attributes xmi:id="_PZiDCsFLEeO7aKBLuvHLfQ" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Description/id"/>
+        </attributes>
+        <attributes xmi:id="_PZiDC8FLEeO7aKBLuvHLfQ" value="Text">
+          <type href="http://www.eclipse.org/featuremodel#//Description/text"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PZiDDMFLEeO7aKBLuvHLfQ" name="" outgoing="_PZiDEcFLEeO7aKBLuvHLfQ _PZiDEsFLEeO7aKBLuvHLfQ _PZiDE8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_PZiDDcFLEeO7aKBLuvHLfQ" name="" incoming="_PZiDE8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_PZiDDsFLEeO7aKBLuvHLfQ" value="&quot;description&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PZiDD8FLEeO7aKBLuvHLfQ" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_PZiDEMFLEeO7aKBLuvHLfQ" source="_PZiDCMFLEeO7aKBLuvHLfQ" target="_PZiDCcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_PZiDEcFLEeO7aKBLuvHLfQ" source="_PZiDDMFLEeO7aKBLuvHLfQ" target="_PZiDB8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_PZiDEsFLEeO7aKBLuvHLfQ" source="_PZiDDMFLEeO7aKBLuvHLfQ" target="_PZiDCcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_PZiDE8FLEeO7aKBLuvHLfQ" source="_PZiDDMFLEeO7aKBLuvHLfQ" target="_PZiDDcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_PZiDFMFLEeO7aKBLuvHLfQ" source="_PZiDB8FLEeO7aKBLuvHLfQ" target="_PZiDCcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Feature/description"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_PZiDFcFLEeO7aKBLuvHLfQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_PZiDFsFLEeO7aKBLuvHLfQ">
+          <conclusion xmi:id="_PZiDF8FLEeO7aKBLuvHLfQ" name="ub0">
+            <nodes xmi:id="_PZiDGMFLEeO7aKBLuvHLfQ" incoming="_PZiDGsFLEeO7aKBLuvHLfQ">
+              <type href="http://www.eclipse.org/featuremodel#//Description"/>
+            </nodes>
+            <nodes xmi:id="_PZiDGcFLEeO7aKBLuvHLfQ" name="B.Selected" outgoing="_PZiDGsFLEeO7aKBLuvHLfQ">
+              <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+            </nodes>
+            <edges xmi:id="_PZiDGsFLEeO7aKBLuvHLfQ" source="_PZiDGcFLEeO7aKBLuvHLfQ" target="_PZiDGMFLEeO7aKBLuvHLfQ">
+              <type href="http://www.eclipse.org/featuremodel#//Feature/description"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_PZiDG8FLEeO7aKBLuvHLfQ" origin="_PZiDB8FLEeO7aKBLuvHLfQ" image="_PZiDGcFLEeO7aKBLuvHLfQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_PZiDHMFLEeO7aKBLuvHLfQ" name="Rhs">
+      <nodes xmi:id="_PZiDHcFLEeO7aKBLuvHLfQ" name="B.Selected" incoming="_PZiDLcFLEeO7aKBLuvHLfQ" outgoing="_PZiDMMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_PZiDHsFLEeO7aKBLuvHLfQ" name="" incoming="_PZiDMcFLEeO7aKBLuvHLfQ" outgoing="_PZiDLMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_PZiDH8FLEeO7aKBLuvHLfQ" name="B.New" incoming="_PZiDLMFLEeO7aKBLuvHLfQ _PZiDLsFLEeO7aKBLuvHLfQ _PZiDMMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Description"/>
+      </nodes>
+      <nodes xmi:id="_PZiDIMFLEeO7aKBLuvHLfQ" name="" incoming="_PZiDMsFLEeO7aKBLuvHLfQ" outgoing="_PZiDLcFLEeO7aKBLuvHLfQ _PZiDLsFLEeO7aKBLuvHLfQ _PZiDL8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_PZiDIcFLEeO7aKBLuvHLfQ" name="" incoming="_PZiDL8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_PZiDIsFLEeO7aKBLuvHLfQ" incoming="_PZiDM8FLEeO7aKBLuvHLfQ" outgoing="_PZiDMcFLEeO7aKBLuvHLfQ _PZiDMsFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_PZiDI8FLEeO7aKBLuvHLfQ" value="&quot;CREATE_Description_IN_Feature_(description)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_PZiDJMFLEeO7aKBLuvHLfQ" value="&quot;Creates one Description in Feature&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_PZiDJcFLEeO7aKBLuvHLfQ" value="&quot;CREATE_Description_IN_Feature_(description)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_PZiDJsFLEeO7aKBLuvHLfQ" value="&quot;rr_CREATE_Description_IN_Feature_(description)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_PZiDJ8FLEeO7aKBLuvHLfQ" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_PZiDKMFLEeO7aKBLuvHLfQ" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_PZiDKcFLEeO7aKBLuvHLfQ" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_PZiDKsFLEeO7aKBLuvHLfQ" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_PZiDK8FLEeO7aKBLuvHLfQ" name="" outgoing="_PZiDM8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_PZiDLMFLEeO7aKBLuvHLfQ" source="_PZiDHsFLEeO7aKBLuvHLfQ" target="_PZiDH8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_PZiDLcFLEeO7aKBLuvHLfQ" source="_PZiDIMFLEeO7aKBLuvHLfQ" target="_PZiDHcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_PZiDLsFLEeO7aKBLuvHLfQ" source="_PZiDIMFLEeO7aKBLuvHLfQ" target="_PZiDH8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_PZiDL8FLEeO7aKBLuvHLfQ" source="_PZiDIMFLEeO7aKBLuvHLfQ" target="_PZiDIcFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_PZiDMMFLEeO7aKBLuvHLfQ" source="_PZiDHcFLEeO7aKBLuvHLfQ" target="_PZiDH8FLEeO7aKBLuvHLfQ">
+        <type href="http://www.eclipse.org/featuremodel#//Feature/description"/>
+      </edges>
+      <edges xmi:id="_PZiDMcFLEeO7aKBLuvHLfQ" source="_PZiDIsFLEeO7aKBLuvHLfQ" target="_PZiDHsFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_PZiDMsFLEeO7aKBLuvHLfQ" source="_PZiDIsFLEeO7aKBLuvHLfQ" target="_PZiDIMFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_PZiDM8FLEeO7aKBLuvHLfQ" source="_PZiDK8FLEeO7aKBLuvHLfQ" target="_PZiDIsFLEeO7aKBLuvHLfQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_PZiDNMFLEeO7aKBLuvHLfQ" origin="_PZiDB8FLEeO7aKBLuvHLfQ" image="_PZiDHcFLEeO7aKBLuvHLfQ"/>
+    <mappings xmi:id="_PZiDNcFLEeO7aKBLuvHLfQ" origin="_PZiDCMFLEeO7aKBLuvHLfQ" image="_PZiDHsFLEeO7aKBLuvHLfQ"/>
+    <mappings xmi:id="_PZiDNsFLEeO7aKBLuvHLfQ" origin="_PZiDCcFLEeO7aKBLuvHLfQ" image="_PZiDH8FLEeO7aKBLuvHLfQ"/>
+    <mappings xmi:id="_PZiDN8FLEeO7aKBLuvHLfQ" origin="_PZiDDMFLEeO7aKBLuvHLfQ" image="_PZiDIMFLEeO7aKBLuvHLfQ"/>
+    <mappings xmi:id="_PZiDOMFLEeO7aKBLuvHLfQ" origin="_PZiDDcFLEeO7aKBLuvHLfQ" image="_PZiDIcFLEeO7aKBLuvHLfQ"/>
+    <mappings xmi:id="_PZiDOcFLEeO7aKBLuvHLfQ" origin="_PZiDD8FLEeO7aKBLuvHLfQ" image="_PZiDK8FLEeO7aKBLuvHLfQ"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xQyjQMFJEeOHN6JUsu4eRA" name="CREATE_Group_IN_Feature_(children)" description="Creates one Group in Feature">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xQzKUMFJEeOHN6JUsu4eRA" name="createGroup_IN_Feature" description="creates one Group in the context: Feature">
+    <parameters xmi:id="_xQzKUcFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xQzKUsFJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xQzKU8FJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xQzKVMFJEeOHN6JUsu4eRA" name="Lower">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_xQzKVcFJEeOHN6JUsu4eRA" name="Upper">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_xQzKVsFJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xQzKV8FJEeOHN6JUsu4eRA" name="Id1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xQzKWMFJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xQzKWcFJEeOHN6JUsu4eRA" name="Type">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_xQzKWsFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xQzKW8FJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xQzKXMFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xQzKXcFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xQzKZsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_xQzKXsFJEeOHN6JUsu4eRA" name="New" incoming="_xQzKZsFJEeOHN6JUsu4eRA" outgoing="_xQzKZ8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+        <attributes xmi:id="_xQzKX8FJEeOHN6JUsu4eRA" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Group/id"/>
+        </attributes>
+        <attributes xmi:id="_xQzKYMFJEeOHN6JUsu4eRA" value="Lower">
+          <type href="http://www.eclipse.org/featuremodel#//Group/lower"/>
+        </attributes>
+        <attributes xmi:id="_xQzKYcFJEeOHN6JUsu4eRA" value="Upper">
+          <type href="http://www.eclipse.org/featuremodel#//Group/upper"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_xQzKYsFJEeOHN6JUsu4eRA" name="Child" incoming="_xQzKZ8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+        <attributes xmi:id="_xQzKY8FJEeOHN6JUsu4eRA" value="Id1">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/id"/>
+        </attributes>
+        <attributes xmi:id="_xQzKZMFJEeOHN6JUsu4eRA" value="Name">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/name"/>
+        </attributes>
+        <attributes xmi:id="_xQzKZcFJEeOHN6JUsu4eRA" value="Type">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/type"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_xQzKZsFJEeOHN6JUsu4eRA" source="_xQzKXcFJEeOHN6JUsu4eRA" target="_xQzKXsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature/children"/>
+      </edges>
+      <edges xmi:id="_xQzKZ8FJEeOHN6JUsu4eRA" source="_xQzKXsFJEeOHN6JUsu4eRA" target="_xQzKYsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group/features"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xQzKaMFJEeOHN6JUsu4eRA" origin="_xQzKW8FJEeOHN6JUsu4eRA" image="_xQzKXcFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xQzKacFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xQzKUMFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xQzKasFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xQzKa8FJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xQzKbMFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xQzKbcFJEeOHN6JUsu4eRA" name="Lower">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_xQzKbsFJEeOHN6JUsu4eRA" name="Upper">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_xQzKb8FJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xQzKcMFJEeOHN6JUsu4eRA" name="Id1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xQzKccFJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xQzKcsFJEeOHN6JUsu4eRA" name="Type">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_xQzKc8FJEeOHN6JUsu4eRA" source="_xQzKasFJEeOHN6JUsu4eRA" target="_xQzKUcFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKdMFJEeOHN6JUsu4eRA" source="_xQzKUsFJEeOHN6JUsu4eRA" target="_xQzKa8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKdcFJEeOHN6JUsu4eRA" source="_xQzKbMFJEeOHN6JUsu4eRA" target="_xQzKU8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKdsFJEeOHN6JUsu4eRA" source="_xQzKbcFJEeOHN6JUsu4eRA" target="_xQzKVMFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKd8FJEeOHN6JUsu4eRA" source="_xQzKbsFJEeOHN6JUsu4eRA" target="_xQzKVcFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKeMFJEeOHN6JUsu4eRA" source="_xQzKVsFJEeOHN6JUsu4eRA" target="_xQzKb8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKecFJEeOHN6JUsu4eRA" source="_xQzKcMFJEeOHN6JUsu4eRA" target="_xQzKV8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKesFJEeOHN6JUsu4eRA" source="_xQzKccFJEeOHN6JUsu4eRA" target="_xQzKWMFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xQzKe8FJEeOHN6JUsu4eRA" source="_xQzKcsFJEeOHN6JUsu4eRA" target="_xQzKWcFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

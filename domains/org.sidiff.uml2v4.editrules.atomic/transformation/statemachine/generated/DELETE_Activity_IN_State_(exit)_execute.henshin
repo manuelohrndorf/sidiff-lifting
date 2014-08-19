@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mBeQYAdAEeSgEeYoZauFHg" name="DELETE_Activity_IN_State_(exit)" description="Deletes one Activity in State">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mBeQYQdAEeSgEeYoZauFHg" name="deleteActivity_IN_State" description="deletes one Activity in the context: State">
+    <parameters xmi:id="_mBeQYgdAEeSgEeYoZauFHg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_mBeQYwdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <lhs xmi:id="_mBeQZAdAEeSgEeYoZauFHg" name="LHS">
+      <nodes xmi:id="_mBeQZQdAEeSgEeYoZauFHg" name="Selected" outgoing="_mBe3cAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_mBeQZgdAEeSgEeYoZauFHg" name="ToBeDeleted" incoming="_mBe3cAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <edges xmi:id="_mBe3cAdAEeSgEeYoZauFHg" source="_mBeQZQdAEeSgEeYoZauFHg" target="_mBeQZgdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State/exit"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mBe3cQdAEeSgEeYoZauFHg" name="RHS">
+      <nodes xmi:id="_mBe3cgdAEeSgEeYoZauFHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mBe3cwdAEeSgEeYoZauFHg" origin="_mBeQZQdAEeSgEeYoZauFHg" image="_mBe3cgdAEeSgEeYoZauFHg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_mBe3dAdAEeSgEeYoZauFHg" name="mainUnit" subUnits="_mBeQYQdAEeSgEeYoZauFHg">
+    <parameters xmi:id="_mBe3dQdAEeSgEeYoZauFHg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_mBe3dgdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameterMappings xmi:id="_mBe3dwdAEeSgEeYoZauFHg" source="_mBe3dQdAEeSgEeYoZauFHg" target="_mBeQYgdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mBe3eAdAEeSgEeYoZauFHg" source="_mBe3dgdAEeSgEeYoZauFHg" target="_mBeQYwdAEeSgEeYoZauFHg"/>
+  </units>
+</henshin:Module>

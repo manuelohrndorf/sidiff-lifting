@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_PWiRsBVaEeOob4g1gWX1jA" name="DELETE_Block(StateMachine)_IN_Class_(ownedBehavior)" description="Deletes one StateMachine in Class">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_PWiRsRVaEeOob4g1gWX1jA" name="deleteStateMachine_IN_Class" description="deletes one StateMachine in the context: Class">
+    <parameters xmi:id="_PWiRshVaEeOob4g1gWX1jA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_PWiRsxVaEeOob4g1gWX1jA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_PWiRtBVaEeOob4g1gWX1jA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_0wuXMlNTEeOnfPbxFNhErg" name="Deleted_Block(StateMachine)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <lhs xmi:id="_PWiRtRVaEeOob4g1gWX1jA" name="LHS">
+      <nodes xmi:id="_PWiRthVaEeOob4g1gWX1jA" name="Selected" outgoing="_9TH6UBV_EeOKU8hi7sU4Cg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_PWiRtxVaEeOob4g1gWX1jA" name="ToBeDeleted" incoming="_PWiRuxVaEeOob4g1gWX1jA _9TH6UBV_EeOKU8hi7sU4Cg _0wuXMVNTEeOnfPbxFNhErg" outgoing="_PWiRuhVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_PWiRuBVaEeOob4g1gWX1jA" name="Child" incoming="_PWiRuhVaEeOob4g1gWX1jA" outgoing="_PWiRuxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_0wuXMFNTEeOnfPbxFNhErg" name="Deleted_Block(StateMachine)_" outgoing="_0wuXMVNTEeOnfPbxFNhErg">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_PWiRuhVaEeOob4g1gWX1jA" source="_PWiRtxVaEeOob4g1gWX1jA" target="_PWiRuBVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_PWiRuxVaEeOob4g1gWX1jA" source="_PWiRuBVaEeOob4g1gWX1jA" target="_PWiRtxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/stateMachine"/>
+      </edges>
+      <edges xmi:id="_9TH6UBV_EeOKU8hi7sU4Cg" source="_PWiRthVaEeOob4g1gWX1jA" target="_PWiRtxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
+      </edges>
+      <edges xmi:id="_0wuXMVNTEeOnfPbxFNhErg" source="_0wuXMFNTEeOnfPbxFNhErg" target="_PWiRtxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_PWiRvBVaEeOob4g1gWX1jA" name="RHS">
+      <nodes xmi:id="_PWiRvRVaEeOob4g1gWX1jA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_PWiRvhVaEeOob4g1gWX1jA" origin="_PWiRthVaEeOob4g1gWX1jA" image="_PWiRvRVaEeOob4g1gWX1jA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_PWiRvxVaEeOob4g1gWX1jA" name="mainUnit" description="Deletes one StateMachine depending on available contexts in model instance" subUnits="_PWiRsRVaEeOob4g1gWX1jA">
+    <parameters xmi:id="_PWiRwBVaEeOob4g1gWX1jA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_PWiRwRVaEeOob4g1gWX1jA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_PWiRwhVaEeOob4g1gWX1jA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_0wuXNFNTEeOnfPbxFNhErg" name="Deleted_Block(StateMachine)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameterMappings xmi:id="_PWiRwxVaEeOob4g1gWX1jA" source="_PWiRwBVaEeOob4g1gWX1jA" target="_PWiRshVaEeOob4g1gWX1jA"/>
+    <parameterMappings xmi:id="_PWiRxBVaEeOob4g1gWX1jA" source="_PWiRwhVaEeOob4g1gWX1jA" target="_PWiRsxVaEeOob4g1gWX1jA"/>
+    <parameterMappings xmi:id="_PWiRxRVaEeOob4g1gWX1jA" source="_PWiRwRVaEeOob4g1gWX1jA" target="_PWiRtBVaEeOob4g1gWX1jA"/>
+    <parameterMappings xmi:id="_0wuXM1NTEeOnfPbxFNhErg" source="_0wuXNFNTEeOnfPbxFNhErg" target="_0wuXMlNTEeOnfPbxFNhErg"/>
+  </units>
+</henshin:Module>

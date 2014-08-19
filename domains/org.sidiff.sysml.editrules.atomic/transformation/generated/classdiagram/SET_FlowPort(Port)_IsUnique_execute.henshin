@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xgaaIFHsEeOwv-kVbb2fiQ" name="SET_FlowPort(Port)_IsUnique" description="Sets Port IsUnique">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xgaaIVHsEeOwv-kVbb2fiQ" name="setPortIsUnique" description="Sets the EAttribute isUnique">
+    <parameters xmi:id="_xgaaIlHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgaaI1HsEeOwv-kVbb2fiQ" name="IsUnique">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_xgaaJFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xgaaJVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_Wu9e81HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_Wu9e8FHuEeOn7I6wZW1Exw" outgoing="_Wu9e81HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_Wu9e81HuEeOn7I6wZW1Exw" source="_Wu9e8FHuEeOn7I6wZW1Exw" target="_xgaaJVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xgaaJlHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xgaaJ1HsEeOwv-kVbb2fiQ" name="Selected" incoming="_Wu9e9FHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_xgaaKFHsEeOwv-kVbb2fiQ" value="IsUnique">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/isUnique"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Wu9e8lHuEeOn7I6wZW1Exw" outgoing="_Wu9e9FHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_Wu9e9FHuEeOn7I6wZW1Exw" source="_Wu9e8lHuEeOn7I6wZW1Exw" target="_xgaaJ1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xgaaKVHsEeOwv-kVbb2fiQ" origin="_xgaaJVHsEeOwv-kVbb2fiQ" image="_xgaaJ1HsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_Wu9e8VHuEeOn7I6wZW1Exw" origin="_Wu9e8FHuEeOn7I6wZW1Exw" image="_Wu9e8lHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xgaaKlHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xgaaIVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xgbBMFHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgbBMVHsEeOwv-kVbb2fiQ" name="IsUnique">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_xgbBMlHsEeOwv-kVbb2fiQ" source="_xgbBMFHsEeOwv-kVbb2fiQ" target="_xgaaIlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xgbBM1HsEeOwv-kVbb2fiQ" source="_xgbBMVHsEeOwv-kVbb2fiQ" target="_xgaaI1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

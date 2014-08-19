@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_vAqXsNkuEeKskdwQnjFTNA" name="rename_edatatype" description="Changes the name of an EDataType">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_vBHqsNkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_vBHqtdkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_vBHqsdkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_vBHqstkuEeKskdwQnjFTNA" name="newName" description="New name of the EDataType"/>
+    <parameterMappings xmi:id="_vBHqs9kuEeKskdwQnjFTNA" source="_vBHqsdkuEeKskdwQnjFTNA" target="_vBHqttkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_vBHqtNkuEeKskdwQnjFTNA" source="_vBHqstkuEeKskdwQnjFTNA" target="_vBHqt9kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_vBHqtdkuEeKskdwQnjFTNA" name="rename_EDataType">
+    <parameters xmi:id="_vBHqttkuEeKskdwQnjFTNA" name="selectedEDataType"/>
+    <parameters xmi:id="_vBHqt9kuEeKskdwQnjFTNA" name="newName"/>
+    <lhs xmi:id="_vBHquNkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_vBHqudkuEeKskdwQnjFTNA" name="selectedEDataType">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_vBHqutkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_vBHqu9kuEeKskdwQnjFTNA" name="selectedEDataType">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        <attributes xmi:id="_vBHqvNkuEeKskdwQnjFTNA" value="newName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_vBHqvdkuEeKskdwQnjFTNA" origin="_vBHqudkuEeKskdwQnjFTNA" image="_vBHqu9kuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

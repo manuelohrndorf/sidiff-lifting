@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YwsRgAZpEeSo4-ajL-fkTg" name="RR_CREATE_LiteralString_IN_Port_(defaultValue)" description="Recognize: Creates one LiteralString in Port">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YwsRgQZpEeSo4-ajL-fkTg" name="recognitionR-createLiteralString_IN_Port" description="Recognize: creates one LiteralString in the context: Port">
+    <parameters xmi:id="_YwsRggZpEeSo4-ajL-fkTg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_YwsRgwZpEeSo4-ajL-fkTg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_YwsRhAZpEeSo4-ajL-fkTg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_YwsRhQZpEeSo4-ajL-fkTg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_YwsRhgZpEeSo4-ajL-fkTg" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_YwsRhwZpEeSo4-ajL-fkTg" name="Lhs">
+      <nodes xmi:id="_YwsRiAZpEeSo4-ajL-fkTg" name="B.Selected" incoming="_YwsRkwZpEeSo4-ajL-fkTg" outgoing="_YwsRlgZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_YwsRiQZpEeSo4-ajL-fkTg" name="" outgoing="_YwsRkgZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_YwsRigZpEeSo4-ajL-fkTg" name="B.New" incoming="_YwsRkgZpEeSo4-ajL-fkTg _YwsRlAZpEeSo4-ajL-fkTg _YwsRlgZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+        <attributes xmi:id="_YwsRiwZpEeSo4-ajL-fkTg" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_YwsRjAZpEeSo4-ajL-fkTg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_YwsRjQZpEeSo4-ajL-fkTg" value="Value">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YwsRjgZpEeSo4-ajL-fkTg" name="" outgoing="_YwsRkwZpEeSo4-ajL-fkTg _YwsRlAZpEeSo4-ajL-fkTg _YwsRlQZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_YwsRjwZpEeSo4-ajL-fkTg" name="" incoming="_YwsRlQZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_YwsRkAZpEeSo4-ajL-fkTg" value="&quot;defaultValue&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YwsRkQZpEeSo4-ajL-fkTg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_YwsRkgZpEeSo4-ajL-fkTg" source="_YwsRiQZpEeSo4-ajL-fkTg" target="_YwsRigZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_YwsRkwZpEeSo4-ajL-fkTg" source="_YwsRjgZpEeSo4-ajL-fkTg" target="_YwsRiAZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_YwsRlAZpEeSo4-ajL-fkTg" source="_YwsRjgZpEeSo4-ajL-fkTg" target="_YwsRigZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_YwsRlQZpEeSo4-ajL-fkTg" source="_YwsRjgZpEeSo4-ajL-fkTg" target="_YwsRjwZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_YwsRlgZpEeSo4-ajL-fkTg" source="_YwsRiAZpEeSo4-ajL-fkTg" target="_YwsRigZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/defaultValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YwsRlwZpEeSo4-ajL-fkTg" name="Rhs">
+      <nodes xmi:id="_YwsRmAZpEeSo4-ajL-fkTg" name="B.Selected" incoming="_YwsRqAZpEeSo4-ajL-fkTg" outgoing="_YwsRqwZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_YwsRmQZpEeSo4-ajL-fkTg" name="" incoming="_YwsRrAZpEeSo4-ajL-fkTg" outgoing="_YwsRpwZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_YwsRmgZpEeSo4-ajL-fkTg" name="B.New" incoming="_YwsRpwZpEeSo4-ajL-fkTg _YwsRqQZpEeSo4-ajL-fkTg _YwsRqwZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <nodes xmi:id="_YwsRmwZpEeSo4-ajL-fkTg" name="" incoming="_YwsRrQZpEeSo4-ajL-fkTg" outgoing="_YwsRqAZpEeSo4-ajL-fkTg _YwsRqQZpEeSo4-ajL-fkTg _YwsRqgZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_YwsRnAZpEeSo4-ajL-fkTg" name="" incoming="_YwsRqgZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_YwsRnQZpEeSo4-ajL-fkTg" incoming="_YwsRrgZpEeSo4-ajL-fkTg" outgoing="_YwsRrAZpEeSo4-ajL-fkTg _YwsRrQZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_YwsRngZpEeSo4-ajL-fkTg" value="&quot;CREATE_LiteralString_IN_Port_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_YwsRnwZpEeSo4-ajL-fkTg" value="&quot;Creates one LiteralString in Port&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_YwsRoAZpEeSo4-ajL-fkTg" value="&quot;CREATE_LiteralString_IN_Port_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_YwsRoQZpEeSo4-ajL-fkTg" value="&quot;rr_CREATE_LiteralString_IN_Port_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_YwsRogZpEeSo4-ajL-fkTg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_YwsRowZpEeSo4-ajL-fkTg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_YwsRpAZpEeSo4-ajL-fkTg" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_YwsRpQZpEeSo4-ajL-fkTg" value="22">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YwsRpgZpEeSo4-ajL-fkTg" name="" outgoing="_YwsRrgZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_YwsRpwZpEeSo4-ajL-fkTg" source="_YwsRmQZpEeSo4-ajL-fkTg" target="_YwsRmgZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_YwsRqAZpEeSo4-ajL-fkTg" source="_YwsRmwZpEeSo4-ajL-fkTg" target="_YwsRmAZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_YwsRqQZpEeSo4-ajL-fkTg" source="_YwsRmwZpEeSo4-ajL-fkTg" target="_YwsRmgZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_YwsRqgZpEeSo4-ajL-fkTg" source="_YwsRmwZpEeSo4-ajL-fkTg" target="_YwsRnAZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_YwsRqwZpEeSo4-ajL-fkTg" source="_YwsRmAZpEeSo4-ajL-fkTg" target="_YwsRmgZpEeSo4-ajL-fkTg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/defaultValue"/>
+      </edges>
+      <edges xmi:id="_YwsRrAZpEeSo4-ajL-fkTg" source="_YwsRnQZpEeSo4-ajL-fkTg" target="_YwsRmQZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_YwsRrQZpEeSo4-ajL-fkTg" source="_YwsRnQZpEeSo4-ajL-fkTg" target="_YwsRmwZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_YwsRrgZpEeSo4-ajL-fkTg" source="_YwsRpgZpEeSo4-ajL-fkTg" target="_YwsRnQZpEeSo4-ajL-fkTg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YwsRrwZpEeSo4-ajL-fkTg" origin="_YwsRiAZpEeSo4-ajL-fkTg" image="_YwsRmAZpEeSo4-ajL-fkTg"/>
+    <mappings xmi:id="_YwsRsAZpEeSo4-ajL-fkTg" origin="_YwsRiQZpEeSo4-ajL-fkTg" image="_YwsRmQZpEeSo4-ajL-fkTg"/>
+    <mappings xmi:id="_YwsRsQZpEeSo4-ajL-fkTg" origin="_YwsRigZpEeSo4-ajL-fkTg" image="_YwsRmgZpEeSo4-ajL-fkTg"/>
+    <mappings xmi:id="_YwsRsgZpEeSo4-ajL-fkTg" origin="_YwsRjgZpEeSo4-ajL-fkTg" image="_YwsRmwZpEeSo4-ajL-fkTg"/>
+    <mappings xmi:id="_YwsRswZpEeSo4-ajL-fkTg" origin="_YwsRjwZpEeSo4-ajL-fkTg" image="_YwsRnAZpEeSo4-ajL-fkTg"/>
+    <mappings xmi:id="_YwsRtAZpEeSo4-ajL-fkTg" origin="_YwsRkQZpEeSo4-ajL-fkTg" image="_YwsRpgZpEeSo4-ajL-fkTg"/>
+  </units>
+</henshin:Module>

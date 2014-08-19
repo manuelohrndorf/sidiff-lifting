@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xrJqgFHsEeOwv-kVbb2fiQ" name="CREATE_LiteralString_IN_FlowPort(Port)_(lowerValue)" description="Creates one LiteralString in Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xrJqgVHsEeOwv-kVbb2fiQ" name="createLiteralString_IN_Port" description="creates one LiteralString in the context: Port">
+    <parameters xmi:id="_xrJqglHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xrJqg1HsEeOwv-kVbb2fiQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xrJqhFHsEeOwv-kVbb2fiQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_xrJqhVHsEeOwv-kVbb2fiQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_xrJqhlHsEeOwv-kVbb2fiQ" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_xrJqh1HsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xrJqiFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_IJWgc1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_IJWgcFHuEeOn7I6wZW1Exw" outgoing="_IJWgc1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_IJWgc1HuEeOn7I6wZW1Exw" source="_IJWgcFHuEeOn7I6wZW1Exw" target="_xrJqiFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xrJqiVHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xrJqilHsEeOwv-kVbb2fiQ" name="Selected" incoming="_IJXHgFHuEeOn7I6wZW1Exw" outgoing="_xrJqj1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xrJqi1HsEeOwv-kVbb2fiQ" name="New" incoming="_xrJqj1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+        <attributes xmi:id="_xrJqjFHsEeOwv-kVbb2fiQ" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_xrJqjVHsEeOwv-kVbb2fiQ" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_xrJqjlHsEeOwv-kVbb2fiQ" value="Value">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IJWgclHuEeOn7I6wZW1Exw" outgoing="_IJXHgFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xrJqj1HsEeOwv-kVbb2fiQ" source="_xrJqilHsEeOwv-kVbb2fiQ" target="_xrJqi1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/lowerValue"/>
+      </edges>
+      <edges xmi:id="_IJXHgFHuEeOn7I6wZW1Exw" source="_IJWgclHuEeOn7I6wZW1Exw" target="_xrJqilHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xrJqkFHsEeOwv-kVbb2fiQ" origin="_xrJqiFHsEeOwv-kVbb2fiQ" image="_xrJqilHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_IJWgcVHuEeOn7I6wZW1Exw" origin="_IJWgcFHuEeOn7I6wZW1Exw" image="_IJWgclHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xrJqkVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xrJqgVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xrJqklHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xrJqk1HsEeOwv-kVbb2fiQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xrJqlFHsEeOwv-kVbb2fiQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_xrJqlVHsEeOwv-kVbb2fiQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_xrJqllHsEeOwv-kVbb2fiQ" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_xrJql1HsEeOwv-kVbb2fiQ" source="_xrJqklHsEeOwv-kVbb2fiQ" target="_xrJqglHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xrJqmFHsEeOwv-kVbb2fiQ" source="_xrJqg1HsEeOwv-kVbb2fiQ" target="_xrJqk1HsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xrJqmVHsEeOwv-kVbb2fiQ" source="_xrJqlFHsEeOwv-kVbb2fiQ" target="_xrJqhFHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xrJqmlHsEeOwv-kVbb2fiQ" source="_xrJqlVHsEeOwv-kVbb2fiQ" target="_xrJqhVHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xrJqm1HsEeOwv-kVbb2fiQ" source="_xrJqllHsEeOwv-kVbb2fiQ" target="_xrJqhlHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xrTbgFHsEeOwv-kVbb2fiQ" name="DELETE_LiteralString_IN_FlowPort(Port)_(lowerValue)" description="Deletes one LiteralString in Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xrTbgVHsEeOwv-kVbb2fiQ" name="deleteLiteralString_IN_Port" description="deletes one LiteralString in the context: Port">
+    <parameters xmi:id="_xrTbglHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xrTbg1HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_xrTbhFHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xrTbhVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_HVOU0VHuEeOn7I6wZW1Exw" outgoing="_xrTbh1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xrTbhlHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xrTbh1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <nodes xmi:id="_HVKqcFHuEeOn7I6wZW1Exw" outgoing="_HVOU0VHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xrTbh1HsEeOwv-kVbb2fiQ" source="_xrTbhVHsEeOwv-kVbb2fiQ" target="_xrTbhlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/lowerValue"/>
+      </edges>
+      <edges xmi:id="_HVOU0VHuEeOn7I6wZW1Exw" source="_HVKqcFHuEeOn7I6wZW1Exw" target="_xrTbhVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xrTbiFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xrTbiVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_HVOU0lHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_HVOU0FHuEeOn7I6wZW1Exw" outgoing="_HVOU0lHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_HVOU0lHuEeOn7I6wZW1Exw" source="_HVOU0FHuEeOn7I6wZW1Exw" target="_xrTbiVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xrTbilHsEeOwv-kVbb2fiQ" origin="_xrTbhVHsEeOwv-kVbb2fiQ" image="_xrTbiVHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_HVNtwFHuEeOn7I6wZW1Exw" origin="_HVKqcFHuEeOn7I6wZW1Exw" image="_HVOU0FHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xrTbi1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xrTbgVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xrTbjFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xrTbjVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_xrTbjlHsEeOwv-kVbb2fiQ" source="_xrTbjFHsEeOwv-kVbb2fiQ" target="_xrTbglHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xrTbj1HsEeOwv-kVbb2fiQ" source="_xrTbjVHsEeOwv-kVbb2fiQ" target="_xrTbg1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

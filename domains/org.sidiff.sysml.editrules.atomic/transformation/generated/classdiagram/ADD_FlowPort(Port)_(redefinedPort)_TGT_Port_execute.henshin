@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xfsocFHsEeOwv-kVbb2fiQ" name="ADD_FlowPort(Port)_(redefinedPort)_TGT_Port" description="Adds to Port's reference redefinedPort the target Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xfsocVHsEeOwv-kVbb2fiQ" name="addToPort_redefinedPort_Port" description="Adds to Port's reference redefinedPort the target Port">
+    <parameters xmi:id="_xfsoclHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfsoc1HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_xfsodFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xfsodVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_YRHOM1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xfsodlHsEeOwv-kVbb2fiQ" name="NewTarget" incoming="_YRGnI1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_YRGnIFHuEeOn7I6wZW1Exw" outgoing="_YRGnI1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <nodes xmi:id="_YRHOMFHuEeOn7I6wZW1Exw" outgoing="_YRHOM1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_YRGnI1HuEeOn7I6wZW1Exw" source="_YRGnIFHuEeOn7I6wZW1Exw" target="_xfsodlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+      <edges xmi:id="_YRHOM1HuEeOn7I6wZW1Exw" source="_YRHOMFHuEeOn7I6wZW1Exw" target="_xfsodVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xfsod1HsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xfsoeFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_YRHONFHuEeOn7I6wZW1Exw" outgoing="_xfsoelHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xfsoeVHsEeOwv-kVbb2fiQ" name="NewTarget" incoming="_xfsoelHsEeOwv-kVbb2fiQ _YRGnJFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_YRGnIlHuEeOn7I6wZW1Exw" outgoing="_YRGnJFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <nodes xmi:id="_YRHOMlHuEeOn7I6wZW1Exw" outgoing="_YRHONFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xfsoelHsEeOwv-kVbb2fiQ" source="_xfsoeFHsEeOwv-kVbb2fiQ" target="_xfsoeVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/redefinedPort"/>
+      </edges>
+      <edges xmi:id="_YRGnJFHuEeOn7I6wZW1Exw" source="_YRGnIlHuEeOn7I6wZW1Exw" target="_xfsoeVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+      <edges xmi:id="_YRHONFHuEeOn7I6wZW1Exw" source="_YRHOMlHuEeOn7I6wZW1Exw" target="_xfsoeFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xfsoe1HsEeOwv-kVbb2fiQ" origin="_xfsodVHsEeOwv-kVbb2fiQ" image="_xfsoeFHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xfsofFHsEeOwv-kVbb2fiQ" origin="_xfsodlHsEeOwv-kVbb2fiQ" image="_xfsoeVHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_YRGnIVHuEeOn7I6wZW1Exw" origin="_YRGnIFHuEeOn7I6wZW1Exw" image="_YRGnIlHuEeOn7I6wZW1Exw"/>
+    <mappings xmi:id="_YRHOMVHuEeOn7I6wZW1Exw" origin="_YRHOMFHuEeOn7I6wZW1Exw" image="_YRHOMlHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xfsofVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xfsocVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xfsoflHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfsof1HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_xfsogFHsEeOwv-kVbb2fiQ" source="_xfsoflHsEeOwv-kVbb2fiQ" target="_xfsoclHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xfsogVHsEeOwv-kVbb2fiQ" source="_xfsof1HsEeOwv-kVbb2fiQ" target="_xfsoc1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

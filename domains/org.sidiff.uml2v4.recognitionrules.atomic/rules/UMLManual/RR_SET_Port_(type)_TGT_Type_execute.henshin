@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v-NEoAdTEeSc5s74VR_cNw" name="RR_SET_Port_(type)_TGT_Type" description="Recognize: Sets Port's reference type the target Type">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_v-NEoQdTEeSc5s74VR_cNw" name="recognitionR-setPort_type_TO_Type" description="Recognize: SetPortReftypeToType">
+    <parameters xmi:id="_v-NEogdTEeSc5s74VR_cNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_v-NEowdTEeSc5s74VR_cNw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+    </parameters>
+    <lhs xmi:id="_v-NEpAdTEeSc5s74VR_cNw" name="Lhs">
+      <nodes xmi:id="_v-NEpQdTEeSc5s74VR_cNw" name="B.Selected" incoming="_v-NEqwdTEeSc5s74VR_cNw" outgoing="_v-NErgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_v-NEpgdTEeSc5s74VR_cNw" name="B.NewTarget" incoming="_v-NErAdTEeSc5s74VR_cNw _v-NErgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+      </nodes>
+      <nodes xmi:id="_v-NEpwdTEeSc5s74VR_cNw" name="" outgoing="_v-NEqwdTEeSc5s74VR_cNw _v-NErAdTEeSc5s74VR_cNw _v-NErQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_v-NEqAdTEeSc5s74VR_cNw" name="" incoming="_v-NErQdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_v-NEqQdTEeSc5s74VR_cNw" value="&quot;type&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_v-NEqgdTEeSc5s74VR_cNw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_v-NEqwdTEeSc5s74VR_cNw" source="_v-NEpwdTEeSc5s74VR_cNw" target="_v-NEpQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_v-NErAdTEeSc5s74VR_cNw" source="_v-NEpwdTEeSc5s74VR_cNw" target="_v-NEpgdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_v-NErQdTEeSc5s74VR_cNw" source="_v-NEpwdTEeSc5s74VR_cNw" target="_v-NEqAdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_v-NErgdTEeSc5s74VR_cNw" source="_v-NEpQdTEeSc5s74VR_cNw" target="_v-NEpgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_v-NErwdTEeSc5s74VR_cNw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_v-NEsAdTEeSc5s74VR_cNw">
+          <conclusion xmi:id="_v-NEsQdTEeSc5s74VR_cNw">
+            <nodes xmi:id="_v-NEsgdTEeSc5s74VR_cNw" incoming="_v-NEtAdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+            </nodes>
+            <nodes xmi:id="_v-NEswdTEeSc5s74VR_cNw" name="B.Selected" outgoing="_v-NEtAdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+            </nodes>
+            <edges xmi:id="_v-NEtAdTEeSc5s74VR_cNw" source="_v-NEswdTEeSc5s74VR_cNw" target="_v-NEsgdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_v-NEtQdTEeSc5s74VR_cNw" origin="_v-NEpQdTEeSc5s74VR_cNw" image="_v-NEswdTEeSc5s74VR_cNw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_v-NEtgdTEeSc5s74VR_cNw" name="Rhs">
+      <nodes xmi:id="_v-NEtwdTEeSc5s74VR_cNw" name="B.Selected" incoming="_v-NExQdTEeSc5s74VR_cNw" outgoing="_v-NEyAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_v-NEuAdTEeSc5s74VR_cNw" name="B.NewTarget" incoming="_v-NExgdTEeSc5s74VR_cNw _v-NEyAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+      </nodes>
+      <nodes xmi:id="_v-NEuQdTEeSc5s74VR_cNw" name="" incoming="_v-NEyQdTEeSc5s74VR_cNw" outgoing="_v-NExQdTEeSc5s74VR_cNw _v-NExgdTEeSc5s74VR_cNw _v-NExwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_v-NEugdTEeSc5s74VR_cNw" name="" incoming="_v-NExwdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_v-NEuwdTEeSc5s74VR_cNw" incoming="_v-NEygdTEeSc5s74VR_cNw" outgoing="_v-NEyQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_v-NEvAdTEeSc5s74VR_cNw" value="&quot;SET_Port_(type)_TGT_Type&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_v-NEvQdTEeSc5s74VR_cNw" value="&quot;Sets Port's reference type the target Type&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_v-NEvgdTEeSc5s74VR_cNw" value="&quot;SET_Port_(type)_TGT_Type&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_v-NEvwdTEeSc5s74VR_cNw" value="&quot;rr_SET_Port_(type)_TGT_Type&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_v-NEwAdTEeSc5s74VR_cNw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_v-NEwQdTEeSc5s74VR_cNw" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_v-NEwgdTEeSc5s74VR_cNw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_v-NEwwdTEeSc5s74VR_cNw" value="19">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_v-NExAdTEeSc5s74VR_cNw" name="" outgoing="_v-NEygdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_v-NExQdTEeSc5s74VR_cNw" source="_v-NEuQdTEeSc5s74VR_cNw" target="_v-NEtwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_v-NExgdTEeSc5s74VR_cNw" source="_v-NEuQdTEeSc5s74VR_cNw" target="_v-NEuAdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_v-NExwdTEeSc5s74VR_cNw" source="_v-NEuQdTEeSc5s74VR_cNw" target="_v-NEugdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_v-NEyAdTEeSc5s74VR_cNw" source="_v-NEtwdTEeSc5s74VR_cNw" target="_v-NEuAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+      </edges>
+      <edges xmi:id="_v-NEyQdTEeSc5s74VR_cNw" source="_v-NEuwdTEeSc5s74VR_cNw" target="_v-NEuQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_v-NEygdTEeSc5s74VR_cNw" source="_v-NExAdTEeSc5s74VR_cNw" target="_v-NEuwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_v-NEywdTEeSc5s74VR_cNw" origin="_v-NEpQdTEeSc5s74VR_cNw" image="_v-NEtwdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-NEzAdTEeSc5s74VR_cNw" origin="_v-NEpgdTEeSc5s74VR_cNw" image="_v-NEuAdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-NEzQdTEeSc5s74VR_cNw" origin="_v-NEpwdTEeSc5s74VR_cNw" image="_v-NEuQdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-NEzgdTEeSc5s74VR_cNw" origin="_v-NEqAdTEeSc5s74VR_cNw" image="_v-NEugdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-NEzwdTEeSc5s74VR_cNw" origin="_v-NEqgdTEeSc5s74VR_cNw" image="_v-NExAdTEeSc5s74VR_cNw"/>
+  </units>
+</henshin:Module>

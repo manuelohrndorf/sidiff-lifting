@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kpfUUAdBEeSKBrVtpSoKNA" name="RR_CREATE_Region_IN_StateMachine_(region)" description="Recognize: Creates one Region in StateMachine">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kpfUUQdBEeSKBrVtpSoKNA" name="recognitionR-createRegion_IN_StateMachine" description="Recognize: creates one Region in the context: StateMachine">
+    <parameters xmi:id="_kpfUUgdBEeSKBrVtpSoKNA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_kpfUUwdBEeSKBrVtpSoKNA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_kpfUVAdBEeSKBrVtpSoKNA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_kpfUVQdBEeSKBrVtpSoKNA" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_kpfUVgdBEeSKBrVtpSoKNA" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_kpfUVwdBEeSKBrVtpSoKNA" name="Lhs">
+      <nodes xmi:id="_kpfUWAdBEeSKBrVtpSoKNA" name="B.Selected" incoming="_kpfUZgdBEeSKBrVtpSoKNA _kpfUawdBEeSKBrVtpSoKNA _kpfUbQdBEeSKBrVtpSoKNA" outgoing="_kpfUaQdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_kpfUWQdBEeSKBrVtpSoKNA" name="" outgoing="_kpfUZQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_kpfUWgdBEeSKBrVtpSoKNA" name="B.New" incoming="_kpfUZQdBEeSKBrVtpSoKNA _kpfUZwdBEeSKBrVtpSoKNA _kpfUaQdBEeSKBrVtpSoKNA _kpfUagdBEeSKBrVtpSoKNA" outgoing="_kpfUbQdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+        <attributes xmi:id="_kpfUWwdBEeSKBrVtpSoKNA" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_kpfUXAdBEeSKBrVtpSoKNA" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_kpfUXQdBEeSKBrVtpSoKNA" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpfUXgdBEeSKBrVtpSoKNA" name="" outgoing="_kpfUZgdBEeSKBrVtpSoKNA _kpfUZwdBEeSKBrVtpSoKNA _kpfUaAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUXwdBEeSKBrVtpSoKNA" name="" incoming="_kpfUaAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_kpfUYAdBEeSKBrVtpSoKNA" value="&quot;region&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpfUYQdBEeSKBrVtpSoKNA" name="" outgoing="_kpfUagdBEeSKBrVtpSoKNA _kpfUawdBEeSKBrVtpSoKNA _kpfUbAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUYgdBEeSKBrVtpSoKNA" name="" incoming="_kpfUbAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_kpfUYwdBEeSKBrVtpSoKNA" value="&quot;stateMachine&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpfUZAdBEeSKBrVtpSoKNA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_kpfUZQdBEeSKBrVtpSoKNA" source="_kpfUWQdBEeSKBrVtpSoKNA" target="_kpfUWgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_kpfUZgdBEeSKBrVtpSoKNA" source="_kpfUXgdBEeSKBrVtpSoKNA" target="_kpfUWAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kpfUZwdBEeSKBrVtpSoKNA" source="_kpfUXgdBEeSKBrVtpSoKNA" target="_kpfUWgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kpfUaAdBEeSKBrVtpSoKNA" source="_kpfUXgdBEeSKBrVtpSoKNA" target="_kpfUXwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kpfUaQdBEeSKBrVtpSoKNA" source="_kpfUWAdBEeSKBrVtpSoKNA" target="_kpfUWgdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_kpfUagdBEeSKBrVtpSoKNA" source="_kpfUYQdBEeSKBrVtpSoKNA" target="_kpfUWgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kpfUawdBEeSKBrVtpSoKNA" source="_kpfUYQdBEeSKBrVtpSoKNA" target="_kpfUWAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kpfUbAdBEeSKBrVtpSoKNA" source="_kpfUYQdBEeSKBrVtpSoKNA" target="_kpfUYgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kpfUbQdBEeSKBrVtpSoKNA" source="_kpfUWgdBEeSKBrVtpSoKNA" target="_kpfUWAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kpfUbgdBEeSKBrVtpSoKNA" name="Rhs">
+      <nodes xmi:id="_kpfUbwdBEeSKBrVtpSoKNA" name="B.Selected" incoming="_kpfUgQdBEeSKBrVtpSoKNA _kpfUhgdBEeSKBrVtpSoKNA _kpfUiAdBEeSKBrVtpSoKNA" outgoing="_kpfUhAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_kpfUcAdBEeSKBrVtpSoKNA" name="" incoming="_kpfUiQdBEeSKBrVtpSoKNA" outgoing="_kpfUgAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_kpfUcQdBEeSKBrVtpSoKNA" name="B.New" incoming="_kpfUgAdBEeSKBrVtpSoKNA _kpfUggdBEeSKBrVtpSoKNA _kpfUhAdBEeSKBrVtpSoKNA _kpfUhQdBEeSKBrVtpSoKNA" outgoing="_kpfUiAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_kpfUcgdBEeSKBrVtpSoKNA" name="" incoming="_kpfUigdBEeSKBrVtpSoKNA" outgoing="_kpfUgQdBEeSKBrVtpSoKNA _kpfUggdBEeSKBrVtpSoKNA _kpfUgwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUcwdBEeSKBrVtpSoKNA" name="" incoming="_kpfUgwdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUdAdBEeSKBrVtpSoKNA" name="" incoming="_kpfUiwdBEeSKBrVtpSoKNA" outgoing="_kpfUhQdBEeSKBrVtpSoKNA _kpfUhgdBEeSKBrVtpSoKNA _kpfUhwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUdQdBEeSKBrVtpSoKNA" name="" incoming="_kpfUhwdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_kpfUdgdBEeSKBrVtpSoKNA" incoming="_kpfUjAdBEeSKBrVtpSoKNA" outgoing="_kpfUiQdBEeSKBrVtpSoKNA _kpfUigdBEeSKBrVtpSoKNA _kpfUiwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_kpfUdwdBEeSKBrVtpSoKNA" value="&quot;CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_kpfUeAdBEeSKBrVtpSoKNA" value="&quot;Creates one Region in StateMachine&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_kpfUeQdBEeSKBrVtpSoKNA" value="&quot;CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_kpfUegdBEeSKBrVtpSoKNA" value="&quot;rr_CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_kpfUewdBEeSKBrVtpSoKNA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_kpfUfAdBEeSKBrVtpSoKNA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_kpfUfQdBEeSKBrVtpSoKNA" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_kpfUfgdBEeSKBrVtpSoKNA" value="22">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpfUfwdBEeSKBrVtpSoKNA" name="" outgoing="_kpfUjAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_kpfUgAdBEeSKBrVtpSoKNA" source="_kpfUcAdBEeSKBrVtpSoKNA" target="_kpfUcQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_kpfUgQdBEeSKBrVtpSoKNA" source="_kpfUcgdBEeSKBrVtpSoKNA" target="_kpfUbwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kpfUggdBEeSKBrVtpSoKNA" source="_kpfUcgdBEeSKBrVtpSoKNA" target="_kpfUcQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kpfUgwdBEeSKBrVtpSoKNA" source="_kpfUcgdBEeSKBrVtpSoKNA" target="_kpfUcwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kpfUhAdBEeSKBrVtpSoKNA" source="_kpfUbwdBEeSKBrVtpSoKNA" target="_kpfUcQdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_kpfUhQdBEeSKBrVtpSoKNA" source="_kpfUdAdBEeSKBrVtpSoKNA" target="_kpfUcQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kpfUhgdBEeSKBrVtpSoKNA" source="_kpfUdAdBEeSKBrVtpSoKNA" target="_kpfUbwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kpfUhwdBEeSKBrVtpSoKNA" source="_kpfUdAdBEeSKBrVtpSoKNA" target="_kpfUdQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kpfUiAdBEeSKBrVtpSoKNA" source="_kpfUcQdBEeSKBrVtpSoKNA" target="_kpfUbwdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/stateMachine"/>
+      </edges>
+      <edges xmi:id="_kpfUiQdBEeSKBrVtpSoKNA" source="_kpfUdgdBEeSKBrVtpSoKNA" target="_kpfUcAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_kpfUigdBEeSKBrVtpSoKNA" source="_kpfUdgdBEeSKBrVtpSoKNA" target="_kpfUcgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_kpfUiwdBEeSKBrVtpSoKNA" source="_kpfUdgdBEeSKBrVtpSoKNA" target="_kpfUdAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_kpfUjAdBEeSKBrVtpSoKNA" source="_kpfUfwdBEeSKBrVtpSoKNA" target="_kpfUdgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kpfUjQdBEeSKBrVtpSoKNA" origin="_kpfUWAdBEeSKBrVtpSoKNA" image="_kpfUbwdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUjgdBEeSKBrVtpSoKNA" origin="_kpfUWQdBEeSKBrVtpSoKNA" image="_kpfUcAdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUjwdBEeSKBrVtpSoKNA" origin="_kpfUWgdBEeSKBrVtpSoKNA" image="_kpfUcQdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUkAdBEeSKBrVtpSoKNA" origin="_kpfUXgdBEeSKBrVtpSoKNA" image="_kpfUcgdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUkQdBEeSKBrVtpSoKNA" origin="_kpfUXwdBEeSKBrVtpSoKNA" image="_kpfUcwdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUkgdBEeSKBrVtpSoKNA" origin="_kpfUYQdBEeSKBrVtpSoKNA" image="_kpfUdAdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUkwdBEeSKBrVtpSoKNA" origin="_kpfUYgdBEeSKBrVtpSoKNA" image="_kpfUdQdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_kpfUlAdBEeSKBrVtpSoKNA" origin="_kpfUZAdBEeSKBrVtpSoKNA" image="_kpfUfwdBEeSKBrVtpSoKNA"/>
+  </units>
+</henshin:Module>

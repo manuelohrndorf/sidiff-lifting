@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_NspiwBVaEeOc99agznDrhA" name="SET_Port_(type)_TGT_Type" description="Sets Port's reference type the target Type">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_NspiwRVaEeOc99agznDrhA" name="setPort_type_TO_Type" description="SetPortReftypeToType">
+    <parameters xmi:id="_NspiwhVaEeOc99agznDrhA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_NspiwxVaEeOc99agznDrhA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+    </parameters>
+    <lhs xmi:id="_NspixBVaEeOc99agznDrhA" name="Lhs">
+      <nodes xmi:id="_NspixRVaEeOc99agznDrhA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_NspixhVaEeOc99agznDrhA" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_9zdaQBYOEeOvfYuG0jMHrg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_9zdaQRYOEeOvfYuG0jMHrg">
+          <conclusion xmi:id="_9zdaQhYOEeOvfYuG0jMHrg">
+            <nodes xmi:id="_9zdaQxYOEeOvfYuG0jMHrg" name="Selected" outgoing="_-z7YwBYOEeOvfYuG0jMHrg">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+            </nodes>
+            <nodes xmi:id="_9zSbIBYOEeOvfYuG0jMHrg" incoming="_-z7YwBYOEeOvfYuG0jMHrg">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+            </nodes>
+            <edges xmi:id="_-z7YwBYOEeOvfYuG0jMHrg" source="_9zdaQxYOEeOvfYuG0jMHrg" target="_9zSbIBYOEeOvfYuG0jMHrg">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_9zdaRBYOEeOvfYuG0jMHrg" origin="_NspixRVaEeOc99agznDrhA" image="_9zdaQxYOEeOvfYuG0jMHrg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_NspixxVaEeOc99agznDrhA" name="Rhs">
+      <nodes xmi:id="_NspiyBVaEeOc99agznDrhA" name="Selected" outgoing="_NspiyhVaEeOc99agznDrhA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_NspiyRVaEeOc99agznDrhA" name="NewTarget" incoming="_NspiyhVaEeOc99agznDrhA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+      </nodes>
+      <edges xmi:id="_NspiyhVaEeOc99agznDrhA" source="_NspiyBVaEeOc99agznDrhA" target="_NspiyRVaEeOc99agznDrhA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_NspiyxVaEeOc99agznDrhA" origin="_NspixRVaEeOc99agznDrhA" image="_NspiyBVaEeOc99agznDrhA"/>
+    <mappings xmi:id="_NspizBVaEeOc99agznDrhA" origin="_NspixhVaEeOc99agznDrhA" image="_NspiyRVaEeOc99agznDrhA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_NspizRVaEeOc99agznDrhA" name="mainUnit" subUnits="_NspiwRVaEeOc99agznDrhA">
+    <parameters xmi:id="_NspizhVaEeOc99agznDrhA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_NspizxVaEeOc99agznDrhA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Type"/>
+    </parameters>
+    <parameterMappings xmi:id="_Nspi0BVaEeOc99agznDrhA" source="_NspizhVaEeOc99agznDrhA" target="_NspiwhVaEeOc99agznDrhA"/>
+    <parameterMappings xmi:id="_Nspi0RVaEeOc99agznDrhA" source="_NspizxVaEeOc99agznDrhA" target="_NspiwxVaEeOc99agznDrhA"/>
+  </units>
+</henshin:Module>

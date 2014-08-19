@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xfsocFHsEeOwv-kVbb2fiQ" name="ADD_Port_(redefinedPort)_TGT_Port" description="Adds to Port's reference redefinedPort the target Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xfsocVHsEeOwv-kVbb2fiQ" name="addToPort_redefinedPort_Port" description="Adds to Port's reference redefinedPort the target Port">
+    <parameters xmi:id="_xfsoclHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfsoc1HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_xfsodFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xfsodVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xfsodlHsEeOwv-kVbb2fiQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xfsod1HsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xfsoeFHsEeOwv-kVbb2fiQ" name="Selected" outgoing="_xfsoelHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xfsoeVHsEeOwv-kVbb2fiQ" name="NewTarget" incoming="_xfsoelHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <edges xmi:id="_xfsoelHsEeOwv-kVbb2fiQ" source="_xfsoeFHsEeOwv-kVbb2fiQ" target="_xfsoeVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/redefinedPort"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xfsoe1HsEeOwv-kVbb2fiQ" origin="_xfsodVHsEeOwv-kVbb2fiQ" image="_xfsoeFHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xfsofFHsEeOwv-kVbb2fiQ" origin="_xfsodlHsEeOwv-kVbb2fiQ" image="_xfsoeVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xfsofVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xfsocVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xfsoflHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfsof1HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_xfsogFHsEeOwv-kVbb2fiQ" source="_xfsoflHsEeOwv-kVbb2fiQ" target="_xfsoclHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xfsogVHsEeOwv-kVbb2fiQ" source="_xfsof1HsEeOwv-kVbb2fiQ" target="_xfsoc1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

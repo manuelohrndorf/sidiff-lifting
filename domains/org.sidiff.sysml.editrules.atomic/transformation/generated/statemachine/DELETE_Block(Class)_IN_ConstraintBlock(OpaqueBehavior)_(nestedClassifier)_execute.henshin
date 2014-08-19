@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5XcAwFHsEeOlW6ElqrxP9A" name="DELETE_Block(Class)_IN_ConstraintBlock(OpaqueBehavior)_(nestedClassifier)" description="Deletes one Class in OpaqueBehavior">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5XcAwVHsEeOlW6ElqrxP9A" name="deleteClass_IN_OpaqueBehavior" description="deletes one Class in the context: OpaqueBehavior">
+    <parameters xmi:id="_5XcAwlHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_5XcAw1HsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_Y14V4lHzEeON9vs-A8lEPA" name="Deleted_Block(Class)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <lhs xmi:id="_5XcAxFHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5XcAxVHsEeOlW6ElqrxP9A" name="Selected" incoming="_Xk52M1HzEeON9vs-A8lEPA" outgoing="_5XcAx1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_5XcAxlHsEeOlW6ElqrxP9A" name="ToBeDeleted" incoming="_5XcAx1HsEeOlW6ElqrxP9A _Y14V4VHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Xk52MFHzEeON9vs-A8lEPA" outgoing="_Xk52M1HzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <nodes xmi:id="_Y14V4FHzEeON9vs-A8lEPA" name="Deleted_Block(Class)_" outgoing="_Y14V4VHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_5XcAx1HsEeOlW6ElqrxP9A" source="_5XcAxVHsEeOlW6ElqrxP9A" target="_5XcAxlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+      <edges xmi:id="_Xk52M1HzEeON9vs-A8lEPA" source="_Xk52MFHzEeON9vs-A8lEPA" target="_5XcAxVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+      <edges xmi:id="_Y14V4VHzEeON9vs-A8lEPA" source="_Y14V4FHzEeON9vs-A8lEPA" target="_5XcAxlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5XcAyFHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5XcAyVHsEeOlW6ElqrxP9A" name="Selected" incoming="_Xk52NFHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_Xk52MlHzEeON9vs-A8lEPA" outgoing="_Xk52NFHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <edges xmi:id="_Xk52NFHzEeON9vs-A8lEPA" source="_Xk52MlHzEeON9vs-A8lEPA" target="_5XcAyVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5XcAylHsEeOlW6ElqrxP9A" origin="_5XcAxVHsEeOlW6ElqrxP9A" image="_5XcAyVHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_Xk52MVHzEeON9vs-A8lEPA" origin="_Xk52MFHzEeON9vs-A8lEPA" image="_Xk52MlHzEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5XcAy1HsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5XcAwVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5XcAzFHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_5XcAzVHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_Y14V5FHzEeON9vs-A8lEPA" name="Deleted_Block(Class)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameterMappings xmi:id="_5XcAzlHsEeOlW6ElqrxP9A" source="_5XcAzFHsEeOlW6ElqrxP9A" target="_5XcAwlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5XcAz1HsEeOlW6ElqrxP9A" source="_5XcAzVHsEeOlW6ElqrxP9A" target="_5XcAw1HsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_Y14V41HzEeON9vs-A8lEPA" source="_Y14V5FHzEeON9vs-A8lEPA" target="_Y14V4lHzEeON9vs-A8lEPA"/>
+  </units>
+</henshin:Module>

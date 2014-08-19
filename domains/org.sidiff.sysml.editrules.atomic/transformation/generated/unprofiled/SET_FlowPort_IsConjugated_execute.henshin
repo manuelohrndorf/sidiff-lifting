@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_BPds8FHtEeOU3q7xwvXrEQ" name="SET_FlowPort_IsConjugated" description="Sets FlowPort IsConjugated">
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_BPeUAFHtEeOU3q7xwvXrEQ" name="setFlowPortIsConjugated" description="Sets the EAttribute isConjugated">
+    <parameters xmi:id="_BPeUAVHtEeOU3q7xwvXrEQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_BPeUAlHtEeOU3q7xwvXrEQ" name="IsConjugated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_BPeUA1HtEeOU3q7xwvXrEQ" name="Lhs">
+      <nodes xmi:id="_BPeUBFHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_BPeUBVHtEeOU3q7xwvXrEQ" name="Rhs">
+      <nodes xmi:id="_BPeUBlHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+        <attributes xmi:id="_BPeUB1HtEeOU3q7xwvXrEQ" value="IsConjugated">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/isConjugated"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_BPeUCFHtEeOU3q7xwvXrEQ" origin="_BPeUBFHtEeOU3q7xwvXrEQ" image="_BPeUBlHtEeOU3q7xwvXrEQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_BPeUCVHtEeOU3q7xwvXrEQ" name="mainUnit" subUnits="_BPeUAFHtEeOU3q7xwvXrEQ">
+    <parameters xmi:id="_BPeUClHtEeOU3q7xwvXrEQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_BPeUC1HtEeOU3q7xwvXrEQ" name="IsConjugated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_BPeUDFHtEeOU3q7xwvXrEQ" source="_BPeUClHtEeOU3q7xwvXrEQ" target="_BPeUAVHtEeOU3q7xwvXrEQ"/>
+    <parameterMappings xmi:id="_BPeUDVHtEeOU3q7xwvXrEQ" source="_BPeUC1HtEeOU3q7xwvXrEQ" target="_BPeUAlHtEeOU3q7xwvXrEQ"/>
+  </units>
+</henshin:Module>

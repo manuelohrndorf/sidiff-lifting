@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5xanAFHsEeOlW6ElqrxP9A" name="SET_FinalState_(stateInvariant)_TGT_Constraint" description="Sets FinalState's reference stateInvariant the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5xanAVHsEeOlW6ElqrxP9A" name="setFinalState_stateInvariant_TO_Constraint" description="SetFinalStateRefstateInvariantToConstraint">
+    <parameters xmi:id="_5xanAlHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_5xanA1HsEeOlW6ElqrxP9A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_5xanBFHsEeOlW6ElqrxP9A" name="Lhs">
+      <nodes xmi:id="_5xanBVHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_5xanBlHsEeOlW6ElqrxP9A" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_5xanB1HsEeOlW6ElqrxP9A" name="Rhs">
+      <nodes xmi:id="_5xanCFHsEeOlW6ElqrxP9A" name="Selected" outgoing="_5xanClHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_5xanCVHsEeOlW6ElqrxP9A" name="NewTarget" incoming="_5xanClHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_5xanClHsEeOlW6ElqrxP9A" source="_5xanCFHsEeOlW6ElqrxP9A" target="_5xanCVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State/stateInvariant"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5xanC1HsEeOlW6ElqrxP9A" origin="_5xanBVHsEeOlW6ElqrxP9A" image="_5xanCFHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_5xanDFHsEeOlW6ElqrxP9A" origin="_5xanBlHsEeOlW6ElqrxP9A" image="_5xanCVHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5xanDVHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5xanAVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5xanDlHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_5xanD1HsEeOlW6ElqrxP9A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_5xanEFHsEeOlW6ElqrxP9A" source="_5xanDlHsEeOlW6ElqrxP9A" target="_5xanAlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5xanEVHsEeOlW6ElqrxP9A" source="_5xanD1HsEeOlW6ElqrxP9A" target="_5xanA1HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

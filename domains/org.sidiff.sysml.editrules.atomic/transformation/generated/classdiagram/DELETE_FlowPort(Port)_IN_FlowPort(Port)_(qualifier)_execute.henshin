@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xdoy8FHsEeOwv-kVbb2fiQ" name="DELETE_FlowPort(Port)_IN_FlowPort(Port)_(qualifier)" description="Deletes one Port in Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xdoy8VHsEeOwv-kVbb2fiQ" name="deletePort_IN_Port" description="deletes one Port in the context: Port">
+    <parameters xmi:id="_xdoy8lHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xdoy81HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_WQG_wlHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <lhs xmi:id="_xdoy9FHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xdoy9VHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xdoy-FHsEeOwv-kVbb2fiQ _WQL4Q1HuEeOn7I6wZW1Exw" outgoing="_xdoy91HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xdoy9lHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xdoy91HsEeOwv-kVbb2fiQ _WQG_wVHuEeOn7I6wZW1Exw" outgoing="_xdoy-FHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_WQG_wFHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_" outgoing="_WQG_wVHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <nodes xmi:id="_WQL4QFHuEeOn7I6wZW1Exw" outgoing="_WQL4Q1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xdoy91HsEeOwv-kVbb2fiQ" source="_xdoy9VHsEeOwv-kVbb2fiQ" target="_xdoy9lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/qualifier"/>
+      </edges>
+      <edges xmi:id="_xdoy-FHsEeOwv-kVbb2fiQ" source="_xdoy9lHsEeOwv-kVbb2fiQ" target="_xdoy9VHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/associationEnd"/>
+      </edges>
+      <edges xmi:id="_WQG_wVHuEeOn7I6wZW1Exw" source="_WQG_wFHuEeOn7I6wZW1Exw" target="_xdoy9lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+      <edges xmi:id="_WQL4Q1HuEeOn7I6wZW1Exw" source="_WQL4QFHuEeOn7I6wZW1Exw" target="_xdoy9VHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xdoy-VHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xdoy-lHsEeOwv-kVbb2fiQ" name="Selected" incoming="_WQL4RFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_WQL4QlHuEeOn7I6wZW1Exw" outgoing="_WQL4RFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_WQL4RFHuEeOn7I6wZW1Exw" source="_WQL4QlHuEeOn7I6wZW1Exw" target="_xdoy-lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xdoy-1HsEeOwv-kVbb2fiQ" origin="_xdoy9VHsEeOwv-kVbb2fiQ" image="_xdoy-lHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_WQL4QVHuEeOn7I6wZW1Exw" origin="_WQL4QFHuEeOn7I6wZW1Exw" image="_WQL4QlHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xdoy_FHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xdoy8VHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xdoy_VHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xdoy_lHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_WQG_xFHuEeOn7I6wZW1Exw" name="Deleted_FlowPort(Port)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameterMappings xmi:id="_xdoy_1HsEeOwv-kVbb2fiQ" source="_xdoy_VHsEeOwv-kVbb2fiQ" target="_xdoy8lHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xdozAFHsEeOwv-kVbb2fiQ" source="_xdoy_lHsEeOwv-kVbb2fiQ" target="_xdoy81HsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_WQG_w1HuEeOn7I6wZW1Exw" source="_WQG_xFHuEeOn7I6wZW1Exw" target="_WQG_wlHuEeOn7I6wZW1Exw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5z-y0FHsEeOlW6ElqrxP9A" name="ADD_Requirement(OpaqueBehavior)_(precondition)_TGT_Constraint" description="Adds to OpaqueBehavior's reference precondition the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5z-y0VHsEeOlW6ElqrxP9A" name="addToOpaqueBehavior_precondition_Constraint" description="Adds to OpaqueBehavior's reference precondition the target Constraint">
+    <parameters xmi:id="_5z-y0lHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_5z-y01HsEeOlW6ElqrxP9A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_5z-y1FHsEeOlW6ElqrxP9A" name="Lhs">
+      <nodes xmi:id="_5z-y1VHsEeOlW6ElqrxP9A" name="Selected" incoming="_4zvPE1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_5z-y1lHsEeOlW6ElqrxP9A" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_4zvPEFHyEeON9vs-A8lEPA" outgoing="_4zvPE1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_4zvPE1HyEeON9vs-A8lEPA" source="_4zvPEFHyEeON9vs-A8lEPA" target="_5z-y1VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5z-y11HsEeOlW6ElqrxP9A" name="Rhs">
+      <nodes xmi:id="_5z-y2FHsEeOlW6ElqrxP9A" name="Selected" incoming="_4zvPFFHyEeON9vs-A8lEPA" outgoing="_5z-y2lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_5z-y2VHsEeOlW6ElqrxP9A" name="NewTarget" incoming="_5z-y2lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_4zvPElHyEeON9vs-A8lEPA" outgoing="_4zvPFFHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_5z-y2lHsEeOlW6ElqrxP9A" source="_5z-y2FHsEeOlW6ElqrxP9A" target="_5z-y2VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior/precondition"/>
+      </edges>
+      <edges xmi:id="_4zvPFFHyEeON9vs-A8lEPA" source="_4zvPElHyEeON9vs-A8lEPA" target="_5z-y2FHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5z-y21HsEeOlW6ElqrxP9A" origin="_5z-y1VHsEeOlW6ElqrxP9A" image="_5z-y2FHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_5z-y3FHsEeOlW6ElqrxP9A" origin="_5z-y1lHsEeOlW6ElqrxP9A" image="_5z-y2VHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_4zvPEVHyEeON9vs-A8lEPA" origin="_4zvPEFHyEeON9vs-A8lEPA" image="_4zvPElHyEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5z-y3VHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5z-y0VHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5z-y3lHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_5z-y31HsEeOlW6ElqrxP9A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_5z-y4FHsEeOlW6ElqrxP9A" source="_5z-y3lHsEeOlW6ElqrxP9A" target="_5z-y0lHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5z-y4VHsEeOlW6ElqrxP9A" source="_5z-y31HsEeOlW6ElqrxP9A" target="_5z-y01HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_PZPAYBVaEeOob4g1gWX1jA" name="DELETE_Constraint_IN_Transition_(ownedRule)_LiteralString_" description="Deletes one Constraint in Transition">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_PZPAYRVaEeOob4g1gWX1jA" name="deleteConstraint_IN_Transition_LiteralString_" description="deletes one Constraint in the context: Transition">
+    <parameters xmi:id="_PZPAYhVaEeOob4g1gWX1jA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_PZPAYxVaEeOob4g1gWX1jA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_PZPAZBVaEeOob4g1gWX1jA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_PZPAZRVaEeOob4g1gWX1jA" name="LHS">
+      <nodes xmi:id="_PZPAZhVaEeOob4g1gWX1jA" name="Selected" incoming="_PZPAahVaEeOob4g1gWX1jA" outgoing="_PZPAaRVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_PZPAZxVaEeOob4g1gWX1jA" name="ToBeDeleted" incoming="_PZPAaRVaEeOob4g1gWX1jA" outgoing="_PZPAahVaEeOob4g1gWX1jA _PZPAaxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_PZPAaBVaEeOob4g1gWX1jA" name="Child" incoming="_PZPAaxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <edges xmi:id="_PZPAaRVaEeOob4g1gWX1jA" source="_PZPAZhVaEeOob4g1gWX1jA" target="_PZPAZxVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_PZPAahVaEeOob4g1gWX1jA" source="_PZPAZxVaEeOob4g1gWX1jA" target="_PZPAZhVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_PZPAaxVaEeOob4g1gWX1jA" source="_PZPAZxVaEeOob4g1gWX1jA" target="_PZPAaBVaEeOob4g1gWX1jA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_PZPAbBVaEeOob4g1gWX1jA" name="RHS">
+      <nodes xmi:id="_PZPAbRVaEeOob4g1gWX1jA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_PZPAbhVaEeOob4g1gWX1jA" origin="_PZPAZhVaEeOob4g1gWX1jA" image="_PZPAbRVaEeOob4g1gWX1jA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_PZPAbxVaEeOob4g1gWX1jA" name="mainUnit" description="Deletes one Constraint depending on available contexts in model instance" subUnits="_PZPAYRVaEeOob4g1gWX1jA">
+    <parameters xmi:id="_PZPAcBVaEeOob4g1gWX1jA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_PZPAcRVaEeOob4g1gWX1jA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_PZPAchVaEeOob4g1gWX1jA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameterMappings xmi:id="_PZPAcxVaEeOob4g1gWX1jA" source="_PZPAcBVaEeOob4g1gWX1jA" target="_PZPAYhVaEeOob4g1gWX1jA"/>
+    <parameterMappings xmi:id="_PZPAdBVaEeOob4g1gWX1jA" source="_PZPAchVaEeOob4g1gWX1jA" target="_PZPAYxVaEeOob4g1gWX1jA"/>
+    <parameterMappings xmi:id="_PZPAdRVaEeOob4g1gWX1jA" source="_PZPAcRVaEeOob4g1gWX1jA" target="_PZPAZBVaEeOob4g1gWX1jA"/>
+  </units>
+</henshin:Module>

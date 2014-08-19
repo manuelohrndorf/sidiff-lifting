@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xgggwFHsEeOwv-kVbb2fiQ" name="SET_FlowPort(Port)_IsStatic" description="Sets Port IsStatic">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xgggwVHsEeOwv-kVbb2fiQ" name="setPortIsStatic" description="Sets the EAttribute isStatic">
+    <parameters xmi:id="_xgggwlHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgggw1HsEeOwv-kVbb2fiQ" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_xgggxFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xgggxVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_8m2to1HtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_8m2toFHtEeOn7I6wZW1Exw" outgoing="_8m2to1HtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_8m2to1HtEeOn7I6wZW1Exw" source="_8m2toFHtEeOn7I6wZW1Exw" target="_xgggxVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xgggxlHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xgggx1HsEeOwv-kVbb2fiQ" name="Selected" incoming="_8m2tpFHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_xgggyFHsEeOwv-kVbb2fiQ" value="IsStatic">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_8m2tolHtEeOn7I6wZW1Exw" outgoing="_8m2tpFHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_8m2tpFHtEeOn7I6wZW1Exw" source="_8m2tolHtEeOn7I6wZW1Exw" target="_xgggx1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xgggyVHsEeOwv-kVbb2fiQ" origin="_xgggxVHsEeOwv-kVbb2fiQ" image="_xgggx1HsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_8m2toVHtEeOn7I6wZW1Exw" origin="_8m2toFHtEeOn7I6wZW1Exw" image="_8m2tolHtEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xgggylHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xgggwVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xgggy1HsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgggzFHsEeOwv-kVbb2fiQ" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_xgggzVHsEeOwv-kVbb2fiQ" source="_xgggy1HsEeOwv-kVbb2fiQ" target="_xgggwlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xgggzlHsEeOwv-kVbb2fiQ" source="_xgggzFHsEeOwv-kVbb2fiQ" target="_xgggw1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

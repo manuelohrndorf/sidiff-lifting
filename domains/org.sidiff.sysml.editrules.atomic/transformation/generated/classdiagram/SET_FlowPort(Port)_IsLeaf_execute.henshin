@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xfxg8FHsEeOwv-kVbb2fiQ" name="SET_FlowPort(Port)_IsLeaf" description="Sets Port IsLeaf">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xfyIAFHsEeOwv-kVbb2fiQ" name="setPortIsLeaf" description="Sets the EAttribute isLeaf">
+    <parameters xmi:id="_xfyIAVHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfyIAlHsEeOwv-kVbb2fiQ" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_xfyIA1HsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xfyIBFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xeOzY1HtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xeOzYFHtEeOn7I6wZW1Exw" outgoing="_xeOzY1HtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xeOzY1HtEeOn7I6wZW1Exw" source="_xeOzYFHtEeOn7I6wZW1Exw" target="_xfyIBFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xfyIBVHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xfyIBlHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xeOzZFHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_xfyIB1HsEeOwv-kVbb2fiQ" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_xeOzYlHtEeOn7I6wZW1Exw" outgoing="_xeOzZFHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+      <edges xmi:id="_xeOzZFHtEeOn7I6wZW1Exw" source="_xeOzYlHtEeOn7I6wZW1Exw" target="_xfyIBlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xfyICFHsEeOwv-kVbb2fiQ" origin="_xfyIBFHsEeOwv-kVbb2fiQ" image="_xfyIBlHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xeOzYVHtEeOn7I6wZW1Exw" origin="_xeOzYFHtEeOn7I6wZW1Exw" image="_xeOzYlHtEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xfyICVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xfyIAFHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xfyIClHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xfyIC1HsEeOwv-kVbb2fiQ" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_xfyIDFHsEeOwv-kVbb2fiQ" source="_xfyIClHsEeOwv-kVbb2fiQ" target="_xfyIAVHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xfyIDVHsEeOwv-kVbb2fiQ" source="_xfyIC1HsEeOwv-kVbb2fiQ" target="_xfyIAlHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

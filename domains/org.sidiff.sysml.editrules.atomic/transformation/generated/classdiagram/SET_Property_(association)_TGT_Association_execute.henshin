@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xabG4FHsEeOwv-kVbb2fiQ" name="SET_Property_(association)_TGT_Association" description="Sets Property's reference association the target Association">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xabG4VHsEeOwv-kVbb2fiQ" name="setProperty_association_TO_Association" description="SetPropertyRefassociationToAssociation">
+    <parameters xmi:id="_xabG4lHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xabG41HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <lhs xmi:id="_xabG5FHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xabG5VHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xabt8FHsEeOwv-kVbb2fiQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xabt8VHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xabt8lHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xabt9VHsEeOwv-kVbb2fiQ" outgoing="_xabt9FHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xabt81HsEeOwv-kVbb2fiQ" name="NewTarget" incoming="_xabt9FHsEeOwv-kVbb2fiQ" outgoing="_xabt9VHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <edges xmi:id="_xabt9FHsEeOwv-kVbb2fiQ" source="_xabt8lHsEeOwv-kVbb2fiQ" target="_xabt81HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/association"/>
+      </edges>
+      <edges xmi:id="_xabt9VHsEeOwv-kVbb2fiQ" source="_xabt81HsEeOwv-kVbb2fiQ" target="_xabt8lHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association/memberEnd"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xabt9lHsEeOwv-kVbb2fiQ" origin="_xabG5VHsEeOwv-kVbb2fiQ" image="_xabt8lHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xabt91HsEeOwv-kVbb2fiQ" origin="_xabt8FHsEeOwv-kVbb2fiQ" image="_xabt81HsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xabt-FHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xabG4VHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xabt-VHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xabt-lHsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameterMappings xmi:id="_xabt-1HsEeOwv-kVbb2fiQ" source="_xabt-VHsEeOwv-kVbb2fiQ" target="_xabG4lHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xabt_FHsEeOwv-kVbb2fiQ" source="_xabt-lHsEeOwv-kVbb2fiQ" target="_xabG41HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

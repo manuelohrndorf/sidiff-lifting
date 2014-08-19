@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5izjQFHsEeOlW6ElqrxP9A" name="CREATE_Pseudostate_IN_ConstraintBlock(StateMachine)_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5izjQVHsEeOlW6ElqrxP9A" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_5i0KUFHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_5i0KUVHsEeOlW6ElqrxP9A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_5i0KUlHsEeOlW6ElqrxP9A" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_5i0KU1HsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_5i0KVFHsEeOlW6ElqrxP9A" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_5i0KVVHsEeOlW6ElqrxP9A" name="Lhs">
+      <nodes xmi:id="_5i0KVlHsEeOlW6ElqrxP9A" name="Selected" incoming="_ymQZI1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_ymQZIFHyEeON9vs-A8lEPA" outgoing="_ymQZI1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <edges xmi:id="_ymQZI1HyEeON9vs-A8lEPA" source="_ymQZIFHyEeON9vs-A8lEPA" target="_5i0KVlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5i0KV1HsEeOlW6ElqrxP9A" name="Rhs">
+      <nodes xmi:id="_5i0KWFHsEeOlW6ElqrxP9A" name="Selected" incoming="_5i0KXlHsEeOlW6ElqrxP9A _ymQZJFHyEeON9vs-A8lEPA" outgoing="_5i0KXVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_5i0KWVHsEeOlW6ElqrxP9A" name="New" incoming="_5i0KXVHsEeOlW6ElqrxP9A" outgoing="_5i0KXlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_5i0KWlHsEeOlW6ElqrxP9A" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_5i0KW1HsEeOlW6ElqrxP9A" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_5i0KXFHsEeOlW6ElqrxP9A" value="Kind">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ymQZIlHyEeON9vs-A8lEPA" outgoing="_ymQZJFHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <edges xmi:id="_5i0KXVHsEeOlW6ElqrxP9A" source="_5i0KWFHsEeOlW6ElqrxP9A" target="_5i0KWVHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_5i0KXlHsEeOlW6ElqrxP9A" source="_5i0KWVHsEeOlW6ElqrxP9A" target="_5i0KWFHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+      <edges xmi:id="_ymQZJFHyEeON9vs-A8lEPA" source="_ymQZIlHyEeON9vs-A8lEPA" target="_5i0KWFHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5i0KX1HsEeOlW6ElqrxP9A" origin="_5i0KVlHsEeOlW6ElqrxP9A" image="_5i0KWFHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_ymQZIVHyEeON9vs-A8lEPA" origin="_ymQZIFHyEeON9vs-A8lEPA" image="_ymQZIlHyEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5i0KYFHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5izjQVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5i0KYVHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_5i0KYlHsEeOlW6ElqrxP9A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_5i0KY1HsEeOlW6ElqrxP9A" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_5i0KZFHsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_5i0KZVHsEeOlW6ElqrxP9A" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_5i0KZlHsEeOlW6ElqrxP9A" source="_5i0KYVHsEeOlW6ElqrxP9A" target="_5i0KUFHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5i0KZ1HsEeOlW6ElqrxP9A" source="_5i0KUVHsEeOlW6ElqrxP9A" target="_5i0KYlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5i0KaFHsEeOlW6ElqrxP9A" source="_5i0KY1HsEeOlW6ElqrxP9A" target="_5i0KUlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5i0KaVHsEeOlW6ElqrxP9A" source="_5i0KZFHsEeOlW6ElqrxP9A" target="_5i0KU1HsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5i0KalHsEeOlW6ElqrxP9A" source="_5i0KZVHsEeOlW6ElqrxP9A" target="_5i0KVFHsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

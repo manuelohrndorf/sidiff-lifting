@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xQscoMFJEeOHN6JUsu4eRA" name="SET_ATTRIBUTE_FeatureModel_Version" description="Sets FeatureModel Version">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xQtDsMFJEeOHN6JUsu4eRA" name="setFeatureModelVersion" description="Sets the EAttribute version">
+    <parameters xmi:id="_xQtDscFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xQtDssFJEeOHN6JUsu4eRA" name="Version">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_xQtDs8FJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xQtDtMFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xQtDtcFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xQtDtsFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+        <attributes xmi:id="_xQtDt8FJEeOHN6JUsu4eRA" value="Version">
+          <type href="http://www.eclipse.org/featuremodel#//FeatureModel/version"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xQtDuMFJEeOHN6JUsu4eRA" origin="_xQtDtMFJEeOHN6JUsu4eRA" image="_xQtDtsFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xQtDucFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xQtDsMFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xQtDusFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameterMappings xmi:id="_xQtDu8FJEeOHN6JUsu4eRA" source="_xQtDusFJEeOHN6JUsu4eRA" target="_xQtDscFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

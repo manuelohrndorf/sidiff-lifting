@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xRyIQFHsEeOwv-kVbb2fiQ" name="DELETE_Satisfy(Abstraction)_IN_Package_(packagedElement)" description="Deletes one Abstraction in Package">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xRyIQVHsEeOwv-kVbb2fiQ" name="deleteAbstraction_IN_Package" description="deletes one Abstraction in the context: Package">
+    <parameters xmi:id="_xRyIQlHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_xRyIQ1HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_OB5BIlHuEeOn7I6wZW1Exw" name="Deleted_Satisfy(Abstraction)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Satisfy"/>
+    </parameters>
+    <lhs xmi:id="_xRyvUFHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xRyvUVHsEeOwv-kVbb2fiQ" name="Selected" outgoing="_xRyvU1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_xRyvUlHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xRyvU1HsEeOwv-kVbb2fiQ _OB5BIVHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Abstraction"/>
+      </nodes>
+      <nodes xmi:id="_OB5BIFHuEeOn7I6wZW1Exw" name="Deleted_Satisfy(Abstraction)_" outgoing="_OB5BIVHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Satisfy"/>
+      </nodes>
+      <edges xmi:id="_xRyvU1HsEeOwv-kVbb2fiQ" source="_xRyvUVHsEeOwv-kVbb2fiQ" target="_xRyvUlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_OB5BIVHuEeOn7I6wZW1Exw" source="_OB5BIFHuEeOn7I6wZW1Exw" target="_xRyvUlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML/Profile/L2#//Trace/base_Abstraction"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xRyvVFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xRyvVVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xRyvVlHsEeOwv-kVbb2fiQ" origin="_xRyvUVHsEeOwv-kVbb2fiQ" image="_xRyvVVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xRyvV1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xRyIQVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xRyvWFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_xRyvWVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_OB5BJFHuEeOn7I6wZW1Exw" name="Deleted_Satisfy(Abstraction)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Satisfy"/>
+    </parameters>
+    <parameterMappings xmi:id="_xRyvWlHsEeOwv-kVbb2fiQ" source="_xRyvWFHsEeOwv-kVbb2fiQ" target="_xRyIQlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xRyvW1HsEeOwv-kVbb2fiQ" source="_xRyvWVHsEeOwv-kVbb2fiQ" target="_xRyIQ1HsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_OB5BI1HuEeOn7I6wZW1Exw" source="_OB5BJFHuEeOn7I6wZW1Exw" target="_OB5BIlHuEeOn7I6wZW1Exw"/>
+  </units>
+</henshin:Module>

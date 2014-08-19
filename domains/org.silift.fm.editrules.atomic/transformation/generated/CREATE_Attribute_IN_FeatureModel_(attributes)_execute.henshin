@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xTyM4MFJEeOHN6JUsu4eRA" name="CREATE_Attribute_IN_FeatureModel_(attributes)" description="Creates one Attribute in FeatureModel">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xTyM4cFJEeOHN6JUsu4eRA" name="createAttribute_IN_FeatureModel" description="creates one Attribute in the context: FeatureModel">
+    <parameters xmi:id="_xTyM4sFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xTyM48FJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameters xmi:id="_xTyM5MFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xTyM5cFJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xTyM5sFJEeOHN6JUsu4eRA" name="Setable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_xTyM58FJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+    </parameters>
+    <parameters xmi:id="_xTyM6MFJEeOHN6JUsu4eRA" name="Child1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+    </parameters>
+    <lhs xmi:id="_xTyM6cFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xTyM6sFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xTyM68FJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xTyM7MFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xTyM88FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+      </nodes>
+      <nodes xmi:id="_xTyM7cFJEeOHN6JUsu4eRA" name="New" incoming="_xTyM88FJEeOHN6JUsu4eRA" outgoing="_xTyM9MFJEeOHN6JUsu4eRA _xTyM9cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute"/>
+        <attributes xmi:id="_xTyM7sFJEeOHN6JUsu4eRA" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Attribute/id"/>
+        </attributes>
+        <attributes xmi:id="_xTyM78FJEeOHN6JUsu4eRA" value="Name">
+          <type href="http://www.eclipse.org/featuremodel#//Attribute/name"/>
+        </attributes>
+        <attributes xmi:id="_xTyM8MFJEeOHN6JUsu4eRA" value="Setable">
+          <type href="http://www.eclipse.org/featuremodel#//Attribute/setable"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_xTyM8cFJEeOHN6JUsu4eRA" name="Child" incoming="_xTyM9MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+      </nodes>
+      <nodes xmi:id="_xTyM8sFJEeOHN6JUsu4eRA" name="Child1" incoming="_xTyM9cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+      </nodes>
+      <edges xmi:id="_xTyM88FJEeOHN6JUsu4eRA" source="_xTyM7MFJEeOHN6JUsu4eRA" target="_xTyM7cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//FeatureModel/attributes"/>
+      </edges>
+      <edges xmi:id="_xTyM9MFJEeOHN6JUsu4eRA" source="_xTyM7cFJEeOHN6JUsu4eRA" target="_xTyM8cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute/type"/>
+      </edges>
+      <edges xmi:id="_xTyM9cFJEeOHN6JUsu4eRA" source="_xTyM7cFJEeOHN6JUsu4eRA" target="_xTyM8sFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute/defaultValue"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xTyM9sFJEeOHN6JUsu4eRA" origin="_xTyM6sFJEeOHN6JUsu4eRA" image="_xTyM7MFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xTyM98FJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xTyM4cFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xTyM-MFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//FeatureModel"/>
+    </parameters>
+    <parameters xmi:id="_xTyM-cFJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameters xmi:id="_xTyM-sFJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xTyM-8FJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xTyM_MFJEeOHN6JUsu4eRA" name="Setable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_xTyM_cFJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+    </parameters>
+    <parameters xmi:id="_xTyM_sFJEeOHN6JUsu4eRA" name="Child1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+    </parameters>
+    <parameterMappings xmi:id="_xTyM_8FJEeOHN6JUsu4eRA" source="_xTyM-MFJEeOHN6JUsu4eRA" target="_xTyM4sFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNAMFJEeOHN6JUsu4eRA" source="_xTyM48FJEeOHN6JUsu4eRA" target="_xTyM-cFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNAcFJEeOHN6JUsu4eRA" source="_xTyM-sFJEeOHN6JUsu4eRA" target="_xTyM5MFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNAsFJEeOHN6JUsu4eRA" source="_xTyM-8FJEeOHN6JUsu4eRA" target="_xTyM5cFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNA8FJEeOHN6JUsu4eRA" source="_xTyM_MFJEeOHN6JUsu4eRA" target="_xTyM5sFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNBMFJEeOHN6JUsu4eRA" source="_xTyM58FJEeOHN6JUsu4eRA" target="_xTyM_cFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xTyNBcFJEeOHN6JUsu4eRA" source="_xTyM6MFJEeOHN6JUsu4eRA" target="_xTyM_sFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

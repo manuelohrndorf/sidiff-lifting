@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5yFVYFHsEeOlW6ElqrxP9A" name="DELETE_Requirement(OpaqueBehavior)_IN_FinalState_(exit)" description="Deletes one OpaqueBehavior in FinalState">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5yFVYVHsEeOlW6ElqrxP9A" name="deleteOpaqueBehavior_IN_FinalState" description="deletes one OpaqueBehavior in the context: FinalState">
+    <parameters xmi:id="_5yFVYlHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_5yFVY1HsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_29XjUlHyEeON9vs-A8lEPA" name="Deleted_Requirement(OpaqueBehavior)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+    </parameters>
+    <lhs xmi:id="_5yFVZFHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5yFVZVHsEeOlW6ElqrxP9A" name="Selected" outgoing="_5yFVZ1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_5yFVZlHsEeOlW6ElqrxP9A" name="ToBeDeleted" incoming="_5yFVZ1HsEeOlW6ElqrxP9A _29XjUVHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_29XjUFHyEeON9vs-A8lEPA" name="Deleted_Requirement(OpaqueBehavior)_" outgoing="_29XjUVHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_5yFVZ1HsEeOlW6ElqrxP9A" source="_5yFVZVHsEeOlW6ElqrxP9A" target="_5yFVZlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State/exit"/>
+      </edges>
+      <edges xmi:id="_29XjUVHyEeON9vs-A8lEPA" source="_29XjUFHyEeON9vs-A8lEPA" target="_5yFVZlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5yFVaFHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5yFVaVHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_5yFValHsEeOlW6ElqrxP9A" origin="_5yFVZVHsEeOlW6ElqrxP9A" image="_5yFVaVHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5yFVa1HsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5yFVYVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5yFVbFHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_5yFVbVHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_29YKYVHyEeON9vs-A8lEPA" name="Deleted_Requirement(OpaqueBehavior)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+    </parameters>
+    <parameterMappings xmi:id="_5yFVblHsEeOlW6ElqrxP9A" source="_5yFVbFHsEeOlW6ElqrxP9A" target="_5yFVYlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5yFVb1HsEeOlW6ElqrxP9A" source="_5yFVbVHsEeOlW6ElqrxP9A" target="_5yFVY1HsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_29YKYFHyEeON9vs-A8lEPA" source="_29YKYVHyEeON9vs-A8lEPA" target="_29XjUlHyEeON9vs-A8lEPA"/>
+  </units>
+</henshin:Module>

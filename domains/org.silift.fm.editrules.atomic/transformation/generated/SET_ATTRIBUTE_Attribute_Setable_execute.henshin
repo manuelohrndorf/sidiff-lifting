@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xQjSsMFJEeOHN6JUsu4eRA" name="SET_ATTRIBUTE_Attribute_Setable" description="Sets Attribute Setable">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xQjSscFJEeOHN6JUsu4eRA" name="setAttributeSetable" description="Sets the EAttribute setable">
+    <parameters xmi:id="_xQjSssFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameters xmi:id="_xQjSs8FJEeOHN6JUsu4eRA" name="Setable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_xQjStMFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xQjStcFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xQjStsFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xQjSt8FJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute"/>
+        <attributes xmi:id="_xQjSuMFJEeOHN6JUsu4eRA" value="Setable">
+          <type href="http://www.eclipse.org/featuremodel#//Attribute/setable"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xQjSucFJEeOHN6JUsu4eRA" origin="_xQjStcFJEeOHN6JUsu4eRA" image="_xQjSt8FJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xQjSusFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xQjSscFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xQjSu8FJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameterMappings xmi:id="_xQjSvMFJEeOHN6JUsu4eRA" source="_xQjSu8FJEeOHN6JUsu4eRA" target="_xQjSssFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

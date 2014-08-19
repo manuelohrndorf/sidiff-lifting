@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_klaFkAdBEeSKBrVtpSoKNA" name="RR_CREATE_OpaqueExpression_IN_InstanceSpecification_(specification)" description="Recognize: Creates one OpaqueExpression in InstanceSpecification">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_klaFkQdBEeSKBrVtpSoKNA" name="recognitionR-createOpaqueExpression_IN_InstanceSpecification" description="Recognize: creates one OpaqueExpression in the context: InstanceSpecification">
+    <parameters xmi:id="_klaFkgdBEeSKBrVtpSoKNA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+    </parameters>
+    <parameters xmi:id="_klaFkwdBEeSKBrVtpSoKNA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameters xmi:id="_klaFlAdBEeSKBrVtpSoKNA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_klaFlQdBEeSKBrVtpSoKNA" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_klaFlgdBEeSKBrVtpSoKNA" name="Body">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_klaFlwdBEeSKBrVtpSoKNA" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_klaFmAdBEeSKBrVtpSoKNA" name="Lhs">
+      <nodes xmi:id="_klaFmQdBEeSKBrVtpSoKNA" name="B.Selected" incoming="_klaFpQdBEeSKBrVtpSoKNA" outgoing="_klaFqAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_klaFmgdBEeSKBrVtpSoKNA" name="" outgoing="_klaFpAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_klaFmwdBEeSKBrVtpSoKNA" name="B.New" incoming="_klaFpAdBEeSKBrVtpSoKNA _klaFpgdBEeSKBrVtpSoKNA _klaFqAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueExpression"/>
+        <attributes xmi:id="_klaFnAdBEeSKBrVtpSoKNA" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_klaFnQdBEeSKBrVtpSoKNA" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_klaFngdBEeSKBrVtpSoKNA" value="Body">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueExpression/body"/>
+        </attributes>
+        <attributes xmi:id="_klaFnwdBEeSKBrVtpSoKNA" value="Language">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueExpression/language"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_klaFoAdBEeSKBrVtpSoKNA" name="" outgoing="_klaFpQdBEeSKBrVtpSoKNA _klaFpgdBEeSKBrVtpSoKNA _klaFpwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_klaFoQdBEeSKBrVtpSoKNA" name="" incoming="_klaFpwdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_klaFogdBEeSKBrVtpSoKNA" value="&quot;specification&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_klaFowdBEeSKBrVtpSoKNA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_klaFpAdBEeSKBrVtpSoKNA" source="_klaFmgdBEeSKBrVtpSoKNA" target="_klaFmwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_klaFpQdBEeSKBrVtpSoKNA" source="_klaFoAdBEeSKBrVtpSoKNA" target="_klaFmQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_klaFpgdBEeSKBrVtpSoKNA" source="_klaFoAdBEeSKBrVtpSoKNA" target="_klaFmwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_klaFpwdBEeSKBrVtpSoKNA" source="_klaFoAdBEeSKBrVtpSoKNA" target="_klaFoQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_klaFqAdBEeSKBrVtpSoKNA" source="_klaFmQdBEeSKBrVtpSoKNA" target="_klaFmwdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_klaFqQdBEeSKBrVtpSoKNA" name="Rhs">
+      <nodes xmi:id="_klaFqgdBEeSKBrVtpSoKNA" name="B.Selected" incoming="_klaFugdBEeSKBrVtpSoKNA" outgoing="_klaFvQdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_klaFqwdBEeSKBrVtpSoKNA" name="" incoming="_klaFvgdBEeSKBrVtpSoKNA" outgoing="_klaFuQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_klaFrAdBEeSKBrVtpSoKNA" name="B.New" incoming="_klaFuQdBEeSKBrVtpSoKNA _klaFuwdBEeSKBrVtpSoKNA _klaFvQdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//OpaqueExpression"/>
+      </nodes>
+      <nodes xmi:id="_klaFrQdBEeSKBrVtpSoKNA" name="" incoming="_klaFvwdBEeSKBrVtpSoKNA" outgoing="_klaFugdBEeSKBrVtpSoKNA _klaFuwdBEeSKBrVtpSoKNA _klaFvAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_klaFrgdBEeSKBrVtpSoKNA" name="" incoming="_klaFvAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_klaFrwdBEeSKBrVtpSoKNA" incoming="_klaFwAdBEeSKBrVtpSoKNA" outgoing="_klaFvgdBEeSKBrVtpSoKNA _klaFvwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_klaFsAdBEeSKBrVtpSoKNA" value="&quot;CREATE_OpaqueExpression_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_klaFsQdBEeSKBrVtpSoKNA" value="&quot;Creates one OpaqueExpression in InstanceSpecification&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_klaFsgdBEeSKBrVtpSoKNA" value="&quot;CREATE_OpaqueExpression_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_klaFswdBEeSKBrVtpSoKNA" value="&quot;rr_CREATE_OpaqueExpression_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_klaFtAdBEeSKBrVtpSoKNA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_klaFtQdBEeSKBrVtpSoKNA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_klaFtgdBEeSKBrVtpSoKNA" value="6">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_klaFtwdBEeSKBrVtpSoKNA" value="16">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_klaFuAdBEeSKBrVtpSoKNA" name="" outgoing="_klaFwAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_klaFuQdBEeSKBrVtpSoKNA" source="_klaFqwdBEeSKBrVtpSoKNA" target="_klaFrAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_klaFugdBEeSKBrVtpSoKNA" source="_klaFrQdBEeSKBrVtpSoKNA" target="_klaFqgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_klaFuwdBEeSKBrVtpSoKNA" source="_klaFrQdBEeSKBrVtpSoKNA" target="_klaFrAdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_klaFvAdBEeSKBrVtpSoKNA" source="_klaFrQdBEeSKBrVtpSoKNA" target="_klaFrgdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_klaFvQdBEeSKBrVtpSoKNA" source="_klaFqgdBEeSKBrVtpSoKNA" target="_klaFrAdBEeSKBrVtpSoKNA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification/specification"/>
+      </edges>
+      <edges xmi:id="_klaFvgdBEeSKBrVtpSoKNA" source="_klaFrwdBEeSKBrVtpSoKNA" target="_klaFqwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_klaFvwdBEeSKBrVtpSoKNA" source="_klaFrwdBEeSKBrVtpSoKNA" target="_klaFrQdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_klaFwAdBEeSKBrVtpSoKNA" source="_klaFuAdBEeSKBrVtpSoKNA" target="_klaFrwdBEeSKBrVtpSoKNA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_klaFwQdBEeSKBrVtpSoKNA" origin="_klaFmQdBEeSKBrVtpSoKNA" image="_klaFqgdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_klaFwgdBEeSKBrVtpSoKNA" origin="_klaFmgdBEeSKBrVtpSoKNA" image="_klaFqwdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_klaFwwdBEeSKBrVtpSoKNA" origin="_klaFmwdBEeSKBrVtpSoKNA" image="_klaFrAdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_klaFxAdBEeSKBrVtpSoKNA" origin="_klaFoAdBEeSKBrVtpSoKNA" image="_klaFrQdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_klaFxQdBEeSKBrVtpSoKNA" origin="_klaFoQdBEeSKBrVtpSoKNA" image="_klaFrgdBEeSKBrVtpSoKNA"/>
+    <mappings xmi:id="_klaFxgdBEeSKBrVtpSoKNA" origin="_klaFowdBEeSKBrVtpSoKNA" image="_klaFuAdBEeSKBrVtpSoKNA"/>
+  </units>
+</henshin:Module>

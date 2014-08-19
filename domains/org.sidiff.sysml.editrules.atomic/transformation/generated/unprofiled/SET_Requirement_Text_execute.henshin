@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_BP05UFHtEeOU3q7xwvXrEQ" name="SET_Requirement_Text" description="Sets Requirement Text">
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_BP05UVHtEeOU3q7xwvXrEQ" name="setRequirementText" description="Sets the EAttribute text">
+    <parameters xmi:id="_BP05UlHtEeOU3q7xwvXrEQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+    </parameters>
+    <parameters xmi:id="_BP05U1HtEeOU3q7xwvXrEQ" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_BP05VFHtEeOU3q7xwvXrEQ" name="Lhs">
+      <nodes xmi:id="_BP05VVHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_BP05VlHtEeOU3q7xwvXrEQ" name="Rhs">
+      <nodes xmi:id="_BP05V1HtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+        <attributes xmi:id="_BP05WFHtEeOU3q7xwvXrEQ" value="Text">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/text"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_BP05WVHtEeOU3q7xwvXrEQ" origin="_BP05VVHtEeOU3q7xwvXrEQ" image="_BP05V1HtEeOU3q7xwvXrEQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_BP05WlHtEeOU3q7xwvXrEQ" name="mainUnit" subUnits="_BP05UVHtEeOU3q7xwvXrEQ">
+    <parameters xmi:id="_BP05W1HtEeOU3q7xwvXrEQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+    </parameters>
+    <parameters xmi:id="_BP05XFHtEeOU3q7xwvXrEQ" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_BP05XVHtEeOU3q7xwvXrEQ" source="_BP05W1HtEeOU3q7xwvXrEQ" target="_BP05UlHtEeOU3q7xwvXrEQ"/>
+    <parameterMappings xmi:id="_BP05XlHtEeOU3q7xwvXrEQ" source="_BP05XFHtEeOU3q7xwvXrEQ" target="_BP05U1HtEeOU3q7xwvXrEQ"/>
+  </units>
+</henshin:Module>

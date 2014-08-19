@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mERswAdAEeSgEeYoZauFHg" name="DELETE_StateMachine_IN_Class_(nestedClassifier)" description="Deletes one StateMachine in Class">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mERswQdAEeSgEeYoZauFHg" name="deleteStateMachine_IN_Class" description="deletes one StateMachine in the context: Class">
+    <parameters xmi:id="_mERswgdAEeSgEeYoZauFHg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_mERswwdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_mERsxAdAEeSgEeYoZauFHg" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <lhs xmi:id="_mERsxQdAEeSgEeYoZauFHg" name="LHS">
+      <nodes xmi:id="_mERsxgdAEeSgEeYoZauFHg" name="Selected" outgoing="_mERsyQdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_mERsxwdAEeSgEeYoZauFHg" name="ToBeDeleted" incoming="_mERsyQdAEeSgEeYoZauFHg _mERsywdAEeSgEeYoZauFHg" outgoing="_mERsygdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_mERsyAdAEeSgEeYoZauFHg" name="Child" incoming="_mERsygdAEeSgEeYoZauFHg" outgoing="_mERsywdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_mERsyQdAEeSgEeYoZauFHg" source="_mERsxgdAEeSgEeYoZauFHg" target="_mERsxwdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+      <edges xmi:id="_mERsygdAEeSgEeYoZauFHg" source="_mERsxwdAEeSgEeYoZauFHg" target="_mERsyAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_mERsywdAEeSgEeYoZauFHg" source="_mERsyAdAEeSgEeYoZauFHg" target="_mERsxwdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mERszAdAEeSgEeYoZauFHg" name="RHS">
+      <nodes xmi:id="_mERszQdAEeSgEeYoZauFHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mERszgdAEeSgEeYoZauFHg" origin="_mERsxgdAEeSgEeYoZauFHg" image="_mERszQdAEeSgEeYoZauFHg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_mERszwdAEeSgEeYoZauFHg" name="mainUnit" subUnits="_mERswQdAEeSgEeYoZauFHg">
+    <parameters xmi:id="_mERs0AdAEeSgEeYoZauFHg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_mERs0QdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_mERs0gdAEeSgEeYoZauFHg" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_mERs0wdAEeSgEeYoZauFHg" source="_mERs0AdAEeSgEeYoZauFHg" target="_mERswgdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mERs1AdAEeSgEeYoZauFHg" source="_mERs0QdAEeSgEeYoZauFHg" target="_mERswwdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mERs1QdAEeSgEeYoZauFHg" source="_mERs0gdAEeSgEeYoZauFHg" target="_mERsxAdAEeSgEeYoZauFHg"/>
+  </units>
+</henshin:Module>

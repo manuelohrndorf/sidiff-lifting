@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5saLMFHsEeOlW6ElqrxP9A" name="UNSET_Transition_(guard)_TGT_Constraint" description="Unsets Transition's reference guard the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5saLMVHsEeOlW6ElqrxP9A" name="unsetTransition_guard_TO_Constraint" description="UnsetTransitionRefguardToConstraint">
+    <parameters xmi:id="_5saLMlHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_5saLM1HsEeOlW6ElqrxP9A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_5saLNFHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5saLNVHsEeOlW6ElqrxP9A" name="Selected" outgoing="_5saLN1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_5saLNlHsEeOlW6ElqrxP9A" name="OldTarget" incoming="_5saLN1HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_5saLN1HsEeOlW6ElqrxP9A" source="_5saLNVHsEeOlW6ElqrxP9A" target="_5saLNlHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5saLOFHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5saLOVHsEeOlW6ElqrxP9A" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_5saLOlHsEeOlW6ElqrxP9A" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_5saLO1HsEeOlW6ElqrxP9A" origin="_5saLNVHsEeOlW6ElqrxP9A" image="_5saLOVHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_5saLPFHsEeOlW6ElqrxP9A" origin="_5saLNlHsEeOlW6ElqrxP9A" image="_5saLOlHsEeOlW6ElqrxP9A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5saLPVHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5saLMVHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5saLPlHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_5saLP1HsEeOlW6ElqrxP9A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_5saLQFHsEeOlW6ElqrxP9A" source="_5saLPlHsEeOlW6ElqrxP9A" target="_5saLMlHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5saLQVHsEeOlW6ElqrxP9A" source="_5saLP1HsEeOlW6ElqrxP9A" target="_5saLM1HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

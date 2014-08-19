@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5nB78FHsEeOlW6ElqrxP9A" name="DELETE_Region_IN_Requirement(StateMachine)_(region)" description="Deletes one Region in StateMachine">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5nB78VHsEeOlW6ElqrxP9A" name="deleteRegion_IN_StateMachine" description="deletes one Region in the context: StateMachine">
+    <parameters xmi:id="_5nB78lHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_5nB781HsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <lhs xmi:id="_5nB79FHsEeOlW6ElqrxP9A" name="LHS">
+      <nodes xmi:id="_5nB79VHsEeOlW6ElqrxP9A" name="Selected" incoming="_5nB7-FHsEeOlW6ElqrxP9A _4BQpQlHyEeON9vs-A8lEPA" outgoing="_5nB791HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_5nB79lHsEeOlW6ElqrxP9A" name="ToBeDeleted" incoming="_5nB791HsEeOlW6ElqrxP9A" outgoing="_5nB7-FHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_4BQCMFHyEeON9vs-A8lEPA" outgoing="_4BQpQlHyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_5nB791HsEeOlW6ElqrxP9A" source="_5nB79VHsEeOlW6ElqrxP9A" target="_5nB79lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_5nB7-FHsEeOlW6ElqrxP9A" source="_5nB79lHsEeOlW6ElqrxP9A" target="_5nB79VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/stateMachine"/>
+      </edges>
+      <edges xmi:id="_4BQpQlHyEeON9vs-A8lEPA" source="_4BQCMFHyEeON9vs-A8lEPA" target="_5nB79VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5nB7-VHsEeOlW6ElqrxP9A" name="RHS">
+      <nodes xmi:id="_5nB7-lHsEeOlW6ElqrxP9A" name="Selected" incoming="_4BQpQ1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_4BQpQVHyEeON9vs-A8lEPA" outgoing="_4BQpQ1HyEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_4BQpQ1HyEeON9vs-A8lEPA" source="_4BQpQVHyEeON9vs-A8lEPA" target="_5nB7-lHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5nB7-1HsEeOlW6ElqrxP9A" origin="_5nB79VHsEeOlW6ElqrxP9A" image="_5nB7-lHsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_4BQpQFHyEeON9vs-A8lEPA" origin="_4BQCMFHyEeON9vs-A8lEPA" image="_4BQpQVHyEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5nB7_FHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5nB78VHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5nB7_VHsEeOlW6ElqrxP9A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_5nB7_lHsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_5nCjAFHsEeOlW6ElqrxP9A" source="_5nB7_VHsEeOlW6ElqrxP9A" target="_5nB78lHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5nCjAVHsEeOlW6ElqrxP9A" source="_5nB7_lHsEeOlW6ElqrxP9A" target="_5nB781HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

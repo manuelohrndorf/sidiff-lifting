@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xS0DAFHsEeOwv-kVbb2fiQ" name="SET_Block(Class)_Visibility" description="Sets Class Visibility">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xS0DAVHsEeOwv-kVbb2fiQ" name="setClassVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_xS0DAlHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_xS0DA1HsEeOwv-kVbb2fiQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_xS0DBFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xS0DBVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_JFL2k1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_JFL2kFHuEeOn7I6wZW1Exw" outgoing="_JFL2k1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_JFL2k1HuEeOn7I6wZW1Exw" source="_JFL2kFHuEeOn7I6wZW1Exw" target="_xS0DBVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xS0DBlHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xS0DB1HsEeOwv-kVbb2fiQ" name="Selected" incoming="_JFL2lFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+        <attributes xmi:id="_xS0DCFHsEeOwv-kVbb2fiQ" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_JFL2klHuEeOn7I6wZW1Exw" outgoing="_JFL2lFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+      </nodes>
+      <edges xmi:id="_JFL2lFHuEeOn7I6wZW1Exw" source="_JFL2klHuEeOn7I6wZW1Exw" target="_xS0DB1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xS0DCVHsEeOwv-kVbb2fiQ" origin="_xS0DBVHsEeOwv-kVbb2fiQ" image="_xS0DB1HsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_JFL2kVHuEeOn7I6wZW1Exw" origin="_JFL2kFHuEeOn7I6wZW1Exw" image="_JFL2klHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xS0DClHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xS0DAVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xS0DC1HsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_xS0DDFHsEeOwv-kVbb2fiQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_xS0DDVHsEeOwv-kVbb2fiQ" source="_xS0DC1HsEeOwv-kVbb2fiQ" target="_xS0DAlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xS0DDlHsEeOwv-kVbb2fiQ" source="_xS0DDFHsEeOwv-kVbb2fiQ" target="_xS0DA1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

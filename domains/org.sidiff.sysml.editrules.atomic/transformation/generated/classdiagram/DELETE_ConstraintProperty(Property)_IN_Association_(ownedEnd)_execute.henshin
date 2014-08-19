@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xX2UAFHsEeOwv-kVbb2fiQ" name="DELETE_ConstraintProperty(Property)_IN_Association_(ownedEnd)" description="Deletes one Property in Association">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xX27EFHsEeOwv-kVbb2fiQ" name="deleteProperty_IN_Association" description="deletes one Property in the context: Association">
+    <parameters xmi:id="_xX27EVHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xX27ElHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_EOM5glHuEeOn7I6wZW1Exw" name="Deleted_ConstraintProperty(Property)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+    </parameters>
+    <lhs xmi:id="_xX27E1HsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xX27FFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xX27F1HsEeOwv-kVbb2fiQ" outgoing="_xX27FlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_xX27FVHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xX27FlHsEeOwv-kVbb2fiQ _EOM5gVHuEeOn7I6wZW1Exw" outgoing="_xX27F1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_EOM5gFHuEeOn7I6wZW1Exw" name="Deleted_ConstraintProperty(Property)_" outgoing="_EOM5gVHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_xX27FlHsEeOwv-kVbb2fiQ" source="_xX27FFHsEeOwv-kVbb2fiQ" target="_xX27FVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association/ownedEnd"/>
+      </edges>
+      <edges xmi:id="_xX27F1HsEeOwv-kVbb2fiQ" source="_xX27FVHsEeOwv-kVbb2fiQ" target="_xX27FFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/owningAssociation"/>
+      </edges>
+      <edges xmi:id="_EOM5gVHuEeOn7I6wZW1Exw" source="_EOM5gFHuEeOn7I6wZW1Exw" target="_xX27FVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xX27GFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xX27GVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xX27GlHsEeOwv-kVbb2fiQ" origin="_xX27FFHsEeOwv-kVbb2fiQ" image="_xX27GVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xX27G1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xX27EFHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xX27HFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xX27HVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_EOM5hFHuEeOn7I6wZW1Exw" name="Deleted_ConstraintProperty(Property)_">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+    </parameters>
+    <parameterMappings xmi:id="_xX27HlHsEeOwv-kVbb2fiQ" source="_xX27HFHsEeOwv-kVbb2fiQ" target="_xX27EVHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xX27H1HsEeOwv-kVbb2fiQ" source="_xX27HVHsEeOwv-kVbb2fiQ" target="_xX27ElHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_EOM5g1HuEeOn7I6wZW1Exw" source="_EOM5hFHuEeOn7I6wZW1Exw" target="_EOM5glHuEeOn7I6wZW1Exw"/>
+  </units>
+</henshin:Module>

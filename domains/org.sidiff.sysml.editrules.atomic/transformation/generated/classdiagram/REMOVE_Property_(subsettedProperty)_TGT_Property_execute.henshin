@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xajpwFHsEeOwv-kVbb2fiQ" name="REMOVE_Property_(subsettedProperty)_TGT_Property" description="Removes Property's reference subsettedProperty the target Property">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xajpwVHsEeOwv-kVbb2fiQ" name="removeFromProperty_subsettedProperty_Property" description="Removes from Property's reference subsettedProperty the target Property">
+    <parameters xmi:id="_xajpwlHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xakQ0FHsEeOwv-kVbb2fiQ" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_xakQ0VHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xakQ0lHsEeOwv-kVbb2fiQ" name="Selected" outgoing="_xakQ1FHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xakQ01HsEeOwv-kVbb2fiQ" name="OldTarget" incoming="_xakQ1FHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <edges xmi:id="_xakQ1FHsEeOwv-kVbb2fiQ" source="_xakQ0lHsEeOwv-kVbb2fiQ" target="_xakQ01HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/subsettedProperty"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xakQ1VHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xakQ1lHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xakQ11HsEeOwv-kVbb2fiQ" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xakQ2FHsEeOwv-kVbb2fiQ" origin="_xakQ0lHsEeOwv-kVbb2fiQ" image="_xakQ1lHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xakQ2VHsEeOwv-kVbb2fiQ" origin="_xakQ01HsEeOwv-kVbb2fiQ" image="_xakQ11HsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xakQ2lHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xajpwVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xakQ21HsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_xakQ3FHsEeOwv-kVbb2fiQ" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_xakQ3VHsEeOwv-kVbb2fiQ" source="_xakQ21HsEeOwv-kVbb2fiQ" target="_xajpwlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xakQ3lHsEeOwv-kVbb2fiQ" source="_xakQ3FHsEeOwv-kVbb2fiQ" target="_xakQ0FHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

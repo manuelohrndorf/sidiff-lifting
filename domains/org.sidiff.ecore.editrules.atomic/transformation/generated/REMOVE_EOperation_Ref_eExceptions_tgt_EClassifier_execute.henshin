@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SGfZsGuZEeK0RPDy5I7Luw" description="Removes EOperation's reference eExceptions the target EClassifier" name="REMOVE_EOperation_Ref_eExceptions_tgt_EClassifier">
+  <units xsi:type="henshin:Rule" xmi:id="_SGfZsWuZEeK0RPDy5I7Luw" description="Removes from EOperation's reference eExceptions the target EClassifier" name="removeFromEOperationRefEExceptionsToEClassifier">
+    <parameters xmi:id="_SGfZsmuZEeK0RPDy5I7Luw" name="Selected"/>
+    <parameters xmi:id="_SGfZs2uZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <lhs xmi:id="_SGfZtGuZEeK0RPDy5I7Luw" name="LHS">
+      <nodes xmi:id="_SGfZtWuZEeK0RPDy5I7Luw" name="Selected" outgoing="_SGgAwGuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_SGfZtmuZEeK0RPDy5I7Luw" name="OldTarget" incoming="_SGgAwGuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_SGgAwGuZEeK0RPDy5I7Luw" source="_SGfZtWuZEeK0RPDy5I7Luw" target="_SGfZtmuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eExceptions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_SGgAwWuZEeK0RPDy5I7Luw" name="RHS">
+      <nodes xmi:id="_SGgAwmuZEeK0RPDy5I7Luw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_SGgAw2uZEeK0RPDy5I7Luw" name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_SGgAxGuZEeK0RPDy5I7Luw" origin="_SGfZtWuZEeK0RPDy5I7Luw" image="_SGgAwmuZEeK0RPDy5I7Luw"/>
+    <mappings xmi:id="_SGgAxWuZEeK0RPDy5I7Luw" origin="_SGfZtmuZEeK0RPDy5I7Luw" image="_SGgAw2uZEeK0RPDy5I7Luw"/>
+  </units>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_SGgAxmuZEeK0RPDy5I7Luw" name="mainUnit" subUnits="_SGfZsWuZEeK0RPDy5I7Luw">
+    <parameters xmi:id="_SGgAx2uZEeK0RPDy5I7Luw" name="selectedEObject"/>
+    <parameters xmi:id="_SGgAyGuZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <parameterMappings xmi:id="_SGgAyWuZEeK0RPDy5I7Luw" source="_SGgAx2uZEeK0RPDy5I7Luw" target="_SGfZsmuZEeK0RPDy5I7Luw"/>
+    <parameterMappings xmi:id="_SGgAymuZEeK0RPDy5I7Luw" source="_SGgAyGuZEeK0RPDy5I7Luw" target="_SGfZs2uZEeK0RPDy5I7Luw"/>
+  </units>
+</henshin:Module>

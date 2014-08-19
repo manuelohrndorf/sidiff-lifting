@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_35zC8NkrEeKskdwQnjFTNA" name="combine_eattribute" description="Combines a number of EAttributes into a single feature by moving it over references to the same EClass">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_38WAoNkrEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_38WAp9krEeKskdwQnjFTNA">
+    <parameters xmi:id="_38WAodkrEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_38WAotkrEeKskdwQnjFTNA" name="referencedClass" description="Name of the EClass the EAttribute should be moved to"/>
+    <parameters xmi:id="_38WAo9krEeKskdwQnjFTNA" name="deletedEAttribute"/>
+    <parameterMappings xmi:id="_38WApNkrEeKskdwQnjFTNA" source="_38WAodkrEeKskdwQnjFTNA" target="_38WAqNkrEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_38WApdkrEeKskdwQnjFTNA" source="_38WAotkrEeKskdwQnjFTNA" target="_38WAqdkrEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_38WAptkrEeKskdwQnjFTNA" source="_38WAo9krEeKskdwQnjFTNA" target="_38WAqtkrEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_38WAp9krEeKskdwQnjFTNA" name="combine_EAttribute">
+    <parameters xmi:id="_38WAqNkrEeKskdwQnjFTNA" name="selectedEAttribute"/>
+    <parameters xmi:id="_38WAqdkrEeKskdwQnjFTNA" name="referencedEClass"/>
+    <parameters xmi:id="_38WAqtkrEeKskdwQnjFTNA" name="deletedEAttribute"/>
+    <lhs xmi:id="_38WAq9krEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_38WArNkrEeKskdwQnjFTNA" name="srcEClass" incoming="_38WAttkrEeKskdwQnjFTNA" outgoing="_38WAtNkrEeKskdwQnjFTNA _38WAtdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WArdkrEeKskdwQnjFTNA" name="referencedEClass" incoming="_38WAt9krEeKskdwQnjFTNA _38WAudkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WArtkrEeKskdwQnjFTNA" name="selectedEAttribute" incoming="_38WAtNkrEeKskdwQnjFTNA" outgoing="_38WAttkrEeKskdwQnjFTNA _38WAvNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_38WAr9krEeKskdwQnjFTNA" name="ref" incoming="_38WAtdkrEeKskdwQnjFTNA" outgoing="_38WAt9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_38WAsNkrEeKskdwQnjFTNA" incoming="_38WAu9krEeKskdwQnjFTNA" outgoing="_38WAuNkrEeKskdwQnjFTNA _38WAutkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WAsdkrEeKskdwQnjFTNA" incoming="_38WAuNkrEeKskdwQnjFTNA" outgoing="_38WAudkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_38WAstkrEeKskdwQnjFTNA" name="deletedEAttribute" incoming="_38WAutkrEeKskdwQnjFTNA" outgoing="_38WAu9krEeKskdwQnjFTNA _38WAvdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_38WAs9krEeKskdwQnjFTNA" incoming="_38WAvNkrEeKskdwQnjFTNA _38WAvdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </nodes>
+      <edges xmi:id="_38WAtNkrEeKskdwQnjFTNA" source="_38WArNkrEeKskdwQnjFTNA" target="_38WArtkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAtdkrEeKskdwQnjFTNA" source="_38WArNkrEeKskdwQnjFTNA" target="_38WAr9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAttkrEeKskdwQnjFTNA" source="_38WArtkrEeKskdwQnjFTNA" target="_38WArNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <edges xmi:id="_38WAt9krEeKskdwQnjFTNA" source="_38WAr9krEeKskdwQnjFTNA" target="_38WArdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_38WAuNkrEeKskdwQnjFTNA" source="_38WAsNkrEeKskdwQnjFTNA" target="_38WAsdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAudkrEeKskdwQnjFTNA" source="_38WAsdkrEeKskdwQnjFTNA" target="_38WArdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_38WAutkrEeKskdwQnjFTNA" source="_38WAsNkrEeKskdwQnjFTNA" target="_38WAstkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAu9krEeKskdwQnjFTNA" source="_38WAstkrEeKskdwQnjFTNA" target="_38WAsNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <edges xmi:id="_38WAvNkrEeKskdwQnjFTNA" source="_38WArtkrEeKskdwQnjFTNA" target="_38WAs9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_38WAvdkrEeKskdwQnjFTNA" source="_38WAstkrEeKskdwQnjFTNA" target="_38WAs9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_38WAvtkrEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_38WAv9krEeKskdwQnjFTNA" name="srcEClass" outgoing="_38WAxtkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WAwNkrEeKskdwQnjFTNA" name="referencedEClass" incoming="_38WAyNkrEeKskdwQnjFTNA _38WAytkrEeKskdwQnjFTNA" outgoing="_38WAx9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WAwdkrEeKskdwQnjFTNA" name="selectedEAttribute" incoming="_38WAx9krEeKskdwQnjFTNA" outgoing="_38WAy9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_38WAwtkrEeKskdwQnjFTNA" name="ref" incoming="_38WAxtkrEeKskdwQnjFTNA" outgoing="_38WAyNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_38WAw9krEeKskdwQnjFTNA" outgoing="_38WAydkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_38WAxNkrEeKskdwQnjFTNA" incoming="_38WAydkrEeKskdwQnjFTNA" outgoing="_38WAytkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_38WAxdkrEeKskdwQnjFTNA" incoming="_38WAy9krEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </nodes>
+      <edges xmi:id="_38WAxtkrEeKskdwQnjFTNA" source="_38WAv9krEeKskdwQnjFTNA" target="_38WAwtkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAx9krEeKskdwQnjFTNA" source="_38WAwNkrEeKskdwQnjFTNA" target="_38WAwdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAyNkrEeKskdwQnjFTNA" source="_38WAwtkrEeKskdwQnjFTNA" target="_38WAwNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_38WAydkrEeKskdwQnjFTNA" source="_38WAw9krEeKskdwQnjFTNA" target="_38WAxNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_38WAytkrEeKskdwQnjFTNA" source="_38WAxNkrEeKskdwQnjFTNA" target="_38WAwNkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_38WAy9krEeKskdwQnjFTNA" source="_38WAwdkrEeKskdwQnjFTNA" target="_38WAxdkrEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_38WAzNkrEeKskdwQnjFTNA" origin="_38WArNkrEeKskdwQnjFTNA" image="_38WAv9krEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WAzdkrEeKskdwQnjFTNA" origin="_38WArdkrEeKskdwQnjFTNA" image="_38WAwNkrEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WAztkrEeKskdwQnjFTNA" origin="_38WArtkrEeKskdwQnjFTNA" image="_38WAwdkrEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WAz9krEeKskdwQnjFTNA" origin="_38WAr9krEeKskdwQnjFTNA" image="_38WAwtkrEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WA0NkrEeKskdwQnjFTNA" origin="_38WAsNkrEeKskdwQnjFTNA" image="_38WAw9krEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WA0dkrEeKskdwQnjFTNA" origin="_38WAsdkrEeKskdwQnjFTNA" image="_38WAxNkrEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_38WA0tkrEeKskdwQnjFTNA" origin="_38WAs9krEeKskdwQnjFTNA" image="_38WAxdkrEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

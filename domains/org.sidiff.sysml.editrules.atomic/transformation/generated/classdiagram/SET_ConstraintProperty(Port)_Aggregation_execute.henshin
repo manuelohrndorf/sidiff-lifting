@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xgKigFHsEeOwv-kVbb2fiQ" name="SET_ConstraintProperty(Port)_Aggregation" description="Sets Port Aggregation">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xgKigVHsEeOwv-kVbb2fiQ" name="setPortAggregation" description="Sets the EAttribute aggregation">
+    <parameters xmi:id="_xgKiglHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgKig1HsEeOwv-kVbb2fiQ" name="Aggregation">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <lhs xmi:id="_xgKihFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xgKihVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_FCQMo1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_FCQMoFHuEeOn7I6wZW1Exw" outgoing="_FCQMo1HuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_FCQMo1HuEeOn7I6wZW1Exw" source="_FCQMoFHuEeOn7I6wZW1Exw" target="_xgKihVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xgKihlHsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xgKih1HsEeOwv-kVbb2fiQ" name="Selected" incoming="_FCQMpFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_xgKiiFHsEeOwv-kVbb2fiQ" value="Aggregation">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/aggregation"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FCQMolHuEeOn7I6wZW1Exw" outgoing="_FCQMpFHuEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_FCQMpFHuEeOn7I6wZW1Exw" source="_FCQMolHuEeOn7I6wZW1Exw" target="_xgKih1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xgKiiVHsEeOwv-kVbb2fiQ" origin="_xgKihVHsEeOwv-kVbb2fiQ" image="_xgKih1HsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_FCQMoVHuEeOn7I6wZW1Exw" origin="_FCQMoFHuEeOn7I6wZW1Exw" image="_FCQMolHuEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xgLJkFHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xgKigVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xgLJkVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_xgLJklHsEeOwv-kVbb2fiQ" name="Aggregation">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_xgLJk1HsEeOwv-kVbb2fiQ" source="_xgLJkVHsEeOwv-kVbb2fiQ" target="_xgKiglHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xgLJlFHsEeOwv-kVbb2fiQ" source="_xgLJklHsEeOwv-kVbb2fiQ" target="_xgKig1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

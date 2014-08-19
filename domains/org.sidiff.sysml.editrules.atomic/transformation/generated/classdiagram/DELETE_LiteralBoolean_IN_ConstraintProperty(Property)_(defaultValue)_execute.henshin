@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xl1FoFHsEeOwv-kVbb2fiQ" name="DELETE_LiteralBoolean_IN_ConstraintProperty(Property)_(defaultValue)" description="Deletes one LiteralBoolean in Property">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xl1FoVHsEeOwv-kVbb2fiQ" name="deleteLiteralBoolean_IN_Property" description="deletes one LiteralBoolean in the context: Property">
+    <parameters xmi:id="_xl1FolHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralBoolean"/>
+    </parameters>
+    <parameters xmi:id="_xl1Fo1HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_xl1FpFHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xl1FpVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_w5S6UVHtEeOn7I6wZW1Exw" outgoing="_xl1Fp1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_xl1FplHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xl1Fp1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralBoolean"/>
+      </nodes>
+      <nodes xmi:id="_w5STQFHtEeOn7I6wZW1Exw" outgoing="_w5S6UVHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_xl1Fp1HsEeOwv-kVbb2fiQ" source="_xl1FpVHsEeOwv-kVbb2fiQ" target="_xl1FplHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/defaultValue"/>
+      </edges>
+      <edges xmi:id="_w5S6UVHtEeOn7I6wZW1Exw" source="_w5STQFHtEeOn7I6wZW1Exw" target="_xl1FpVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xl1FqFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xl1FqVHsEeOwv-kVbb2fiQ" name="Selected" incoming="_w5S6UlHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_w5S6UFHtEeOn7I6wZW1Exw" outgoing="_w5S6UlHtEeOn7I6wZW1Exw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <edges xmi:id="_w5S6UlHtEeOn7I6wZW1Exw" source="_w5S6UFHtEeOn7I6wZW1Exw" target="_xl1FqVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xl1FqlHsEeOwv-kVbb2fiQ" origin="_xl1FpVHsEeOwv-kVbb2fiQ" image="_xl1FqVHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_w5STQVHtEeOn7I6wZW1Exw" origin="_w5STQFHtEeOn7I6wZW1Exw" image="_w5S6UFHtEeOn7I6wZW1Exw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xl1Fq1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xl1FoVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xl1FrFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralBoolean"/>
+    </parameters>
+    <parameters xmi:id="_xl1FrVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_xl1FrlHsEeOwv-kVbb2fiQ" source="_xl1FrFHsEeOwv-kVbb2fiQ" target="_xl1FolHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xl1Fr1HsEeOwv-kVbb2fiQ" source="_xl1FrVHsEeOwv-kVbb2fiQ" target="_xl1Fo1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

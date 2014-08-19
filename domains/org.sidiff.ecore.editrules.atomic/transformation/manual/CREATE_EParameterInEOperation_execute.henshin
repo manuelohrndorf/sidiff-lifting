@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_CHo0UNlKEeKomu7rfXwhHg" name="CREATE_EParameterInEOperation" description="Creates one EParameter in EOperation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_CJKeUNlKEeKomu7rfXwhHg" name="mainUnit" description="Creates one EParameter depending on available contexts in model instance" subUnits="_CJKeYdlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_CJKeUdlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_CJKeUtlKEeKomu7rfXwhHg" name="EType"/>
+    <parameters xmi:id="_CJKeU9lKEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_CJKeVNlKEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_CJKeVdlKEeKomu7rfXwhHg" name="Ordered"/>
+    <parameters xmi:id="_CJKeVtlKEeKomu7rfXwhHg" name="Unique"/>
+    <parameters xmi:id="_CJKeV9lKEeKomu7rfXwhHg" name="LowerBound"/>
+    <parameters xmi:id="_CJKeWNlKEeKomu7rfXwhHg" name="UpperBound"/>
+    <parameterMappings xmi:id="_CJKeWdlKEeKomu7rfXwhHg" source="_CJKeUdlKEeKomu7rfXwhHg" target="_CJKeYtlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeWtlKEeKomu7rfXwhHg" source="_CJKeZNlKEeKomu7rfXwhHg" target="_CJKeU9lKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeW9lKEeKomu7rfXwhHg" source="_CJKeVNlKEeKomu7rfXwhHg" target="_CJKeZdlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeXNlKEeKomu7rfXwhHg" source="_CJKeVdlKEeKomu7rfXwhHg" target="_CJKeZtlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeXdlKEeKomu7rfXwhHg" source="_CJKeVtlKEeKomu7rfXwhHg" target="_CJKeZ9lKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeXtlKEeKomu7rfXwhHg" source="_CJKeV9lKEeKomu7rfXwhHg" target="_CJKeaNlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeX9lKEeKomu7rfXwhHg" source="_CJKeWNlKEeKomu7rfXwhHg" target="_CJKeadlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CJKeYNlKEeKomu7rfXwhHg" source="_CJKeUtlKEeKomu7rfXwhHg" target="_CJKeY9lKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_CJKeYdlKEeKomu7rfXwhHg" name="createEParameterInEOperation" description="creates one EParameter in the context: EOperation">
+    <parameters xmi:id="_CJKeYtlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_CJKeY9lKEeKomu7rfXwhHg" name="EType"/>
+    <parameters xmi:id="_CJKeZNlKEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_CJKeZdlKEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_CJKeZtlKEeKomu7rfXwhHg" name="Ordered"/>
+    <parameters xmi:id="_CJKeZ9lKEeKomu7rfXwhHg" name="Unique"/>
+    <parameters xmi:id="_CJKeaNlKEeKomu7rfXwhHg" name="LowerBound"/>
+    <parameters xmi:id="_CJKeadlKEeKomu7rfXwhHg" name="UpperBound"/>
+    <lhs xmi:id="_CJKeatlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_CJKea9lKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_CJKebNlKEeKomu7rfXwhHg" name="EType">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_CJKebdlKEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_CJKebtlKEeKomu7rfXwhHg">
+          <conclusion xmi:id="_CJKeb9lKEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_CJKecNlKEeKomu7rfXwhHg" incoming="_CJKec9lKEeKomu7rfXwhHg _CJKedNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+              <attributes xmi:id="_CJKecdlKEeKomu7rfXwhHg" value="Name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_CJKectlKEeKomu7rfXwhHg" name="Selected" outgoing="_CJKec9lKEeKomu7rfXwhHg _CJKedNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+            </nodes>
+            <edges xmi:id="_CJKec9lKEeKomu7rfXwhHg" source="_CJKectlKEeKomu7rfXwhHg" target="_CJKecNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+            </edges>
+            <edges xmi:id="_CJKedNlKEeKomu7rfXwhHg" source="_CJKectlKEeKomu7rfXwhHg" target="_CJKecNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_CJKeddlKEeKomu7rfXwhHg" origin="_CJKea9lKEeKomu7rfXwhHg" image="_CJKectlKEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_CJKedtlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_CJKed9lKEeKomu7rfXwhHg" name="Selected" incoming="_CJKegNlKEeKomu7rfXwhHg" outgoing="_CJKef9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_CJKeeNlKEeKomu7rfXwhHg" name="New" incoming="_CJKef9lKEeKomu7rfXwhHg" outgoing="_CJKegNlKEeKomu7rfXwhHg _CJKegdlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+        <attributes xmi:id="_CJKeedlKEeKomu7rfXwhHg" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_CJKeetlKEeKomu7rfXwhHg" value="Ordered">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/ordered"/>
+        </attributes>
+        <attributes xmi:id="_CJKee9lKEeKomu7rfXwhHg" value="Unique">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/unique"/>
+        </attributes>
+        <attributes xmi:id="_CJKefNlKEeKomu7rfXwhHg" value="LowerBound">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/lowerBound"/>
+        </attributes>
+        <attributes xmi:id="_CJKefdlKEeKomu7rfXwhHg" value="UpperBound">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_CJKeftlKEeKomu7rfXwhHg" name="EType" incoming="_CJKegdlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_CJKef9lKEeKomu7rfXwhHg" source="_CJKed9lKEeKomu7rfXwhHg" target="_CJKeeNlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+      </edges>
+      <edges xmi:id="_CJKegNlKEeKomu7rfXwhHg" source="_CJKeeNlKEeKomu7rfXwhHg" target="_CJKed9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+      </edges>
+      <edges xmi:id="_CJKegdlKEeKomu7rfXwhHg" source="_CJKeeNlKEeKomu7rfXwhHg" target="_CJKeftlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_CJKegtlKEeKomu7rfXwhHg" origin="_CJKea9lKEeKomu7rfXwhHg" image="_CJKed9lKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_CJKeg9lKEeKomu7rfXwhHg" origin="_CJKebNlKEeKomu7rfXwhHg" image="_CJKeftlKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

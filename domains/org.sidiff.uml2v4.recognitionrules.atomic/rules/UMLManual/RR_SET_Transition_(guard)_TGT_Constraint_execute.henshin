@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v-mtQAdTEeSc5s74VR_cNw" name="RR_SET_Transition_(guard)_TGT_Constraint" description="Recognize: Sets Transition's reference guard the target Constraint">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_v-mtQQdTEeSc5s74VR_cNw" name="recognitionR-setTransition_guard_TO_Constraint" description="Recognize: SetTransitionRefguardToConstraint">
+    <parameters xmi:id="_v-mtQgdTEeSc5s74VR_cNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_v-mtQwdTEeSc5s74VR_cNw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_v-mtRAdTEeSc5s74VR_cNw" name="Lhs">
+      <nodes xmi:id="_v-mtRQdTEeSc5s74VR_cNw" name="B.Selected" incoming="_v-mtTAdTEeSc5s74VR_cNw _v-mtTQdTEeSc5s74VR_cNw" outgoing="_v-mtSwdTEeSc5s74VR_cNw _v-mtUAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_v-mtRgdTEeSc5s74VR_cNw" name="B.NewTarget" incoming="_v-mtSwdTEeSc5s74VR_cNw _v-mtTgdTEeSc5s74VR_cNw _v-mtUAdTEeSc5s74VR_cNw" outgoing="_v-mtTAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_v-mtRwdTEeSc5s74VR_cNw" name="" outgoing="_v-mtTQdTEeSc5s74VR_cNw _v-mtTgdTEeSc5s74VR_cNw _v-mtTwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_v-mtSAdTEeSc5s74VR_cNw" name="" incoming="_v-mtTwdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_v-mtSQdTEeSc5s74VR_cNw" value="&quot;guard&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_v-mtSgdTEeSc5s74VR_cNw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_v-mtSwdTEeSc5s74VR_cNw" source="_v-mtRQdTEeSc5s74VR_cNw" target="_v-mtRgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_v-mtTAdTEeSc5s74VR_cNw" source="_v-mtRgdTEeSc5s74VR_cNw" target="_v-mtRQdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_v-mtTQdTEeSc5s74VR_cNw" source="_v-mtRwdTEeSc5s74VR_cNw" target="_v-mtRQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_v-mtTgdTEeSc5s74VR_cNw" source="_v-mtRwdTEeSc5s74VR_cNw" target="_v-mtRgdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_v-mtTwdTEeSc5s74VR_cNw" source="_v-mtRwdTEeSc5s74VR_cNw" target="_v-mtSAdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_v-mtUAdTEeSc5s74VR_cNw" source="_v-mtRQdTEeSc5s74VR_cNw" target="_v-mtRgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_v-mtUQdTEeSc5s74VR_cNw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_v-mtUgdTEeSc5s74VR_cNw">
+          <conclusion xmi:id="_v-mtUwdTEeSc5s74VR_cNw">
+            <nodes xmi:id="_v-mtVAdTEeSc5s74VR_cNw" incoming="_v-mtVgdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+            </nodes>
+            <nodes xmi:id="_v-mtVQdTEeSc5s74VR_cNw" name="B.Selected" outgoing="_v-mtVgdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+            </nodes>
+            <edges xmi:id="_v-mtVgdTEeSc5s74VR_cNw" source="_v-mtVQdTEeSc5s74VR_cNw" target="_v-mtVAdTEeSc5s74VR_cNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_v-mtVwdTEeSc5s74VR_cNw" origin="_v-mtRQdTEeSc5s74VR_cNw" image="_v-mtVQdTEeSc5s74VR_cNw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_v-nUUAdTEeSc5s74VR_cNw" name="Rhs">
+      <nodes xmi:id="_v-nUUQdTEeSc5s74VR_cNw" name="B.Selected" incoming="_v-nUYAdTEeSc5s74VR_cNw _v-nUYQdTEeSc5s74VR_cNw" outgoing="_v-nUXwdTEeSc5s74VR_cNw _v-nUZAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_v-nUUgdTEeSc5s74VR_cNw" name="B.NewTarget" incoming="_v-nUXwdTEeSc5s74VR_cNw _v-nUYgdTEeSc5s74VR_cNw _v-nUZAdTEeSc5s74VR_cNw" outgoing="_v-nUYAdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_v-nUUwdTEeSc5s74VR_cNw" name="" incoming="_v-nUZQdTEeSc5s74VR_cNw" outgoing="_v-nUYQdTEeSc5s74VR_cNw _v-nUYgdTEeSc5s74VR_cNw _v-nUYwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_v-nUVAdTEeSc5s74VR_cNw" name="" incoming="_v-nUYwdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_v-nUVQdTEeSc5s74VR_cNw" incoming="_v-nUZgdTEeSc5s74VR_cNw" outgoing="_v-nUZQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_v-nUVgdTEeSc5s74VR_cNw" value="&quot;SET_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_v-nUVwdTEeSc5s74VR_cNw" value="&quot;Sets Transition's reference guard the target Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_v-nUWAdTEeSc5s74VR_cNw" value="&quot;SET_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_v-nUWQdTEeSc5s74VR_cNw" value="&quot;rr_SET_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_v-nUWgdTEeSc5s74VR_cNw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_v-nUWwdTEeSc5s74VR_cNw" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_v-nUXAdTEeSc5s74VR_cNw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_v-nUXQdTEeSc5s74VR_cNw" value="12">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_v-nUXgdTEeSc5s74VR_cNw" name="" outgoing="_v-nUZgdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_v-nUXwdTEeSc5s74VR_cNw" source="_v-nUUQdTEeSc5s74VR_cNw" target="_v-nUUgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_v-nUYAdTEeSc5s74VR_cNw" source="_v-nUUgdTEeSc5s74VR_cNw" target="_v-nUUQdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_v-nUYQdTEeSc5s74VR_cNw" source="_v-nUUwdTEeSc5s74VR_cNw" target="_v-nUUQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_v-nUYgdTEeSc5s74VR_cNw" source="_v-nUUwdTEeSc5s74VR_cNw" target="_v-nUUgdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_v-nUYwdTEeSc5s74VR_cNw" source="_v-nUUwdTEeSc5s74VR_cNw" target="_v-nUVAdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_v-nUZAdTEeSc5s74VR_cNw" source="_v-nUUQdTEeSc5s74VR_cNw" target="_v-nUUgdTEeSc5s74VR_cNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+      </edges>
+      <edges xmi:id="_v-nUZQdTEeSc5s74VR_cNw" source="_v-nUVQdTEeSc5s74VR_cNw" target="_v-nUUwdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_v-nUZgdTEeSc5s74VR_cNw" source="_v-nUXgdTEeSc5s74VR_cNw" target="_v-nUVQdTEeSc5s74VR_cNw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_v-nUZwdTEeSc5s74VR_cNw" origin="_v-mtRQdTEeSc5s74VR_cNw" image="_v-nUUQdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-nUaAdTEeSc5s74VR_cNw" origin="_v-mtRgdTEeSc5s74VR_cNw" image="_v-nUUgdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-nUaQdTEeSc5s74VR_cNw" origin="_v-mtRwdTEeSc5s74VR_cNw" image="_v-nUUwdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-nUagdTEeSc5s74VR_cNw" origin="_v-mtSAdTEeSc5s74VR_cNw" image="_v-nUVAdTEeSc5s74VR_cNw"/>
+    <mappings xmi:id="_v-nUawdTEeSc5s74VR_cNw" origin="_v-mtSgdTEeSc5s74VR_cNw" image="_v-nUXgdTEeSc5s74VR_cNw"/>
+  </units>
+</henshin:Module>

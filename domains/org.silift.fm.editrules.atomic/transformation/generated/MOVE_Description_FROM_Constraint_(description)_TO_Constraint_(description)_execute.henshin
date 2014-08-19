@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xR0eAMFJEeOHN6JUsu4eRA" name="MOVE_Description_FROM_Constraint_(description)_TO_Constraint_(description)" description="MOVEs Description from Constraint(Reference:description) to Constraint(Reference:description">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xR0eAcFJEeOHN6JUsu4eRA" name="moveDescription_FROM_Constraint_description_TO_Constraint_Constraint" description="Moves Description from Constraint(Reference:description) toConstraint(Reference:Constraint)">
+    <parameters xmi:id="_xR0eAsFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Description"/>
+    </parameters>
+    <parameters xmi:id="_xR0eA8FJEeOHN6JUsu4eRA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_xR0eBMFJEeOHN6JUsu4eRA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_xR0eBcFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xR0eBsFJEeOHN6JUsu4eRA" name="Selected" incoming="_xR0eCcFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Description"/>
+      </nodes>
+      <nodes xmi:id="_xR0eB8FJEeOHN6JUsu4eRA" name="OldSource" outgoing="_xR0eCcFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_xR0eCMFJEeOHN6JUsu4eRA" name="NewSource">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_xR0eCcFJEeOHN6JUsu4eRA" source="_xR0eB8FJEeOHN6JUsu4eRA" target="_xR0eBsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint/description"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_xR0eCsFJEeOHN6JUsu4eRA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_xR0eC8FJEeOHN6JUsu4eRA">
+          <conclusion xmi:id="_xR0eDMFJEeOHN6JUsu4eRA" name="ub0">
+            <nodes xmi:id="_xR0eDcFJEeOHN6JUsu4eRA" outgoing="_xR0eD8FJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+            </nodes>
+            <nodes xmi:id="_xR0eDsFJEeOHN6JUsu4eRA" incoming="_xR0eD8FJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//Description"/>
+            </nodes>
+            <edges xmi:id="_xR0eD8FJEeOHN6JUsu4eRA" source="_xR0eDcFJEeOHN6JUsu4eRA" target="_xR0eDsFJEeOHN6JUsu4eRA">
+              <type href="http://www.eclipse.org/featuremodel#//Constraint/description"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_xR0eEMFJEeOHN6JUsu4eRA" origin="_xR0eCMFJEeOHN6JUsu4eRA" image="_xR0eDcFJEeOHN6JUsu4eRA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_xR0eEcFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xR0eEsFJEeOHN6JUsu4eRA" name="Selected" incoming="_xR0eFcFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Description"/>
+      </nodes>
+      <nodes xmi:id="_xR0eE8FJEeOHN6JUsu4eRA" name="OldSource">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_xR0eFMFJEeOHN6JUsu4eRA" name="NewSource" outgoing="_xR0eFcFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_xR0eFcFJEeOHN6JUsu4eRA" source="_xR0eFMFJEeOHN6JUsu4eRA" target="_xR0eEsFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Constraint/description"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xR0eFsFJEeOHN6JUsu4eRA" origin="_xR0eBsFJEeOHN6JUsu4eRA" image="_xR0eEsFJEeOHN6JUsu4eRA"/>
+    <mappings xmi:id="_xR0eF8FJEeOHN6JUsu4eRA" origin="_xR0eB8FJEeOHN6JUsu4eRA" image="_xR0eE8FJEeOHN6JUsu4eRA"/>
+    <mappings xmi:id="_xR0eGMFJEeOHN6JUsu4eRA" origin="_xR0eCMFJEeOHN6JUsu4eRA" image="_xR0eFMFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xR0eGcFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xR0eAcFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xR0eGsFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Description"/>
+    </parameters>
+    <parameters xmi:id="_xR0eG8FJEeOHN6JUsu4eRA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_xR0eHMFJEeOHN6JUsu4eRA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_xR0eHcFJEeOHN6JUsu4eRA" source="_xR0eGsFJEeOHN6JUsu4eRA" target="_xR0eAsFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xR0eHsFJEeOHN6JUsu4eRA" source="_xR0eG8FJEeOHN6JUsu4eRA" target="_xR0eA8FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xR0eH8FJEeOHN6JUsu4eRA" source="_xR0eHMFJEeOHN6JUsu4eRA" target="_xR0eBMFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

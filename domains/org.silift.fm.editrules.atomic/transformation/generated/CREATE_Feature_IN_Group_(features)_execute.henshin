@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xO5s4MFJEeOHN6JUsu4eRA" name="CREATE_Feature_IN_Group_(features)" description="Creates one Feature in Group">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xO6T8MFJEeOHN6JUsu4eRA" name="createFeature_IN_Group" description="creates one Feature in the context: Group">
+    <parameters xmi:id="_xO6T8cFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xO6T8sFJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xO6T88FJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xO6T9MFJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xO6T9cFJEeOHN6JUsu4eRA" name="Type">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_xO6T9sFJEeOHN6JUsu4eRA" name="Lhs">
+      <nodes xmi:id="_xO6T98FJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xO6T-MFJEeOHN6JUsu4eRA" name="Rhs">
+      <nodes xmi:id="_xO6T-cFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xO6T_sFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group"/>
+      </nodes>
+      <nodes xmi:id="_xO6T-sFJEeOHN6JUsu4eRA" name="New" incoming="_xO6T_sFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+        <attributes xmi:id="_xO6T-8FJEeOHN6JUsu4eRA" value="Id">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/id"/>
+        </attributes>
+        <attributes xmi:id="_xO6T_MFJEeOHN6JUsu4eRA" value="Name">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/name"/>
+        </attributes>
+        <attributes xmi:id="_xO6T_cFJEeOHN6JUsu4eRA" value="Type">
+          <type href="http://www.eclipse.org/featuremodel#//Feature/type"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_xO6T_sFJEeOHN6JUsu4eRA" source="_xO6T-cFJEeOHN6JUsu4eRA" target="_xO6T-sFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Group/features"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xO6T_8FJEeOHN6JUsu4eRA" origin="_xO6T98FJEeOHN6JUsu4eRA" image="_xO6T-cFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xO6UAMFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xO6T8MFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xO6UAcFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Group"/>
+    </parameters>
+    <parameters xmi:id="_xO6UAsFJEeOHN6JUsu4eRA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xO6UA8FJEeOHN6JUsu4eRA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/featuremodel#//ID"/>
+    </parameters>
+    <parameters xmi:id="_xO6UBMFJEeOHN6JUsu4eRA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_xO6UBcFJEeOHN6JUsu4eRA" name="Type">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_xO6UBsFJEeOHN6JUsu4eRA" source="_xO6UAcFJEeOHN6JUsu4eRA" target="_xO6T8cFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xO6UB8FJEeOHN6JUsu4eRA" source="_xO6T8sFJEeOHN6JUsu4eRA" target="_xO6UAsFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xO6UCMFJEeOHN6JUsu4eRA" source="_xO6UA8FJEeOHN6JUsu4eRA" target="_xO6T88FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xO6UCcFJEeOHN6JUsu4eRA" source="_xO6UBMFJEeOHN6JUsu4eRA" target="_xO6T9MFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xO6UCsFJEeOHN6JUsu4eRA" source="_xO6UBcFJEeOHN6JUsu4eRA" target="_xO6T9cFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

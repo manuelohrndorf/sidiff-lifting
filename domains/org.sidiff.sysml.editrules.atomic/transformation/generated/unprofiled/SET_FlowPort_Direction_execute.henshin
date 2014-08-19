@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_BPgJMFHtEeOU3q7xwvXrEQ" name="SET_FlowPort_Direction" description="Sets FlowPort Direction">
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_BPgJMVHtEeOU3q7xwvXrEQ" name="setFlowPortDirection" description="Sets the EAttribute direction">
+    <parameters xmi:id="_BPgJMlHtEeOU3q7xwvXrEQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_BPgJM1HtEeOU3q7xwvXrEQ" name="Direction">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowDirection"/>
+    </parameters>
+    <lhs xmi:id="_BPgJNFHtEeOU3q7xwvXrEQ" name="Lhs">
+      <nodes xmi:id="_BPgwQFHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_BPgwQVHtEeOU3q7xwvXrEQ" name="Rhs">
+      <nodes xmi:id="_BPgwQlHtEeOU3q7xwvXrEQ" name="Selected">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+        <attributes xmi:id="_BPgwQ1HtEeOU3q7xwvXrEQ" value="Direction">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/direction"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_BPgwRFHtEeOU3q7xwvXrEQ" origin="_BPgwQFHtEeOU3q7xwvXrEQ" image="_BPgwQlHtEeOU3q7xwvXrEQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_BPgwRVHtEeOU3q7xwvXrEQ" name="mainUnit" subUnits="_BPgJMVHtEeOU3q7xwvXrEQ">
+    <parameters xmi:id="_BPgwRlHtEeOU3q7xwvXrEQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_BPgwR1HtEeOU3q7xwvXrEQ" name="Direction">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowDirection"/>
+    </parameters>
+    <parameterMappings xmi:id="_BPgwSFHtEeOU3q7xwvXrEQ" source="_BPgwRlHtEeOU3q7xwvXrEQ" target="_BPgJMlHtEeOU3q7xwvXrEQ"/>
+    <parameterMappings xmi:id="_BPgwSVHtEeOU3q7xwvXrEQ" source="_BPgwR1HtEeOU3q7xwvXrEQ" target="_BPgJM1HtEeOU3q7xwvXrEQ"/>
+  </units>
+</henshin:Module>

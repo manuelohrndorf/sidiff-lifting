@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5wA40FHsEeOlW6ElqrxP9A" name="SET_Requirement(Activity)_Visibility" description="Sets Activity Visibility">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_5wA40VHsEeOlW6ElqrxP9A" name="setActivityVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_5wA40lHsEeOlW6ElqrxP9A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5wA401HsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_5wA41FHsEeOlW6ElqrxP9A" name="Lhs">
+      <nodes xmi:id="_5wA41VHsEeOlW6ElqrxP9A" name="Selected" incoming="_UOnP01HzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_UOnP0FHzEeON9vs-A8lEPA" outgoing="_UOnP01HzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_UOnP01HzEeON9vs-A8lEPA" source="_UOnP0FHzEeON9vs-A8lEPA" target="_5wA41VHsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5wA41lHsEeOlW6ElqrxP9A" name="Rhs">
+      <nodes xmi:id="_5wA411HsEeOlW6ElqrxP9A" name="Selected" incoming="_UOnP1FHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+        <attributes xmi:id="_5wA42FHsEeOlW6ElqrxP9A" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_UOnP0lHzEeON9vs-A8lEPA" outgoing="_UOnP1FHzEeON9vs-A8lEPA">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement"/>
+      </nodes>
+      <edges xmi:id="_UOnP1FHzEeON9vs-A8lEPA" source="_UOnP0lHzEeON9vs-A8lEPA" target="_5wA411HsEeOlW6ElqrxP9A">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//requirements/Requirement/base_Class"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5wA42VHsEeOlW6ElqrxP9A" origin="_5wA41VHsEeOlW6ElqrxP9A" image="_5wA411HsEeOlW6ElqrxP9A"/>
+    <mappings xmi:id="_UOnP0VHzEeON9vs-A8lEPA" origin="_UOnP0FHzEeON9vs-A8lEPA" image="_UOnP0lHzEeON9vs-A8lEPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5wA42lHsEeOlW6ElqrxP9A" name="mainUnit" subUnits="_5wA40VHsEeOlW6ElqrxP9A">
+    <parameters xmi:id="_5wA421HsEeOlW6ElqrxP9A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_5wA43FHsEeOlW6ElqrxP9A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_5wA43VHsEeOlW6ElqrxP9A" source="_5wA421HsEeOlW6ElqrxP9A" target="_5wA40lHsEeOlW6ElqrxP9A"/>
+    <parameterMappings xmi:id="_5wA43lHsEeOlW6ElqrxP9A" source="_5wA43FHsEeOlW6ElqrxP9A" target="_5wA401HsEeOlW6ElqrxP9A"/>
+  </units>
+</henshin:Module>

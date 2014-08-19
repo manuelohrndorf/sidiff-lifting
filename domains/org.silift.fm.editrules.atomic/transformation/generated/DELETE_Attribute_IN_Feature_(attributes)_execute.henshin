@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xPp60MFJEeOHN6JUsu4eRA" name="DELETE_Attribute_IN_Feature_(attributes)" description="Deletes one Attribute in Feature">
+  <imports href="http://www.eclipse.org/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xPrI8MFJEeOHN6JUsu4eRA" name="deleteAttribute_IN_Feature" description="deletes one Attribute in the context: Feature">
+    <parameters xmi:id="_xPrI8cFJEeOHN6JUsu4eRA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xPrI8sFJEeOHN6JUsu4eRA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameters xmi:id="_xPrI88FJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+    </parameters>
+    <parameters xmi:id="_xPrI9MFJEeOHN6JUsu4eRA" name="Child1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+    </parameters>
+    <lhs xmi:id="_xPrI9cFJEeOHN6JUsu4eRA" name="LHS">
+      <nodes xmi:id="_xPrI9sFJEeOHN6JUsu4eRA" name="Selected" outgoing="_xPrI-sFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_xPrI98FJEeOHN6JUsu4eRA" name="ToBeDeleted" incoming="_xPrI-sFJEeOHN6JUsu4eRA" outgoing="_xPrI-8FJEeOHN6JUsu4eRA _xPrI_MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute"/>
+      </nodes>
+      <nodes xmi:id="_xPrI-MFJEeOHN6JUsu4eRA" name="Child" incoming="_xPrI-8FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+      </nodes>
+      <nodes xmi:id="_xPrI-cFJEeOHN6JUsu4eRA" name="Child1" incoming="_xPrI_MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+      </nodes>
+      <edges xmi:id="_xPrI-sFJEeOHN6JUsu4eRA" source="_xPrI9sFJEeOHN6JUsu4eRA" target="_xPrI98FJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Feature/attributes"/>
+      </edges>
+      <edges xmi:id="_xPrI-8FJEeOHN6JUsu4eRA" source="_xPrI98FJEeOHN6JUsu4eRA" target="_xPrI-MFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute/type"/>
+      </edges>
+      <edges xmi:id="_xPrI_MFJEeOHN6JUsu4eRA" source="_xPrI98FJEeOHN6JUsu4eRA" target="_xPrI-cFJEeOHN6JUsu4eRA">
+        <type href="http://www.eclipse.org/featuremodel#//Attribute/defaultValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xPrI_cFJEeOHN6JUsu4eRA" name="RHS">
+      <nodes xmi:id="_xPrI_sFJEeOHN6JUsu4eRA" name="Selected">
+        <type href="http://www.eclipse.org/featuremodel#//Feature"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xPrI_8FJEeOHN6JUsu4eRA" origin="_xPrI9sFJEeOHN6JUsu4eRA" image="_xPrI_sFJEeOHN6JUsu4eRA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xPrJAMFJEeOHN6JUsu4eRA" name="mainUnit" subUnits="_xPrI8MFJEeOHN6JUsu4eRA">
+    <parameters xmi:id="_xPrJAcFJEeOHN6JUsu4eRA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_xPrJAsFJEeOHN6JUsu4eRA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//Attribute"/>
+    </parameters>
+    <parameters xmi:id="_xPrJA8FJEeOHN6JUsu4eRA" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeType"/>
+    </parameters>
+    <parameters xmi:id="_xPrJBMFJEeOHN6JUsu4eRA" name="Child1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/featuremodel#//AttributeValue"/>
+    </parameters>
+    <parameterMappings xmi:id="_xPrJBcFJEeOHN6JUsu4eRA" source="_xPrJAcFJEeOHN6JUsu4eRA" target="_xPrI8cFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPrJBsFJEeOHN6JUsu4eRA" source="_xPrJAsFJEeOHN6JUsu4eRA" target="_xPrI8sFJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPrJB8FJEeOHN6JUsu4eRA" source="_xPrJA8FJEeOHN6JUsu4eRA" target="_xPrI88FJEeOHN6JUsu4eRA"/>
+    <parameterMappings xmi:id="_xPrJCMFJEeOHN6JUsu4eRA" source="_xPrJBMFJEeOHN6JUsu4eRA" target="_xPrI9MFJEeOHN6JUsu4eRA"/>
+  </units>
+</henshin:Module>

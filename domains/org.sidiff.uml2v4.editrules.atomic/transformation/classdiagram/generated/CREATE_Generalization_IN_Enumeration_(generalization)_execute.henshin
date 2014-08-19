@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xklvgFHsEeOwv-kVbb2fiQ" name="CREATE_Generalization_IN_Enumeration_(generalization)" description="Creates one Generalization in Enumeration">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xklvgVHsEeOwv-kVbb2fiQ" name="createGeneralization_IN_Enumeration" description="creates one Generalization in the context: Enumeration">
+    <parameters xmi:id="_xklvglHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_xklvg1HsEeOwv-kVbb2fiQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+    </parameters>
+    <parameters xmi:id="_xklvhFHsEeOwv-kVbb2fiQ" name="IsSubstitutable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_xklvhVHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xklvhlHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xklvh1HsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xklviFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xklvjFHsEeOwv-kVbb2fiQ" outgoing="_xklvi1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_xklviVHsEeOwv-kVbb2fiQ" name="New" incoming="_xklvi1HsEeOwv-kVbb2fiQ" outgoing="_xklvjFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+        <attributes xmi:id="_xklvilHsEeOwv-kVbb2fiQ" value="IsSubstitutable">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization/isSubstitutable"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_xklvi1HsEeOwv-kVbb2fiQ" source="_xklviFHsEeOwv-kVbb2fiQ" target="_xklviVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/generalization"/>
+      </edges>
+      <edges xmi:id="_xklvjFHsEeOwv-kVbb2fiQ" source="_xklviVHsEeOwv-kVbb2fiQ" target="_xklviFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization/specific"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xklvjVHsEeOwv-kVbb2fiQ" origin="_xklvhlHsEeOwv-kVbb2fiQ" image="_xklviFHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xklvjlHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xklvgVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xklvj1HsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_xklvkFHsEeOwv-kVbb2fiQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+    </parameters>
+    <parameters xmi:id="_xklvkVHsEeOwv-kVbb2fiQ" name="IsSubstitutable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_xklvklHsEeOwv-kVbb2fiQ" source="_xklvj1HsEeOwv-kVbb2fiQ" target="_xklvglHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xklvk1HsEeOwv-kVbb2fiQ" source="_xklvg1HsEeOwv-kVbb2fiQ" target="_xklvkFHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xklvlFHsEeOwv-kVbb2fiQ" source="_xklvkVHsEeOwv-kVbb2fiQ" target="_xklvhFHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>
