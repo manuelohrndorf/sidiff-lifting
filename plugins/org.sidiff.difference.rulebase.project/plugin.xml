@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+            <extension 
+               id="rulebasenature"
+         name="Rulebase Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.sidiff.difference.rulebase.nature.RuleBaseProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.sidiff.difference.rulebase.builder.rulebasebuilder">
+      </builder>
+   </extension>
+             <extension
+                   point="org.eclipse.ui.ide.projectNatureImages">
+                <image
+                      icon="icons/rulebase.gif"
+                      id="org.sidiff.difference.rulebase.project.icon"
+                      natureId="org.sidiff.difference.rulebase.project.rulebasenature">
+                </image>
+             </extension>
+             <extension
+                   point="org.eclipse.ui.newWizards">
+                <category
+                      id="org.sidiff.difference.lifting"
+                      name="SiLift">
+                </category>
+                <wizard
+                      category="org.sidiff.difference.lifting"
+                      class="org.sidiff.difference.rulebase.project.wizard.RulebaseProjectWizard"
+                      icon="icons/rulebase.gif"
+                      id="org.sidiff.difference.rulebase.project.rulebaseProjectWizard"
+                      name="Rulebase Plug-In Project"
+                      project="true">
+                </wizard>
+             </extension>
+
+</plugin>

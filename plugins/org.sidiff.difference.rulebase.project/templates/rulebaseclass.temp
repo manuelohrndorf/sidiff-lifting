@@ -1,0 +1,19 @@
+package %1$s;
+
+import org.sidiff.difference.rulebase.extension.AbstractRuleBase;
+
+public class %2$sRulebase extends AbstractRuleBase {
+
+	public static final String BUNDLE_ID = "%3$s";
+	public static final String RULE_BASE_NAME = "%4$s";
+	
+	@Override
+	protected String getRuleBaseURI() {
+		return "/" + BUNDLE_ID + "/" + RULE_BASE_NAME;
+	}
+	
+	@Override
+	protected String getRuleBasePluginID() {
+		return BUNDLE_ID;
+	}
+}
