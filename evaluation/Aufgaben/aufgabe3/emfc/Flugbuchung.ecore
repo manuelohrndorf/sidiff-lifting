@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:id="airtravel" name="airtravel" nsURI="http://airtravel/1.0" nsPrefix="airtravel">
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Passenger" name="Passenger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="firstname" name="firstname"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="lastname" name="lastname"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="birthday" name="birthday"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="address" name="address"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="gender" name="gender"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Ticket" name="Voucher">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="id" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="flight" name="flight"
+        lowerBound="1" eType="#Flight"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="passenger" name="passenger"
+        lowerBound="1" eType="#Passenger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="EconomyVoucher" name="EconomyVoucher"
+      eSuperTypes="#Ticket">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="EconomyVoucher.price"
+        name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="BusinessVoucher" name="BusinessVoucher"
+      eSuperTypes="#Ticket">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="BusinessVoucher.price"
+        name="price" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Flight" name="Flight">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="number" name="number"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="departure" name="departure"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+</ecore:EPackage>

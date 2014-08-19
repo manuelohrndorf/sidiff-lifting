@@ -1,0 +1,549 @@
+\documentclass[12pt,fleqn]{scrreprt}
+
+\usepackage[ngerman]{babel}
+\usepackage[top=2.5cm,bottom=2.5cm,left=1.5cm,right=1.5cm]{geometry}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{paperandpencil}
+\usepackage{float}
+\usepackage{caption}
+
+\begin{document}
+\begin{center}
+  \includegraphics[scale=0.5]{logoTitle} \\
+  \medskip
+  {\Huge Tutorium}\\
+\end{center}
+\begin{coloredfilter}
+Im Rahmen dieses Tutoriums sollen Werkzeuge für das Versions- 
+und Variantenmanagement von Softwaremodellen angewendet werden. 
+ In drei Teilen sollen die häufigsten Anwendungsfälle der
+Modellversionierung (Vergleichen von Modellen, Patchen von 
+Modellen und Mischen von Modellen) anhand von einfachen 
+Beispielen bearbeitet werden. 
+ Zur Bearbeitung der Aufgaben stehen Ihnen die beiden 
+Werkzeuge \textbf{EMFCompare}(\url{http://www.eclipse.org/emf/compare}) 
+und \textbf{SiLift}(\url{http://pi.informatik.uni-siegen.de/Projekte/SiLift}) 
+zur Verfügung.\\
+
+Sofern Sie Ihren eigenen Rechner zur Bearbeitung der Aufgaben 
+verwenden wollen, installieren Sie die benötigte Software 
+bitte wie folgt:
+\begin{enumerate}
+  \item Laden Sie Eclipse Kepler SR1 in der Variante ``Eclipse 
+        Modeling Tools'' herunter:\\
+        \url{http://www.eclipse.org/downloads/packages/release/kepler/sr1}
+  \item Entpacken Sie das Archiv, starten Eclipse und bringen es ggf. auf den neuesten Stand 
+        (Help $\triangleright$ Check for Updates). 
+  \item Starten Sie Eclipse neu und installieren Sie die Modelltransformationsumgebung \textbf{EMF Henshin}\\
+        (Help $\triangleright$ Install $\triangleright$ New Software) mit folgender Adresse:\\
+        \url{http://download.eclipse.org/modeling/emft/henshin/updates/release} 
+  \item Starten Sie Eclipse neu und installieren das Modellversionierungsframework \textbf{SiLift} \\
+        (Help $\triangleright$ Install $\triangleright$ New Software) mit folgender Adresse:\\
+        \url{http://pi.informatik.uni-siegen.de/Projekte/SiLift/updatesite}\\
+        
+        Installieren Sie bitte \emph{alle} verfügbaren SiLift-Komponenten.
+        
+\end{enumerate}
+
+Nach erfolgreicher Installation starten Sie Eclipse mit einem frischen Workspace.
+In diesen importieren Sie bitte das Projekt ``Aufgaben'', welches Sie unter http://TODO
+herunterladen können.
+
+\end{coloredfilter}
+
+
+\section*{Hinweise}
+
+Während der Bearbeitung können Sie jederzeit den Tutor um Rat fragen.
+Bitte nehmen Sie sich auch die Zeit, zur Beantwortung der Zwischenfragen zu
+Ihren Beobachtungen bzw. Erfahrungen, die Sie bei der Bearbeitung der Aufgaben gemacht haben.
+Die Aufgabenblätter werden nach Ablauf der Bearbeitungszeit wieder eingesammelt.
+Ebenfalls würde ich Sie bitten, mir das Eclipse-Projekt ``Aufgaben'' mit Ihren
+Lösungen per E-Mail an folgende Adresse zu schicken:\\
+\url{kehrer@informatik.uni-siegen.de}.\\
+
+\textbf{Es erfolgt keine Benotung. Die Auswertung dient lediglich der
+aktuellen Forschungsarbeit des Tutors. Vielen Dank für Ihre Teilnahme!}
+
+
+
+\section*{Teil 1: Vergleich von Modellen}
+In der ersten Aufgabe geht es darum, Modelle zu vergleichen 
+und deren Unterschiede zu verstehen.
+ Nachfolgend werden hierfür zunächst zwei Paare von Modellen 
+vorgestellt. Es handelt sich in beiden Fällen um Modelle, 
+die Revisionen voneinander sind, ein System also zu 
+unterschiedlichen Entwicklungszeitpunkten beschreiben. 
+ Im ersten Fall beschreiben wir ein einfaches System zur
+Verwaltung von Veranstaltungen, das zweite Modellpaar stellt
+zwei Revisionen eines einfachen Flugverwaltungssystems dar. 
+In beiden Fällen wird nur die Datenhaltung der Systeme
+modelliert, wozu wir jeweils Ecore-Klassendiagramme 
+verwenden.
+ Die zu vergleichenden Modellrevisionen sind in den folgenden Abbildungen dargestellt.
+\begin{figure}[htbp]
+\begin{minipage}[hbt]{0,49\textwidth}
+\includegraphics[scale=0.5]{veranstaltung_vb}
+\caption*{Veranstaltung\_vb}
+\end{minipage}
+\begin{minipage}[hbt]{0,49\textwidth}
+\vline
+\includegraphics[scale=0.5]{veranstaltung_v1}
+\caption*{Veranstaltung\_v1}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{flughafen_v1}
+\caption*{Flughafen\_v1}
+\end{figure} 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{flughafen_v3}
+\caption*{Flughafen\_v3}
+\end{figure} 
+
+Ergebnis eines Vergleichs ist eine Modelldifferenz.
+ Unter einer Differenz verstehen wir informell ausgedrückt 
+\textit{eine} Beschreibung, wie sich zwei Modelle unterscheiden. 
+Die Unterschiede zwischen zwei Modellen kann man i.a. auf 
+verschiedene Art ausdrücken, daher ist \textit{die} Differenz 
+zwischen zwei Modellen nicht eindeutig definiert. 
+ So kann man bspw. eine Differenz immer so beschreiben, 
+indem man alle Modellelemente der ersten Version als gelöscht 
+und die Elemente der geänderten Version als neu erzeugt 
+erachtet. 
+ Eine solche Beschreibung der Unterschiede ist zwar präzise, 
+offensichtlich aber nicht besonders geschickt.
+
+\question*{\bf
+ Beschreiben Sie bitte, zunächst ohne Modellvergleichswerkzeuge zu 
+benutzen und mit eigenen Worten, die Differenzen zwischen 
+den Revisionen der oben dargestellten Modellpaare. 
+ Ziel ist es, die Differenzen möglichst verständlich und 
+zugleich präzise zu beschreiben.}
+
+\begin{center}
+  Differenz Modellpaar 1: Veranstaltung\_vb $\Rightarrow$ Veranstaltung\_v1
+  \fbox{ \begin{minipage}{\textwidth} \hfill\vspace{5cm} \end{minipage} }
+\end{center}
+
+\begin{center}
+  Differenz Modellpaar 2: Flughafen\_v1 $\Rightarrow$ Flughafen\_v3
+  \fbox{ \begin{minipage}{\textwidth} \hfill\vspace{5cm} \end{minipage} }
+\end{center}
+
+\subsection*{Modellvergleichswerkzeuge}
+Offensichtlich ist der manuelle Vergleich von Modellen sehr
+aufwendig, fehleranfällig und damit für große Modelle nicht 
+mehr handhabbar. 
+ Zu diesem Zweck werden spezialisierte Vergleichswerkzeuge 
+für Modelle eingesetzt. In dieser Teilaufgabe sollen die 
+Werkzeuge \textbf{EMFCompare} und \textbf{SiLift} eingesetzt werden, um die 
+obigen Modellpaare zu vergleichen. Gehen Sie dabei bitte wie 
+folgt vor:
+
+
+\paragraph{Modellvergleich mit EMF Compare:}
+\begin{enumerate}
+ \item Selektieren Sie im Eclipse Package Explorer die 
+       .ecore-Dateien der zu vergleichenden Modelle.
+ \item Wählen Sie aus dem Kontext-Menü (Rechtsklick) den Punkt   ``Compare With $\triangleright$ Each Other''.
+\end{enumerate}
+Die Differenzanzeige in EMFCompare ist nach dem Konzept der 
+klickbaren Liste lokaler Unterschiede aufgebaut.
+Im oberen Fenster sehen Sie die Änderungen. Durch 
+Doppelklicken einer Änderung wird deren Kontext in den 
+verglichenen Modellen dargestellt (im unteren Fenster). 
+Die Darstellung des Kontextes erfolgt in EMFCompare auf 
+Basis der abstrakten Syntax.
+
+
+\paragraph{Modellvergleich mit SiLift}
+\begin{enumerate}
+ \item Selektieren Sie im Eclipse Package Explorer 
+       die .ecore-Dateien der zu vergleichenden Modelle.
+ \item Wählen Sie aus dem Kontext-Menü den Punkt ``SiLift $\triangleright$ Compare with Each Other''.
+ \item Im darauf folgenden Dialog Vergewissern Sie sich bitte, 
+       daß die Richtung der Differenzbildung korrekt gesetzt 
+       ist (Veranstaltung\_vb $\Rightarrow$ Veranstaltung\_v1 
+       bzw. Flughafen\_v1 $\Rightarrow$ Flughafen\_v3). 
+       Die restlichen Einstellungen dieser Seite belassen
+       Sie bitte bei den Default-Werten. 
+ \item Mit ``Next'' kommen Sie zur folgenden Konfigurationsseite. 
+       Die Einstellungen belassen Sie bitte bei den Default-Werten 
+       und starten den Modellvergleich (``Finish'').
+ \item SiLift erzeugt Ihnen eine Differenz-Datei (*.symmetric) 
+       die Sie per Doppelklick öffnen können.
+ \item Ordnen Sie bitte die Differenzanzeige durch Klick auf 
+       das Symbol ``Arrange Compare View'' (rechts oben) an.
+\end{enumerate}
+Die Differenzanzeige in SiLift ist wie in EMFCompare nach dem 
+Konzept der klickbaren Liste lokaler Unterschiede aufgebaut.
+Im Steuerfenster links sehen Sie die Änderungen in Form von 
+Editierschritten. Durch Selektion eines Editierschritts wird 
+dessen Kontext in den verglichenen Modellen dargestellt (rechts). 
+Die Darstellung des Kontextes erfolgt in SiLift auf Basis der 
+konkreten Syntax.
+
+\question*{\bf
+  Analysieren Sie bitte die Differenzen Veranstaltung\_vb $\Rightarrow$ Veranstaltung\_v1 
+und Flughafen\_v1 $\Rightarrow$ Flughafen\_v3 mit EMFCompare und SiLift.
+Passen Sie ggf. Ihre manuelle Beschreibung der Modelländerungen
+unter Berücksichtigung der Erkenntnisse aus dem werkzeuggestützten
+Vergleich an.
+ Denken Sie an die Zielsetzung, die Differenzen möglichst 
+verständlich, kompakt und zugleich präzise zu beschreiben.}
+
+\begin{center}
+  Differenz Modellpaar 1: Veranstaltung\_vb $\Leftrightarrow$ Veranstaltung\_v1
+  \fbox{ \begin{minipage}{\textwidth} \hfill\vspace{5cm} \end{minipage} }
+\end{center}
+
+\begin{center}
+  Differenz Modellpaar 2: Flughafen\_v1 $\Leftrightarrow$ Flughafen\_v3
+  \fbox{ \begin{minipage}{\textwidth} \hfill\vspace{5cm} \end{minipage} }
+\end{center}
+\subsection*{Fragen}
+\question{\bf Wie hilfreich war die von EMF Compare bereitgestellte 
+Funktionalität beim Vergleichen der Modelle?}
+\htextsix{sehr hilfreich}{hilfreich}{ein wenig hilfreich}{kaum hilfreich}{selten hilfreich}{gar nicht hilfreich}
+\question{\bf Wie hilfreich war die von SiLift bereitgestellte Funktionalität beim Vergleichen der
+Modelle?}
+\htextsix{sehr hilfreich}{hilfreich}{ein wenig hilfreich}{kaum hilfreich}{selten hilfreich}{gar nicht hilfreich}
+
+\section*{Teil 2: Mischen von Modellen (``Workspace-Update'')}
+In diesem Teil des Tutoriums geht es darum, parallel entstandene
+Versionen eines Modells ``zusammenzuführen''. Dies ist ein typischer
+Anwendungsfall bei der verteilten Entwicklung von Modellen. \\
+
+Im Folgenden gehen wir dieser Situation aus:
+In unserem lokalen Workspace haben wir die Basisversion
+Veranstaltung\_vb (s. oben) ausgecheckt und lokal zu 
+Version Veranstaltung\_v2 (siehe folgende Abbildung) geändert.
+Eine Kollegin hat Veranstaltung\_vb parallel zu der bereits
+bekannten Version Veranstaltung\_v1(s. oben) geändert.\\
+Ziel ist es, die Änderungen unserer Kollegin in den 
+lokalen Workspace zu übernehmen, weshalb dieser 
+Anwendungsfall in Versionsverwaltungssystemen wie SVN auch
+als Workspace-Update bezeichnet wird.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{veranstaltung_v2}
+\caption*{Veranstaltung\_v2}
+\end{figure} 
+
+\bigskip
+\subsection*{Durchführung mit EMFCompare}
+
+In EMFCompare wird die Funktion ``Workspace-Update'' nach dem ``klassischen'' Schema des
+3-Wege Mischens realisiert. Für unser Beispiel ergibt sich die
+die im folgenden Bild  gezeigte Situation.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{merge00.png}
+  \caption*{Schema des klassischen 3-Wege Mischens in unserem Beispiel}
+\end{figure} 
+
+Zur Durchführung des Workspace-Update gehen Sie bitte wie folgt vor:
+\begin{enumerate}
+ \item Im Ordner ``aufgabe2/emfc'' selektieren Sie jeweils die 
+       *.ecore-Dateien der Basisversion und der beiden parallel geänderten Versionen.
+ \item Öffnen Sie das Kontextmenü und wählen den Punkt ``Compare With $\triangleright$ Each Other''.
+ \item Setzen Sie im darauf folgenden Dialog die Basisversion (``common ancestor'') auf Veranstaltung\_vb.
+\end{enumerate}
+
+Im oberen Fenster sind die Differenzen Veranstaltung\_vb $\Rightarrow$ Veranstaltung\_v1 
+und Veranstaltung\_vb $\Rightarrow$ Veranstaltung\_v2 dargestellt. 
+In Konflikt stehende Änderungen werden separat angezeigt. 
+Durch Doppelklick können Sie sich wie im Falle der einfachen 
+Differenzanzeige aus Aufgabe 1.2 den Kontext der Änderungen im 
+unteren Fenster anzeigen lassen. Ebenfalls im unteren Fenster 
+können Sie Änderungen zwischen den beiden parallelen Versionen 
+propagieren (``auflösen''). 
+
+\question*{Ziel der Aufgabe ist es, die Änderungen aus dem 
+ Repository mit Hilfe von EMFCompare auf Ihre Workspace-Version zu übertragen. 
+ Machen Sie sich hierzu insbesondere die inhaltlichen Widersprüche 
+ nicht auflösbarer Konflikte klar. Überlegen Sie sich eine 
+ Strategie, wie Sie mit diesen Konflikten verfahren. 
+ Oftmals kann eine sinnvolle Lösung nur durch nachträgliche 
+ Modifikation der Workspace-Version erzielt werden.\\
+ Bitte tragen Sie in die folgende Tabelle für jeden
+ nicht automatisiert auflösbaren Konflikt ein, wie Sie
+ damit verfahren sind.
+}
+\medskip
+\begin{center}
+  \begin{tabular*}{0.90\textwidth}{@{\extracolsep{\fill} }|c|c|}
+  \textbf{Konfliktname} & \textbf{Lösungsvorgehen} \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+\end{tabular*}
+\end{center}
+
+\subsubsection*{Fragen}
+\underline{Konfliktdarstellung}
+\question*{\bf Waren die von EMFCompare berichteten Konflikte für Sie verständlich und
+  nachvollziehbar?}
+  \htextlinefive{sehr gut}{gut}{weniger gut}{schlecht}{keine Ahnung}
+\question*{\bf Inwieweit waren die dargestellten Konflikte hilfreich, die inhaltlichen Widersprüche der
+    parallelen Bearbeitung der Modelle zu erkennen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+  \underline{Konfliktauflösung}
+\question*{\bf Inwieweit war die von EMF Compare bereitgestellte Funktionalität hilfreich bei der Auflösung
+    der Konflikte?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+
+  \underline{GUI-Konzept}
+\question*{\bf War es für Sie hilfreich bei der Durchführung der Aufgabe, die Basisversion in einem
+    separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+\question*{\bf War es für Sie hilfreich, Version v1 in einem separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+\question*{\bf War es für Sie hilfreich, die Differenz vb-v2 in einem separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+
+\subsection*{Durchführung mit SiLift}
+
+\begin{enumerate}
+ \item Wählen Sie bitte die *.ecore-Dateien aller Modellversionen
+       im Ordner ``aufgabe2/silift''.
+ \item Aus dem Kontextmenü wählen Sie bitte ``SiLift $\triangleright$ Three-Way Merge''
+ \item Setzen Sie bitte die Rollen der gewählten Modelle; Basismodel (Base model) ist Veranstaltung\_vb, 
+       Workspace-Version (My model) ist Veranstaltung\_v2, und Repository-Version (Their model) is
+       Veranstaltung\_v1
+ \item Die weiteren Einstellungen können Sie auf den Default-Werten belassen.
+\end{enumerate}
+
+Im Hintergrund berechnet SiLift die Differenz zwischen
+den Repository-Versionen Veranstaltung\_vb und Veranstaltung\_v1.
+Diese sollen anschließend interaktiv auf die Workspace-Version
+übertragen werden, wie im folgenden Schema gezeigt.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{merge01.png}
+  \caption*{Workspace-Update in SiLift}
+\end{figure}
+
+Im Fenseter links sehen Sie die in den Workspace zu übertragenden Änderungen.
+Die Markierung (Häkchen setzen) einer Änderung besagt, daß diese auf das Workspace-Modell,
+rechts im gewohnten Ecore-Diagramm Editor dargestellt ist, übertragen
+werden soll.
+
+Sofern nicht alle Argumente einer auszuführenden Editieroperation
+im Workspace-Modell gefunden werden können, wird dies entsprechend
+berichtet. Ebenso sehen Sie Warnungen, wenn die Ausführung
+einer Änderung lokale Änderungen im Workspace potentiell
+``überschreibt''.
+ Beide Phänomene sind also Konflikte, die von SiLift berichtet
+werden.
+
+\question*{\bf Ihre Aufgabe ist es auch hier, die Änderungen aus dem 
+ Repository mit Hilfe von SiLift auf Ihre Workspace-Version zu übertragen. 
+ Machen Sie sich wieder die inhaltlichen Widersprüche 
+ klar, welche durch die Konflikte berichtet werden.  
+ Sie können Operationsargumente Ändern oder einzelne Änderungen
+ bewußt abwählen. Ferner können Sie auch das Workspace-Modell
+ direkt editieren. Denken Sie bitte auch daran, das aktualisierte
+ Workspace-Modell abzuspeichern\\
+ Bitte tragen Sie ferner in die folgende Tabelle für jeden
+ Konflikt ein, wie Sie damit verfahren sind.
+}
+
+
+\medskip
+
+\begin{center}
+  \begin{tabular*}{0.90\textwidth}{@{\extracolsep{\fill} }|c|c|}
+  \textbf{Konfliktname} & \textbf{Lösungsvorgehen} \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  &  \\
+  \hline
+\end{tabular*}
+\end{center}
+
+\subsubsection*{Fragen}
+\underline{Konfliktdarstellung}
+\question*{\bf Waren die von SiLift berichteten Konflikte für Sie verständlich und
+  nachvollziehbar?}
+  \htextlinefive{sehr gut}{gut}{weniger gut}{schlecht}{keine Ahnung}
+\question*{\bf Inwieweit waren die dargestellten Konflikte hilfreich, die inhaltlichen Widersprüche der
+    parallelen Bearbeitung der Modelle zu erkennen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+  \underline{Konfliktauflösung}
+\question*{\bf Inwieweit war die von SiLift bereitgestellte Funktionalität hilfreich bei der Auflösung
+    der Konflikte?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+
+  \underline{GUI-Konzept}
+\question*{\bf War es für Sie hilfreich bei der Durchführung der Aufgabe, die Basisversion in einem
+    separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+\question*{\bf War es für Sie hilfreich, Version v1 in einem separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+\question*{\bf War es für Sie hilfreich, die Differenz vb-v2 in einem separaten Editorfenster anzuzeigen?}
+  \htextlinefive{sehr hilfreich}{ hilfreich}{kaum hilfreich}{gar nicht hilfreich}{keine Ahnung}
+
+\section*{Teil 3: Propagation von Modelländerungen ``Branch Merge''}
+
+Im dritten und letzten Teil des Tutoriums geht es um das
+Propagieren von Änderungen auf parallele Varianten.
+Dieser Anwendungsfall tritt häufig dann auf, wenn man
+mehrere Varianten eine Produktfamilie verwaltet,
+oder in einem Repository mehrere Entwicklungszweige (``Branches'')
+verwaltet. Die Propagation einzelner Änderungen von
+einem Zweig auf einen anderen wird dann auch als ``Branch Merge''
+oder ``Cherrypicking'' bezeichnet.
+
+Wir nehmen für unsere Aufgabe an, daß eine weitere Variante
+unseres Flugverwaltungssystems, welche die Datenhaltung
+eines speziellen Online-Flugbuchungssystems modelliert.
+Das Modell ``Flugbuchung'' ist in folgender Abbildung
+dargestellt.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{flugbuchung}
+\caption*{Flugbuchung}
+\end{figure} 
+
+
+\subsection*{Vorgehen mit EMFCompare}
+
+In EMFCompare kann man die Änderungspropagation durch eine
+3-Wege-Mischung simulieren. Bitte wählen Sie hierzu aus
+dem Ordner ``aufgabe3/emfc'' Flughafen\_v1 als Basisversion, 
+Flughafen\_v2 und Flugbuchung betrachten Sie als parallele 
+Versionen.
+Das weitere Vorgehen entspricht i.W. dem aus Aufgabe 2.
+Denken Sie bitte daran, die von Ihnen aktualisierte Variante
+Flugbuchung auch abzuspeichern.
+
+
+
+\subsection*{Vorgehen mit SiLift}
+
+In SiLift können sie gezielt die Differenz zwischen Flughafen\_v2
+und Flughafen\_v3 berechnen, und diese dann als Patch auf
+die Zielversion Flughafen übertragen:
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{patch00.png}
+  \caption*{Änderungspropagation durch Patchen mit SiLift}
+\end{figure}
+
+Bitte gehen Sie hierzu im Ordner ``aufgabe3/silift'' wie folgt vor:
+\begin{enumerate}
+ \item Wählen Sie die *.ecore-Dateien der Modelle Flughafen\_v2 und Flughafen\_v3
+ \item Aus dem Kontextmenü wählen Sie bitte ``SiLift $\triangleright$ Create a Patch''
+ \item Sie können alle Default-Einstellungen belassen. Achten Sie lediglich darauf, daß der Patch von Flughafen\_v2 nach Flughafen\_v3 erzeugt wird.
+ \item SiLift erzeugt Ihnen eine Patch-Datei. Selektieren Sie diese und wählen Sie aus dem Kontextmenü ``SiLift $\triangleright$ Apply Patch''.
+ \item Als Zielmodell (Target model) wählen Sie bitte Flugbuchung.
+\end{enumerate}
+
+Das weitere Vorgehen entspricht i.W. dem aus Aufgabe 3.
+Denken Sie bitte daran, die von Ihnen aktualisierte Variante
+Flugbuchung auch abzuspeichern.
+
+
+\subsection*{Fragen}
+Waren die Grï¿½nde fï¿½r das Scheitern der Propagation einzelner ï¿½nderungen fï¿½r Sie verstï¿½ndlich und
+nachvollziehbar?\\
+\medskip
+Waren Sie mit Hilfe der von SiLift bereitgestellten Funktionalitï¿½t in der Lage, angemessen auf das
+Scheitern der Propagation einzelner Änderungen zu reagieren?\\
+\medskip
+Hat die gezielte Reduktion der im Patch enthaltenen ï¿½nderungen die Patch-Anwendung fï¿½r Sie
+vereinfacht?\\
+\medskip
+Inwiefern halten Sie den Einsatz eines dezidierten Patch-Werkzeugs zur Propagation von ï¿½nderungen
+fï¿½r geeignet?\\
+
+\newpage
+\section*{Fragebogen}
+Bitte beantworten Sie abschließend noch einige allgemeine Fragen zu dem Umfeld von Modellen und
+Versionierung.
+\question*{\bf Welche Erfahrungen haben Sie mit der Modellierung von Softwaresystemen, insbesondere mit
+    Klassendiagrammen? }
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben Sie mit der Modellierung von Softwaresystemen, insbesondere mit
+    Klassendiagrammen? }
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben Sie auf dem Gebiet der Metamodellierung und der Repräsentation von
+    Modellen?}
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben sie mit dem Eclipse Modeling Framework? }
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben Sie mit der Durchführung von Refactorings, insbesondere Modell-Refactorings?  }
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben Sie mit der Versionierung von Quelltext-zentrierten Software-Dokumenten? }
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+\question*{\bf Welche Erfahrungen haben Sie mit der Versionierung von Modellen?}
+  \htextlinefive{Profi}{ viel Erfahrung}{kaum Erfahrung}{Anfänger}{nie gehört}
+  
+  \newpage
+  \question*{\bf Bitte markieren Sie in der unten stehenden Auflistung, mit welchen Werkzeugen Sie bereits gearbeitet haben.
+Falls Sie bereits mit einem Werkzeug gearbeitet haben, benennen Sie bitte die Werkzeugfunktionen
+(z.B. SVN update, SVN commit, \ldots), welche Sie dabei benutzt haben.}
+
+  \vertikalblockfour{sehr viel Erfahrung}{viel Erfahrung}{wenig Erfahrung}{keine Erfahrung}{
+    \blocktextfour{\textbf{Unix Diff/Patch}}\\ Funktionen genutzt:\longline \\
+    \blocktextfour{\textbf{Subversion (SVN)}}\\ Funktionen genutzt:\longline \\
+    \blocktextfour{\textbf{CVS}}\\ Funktionen genutzt:\longline \\
+    \blocktextfour{\textbf{GIT}}\\ Funktionen genutzt:\longline \\
+    \blocktextfour{\textbf{EMF Compare}}\\ Funktionen genutzt:\longline \\
+    \blocktextfour{\textbf{CDO}}}\\ Funktionen genutzt:\longline \\
+\end{document}
