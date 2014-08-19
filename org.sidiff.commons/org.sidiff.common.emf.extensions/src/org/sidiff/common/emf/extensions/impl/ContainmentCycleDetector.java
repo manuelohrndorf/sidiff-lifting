@@ -2,6 +2,7 @@ package org.sidiff.common.emf.extensions.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -15,10 +16,20 @@ import org.sidiff.common.logging.LogUtil;
 
 public class ContainmentCycleDetector {
 
+	/**
+	 * Instance of EClassifierInfoManagement for sub type access.
+	 */
 	private EClassifierInfoManagement ECM = null;
 	
+	/**
+	 * Temporary path, which will be cleared after each considered EClass
+	 * inside an EPackage
+	 */
 	private List<Stack<HashMap<EReference, EClassifier>>> tmpPathList = null;
 	
+	/**
+	 * Constructor
+	 */
 	public ContainmentCycleDetector() {
 		
 		ECM =  EClassifierInfoManagement.getInstance();
@@ -60,19 +71,30 @@ public class ContainmentCycleDetector {
 			if(eRef.isContainment()) {
 				EClass target = eRef.getEReferenceType();
 				
-				//Path for direct target
+				// Build up path, starting from eClass as orgin (reference=null to indicate origin)
 				Stack<HashMap<EReference,EClassifier>> path = new Stack<HashMap<EReference,EClassifier>>();
+				HashMap<EReference,EClassifier> originPair = new HashMap<EReference, EClassifier>();
+				originPair.put(null,eClass); // the origin (eClass)
+				path.push(originPair);
+				
+				//Continue this path, starting with the target type of eRef (the direct target, not its indirect subtypes yet)
 				HashMap<EReference,EClassifier> pDirectPair = new HashMap<EReference, EClassifier>();
 				pDirectPair.put(eRef, target);
 				path.push(pDirectPair);
 				tmpPathList.add(path);
+				// Continue finding next steps along this path
 				findNextStep(path);
 
 				// Paths for subtypes if any
 				Set<EClassifier> subTypes = ECM.getAllSubTypes(target);				
 				for(EClassifier subType: subTypes) {
 					
+					// Build up another path, starting from eClass as orgin (reference=null to indicate origin)
 					Stack<HashMap<EReference,EClassifier>> pathForSubtype = new Stack<HashMap<EReference,EClassifier>>();
+					originPair.put(null,eClass); // add the same origin (eClass)
+					path.push(originPair);				
+
+					//Continue this path, starting with a sub type of the target type of the eRef (indirect target)
 					HashMap<EReference,EClassifier> pSubPair = new HashMap<EReference, EClassifier>();
 					pSubPair.put(eRef, subType);
 					pathForSubtype.push(pSubPair);
@@ -101,8 +123,8 @@ public class ContainmentCycleDetector {
 		for(EReference containedERef: ((EClass)eClassifier).getEReferences()) {
 			if(containedERef.isContainment()) {
 				
-				// target already contained in path --> containment cycle
-				if(checkTargetIsContainedInPath(currentPath, eClassifier)) {
+				// on containment cycle (target is origin of Path)
+				if(checkTargetIsOriginOfPath(currentPath, eClassifier)) {
 					
 					// add last step where target equals the container of the first
 					// EReference in the path.
@@ -112,12 +134,32 @@ public class ContainmentCycleDetector {
 					
 					// create ContainmentCycle object and link it to the EClassifierInfo
 					// for the affected EClassifier
-					ContainmentCycle cc = new ContainmentCycle(currentPath);
+					ContainmentCycle cc = new ContainmentCycle(currentPath, false);
 					ECM.getEClassifierInfo(eClassifier).addContainmentCycle(cc);
 					
-					logCC(currentPath);
+					logCC(cc);
+					break; // stop here, since cycle is finished for the origin path.
 
 				}
+				// on inner containment cycle
+				else if(checkInnerCircle(currentPath, eClassifier)) {
+					
+					// add last step where target equals one internal eClassifier
+					// EReference in the path.
+					HashMap<EReference,EClassifier> step = new HashMap<EReference, EClassifier>();
+					step.put(containedERef, eClassifier);
+					currentPath.push(step);
+					
+					// create ContainmentCycle object and link it to the EClassifierInfo
+					// for the affected EClassifier
+					ContainmentCycle cc = new ContainmentCycle(currentPath, true);
+					ECM.getEClassifierInfo(eClassifier).addContainmentCycle(cc);
+					
+					logCC(cc);
+					break; // stop here, since cycle is finished for the origin path.
+					
+				}
+				
 				// otherwise no cycle --> keep adding steps
 				else{
 
@@ -130,19 +172,35 @@ public class ContainmentCycleDetector {
 					findNextStep(currentPath);
 
 					// create new paths for subtypes if any
-					Set<EClassifier> subTypes = ECM.getAllSubTypes(target);				
+					Set<EClassifier> subTypes = ECM.getAllSubTypes(target);
+					boolean ccOccured = false;
 					for(EClassifier subType: subTypes) {
 						
-						// subtype already contained in Path --> containment cycle
-						if(checkTargetIsContainedInPath(currentPath, subType)) {
+						// on containment cycle (subtype is origin of Path)
+						if(checkTargetIsOriginOfPath(currentPath, subType)) {
 							// create ContainmentCycle object and link it to the EClassifierInfo
 							// for the affected EClassifier
-							ContainmentCycle cc = new ContainmentCycle(currentPath);
+							ContainmentCycle cc = new ContainmentCycle(currentPath, false);
 							ECM.getEClassifierInfo(subType).addContainmentCycle(cc);
 							
-							logCC(currentPath);
+							logCC(cc);
+							ccOccured = true;
+							break; // stop here, since cycle is finished for the origin path.
 							
 						}
+						// on inner containment cycle
+						else if(checkInnerCircle(currentPath, subType)) {
+							
+							// create ContainmentCycle object and link it to the EClassifierInfo
+							// for the affected EClassifier
+							ContainmentCycle cc = new ContainmentCycle(currentPath, true);
+							ECM.getEClassifierInfo(subType).addContainmentCycle(cc);
+							
+							logCC(cc);
+							ccOccured = true;
+							break; // stop here, since cycle is finished for the origin path.						
+						}						
+						
 						// otherwise no cycle --> keep adding steps
 						else{	
 							Stack<HashMap<EReference,EClassifier>> pathForSubtype = new Stack<HashMap<EReference,EClassifier>>();
@@ -152,37 +210,70 @@ public class ContainmentCycleDetector {
 							tmpPathList.add(pathForSubtype);
 							findNextStep(pathForSubtype);
 						}
-					}							
+					}
+					if(ccOccured) {
+						break; // stop here, since cycle is finished for the origin path.
+					}
 				}			
 			}	
 		}
 	}
 	
-	private boolean checkTargetIsContainedInPath(Stack<HashMap<EReference, EClassifier>> currentPath, EClassifier eClassifier) {
-		boolean contained = false;
+	/**
+	 * This method checks if a given eClassifier is the origin of a path or the super type of the origin.
+	 * If so, this inclines a containment cycle.
+	 * @param currentPath
+	 * @param eClassifier
+	 * @return
+	 */
+	private boolean checkTargetIsOriginOfPath(Stack<HashMap<EReference, EClassifier>> currentPath, EClassifier eClassifier) {
 		
-		for(HashMap<EReference,EClassifier> entry: currentPath) {
-			if(entry.values().contains(eClassifier)) {
-				contained = true;
+		EClass origin = (EClass) currentPath.firstElement().entrySet().iterator().next().getValue();
+		EClass target = (EClass) eClassifier;
+		
+		return ( (target.equals(origin))  ||  (origin.getEAllSuperTypes().contains(target)) );	
+	}
+	
+	/**
+	 * This method checks if a given eClassifier or its sub type is already contained in the path (not concerning the origin).
+	 * If so, this inclines an inner containment cycle (i.e. an inner circle),
+	 * @param currentPath
+	 * @param eClassifier
+	 * @return
+	 */
+	private boolean checkInnerCircle(Stack<HashMap<EReference, EClassifier>> currentPath, EClassifier eClassifier) {
+		
+		boolean alreadyContained = false;
+		
+		EClass origin = (EClass) currentPath.firstElement().entrySet().iterator().next().getValue();
+		EClass target = (EClass) eClassifier;
+		
+		Iterator<HashMap<EReference,EClassifier>> stepIt = currentPath.iterator();
+		stepIt.next(); //skip first (bottom) entry which indicates the origin.
+		while(stepIt.hasNext()) {
+			HashMap<EReference,EClassifier> step = stepIt.next();
+			EClass stepTarget = (EClass) step.values().iterator().next();
+			
+			if(target.equals(stepTarget) || stepTarget.getEAllSuperTypes().contains(target)) {
+				alreadyContained = true;
 				break;
 			}
 		}
-		return contained;
+		
+		return alreadyContained;	
 	}
+	
+	
 	
 	/**
 	 * Logs and prints out the paths of a containmnet cycle
 	 * @param path
 	 */
-	private void logCC(Stack<HashMap<EReference,EClassifier>> path ) {
+	private void logCC(ContainmentCycle cc) {
 		
 		String message = "Found Containment-Cycle: ";
 		
-		for(HashMap<EReference,EClassifier> step: path) {
-			EClassifier eClassifier = (EClassifier) step.values().iterator().next();
-			EReference eReference = (EReference) step.keySet().iterator().next();
-			message +=" > " + "(" + eReference.getName() +")" + eClassifier.getName();
-		}
+		message += cc.getPathAsString();
 		
 		LogUtil.log(LogEvent.NOTICE, message);
 	}

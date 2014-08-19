@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
@@ -228,6 +229,14 @@ public class GenerationActionDelegator {
 		if (c.CREATE_MOVE_UPS
 			&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_UP)) {
 
+			for(ContainmentCycle cc: eInfo.getContainmentCycles()) {
+				if(cc.getPath().size() >= 2) {
+					
+					System.out.println(cc.getPathAsString());
+					System.out.println(">2");
+				}
+				
+			}
 
 		}
 
