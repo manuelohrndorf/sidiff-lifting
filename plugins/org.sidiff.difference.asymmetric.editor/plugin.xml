@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.sidiff.difference.asymmetric.presentation.AsymmetricEditor"
+            contributorClass="org.sidiff.difference.asymmetric.presentation.AsymmetricActionBarContributor"
+            extensions="asymmetric"
+            icon="icons/full/obj16/AsymmetricModelFile.gif"
+            id="org.sidiff.difference.asymmetric.presentation.AsymmetricEditorID"
+            name="%_UI_AsymmetricEditor_label">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.difference.asymmetric.util.AsymmetricUtil"
+            id="org.sidiff.difference.asymmetric.editor.disableOperation"
+            name="Enable">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:true"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+   </extension>
+
+</plugin>

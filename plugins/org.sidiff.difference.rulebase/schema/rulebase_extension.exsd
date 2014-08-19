@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.sidiff.difference.rulebase" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.sidiff.difference.rulebase" id="rulebase_extension" name="RuleBase"/>
+      </appInfo>
+      <documentation>
+         This extension point is used to add new rulebases to the recognition engine. A plugin that adds this extension point had to implement the IRuleBase interface. This interface offers the following informations to the recognition engine:
+- A description name of the rulebase.
+- The document type the rulebase was generated for. In other words, the meta model the edit rules were implemented for.
+- A list containing all rulebase recognition rules which will be applied by the recognition engine.
+      </documentation>
+   </annotation>
+
+   <element name="rulebase">
+      <complexType>
+         <attribute name="rulebase" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.sidiff.difference.rulebase.extension.IRuleBase"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiinfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

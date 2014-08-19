@@ -1,0 +1,68 @@
+package org.sidiff.difference.matcher;
+
+import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.emf.Scope;
+
+public interface IMatcher {
+
+	/**
+	 * The shared extension point id.
+	 */
+	public static final String extensionPointID = "org.sidiff.difference.matcher.matcher_extension";
+
+	/**
+	 * Calculates a matching between model A and model B. That means a
+	 * Correspondence for each preserved object between model A and model B.
+	 * 
+	 * @param modelA
+	 *            the earlier version of the model to compare to.
+	 * @param modelB
+	 *            the older version of the model to compare to.
+	 * @param scope
+	 *            RESOURCE or RESOURCE_SET
+	 * @return the matching between model A and model B (difference that
+	 *         contains only correspondences).
+	 */
+	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope, boolean calculateReliability);
+
+	/**
+	 * Returns the description name of the matcher.
+	 * 
+	 * @return the matcher name.
+	 */
+	public String getName();
+
+	/**
+	 * Returns the short name (used as a key) of the matcher.
+	 * 
+	 * @return the matcher short name (used as key).
+	 */
+	public String getKey();
+
+	/**
+	 * Returns whether this matcher can handle (i.e. match) models of the given
+	 * documentType.
+	 * 
+	 * @param modelA
+	 * @param modelB
+	 * @return
+	 */
+	public boolean canHandle(Resource modelA, Resource modelB);
+
+	/**
+	 * Returns whether this matcher is principally capable of comparing two
+	 * models in comparsionMode {@link Scope#RESOURCE_SET}.
+	 * 
+	 * @return
+	 */
+	public boolean isResourceSetCapable();
+	
+	/**
+	 * Returns whether this matcher supports the computation of reliability.
+	 * 
+	 * @return true if realibiliy is supported
+	 */
+	public boolean canComputeReliability();
+
+}

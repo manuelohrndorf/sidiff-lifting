@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.difference.asymmetric/src" editDirectory="/org.sidiff.difference.asymmetric.edit/src"
+    editorDirectory="/org.sidiff.difference.asymmetric.editor/src" modelPluginID="org.sidiff.difference.asymmetric"
+    modelName="Asymmetric" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" colorProviders="true" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.sidiff.difference.symmetric/model/Symmetric.genmodel#//symmetric platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
+  <foreignModel>Asymmetric.ecore</foreignModel>
+  <genPackages prefix="Asymmetric" basePackage="org.sidiff.difference" disposableProviderFactory="true"
+      ecorePackage="Asymmetric.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Asymmetric.ecore#//DependencyKind">
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/UseDelete"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/CreateUse"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/DeleteForbid"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/ForbidCreate"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/ChangeUse"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/UseChange"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/ChangeForbid"/>
+      <genEnumLiterals ecoreEnumLiteral="Asymmetric.ecore#//DependencyKind/ForbidChange"/>
+    </genEnums>
+    <genClasses provider="Stateful" ecoreClass="Asymmetric.ecore#//AsymmetricDifference">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/operationInvocations"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//AsymmetricDifference/originModel"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//AsymmetricDifference/changedModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/depContainers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/parameterMappings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/executions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/symmetricDifference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/ruleBases"/>
+      <genOperations ecoreOperation="Asymmetric.ecore#//AsymmetricDifference/initRuleBases"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//OperationInvocation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/parameterBindings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/outgoing"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/incoming"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//OperationInvocation/apply"/>
+      <genFeatures notify="false" children="true" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/changeSet"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/editRule"/>
+      <genOperations ecoreOperation="Asymmetric.ecore#//OperationInvocation/resolveEditRule"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Asymmetric.ecore#//ParameterBinding">
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference Asymmetric.ecore#//ParameterBinding/formalParameter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//ParameterBinding/formalName"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//ObjectParameterBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/actualA"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/actualB"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//ValueParameterBinding">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//ValueParameterBinding/actual"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//DependencyContainer">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//DependencyContainer/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//DependencyContainer/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//DependencyContainer/dependencies"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//ParameterMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ParameterMapping/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ParameterMapping/target"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//ParallelExecution">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ParallelExecution/subExecutions"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//SequentialExecution">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//SequentialExecution/subExecutions"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Asymmetric.ecore#//Execution"/>
+    <genClasses ecoreClass="Asymmetric.ecore#//MultiParameterBinding">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//MultiParameterBinding/parameterBindings"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//NodeDependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//NodeDependency/object"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//EdgeDependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//EdgeDependency/srcObject"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//EdgeDependency/tgtObject"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//EdgeDependency/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//AttributeDependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AttributeDependency/object"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AttributeDependency/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Asymmetric.ecore#//Dependency">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//Dependency/kind"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//Dependency/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//Dependency/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

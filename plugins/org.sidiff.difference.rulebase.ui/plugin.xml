@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.difference.rulebase.ui.definition.rulebaseEditor">
+         <with
+               variable="activeEditorId">
+            <equals
+                  value="org.sidiff.difference.rulebase.ui.rulebaseEditor">
+            </equals>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.sidiff.difference.rulebase.ui.editor.RulebaseEditor"
+            contributorClass="org.sidiff.difference.rulebase.ui.editor.RulebaseActionBarContributor"
+            default="false"
+            extensions="xmi,rulebase"
+            icon="icons/rulebase.gif"
+            id="org.sidiff.difference.rulebase.ui.rulebaseEditor"
+            name="Rulebase Editor">
+      </editor>
+   </extension>
+
+</plugin>

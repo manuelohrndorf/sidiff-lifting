@@ -1,0 +1,46 @@
+Dieses Plugin enthält folgende Funktionen:
+
+1. SelectionListener um Selektionen von SemeanticChangeSets, Changes und Corresppondences zu verarbeiten.
+
+2. Eine Implementation des DecorationService von GMF um die graphischen Darstellung der von einer Change oder
+Correspondence referenzierten farbig zu markieren.
+
+3. Eine Action für die Toolbar des Differenzeditors die Ecorediagramme automatisch erzeugt, falls nicht vorhanden,
+diese öffnet und passend in der Editorarea von Eclipse ausrichtet.
+
+
+Der SelectionListener ist im DifferenceSelectionController implementiert und wird vom Aktivator beim SelectionService der Workbench
+registiert sobald die Workbench verfügbar ist. (Was dazu führt, dass das Plugin nur innerhalb einer RCP Applikation funktionieren kann)
+Findet eine Selektion im Differenzeditor statt, werden die entsprechenden referenzierten Objekte der verglichenen Modelle im Controller hinterlegt
+und die registrierten Decorators refreshed.
+
+Die Decorators sind jene Komponenten die die Markierung der Diagrammelemente vornehmen. Sie werden von einem DecoratorProvider installiert, welcher wiederrum
+über einen ExtensionPoint bei GMF registiert wurde.
+Der Provider installiert pro Objekt nur einen Decorator, da es vorkommen kann, dass es pro Objekt mehrere Anzeigeelemente gibt, 
+die ineinenader verschachtelt sind, was zur einer mehrfachen Markierung führen würde.
+Wird ein Decorator refreshed, prüft er über den Controller ob sein zugehöriges Objekt zur Selektion gehört und markiert entsprechend.
+
+Die Markierung ist eine einfache rote Umrandung, implementiert in der DifferenceSelectionDecorationFigure.
+Problematisch ist dabei nur die korrekte Größe zu erhalten, da die tatsächliche Größe der Diagrammelemente im Normalfall erst nach einem Layout
+bekannt ist, da sich die Größe einer Klasse zB aus den in ihr enthalten Elementen implizit ergibt, wenn sie nicht vom Benutzer manuell verändert wurde.
+Hier muss ein Listener verwendet werden um zu Markieren, sobald die Größe bekannt ist.
+Für die Markieung von Edges wird keine echte Decoration verwendet, sondern stattdessen wird einfach die Farbe der und Linienbreite der Edge angepasst,
+was sehr sehr viel einfacher ist, als eine echte Decoration anzubringen.
+
+Der InitCompareView Command zum Erzeugen, Anzeigen und Ausrichten der Diagramme verwendet einige Klassen aus den internen packages von org.eclipse.gmf.runtime und
+org.eclipse.ui. Es kann also sein, dass sie mit späteren Versionen dieser Plugins nicht mehr korrekt funktioniert. Eine Lösung über die
+normale API von GMF oder Eclipse ist derzeit nicht möglich.
+Prinzipiell werden hier einfach über die Difference des geöffneten DifferenceEditors die zwei verglichenen Resourcen eingeholt und geprüft,
+ob jeweils eine ecorediag Datei mit gleichem Namen existiert. Falls nicht, werden einige Commands aus internal Packeten von gmf.runtime und ecoretools 
+genutzt um die Diagramme zu erstellen. Nichts anderes geschieht, wenn man den gewohnten Command aus dem KontextMenü und den zugehörigen Wizard verwendet.
+Dabei muss lediglich darauf geachtet werden, dass die verwendeten URI- IFile- und IPath-Objekte jeweils korrekte Pfade enthalten.
+
+Soll die Action auch auf andere GMF Editoren anwendbar sein, muss in der Extension des InitCompareView Commands ein entsprechender Parameter
+hinzugefügt werden, der als value <editorId>,<modelFileExtension>,<diagramFileExtension> enthält. Die automatische Diagrammerzeugung ist aber natürlich für
+Ecoremodelle aktiviert.
+
+Sind die Diagramme vorhanden werden die entsprechenden Editoren über die Workbench geöffnet
+Normalerweise werden die Editoren auf den vorhandenen EditorStack gelegt und dort gelassen.
+Jedoch ist es mit Zugriff auf org.eclipse.ui.internal möglich die LayoutPart-Objekte zu erhalten, die die EditorStacks und ViewStacks verwalten.
+EditorStacks werdem vom EditorSashContainer verwaltet. Über diese Klasse kann die Ausrichtung sehr einfach entsprechend einem Perspective-Layout
+vorgenommen werden.
