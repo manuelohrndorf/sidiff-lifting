@@ -29,7 +29,7 @@ public class HenshinMultiRuleAnalysis {
 		Set<Rule> rootRules = new HashSet<Rule>();
 		
 		for (Unit unit : module.getUnits()) {
-			if (isMultiRule(unit)) {
+			if (unit instanceof Rule && !((Rule)unit).getMultiRules().isEmpty()){
 				rootRules.add((Rule) unit);
 			}
 		}
@@ -39,21 +39,6 @@ public class HenshinMultiRuleAnalysis {
 		}
 		
 		return rootRules;
-	}
-	
-	/**
-	 * Test if the unit is a Multi-Rule.
-	 * 
-	 * @param unit The unit to test.
-	 * @return Returns <code>true</code> if the unit is Multi-Rule; <code>false</code> otherwise.
-	 */
-	public static boolean isMultiRule(Unit unit) {
-		if (unit instanceof Rule) {
-			if (!((Rule) unit).getMultiRules().isEmpty()) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	/**
