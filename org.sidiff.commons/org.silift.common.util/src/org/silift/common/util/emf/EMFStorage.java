@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -341,13 +342,36 @@ public class EMFStorage {
 	}
 	
 	/**
-	 * Converts a <code>File</code> to a file  URI.
+	 * Converts a <code>File</code> to a file URI.
 	 * 
-	 * @param file The <code>File</code> to convert.
+	 * @param file
+	 *            The <code>File</code> to convert.
 	 * @return The given file as file URI.
 	 */
 	public static URI fileToFileUri(File file) {
 		return URI.createFileURI(fileToPath(file));
+	}
+	
+	/**
+	 * Converts a <code>IFile</code> to a platform resource URI.
+	 * 
+	 * @param file
+	 *            The <code>File</code> to convert.
+	 * @return The given file as file URI.
+	 */
+	public static URI iFileToURI(IFile iFile) {
+		return URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);
+	}
+	
+	/**
+	 * Converts a <code>IFile</code> to a platform resource URI.
+	 * 
+	 * @param file
+	 *            The <code>File</code> to convert.
+	 * @return The given file as file URI.
+	 */
+	public static URI iFolderToURI(IFolder iFolder) {
+		return URI.createPlatformResourceURI(iFolder.getFullPath().toString(), true);
 	}
 
 	/**
