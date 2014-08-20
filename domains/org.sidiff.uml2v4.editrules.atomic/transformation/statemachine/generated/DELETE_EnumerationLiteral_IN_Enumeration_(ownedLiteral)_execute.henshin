@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mBpPgAdAEeSgEeYoZauFHg" name="DELETE_EnumerationLiteral_IN_Enumeration_(ownedLiteral)" description="Deletes one EnumerationLiteral in Enumeration">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mBpPgQdAEeSgEeYoZauFHg" name="deleteEnumerationLiteral_IN_Enumeration" description="deletes one EnumerationLiteral in the context: Enumeration">
+    <parameters xmi:id="_mBpPggdAEeSgEeYoZauFHg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_mBpPgwdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <lhs xmi:id="_mBpPhAdAEeSgEeYoZauFHg" name="LHS">
+      <nodes xmi:id="_mBpPhQdAEeSgEeYoZauFHg" name="Selected" incoming="_mBpPiAdAEeSgEeYoZauFHg" outgoing="_mBpPhwdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_mBpPhgdAEeSgEeYoZauFHg" name="ToBeDeleted" incoming="_mBpPhwdAEeSgEeYoZauFHg" outgoing="_mBpPiAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+      </nodes>
+      <edges xmi:id="_mBpPhwdAEeSgEeYoZauFHg" source="_mBpPhQdAEeSgEeYoZauFHg" target="_mBpPhgdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration/ownedLiteral"/>
+      </edges>
+      <edges xmi:id="_mBpPiAdAEeSgEeYoZauFHg" source="_mBpPhgdAEeSgEeYoZauFHg" target="_mBpPhQdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral/enumeration"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mBpPiQdAEeSgEeYoZauFHg" name="RHS">
+      <nodes xmi:id="_mBpPigdAEeSgEeYoZauFHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mBpPiwdAEeSgEeYoZauFHg" origin="_mBpPhQdAEeSgEeYoZauFHg" image="_mBpPigdAEeSgEeYoZauFHg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_mBpPjAdAEeSgEeYoZauFHg" name="mainUnit" subUnits="_mBpPgQdAEeSgEeYoZauFHg">
+    <parameters xmi:id="_mBpPjQdAEeSgEeYoZauFHg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_mBpPjgdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameterMappings xmi:id="_mBpPjwdAEeSgEeYoZauFHg" source="_mBpPjQdAEeSgEeYoZauFHg" target="_mBpPggdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mBpPkAdAEeSgEeYoZauFHg" source="_mBpPjgdAEeSgEeYoZauFHg" target="_mBpPgwdAEeSgEeYoZauFHg"/>
+  </units>
+</henshin:Module>

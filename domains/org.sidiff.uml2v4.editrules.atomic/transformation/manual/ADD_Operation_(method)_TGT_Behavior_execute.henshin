@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wcoh0Ba4EeODgoe8tUTuWA" name="ADD_Operation_(method)_TGT_Behavior" description="Adds to Operation's reference method the target Behavior">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_wcoh0Ra4EeODgoe8tUTuWA" name="addToOperation_method_Behavior" description="Adds to Operation's reference method the target Behavior">
+    <parameters xmi:id="_wcoh0ha4EeODgoe8tUTuWA" name="Selected" description="">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_wcoh0xa4EeODgoe8tUTuWA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <lhs xmi:id="_wcoh1Ba4EeODgoe8tUTuWA" name="Lhs">
+      <nodes xmi:id="_wcoh1Ra4EeODgoe8tUTuWA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_wcoh1ha4EeODgoe8tUTuWA" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Na_MxBrFEeO-q7guIt96rA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Na_MxRrFEeO-q7guIt96rA">
+          <conclusion xmi:id="_Na_MxhrFEeO-q7guIt96rA">
+            <nodes xmi:id="_Na_MyRrFEeO-q7guIt96rA" name="NewTarget" incoming="_X-iEABrFEeO-q7guIt96rA" outgoing="_W_XtEBrFEeO-q7guIt96rA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+            </nodes>
+            <nodes xmi:id="_Na-lsBrFEeO-q7guIt96rA" incoming="_W_XtEBrFEeO-q7guIt96rA" outgoing="_X-iEABrFEeO-q7guIt96rA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+            </nodes>
+            <edges xmi:id="_W_XtEBrFEeO-q7guIt96rA" source="_Na_MyRrFEeO-q7guIt96rA" target="_Na-lsBrFEeO-q7guIt96rA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior/specification"/>
+            </edges>
+            <edges xmi:id="_X-iEABrFEeO-q7guIt96rA" source="_Na-lsBrFEeO-q7guIt96rA" target="_Na_MyRrFEeO-q7guIt96rA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioralFeature/method"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Na_MyhrFEeO-q7guIt96rA" origin="_wcoh1ha4EeODgoe8tUTuWA" image="_Na_MyRrFEeO-q7guIt96rA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_wcoh1xa4EeODgoe8tUTuWA" name="Rhs">
+      <nodes xmi:id="_wcoh2Ba4EeODgoe8tUTuWA" name="Selected" incoming="_wcoh2xa4EeODgoe8tUTuWA" outgoing="_wcoh2ha4EeODgoe8tUTuWA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_wcoh2Ra4EeODgoe8tUTuWA" name="NewTarget" incoming="_wcoh2ha4EeODgoe8tUTuWA" outgoing="_wcoh2xa4EeODgoe8tUTuWA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <edges xmi:id="_wcoh2ha4EeODgoe8tUTuWA" source="_wcoh2Ba4EeODgoe8tUTuWA" target="_wcoh2Ra4EeODgoe8tUTuWA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioralFeature/method"/>
+      </edges>
+      <edges xmi:id="_wcoh2xa4EeODgoe8tUTuWA" source="_wcoh2Ra4EeODgoe8tUTuWA" target="_wcoh2Ba4EeODgoe8tUTuWA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior/specification"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_wcoh3Ba4EeODgoe8tUTuWA" origin="_wcoh1Ra4EeODgoe8tUTuWA" image="_wcoh2Ba4EeODgoe8tUTuWA"/>
+    <mappings xmi:id="_wcoh3Ra4EeODgoe8tUTuWA" origin="_wcoh1ha4EeODgoe8tUTuWA" image="_wcoh2Ra4EeODgoe8tUTuWA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wcoh3ha4EeODgoe8tUTuWA" name="mainUnit" subUnits="_wcoh0Ra4EeODgoe8tUTuWA">
+    <parameters xmi:id="_wcoh3xa4EeODgoe8tUTuWA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_wcoh4Ba4EeODgoe8tUTuWA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_wcoh4Ra4EeODgoe8tUTuWA" source="_wcoh3xa4EeODgoe8tUTuWA" target="_wcoh0ha4EeODgoe8tUTuWA"/>
+    <parameterMappings xmi:id="_wcoh4ha4EeODgoe8tUTuWA" source="_wcoh4Ba4EeODgoe8tUTuWA" target="_wcoh0xa4EeODgoe8tUTuWA"/>
+  </units>
+</henshin:Module>

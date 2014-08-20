@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nllukCiqEeSY3e5wtWnbHw" name="RR: DELETE_LiteralString_IN_Parameter_(defaultValue)" description="Recognize: Deletes one LiteralString in Parameter">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_nllukSiqEeSY3e5wtWnbHw" name="rr:deleteLiteralString_IN_Parameter" description="Recognize: deletes one LiteralString in the context: Parameter">
+    <parameters xmi:id="_nllukiiqEeSY3e5wtWnbHw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_nllukyiqEeSY3e5wtWnbHw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+    </parameters>
+    <lhs xmi:id="_nllulCiqEeSY3e5wtWnbHw" name="Lhs">
+      <nodes xmi:id="_nllulSiqEeSY3e5wtWnbHw" name="A.Selected" incoming="_nllunSiqEeSY3e5wtWnbHw" outgoing="_nlluoCiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_nlluliiqEeSY3e5wtWnbHw" name="" outgoing="_nllunCiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_nllulyiqEeSY3e5wtWnbHw" name="A.ToBeDeleted" incoming="_nllunCiqEeSY3e5wtWnbHw _nlluniiqEeSY3e5wtWnbHw _nlluoCiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <nodes xmi:id="_nllumCiqEeSY3e5wtWnbHw" name="" outgoing="_nllunSiqEeSY3e5wtWnbHw _nlluniiqEeSY3e5wtWnbHw _nllunyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_nllumSiqEeSY3e5wtWnbHw" name="" incoming="_nllunyiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_nllumiiqEeSY3e5wtWnbHw" value="&quot;defaultValue&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_nllumyiqEeSY3e5wtWnbHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_nllunCiqEeSY3e5wtWnbHw" source="_nlluliiqEeSY3e5wtWnbHw" target="_nllulyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_nllunSiqEeSY3e5wtWnbHw" source="_nllumCiqEeSY3e5wtWnbHw" target="_nllulSiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_nlluniiqEeSY3e5wtWnbHw" source="_nllumCiqEeSY3e5wtWnbHw" target="_nllulyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_nllunyiqEeSY3e5wtWnbHw" source="_nllumCiqEeSY3e5wtWnbHw" target="_nllumSiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_nlluoCiqEeSY3e5wtWnbHw" source="_nllulSiqEeSY3e5wtWnbHw" target="_nllulyiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter/defaultValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_nlluoSiqEeSY3e5wtWnbHw" name="Rhs">
+      <nodes xmi:id="_nlluoiiqEeSY3e5wtWnbHw" name="A.Selected" incoming="_nllusiiqEeSY3e5wtWnbHw" outgoing="_nllutSiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_nlluoyiqEeSY3e5wtWnbHw" name="" incoming="_nllutiiqEeSY3e5wtWnbHw" outgoing="_nllusSiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_nllupCiqEeSY3e5wtWnbHw" name="A.ToBeDeleted" incoming="_nllusSiqEeSY3e5wtWnbHw _nllusyiqEeSY3e5wtWnbHw _nllutSiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <nodes xmi:id="_nllupSiqEeSY3e5wtWnbHw" name="" incoming="_nllutyiqEeSY3e5wtWnbHw" outgoing="_nllusiiqEeSY3e5wtWnbHw _nllusyiqEeSY3e5wtWnbHw _nllutCiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_nllupiiqEeSY3e5wtWnbHw" name="" incoming="_nllutCiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_nllupyiqEeSY3e5wtWnbHw" incoming="_nlluuCiqEeSY3e5wtWnbHw" outgoing="_nllutiiqEeSY3e5wtWnbHw _nllutyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_nlluqCiqEeSY3e5wtWnbHw" value="&quot;DELETE_LiteralString_IN_Parameter_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_nlluqSiqEeSY3e5wtWnbHw" value="&quot;Deletes one LiteralString in Parameter&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_nlluqiiqEeSY3e5wtWnbHw" value="&quot;DELETE_LiteralString_IN_Parameter_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_nlluqyiqEeSY3e5wtWnbHw" value="&quot;RR: DELETE_LiteralString_IN_Parameter_(defaultValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_nllurCiqEeSY3e5wtWnbHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_nllurSiqEeSY3e5wtWnbHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_nlluriiqEeSY3e5wtWnbHw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_nlluryiqEeSY3e5wtWnbHw" value="17">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_nllusCiqEeSY3e5wtWnbHw" name="" outgoing="_nlluuCiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_nllusSiqEeSY3e5wtWnbHw" source="_nlluoyiqEeSY3e5wtWnbHw" target="_nllupCiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_nllusiiqEeSY3e5wtWnbHw" source="_nllupSiqEeSY3e5wtWnbHw" target="_nlluoiiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_nllusyiqEeSY3e5wtWnbHw" source="_nllupSiqEeSY3e5wtWnbHw" target="_nllupCiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_nllutCiqEeSY3e5wtWnbHw" source="_nllupSiqEeSY3e5wtWnbHw" target="_nllupiiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_nllutSiqEeSY3e5wtWnbHw" source="_nlluoiiqEeSY3e5wtWnbHw" target="_nllupCiqEeSY3e5wtWnbHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter/defaultValue"/>
+      </edges>
+      <edges xmi:id="_nllutiiqEeSY3e5wtWnbHw" source="_nllupyiqEeSY3e5wtWnbHw" target="_nlluoyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_nllutyiqEeSY3e5wtWnbHw" source="_nllupyiqEeSY3e5wtWnbHw" target="_nllupSiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_nlluuCiqEeSY3e5wtWnbHw" source="_nllusCiqEeSY3e5wtWnbHw" target="_nllupyiqEeSY3e5wtWnbHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_nlluuSiqEeSY3e5wtWnbHw" origin="_nllulSiqEeSY3e5wtWnbHw" image="_nlluoiiqEeSY3e5wtWnbHw"/>
+    <mappings xmi:id="_nlluuiiqEeSY3e5wtWnbHw" origin="_nlluliiqEeSY3e5wtWnbHw" image="_nlluoyiqEeSY3e5wtWnbHw"/>
+    <mappings xmi:id="_nlluuyiqEeSY3e5wtWnbHw" origin="_nllulyiqEeSY3e5wtWnbHw" image="_nllupCiqEeSY3e5wtWnbHw"/>
+    <mappings xmi:id="_nlluvCiqEeSY3e5wtWnbHw" origin="_nllumCiqEeSY3e5wtWnbHw" image="_nllupSiqEeSY3e5wtWnbHw"/>
+    <mappings xmi:id="_nlluvSiqEeSY3e5wtWnbHw" origin="_nllumSiqEeSY3e5wtWnbHw" image="_nllupiiqEeSY3e5wtWnbHw"/>
+    <mappings xmi:id="_nlluviiqEeSY3e5wtWnbHw" origin="_nllumyiqEeSY3e5wtWnbHw" image="_nllusCiqEeSY3e5wtWnbHw"/>
+  </units>
+</henshin:Module>
