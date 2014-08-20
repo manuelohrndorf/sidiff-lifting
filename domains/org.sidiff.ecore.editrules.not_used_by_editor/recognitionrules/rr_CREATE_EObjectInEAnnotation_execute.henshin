@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_lmS3gCiCEeSBnJSLNvXYRw" name="RR: CREATE_EObjectInEAnnotation" description="Recognize: Creates one EObject in EAnnotation">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_lmS3gSiCEeSBnJSLNvXYRw" name="rr:createEObjectInEAnnotation" description="Recognize: creates one EObject in the context: EAnnotation">
+    <parameters xmi:id="_lmS3giiCEeSBnJSLNvXYRw" name="Selected"/>
+    <parameters xmi:id="_lmS3gyiCEeSBnJSLNvXYRw" name="New"/>
+    <lhs xmi:id="_lmS3hCiCEeSBnJSLNvXYRw" name="Lhs">
+      <nodes xmi:id="_lmS3hSiCEeSBnJSLNvXYRw" name="B.Selected" incoming="_lmTelyiCEeSBnJSLNvXYRw" outgoing="_lmTemiiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_lmTekCiCEeSBnJSLNvXYRw" name="" outgoing="_lmTeliiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_lmTekSiCEeSBnJSLNvXYRw" name="B.New" incoming="_lmTeliiCEeSBnJSLNvXYRw _lmTemCiCEeSBnJSLNvXYRw _lmTemiiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <nodes xmi:id="_lmTekiiCEeSBnJSLNvXYRw" name="" outgoing="_lmTelyiCEeSBnJSLNvXYRw _lmTemCiCEeSBnJSLNvXYRw _lmTemSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_lmTekyiCEeSBnJSLNvXYRw" name="" incoming="_lmTemSiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_lmTelCiCEeSBnJSLNvXYRw" value="&quot;contents&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_lmTelSiCEeSBnJSLNvXYRw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_lmTeliiCEeSBnJSLNvXYRw" source="_lmTekCiCEeSBnJSLNvXYRw" target="_lmTekSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_lmTelyiCEeSBnJSLNvXYRw" source="_lmTekiiCEeSBnJSLNvXYRw" target="_lmS3hSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_lmTemCiCEeSBnJSLNvXYRw" source="_lmTekiiCEeSBnJSLNvXYRw" target="_lmTekSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_lmTemSiCEeSBnJSLNvXYRw" source="_lmTekiiCEeSBnJSLNvXYRw" target="_lmTekyiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_lmTemiiCEeSBnJSLNvXYRw" source="_lmS3hSiCEeSBnJSLNvXYRw" target="_lmTekSiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_lmTemyiCEeSBnJSLNvXYRw" name="Rhs">
+      <nodes xmi:id="_lmTenCiCEeSBnJSLNvXYRw" name="B.Selected" incoming="_lmTerCiCEeSBnJSLNvXYRw" outgoing="_lmTeryiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_lmTenSiCEeSBnJSLNvXYRw" name="" incoming="_lmTesCiCEeSBnJSLNvXYRw" outgoing="_lmTeqyiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_lmTeniiCEeSBnJSLNvXYRw" name="B.New" incoming="_lmTeqyiCEeSBnJSLNvXYRw _lmTerSiCEeSBnJSLNvXYRw _lmTeryiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <nodes xmi:id="_lmTenyiCEeSBnJSLNvXYRw" name="" incoming="_lmTesSiCEeSBnJSLNvXYRw" outgoing="_lmTerCiCEeSBnJSLNvXYRw _lmTerSiCEeSBnJSLNvXYRw _lmTeriiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_lmTeoCiCEeSBnJSLNvXYRw" name="" incoming="_lmTeriiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_lmTeoSiCEeSBnJSLNvXYRw" incoming="_lmTesiiCEeSBnJSLNvXYRw" outgoing="_lmTesCiCEeSBnJSLNvXYRw _lmTesSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_lmTeoiiCEeSBnJSLNvXYRw" value="&quot;CREATE_EObjectInEAnnotation&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_lmTeoyiCEeSBnJSLNvXYRw" value="&quot;Creates one EObject in EAnnotation&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_lmTepCiCEeSBnJSLNvXYRw" value="&quot;CREATE_EObjectInEAnnotation&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_lmTepSiCEeSBnJSLNvXYRw" value="&quot;RR: CREATE_EObjectInEAnnotation&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_lmTepiiCEeSBnJSLNvXYRw" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_lmTepyiCEeSBnJSLNvXYRw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_lmTeqCiCEeSBnJSLNvXYRw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_lmTeqSiCEeSBnJSLNvXYRw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_lmTeqiiCEeSBnJSLNvXYRw" name="" outgoing="_lmTesiiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_lmTeqyiCEeSBnJSLNvXYRw" source="_lmTenSiCEeSBnJSLNvXYRw" target="_lmTeniiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_lmTerCiCEeSBnJSLNvXYRw" source="_lmTenyiCEeSBnJSLNvXYRw" target="_lmTenCiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_lmTerSiCEeSBnJSLNvXYRw" source="_lmTenyiCEeSBnJSLNvXYRw" target="_lmTeniiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_lmTeriiCEeSBnJSLNvXYRw" source="_lmTenyiCEeSBnJSLNvXYRw" target="_lmTeoCiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_lmTeryiCEeSBnJSLNvXYRw" source="_lmTenCiCEeSBnJSLNvXYRw" target="_lmTeniiCEeSBnJSLNvXYRw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+      <edges xmi:id="_lmTesCiCEeSBnJSLNvXYRw" source="_lmTeoSiCEeSBnJSLNvXYRw" target="_lmTenSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_lmTesSiCEeSBnJSLNvXYRw" source="_lmTeoSiCEeSBnJSLNvXYRw" target="_lmTenyiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_lmTesiiCEeSBnJSLNvXYRw" source="_lmTeqiiCEeSBnJSLNvXYRw" target="_lmTeoSiCEeSBnJSLNvXYRw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_lmTesyiCEeSBnJSLNvXYRw" origin="_lmS3hSiCEeSBnJSLNvXYRw" image="_lmTenCiCEeSBnJSLNvXYRw"/>
+    <mappings xmi:id="_lmTetCiCEeSBnJSLNvXYRw" origin="_lmTekCiCEeSBnJSLNvXYRw" image="_lmTenSiCEeSBnJSLNvXYRw"/>
+    <mappings xmi:id="_lmTetSiCEeSBnJSLNvXYRw" origin="_lmTekSiCEeSBnJSLNvXYRw" image="_lmTeniiCEeSBnJSLNvXYRw"/>
+    <mappings xmi:id="_lmTetiiCEeSBnJSLNvXYRw" origin="_lmTekiiCEeSBnJSLNvXYRw" image="_lmTenyiCEeSBnJSLNvXYRw"/>
+    <mappings xmi:id="_lmTetyiCEeSBnJSLNvXYRw" origin="_lmTekyiCEeSBnJSLNvXYRw" image="_lmTeoCiCEeSBnJSLNvXYRw"/>
+    <mappings xmi:id="_lmTeuCiCEeSBnJSLNvXYRw" origin="_lmTelSiCEeSBnJSLNvXYRw" image="_lmTeqiiCEeSBnJSLNvXYRw"/>
+  </units>
+</henshin:Module>

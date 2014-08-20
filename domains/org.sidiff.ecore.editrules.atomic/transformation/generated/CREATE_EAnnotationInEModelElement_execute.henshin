@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_aNdD0BnWEeKdAq7SOuGfUQ" description="Creates one EAnnotation in EModelElement" name="CREATE_EAnnotationInEModelElement">
+  <units xsi:type="henshin:Rule" xmi:id="_aNdD0RnWEeKdAq7SOuGfUQ" description="creates one EAnnotation in the context: EModelElement" name="createEAnnotationInEModelElement">
+    <parameters xmi:id="_aNdD0hnWEeKdAq7SOuGfUQ" name="Selected"/>
+    <parameters xmi:id="_aNdD0xnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aNdD1BnWEeKdAq7SOuGfUQ" name="Source"/>
+    <lhs xmi:id="_aNdD1RnWEeKdAq7SOuGfUQ" name="LHS">
+      <nodes xmi:id="_aNdD1hnWEeKdAq7SOuGfUQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aNdD1xnWEeKdAq7SOuGfUQ" name="RHS">
+      <nodes xmi:id="_aNdD2BnWEeKdAq7SOuGfUQ" name="Selected" incoming="_aNdD3BnWEeKdAq7SOuGfUQ" outgoing="_aNdD2xnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+      <nodes xmi:id="_aNdD2RnWEeKdAq7SOuGfUQ" name="New" incoming="_aNdD2xnWEeKdAq7SOuGfUQ" outgoing="_aNdD3BnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+        <attributes xmi:id="_aNdD2hnWEeKdAq7SOuGfUQ" value="Source">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/source"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_aNdD2xnWEeKdAq7SOuGfUQ" source="_aNdD2BnWEeKdAq7SOuGfUQ" target="_aNdD2RnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement/eAnnotations"/>
+      </edges>
+      <edges xmi:id="_aNdD3BnWEeKdAq7SOuGfUQ" source="_aNdD2RnWEeKdAq7SOuGfUQ" target="_aNdD2BnWEeKdAq7SOuGfUQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/eModelElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aNdD3RnWEeKdAq7SOuGfUQ" origin="_aNdD1hnWEeKdAq7SOuGfUQ" image="_aNdD2BnWEeKdAq7SOuGfUQ"/>
+  </units>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_aNdD3hnWEeKdAq7SOuGfUQ" description="Creates one EAnnotation depending on available contexts in model instance" name="mainUnit" subUnits="_aNdD0RnWEeKdAq7SOuGfUQ">
+    <parameters xmi:id="_aNdD3xnWEeKdAq7SOuGfUQ" name="New"/>
+    <parameters xmi:id="_aNdD4BnWEeKdAq7SOuGfUQ" name="selectedEObject"/>
+    <parameters xmi:id="_aNdD4RnWEeKdAq7SOuGfUQ" name="Source"/>
+    <parameterMappings xmi:id="_aNdD4hnWEeKdAq7SOuGfUQ" source="_aNdD4BnWEeKdAq7SOuGfUQ" target="_aNdD0hnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNdD4xnWEeKdAq7SOuGfUQ" source="_aNdD0xnWEeKdAq7SOuGfUQ" target="_aNdD3xnWEeKdAq7SOuGfUQ"/>
+    <parameterMappings xmi:id="_aNdD5BnWEeKdAq7SOuGfUQ" source="_aNdD4RnWEeKdAq7SOuGfUQ" target="_aNdD1BnWEeKdAq7SOuGfUQ"/>
+  </units>
+</henshin:Module>

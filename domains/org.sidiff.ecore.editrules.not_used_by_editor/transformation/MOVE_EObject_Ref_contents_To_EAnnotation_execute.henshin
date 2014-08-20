@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_axkXcNlKEeKomu7rfXwhHg" name="MOVE_EObject_Ref_contents_To_EAnnotation" description="MOVEs EObject with reference contents to EAnnotation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ayYPwNlKEeKomu7rfXwhHg" name="mainUnit" subUnits="_ayYPx9lKEeKomu7rfXwhHg">
+    <parameters xmi:id="_ayYPwdlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_ayYPwtlKEeKomu7rfXwhHg" name="OldSource"/>
+    <parameters xmi:id="_ayYPw9lKEeKomu7rfXwhHg" name="NewSource"/>
+    <parameterMappings xmi:id="_ayYPxNlKEeKomu7rfXwhHg" source="_ayYPwdlKEeKomu7rfXwhHg" target="_ayYPyNlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_ayYPxdlKEeKomu7rfXwhHg" source="_ayYPwtlKEeKomu7rfXwhHg" target="_ayYPydlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_ayYPxtlKEeKomu7rfXwhHg" source="_ayYPw9lKEeKomu7rfXwhHg" target="_ayYPytlKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_ayYPx9lKEeKomu7rfXwhHg" name="moveEObjectRefContentsToEAnnotation" description="Moves one EObject with reference contents to EAnnotation">
+    <parameters xmi:id="_ayYPyNlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_ayYPydlKEeKomu7rfXwhHg" name="OldSource"/>
+    <parameters xmi:id="_ayYPytlKEeKomu7rfXwhHg" name="NewSource"/>
+    <lhs xmi:id="_ayYPy9lKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_ayYPzNlKEeKomu7rfXwhHg" name="Selected" incoming="_ayYPz9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <nodes xmi:id="_ayYPzdlKEeKomu7rfXwhHg" name="OldSource" outgoing="_ayYPz9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_ayYPztlKEeKomu7rfXwhHg" name="NewSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <edges xmi:id="_ayYPz9lKEeKomu7rfXwhHg" source="_ayYPzdlKEeKomu7rfXwhHg" target="_ayYPzNlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ayYP0NlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_ayYP0dlKEeKomu7rfXwhHg" name="Selected" incoming="_ayYP1NlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <nodes xmi:id="_ayYP0tlKEeKomu7rfXwhHg" name="OldSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_ayYP09lKEeKomu7rfXwhHg" name="NewSource" outgoing="_ayYP1NlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <edges xmi:id="_ayYP1NlKEeKomu7rfXwhHg" source="_ayYP09lKEeKomu7rfXwhHg" target="_ayYP0dlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/contents"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ayYP1dlKEeKomu7rfXwhHg" origin="_ayYPzNlKEeKomu7rfXwhHg" image="_ayYP0dlKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_ayYP1tlKEeKomu7rfXwhHg" origin="_ayYPzdlKEeKomu7rfXwhHg" image="_ayYP0tlKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_ayYP19lKEeKomu7rfXwhHg" origin="_ayYPztlKEeKomu7rfXwhHg" image="_ayYP09lKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

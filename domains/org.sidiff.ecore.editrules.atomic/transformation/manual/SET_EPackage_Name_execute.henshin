@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_VAGvINlKEeKomu7rfXwhHg" name="SET_EPackage_Name" description="Sets EPackage Name">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_VA-R0NlKEeKomu7rfXwhHg" name="mainUnit" subUnits="_VA-R1dlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_VA-R0dlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_VA-R0tlKEeKomu7rfXwhHg" name="Name"/>
+    <parameterMappings xmi:id="_VA-R09lKEeKomu7rfXwhHg" source="_VA-R0dlKEeKomu7rfXwhHg" target="_VA-R1tlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_VA-R1NlKEeKomu7rfXwhHg" source="_VA-R0tlKEeKomu7rfXwhHg" target="_VA-R19lKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_VA-R1dlKEeKomu7rfXwhHg" name="setEPackageName" description="Sets the EPackage name">
+    <parameters xmi:id="_VA-R1tlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_VA-R19lKEeKomu7rfXwhHg" name="Name"/>
+    <lhs xmi:id="_VA-R2NlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_VA-R2dlKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_VA-R2tlKEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_VA-R29lKEeKomu7rfXwhHg">
+          <conclusion xmi:id="_VA-R3NlKEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_VA-R3dlKEeKomu7rfXwhHg" incoming="_VA-R4dlKEeKomu7rfXwhHg" outgoing="_VA-R4tlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+              <attributes xmi:id="_VA-R3tlKEeKomu7rfXwhHg" value="Name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_VA-R39lKEeKomu7rfXwhHg" incoming="_VA-R49lKEeKomu7rfXwhHg _VA-R4tlKEeKomu7rfXwhHg" outgoing="_VA-R5NlKEeKomu7rfXwhHg _VA-R4dlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+            </nodes>
+            <nodes xmi:id="_VA-R4NlKEeKomu7rfXwhHg" name="Selected" incoming="_VA-R5NlKEeKomu7rfXwhHg" outgoing="_VA-R49lKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+            </nodes>
+            <edges xmi:id="_VA-R4dlKEeKomu7rfXwhHg" source="_VA-R39lKEeKomu7rfXwhHg" target="_VA-R3dlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+            </edges>
+            <edges xmi:id="_VA-R4tlKEeKomu7rfXwhHg" source="_VA-R3dlKEeKomu7rfXwhHg" target="_VA-R39lKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+            </edges>
+            <edges xmi:id="_VA-R49lKEeKomu7rfXwhHg" source="_VA-R4NlKEeKomu7rfXwhHg" target="_VA-R39lKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+            </edges>
+            <edges xmi:id="_VA-R5NlKEeKomu7rfXwhHg" source="_VA-R39lKEeKomu7rfXwhHg" target="_VA-R4NlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_VA-R5dlKEeKomu7rfXwhHg" origin="_VA-R2dlKEeKomu7rfXwhHg" image="_VA-R4NlKEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_VA-R5tlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_VA-R59lKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="_VA-R6NlKEeKomu7rfXwhHg" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_VA-R6dlKEeKomu7rfXwhHg" origin="_VA-R2dlKEeKomu7rfXwhHg" image="_VA-R59lKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

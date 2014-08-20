@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_LFhmENkuEeKskdwQnjFTNA" name="flatten_hierarchy" description="Replaces the reference, which denotes the root as well as the reference, which denotes the children by a containment reference">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_LGnLMNkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_LGnLN9kuEeKskdwQnjFTNA">
+    <parameters xmi:id="_LGnLMdkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_LGnLMtkuEeKskdwQnjFTNA" name="ref2" description="Name of the EClass the EAttribute should be moved to"/>
+    <parameters xmi:id="_LGnLM9kuEeKskdwQnjFTNA" name="newRef"/>
+    <parameterMappings xmi:id="_LGnLNNkuEeKskdwQnjFTNA" source="_LGnLMdkuEeKskdwQnjFTNA" target="_LGnLONkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_LGnLNdkuEeKskdwQnjFTNA" source="_LGnLMtkuEeKskdwQnjFTNA" target="_LGnLOdkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_LGnLNtkuEeKskdwQnjFTNA" source="_LGnLOtkuEeKskdwQnjFTNA" target="_LGnLM9kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_LGnLN9kuEeKskdwQnjFTNA" name="flattenHierarchy">
+    <parameters xmi:id="_LGnLONkuEeKskdwQnjFTNA" name="ref1"/>
+    <parameters xmi:id="_LGnLOdkuEeKskdwQnjFTNA" name="ref2"/>
+    <parameters xmi:id="_LGnLOtkuEeKskdwQnjFTNA" name="newRef"/>
+    <lhs xmi:id="_LGnLO9kuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_LGnLPNkuEeKskdwQnjFTNA" name="" incoming="_LGnLQdkuEeKskdwQnjFTNA _LGnLQ9kuEeKskdwQnjFTNA" outgoing="_LGnLQtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_LGnLPdkuEeKskdwQnjFTNA" name="" outgoing="_LGnLQNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_LGnLPtkuEeKskdwQnjFTNA" name="ref1" incoming="_LGnLQNkuEeKskdwQnjFTNA" outgoing="_LGnLQdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_LGnLP9kuEeKskdwQnjFTNA" name="ref2" incoming="_LGnLQtkuEeKskdwQnjFTNA" outgoing="_LGnLQ9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <edges xmi:id="_LGnLQNkuEeKskdwQnjFTNA" source="_LGnLPdkuEeKskdwQnjFTNA" target="_LGnLPtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_LGnLQdkuEeKskdwQnjFTNA" source="_LGnLPtkuEeKskdwQnjFTNA" target="_LGnLPNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_LGnLQtkuEeKskdwQnjFTNA" source="_LGnLPNkuEeKskdwQnjFTNA" target="_LGnLP9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_LGnLQ9kuEeKskdwQnjFTNA" source="_LGnLP9kuEeKskdwQnjFTNA" target="_LGnLPNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_LGnLRNkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_LGnLRdkuEeKskdwQnjFTNA" name="" incoming="_LGnLSdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_LGnLRtkuEeKskdwQnjFTNA" name="" outgoing="_LGnLSNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_LGnLR9kuEeKskdwQnjFTNA" name="newRef" incoming="_LGnLSNkuEeKskdwQnjFTNA" outgoing="_LGnLSdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <edges xmi:id="_LGnLSNkuEeKskdwQnjFTNA" source="_LGnLRtkuEeKskdwQnjFTNA" target="_LGnLR9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_LGnLSdkuEeKskdwQnjFTNA" source="_LGnLR9kuEeKskdwQnjFTNA" target="_LGnLRdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_LGnLStkuEeKskdwQnjFTNA" origin="_LGnLPNkuEeKskdwQnjFTNA" image="_LGnLRdkuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_LGnLS9kuEeKskdwQnjFTNA" origin="_LGnLPdkuEeKskdwQnjFTNA" image="_LGnLRtkuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

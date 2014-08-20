@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_09NWANkrEeKskdwQnjFTNA" name="changeEClassToInterface" description="Converts an EClass into an interface">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_093dUNkrEeKskdwQnjFTNA" name="mainUnit" subUnits="_093dU9krEeKskdwQnjFTNA">
+    <parameters xmi:id="_093dUdkrEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameterMappings xmi:id="_093dUtkrEeKskdwQnjFTNA" source="_093dUdkrEeKskdwQnjFTNA" target="_093dVNkrEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_093dU9krEeKskdwQnjFTNA" name="changeEClassToInterface" description="Changes the EClass to an Interface">
+    <parameters xmi:id="_093dVNkrEeKskdwQnjFTNA" name="Selected"/>
+    <lhs xmi:id="_093dVdkrEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_093dVtkrEeKskdwQnjFTNA" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_093dV9krEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_093dWNkrEeKskdwQnjFTNA" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_093dWdkrEeKskdwQnjFTNA" value="true">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/abstract"/>
+        </attributes>
+        <attributes xmi:id="_093dWtkrEeKskdwQnjFTNA" value="true">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/interface"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_093dW9krEeKskdwQnjFTNA" origin="_093dVtkrEeKskdwQnjFTNA" image="_093dWNkrEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

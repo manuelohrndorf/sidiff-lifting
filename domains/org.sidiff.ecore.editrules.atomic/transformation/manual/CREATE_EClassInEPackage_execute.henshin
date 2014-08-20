@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9yIzsNlJEeKomu7rfXwhHg" name="CREATE_EClassInEPackage" description="Creates one EClass in EPackage">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9zdpYNlJEeKomu7rfXwhHg" name="mainUnit" description="Creates one EClass depending on available contexts in model instance" subUnits="_9zdpbdlJEeKomu7rfXwhHg">
+    <parameters xmi:id="_9zdpYdlJEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_9zdpYtlJEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_9zdpY9lJEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_9zdpZNlJEeKomu7rfXwhHg" name="InstanceClassName"/>
+    <parameters xmi:id="_9zdpZdlJEeKomu7rfXwhHg" name="InstanceTypeName"/>
+    <parameters xmi:id="_9zdpZtlJEeKomu7rfXwhHg" name="Abstract"/>
+    <parameterMappings xmi:id="_9zdpZ9lJEeKomu7rfXwhHg" source="_9zdpYtlJEeKomu7rfXwhHg" target="_9zdpbtlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_9zdpaNlJEeKomu7rfXwhHg" source="_9zdpb9lJEeKomu7rfXwhHg" target="_9zdpYdlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_9zdpadlJEeKomu7rfXwhHg" source="_9zdpY9lJEeKomu7rfXwhHg" target="_9zdpcNlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_9zdpatlJEeKomu7rfXwhHg" source="_9zdpZNlJEeKomu7rfXwhHg" target="_9zdpcdlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_9zdpa9lJEeKomu7rfXwhHg" source="_9zdpZdlJEeKomu7rfXwhHg" target="_9zdpctlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_9zdpbNlJEeKomu7rfXwhHg" source="_9zdpZtlJEeKomu7rfXwhHg" target="_9zdpc9lJEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_9zdpbdlJEeKomu7rfXwhHg" name="createEClassInEPackage" description="creates one EClass in the context: EPackage">
+    <parameters xmi:id="_9zdpbtlJEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_9zdpb9lJEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_9zdpcNlJEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_9zdpcdlJEeKomu7rfXwhHg" name="InstanceClassName"/>
+    <parameters xmi:id="_9zdpctlJEeKomu7rfXwhHg" name="InstanceTypeName"/>
+    <parameters xmi:id="_9zdpc9lJEeKomu7rfXwhHg" name="Abstract"/>
+    <lhs xmi:id="_9zdpdNlJEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_9zdpddlJEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_9zdpdtlJEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_9zdpd9lJEeKomu7rfXwhHg">
+          <conclusion xmi:id="_9zdpeNlJEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_9zdpedlJEeKomu7rfXwhHg" name="Selected" incoming="_9zdpfdlJEeKomu7rfXwhHg" outgoing="_9zdpfNlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+            </nodes>
+            <nodes xmi:id="_9zdpetlJEeKomu7rfXwhHg" incoming="_9zdpfNlJEeKomu7rfXwhHg" outgoing="_9zdpfdlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+              <attributes xmi:id="_9zdpe9lJEeKomu7rfXwhHg" value="Name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_9zdpfNlJEeKomu7rfXwhHg" source="_9zdpedlJEeKomu7rfXwhHg" target="_9zdpetlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+            </edges>
+            <edges xmi:id="_9zdpfdlJEeKomu7rfXwhHg" source="_9zdpetlJEeKomu7rfXwhHg" target="_9zdpedlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_9zdpftlJEeKomu7rfXwhHg" origin="_9zdpddlJEeKomu7rfXwhHg" image="_9zdpedlJEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_9zdpf9lJEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_9zdpgNlJEeKomu7rfXwhHg" name="Selected" incoming="_9zdpiNlJEeKomu7rfXwhHg" outgoing="_9zdph9lJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_9zdpgdlJEeKomu7rfXwhHg" name="New" incoming="_9zdph9lJEeKomu7rfXwhHg" outgoing="_9zdpiNlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_9zdpgtlJEeKomu7rfXwhHg" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9zdpg9lJEeKomu7rfXwhHg" value="InstanceClassName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceClassName"/>
+        </attributes>
+        <attributes xmi:id="_9zdphNlJEeKomu7rfXwhHg" value="InstanceTypeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceTypeName"/>
+        </attributes>
+        <attributes xmi:id="_9zdphdlJEeKomu7rfXwhHg" value="Abstract">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/abstract"/>
+        </attributes>
+        <attributes xmi:id="_9zdphtlJEeKomu7rfXwhHg" value="false">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/interface"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9zdph9lJEeKomu7rfXwhHg" source="_9zdpgNlJEeKomu7rfXwhHg" target="_9zdpgdlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_9zdpiNlJEeKomu7rfXwhHg" source="_9zdpgdlJEeKomu7rfXwhHg" target="_9zdpgNlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9zdpidlJEeKomu7rfXwhHg" origin="_9zdpddlJEeKomu7rfXwhHg" image="_9zdpgNlJEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

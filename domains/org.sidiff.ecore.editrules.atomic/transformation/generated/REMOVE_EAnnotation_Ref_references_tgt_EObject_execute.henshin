@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SE7TcGuZEeK0RPDy5I7Luw" description="Removes EAnnotation's reference references the target EObject" name="REMOVE_EAnnotation_Ref_references_tgt_EObject">
+  <units xsi:type="henshin:Rule" xmi:id="_SE7TcWuZEeK0RPDy5I7Luw" description="Removes from EAnnotation's reference references the target EObject" name="removeFromEAnnotationRefReferencesToEObject">
+    <parameters xmi:id="_SE7TcmuZEeK0RPDy5I7Luw" name="Selected"/>
+    <parameters xmi:id="_SE7Tc2uZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <lhs xmi:id="_SE7TdGuZEeK0RPDy5I7Luw" name="LHS">
+      <nodes xmi:id="_SE7TdWuZEeK0RPDy5I7Luw" name="Selected" outgoing="_SE7Td2uZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_SE7TdmuZEeK0RPDy5I7Luw" name="OldTarget" incoming="_SE7Td2uZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+      <edges xmi:id="_SE7Td2uZEeK0RPDy5I7Luw" source="_SE7TdWuZEeK0RPDy5I7Luw" target="_SE7TdmuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/references"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_SE7TeGuZEeK0RPDy5I7Luw" name="RHS">
+      <nodes xmi:id="_SE7TeWuZEeK0RPDy5I7Luw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <nodes xmi:id="_SE7TemuZEeK0RPDy5I7Luw" name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_SE7Te2uZEeK0RPDy5I7Luw" origin="_SE7TdWuZEeK0RPDy5I7Luw" image="_SE7TeWuZEeK0RPDy5I7Luw"/>
+    <mappings xmi:id="_SE7TfGuZEeK0RPDy5I7Luw" origin="_SE7TdmuZEeK0RPDy5I7Luw" image="_SE7TemuZEeK0RPDy5I7Luw"/>
+  </units>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_SE7TfWuZEeK0RPDy5I7Luw" name="mainUnit" subUnits="_SE7TcWuZEeK0RPDy5I7Luw">
+    <parameters xmi:id="_SE7TfmuZEeK0RPDy5I7Luw" name="selectedEObject"/>
+    <parameters xmi:id="_SE7Tf2uZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <parameterMappings xmi:id="_SE7TgGuZEeK0RPDy5I7Luw" source="_SE7TfmuZEeK0RPDy5I7Luw" target="_SE7TcmuZEeK0RPDy5I7Luw"/>
+    <parameterMappings xmi:id="_SE7TgWuZEeK0RPDy5I7Luw" source="_SE7Tf2uZEeK0RPDy5I7Luw" target="_SE7Tc2uZEeK0RPDy5I7Luw"/>
+  </units>
+</henshin:Module>

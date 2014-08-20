@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SFO1cGuZEeK0RPDy5I7Luw" description="Removes EClass's reference eSuperTypes the target EClass" name="REMOVE_EClass_Ref_eSuperTypes_tgt_EClass">
+  <units xsi:type="henshin:Rule" xmi:id="_SFO1cWuZEeK0RPDy5I7Luw" description="Removes from EClass's reference eSuperTypes the target EClass" name="removeFromEClassRefESuperTypesToEClass">
+    <parameters xmi:id="_SFO1cmuZEeK0RPDy5I7Luw" name="Selected"/>
+    <parameters xmi:id="_SFO1c2uZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <lhs xmi:id="_SFO1dGuZEeK0RPDy5I7Luw" name="LHS">
+      <nodes xmi:id="_SFO1dWuZEeK0RPDy5I7Luw" name="Selected" outgoing="_SFO1d2uZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_SFO1dmuZEeK0RPDy5I7Luw" name="OldTarget" incoming="_SFO1d2uZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_SFO1d2uZEeK0RPDy5I7Luw" source="_SFO1dWuZEeK0RPDy5I7Luw" target="_SFO1dmuZEeK0RPDy5I7Luw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_SFO1eGuZEeK0RPDy5I7Luw" name="RHS">
+      <nodes xmi:id="_SFO1eWuZEeK0RPDy5I7Luw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_SFO1emuZEeK0RPDy5I7Luw" name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_SFO1e2uZEeK0RPDy5I7Luw" origin="_SFO1dWuZEeK0RPDy5I7Luw" image="_SFO1eWuZEeK0RPDy5I7Luw"/>
+    <mappings xmi:id="_SFPcgGuZEeK0RPDy5I7Luw" origin="_SFO1dmuZEeK0RPDy5I7Luw" image="_SFO1emuZEeK0RPDy5I7Luw"/>
+  </units>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_SFPcgWuZEeK0RPDy5I7Luw" name="mainUnit" subUnits="_SFO1cWuZEeK0RPDy5I7Luw">
+    <parameters xmi:id="_SFPcgmuZEeK0RPDy5I7Luw" name="selectedEObject"/>
+    <parameters xmi:id="_SFPcg2uZEeK0RPDy5I7Luw" name="OldTarget"/>
+    <parameterMappings xmi:id="_SFPchGuZEeK0RPDy5I7Luw" source="_SFPcgmuZEeK0RPDy5I7Luw" target="_SFO1cmuZEeK0RPDy5I7Luw"/>
+    <parameterMappings xmi:id="_SFPchWuZEeK0RPDy5I7Luw" source="_SFPcg2uZEeK0RPDy5I7Luw" target="_SFO1c2uZEeK0RPDy5I7Luw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xG0y8NkuEeKskdwQnjFTNA" name="rename_eenum" description="Changes the name of an EEnum">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_xHSF8NkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_xHSF9dkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_xHSF8dkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_xHSF8tkuEeKskdwQnjFTNA" name="newName" description="New name of the EReference"/>
+    <parameterMappings xmi:id="_xHSF89kuEeKskdwQnjFTNA" source="_xHSF8dkuEeKskdwQnjFTNA" target="_xHSF9tkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_xHSF9NkuEeKskdwQnjFTNA" source="_xHSF8tkuEeKskdwQnjFTNA" target="_xHSF99kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_xHSF9dkuEeKskdwQnjFTNA" name="rename_EEnum">
+    <parameters xmi:id="_xHSF9tkuEeKskdwQnjFTNA" name="selectedEEnum"/>
+    <parameters xmi:id="_xHSF99kuEeKskdwQnjFTNA" name="newName"/>
+    <lhs xmi:id="_xHSF-NkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_xHStANkuEeKskdwQnjFTNA" name="selectedEEnum">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xHStAdkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_xHStAtkuEeKskdwQnjFTNA" name="selectedEEnum">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EEnum"/>
+        <attributes xmi:id="_xHStA9kuEeKskdwQnjFTNA" value="newName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xHStBNkuEeKskdwQnjFTNA" origin="_xHStANkuEeKskdwQnjFTNA" image="_xHStAtkuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

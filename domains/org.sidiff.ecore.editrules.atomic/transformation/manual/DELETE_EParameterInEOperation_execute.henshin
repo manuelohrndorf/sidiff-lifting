@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FAWG0NlKEeKomu7rfXwhHg" name="DELETE_EParameterInEOperation" description="Deletes one EParameter in EOperation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_FBGUwNlKEeKomu7rfXwhHg" name="mainUnit" description="Deletes one EParameter depending on available contexts in model instance" subUnits="_FBGUxdlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_FBGUwdlKEeKomu7rfXwhHg" name="toBeDeleted"/>
+    <parameters xmi:id="_FBGUwtlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_FBGUw9lKEeKomu7rfXwhHg" source="_FBGUwtlKEeKomu7rfXwhHg" target="_FBGUxtlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_FBGUxNlKEeKomu7rfXwhHg" source="_FBGUwdlKEeKomu7rfXwhHg" target="_FBGUx9lKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_FBGUxdlKEeKomu7rfXwhHg" name="deleteEParameterInEOperation" description="deletes one EParameter in the context: EOperation">
+    <parameters xmi:id="_FBGUxtlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_FBGUx9lKEeKomu7rfXwhHg" name="toBeDeleted"/>
+    <lhs xmi:id="_FBGUyNlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_FBGUydlKEeKomu7rfXwhHg" name="Selected" incoming="_FBGUzdlKEeKomu7rfXwhHg" outgoing="_FBGUzNlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_FBGUytlKEeKomu7rfXwhHg" name="toBeDeleted" incoming="_FBGUzNlKEeKomu7rfXwhHg" outgoing="_FBGUzdlKEeKomu7rfXwhHg _FBGUztlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+      </nodes>
+      <nodes xmi:id="_FBGUy9lKEeKomu7rfXwhHg" incoming="_FBGUztlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_FBGUzNlKEeKomu7rfXwhHg" source="_FBGUydlKEeKomu7rfXwhHg" target="_FBGUytlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+      </edges>
+      <edges xmi:id="_FBGUzdlKEeKomu7rfXwhHg" source="_FBGUytlKEeKomu7rfXwhHg" target="_FBGUydlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+      </edges>
+      <edges xmi:id="_FBGUztlKEeKomu7rfXwhHg" source="_FBGUytlKEeKomu7rfXwhHg" target="_FBGUy9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_FBGUz9lKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_FBGU0NlKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_FBGU0dlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_FBGU0tlKEeKomu7rfXwhHg" origin="_FBGUydlKEeKomu7rfXwhHg" image="_FBGU0NlKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_FBGU09lKEeKomu7rfXwhHg" origin="_FBGUy9lKEeKomu7rfXwhHg" image="_FBGU0dlKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

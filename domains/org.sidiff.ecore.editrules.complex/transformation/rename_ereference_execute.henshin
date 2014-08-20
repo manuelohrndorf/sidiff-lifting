@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_2f6XgNkuEeKskdwQnjFTNA" name="rename_ereference" description="Changes the name of an EReference">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_2gXqgNkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_2gXqhdkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_2gXqgdkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_2gXqgtkuEeKskdwQnjFTNA" name="newName" description="New name of the EReference"/>
+    <parameterMappings xmi:id="_2gXqg9kuEeKskdwQnjFTNA" source="_2gXqgdkuEeKskdwQnjFTNA" target="_2gXqhtkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_2gXqhNkuEeKskdwQnjFTNA" source="_2gXqgtkuEeKskdwQnjFTNA" target="_2gYRkNkuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_2gXqhdkuEeKskdwQnjFTNA" name="rename_EReference">
+    <parameters xmi:id="_2gXqhtkuEeKskdwQnjFTNA" name="selectedEReference"/>
+    <parameters xmi:id="_2gYRkNkuEeKskdwQnjFTNA" name="newName"/>
+    <lhs xmi:id="_2gYRkdkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_2gYRktkuEeKskdwQnjFTNA" name="selectedEReference">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_2gYRk9kuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_2gYRlNkuEeKskdwQnjFTNA" name="selectedEReference">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_2gYRldkuEeKskdwQnjFTNA" value="newName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_2gYRltkuEeKskdwQnjFTNA" origin="_2gYRktkuEeKskdwQnjFTNA" image="_2gYRlNkuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

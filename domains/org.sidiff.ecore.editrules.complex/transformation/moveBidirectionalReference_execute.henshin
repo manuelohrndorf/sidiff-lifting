@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_doyF4NkuEeKskdwQnjFTNA" name="moveBidirectionalReference" description="Moves the source end of a bidirectional reference from one EClass to another one">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_dqQskNkuEeKskdwQnjFTNA" name="mainUnit" subUnits="_dqQsldkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_dqQskdkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_dqQsktkuEeKskdwQnjFTNA" name="NewSource"/>
+    <parameterMappings xmi:id="_dqQsk9kuEeKskdwQnjFTNA" source="_dqQskdkuEeKskdwQnjFTNA" target="_dqQsltkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_dqQslNkuEeKskdwQnjFTNA" source="_dqQsktkuEeKskdwQnjFTNA" target="_dqQsl9kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_dqQsldkuEeKskdwQnjFTNA" name="moveBidirectionalReference">
+    <parameters xmi:id="_dqQsltkuEeKskdwQnjFTNA" name="Selected"/>
+    <parameters xmi:id="_dqQsl9kuEeKskdwQnjFTNA" name="NewSource"/>
+    <lhs xmi:id="_dqQsmNkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_dqQsmdkuEeKskdwQnjFTNA" name="Selected" incoming="_dqQsntkuEeKskdwQnjFTNA _dqQsoNkuEeKskdwQnjFTNA" outgoing="_dqQsn9kuEeKskdwQnjFTNA _dqQso9kuEeKskdwQnjFTNA _dqQspNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_dqQsmtkuEeKskdwQnjFTNA" name="" incoming="_dqQsodkuEeKskdwQnjFTNA _dqQspNkuEeKskdwQnjFTNA" outgoing="_dqQsntkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_dqQsm9kuEeKskdwQnjFTNA" incoming="_dqQsn9kuEeKskdwQnjFTNA _dqQsotkuEeKskdwQnjFTNA" outgoing="_dqQsoNkuEeKskdwQnjFTNA _dqQsodkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_dqQsnNkuEeKskdwQnjFTNA" name="NewSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_dqQsndkuEeKskdwQnjFTNA" incoming="_dqQso9kuEeKskdwQnjFTNA" outgoing="_dqQsotkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_dqQsntkuEeKskdwQnjFTNA" source="_dqQsmtkuEeKskdwQnjFTNA" target="_dqQsmdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_dqQsn9kuEeKskdwQnjFTNA" source="_dqQsmdkuEeKskdwQnjFTNA" target="_dqQsm9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+      </edges>
+      <edges xmi:id="_dqQsoNkuEeKskdwQnjFTNA" source="_dqQsm9kuEeKskdwQnjFTNA" target="_dqQsmdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+      </edges>
+      <edges xmi:id="_dqQsodkuEeKskdwQnjFTNA" source="_dqQsm9kuEeKskdwQnjFTNA" target="_dqQsmtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_dqQsotkuEeKskdwQnjFTNA" source="_dqQsndkuEeKskdwQnjFTNA" target="_dqQsm9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_dqQso9kuEeKskdwQnjFTNA" source="_dqQsmdkuEeKskdwQnjFTNA" target="_dqQsndkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_dqQspNkuEeKskdwQnjFTNA" source="_dqQsmdkuEeKskdwQnjFTNA" target="_dqQsmtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_dqQspdkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_dqQsptkuEeKskdwQnjFTNA" name="Selected" incoming="_dqQsq9kuEeKskdwQnjFTNA _dqQsr9kuEeKskdwQnjFTNA" outgoing="_dqQsrdkuEeKskdwQnjFTNA _dqQsrtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_dqQsp9kuEeKskdwQnjFTNA" name="NewSource" incoming="_dqQssNkuEeKskdwQnjFTNA" outgoing="_dqQsq9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_dqQsqNkuEeKskdwQnjFTNA" name="">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_dqQsqdkuEeKskdwQnjFTNA" incoming="_dqQsrNkuEeKskdwQnjFTNA _dqQsrtkuEeKskdwQnjFTNA" outgoing="_dqQsr9kuEeKskdwQnjFTNA _dqQssNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_dqQsqtkuEeKskdwQnjFTNA" incoming="_dqQsrdkuEeKskdwQnjFTNA" outgoing="_dqQsrNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_dqQsq9kuEeKskdwQnjFTNA" source="_dqQsp9kuEeKskdwQnjFTNA" target="_dqQsptkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_dqQsrNkuEeKskdwQnjFTNA" source="_dqQsqtkuEeKskdwQnjFTNA" target="_dqQsqdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_dqQsrdkuEeKskdwQnjFTNA" source="_dqQsptkuEeKskdwQnjFTNA" target="_dqQsqtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_dqQsrtkuEeKskdwQnjFTNA" source="_dqQsptkuEeKskdwQnjFTNA" target="_dqQsqdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+      </edges>
+      <edges xmi:id="_dqQsr9kuEeKskdwQnjFTNA" source="_dqQsqdkuEeKskdwQnjFTNA" target="_dqQsptkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+      </edges>
+      <edges xmi:id="_dqQssNkuEeKskdwQnjFTNA" source="_dqQsqdkuEeKskdwQnjFTNA" target="_dqQsp9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_dqQssdkuEeKskdwQnjFTNA" origin="_dqQsmdkuEeKskdwQnjFTNA" image="_dqQsptkuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_dqQsstkuEeKskdwQnjFTNA" origin="_dqQsmtkuEeKskdwQnjFTNA" image="_dqQsqNkuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_dqQss9kuEeKskdwQnjFTNA" origin="_dqQsnNkuEeKskdwQnjFTNA" image="_dqQsp9kuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_dqQstNkuEeKskdwQnjFTNA" origin="_dqQsm9kuEeKskdwQnjFTNA" image="_dqQsqdkuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_dqQstdkuEeKskdwQnjFTNA" origin="_dqQsndkuEeKskdwQnjFTNA" image="_dqQsqtkuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

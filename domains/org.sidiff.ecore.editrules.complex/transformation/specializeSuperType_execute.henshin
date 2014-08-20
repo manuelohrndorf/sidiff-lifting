@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_5bohwNkuEeKskdwQnjFTNA" name="specializeSuperType" description="Replaces the  super type of an EClass by one of its subclasses">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_5cePQNkuEeKskdwQnjFTNA" name="mainUnit" subUnits="_5cePRdkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_5cePQdkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_5cePQtkuEeKskdwQnjFTNA" name="NewTarget"/>
+    <parameterMappings xmi:id="_5cePQ9kuEeKskdwQnjFTNA" source="_5cePQdkuEeKskdwQnjFTNA" target="_5cePRtkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_5cePRNkuEeKskdwQnjFTNA" source="_5cePQtkuEeKskdwQnjFTNA" target="_5cePR9kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_5cePRdkuEeKskdwQnjFTNA" name="specializeSuperType" description="">
+    <parameters xmi:id="_5cePRtkuEeKskdwQnjFTNA" name="Selected"/>
+    <parameters xmi:id="_5cePR9kuEeKskdwQnjFTNA" name="NewTarget"/>
+    <lhs xmi:id="_5cePSNkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_5cePSdkuEeKskdwQnjFTNA" name="Selected" outgoing="_5ce2UNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_5cePStkuEeKskdwQnjFTNA" name="NewTarget" outgoing="_5ce2UdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_5cePS9kuEeKskdwQnjFTNA" incoming="_5ce2UNkuEeKskdwQnjFTNA _5ce2UdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_5ce2UNkuEeKskdwQnjFTNA" source="_5cePSdkuEeKskdwQnjFTNA" target="_5cePS9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+      <edges xmi:id="_5ce2UdkuEeKskdwQnjFTNA" source="_5cePStkuEeKskdwQnjFTNA" target="_5cePS9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eAllSuperTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_5ce2UtkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_5ce2U9kuEeKskdwQnjFTNA" name="Selected" outgoing="_5ce2VtkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_5ce2VNkuEeKskdwQnjFTNA" name="NewTarget" incoming="_5ce2VtkuEeKskdwQnjFTNA" outgoing="_5ce2V9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_5ce2VdkuEeKskdwQnjFTNA" incoming="_5ce2V9kuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="_5ce2VtkuEeKskdwQnjFTNA" source="_5ce2U9kuEeKskdwQnjFTNA" target="_5ce2VNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+      <edges xmi:id="_5ce2V9kuEeKskdwQnjFTNA" source="_5ce2VNkuEeKskdwQnjFTNA" target="_5ce2VdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eAllSuperTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_5ce2WNkuEeKskdwQnjFTNA" origin="_5cePSdkuEeKskdwQnjFTNA" image="_5ce2U9kuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_5ce2WdkuEeKskdwQnjFTNA" origin="_5cePStkuEeKskdwQnjFTNA" image="_5ce2VNkuEeKskdwQnjFTNA"/>
+    <mappings xmi:id="_5ce2WtkuEeKskdwQnjFTNA" origin="_5cePS9kuEeKskdwQnjFTNA" image="_5ce2VdkuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>

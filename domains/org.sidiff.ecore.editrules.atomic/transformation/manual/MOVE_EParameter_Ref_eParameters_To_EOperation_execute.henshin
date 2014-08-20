@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_LfSgMNlKEeKomu7rfXwhHg" name="MOVE_EParameter_Ref_eParameters_To_EOperation" description="MOVEs EParameter with reference eParameters to EOperation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_LgidYNlKEeKomu7rfXwhHg" name="mainUnit" subUnits="_LgidadlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_LgidYdlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_LgidYtlKEeKomu7rfXwhHg" name="OldSource"/>
+    <parameters xmi:id="_LgidY9lKEeKomu7rfXwhHg" name="SelectedName"/>
+    <parameters xmi:id="_LgidZNlKEeKomu7rfXwhHg" name="NewSource"/>
+    <parameterMappings xmi:id="_LgidZdlKEeKomu7rfXwhHg" source="_LgidY9lKEeKomu7rfXwhHg" target="_Lgida9lKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_LgidZtlKEeKomu7rfXwhHg" source="_LgidYdlKEeKomu7rfXwhHg" target="_LgidatlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_LgidZ9lKEeKomu7rfXwhHg" source="_LgidYtlKEeKomu7rfXwhHg" target="_LgidbNlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_LgidaNlKEeKomu7rfXwhHg" source="_LgidZNlKEeKomu7rfXwhHg" target="_LgidbdlKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_LgidadlKEeKomu7rfXwhHg" name="moveEParameterRefEParametersToEOperation" description="Moves one EParameter with reference eParameters to EOperation">
+    <parameters xmi:id="_LgidatlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_Lgida9lKEeKomu7rfXwhHg" name="SelectedName"/>
+    <parameters xmi:id="_LgidbNlKEeKomu7rfXwhHg" name="OldSource"/>
+    <parameters xmi:id="_LgidbdlKEeKomu7rfXwhHg" name="NewSource"/>
+    <lhs xmi:id="_LgidbtlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_Lgidb9lKEeKomu7rfXwhHg" name="Selected" incoming="_Lgidc9lKEeKomu7rfXwhHg" outgoing="_LgiddNlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+        <attributes xmi:id="_LgidcNlKEeKomu7rfXwhHg" value="SelectedName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_LgidcdlKEeKomu7rfXwhHg" name="OldSource" incoming="_LgiddNlKEeKomu7rfXwhHg" outgoing="_Lgidc9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_LgidctlKEeKomu7rfXwhHg" name="NewSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <edges xmi:id="_Lgidc9lKEeKomu7rfXwhHg" source="_LgidcdlKEeKomu7rfXwhHg" target="_Lgidb9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+      </edges>
+      <edges xmi:id="_LgiddNlKEeKomu7rfXwhHg" source="_Lgidb9lKEeKomu7rfXwhHg" target="_LgidcdlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_LgidddlKEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_LgiddtlKEeKomu7rfXwhHg">
+          <conclusion xmi:id="_Lgidd9lKEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_LgideNlKEeKomu7rfXwhHg" incoming="_LgidfNlKEeKomu7rfXwhHg" outgoing="_Lgide9lKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+              <attributes xmi:id="_LgidedlKEeKomu7rfXwhHg" value="SelectedName">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_LgidetlKEeKomu7rfXwhHg" name="NewSource" incoming="_Lgide9lKEeKomu7rfXwhHg" outgoing="_LgidfNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+            </nodes>
+            <edges xmi:id="_Lgide9lKEeKomu7rfXwhHg" source="_LgideNlKEeKomu7rfXwhHg" target="_LgidetlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+            </edges>
+            <edges xmi:id="_LgidfNlKEeKomu7rfXwhHg" source="_LgidetlKEeKomu7rfXwhHg" target="_LgideNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_LgidfdlKEeKomu7rfXwhHg" origin="_LgidctlKEeKomu7rfXwhHg" image="_LgidetlKEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_LgidftlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_Lgidf9lKEeKomu7rfXwhHg" name="Selected" incoming="_Lgidg9lKEeKomu7rfXwhHg" outgoing="_LgidhNlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+        <attributes xmi:id="_LgidgNlKEeKomu7rfXwhHg" value="SelectedName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_LgidgdlKEeKomu7rfXwhHg" name="OldSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_LgidgtlKEeKomu7rfXwhHg" name="NewSource" incoming="_LgidhNlKEeKomu7rfXwhHg" outgoing="_Lgidg9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <edges xmi:id="_Lgidg9lKEeKomu7rfXwhHg" source="_LgidgtlKEeKomu7rfXwhHg" target="_Lgidf9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eParameters"/>
+      </edges>
+      <edges xmi:id="_LgidhNlKEeKomu7rfXwhHg" source="_Lgidf9lKEeKomu7rfXwhHg" target="_LgidgtlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter/eOperation"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_LgidhdlKEeKomu7rfXwhHg" origin="_Lgidb9lKEeKomu7rfXwhHg" image="_Lgidf9lKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_LgidhtlKEeKomu7rfXwhHg" origin="_LgidcdlKEeKomu7rfXwhHg" image="_LgidgdlKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_Lgidh9lKEeKomu7rfXwhHg" origin="_LgidctlKEeKomu7rfXwhHg" image="_LgidgtlKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

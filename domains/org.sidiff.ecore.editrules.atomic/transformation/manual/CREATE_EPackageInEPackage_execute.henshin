@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_BM8GoNlKEeKomu7rfXwhHg" name="CREATE_EPackageInEPackage" description="Creates one EPackage in EPackage">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_BOY4INlKEeKomu7rfXwhHg" name="mainUnit" description="Creates one EPackage depending on available contexts in model instance" subUnits="_BOY4LdlKEeKomu7rfXwhHg">
+    <parameters xmi:id="_BOY4IdlKEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_BOY4ItlKEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_BOY4I9lKEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_BOY4JNlKEeKomu7rfXwhHg" name="NsURI"/>
+    <parameters xmi:id="_BOY4JdlKEeKomu7rfXwhHg" name="NsPrefix"/>
+    <parameters xmi:id="_BOY4JtlKEeKomu7rfXwhHg" name="Existing"/>
+    <parameterMappings xmi:id="_BOY4J9lKEeKomu7rfXwhHg" source="_BOY4ItlKEeKomu7rfXwhHg" target="_BOY4LtlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_BOY4KNlKEeKomu7rfXwhHg" source="_BOY4L9lKEeKomu7rfXwhHg" target="_BOY4IdlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_BOY4KdlKEeKomu7rfXwhHg" source="_BOY4I9lKEeKomu7rfXwhHg" target="_BOY4MNlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_BOY4KtlKEeKomu7rfXwhHg" source="_BOY4JNlKEeKomu7rfXwhHg" target="_BOY4MdlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_BOY4K9lKEeKomu7rfXwhHg" source="_BOY4JdlKEeKomu7rfXwhHg" target="_BOY4MtlKEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_BOY4LNlKEeKomu7rfXwhHg" source="_BOY4JtlKEeKomu7rfXwhHg" target="_BOY4M9lKEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_BOY4LdlKEeKomu7rfXwhHg" name="createEPackageInEPackage" description="creates one EPackage in the context: EPackage">
+    <parameters xmi:id="_BOY4LtlKEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_BOY4L9lKEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_BOY4MNlKEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_BOY4MdlKEeKomu7rfXwhHg" name="NsURI"/>
+    <parameters xmi:id="_BOY4MtlKEeKomu7rfXwhHg" name="NsPrefix"/>
+    <parameters xmi:id="_BOY4M9lKEeKomu7rfXwhHg" name="Existing"/>
+    <lhs xmi:id="_BOY4NNlKEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_BOY4NdlKEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_BOY4NtlKEeKomu7rfXwhHg" name="Existing">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EFactory"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_BOY4N9lKEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_BOY4ONlKEeKomu7rfXwhHg">
+          <conclusion xmi:id="_BOY4OdlKEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_BOY4OtlKEeKomu7rfXwhHg" incoming="_BOY4PdlKEeKomu7rfXwhHg" outgoing="_BOY4PtlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+              <attributes xmi:id="_BOY4O9lKEeKomu7rfXwhHg" value="Name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_BOY4PNlKEeKomu7rfXwhHg" name="Selected" incoming="_BOY4PtlKEeKomu7rfXwhHg" outgoing="_BOY4PdlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+            </nodes>
+            <edges xmi:id="_BOY4PdlKEeKomu7rfXwhHg" source="_BOY4PNlKEeKomu7rfXwhHg" target="_BOY4OtlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+            </edges>
+            <edges xmi:id="_BOY4PtlKEeKomu7rfXwhHg" source="_BOY4OtlKEeKomu7rfXwhHg" target="_BOY4PNlKEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_BOY4P9lKEeKomu7rfXwhHg" origin="_BOY4NdlKEeKomu7rfXwhHg" image="_BOY4PNlKEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_BOY4QNlKEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_BOY4QdlKEeKomu7rfXwhHg" name="Selected" incoming="_BOY4SNlKEeKomu7rfXwhHg" outgoing="_BOY4R9lKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_BOY4QtlKEeKomu7rfXwhHg" name="New" incoming="_BOY4R9lKEeKomu7rfXwhHg _BOY4StlKEeKomu7rfXwhHg" outgoing="_BOY4SNlKEeKomu7rfXwhHg _BOY4SdlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="_BOY4Q9lKEeKomu7rfXwhHg" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_BOY4RNlKEeKomu7rfXwhHg" value="NsURI">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
+        </attributes>
+        <attributes xmi:id="_BOY4RdlKEeKomu7rfXwhHg" value="NsPrefix">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsPrefix"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_BOY4RtlKEeKomu7rfXwhHg" name="Existing" incoming="_BOY4SdlKEeKomu7rfXwhHg" outgoing="_BOY4StlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EFactory"/>
+      </nodes>
+      <edges xmi:id="_BOY4R9lKEeKomu7rfXwhHg" source="_BOY4QdlKEeKomu7rfXwhHg" target="_BOY4QtlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+      </edges>
+      <edges xmi:id="_BOY4SNlKEeKomu7rfXwhHg" source="_BOY4QtlKEeKomu7rfXwhHg" target="_BOY4QdlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+      </edges>
+      <edges xmi:id="_BOY4SdlKEeKomu7rfXwhHg" source="_BOY4QtlKEeKomu7rfXwhHg" target="_BOY4RtlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eFactoryInstance"/>
+      </edges>
+      <edges xmi:id="_BOY4StlKEeKomu7rfXwhHg" source="_BOY4RtlKEeKomu7rfXwhHg" target="_BOY4QtlKEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EFactory/ePackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_BOY4S9lKEeKomu7rfXwhHg" origin="_BOY4NdlKEeKomu7rfXwhHg" image="_BOY4QdlKEeKomu7rfXwhHg"/>
+    <mappings xmi:id="_BOY4TNlKEeKomu7rfXwhHg" origin="_BOY4NtlKEeKomu7rfXwhHg" image="_BOY4RtlKEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

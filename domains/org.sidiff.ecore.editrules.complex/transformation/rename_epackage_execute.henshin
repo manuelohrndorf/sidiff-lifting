@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_0xwMkNkuEeKskdwQnjFTNA" name="rename_epackage" description="Changes the name of an EPackage">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:SequentialUnit" xmi:id="_0yOGoNkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_0yOGpdkuEeKskdwQnjFTNA">
+    <parameters xmi:id="_0yOGodkuEeKskdwQnjFTNA" name="selectedEObject"/>
+    <parameters xmi:id="_0yOGotkuEeKskdwQnjFTNA" name="newName" description="New name of the EPackage"/>
+    <parameterMappings xmi:id="_0yOGo9kuEeKskdwQnjFTNA" source="_0yOGodkuEeKskdwQnjFTNA" target="_0yOGptkuEeKskdwQnjFTNA"/>
+    <parameterMappings xmi:id="_0yOGpNkuEeKskdwQnjFTNA" source="_0yOGotkuEeKskdwQnjFTNA" target="_0yOGp9kuEeKskdwQnjFTNA"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_0yOGpdkuEeKskdwQnjFTNA" name="rename_EPackage">
+    <parameters xmi:id="_0yOGptkuEeKskdwQnjFTNA" name="selectedEPackage"/>
+    <parameters xmi:id="_0yOGp9kuEeKskdwQnjFTNA" name="newName"/>
+    <lhs xmi:id="_0yOGqNkuEeKskdwQnjFTNA" name="LHS">
+      <nodes xmi:id="_0yOGqdkuEeKskdwQnjFTNA" name="selectedEPackage">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_0yOGqtkuEeKskdwQnjFTNA" name="RHS">
+      <nodes xmi:id="_0yOGq9kuEeKskdwQnjFTNA" name="selectedEPackage">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="_0yOGrNkuEeKskdwQnjFTNA" value="newName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_0yOGrdkuEeKskdwQnjFTNA" origin="_0yOGqdkuEeKskdwQnjFTNA" image="_0yOGq9kuEeKskdwQnjFTNA"/>
+  </units>
+</henshin:Module>
