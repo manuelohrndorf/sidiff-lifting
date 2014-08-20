@@ -216,8 +216,9 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				rbWrapper.saveRuleBase();		
 			}
 			
-			// Refresh project:
-			getProject().getFolder(BUILD_FOLDER).refreshLocal(IResource.DEPTH_ONE, monitor);
+			// Refresh build folder
+			getProject().getFolder(BUILD_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (CoreException e) {
@@ -276,6 +277,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
 				rbWrapper.generateItemFromFile(EMFStorage.pathToUri(editRule.getLocation().toString()));
 				rbWrapper.saveRuleBase();
+				
+				//Mark rulebase as derived				
+				IFile rulebaseFile = getProject().getFile(RULEBASE_FILE);
+				rulebaseFile.setDerived(true, monitor);
+				
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();

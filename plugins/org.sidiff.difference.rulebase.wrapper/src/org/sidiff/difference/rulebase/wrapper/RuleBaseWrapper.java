@@ -14,7 +14,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -130,7 +129,7 @@ public class RuleBaseWrapper extends Observable {
 				Edit2RecognitionUtil.saveRecognitionRule(
 						rr_rule.getRecognitionModule(),
 						rr_rule.getEditRule().getExecuteModule(),
-						recognitionRuleFolder);
+						getSaveURI(rr_rule.getEditRule().getExecuteModule()));
 			}
 		}
 	}
@@ -293,7 +292,7 @@ public class RuleBaseWrapper extends Observable {
 		EcoreUtil.remove(item);
 
 		// Remove from maybe refreshed
-		newRecognitionRules.remove(item.getRecognitionRule().getRecognitionModule());
+		newRecognitionRules.remove(item.getRecognitionRule());
 
 		// Remove recognition rule from file system
 		if (removeRecognRuleFile) {
@@ -508,10 +507,36 @@ public class RuleBaseWrapper extends Observable {
 		return documentTypes;
 	}
 	
-	public URI getSaveURI(){
+	/**
+	 * Helper method to get corresponding output save URI
+	 * for given EditRule. This is necessary if there is some
+	 * subfolder structure beneath the recognitionRuleFolder.
+	 * 
+	 * 
+	 * @param editModule
+	 * @return
+	 */
+	private URI getSaveURI(Module editModule){
 		
-		//TODO 
-		return recognitionRuleFolder;
+		//Only change URI if EditRule folder has been defined
+		if(editRuleFolder == null){
+			return recognitionRuleFolder;
+		}
+		
+		// Replace SOURCE(ER) with BUILD(RR) to
+		// keep folder structure
+		String editRuleFolderString = editRuleFolder.lastSegment();
+		String recognitionRuleFolderString = recognitionRuleFolder.lastSegment();
+		
+		String savePath = EMFStorage.uriToPath(editModule.eResource().getURI());
+		
+		//Get URI without filename
+		savePath = savePath.substring(0,savePath.lastIndexOf(File.separator));
+		//Replace EditRuleFolder with RecognitionRuleFolder
+		savePath = savePath.replace(editRuleFolderString, recognitionRuleFolderString);
+		
+		return EMFStorage.pathToUri(savePath);
+		
 	}
 
 	public URI getRecognitionRuleFolder() {
