@@ -15,7 +15,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Some common Henshin Utils, mostly used for DEBUGGING purposes.
@@ -39,7 +38,7 @@ public class HenshinUtil {
 
 	/**
 	 * Only for DEBUGGING purposes. Serializes a temporary Henshin rule to the
-	 * given path.
+	 * system's tmp path.
 	 * 
 	 * @param rule
 	 * @param path
@@ -51,8 +50,7 @@ public class HenshinUtil {
 		// HenshinFactory.eINSTANCE.createTransformationSystem();
 		newModule.getUnits().add(rule);
 
-		URI uri = URI.createFileURI(new File(path).getAbsolutePath()
-				+ "/temp.henshin");
+		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/temp.henshin");
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
 		resource.getContents().add((EObject) newModule);
@@ -68,53 +66,20 @@ public class HenshinUtil {
 	}
 
 	/**
-	 * For DEBUGGING: Serializes a transformation system to the given path.
+	 * For DEBUGGING: Serializes a Henshin module to the given path.
 	 * 
-	 * @param transformation
-	 *            system
+	 * @param module
 	 * @param path
-	 * @param editrule
-	 *            usage
+	 * 
 	 * */
-	public static void serializeTransformationSystem(Module ts, String path,
-			boolean editRule) {
+	public static void serializeTransformationSystem(Module module, String path) {
 
-		if (editRule) {
-			// We don't allow multiple Rules per TransformationSystem for our
-			// atomics			
-			int ruleCount = 0;
-			
-			// Exactly one mainUnit assertion
-			int mainUnitCount = 0;
-			for (Unit unit : ts.getUnits()) {
-				if (unit.getName().equals(INamingConventions.MAIN_UNIT)) {
-					mainUnitCount++;
-				}
-				if(unit instanceof Rule){
-					ruleCount++;
-				}
-			}
-			assert (mainUnitCount == 1) : "Multiple or no main units in Transformations System "
-					+ ts.getName() + ". Should be exactly one";			
+		String name = module.getName() + ".henshin";
 
-			assert (ruleCount == 1) : "TransformationSystem has more than one rule "
-					+ path + " " + ts.getName();
-
-
-		}
-
-		String name = ts.getName();
-
-		if (editRule)
-			name = name + INamingConventions.EXECUTE_SUFFIX;
-		else
-			name = name + ".henshin";
-
-		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/"
-				+ name);
+		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/" + name);
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
-		resource.getContents().add((EObject) ts);
+		resource.getContents().add((EObject) module);
 
 		Map<String, Boolean> options = new HashMap<String, Boolean>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);

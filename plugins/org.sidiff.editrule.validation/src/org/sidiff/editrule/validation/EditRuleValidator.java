@@ -118,9 +118,6 @@ public class EditRuleValidator {
 			return invalids;
 		}
 
-		// Module name must "correspond" to filename
-		// TODO: filename: <NAME>_execute.henshin, modulename: <NAME>
-		// (Is this convention really needed?)
 		return invalids;
 	}
 
