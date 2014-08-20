@@ -364,7 +364,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				// search for context elements
 				if (validation.violatings.size() > 1) {
 					String relatedAttributes = "";
-					for (int i = 0; i < validation.violatings.size() - 1; i++) {
+					for (int i = 0; i < validation.violatings.size(); i++) {
 						locationObject = (EObject) validation.violatings.get(i);
 						
 						String relatedElementURI = EMFUtil.getEObjectURI(locationObject);
