@@ -2,7 +2,6 @@ package org.sidiff.editrule.fixing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -198,78 +197,50 @@ public class EditRuleFixer {
 
 	/**
 	 * 
-	 * @param node
+	 * @param originNode
 	 */
-	public static void fix_lhsBoundaries(Node node) {
-		ArrayList<Node> acNodes = new ArrayList<Node>();
-		ArrayList<Edge> acEdges = new ArrayList<Edge>();
-		NestedCondition nc = null;
-		for (NestedCondition nestedCondition : node.getGraph().getNestedConditions()) {
-			for (Mapping mapping : nestedCondition.getMappings()) {
-				if (mapping.getOrigin() == node) {
-					nc = nestedCondition;
+	public static void fix_lhsBoundaries(Node originNode, Node imageNode) {
+		// Incoming and outgoing edges of imageNode
+		List<Edge> imageNodeEdges = new ArrayList<Edge>();
+		for (Edge edge : imageNode.getOutgoing()) {
+			imageNodeEdges.add(edge);
+		}
+
+		// Find nested condition, and invalid mapping
+		NestedCondition nestedCondition = null;
+		Mapping mapping = null;
+		for (NestedCondition nc : originNode.getGraph().getNestedConditions()) {
+			for (Mapping m : nc.getMappings()) {
+				if ((m.getOrigin() == originNode) && m.getImage() == imageNode) {
+					nestedCondition = nc;
+					mapping = m;
 					break;
 				}
 			}
-			if (nc != null) {
+			if (nestedCondition != null) {
 				break;
 			}
 		}
 
-		Graph graph = nc.getConclusion();
-		// gather all edges and nodes of the application condition
-		for (Node n : graph.getNodes()) {
-			if (n.getAction() != null
-					&& (n.getAction().getType().equals(Action.Type.FORBID) || n.getAction().getType()
-							.equals(Action.Type.REQUIRE))) {
-				acNodes.add(n);
-				for (Edge edge : n.getIncoming()) {
-					acEdges.add(edge);
-					acNodes.add(edge.getSource());
-				}
-				for (Edge edge : n.getOutgoing()) {
-					acEdges.add(edge);
-					acNodes.add(edge.getTarget());
-				}
-			}
-		}
-		// delete all incoming and outgoing edges of a node not involved in the
-		// ac graph
-		for (Node n : acNodes) {
-			for (Iterator<Edge> itIncoming = n.getIncoming().iterator(); itIncoming.hasNext();) {
-				Edge incoming = (Edge) itIncoming.next();
-				if (!acEdges.contains(incoming)) {
-					itIncoming.remove();
-				}
-			}
-			for (Iterator<Edge> itOutgoing = n.getOutgoing().iterator(); itOutgoing.hasNext();) {
-				Edge outgoing = (Edge) itOutgoing.next();
-				if (!acEdges.contains(outgoing)) {
-					itOutgoing.remove();
-				}
-			}
-		}
+		if ((nestedCondition != null) && (mapping != null)) {
+			// Fix it...
 
-		// delete all edges not involved in the ac graph
-		for (Iterator<Edge> iterator = graph.getEdges().iterator(); iterator.hasNext();) {
-			Edge edge = (Edge) iterator.next();
-			if (!acEdges.contains(edge)) {
-				iterator.remove();
-			}
-		}
+			Graph graph = nestedCondition.getConclusion();
 
-		// delete all nodes not involved in the ac graph
-		for (Iterator<Node> iterator = graph.getNodes().iterator(); iterator.hasNext();) {
-			Node n = (Node) iterator.next();
-			if (!acNodes.contains(n)) {
-				for (Iterator<Mapping> mappingIterator = nc.getMappings().iterator(); mappingIterator.hasNext();) {
-					Mapping mapping = (Mapping) mappingIterator.next();
-					if (mapping.getImage().equals(n)) {
-						mappingIterator.remove();
-					}
-				}
-				iterator.remove();
+			// Delete incoming/outgoing image node edges from ac nodes
+			for (Node n : graph.getNodes()) {
+				n.getIncoming().removeAll(imageNodeEdges);
+				n.getOutgoing().removeAll(imageNodeEdges);
 			}
+
+			// Delete incoming/outgoing image node edges from graph
+			graph.getEdges().removeAll(imageNodeEdges);
+
+			// Delete mapping
+			nestedCondition.getMappings().remove(mapping);
+
+			// Delete imageNode from graph
+			graph.getNodes().remove(imageNode);
 		}
 	}
 
@@ -286,7 +257,7 @@ public class EditRuleFixer {
 	public static void fix_mappedAllRuleObjectInParameters(Module module, Parameter parameter) {
 		// mainUnit
 		Unit mainUnit = module.getUnit(INamingConventions.MAIN_UNIT);
-		
+
 		// Path to mainUnit
 		Rule rule = (Rule) parameter.getUnit();
 		List<Unit> pathToMainUnit = getPathToMainUnit(rule);
@@ -297,7 +268,7 @@ public class EditRuleFixer {
 
 		// Fix allowed?
 		// (Parameter with that name must not already exist in the mainUnit)
-		if (mainUnit.getParameter(parameterName) != null){
+		if (mainUnit.getParameter(parameterName) != null) {
 			return;
 		}
 
@@ -313,7 +284,7 @@ public class EditRuleFixer {
 			pathToMainUnit.get(i).getParameters().add(ruleParameter);
 		}
 
-		// Main unit: Create and map unit parameter		
+		// Main unit: Create and map unit parameter
 		Parameter unitParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
 		unitParameter.setName(parameter.getName());
 		unitParameter.setType(parameter.getType());
@@ -353,7 +324,7 @@ public class EditRuleFixer {
 
 		// Fix allowed?
 		// (Parameter with that name must not already exist in the mainUnit)
-		if (mainUnit.getParameter(parameterName) != null){
+		if (mainUnit.getParameter(parameterName) != null) {
 			return;
 		}
 
@@ -404,38 +375,34 @@ public class EditRuleFixer {
 		return res;
 	}
 
-	private static boolean isParameterCreationPermitted(Unit mainUnit, String parameterName) {
-		// Parameter with that name must not already exist in the mainUnit
-		return mainUnit.getParameter(parameterName) == null;
-	}
-
 	/**
 	 * 
 	 * @param multiRule
 	 * @param parameter
 	 */
 	public static void fix_multiRuleParameterEmbedding(Rule multiRule, Parameter parameter) {
-		
-		if (multiRule.getParameter(parameter.getName()) == null){
+
+		if (multiRule.getParameter(parameter.getName()) == null) {
 			// parameter must not yet exist...
-			
-			if (multiRule.getLhs().getNode(parameter.getName()) != null || multiRule.getRhs().getNode(parameter.getName()) != null){
+
+			if (multiRule.getLhs().getNode(parameter.getName()) != null
+					|| multiRule.getRhs().getNode(parameter.getName()) != null) {
 				// ... but a node with that name must exist
-				
+
 				// Do the fix
 				Parameter multiParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
 				multiParameter.setName(parameter.getName());
 				multiParameter.setType(parameter.getType());
 				multiRule.getParameters().add(multiParameter);
-				
+
 				// maybe now we also have to fix nested multi rules
 				for (Rule nestedMultiRule : multiRule.getMultiRules()) {
 					fix_multiRuleParameterEmbedding(nestedMultiRule, multiParameter);
 				}
-			}	
-			
+			}
+
 		}
-		
+
 	}
 
 	/**

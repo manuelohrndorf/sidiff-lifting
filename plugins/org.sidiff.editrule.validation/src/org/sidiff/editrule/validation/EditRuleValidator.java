@@ -931,7 +931,7 @@ public class EditRuleValidator {
 						EditRuleValidation info = new EditRuleValidation(
 								"Only LHS boundary nodes may be embedded into the AC graph!", editModule,
 								ValidationType.lhsBoundaries, mapping.getOrigin().getGraph().getRule(),
-								mapping.getOrigin());
+								mapping.getImage(), mapping.getOrigin());
 						invalids.add(info);
 					}
 				}

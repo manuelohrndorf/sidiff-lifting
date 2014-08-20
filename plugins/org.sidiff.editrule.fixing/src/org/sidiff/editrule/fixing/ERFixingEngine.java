@@ -54,8 +54,9 @@ public class ERFixingEngine {
 				EditRuleFixer.fix_mainUnit(module);
 			}
 			else if(type.equals(ValidationType.lhsBoundaries.toString())){
-				Node node = (Node)eObject;
-				EditRuleFixer.fix_lhsBoundaries(node);
+				Node originNode = (Node)eObject;
+				Node imageNode = (Node) eObjects.get(eObjects.size()-2);
+				EditRuleFixer.fix_lhsBoundaries(originNode, imageNode);
 			}
 			else if(type.equals(ValidationType.mappedAllCreateNodes.toString())){
 				Node node = (Node)eObject;
