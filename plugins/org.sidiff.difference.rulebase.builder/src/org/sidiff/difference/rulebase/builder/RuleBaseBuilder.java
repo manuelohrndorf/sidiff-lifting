@@ -426,7 +426,8 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		if ((ruleBaseWrapper == null) || !RuleBaseWrapper.exists(rulebase)) {
 			URI recognitionRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(BUILD_FOLDER));
-			ruleBaseWrapper =  new RuleBaseWrapper(rulebase, recognitionRuleFolder, false);
+			URI editRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(SOURCE_FOLDER));
+			ruleBaseWrapper =  new RuleBaseWrapper(rulebase, recognitionRuleFolder, editRuleFolder, false);
 			ruleBaseWrapper.setName(getRuleBasePluginBundleName());
 		} 
 		

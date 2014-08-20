@@ -730,7 +730,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
 		
 		// Rulebase wrapper (No Recognition-Rule generation -> Folder = null):
-		rbManager = new RuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), null);
+		rbManager = new RuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), null,null);
 		
 		rbManager.addObserver(new Observer() {
 

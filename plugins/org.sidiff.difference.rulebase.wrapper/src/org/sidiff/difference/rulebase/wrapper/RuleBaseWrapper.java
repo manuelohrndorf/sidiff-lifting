@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -51,6 +52,7 @@ public class RuleBaseWrapper extends Observable {
 	private boolean dirty;
 	private URI rulebaseURI;
 	private URI recognitionRuleFolder;
+	private URI editRuleFolder;
 	private RuleBase rulebase;
 	private RuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
 	private Set<RecognitionRule> newRecognitionRules;
@@ -65,9 +67,10 @@ public class RuleBaseWrapper extends Observable {
 	 * @param resolveRules
 	 *            Resolve all (Henshin) Edit- and Recognition-Rules.
 	 */
-	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, boolean resolveRules) {
+	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, URI editRuleFolder, boolean resolveRules) {
 		this.rulebaseURI = rulebaseURI;
 		this.recognitionRuleFolder = recognitionRuleFolder;
+		this.editRuleFolder = editRuleFolder;
 		
 		if (exists(rulebaseURI)) {
 			// Load existing rule base
@@ -96,9 +99,9 @@ public class RuleBaseWrapper extends Observable {
 	 * @param recognitionRuleFolder
 	 *            The folder of the generated Recognition-Rules.
 	 */
-	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder) {
+	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, URI editRuleFolder) {
 		// Load existing rule base
-		this(rulebaseURI, recognitionRuleFolder, true);
+		this(rulebaseURI, recognitionRuleFolder, editRuleFolder, true);
 	}
 	
 	public static boolean exists(URI rulebaseURI) {
@@ -504,8 +507,18 @@ public class RuleBaseWrapper extends Observable {
 		
 		return documentTypes;
 	}
+	
+	public URI getSaveURI(){
+		
+		//TODO 
+		return recognitionRuleFolder;
+	}
 
 	public URI getRecognitionRuleFolder() {
 		return recognitionRuleFolder;
+	}
+	
+	public URI getEditRuleFolder() {
+		return editRuleFolder;
 	}
 }
