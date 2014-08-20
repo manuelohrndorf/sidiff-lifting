@@ -414,14 +414,9 @@ public class EditRuleFixer {
 	 * @param node
 	 * @param attribute
 	 */
-	public static void fix_multiRuleAttributeEmbedding(Rule multiRule, Node node, Attribute attribute) {
-		for (Mapping mapping : multiRule.getMultiMappings()) {
-			if (mapping.getOrigin().equals(node)) {
-				Node image = mapping.getImage();
-				Attribute eObject = EcoreUtil.copy(attribute);
-				image.getAttributes().add(eObject);
-			}
-		}
+	public static void fix_multiRuleAttributeEmbedding(Node multiNode, Attribute kernelAttribute) {
+		Attribute eObject = EcoreUtil.copy(kernelAttribute);
+		multiNode.getAttributes().add(eObject);
 	}
 
 	/**

@@ -1009,7 +1009,8 @@ public class EditRuleValidator {
 				boolean isEmbedded = false;
 
 				for (Mapping mapping : multiRule.getMultiMappings()) {
-					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isLHSNode(mapping.getImage()) && isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
+					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isLHSNode(mapping.getImage())
+							&& isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
 						isEmbedded = true;
 						break;
 					}
@@ -1030,7 +1031,8 @@ public class EditRuleValidator {
 				boolean isEmbedded = false;
 
 				for (Mapping mapping : multiRule.getMultiMappings()) {
-					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isRHSNode(mapping.getImage()) && isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
+					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isRHSNode(mapping.getImage())
+							&& isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
 						isEmbedded = true;
 						break;
 					}
@@ -1051,18 +1053,18 @@ public class EditRuleValidator {
 		}
 	}
 
-	private static boolean isEqualNodeIdentifier(Node n1, Node n2){
-		if (n1.getName() == null && n2.getName() == null){
+	private static boolean isEqualNodeIdentifier(Node n1, Node n2) {
+		if (n1.getName() == null && n2.getName() == null) {
 			return true;
-		} else if (n1.getName() == null && n2.getName() != null){
+		} else if (n1.getName() == null && n2.getName() != null) {
 			return false;
-		} else if (n1.getName() != null && n2.getName() == null){
+		} else if (n1.getName() != null && n2.getName() == null) {
 			return false;
 		} else {
 			return n1.getName().equals(n2.getName());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Validates the "Multi Rule Edge Embedding" constraint of the Edit-Rule:
@@ -1235,18 +1237,20 @@ public class EditRuleValidator {
 	private static void checkAttributeEmbedding(Rule kernel, List<EditRuleValidation> invalids) {
 
 		// Check LHS:
-		for (Node node : kernel.getLhs().getNodes()) {
-			for (Attribute attribute : node.getAttributes()) {
+		for (Node kernelNode : kernel.getLhs().getNodes()) {
+			for (Attribute kernelAttribute : kernelNode.getAttributes()) {
 				for (Rule multiRule : kernel.getMultiRules()) {
 					boolean isEmbedded = false;
-
+					Node multiNode = null;
+					
 					for (Mapping mapping : multiRule.getMultiMappings()) {
-						if ((mapping.getOrigin() == node) && (mapping.getImage() != null)
+						multiNode = mapping.getImage();
+						if ((mapping.getOrigin() == kernelNode) && (multiNode != null)
 								&& isLHSNode(mapping.getImage())) {
 
 							for (Attribute embeddedAttribute : mapping.getImage().getAttributes()) {
-								if ((embeddedAttribute.getType() == attribute.getType())
-										&& (embeddedAttribute.getValue().equals(attribute.getValue()))) {
+								if ((embeddedAttribute.getType() == kernelAttribute.getType())
+										&& (embeddedAttribute.getValue().equals(kernelAttribute.getValue()))) {
 
 									isEmbedded = true;
 									break;
@@ -1258,7 +1262,7 @@ public class EditRuleValidator {
 					if (!isEmbedded) {
 						EditRuleValidation info = new EditRuleValidation(
 								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
-								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, node, attribute);
+								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode, kernelAttribute);
 						invalids.add(info);
 					}
 				}
@@ -1266,18 +1270,19 @@ public class EditRuleValidator {
 		}
 
 		// Check RHS:
-		for (Node node : kernel.getRhs().getNodes()) {
-			for (Attribute attribute : node.getAttributes()) {
+		for (Node kernelNode : kernel.getRhs().getNodes()) {
+			for (Attribute kernelAttribute : kernelNode.getAttributes()) {
 				for (Rule multiRule : kernel.getMultiRules()) {
 					boolean isEmbedded = false;
+					Node multiNode = null;
 
 					for (Mapping mapping : multiRule.getMultiMappings()) {
-						if ((mapping.getOrigin() == node) && (mapping.getImage() != null)
-								&& isRHSNode(mapping.getImage())) {
+						multiNode = mapping.getImage();
+						if ((mapping.getOrigin() == kernelNode) && (multiNode != null) && isRHSNode(mapping.getImage())) {
 
 							for (Attribute embeddedAttribute : mapping.getImage().getAttributes()) {
-								if ((embeddedAttribute.getType() == attribute.getType())
-										&& (embeddedAttribute.getValue().equals(attribute.getValue()))) {
+								if ((embeddedAttribute.getType() == kernelAttribute.getType())
+										&& (embeddedAttribute.getValue().equals(kernelAttribute.getValue()))) {
 
 									isEmbedded = true;
 									break;
@@ -1289,7 +1294,7 @@ public class EditRuleValidator {
 					if (!isEmbedded) {
 						EditRuleValidation info = new EditRuleValidation(
 								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
-								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, node, attribute);
+								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode, kernelAttribute);
 						invalids.add(info);
 					}
 				}
@@ -1338,10 +1343,10 @@ public class EditRuleValidator {
 		for (Parameter parameter : kernel.getParameters()) {
 			// check only embedding of those parameters that are really used by
 			// the kernel rule
-			if (!isUsedByKernelRule(parameter, kernel)){
+			if (!isUsedByKernelRule(parameter, kernel)) {
 				continue;
 			}
-			
+
 			for (Rule multiRule : kernel.getMultiRules()) {
 				boolean isEmbedded = false;
 

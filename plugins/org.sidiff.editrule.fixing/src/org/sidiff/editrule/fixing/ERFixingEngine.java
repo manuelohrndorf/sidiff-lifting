@@ -14,8 +14,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.editrule.validation.EditRuleValidation;
 import org.sidiff.editrule.validation.ValidationType;
 
-
-
 public class ERFixingEngine {
 
 	private List<EditRuleValidation> validations;
@@ -24,16 +22,15 @@ public class ERFixingEngine {
 
 		for (EditRuleValidation erValidation : validations) {
 			String type = erValidation.validationType.toString();
-			Module module = (Module)erValidation.editModule;
-			EObject eObject = (EObject)erValidation.violatings.get(erValidation.violatings.size()-1);
+			Module module = (Module) erValidation.editModule;
+			EObject eObject = (EObject) erValidation.violatings.get(erValidation.violatings.size() - 1);
 			List<EObject> eObjects = new ArrayList<EObject>();
-			for(int i = 0; i < erValidation.violatings.size(); i++){
-				eObjects.add((EObject)erValidation.violatings.get(i));
+			for (int i = 0; i < erValidation.violatings.size(); i++) {
+				eObjects.add((EObject) erValidation.violatings.get(i));
 			}
 			fixit(type, module, eObject, eObjects);
 		}
 	}
-
 
 	/**
 	 * 
@@ -41,66 +38,51 @@ public class ERFixingEngine {
 	 * @param module
 	 * @param eObject
 	 * @param eObjects
-	 * @throws UnsupportedValidationType 
+	 * @throws UnsupportedValidationType
 	 */
-	public void fixit(String type, Module module, EObject eObject, List<EObject> eObjects) throws UnsupportedValidationType{
+	public void fixit(String type, Module module, EObject eObject, List<EObject> eObjects)
+			throws UnsupportedValidationType {
 
-		if(!canFixValidationType(type)){			
+		if (!canFixValidationType(type)) {
 			throw new UnsupportedValidationType(type);
-		}
-		else{
-			
-			if(type.equals(ValidationType.mainUnit.toString())){
+		} else {
+
+			if (type.equals(ValidationType.mainUnit.toString())) {
 				EditRuleFixer.fix_mainUnit(module);
-			}
-			else if(type.equals(ValidationType.lhsBoundaries.toString())){				
-				Node originNode = (Node)eObject;
-				Node imageNode = (Node) eObjects.get(eObjects.size()-2);
+			} else if (type.equals(ValidationType.lhsBoundaries.toString())) {
+				Node originNode = (Node) eObject;
+				Node imageNode = (Node) eObjects.get(eObjects.size() - 2);
 				EditRuleFixer.fix_lhsBoundaries(originNode, imageNode);
-			}
-			else if(type.equals(ValidationType.mappedAllCreateNodes.toString())){
-				Node node = (Node)eObject;
+			} else if (type.equals(ValidationType.mappedAllCreateNodes.toString())) {
+				Node node = (Node) eObject;
 				EditRuleFixer.fix_mappedAllCreateNodes(module, node);
-			}
-			else if(type.equals(ValidationType.mappedAllRuleObjectInParameters.toString())){
-				Parameter parameter = (Parameter)eObject;
+			} else if (type.equals(ValidationType.mappedAllRuleObjectInParameters.toString())) {
+				Parameter parameter = (Parameter) eObject;
 				EditRuleFixer.fix_mappedAllRuleObjectInParameters(module, parameter);
-			}
-			else if(type.equals(ValidationType.multiRuleParameterEmbedding.toString())){
-				Parameter parameter = (Parameter)eObject;
-				Rule multiRule = (Rule)eObjects.get(0);
+			} else if (type.equals(ValidationType.multiRuleParameterEmbedding.toString())) {
+				Parameter parameter = (Parameter) eObject;
+				Rule multiRule = (Rule) eObjects.get(0);
 				EditRuleFixer.fix_multiRuleParameterEmbedding(multiRule, parameter);
-			}
-			else if(type.equals(ValidationType.multiRuleAttributeEmbedding.toString())){
-				Attribute attribute = (Attribute) eObject;
-				Node node = null;
-				Rule multiRule = null;
-				for(EObject obj : eObjects){
-					if(obj instanceof Node){
-						node = (Node)obj;
-					}else if(obj instanceof Rule){
-						multiRule = (Rule)obj;
-					}
-				}
-				EditRuleFixer.fix_multiRuleAttributeEmbedding(multiRule, node, attribute);
-			}
-			else if(type.equals(ValidationType.multiRuleNodeEmbedding.toString())){
+			} else if (type.equals(ValidationType.multiRuleAttributeEmbedding.toString())) {
+				Attribute kernelAttribute = (Attribute) eObjects.get(eObjects.size() - 1);
+				Node multiNode = (Node) eObjects.get(eObjects.size() - 2);
+				EditRuleFixer.fix_multiRuleAttributeEmbedding(multiNode, kernelAttribute);
+			} else if (type.equals(ValidationType.multiRuleNodeEmbedding.toString())) {
 				Rule kernelRule = null;
 				Rule multiRule = null;
-				Node node = (Node)eObject;
-				for(EObject obj : eObjects){
-					if(obj instanceof Rule){
-						Rule rule = (Rule)obj;
-						if(rule.eContainer() instanceof Module){
+				Node node = (Node) eObject;
+				for (EObject obj : eObjects) {
+					if (obj instanceof Rule) {
+						Rule rule = (Rule) obj;
+						if (rule.eContainer() instanceof Module) {
 							kernelRule = rule;
-						}else if(rule.eContainer() instanceof Rule){
+						} else if (rule.eContainer() instanceof Rule) {
 							multiRule = rule;
 						}
 					}
 				}
 				EditRuleFixer.fix_multiRuleNodeEmbedding(kernelRule, multiRule, node);
-			}
-			else if(type.equals(ValidationType.consistentEOpposite.toString())){
+			} else if (type.equals(ValidationType.consistentEOpposite.toString())) {
 				Edge edge = (Edge) eObject;
 				EditRuleFixer.fix_consistentEOpposite(edge);
 			}
@@ -108,20 +90,22 @@ public class ERFixingEngine {
 	}
 
 	/**
-	 * Returns whether the ERFixingEngine is capable of
-	 * fixing this type of Validation
+	 * Returns whether the ERFixingEngine is capable of fixing this type of
+	 * Validation
+	 * 
 	 * @param type
 	 * @return
 	 */
-	public boolean canFixValidationType(String type){
-		// Use Java Reflection to see whether a fixing method for this type is available
+	public boolean canFixValidationType(String type) {
+		// Use Java Reflection to see whether a fixing method for this type is
+		// available
 		Method[] fixerMethods = EditRuleFixer.class.getDeclaredMethods();
 		for (int i = 0; i < fixerMethods.length; i++) {
-			if (fixerMethods[i].getName().equals("fix_" + type)){
+			if (fixerMethods[i].getName().equals("fix_" + type)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
