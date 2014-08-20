@@ -229,14 +229,14 @@ public class GenerationActionDelegator {
 		if (c.CREATE_MOVE_UPS
 			&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_UP)) {
 
-			for(ContainmentCycle cc: eInfo.getContainmentCycles()) {
-				if(cc.getPath().size() >= 2) {
-					
-					System.out.println(cc.getPathAsString());
-					System.out.println(">2");
-				}
-				
-			}
+//			for(ContainmentCycle cc: eInfo.getContainmentCycles()) {
+//				if(cc.getPath().size() >= 2) {
+//					
+//					System.out.println(cc.getPathAsString());
+//					System.out.println(">2");
+//				}
+//				
+//			}
 
 		}
 

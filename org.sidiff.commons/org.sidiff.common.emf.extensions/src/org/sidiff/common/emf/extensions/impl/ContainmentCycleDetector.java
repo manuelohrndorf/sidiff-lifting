@@ -1,11 +1,7 @@
 package org.sidiff.common.emf.extensions.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
@@ -23,7 +19,9 @@ import org.sidiff.common.logging.LogUtil;
  * last entry in the path points back to the beginning
  * or and "inner" containment cycle, where the last entry in the
  * path points back to a position in the path other than the beginning.
- * The ContainmentCyleDetector also considers sub types of each EClass.
+ * The ContainmentCyleDetector also considers all inherited
+ * references for each EClass.
+ * 
  * @author mrindt
  *
  */
@@ -33,12 +31,6 @@ public class ContainmentCycleDetector {
 	 * Instance of EClassifierInfoManagement for sub type access.
 	 */
 	private EClassifierInfoManagement ECM = null;
-	
-	/**
-	 * Temporary path, which will be cleared after each considered EClass
-	 * inside an EPackage
-	 */
-	private List<Stack<HashMap<EReference, EClassifier>>> tmpPathList = null;
 	
 	/**
 	 * Constructor
@@ -108,23 +100,9 @@ public class ContainmentCycleDetector {
 					// Continue finding next steps along this path
 					findNextStep(path);
 	
-					//******* Copied path for each sub type of target of EReference ********************/
-					Set<EClassifier> subTypes = ECM.getAllSubTypes(target);				
-					for(EClassifier subType: subTypes) {
-						
-						// Use the previously backed up path and create a copy for each subtype to continue on
-						Stack<HashMap<EReference,EClassifier>> copyOfBackedUpPath = new Stack<HashMap<EReference,EClassifier>>();
-						copyOfBackedUpPath.addAll(backedUpPath);
-	
-						//Continue this path, starting with a sub type of the target type of the eRef (indirect target)
-						HashMap<EReference,EClassifier> pSubPair = new HashMap<EReference, EClassifier>();
-						pSubPair.put(eRef, subType);
-						copyOfBackedUpPath.push(pSubPair);
-						
-						// Continue finding next step along this path
-						findNextStep(copyOfBackedUpPath);
-						
-					}
+					// note: it is not necessary to check paths of sub types
+					// since eAllReferences of each eClass in the meta-model
+					// (and thus sub types also) are checked.
 				}
 			}			
 		}
@@ -148,7 +126,7 @@ public class ContainmentCycleDetector {
 		HashMap<EReference,EClassifier> lastEntry = currentPath.lastElement();
 		EClassifier  eClassifier = lastEntry.values().iterator().next();
 
-		// iterate over  eAllReferences of the last saved eClassifier target in last step
+		// iterate over  eReferences of the last saved eClassifier target in last step
 		Iterator<EReference> refIterator = ((EClass)eClassifier).getEAllReferences().iterator();
 		if(refIterator.hasNext()) {
 			
@@ -197,23 +175,9 @@ public class ContainmentCycleDetector {
 			currentPath.push(step);
 			findNextStep(currentPath);
 
-			//******* Copied path for each sub type of eClassifier target of EReference ********************/
-			Set<EClassifier> subTypes = ECM.getAllSubTypes(eClassifier);				
-			for(EClassifier subType: subTypes) {
-				
-				// Use the previously backed up path and create a copy for each subtype to continue on
-				Stack<HashMap<EReference,EClassifier>> copyOfBackedUpPath = new Stack<HashMap<EReference,EClassifier>>();
-				copyOfBackedUpPath.addAll(backedUpPath);
-
-				//Continue this path, starting with a sub type of the target type of the eRef (indirect target)
-				HashMap<EReference,EClassifier> pSubPair = new HashMap<EReference, EClassifier>();
-				pSubPair.put(eRef, subType);
-				copyOfBackedUpPath.push(pSubPair);
-				
-				// Continue finding next step along this path
-				findNextStep(copyOfBackedUpPath);
-				
-			}
+			// note: it is not necessary to check paths of sub types
+			// since eAllReferences of each eClass in the meta-model
+			// (and thus sub types also) are checked.
 		}		
 	}
 	
