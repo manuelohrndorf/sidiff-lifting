@@ -205,6 +205,9 @@ public class EditRuleFixer {
 		for (Edge edge : imageNode.getOutgoing()) {
 			imageNodeEdges.add(edge);
 		}
+		for (Edge edge : imageNode.getIncoming()) {
+			imageNodeEdges.add(edge);
+		}
 
 		// Find nested condition, and invalid mapping
 		NestedCondition nestedCondition = null;

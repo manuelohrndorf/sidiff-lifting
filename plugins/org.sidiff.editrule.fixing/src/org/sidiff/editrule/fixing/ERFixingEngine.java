@@ -27,7 +27,7 @@ public class ERFixingEngine {
 			Module module = (Module)erValidation.editModule;
 			EObject eObject = (EObject)erValidation.violatings.get(erValidation.violatings.size()-1);
 			List<EObject> eObjects = new ArrayList<EObject>();
-			for(int i = 0; i < erValidation.violatings.size()-1; i++){
+			for(int i = 0; i < erValidation.violatings.size(); i++){
 				eObjects.add((EObject)erValidation.violatings.get(i));
 			}
 			fixit(type, module, eObject, eObjects);
@@ -53,7 +53,7 @@ public class ERFixingEngine {
 			if(type.equals(ValidationType.mainUnit.toString())){
 				EditRuleFixer.fix_mainUnit(module);
 			}
-			else if(type.equals(ValidationType.lhsBoundaries.toString())){
+			else if(type.equals(ValidationType.lhsBoundaries.toString())){				
 				Node originNode = (Node)eObject;
 				Node imageNode = (Node) eObjects.get(eObjects.size()-2);
 				EditRuleFixer.fix_lhsBoundaries(originNode, imageNode);
