@@ -59,7 +59,7 @@ public class EClassifierInfoManagement {
 	 * @param enableStereotypeMapping
 	 * @param ePackagesStack
 	 */
-	public void gatherInformation(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
+	public void gatherInformation(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack, Boolean enableInnerContainmentCycleDetection) {
 		
 		//convert stack to array
 		EPackage[] ePackageArray = new EPackage[ePackagesStack.size()];
@@ -71,7 +71,7 @@ public class EClassifierInfoManagement {
 		gatherAllEClassifierInfos(ePackagesStack);
 		
 		// find and store Containment Cycles
-		ContainmentCycleDetector ccDetector = new ContainmentCycleDetector();
+		ContainmentCycleDetector ccDetector = new ContainmentCycleDetector(enableInnerContainmentCycleDetection);
 		ccDetector.detectContainmentCycles(ePackagesStack);
 	}
 	

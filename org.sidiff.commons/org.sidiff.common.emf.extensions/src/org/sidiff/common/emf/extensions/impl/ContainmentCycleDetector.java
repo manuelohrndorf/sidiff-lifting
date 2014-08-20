@@ -33,9 +33,22 @@ public class ContainmentCycleDetector {
 	private EClassifierInfoManagement ECM = null;
 	
 	/**
-	 * Constructor
+	 * Whether inner containment circles inside a path should be
+	 * marked as ContainmentCylces or if they should be ignored.
 	 */
-	public ContainmentCycleDetector() {
+	private Boolean considerInnerContainmentCycles = true;
+	
+	/**
+	 * Constructor. It's argument determines
+	 * if inner containment cycles (inside a containment hierarchy path) should be
+	 * marked as ContainmentCylces or if they should be ignored.
+	 * <br/>
+	 * Inner = last entry in path points back to some other entry which is not the beginning.
+	 * <br/>
+	 * Outer = last entry in path points back to the entry at the beginning.
+	 * @param considerInnerContainmentCycles
+	 */
+	public ContainmentCycleDetector(Boolean considerInnerContainmentCycles) {
 		
 		ECM =  EClassifierInfoManagement.getInstance();
 	}
@@ -130,12 +143,13 @@ public class ContainmentCycleDetector {
 		Iterator<EReference> refIterator = ((EClass)eClassifier).getEAllReferences().iterator();
 		if(refIterator.hasNext()) {
 			
-			// for the first EReference create a step along the input path
+			// for the first EReference create a step along the already existing path
 			EReference firstRef = refIterator.next();				
 			EClassifier targetOfFirstRef = firstRef.getEReferenceType(); 
 			checkAndStoreCycles(currentPath, firstRef, targetOfFirstRef);
 			
-			// for each following EReference create an individual path with the backed up path as basis
+			
+			// for each further EReference create a new individual path with the backed up path as basis
 			while(refIterator.hasNext()) {				
 				Stack<HashMap<EReference, EClassifier>> copyOfInitialPath = new Stack<HashMap<EReference, EClassifier>>();
 				copyOfInitialPath.addAll(backedUpPath);
@@ -153,18 +167,24 @@ public class ContainmentCycleDetector {
 	
 	private void checkAndStoreCycles(Stack<HashMap<EReference, EClassifier>> currentPath, EReference eRef, EClassifier eClassifier) {
 		
+		boolean producesOuterCycle = checkTargetIsOriginOfPath(currentPath, eClassifier);
+		boolean producesInnerCycle = checkInnerCircle(currentPath, eClassifier);
+
 		// ** on containment cycle (target is origin of Path) **********************************************/
-		if(checkTargetIsOriginOfPath(currentPath, eClassifier)) {			
+		if(producesOuterCycle) {			
 			ContainmentCycle cc = createAndStoreContainmentCycle(currentPath, eRef, eClassifier, false);					
 			logCC(cc);
 		}
 		// ** on inner containment cycle ****************************************************************/
-		else if(checkInnerCircle(currentPath, eClassifier)) {						
+		else if(considerInnerContainmentCycles && producesInnerCycle) {						
 			ContainmentCycle cc = createAndStoreContainmentCycle(currentPath, eRef, eClassifier, true);			
 			logCC(cc);			
-		}		
+		}
+		else if(producesInnerCycle && !considerInnerContainmentCycles ) {
+			//do nothing
+		}
 		// ** otherwise no cycle --> keep adding steps *****************************************************/
-		else{
+		else if(!producesOuterCycle && !producesInnerCycle && !considerInnerContainmentCycles){
 			// keep the currentPath for later usage of sub types
 			Stack<HashMap<EReference, EClassifier>> backedUpPath = new Stack<HashMap<EReference, EClassifier>>();
 			backedUpPath.addAll(currentPath);
@@ -178,7 +198,7 @@ public class ContainmentCycleDetector {
 			// note: it is not necessary to check paths of sub types
 			// since eAllReferences of each eClass in the meta-model
 			// (and thus sub types also) are checked.
-		}		
+		}	
 	}
 	
 	

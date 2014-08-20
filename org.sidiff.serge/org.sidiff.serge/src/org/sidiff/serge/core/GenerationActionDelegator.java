@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -229,14 +230,29 @@ public class GenerationActionDelegator {
 		if (c.CREATE_MOVE_UPS
 			&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_UP)) {
 
-//			for(ContainmentCycle cc: eInfo.getContainmentCycles()) {
-//				if(cc.getPath().size() >= 2) {
-//					
-//					System.out.println(cc.getPathAsString());
-//					System.out.println(">2");
-//				}
-//				
-//			}
+			Set<ContainmentCycle> ccSet = eInfo.getContainmentCycles();
+			for(ContainmentCycle cc: ccSet) {
+				//*** on outer circle **********
+				if(!cc.isInnerCircle()) {
+					
+					Stack<HashMap<EReference,EClassifier>> path = cc.getPath();
+					HashMap<EReference,EClassifier> step = path.peek();
+					EReference eRef = (EReference) step.keySet().iterator().next();
+					EClassifier parent = (EClassifier) eRef.eContainer();
+					
+					if(c.CREATE_MOVE_UPS
+							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_UP, c.REDUCETOSUPERTYPE_MOVE_UP)) {
+					
+						//TODO check every entry in path is allowed as dangling?
+						
+						MoveUpGenerator generator = new MoveUpGenerator(eClassifier, path);
+						modules.add(generator.generate());
+						
+					}	
+				}		
+			}
+			
+
 
 		}
 

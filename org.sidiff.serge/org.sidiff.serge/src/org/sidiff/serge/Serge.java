@@ -71,7 +71,7 @@ public class Serge {
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(settings.getConfigPath());
-			ECM.gatherInformation(config.PROFILE_APPLICATION_IN_USE, config.EPACKAGESSTACK);
+			ECM.gatherInformation(config.PROFILE_APPLICATION_IN_USE, config.EPACKAGESSTACK, config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
 			
 			// get ePackageStack for usage in generate()
 			ePackagesStack = config.EPACKAGESSTACK;
