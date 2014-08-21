@@ -51,5 +51,24 @@ which can be used in the SiLift environment.
                       name="RuleBase">
                 </template>
              </extension>
+             <extension
+                   point="org.eclipse.ui.newWizards">
+                <category
+                      id="org.sidiff.difference.rulebase.project.silift.category"
+                      name="SiLift">
+                </category>
+                <wizard
+                      category="org.sidiff.difference.rulebase.project.silift.category"
+                      class="org.eclipse.pde.internal.ui.wizards.plugin.NewPluginProjectWizard"
+                      icon="icons/16x16_rulebase.gif"
+                      id="org.sidiff.difference.rulebase.project.rulebasewizard"
+                      name="RuleBase Plugin-Project"
+                      project="true">
+                   <description>
+                      This wizard creates a RuleBase Plugin-Project for defining Edit-Rules
+which can be used in the SiLift environment.
+                   </description>
+                </wizard>
+             </extension>
 
 </plugin>
