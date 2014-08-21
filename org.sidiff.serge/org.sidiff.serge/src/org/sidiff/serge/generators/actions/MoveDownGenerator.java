@@ -120,8 +120,8 @@ public class MoveDownGenerator {
 			EClass eClass = (EClass) step.values().iterator().next();
 			EReference stepRef = step.keySet().iterator().next();
 	
-			// if it is not the last step in path create new Node...
-			if(i<=numbOfSteps-2) {
+			// if it is not the last step before the last entry in path create new Node...
+			if((numbOfSteps==3 && i<=numbOfSteps-2)|| (numbOfSteps>3 && i<=numbOfSteps-3)) {
 				Node newNode = HenshinFactory.eINSTANCE.createNode(graph, eClass, "");
 				// ...and draw edge between  the current nodeToConnectNewEdgeWith and the following new node.
 				Edge newEdge = HenshinFactory.eINSTANCE.createEdge(nodeToConnectNewEdgeWith, newNode, stepRef);
@@ -130,7 +130,7 @@ public class MoveDownGenerator {
 				nodeToConnectNewEdgeWith = newNode;
 				// ...And additionally, check if step is one before the last.
 				// If so, draw also an edge between the new Node and the oldSourceNodeInNCGraph.
-				if(i==numbOfSteps-2) {
+				if((numbOfSteps==3 && i==numbOfSteps-2) || (numbOfSteps>3 && i==numbOfSteps-3)) {
 					Edge newEdgeBackToOld = HenshinFactory.eINSTANCE.createEdge(newNode, newSourceNodeInNCGraph, stepRef);
 					graph.getEdges().add(newEdgeBackToOld);
 				}

@@ -2,7 +2,6 @@ package org.sidiff.serge;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Timer;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
@@ -28,8 +26,8 @@ import org.sidiff.serge.configuration.Configuration;
 import org.sidiff.serge.configuration.Configuration.OperationType;
 import org.sidiff.serge.configuration.ConfigurationParser;
 import org.sidiff.serge.core.ConstraintApplicator;
-import org.sidiff.serge.core.InverseModuleMapper;
 import org.sidiff.serge.core.InverseModuleMapSerializer;
+import org.sidiff.serge.core.InverseModuleMapper;
 import org.sidiff.serge.core.MainUnitApplicator;
 import org.sidiff.serge.core.MetaModelElementVisitor;
 import org.sidiff.serge.core.ModuleSerializer;

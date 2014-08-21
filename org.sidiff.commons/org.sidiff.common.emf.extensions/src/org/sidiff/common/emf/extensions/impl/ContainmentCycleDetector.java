@@ -51,6 +51,7 @@ public class ContainmentCycleDetector {
 	public ContainmentCycleDetector(Boolean considerInnerContainmentCycles) {
 		
 		ECM =  EClassifierInfoManagement.getInstance();
+		this.considerInnerContainmentCycles = considerInnerContainmentCycles;
 	}
 	
 	/**
