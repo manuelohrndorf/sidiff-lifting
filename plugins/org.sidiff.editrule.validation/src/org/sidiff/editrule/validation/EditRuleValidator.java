@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClass;
@@ -69,7 +70,7 @@ public class EditRuleValidator {
 		validations.addAll(EditRuleValidator.validateEditRule_uniqueParameterNames(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_mappedAllRuleObjectInParameters(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_mappedAllCreateNodes(editModule));
-		validations.addAll(EditRuleValidator.validateEditRule_mappedAllCreateNodeAttributes(editModule));
+		validations.addAll(EditRuleValidator.validateEditRule_mappedAllValueSettingParameters(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_correctParameterTyping(editModule));
 
 		// Internal structure of Henshin rules
@@ -342,8 +343,8 @@ public class EditRuleValidator {
 	 * of its supertypes.
 	 * </p>
 	 * 
-	 * @param mainUnit
-	 *            The Main-Unit of the Edit-Rule.
+	 * @param editModule
+	 *            The module that implements the Edit-Rule.
 	 */
 	public static List<EditRuleValidation> validateEditRule_uniqueParameterNames(Module editModule) {
 		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
@@ -390,7 +391,7 @@ public class EditRuleValidator {
 	 * </p>
 	 * 
 	 * @param editModule
-	 *            The Main-Unit of the Edit-Rule.
+	 * 
 	 */
 	public static List<EditRuleValidation> validateEditRule_mappedAllCreateNodes(Module editModule) {
 		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
@@ -403,7 +404,8 @@ public class EditRuleValidator {
 			for (Node createNode : getRHSMinusLHSNodes(rule)) {
 				if (rule.getKernelRule() != null
 						&& !HenshinMultiRuleAnalysis.getMultiRuleNodes(rule).contains(createNode)) {
-					// follow-up error of kernel rule
+					// follow-up error of kernel rule (will be detected by
+					// multiRuleParameterEmbedding)
 					continue;
 				}
 
@@ -437,11 +439,86 @@ public class EditRuleValidator {
 
 		return invalids;
 	}
+	
+	public static List<EditRuleValidation> validateEditRule_mappedAllValueSettingParameters(Module editModule) {
+		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
 
-	public static List<EditRuleValidation> validateEditRule_mappedAllCreateNodeAttributes(Module editModule) {
-		// TODO: Alle Attribute eines <<create>>-Knotens einer Henshin-Regel
-		// müssen als Value-Parameter übergeben werden
-		return Collections.EMPTY_LIST;
+		if (editModule.getUnit(INamingConventions.MAIN_UNIT) == null) {
+			return invalids;
+		}
+
+		for (Rule rule : HenshinModuleAnalysis.getAllRules(editModule)) {
+			// Check <<create>> nodes
+			for (Node createNode : getRHSMinusLHSNodes(rule)) {
+				if (rule.getKernelRule() != null
+						&& !HenshinMultiRuleAnalysis.getMultiRuleNodes(rule).contains(createNode)) {
+					// follow-up error of kernel rule (will be detected by
+					// multiRuleParameterEmbedding)
+					continue;
+				}
+				
+				// Check:
+				for (Attribute attribute : createNode.getAttributes()) {
+					invalids.addAll(checkValueSettingParameterMapping(createNode, attribute));
+				}
+				
+			}
+			
+			// Check <<preserve>> nodes
+			for (NodePair nodePair : HenshinRuleAnalysisUtilEx.getPreservedNodes(rule)) {
+				Node rhsNode = nodePair.getRhsNode();
+				if (rule.getKernelRule() != null
+						&& !HenshinMultiRuleAnalysis.getMultiRuleNodes(rule).contains(rhsNode)) {
+					// follow-up error of kernel rule (will be detected by
+					// multiRuleParameterEmbedding)
+					continue;
+				}
+				
+				for (Attribute rhsAttribute : rhsNode.getAttributes()) {
+					if (isAttributeValueToBeSet(nodePair, rhsAttribute)){
+						invalids.addAll(checkValueSettingParameterMapping(rhsNode, rhsAttribute));
+					}
+				}
+			}
+		}
+
+		return invalids;
+	}
+
+	private static List<EditRuleValidation> checkValueSettingParameterMapping(Node rhsNode, Attribute rhsAttribute) {
+		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
+
+		boolean valid = true;
+		Attribute invalidAttribute = null;
+
+		Set<Parameter> usedParams = ParameterInfo.getUsedParameters(rhsNode.getGraph().getRule(), rhsAttribute);
+		if (usedParams.isEmpty()) {
+			return invalids;
+		}
+
+		assert (usedParams.size() == 1);
+
+		Parameter ruleParameter = usedParams.iterator().next();
+		Parameter outermostParameter = getOutermostParameter(ruleParameter);
+		if (outermostParameter == null) {
+			valid = false;
+			invalidAttribute = rhsAttribute;
+		} else {
+			if (getParameterDirection(outermostParameter) != ParameterDirection.IN) {
+				valid = false;
+				invalidAttribute = rhsAttribute;
+			}
+		}
+
+		if (!valid) {
+			EditRuleValidation info = new EditRuleValidation(
+					"Parameters which are used to set the value of an attribute must be mapped to an OUT-Parameter of the mainUnit!",
+					rhsNode.getGraph().getRule().getModule(), ValidationType.mappedAllValueSettingParameters, rhsNode
+							.getGraph().getRule(), rhsNode, invalidAttribute);
+			invalids.add(info);
+		}
+
+		return invalids;
 	}
 
 	/**
@@ -786,11 +863,9 @@ public class EditRuleValidator {
 					break;
 				}
 
-				Node lhsNode = nodePair.getLhsNode();
 				Node rhsNode = nodePair.getRhsNode();
 				for (Attribute rhsAttribute : rhsNode.getAttributes()) {
-					Attribute lhsAttribute = lhsNode.getAttribute(rhsAttribute.getType());
-					if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
+					if (isAttributeValueToBeSet(nodePair, rhsAttribute)){
 						valid = true;
 						break;
 					}
@@ -807,6 +882,18 @@ public class EditRuleValidator {
 		return invalids;
 	}
 
+	private static boolean isAttributeValueToBeSet(NodePair nodePair, Attribute rhsAttribute){
+		Node lhsNode = nodePair.getLhsNode();
+		Node rhsNode = nodePair.getRhsNode();
+	
+		Attribute lhsAttribute = lhsNode.getAttribute(rhsAttribute.getType());
+		if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * <p>
 	 * Validates the "AC Boundaries" constraint of the Edit-Rule:
@@ -1239,11 +1326,10 @@ public class EditRuleValidator {
 				for (Rule multiRule : kernel.getMultiRules()) {
 					boolean isEmbedded = false;
 					Node multiNode = null;
-					
+
 					for (Mapping mapping : multiRule.getMultiMappings()) {
 						multiNode = mapping.getImage();
-						if ((mapping.getOrigin() == kernelNode) && (multiNode != null)
-								&& isLHSNode(mapping.getImage())) {
+						if ((mapping.getOrigin() == kernelNode) && (multiNode != null) && isLHSNode(mapping.getImage())) {
 
 							for (Attribute embeddedAttribute : mapping.getImage().getAttributes()) {
 								if ((embeddedAttribute.getType() == kernelAttribute.getType())
@@ -1259,7 +1345,8 @@ public class EditRuleValidator {
 					if (!isEmbedded) {
 						EditRuleValidation info = new EditRuleValidation(
 								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
-								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode, kernelAttribute);
+								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode,
+								kernelAttribute);
 						invalids.add(info);
 					}
 				}
@@ -1291,7 +1378,8 @@ public class EditRuleValidator {
 					if (!isEmbedded) {
 						EditRuleValidation info = new EditRuleValidation(
 								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
-								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode, kernelAttribute);
+								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode,
+								kernelAttribute);
 						invalids.add(info);
 					}
 				}

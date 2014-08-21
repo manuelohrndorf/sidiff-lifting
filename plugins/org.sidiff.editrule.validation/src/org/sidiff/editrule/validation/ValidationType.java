@@ -9,7 +9,7 @@ public enum ValidationType {
 	uniqueParameterNames,
 	mappedAllRuleObjectInParameters,
 	mappedAllCreateNodes,
-	mappedAllCreateNodeAttributes,
+	mappedAllValueSettingParameters,
 	correctParameterTyping,
 	consistentEOpposite, 
 	derivedEdges,
