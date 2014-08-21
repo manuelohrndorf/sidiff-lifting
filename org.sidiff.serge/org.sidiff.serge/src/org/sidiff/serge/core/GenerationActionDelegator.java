@@ -251,9 +251,6 @@ public class GenerationActionDelegator {
 					}	
 				}		
 			}
-			
-
-
 		}
 
 		return modules;
@@ -273,13 +270,34 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
-
+		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
+		
 		if (c.CREATE_MOVE_DOWNS
 					&& FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.MOVE_DOWN)) {
 			
-			
-		
 
+			Set<ContainmentCycle> ccSet = eInfo.getContainmentCycles();
+			for(ContainmentCycle cc: ccSet) {
+				//*** on outer circle **********
+				if(!cc.isInnerCircle()) {
+					
+					Stack<HashMap<EReference,EClassifier>> path = cc.getPath();
+					HashMap<EReference,EClassifier> step = path.peek();
+					EReference eRef = (EReference) step.keySet().iterator().next();
+					EClassifier parent = (EClassifier) eRef.eContainer();
+					
+					if(c.CREATE_MOVE_DOWNS
+							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_DOWN, c.REDUCETOSUPERTYPE_MOVE_DOWN)) {
+					
+						//TODO check every entry in path is allowed as dangling?
+						
+						MoveDownGenerator generator = new MoveDownGenerator(eClassifier, path);
+						modules.add(generator.generate());
+						
+					}	
+				}		
+			}
+		
 		}
 		
 		return modules;
