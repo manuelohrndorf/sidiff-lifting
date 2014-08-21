@@ -158,11 +158,17 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
 
-		// Clean the RuleBase completely:
-		getProject().getFile(RULEBASE_FILE).delete(true, monitor);
-		ruleBaseWrapper = null;
-		
+		// Clean the RuleBase completely and delete all
+		// RecognitionRules
+		RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
+		rbWrapper.clean(true);
+		try {
+			rbWrapper.saveRuleBase();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// Delete all elements in Build Folder if already existent
+		// This is necessary if substructures are used.
 		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
 		
 		if (buildFolder.exists()) {
@@ -170,6 +176,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				builtRR.delete(true, monitor);
 			}
 		}
+		
 	}
 	
 	/**
