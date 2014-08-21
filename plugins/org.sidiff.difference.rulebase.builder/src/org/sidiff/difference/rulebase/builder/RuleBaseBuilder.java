@@ -57,7 +57,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	// Used folder structure for projects with nature @link{RuleBaseProjectNature}
 	public static final String BUILD_FOLDER = "recognitionrules";
 	
-	public static final String SOURCE_FOLDER = "transformation";
+	public static final String SOURCE_FOLDER = "editrules";
 	
 	public static final String RULEBASE_FILE = "sidiff.rulebase";
 	
