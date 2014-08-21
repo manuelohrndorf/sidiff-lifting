@@ -38,7 +38,7 @@ public class ContainmentCycle {
 	 * Set this to true in case there are inner containment cycles which do not point
 	 * back to the origin but to other entries in the path.
 	 */
-	private Boolean containsInnerCircle= false;
+	private Boolean containsInnerCircle;
 	
 	
 	/**

@@ -79,7 +79,7 @@ public class MoveUpGenerator {
 		MOVE_UP_Module.getImports().addAll(config.EPACKAGESSTACK);
 		
 		// create rule (we can use OperationType.MOVE for this
-		Rule r = ModuleInternalsApplicator.createBasicRule(MOVE_UP_Module, eRef, eClassifier, parent, eRef, parent, OperationType.MOVE);
+		Rule r = ModuleInternalsApplicator.createBasicRule(MOVE_UP_Module, eRef, eClassifier, parent, eRef, parent, OperationType.MOVE_UP);
 		
 		//** Now apply the containment cycle path as PACs ****************************************************
 		

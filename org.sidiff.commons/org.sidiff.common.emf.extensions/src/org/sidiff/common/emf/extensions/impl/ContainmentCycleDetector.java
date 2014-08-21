@@ -36,7 +36,7 @@ public class ContainmentCycleDetector {
 	 * Whether inner containment circles inside a path should be
 	 * marked as ContainmentCylces or if they should be ignored.
 	 */
-	private Boolean considerInnerContainmentCycles = true;
+	private Boolean considerInnerContainmentCycles;
 	
 	/**
 	 * Constructor. It's argument determines

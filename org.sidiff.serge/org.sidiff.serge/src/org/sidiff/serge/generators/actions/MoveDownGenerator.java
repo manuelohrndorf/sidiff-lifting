@@ -81,7 +81,7 @@ public class MoveDownGenerator {
 		MOVE_DOWN_Module.getImports().addAll(config.EPACKAGESSTACK);
 		
 		// create rule (we can use OperationType.MOVE for this
-		Rule r = ModuleInternalsApplicator.createBasicRule(MOVE_DOWN_Module, eRef, eClassifier, parent, eRef, parent, OperationType.MOVE);
+		Rule r = ModuleInternalsApplicator.createBasicRule(MOVE_DOWN_Module, eRef, eClassifier, parent, eRef, parent, OperationType.MOVE_DOWN);
 		
 		//** Now apply the containment cycle path as PACs ****************************************************
 		
