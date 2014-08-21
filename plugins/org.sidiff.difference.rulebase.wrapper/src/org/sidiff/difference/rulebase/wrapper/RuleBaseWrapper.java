@@ -533,7 +533,7 @@ public class RuleBaseWrapper extends Observable {
 		//Get URI without filename
 		savePath = savePath.substring(0,savePath.lastIndexOf(File.separator));
 		//Replace EditRuleFolder with RecognitionRuleFolder
-		savePath = savePath.replace(editRuleFolderString, recognitionRuleFolderString);
+		savePath = savePath.replace(File.separator + editRuleFolderString, File.separator + recognitionRuleFolderString);
 		
 		return EMFStorage.pathToUri(savePath);
 		
