@@ -23,19 +23,32 @@
                 </image>
              </extension>
              <extension
-                   point="org.eclipse.ui.newWizards">
-                <category
-                      id="org.sidiff.difference.lifting"
-                      name="SiLift">
-                </category>
+                   point="org.eclipse.pde.ui.pluginContent">
                 <wizard
-                      category="org.sidiff.difference.lifting"
+                      category="SiLift"
                       class="org.sidiff.difference.rulebase.project.wizard.RulebaseProjectWizard"
-                      icon="icons/rulebase.gif"
+                      icon="icons/16x16_rulebase.gif"
                       id="org.sidiff.difference.rulebase.project.rulebaseProjectWizard"
+                      java="true"
                       name="Rulebase Plug-In Project"
-                      project="true">
+                      pureOSGi="false"
+                      rcp="false"
+                      requiresActivator="true"
+                      ui-content="true">
+                   <description>
+                      Th
+                   </description>
                 </wizard>
+             </extension>
+             <extension
+                   point="org.eclipse.pde.ui.templates">
+                <template
+                      class="org.sidiff.difference.rulebase.project.templates.RuleBaseTemplateSection"
+                      contributingId="org.sidiff.difference.rulebase.project.templates.rulebasetemplate"
+                      icon="icons/16x16_rulebase.gif"
+                      id="org.sidiff.difference.rulebase.project.templates.rulebasetemplate"
+                      name="RuleBase">
+                </template>
              </extension>
 
 </plugin>
