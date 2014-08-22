@@ -101,7 +101,6 @@ import org.sidiff.difference.rulebase.provider.RulebaseItemProviderAdapterFactor
 import org.sidiff.difference.rulebase.ui.Activator;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnACCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnActive;
-import org.sidiff.difference.rulebase.ui.editor.columns.ColumnConsistent;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDependenyCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDescription;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnEditType;
@@ -110,8 +109,6 @@ import org.sidiff.difference.rulebase.ui.editor.columns.ColumnPriority;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRecognitionType;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRefinementLevel;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRulebaseItem;
-import org.sidiff.difference.rulebase.ui.editor.columns.ColumnValid;
-import org.sidiff.difference.rulebase.ui.editor.columns.ColumnVersion;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 import org.sidiff.difference.rulebase.wrapper.util.Edit2RecognitionException;
@@ -328,9 +325,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		 * Columns
 		 */
 
-		new ColumnActive(this);
-		new ColumnConsistent(this);
-		new ColumnValid(this);
+		new ColumnActive(this);		
 		new ColumnRulebaseItem(this);
 		new ColumnDescription(this);
 		new ColumnEditType(this);
@@ -340,7 +335,6 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		new ColumnACCount(this);
 		new ColumnParameterCount(this);
 		new ColumnDependenyCount(this);
-		new ColumnVersion(this);
 
 		/*
 		 * Table context menu

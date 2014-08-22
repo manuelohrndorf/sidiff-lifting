@@ -334,15 +334,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEditRule_FileHashMD5() {
-		return (EAttribute)editRuleEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getEditRule_ExecuteMainUnit() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -471,24 +462,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 */
 	public EReference getRuleBaseItem_RuleBase() {
 		return (EReference)ruleBaseItemEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getRuleBaseItem_Version() {
-		return (EAttribute)ruleBaseItemEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getRuleBaseItem_Valid() {
-		return (EAttribute)ruleBaseItemEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -779,7 +752,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(editRuleEClass, EDIT_RULE__RULE_BASE_ITEM);
 		createEReference(editRuleEClass, EDIT_RULE__PARAMETERS);
 		createEAttribute(editRuleEClass, EDIT_RULE__USE_DERIVED_FEATURES);
-		createEAttribute(editRuleEClass, EDIT_RULE__FILE_HASH_MD5);
 
 		recognitionRuleEClass = createEClass(RECOGNITION_RULE);
 		createEReference(recognitionRuleEClass, RECOGNITION_RULE__RECOGNITION_MAIN_UNIT);
@@ -797,8 +769,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(ruleBaseItemEClass, RULE_BASE_ITEM__TRACES_B);
 		createEReference(ruleBaseItemEClass, RULE_BASE_ITEM__TRACES_A);
 		createEReference(ruleBaseItemEClass, RULE_BASE_ITEM__RULE_BASE);
-		createEAttribute(ruleBaseItemEClass, RULE_BASE_ITEM__VERSION);
-		createEAttribute(ruleBaseItemEClass, RULE_BASE_ITEM__VALID);
 
 		potentialDependencyEClass = createEClass(POTENTIAL_DEPENDENCY);
 		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__KIND);
@@ -888,7 +858,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getEditRule_RuleBaseItem(), this.getRuleBaseItem(), this.getRuleBaseItem_EditRule(), "ruleBaseItem", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEditRule_UseDerivedFeatures(), ecorePackage.getEBoolean(), "useDerivedFeatures", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEditRule_FileHashMD5(), ecorePackage.getEByteArray(), "fileHashMD5", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(editRuleEClass, theHenshinPackage.getModule(), "getExecuteModule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -913,8 +882,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getRuleBaseItem_TracesB(), this.getTrace(), null, "tracesB", null, 0, -1, RuleBaseItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBaseItem_TracesA(), this.getTrace(), null, "tracesA", null, 0, -1, RuleBaseItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBaseItem_RuleBase(), this.getRuleBase(), this.getRuleBase_Items(), "ruleBase", null, 0, 1, RuleBaseItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRuleBaseItem_Version(), ecorePackage.getEString(), "version", null, 0, 1, RuleBaseItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRuleBaseItem_Valid(), ecorePackage.getEBoolean(), "valid", null, 0, 1, RuleBaseItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialDependencyEClass, PotentialDependency.class, "PotentialDependency", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPotentialDependency_Kind(), this.getPotentialDependencyKind(), "kind", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

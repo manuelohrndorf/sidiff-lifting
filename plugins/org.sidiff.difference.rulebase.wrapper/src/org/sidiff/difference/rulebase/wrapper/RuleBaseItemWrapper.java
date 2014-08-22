@@ -3,7 +3,6 @@ package org.sidiff.difference.rulebase.wrapper;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +22,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.file.FileOperations;
 
 public class RuleBaseItemWrapper {
 	
@@ -175,18 +172,7 @@ public class RuleBaseItemWrapper {
 		item.setActive(value);
 	}
 	
-	public static void setValid(RuleBaseItem item) {
-		// Set valid flag:
-		if (!validate_EditRule(item).getChildren().isEmpty()) {
-			item.setValid(false);
-		} else {
-			item.setValid(true);
-		}
-	}
 	
-	public static boolean isValid(RuleBaseItem item, boolean value) {
-		return item.isValid();
-	}
 	
 	/**
 	 * Validation of the edit-rule.
@@ -245,55 +231,8 @@ public class RuleBaseItemWrapper {
 		return getUnitType(item.getRecognitionRule().getRecognitionMainUnit());
 	}
 
-	public static String getVersion(RuleBaseItem item) {
-		return item.getVersion();
-	}
+	
 
-	public static void setVersion(RuleBaseItem item, int major, int minor, int revision) {
-		String version = major + "." + minor + "." + revision;
-		item.setVersion(version);
-	}
-
-	public static void increaseVersion(RuleBaseItem item, int position) {
-		int[] version = convertStringToVersion(item.getVersion());
-		version[position] = version[position] + 1;
-		setVersion(item, version[0], version[1], version[2]);
-	}
-
-	public static void setEditRuleMD5Hash(EditRule editRule) {
-		try {
-			String path = EMFStorage.uriToPath(editRule.getExecuteModule().eResource().getURI());
-			byte[] md5 = FileOperations.readMD5FileHash(path);
-			editRule.setFileHashMD5(md5);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static boolean checkEditRuleMD5Hash(RuleBaseItem item) {
-		try {
-			String path = EMFStorage.uriToPath(item.getEditRule().getExecuteModule().eResource().getURI());
-			byte[] md5File = FileOperations.readMD5FileHash(path);
-			byte[] md5Stored = item.getEditRule().getFileHashMD5();
-			
-			if (md5Stored == null) {
-				return false;
-			}
-			
-			if (md5File.length == md5Stored.length) {
-				for (int i = 0; i < md5Stored.length; i++) {
-					if(md5Stored[i] != md5File[i]) {
-						return false;
-					}
-				}
-			} else {
-				return false;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
 	
 	public static int[] convertStringToVersion(String version) 
 			

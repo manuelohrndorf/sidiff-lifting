@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.wrapper;
 
-import static org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper.increaseVersion;
 import static org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper.invertActivity;
 
 import java.io.File;
@@ -385,10 +384,6 @@ public class RuleBaseWrapper extends Observable {
 			// Regenerate recognition rule:
 			generator = new EditWrapper2RecognitionWrapper(oldItem.getEditRule());
 			RuleBaseItem newItem = generator.transform();
-
-			// Increase rule base item revision:
-			newItem.setVersion(oldItem.getVersion());
-			increaseVersion(newItem, 2);
 
 			// Keep SCS name:
 			String itemName = RuleBaseItemWrapper.getName(oldItem);

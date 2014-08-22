@@ -23,8 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getTracesA <em>Traces A</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getVersion <em>Version</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#isValid <em>Valid</em>}</li>
  * </ul>
  * </p>
  *
@@ -174,57 +172,5 @@ public interface RuleBaseItem extends EObject {
 	 * @generated
 	 */
 	void setRuleBase(RuleBase value);
-
-	/**
-	 * Returns the value of the '<em><b>Version</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Version</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Version</em>' attribute.
-	 * @see #setVersion(String)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBaseItem_Version()
-	 * @model
-	 * @generated
-	 */
-	String getVersion();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBaseItem#getVersion <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Version</em>' attribute.
-	 * @see #getVersion()
-	 * @generated
-	 */
-	void setVersion(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Valid</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Valid</em>' attribute.
-	 * @see #setValid(boolean)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBaseItem_Valid()
-	 * @model
-	 * @generated
-	 */
-	boolean isValid();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBaseItem#isValid <em>Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Valid</em>' attribute.
-	 * @see #isValid()
-	 * @generated
-	 */
-	void setValid(boolean value);
 
 } // RuleBaseItem

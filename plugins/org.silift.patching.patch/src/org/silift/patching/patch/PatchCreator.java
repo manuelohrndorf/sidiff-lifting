@@ -190,7 +190,6 @@ public class PatchCreator {
 				HashMap<String, String> attributes = new HashMap<String, String>();
 				attributes.put("name", module.getName());
 				attributes.put("href", relSavePath);
-				attributes.put("version", rbi.getVersion());
 				manifest_EditRules.add(attributes);
 			}
 		}

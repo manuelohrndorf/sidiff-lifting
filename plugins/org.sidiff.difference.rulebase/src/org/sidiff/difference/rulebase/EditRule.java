@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.model.Unit;
  *   <li>{@link org.sidiff.difference.rulebase.EditRule#getRuleBaseItem <em>Rule Base Item</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.EditRule#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.EditRule#isUseDerivedFeatures <em>Use Derived Features</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.EditRule#getFileHashMD5 <em>File Hash MD5</em>}</li>
  * </ul>
  * </p>
  *
@@ -156,32 +155,6 @@ public interface EditRule extends EObject {
 	 * @generated
 	 */
 	void setUseDerivedFeatures(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>File Hash MD5</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>File Hash MD5</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>File Hash MD5</em>' attribute.
-	 * @see #setFileHashMD5(byte[])
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getEditRule_FileHashMD5()
-	 * @model
-	 * @generated
-	 */
-	byte[] getFileHashMD5();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.EditRule#getFileHashMD5 <em>File Hash MD5</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>File Hash MD5</em>' attribute.
-	 * @see #getFileHashMD5()
-	 * @generated
-	 */
-	void setFileHashMD5(byte[] value);
 
 	/**
 	 * <!-- begin-user-doc -->

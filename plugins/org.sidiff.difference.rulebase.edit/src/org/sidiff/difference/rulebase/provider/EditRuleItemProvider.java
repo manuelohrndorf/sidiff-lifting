@@ -66,7 +66,6 @@ public class EditRuleItemProvider
 			addExecuteMainUnitPropertyDescriptor(object);
 			addRecognitionRulePropertyDescriptor(object);
 			addUseDerivedFeaturesPropertyDescriptor(object);
-			addFileHashMD5PropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -138,28 +137,6 @@ public class EditRuleItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the File Hash MD5 feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addFileHashMD5PropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_EditRule_fileHashMD5_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_EditRule_fileHashMD5_feature", "_UI_EditRule_type"),
-				 RulebasePackage.Literals.EDIT_RULE__FILE_HASH_MD5,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -224,7 +201,6 @@ public class EditRuleItemProvider
 
 		switch (notification.getFeatureID(EditRule.class)) {
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
-			case RulebasePackage.EDIT_RULE__FILE_HASH_MD5:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case RulebasePackage.EDIT_RULE__PARAMETERS:

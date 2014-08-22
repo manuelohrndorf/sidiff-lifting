@@ -19,7 +19,6 @@ import org.sidiff.difference.lifting.edit2recognition.traces.RemoveObjectPattern
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
 import org.sidiff.difference.lifting.edit2recognition.util.RuleChecker;
-import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
@@ -119,9 +118,6 @@ public class EditWrapper2RecognitionWrapper {
 		editRule.setExecuteMainUnit(Edit2RecognitionUtil.findExecuteMainUnit(editModule));
 		editRule.setUseDerivedFeatures(RuleChecker.checkDerivedReferences(editModule));
 		
-		// Calculate MD5 Hash
-		RuleBaseItemWrapper.setEditRuleMD5Hash(editRule);
-		
 		return editRule;
 	}
 	
@@ -151,15 +147,11 @@ public class EditWrapper2RecognitionWrapper {
 
 		// Create rule base element
 		RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
-		item.setVersion(TransformationConstants.START_VERSION);
 		item.setActive(true);
 		
 		item.setRecognitionRule(createRecognitionRule());
 		item.setEditRule(createEditRule(editRule));
 		
-		// Edit-rule validation -> Set the valid bit:
-		RuleBaseItemWrapper.setValid(item);
-
 		return item;
 	}
 

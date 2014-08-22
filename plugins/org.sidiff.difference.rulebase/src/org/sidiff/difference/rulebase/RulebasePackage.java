@@ -236,22 +236,13 @@ public interface RulebasePackage extends EPackage {
 	int EDIT_RULE__USE_DERIVED_FEATURES = 4;
 
 	/**
-	 * The feature id for the '<em><b>File Hash MD5</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EDIT_RULE__FILE_HASH_MD5 = 5;
-
-	/**
 	 * The number of structural features of the '<em>Edit Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDIT_RULE_FEATURE_COUNT = 6;
+	int EDIT_RULE_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl <em>Recognition Rule</em>}' class.
@@ -401,31 +392,13 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE_ITEM__RULE_BASE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Version</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE_ITEM__VERSION = 6;
-
-	/**
-	 * The feature id for the '<em><b>Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE_ITEM__VALID = 7;
-
-	/**
 	 * The number of structural features of the '<em>Rule Base Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM_FEATURE_COUNT = 8;
+	int RULE_BASE_ITEM_FEATURE_COUNT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -961,17 +934,6 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getEditRule_UseDerivedFeatures();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.EditRule#getFileHashMD5 <em>File Hash MD5</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>File Hash MD5</em>'.
-	 * @see org.sidiff.difference.rulebase.EditRule#getFileHashMD5()
-	 * @see #getEditRule()
-	 * @generated
-	 */
-	EAttribute getEditRule_FileHashMD5();
-
-	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.RecognitionRule <em>Recognition Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1121,28 +1083,6 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRuleBaseItem_RuleBase();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBaseItem#getVersion <em>Version</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Version</em>'.
-	 * @see org.sidiff.difference.rulebase.RuleBaseItem#getVersion()
-	 * @see #getRuleBaseItem()
-	 * @generated
-	 */
-	EAttribute getRuleBaseItem_Version();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBaseItem#isValid <em>Valid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Valid</em>'.
-	 * @see org.sidiff.difference.rulebase.RuleBaseItem#isValid()
-	 * @see #getRuleBaseItem()
-	 * @generated
-	 */
-	EAttribute getRuleBaseItem_Valid();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.PotentialDependency <em>Potential Dependency</em>}'.
@@ -1588,14 +1528,6 @@ public interface RulebasePackage extends EPackage {
 		EAttribute EDIT_RULE__USE_DERIVED_FEATURES = eINSTANCE.getEditRule_UseDerivedFeatures();
 
 		/**
-		 * The meta object literal for the '<em><b>File Hash MD5</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EDIT_RULE__FILE_HASH_MD5 = eINSTANCE.getEditRule_FileHashMD5();
-
-		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl <em>Recognition Rule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1712,22 +1644,6 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE_BASE_ITEM__RULE_BASE = eINSTANCE.getRuleBaseItem_RuleBase();
-
-		/**
-		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RULE_BASE_ITEM__VERSION = eINSTANCE.getRuleBaseItem_Version();
-
-		/**
-		 * The meta object literal for the '<em><b>Valid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RULE_BASE_ITEM__VALID = eINSTANCE.getRuleBaseItem_Valid();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl <em>Potential Dependency</em>}' class.

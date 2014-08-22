@@ -38,7 +38,6 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getRuleBaseItem <em>Rule Base Item</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#isUseDerivedFeatures <em>Use Derived Features</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getFileHashMD5 <em>File Hash MD5</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,26 +83,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * @ordered
 	 */
 	protected boolean useDerivedFeatures = USE_DERIVED_FEATURES_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getFileHashMD5() <em>File Hash MD5</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFileHashMD5()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final byte[] FILE_HASH_MD5_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getFileHashMD5() <em>File Hash MD5</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFileHashMD5()
-	 * @generated
-	 * @ordered
-	 */
-	protected byte[] fileHashMD5 = FILE_HASH_MD5_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -224,27 +203,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 		useDerivedFeatures = newUseDerivedFeatures;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES, oldUseDerivedFeatures, useDerivedFeatures));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public byte[] getFileHashMD5() {
-		return fileHashMD5;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setFileHashMD5(byte[] newFileHashMD5) {
-		byte[] oldFileHashMD5 = fileHashMD5;
-		fileHashMD5 = newFileHashMD5;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.EDIT_RULE__FILE_HASH_MD5, oldFileHashMD5, fileHashMD5));
 	}
 
 	/**
@@ -376,8 +334,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return getParameters();
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				return isUseDerivedFeatures();
-			case RulebasePackage.EDIT_RULE__FILE_HASH_MD5:
-				return getFileHashMD5();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -407,9 +363,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				setUseDerivedFeatures((Boolean)newValue);
 				return;
-			case RulebasePackage.EDIT_RULE__FILE_HASH_MD5:
-				setFileHashMD5((byte[])newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -437,9 +390,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				setUseDerivedFeatures(USE_DERIVED_FEATURES_EDEFAULT);
 				return;
-			case RulebasePackage.EDIT_RULE__FILE_HASH_MD5:
-				setFileHashMD5(FILE_HASH_MD5_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -462,8 +412,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return parameters != null && !parameters.isEmpty();
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				return useDerivedFeatures != USE_DERIVED_FEATURES_EDEFAULT;
-			case RulebasePackage.EDIT_RULE__FILE_HASH_MD5:
-				return FILE_HASH_MD5_EDEFAULT == null ? fileHashMD5 != null : !FILE_HASH_MD5_EDEFAULT.equals(fileHashMD5);
 		}
 		return super.eIsSet(featureID);
 	}

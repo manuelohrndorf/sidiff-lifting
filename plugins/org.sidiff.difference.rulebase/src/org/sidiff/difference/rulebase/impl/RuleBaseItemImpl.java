@@ -38,8 +38,6 @@ import org.sidiff.difference.rulebase.Trace;
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getTracesA <em>Traces A</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getVersion <em>Version</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#isValid <em>Valid</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,46 +103,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * @ordered
 	 */
 	protected EList<Trace> tracesA;
-
-	/**
-	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVersion()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String VERSION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVersion()
-	 * @generated
-	 * @ordered
-	 */
-	protected String version = VERSION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isValid() <em>Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isValid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean VALID_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isValid() <em>Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isValid()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean valid = VALID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -340,48 +298,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getVersion() {
-		return version;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setVersion(String newVersion) {
-		String oldVersion = version;
-		version = newVersion;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE_ITEM__VERSION, oldVersion, version));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isValid() {
-		return valid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setValid(boolean newValid) {
-		boolean oldValid = valid;
-		valid = newValid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE_ITEM__VALID, oldValid, valid));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public String getName() {
@@ -468,10 +384,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 				return getTracesA();
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				return getRuleBase();
-			case RulebasePackage.RULE_BASE_ITEM__VERSION:
-				return getVersion();
-			case RulebasePackage.RULE_BASE_ITEM__VALID:
-				return isValid();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -505,12 +417,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				setRuleBase((RuleBase)newValue);
 				return;
-			case RulebasePackage.RULE_BASE_ITEM__VERSION:
-				setVersion((String)newValue);
-				return;
-			case RulebasePackage.RULE_BASE_ITEM__VALID:
-				setValid((Boolean)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -541,12 +447,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				setRuleBase((RuleBase)null);
 				return;
-			case RulebasePackage.RULE_BASE_ITEM__VERSION:
-				setVersion(VERSION_EDEFAULT);
-				return;
-			case RulebasePackage.RULE_BASE_ITEM__VALID:
-				setValid(VALID_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -571,10 +471,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 				return tracesA != null && !tracesA.isEmpty();
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				return getRuleBase() != null;
-			case RulebasePackage.RULE_BASE_ITEM__VERSION:
-				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
-			case RulebasePackage.RULE_BASE_ITEM__VALID:
-				return valid != VALID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -591,10 +487,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (active: ");
 		result.append(active);
-		result.append(", version: ");
-		result.append(version);
-		result.append(", valid: ");
-		result.append(valid);
 		result.append(')');
 		return result.toString();
 	}

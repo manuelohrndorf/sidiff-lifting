@@ -409,7 +409,6 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
 			EObject o = EcoreUtil.copy(ruleBaseItems.get(ri).getEditRule());
 			item.setEditRule((EditRule)o);
-			item.setVersion(ruleBaseItems.get(ri).getVersion());
 			rulebase.getItems().add(item);
 		}
 		this.getRuleBases().add(rulebase);
