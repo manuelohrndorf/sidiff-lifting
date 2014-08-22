@@ -1,4 +1,4 @@
-package org.sidiff.serge.debug;
+package org.sidiff.serge.batch;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

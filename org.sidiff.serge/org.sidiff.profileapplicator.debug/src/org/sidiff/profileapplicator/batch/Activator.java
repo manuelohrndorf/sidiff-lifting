@@ -1,4 +1,4 @@
-package org.sidiff.profileapplicator.debug;
+package org.sidiff.profileapplicator.batch;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

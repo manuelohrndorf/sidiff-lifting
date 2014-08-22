@@ -1,4 +1,4 @@
-package org.sidiff.profileapplicator.debug;
+package org.sidiff.profileapplicator.batch;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;

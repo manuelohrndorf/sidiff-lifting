@@ -1,4 +1,4 @@
-package org.sidiff.serge.debug;
+package org.sidiff.serge.batch;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
