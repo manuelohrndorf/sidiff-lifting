@@ -1,4 +1,4 @@
-package org.sidiff.serge.batch;
+package org.sidiff.editrule.generator.batch;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
