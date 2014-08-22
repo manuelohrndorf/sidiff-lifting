@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
-public abstract class Widget implements IWidget {
+public class Widget implements IWidget {
 	
 	private ISelection selection;
 	private Text txtSelectOutputFolder;
@@ -44,16 +44,15 @@ public abstract class Widget implements IWidget {
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public Composite createControl(Composite parent, final WizardPage page) {
+	public Group createControl(Composite parent, final WizardPage page) {
 		
-		container = new Composite(parent, SWT.NULL);
 		final FileDialog eConfigChooser = new FileDialog(parent.getShell());
 		bConfig = false;
 		bOutputFolder = false;
 		container.setLayout(new GridLayout(1, false));
 		
-		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
-		grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		Group grpMetamodelSpecificConfiguration = new Group(parent, SWT.SHADOW_ETCHED_IN);
+		//grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpMetamodelSpecificConfiguration.setText("Metamodel Specific Configuration");
 		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
 		
@@ -134,7 +133,7 @@ public abstract class Widget implements IWidget {
 			JOptionPane.showMessageDialog(null, "keine WizardPage");
 		}
 		
-		return container;
+		return grpMetamodelSpecificConfiguration;
 	}
 
 	@Override
