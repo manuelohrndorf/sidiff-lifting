@@ -201,18 +201,16 @@ public class RecognitionEngine {
 
 		RecognitionRuleSorter RuleSorter = new RecognitionRuleSorter(analysis);
 
-		for (Rule transformationUnit : this.recognitionRules) {
-			if (!filtered.contains(transformationUnit)) {
+		for (Rule recognitionRule : this.recognitionRules) {
+			if (!filtered.contains(recognitionRule)) {
 				// Sort kernel rule
-				ECollections.sort(transformationUnit.getLhs().getNodes(), RuleSorter);
-				ECollections.sort(transformationUnit.getRhs().getNodes(), RuleSorter); // TODO:
-																						// Necessary?
+				ECollections.sort(recognitionRule.getLhs().getNodes(), RuleSorter);
+				ECollections.sort(recognitionRule.getRhs().getNodes(), RuleSorter);
 
 				// Sort all multi-rules (if there are any)
-				for (Rule multiRule : transformationUnit.getAllMultiRules()) {
+				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
 					ECollections.sort(multiRule.getLhs().getNodes(), RuleSorter);
-					ECollections.sort(multiRule.getRhs().getNodes(), RuleSorter); // TODO:
-																					// Necessary?
+					ECollections.sort(multiRule.getRhs().getNodes(), RuleSorter);
 				}
 			}
 		}
@@ -366,7 +364,7 @@ public class RecognitionEngine {
 	public void removeMatches(SemanticChangeSet scs) {
 		scs2rrMatch.remove(scs);
 		scs2erMatch.remove(scs);
-	
+
 		// Remove from difference (if EditRuleMatch serialization is requested)
 		scs.setEditRuleMatch(null);
 	}
