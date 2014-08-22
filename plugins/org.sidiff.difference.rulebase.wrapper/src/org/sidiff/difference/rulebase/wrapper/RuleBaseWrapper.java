@@ -299,6 +299,12 @@ public class RuleBaseWrapper extends Observable {
 			URI recognitionRuleURI = EcoreUtil.getURI(item.getRecognitionRule().getRecognitionMainUnit()).trimFragment();
 			File recognitionRuleFile = EMFStorage.uriToFile(recognitionRuleURI);
 			recognitionRuleFile.delete();
+			
+			//Delete parent folder if it is empty now
+			File parentFolder =  recognitionRuleFile.getParentFile();			
+			if(parentFolder.listFiles() == null || parentFolder.listFiles().length == 0){
+				parentFolder.delete();					
+			}
 		}
 	}
 
