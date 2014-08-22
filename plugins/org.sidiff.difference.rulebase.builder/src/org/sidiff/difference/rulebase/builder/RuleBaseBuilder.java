@@ -489,7 +489,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     		}
     		
     		String manifest = contents.toString();
-    		String pattern = ".*Bundle-Name:\\s*([\\.\\w]*);?.*"; // FIXME: Name bis zum Zeilenende...
+    		String pattern = ".*Bundle-Name:\\s*([(\\w|/[^\\S\\n]/)]*);?.*";
     		Matcher matcher = Pattern.compile(pattern, Pattern.DOTALL).matcher(manifest);
     		if (matcher.matches()) {
     			editRulePluginId = matcher.group(1);
