@@ -126,6 +126,8 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		//Update RuleBase accordingly
+		buildRuleBase(monitor);
 	}
 	
 	private void fullBuild(final IProgressMonitor monitor) {
@@ -147,10 +149,13 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				}
 				
 			});
+			
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		
+		//Update RuleBase accordingly
+		buildRuleBase(monitor);
 	}
 	
 	@Override
@@ -161,12 +166,9 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		// Clean the RuleBase completely and delete all
 		// RecognitionRules
 		RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
-		rbWrapper.clean(true);
-		try {
-			rbWrapper.saveRuleBase();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		rbWrapper.clean(true);		
+		buildRuleBase(monitor);
+		
 		// Delete all elements in Build Folder if already existent
 		// This is necessary if substructures are used.
 		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
@@ -247,6 +249,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private void buildEditRule(IResource editRule, IProgressMonitor monitor) {
 		
+		
 		// Abort if canceled
 		if (monitor.isCanceled()) {
 			throw new OperationCanceledException();
@@ -283,18 +286,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				// Generate Recognition-Rule:
 				RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
 				rbWrapper.generateItemFromFile(EMFStorage.pathToUri(editRule.getLocation().toString()));
-				rbWrapper.saveRuleBase();
-				
-				//Mark rulebase as derived				
-				IFile rulebaseFile = getProject().getFile(RULEBASE_FILE);
-				rulebaseFile.setDerived(true, monitor);
 				
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (Edit2RecognitionException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -302,6 +298,8 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		if (monitor.isCanceled()) {
 			throw new OperationCanceledException();
 		}
+		
+
 	}
 	
 	/**
@@ -392,6 +390,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	/**
@@ -435,8 +434,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @return The rulebase manager of this project.
 	 */
 	private RuleBaseWrapper getRuleBaseWrapper() {
-		URI rulebase = EMFStorage.iFileToURI(getProject().getFile(RULEBASE_FILE));
 		
+		IFile ruleBaseFile = getProject().getFile(RULEBASE_FILE);
+		URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
+		
+		// Create new RuleBase if not already existent
 		if ((ruleBaseWrapper == null) || !RuleBaseWrapper.exists(rulebase)) {
 			URI recognitionRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(BUILD_FOLDER));
 			URI editRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(SOURCE_FOLDER));
@@ -478,5 +480,31 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     	}
             
         return editRulePluginId;
-    } 
+    }
+    
+    /**
+     * Method for building (=saving) the RuleBase file.
+     * @param monitor IProgressMonitor to use
+     */
+    private void buildRuleBase(IProgressMonitor monitor){
+
+    	monitor.subTask("Building RuleBase File");    	
+    	try {
+    		getRuleBaseWrapper().saveRuleBase();
+    		
+    		//Mark RuleBase as derived, if not already	
+    		IFile rulebaseFile = getProject().getFile(RULEBASE_FILE);
+    		if(!rulebaseFile.isDerived()){
+        		rulebaseFile.setDerived(true, monitor);
+    		}
+    	}
+    	catch (CoreException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	}
+
+    }
 }
