@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
-import org.sidiff.editrule.generator.settings.SergeSettings;
+//import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
 public class MetaModelSpecConfigWidget implements IWidget {
@@ -39,16 +39,27 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	private Boolean bOutputFolder;
 	private Boolean bConfig;
 	
-	private SergeSettings settings;
+	//private SergeSettings settings;
 	private Group widget;
 
 	public MetaModelSpecConfigWidget(){
 		
 	}
+	
+	
+	public Composite createControl(Composite parent, WizardPage page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Composite createControl(Composite parent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
 	 * @wbp.parser.entryPoint
-	 */
-	@Override
+	 */	
 	public Group createControl(Group parent, final WizardPage page) {
 		
 		parent.setText("erfolg");
@@ -150,4 +161,5 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	public void setLayoutData(Object layoutData) {
 		widget.setLayout((Layout) layoutData);
 	}
+	
 }

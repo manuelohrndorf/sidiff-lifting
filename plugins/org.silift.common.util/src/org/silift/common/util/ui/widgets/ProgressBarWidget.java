@@ -21,7 +21,7 @@ public class ProgressBarWidget implements IWidget{
 		return parent;
 		}
 
-	@Override
+	
 	public Composite createControl(Composite parent, WizardPage page) {
 		// TODO Auto-generated method stub
 		return null;

@@ -5,15 +5,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 public interface IWidget {
-	/**
-	 * Create/Initialize the widget controls.
-	 *
-	 * @param parent
-	 *            The widget parent container.
-	 * @return The top level container.
-	 */
-	public Composite createControl(Composite parent, WizardPage page);
-	
+//	/**
+//	 * Create/Initialize the widget controls.
+//	 *
+//	 * @param parent
+//	 *            The widget parent container.
+//	 * @return The top level container.
+//	 */
+//	public Composite createControl(Composite parent, WizardPage page);
+//	
 	public Composite createControl(Composite parent);
 
 	/**
