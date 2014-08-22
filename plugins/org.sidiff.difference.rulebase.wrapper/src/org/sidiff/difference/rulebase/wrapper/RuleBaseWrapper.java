@@ -121,8 +121,9 @@ public class RuleBaseWrapper extends Observable {
 
 	private void saveRecognitionModules(URI recognitionRuleFolder) {
 		for (RecognitionRule rr_rule : newRecognitionRules) {
-			if (rr_rule.getRecognitionModule().eResource() != null) {
-				// Existing recognition rule
+			if (rr_rule.getRecognitionModule().eResource() != null
+					&& editRuleFolder != null) {
+				// Existing recognition rule, only if not in the context of a buildprocess
 				EMFStorage.eSave(rr_rule.getRecognitionModule());
 			} else {
 				// New recognition rule
