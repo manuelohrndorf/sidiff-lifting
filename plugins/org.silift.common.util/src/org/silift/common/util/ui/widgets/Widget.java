@@ -1,6 +1,8 @@
 package org.silift.common.util.ui.widgets;
 
 
+import java.lang.reflect.Constructor;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
@@ -38,25 +40,28 @@ public class Widget implements IWidget {
 	private Boolean bConfig;
 	
 	private SergeSettings settings;
-	private Composite container;
+	private Group widget;
 
+	public Widget(){
+		
+	}
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public Group createControl(Composite parent, final WizardPage page) {
+	public Group createControl(Group parent, final WizardPage page) {
 		
-		final FileDialog eConfigChooser = new FileDialog(parent.getShell());
+		parent.setText("erfolg");
+		
+		/*final FileDialog eConfigChooser = new FileDialog(parent.getShell());
 		bConfig = false;
 		bOutputFolder = false;
-		container.setLayout(new GridLayout(1, false));
-		
-		Group grpMetamodelSpecificConfiguration = new Group(parent, SWT.SHADOW_ETCHED_IN);
+				
 		//grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		grpMetamodelSpecificConfiguration.setText("Metamodel Specific Configuration");
-		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
+		parent.setText("Metamodel Specific Configuration");
+		parent.setLayout(new GridLayout(1, false));
 		
-		Composite comMetaModelSpecificConfiguration = new Composite(grpMetamodelSpecificConfiguration, SWT.NONE);
+		Composite comMetaModelSpecificConfiguration = new Composite(parent, SWT.NONE);
 		comMetaModelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		comMetaModelSpecificConfiguration.setLayout(new GridLayout(5, false));
 		
@@ -132,17 +137,17 @@ public class Widget implements IWidget {
 		} else {
 			JOptionPane.showMessageDialog(null, "keine WizardPage");
 		}
-		
-		return grpMetamodelSpecificConfiguration;
+		this.widget = parent;*/
+		return parent;
 	}
 
 	@Override
-	public Composite getWidget() {
-		return container;
+	public Group getWidget() {
+		return widget;
 	}
 
 	@Override
 	public void setLayoutData(Object layoutData) {
-		container.setLayout((Layout) layoutData);
+		widget.setLayout((Layout) layoutData);
 	}
 }
