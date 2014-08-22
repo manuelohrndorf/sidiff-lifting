@@ -29,11 +29,12 @@ public class HenshinUtil {
 	 * @param graph
 	 */
 	public static void printGraph(EGraph graph) {
-		System.out.println("-----------------");
+		System.out.println("----------------- EGraph -----------");
+		System.out.println("[size: " + graph.size()+  "]");
 		for (EObject eObject : graph) {
 			System.out.println(eObject);
 		}
-		System.out.println("-----------------");
+		System.out.println("----------------- END EGraph -----------");
 	}
 
 	/**
