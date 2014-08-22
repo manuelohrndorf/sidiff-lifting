@@ -187,7 +187,7 @@ public class DifferenceAnalysisUtil {
 	/**
 	 * Partitions a set of semantic change sets (SCS). The classification
 	 * criterion for the partitioning is whether two SCS are equal. Two SCS are
-	 * equal if the cover the same low-level changes.
+	 * equal if they cover the same low-level changes.
 	 * 
 	 * @param changeSets
 	 *            the SCS collection that is to be classified.
