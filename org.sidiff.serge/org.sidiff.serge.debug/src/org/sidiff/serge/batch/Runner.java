@@ -2,8 +2,8 @@ package org.sidiff.serge.batch;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.sidiff.serge.Serge;
-import org.sidiff.serge.settings.SergeSettings;
+import org.sidiff.editrule.generator.Serge;
+import org.sidiff.editrule.generator.settings.SergeSettings;
 
 /**
  * This class should be used if SERGe is run with OSGi for debug/testing purpose.
