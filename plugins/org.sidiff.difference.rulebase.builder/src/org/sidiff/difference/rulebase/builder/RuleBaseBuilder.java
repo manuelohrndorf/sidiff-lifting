@@ -65,6 +65,12 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 * The rulebase manager of the rulebase project for which this builder is defined.
 	 */
 	private RuleBaseWrapper ruleBaseWrapper;
+
+	/**
+	 * The global boolean to decide if in the last change there
+	 * has been some EditRule involved.
+	 */
+	private boolean editRuleChanged;
 	
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 		
@@ -84,6 +90,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	
 	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor) {
 		
+		editRuleChanged = false;
 		// Iterate through resource and children of this resource
 		try {
 			delta.accept(new IResourceDeltaVisitor() {
@@ -92,6 +99,8 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 					
 					// Continue only if Resource is an EditRule
 					if (isEditRule(delta.getResource())) {
+						
+						editRuleChanged = true;
 						
 						// Remove Markers beforehand
 						removeMarkers(delta.getResource(), IResource.DEPTH_ZERO);
@@ -126,8 +135,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		//Update RuleBase accordingly
-		buildRuleBase(monitor);
+		if(editRuleChanged){
+			//Update RuleBase accordingly
+			buildRuleBase(monitor);
+			editRuleChanged = false;
+		}
 	}
 	
 	private void fullBuild(final IProgressMonitor monitor) {
@@ -141,6 +153,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 					// Continue only if Resource is an EditRule
 					if (isEditRule(resource)) {
 						
+						editRuleChanged = true;
 						buildEditRule(resource, monitor);
 					}
 					
@@ -154,8 +167,12 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 			e.printStackTrace();
 		}
 		
-		//Update RuleBase accordingly
-		buildRuleBase(monitor);
+		if(editRuleChanged){
+			//Update RuleBase accordingly
+			buildRuleBase(monitor);
+			editRuleChanged = false;
+
+		}
 	}
 	
 	@Override
