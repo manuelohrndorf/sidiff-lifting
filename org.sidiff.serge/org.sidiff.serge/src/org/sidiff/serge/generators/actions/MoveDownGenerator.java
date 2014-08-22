@@ -115,11 +115,19 @@ public class MoveDownGenerator {
 		int numbOfSteps = path.size();
 		
 		// now create nodes and draw edges after the following principle
-		for(int i=1; i<=numbOfSteps-2; i++) {		
+		for(int i=0; i<=numbOfSteps-2; i++) {		
 			HashMap<EReference,EClassifier> step = path.get(i);
 			EClass eClass = (EClass) step.values().iterator().next();
 			EReference stepRef = step.keySet().iterator().next();
 	
+			// if numberOfSteps==2 (there is a direct cycle from one to the same classifier)
+			// do not create a new node but draw edges between newSourceNodeInNCGraph and oldSourceNodeInNCGraph
+			if(numbOfSteps==2) {
+				EReference backwardRef = (EReference) path.get(1).keySet().iterator().next();
+				Edge newEdge = HenshinFactory.eINSTANCE.createEdge(oldSourceNodeInNCGraph, newSourceNodeInNCGraph, backwardRef);
+				graph.getEdges().add(newEdge);
+			}
+			
 			// if it is not the last step before the last entry in path create new Node...
 			if((numbOfSteps==3 && i<=numbOfSteps-2)|| (numbOfSteps>3 && i<=numbOfSteps-3)) {
 				Node newNode = HenshinFactory.eINSTANCE.createNode(graph, eClass, "");
