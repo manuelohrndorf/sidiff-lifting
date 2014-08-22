@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
@@ -50,21 +49,23 @@ public class LiftingGraphFactory {
 	 * The scope (single resource or complete resource set).
 	 */
 	private Scope scope;
-	
+
 	/**
-	 * <ul> 
-	 * <li><code>true</code>: Builds a minimal working graph for each Recognition-Rule.
-	 * <li><code>false</code>: Build a single working graph for all Recognition-Rule.
+	 * <ul>
+	 * <li><code>true</code>: Builds a minimal working graph for each
+	 * Recognition-Rule.
+	 * <li><code>false</code>: Build a single working graph for all
+	 * Recognition-Rule.
 	 * </ul>
 	 */
-	private boolean buildGraphPerRule = true;
-	
+	private boolean buildGraphPerRule;
+
 	/**
 	 * The single working graph if {@link LiftingGraphFactory#buildGraphPerRule}
 	 * is <code>false</code>
 	 */
 	private EGraph fullEGraph;
-	
+
 	// private Map<EObject, Set<Adapter>> object2Adapters;
 
 	/**
@@ -76,8 +77,8 @@ public class LiftingGraphFactory {
 	 * @param imports
 	 *            Imported objects that must be added to the Henshin graph
 	 */
-	public LiftingGraphFactory(SymmetricDifference difference, Set<EObject> imports, 
-			Scope scope, boolean buildGraphPerRule) {
+	public LiftingGraphFactory(SymmetricDifference difference, Set<EObject> imports, Scope scope,
+			boolean buildGraphPerRule) {
 		super();
 		this.difference = difference;
 		this.imports = imports;
@@ -85,7 +86,7 @@ public class LiftingGraphFactory {
 		this.buildGraphPerRule = buildGraphPerRule;
 		// this.object2Adapters = new HashMap<EObject, Set<Adapter>>();
 	}
-	
+
 	/**
 	 * Use a single working graph for all Recognition-Rules or create a minimal
 	 * working graph for each Recognition-Rule.
@@ -171,7 +172,7 @@ public class LiftingGraphFactory {
 					String typeStr = type.getName();
 					if (blueprint.attrValueChange.contains(typeStr)) {
 						graph.add(change);
-						graph.add(type);
+						// no that type is added by addEObjectToGraph()
 					}
 					continue;
 				}
@@ -192,9 +193,7 @@ public class LiftingGraphFactory {
 				if (change instanceof RemoveReference) {
 					type = ((RemoveReference) change).getType();
 				}
-				if (change instanceof AttributeValueChange) {
-					type = ((AttributeValueChange) change).getType();
-				}
+				// Note that attribute types are added by addEObjectToGraph()
 				if (type != null) {
 					boolean added = graph.add(type);
 					if (added)
@@ -203,24 +202,16 @@ public class LiftingGraphFactory {
 			}
 		}
 
-		// // Add Ecore to the graph
-		// graph.addTree(EcorePackage.eINSTANCE);
-		// LogUtil.log(LogEvent.DEBUG, "[Root] Ecore: " +
-		// EcorePackage.eINSTANCE);
-
 		// Add model A to graph
-		if (rr != null) {
-			for (Iterator<EObject> iterator = difference.getModelA().getAllContents(); iterator.hasNext();) {
-				EObject eObject = iterator.next();
+		for (Iterator<EObject> iterator = difference.getModelA().getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			if (rr != null) {
 				if (blueprint.modelTypes.contains(eObject.eClass())
 						|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
-					graph.add(eObject);
+					addEObjectToGraph(eObject, graph);
 				}
-			}
-		} else {
-			for (EObject rootObj : difference.getModelA().getContents()) {
-				graph.addTree(rootObj);
-				LogUtil.log(LogEvent.DEBUG, "[Root] Model A: " + rootObj);
+			} else {
+				addEObjectToGraph(eObject, graph);
 			}
 		}
 
@@ -230,36 +221,31 @@ public class LiftingGraphFactory {
 				if (r == difference.getModelA()) {
 					continue;
 				}
-				if (rr != null) {
-					for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
-						EObject eObject = iterator.next();
+
+				for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
+					EObject eObject = iterator.next();
+					if (rr != null) {
 						if (blueprint.modelTypes.contains(eObject.eClass())
 								|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
-							graph.add(eObject);
+							addEObjectToGraph(eObject, graph);
 						}
-					}
-				} else {
-					for (EObject rootObj : r.getContents()) {
-						graph.addTree(rootObj);
-						LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set A: " + rootObj);
+					} else {
+						addEObjectToGraph(eObject, graph);
 					}
 				}
 			}
 		}
 
 		// Add model B to graph
-		if (rr != null) {
-			for (Iterator<EObject> iterator = difference.getModelB().getAllContents(); iterator.hasNext();) {
-				EObject eObject = iterator.next();
+		for (Iterator<EObject> iterator = difference.getModelB().getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			if (rr != null) {
 				if (blueprint.modelTypes.contains(eObject.eClass())
 						|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
-					graph.add(eObject);
+					addEObjectToGraph(eObject, graph);
 				}
-			}
-		} else {
-			for (EObject rootObj : difference.getModelB().getContents()) {
-				graph.addTree(rootObj);
-				LogUtil.log(LogEvent.DEBUG, "[Root] Model B: " + rootObj);
+			} else {
+				addEObjectToGraph(eObject, graph);
 			}
 		}
 
@@ -269,18 +255,16 @@ public class LiftingGraphFactory {
 				if (r == difference.getModelB()) {
 					continue;
 				}
-				if (rr != null) {
-					for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
-						EObject eObject = iterator.next();
+
+				for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
+					EObject eObject = iterator.next();
+					if (rr != null) {
 						if (blueprint.modelTypes.contains(eObject.eClass())
 								|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
-							graph.add(eObject);
+							addEObjectToGraph(eObject, graph);
 						}
-					}
-				} else {
-					for (EObject rootObj : r.getContents()) {
-						graph.addTree(rootObj);
-						LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set B: " + rootObj);
+					} else {
+						addEObjectToGraph(eObject, graph);
 					}
 				}
 			}
@@ -288,21 +272,38 @@ public class LiftingGraphFactory {
 
 		// Add imports to graph
 		if (imports != null) {
-			if (rr != null) {
-				for (EObject eObject : imports) {
+			for (EObject eObject : imports) {
+				if (rr != null) {
 					if (blueprint.modelTypes.contains(eObject.eClass())
 							|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
-						graph.add(eObject);
+						addEObjectToGraph(eObject, graph);
 					}
-				}
-			} else {
-				for (EObject eObject : imports) {
-					graph.add(eObject);
+				} else {
+					addEObjectToGraph(eObject, graph);
 				}
 			}
 		}
 
 		return graph;
+	}
+
+	/**
+	 * Adds the EObject and the types of all attribute of the EObject's class.
+	 * This is due to the fact that we can never be sure which attribute types
+	 * are needed in the graph, due to optional AVCs with a reference to its
+	 * attribute type which is in the kernel node of a RR.
+	 * 
+	 * @param object
+	 * @param graph
+	 */
+	private void addEObjectToGraph(EObject object, EGraph graph) {
+		graph.add(object);
+		// add also the attribute types used by the given eObject
+		for (EAttribute attribute : object.eClass().getEAllAttributes()) {
+			if (object.eGet(attribute) != null){
+				graph.add(attribute);
+			}
+		}
 	}
 
 	//
@@ -336,7 +337,7 @@ public class LiftingGraphFactory {
 	// object2Adapters.put(object, adapters);
 	// }
 	// }
-	
+
 	/**
 	 * Creates a single working graph for all Recognition-Rules.
 	 * 
@@ -345,7 +346,7 @@ public class LiftingGraphFactory {
 	 * @return The working graph.
 	 */
 	protected synchronized EGraph createSingleEGraph() {
-		
+
 		// Initialize Henshin graph
 		EGraph graph = new EGraphImpl();
 
@@ -356,21 +357,18 @@ public class LiftingGraphFactory {
 		rootObjects.add(difference);
 		LogUtil.log(LogEvent.DEBUG, "[Root] Difference: " + difference);
 
-		// Add Ecore to the graph
-		rootObjects.add(EcorePackage.eINSTANCE);
-		LogUtil.log(LogEvent.DEBUG, "[Root] Ecore: " + EcorePackage.eINSTANCE);
+//		// Add Ecore to the graph
+//		rootObjects.add(EcorePackage.eINSTANCE);
+//		LogUtil.log(LogEvent.DEBUG, "[Root] Ecore: " + EcorePackage.eINSTANCE);
 
 		// Add the required types from the meta-model to the graph
 		for (Change change : difference.getChanges()) {
 			EStructuralFeature type = null;
 			if (change instanceof AddReference) {
-				type = ((AddReference) change).getType();				
+				type = ((AddReference) change).getType();
 			}
 			if (change instanceof RemoveReference) {
 				type = ((RemoveReference) change).getType();
-			}
-			if (change instanceof AttributeValueChange) {
-				type = ((AttributeValueChange) change).getType();
 			}
 			if (type != null) {
 				boolean added = graph.add(type);
@@ -417,20 +415,19 @@ public class LiftingGraphFactory {
 			}
 		}
 
-		// Add root objects to graph
-		for (EObject eObject : rootObjects) {
-			graph.addTree(eObject);
+		// Add root objects (and all their contents) to graph
+		for (EObject root : rootObjects) {
+			addEObjectToGraph(root, graph);
+			for (Iterator<EObject> iterator = root.eAllContents(); iterator.hasNext();) {
+				EObject eObject = iterator.next();
+				addEObjectToGraph(eObject, graph);
+			}
 		}
 
 		// Add imports to graph
 		if (imports != null) {
 			for (EObject eObject : imports) {
-				boolean added = graph.add(eObject);
-				if (added) {
-					LogUtil.log(LogEvent.DEBUG, "       Import: " + eObject);
-				} else {
-					LogUtil.log(LogEvent.DEBUG, "[SKIP] Import: " + eObject);
-				}
+				addEObjectToGraph(eObject, graph);
 			}
 		}
 		return graph;
