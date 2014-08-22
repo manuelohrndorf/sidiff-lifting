@@ -85,6 +85,9 @@ public class ERFixingEngine {
 			} else if (type.equals(ValidationType.consistentEOpposite.toString())) {
 				Edge edge = (Edge) eObject;
 				EditRuleFixer.fix_consistentEOpposite(edge);
+			} else if (type.equals(ValidationType.noAcBoundaryAttributes.toString())) {
+				Node acBoundaryNode = (Node) eObject;
+				EditRuleFixer.fix_noAcBoundaryAttributes(acBoundaryNode);
 			}
 		}
 	}

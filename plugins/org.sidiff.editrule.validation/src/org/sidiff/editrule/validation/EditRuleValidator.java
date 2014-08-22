@@ -935,7 +935,7 @@ public class EditRuleValidator {
 	 * Validates the "No AC Boundary Attributes" constraint of the Edit-Rule:
 	 * </p>
 	 * <p>
-	 * Boundary nodes of an attribute shall not have attributes, this is a
+	 * Boundary nodes of an application condition should not have attributes, this is a
 	 * warning as it can be seen as uncritical for generation
 	 * </p>
 	 * 
@@ -952,7 +952,7 @@ public class EditRuleValidator {
 				for (Node acBoundaryNode : ac.getAcBoundaryNodes()) {
 					if (acBoundaryNode.getAttributes().size() > 0) {
 						EditRuleValidation info = new EditRuleValidation(
-								"Boundary nodes of an attribute must not have attributes!", Diagnostic.WARNING,
+								"Boundary nodes of an application condition should not have attributes!", Diagnostic.WARNING,
 								editModule, ValidationType.noAcBoundaryAttributes, acBoundaryNode.getGraph().getRule(),
 								acBoundaryNode);
 						invalids.add(info);

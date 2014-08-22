@@ -493,6 +493,10 @@ public class EditRuleFixer {
 
 	}
 
+	public static void fix_noAcBoundaryAttributes(Node acBoundaryNode) {
+		acBoundaryNode.getAttributes().clear();
+	}
+	
 	// (TK, 18.08.2014): Sehr spekulativ
 	// public static void fix_parameterTargets(Parameter parameter) {
 	// Unit unit = parameter.getUnit();
