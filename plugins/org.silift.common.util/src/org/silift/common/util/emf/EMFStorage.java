@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -290,8 +291,16 @@ public class EMFStorage {
 	 * @return The given URI as absolute file path
 	 */
 	public static String uriToPath(URI uri) {
+		
+		//We can assume that this URI is used in the platform context
 		if (uri.isPlatform()) {
-			return pathToFile(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + uri.toPlatformString(true)).getAbsolutePath();
+			// Get the project the URI is corresponding to,
+			// so we can resolve linked resources in this way.
+			// This perhaps can be done in a cleaner way.
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(uri.segment(1));
+			String projectLoc = project.getLocation().toString();
+			String realWSLoc = projectLoc.substring(0,projectLoc.indexOf(project.getName())-1);
+			return pathToFile(realWSLoc + uri.toPlatformString(true)).getAbsolutePath();
 		}
 
 		return pathToFile(uri.devicePath()).getAbsolutePath();
