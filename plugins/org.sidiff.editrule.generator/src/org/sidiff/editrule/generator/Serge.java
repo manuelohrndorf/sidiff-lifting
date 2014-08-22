@@ -42,9 +42,15 @@ import org.sidiff.editrule.generator.settings.SergeSettings;
 public class Serge {
 
 	/**
+	 * Plugin name. Necessary to access dtdmap and dtd files.
+	 */
+	private final static String PLUGIN_NAME = "org.sidiff.editrule.generator";
+	
+	/**
 	 * The involved meta-models.
 	 */
 	private static Stack<EPackage> ePackagesStack = null;
+
 	
 	/**
 	 * The SERGe configuration.
@@ -56,7 +62,8 @@ public class Serge {
 	public Serge(SergeSettings settings) {
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("Editrulesgeneratorconfig.dtdmap.xml"));
+		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(
+				"platform:/plugin/"+PLUGIN_NAME+"/config/Editrulesgeneratorconfig.dtdmap.xml")); 
 		
 		this.settings = settings;
 				
