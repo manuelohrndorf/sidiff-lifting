@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
-public class Widget implements IWidget {
+public class MetaModelSpecConfigWidget implements IWidget {
 	
 	private ISelection selection;
 	private Text txtSelectOutputFolder;
@@ -42,7 +42,7 @@ public class Widget implements IWidget {
 	private SergeSettings settings;
 	private Group widget;
 
-	public Widget(){
+	public MetaModelSpecConfigWidget(){
 		
 	}
 	/**

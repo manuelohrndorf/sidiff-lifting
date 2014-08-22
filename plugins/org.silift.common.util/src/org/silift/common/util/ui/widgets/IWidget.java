@@ -12,12 +12,14 @@ public interface IWidget {
 	 *            The widget parent container.
 	 * @return The top level container.
 	 */
-	public Group createControl(Group parent, WizardPage page);
+	public Composite createControl(Composite parent, WizardPage page);
+	
+	public Composite createControl(Composite parent);
 
 	/**
 	 * @return The top level container or <code>null</code> if has not yet been created.
 	 */
-	public Group getWidget();
+	public Composite getWidget();
 
 	/**
 	 * Set the widget layout data.
