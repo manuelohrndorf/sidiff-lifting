@@ -50,9 +50,7 @@ public class ConfigurationParser {
 	private static String rootName									= null;
 
 	public void parse (String pathToConfig) throws Exception {
-		
-		String fSep = System.getProperty("file.separator");
-		
+				
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
 		Element docElem = doc.getDocumentElement();
 		org.w3c.dom.Node currentNode = null;
