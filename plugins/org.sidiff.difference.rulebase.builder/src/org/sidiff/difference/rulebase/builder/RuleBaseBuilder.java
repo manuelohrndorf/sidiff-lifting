@@ -488,6 +488,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
      */
     private void buildRuleBase(IProgressMonitor monitor){
 
+		// Abort if canceled
+		if (monitor.isCanceled()) {
+			throw new OperationCanceledException();
+		}
+		
     	monitor.subTask("Building RuleBase File");    	
     	try {
     		getRuleBaseWrapper().saveRuleBase();
@@ -504,6 +509,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     	}
     	catch (IOException e) {
     		e.printStackTrace();
+    	}
+    	
+    	// Abort if canceled
+    	if (monitor.isCanceled()) {
+    		throw new OperationCanceledException();
     	}
 
     }
