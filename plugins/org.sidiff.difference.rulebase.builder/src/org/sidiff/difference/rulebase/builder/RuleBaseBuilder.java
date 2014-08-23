@@ -179,15 +179,8 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
-
-		// Clean the RuleBase completely and delete all
-		// RecognitionRules
-		RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
-		rbWrapper.clean(true);		
-		buildRuleBase(monitor);
 		
 		// Delete all elements in Build Folder if already existent
-		// This is necessary if substructures are used.
 		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
 		
 		if (buildFolder.exists()) {
@@ -195,6 +188,14 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				builtRR.delete(true, monitor);
 			}
 		}
+		
+		// Delete RuleBase File and corresponding Wrapper
+		IFile ruleBaseFile = getProject().getFile(RULEBASE_FILE);
+		if(ruleBaseFile.exists()){
+			ruleBaseFile.delete(true, monitor);
+			ruleBaseWrapper = null;
+		}
+
 		
 	}
 	
@@ -456,7 +457,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
 		
 		// Create new RuleBase if not already existent
-		if ((ruleBaseWrapper == null) || !RuleBaseWrapper.exists(rulebase)) {
+		if (ruleBaseWrapper == null) {
 			URI recognitionRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(BUILD_FOLDER));
 			URI editRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(SOURCE_FOLDER));
 			ruleBaseWrapper =  new RuleBaseWrapper(rulebase, recognitionRuleFolder, editRuleFolder, false);
