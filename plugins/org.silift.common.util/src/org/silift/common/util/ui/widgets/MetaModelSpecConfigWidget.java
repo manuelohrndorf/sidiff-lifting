@@ -40,8 +40,8 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	private Boolean bConfig;
 	
 	//private SergeSettings settings;
-	private Group widget;
-
+	private Composite widget;
+	
 	public MetaModelSpecConfigWidget(){
 		
 	}
@@ -53,23 +53,17 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	}
 	@Override
 	public Composite createControl(Composite parent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */	
-	public Group createControl(Group parent, final WizardPage page) {
-		
-		parent.setText("erfolg");
-		
-		/*final FileDialog eConfigChooser = new FileDialog(parent.getShell());
+		final FileDialog eConfigChooser = new FileDialog(parent.getShell());
 		bConfig = false;
 		bOutputFolder = false;
 				
 		//grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		parent.setText("Metamodel Specific Configuration");
+		if (parent instanceof Composite) {
+			((Group) parent).setText("Metamodel Specific Configuration");
+		} else {
+			System.out.println("Composite is no instance of Group.");
+		}
 		parent.setLayout(new GridLayout(1, false));
 		
 		Composite comMetaModelSpecificConfiguration = new Composite(parent, SWT.NONE);
@@ -78,25 +72,25 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		
 		final Button radioBtnRefinedConfig = new Button(comMetaModelSpecificConfiguration, SWT.RADIO);
 		radioBtnRefinedConfig.setText("Refined Config");
-		radioBtnRefinedConfig.setSelection((settings.getConfigPath()!=null));
+		//radioBtnRefinedConfig.setSelection((settings.getConfigPath()!=null));
 		new Label(comMetaModelSpecificConfiguration, SWT.NONE);		
 
 		Button btnBrowseConfig = new Button(comMetaModelSpecificConfiguration, SWT.NONE);
-		btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
+		/*btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				settings.setConfigPath(eConfigChooser.open());
 				txtConfig.setText(settings.getConfigPath());
 			}
-		});
+		});*/
 		btnBrowseConfig.setText("Browse");		
 		
 		txtConfig = new Text(comMetaModelSpecificConfiguration, SWT.BORDER);
 		txtConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		if(this.settings.getConfigPath()!=null){
+		/*if(this.settings.getConfigPath()!=null){
 			txtConfig.setText(this.settings.getConfigPath());
 			bConfig = true;
-		}
+		}*/
 		
 		final Button radioBtnDefaultConfig = new Button(comMetaModelSpecificConfiguration, SWT.RADIO);
 		radioBtnDefaultConfig.setText("Default Config");
@@ -117,7 +111,7 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		txtImportPackage = new Text(comMetaModelSpecificConfiguration, SWT.BORDER);
 		txtImportPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		if (page instanceof WizardPage){
+		/*if (page instanceof WizardPage){
 		
 		txtConfig.addModifyListener(new ModifyListener() {
 			@Override
@@ -147,13 +141,13 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		
 		} else {
 			JOptionPane.showMessageDialog(null, "keine WizardPage");
-		}
-		this.widget = parent;*/
+		}*/
+		this.widget = parent;
 		return parent;
 	}
 
 	@Override
-	public Group getWidget() {
+	public Composite getWidget() {
 		return widget;
 	}
 
