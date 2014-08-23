@@ -178,7 +178,10 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		
-		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
+		// Remove Markers
+		removeMarkers(getProject(), IResource.DEPTH_INFINITE);		
+		getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+
 		
 		// Delete all elements in Build Folder if already existent
 		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
@@ -195,7 +198,12 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 			ruleBaseFile.delete(true, monitor);
 			ruleBaseWrapper = null;
 		}
-
+		
+		// Create Error Marker for not having a RuleBase File at this time
+		IMarker marker = getProject().createMarker(IMarker.PROBLEM);
+		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+		marker.setAttribute(IMarker.MESSAGE, "The RuleBase File is missing! Project needs to be built"
+				+ " with at least one valid Edit-Rule!");
 		
 	}
 	
@@ -520,6 +528,9 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     		if(!rulebaseFile.isDerived()){
         		rulebaseFile.setDerived(true, monitor);
     		}
+    		
+    		getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+
     	}
     	catch (CoreException e) {
     		// TODO Auto-generated catch block
