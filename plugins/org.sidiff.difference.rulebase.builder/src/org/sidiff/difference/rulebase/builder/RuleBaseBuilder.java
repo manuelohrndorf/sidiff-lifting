@@ -84,7 +84,15 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
-		
+		// If there has not been one valid Edit-Rule in this build
+		// there shall be a error marker.
+		try {
+			if(ruleBaseWrapper == null && getProject().findMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO).length == 0){
+				createProjectMarker();		
+			}
+		} catch (CoreException e) {
+			// Nothing to do
+		}
 		return null;
 	}
 	
@@ -180,9 +188,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		// Remove Markers
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);		
-		getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
-
-		
+			
 		// Delete all elements in Build Folder if already existent
 		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
 		
@@ -197,14 +203,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		if(ruleBaseFile.exists()){
 			ruleBaseFile.delete(true, monitor);
 			ruleBaseWrapper = null;
-		}
-		
-		// Create Error Marker for not having a RuleBase File at this time
-		IMarker marker = getProject().createMarker(IMarker.PROBLEM);
-		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-		marker.setAttribute(IMarker.MESSAGE, "The RuleBase File is missing! Project needs to be built"
-				+ " with at least one valid Edit-Rule!");
-		
+		}	
 	}
 	
 	/**
@@ -220,10 +219,29 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		// Delete old markers
 		try {
 			resource.deleteMarkers(EValidator.MARKER, true, depth);
+			// Also delete project marker
+			getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+			
 		} catch (CoreException e) {
 			// Something went wrong
 		}
 		
+	}
+	
+	/**
+	 * Helper method for creating a marker on the project scope
+	 */
+	private void createProjectMarker(){		
+		// Create Error Marker for not having a RuleBase File at this time
+		try{
+		IMarker marker = getProject().createMarker(IMarker.PROBLEM);
+		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+		marker.setAttribute(IMarker.MESSAGE, "The RuleBase File is missing! Project needs to be built"
+				+ " with at least one valid Edit-Rule!");
+		}
+		catch(CoreException e){
+			// Nothing to do
+		}
 	}
 	
 	/**
