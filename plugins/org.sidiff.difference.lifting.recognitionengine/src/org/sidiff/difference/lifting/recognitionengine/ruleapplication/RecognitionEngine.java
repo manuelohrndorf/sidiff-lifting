@@ -29,6 +29,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
@@ -315,7 +316,24 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "---------------- APPLYING RECOGNITION RULES ----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		// (2) Execution of collected rule applications:
+		// (2) Pre-filtering of collected rule applications: Keep only one
+		// representative of a set of equal (same changes covered and same
+		// recognition rule) recognition rule applications.
+		Collection<List<RuleApplication>> rrApplicationsByRule = RecognitionRuleApplicationAnalysis
+				.partitionByEqualRule(recognizerRuleApplications);
+		Set<RuleApplication> toBeRemoved = new HashSet<RuleApplication>();
+		for (List<RuleApplication> rrApplicationsRule : rrApplicationsByRule) {
+			Collection<List<RuleApplication>> partitionsByEqual = RecognitionRuleApplicationAnalysis
+					.partitionByEqualChanges(rrApplicationsRule);
+			for (List<RuleApplication> equalApplications : partitionsByEqual) {
+				for (int i = 1; i < equalApplications.size(); i++) {
+					toBeRemoved.add(equalApplications.get(i));
+				}
+			}
+		}
+		recognizerRuleApplications.removeAll(toBeRemoved);
+
+		// (3) Execution of collected rule applications:
 		for (RuleApplication recognitionRuleApp : recognizerRuleApplications) {
 			boolean success = recognitionRuleApp.execute(null);
 			assert (success) : "Could not apply rule " + recognitionRuleApp + ". Should never happen";

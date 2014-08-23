@@ -89,8 +89,12 @@ public class RecognizerThread extends Thread {
 				while (matchFinder.hasNext()) {
 					Match match = matchFinder.next();
 					
-					// Create Rule Application with prematch
-					RuleApplication ruleApp = new RuleApplicationImpl(engine, graph, rr, match);
+					// Create Rule Application with prematch (which is actually a complete match)
+					RuleApplication ruleApp = new RuleApplicationImpl(engine);
+					ruleApp.setEGraph(graph);
+					ruleApp.setRule(rr);
+					ruleApp.setCompleteMatch(match);
+					
 					numberOfMatches++;
 					recognitionEngine.addRecognitionRuleApplication(ruleApp);
 				}
