@@ -142,8 +142,9 @@ public class PostProcessor {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Reset previous post-processing
-		difference.getChangeSets().addAll(difference.getUnusedChangeSets());
-		difference.getUnusedChangeSets().clear();
+//		difference.getChangeSets().addAll(difference.getUnusedChangeSets());
+//		difference.getUnusedChangeSets().clear();
+		assert(difference.getUnusedChangeSets().isEmpty());
 		
 		// Initialize PCS_D with all semantic change sets of the entry difference
 		PCS_D = new LinkedList<SemanticChangeSet>();
