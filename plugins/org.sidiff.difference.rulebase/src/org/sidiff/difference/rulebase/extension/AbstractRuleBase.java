@@ -269,7 +269,8 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	 */
 	private RuleBase getRuleBase() {
 		if (rulebase == null) {
-			rulebase = RuleBaseUtil.loadRuleBase(getRuleBaseURI(), getRuleBasePluginID());
+			rulebase = RuleBaseUtil.loadRuleBase(getRuleBaseURI(), 
+					getEditRulesPluginID(), getRecognitionRulesPluginID());
 		}
 		return rulebase;
 	}
@@ -282,7 +283,12 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	/**
 	 * @return The plugin ID of the rulebase.
 	 */
-	protected abstract String getRuleBasePluginID();
+	protected abstract String getRecognitionRulesPluginID();
+	
+	/**
+	 * @return The plugin ID of the edit rules plugin.
+	 */
+	protected abstract String getEditRulesPluginID();
 
 	/**
 	 * Template-method that must be implemented by subclasses: Returns the URI

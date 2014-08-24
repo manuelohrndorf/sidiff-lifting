@@ -32,12 +32,17 @@ public class RuleBaseUtil {
 	 *            the URI of the rulbase XMI.
 	 * @return the rulebase instance.
 	 */
-	public static RuleBase loadRuleBase(String rulebasePath, String ruleBasePluginID) {
-
+	public static RuleBase loadRuleBase(String rulebasePath,
+			String editRulesPluginID, String recognitionRulesPluginID) {
+		
 		// Set URI mapping:
-		URI ruleBasePluginURI = URI.createPlatformPluginURI(ruleBasePluginID + "/", true);
-		URI ruleBaseResourceURI = URI.createPlatformResourceURI(ruleBasePluginID + "/", true);
-		resourceSet.getURIConverter().getURIMap().put(ruleBaseResourceURI, ruleBasePluginURI);
+		URI er_pluginURI = URI.createPlatformPluginURI(editRulesPluginID + "/", true);
+		URI er_resourceURI = URI.createPlatformResourceURI(editRulesPluginID + "/", true);
+		resourceSet.getURIConverter().getURIMap().put(er_resourceURI, er_pluginURI);
+		
+		URI rr_pluginURI = URI.createPlatformPluginURI(recognitionRulesPluginID + "/", true);
+		URI rr_resourceURI = URI.createPlatformResourceURI(recognitionRulesPluginID + "/", true);
+		resourceSet.getURIConverter().getURIMap().put(rr_resourceURI, rr_pluginURI);
 
 		// Load Rulebase:
 		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);
@@ -51,17 +56,17 @@ public class RuleBaseUtil {
 		assert (rulebaseResource.getContents().get(0) instanceof RuleBase) : ": No Rule Base..?";
 
 		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
-
+		
 		return rulebase;
 	}
-
+	
 	/**
 	 * Clears the resource set.
 	 */
 	public static void unloadRuleBases() {
 		resourceSet = new ResourceSetImpl();
 	}
-
+	
 	/**
 	 * Returns only the active rule base items of a rulebase.
 	 * 
@@ -71,7 +76,7 @@ public class RuleBaseUtil {
 	 */
 	public static Set<RuleBaseItem> getActiveRuleBaseItems(RuleBase rulebase) {
 		Set<RuleBaseItem> items = new HashSet<RuleBaseItem>();
-
+		
 		for (RuleBaseItem item : rulebase.getItems()) {
 			if (item.isActive()) {
 				items.add(item);
@@ -97,7 +102,7 @@ public class RuleBaseUtil {
 		}
 		return units;
 	}
-
+	
 	/**
 	 * Returns only the active edit rules of a rulebase.
 	 * 
@@ -115,15 +120,14 @@ public class RuleBaseUtil {
 		}
 		return units;
 	}
-
+	
 	/**
-	 * Returns the available rulebases for the given (characteristic)
-	 * documentType
+	 * Returns the available rulebases for the given (characteristic) documentType
 	 * 
 	 * @param documentType
 	 * @return
 	 */
-	public static Set<IRuleBase> getAvailableRulebases(String documentType) {
+	public static Set<IRuleBase> getAvailableRulebases(String documentType){
 		Set<IRuleBase> rulebases = new HashSet<IRuleBase>();
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
 				IRuleBase.extensionPointID)) {
@@ -136,10 +140,10 @@ public class RuleBaseUtil {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return rulebases;
 	}
-
+	
 	/**
 	 * Resolve an EditRule by its name. We lookup in all rulebases which are
 	 * suitable for the given document type.
