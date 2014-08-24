@@ -5,7 +5,6 @@ import static org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper.invertA
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
@@ -20,7 +19,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.difference.asymmetric.dependencies.potential.RuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
@@ -42,18 +40,73 @@ import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Encapsulates a RuleBase instance and provides some convenience functions for the RuleBase management.
+ * 
+ * @author Manuel Ohrndorf
  */
 public class RuleBaseWrapper extends Observable {
 
+	/**
+	 * Logs the observer notification state. 
+	 */
 	private boolean notifyChangedStarted;
+	
+	/**
+	 * Internal Ecore notification adapter.
+	 */
 	private EContentAdapter notifyChangedAdapter;
+	
+	/**
+	 * <code>true</code> if the Rulebase was edited; <code>false</code> otherwise.
+	 */
 	private boolean dirty;
+	
+	/**
+	 * Sets this rulebase into read-only mode.
+	 */
+	private boolean readonly = false;
+	
+	/**
+	 * The path of the *.rulebase file. 
+	 */
 	private URI rulebaseURI;
+	
+	/**
+	 * The folder to store the Recognition-Rules.
+	 */
 	private URI recognitionRuleFolder;
+	
+	/**
+	 * The folder of the corresponding Edit-Rules. 
+	 */
 	private URI editRuleFolder;
+	
+	/**
+	 * The (Ecore model) rulebase root element. 
+	 */
 	private RuleBase rulebase;
+	
+	/**
+	 * Internal {@link RuleBasePotentialDependencyAnalyzer} 
+	 */
 	private RuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
+	
+	/**
+	 * List of edited/new (Henshin) Recognition-Rules. Used to delay the storage of the Henshin
+	 * files. Call {@link RuleBaseWrapper#saveRuleBase()} to save all.
+	 */
 	private Set<RecognitionRule> newRecognitionRules;
+	
+	/**
+	 * Initializes an existing rulebase in READ-ONLY mode.
+	 * 
+	 * @param rulebaseURI
+	 *            The path of the rulebase.
+	 * @see RuleBaseWrapper#saveRuleBase()
+	 */
+	public RuleBaseWrapper(URI rulebaseURI) {
+		this(rulebaseURI, URI.createURI(""), URI.createURI(""));
+		readonly = true;
+	}
 	
 	/**
 	 * Initializes a (new or existing) rulebase.
@@ -62,6 +115,8 @@ public class RuleBaseWrapper extends Observable {
 	 *            The path of the rulebase.
 	 * @param recognitionRuleFolder
 	 *            The folder of the generated Recognition-Rules.
+	 * @param editRuleFolder
+	 *            The folder of the corresponding Edit-Rules.
 	 * @param resolveRules
 	 *            Resolve all (Henshin) Edit- and Recognition-Rules.
 	 */
@@ -69,6 +124,9 @@ public class RuleBaseWrapper extends Observable {
 		this.rulebaseURI = rulebaseURI;
 		this.recognitionRuleFolder = recognitionRuleFolder;
 		this.editRuleFolder = editRuleFolder;
+		
+		assert (recognitionRuleFolder != null) : "Assert not Null: Recognition-Rule folder!"; 
+		assert (editRuleFolder != null) : "Assert not Null: Edit-Rule folder!"; 
 		
 		if (exists(rulebaseURI)) {
 			// Load existing rule base
@@ -96,18 +154,38 @@ public class RuleBaseWrapper extends Observable {
 	 *            The path of the rulebase.
 	 * @param recognitionRuleFolder
 	 *            The folder of the generated Recognition-Rules.
+	 * @param editRuleFolder
+	 *            The folder of the corresponding Edit-Rules.
 	 */
 	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, URI editRuleFolder) {
 		// Load existing rule base
 		this(rulebaseURI, recognitionRuleFolder, editRuleFolder, true);
 	}
 	
+	/**
+	 * Checks if the given rulebase file exists.
+	 * 
+	 * @param rulebaseURI
+	 *            The rulebase file to test.
+	 * @return <code>true</code> if the rulebase file exists; <code>false</code> otherwise.
+	 */
 	public static boolean exists(URI rulebaseURI) {
 		return EMFStorage.uriToFile(rulebaseURI).exists();
 	}
 
+	/**
+	 * Saves the rulebase file and all changed Recognition-Rules. Can't be used if the rulebase was
+	 * initialized in read-only mode ({@link RuleBaseWrapper#RuleBaseWrapper(URI)}).
+	 * 
+	 * @throws IOException
+	 */
 	public void saveRuleBase() throws IOException {
-		saveRecognitionModules(recognitionRuleFolder);
+		
+		if (readonly) {
+			throw new RuntimeException("This Rulebase is set to be read-only!");
+		}
+		
+		saveRecognitionModules();
 		
 		if (exists(rulebaseURI)) {
 			EMFStorage.eSave(rulebase);
@@ -118,22 +196,58 @@ public class RuleBaseWrapper extends Observable {
 		resetDirtyFlag();
 	}
 
-	private void saveRecognitionModules(URI recognitionRuleFolder) {
-		for (RecognitionRule rr_rule : newRecognitionRules) {
-			if (rr_rule.getRecognitionModule().eResource() != null
-					&& editRuleFolder != null) {
-				// Existing recognition rule, only if not in the context of a buildprocess
-				EMFStorage.eSave(rr_rule.getRecognitionModule());
+	/**
+	 * Saves a (Henshin) Recognition-Rule.
+	 * 
+	 */
+	private void saveRecognitionModules() {
+		
+		for (RecognitionRule rrRule : newRecognitionRules) {
+			// Handle: New, existing, moved Edit-Rules:
+			if (rrRule.getRecognitionMainUnit().eResource() != null) {
+				// Existing recognition rule:
+				EMFStorage.eSave(rrRule.getRecognitionModule());
 			} else {
-				// New recognition rule
+				// New recognition rule:
 				Edit2RecognitionUtil.saveRecognitionRule(
-						rr_rule.getRecognitionModule(),
-						rr_rule.getEditRule().getExecuteModule(),
-						getSaveURI(rr_rule.getEditRule().getExecuteModule()));
+						rrRule.getRecognitionModule(),
+						rrRule.getEditRule().getExecuteModule(),
+						getRecognitionRuleSaveURI(rrRule.getEditRule().getExecuteModule()));
 			}
 		}
 	}
 
+	/**
+	 * Helper method to get corresponding output save URI for given EditRule. This is necessary if
+	 * there is some subfolder structure beneath the recognitionRuleFolder.
+	 * 
+	 * 
+	 * @param editModule
+	 *            The corresponding Edit-Rule.
+	 * @return The Recognition-Rule save path.
+	 */
+	private URI getRecognitionRuleSaveURI(Module editModule){
+		
+		// Replace Edit-Rule with Recognition-Rule to keep folder structure:
+		String editRuleFolderString = editRuleFolder.lastSegment();
+		String recognitionRuleFolderString = recognitionRuleFolder.lastSegment();
+		
+		String savePath = EMFStorage.uriToPath(editModule.eResource().getURI());
+		
+		// Get URI without filename
+		savePath = savePath.substring(0, savePath.lastIndexOf(File.separator));
+		
+		// Replace EditRuleFolder with RecognitionRuleFolder
+		savePath = savePath.replace(
+				File.separator + editRuleFolderString, File.separator + recognitionRuleFolderString);
+		
+		return EMFStorage.pathToUri(savePath);
+	}
+
+	/**
+	 * Log all rulebase (rulebase file, Henshin Edit- / Recognition-Rules) changes as from now.
+	 * Notifies the observers and sets the dirty flag for occurring changes.
+	 */
 	public void startObserverNotification() {
 		if (!notifyChangedStarted) {
 			// Notify me if data model has changed:
@@ -145,15 +259,6 @@ public class RuleBaseWrapper extends Observable {
 					// Event Filter:
 					if (!(notification.getEventType() == Notification.REMOVING_ADAPTER)
 							&& !(notification.getEventType() == Notification.RESOLVE)) {
-
-						// Priority or name of recognition Module changed
-						if (notification.getNotifier() instanceof Attribute) {
-							Attribute attribute = (Attribute) notification.getNotifier();
-
-							Module recognitionModule = attribute.getNode().getGraph().getRule()
-									.getModule();
-							newRecognitionRules.add(findRecognitionRule(recognitionModule));
-						}
 
 						// Set dirty
 						setDirtyFlag();
@@ -176,11 +281,20 @@ public class RuleBaseWrapper extends Observable {
 		}
 	}
 
+	/**
+	 * Logs the changes of the (Henshin) Edit- / Recognition-Rules.
+	 * 
+	 * @param item
+	 *            The item to log.
+	 */
 	private void addNotifyChangedAdapterToItem(RuleBaseItem item) {
 		item.getRecognitionRule().getRecognitionModule().eAdapters().add(notifyChangedAdapter);
 		item.getEditRule().getExecuteModule().eAdapters().add(notifyChangedAdapter);
 	}
 
+	/**
+	 * Stop change logging.
+	 */
 	public void stopObserverNotification() {
 		// Unregister notify changed adapter
 		rulebase.eAdapters().remove(notifyChangedAdapter);
@@ -192,55 +306,30 @@ public class RuleBaseWrapper extends Observable {
 		notifyChangedStarted = false;
 	}
 
+	/**
+	 * Stop logging of the (Henshin) Edit- / Recognition-Rules.
+	 * 
+	 * @param item
+	 *            The item to log.
+	 */
 	private void removeNotifyChangedAdapterFromItem(RuleBaseItem item) {
 		item.getRecognitionRule().getRecognitionModule().eAdapters().remove(notifyChangedAdapter);
 		item.getEditRule().getExecuteModule().eAdapters().remove(notifyChangedAdapter);
 	}
 
-	public URI getRuleBaseLocation() {
-		return rulebaseURI;
-	}
-
-	public RuleBase getRuleBase() {
-		return rulebase;
-	}
-	
-	public RecognitionRule findRecognitionRule(Module recognitionModule) {
-		for (RecognitionRule rr_rule : rulebase.getRecognitionRules()) {
-			if (recognitionModule == rr_rule.getRecognitionModule()) {
-				return rr_rule;
-			}
-		}
-		return null;
-	}
-	
-	public EditRule findEditRule(Module editModule) {
-		for (EditRule er_rule : rulebase.getEditRules()) {
-			if (editModule == er_rule.getExecuteModule()) {
-				return er_rule;
-			}
-		}
-		return null;
-	}
-	
-	public EditRule findEditRule(String editRulePath) {
-		File editRuleFile = new File(editRulePath);
-		
-		for (EditRule er_rule : rulebase.getEditRules()) {
-			URI rbEditRuleURI = EcoreUtil.getURI(er_rule.getExecuteMainUnit()).trimFragment();
-			File rbEditRuleFile = EMFStorage.uriToFile(rbEditRuleURI);
-
-			if (editRuleFile.equals(rbEditRuleFile)) {
-				return er_rule;
-			}
-		}
-		return null;
-	}
-
+	/**
+	 * @return All list containing all items (Item = Edit- / Recognition-Rule) of this rulebase.
+	 */
 	public EList<RuleBaseItem> getItems() {
 		return rulebase.getItems();
 	}
 
+	/**
+	 * Adds and analysis a new rulebase item.
+	 * 
+	 * @param item
+	 *            The new rulebase item.
+	 */
 	public void addItem(RuleBaseItem item) {
 		// Add item to rule base
 		rulebase.getItems().add(item);
@@ -256,6 +345,14 @@ public class RuleBaseWrapper extends Observable {
 		paramExtractor.extractParameters();
 	}
 
+	/**
+	 * Adds and analysis a new rulebase item.
+	 * 
+	 * @param position
+	 *            Index at which the specified element is to be inserted.
+	 * @param item
+	 *            The new rulebase item.
+	 */
 	public void addItem(int position, RuleBaseItem item) {
 		// Add item to rule base at specified position
 		rulebase.getItems().add(position, item);
@@ -276,6 +373,15 @@ public class RuleBaseWrapper extends Observable {
 		}
 	}
 
+	/**
+	 * Removes an rulebase item.
+	 * 
+	 * @param item
+	 *            The item to remove.
+	 * @param removeRecognRuleFile
+	 *            <code>true</code> will also delete the corresponding Henshin file; Set to
+	 *            <code>false</code> to keep the file.
+	 */
 	public void removeItem(RuleBaseItem item, boolean removeRecognRuleFile) {
 
 		// Remove potential dependencies of the item:
@@ -308,12 +414,26 @@ public class RuleBaseWrapper extends Observable {
 		}
 	}
 
-	public void clean(boolean removeRecognRuleFile) {
+	/**
+	 * Removes all items from the rulebase.
+	 * 
+	 * @param removeRecognRuleFiles
+	 *            <code>true</code> will also delete the corresponding Henshin files; Set to
+	 *            <code>false</code> to keep the files.
+	 */
+	public void clean(boolean removeRecognRuleFiles) {
 		while (!rulebase.getItems().isEmpty()) {
-			removeItem(rulebase.getItems().get(0), removeRecognRuleFile);
+			removeItem(rulebase.getItems().get(0), removeRecognRuleFiles);
 		}
 	}
 
+	/**
+	 * Collects all incoming potential (Node, Edge, Attribute) dependencies of the given Edit-Rule.
+	 * 
+	 * @param er
+	 *            The Edit-Rule of interest.
+	 * @return All incoming potential (Node, Edge, Attribute) dependencies.
+	 */
 	public List<PotentialDependency> getIncomingDependencies(EditRule er) {
 		List<PotentialDependency> potDeps = new ArrayList<PotentialDependency>();
 		
@@ -324,7 +444,7 @@ public class RuleBaseWrapper extends Observable {
 			}
 		}
 
-		// Edeges
+		// Edges
 		for (PotentialDependency potDep : rulebase.getPotentialEdgeDependencies()) {
 			if ((potDep.getSourceRule() == er) || (potDep.getTargetRule() == er)) {
 				potDeps.add(potDep);
@@ -341,6 +461,13 @@ public class RuleBaseWrapper extends Observable {
 		return potDeps;
 	}
 
+	/**
+	 * Generates a new Recognition-Rule and adds a new rulebase item to the rulebase.
+	 * 
+	 * @param editRule
+	 *            The input Edit-Rule.
+	 * @throws Edit2RecognitionException
+	 */
 	public void generateItemFromFile(URI editRule) throws Edit2RecognitionException {
 
 		EditWrapper2RecognitionWrapper generator = null;
@@ -373,93 +500,69 @@ public class RuleBaseWrapper extends Observable {
 		}
 	}
 
-	public void refreshItem(RuleBaseItem oldItem) throws Edit2RecognitionException {
-
-		EditWrapper2RecognitionWrapper generator = null;
-		
-		try {
-			// Reload edit rule resource:
-			EMFStorage.eReload(oldItem.getEditRule().getExecuteModule());
-			
-			// Regenerate recognition rule:
-			generator = new EditWrapper2RecognitionWrapper(oldItem.getEditRule());
-			RuleBaseItem newItem = generator.transform();
-
-			// Keep SCS name:
-			String itemName = RuleBaseItemWrapper.getName(oldItem);
-			RuleBaseItemWrapper.setName(newItem, itemName);
-
-			// Keep SCS Priority:
-			int itemPriority = RuleBaseItemWrapper.getPriority(oldItem);
-			RuleBaseItemWrapper.setPriority(newItem, itemPriority);
-
-			// Replace old rule base item in rulebase:
-			int ruleBaseItemIndex = rulebase.getItems().indexOf(oldItem);
-			removeItem(oldItem, false);
-			addItem(ruleBaseItemIndex, newItem);
-			
-			// Update recognition rule resource:
-			RecognitionRule oldRecognitionRule = oldItem.getRecognitionRule();
-			RecognitionRule newRecognitionRule = newItem.getRecognitionRule();
-			EMFStorage.eOverwrite(oldRecognitionRule.getRecognitionModule(), newRecognitionRule.getRecognitionModule());
-
-			// Remember refreshed recognition rules:
-			newRecognitionRules.remove(oldRecognitionRule);
-			newRecognitionRules.add(newRecognitionRule);
-			
-		} catch (UnsupportedTransformationSytemException e) {
-			// Error: UnsupportedTransformationSytem
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID,  e.getMessage() + "\n\n" + oldItem.getEditRule().getExecuteMainUnit().eResource().getURI()));
-		} catch (NoUnitFoundException e) {
-			// Error: NoUnitFound
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID,  e.getMessage() + "\n\n" + oldItem.getEditRule().getExecuteMainUnit().eResource().getURI()));
-		} catch (NoMainUnitFoundException e) {
-			// Error: NoMainUnitFoundException
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID,  e.getMessage() + "\n\n" + oldItem.getEditRule().getExecuteMainUnit().eResource().getURI()));
-		} catch (UnsupportedApplicationConditionException e) {
-			// Error: UnsupportedApplicationConditionException
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + oldItem.getEditRule().getExecuteMainUnit().eResource().getURI()));
-		} catch (NoRecognizableChangesInEditRule e) {
-			// Error: NoRecognizableChangesInEditRule
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + oldItem.getEditRule().getExecuteMainUnit().eResource().getURI()));
-		}
-	}
-
-	public void refreshItems(Collection<RuleBaseItem> items) throws Edit2RecognitionException {
-
-		// Regenerate items
-		for (RuleBaseItem ruleBaseItem : items) {
-			refreshItem(ruleBaseItem);
-		}
-	}
-
+	/**
+	 * Inverts the active flag of all rulebase items.
+	 */
 	public void invertAllItemsActivity() {
 		for (RuleBaseItem item : getItems()) {
 			invertActivity(item);
 		}
 	}
+	
+	/**
+	 * @return The path to the rulebase.
+	 */
+	public URI getRuleBaseLocation() {
+		return rulebaseURI;
+	}
 
+	/**
+	 * @return The (Ecore model) rulebase root.
+	 */
+	public RuleBase getRuleBase() {
+		return rulebase;
+	}
+
+	/**
+	 * Needs an Observer!
+	 * 
+	 * @return The dirty flag which indicated if something of the rulebase or some of the rules
+	 *         (Henshin Edit- / Recognition-Rules) have been changed.
+	 * @see RuleBaseWrapper#saveRuleBase()
+	 * @see RuleBaseWrapper#addObserver(java.util.Observer)
+	 * @see RuleBaseWrapper#startObserverNotification()
+	 */
 	public boolean isDirty() {
 		return dirty;
 	}
 
+	/**
+	 * Internally sets the dirty flag.
+	 */
 	private void setDirtyFlag() {
 		dirty = true;
 	}
 
+	/**
+	 * Internally resets the dirty flag.
+	 */
 	private void resetDirtyFlag() {
 		dirty = false;
 	}
 
-	public String getCharacteristicDocumentType() {
-		return rulebase.getCharacteristicDocumentType();
-	}
-
-
+	/**
+	 * @return The human readable name of the rulebase.
+	 */
 	public String getName() {
 		return rulebase.getName();
 	}
 
+	/**
+	 * Sets the human readable name of the rulebase.
+	 * 
+	 * @param name
+	 *            The rulebase name.
+	 */
 	public void setName(String name) {
 		rulebase.setName(name);
 	}
@@ -479,10 +582,25 @@ public class RuleBaseWrapper extends Observable {
 		}
 	}
 	
-	public static String findCharacteristicDocumentType(Module system) {
+	/**
+	 * @return The most characteristic document type of the rulebase.
+	 */
+	public String getCharacteristicDocumentType() {
+		return rulebase.getCharacteristicDocumentType();
+	}
+
+	
+	/**
+	 * {@link EMFModelAccessEx#getCharacteristicDocumentType(Set)}
+	 * 
+	 * @param module
+	 *            The module to analyse.
+	 * @return The most characteristic document type of the module.
+	 */
+	public static String findCharacteristicDocumentType(Module module) {
 		Set<String> documentTypes = new HashSet<String>();
 		
-		List<EPackage> imports = system.getImports();		
+		List<EPackage> imports = module.getImports();		
 		for (EPackage eImport : imports) {
 			EPackage pkg = eImport;
 			while (pkg != null && pkg.getESuperPackage() != null) {
@@ -494,10 +612,17 @@ public class RuleBaseWrapper extends Observable {
 		return EMFModelAccessEx.getCharacteristicDocumentType(documentTypes);
 	}
 	
-	public static Set<String> findDocumentTypes(Module system) {
+	/**
+	 * Collects all document types of the given module.
+	 * 
+	 * @param module
+	 *            The module to analyze.
+	 * @return All document type of the module.
+	 */
+	public static Set<String> findDocumentTypes(Module module) {
 		Set<String> documentTypes = new HashSet<String>();
 		
-		List<EPackage> imports = system.getImports();		
+		List<EPackage> imports = module.getImports();		
 		for (EPackage eImport : imports) {
 			EPackage pkg = eImport;
 			while (pkg != null && pkg.getESuperPackage() != null) {
@@ -510,42 +635,69 @@ public class RuleBaseWrapper extends Observable {
 	}
 	
 	/**
-	 * Helper method to get corresponding output save URI
-	 * for given EditRule. This is necessary if there is some
-	 * subfolder structure beneath the recognitionRuleFolder.
-	 * 
-	 * 
-	 * @param editModule
-	 * @return
+	 * @return The target folder where the Recognition-Rules are stored.
 	 */
-	private URI getSaveURI(Module editModule){
-		
-		//Only change URI if EditRule folder has been defined
-		if(editRuleFolder == null){
-			return recognitionRuleFolder;
-		}
-		
-		// Replace SOURCE(ER) with BUILD(RR) to
-		// keep folder structure
-		String editRuleFolderString = editRuleFolder.lastSegment();
-		String recognitionRuleFolderString = recognitionRuleFolder.lastSegment();
-		
-		String savePath = EMFStorage.uriToPath(editModule.eResource().getURI());
-		
-		//Get URI without filename
-		savePath = savePath.substring(0,savePath.lastIndexOf(File.separator));
-		//Replace EditRuleFolder with RecognitionRuleFolder
-		savePath = savePath.replace(File.separator + editRuleFolderString, File.separator + recognitionRuleFolderString);
-		
-		return EMFStorage.pathToUri(savePath);
-		
-	}
-
 	public URI getRecognitionRuleFolder() {
 		return recognitionRuleFolder;
 	}
 	
+	/**
+	 * @return The Edit-Rule source folder. (We support substructuring.)
+	 */
 	public URI getEditRuleFolder() {
 		return editRuleFolder;
+	}
+	
+	/**
+	 * Searches an Recognition-Rule rulebase wrapper by its corresponding Henshin Recognition-Rule.
+	 * 
+	 * @param recognitionModule
+	 *            The Henshin Recognition-Rule.
+	 * @return The corresponding Recognition-Rule rulebase wrapper.
+	 */
+	public RecognitionRule findRecognitionRule(Module recognitionModule) {
+		for (RecognitionRule rr_rule : rulebase.getRecognitionRules()) {
+			if (recognitionModule == rr_rule.getRecognitionModule()) {
+				return rr_rule;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Searches an Edit-Rule rulebase wrapper by its corresponding Henshin Edit-Rule.
+	 * 
+	 * @param editModule
+	 *            The Henshin Edit-Rule.
+	 * @return The corresponding rulebase Edit-Rule wrapper.
+	 */
+	public EditRule findEditRule(Module editModule) {
+		for (EditRule er_rule : rulebase.getEditRules()) {
+			if (editModule == er_rule.getExecuteModule()) {
+				return er_rule;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Searches an Edit-Rule rulebase wrapper by its corresponding Henshin Edit-Rule file.
+	 * 
+	 * @param editModule
+	 *            The Henshin Edit-Rule file.
+	 * @return The corresponding rulebase Edit-Rule wrapper.
+	 */
+	public EditRule findEditRule(String editRulePath) {
+		File editRuleFile = new File(editRulePath);
+		
+		for (EditRule er_rule : rulebase.getEditRules()) {
+			URI rbEditRuleURI = EcoreUtil.getURI(er_rule.getExecuteMainUnit()).trimFragment();
+			File rbEditRuleFile = EMFStorage.uriToFile(rbEditRuleURI);
+
+			if (editRuleFile.equals(rbEditRuleFile)) {
+				return er_rule;
+			}
+		}
+		return null;
 	}
 }
