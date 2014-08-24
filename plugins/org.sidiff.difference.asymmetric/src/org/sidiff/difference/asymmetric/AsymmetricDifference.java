@@ -6,8 +6,6 @@
  */
 package org.sidiff.difference.asymmetric;
 
-import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -157,8 +155,8 @@ public interface AsymmetricDifference extends EObject {
 	 */
 	void setSymmetricDifference(SymmetricDifference value);
 	
-	void initRuleBases();
+	void initTransientRulebase();
 	
-	List<RuleBase> getRuleBases();
+	RuleBase getTransientRulebase();
 
 } // AsymmetricDifference

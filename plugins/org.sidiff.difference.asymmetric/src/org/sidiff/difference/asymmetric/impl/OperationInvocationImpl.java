@@ -491,21 +491,21 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 		// Get it from the patch
 		AsymmetricDifference diff = (AsymmetricDifference) this.eContainer();
-		if (diff.getRuleBases() != null) {
-			for (RuleBase rb : diff.getRuleBases()) {
-				for (EditRule editrule : rb.getEditRules()) {
-					if (editrule.getExecuteModule().getName().equals(this.getChangeSet().getEditRName())) {
-						this.editRule = editrule;
-						return editrule;
-					}
+		if (diff.getTransientRulebase() != null) {
+			RuleBase rb = diff.getTransientRulebase();
+			for (EditRule editrule : rb.getEditRules()) {
+				if (editrule.getExecuteModule().getName().equals(this.getChangeSet().getEditRName())) {
+					this.editRule = editrule;
+					return editrule;
 				}
 			}
+
 		}
 
 		// If there is no rule physically available, we delegate the resolution
 		// to the SemanticChangeSet (which finally tries to derive it via the
 		// available rulebases)
-		this.editRule = this.getChangeSet().resolveEditRule(); 
+		this.editRule = this.getChangeSet().resolveEditRule();
 		return this.editRule;
 
 	}

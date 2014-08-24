@@ -6,10 +6,8 @@
  */
 package org.sidiff.difference.asymmetric.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -388,19 +386,13 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		return super.eIsSet(featureID);
 	}
 	
-	private List<RuleBase> ruleBases;
+	private RuleBase transientRulebase;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
 	@Override
-	public void initRuleBases() {
-		assert(ruleBases == null) : "ruleBases have already been initialized!";
+	public void initTransientRulebase() {
+		assert(transientRulebase == null) : "ruleBases have already been initialized!";
 		
-		ruleBases = new ArrayList<RuleBase>();
-		RuleBase rulebase = RulebaseFactory.eINSTANCE.createRuleBase();
+		transientRulebase = RulebaseFactory.eINSTANCE.createRuleBase();
 		HashMap<String, RuleBaseItem> ruleBaseItems = new HashMap<String, RuleBaseItem>();
 		for(OperationInvocation op: this.getOperationInvocations()){
 			ruleBaseItems.put(op.resolveEditRule().getExecuteModule().getName(), op.resolveEditRule().getRuleBaseItem());
@@ -409,14 +401,13 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
 			EObject o = EcoreUtil.copy(ruleBaseItems.get(ri).getEditRule());
 			item.setEditRule((EditRule)o);
-			rulebase.getItems().add(item);
+			transientRulebase.getItems().add(item);
 		}
-		this.getRuleBases().add(rulebase);
 	}
 	
 	@Override
-	public List<RuleBase> getRuleBases() {
-		return ruleBases;
+	public RuleBase getTransientRulebase() {
+		return transientRulebase;
 	}
 
 } //AsymmetricDifferenceImpl

@@ -105,10 +105,8 @@ public class CreatePatchWizard extends Wizard {
 		 */
 
 		try {
-			PatchCreator patchCreator = new PatchCreator(resourceA, resourceB, settings);
-			patchCreator.setAsymmetricDifference(fullDiff.getAsymmetric());
-			patchCreator.setSymmetricDifference(fullDiff.getSymmetric());
-
+			PatchCreator patchCreator = new PatchCreator(fullDiff.getAsymmetric(), settings);
+			
 			// Print report:
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");

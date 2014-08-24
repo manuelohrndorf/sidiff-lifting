@@ -23,6 +23,7 @@ import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
@@ -37,18 +38,16 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	protected Composite container;
 	protected List list_matchers;
-	
+
 	protected IPageChangedListener pageChangedListener;
 
 	public MatchingEngineWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
-		
-		//Connect scope widget:
-		
+
+		// Connect scope widget:
+
 		getMatchers();
 	}
-	
-	
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -78,18 +77,17 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 		// Set selection:
 		if (list_matchers.getItems().length != 0) {
-			//Prefer Unique identifier matcher
+			// Prefer Unique identifier matcher
 			int index = list_matchers.indexOf("UUID Matcher");
-		
-			if(index != -1)
+
+			if (index != -1)
 				list_matchers.setSelection(index);
 			else
 				list_matchers.setSelection(0);
-				
+
 		} else {
-			MessageDialog.openError(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Missing Matcher", "No matchers are found!");
+			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Missing Matcher",
+					"No matchers are found!");
 		}
 		list_matchers.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -97,9 +95,9 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 				settings.setMatcher(getSelection());
 			}
 		});
-		
+
 		settings.setMatcher(this.getSelection());
-		
+
 		return container;
 	}
 
@@ -117,8 +115,8 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		matchers = new TreeMap<String, IMatcher>();
 
 		// Search registered matcher extension points
-		Set<IMatcher> matcherSet = PipelineUtils.getAvailableMatchers(
-				inputModels.getResourceA(), inputModels.getResourceB());
+		Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(inputModels.getResourceA(),
+				inputModels.getResourceB());
 
 		for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 			IMatcher matcher = iterator.next();
@@ -127,9 +125,9 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	}
 
 	public IMatcher getSelection() {
-	
+
 		return matchers.get(list_matchers.getSelection()[0]);
-		
+
 	}
 
 	public SortedMap<String, IMatcher> getMatchingEngines() {
@@ -140,12 +138,10 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	public boolean validate() {
 		if (list_matchers.getSelectionIndex() == -1) {
 			return false;
-		}
-		else if(settings.getScope().equals(Scope.RESOURCE_SET) &&
-				!matchers.get(list_matchers.getSelection()[0]).isResourceSetCapable() ){
+		} else if (settings.getScope().equals(Scope.RESOURCE_SET)
+				&& !matchers.get(list_matchers.getSelection()[0]).isResourceSetCapable()) {
 			return false;
-		}
-		else{
+		} else {
 			return true;
 		}
 	}
@@ -155,12 +151,11 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		if (validate()) {
 			return "";
 		} else {
-			if(settings.getScope().equals(Scope.RESOURCE_SET) &&
-					!matchers.get(list_matchers.getSelection()[0]).isResourceSetCapable()){
+			if (settings.getScope().equals(Scope.RESOURCE_SET)
+					&& !matchers.get(list_matchers.getSelection()[0]).isResourceSetCapable()) {
 				return "Selected matching engine does not support resourceset scope, select another matching engine!!";
 
-			}
-			else{
+			} else {
 				return "Please select a matching engine";
 			}
 		}
@@ -183,7 +178,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(SettingsItem.SCOPE)){
+		if (item.equals(SettingsItem.SCOPE)) {
 			pageChangedListener.pageChanged(null);
 		}
 	}
