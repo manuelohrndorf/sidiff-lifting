@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
+import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 import org.sidiff.difference.rulebase.wrapper.util.Edit2RecognitionException;
 import org.sidiff.editrule.validation.EditRuleValidation;
@@ -50,16 +51,8 @@ import org.silift.common.util.emf.EMFStorage;
  */
 public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	
-	public static final String BUILDER_ID = "org.sidiff.difference.rulebase.builder.rulebasebuilder";
-	
-	public static final String RULE_ATTRIBUTE = "rule";
-	
-	// Used folder structure for projects with nature @link{RuleBaseProjectNature}
-	public static final String BUILD_FOLDER = "recognitionrules";
-	
-	public static final String SOURCE_FOLDER = "editrules";
-	
-	public static final String RULEBASE_FILE = "sidiff.rulebase";
+	public static final String BUILDER_ID = "org.sidiff.difference.rulebase.builder.rulebasebuilder";	
+	public static final String RULE_ATTRIBUTE = "rule";	
 	
 	/**
 	 * The rulebase manager of the rulebase project for which this builder is defined.
@@ -190,7 +183,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);		
 			
 		// Delete all elements in Build Folder if already existent
-		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
+		IFolder buildFolder = getProject().getFolder(AbstractProjectRuleBase.BUILD_FOLDER);
 		
 		if (buildFolder.exists()) {
 			for (IResource builtRR : buildFolder.members()) {
@@ -199,7 +192,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		// Delete RuleBase File and corresponding Wrapper
-		IFile ruleBaseFile = getProject().getFile(RULEBASE_FILE);
+		IFile ruleBaseFile = getProject().getFile(AbstractProjectRuleBase.RULEBASE_FILE);
 		if(ruleBaseFile.exists()){
 			ruleBaseFile.delete(true, monitor);
 			ruleBaseWrapper = null;
@@ -270,7 +263,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 			}
 			
 			// Refresh build folder
-			getProject().getFolder(BUILD_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			getProject().getFolder(AbstractProjectRuleBase.BUILD_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -300,7 +293,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		// Check if build folder exists, create it otherwise
-		IFolder buildFolder = getProject().getFolder(BUILD_FOLDER);
+		IFolder buildFolder = getProject().getFolder(AbstractProjectRuleBase.BUILD_FOLDER);
 		
 		if (!buildFolder.exists()) {
 			try {
@@ -454,7 +447,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		return resource.getFileExtension() != null && resource.getFileExtension().equals("henshin")
 				&& !(resource.isDerived()) && resource.getFullPath().toString().startsWith(
-						"/" + getProject().getName() + "/" + SOURCE_FOLDER);
+						"/" + getProject().getName() + "/" + AbstractProjectRuleBase.SOURCE_FOLDER);
 	}
 	
 	/**
@@ -479,13 +472,13 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private RuleBaseWrapper getRuleBaseWrapper() {
 		
-		IFile ruleBaseFile = getProject().getFile(RULEBASE_FILE);
+		IFile ruleBaseFile = getProject().getFile(AbstractProjectRuleBase.RULEBASE_FILE);
 		URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
 		
 		// Create new RuleBase if not already existent
 		if (ruleBaseWrapper == null) {
-			URI recognitionRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(BUILD_FOLDER));
-			URI editRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(SOURCE_FOLDER));
+			URI recognitionRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(AbstractProjectRuleBase.BUILD_FOLDER));
+			URI editRuleFolder = EMFStorage.iFolderToURI(getProject().getFolder(AbstractProjectRuleBase.SOURCE_FOLDER));
 			ruleBaseWrapper =  new RuleBaseWrapper(rulebase, recognitionRuleFolder, editRuleFolder, false);
 			ruleBaseWrapper.setName(getRuleBasePluginBundleName());
 		} 
@@ -542,7 +535,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     		getRuleBaseWrapper().saveRuleBase();
     		
     		//Mark RuleBase as derived, if not already	
-    		IFile rulebaseFile = getProject().getFile(RULEBASE_FILE);
+    		IFile rulebaseFile = getProject().getFile(AbstractProjectRuleBase.RULEBASE_FILE);
     		if(!rulebaseFile.isDerived()){
         		rulebaseFile.setDerived(true, monitor);
     		}
@@ -551,7 +544,6 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 
     	}
     	catch (CoreException e) {
-    		// TODO Auto-generated catch block
     		e.printStackTrace();
     	}
     	catch (IOException e) {
