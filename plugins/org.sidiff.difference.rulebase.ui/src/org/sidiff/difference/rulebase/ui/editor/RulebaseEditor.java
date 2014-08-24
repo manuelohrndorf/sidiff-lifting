@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.ui.editor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,8 +48,6 @@ import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -111,7 +108,6 @@ import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRefinementLevel;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRulebaseItem;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
-import org.sidiff.difference.rulebase.wrapper.util.Edit2RecognitionException;
 import org.silift.common.util.emf.EMFStorage;
 
 public class RulebaseEditor
@@ -683,12 +679,6 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
-		try {
-			rbManager.saveRuleBase();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		dirty = false;
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 
@@ -724,7 +714,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		URI resourceURI = EditUIUtil.getURI(getEditorInput());
 		
 		// Rulebase wrapper (No Recognition-Rule generation -> Folder = null):
-		rbManager = new RuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), null,null);
+		rbManager = new RuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI));
 		
 		rbManager.addObserver(new Observer() {
 
@@ -790,21 +780,6 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 
 	public RuleBaseWrapper getRulebaseWrapper() {
 		return rbManager;
-	}
-
-	public void refreshSelectedRecognitionRules() {
-		
-		for (TableItem tableItem : ruleViewer.getTable().getSelection()) {
-			try {
-				RuleBaseItem item = (RuleBaseItem) tableItem.getData();
-				rbManager.refreshItem(item);
-			} catch (Edit2RecognitionException e) {
-				ErrorDialog.openError(getSite().getShell(), "Error while refreshing rule(s)", "", e.getStatus());
-			}
-		}
-		update();
-		
-		MessageDialog.openInformation(getSite().getShell(), "Rulebase refresh", "The selected rule(s) were refreshed. Save rulebase to store the new recognition rule(s)!");
 	}
 
 	public ImageDescriptor getImageDescriptor(String name) {
