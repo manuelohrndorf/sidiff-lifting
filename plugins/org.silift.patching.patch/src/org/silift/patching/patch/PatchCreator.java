@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Module;
@@ -78,12 +77,16 @@ public class PatchCreator {
 		this.asymmetricDifference.initTransientRulebase();
 	}
 
-	public String serializePatch(IPath path) throws FileNotFoundException {
+	public String serializePatch(String path) throws FileNotFoundException {
 
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
 
-		savePath = path.toOSString() + separator + "PATCH(origin_" + resourceA_name + "_to_" + "modified_"
+		String s_path = path;
+		if (!s_path.endsWith(separator)){
+			s_path += separator;
+		}
+		savePath = s_path + "PATCH(origin_" + resourceA_name + "_to_" + "modified_"
 				+ resourceB_name + ")";
 
 		if (!settings.useSymbolicLinks()) {

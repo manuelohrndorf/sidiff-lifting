@@ -112,7 +112,7 @@ public class CreatePatchWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			final String patchPath = patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation());
+			final String patchPath = patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation().toOSString());
 
 			LogUtil.log(LogEvent.NOTICE, "done...");
 			
