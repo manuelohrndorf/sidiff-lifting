@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginBase;
 import org.eclipse.pde.core.plugin.IPluginElement;
@@ -17,7 +18,7 @@ import org.eclipse.pde.core.plugin.IPluginReference;
 import org.eclipse.pde.ui.IFieldData;
 import org.eclipse.pde.ui.templates.OptionTemplateSection;
 import org.eclipse.pde.ui.templates.PluginReference;
-import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.Bundle;
 import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
@@ -38,14 +39,13 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return "rbproject";
 	}
 
-	@Override
-	protected URL getInstallURL() {		
-		return FrameworkUtil.getBundle(getClass()).getEntry("/");
+	protected ResourceBundle getPluginResourceBundle() {
+		Bundle bundle = Platform.getBundle(Activator.getPluginId());
+		return Platform.getResourceBundle(bundle);
 	}
 
-	@Override
-	protected ResourceBundle getPluginResourceBundle() {
-		return null;
+	protected URL getInstallURL() {
+		return Activator.getDefault().getInstallURL();
 	}
 
 	@Override
@@ -67,7 +67,8 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String[] getNewFiles() {
-		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/"}; 
+		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/" ,
+				AbstractProjectRuleBase.BUILD_FOLDER + "/" , AbstractProjectRuleBase.RULEBASE_FILE + "/"}; 
 	}	
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
