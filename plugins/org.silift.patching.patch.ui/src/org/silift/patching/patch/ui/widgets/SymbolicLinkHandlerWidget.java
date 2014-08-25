@@ -33,6 +33,8 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 	private Button use_symbolicLinks;
 	private List list_symbolicLinkHandlers;
 	
+	boolean symbolicLinkHandlerAvailable;
+	
 	public SymbolicLinkHandlerWidget() {
 		super();
 		symbolicLinkHandlers = new TreeMap<String, ISymbolicLinkHandler>();
@@ -122,11 +124,13 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 		list_symbolicLinkHandlers.setItems(symbolicLinkHandlers.keySet().toArray(new String[0]));
 		
 		if(list_symbolicLinkHandlers.getItems().length != 0){
+			symbolicLinkHandlerAvailable = true;
 			list_symbolicLinkHandlers.select(0);
 		}else{
-			MessageDialog.openError(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Missing Symbolic Link Resolver", "No symbolic link resolvers are found!");
+			symbolicLinkHandlerAvailable = false;
+//			MessageDialog.openError(
+//					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+//					"Missing Symbolic Link Resolver", "No symbolic link resolvers are found!");
 		}
 		
 		list_symbolicLinkHandlers.addSelectionListener(new SelectionAdapter() {
@@ -180,5 +184,9 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 	public void settingsChanged(Enum<?> item) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isSymbolicLinkHandlerAvailable() {
+		return symbolicLinkHandlerAvailable;
 	}
 }

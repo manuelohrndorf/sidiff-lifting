@@ -134,8 +134,9 @@ public class CreatePatchPage02 extends WizardPage implements IPageChangedListene
 		// Symbolic Link Resolver:
 		symbolicLinkHandlerWidget = new SymbolicLinkHandlerWidget();
 		symbolicLinkHandlerWidget.setSettings(this.settings);
-		addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
-
+		if(symbolicLinkHandlerWidget.isSymbolicLinkHandlerAvailable()){
+			addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
+		}
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
