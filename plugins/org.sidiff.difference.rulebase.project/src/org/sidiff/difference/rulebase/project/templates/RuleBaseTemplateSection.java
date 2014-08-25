@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.project.templates;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -19,6 +18,7 @@ import org.eclipse.pde.ui.IFieldData;
 import org.eclipse.pde.ui.templates.OptionTemplateSection;
 import org.eclipse.pde.ui.templates.PluginReference;
 import org.osgi.framework.FrameworkUtil;
+import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 
@@ -45,7 +45,6 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	protected ResourceBundle getPluginResourceBundle() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -61,10 +60,6 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		//TODO later on: SERGe Generation PAGE
 	}
 
-	public int getNumberOfWorkUnits() {
-		return super.getNumberOfWorkUnits() + 1;
-	}
-
 	public boolean isDependentOnParentWizard() {
 		return true;
 	}
@@ -72,7 +67,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String[] getNewFiles() {
-		return new String[] {"editrules/"}; 
+		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/"}; 
 	}	
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
@@ -119,7 +114,8 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			IPluginExtension extension = createExtension(IRuleBase.extensionPointID, true);
 			IPluginElement element = factory.createElement(extension);
 			element.setName("rulebase");
-			element.setAttribute("rulebase", getStringOption(KEY_PACKAGE_NAME) + "." + "ProjectRuleBase" );
+			// We only assume one attribute at this time ("rulebase")
+			element.setAttribute("rulebase", getStringOption(KEY_PACKAGE_NAME) + "." + "ProjectRuleBase");
 			extension.add(element);
 			plugin.add(extension);
 		}
