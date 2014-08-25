@@ -298,10 +298,16 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 		if (!buildFolder.exists()) {
 			try {
 				buildFolder.create(true, true, monitor);
-				buildFolder.setDerived(true, monitor);
+				
 			} catch (CoreException e) {
 				// Something went wrong
 			}
+		}
+		
+		try {
+			buildFolder.setDerived(true, monitor);
+		} catch (CoreException e2) {
+			// Something went wrong
 		}
 		
 		// Refresh EditRule
