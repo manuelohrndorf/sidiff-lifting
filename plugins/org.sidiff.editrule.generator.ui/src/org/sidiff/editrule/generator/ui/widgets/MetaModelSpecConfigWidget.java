@@ -1,11 +1,7 @@
-package org.silift.common.util.ui.widgets;
+package org.sidiff.editrule.generator.ui.widgets;
 
-
-import java.lang.reflect.Constructor;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -16,6 +12,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -26,10 +23,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
-//import org.sidiff.editrule.generator.settings.SergeSettings;
+import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
+import org.silift.common.util.ui.widgets.IWidget;
+import org.silift.common.util.ui.widgets.IWidgetSelection;
+import org.silift.common.util.ui.widgets.IWidgetValidation;
 
-public class MetaModelSpecConfigWidget implements IWidget {
+public class MetaModelSpecConfigWidget implements IWidget, IWidgetSelection, IWidgetValidation {
 	
 	private ISelection selection;
 	private Text txtSelectOutputFolder;
@@ -39,8 +39,10 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	private Boolean bOutputFolder;
 	private Boolean bConfig;
 	
-	//private SergeSettings settings;
+	private SergeSettings settings;
 	private Composite widget;
+	
+	private WizardPage page;
 	
 	public MetaModelSpecConfigWidget(){
 		
@@ -48,7 +50,7 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	
 	
 	public Composite createControl(Composite parent, WizardPage page) {
-		// TODO Auto-generated method stub
+		this.page = page;
 		return null;
 	}
 	@Override
@@ -72,25 +74,25 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		
 		final Button radioBtnRefinedConfig = new Button(comMetaModelSpecificConfiguration, SWT.RADIO);
 		radioBtnRefinedConfig.setText("Refined Config");
-		//radioBtnRefinedConfig.setSelection((settings.getConfigPath()!=null));
+		radioBtnRefinedConfig.setSelection((settings.getConfigPath()!=null));
 		new Label(comMetaModelSpecificConfiguration, SWT.NONE);		
 
 		Button btnBrowseConfig = new Button(comMetaModelSpecificConfiguration, SWT.NONE);
-		/*btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
+		btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				settings.setConfigPath(eConfigChooser.open());
 				txtConfig.setText(settings.getConfigPath());
 			}
-		});*/
+		});
 		btnBrowseConfig.setText("Browse");		
 		
 		txtConfig = new Text(comMetaModelSpecificConfiguration, SWT.BORDER);
 		txtConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		/*if(this.settings.getConfigPath()!=null){
+		if(this.settings.getConfigPath()!=null){
 			txtConfig.setText(this.settings.getConfigPath());
 			bConfig = true;
-		}*/
+		}
 		
 		final Button radioBtnDefaultConfig = new Button(comMetaModelSpecificConfiguration, SWT.RADIO);
 		radioBtnDefaultConfig.setText("Default Config");
@@ -111,7 +113,7 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		txtImportPackage = new Text(comMetaModelSpecificConfiguration, SWT.BORDER);
 		txtImportPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		/*if (page instanceof WizardPage){
+		if (page instanceof WizardPage){
 		
 		txtConfig.addModifyListener(new ModifyListener() {
 			@Override
@@ -141,7 +143,7 @@ public class MetaModelSpecConfigWidget implements IWidget {
 		
 		} else {
 			JOptionPane.showMessageDialog(null, "keine WizardPage");
-		}*/
+		}
 		this.widget = parent;
 		return parent;
 	}
@@ -154,6 +156,34 @@ public class MetaModelSpecConfigWidget implements IWidget {
 	@Override
 	public void setLayoutData(Object layoutData) {
 		widget.setLayout((Layout) layoutData);
+	}
+
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public String getValidationMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void addSelectionListener(SelectionListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void removeSelectionListener(SelectionListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
