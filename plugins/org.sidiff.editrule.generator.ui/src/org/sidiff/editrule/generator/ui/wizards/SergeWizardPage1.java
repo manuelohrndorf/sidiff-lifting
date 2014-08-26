@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.MetaModelSpecConfigWidget;
 import org.silift.common.util.ui.widgets.ProgressBarWidget;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -55,7 +54,6 @@ public class SergeWizardPage1 extends WizardPage {
 	private Boolean bConfig;
 	
 	private SergeSettings settings;
-	private ProgressBarWidget bar;
 	
 
 	/**
@@ -163,7 +161,6 @@ public class SergeWizardPage1 extends WizardPage {
 		
 		txtImportPackage = new Text(composite_1, SWT.BORDER);
 		txtImportPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		bar = new ProgressBarWidget();
 		
 		
 		btnImportPackage.addSelectionListener(new SelectionAdapter() {
