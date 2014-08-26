@@ -42,6 +42,11 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 		// Search registered symbolic link handler extension
 		Set<ISymbolicLinkHandler> symbolicLinkHandlerSet = SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers();
 
+		if(symbolicLinkHandlerSet.isEmpty()){
+			symbolicLinkHandlerAvailable = false;
+		}else{
+			symbolicLinkHandlerAvailable = true;
+		}
 		for (Iterator<ISymbolicLinkHandler> iterator = symbolicLinkHandlerSet.iterator(); iterator.hasNext();) {
 			ISymbolicLinkHandler symbolicLinkHandler = iterator.next();
 			symbolicLinkHandlers.put(symbolicLinkHandler.getName(), symbolicLinkHandler);
@@ -123,15 +128,11 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 		
 		list_symbolicLinkHandlers.setItems(symbolicLinkHandlers.keySet().toArray(new String[0]));
 		
-		if(list_symbolicLinkHandlers.getItems().length != 0){
-			symbolicLinkHandlerAvailable = true;
-			list_symbolicLinkHandlers.select(0);
-		}else{
-			symbolicLinkHandlerAvailable = false;
+	
+		list_symbolicLinkHandlers.select(0);
 //			MessageDialog.openError(
 //					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 //					"Missing Symbolic Link Resolver", "No symbolic link resolvers are found!");
-		}
 		
 		list_symbolicLinkHandlers.addSelectionListener(new SelectionAdapter() {
 			@Override
