@@ -21,10 +21,10 @@ import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends WizardPage implements IPageChangedListener {
 
@@ -34,6 +34,7 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 
 	private InputModelsWidget sourceWidget;
 	private ScopeWidget scopeWidget;
+	private EditRuleMatchWidget erMatchWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private SelectionAdapter validationListener;
@@ -121,20 +122,24 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 		scopeWidget.setPageChangedListener(this);
 		addWidget(container, scopeWidget);
 
-		// Algorithms:
-		Group algorithmsGroup = new Group(container, SWT.NONE);
+		// Edit-Rule Matches:
+		Group erMatchesGroup = new Group(container, SWT.NONE);
 		{
 			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
-			algorithmsGroup.setLayout(grid);
+			erMatchesGroup.setLayout(grid);
 
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			algorithmsGroup.setLayoutData(data);
+			erMatchesGroup.setLayoutData(data);
 
-			algorithmsGroup.setText("Algorithms:");
+			erMatchesGroup.setText("Edit Rule Matches:");
 		}
-
+		
+		erMatchWidget = new EditRuleMatchWidget();
+		erMatchWidget.setSettings(settings);
+		addWidget(erMatchesGroup, erMatchWidget);
+		
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
 		rulebaseWidget.setSettings(this.settings);
