@@ -40,14 +40,16 @@ import org.silift.common.util.access.EMFModelAccessEx;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getDocumentTypes <em>Document Types</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getEditRules <em>Edit Rules</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getRecognitionRules <em>Recognition Rules</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getPotentialNodeDependencies <em>Potential Node Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getPotentialEdgeDependencies <em>Potential Edge Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getPotentialAttributeDependencies <em>Potential Attribute Dependencies</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getDocumentTypes <em>Document Types</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getEditRuleFolder <em>Edit Rule Folder</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,26 +75,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getDocumentTypes() <em>Document Types</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDocumentTypes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<String> documentTypes;
-
-	/**
-	 * The default value of the '{@link #getCharacteristicDocumentType() <em>Characteristic Document Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCharacteristicDocumentType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT = "";
 
 	/**
 	 * The cached value of the '{@link #getItems() <em>Items</em>}' containment reference list.
@@ -133,6 +115,66 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @ordered
 	 */
 	protected EList<PotentialAttributeDependency> potentialAttributeDependencies;
+
+	/**
+	 * The cached value of the '{@link #getDocumentTypes() <em>Document Types</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDocumentTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> documentTypes;
+
+	/**
+	 * The default value of the '{@link #getCharacteristicDocumentType() <em>Characteristic Document Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCharacteristicDocumentType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT = "";
+
+	/**
+	 * The default value of the '{@link #getEditRuleFolder() <em>Edit Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEditRuleFolder()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String EDIT_RULE_FOLDER_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getEditRuleFolder() <em>Edit Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEditRuleFolder()
+	 * @generated
+	 * @ordered
+	 */
+	protected String editRuleFolder = EDIT_RULE_FOLDER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getRecognitionRuleFolder() <em>Recognition Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRecognitionRuleFolder()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RECOGNITION_RULE_FOLDER_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getRecognitionRuleFolder() <em>Recognition Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRecognitionRuleFolder()
+	 * @generated
+	 * @ordered
+	 */
+	protected String recognitionRuleFolder = RECOGNITION_RULE_FOLDER_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -198,6 +240,48 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	public String getCharacteristicDocumentType() {
 		Set<String> docTypes = new LinkedHashSet<String>(getDocumentTypes());
 		return EMFModelAccessEx.getCharacteristicDocumentType(docTypes);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getEditRuleFolder() {
+		return editRuleFolder;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditRuleFolder(String newEditRuleFolder) {
+		String oldEditRuleFolder = editRuleFolder;
+		editRuleFolder = newEditRuleFolder;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER, oldEditRuleFolder, editRuleFolder));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getRecognitionRuleFolder() {
+		return recognitionRuleFolder;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRecognitionRuleFolder(String newRecognitionRuleFolder) {
+		String oldRecognitionRuleFolder = recognitionRuleFolder;
+		recognitionRuleFolder = newRecognitionRuleFolder;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER, oldRecognitionRuleFolder, recognitionRuleFolder));
 	}
 
 	/**
@@ -338,10 +422,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 		switch (featureID) {
 			case RulebasePackage.RULE_BASE__NAME:
 				return getName();
-			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
-				return getDocumentTypes();
-			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
-				return getCharacteristicDocumentType();
 			case RulebasePackage.RULE_BASE__ITEMS:
 				return getItems();
 			case RulebasePackage.RULE_BASE__EDIT_RULES:
@@ -354,6 +434,14 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return getPotentialEdgeDependencies();
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES:
 				return getPotentialAttributeDependencies();
+			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
+				return getDocumentTypes();
+			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
+				return getCharacteristicDocumentType();
+			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
+				return getEditRuleFolder();
+			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
+				return getRecognitionRuleFolder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -369,10 +457,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 		switch (featureID) {
 			case RulebasePackage.RULE_BASE__NAME:
 				setName((String)newValue);
-				return;
-			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
-				getDocumentTypes().clear();
-				getDocumentTypes().addAll((Collection<? extends String>)newValue);
 				return;
 			case RulebasePackage.RULE_BASE__ITEMS:
 				getItems().clear();
@@ -390,6 +474,16 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				getPotentialAttributeDependencies().clear();
 				getPotentialAttributeDependencies().addAll((Collection<? extends PotentialAttributeDependency>)newValue);
 				return;
+			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
+				getDocumentTypes().clear();
+				getDocumentTypes().addAll((Collection<? extends String>)newValue);
+				return;
+			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
+				setEditRuleFolder((String)newValue);
+				return;
+			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
+				setRecognitionRuleFolder((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -405,9 +499,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 			case RulebasePackage.RULE_BASE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
-				getDocumentTypes().clear();
-				return;
 			case RulebasePackage.RULE_BASE__ITEMS:
 				getItems().clear();
 				return;
@@ -419,6 +510,15 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return;
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES:
 				getPotentialAttributeDependencies().clear();
+				return;
+			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
+				getDocumentTypes().clear();
+				return;
+			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
+				setEditRuleFolder(EDIT_RULE_FOLDER_EDEFAULT);
+				return;
+			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
+				setRecognitionRuleFolder(RECOGNITION_RULE_FOLDER_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -434,10 +534,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 		switch (featureID) {
 			case RulebasePackage.RULE_BASE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
-				return documentTypes != null && !documentTypes.isEmpty();
-			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
-				return CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT == null ? getCharacteristicDocumentType() != null : !CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT.equals(getCharacteristicDocumentType());
 			case RulebasePackage.RULE_BASE__ITEMS:
 				return items != null && !items.isEmpty();
 			case RulebasePackage.RULE_BASE__EDIT_RULES:
@@ -450,6 +546,14 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return potentialEdgeDependencies != null && !potentialEdgeDependencies.isEmpty();
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES:
 				return potentialAttributeDependencies != null && !potentialAttributeDependencies.isEmpty();
+			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
+				return documentTypes != null && !documentTypes.isEmpty();
+			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
+				return CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT == null ? getCharacteristicDocumentType() != null : !CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT.equals(getCharacteristicDocumentType());
+			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
+				return EDIT_RULE_FOLDER_EDEFAULT == null ? editRuleFolder != null : !EDIT_RULE_FOLDER_EDEFAULT.equals(editRuleFolder);
+			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
+				return RECOGNITION_RULE_FOLDER_EDEFAULT == null ? recognitionRuleFolder != null : !RECOGNITION_RULE_FOLDER_EDEFAULT.equals(recognitionRuleFolder);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -468,6 +572,10 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 		result.append(name);
 		result.append(", documentTypes: ");
 		result.append(documentTypes);
+		result.append(", editRuleFolder: ");
+		result.append(editRuleFolder);
+		result.append(", recognitionRuleFolder: ");
+		result.append(recognitionRuleFolder);
 		result.append(')');
 		return result.toString();
 	}

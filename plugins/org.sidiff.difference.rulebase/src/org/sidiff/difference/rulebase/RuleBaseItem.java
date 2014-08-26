@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getRecognitionRule <em>Recognition Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getTracesA <em>Traces A</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getRuleBase <em>Rule Base</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,32 +31,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface RuleBaseItem extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Active</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Active</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Active</em>' attribute.
-	 * @see #setActive(boolean)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBaseItem_Active()
-	 * @model
-	 * @generated
-	 */
-	boolean isActive();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Active</em>' attribute.
-	 * @see #isActive()
-	 * @generated
-	 */
-	void setActive(boolean value);
-
 	/**
 	 * Returns the value of the '<em><b>Edit Rule</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.rulebase.EditRule#getRuleBaseItem <em>Rule Base Item</em>}'.
@@ -172,5 +146,27 @@ public interface RuleBaseItem extends EObject {
 	 * @generated
 	 */
 	void setRuleBase(RuleBase value);
+
+	/**
+	 * Returns the value of the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Active</em>' attribute.
+	 * @see #setActive(boolean)
+	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBaseItem_Active()
+	 * @model transient="true" volatile="true" derived="true"
+	 * @generated
+	 */
+	boolean isActive();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Active</em>' attribute.
+	 * @see #isActive()
+	 * @generated
+	 */
+	void setActive(boolean value);
 
 } // RuleBaseItem

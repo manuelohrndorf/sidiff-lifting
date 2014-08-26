@@ -32,38 +32,18 @@ import org.sidiff.difference.rulebase.Trace;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#isActive <em>Active</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getRecognitionRule <em>Recognition Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getTracesA <em>Traces A</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getRuleBase <em>Rule Base</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#isActive <em>Active</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
-	/**
-	 * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isActive()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ACTIVE_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isActive() <em>Active</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isActive()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean active = ACTIVE_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getEditRule() <em>Edit Rule</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -105,6 +85,16 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	protected EList<Trace> tracesA;
 
 	/**
+	 * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActive()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ACTIVE_EDEFAULT = false;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -121,27 +111,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	@Override
 	protected EClass eStaticClass() {
 		return RulebasePackage.Literals.RULE_BASE_ITEM;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActive(boolean newActive) {
-		boolean oldActive = active;
-		active = newActive;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE_ITEM__ACTIVE, oldActive, active));
 	}
 
 	/**
@@ -300,6 +269,24 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public boolean isActive() {
+		return this.getEditRule().getExecuteMainUnit().isActivated();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setActive(boolean newActive) {
+		this.getEditRule().getExecuteMainUnit().setActivated(newActive);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public String getName() {
 		return this.getEditRule().getExecuteModule().getName();
 	}
@@ -372,8 +359,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
-				return isActive();
 			case RulebasePackage.RULE_BASE_ITEM__EDIT_RULE:
 				return getEditRule();
 			case RulebasePackage.RULE_BASE_ITEM__RECOGNITION_RULE:
@@ -384,6 +369,8 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 				return getTracesA();
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				return getRuleBase();
+			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
+				return isActive();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -397,9 +384,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
-				setActive((Boolean)newValue);
-				return;
 			case RulebasePackage.RULE_BASE_ITEM__EDIT_RULE:
 				setEditRule((EditRule)newValue);
 				return;
@@ -417,6 +401,9 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				setRuleBase((RuleBase)newValue);
 				return;
+			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
+				setActive((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -429,9 +416,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
-				setActive(ACTIVE_EDEFAULT);
-				return;
 			case RulebasePackage.RULE_BASE_ITEM__EDIT_RULE:
 				setEditRule((EditRule)null);
 				return;
@@ -447,6 +431,9 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				setRuleBase((RuleBase)null);
 				return;
+			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
+				setActive(ACTIVE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -459,8 +446,6 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
-				return active != ACTIVE_EDEFAULT;
 			case RulebasePackage.RULE_BASE_ITEM__EDIT_RULE:
 				return editRule != null;
 			case RulebasePackage.RULE_BASE_ITEM__RECOGNITION_RULE:
@@ -471,24 +456,10 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 				return tracesA != null && !tracesA.isEmpty();
 			case RulebasePackage.RULE_BASE_ITEM__RULE_BASE:
 				return getRuleBase() != null;
+			case RulebasePackage.RULE_BASE_ITEM__ACTIVE:
+				return isActive() != ACTIVE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (active: ");
-		result.append(active);
-		result.append(')');
-		return result.toString();
 	}
 
 } //RuleBaseItemImpl

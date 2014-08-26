@@ -100,31 +100,13 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Document Types</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE__DOCUMENT_TYPES = 1;
-
-	/**
-	 * The feature id for the '<em><b>Characteristic Document Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE = 2;
-
-	/**
 	 * The feature id for the '<em><b>Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__ITEMS = 3;
+	int RULE_BASE__ITEMS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
@@ -133,7 +115,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__EDIT_RULES = 4;
+	int RULE_BASE__EDIT_RULES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Recognition Rules</b></em>' reference list.
@@ -142,7 +124,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__RECOGNITION_RULES = 5;
+	int RULE_BASE__RECOGNITION_RULES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Potential Node Dependencies</b></em>' containment reference list.
@@ -151,7 +133,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_NODE_DEPENDENCIES = 6;
+	int RULE_BASE__POTENTIAL_NODE_DEPENDENCIES = 4;
 
 	/**
 	 * The feature id for the '<em><b>Potential Edge Dependencies</b></em>' containment reference list.
@@ -160,7 +142,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES = 7;
+	int RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES = 5;
 
 	/**
 	 * The feature id for the '<em><b>Potential Attribute Dependencies</b></em>' containment reference list.
@@ -169,7 +151,43 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES = 8;
+	int RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES = 6;
+
+	/**
+	 * The feature id for the '<em><b>Document Types</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__DOCUMENT_TYPES = 7;
+
+	/**
+	 * The feature id for the '<em><b>Characteristic Document Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Edit Rule Folder</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__EDIT_RULE_FOLDER = 9;
+
+	/**
+	 * The feature id for the '<em><b>Recognition Rule Folder</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__RECOGNITION_RULE_FOLDER = 10;
 
 	/**
 	 * The number of structural features of the '<em>Rule Base</em>' class.
@@ -178,7 +196,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_FEATURE_COUNT = 9;
+	int RULE_BASE_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.EditRuleImpl <em>Edit Rule</em>}' class.
@@ -338,22 +356,13 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE_ITEM = 4;
 
 	/**
-	 * The feature id for the '<em><b>Active</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE_ITEM__ACTIVE = 0;
-
-	/**
 	 * The feature id for the '<em><b>Edit Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM__EDIT_RULE = 1;
+	int RULE_BASE_ITEM__EDIT_RULE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Recognition Rule</b></em>' containment reference.
@@ -362,7 +371,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM__RECOGNITION_RULE = 2;
+	int RULE_BASE_ITEM__RECOGNITION_RULE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Traces B</b></em>' containment reference list.
@@ -371,7 +380,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM__TRACES_B = 3;
+	int RULE_BASE_ITEM__TRACES_B = 2;
 
 	/**
 	 * The feature id for the '<em><b>Traces A</b></em>' containment reference list.
@@ -380,7 +389,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM__TRACES_A = 4;
+	int RULE_BASE_ITEM__TRACES_A = 3;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -389,7 +398,16 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_ITEM__RULE_BASE = 5;
+	int RULE_BASE_ITEM__RULE_BASE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE_ITEM__ACTIVE = 5;
 
 	/**
 	 * The number of structural features of the '<em>Rule Base Item</em>' class.
@@ -803,6 +821,28 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getRuleBase_CharacteristicDocumentType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder <em>Edit Rule Folder</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Edit Rule Folder</em>'.
+	 * @see org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder()
+	 * @see #getRuleBase()
+	 * @generated
+	 */
+	EAttribute getRuleBase_EditRuleFolder();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBase#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Recognition Rule Folder</em>'.
+	 * @see org.sidiff.difference.rulebase.RuleBase#getRecognitionRuleFolder()
+	 * @see #getRuleBase()
+	 * @generated
+	 */
+	EAttribute getRuleBase_RecognitionRuleFolder();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.rulebase.RuleBase#getItems <em>Items</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1019,17 +1059,6 @@ public interface RulebasePackage extends EPackage {
 	EClass getRuleBaseItem();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Active</em>'.
-	 * @see org.sidiff.difference.rulebase.RuleBaseItem#isActive()
-	 * @see #getRuleBaseItem()
-	 * @generated
-	 */
-	EAttribute getRuleBaseItem_Active();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.rulebase.RuleBaseItem#getEditRule <em>Edit Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1083,6 +1112,17 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRuleBaseItem_RuleBase();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Active</em>'.
+	 * @see org.sidiff.difference.rulebase.RuleBaseItem#isActive()
+	 * @see #getRuleBaseItem()
+	 * @generated
+	 */
+	EAttribute getRuleBaseItem_Active();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.PotentialDependency <em>Potential Dependency</em>}'.
@@ -1430,6 +1470,22 @@ public interface RulebasePackage extends EPackage {
 		EAttribute RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE = eINSTANCE.getRuleBase_CharacteristicDocumentType();
 
 		/**
+		 * The meta object literal for the '<em><b>Edit Rule Folder</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE_BASE__EDIT_RULE_FOLDER = eINSTANCE.getRuleBase_EditRuleFolder();
+
+		/**
+		 * The meta object literal for the '<em><b>Recognition Rule Folder</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE_BASE__RECOGNITION_RULE_FOLDER = eINSTANCE.getRuleBase_RecognitionRuleFolder();
+
+		/**
 		 * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1598,14 +1654,6 @@ public interface RulebasePackage extends EPackage {
 		EClass RULE_BASE_ITEM = eINSTANCE.getRuleBaseItem();
 
 		/**
-		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RULE_BASE_ITEM__ACTIVE = eINSTANCE.getRuleBaseItem_Active();
-
-		/**
 		 * The meta object literal for the '<em><b>Edit Rule</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1644,6 +1692,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE_BASE_ITEM__RULE_BASE = eINSTANCE.getRuleBaseItem_RuleBase();
+
+		/**
+		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE_BASE_ITEM__ACTIVE = eINSTANCE.getRuleBaseItem_Active();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl <em>Potential Dependency</em>}' class.

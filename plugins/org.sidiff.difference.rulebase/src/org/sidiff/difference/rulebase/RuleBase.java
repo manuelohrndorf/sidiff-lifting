@@ -18,14 +18,16 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getDocumentTypes <em>Document Types</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getItems <em>Items</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getEditRules <em>Edit Rules</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getRecognitionRules <em>Recognition Rules</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getPotentialNodeDependencies <em>Potential Node Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getPotentialEdgeDependencies <em>Potential Edge Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getPotentialAttributeDependencies <em>Potential Attribute Dependencies</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getDocumentTypes <em>Document Types</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder <em>Edit Rule Folder</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}</li>
  * </ul>
  * </p>
  *
@@ -91,6 +93,58 @@ public interface RuleBase extends EObject {
 	 * @generated
 	 */
 	String getCharacteristicDocumentType();
+
+	/**
+	 * Returns the value of the '<em><b>Edit Rule Folder</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Edit Rule Folder</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Edit Rule Folder</em>' attribute.
+	 * @see #setEditRuleFolder(String)
+	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBase_EditRuleFolder()
+	 * @model
+	 * @generated
+	 */
+	String getEditRuleFolder();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder <em>Edit Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Edit Rule Folder</em>' attribute.
+	 * @see #getEditRuleFolder()
+	 * @generated
+	 */
+	void setEditRuleFolder(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Recognition Rule Folder</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Recognition Rule Folder</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Recognition Rule Folder</em>' attribute.
+	 * @see #setRecognitionRuleFolder(String)
+	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBase_RecognitionRuleFolder()
+	 * @model
+	 * @generated
+	 */
+	String getRecognitionRuleFolder();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RuleBase#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Recognition Rule Folder</em>' attribute.
+	 * @see #getRecognitionRuleFolder()
+	 * @generated
+	 */
+	void setRecognitionRuleFolder(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.
