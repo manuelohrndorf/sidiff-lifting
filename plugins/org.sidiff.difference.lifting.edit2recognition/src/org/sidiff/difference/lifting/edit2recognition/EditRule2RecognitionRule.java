@@ -51,6 +51,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.AttributePair;
 import org.sidiff.common.henshin.EdgePair;
 import org.sidiff.common.henshin.EditRuleAnalysis;
+import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
@@ -1033,13 +1034,21 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 		// Priority attribute
 		Attribute attrPriority = HenshinFactory.eINSTANCE.createAttribute();
 		attrPriority.setType(SymmetricPackage.eINSTANCE.getSemanticChangeSet_Priority());
-		
-		if (atomic) {
-			attrPriority.setValue("" + TransformationConstants.ATOMIC_PRIORITY);
-		} else {
-			attrPriority.setValue("" + TransformationConstants.COMPLEX_PRIORITY);
-		}		
 		attrPriority.setNode(cs);
+		
+		Integer priority = EditRuleAnnotations.getPriority(editRule.getModule());
+		
+		if (priority != null) {
+			// Set value from the edit-rule:
+			attrPriority.setValue("" + priority);
+		} else {
+			// Set default value:
+			if (atomic) {
+				attrPriority.setValue("" + TransformationConstants.ATOMIC_PRIORITY);
+			} else {
+				attrPriority.setValue("" + TransformationConstants.COMPLEX_PRIORITY);
+			}				
+		}
 		
 		// Number of application conditions 
 		Attribute attrNumberOfACs = HenshinFactory.eINSTANCE.createAttribute();
