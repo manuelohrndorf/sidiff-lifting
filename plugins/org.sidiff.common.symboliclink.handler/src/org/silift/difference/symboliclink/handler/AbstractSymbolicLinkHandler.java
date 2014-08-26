@@ -23,9 +23,13 @@ import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.Correspondence;
+import org.sidiff.difference.symmetric.EObjectSet;
+import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
+import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
@@ -170,6 +174,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 		sls_modelB.setDocType(EMFModelAccessEx.getCharacteristicDocumentType(modelB));
 		EObjectLocation location;
 		
+		// changes
 		for (Change change : symmetricDifference.getChanges()) {
 			if (change instanceof RemoveReference) {
 				RemoveReference removeReference = (RemoveReference) change;
@@ -228,6 +233,32 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 			
 			SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, c.getObjB());
 			c.setObjB(sl_modelB);	
+		}
+		
+		// edit rule matches
+		for(SemanticChangeSet scs : symmetricDifference.getChangeSets()){
+			EditRuleMatch erm = scs.getEditRuleMatch();
+			if(erm != null){
+				// node occurrences in a
+				for(String nodeOccurrenceA_key : erm.getNodeOccurrencesA().keySet()){
+					EObjectSet eObjectSet = SymmetricFactory.eINSTANCE.createEObjectSet();
+					for(EObject eObject : erm.getNodeOccurrencesA().get(nodeOccurrenceA_key).getElements()){
+						SymbolicLink sl_modelA = generateSymbolicLink(sls_modelA, eObject);
+						eObjectSet.addElement(sl_modelA);
+					}
+					erm.getNodeOccurrencesA().put(nodeOccurrenceA_key, eObjectSet);
+				}
+				// node occurrences in b
+				for(String nodeOccurrenceB_key : erm.getNodeOccurrencesB().keySet()){
+					EObjectSet eObjectSet = SymmetricFactory.eINSTANCE.createEObjectSet();
+					for(EObject eObject : erm.getNodeOccurrencesB().get(nodeOccurrenceB_key).getElements()){
+						SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, eObject);
+						eObjectSet.addElement(sl_modelB);
+					}
+					erm.getNodeOccurrencesB().put(nodeOccurrenceB_key, eObjectSet);
+				}
+			}
+			
 		}
 		
 		c_sls.add(sls_modelA);
