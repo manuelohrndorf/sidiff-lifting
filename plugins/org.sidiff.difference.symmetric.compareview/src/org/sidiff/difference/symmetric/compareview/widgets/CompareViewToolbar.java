@@ -32,6 +32,7 @@ public class CompareViewToolbar implements IToolbarContribution {
 	public void createItems(ToolBar toolBar) {
 
 		// FIXME[MO@29.11.13]: This is yet only a quick and dirty solution!
+		// [DR@03.05.14]: This has to be synchronous/consistent to the "new" extension
 		final HashMap<String, String> editorFileCombinations = new HashMap<String, String>();
 
 		String ecore =
@@ -66,7 +67,7 @@ public class CompareViewToolbar implements IToolbarContribution {
 		
 		String fm =
 				"org.eclipse.featuremodel.diagrameditor.diagrameditor," +
-				"org.eclipse.featuremodel.presentation.FeatureModelEditorID," +
+				"de.imotep.featuremodel.variability.metamodel.FeatureModel.presentation.FeatureModelEditorID," +
 				"featuremodel," +
 				"featurediagram";
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_TvzEEClTEeSfmulj5g7e3A" name="CHANGE_REFERENCE_RequireConstraint_(feature)_TGT_Feature" description="CHANGEs RequireConstraint's reference feature the target Feature">
+  <imports href="http://de.imotep.variability/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_TvzEESlTEeSfmulj5g7e3A" name="changeRequireConstraint_feature_TO_Feature" description="Change the EReference feature">
+    <parameters xmi:id="_TvzEEilTEeSfmulj5g7e3A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//RequireConstraint"/>
+    </parameters>
+    <parameters xmi:id="_TvzEEylTEeSfmulj5g7e3A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_TvzEFClTEeSfmulj5g7e3A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Feature"/>
+    </parameters>
+    <lhs xmi:id="_TvzEFSlTEeSfmulj5g7e3A" name="Lhs">
+      <nodes xmi:id="_TvzEFilTEeSfmulj5g7e3A" name="Selected" incoming="_TvzEGilTEeSfmulj5g7e3A" outgoing="_TvzEGSlTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//RequireConstraint"/>
+      </nodes>
+      <nodes xmi:id="_TvzEFylTEeSfmulj5g7e3A" name="OldTarget" incoming="_TvzEGSlTEeSfmulj5g7e3A" outgoing="_TvzEGilTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_TvzEGClTEeSfmulj5g7e3A" name="NewTarget">
+        <type href="http://de.imotep.variability/featuremodel#//Feature"/>
+      </nodes>
+      <edges xmi:id="_TvzEGSlTEeSfmulj5g7e3A" source="_TvzEFilTEeSfmulj5g7e3A" target="_TvzEFylTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//RequireConstraint/feature"/>
+      </edges>
+      <edges xmi:id="_TvzEGilTEeSfmulj5g7e3A" source="_TvzEFylTEeSfmulj5g7e3A" target="_TvzEFilTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//Feature/requireConstraints"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_TvzEGylTEeSfmulj5g7e3A" name="Rhs">
+      <nodes xmi:id="_TvzEHClTEeSfmulj5g7e3A" name="Selected" incoming="_TvzEIClTEeSfmulj5g7e3A" outgoing="_TvzEHylTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//RequireConstraint"/>
+      </nodes>
+      <nodes xmi:id="_TvzEHSlTEeSfmulj5g7e3A" name="OldTarget">
+        <type href="http://de.imotep.variability/featuremodel#//Feature"/>
+      </nodes>
+      <nodes xmi:id="_TvzEHilTEeSfmulj5g7e3A" name="NewTarget" incoming="_TvzEHylTEeSfmulj5g7e3A" outgoing="_TvzEIClTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//Feature"/>
+      </nodes>
+      <edges xmi:id="_TvzEHylTEeSfmulj5g7e3A" source="_TvzEHClTEeSfmulj5g7e3A" target="_TvzEHilTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//RequireConstraint/feature"/>
+      </edges>
+      <edges xmi:id="_TvzEIClTEeSfmulj5g7e3A" source="_TvzEHilTEeSfmulj5g7e3A" target="_TvzEHClTEeSfmulj5g7e3A">
+        <type href="http://de.imotep.variability/featuremodel#//Feature/requireConstraints"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_TvzEISlTEeSfmulj5g7e3A" origin="_TvzEFilTEeSfmulj5g7e3A" image="_TvzEHClTEeSfmulj5g7e3A"/>
+    <mappings xmi:id="_TvzEIilTEeSfmulj5g7e3A" origin="_TvzEFylTEeSfmulj5g7e3A" image="_TvzEHSlTEeSfmulj5g7e3A"/>
+    <mappings xmi:id="_TvzEIylTEeSfmulj5g7e3A" origin="_TvzEGClTEeSfmulj5g7e3A" image="_TvzEHilTEeSfmulj5g7e3A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_TvzEJClTEeSfmulj5g7e3A" name="mainUnit" subUnits="_TvzEESlTEeSfmulj5g7e3A">
+    <parameters xmi:id="_TvzEJSlTEeSfmulj5g7e3A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//RequireConstraint"/>
+    </parameters>
+    <parameters xmi:id="_TvzEJilTEeSfmulj5g7e3A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Feature"/>
+    </parameters>
+    <parameters xmi:id="_TvzEJylTEeSfmulj5g7e3A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Feature"/>
+    </parameters>
+    <parameterMappings xmi:id="_TvzEKClTEeSfmulj5g7e3A" source="_TvzEJSlTEeSfmulj5g7e3A" target="_TvzEEilTEeSfmulj5g7e3A"/>
+    <parameterMappings xmi:id="_TvzEKSlTEeSfmulj5g7e3A" source="_TvzEJilTEeSfmulj5g7e3A" target="_TvzEEylTEeSfmulj5g7e3A"/>
+    <parameterMappings xmi:id="_TvzEKilTEeSfmulj5g7e3A" source="_TvzEJylTEeSfmulj5g7e3A" target="_TvzEFClTEeSfmulj5g7e3A"/>
+  </units>
+</henshin:Module>

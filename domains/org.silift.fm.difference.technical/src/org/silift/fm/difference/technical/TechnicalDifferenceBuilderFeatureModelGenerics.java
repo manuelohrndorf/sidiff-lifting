@@ -7,15 +7,16 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.featuremodel.FeatureModelPackage;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
 import org.silift.common.util.access.EMFModelAccessEx;
 
+import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPackage;
+
 /**
- * Filters technical stuff but does not filter types related to Ecore Generics.
+ * Filters technical stuff...
  * 23.01.2014 : Does currently not filter anything at all
+ * 21.05.2014 : Filters Comments and their reference
  * 
  * @author dreuling 
  */
@@ -24,6 +25,8 @@ public class TechnicalDifferenceBuilderFeatureModelGenerics extends TechnicalDif
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {
 		Set<EClass> unconsideredNodeTypes = new HashSet<EClass>();
+		
+		unconsideredNodeTypes.add(FeatureModelPackage.eINSTANCE.getComment());
 
 		return unconsideredNodeTypes;
 	}
@@ -31,6 +34,8 @@ public class TechnicalDifferenceBuilderFeatureModelGenerics extends TechnicalDif
 	@Override
 	protected Set<EReference> getUnconsideredEdgeTypes() {
 		Set<EReference> unconsideredEdgeTypes = new HashSet<EReference>();
+		
+		unconsideredEdgeTypes.add(FeatureModelPackage.eINSTANCE.getComment_Element());		
 
 		return unconsideredEdgeTypes;
 	}

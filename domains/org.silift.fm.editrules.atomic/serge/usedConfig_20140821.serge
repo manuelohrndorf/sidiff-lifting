@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+	<GeneralSettings>
+		<preventInconsistency value="true" />
+		<multiplicityPreconditions integrated="true"
+			separately="false" />
+		<reduceToSuperType
+			ADD_REMOVE="false"
+			CHANGE_LITERAL="false"
+			CHANGE_REFERENCE="false"
+			CREATE_DELETE="false"
+			MOVE="false"
+			MOVE_DOWN="false"
+			MOVE_UP="false"
+			SET_UNSET_ATTRIBUTE="false"
+			SET_UNSET_REFERENCE="false" />
+		<disableVariantsWithSupertypeReplacement value="true" />
+		<modelUsesProfileMechanism value="false" />
+		<createAllAttributes value="true" />
+	</GeneralSettings>
+	<MetaModelSettings>
+    	<MainModel nsUri="http://de.imotep.variability/featuremodel"/>
+	</MetaModelSettings>
+
+	<Transformations>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" allowReferenceSwitching="false" allowReferenceCombinations="false" />
+		<MoveUps allow="false"/>
+		<MoveDowns allow="false"/>
+		<SetAttributes allow="true" />
+		<UnsetAttributes allow="false" />
+		<SetReferences allow="true" />
+		<UnsetReferences allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<ChangeLiterals allow="true" allowLiteralSwitching="true" />
+		<ChangeReferences allow="true" />
+	</Transformations>
+	
+	<Root name="FeatureModel" nested="false" />
+	<WhiteList>
+	</WhiteList>
+	<BlackList>	
+		<EClassifier name="Comment" />	
+	</BlackList>
+</Config>

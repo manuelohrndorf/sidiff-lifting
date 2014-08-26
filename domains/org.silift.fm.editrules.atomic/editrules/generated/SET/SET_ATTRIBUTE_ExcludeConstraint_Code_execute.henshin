@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_TuWSkClTEeSfmulj5g7e3A" name="SET_ATTRIBUTE_ExcludeConstraint_Code" description="Sets ExcludeConstraint Code">
+  <imports href="http://de.imotep.variability/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_TuWSkSlTEeSfmulj5g7e3A" name="setExcludeConstraintCode" description="Sets the EAttribute code">
+    <parameters xmi:id="_TuWSkilTEeSfmulj5g7e3A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//ExcludeConstraint"/>
+    </parameters>
+    <parameters xmi:id="_TuWSkylTEeSfmulj5g7e3A" name="Code">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_TuWSlClTEeSfmulj5g7e3A" name="Lhs">
+      <nodes xmi:id="_TuWSlSlTEeSfmulj5g7e3A" name="Selected">
+        <type href="http://de.imotep.variability/featuremodel#//ExcludeConstraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_TuWSlilTEeSfmulj5g7e3A" name="Rhs">
+      <nodes xmi:id="_TuWSlylTEeSfmulj5g7e3A" name="Selected">
+        <type href="http://de.imotep.variability/featuremodel#//ExcludeConstraint"/>
+        <attributes xmi:id="_TuWSmClTEeSfmulj5g7e3A" value="Code">
+          <type href="http://de.imotep.variability/featuremodel#//Constraint/code"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_TuWSmSlTEeSfmulj5g7e3A" origin="_TuWSlSlTEeSfmulj5g7e3A" image="_TuWSlylTEeSfmulj5g7e3A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_TuWSmilTEeSfmulj5g7e3A" name="mainUnit" subUnits="_TuWSkSlTEeSfmulj5g7e3A">
+    <parameters xmi:id="_TuWSmylTEeSfmulj5g7e3A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//ExcludeConstraint"/>
+    </parameters>
+    <parameters xmi:id="_TuWSnClTEeSfmulj5g7e3A" name="Code">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_TuWSnSlTEeSfmulj5g7e3A" source="_TuWSmylTEeSfmulj5g7e3A" target="_TuWSkilTEeSfmulj5g7e3A"/>
+    <parameterMappings xmi:id="_TuWSnilTEeSfmulj5g7e3A" source="_TuWSnClTEeSfmulj5g7e3A" target="_TuWSkylTEeSfmulj5g7e3A"/>
+  </units>
+</henshin:Module>

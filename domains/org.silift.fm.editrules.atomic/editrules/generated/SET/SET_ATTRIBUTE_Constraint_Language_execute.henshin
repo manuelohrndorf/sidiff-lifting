@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_TvKK4ClTEeSfmulj5g7e3A" name="SET_ATTRIBUTE_Constraint_Language" description="Sets Constraint Language">
+  <imports href="http://de.imotep.variability/featuremodel#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_TvKK4SlTEeSfmulj5g7e3A" name="setConstraintLanguage" description="Sets the EAttribute language">
+    <parameters xmi:id="_TvKK4ilTEeSfmulj5g7e3A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_TvKK4ylTEeSfmulj5g7e3A" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_TvKK5ClTEeSfmulj5g7e3A" name="Lhs">
+      <nodes xmi:id="_TvKK5SlTEeSfmulj5g7e3A" name="Selected">
+        <type href="http://de.imotep.variability/featuremodel#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_TvKK5ilTEeSfmulj5g7e3A" name="Rhs">
+      <nodes xmi:id="_TvKx8ClTEeSfmulj5g7e3A" name="Selected">
+        <type href="http://de.imotep.variability/featuremodel#//Constraint"/>
+        <attributes xmi:id="_TvKx8SlTEeSfmulj5g7e3A" value="Language">
+          <type href="http://de.imotep.variability/featuremodel#//Constraint/language"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_TvKx8ilTEeSfmulj5g7e3A" origin="_TvKK5SlTEeSfmulj5g7e3A" image="_TvKx8ClTEeSfmulj5g7e3A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_TvKx8ylTEeSfmulj5g7e3A" name="mainUnit" subUnits="_TvKK4SlTEeSfmulj5g7e3A">
+    <parameters xmi:id="_TvKx9ClTEeSfmulj5g7e3A" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://de.imotep.variability/featuremodel#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_TvKx9SlTEeSfmulj5g7e3A" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_TvKx9ilTEeSfmulj5g7e3A" source="_TvKx9ClTEeSfmulj5g7e3A" target="_TvKK4ilTEeSfmulj5g7e3A"/>
+    <parameterMappings xmi:id="_TvKx9ylTEeSfmulj5g7e3A" source="_TvKx9SlTEeSfmulj5g7e3A" target="_TvKK4ylTEeSfmulj5g7e3A"/>
+  </units>
+</henshin:Module>
