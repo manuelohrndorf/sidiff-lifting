@@ -1,5 +1,6 @@
 package org.sidiff.difference.rulebase.ui.editor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -106,7 +107,7 @@ import org.sidiff.difference.rulebase.ui.editor.columns.ColumnPriority;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRecognitionType;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRefinementLevel;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRulebaseItem;
-import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 import org.silift.common.util.emf.EMFStorage;
 
@@ -147,7 +148,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	/**
 	 * Rulebase item facade shortcut.
 	 */
-	class RBIW extends RuleBaseItemWrapper {
+	class RBIW extends RuleBaseItemInfo {
 	}
 
 	protected IPartListener partListener = new IPartListener() {
@@ -362,7 +363,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 			public void handleEvent(Event event) {
 				for (TableItem tableItem : table.getSelection()) {
 					RuleBaseItem item = (RuleBaseItem) tableItem.getData();
-					RuleBaseItemWrapper.setName(item, RuleBaseItemWrapper.formatName(item));
+					RuleBaseItemInfo.setName(item, RuleBaseItemInfo.formatName(item));
 					ruleViewer.update(item, null);
 				}
 			}
@@ -679,6 +680,12 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
+		try {
+			rbManager.saveRuleBase();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		dirty = false;
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 

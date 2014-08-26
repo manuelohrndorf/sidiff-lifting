@@ -14,6 +14,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.ui.editor.RulebaseEditor;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 
 public class ColumnActive {
@@ -91,9 +92,9 @@ public class ColumnActive {
 			protected void setValue(Object element, Object value) {
 
 				if (((RuleBaseItem) element).isActive()) {
-					((RuleBaseItem) element).setActive(false);
+					RuleBaseItemInfo.setActive((RuleBaseItem) element, false);
 				} else {
-					((RuleBaseItem) element).setActive(true);
+					RuleBaseItemInfo.setActive((RuleBaseItem) element, true);
 				}
 
 				ruleViewer.update(element, null);

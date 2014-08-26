@@ -14,7 +14,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 
 public class ColumnRulebaseItem {
 
@@ -41,7 +41,7 @@ public class ColumnRulebaseItem {
 		ruleColumn.setLabelProvider(new CellLabelProvider() {
 			@Override
 			public void update(ViewerCell cell) {
-				cell.setText(RuleBaseItemWrapper.getName((RuleBaseItem) cell.getElement()));
+				cell.setText(RuleBaseItemInfo.getName((RuleBaseItem) cell.getElement()));
 			}
 		});
 
@@ -60,12 +60,12 @@ public class ColumnRulebaseItem {
 
 			@Override
 			protected Object getValue(Object element) {
-				return RuleBaseItemWrapper.getName((RuleBaseItem) element);
+				return RuleBaseItemInfo.getName((RuleBaseItem) element);
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				RuleBaseItemWrapper.setName((RuleBaseItem) element, (String) value);
+				RuleBaseItemInfo.setName((RuleBaseItem) element, (String) value);
 				ruleViewer.update(element, null);
 			}
 

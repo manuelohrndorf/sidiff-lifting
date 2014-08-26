@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 
 public class ColumnPriority {
 
@@ -32,7 +32,7 @@ public class ColumnPriority {
 			@Override
 			public void update(ViewerCell cell) {
 				// Get Henshin semantic change set priority attribute
-				cell.setText("" + RuleBaseItemWrapper.getPriority((RuleBaseItem) cell.getElement()));
+				cell.setText("" + RuleBaseItemInfo.getPriority((RuleBaseItem) cell.getElement()));
 			}
 		});
 
@@ -52,20 +52,20 @@ public class ColumnPriority {
 			@Override
 			protected Object getValue(Object element) {
 				// Get Henshin semantic change set priority attribute
-				return "" + RuleBaseItemWrapper.getPriority((RuleBaseItem) element);
+				return "" + RuleBaseItemInfo.getPriority((RuleBaseItem) element);
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
 				// Get Henshin semantic change set priority attribute
-				int priority = RuleBaseItemWrapper.getPriority((RuleBaseItem) element);
+				int priority = RuleBaseItemInfo.getPriority((RuleBaseItem) element);
 
 				try {
 					// Set semantic change set priority
 					int newPriority = Integer.valueOf((String) value);
 
 					if (newPriority != priority) {
-						RuleBaseItemWrapper.setPriority((RuleBaseItem) element, newPriority);
+						RuleBaseItemInfo.setPriority((RuleBaseItem) element, newPriority);
 						ruleViewer.update(element, null);
 					}
 				} catch (NumberFormatException e) {

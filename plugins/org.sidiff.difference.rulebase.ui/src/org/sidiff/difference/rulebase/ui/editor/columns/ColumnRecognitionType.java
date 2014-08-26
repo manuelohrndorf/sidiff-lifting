@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 
 public class ColumnRecognitionType {
 
@@ -28,7 +28,7 @@ public class ColumnRecognitionType {
 			@Override
 			public void update(ViewerCell cell) {
 				RuleBaseItem item = (RuleBaseItem) cell.getElement();
-				cell.setText(RuleBaseItemWrapper.getDisplayRRType(item));
+				cell.setText(RuleBaseItemInfo.getDisplayRRType(item));
 			}
 		});
 	}

@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper;
+import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 
 public class ColumnRefinementLevel {
 
@@ -29,7 +29,7 @@ public class ColumnRefinementLevel {
 			@Override
 			public void update(ViewerCell cell) {
 				// Get Henshin semantic change set refinement attribute
-				cell.setText("" + RuleBaseItemWrapper.getRefinementLevel((RuleBaseItem) cell.getElement()));
+				cell.setText("" + RuleBaseItemInfo.getRefinementLevel((RuleBaseItem) cell.getElement()));
 			}
 		});
 	}
