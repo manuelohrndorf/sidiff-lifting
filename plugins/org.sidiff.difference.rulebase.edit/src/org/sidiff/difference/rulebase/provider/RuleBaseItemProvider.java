@@ -64,10 +64,12 @@ public class RuleBaseItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
-			addDocumentTypesPropertyDescriptor(object);
-			addCharacteristicDocumentTypePropertyDescriptor(object);
 			addEditRulesPropertyDescriptor(object);
 			addRecognitionRulesPropertyDescriptor(object);
+			addDocumentTypesPropertyDescriptor(object);
+			addCharacteristicDocumentTypePropertyDescriptor(object);
+			addEditRuleFolderPropertyDescriptor(object);
+			addRecognitionRuleFolderPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -131,6 +133,50 @@ public class RuleBaseItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_characteristicDocumentType_feature", "_UI_RuleBase_type"),
 				 RulebasePackage.Literals.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE,
 				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Edit Rule Folder feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEditRuleFolderPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_editRuleFolder_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_editRuleFolder_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__EDIT_RULE_FOLDER,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Recognition Rule Folder feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRecognitionRuleFolderPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_recognitionRuleFolder_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_recognitionRuleFolder_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__RECOGNITION_RULE_FOLDER,
+				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -255,6 +301,8 @@ public class RuleBaseItemProvider
 			case RulebasePackage.RULE_BASE__NAME:
 			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
 			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
+			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
+			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case RulebasePackage.RULE_BASE__ITEMS:
