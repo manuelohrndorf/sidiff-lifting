@@ -1,6 +1,6 @@
 package org.sidiff.difference.rulebase.wrapper;
 
-import static org.sidiff.difference.rulebase.wrapper.RuleBaseItemWrapper.invertActivity;
+import static org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo.invertActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.asymmetric.dependencies.potential.RuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
@@ -61,11 +62,6 @@ public class RuleBaseWrapper extends Observable {
 	private boolean dirty;
 	
 	/**
-	 * Sets this rulebase into read-only mode.
-	 */
-	private boolean readonly = false;
-	
-	/**
 	 * The path of the *.rulebase file. 
 	 */
 	private URI rulebaseURI;
@@ -97,16 +93,10 @@ public class RuleBaseWrapper extends Observable {
 	private Set<RecognitionRule> newRecognitionRules;
 	
 	/**
-	 * Initializes an existing rulebase in READ-ONLY mode.
-	 * 
-	 * @param rulebaseURI
-	 *            The path of the rulebase.
-	 * @see RuleBaseWrapper#saveRuleBase()
+	 * List of edited (Henshin) Edit-Rules. Used to delay the storage of the Henshin
+	 * files. Call {@link RuleBaseWrapper#saveRuleBase()} to save all.
 	 */
-	public RuleBaseWrapper(URI rulebaseURI) {
-		this(rulebaseURI, URI.createURI(""), URI.createURI(""));
-		readonly = true;
-	}
+	private Set<EditRule> changedEditRules;
 	
 	/**
 	 * Initializes a (new or existing) rulebase.
@@ -122,12 +112,7 @@ public class RuleBaseWrapper extends Observable {
 	 */
 	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, URI editRuleFolder, boolean resolveRules) {
 		this.rulebaseURI = rulebaseURI;
-		this.recognitionRuleFolder = recognitionRuleFolder;
-		this.editRuleFolder = editRuleFolder;
-		
-		assert (recognitionRuleFolder != null) : "Assert not Null: Recognition-Rule folder!"; 
-		assert (editRuleFolder != null) : "Assert not Null: Edit-Rule folder!"; 
-		
+
 		if (exists(rulebaseURI)) {
 			// Load existing rule base
 			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
@@ -136,14 +121,25 @@ public class RuleBaseWrapper extends Observable {
 			if (resolveRules) {
 				EcoreUtil.resolveAll(rulebase);
 			}
+			
+			this.recognitionRuleFolder = URI.createURI(rulebase.getRecognitionRuleFolder());
+			this.editRuleFolder = URI.createURI(rulebase.getEditRuleFolder());
 		} else {
 			// Create new rule base
-			rulebase = RulebaseFactory.eINSTANCE.createRuleBase();			
+			assert (recognitionRuleFolder != null) : "Assert not Null: Recognition-Rule folder!"; 
+			assert (editRuleFolder != null) : "Assert not Null: Edit-Rule folder!"; 
+			
+			rulebase = RulebaseFactory.eINSTANCE.createRuleBase();
+			rulebase.setRecognitionRuleFolder(recognitionRuleFolder.toString());
+			rulebase.setEditRuleFolder(editRuleFolder.toString());
+			
+			this.recognitionRuleFolder = recognitionRuleFolder;
+			this.editRuleFolder = editRuleFolder;
 		}
-		
+
 		ruleBasePotentialDependencyAnalyzer = new RuleBasePotentialDependencyAnalyzer(rulebase);
-		
 		newRecognitionRules = new HashSet<RecognitionRule>();
+		changedEditRules = new HashSet<EditRule>();
 		resetDirtyFlag();
 	}
 
@@ -160,6 +156,17 @@ public class RuleBaseWrapper extends Observable {
 	public RuleBaseWrapper(URI rulebaseURI, URI recognitionRuleFolder, URI editRuleFolder) {
 		// Load existing rule base
 		this(rulebaseURI, recognitionRuleFolder, editRuleFolder, true);
+	}
+	
+	/**
+	 * Initializes an existing rulebase.
+	 * 
+	 * @param rulebaseURI
+	 *            The path of the rulebase.
+	 * @see RuleBaseWrapper#saveRuleBase()
+	 */
+	public RuleBaseWrapper(URI rulebaseURI) {
+		this(rulebaseURI, null, null);
 	}
 	
 	/**
@@ -180,11 +187,7 @@ public class RuleBaseWrapper extends Observable {
 	 * @throws IOException
 	 */
 	public void saveRuleBase() throws IOException {
-		
-		if (readonly) {
-			throw new RuntimeException("This Rulebase is set to be read-only!");
-		}
-		
+		saveEditModules();
 		saveRecognitionModules();
 		
 		if (exists(rulebaseURI)) {
@@ -197,13 +200,30 @@ public class RuleBaseWrapper extends Observable {
 	}
 
 	/**
-	 * Saves a (Henshin) Recognition-Rule.
-	 * 
+	 * Saves all (Henshin) changed Edit-Rules.
+	 */
+	private void saveEditModules() {
+		
+		for (EditRule erRule : changedEditRules) {
+			
+			if (erRule.getExecuteMainUnit().eResource() != null) {
+				// Existing edit rule:
+				EMFStorage.eSave(erRule.getExecuteModule());
+			} else {
+				throw new RuntimeException("Missing Edit-Rule: " + erRule);
+			}
+		}
+		
+		changedEditRules.clear();
+	}
+
+	/**
+	 * Saves all (Henshin) new/changed Recognition-Rules.
 	 */
 	private void saveRecognitionModules() {
 		
 		for (RecognitionRule rrRule : newRecognitionRules) {
-			// Handle: New, existing, moved Edit-Rules:
+			
 			if (rrRule.getRecognitionMainUnit().eResource() != null) {
 				// Existing recognition rule:
 				EMFStorage.eSave(rrRule.getRecognitionModule());
@@ -215,6 +235,8 @@ public class RuleBaseWrapper extends Observable {
 						getRecognitionRuleSaveURI(rrRule.getEditRule().getExecuteModule()));
 			}
 		}
+		
+		newRecognitionRules.clear();
 	}
 
 	/**
@@ -260,6 +282,18 @@ public class RuleBaseWrapper extends Observable {
 					if (!(notification.getEventType() == Notification.REMOVING_ADAPTER)
 							&& !(notification.getEventType() == Notification.RESOLVE)) {
 
+						// Priority or name of edit module changed:
+						if (notification.getNotifier() instanceof Module) {
+							Module editModule = (Module) notification.getNotifier();
+							changedEditRules.add(findEditRule(editModule));
+						}
+						
+						// Active flag of Main-Unit has changed:
+						if (notification.getNotifier() instanceof Unit) {
+							Unit mainUnit = (Unit) notification.getNotifier();
+							changedEditRules.add(findEditRule(mainUnit.getModule()));
+						}
+						
 						// Set dirty
 						setDirtyFlag();
 

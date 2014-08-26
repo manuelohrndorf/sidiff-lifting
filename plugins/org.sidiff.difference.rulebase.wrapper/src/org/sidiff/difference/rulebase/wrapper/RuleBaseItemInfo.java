@@ -6,10 +6,8 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
@@ -21,22 +19,37 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.silift.common.util.emf.EMFStorage;
 
-public class RuleBaseItemWrapper {
+public class RuleBaseItemInfo {
 	
 	public static String getName(RuleBaseItem item) {
-		String value = getSematicChangeSetName(item).getValue();
-		value = value.substring(1, value.length() - 1);
+		return item.getEditRule().getExecuteModule().getName();
+	}
+	
+	public static void setName(RuleBaseItem item, String name) {
+		if (!name.equals(getName(item))) {
+			item.getEditRule().getExecuteModule().setName(name);
+		}
+	}
 
-		return value;
+	public static String getDescription(RuleBaseItem item) {
+		return item.getEditRule().getExecuteModule().getDescription();
+	}
+	
+	public static void setDescription(RuleBaseItem item, String name) {
+		if (!name.equals(getDescription(item))) {
+			item.getEditRule().getExecuteModule().setDescription(name);
+		}
 	}
 
 	public static String formatName(RuleBaseItem item) {
-		String internalName = getSematicChangeSetName(item).getValue();
+		String internalName = getName(item);
 		
 		// Remove quotes:
 		String displayName = internalName.substring(1, internalName.length() - 1);
@@ -121,26 +134,6 @@ public class RuleBaseItemWrapper {
 			return output;
 		}
 	}
-
-	public static void setName(RuleBaseItem item, String name) {
-		if (!name.equals(getName(item))) {
-			getSematicChangeSetName(item).setValue("\"" + name + "\"");
-		}
-	}
-
-	public static String getDescription(RuleBaseItem item) {
-		String value = getSemanticChangeSetDescription(item).getValue();
-		value = value.substring(1, value.length() - 1);
-
-		return value;
-	}
-	
-	public static void setDescription(RuleBaseItem item, String name) {
-		if (!name.equals(getDescription(item))) {
-			getSemanticChangeSetDescription(item).setValue("\"" + name + "\"");
-		}
-	}
-
 	
 	public static int getRefinementLevel(RuleBaseItem item) {
 		return Integer.valueOf(getSematicChangeSetRefinementLevel(item).getValue());
@@ -165,50 +158,36 @@ public class RuleBaseItemWrapper {
 	}
 
 	public static boolean isActiv(RuleBaseItem item) {
-		return item.isActive();
+		Unit mainUnit = item.getEditRule().getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
+		return mainUnit.isActivated();
 	}
 
-	public static void setActiv(RuleBaseItem item, boolean value) {
-		item.setActive(value);
-	}
-	
-	
-	
-	/**
-	 * Validation of the edit-rule.
-	 * 
-	 * @return The edit-rule validation diagnostic.
-	 */
-	public static Diagnostic validate_EditRule(RuleBaseItem item) {
-		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(item.getEditRule());
-		
-		// Console report:
-		if (!diagnostic.getChildren().isEmpty()) {
-			// Console report:
-			System.out.println("Validation of " + item.getEditRule().getExecuteModule().getName() + ":");
-			
-			for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
-				System.out.println("  " + childDiagnostic);
-			}
-		}
-		
-		return diagnostic;
+	public static void setActive(RuleBaseItem item, boolean value) {
+		Unit mainUnit = item.getEditRule().getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
+		mainUnit.setActivated(value);
 	}
 
 	public static void invertActivity(RuleBaseItem item) {
 		if (item.isActive()) {
-			item.setActive(false);
+			setActive(item, false);
 		} else {
-			item.setActive(true);
+			setActive(item, true);
 		}
 	}
 
 	public static int getPriority(RuleBaseItem item) {
-		return Integer.valueOf(getSematicChangeSetPriority(item).getValue());
+		Integer priority = EditRuleAnnotations.getPriority(item.getEditRule().getExecuteModule());
+
+		if (priority == null) {
+			// Return Recognition-Rule (default) value:
+			priority = Integer.valueOf(getSematicChangeSetPriority(item).getValue());
+		}
+		
+		return priority;
 	}
 
 	public static void setPriority(RuleBaseItem item, int priority) {
-		getSematicChangeSetPriority(item).setValue("" + priority);
+		EditRuleAnnotations.setPriority(item.getEditRule().getExecuteModule(), priority);
 	}
 
 	public static EClass getERType(RuleBaseItem item) {
@@ -229,23 +208,6 @@ public class RuleBaseItemWrapper {
 	public static String getDisplayRRType(RuleBaseItem item) {
 		// Get unit type of recognition main unit
 		return getUnitType(item.getRecognitionRule().getRecognitionMainUnit());
-	}
-
-	
-
-	
-	public static int[] convertStringToVersion(String version) 
-			
-			throws ArrayIndexOutOfBoundsException, NumberFormatException {
-		
-		// Returns {major, minor, revision}
-		String[] stringPositions = version.split("\\.");
-		int[] positions = new int[3];
-		positions[0] = Integer.valueOf(stringPositions[0]);
-		positions[1] = Integer.valueOf(stringPositions[1]);
-		positions[2] = Integer.valueOf(stringPositions[2]);
-
-		return positions;
 	}
 
 	public static URI getEditRuleURI(RuleBaseItem item) {
@@ -302,41 +264,12 @@ public class RuleBaseItemWrapper {
 		}
 		return null;
 	}
-
-	private static Attribute getSematicChangeSetName(RuleBaseItem item) {
-
-		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_Name()) {
-				return attribute;
-			}
-		}
-
-		return null;
-	}
 	
-	private static Attribute getSemanticChangeSetDescription(RuleBaseItem item) {
-
-		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE
-					.getSemanticChangeSet_Description()) {
-				return attribute;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the Henshin semantic change set (SCS) priority attribute.
-	 * 
-	 * @param recognitionRule
-	 *            the rulebase recognition rule.
-	 * @return the Henshin SCS priority attribute.
-	 */
 	private static Attribute getSematicChangeSetPriority(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_Priority()) {
+			if (attribute.getType() == SymmetricPackage.eINSTANCE
+					.getSemanticChangeSet_Priority()) {
 				return attribute;
 			}
 		}

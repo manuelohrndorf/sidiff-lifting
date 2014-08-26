@@ -147,7 +147,6 @@ public class EditWrapper2RecognitionWrapper {
 
 		// Create rule base element
 		RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
-		item.setActive(true);
 		
 		item.setRecognitionRule(createRecognitionRule());
 		item.setEditRule(createEditRule(editRule));
