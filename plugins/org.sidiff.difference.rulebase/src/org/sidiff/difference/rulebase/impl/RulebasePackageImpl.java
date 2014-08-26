@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.sidiff.difference.rulebase.EditRule;
@@ -30,7 +29,6 @@ import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.difference.rulebase.RulebasePackage;
 import org.sidiff.difference.rulebase.Trace;
-import org.sidiff.difference.rulebase.util.RulebaseValidator;
 
 /**
  * <!-- begin-user-doc -->

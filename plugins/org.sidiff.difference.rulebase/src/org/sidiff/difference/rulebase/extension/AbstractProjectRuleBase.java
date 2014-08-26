@@ -18,19 +18,13 @@ public abstract class AbstractProjectRuleBase extends AbstractRuleBase {
 	public static final String SOURCE_FOLDER = "editrules";
 
 	@Override
-	protected String getEditRulesPluginID() {
+	protected String getRuleBasePluginID() {
 		return FrameworkUtil.getBundle(getClass()).getSymbolicName();
 	}
 	
-
-	@Override
-	protected String getRecognitionRulesPluginID() {
-		return getEditRulesPluginID();
-	}
-
 	@Override
 	protected String getRuleBaseURI() {
-		return "/" + getEditRulesPluginID() + "/" + RULEBASE_FILE;
+		return "/" + getRuleBasePluginID() + "/" + RULEBASE_FILE;
 	}
 
 }

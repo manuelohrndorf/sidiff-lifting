@@ -32,17 +32,12 @@ public class RuleBaseUtil {
 	 *            the URI of the rulbase XMI.
 	 * @return the rulebase instance.
 	 */
-	public static RuleBase loadRuleBase(String rulebasePath,
-			String editRulesPluginID, String recognitionRulesPluginID) {
+	public static RuleBase loadRuleBase(String rulebasePath, String rulebasePluginID) {
 		
 		// Set URI mapping:
-		URI er_pluginURI = URI.createPlatformPluginURI(editRulesPluginID + "/", true);
-		URI er_resourceURI = URI.createPlatformResourceURI(editRulesPluginID + "/", true);
-		resourceSet.getURIConverter().getURIMap().put(er_resourceURI, er_pluginURI);
-		
-		URI rr_pluginURI = URI.createPlatformPluginURI(recognitionRulesPluginID + "/", true);
-		URI rr_resourceURI = URI.createPlatformResourceURI(recognitionRulesPluginID + "/", true);
-		resourceSet.getURIConverter().getURIMap().put(rr_resourceURI, rr_pluginURI);
+		URI rulebasePluginIDURI = URI.createPlatformPluginURI(rulebasePluginID + "/", true);
+		URI rulebaseResourceIDURI = URI.createPlatformResourceURI(rulebasePluginID + "/", true);
+		resourceSet.getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
 
 		// Load Rulebase:
 		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);

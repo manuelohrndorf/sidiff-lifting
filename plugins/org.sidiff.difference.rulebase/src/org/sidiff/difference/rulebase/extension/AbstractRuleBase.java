@@ -30,8 +30,7 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	private Map<Node, Trace> tracesB;
 
 	/**
-	 * Mapping: src EditRule -> set of PotentialDependencies where EditRule is
-	 * the source of
+	 * Mapping: src EditRule -> set of PotentialDependencies where EditRule is the source of
 	 */
 	private Map<EditRule, Set<PotentialDependency>> potDepIndex;
 
@@ -269,8 +268,7 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	 */
 	private RuleBase getRuleBase() {
 		if (rulebase == null) {
-			rulebase = RuleBaseUtil.loadRuleBase(getRuleBaseURI(), 
-					getEditRulesPluginID(), getRecognitionRulesPluginID());
+			rulebase = RuleBaseUtil.loadRuleBase(getRuleBaseURI(), getRuleBasePluginID());
 		}
 		return rulebase;
 	}
@@ -279,23 +277,18 @@ public abstract class AbstractRuleBase implements IRuleBase {
 			Module module = unit.getModule();
 				return module.getName();
 	}
-	
-	/**
-	 * @return The plugin ID of the rulebase.
-	 */
-	protected abstract String getRecognitionRulesPluginID();
-	
-	/**
-	 * @return The plugin ID of the edit rules plugin.
-	 */
-	protected abstract String getEditRulesPluginID();
 
 	/**
-	 * Template-method that must be implemented by subclasses: Returns the URI
-	 * String of ruleBase
+	 * Template-method that must be implemented by subclasses: Returns the URI String of the rulebase.
 	 * 
 	 * @return URI String
 	 */
 	protected abstract String getRuleBaseURI();
-
+	
+	/**
+	 * emplate-method that must be implemented by subclasses: Returns the plug-in ID of the  rulebase.
+	 * 
+	 * @return The plug-in ID
+	 */
+	protected abstract String getRuleBasePluginID();
 }
