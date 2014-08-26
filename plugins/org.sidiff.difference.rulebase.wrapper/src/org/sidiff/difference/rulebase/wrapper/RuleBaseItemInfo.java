@@ -21,7 +21,6 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.silift.common.util.emf.EMFStorage;
@@ -158,13 +157,11 @@ public class RuleBaseItemInfo {
 	}
 
 	public static boolean isActiv(RuleBaseItem item) {
-		Unit mainUnit = item.getEditRule().getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
-		return mainUnit.isActivated();
+		return item.isActive();
 	}
 
 	public static void setActive(RuleBaseItem item, boolean value) {
-		Unit mainUnit = item.getEditRule().getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
-		mainUnit.setActivated(value);
+		item.setActive(value);
 	}
 
 	public static void invertActivity(RuleBaseItem item) {
