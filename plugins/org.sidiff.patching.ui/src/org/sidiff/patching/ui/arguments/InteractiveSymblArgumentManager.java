@@ -23,7 +23,7 @@ import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.silift.common.util.access.EMFMetaAccessEx;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
@@ -78,7 +78,7 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 	private void addPossibleArgument(List<EObject> args, Resource resource, EObject originObject) {
 		// if the origin object is a symbolic link, resolve the 
 		// appropriate object of the target model.
-		if (originObject instanceof SymbolicLink) {
+		if (originObject instanceof SymbolicLinkObject) {
 			originObject = getLinkResolving().get(originObject);
 		}
 		// Do not include elements defined in Ecore Meta-model itself

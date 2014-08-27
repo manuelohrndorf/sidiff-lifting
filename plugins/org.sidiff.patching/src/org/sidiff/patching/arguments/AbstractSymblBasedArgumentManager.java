@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -20,7 +20,7 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	/**
 	 * Mapping of symbolic links and objects of the target model
 	 */
-	private Map<SymbolicLink, EObject> linkResolving;
+	private Map<SymbolicLinkObject, EObject> linkResolving;
 
 	public AbstractSymblBasedArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
 		this.symbolicLinkHandler = symbolicLinkHandler;
@@ -32,8 +32,8 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 		if(originObject == targetObject){
 			//if the origin object is not a symbolic link, it can only be 
 			//taken from a model of the package registry.
-			if(binding.getActualA() instanceof SymbolicLink){
-				return ((SymbolicLink)binding.getActualA()).getReliability();
+			if(binding.getActualA() instanceof SymbolicLinkObject){
+				return ((SymbolicLinkObject)binding.getActualA()).getReliability();
 			}else{
 				return 1.f;
 			}
@@ -44,11 +44,11 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	@Override
 	protected EObject resolveOriginObject(EObject originObject) {
 		if(linkResolving == null){
-			linkResolving = symbolicLinkHandler.resolveSymbolicLinks(
+			linkResolving = symbolicLinkHandler.resolveSymbolicLinkObjects(
 					(SymbolicLinks) getOriginModel().getContents().get(0),
 					getTargetModel(), true);
 		}
-		if(originObject instanceof SymbolicLink){
+		if(originObject instanceof SymbolicLinkObject){
 			return linkResolving.get(originObject);
 		}else{
 			//if the origin object is not a symbolic link, it can only be 
@@ -70,7 +70,7 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	 * 
 	 * @return
 	 */
-	protected Map<SymbolicLink, EObject> getLinkResolving() {
+	protected Map<SymbolicLinkObject, EObject> getLinkResolving() {
 		return linkResolving;
 	}
 }
