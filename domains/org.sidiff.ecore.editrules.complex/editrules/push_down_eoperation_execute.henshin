@@ -4,6 +4,7 @@
   <units xsi:type="henshin:Rule" xmi:id="_RREOm9lGEeKomu7rfXwhHg" name="push_down_EOperation">
     <parameters xmi:id="_RREOnNlGEeKomu7rfXwhHg" name="kernel_selectedEOperation" description=""/>
     <parameters xmi:id="_RREOndlGEeKomu7rfXwhHg" name="kernel_subEClass"/>
+    <parameters xmi:id="_CZu6IS3HEeSFu4lZcfRn2A" name="New_EOperation"/>
     <lhs xmi:id="_RREOntlGEeKomu7rfXwhHg" name="LHS">
       <nodes xmi:id="_RREOn9lGEeKomu7rfXwhHg" name="kernel_selectedEOperation" incoming="_RREOo9lGEeKomu7rfXwhHg" outgoing="_RREOpNlGEeKomu7rfXwhHg _RREOptlGEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
@@ -37,10 +38,10 @@
       <nodes xmi:id="_RREOqdlGEeKomu7rfXwhHg" name="kernel_EDataType" incoming="_RREOrNlGEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
       </nodes>
-      <nodes xmi:id="_RREOqtlGEeKomu7rfXwhHg" name="kernel_selectedEOperation" incoming="_RREOrtlGEeKomu7rfXwhHg" outgoing="_RREOrNlGEeKomu7rfXwhHg">
+      <nodes xmi:id="_RREOqtlGEeKomu7rfXwhHg" name="kernel_selectedEOperation" incoming="_RREOrtlGEeKomu7rfXwhHg" outgoing="_RREOrNlGEeKomu7rfXwhHg _Fi1ZEC3HEeSFu4lZcfRn2A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
       </nodes>
-      <nodes xmi:id="_RREOq9lGEeKomu7rfXwhHg" name="kernel_subEClass" outgoing="_RREOrdlGEeKomu7rfXwhHg _RREOrtlGEeKomu7rfXwhHg">
+      <nodes xmi:id="_RREOq9lGEeKomu7rfXwhHg" name="kernel_subEClass" incoming="_Fi1ZEC3HEeSFu4lZcfRn2A" outgoing="_RREOrdlGEeKomu7rfXwhHg _RREOrtlGEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
       <edges xmi:id="_RREOrNlGEeKomu7rfXwhHg" source="_RREOqtlGEeKomu7rfXwhHg" target="_RREOqdlGEeKomu7rfXwhHg">
@@ -51,6 +52,9 @@
       </edges>
       <edges xmi:id="_RREOrtlGEeKomu7rfXwhHg" source="_RREOq9lGEeKomu7rfXwhHg" target="_RREOqtlGEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="_Fi1ZEC3HEeSFu4lZcfRn2A" source="_RREOqtlGEeKomu7rfXwhHg" target="_RREOq9lGEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
       </edges>
     </rhs>
     <mappings xmi:id="_RREOr9lGEeKomu7rfXwhHg" origin="_RREOoNlGEeKomu7rfXwhHg" image="_RREOqNlGEeKomu7rfXwhHg"/>
@@ -66,6 +70,7 @@
       <parameters xmi:id="_RREOZtlGEeKomu7rfXwhHg" name="many"/>
       <parameters xmi:id="_RREOZ9lGEeKomu7rfXwhHg" name="required"/>
       <parameters xmi:id="_RREOaNlGEeKomu7rfXwhHg" name="changeable"/>
+      <parameters xmi:id="_CZu6IC3HEeSFu4lZcfRn2A" name="New_EOperation"/>
       <lhs xmi:id="_RREOadlGEeKomu7rfXwhHg" name="LHS">
         <nodes xmi:id="_RREOatlGEeKomu7rfXwhHg" name="multi_selectedEOperation" incoming="_RREOdtlGEeKomu7rfXwhHg" outgoing="_RREOeNlGEeKomu7rfXwhHg _RREOetlGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
@@ -103,6 +108,18 @@
         <nodes xmi:id="_RREOddlGEeKomu7rfXwhHg" name="multi_subEClass" outgoing="_RREOedlGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
+        <nodes xmi:id="_-u3x8C3GEeSFu4lZcfRn2A" name="kernel_EDataType">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        </nodes>
+        <nodes xmi:id="_-vT20C3GEeSFu4lZcfRn2A" name="kernel_selectedEOperation">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+        </nodes>
+        <nodes xmi:id="_-vqcIC3GEeSFu4lZcfRn2A" name="kernel_subEClass">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_-v5FoC3GEeSFu4lZcfRn2A" name="kernel_superEClass">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
         <edges xmi:id="_RREOdtlGEeKomu7rfXwhHg" source="_RREOc9lGEeKomu7rfXwhHg" target="_RREOatlGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
         </edges>
@@ -120,7 +137,7 @@
         </edges>
       </lhs>
       <rhs xmi:id="_RREOe9lGEeKomu7rfXwhHg" name="RHS">
-        <nodes xmi:id="_RREOfNlGEeKomu7rfXwhHg" incoming="_RREOkdlGEeKomu7rfXwhHg" outgoing="_RREOktlGEeKomu7rfXwhHg">
+        <nodes xmi:id="_RREOfNlGEeKomu7rfXwhHg" name="New_EOperation" incoming="_RREOkdlGEeKomu7rfXwhHg" outgoing="_RREOktlGEeKomu7rfXwhHg _FjDbgC3HEeSFu4lZcfRn2A">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
           <attributes xmi:id="_RREOfdlGEeKomu7rfXwhHg" value="name">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
@@ -150,10 +167,10 @@
         <nodes xmi:id="_RREOhdlGEeKomu7rfXwhHg" name="multi_superEClass" incoming="_RREOkNlGEeKomu7rfXwhHg _RREOlNlGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
-        <nodes xmi:id="_RREOhtlGEeKomu7rfXwhHg" outgoing="_RREOkNlGEeKomu7rfXwhHg _RREOkdlGEeKomu7rfXwhHg">
+        <nodes xmi:id="_RREOhtlGEeKomu7rfXwhHg" incoming="_FjDbgC3HEeSFu4lZcfRn2A" outgoing="_RREOkNlGEeKomu7rfXwhHg _RREOkdlGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
-        <nodes xmi:id="_RREOh9lGEeKomu7rfXwhHg" name="multi_selectedEOperation" incoming="_RREOldlGEeKomu7rfXwhHg" outgoing="_RREOk9lGEeKomu7rfXwhHg">
+        <nodes xmi:id="_RREOh9lGEeKomu7rfXwhHg" name="multi_selectedEOperation" incoming="_RREOldlGEeKomu7rfXwhHg" outgoing="_RREOk9lGEeKomu7rfXwhHg _FjgHcC3HEeSFu4lZcfRn2A">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
           <attributes xmi:id="_RREOiNlGEeKomu7rfXwhHg" value="name">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
@@ -177,7 +194,19 @@
             <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/required"/>
           </attributes>
         </nodes>
-        <nodes xmi:id="_RREOj9lGEeKomu7rfXwhHg" name="multi_subEClass" outgoing="_RREOlNlGEeKomu7rfXwhHg _RREOldlGEeKomu7rfXwhHg">
+        <nodes xmi:id="_RREOj9lGEeKomu7rfXwhHg" name="multi_subEClass" incoming="_FjgHcC3HEeSFu4lZcfRn2A" outgoing="_RREOlNlGEeKomu7rfXwhHg _RREOldlGEeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_-vFNUC3GEeSFu4lZcfRn2A" name="kernel_EDataType">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        </nodes>
+        <nodes xmi:id="_-vjHYC3GEeSFu4lZcfRn2A" name="kernel_selectedEOperation">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+        </nodes>
+        <nodes xmi:id="_-vxw4C3GEeSFu4lZcfRn2A" name="kernel_subEClass">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        </nodes>
+        <nodes xmi:id="_-wAaYC3GEeSFu4lZcfRn2A" name="kernel_superEClass">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
         <edges xmi:id="_RREOkNlGEeKomu7rfXwhHg" source="_RREOhtlGEeKomu7rfXwhHg" target="_RREOhdlGEeKomu7rfXwhHg">
@@ -198,12 +227,26 @@
         <edges xmi:id="_RREOldlGEeKomu7rfXwhHg" source="_RREOj9lGEeKomu7rfXwhHg" target="_RREOh9lGEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
         </edges>
+        <edges xmi:id="_FjDbgC3HEeSFu4lZcfRn2A" source="_RREOfNlGEeKomu7rfXwhHg" target="_RREOhtlGEeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+        </edges>
+        <edges xmi:id="_FjgHcC3HEeSFu4lZcfRn2A" source="_RREOh9lGEeKomu7rfXwhHg" target="_RREOj9lGEeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+        </edges>
       </rhs>
       <mappings xmi:id="_RREOltlGEeKomu7rfXwhHg" origin="_RREOctlGEeKomu7rfXwhHg" image="_RREOhNlGEeKomu7rfXwhHg"/>
       <mappings xmi:id="_RREOl9lGEeKomu7rfXwhHg" origin="_RREOc9lGEeKomu7rfXwhHg" image="_RREOhdlGEeKomu7rfXwhHg"/>
       <mappings xmi:id="_RREOmNlGEeKomu7rfXwhHg" origin="_RREOdNlGEeKomu7rfXwhHg" image="_RREOhtlGEeKomu7rfXwhHg"/>
       <mappings xmi:id="_RREOmdlGEeKomu7rfXwhHg" origin="_RREOatlGEeKomu7rfXwhHg" image="_RREOh9lGEeKomu7rfXwhHg"/>
       <mappings xmi:id="_RREOmtlGEeKomu7rfXwhHg" origin="_RREOddlGEeKomu7rfXwhHg" image="_RREOj9lGEeKomu7rfXwhHg"/>
+      <mappings xmi:id="_-u3x8i3GEeSFu4lZcfRn2A" origin="_-u3x8C3GEeSFu4lZcfRn2A" image="_RREOhNlGEeKomu7rfXwhHg"/>
+      <mappings xmi:id="_-vFNUi3GEeSFu4lZcfRn2A" origin="_-u3x8C3GEeSFu4lZcfRn2A" image="_-vFNUC3GEeSFu4lZcfRn2A"/>
+      <mappings xmi:id="_-vT20i3GEeSFu4lZcfRn2A" origin="_-vT20C3GEeSFu4lZcfRn2A" image="_RREOh9lGEeKomu7rfXwhHg"/>
+      <mappings xmi:id="_-vjHYi3GEeSFu4lZcfRn2A" origin="_-vT20C3GEeSFu4lZcfRn2A" image="_-vjHYC3GEeSFu4lZcfRn2A"/>
+      <mappings xmi:id="_-vqcIi3GEeSFu4lZcfRn2A" origin="_-vqcIC3GEeSFu4lZcfRn2A" image="_RREOj9lGEeKomu7rfXwhHg"/>
+      <mappings xmi:id="_-vxw4i3GEeSFu4lZcfRn2A" origin="_-vqcIC3GEeSFu4lZcfRn2A" image="_-vxw4C3GEeSFu4lZcfRn2A"/>
+      <mappings xmi:id="_-v5Foi3GEeSFu4lZcfRn2A" origin="_-v5FoC3GEeSFu4lZcfRn2A" image="_RREOhdlGEeKomu7rfXwhHg"/>
+      <mappings xmi:id="_-wAaYi3GEeSFu4lZcfRn2A" origin="_-v5FoC3GEeSFu4lZcfRn2A" image="_-wAaYC3GEeSFu4lZcfRn2A"/>
       <multiMappings xmi:id="_Yd5BcNlGEeKomu7rfXwhHg" origin="_RREOn9lGEeKomu7rfXwhHg" image="_RREOatlGEeKomu7rfXwhHg"/>
       <multiMappings xmi:id="_fcdWENlGEeKomu7rfXwhHg" origin="_RREOqtlGEeKomu7rfXwhHg" image="_RREOh9lGEeKomu7rfXwhHg"/>
       <multiMappings xmi:id="_ZRm9YNlGEeKomu7rfXwhHg" origin="_RREOoNlGEeKomu7rfXwhHg" image="_RREOc9lGEeKomu7rfXwhHg"/>
@@ -212,12 +255,22 @@
       <multiMappings xmi:id="_eKMc8NlGEeKomu7rfXwhHg" origin="_RREOqdlGEeKomu7rfXwhHg" image="_RREOhNlGEeKomu7rfXwhHg"/>
       <multiMappings xmi:id="_bFCC0NlGEeKomu7rfXwhHg" origin="_RREOotlGEeKomu7rfXwhHg" image="_RREOddlGEeKomu7rfXwhHg"/>
       <multiMappings xmi:id="_gTxYkNlGEeKomu7rfXwhHg" origin="_RREOq9lGEeKomu7rfXwhHg" image="_RREOj9lGEeKomu7rfXwhHg"/>
+      <multiMappings xmi:id="_-u3x8S3GEeSFu4lZcfRn2A" origin="_RREOodlGEeKomu7rfXwhHg" image="_-u3x8C3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-vFNUS3GEeSFu4lZcfRn2A" origin="_RREOqdlGEeKomu7rfXwhHg" image="_-vFNUC3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-vT20S3GEeSFu4lZcfRn2A" origin="_RREOn9lGEeKomu7rfXwhHg" image="_-vT20C3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-vjHYS3GEeSFu4lZcfRn2A" origin="_RREOqtlGEeKomu7rfXwhHg" image="_-vjHYC3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-vqcIS3GEeSFu4lZcfRn2A" origin="_RREOotlGEeKomu7rfXwhHg" image="_-vqcIC3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-vxw4S3GEeSFu4lZcfRn2A" origin="_RREOq9lGEeKomu7rfXwhHg" image="_-vxw4C3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-v5FoS3GEeSFu4lZcfRn2A" origin="_RREOoNlGEeKomu7rfXwhHg" image="_-v5FoC3GEeSFu4lZcfRn2A"/>
+      <multiMappings xmi:id="_-wAaYS3GEeSFu4lZcfRn2A" origin="_RREOqNlGEeKomu7rfXwhHg" image="_-wAaYC3GEeSFu4lZcfRn2A"/>
     </multiRules>
   </units>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_mDZQwNnpEeKKF_wVIKZRPw" name="mainUnit" subUnits="_RREOm9lGEeKomu7rfXwhHg">
     <parameters xmi:id="_tVciENnpEeKKF_wVIKZRPw" name="kernel_selectedEOperation" description=""/>
     <parameters xmi:id="_tVciEdnpEeKKF_wVIKZRPw" name="kernel_subEClass"/>
+    <parameters xmi:id="_CZu6Ii3HEeSFu4lZcfRn2A" name="New_EOperation"/>
     <parameterMappings xmi:id="_tvxtoNnpEeKKF_wVIKZRPw" source="_tVciENnpEeKKF_wVIKZRPw" target="_RREOnNlGEeKomu7rfXwhHg"/>
     <parameterMappings xmi:id="_uC6sENnpEeKKF_wVIKZRPw" source="_tVciEdnpEeKKF_wVIKZRPw" target="_RREOndlGEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_CZu6Iy3HEeSFu4lZcfRn2A" source="_CZu6IS3HEeSFu4lZcfRn2A" target="_CZu6Ii3HEeSFu4lZcfRn2A"/>
   </units>
 </henshin:Module>
