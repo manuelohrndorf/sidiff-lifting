@@ -58,14 +58,23 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	NamedelementsymboliclinkPackage eINSTANCE = org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl <em>Named Element Symbolic Link</em>}' class.
+	 * The meta object id for the '{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl <em>Named Element Symbolic Link Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl
-	 * @see org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkPackageImpl#getNamedElementSymbolicLink()
+	 * @see org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl
+	 * @see org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkPackageImpl#getNamedElementSymbolicLinkObject()
 	 * @generated
 	 */
-	int NAMED_ELEMENT_SYMBOLIC_LINK = 0;
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Reliability</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__RELIABILITY = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -74,7 +83,7 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_SYMBOLIC_LINK__NAME = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 0;
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -83,58 +92,58 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 1;
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Named Element Symbolic Link</em>' class.
+	 * The number of structural features of the '<em>Named Element Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_SYMBOLIC_LINK_FEATURE_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 2;
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>Named Element Symbolic Link</em>' class.
+	 * The number of operations of the '<em>Named Element Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_SYMBOLIC_LINK_OPERATION_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OPERATION_COUNT + 0;
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_OPERATION_COUNT + 0;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink <em>Named Element Symbolic Link</em>}'.
+	 * Returns the meta object for class '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject <em>Named Element Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Named Element Symbolic Link</em>'.
-	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink
+	 * @return the meta object for class '<em>Named Element Symbolic Link Object</em>'.
+	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject
 	 * @generated
 	 */
-	EClass getNamedElementSymbolicLink();
+	EClass getNamedElementSymbolicLinkObject();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink#getName()
-	 * @see #getNamedElementSymbolicLink()
+	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject#getName()
+	 * @see #getNamedElementSymbolicLinkObject()
 	 * @generated
 	 */
-	EAttribute getNamedElementSymbolicLink_Name();
+	EAttribute getNamedElementSymbolicLinkObject_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink#getQualifiedName <em>Qualified Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject#getQualifiedName <em>Qualified Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Qualified Name</em>'.
-	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink#getQualifiedName()
-	 * @see #getNamedElementSymbolicLink()
+	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject#getQualifiedName()
+	 * @see #getNamedElementSymbolicLinkObject()
 	 * @generated
 	 */
-	EAttribute getNamedElementSymbolicLink_QualifiedName();
+	EAttribute getNamedElementSymbolicLinkObject_QualifiedName();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -160,14 +169,14 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl <em>Named Element Symbolic Link</em>}' class.
+		 * The meta object literal for the '{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl <em>Named Element Symbolic Link Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl
-		 * @see org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkPackageImpl#getNamedElementSymbolicLink()
+		 * @see org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl
+		 * @see org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkPackageImpl#getNamedElementSymbolicLinkObject()
 		 * @generated
 		 */
-		EClass NAMED_ELEMENT_SYMBOLIC_LINK = eINSTANCE.getNamedElementSymbolicLink();
+		EClass NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT = eINSTANCE.getNamedElementSymbolicLinkObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -175,7 +184,7 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NAMED_ELEMENT_SYMBOLIC_LINK__NAME = eINSTANCE.getNamedElementSymbolicLink_Name();
+		EAttribute NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME = eINSTANCE.getNamedElementSymbolicLinkObject_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Qualified Name</b></em>' attribute feature.
@@ -183,7 +192,7 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME = eINSTANCE.getNamedElementSymbolicLink_QualifiedName();
+		EAttribute NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME = eINSTANCE.getNamedElementSymbolicLinkObject_QualifiedName();
 
 	}
 

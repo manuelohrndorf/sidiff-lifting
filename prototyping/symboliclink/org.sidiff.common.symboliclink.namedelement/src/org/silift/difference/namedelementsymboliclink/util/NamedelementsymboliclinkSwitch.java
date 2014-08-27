@@ -4,12 +4,9 @@ package org.silift.difference.namedelementsymboliclink.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
 import org.silift.difference.namedelementsymboliclink.*;
-
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,10 +65,10 @@ public class NamedelementsymboliclinkSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK: {
-				NamedElementSymbolicLink namedElementSymbolicLink = (NamedElementSymbolicLink)theEObject;
-				T result = caseNamedElementSymbolicLink(namedElementSymbolicLink);
-				if (result == null) result = caseSymbolicLink(namedElementSymbolicLink);
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT: {
+				NamedElementSymbolicLinkObject namedElementSymbolicLinkObject = (NamedElementSymbolicLinkObject)theEObject;
+				T result = caseNamedElementSymbolicLinkObject(namedElementSymbolicLinkObject);
+				if (result == null) result = caseSymbolicLinkObject(namedElementSymbolicLinkObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -80,32 +77,32 @@ public class NamedelementsymboliclinkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Named Element Symbolic Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Named Element Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Named Element Symbolic Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Named Element Symbolic Link Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNamedElementSymbolicLink(NamedElementSymbolicLink object) {
+	public T caseNamedElementSymbolicLinkObject(NamedElementSymbolicLinkObject object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSymbolicLink(SymbolicLink object) {
+	public T caseSymbolicLinkObject(SymbolicLinkObject object) {
 		return null;
 	}
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 
 /**
@@ -53,14 +53,14 @@ public interface ISymbolicLinkHandler {
 	 * Resolves the symbolic links.
 	 * 
 	 * @param symbolicLinks
-	 * 					the container object of a {@link SymbolicLink}
+	 * 					the container object of a {@link SymbolicLinkObject}
 	 * @param targetModel
 	 * 					the {@link Resource} containing the target model with objects the symbolic links will be solved to
 	 * @param calculateReliability
 	 * 					flag to determine if a reliability shall be calculated
-	 * @return a map, which assigns an object to the appropriate {@link SymbolicLink}
+	 * @return a map, which assigns an object to the appropriate {@link SymbolicLinkObject}
 	 */
-	public Map<SymbolicLink, EObject> resolveSymbolicLinks(SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability);
+	public Map<SymbolicLinkObject, EObject> resolveSymbolicLinkObjects(SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability);
 
 	/**
 	 * Determines if the handler is able to compute reliabilities

@@ -6,10 +6,10 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkFactory;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
@@ -33,7 +33,14 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass symbolicLinkEClass = null;
+	private EClass symbolicLinkObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass symbolicLinkReferenceEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -81,6 +88,9 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 
 		isInited = true;
 
+		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
+
 		// Create package meta-data objects
 		theSymboliclinkPackage.createPackageContents();
 
@@ -110,7 +120,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSymbolicLinks_Links() {
+	public EReference getSymbolicLinks_LinkObjects() {
 		return (EReference)symbolicLinksEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -128,8 +138,8 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSymbolicLink() {
-		return symbolicLinkEClass;
+	public EReference getSymbolicLinks_LinkReferences() {
+		return (EReference)symbolicLinksEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -137,8 +147,35 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSymbolicLink_Reliability() {
-		return (EAttribute)symbolicLinkEClass.getEStructuralFeatures().get(0);
+	public EClass getSymbolicLinkObject() {
+		return symbolicLinkObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSymbolicLinkObject_Reliability() {
+		return (EAttribute)symbolicLinkObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSymbolicLinkReference() {
+		return symbolicLinkReferenceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSymbolicLinkReference_Type() {
+		return (EReference)symbolicLinkReferenceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -170,11 +207,15 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 
 		// Create classes and their features
 		symbolicLinksEClass = createEClass(SYMBOLIC_LINKS);
-		createEReference(symbolicLinksEClass, SYMBOLIC_LINKS__LINKS);
+		createEReference(symbolicLinksEClass, SYMBOLIC_LINKS__LINK_OBJECTS);
 		createEAttribute(symbolicLinksEClass, SYMBOLIC_LINKS__DOC_TYPE);
+		createEReference(symbolicLinksEClass, SYMBOLIC_LINKS__LINK_REFERENCES);
 
-		symbolicLinkEClass = createEClass(SYMBOLIC_LINK);
-		createEAttribute(symbolicLinkEClass, SYMBOLIC_LINK__RELIABILITY);
+		symbolicLinkObjectEClass = createEClass(SYMBOLIC_LINK_OBJECT);
+		createEAttribute(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__RELIABILITY);
+
+		symbolicLinkReferenceEClass = createEClass(SYMBOLIC_LINK_REFERENCE);
+		createEReference(symbolicLinkReferenceEClass, SYMBOLIC_LINK_REFERENCE__TYPE);
 	}
 
 	/**
@@ -200,6 +241,9 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -208,11 +252,15 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(symbolicLinksEClass, SymbolicLinks.class, "SymbolicLinks", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSymbolicLinks_Links(), this.getSymbolicLink(), null, "links", null, 0, -1, SymbolicLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSymbolicLinks_LinkObjects(), this.getSymbolicLinkObject(), null, "linkObjects", null, 0, -1, SymbolicLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSymbolicLinks_DocType(), ecorePackage.getEString(), "docType", null, 0, 1, SymbolicLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSymbolicLinks_LinkReferences(), this.getSymbolicLinkReference(), null, "linkReferences", null, 0, -1, SymbolicLinks.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(symbolicLinkEClass, SymbolicLink.class, "SymbolicLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSymbolicLink_Reliability(), ecorePackage.getEFloat(), "reliability", null, 0, 1, SymbolicLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(symbolicLinkObjectEClass, SymbolicLinkObject.class, "SymbolicLinkObject", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSymbolicLinkObject_Reliability(), ecorePackage.getEFloat(), "reliability", null, 0, 1, SymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(symbolicLinkReferenceEClass, SymbolicLinkReference.class, "SymbolicLinkReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSymbolicLinkReference_Type(), theEcorePackage.getEReference(), null, "type", null, 1, 1, SymbolicLinkReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

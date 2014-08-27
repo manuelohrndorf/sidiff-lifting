@@ -4,14 +4,10 @@ package org.silift.difference.namedelementsymboliclink.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.silift.difference.namedelementsymboliclink.*;
-
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -70,12 +66,12 @@ public class NamedelementsymboliclinkAdapterFactory extends AdapterFactoryImpl {
 	protected NamedelementsymboliclinkSwitch<Adapter> modelSwitch =
 		new NamedelementsymboliclinkSwitch<Adapter>() {
 			@Override
-			public Adapter caseNamedElementSymbolicLink(NamedElementSymbolicLink object) {
-				return createNamedElementSymbolicLinkAdapter();
+			public Adapter caseNamedElementSymbolicLinkObject(NamedElementSymbolicLinkObject object) {
+				return createNamedElementSymbolicLinkObjectAdapter();
 			}
 			@Override
-			public Adapter caseSymbolicLink(SymbolicLink object) {
-				return createSymbolicLinkAdapter();
+			public Adapter caseSymbolicLinkObject(SymbolicLinkObject object) {
+				return createSymbolicLinkObjectAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -98,30 +94,30 @@ public class NamedelementsymboliclinkAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink <em>Named Element Symbolic Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject <em>Named Element Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink
+	 * @see org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject
 	 * @generated
 	 */
-	public Adapter createNamedElementSymbolicLinkAdapter() {
+	public Adapter createNamedElementSymbolicLinkObjectAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLink <em>Symbolic Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLinkObject <em>Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.silift.difference.symboliclink.SymbolicLink
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject
 	 * @generated
 	 */
-	public Adapter createSymbolicLinkAdapter() {
+	public Adapter createSymbolicLinkObjectAdapter() {
 		return null;
 	}
 

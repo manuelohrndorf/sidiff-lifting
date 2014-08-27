@@ -2,11 +2,16 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="symboliclink" nsURI="http://symboliclink/1.0" nsPrefix="symboliclink">
   <eClassifiers xsi:type="ecore:EClass" name="SymbolicLinks">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
-        eType="#//SymbolicLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkObjects" upperBound="-1"
+        eType="#//SymbolicLinkObject" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="docType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkReferences" upperBound="-1"
+        eType="#//SymbolicLinkReference" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SymbolicLink" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicLinkObject" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolicLinkReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
   </eClassifiers>
 </ecore:EPackage>

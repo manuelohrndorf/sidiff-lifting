@@ -12,7 +12,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
@@ -23,8 +24,9 @@ import org.silift.difference.symboliclink.SymboliclinkPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinksImpl#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinksImpl#getLinkObjects <em>Link Objects</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinksImpl#getDocType <em>Doc Type</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinksImpl#getLinkReferences <em>Link References</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,14 +34,14 @@ import org.silift.difference.symboliclink.SymboliclinkPackage;
  */
 public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements SymbolicLinks {
 	/**
-	 * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference list.
+	 * The cached value of the '{@link #getLinkObjects() <em>Link Objects</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLinks()
+	 * @see #getLinkObjects()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<SymbolicLink> links;
+	protected EList<SymbolicLinkObject> linkObjects;
 	/**
 	 * The default value of the '{@link #getDocType() <em>Doc Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -58,6 +60,15 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * @ordered
 	 */
 	protected String docType = DOC_TYPE_EDEFAULT;
+	/**
+	 * The cached value of the '{@link #getLinkReferences() <em>Link References</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkReferences()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SymbolicLinkReference> linkReferences;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,11 +93,11 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<SymbolicLink> getLinks() {
-		if (links == null) {
-			links = new EObjectContainmentEList<SymbolicLink>(SymbolicLink.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINKS);
+	public EList<SymbolicLinkObject> getLinkObjects() {
+		if (linkObjects == null) {
+			linkObjects = new EObjectContainmentEList<SymbolicLinkObject>(SymbolicLinkObject.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS);
 		}
-		return links;
+		return linkObjects;
 	}
 
 	/**
@@ -115,11 +126,25 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<SymbolicLinkReference> getLinkReferences() {
+		if (linkReferences == null) {
+			linkReferences = new EObjectContainmentEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES);
+		}
+		return linkReferences;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINKS__LINKS:
-				return ((InternalEList<?>)getLinks()).basicRemove(otherEnd, msgs);
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS:
+				return ((InternalEList<?>)getLinkObjects()).basicRemove(otherEnd, msgs);
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES:
+				return ((InternalEList<?>)getLinkReferences()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -132,10 +157,12 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINKS__LINKS:
-				return getLinks();
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS:
+				return getLinkObjects();
 			case SymboliclinkPackage.SYMBOLIC_LINKS__DOC_TYPE:
 				return getDocType();
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES:
+				return getLinkReferences();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -149,12 +176,16 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINKS__LINKS:
-				getLinks().clear();
-				getLinks().addAll((Collection<? extends SymbolicLink>)newValue);
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS:
+				getLinkObjects().clear();
+				getLinkObjects().addAll((Collection<? extends SymbolicLinkObject>)newValue);
 				return;
 			case SymboliclinkPackage.SYMBOLIC_LINKS__DOC_TYPE:
 				setDocType((String)newValue);
+				return;
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES:
+				getLinkReferences().clear();
+				getLinkReferences().addAll((Collection<? extends SymbolicLinkReference>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -168,11 +199,14 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINKS__LINKS:
-				getLinks().clear();
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS:
+				getLinkObjects().clear();
 				return;
 			case SymboliclinkPackage.SYMBOLIC_LINKS__DOC_TYPE:
 				setDocType(DOC_TYPE_EDEFAULT);
+				return;
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES:
+				getLinkReferences().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -186,10 +220,12 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINKS__LINKS:
-				return links != null && !links.isEmpty();
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS:
+				return linkObjects != null && !linkObjects.isEmpty();
 			case SymboliclinkPackage.SYMBOLIC_LINKS__DOC_TYPE:
 				return DOC_TYPE_EDEFAULT == null ? docType != null : !DOC_TYPE_EDEFAULT.equals(docType);
+			case SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES:
+				return linkReferences != null && !linkReferences.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

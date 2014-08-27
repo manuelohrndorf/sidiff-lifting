@@ -8,26 +8,26 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.silift.difference.symboliclink.impl.SymbolicLinkImpl;
+import org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl;
 
-import org.silift.difference.uuidsymboliclink.UUIDSymbolicLink;
+import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>UUID Symbolic Link</b></em>'.
+ * An implementation of the model object '<em><b>UUID Symbolic Link Object</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl#getUuid <em>Uuid</em>}</li>
- *   <li>{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl#getUuid <em>Uuid</em>}</li>
+ *   <li>{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbolicLink {
+public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implements UUIDSymbolicLinkObject {
 	/**
 	 * The default value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -73,7 +73,7 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UUIDSymbolicLinkImpl() {
+	protected UUIDSymbolicLinkObjectImpl() {
 		super();
 	}
 
@@ -84,7 +84,7 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UuidsymboliclinkPackage.Literals.UUID_SYMBOLIC_LINK;
+		return UuidsymboliclinkPackage.Literals.UUID_SYMBOLIC_LINK_OBJECT;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 		String oldUuid = uuid;
 		uuid = newUuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__UUID, oldUuid, uuid));
+			eNotify(new ENotificationImpl(this, Notification.SET, UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__UUID, oldUuid, uuid));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__NAME, oldName, name));
 	}
 
 	/**
@@ -137,9 +137,9 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__UUID:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__UUID:
 				return getUuid();
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__NAME:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__NAME:
 				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -153,10 +153,10 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__UUID:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__UUID:
 				setUuid((String)newValue);
 				return;
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__NAME:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__NAME:
 				setName((String)newValue);
 				return;
 		}
@@ -171,10 +171,10 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__UUID:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__UUID:
 				setUuid(UUID_EDEFAULT);
 				return;
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__NAME:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 		}
@@ -189,9 +189,9 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__UUID:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__UUID:
 				return UUID_EDEFAULT == null ? uuid != null : !UUID_EDEFAULT.equals(uuid);
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK__NAME:
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
@@ -215,4 +215,4 @@ public class UUIDSymbolicLinkImpl extends SymbolicLinkImpl implements UUIDSymbol
 		return result.toString();
 	}
 
-} //UUIDSymbolicLinkImpl
+} //UUIDSymbolicLinkObjectImpl

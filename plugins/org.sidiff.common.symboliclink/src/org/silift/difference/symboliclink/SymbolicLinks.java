@@ -14,8 +14,9 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.silift.difference.symboliclink.SymbolicLinks#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinks#getLinkObjects <em>Link Objects</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinks#getDocType <em>Doc Type</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinks#getLinkReferences <em>Link References</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,20 +26,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SymbolicLinks extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Links</b></em>' containment reference list.
-	 * The list contents are of type {@link org.silift.difference.symboliclink.SymbolicLink}.
+	 * Returns the value of the '<em><b>Link Objects</b></em>' containment reference list.
+	 * The list contents are of type {@link org.silift.difference.symboliclink.SymbolicLinkObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Links</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Link Objects</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Links</em>' containment reference list.
-	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinks_Links()
+	 * @return the value of the '<em>Link Objects</em>' containment reference list.
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinks_LinkObjects()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<SymbolicLink> getLinks();
+	EList<SymbolicLinkObject> getLinkObjects();
 
 	/**
 	 * Returns the value of the '<em><b>Doc Type</b></em>' attribute.
@@ -65,5 +66,21 @@ public interface SymbolicLinks extends EObject {
 	 * @generated
 	 */
 	void setDocType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Link References</b></em>' containment reference list.
+	 * The list contents are of type {@link org.silift.difference.symboliclink.SymbolicLinkReference}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Link References</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Link References</em>' containment reference list.
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinks_LinkReferences()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<SymbolicLinkReference> getLinkReferences();
 
 } // SymbolicLinks

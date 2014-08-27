@@ -56,7 +56,7 @@ public class UuidsymboliclinkFactoryImpl extends EFactoryImpl implements Uuidsym
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK: return createUUIDSymbolicLink();
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT: return createUUIDSymbolicLinkObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -67,9 +67,9 @@ public class UuidsymboliclinkFactoryImpl extends EFactoryImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UUIDSymbolicLink createUUIDSymbolicLink() {
-		UUIDSymbolicLinkImpl uuidSymbolicLink = new UUIDSymbolicLinkImpl();
-		return uuidSymbolicLink;
+	public UUIDSymbolicLinkObject createUUIDSymbolicLinkObject() {
+		UUIDSymbolicLinkObjectImpl uuidSymbolicLinkObject = new UUIDSymbolicLinkObjectImpl();
+		return uuidSymbolicLinkObject;
 	}
 
 	/**

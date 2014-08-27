@@ -72,8 +72,12 @@ public class SymboliclinkAdapterFactory extends AdapterFactoryImpl {
 				return createSymbolicLinksAdapter();
 			}
 			@Override
-			public Adapter caseSymbolicLink(SymbolicLink object) {
-				return createSymbolicLinkAdapter();
+			public Adapter caseSymbolicLinkObject(SymbolicLinkObject object) {
+				return createSymbolicLinkObjectAdapter();
+			}
+			@Override
+			public Adapter caseSymbolicLinkReference(SymbolicLinkReference object) {
+				return createSymbolicLinkReferenceAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -110,16 +114,30 @@ public class SymboliclinkAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLink <em>Symbolic Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLinkObject <em>Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.silift.difference.symboliclink.SymbolicLink
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject
 	 * @generated
 	 */
-	public Adapter createSymbolicLinkAdapter() {
+	public Adapter createSymbolicLinkObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLinkReference <em>Symbolic Link Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkReference
+	 * @generated
+	 */
+	public Adapter createSymbolicLinkReferenceAdapter() {
 		return null;
 	}
 

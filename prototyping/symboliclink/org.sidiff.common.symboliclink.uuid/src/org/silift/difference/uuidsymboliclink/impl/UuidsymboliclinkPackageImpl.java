@@ -5,12 +5,9 @@ package org.silift.difference.uuidsymboliclink.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.silift.difference.symboliclink.SymboliclinkPackage;
-
-import org.silift.difference.uuidsymboliclink.UUIDSymbolicLink;
+import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage;
 
@@ -26,8 +23,7 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uuidSymbolicLinkEClass = null;
-
+	private EClass uuidSymbolicLinkObjectEClass = null;
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -97,8 +93,8 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUUIDSymbolicLink() {
-		return uuidSymbolicLinkEClass;
+	public EClass getUUIDSymbolicLinkObject() {
+		return uuidSymbolicLinkObjectEClass;
 	}
 
 	/**
@@ -106,8 +102,8 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUUIDSymbolicLink_Uuid() {
-		return (EAttribute)uuidSymbolicLinkEClass.getEStructuralFeatures().get(0);
+	public EAttribute getUUIDSymbolicLinkObject_Uuid() {
+		return (EAttribute)uuidSymbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -115,8 +111,8 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUUIDSymbolicLink_Name() {
-		return (EAttribute)uuidSymbolicLinkEClass.getEStructuralFeatures().get(1);
+	public EAttribute getUUIDSymbolicLinkObject_Name() {
+		return (EAttribute)uuidSymbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -147,9 +143,9 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 		isCreated = true;
 
 		// Create classes and their features
-		uuidSymbolicLinkEClass = createEClass(UUID_SYMBOLIC_LINK);
-		createEAttribute(uuidSymbolicLinkEClass, UUID_SYMBOLIC_LINK__UUID);
-		createEAttribute(uuidSymbolicLinkEClass, UUID_SYMBOLIC_LINK__NAME);
+		uuidSymbolicLinkObjectEClass = createEClass(UUID_SYMBOLIC_LINK_OBJECT);
+		createEAttribute(uuidSymbolicLinkObjectEClass, UUID_SYMBOLIC_LINK_OBJECT__UUID);
+		createEAttribute(uuidSymbolicLinkObjectEClass, UUID_SYMBOLIC_LINK_OBJECT__NAME);
 	}
 
 	/**
@@ -183,12 +179,12 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		uuidSymbolicLinkEClass.getESuperTypes().add(theSymboliclinkPackage.getSymbolicLink());
+		uuidSymbolicLinkObjectEClass.getESuperTypes().add(theSymboliclinkPackage.getSymbolicLinkObject());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(uuidSymbolicLinkEClass, UUIDSymbolicLink.class, "UUIDSymbolicLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUUIDSymbolicLink_Uuid(), ecorePackage.getEString(), "uuid", null, 1, 1, UUIDSymbolicLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUUIDSymbolicLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, UUIDSymbolicLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(uuidSymbolicLinkObjectEClass, UUIDSymbolicLinkObject.class, "UUIDSymbolicLinkObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUUIDSymbolicLinkObject_Uuid(), ecorePackage.getEString(), "uuid", null, 1, 1, UUIDSymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUUIDSymbolicLinkObject_Name(), ecorePackage.getEString(), "name", null, 0, 1, UUIDSymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

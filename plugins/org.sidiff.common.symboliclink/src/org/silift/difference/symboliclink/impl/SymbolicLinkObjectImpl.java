@@ -3,28 +3,29 @@
 package org.silift.difference.symboliclink.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Symbolic Link</b></em>'.
+ * An implementation of the model object '<em><b>Symbolic Link Object</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkImpl#getReliability <em>Reliability</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getReliability <em>Reliability</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container implements SymbolicLink {
+public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Container implements SymbolicLinkObject {
 	/**
 	 * The default value of the '{@link #getReliability() <em>Reliability</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -34,6 +35,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	 * @ordered
 	 */
 	protected static final float RELIABILITY_EDEFAULT = 0.0F;
+
 	/**
 	 * The cached value of the '{@link #getReliability() <em>Reliability</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -49,7 +51,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SymbolicLinkImpl() {
+	protected SymbolicLinkObjectImpl() {
 		super();
 	}
 
@@ -60,7 +62,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SymboliclinkPackage.Literals.SYMBOLIC_LINK;
+		return SymboliclinkPackage.Literals.SYMBOLIC_LINK_OBJECT;
 	}
 
 	/**
@@ -81,7 +83,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 		float oldReliability = reliability;
 		reliability = newReliability;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SymboliclinkPackage.SYMBOLIC_LINK__RELIABILITY, oldReliability, reliability));
+			eNotify(new ENotificationImpl(this, Notification.SET, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY, oldReliability, reliability));
 	}
 
 	/**
@@ -92,7 +94,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINK__RELIABILITY:
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY:
 				return getReliability();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -106,7 +108,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINK__RELIABILITY:
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY:
 				setReliability((Float)newValue);
 				return;
 		}
@@ -121,7 +123,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINK__RELIABILITY:
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY:
 				setReliability(RELIABILITY_EDEFAULT);
 				return;
 		}
@@ -136,7 +138,7 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SymboliclinkPackage.SYMBOLIC_LINK__RELIABILITY:
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY:
 				return reliability != RELIABILITY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -158,4 +160,4 @@ public abstract class SymbolicLinkImpl extends MinimalEObjectImpl.Container impl
 		return result.toString();
 	}
 
-} //SymbolicLinkImpl
+} //SymbolicLinkObjectImpl

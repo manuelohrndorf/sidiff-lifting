@@ -22,13 +22,13 @@ public interface UuidsymboliclinkFactory extends EFactory {
 	UuidsymboliclinkFactory eINSTANCE = org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>UUID Symbolic Link</em>'.
+	 * Returns a new object of class '<em>UUID Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>UUID Symbolic Link</em>'.
+	 * @return a new object of class '<em>UUID Symbolic Link Object</em>'.
 	 * @generated
 	 */
-	UUIDSymbolicLink createUUIDSymbolicLink();
+	UUIDSymbolicLinkObject createUUIDSymbolicLinkObject();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.silift.difference.symboliclink/src" modelPluginID="org.silift.difference.symboliclink"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.common.symboliclink/src" modelPluginID="org.sidiff.common.symboliclink"
     modelName="SymbolicLink" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
-    operationReflection="true" importOrganizing="true">
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" operationReflection="true"
+    importOrganizing="true">
   <foreignModel>SymbolicLink.ecore</foreignModel>
   <genPackages prefix="Symboliclink" basePackage="org.silift.difference" disposableProviderFactory="true"
       ecorePackage="SymbolicLink.ecore#/">
     <genClasses ecoreClass="SymbolicLink.ecore#//SymbolicLinks">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinks/links"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinks/linkObjects"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//SymbolicLinks/docType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinks/linkReferences"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="SymbolicLink.ecore#//SymbolicLink">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//SymbolicLink/reliability"/>
+    <genClasses image="false" ecoreClass="SymbolicLink.ecore#//SymbolicLinkObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//SymbolicLinkObject/reliability"/>
+    </genClasses>
+    <genClasses ecoreClass="SymbolicLink.ecore#//SymbolicLinkReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinkReference/type"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -4,13 +4,9 @@ package org.silift.difference.uuidsymboliclink.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.silift.difference.symboliclink.SymbolicLink;
-
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.*;
 
 /**
@@ -70,12 +66,12 @@ public class UuidsymboliclinkAdapterFactory extends AdapterFactoryImpl {
 	protected UuidsymboliclinkSwitch<Adapter> modelSwitch =
 		new UuidsymboliclinkSwitch<Adapter>() {
 			@Override
-			public Adapter caseUUIDSymbolicLink(UUIDSymbolicLink object) {
-				return createUUIDSymbolicLinkAdapter();
+			public Adapter caseUUIDSymbolicLinkObject(UUIDSymbolicLinkObject object) {
+				return createUUIDSymbolicLinkObjectAdapter();
 			}
 			@Override
-			public Adapter caseSymbolicLink(SymbolicLink object) {
-				return createSymbolicLinkAdapter();
+			public Adapter caseSymbolicLinkObject(SymbolicLinkObject object) {
+				return createSymbolicLinkObjectAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -98,30 +94,30 @@ public class UuidsymboliclinkAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink <em>UUID Symbolic Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject <em>UUID Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLink
+	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject
 	 * @generated
 	 */
-	public Adapter createUUIDSymbolicLinkAdapter() {
+	public Adapter createUUIDSymbolicLinkObjectAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLink <em>Symbolic Link</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.SymbolicLinkObject <em>Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.silift.difference.symboliclink.SymbolicLink
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject
 	 * @generated
 	 */
-	public Adapter createSymbolicLinkAdapter() {
+	public Adapter createSymbolicLinkObjectAdapter() {
 		return null;
 	}
 

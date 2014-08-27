@@ -58,14 +58,23 @@ public interface UuidsymboliclinkPackage extends EPackage {
 	UuidsymboliclinkPackage eINSTANCE = org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl <em>UUID Symbolic Link</em>}' class.
+	 * The meta object id for the '{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl <em>UUID Symbolic Link Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl
-	 * @see org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkPackageImpl#getUUIDSymbolicLink()
+	 * @see org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl
+	 * @see org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkPackageImpl#getUUIDSymbolicLinkObject()
 	 * @generated
 	 */
-	int UUID_SYMBOLIC_LINK = 0;
+	int UUID_SYMBOLIC_LINK_OBJECT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Reliability</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UUID_SYMBOLIC_LINK_OBJECT__RELIABILITY = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Uuid</b></em>' attribute.
@@ -74,7 +83,7 @@ public interface UuidsymboliclinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UUID_SYMBOLIC_LINK__UUID = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 0;
+	int UUID_SYMBOLIC_LINK_OBJECT__UUID = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -83,58 +92,58 @@ public interface UuidsymboliclinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UUID_SYMBOLIC_LINK__NAME = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 1;
+	int UUID_SYMBOLIC_LINK_OBJECT__NAME = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>UUID Symbolic Link</em>' class.
+	 * The number of structural features of the '<em>UUID Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UUID_SYMBOLIC_LINK_FEATURE_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_FEATURE_COUNT + 2;
+	int UUID_SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of operations of the '<em>UUID Symbolic Link</em>' class.
+	 * The number of operations of the '<em>UUID Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UUID_SYMBOLIC_LINK_OPERATION_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OPERATION_COUNT + 0;
+	int UUID_SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_OPERATION_COUNT + 0;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink <em>UUID Symbolic Link</em>}'.
+	 * Returns the meta object for class '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject <em>UUID Symbolic Link Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>UUID Symbolic Link</em>'.
-	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLink
+	 * @return the meta object for class '<em>UUID Symbolic Link Object</em>'.
+	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject
 	 * @generated
 	 */
-	EClass getUUIDSymbolicLink();
+	EClass getUUIDSymbolicLinkObject();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getUuid <em>Uuid</em>}'.
+	 * Returns the meta object for the attribute '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getUuid <em>Uuid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Uuid</em>'.
-	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getUuid()
-	 * @see #getUUIDSymbolicLink()
+	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getUuid()
+	 * @see #getUUIDSymbolicLinkObject()
 	 * @generated
 	 */
-	EAttribute getUUIDSymbolicLink_Uuid();
+	EAttribute getUUIDSymbolicLinkObject_Uuid();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getName()
-	 * @see #getUUIDSymbolicLink()
+	 * @see org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getName()
+	 * @see #getUUIDSymbolicLinkObject()
 	 * @generated
 	 */
-	EAttribute getUUIDSymbolicLink_Name();
+	EAttribute getUUIDSymbolicLinkObject_Name();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -160,14 +169,14 @@ public interface UuidsymboliclinkPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl <em>UUID Symbolic Link</em>}' class.
+		 * The meta object literal for the '{@link org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl <em>UUID Symbolic Link Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkImpl
-		 * @see org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkPackageImpl#getUUIDSymbolicLink()
+		 * @see org.silift.difference.uuidsymboliclink.impl.UUIDSymbolicLinkObjectImpl
+		 * @see org.silift.difference.uuidsymboliclink.impl.UuidsymboliclinkPackageImpl#getUUIDSymbolicLinkObject()
 		 * @generated
 		 */
-		EClass UUID_SYMBOLIC_LINK = eINSTANCE.getUUIDSymbolicLink();
+		EClass UUID_SYMBOLIC_LINK_OBJECT = eINSTANCE.getUUIDSymbolicLinkObject();
 
 		/**
 		 * The meta object literal for the '<em><b>Uuid</b></em>' attribute feature.
@@ -175,7 +184,7 @@ public interface UuidsymboliclinkPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute UUID_SYMBOLIC_LINK__UUID = eINSTANCE.getUUIDSymbolicLink_Uuid();
+		EAttribute UUID_SYMBOLIC_LINK_OBJECT__UUID = eINSTANCE.getUUIDSymbolicLinkObject_Uuid();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -183,7 +192,7 @@ public interface UuidsymboliclinkPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute UUID_SYMBOLIC_LINK__NAME = eINSTANCE.getUUIDSymbolicLink_Name();
+		EAttribute UUID_SYMBOLIC_LINK_OBJECT__NAME = eINSTANCE.getUUIDSymbolicLinkObject_Name();
 
 	}
 

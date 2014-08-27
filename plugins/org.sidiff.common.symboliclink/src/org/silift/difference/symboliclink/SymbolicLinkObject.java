@@ -6,22 +6,21 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Symbolic Link</b></em>'.
+ * A representation of the model object '<em><b>Symbolic Link Object</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.silift.difference.symboliclink.SymbolicLink#getReliability <em>Reliability</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getReliability <em>Reliability</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLink()
+ * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkObject()
  * @model abstract="true"
  * @generated
  */
-public interface SymbolicLink extends EObject {
-
+public interface SymbolicLinkObject extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Reliability</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -32,14 +31,14 @@ public interface SymbolicLink extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Reliability</em>' attribute.
 	 * @see #setReliability(float)
-	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLink_Reliability()
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkObject_Reliability()
 	 * @model
 	 * @generated
 	 */
 	float getReliability();
 
 	/**
-	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLink#getReliability <em>Reliability</em>}' attribute.
+	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getReliability <em>Reliability</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Reliability</em>' attribute.
@@ -47,4 +46,5 @@ public interface SymbolicLink extends EObject {
 	 * @generated
 	 */
 	void setReliability(float value);
-} // SymbolicLink
+
+} // SymbolicLinkObject

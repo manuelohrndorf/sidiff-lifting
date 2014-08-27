@@ -2,26 +2,26 @@
  */
 package org.silift.difference.uuidsymboliclink;
 
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>UUID Symbolic Link</b></em>'.
+ * A representation of the model object '<em><b>UUID Symbolic Link Object</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getUuid <em>Uuid</em>}</li>
- *   <li>{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getName <em>Name</em>}</li>
+ *   <li>{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getUuid <em>Uuid</em>}</li>
+ *   <li>{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLink()
+ * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLinkObject()
  * @model
  * @generated
  */
-public interface UUIDSymbolicLink extends SymbolicLink {
+public interface UUIDSymbolicLinkObject extends SymbolicLinkObject {
 	/**
 	 * Returns the value of the '<em><b>Uuid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -32,14 +32,14 @@ public interface UUIDSymbolicLink extends SymbolicLink {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Uuid</em>' attribute.
 	 * @see #setUuid(String)
-	 * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLink_Uuid()
+	 * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLinkObject_Uuid()
 	 * @model required="true"
 	 * @generated
 	 */
 	String getUuid();
 
 	/**
-	 * Sets the value of the '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getUuid <em>Uuid</em>}' attribute.
+	 * Sets the value of the '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getUuid <em>Uuid</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Uuid</em>' attribute.
@@ -58,14 +58,14 @@ public interface UUIDSymbolicLink extends SymbolicLink {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLink_Name()
+	 * @see org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage#getUUIDSymbolicLinkObject_Name()
 	 * @model
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLink#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
@@ -74,4 +74,4 @@ public interface UUIDSymbolicLink extends SymbolicLink {
 	 */
 	void setName(String value);
 
-} // UUIDSymbolicLink
+} // UUIDSymbolicLinkObject

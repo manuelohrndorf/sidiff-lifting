@@ -56,7 +56,7 @@ public class NamedelementsymboliclinkFactoryImpl extends EFactoryImpl implements
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK: return createNamedElementSymbolicLink();
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT: return createNamedElementSymbolicLinkObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -67,9 +67,9 @@ public class NamedelementsymboliclinkFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NamedElementSymbolicLink createNamedElementSymbolicLink() {
-		NamedElementSymbolicLinkImpl namedElementSymbolicLink = new NamedElementSymbolicLinkImpl();
-		return namedElementSymbolicLink;
+	public NamedElementSymbolicLinkObject createNamedElementSymbolicLinkObject() {
+		NamedElementSymbolicLinkObjectImpl namedElementSymbolicLinkObject = new NamedElementSymbolicLinkObjectImpl();
+		return namedElementSymbolicLinkObject;
 	}
 
 	/**

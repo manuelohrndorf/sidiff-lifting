@@ -7,9 +7,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
-import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
 
@@ -24,25 +24,25 @@ public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler
 	private static final String KEY = "NamedElementSymbolicLinkHandler";
 	
 	@Override
-	public SymbolicLink generateSymbolicLink(SymbolicLinks symbolicLinks,
+	public SymbolicLinkObject generateSymbolicLinkObject(SymbolicLinks symbolicLinks,
 			EObject eObject) {
 		String name = deriveQualifiedName(eObject);
-		for(SymbolicLink l : symbolicLinks.getLinks()){
-			NamedElementSymbolicLink link = (NamedElementSymbolicLink) l;
+		for(SymbolicLinkObject l : symbolicLinks.getLinkObjects()){
+			NamedElementSymbolicLinkObject link = (NamedElementSymbolicLinkObject) l;
 			if(link.getQualifiedName() != null && link.getQualifiedName().equals(name)){
 				return link;
 			}
 		}
-		NamedElementSymbolicLink link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLink();
+		NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
 		link.setQualifiedName(name);
 		link.setReliability(1.f);
-		symbolicLinks.getLinks().add(link);
+		symbolicLinks.getLinkObjects().add(link);
 		return link;
 	}
 
 	@Override
-	public EObject resolveSymbolicLink(SymbolicLink symbolicLink, Resource targetModel) {
-		NamedElementSymbolicLink namedElementSymbolicLink = (NamedElementSymbolicLink)symbolicLink;
+	public EObject resolveSymbolicLink(SymbolicLinkObject symbolicLink, Resource targetModel) {
+		NamedElementSymbolicLinkObject namedElementSymbolicLink = (NamedElementSymbolicLinkObject)symbolicLink;
 		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
 			EObject eObject = (EObject) iterator.next();
 			EObjectLocation location = EMFResourceUtil.locate(targetModel, eObject);

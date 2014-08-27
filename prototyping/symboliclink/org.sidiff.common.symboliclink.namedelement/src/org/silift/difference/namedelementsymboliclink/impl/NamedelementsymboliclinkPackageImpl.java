@@ -5,13 +5,10 @@ package org.silift.difference.namedelementsymboliclink.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkPackage;
-
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
 /**
@@ -26,8 +23,7 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass namedElementSymbolicLinkEClass = null;
-
+	private EClass namedElementSymbolicLinkObjectEClass = null;
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -97,8 +93,8 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNamedElementSymbolicLink() {
-		return namedElementSymbolicLinkEClass;
+	public EClass getNamedElementSymbolicLinkObject() {
+		return namedElementSymbolicLinkObjectEClass;
 	}
 
 	/**
@@ -106,8 +102,8 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamedElementSymbolicLink_Name() {
-		return (EAttribute)namedElementSymbolicLinkEClass.getEStructuralFeatures().get(0);
+	public EAttribute getNamedElementSymbolicLinkObject_Name() {
+		return (EAttribute)namedElementSymbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -115,8 +111,8 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNamedElementSymbolicLink_QualifiedName() {
-		return (EAttribute)namedElementSymbolicLinkEClass.getEStructuralFeatures().get(1);
+	public EAttribute getNamedElementSymbolicLinkObject_QualifiedName() {
+		return (EAttribute)namedElementSymbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -147,9 +143,9 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 		isCreated = true;
 
 		// Create classes and their features
-		namedElementSymbolicLinkEClass = createEClass(NAMED_ELEMENT_SYMBOLIC_LINK);
-		createEAttribute(namedElementSymbolicLinkEClass, NAMED_ELEMENT_SYMBOLIC_LINK__NAME);
-		createEAttribute(namedElementSymbolicLinkEClass, NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME);
+		namedElementSymbolicLinkObjectEClass = createEClass(NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT);
+		createEAttribute(namedElementSymbolicLinkObjectEClass, NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME);
+		createEAttribute(namedElementSymbolicLinkObjectEClass, NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME);
 	}
 
 	/**
@@ -183,12 +179,12 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		namedElementSymbolicLinkEClass.getESuperTypes().add(theSymboliclinkPackage.getSymbolicLink());
+		namedElementSymbolicLinkObjectEClass.getESuperTypes().add(theSymboliclinkPackage.getSymbolicLinkObject());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(namedElementSymbolicLinkEClass, NamedElementSymbolicLink.class, "NamedElementSymbolicLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamedElementSymbolicLink_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElementSymbolicLink.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNamedElementSymbolicLink_QualifiedName(), ecorePackage.getEString(), "qualifiedName", null, 0, 1, NamedElementSymbolicLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(namedElementSymbolicLinkObjectEClass, NamedElementSymbolicLinkObject.class, "NamedElementSymbolicLinkObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNamedElementSymbolicLinkObject_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElementSymbolicLinkObject.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNamedElementSymbolicLinkObject_QualifiedName(), ecorePackage.getEString(), "qualifiedName", null, 0, 1, NamedElementSymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -33,7 +33,7 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
-import org.silift.difference.symboliclink.SymbolicLink;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkFactory;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -100,35 +100,35 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 		}
 		for(DependencyContainer dc : asymmetricDifference.getDepContainers()){
 			for(Dependency d : dc.getDependencies()){
-				SymbolicLink symbolicLink = null;
+				SymbolicLinkObject symbolicLink = null;
 				if(d instanceof NodeDependency){
 					NodeDependency nodeDependency = (NodeDependency) d;
 					if(nodeDependency.getObject().eResource().equals(modelA)){
-						symbolicLink = generateSymbolicLink(sls_modelA, nodeDependency.getObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelA, nodeDependency.getObject());
 					}else if(nodeDependency.getObject().eResource().equals(modelB)){
-						symbolicLink = generateSymbolicLink(sls_modelB, nodeDependency.getObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelB, nodeDependency.getObject());
 					}
 					nodeDependency.setObject(symbolicLink);
 				}else if(d instanceof EdgeDependency){
 					EdgeDependency edgeDependency = (EdgeDependency) d;
 					if(edgeDependency.getSrcObject().eResource().equals(modelA)){
-						symbolicLink = generateSymbolicLink(sls_modelA, edgeDependency.getSrcObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelA, edgeDependency.getSrcObject());
 					}else if(edgeDependency.getSrcObject().eResource().equals(modelB)){
-						symbolicLink = generateSymbolicLink(sls_modelB, edgeDependency.getSrcObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelB, edgeDependency.getSrcObject());
 					}
 					edgeDependency.setSrcObject(symbolicLink);
 					if(edgeDependency.getTgtObject().eResource().equals(modelA)){
-						symbolicLink = generateSymbolicLink(sls_modelA, edgeDependency.getTgtObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelA, edgeDependency.getTgtObject());
 					}else if(edgeDependency.getTgtObject().eResource().equals(modelB)){
-						symbolicLink = generateSymbolicLink(sls_modelB, edgeDependency.getTgtObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelB, edgeDependency.getTgtObject());
 					}
 					edgeDependency.setTgtObject(symbolicLink);
 				}else if(d instanceof AttributeDependency){
 					AttributeDependency attributeDependency = (AttributeDependency) d;
 					if(attributeDependency.getObject().eResource().equals(modelA)){ 
-						symbolicLink = generateSymbolicLink(sls_modelA, attributeDependency.getObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelA, attributeDependency.getObject());
 					}else if(attributeDependency.getObject().eResource().equals(modelB)){
-						symbolicLink = generateSymbolicLink(sls_modelB, attributeDependency.getObject());
+						symbolicLink = generateSymbolicLinkObject(sls_modelB, attributeDependency.getObject());
 					}
 					attributeDependency.setObject(symbolicLink);
 				}
@@ -145,11 +145,11 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	 */
 	private void generateSL_for_ObjPB(ObjectParameterBinding ob){
 		if(ob.getActualA()!= null && (EMFResourceUtil.locate(modelA, ob.getActualA()).equals(EObjectLocation.RESOURCE_INTERNAL))){
-			SymbolicLink symbolicLink = generateSymbolicLink(sls_modelA, ob.getActualA());
+			SymbolicLinkObject symbolicLink = generateSymbolicLinkObject(sls_modelA, ob.getActualA());
 			ob.setActualA(symbolicLink);
 		}
 		if(ob.getActualB()!=null && (EMFResourceUtil.locate(modelB, ob.getActualB()).equals(EObjectLocation.RESOURCE_INTERNAL))){
-			SymbolicLink symbolicLink = generateSymbolicLink(sls_modelB, ob.getActualB());
+			SymbolicLinkObject symbolicLink = generateSymbolicLinkObject(sls_modelB, ob.getActualB());
 			ob.setActualB(symbolicLink);
 		}
 	}
@@ -181,12 +181,12 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				location = EMFResourceUtil.locate(modelA, removeReference.getSrc());
 				if(location.equals(EObjectLocation.RESOURCE_INTERNAL))
 				{
-					SymbolicLink sl_modelA_src = generateSymbolicLink(sls_modelA, removeReference.getSrc());
+					SymbolicLinkObject sl_modelA_src = generateSymbolicLinkObject(sls_modelA, removeReference.getSrc());
 					removeReference.setSrc(sl_modelA_src);
 				}
 				location = EMFResourceUtil.locate(modelA, removeReference.getTgt());
 				if(location.equals(EObjectLocation.RESOURCE_INTERNAL)){
-					SymbolicLink sl_modelA_tgt = generateSymbolicLink(sls_modelA, removeReference.getTgt());
+					SymbolicLinkObject sl_modelA_tgt = generateSymbolicLinkObject(sls_modelA, removeReference.getTgt());
 					removeReference.setTgt(sl_modelA_tgt);
 				}
 			}
@@ -195,43 +195,43 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				AddReference addReference = (AddReference) change;
 				location = EMFResourceUtil.locate(modelB, addReference.getSrc());
 				if(location.equals(EObjectLocation.RESOURCE_INTERNAL)){
-					SymbolicLink sl_modelB_src = generateSymbolicLink(sls_modelB, addReference.getSrc());
+					SymbolicLinkObject sl_modelB_src = generateSymbolicLinkObject(sls_modelB, addReference.getSrc());
 					addReference.setSrc(sl_modelB_src);
 				}
 				location = EMFResourceUtil.locate(modelB, addReference.getTgt());
 				if(location.equals(EObjectLocation.RESOURCE_INTERNAL)){
-					SymbolicLink sl_modelB_tgt = generateSymbolicLink(sls_modelB, addReference.getTgt());
+					SymbolicLinkObject sl_modelB_tgt = generateSymbolicLinkObject(sls_modelB, addReference.getTgt());
 					addReference.setTgt(sl_modelB_tgt);
 				}
 			}
 			
 			if(change instanceof AttributeValueChange){
 				AttributeValueChange attributeValueChange = (AttributeValueChange)change;
-				SymbolicLink sl_modelA = generateSymbolicLink(sls_modelA, attributeValueChange.getObjA());
+				SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(sls_modelA, attributeValueChange.getObjA());
 				attributeValueChange.setObjA(sl_modelA);
 				
-				SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, attributeValueChange.getObjB());
+				SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(sls_modelB, attributeValueChange.getObjB());
 				attributeValueChange.setObjB(sl_modelB);
 			}
 			
 			if(change instanceof RemoveObject){
 				RemoveObject removeObject = (RemoveObject)change;
-				SymbolicLink sl_modelA = generateSymbolicLink(sls_modelA, removeObject.getObj());
+				SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(sls_modelA, removeObject.getObj());
 				removeObject.setObj(sl_modelA);
 			}
 			
 			if(change instanceof AddObject){
 				AddObject addObject = (AddObject)change;
-				SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, addObject.getObj());
+				SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(sls_modelB, addObject.getObj());
 				addObject.setObj(sl_modelB);
 			}
 		}
 		
 		for(Correspondence c : symmetricDifference.getCorrespondences()){
-			SymbolicLink sl_modelA = generateSymbolicLink(sls_modelA, c.getObjA());
+			SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(sls_modelA, c.getObjA());
 			c.setObjA(sl_modelA);
 			
-			SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, c.getObjB());
+			SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(sls_modelB, c.getObjB());
 			c.setObjB(sl_modelB);	
 		}
 		
@@ -243,7 +243,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				for(String nodeOccurrenceA_key : erm.getNodeOccurrencesA().keySet()){
 					EObjectSet eObjectSet = SymmetricFactory.eINSTANCE.createEObjectSet();
 					for(EObject eObject : erm.getNodeOccurrencesA().get(nodeOccurrenceA_key).getElements()){
-						SymbolicLink sl_modelA = generateSymbolicLink(sls_modelA, eObject);
+						SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(sls_modelA, eObject);
 						eObjectSet.addElement(sl_modelA);
 					}
 					erm.getNodeOccurrencesA().put(nodeOccurrenceA_key, eObjectSet);
@@ -252,7 +252,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				for(String nodeOccurrenceB_key : erm.getNodeOccurrencesB().keySet()){
 					EObjectSet eObjectSet = SymmetricFactory.eINSTANCE.createEObjectSet();
 					for(EObject eObject : erm.getNodeOccurrencesB().get(nodeOccurrenceB_key).getElements()){
-						SymbolicLink sl_modelB = generateSymbolicLink(sls_modelB, eObject);
+						SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(sls_modelB, eObject);
 						eObjectSet.addElement(sl_modelB);
 					}
 					erm.getNodeOccurrencesB().put(nodeOccurrenceB_key, eObjectSet);
@@ -276,7 +276,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	 * 				an object for which a {@link SymbolicLink} shall be created
 	 * @return a {@link SymbolicLink} of an object
 	 */
-	public abstract SymbolicLink generateSymbolicLink(SymbolicLinks symbolicLinks, EObject eObject);
+	public abstract SymbolicLinkObject generateSymbolicLinkObject(SymbolicLinks symbolicLinks, EObject eObject);
 	
 	/**
 	* An implementation of 
@@ -285,9 +285,9 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	* has to be implemented by a subclass.
 	*/
 	@Override
-	public Map<SymbolicLink, EObject> resolveSymbolicLinks(SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability){
-		Map<SymbolicLink, EObject> symbl_2_eObject = new HashMap<SymbolicLink, EObject>();
-		for(SymbolicLink symbolicLink : symbolicLinks.getLinks()){
+	public Map<SymbolicLinkObject, EObject> resolveSymbolicLinkObjects(SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability){
+		Map<SymbolicLinkObject, EObject> symbl_2_eObject = new HashMap<SymbolicLinkObject, EObject>();
+		for(SymbolicLinkObject symbolicLink : symbolicLinks.getLinkObjects()){
 			symbl_2_eObject.put(symbolicLink, resolveSymbolicLink(symbolicLink, targetModel));
 		}
 		return symbl_2_eObject;
@@ -303,6 +303,6 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	 * 				a {@link Resource} that contains the target model
 	 * @return the resolved object
 	 */
-	public abstract EObject resolveSymbolicLink(SymbolicLink symbolicLink, Resource targetModel);
+	public abstract EObject resolveSymbolicLink(SymbolicLinkObject symbolicLink, Resource targetModel);
 	
 }

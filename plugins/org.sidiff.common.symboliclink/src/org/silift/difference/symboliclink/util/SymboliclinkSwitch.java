@@ -72,9 +72,15 @@ public class SymboliclinkSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SymboliclinkPackage.SYMBOLIC_LINK: {
-				SymbolicLink symbolicLink = (SymbolicLink)theEObject;
-				T result = caseSymbolicLink(symbolicLink);
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT: {
+				SymbolicLinkObject symbolicLinkObject = (SymbolicLinkObject)theEObject;
+				T result = caseSymbolicLinkObject(symbolicLinkObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE: {
+				SymbolicLinkReference symbolicLinkReference = (SymbolicLinkReference)theEObject;
+				T result = caseSymbolicLinkReference(symbolicLinkReference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -98,17 +104,32 @@ public class SymboliclinkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSymbolicLink(SymbolicLink object) {
+	public T caseSymbolicLinkObject(SymbolicLinkObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSymbolicLinkReference(SymbolicLinkReference object) {
 		return null;
 	}
 

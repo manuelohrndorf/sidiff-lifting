@@ -22,13 +22,13 @@ public interface NamedelementsymboliclinkFactory extends EFactory {
 	NamedelementsymboliclinkFactory eINSTANCE = org.silift.difference.namedelementsymboliclink.impl.NamedelementsymboliclinkFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Named Element Symbolic Link</em>'.
+	 * Returns a new object of class '<em>Named Element Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Named Element Symbolic Link</em>'.
+	 * @return a new object of class '<em>Named Element Symbolic Link Object</em>'.
 	 * @generated
 	 */
-	NamedElementSymbolicLink createNamedElementSymbolicLink();
+	NamedElementSymbolicLinkObject createNamedElementSymbolicLinkObject();
 
 	/**
 	 * Returns the package supported by this factory.

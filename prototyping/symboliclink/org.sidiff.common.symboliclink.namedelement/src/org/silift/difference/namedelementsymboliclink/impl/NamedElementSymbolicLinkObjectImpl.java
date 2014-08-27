@@ -8,26 +8,26 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLink;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkPackage;
 
-import org.silift.difference.symboliclink.impl.SymbolicLinkImpl;
+import org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Named Element Symbolic Link</b></em>'.
+ * An implementation of the model object '<em><b>Named Element Symbolic Link Object</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkImpl#getQualifiedName <em>Qualified Name</em>}</li>
+ *   <li>{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.silift.difference.namedelementsymboliclink.impl.NamedElementSymbolicLinkObjectImpl#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements NamedElementSymbolicLink {
+public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implements NamedElementSymbolicLinkObject {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -63,7 +63,7 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NamedElementSymbolicLinkImpl() {
+	protected NamedElementSymbolicLinkObjectImpl() {
 		super();
 	}
 
@@ -74,7 +74,7 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return NamedelementsymboliclinkPackage.Literals.NAMED_ELEMENT_SYMBOLIC_LINK;
+		return NamedelementsymboliclinkPackage.Literals.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT;
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 		String oldQualifiedName = qualifiedName;
 		qualifiedName = newQualifiedName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME, oldQualifiedName, qualifiedName));
+			eNotify(new ENotificationImpl(this, Notification.SET, NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME, oldQualifiedName, qualifiedName));
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME:
 				return getName();
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME:
 				return getQualifiedName();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -142,10 +142,10 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME:
 				setName((String)newValue);
 				return;
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME:
 				setQualifiedName((String)newValue);
 				return;
 		}
@@ -160,10 +160,10 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME:
 				setQualifiedName(QUALIFIED_NAME_EDEFAULT);
 				return;
 		}
@@ -178,9 +178,9 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__NAME:
 				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
-			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK__QUALIFIED_NAME:
+			case NamedelementsymboliclinkPackage.NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__QUALIFIED_NAME:
 				return QUALIFIED_NAME_EDEFAULT == null ? qualifiedName != null : !QUALIFIED_NAME_EDEFAULT.equals(qualifiedName);
 		}
 		return super.eIsSet(featureID);
@@ -202,4 +202,4 @@ public class NamedElementSymbolicLinkImpl extends SymbolicLinkImpl implements Na
 		return result.toString();
 	}
 
-} //NamedElementSymbolicLinkImpl
+} //NamedElementSymbolicLinkObjectImpl

@@ -4,11 +4,8 @@ package org.silift.difference.uuidsymboliclink.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.silift.difference.symboliclink.SymbolicLink;
-
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.*;
 
 /**
@@ -68,10 +65,10 @@ public class UuidsymboliclinkSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK: {
-				UUIDSymbolicLink uuidSymbolicLink = (UUIDSymbolicLink)theEObject;
-				T result = caseUUIDSymbolicLink(uuidSymbolicLink);
-				if (result == null) result = caseSymbolicLink(uuidSymbolicLink);
+			case UuidsymboliclinkPackage.UUID_SYMBOLIC_LINK_OBJECT: {
+				UUIDSymbolicLinkObject uuidSymbolicLinkObject = (UUIDSymbolicLinkObject)theEObject;
+				T result = caseUUIDSymbolicLinkObject(uuidSymbolicLinkObject);
+				if (result == null) result = caseSymbolicLinkObject(uuidSymbolicLinkObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -80,32 +77,32 @@ public class UuidsymboliclinkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>UUID Symbolic Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>UUID Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>UUID Symbolic Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>UUID Symbolic Link Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUUIDSymbolicLink(UUIDSymbolicLink object) {
+	public T caseUUIDSymbolicLinkObject(UUIDSymbolicLinkObject object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link Object</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSymbolicLink(SymbolicLink object) {
+	public T caseSymbolicLinkObject(SymbolicLinkObject object) {
 		return null;
 	}
 
