@@ -38,8 +38,16 @@ public class SergeWizard extends Wizard implements INewWizard {
 	private SergeWizardPage2 page2;
 	private ISelection selection;
 	
-	SergeSettings settings;
+	private SergeSettings settings;
 	
+
+	public SergeSettings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(SergeSettings settings) {
+		this.settings = settings;
+	}
 
 	/**
 	 * Constructor for SergeNewWizard.
@@ -113,6 +121,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	public void setSelection(ISelection selection) {
 		this.selection = selection;
 	}
+
 
 	
 }

@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.ProgressBarWidget;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.RowData;
@@ -171,6 +170,14 @@ public class SergeWizardPage1 extends WizardPage {
 				txtImportPackage.setText(documentTypePackage.getNsURI());				
 			}
 		});
+		
+		Composite widget = new Composite(container, SWT.SMOOTH);
+		widget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		widget.setLayout(new GridLayout(1, false));
+		
+		MetaModelSpecConfigWidget Config = new MetaModelSpecConfigWidget();
+		Config.createControl(widget);
+		
 		
 		txtSelectOutputFolder.addModifyListener(new ModifyListener() {
 			@Override
