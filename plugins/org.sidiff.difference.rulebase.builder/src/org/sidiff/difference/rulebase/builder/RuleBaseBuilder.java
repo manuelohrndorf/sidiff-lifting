@@ -324,7 +324,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 			// Build EditRule if no error occurred during validation
 			if (editRule.findMaxProblemSeverity(EValidator.MARKER, false, IResource.DEPTH_ZERO) != IMarker.SEVERITY_ERROR) {
 				
-				monitor.subTask("Building Edit-Rule " + editRule.getName());
+				monitor.subTask("Building Edit-Rule " + editRule.getFullPath());
 				
 				// Generate Recognition-Rule:
 				RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
@@ -358,7 +358,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private void validateEditRule(IResource editRule, IProgressMonitor monitor) {
 		
-		monitor.subTask("Validating Edit-Rule " + editRule.getName());
+		monitor.subTask("Validating Edit-Rule " + editRule.getFullPath());
 		
 		// Validate Edit-Rule
 		List<EditRuleValidation> validations = new ArrayList<EditRuleValidation>();
@@ -536,12 +536,13 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 			throw new OperationCanceledException();
 		}
 		
-    	monitor.subTask("Building RuleBase File");    	
+		IFile rulebaseFile = getProject().getFile(AbstractProjectRuleBase.RULEBASE_FILE);
+		
+    	monitor.subTask("Building RuleBase File " + rulebaseFile.getFullPath() );    	
     	try {
     		getRuleBaseWrapper().saveRuleBase();
     		
     		//Mark RuleBase as derived, if not already	
-    		IFile rulebaseFile = getProject().getFile(AbstractProjectRuleBase.RULEBASE_FILE);
     		if(!rulebaseFile.isDerived()){
         		rulebaseFile.setDerived(true, monitor);
     		}
