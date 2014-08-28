@@ -61,9 +61,11 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			EClass contextClass = (EClass) eClassifier;
 			
 			// FIXME: Workaround to exclude Generation of Operations on Ecore
+			// TODO : Uncomment and do the right thing
+			/*
 			if (EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(contextClass)){
 				return;
-			}
+			}*/
 			
 			try{
 				
