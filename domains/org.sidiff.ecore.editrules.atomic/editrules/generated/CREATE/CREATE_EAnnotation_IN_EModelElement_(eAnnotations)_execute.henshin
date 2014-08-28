@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1TN64C76EeS4JuF_8QNE5Q" name="CREATE_EAnnotation_IN_EModelElement_(eAnnotations)" description="Creates one EAnnotation in EModelElement">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1TOh8C76EeS4JuF_8QNE5Q" name="createEAnnotation_IN_EModelElement" description="creates one EAnnotation in the context: EModelElement">
+    <parameters xmi:id="_1TOh8S76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+    </parameters>
+    <parameters xmi:id="_1TOh8i76EeS4JuF_8QNE5Q" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+    </parameters>
+    <parameters xmi:id="_1TOh8y76EeS4JuF_8QNE5Q" name="Source">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_1TOh9C76EeS4JuF_8QNE5Q" name="Lhs">
+      <nodes xmi:id="_1TOh9S76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_1TOh9i76EeS4JuF_8QNE5Q" name="Rhs">
+      <nodes xmi:id="_1TOh9y76EeS4JuF_8QNE5Q" name="Selected" incoming="_1TOh-y76EeS4JuF_8QNE5Q" outgoing="_1TOh-i76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+      <nodes xmi:id="_1TOh-C76EeS4JuF_8QNE5Q" name="New" incoming="_1TOh-i76EeS4JuF_8QNE5Q" outgoing="_1TOh-y76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+        <attributes xmi:id="_1TOh-S76EeS4JuF_8QNE5Q" value="Source">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/source"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_1TOh-i76EeS4JuF_8QNE5Q" source="_1TOh9y76EeS4JuF_8QNE5Q" target="_1TOh-C76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement/eAnnotations"/>
+      </edges>
+      <edges xmi:id="_1TOh-y76EeS4JuF_8QNE5Q" source="_1TOh-C76EeS4JuF_8QNE5Q" target="_1TOh9y76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/eModelElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_1TOh_C76EeS4JuF_8QNE5Q" origin="_1TOh9S76EeS4JuF_8QNE5Q" image="_1TOh9y76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1TOh_S76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1TOh8C76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1TOh_i76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+    </parameters>
+    <parameters xmi:id="_1TOh_y76EeS4JuF_8QNE5Q" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+    </parameters>
+    <parameters xmi:id="_1TOiAC76EeS4JuF_8QNE5Q" name="Source">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_1TOiAS76EeS4JuF_8QNE5Q" source="_1TOh_i76EeS4JuF_8QNE5Q" target="_1TOh8S76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1TOiAi76EeS4JuF_8QNE5Q" source="_1TOh8i76EeS4JuF_8QNE5Q" target="_1TOh_y76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1TOiAy76EeS4JuF_8QNE5Q" source="_1TOiAC76EeS4JuF_8QNE5Q" target="_1TOh8y76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>

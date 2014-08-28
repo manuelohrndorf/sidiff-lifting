@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1TscAC76EeS4JuF_8QNE5Q" name="CREATE_ETypeParameter_IN_EOperation_(eTypeParameters)" description="Creates one ETypeParameter in EOperation">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1TscAS76EeS4JuF_8QNE5Q" name="createETypeParameter_IN_EOperation" description="creates one ETypeParameter in the context: EOperation">
+    <parameters xmi:id="_1TscAi76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="_1TscAy76EeS4JuF_8QNE5Q" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//ETypeParameter"/>
+    </parameters>
+    <parameters xmi:id="_1TscBC76EeS4JuF_8QNE5Q" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_1TscBS76EeS4JuF_8QNE5Q" name="Lhs">
+      <nodes xmi:id="_1TscBi76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_1TscBy76EeS4JuF_8QNE5Q" name="Rhs">
+      <nodes xmi:id="_1TscCC76EeS4JuF_8QNE5Q" name="Selected" outgoing="_1TscCy76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="_1TscCS76EeS4JuF_8QNE5Q" name="New" incoming="_1TscCy76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypeParameter"/>
+        <attributes xmi:id="_1TscCi76EeS4JuF_8QNE5Q" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_1TscCy76EeS4JuF_8QNE5Q" source="_1TscCC76EeS4JuF_8QNE5Q" target="_1TscCS76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eTypeParameters"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_1TscDC76EeS4JuF_8QNE5Q" origin="_1TscBi76EeS4JuF_8QNE5Q" image="_1TscCC76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1TscDS76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1TscAS76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1TscDi76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="_1TscDy76EeS4JuF_8QNE5Q" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//ETypeParameter"/>
+    </parameters>
+    <parameters xmi:id="_1TscEC76EeS4JuF_8QNE5Q" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_1TscES76EeS4JuF_8QNE5Q" source="_1TscDi76EeS4JuF_8QNE5Q" target="_1TscAi76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1TscEi76EeS4JuF_8QNE5Q" source="_1TscAy76EeS4JuF_8QNE5Q" target="_1TscDy76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1TscEy76EeS4JuF_8QNE5Q" source="_1TscEC76EeS4JuF_8QNE5Q" target="_1TscBC76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>

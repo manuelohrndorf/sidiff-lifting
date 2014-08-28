@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_-jq-UNlJEeKomu7rfXwhHg" name="createUniqueNamedDataType" description="Creates one EDataType in EPackage and asserts that the name of this data type is unique within its containing package">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_-k-l4NlJEeKomu7rfXwhHg" name="mainUnit" description="Creates one EDataType depending on available contexts in model instance" subUnits="_-k-l7dlJEeKomu7rfXwhHg">
+    <parameters xmi:id="_-k-l4dlJEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_-k-l4tlJEeKomu7rfXwhHg" name="selectedEObject"/>
+    <parameters xmi:id="_-k-l49lJEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_-k-l5NlJEeKomu7rfXwhHg" name="InstanceClassName"/>
+    <parameters xmi:id="_-k-l5dlJEeKomu7rfXwhHg" name="InstanceTypeName"/>
+    <parameters xmi:id="_-k-l5tlJEeKomu7rfXwhHg" name="Serializable"/>
+    <parameterMappings xmi:id="_-k-l59lJEeKomu7rfXwhHg" source="_-k-l4tlJEeKomu7rfXwhHg" target="_-k-l7tlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_-k-l6NlJEeKomu7rfXwhHg" source="_-k-l79lJEeKomu7rfXwhHg" target="_-k-l4dlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_-k-l6dlJEeKomu7rfXwhHg" source="_-k-l49lJEeKomu7rfXwhHg" target="_-k-l8NlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_-k-l6tlJEeKomu7rfXwhHg" source="_-k-l5NlJEeKomu7rfXwhHg" target="_-k-l8dlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_-k-l69lJEeKomu7rfXwhHg" source="_-k-l5dlJEeKomu7rfXwhHg" target="_-k-l8tlJEeKomu7rfXwhHg"/>
+    <parameterMappings xmi:id="_-k-l7NlJEeKomu7rfXwhHg" source="_-k-l5tlJEeKomu7rfXwhHg" target="_-k-l89lJEeKomu7rfXwhHg"/>
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_-k-l7dlJEeKomu7rfXwhHg" name="createEDataTypeInEPackage" description="creates one EDataType in the context: EPackage">
+    <parameters xmi:id="_-k-l7tlJEeKomu7rfXwhHg" name="Selected"/>
+    <parameters xmi:id="_-k-l79lJEeKomu7rfXwhHg" name="New"/>
+    <parameters xmi:id="_-k-l8NlJEeKomu7rfXwhHg" name="Name"/>
+    <parameters xmi:id="_-k-l8dlJEeKomu7rfXwhHg" name="InstanceClassName"/>
+    <parameters xmi:id="_-k-l8tlJEeKomu7rfXwhHg" name="InstanceTypeName"/>
+    <parameters xmi:id="_-k-l89lJEeKomu7rfXwhHg" name="Serializable"/>
+    <lhs xmi:id="_-k-l9NlJEeKomu7rfXwhHg" name="LHS">
+      <nodes xmi:id="_-k-l9dlJEeKomu7rfXwhHg" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_-k-l9tlJEeKomu7rfXwhHg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_-k-l99lJEeKomu7rfXwhHg">
+          <conclusion xmi:id="_-k-l-NlJEeKomu7rfXwhHg" name="default">
+            <nodes xmi:id="_-k-l-dlJEeKomu7rfXwhHg" name="Selected" incoming="_-k-l_dlJEeKomu7rfXwhHg" outgoing="_-k-l_NlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+            </nodes>
+            <nodes xmi:id="_-k-l-tlJEeKomu7rfXwhHg" incoming="_-k-l_NlJEeKomu7rfXwhHg" outgoing="_-k-l_dlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+              <attributes xmi:id="_-k-l-9lJEeKomu7rfXwhHg" value="Name">
+                <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_-k-l_NlJEeKomu7rfXwhHg" source="_-k-l-dlJEeKomu7rfXwhHg" target="_-k-l-tlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+            </edges>
+            <edges xmi:id="_-k-l_dlJEeKomu7rfXwhHg" source="_-k-l-tlJEeKomu7rfXwhHg" target="_-k-l-dlJEeKomu7rfXwhHg">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_-k-l_tlJEeKomu7rfXwhHg" origin="_-k-l9dlJEeKomu7rfXwhHg" image="_-k-l-dlJEeKomu7rfXwhHg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_-k-l_9lJEeKomu7rfXwhHg" name="RHS">
+      <nodes xmi:id="_-k-mANlJEeKomu7rfXwhHg" name="Selected" incoming="_-k-mB9lJEeKomu7rfXwhHg" outgoing="_-k-mBtlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_-k-mAdlJEeKomu7rfXwhHg" name="New" incoming="_-k-mBtlJEeKomu7rfXwhHg" outgoing="_-k-mB9lJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        <attributes xmi:id="_-k-mAtlJEeKomu7rfXwhHg" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_-k-mA9lJEeKomu7rfXwhHg" value="InstanceClassName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceClassName"/>
+        </attributes>
+        <attributes xmi:id="_-k-mBNlJEeKomu7rfXwhHg" value="InstanceTypeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceTypeName"/>
+        </attributes>
+        <attributes xmi:id="_-k-mBdlJEeKomu7rfXwhHg" value="Serializable">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType/serializable"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_-k-mBtlJEeKomu7rfXwhHg" source="_-k-mANlJEeKomu7rfXwhHg" target="_-k-mAdlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="_-k-mB9lJEeKomu7rfXwhHg" source="_-k-mAdlJEeKomu7rfXwhHg" target="_-k-mANlJEeKomu7rfXwhHg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_-k-mCNlJEeKomu7rfXwhHg" origin="_-k-l9dlJEeKomu7rfXwhHg" image="_-k-mANlJEeKomu7rfXwhHg"/>
+  </units>
+</henshin:Module>

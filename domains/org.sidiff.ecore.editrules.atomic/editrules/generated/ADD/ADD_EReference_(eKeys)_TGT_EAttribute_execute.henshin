@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1P0BkC76EeS4JuF_8QNE5Q" name="ADD_EReference_(eKeys)_TGT_EAttribute" description="Adds to EReference's reference eKeys the target EAttribute">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1P0BkS76EeS4JuF_8QNE5Q" name="addToEReference_eKeys_EAttribute" description="Adds to EReference's reference eKeys the target EAttribute">
+    <parameters xmi:id="_1P0Bki76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_1P0Bky76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <lhs xmi:id="_1P0BlC76EeS4JuF_8QNE5Q" name="Lhs">
+      <nodes xmi:id="_1P0BlS76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_1P0Bli76EeS4JuF_8QNE5Q" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_1P0Bly76EeS4JuF_8QNE5Q" name="Rhs">
+      <nodes xmi:id="_1P0BmC76EeS4JuF_8QNE5Q" name="Selected" outgoing="_1P0Bmi76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_1P0BmS76EeS4JuF_8QNE5Q" name="NewTarget" incoming="_1P0Bmi76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <edges xmi:id="_1P0Bmi76EeS4JuF_8QNE5Q" source="_1P0BmC76EeS4JuF_8QNE5Q" target="_1P0BmS76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eKeys"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_1P0Bmy76EeS4JuF_8QNE5Q" origin="_1P0BlS76EeS4JuF_8QNE5Q" image="_1P0BmC76EeS4JuF_8QNE5Q"/>
+    <mappings xmi:id="_1P0BnC76EeS4JuF_8QNE5Q" origin="_1P0Bli76EeS4JuF_8QNE5Q" image="_1P0BmS76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1P0BnS76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1P0BkS76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1P0Bni76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_1P0Bny76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameterMappings xmi:id="_1P0BoC76EeS4JuF_8QNE5Q" source="_1P0Bni76EeS4JuF_8QNE5Q" target="_1P0Bki76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1P0BoS76EeS4JuF_8QNE5Q" source="_1P0Bny76EeS4JuF_8QNE5Q" target="_1P0Bky76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>

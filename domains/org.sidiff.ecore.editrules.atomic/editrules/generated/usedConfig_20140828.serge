@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<Config>
+	<GeneralSettings>
+		<preventInconsistency value="true" />
+		<multiplicityPreconditions integrated="true" separately="true" />
+		<reduceToSuperType
+			ADD_REMOVE="true"
+			CHANGE_LITERAL="true"
+			CHANGE_REFERENCE="true"
+			CREATE_DELETE="true"
+			MOVE="true"
+			MOVE_DOWN="true"
+			MOVE_UP="true"
+			SET_UNSET_ATTRIBUTE="false"
+			SET_UNSET_REFERENCE="false" />
+		<disableVariantsWithSupertypeReplacement value="true" />
+		<createAllAttributes value="true" />		
+   		<modelUsesProfileMechanism value="false"/>
+	</GeneralSettings>
+	
+	<MetaModelSettings>
+		<MainModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />		
+		<Constraints/>
+	</MetaModelSettings>
+	
+	<Transformations>
+		<Creates allow="true" />
+		<Deletes allow="true" />
+		<Moves allow="true" allowReferenceSwitching="false" allowReferenceCombinations="false" />
+		<MoveUps allow="false"/>
+		<MoveDowns allow="false"/>
+		<SetAttributes allow="true" />
+		<UnsetAttributes allow="false" />
+		<SetReferences allow="true" />
+		<UnsetReferences allow="true" />
+		<Adds allow="true" />
+		<Removes allow="true" />
+		<ChangeLiterals allow="true" allowLiteralSwitching="true" />
+		<ChangeReferences allow="true" />
+	</Transformations>
+
+	<!-- nested=true: means the root element can also appear
+	somewhere in its lower containments. -->
+	<Root name="EPackage" nested="true"/>
+	
+	<WhiteList>
+	</WhiteList>
+	
+	<BlackList>
+		<EClassifier name="EFactory" />
+		<EClassifier name="EGenericType" />
+		<EClassifier name="EObject" />			
+	</BlackList>
+	
+</Config>

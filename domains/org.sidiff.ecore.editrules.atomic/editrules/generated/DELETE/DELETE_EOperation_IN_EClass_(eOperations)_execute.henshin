@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1R0zwC76EeS4JuF_8QNE5Q" name="DELETE_EOperation_IN_EClass_(eOperations)" description="Deletes one EOperation in EClass">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1R0zwS76EeS4JuF_8QNE5Q" name="deleteEOperation_IN_EClass" description="deletes one EOperation in the context: EClass">
+    <parameters xmi:id="_1R0zwi76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="_1R0zwy76EeS4JuF_8QNE5Q" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <lhs xmi:id="_1R0zxC76EeS4JuF_8QNE5Q" name="LHS">
+      <nodes xmi:id="_1R0zxS76EeS4JuF_8QNE5Q" name="Selected" incoming="_1R0zyC76EeS4JuF_8QNE5Q" outgoing="_1R0zxy76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_1R0zxi76EeS4JuF_8QNE5Q" name="ToBeDeleted" incoming="_1R0zxy76EeS4JuF_8QNE5Q" outgoing="_1R0zyC76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <edges xmi:id="_1R0zxy76EeS4JuF_8QNE5Q" source="_1R0zxS76EeS4JuF_8QNE5Q" target="_1R0zxi76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eOperations"/>
+      </edges>
+      <edges xmi:id="_1R0zyC76EeS4JuF_8QNE5Q" source="_1R0zxi76EeS4JuF_8QNE5Q" target="_1R0zxS76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eContainingClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_1R0zyS76EeS4JuF_8QNE5Q" name="RHS">
+      <nodes xmi:id="_1R0zyi76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_1R0zyy76EeS4JuF_8QNE5Q" origin="_1R0zxS76EeS4JuF_8QNE5Q" image="_1R0zyi76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1R0zzC76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1R0zwS76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1R0zzS76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="_1R0zzi76EeS4JuF_8QNE5Q" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameterMappings xmi:id="_1R0zzy76EeS4JuF_8QNE5Q" source="_1R0zzS76EeS4JuF_8QNE5Q" target="_1R0zwi76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1R0z0C76EeS4JuF_8QNE5Q" source="_1R0zzi76EeS4JuF_8QNE5Q" target="_1R0zwy76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>

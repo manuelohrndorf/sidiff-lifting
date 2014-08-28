@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1Tm8cC76EeS4JuF_8QNE5Q" name="SET_REFERENCE_EReference_(eOpposite)_TGT_EReference" description="Sets EReference's reference eOpposite the target EReference">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1Tm8cS76EeS4JuF_8QNE5Q" name="setEReference_eOpposite_TO_EReference" description="SetEReferenceRefeOppositeToEReference">
+    <parameters xmi:id="_1Tm8ci76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_1Tm8cy76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <lhs xmi:id="_1Tm8dC76EeS4JuF_8QNE5Q" name="Lhs">
+      <nodes xmi:id="_1Tm8dS76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_1Tm8di76EeS4JuF_8QNE5Q" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_1Tm8dy76EeS4JuF_8QNE5Q">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_1Tm8eC76EeS4JuF_8QNE5Q">
+          <conclusion xmi:id="_1TnjgC76EeS4JuF_8QNE5Q" name="ub0">
+            <nodes xmi:id="_1TnjgS76EeS4JuF_8QNE5Q" outgoing="_1Tnjgy76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <nodes xmi:id="_1Tnjgi76EeS4JuF_8QNE5Q" incoming="_1Tnjgy76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+            </nodes>
+            <edges xmi:id="_1Tnjgy76EeS4JuF_8QNE5Q" source="_1TnjgS76EeS4JuF_8QNE5Q" target="_1Tnjgi76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_1TnjhC76EeS4JuF_8QNE5Q" origin="_1Tm8dS76EeS4JuF_8QNE5Q" image="_1TnjgS76EeS4JuF_8QNE5Q"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_1TnjhS76EeS4JuF_8QNE5Q" name="Rhs">
+      <nodes xmi:id="_1Tnjhi76EeS4JuF_8QNE5Q" name="Selected" outgoing="_1TnjiC76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_1Tnjhy76EeS4JuF_8QNE5Q" name="NewTarget" incoming="_1TnjiC76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <edges xmi:id="_1TnjiC76EeS4JuF_8QNE5Q" source="_1Tnjhi76EeS4JuF_8QNE5Q" target="_1Tnjhy76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eOpposite"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_1TnjiS76EeS4JuF_8QNE5Q" origin="_1Tm8dS76EeS4JuF_8QNE5Q" image="_1Tnjhi76EeS4JuF_8QNE5Q"/>
+    <mappings xmi:id="_1Tnjii76EeS4JuF_8QNE5Q" origin="_1Tm8di76EeS4JuF_8QNE5Q" image="_1Tnjhy76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1Tnjiy76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1Tm8cS76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1TnjjC76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_1TnjjS76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameterMappings xmi:id="_1Tnjji76EeS4JuF_8QNE5Q" source="_1TnjjC76EeS4JuF_8QNE5Q" target="_1Tm8ci76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1Tnjjy76EeS4JuF_8QNE5Q" source="_1TnjjS76EeS4JuF_8QNE5Q" target="_1Tm8cy76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>

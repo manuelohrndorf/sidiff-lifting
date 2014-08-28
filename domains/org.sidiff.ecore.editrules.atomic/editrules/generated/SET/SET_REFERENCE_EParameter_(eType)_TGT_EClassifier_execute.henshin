@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1RrCwC76EeS4JuF_8QNE5Q" name="SET_REFERENCE_EParameter_(eType)_TGT_EClassifier" description="Sets EParameter's reference eType the target EClassifier">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_1RrCwS76EeS4JuF_8QNE5Q" name="setEParameter_eType_TO_EClassifier" description="SetEParameterRefeTypeToEClassifier">
+    <parameters xmi:id="_1RrCwi76EeS4JuF_8QNE5Q" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+    </parameters>
+    <parameters xmi:id="_1RrCwy76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    </parameters>
+    <lhs xmi:id="_1RrCxC76EeS4JuF_8QNE5Q" name="Lhs">
+      <nodes xmi:id="_1RrCxS76EeS4JuF_8QNE5Q" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+      </nodes>
+      <nodes xmi:id="_1RrCxi76EeS4JuF_8QNE5Q" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_1RrCxy76EeS4JuF_8QNE5Q">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_1RrCyC76EeS4JuF_8QNE5Q">
+          <conclusion xmi:id="_1RrCyS76EeS4JuF_8QNE5Q" name="ub0">
+            <nodes xmi:id="_1RrCyi76EeS4JuF_8QNE5Q" outgoing="_1RrCzC76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+            </nodes>
+            <nodes xmi:id="_1RrCyy76EeS4JuF_8QNE5Q" incoming="_1RrCzC76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+            </nodes>
+            <edges xmi:id="_1RrCzC76EeS4JuF_8QNE5Q" source="_1RrCyi76EeS4JuF_8QNE5Q" target="_1RrCyy76EeS4JuF_8QNE5Q">
+              <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_1RrCzS76EeS4JuF_8QNE5Q" origin="_1RrCxS76EeS4JuF_8QNE5Q" image="_1RrCyi76EeS4JuF_8QNE5Q"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_1RrCzi76EeS4JuF_8QNE5Q" name="Rhs">
+      <nodes xmi:id="_1RrCzy76EeS4JuF_8QNE5Q" name="Selected" outgoing="_1RrC0S76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+      </nodes>
+      <nodes xmi:id="_1RrC0C76EeS4JuF_8QNE5Q" name="NewTarget" incoming="_1RrC0S76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="_1RrC0S76EeS4JuF_8QNE5Q" source="_1RrCzy76EeS4JuF_8QNE5Q" target="_1RrC0C76EeS4JuF_8QNE5Q">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_1RrC0i76EeS4JuF_8QNE5Q" origin="_1RrCxS76EeS4JuF_8QNE5Q" image="_1RrCzy76EeS4JuF_8QNE5Q"/>
+    <mappings xmi:id="_1RrC0y76EeS4JuF_8QNE5Q" origin="_1RrCxi76EeS4JuF_8QNE5Q" image="_1RrC0C76EeS4JuF_8QNE5Q"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_1RrC1C76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1RrCwS76EeS4JuF_8QNE5Q">
+    <parameters xmi:id="_1RrC1S76EeS4JuF_8QNE5Q" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EParameter"/>
+    </parameters>
+    <parameters xmi:id="_1RrC1i76EeS4JuF_8QNE5Q" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    </parameters>
+    <parameterMappings xmi:id="_1RrC1y76EeS4JuF_8QNE5Q" source="_1RrC1S76EeS4JuF_8QNE5Q" target="_1RrCwi76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_1Rrp0C76EeS4JuF_8QNE5Q" source="_1RrC1i76EeS4JuF_8QNE5Q" target="_1RrCwy76EeS4JuF_8QNE5Q"/>
+  </units>
+</henshin:Module>
