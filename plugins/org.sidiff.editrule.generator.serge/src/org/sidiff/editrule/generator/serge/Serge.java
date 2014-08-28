@@ -72,7 +72,7 @@ public class Serge implements IEditRuleGenerator{
 			this.settings = (SergeSettings)settings;
 		}
 		
-		assert(settings == null) : "This is no valid SergeSettings Instance:" + settings.toString();
+		assert(this.settings != null) : "This is no valid SergeSettings Instance:" + settings.toString();
 				
 		try {
 			// create empty instances
