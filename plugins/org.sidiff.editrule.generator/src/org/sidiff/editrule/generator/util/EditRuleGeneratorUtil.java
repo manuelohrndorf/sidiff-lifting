@@ -25,7 +25,7 @@ public class EditRuleGeneratorUtil {
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
 				IEditRuleGenerator.extensionPointID)) {
 			try {
-				IEditRuleGenerator generatorExtension = (IEditRuleGenerator) configurationElement.createExecutableExtension("name");
+				IEditRuleGenerator generatorExtension = (IEditRuleGenerator) configurationElement.createExecutableExtension("editrulegenerator");
 				generators.add(generatorExtension);
 				
 			} catch (Exception e) {
