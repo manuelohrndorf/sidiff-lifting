@@ -493,8 +493,25 @@ public class EditRuleValidator {
 		}
 
 		assert (usedParams.size() == 1);
-
 		Parameter ruleParameter = usedParams.iterator().next();
+
+		// Maybe this parameter is used as internal variable, then everything is
+		// ok
+		// If there is an lhs attribute that uses this parameter, we can
+		// conclude that the parameter is used as a variable
+		for (Node lhsNode : rhsNode.getGraph().getRule().getLhs().getNodes()) {
+			// Find attribute that uses this parameter:
+			for (Attribute attribute : lhsNode.getAttributes()) {
+				// FIXME: Need real parsing of attributes.
+				if (attribute.getValue().contains(ruleParameter.getName())) {
+					// Parameter is used as internal variable
+					return invalids;
+				}
+			}
+		}
+
+		// No internal variable, so the parameter must be mapped to a mainUnit
+		// IN-Parameter
 		Parameter outermostParameter = getOutermostParameter(ruleParameter);
 		if (outermostParameter == null) {
 			valid = false;
@@ -1126,8 +1143,8 @@ public class EditRuleValidator {
 
 				if (!isEmbedded) {
 					EditRuleValidation info = new EditRuleValidation(
-							"All Kernel-Rule nodes have to be embedded in a Multi-Rule!", kernel.getModule(),
-							ValidationType.multiRuleNodeEmbedding, kernel, multiRule, node);
+							"All Kernel-Rule nodes have to be properly embedded in a Multi-Rule! There must (i) be a multi-mapping that maps the kernel node into the multi rule, and (ii) the kernel node and the multi node must have the same node identifiers (names).",
+							kernel.getModule(), ValidationType.multiRuleNodeEmbedding, kernel, multiRule, node);
 					invalids.add(info);
 				}
 			}
