@@ -109,6 +109,7 @@ public class ModuleSerializer {
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, true);
 
 		try {
+			LogUtil.log(LogEvent.NOTICE, "Save: " + resource.getURI());
 			resource.save(options);
 
 		} catch (IOException e) {
