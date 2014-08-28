@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_LFhmENkuEeKskdwQnjFTNA" name="flatten_hierarchy" description="Replaces the reference, which denotes the root as well as the reference, which denotes the children by a containment reference">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_LGnLMNkuEeKskdwQnjFTNA" name="mainUnit" description="" subUnits="_LGnLN9kuEeKskdwQnjFTNA">
@@ -14,16 +14,16 @@
     <parameters xmi:id="_LGnLOdkuEeKskdwQnjFTNA" name="ref2"/>
     <parameters xmi:id="_LGnLOtkuEeKskdwQnjFTNA" name="newRef"/>
     <lhs xmi:id="_LGnLO9kuEeKskdwQnjFTNA" name="LHS">
-      <nodes xmi:id="_LGnLPNkuEeKskdwQnjFTNA" name="" incoming="_LGnLQdkuEeKskdwQnjFTNA _LGnLQ9kuEeKskdwQnjFTNA" outgoing="_LGnLQtkuEeKskdwQnjFTNA">
+      <nodes xmi:id="_LGnLPNkuEeKskdwQnjFTNA" name="" incoming="_LGnLQdkuEeKskdwQnjFTNA _LGnLQ9kuEeKskdwQnjFTNA _SrnRgC6pEeS2PJ404DVIZw" outgoing="_LGnLQtkuEeKskdwQnjFTNA">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_LGnLPdkuEeKskdwQnjFTNA" name="" outgoing="_LGnLQNkuEeKskdwQnjFTNA">
+      <nodes xmi:id="_LGnLPdkuEeKskdwQnjFTNA" name="" incoming="_SrdggC6pEeS2PJ404DVIZw" outgoing="_LGnLQNkuEeKskdwQnjFTNA">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_LGnLPtkuEeKskdwQnjFTNA" name="ref1" incoming="_LGnLQNkuEeKskdwQnjFTNA" outgoing="_LGnLQdkuEeKskdwQnjFTNA">
+      <nodes xmi:id="_LGnLPtkuEeKskdwQnjFTNA" name="ref1" incoming="_LGnLQNkuEeKskdwQnjFTNA" outgoing="_LGnLQdkuEeKskdwQnjFTNA _SrdggC6pEeS2PJ404DVIZw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_LGnLP9kuEeKskdwQnjFTNA" name="ref2" incoming="_LGnLQtkuEeKskdwQnjFTNA" outgoing="_LGnLQ9kuEeKskdwQnjFTNA">
+      <nodes xmi:id="_LGnLP9kuEeKskdwQnjFTNA" name="ref2" incoming="_LGnLQtkuEeKskdwQnjFTNA" outgoing="_LGnLQ9kuEeKskdwQnjFTNA _SrnRgC6pEeS2PJ404DVIZw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
       <edges xmi:id="_LGnLQNkuEeKskdwQnjFTNA" source="_LGnLPdkuEeKskdwQnjFTNA" target="_LGnLPtkuEeKskdwQnjFTNA">
@@ -37,6 +37,12 @@
       </edges>
       <edges xmi:id="_LGnLQ9kuEeKskdwQnjFTNA" source="_LGnLP9kuEeKskdwQnjFTNA" target="_LGnLPNkuEeKskdwQnjFTNA">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+      <edges xmi:id="_SrdggC6pEeS2PJ404DVIZw" source="_LGnLPtkuEeKskdwQnjFTNA" target="_LGnLPdkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <edges xmi:id="_SrnRgC6pEeS2PJ404DVIZw" source="_LGnLP9kuEeKskdwQnjFTNA" target="_LGnLPNkuEeKskdwQnjFTNA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
       </edges>
     </lhs>
     <rhs xmi:id="_LGnLRNkuEeKskdwQnjFTNA" name="RHS">
