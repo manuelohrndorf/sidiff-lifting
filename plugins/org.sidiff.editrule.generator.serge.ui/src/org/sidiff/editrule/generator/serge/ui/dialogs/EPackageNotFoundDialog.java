@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.dialogs;
+package org.sidiff.editrule.generator.serge.ui.dialogs;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;

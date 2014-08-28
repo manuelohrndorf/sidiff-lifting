@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.handlers;
+package org.sidiff.editrule.generator.serge.ui.handlers;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;

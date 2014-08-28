@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.batch;
+package org.sidiff.editrule.generator.serge.batch;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

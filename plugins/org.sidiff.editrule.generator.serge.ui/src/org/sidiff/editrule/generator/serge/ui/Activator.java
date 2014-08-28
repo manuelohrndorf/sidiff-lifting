@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui;
+package org.sidiff.editrule.generator.serge.ui;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;

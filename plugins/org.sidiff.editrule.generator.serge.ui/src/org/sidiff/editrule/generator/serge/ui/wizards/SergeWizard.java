@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.wizards;
+package org.sidiff.editrule.generator.serge.ui.wizards;
 
 import java.io.IOException;
 
@@ -17,8 +17,8 @@ import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
-import org.sidiff.editrule.generator.ui.Activator;
-import org.sidiff.editrule.generator.ui.dialogs.EPackageNotFoundDialog;
+import org.sidiff.editrule.generator.serge.ui.Activator;
+import org.sidiff.editrule.generator.serge.ui.dialogs.EPackageNotFoundDialog;
 
 /**
  * This is a sample new wizard. Its role is to create a new file 

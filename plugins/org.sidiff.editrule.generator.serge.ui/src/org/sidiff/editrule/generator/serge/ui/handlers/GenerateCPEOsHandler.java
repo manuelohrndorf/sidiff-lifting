@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.handlers;
+package org.sidiff.editrule.generator.serge.ui.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -11,7 +11,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.editrule.generator.ui.wizards.SergeWizard;
+import org.sidiff.editrule.generator.serge.ui.wizards.SergeWizard;
 
 public class GenerateCPEOsHandler extends AbstractHandler {
 

@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.wizards;
+package org.sidiff.editrule.generator.serge.ui.wizards;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;

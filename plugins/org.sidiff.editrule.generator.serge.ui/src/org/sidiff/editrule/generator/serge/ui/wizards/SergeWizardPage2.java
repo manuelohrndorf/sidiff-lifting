@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.wizards;
+package org.sidiff.editrule.generator.serge.ui.wizards;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;

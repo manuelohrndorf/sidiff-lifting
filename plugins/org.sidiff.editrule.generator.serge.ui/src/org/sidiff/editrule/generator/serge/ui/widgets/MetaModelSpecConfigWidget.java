@@ -1,4 +1,4 @@
-package org.sidiff.editrule.generator.ui.widgets;
+package org.sidiff.editrule.generator.serge.ui.widgets;
 
 
 import javax.swing.JOptionPane;
