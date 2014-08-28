@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EReference;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkReference#getType <em>Type</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkReference#getSource <em>Source</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkReference#getTarget <em>Target</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,5 +49,61 @@ public interface SymbolicLinkReference extends EObject {
 	 * @generated
 	 */
 	void setType(EReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Source</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing <em>Outgoing</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Source</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source</em>' reference.
+	 * @see #setSource(SymbolicLinkObject)
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkReference_Source()
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing
+	 * @model opposite="outgoing" required="true"
+	 * @generated
+	 */
+	SymbolicLinkObject getSource();
+
+	/**
+	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkReference#getSource <em>Source</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source</em>' reference.
+	 * @see #getSource()
+	 * @generated
+	 */
+	void setSource(SymbolicLinkObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming <em>Incoming</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target</em>' reference.
+	 * @see #setTarget(SymbolicLinkObject)
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkReference_Target()
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming
+	 * @model opposite="incoming" required="true"
+	 * @generated
+	 */
+	SymbolicLinkObject getTarget();
+
+	/**
+	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkReference#getTarget <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target</em>' reference.
+	 * @see #getTarget()
+	 * @generated
+	 */
+	void setTarget(SymbolicLinkObject value);
 
 } // SymbolicLinkReference

@@ -4,6 +4,7 @@ package org.silift.difference.symboliclink;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -131,13 +132,40 @@ public interface SymboliclinkPackage extends EPackage {
 	int SYMBOLIC_LINK_OBJECT__RELIABILITY = 0;
 
 	/**
+	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_OBJECT__OUTGOING = 1;
+
+	/**
+	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_OBJECT__INCOMING = 2;
+
+	/**
 	 * The number of structural features of the '<em>Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = 1;
+	int SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = 3;
+
+	/**
+	 * The operation id for the '<em>Get Outgoings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = 0;
 
 	/**
 	 * The number of operations of the '<em>Symbolic Link Object</em>' class.
@@ -146,7 +174,7 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = 0;
+	int SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.silift.difference.symboliclink.impl.SymbolicLinkReferenceImpl <em>Symbolic Link Reference</em>}' class.
@@ -168,13 +196,31 @@ public interface SymboliclinkPackage extends EPackage {
 	int SYMBOLIC_LINK_REFERENCE__TYPE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_REFERENCE__SOURCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_REFERENCE__TARGET = 2;
+
+	/**
 	 * The number of structural features of the '<em>Symbolic Link Reference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_REFERENCE_FEATURE_COUNT = 1;
+	int SYMBOLIC_LINK_REFERENCE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Symbolic Link Reference</em>' class.
@@ -184,6 +230,88 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @ordered
 	 */
 	int SYMBOLIC_LINK_REFERENCE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.silift.difference.symboliclink.impl.ExternalSymbolicLinkObjectImpl <em>External Symbolic Link Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.silift.difference.symboliclink.impl.ExternalSymbolicLinkObjectImpl
+	 * @see org.silift.difference.symboliclink.impl.SymboliclinkPackageImpl#getExternalSymbolicLinkObject()
+	 * @generated
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Reliability</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__RELIABILITY = SYMBOLIC_LINK_OBJECT__RELIABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__OUTGOING = SYMBOLIC_LINK_OBJECT__OUTGOING;
+
+	/**
+	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__INCOMING = SYMBOLIC_LINK_OBJECT__INCOMING;
+
+	/**
+	 * The feature id for the '<em><b>EObject</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__EOBJECT = SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>From</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__FROM = SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>External Symbolic Link Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Outgoings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE;
+
+	/**
+	 * The number of operations of the '<em>External Symbolic Link Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = SYMBOLIC_LINK_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * Returns the meta object for class '{@link org.silift.difference.symboliclink.SymbolicLinks <em>Symbolic Links</em>}'.
@@ -250,6 +378,38 @@ public interface SymboliclinkPackage extends EPackage {
 	EAttribute getSymbolicLinkObject_Reliability();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing <em>Outgoing</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Outgoing</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing()
+	 * @see #getSymbolicLinkObject()
+	 * @generated
+	 */
+	EReference getSymbolicLinkObject_Outgoing();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming <em>Incoming</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Incoming</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming()
+	 * @see #getSymbolicLinkObject()
+	 * @generated
+	 */
+	EReference getSymbolicLinkObject_Incoming();
+
+	/**
+	 * Returns the meta object for the '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoings(org.eclipse.emf.ecore.EReference) <em>Get Outgoings</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Outgoings</em>' operation.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoings(org.eclipse.emf.ecore.EReference)
+	 * @generated
+	 */
+	EOperation getSymbolicLinkObject__GetOutgoings__EReference();
+
+	/**
 	 * Returns the meta object for class '{@link org.silift.difference.symboliclink.SymbolicLinkReference <em>Symbolic Link Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -269,6 +429,60 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSymbolicLinkReference_Type();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.SymbolicLinkReference#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkReference#getSource()
+	 * @see #getSymbolicLinkReference()
+	 * @generated
+	 */
+	EReference getSymbolicLinkReference_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.SymbolicLinkReference#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkReference#getTarget()
+	 * @see #getSymbolicLinkReference()
+	 * @generated
+	 */
+	EReference getSymbolicLinkReference_Target();
+
+	/**
+	 * Returns the meta object for class '{@link org.silift.difference.symboliclink.ExternalSymbolicLinkObject <em>External Symbolic Link Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>External Symbolic Link Object</em>'.
+	 * @see org.silift.difference.symboliclink.ExternalSymbolicLinkObject
+	 * @generated
+	 */
+	EClass getExternalSymbolicLinkObject();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.ExternalSymbolicLinkObject#getEObject <em>EObject</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>EObject</em>'.
+	 * @see org.silift.difference.symboliclink.ExternalSymbolicLinkObject#getEObject()
+	 * @see #getExternalSymbolicLinkObject()
+	 * @generated
+	 */
+	EReference getExternalSymbolicLinkObject_EObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.silift.difference.symboliclink.ExternalSymbolicLinkObject#getFrom <em>From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>From</em>'.
+	 * @see org.silift.difference.symboliclink.ExternalSymbolicLinkObject#getFrom()
+	 * @see #getExternalSymbolicLinkObject()
+	 * @generated
+	 */
+	EAttribute getExternalSymbolicLinkObject_From();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -346,6 +560,30 @@ public interface SymboliclinkPackage extends EPackage {
 		EAttribute SYMBOLIC_LINK_OBJECT__RELIABILITY = eINSTANCE.getSymbolicLinkObject_Reliability();
 
 		/**
+		 * The meta object literal for the '<em><b>Outgoing</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMBOLIC_LINK_OBJECT__OUTGOING = eINSTANCE.getSymbolicLinkObject_Outgoing();
+
+		/**
+		 * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMBOLIC_LINK_OBJECT__INCOMING = eINSTANCE.getSymbolicLinkObject_Incoming();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Outgoings</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = eINSTANCE.getSymbolicLinkObject__GetOutgoings__EReference();
+
+		/**
 		 * The meta object literal for the '{@link org.silift.difference.symboliclink.impl.SymbolicLinkReferenceImpl <em>Symbolic Link Reference</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -362,6 +600,48 @@ public interface SymboliclinkPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SYMBOLIC_LINK_REFERENCE__TYPE = eINSTANCE.getSymbolicLinkReference_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMBOLIC_LINK_REFERENCE__SOURCE = eINSTANCE.getSymbolicLinkReference_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMBOLIC_LINK_REFERENCE__TARGET = eINSTANCE.getSymbolicLinkReference_Target();
+
+		/**
+		 * The meta object literal for the '{@link org.silift.difference.symboliclink.impl.ExternalSymbolicLinkObjectImpl <em>External Symbolic Link Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.silift.difference.symboliclink.impl.ExternalSymbolicLinkObjectImpl
+		 * @see org.silift.difference.symboliclink.impl.SymboliclinkPackageImpl#getExternalSymbolicLinkObject()
+		 * @generated
+		 */
+		EClass EXTERNAL_SYMBOLIC_LINK_OBJECT = eINSTANCE.getExternalSymbolicLinkObject();
+
+		/**
+		 * The meta object literal for the '<em><b>EObject</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXTERNAL_SYMBOLIC_LINK_OBJECT__EOBJECT = eINSTANCE.getExternalSymbolicLinkObject_EObject();
+
+		/**
+		 * The meta object literal for the '<em><b>From</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXTERNAL_SYMBOLIC_LINK_OBJECT__FROM = eINSTANCE.getExternalSymbolicLinkObject_From();
 
 	}
 

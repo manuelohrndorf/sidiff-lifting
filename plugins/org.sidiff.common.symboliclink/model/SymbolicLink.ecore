@@ -9,9 +9,29 @@
         eType="#//SymbolicLinkReference" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SymbolicLinkObject" abstract="true">
+    <eOperations name="getOutgoings">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments/>
+      </eGenericType>
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//SymbolicLinkReference" eOpposite="#//SymbolicLinkReference/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//SymbolicLinkReference" eOpposite="#//SymbolicLinkReference/target"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SymbolicLinkReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//SymbolicLinkObject" eOpposite="#//SymbolicLinkObject/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//SymbolicLinkObject" eOpposite="#//SymbolicLinkObject/incoming"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalSymbolicLinkObject" eSuperTypes="#//SymbolicLinkObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eObject" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="from" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        volatile="true" transient="true" derived="true"/>
   </eClassifiers>
 </ecore:EPackage>

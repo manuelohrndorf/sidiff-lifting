@@ -58,6 +58,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 		switch (eClass.getClassifierID()) {
 			case SymboliclinkPackage.SYMBOLIC_LINKS: return createSymbolicLinks();
 			case SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE: return createSymbolicLinkReference();
+			case SymboliclinkPackage.EXTERNAL_SYMBOLIC_LINK_OBJECT: return createExternalSymbolicLinkObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -81,6 +82,16 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	public SymbolicLinkReference createSymbolicLinkReference() {
 		SymbolicLinkReferenceImpl symbolicLinkReference = new SymbolicLinkReferenceImpl();
 		return symbolicLinkReference;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExternalSymbolicLinkObject createExternalSymbolicLinkObject() {
+		ExternalSymbolicLinkObjectImpl externalSymbolicLinkObject = new ExternalSymbolicLinkObjectImpl();
+		return externalSymbolicLinkObject;
 	}
 
 	/**

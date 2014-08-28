@@ -80,6 +80,10 @@ public class SymboliclinkAdapterFactory extends AdapterFactoryImpl {
 				return createSymbolicLinkReferenceAdapter();
 			}
 			@Override
+			public Adapter caseExternalSymbolicLinkObject(ExternalSymbolicLinkObject object) {
+				return createExternalSymbolicLinkObjectAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -138,6 +142,20 @@ public class SymboliclinkAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSymbolicLinkReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.silift.difference.symboliclink.ExternalSymbolicLinkObject <em>External Symbolic Link Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.silift.difference.symboliclink.ExternalSymbolicLinkObject
+	 * @generated
+	 */
+	public Adapter createExternalSymbolicLinkObjectAdapter() {
 		return null;
 	}
 

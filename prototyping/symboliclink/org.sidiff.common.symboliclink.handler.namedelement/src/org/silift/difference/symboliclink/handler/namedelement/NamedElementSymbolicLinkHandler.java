@@ -1,6 +1,7 @@
 package org.silift.difference.symboliclink.handler.namedelement;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -10,7 +11,6 @@ import org.silift.common.util.emf.EObjectLocation;
 import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
 
 /**
@@ -24,20 +24,18 @@ public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler
 	private static final String KEY = "NamedElementSymbolicLinkHandler";
 	
 	@Override
-	public SymbolicLinkObject generateSymbolicLinkObject(SymbolicLinks symbolicLinks,
+	public SymbolicLinkObject generateSymbolicLinkObject(Map<EObject, SymbolicLinkObject> obj2symbl,
 			EObject eObject) {
-		String name = deriveQualifiedName(eObject);
-		for(SymbolicLinkObject l : symbolicLinks.getLinkObjects()){
-			NamedElementSymbolicLinkObject link = (NamedElementSymbolicLinkObject) l;
-			if(link.getQualifiedName() != null && link.getQualifiedName().equals(name)){
-				return link;
-			}
+		if(obj2symbl.containsKey(eObject)){
+			return obj2symbl.get(eObject);
+		}else{
+			String name = deriveQualifiedName(eObject);
+			NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
+			link.setQualifiedName(name);
+			link.setReliability(1.f);
+			obj2symbl.put(eObject, link);
+			return link;
 		}
-		NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
-		link.setQualifiedName(name);
-		link.setReliability(1.f);
-		symbolicLinks.getLinkObjects().add(link);
-		return link;
 	}
 
 	@Override

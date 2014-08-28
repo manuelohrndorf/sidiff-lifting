@@ -40,6 +40,15 @@ public interface SymboliclinkFactory extends EFactory {
 	SymbolicLinkReference createSymbolicLinkReference();
 
 	/**
+	 * Returns a new object of class '<em>External Symbolic Link Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>External Symbolic Link Object</em>'.
+	 * @generated
+	 */
+	ExternalSymbolicLinkObject createExternalSymbolicLinkObject();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

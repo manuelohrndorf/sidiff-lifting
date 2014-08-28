@@ -2,6 +2,7 @@ package org.silift.difference.symboliclink.handler.uuid;
 
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -10,7 +11,6 @@ import org.sidiff.common.emf.EMFUtil;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
 import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
@@ -27,20 +27,18 @@ public class UUIDSymbolicLinkHandler extends AbstractSymbolicLinkHandler {
 	private static final String KEY = "UUIDSymbolicLinkHandler";
 
 	@Override
-	public SymbolicLinkObject generateSymbolicLinkObject(SymbolicLinks symbolicLinks, EObject eObject) {
-		String uuid = deriveUUID(eObject);		
-		for(SymbolicLinkObject l : symbolicLinks.getLinkObjects()){
-			UUIDSymbolicLinkObject link = (UUIDSymbolicLinkObject) l;
-			if(link.getUuid() != null && link.getUuid().equals(uuid)){
-				return link;
-			}
+	public SymbolicLinkObject generateSymbolicLinkObject(Map<EObject, SymbolicLinkObject> obj2symbl, EObject eObject) {
+		if(obj2symbl.containsKey(eObject)){
+			return obj2symbl.get(eObject);
+		}else{
+			String uuid = deriveUUID(eObject);		
+			UUIDSymbolicLinkObject link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
+			link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
+			link.setUuid(uuid);
+			link.setReliability(1.f);
+			obj2symbl.put(eObject, link);
+			return link;
 		}
-		UUIDSymbolicLinkObject link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
-		link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
-		link.setUuid(uuid);
-		link.setReliability(1.f);
-		symbolicLinks.getLinkObjects().add(link);
-		return link;
 	}
 
 	@Override
