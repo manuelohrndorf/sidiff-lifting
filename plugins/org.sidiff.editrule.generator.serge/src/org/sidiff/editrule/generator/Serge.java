@@ -44,7 +44,7 @@ public class Serge {
 	/**
 	 * Plugin name. Necessary to access dtdmap and dtd files.
 	 */
-	private final static String PLUGIN_NAME = "org.sidiff.editrule.generator";
+	private final static String PLUGIN_NAME = "org.sidiff.editrule.generator.serge";
 	
 	/**
 	 * The involved meta-models.
