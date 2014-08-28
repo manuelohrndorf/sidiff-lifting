@@ -2,8 +2,8 @@ package org.sidiff.editrule.generator.batch;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.sidiff.editrule.generator.Serge;
-import org.sidiff.editrule.generator.settings.SergeSettings;
+import org.sidiff.editrule.generator.serge.Serge;
+import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
 /**
  * This class should be used if SERGe is run with OSGi for debug/testing purpose.
@@ -23,8 +23,9 @@ public class Runner implements IApplication{
 		//Init default settings
 		SergeSettings settings = new SergeSettings(OUTPUT_FOLDER, INPUT_CONFIG_PATH);
 		
-		Serge serge = new Serge(settings);
-		serge.generate();
+		Serge serge = new Serge();
+		serge.init(settings);
+		serge.generateEditRules();
 				
 		return null;
 	}

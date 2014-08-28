@@ -14,9 +14,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.progress.UIJob;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
-import org.sidiff.editrule.generator.Serge;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
-import org.sidiff.editrule.generator.settings.SergeSettings;
+import org.sidiff.editrule.generator.serge.Serge;
+import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.ui.Activator;
 import org.sidiff.editrule.generator.ui.dialogs.EPackageNotFoundDialog;
 
@@ -81,8 +81,9 @@ public class SergeWizard extends Wizard implements INewWizard {
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				try {
-					Serge serge = new Serge(settings);
-					serge.generate();
+					Serge serge = new Serge();
+					serge.init(settings);
+					serge.generateEditRules();
 				}catch (IOException e) {
 					//TODO dialog for problems while accessing harddisk
 					e.printStackTrace();

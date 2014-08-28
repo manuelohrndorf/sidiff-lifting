@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.GridData;
-import org.sidiff.editrule.generator.settings.SergeSettings;
+import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
