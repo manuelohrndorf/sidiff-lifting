@@ -1738,6 +1738,25 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Checks whether two nodes n1 and n2 have the same node identifiers (names).
+	 * 
+	 * @param n1
+	 * @param n2
+	 * @return
+	 */
+	public static boolean haveEqualNodeIdentifiers(Node n1, Node n2) {
+		if (n1.getName() == null && n2.getName() == null) {
+			return true;
+		} else if (n1.getName() == null && n2.getName() != null) {
+			return false;
+		} else if (n1.getName() != null && n2.getName() == null) {
+			return false;
+		} else {
+			return n1.getName().equals(n2.getName());
+		}
+	}
+	
+	/**
 	 * Returns whether the Edge is a LHS of a Rule.
 	 * 
 	 * @param edge

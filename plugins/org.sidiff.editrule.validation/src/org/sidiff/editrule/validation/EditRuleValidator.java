@@ -14,7 +14,6 @@ import static org.sidiff.common.henshin.ParameterInfo.getOutermostParameter;
 import static org.sidiff.common.henshin.ParameterInfo.getParameterDirection;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +24,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -40,7 +38,6 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
-import org.eclipse.emf.henshin.model.Action.Type;
 import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
@@ -439,7 +436,7 @@ public class EditRuleValidator {
 
 		return invalids;
 	}
-	
+
 	public static List<EditRuleValidation> validateEditRule_mappedAllValueSettingParameters(Module editModule) {
 		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
 
@@ -456,26 +453,25 @@ public class EditRuleValidator {
 					// multiRuleParameterEmbedding)
 					continue;
 				}
-				
+
 				// Check:
 				for (Attribute attribute : createNode.getAttributes()) {
 					invalids.addAll(checkValueSettingParameterMapping(createNode, attribute));
 				}
-				
+
 			}
-			
+
 			// Check <<preserve>> nodes
 			for (NodePair nodePair : HenshinRuleAnalysisUtilEx.getPreservedNodes(rule)) {
 				Node rhsNode = nodePair.getRhsNode();
-				if (rule.getKernelRule() != null
-						&& !HenshinMultiRuleAnalysis.getMultiRuleNodes(rule).contains(rhsNode)) {
+				if (rule.getKernelRule() != null && !HenshinMultiRuleAnalysis.getMultiRuleNodes(rule).contains(rhsNode)) {
 					// follow-up error of kernel rule (will be detected by
 					// multiRuleParameterEmbedding)
 					continue;
 				}
-				
+
 				for (Attribute rhsAttribute : rhsNode.getAttributes()) {
-					if (isAttributeValueToBeSet(nodePair, rhsAttribute)){
+					if (isAttributeValueToBeSet(nodePair, rhsAttribute)) {
 						invalids.addAll(checkValueSettingParameterMapping(rhsNode, rhsAttribute));
 					}
 				}
@@ -865,7 +861,7 @@ public class EditRuleValidator {
 
 				Node rhsNode = nodePair.getRhsNode();
 				for (Attribute rhsAttribute : rhsNode.getAttributes()) {
-					if (isAttributeValueToBeSet(nodePair, rhsAttribute)){
+					if (isAttributeValueToBeSet(nodePair, rhsAttribute)) {
 						valid = true;
 						break;
 					}
@@ -882,18 +878,18 @@ public class EditRuleValidator {
 		return invalids;
 	}
 
-	private static boolean isAttributeValueToBeSet(NodePair nodePair, Attribute rhsAttribute){
+	private static boolean isAttributeValueToBeSet(NodePair nodePair, Attribute rhsAttribute) {
 		Node lhsNode = nodePair.getLhsNode();
 		Node rhsNode = nodePair.getRhsNode();
-	
+
 		Attribute lhsAttribute = lhsNode.getAttribute(rhsAttribute.getType());
 		if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * <p>
 	 * Validates the "AC Boundaries" constraint of the Edit-Rule:
@@ -935,8 +931,8 @@ public class EditRuleValidator {
 	 * Validates the "No AC Boundary Attributes" constraint of the Edit-Rule:
 	 * </p>
 	 * <p>
-	 * Boundary nodes of an application condition should not have attributes, this is a
-	 * warning as it can be seen as uncritical for generation
+	 * Boundary nodes of an application condition should not have attributes,
+	 * this is a warning as it can be seen as uncritical for generation
 	 * </p>
 	 * 
 	 * @param editModule
@@ -952,9 +948,9 @@ public class EditRuleValidator {
 				for (Node acBoundaryNode : ac.getAcBoundaryNodes()) {
 					if (acBoundaryNode.getAttributes().size() > 0) {
 						EditRuleValidation info = new EditRuleValidation(
-								"Boundary nodes of an application condition should not have attributes!", Diagnostic.WARNING,
-								editModule, ValidationType.noAcBoundaryAttributes, acBoundaryNode.getGraph().getRule(),
-								acBoundaryNode);
+								"Boundary nodes of an application condition should not have attributes!",
+								Diagnostic.WARNING, editModule, ValidationType.noAcBoundaryAttributes, acBoundaryNode
+										.getGraph().getRule(), acBoundaryNode);
 						invalids.add(info);
 						break;
 					}
@@ -1093,8 +1089,11 @@ public class EditRuleValidator {
 				boolean isEmbedded = false;
 
 				for (Mapping mapping : multiRule.getMultiMappings()) {
-					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isLHSNode(mapping.getImage())
-							&& isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
+					if ((mapping.getOrigin() == node)
+							&& (mapping.getImage() != null)
+							&& isLHSNode(mapping.getImage())
+							&& HenshinRuleAnalysisUtilEx.haveEqualNodeIdentifiers(mapping.getOrigin(),
+									mapping.getImage())) {
 						isEmbedded = true;
 						break;
 					}
@@ -1102,8 +1101,8 @@ public class EditRuleValidator {
 
 				if (!isEmbedded) {
 					EditRuleValidation info = new EditRuleValidation(
-							"All Kernel-Rule nodes have to be embedded in a Multi-Rule!", kernel.getModule(),
-							ValidationType.multiRuleNodeEmbedding, kernel, multiRule, node);
+							"All Kernel-Rule nodes have to be properly embedded in a Multi-Rule! There must (i) be a multi-mapping that maps the kernel node into the multi rule, and (ii) the kernel node and the multi node must have the same node identifiers (names).",
+							kernel.getModule(), ValidationType.multiRuleNodeEmbedding, kernel, multiRule, node);
 					invalids.add(info);
 				}
 			}
@@ -1115,8 +1114,11 @@ public class EditRuleValidator {
 				boolean isEmbedded = false;
 
 				for (Mapping mapping : multiRule.getMultiMappings()) {
-					if ((mapping.getOrigin() == node) && (mapping.getImage() != null) && isRHSNode(mapping.getImage())
-							&& isEqualNodeIdentifier(mapping.getOrigin(), mapping.getImage())) {
+					if ((mapping.getOrigin() == node)
+							&& (mapping.getImage() != null)
+							&& isRHSNode(mapping.getImage())
+							&& HenshinRuleAnalysisUtilEx.haveEqualNodeIdentifiers(mapping.getOrigin(),
+									mapping.getImage())) {
 						isEmbedded = true;
 						break;
 					}
@@ -1134,18 +1136,6 @@ public class EditRuleValidator {
 		// Recursion for deeper Multi-Rules:
 		for (Rule multiRule : kernel.getMultiRules()) {
 			checkNodeEmbedding(multiRule, invalids);
-		}
-	}
-
-	private static boolean isEqualNodeIdentifier(Node n1, Node n2) {
-		if (n1.getName() == null && n2.getName() == null) {
-			return true;
-		} else if (n1.getName() == null && n2.getName() != null) {
-			return false;
-		} else if (n1.getName() != null && n2.getName() == null) {
-			return false;
-		} else {
-			return n1.getName().equals(n2.getName());
 		}
 	}
 

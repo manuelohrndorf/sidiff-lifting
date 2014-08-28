@@ -24,6 +24,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 
 public class EditRuleFixer {
@@ -388,10 +389,8 @@ public class EditRuleFixer {
 		if (multiRule.getParameter(parameter.getName()) == null) {
 			// parameter must not yet exist...
 
-			if (multiRule.getLhs().getNode(parameter.getName()) != null
-					|| multiRule.getRhs().getNode(parameter.getName()) != null) {
-				// ... but a node with that name must exist
-
+			if (usesParameter(multiRule, parameter.getName())) {
+				
 				// Do the fix
 				Parameter multiParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
 				multiParameter.setName(parameter.getName());
@@ -403,11 +402,32 @@ public class EditRuleFixer {
 					fix_multiRuleParameterEmbedding(nestedMultiRule, multiParameter);
 				}
 			}
-
 		}
-
 	}
 
+	private static boolean usesParameter(Rule multiRule, String parameterName){
+		if (multiRule.getLhs().getNode(parameterName) != null
+				|| multiRule.getRhs().getNode(parameterName) != null) {
+			// A node with that name exists
+			return true;
+		}
+		
+		// Try to find attribute that uses this parameter:
+		List<Node> allNodes = new ArrayList<Node>();
+		allNodes.addAll(multiRule.getLhs().getNodes());
+		allNodes.addAll(multiRule.getRhs().getNodes());
+		for (Node node : allNodes) {
+			for (Attribute attribute : node.getAttributes()) {
+				// FIXME: Need real parsing of attributes.
+				if (attribute.getValue().contains(parameterName)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param multiRule
@@ -423,37 +443,53 @@ public class EditRuleFixer {
 	 * 
 	 * @param kernelRule
 	 * @param multiRule
-	 * @param node
+	 * @param kernelNode
 	 */
-	public static void fix_multiRuleNodeEmbedding(Rule kernelRule, Rule multiRule, Node node) {
-		Node multiNode = EcoreUtil.copy(node);
+	public static void fix_multiRuleNodeEmbedding(Rule kernelRule, Rule multiRule, Node kernelNode) {
+		// Check if the kernel node is embedded but has a different node
+		// identifier (name).
+		// Then we rename the multiNode to the name of the kernelNode
+		for (Mapping multiMapping : multiRule.getMultiMappings()) {
+			if (multiMapping.getOrigin() == kernelNode) {
+				Node multiNode = multiMapping.getImage();
+				if (multiNode != null && !HenshinRuleAnalysisUtilEx.haveEqualNodeIdentifiers(kernelNode, multiNode)) {
+					multiNode.setName(kernelNode.getName());
+					
+					// done
+					return;
+				}
+			}
+		}
+
+		// No mapping exists -> create it
+		Node multiNode = EcoreUtil.copy(kernelNode);
 		boolean inLHS = false;
 		boolean inRHS = false;
-		if (kernelRule.getLhs().getNodes().contains(node)) {
+		if (kernelRule.getLhs().getNodes().contains(kernelNode)) {
 			inLHS = true;
 			multiRule.getLhs().getNodes().add(multiNode);
-			Mapping multiMapping = HenshinFactoryImpl.eINSTANCE.createMapping(node, multiNode);
+			Mapping multiMapping = HenshinFactoryImpl.eINSTANCE.createMapping(kernelNode, multiNode);
 			multiRule.getMultiMappings().add(multiMapping);
-		} else if (kernelRule.getRhs().getNodes().contains(node)) {
+		} else if (kernelRule.getRhs().getNodes().contains(kernelNode)) {
 			inRHS = true;
 			multiRule.getRhs().getNodes().add(multiNode);
-			Mapping multiMapping = HenshinFactoryImpl.eINSTANCE.createMapping(node, multiNode);
+			Mapping multiMapping = HenshinFactoryImpl.eINSTANCE.createMapping(kernelNode, multiNode);
 			multiRule.getMultiMappings().add(multiMapping);
 		}
 
 		Node originNode = null;
 		Node imageNode = null;
 		if (inLHS) {
-			originNode = node;
+			originNode = kernelNode;
 			for (Mapping kernelMapping : kernelRule.getMappings()) {
-				if (kernelMapping.getOrigin().equals(node)) {
+				if (kernelMapping.getOrigin().equals(kernelNode)) {
 					imageNode = kernelMapping.getImage();
 				}
 			}
 		} else if (inRHS) {
-			imageNode = node;
+			imageNode = kernelNode;
 			for (Mapping kernelMapping : kernelRule.getMappings()) {
-				if (kernelMapping.getImage().equals(node)) {
+				if (kernelMapping.getImage().equals(kernelNode)) {
 					originNode = kernelMapping.getOrigin();
 				}
 			}
@@ -496,29 +532,5 @@ public class EditRuleFixer {
 	public static void fix_noAcBoundaryAttributes(Node acBoundaryNode) {
 		acBoundaryNode.getAttributes().clear();
 	}
-	
-	// (TK, 18.08.2014): Sehr spekulativ
-	// public static void fix_parameterTargets(Parameter parameter) {
-	// Unit unit = parameter.getUnit();
-	// Unit mainUnit = unit.getModule().getUnit("mainUnit");
-	// ParameterMapping mappingToBeRemoved = null;
-	// Parameter unitParameterToBeRemoved = null;
-	// for(ParameterMapping mapping : mainUnit.getParameterMappings()){
-	// if(mapping.getSource().equals(parameter)){
-	// mappingToBeRemoved = mapping;
-	// unitParameterToBeRemoved = mapping.getTarget();
-	// break;
-	// }else if(mapping.getTarget().equals(parameter)){
-	// mappingToBeRemoved = mapping;
-	// unitParameterToBeRemoved = mapping.getSource();
-	// }
-	// }
-	// if(mappingToBeRemoved !=null){
-	// mainUnit.getParameterMappings().remove(mappingToBeRemoved);
-	// mainUnit.getParameters().remove(unitParameterToBeRemoved);
-	// }
-	// unit.getParameters().remove(parameter);
-	//
-	// }
 
 }
