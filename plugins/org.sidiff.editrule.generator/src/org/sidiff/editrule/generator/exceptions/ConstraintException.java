@@ -1,0 +1,9 @@
+package org.sidiff.editrule.generator.exceptions;
+
+@SuppressWarnings("serial")
+public class ConstraintException extends Exception{
+
+	public ConstraintException(String s) {
+		super(s);
+	}
+}
