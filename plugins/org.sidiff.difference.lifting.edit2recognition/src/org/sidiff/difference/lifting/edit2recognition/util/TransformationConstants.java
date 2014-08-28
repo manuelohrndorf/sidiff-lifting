@@ -5,7 +5,7 @@ public class TransformationConstants {
 	/**
 	 * The standard Multi-Rule semantic change set priority.
 	 */
-	public static final int MULTI_RULE_PRIORITY = 0;
+	public static final int MULTI_RULE_PRIORITY = 1;
 	
 	/**
 	 * The standard priority for atomic edit operations.
