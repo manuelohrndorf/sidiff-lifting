@@ -59,11 +59,16 @@
     <mappings xmi:id="_R-hrB9k-EeKomu7rfXwhHg" origin="_R-hq-Nk-EeKomu7rfXwhHg" image="_R-hrAdk-EeKomu7rfXwhHg"/>
     <multiRules xmi:id="_R-hrCNk-EeKomu7rfXwhHg" name="m1_extract_eclass_attributes">
       <parameters xmi:id="_HVFk4O8oEeK6DsLh7TPvSA" name="SelectedAttributes"/>
+      <parameters xmi:id="_SZNIUC6oEeS2PJ404DVIZw" name="NewClass"/>
+      <parameters xmi:id="_TvxSoC6oEeS2PJ404DVIZw" name="NewClassName"/>
+      <parameters xmi:id="_VJCysC6oEeS2PJ404DVIZw" name="NewReference"/>
+      <parameters xmi:id="_WtYTQC6oEeS2PJ404DVIZw" name="NewReferenceName"/>
+      <parameters xmi:id="_YHx0sC6oEeS2PJ404DVIZw" name="Selected"/>
       <lhs xmi:id="_R-hrCdk-EeKomu7rfXwhHg" name="LHS">
-        <nodes xmi:id="_R-hrCtk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrDtk-EeKomu7rfXwhHg" outgoing="_R-hrDdk-EeKomu7rfXwhHg">
+        <nodes xmi:id="_R-hrCtk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrDtk-EeKomu7rfXwhHg _jqHPcC6oEeS2PJ404DVIZw" outgoing="_R-hrDdk-EeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
-        <nodes xmi:id="_R-hrC9k-EeKomu7rfXwhHg" name="SelectedAttributes" incoming="_R-hrDdk-EeKomu7rfXwhHg">
+        <nodes xmi:id="_R-hrC9k-EeKomu7rfXwhHg" name="SelectedAttributes" incoming="_R-hrDdk-EeKomu7rfXwhHg" outgoing="_jqHPcC6oEeS2PJ404DVIZw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
         </nodes>
         <nodes xmi:id="_R-hrDNk-EeKomu7rfXwhHg" outgoing="_R-hrDtk-EeKomu7rfXwhHg">
@@ -74,6 +79,9 @@
         </edges>
         <edges xmi:id="_R-hrDtk-EeKomu7rfXwhHg" source="_R-hrDNk-EeKomu7rfXwhHg" target="_R-hrCtk-EeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+        <edges xmi:id="_jqHPcC6oEeS2PJ404DVIZw" source="_R-hrC9k-EeKomu7rfXwhHg" target="_R-hrCtk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
         </edges>
       </lhs>
       <rhs xmi:id="_R-hrD9k-EeKomu7rfXwhHg" name="RHS">
@@ -129,11 +137,16 @@
     </multiRules>
     <multiRules xmi:id="_R-hrINk-EeKomu7rfXwhHg" name="m2_extract_eclass_operations">
       <parameters xmi:id="_JaaSoO8oEeK6DsLh7TPvSA" name="SelectedOperations"/>
+      <parameters xmi:id="_THNd0C6oEeS2PJ404DVIZw" name="NewClass"/>
+      <parameters xmi:id="_Ue8s0C6oEeS2PJ404DVIZw" name="NewClassName"/>
+      <parameters xmi:id="_WBgrwC6oEeS2PJ404DVIZw" name="NewReference"/>
+      <parameters xmi:id="_XWfhsC6oEeS2PJ404DVIZw" name="NewReferenceName"/>
+      <parameters xmi:id="_YzkjsC6oEeS2PJ404DVIZw" name="Selected"/>
       <lhs xmi:id="_R-hrIdk-EeKomu7rfXwhHg" name="LHS">
-        <nodes xmi:id="_R-hrItk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrJtk-EeKomu7rfXwhHg" outgoing="_R-hrJdk-EeKomu7rfXwhHg">
+        <nodes xmi:id="_R-hrItk-EeKomu7rfXwhHg" name="Selected" incoming="_R-hrJtk-EeKomu7rfXwhHg _kW0kcC6oEeS2PJ404DVIZw" outgoing="_R-hrJdk-EeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
         </nodes>
-        <nodes xmi:id="_R-hrI9k-EeKomu7rfXwhHg" name="SelectedOperations" incoming="_R-hrJdk-EeKomu7rfXwhHg">
+        <nodes xmi:id="_R-hrI9k-EeKomu7rfXwhHg" name="SelectedOperations" incoming="_R-hrJdk-EeKomu7rfXwhHg" outgoing="_kW0kcC6oEeS2PJ404DVIZw">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
         </nodes>
         <nodes xmi:id="_R-hrJNk-EeKomu7rfXwhHg" outgoing="_R-hrJtk-EeKomu7rfXwhHg">
@@ -144,6 +157,9 @@
         </edges>
         <edges xmi:id="_R-hrJtk-EeKomu7rfXwhHg" source="_R-hrJNk-EeKomu7rfXwhHg" target="_R-hrItk-EeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+        </edges>
+        <edges xmi:id="_kW0kcC6oEeS2PJ404DVIZw" source="_R-hrI9k-EeKomu7rfXwhHg" target="_R-hrItk-EeKomu7rfXwhHg">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eContainingClass"/>
         </edges>
       </lhs>
       <rhs xmi:id="_R-hrJ9k-EeKomu7rfXwhHg" name="RHS">
