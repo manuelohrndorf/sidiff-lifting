@@ -60,13 +60,11 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			
 			EClass contextClass = (EClass) eClassifier;
 			
-			// FIXME: Workaround to exclude Generation of Operations on Ecore
-			// TODO : Uncomment and do the right thing
-			/*
-			if (EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(contextClass)){
+			// exclude generation for Ecore Elements in case the main meta model is not Ecore
+			if(!Configuration.getInstance().METAMODEL.getNsURI().equals(EcorePackage.eNS_URI)) {
 				return;
-			}*/
-			
+			}
+
 			try{
 				
 				Set<Module> createModules 	= GAD.generate_CREATE(contextClass);
