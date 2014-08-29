@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AttributeDependency;
@@ -301,6 +302,17 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	 * @param editRuleMatch
 	 */
 	private void generateEditRuleMatchSymboicLinks(EditRuleMatch editRuleMatch){
+						
+		List<EReference> unconsideredEReferences = new LinkedList<EReference>();
+		
+		// add unconsidered reference types
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getEClassifier_ETypeParameters());
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getEOperation_ETypeParameters());
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getEOperation_EGenericExceptions());
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getEClass_EGenericSuperTypes());
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getETypedElement_EGenericType());
+		unconsideredEReferences.add(EcorePackage.eINSTANCE.getEPackage_EFactoryInstance());
+		
 		// node occurrences in a
 		for (String nodeOccurrenceA_key : editRuleMatch.getNodeOccurrencesA().keySet()) {
 			EObjectSet eObjectSet = SymmetricFactory.eINSTANCE.createEObjectSet();
@@ -312,14 +324,12 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				// edge occurrences in a
 				for (Iterator<EReference> iterator = srcObject.eClass().getEAllReferences().iterator(); iterator.hasNext();) {
 					EReference eReference = iterator.next();
-					if (!eReference.isDerived() && !eReference.getName().equals("eGenericType") && !eReference.getName().equals("eFactoryInstance")){
+					if (!eReference.isDerived() && !unconsideredEReferences.contains(eReference)){
 						if (eReference.isMany()) {
 							@SuppressWarnings("unchecked")
 							List<EObject> list = (List<EObject>)srcObject.eGet(eReference);
 							for(EObject tgt : list){
-								if(tgt != null){
-									generateSymbolicLinkReference(obj2symbl_A, symblReferences_A, modelA, srcObject, tgt, eReference);
-								}
+								generateSymbolicLinkReference(obj2symbl_A, symblReferences_A, modelA, srcObject, tgt, eReference);
 							}
 						}else{
 							EObject tgtObject = (EObject)srcObject.eGet(eReference);
@@ -345,14 +355,12 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 				// edge occurrences in b
 				for (Iterator<EReference> iterator = srcObject.eClass().getEAllReferences().iterator(); iterator.hasNext();) {
 					EReference eReference = iterator.next();
-					if (!eReference.isDerived()	&& !eReference.getName().equals("eGenericType")	&& !eReference.getName().equals("eFactoryInstance")) {
+					if (!eReference.isDerived()	&& !unconsideredEReferences.contains(eReference)) {
 						if (eReference.isMany()) {
 							@SuppressWarnings("unchecked")
 							List<EObject> list = (List<EObject>)srcObject.eGet(eReference);
 							for(EObject tgt : list){
-								if(tgt != null){
-									generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgt, eReference);
-								}
+								generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgt, eReference);
 							}
 						} else {
 							EObject tgtObject = (EObject)srcObject.eGet(eReference);
