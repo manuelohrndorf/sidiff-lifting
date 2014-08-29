@@ -99,8 +99,10 @@ public class Serge implements IEditRuleGenerator{
 	 * Method to start the generation process.
 	 * @throws OperationTypeNotImplementedException 
 	 * @throws IOException 
+	 * @throws EPackageNotFoundException 
 	 */
-	public void generateEditRules() throws EPackageNotFoundException, OperationTypeNotImplementedException, IOException {
+	@Override
+	public void generateEditRules() throws IOException, EPackageNotFoundException, OperationTypeNotImplementedException{
 
 		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
