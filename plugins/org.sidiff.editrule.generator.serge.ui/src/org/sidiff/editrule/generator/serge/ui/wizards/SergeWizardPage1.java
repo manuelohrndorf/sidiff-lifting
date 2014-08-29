@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
-import org.sidiff.editrule.generator.ui.widgets.EditRuleGenerateSettingsWidget;
+import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
 /**
@@ -164,8 +164,11 @@ public class SergeWizardPage1 extends WizardPage {
 		widget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		widget.setLayout(new GridLayout(1, false));
 		
-		EditRuleGenerateSettingsWidget Config = new EditRuleGenerateSettingsWidget();
+		/*
+		EditRuleGeneratorSettingsWidget Config = new EditRuleGeneratorSettingsWidget();
+		Config.setSettings(settings);
 		Config.createControl(widget);
+		*/
 		
 		
 		txtSelectOutputFolder.addModifyListener(new ModifyListener() {

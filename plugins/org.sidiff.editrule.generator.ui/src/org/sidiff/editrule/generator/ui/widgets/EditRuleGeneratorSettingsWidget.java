@@ -20,7 +20,7 @@ import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 
-public class EditRuleGenerateSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation{
+public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation{
 	private Text txtRefinedConfig;
 	private Text txtDefaultConfig;
 
@@ -43,7 +43,6 @@ public class EditRuleGenerateSettingsWidget implements IWidget, IWidgetValidatio
 	
 	private int state=0; // 0 = ERROR_MISSING_ALL; 1 = ERROR_MISSING_OUTPUT; 2 = ERROR_MISSING_CONFIG; 3 = VALID;
 	
-
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -147,6 +146,12 @@ public class EditRuleGenerateSettingsWidget implements IWidget, IWidgetValidatio
 	public String getValidationMessage() {
 		return MESSAGE[state];
 	}
+
+	public void setSettings(EditRuleGeneratorSettings settings) {
+		this.settings = settings;
+	}
+	
+	
 
 
 }
