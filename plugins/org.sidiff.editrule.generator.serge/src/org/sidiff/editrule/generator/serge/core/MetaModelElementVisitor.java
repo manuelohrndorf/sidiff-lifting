@@ -61,7 +61,9 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			EClass contextClass = (EClass) eClassifier;
 			
 			// exclude generation for Ecore Elements in case the main meta model is not Ecore
-			if(!Configuration.getInstance().METAMODEL.getNsURI().equals(EcorePackage.eNS_URI)) {
+			if(EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(contextClass) &&
+					!Configuration.getInstance().METAMODEL.getNsURI().equals(EcorePackage.eNS_URI)
+					) {				
 				return;
 			}
 
