@@ -1,5 +1,7 @@
 package org.sidiff.editrule.generator.settings;
 
+import org.sidiff.editrule.generator.IEditRuleGenerator;
+
 /**
  * Class for the concept of EditRuleGeneratorSettings
  * which configure an implementation of such a generator.
@@ -7,7 +9,12 @@ package org.sidiff.editrule.generator.settings;
  * @author dreuling
  *
  */
-public class EditRuleGeneratorSettings {
+public class EditRuleGenerationSettings {
+	
+	/**
+	 * The generator to use
+	 */
+	private IEditRuleGenerator generator;
 	
 	/**
 	 * The default folder path to write the generated EditRules to.
@@ -25,12 +32,21 @@ public class EditRuleGeneratorSettings {
 	 */
 	private boolean useSubfolders;
 	
-	public EditRuleGeneratorSettings(String outputFolderPath, String configPath, Boolean useSubfolders){
+	public EditRuleGenerationSettings(IEditRuleGenerator generator,String outputFolderPath, String configPath, Boolean useSubfolders){
+		this.generator = generator;
 		this.outputFolderPath = outputFolderPath;
 		this.configPath = configPath;
 		this.useSubfolders = useSubfolders;
 	}
 	
+	public IEditRuleGenerator getGenerator() {
+		return generator;
+	}
+
+	public void setGenerator(IEditRuleGenerator generator) {
+		this.generator = generator;
+	}
+
 	public String getOutputFolderPath() {
 		return outputFolderPath;
 	}

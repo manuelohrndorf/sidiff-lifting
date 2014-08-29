@@ -6,7 +6,7 @@ import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
 import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
-import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 
 public interface IEditRuleGenerator {
@@ -34,7 +34,7 @@ public interface IEditRuleGenerator {
 	 * Initialization method of the generator which makes use of
 	 * an instance of @link{EditRuleGeneratorSettings} to configure the generator.
 	 */
-	public void init(EditRuleGeneratorSettings settings);
+	public void init(EditRuleGenerationSettings settings);
 	
 	/**
 	 * Generate the EditRules. The configuration
