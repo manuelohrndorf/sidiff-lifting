@@ -18,9 +18,19 @@ import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 
-
+/**
+ * Widget containing UI-Tools for generating CPEO Configurations.
+ * @author Simon Heimes
+ *
+ */
 public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation{
+	/**
+	 * Path to Configuration File
+	 */
 	private Text txtRefinedConfig;
+	/**
+	 * Path to Default Configuration File
+	 */
 	private Text txtDefaultConfig;
 
 	private Composite parent;
@@ -31,18 +41,35 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	private Button rBtnDefaultConfig;
 	private Button btnBrowse;
 	private Button btnChooseDocumenttype;	
-
+	
+	/**
+	 * Settings-Object with Generator Settings
+	 */
 	private EditRuleGenerationSettings settings;
 	private final FileDialog eConfigChooser = new FileDialog(Display.getCurrent().getActiveShell());
 	
+	/**
+	 * Static Access-Variable to Message-Array
+	 */
 	private final static int VALID = 0;
+	/**
+	 * Static Access-Variable to Message-Array
+	 */
 	private final static int MISSING_DOCUMENT_TYPE = 1;
+	/**
+	 * Static Access-Variable to Message-Array
+	 */
 	private final static int MISSING_CONFIG = 2;
 	
+	/**
+	 * Array of Error Messages
+	 */
 	private final static String[] MESSAGE = {null, "Documenttype is not set.", "Configuration Path is missing"};
 		
-	
-	private int state=0; // 0 = VALID; 1 = MISSING_DOCUMENT_TYPE; 2 = MISSING_CONFIG;  	
+	/**
+	 * 0 = VALID; 1 = MISSING_DOCUMENT_TYPE; 2 = MISSING_CONFIG, refers to MESSAGE
+	 */
+	private int state=0; //  	
 	
 	
 	public EditRuleGeneratorSettingsWidget(EditRuleGenerationSettings settings) {
@@ -51,13 +78,20 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	}
 
 	/**
-	 * @wbp.parser.entryPoint
+	 * Adds UI-Tools to Composite parent. Specifies Settings for Configuration
+	 * of CPEO Generation.
+	 * 
+	 * @author Simon Heimes
+	 * @param parent
+	 *            Composite, which will be filled with UI-Tools.
+	 * @return Composite, filled with UI-Tools
+	 * @see createControl
 	 */
 	@Override
 	public Composite createControl(Composite parent) {
+
 		this.parent = parent;
-		
-		
+				
 		parent.setLayout(new GridLayout(1, false));
 		group = new Group(parent, SWT.SHADOW_ETCHED_IN);
 		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -119,6 +153,39 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		return parent;
 	}
 
+
+	/**
+	 * Checks, if entered Information is correct.
+	 * @author Simon Heimes
+	 * @return 	true - Entered Information are correct
+	 * 			false - Entered Information are incorrect
+	 */
+	@Override
+	public boolean validate() {
+		if ((rBtnDefaultConfig.getSelection() && !txtDefaultConfig.getText().isEmpty()) || 
+				(rBtnRefinedConfig.getSelection() && !txtRefinedConfig.getText().isEmpty())) 
+			state = VALID;
+		if (rBtnDefaultConfig.getSelection() && txtDefaultConfig.getText().isEmpty())
+			state = MISSING_DOCUMENT_TYPE;
+		if (rBtnRefinedConfig.getSelection() && txtRefinedConfig.getText().isEmpty())
+			state = MISSING_CONFIG;
+		
+		if (state == 0) return true;
+		else return false;
+	}
+	
+	/**
+	 * @author Simon Heimes
+	 * @return String - Errormessage to be displayed in Wizard.
+	 *  	If Content is valid - null <>
+	 *  	If Documenttype is not set while selected - "Documenttype is not set." <>
+	 * 	If Configuration Path is not set while selected - "Configuration Path is missing" <>
+	 */
+	@Override
+	public String getValidationMessage() {
+		return MESSAGE[state];
+	}
+	
 	@Override
 	public Composite getWidget() {
 		return parent;
@@ -134,25 +201,6 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	public String getInformationMessage() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean validate() {
-		if ((rBtnDefaultConfig.getSelection() && !txtDefaultConfig.getText().isEmpty()) || 
-				(rBtnRefinedConfig.getSelection() && !txtRefinedConfig.getText().isEmpty())) 
-			state = VALID;
-		if (rBtnDefaultConfig.getSelection() && txtDefaultConfig.getText().isEmpty())
-			state = MISSING_DOCUMENT_TYPE;
-		if (rBtnRefinedConfig.getSelection() && txtRefinedConfig.getText().isEmpty())
-			state = MISSING_CONFIG;
-		
-		if (state == 0) return true;
-		else return false;
-	}
-
-	@Override
-	public String getValidationMessage() {
-		return MESSAGE[state];
 	}
 	
 	public void setSettings(EditRuleGenerationSettings settings) {
