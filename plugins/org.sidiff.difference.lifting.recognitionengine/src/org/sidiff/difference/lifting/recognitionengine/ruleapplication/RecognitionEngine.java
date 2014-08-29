@@ -241,6 +241,11 @@ public class RecognitionEngine {
 	 */
 	private void executeSequential() {
 
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "---------------- SEQUENTIALLY MATCHING RECOGNITION RULES ----------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+
+		
 		// Sequential recognizer:
 		Set<Rule> units = new HashSet<Rule>();
 		units.addAll(recognitionRules);
@@ -249,6 +254,9 @@ public class RecognitionEngine {
 		// Start Recognizer-Thread in "sequential mode":
 		RecognizerThread recognizer = new RecognizerThread(units, this);
 		recognizer.recognize();
+		
+		// Apply recognition rules
+		applyRecognitionRules();
 	}
 
 	/**
@@ -257,12 +265,8 @@ public class RecognitionEngine {
 	 */
 	private void executeParallel() {
 
-		/*
-		 * Start recognition
-		 */
-
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "---------------- MATCHING RECOGNITION RULES ----------------");
+		LogUtil.log(LogEvent.NOTICE, "---------------- PARALLEL MATCHING RECOGNITION RULES ----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Create thread pool
@@ -312,11 +316,16 @@ public class RecognitionEngine {
 			e.printStackTrace();
 		}
 
+		// Apply recognition rules
+		applyRecognitionRules();
+	}
+
+	private void applyRecognitionRules(){
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "---------------- APPLYING RECOGNITION RULES ----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		// (2) Pre-filtering of collected rule applications: Keep only one
+		// Pre-filtering of collected rule applications: Keep only one
 		// representative of a set of equal (same changes covered and same
 		// recognition rule) recognition rule applications.
 		Collection<List<RuleApplication>> rrApplicationsByRule = RecognitionRuleApplicationAnalysis
@@ -333,7 +342,7 @@ public class RecognitionEngine {
 		}
 		recognizerRuleApplications.removeAll(toBeRemoved);
 
-		// (3) Execution of collected rule applications:
+		// Execution of collected rule applications:
 		for (RuleApplication recognitionRuleApp : recognizerRuleApplications) {
 			boolean success = recognitionRuleApp.execute(null);
 			assert (success) : "Could not apply rule " + recognitionRuleApp + ". Should never happen";
@@ -343,7 +352,7 @@ public class RecognitionEngine {
 			}
 		}
 	}
-
+	
 	/**
 	 * Clients that want to apply recognition rules should use this methods to
 	 * obtain the single instance of a graph factory.
