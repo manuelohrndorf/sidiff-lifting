@@ -136,9 +136,11 @@ public class PatchCreator {
 
 			LogUtil.log(LogEvent.NOTICE, "serialize " + rbi.getEditRule().getExecuteModule().getName() + " to "
 					+ erSavePath);
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
-			Module newMod = (Module) EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
-			rbi.getEditRule().setExecuteMainUnit(newMod.getUnit(INamingConventions.MAIN_UNIT));
+			
+			// FIXME: Do not just save module. Copy module first, and then save it.
+			// EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
+			// Module newMod = (Module) EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
+			// rbi.getEditRule().setExecuteMainUnit(newMod.getUnit(INamingConventions.MAIN_UNIT));
 
 			// MANIFEST
 			String relSavePath = EMFStorage.pathToRelativeUri(savePath, erSavePath).toString();
