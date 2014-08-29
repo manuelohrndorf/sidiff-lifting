@@ -227,7 +227,9 @@ public abstract class Settings {
 			for (IRuleBase rb : ruleBases) {
 				result.append(rb.getName() + ", ");
 			}
-			result.deleteCharAt(result.toString().lastIndexOf(','));
+			if (result.toString().endsWith(",")){
+				result.deleteCharAt(result.toString().lastIndexOf(','));
+			}
 			result.append("\n");
 		}
 
