@@ -501,6 +501,11 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     	
     	IResource resource = getProject().findMember(new Path("META-INF").append("MANIFEST.MF"));
     	if (resource != null) {
+        	try {
+				resource.refreshLocal(IResource.DEPTH_ZERO, null);
+			} catch (CoreException e1) {
+				// nothing
+			}
     		StringBuffer contents = new StringBuffer();
     		try {
     			BufferedInputStream in = new BufferedInputStream(((IFile) resource).getContents());
