@@ -46,7 +46,10 @@ public class Serge implements IEditRuleGenerator{
 	/**
 	 * Plugin name. Necessary to access dtdmap and dtd files.
 	 */
-	private final static String PLUGIN_NAME = "org.sidiff.editrule.generator.serge";
+	public final static String PLUGIN_NAME = "org.sidiff.editrule.generator.serge";
+	
+	public final static String GENERATOR_KEY = "serge";
+
 	
 	/**
 	 * The involved meta-models.
@@ -223,7 +226,7 @@ public class Serge implements IEditRuleGenerator{
 
 	@Override
 	public String getKey() {
-		return "serge";
+		return GENERATOR_KEY;
 	}
 
 }

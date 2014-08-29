@@ -4,8 +4,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,37 +13,32 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
-import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
  * as the file name. The page will only accept file name without the extension
  * OR with the extension that matches the expected one (mpe).
  */
-
 public class SergeWizardPage1 extends WizardPage {
 
 	private ISelection selection;
 	private Text txtSelectOutputFolder;
-	private Text txtImportPackage;
-	private Text txtConfig;
 	
-	private Boolean bOutputFolder;
-	private Boolean bConfig;
-	
+	private ModifyListener validationListener;
 	private SergeSettings settings;
+	private EditRuleGeneratorSettingsWidget configWidget;
 	
 
 	/**
@@ -59,6 +52,18 @@ public class SergeWizardPage1 extends WizardPage {
 		setDescription("Please define general settings for the generation.");
 		this.selection = selection;
 		this.settings = settings;
+	}
+	
+	private void validate(){
+		Boolean valid = false;
+		configWidget.getSettings();
+		valid = configWidget.validate();
+		setErrorMessage(configWidget.getValidationMessage());
+		if (txtSelectOutputFolder.getText().length() == 0) {
+			setErrorMessage("Output Folder Path is missing.");
+			valid = false;
+		}
+		setPageComplete(valid);
 	}
 
 	/**
@@ -75,162 +80,93 @@ public class SergeWizardPage1 extends WizardPage {
 		
 		final DirectoryDialog eOutputFolderChooser = new DirectoryDialog(this.getShell());
 		final FileDialog eConfigChooser = new FileDialog(this.getShell());
-		bConfig = false;
-		bOutputFolder = false;
 		container.setLayout(new GridLayout(1, false));
 		
+		Composite cOutput = new Composite(container, SWT.NONE);
+		cOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		cOutput.setLayout(new GridLayout(1, false));
 		
-		Group grpOutputPaths = new Group(container, SWT.NONE);
+		
+		Group grpOutputPaths = new Group(cOutput, SWT.NONE);
 		grpOutputPaths.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		grpOutputPaths.setLayout(new GridLayout(1, false));
 		grpOutputPaths.setText("Output");
 		
 		Composite composite = new Composite(grpOutputPaths, SWT.NONE);
 		composite.setLayout(new GridLayout(3, false));
-//		gd_composite.widthHint = 380;
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 		
+		Composite config = new Composite(container, SWT.SMOOTH);
+		config.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		config.setLayout(new GridLayout(1, false));
+		
+		configWidget = new EditRuleGeneratorSettingsWidget(settings);
+		configWidget.createControl(config);
+
 		Label lblSelectOutputFolder = new Label(composite, SWT.NONE);
 		lblSelectOutputFolder.setText("Select Output Folder");
-		
+
 		txtSelectOutputFolder = new Text(composite, SWT.BORDER);
-		txtSelectOutputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
+		txtSelectOutputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				true, false, 1, 1));
+
 		Button btnBrowseOutputFolder = new Button(composite, SWT.NONE);
 		btnBrowseOutputFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setOutputFolderPath(eOutputFolderChooser.open());				
+				settings.setOutputFolderPath(eOutputFolderChooser.open());
 				txtSelectOutputFolder.setText(settings.getOutputFolderPath());
+				configWidget.setSettings(settings);
 			}
 		});
-		btnBrowseOutputFolder.setText("Browse");		
+		btnBrowseOutputFolder.setText("Browse");
 
+		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
+		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 2, 1));
+		cbtnSubfolder
+				.setText("Create sub-folders for transformation kinds (create, delete, ...)");
+		new Label(composite, SWT.NONE);
 		
-		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
-		grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		grpMetamodelSpecificConfiguration.setText("EditRule Generator Configuration");
-		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
+	
 		
-		Composite composite_1 = new Composite(grpMetamodelSpecificConfiguration, SWT.NONE);
-//		gd_composite_1.widthHint = 383;
-		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		composite_1.setLayout(new GridLayout(5, false));
+		validationListener = new ModifyListener() {			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				validate();
+			}
+		};
 		
-		final Button btnRefinedConfig = new Button(composite_1, SWT.RADIO);
-		btnRefinedConfig.setText("Refined Config");
-		btnRefinedConfig.setSelection((settings.getConfigPath()!=null));
-		new Label(composite_1, SWT.NONE);		
-
-		Button btnBrowseConfig = new Button(composite_1, SWT.NONE);
-		btnBrowseConfig.addSelectionListener(new SelectionAdapter() {
+		configWidget.getTxtDefaultConfig().addModifyListener(validationListener);
+		
+		configWidget.getTxtRefinedConfig().addModifyListener(validationListener);
+		
+		configWidget.getrBtnDefaultConfig().addSelectionListener(new SelectionListener() {
+			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setConfigPath(eConfigChooser.open());
-				txtConfig.setText(settings.getConfigPath());
+				validate();		
 			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
-		btnBrowseConfig.setText("Browse");		
 		
-		txtConfig = new Text(composite_1, SWT.BORDER);
-		txtConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		if(this.settings.getConfigPath()!=null){
-			txtConfig.setText(this.settings.getConfigPath());
-			bConfig = true;
-		}
-		
-		final Button btnDefaultConfig = new Button(composite_1, SWT.RADIO);
-		btnDefaultConfig.setText("Default Config");
-		new Label(composite_1, SWT.NONE);
-		
-		Button btnImportPackage = new Button(composite_1, SWT.NONE);
-		btnImportPackage.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		btnImportPackage.setText("Choose Documenttype");	
-		
-		txtImportPackage = new Text(composite_1, SWT.BORDER);
-		txtImportPackage.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		
-		btnImportPackage.addSelectionListener(new SelectionAdapter() {
+		configWidget.getrBtnRefinedConfig().addSelectionListener(new SelectionListener() {
+			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				@SuppressWarnings("unused")
-				EPackage documentTypePackage = EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl());
-				txtImportPackage.setText(documentTypePackage.getNsURI());				
+				validate();	
 			}
-		});
-		
-		Composite widget = new Composite(container, SWT.SMOOTH);
-		widget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		widget.setLayout(new GridLayout(1, false));
-		
-		/*
-		EditRuleGeneratorSettingsWidget Config = new EditRuleGeneratorSettingsWidget();
-		Config.setSettings(settings);
-		Config.createControl(widget);
-		*/
-		
-		
-		txtSelectOutputFolder.addModifyListener(new ModifyListener() {
+			
 			@Override
-			public void modifyText(ModifyEvent e) {
-				if (txtSelectOutputFolder.getText().length() == 0) {bOutputFolder = false;} else {bOutputFolder = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage(null);} else {setPageComplete(false);}
-				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
-				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
-				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		
-		txtConfig.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage(null);} else {setPageComplete(false);}
-				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
-				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
-				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
-				btnRefinedConfig.setSelection(true);
-				btnDefaultConfig.setSelection(false);
-			}
-		});
+		txtSelectOutputFolder.addModifyListener(validationListener);
 		
-		txtImportPackage.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				if (txtConfig.getText().length() == 0 && txtImportPackage.getText().length() == 0) {bConfig = false;} else {bConfig = true;}
-				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage(null);} else {setPageComplete(false);}
-				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
-				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
-				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
-				btnDefaultConfig.setSelection(true);
-				btnRefinedConfig.setSelection(false);
-			}
-		});
-		
-		btnDefaultConfig.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e){
-				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
-				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
-				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
-				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage(null);} else {setPageComplete(false);}
-				if (txtImportPackage.getText().length() == 0) {setPageComplete(false);setErrorMessage("Default Config is empty!");};
-				
-			}
-		});
-		
-		btnRefinedConfig.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e){
-				if (!bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path and Configuration Path are missing!");}
-				if (!bConfig && bOutputFolder) {setErrorMessage("Configuration Path is missing!");}
-				if (bConfig && !bOutputFolder) {setErrorMessage("Output Folder Path is missing!");}
-				if (bConfig && bOutputFolder) {setPageComplete(true); setErrorMessage(null);} else {setPageComplete(false);}
-				if (txtConfig.getText().length() == 0) {setPageComplete(false);setErrorMessage("Refined Config is empty!");};
-				
-			}
-		});
-		
-		setErrorMessage("Output Folder Path ist Missing");
+		setErrorMessage("Output Folder Path is missing");
 	}
 
 	/**

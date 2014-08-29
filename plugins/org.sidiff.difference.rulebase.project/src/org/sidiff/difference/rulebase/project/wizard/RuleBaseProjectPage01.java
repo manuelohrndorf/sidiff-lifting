@@ -109,8 +109,7 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		addWidget(container, generatorWidget);
 		
 		// EditRule Generator Settings:
-		generatorSettingsWidget = new EditRuleGeneratorSettingsWidget();
-		generatorSettingsWidget.setSettings(this.settings);
+		generatorSettingsWidget = new EditRuleGeneratorSettingsWidget(this.settings);
 		addWidget(container, generatorSettingsWidget);
 		
 		

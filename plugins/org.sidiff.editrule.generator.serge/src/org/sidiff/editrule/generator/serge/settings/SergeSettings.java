@@ -1,5 +1,6 @@
 package org.sidiff.editrule.generator.serge.settings;
 
+import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
@@ -38,7 +39,7 @@ public class SergeSettings extends EditRuleGenerationSettings{
 	private boolean deleteLogs;	
 	
 	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
-		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),outputFolderPath,configPath,useSubfolders);
+		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),outputFolderPath,configPath,useSubfolders);
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = true;
 		this.overwriteGeneratedTransformations = true;

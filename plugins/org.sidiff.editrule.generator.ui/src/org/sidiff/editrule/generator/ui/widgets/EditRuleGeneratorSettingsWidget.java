@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
@@ -27,10 +26,12 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	private Composite parent;
 	private Group group;
 	private Composite composite;
-	private Button rBtnRefinedConfig;
+	private Button rBtnRefinedConfig;	
+
 	private Button rBtnDefaultConfig;
 	private Button btnBrowse;
-	private Button btnChooseDocumenttype;
+	private Button btnChooseDocumenttype;	
+
 	private EditRuleGenerationSettings settings;
 	private final FileDialog eConfigChooser = new FileDialog(Display.getCurrent().getActiveShell());
 	
@@ -38,11 +39,17 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	private final static int MISSING_DOCUMENT_TYPE = 1;
 	private final static int MISSING_CONFIG = 2;
 	
-	private final static String[] MESSAGE = {"Correct.", "Documenttype is not set.", "Configuration Path is missing"};
+	private final static String[] MESSAGE = {null, "Documenttype is not set.", "Configuration Path is missing"};
 		
 	
-	private int state=0; // 0 = ERROR_MISSING_ALL; 1 = ERROR_MISSING_OUTPUT; 2 = ERROR_MISSING_CONFIG; 3 = VALID;
+	private int state=0; // 0 = VALID; 1 = MISSING_DOCUMENT_TYPE; 2 = MISSING_CONFIG;  	
 	
+	
+	public EditRuleGeneratorSettingsWidget(EditRuleGenerationSettings settings) {
+		super();
+		this.settings = settings;
+	}
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -66,32 +73,9 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		rBtnRefinedConfig = new Button(composite, SWT.RADIO);
 		rBtnRefinedConfig.setText("Refined Config");
 		rBtnRefinedConfig.setSelection(true);
-		new Label(composite, SWT.NONE);
 		
 		btnBrowse = new Button(composite, SWT.NONE);
 		btnBrowse.setText("Browse");
-		new Label(composite, SWT.NONE);
-		
-		txtRefinedConfig = new Text(composite, SWT.BORDER);
-		txtRefinedConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		rBtnDefaultConfig = new Button(composite, SWT.RADIO);
-		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		rBtnDefaultConfig.setText("Default Config");
-		new Label(composite, SWT.NONE);
-		
-		btnChooseDocumenttype = new Button(composite, SWT.NONE);
-		btnChooseDocumenttype.setText("Choose Documenttype");
-		new Label(composite, SWT.NONE);
-		
-		txtDefaultConfig = new Text(composite, SWT.BORDER);
-		txtDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
-		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		cbtnSubfolder.setText("Create sub-folders for transformation kinds (create, delete, ...)");
-		cbtnSubfolder.setSelection(settings.isUseSubfolders());
-		new Label(composite, SWT.NONE);
 		
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -101,14 +85,38 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 			}
 		});
 		
+		txtRefinedConfig = new Text(composite, SWT.BORDER);
+		txtRefinedConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		
+		rBtnDefaultConfig = new Button(composite, SWT.RADIO);
+		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		rBtnDefaultConfig.setText("Default Config");
+		
+		btnChooseDocumenttype = new Button(composite, SWT.NONE);
+		GridData gd_btnChooseDocumenttype = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		gd_btnChooseDocumenttype.widthHint = 164;
+		btnChooseDocumenttype.setLayoutData(gd_btnChooseDocumenttype);
+		btnChooseDocumenttype.setText("Choose Documenttype");
+		
 		btnChooseDocumenttype.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//@SuppressWarnings("unused")
-				txtDefaultConfig.setText(EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl()).getNsURI());
+				try{
+					txtDefaultConfig.setText(EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl()).getNsURI());
+				} catch (NullPointerException NPe) {
+					System.out.println("Selection canceled");
+				}
 			}
 		});
-		return null;
+		
+		txtDefaultConfig = new Text(composite, SWT.BORDER);
+		txtDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		if(this.settings.getConfigPath()!=null){
+			txtRefinedConfig.setText(this.settings.getConfigPath());
+		}
+		return parent;
 	}
 
 	@Override
@@ -146,12 +154,44 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	public String getValidationMessage() {
 		return MESSAGE[state];
 	}
-
+	
 	public void setSettings(EditRuleGenerationSettings settings) {
 		this.settings = settings;
 	}
-	
-	
 
+	public EditRuleGenerationSettings getSettings() {
+		return settings;
+	}
 
+	public Text getTxtRefinedConfig() {
+		return txtRefinedConfig;
+	}
+
+	public void setTxtRefinedConfig(Text txtRefinedConfig) {
+		this.txtRefinedConfig = txtRefinedConfig;
+	}
+
+	public Text getTxtDefaultConfig() {
+		return txtDefaultConfig;
+	}
+
+	public void setTxtDefaultConfig(Text txtDefaultConfig) {
+		this.txtDefaultConfig = txtDefaultConfig;
+	}
+	
+	public Button getrBtnRefinedConfig() {
+		return rBtnRefinedConfig;
+	}
+
+	public void setrBtnRefinedConfig(Button rBtnRefinedConfig) {
+		this.rBtnRefinedConfig = rBtnRefinedConfig;
+	}
+
+	public Button getrBtnDefaultConfig() {
+		return rBtnDefaultConfig;
+	}
+
+	public void setrBtnDefaultConfig(Button rBtnDefaultConfig) {
+		this.rBtnDefaultConfig = rBtnDefaultConfig;
+	}
 }
