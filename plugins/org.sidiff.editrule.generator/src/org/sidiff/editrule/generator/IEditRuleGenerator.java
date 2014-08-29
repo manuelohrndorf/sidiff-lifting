@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
-import org.sidiff.editrule.generator.settings.IEditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
 
 
 public interface IEditRuleGenerator {
@@ -30,9 +30,9 @@ public interface IEditRuleGenerator {
 	
 	/**
 	 * Initialization method of the generator which makes use of
-	 * an instance of @link{IEditRuleGeneratorSettings}
+	 * an instance of @link{EditRuleGeneratorSettings} to configure the generator.
 	 */
-	public void init(IEditRuleGeneratorSettings settings);
+	public void init(EditRuleGeneratorSettings settings);
 	
 	/**
 	 * Generate the EditRules. The configuration

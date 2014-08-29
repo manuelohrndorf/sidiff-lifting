@@ -1,18 +1,11 @@
 package org.sidiff.editrule.generator.serge.settings;
 
-import org.sidiff.editrule.generator.settings.IEditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
 
 
-public class SergeSettings implements IEditRuleGeneratorSettings{
 
-	private String outputFolderPath;
-	private String configPath;
+public class SergeSettings extends EditRuleGeneratorSettings{
 	
-	/**
-	 * This enables/disables subfolder creation/usage for different operation kinds
-	 * (e.g. CREATE, DELETE)
-	 */
-	private boolean useSubfolders;
 	/**
 	 * This enables/disables the deletion of any existing contents in "manual" folders
 	 */
@@ -45,10 +38,7 @@ public class SergeSettings implements IEditRuleGeneratorSettings{
 
 	
 	public SergeSettings(String outputFolderPath, String configPath){
-		super();
-		this.outputFolderPath = outputFolderPath;
-		this.configPath = configPath;
-		this.useSubfolders = true;
+		super(outputFolderPath,configPath,true);
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = true;
 		this.overwriteGeneratedTransformations = true;
@@ -63,10 +53,7 @@ public class SergeSettings implements IEditRuleGeneratorSettings{
 			boolean overwriteGeneratedTransformations,
 			boolean overwriteConfigInTargetFolder, boolean saveLogs,
 			boolean deleteLogs) {
-		super();
-		this.outputFolderPath = outputFolderPath;
-		this.configPath = configPath;
-		this.useSubfolders = useSubfolders;
+		super(outputFolderPath, configPath, useSubfolders);
 		this.deleteManualTransformations = deleteManualTransformations;
 		this.deleteGeneratedTransformations = deleteGeneratedTransformations;
 		this.overwriteGeneratedTransformations = overwriteGeneratedTransformations;
@@ -75,30 +62,7 @@ public class SergeSettings implements IEditRuleGeneratorSettings{
 		this.deleteLogs = deleteLogs;
 	}
 
-	public String getOutputFolderPath() {
-		return outputFolderPath;
-	}
-
-	public void setOutputFolderPath(String outputFolderPath) {
-		this.outputFolderPath = outputFolderPath;
-	}
-
-	public String getConfigPath() {
-		return configPath;
-	}
-
-	public void setConfigPath(String configPath) {
-		this.configPath = configPath;
-	}
-
-	public boolean isUseSubfolders() {
-		return useSubfolders;
-	}
-
-	public void setUseSubfolders(boolean useSubfolders) {
-		this.useSubfolders = useSubfolders;
-	}
-
+	
 	public boolean isDeleteManualTransformations() {
 		return deleteManualTransformations;
 	}
