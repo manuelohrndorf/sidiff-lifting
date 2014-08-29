@@ -1,7 +1,5 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
-import javax.swing.JFileChooser;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,20 +19,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
+import org.sidiff.editrule.generator.ui.widgets.EditRuleGenerateSettingsWidget;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.layout.RowData;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -111,17 +104,12 @@ public class SergeWizardPage1 extends WizardPage {
 				txtSelectOutputFolder.setText(settings.getOutputFolderPath());
 			}
 		});
-		btnBrowseOutputFolder.setText("Browse");
-		
-		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
-		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		cbtnSubfolder.setText("Create sub-folders for transformation kinds (create, delete, ...)");
-		cbtnSubfolder.setSelection(settings.isUseSubfolders());
-		new Label(composite, SWT.NONE);
+		btnBrowseOutputFolder.setText("Browse");		
+
 		
 		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);
 		grpMetamodelSpecificConfiguration.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		grpMetamodelSpecificConfiguration.setText("Metamodel Specific Configuration");
+		grpMetamodelSpecificConfiguration.setText("EditRule Generator Configuration");
 		grpMetamodelSpecificConfiguration.setLayout(new GridLayout(1, false));
 		
 		Composite composite_1 = new Composite(grpMetamodelSpecificConfiguration, SWT.NONE);
@@ -176,7 +164,7 @@ public class SergeWizardPage1 extends WizardPage {
 		widget.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		widget.setLayout(new GridLayout(1, false));
 		
-		MetaModelSpecConfigWidget Config = new MetaModelSpecConfigWidget();
+		EditRuleGenerateSettingsWidget Config = new EditRuleGenerateSettingsWidget();
 		Config.createControl(widget);
 		
 		

@@ -1,13 +1,13 @@
 package org.sidiff.editrule.generator.settings;
 
 /**
- * Abstract class for the concept of EditRuleGeneratorSettings
+ * Class for the concept of EditRuleGeneratorSettings
  * which configure an implementation of such a generator.
  * 
  * @author dreuling
  *
  */
-public abstract class EditRuleGeneratorSettings {
+public class EditRuleGeneratorSettings {
 	
 	/**
 	 * The default folder path to write the generated EditRules to.

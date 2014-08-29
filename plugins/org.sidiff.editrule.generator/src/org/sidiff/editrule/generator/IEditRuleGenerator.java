@@ -39,7 +39,6 @@ public interface IEditRuleGenerator {
 	/**
 	 * Generate the EditRules. The configuration
 	 * of output folder and other stuff has to be done in the
-
 	 * 
 	 */
 	public void generateEditRules() throws IOException, EPackageNotFoundException, EAttributeNotFoundException, EClassifierUnresolvableException,
