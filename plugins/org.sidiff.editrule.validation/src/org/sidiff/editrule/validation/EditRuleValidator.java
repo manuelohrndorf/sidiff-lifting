@@ -333,11 +333,10 @@ public class EditRuleValidator {
 
 	/**
 	 * <p>
-	 * Validates the "correctParameterTyping" constraint of the Edit-Rule:
+	 * Validates the "uniqueParameterNames" constraint of the Edit-Rule:
 	 * </p>
 	 * <p>
-	 * Declared type of a parameter (if any) must be equal to real type or one
-	 * of its supertypes.
+	 * Name of a parameter must be unique within its containing unit.
 	 * </p>
 	 * 
 	 * @param editModule
@@ -581,6 +580,11 @@ public class EditRuleValidator {
 			EClassifier declaredType = param.getType();
 			EClassifier realType = ParameterInfo.getRealType(param, false);
 
+			// If the parameter is not mapped, a check does not make sense
+			if (realType == null){
+				return;
+			}
+			
 			boolean valid = false;
 			// Equality check
 			if (declaredType == realType) {
