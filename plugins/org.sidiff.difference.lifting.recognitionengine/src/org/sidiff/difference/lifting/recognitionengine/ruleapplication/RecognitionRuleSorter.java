@@ -251,6 +251,8 @@ public class RecognitionRuleSorter implements Comparator<Node> {
 	private int compareModelNodes(Node n1, Node n2) {
 		if (isFM(n1.getType(), n2.getType())) {
 			return compareFM(n1, n2);
+		} if (isEcore(n1.getType(), n2.getType())) {
+			return compareEcore(n1, n2);
 		} else {
 			return 0;
 		}
@@ -343,4 +345,35 @@ public class RecognitionRuleSorter implements Comparator<Node> {
 		return p1.getNsURI().toString().equals("http://de.imotep.variability/featuremodel")
 				&& p2.getNsURI().toString().equals("http://de.imotep.variability/featuremodel");
 	}
+	
+	// Check for nsUri
+	private boolean isEcore(EClass type1, EClass type2) {
+		if (!(type1.eContainer() instanceof EPackage) || !(type2.eContainer() instanceof EPackage)) {
+			return false;
+		}
+
+		EPackage p1 = (EPackage) type1.eContainer();
+		EPackage p2 = (EPackage) type2.eContainer();
+
+		return p1.getNsURI().toString().equals("http://www.eclipse.org/emf/2002/Ecore")
+				&& p2.getNsURI().toString().equals("http://www.eclipse.org/emf/2002/Ecore");
+	}
+	
+	private int compareEcore(Node n1, Node n2) {
+		// (1) EStringToStringMapEntry ganz nach unten
+		if (is_EStringToStringMapEntry(n1) && is_EStringToStringMapEntry(n2)) {
+			return 0;
+		} else if (is_EStringToStringMapEntry(n1)) {
+			return -1;
+		} else if (is_EStringToStringMapEntry(n2)) {
+			return 1;
+		}
+		
+		return 0;
+	}
+
+	private boolean is_EStringToStringMapEntry(Node n){
+		return n.getType().getName().equals("EStringToStringMapEntry");
+	}
+	
 }
