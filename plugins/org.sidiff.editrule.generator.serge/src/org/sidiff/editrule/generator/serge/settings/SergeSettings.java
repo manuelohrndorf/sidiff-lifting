@@ -34,11 +34,10 @@ public class SergeSettings extends EditRuleGeneratorSettings{
 	/**
 	 * This enables/disables the deletion of previous logs.
 	 */
-	private boolean deleteLogs;
-
+	private boolean deleteLogs;	
 	
-	public SergeSettings(String outputFolderPath, String configPath){
-		super(outputFolderPath,configPath,true);
+	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
+		super(outputFolderPath,configPath,useSubfolders);
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = true;
 		this.overwriteGeneratedTransformations = true;

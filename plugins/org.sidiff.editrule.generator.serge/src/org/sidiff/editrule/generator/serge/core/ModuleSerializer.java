@@ -24,6 +24,7 @@ import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedExcep
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
+import org.sidiff.editrule.generator.types.OperationType;
 
 public class ModuleSerializer {
 
@@ -327,7 +328,7 @@ public class ModuleSerializer {
 			
 		}	
 		else{
-			throw new OperationTypeNotImplementedException("Can't find out which OperationType this module is: "+module.getName());
+			throw new OperationTypeNotImplementedException(OperationType.UNKNOWN);
 		}
 		return expectedSubfolderName;
 	}

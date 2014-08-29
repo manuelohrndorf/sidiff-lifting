@@ -116,6 +116,7 @@ public class SergeWizardPage1 extends WizardPage {
 		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
 		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		cbtnSubfolder.setText("Create sub-folders for transformation kinds (create, delete, ...)");
+		cbtnSubfolder.setSelection(settings.isUseSubfolders());
 		new Label(composite, SWT.NONE);
 		
 		Group grpMetamodelSpecificConfiguration = new Group(container, SWT.SHADOW_ETCHED_IN);

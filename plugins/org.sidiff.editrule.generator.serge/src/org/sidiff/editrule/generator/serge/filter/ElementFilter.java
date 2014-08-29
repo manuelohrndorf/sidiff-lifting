@@ -231,7 +231,7 @@ public class ElementFilter {
 				
 			// -----unsupported ---------------------------/
 			default:
-				throw new OperationTypeNotImplementedException(opType.toString());
+				throw new OperationTypeNotImplementedException(opType);
 		}
 		
 		
@@ -350,7 +350,7 @@ public class ElementFilter {
 				
 			// -----unsupported ---------------------------/	
 			default:
-				throw new OperationTypeNotImplementedException(opType.toString());
+				throw new OperationTypeNotImplementedException(opType);
 		}
 
 		return true;

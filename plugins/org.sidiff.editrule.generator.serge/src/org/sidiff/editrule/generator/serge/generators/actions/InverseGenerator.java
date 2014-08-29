@@ -96,7 +96,7 @@ public class InverseGenerator {
 			break;
 
 		default:
-			throw new OperationTypeNotImplementedException(opType.toString());
+			throw new OperationTypeNotImplementedException(opType);
 		}
 		
 		// adjust Strings inside

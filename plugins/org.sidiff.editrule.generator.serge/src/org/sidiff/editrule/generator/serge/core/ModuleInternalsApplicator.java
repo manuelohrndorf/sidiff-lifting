@@ -277,7 +277,7 @@ public class ModuleInternalsApplicator {
 			break;
 
 		default:
-			throw new OperationTypeNotImplementedException(opType.toString());
+			throw new OperationTypeNotImplementedException(opType);
 		}
 		return rule;
 	}

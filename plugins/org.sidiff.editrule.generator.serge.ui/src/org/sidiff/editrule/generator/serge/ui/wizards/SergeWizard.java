@@ -54,7 +54,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 */
 	public SergeWizard(IFile configFile) {		
 
-		settings = new SergeSettings(null, configFile.getLocation().toOSString());
+		settings = new SergeSettings(null, configFile.getLocation().toOSString(),true);
 		setNeedsProgressMonitor(true);
 	}
 	
