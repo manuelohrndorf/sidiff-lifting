@@ -4,17 +4,17 @@ package org.silift.difference.symboliclink.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
+import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
+import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
@@ -147,9 +147,13 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * @generated NOT
 	 */
 	public EList<SymbolicLinkReference> getOutgoings(EReference type) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		EList<SymbolicLinkReference> outgoings = new EObjectEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.EXTERNAL_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE);
+		for(SymbolicLinkReference ref : getOutgoing()){
+			if(ref.getType().equals(type)){
+				outgoings.add(ref);
+			}
+		}
+		return outgoings;
 	}
 
 	/**

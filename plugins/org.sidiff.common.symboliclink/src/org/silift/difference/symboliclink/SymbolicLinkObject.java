@@ -91,8 +91,8 @@ public interface SymbolicLinkObject extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model many="false"
-	 * @generated
+	 * @generated NOT
 	 */
-	EList<?> getOutgoings(EReference type);
+	EList<SymbolicLinkReference> getOutgoings(EReference type);
 
 } // SymbolicLinkObject

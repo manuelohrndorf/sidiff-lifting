@@ -314,7 +314,13 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 					EReference eReference = iterator.next();
 					if (!eReference.isDerived() && !eReference.getName().equals("eGenericType") && !eReference.getName().equals("eFactoryInstance")){
 						if (eReference.isMany()) {
-						// TODO handle many attributes
+							@SuppressWarnings("unchecked")
+							List<EObject> list = (List<EObject>)srcObject.eGet(eReference);
+							for(EObject tgt : list){
+								if(tgt != null){
+									generateSymbolicLinkReference(obj2symbl_A, symblReferences_A, modelA, srcObject, tgt, eReference);
+								}
+							}
 						}else{
 							EObject tgtObject = (EObject)srcObject.eGet(eReference);
 							if (tgtObject != null) {
@@ -341,7 +347,13 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 					EReference eReference = iterator.next();
 					if (!eReference.isDerived()	&& !eReference.getName().equals("eGenericType")	&& !eReference.getName().equals("eFactoryInstance")) {
 						if (eReference.isMany()) {
-							// TODO handle many attributes
+							@SuppressWarnings("unchecked")
+							List<EObject> list = (List<EObject>)srcObject.eGet(eReference);
+							for(EObject tgt : list){
+								if(tgt != null){
+									generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgt, eReference);
+								}
+							}
 						} else {
 							EObject tgtObject = (EObject)srcObject.eGet(eReference);
 							if (tgtObject != null) {
@@ -368,30 +380,40 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 			List<SymbolicLinkReference> symblReferences, Resource model,
 			EObject srcObject, EObject tgtObject, EReference eReference) {
 		
-		EObjectLocation location;
+		boolean alreadyExists = false;
 		
-		SymbolicLinkReference symblReference = SymboliclinkFactory.eINSTANCE.createSymbolicLinkReference();
-		symblReference.setSource(obj2symbl.get(srcObject));
-		location = EMFResourceUtil.locate(model, tgtObject);
-		switch(location){
-			case RESOURCE_INTERNAL:
-				symblReference.setTarget(obj2symbl.get(tgtObject));
-				break;
-			case PACKAGE_REGISTRY:
-				if(obj2symbl.containsKey(tgtObject)){
-					symblReference.setTarget(obj2symbl.get(tgtObject));
-				}else{
-					ExternalSymbolicLinkObject ext_symbl = SymboliclinkFactory.eINSTANCE.createExternalSymbolicLinkObject();
-					ext_symbl.setEObject(tgtObject);
-					symblReference.setTarget(ext_symbl);
-					obj2symbl.put(tgtObject, ext_symbl);
-				}
-				break;
-			default:
-				break;
+		for(SymbolicLinkReference symblReference : symblReferences){
+			if(symblReference.getSource().equals(obj2symbl.get(srcObject)) && symblReference.getTarget().equals(obj2symbl.get(tgtObject)) && symblReference.getType().equals(eReference)){
+				alreadyExists = true;
+			}
 		}
-		symblReference.setType(eReference);
-		symblReferences.add(symblReference);
+		
+		if(!alreadyExists){
+			EObjectLocation location;
+			
+			SymbolicLinkReference symblReference = SymboliclinkFactory.eINSTANCE.createSymbolicLinkReference();
+			symblReference.setSource(obj2symbl.get(srcObject));
+			location = EMFResourceUtil.locate(model, tgtObject);
+			switch(location){
+				case RESOURCE_INTERNAL:
+					symblReference.setTarget(obj2symbl.get(tgtObject));
+					break;
+				case PACKAGE_REGISTRY:
+					if(obj2symbl.containsKey(tgtObject)){
+						symblReference.setTarget(obj2symbl.get(tgtObject));
+					}else{
+						ExternalSymbolicLinkObject ext_symbl = SymboliclinkFactory.eINSTANCE.createExternalSymbolicLinkObject();
+						ext_symbl.setEObject(tgtObject);
+						symblReference.setTarget(ext_symbl);
+						obj2symbl.put(tgtObject, ext_symbl);
+					}
+					break;
+				default:
+					break;
+			}
+			symblReference.setType(eReference);
+			symblReferences.add(symblReference);
+		}
 	}
 
 	/**
