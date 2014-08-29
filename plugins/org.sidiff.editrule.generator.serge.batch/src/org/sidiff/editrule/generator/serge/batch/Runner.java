@@ -1,5 +1,6 @@
 package org.sidiff.editrule.generator.serge.batch;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.editrule.generator.serge.Serge;
@@ -25,7 +26,7 @@ public class Runner implements IApplication{
 		
 		Serge serge = new Serge();
 		serge.init(settings);
-		serge.generateEditRules();
+		serge.generateEditRules(new NullProgressMonitor());
 				
 		return null;
 	}

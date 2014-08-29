@@ -1,5 +1,7 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 import org.eclipse.core.resources.IFile;
@@ -9,13 +11,18 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.UIJob;
+import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
+import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
 /**
@@ -68,53 +75,38 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 */
 	public boolean performFinish() {
 	
-		job = new Job("My Job") {
+		job = new Job("EditRuleGeneration") {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("My Task ", 100);
+				monitor.beginTask("Generating Edit Rules", 100);
 				
-				for (int i = 0; i < 10; i++) {
-					monitor.subTask("Part "+i);
-					try {
-						if (monitor.isCanceled()){
-							if (cancelable){
-								System.out.println("Canceled.");
-								return Status.CANCEL_STATUS;
-							} else {
-								System.out.println("Cancelling this Job is not permitted.");
-							}
-						}
-						
-						System.out.println(i);
-						monitor.worked(10);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				monitor.subTask("Initializing SERGe");
+				Serge serge = new Serge();
+				serge.init(settings);
+				monitor.worked(25);
+				
+				if (monitor.isCanceled()){
+					return Status.CANCEL_STATUS;
 				}
 				
+				monitor.subTask("Generating CPEOs");
+				
+				try {
+					serge.generateEditRules(monitor);
+				} catch (IOException | EPackageNotFoundException
+						| OperationTypeNotImplementedException e1) {
+					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "An Error occurred during generation",
+							e1.getMessage());
+								}
+				
+				monitor.done();
+								
 				return Status.OK_STATUS;
 			}
 		};
 		job.setUser(true);
 		job.schedule();
-		job.addJobChangeListener(new JobChangeAdapter() {
-			@Override
-			public void done(IJobChangeEvent event) {
-				new UIJob("My UI-Job") {
-					
-					@Override
-					public IStatus runInUIThread(IProgressMonitor monitor) {
-						//monitor.beginTask("My UI-Task", 100);
-						monitor.setCanceled(true);
-						return Status.OK_STATUS;
-					}
-				}.schedule();
-				super.done(event);
-			};
-		});
 		return true;
 		
 	}

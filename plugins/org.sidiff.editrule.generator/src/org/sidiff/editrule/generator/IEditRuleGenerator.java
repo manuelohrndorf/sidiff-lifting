@@ -2,6 +2,7 @@ package org.sidiff.editrule.generator;
 
 import java.io.IOException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
 import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
@@ -41,8 +42,8 @@ public interface IEditRuleGenerator {
 	 * of output folder and other stuff has to be done in the
 	 * 
 	 */
-	public void generateEditRules() throws IOException, EPackageNotFoundException, EAttributeNotFoundException, EClassifierUnresolvableException,
-											OperationTypeNotImplementedException;
+    public void generateEditRules(IProgressMonitor monitor) throws IOException,
+			EPackageNotFoundException, OperationTypeNotImplementedException;
 	
 
 }

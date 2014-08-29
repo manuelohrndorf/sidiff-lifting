@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
@@ -100,12 +101,13 @@ public class Serge implements IEditRuleGenerator{
 	
 	/**
 	 * Method to start the generation process.
+	 * @param monitor 
 	 * @throws OperationTypeNotImplementedException 
 	 * @throws IOException 
 	 * @throws EPackageNotFoundException 
 	 */
 	@Override
-	public void generateEditRules() throws IOException, EPackageNotFoundException, OperationTypeNotImplementedException{
+	public void generateEditRules(IProgressMonitor monitor) throws IOException, EPackageNotFoundException, OperationTypeNotImplementedException{
 
 		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
