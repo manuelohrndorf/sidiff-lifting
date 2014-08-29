@@ -12,8 +12,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.difference.rulebase.project.Activator;
-import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
+import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -24,14 +25,15 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 	
 	private Composite container;
 
+	private EditRuleGeneratorWidget generatorWidget;
 	private EditRuleGeneratorSettingsWidget generatorSettingsWidget;
 	
-	private EditRuleGeneratorSettings settings;
+	private EditRuleGenerationSettings settings;
 
 	private SelectionAdapter validationListener;
 
 	
-	public RuleBaseProjectPage01(EditRuleGeneratorSettings settings) {
+	public RuleBaseProjectPage01(EditRuleGenerationSettings settings) {
 		super("RuleBaseProjectPage1");
 
 		this.setTitle("Advanced RuleBase Project Settings");
@@ -101,10 +103,17 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	private void createWidgets() {	
 
+		// EditRule Generator
+		generatorWidget = new EditRuleGeneratorWidget();
+		generatorWidget.setSettings(this.settings);
+		addWidget(container, generatorWidget);
+		
 		// EditRule Generator Settings:
 		generatorSettingsWidget = new EditRuleGeneratorSettingsWidget();
 		generatorSettingsWidget.setSettings(this.settings);
 		addWidget(container, generatorSettingsWidget);
+		
+		
 	}
 
 	private void addWidget(Composite parent, IWidget widget) {
@@ -122,7 +131,9 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
+		validateWidget(generatorWidget);
 		validateWidget(generatorSettingsWidget);
+		
 	}
 
 	private void validateWidget(IWidgetValidation widget) {
@@ -134,6 +145,10 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	public EditRuleGeneratorSettingsWidget getGeneratorSettingsWidget() {
 		return generatorSettingsWidget;
+	}	
+	
+	public EditRuleGeneratorWidget getGeneratorWidget() {
+		return generatorWidget;
 	}	
 
 	@Override

@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
@@ -31,7 +31,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	private Button rBtnDefaultConfig;
 	private Button btnBrowse;
 	private Button btnChooseDocumenttype;
-	private EditRuleGeneratorSettings settings;
+	private EditRuleGenerationSettings settings;
 	private final FileDialog eConfigChooser = new FileDialog(Display.getCurrent().getActiveShell());
 	
 	private final static int VALID = 0;
@@ -147,7 +147,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		return MESSAGE[state];
 	}
 
-	public void setSettings(EditRuleGeneratorSettings settings) {
+	public void setSettings(EditRuleGenerationSettings settings) {
 		this.settings = settings;
 	}
 	

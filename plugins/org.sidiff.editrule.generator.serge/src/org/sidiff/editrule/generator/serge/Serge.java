@@ -38,7 +38,7 @@ import org.sidiff.editrule.generator.serge.filter.DuplicateFilter;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
-import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class Serge implements IEditRuleGenerator{
@@ -62,7 +62,7 @@ public class Serge implements IEditRuleGenerator{
 	private SergeSettings settings = null;
 	
 	@Override
-	public void init(EditRuleGeneratorSettings settings) {
+	public void init(EditRuleGenerationSettings settings) {
 		
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(

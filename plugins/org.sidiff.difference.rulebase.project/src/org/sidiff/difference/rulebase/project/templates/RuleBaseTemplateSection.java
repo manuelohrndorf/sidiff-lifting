@@ -23,19 +23,20 @@ import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
-import org.sidiff.editrule.generator.settings.EditRuleGeneratorSettings;
+import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
+import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {
 	
 	private RuleBaseProjectPage01 ruleBaseProjectPage01 = null;
-	private EditRuleGeneratorSettings  settings;
+	private EditRuleGenerationSettings  settings;
 
 
 	public RuleBaseTemplateSection() {
 		addOption(KEY_PACKAGE_NAME, RuleBaseTemplateSection.KEY_PACKAGE_NAME, (String) null, 0);
 		//TODO uncomment
-		//this.settings = new EditRuleGeneratorSettings("", null, true);
-		//setPageCount(1);
+		//	this.settings = new EditRuleGenerationSettings(null,"", null, true);
+		//	setPageCount(1);
 	}
 
 	@Override
@@ -67,9 +68,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	@Override
 	public void addPages(Wizard wizard) {
 		//TODO later on: Add This page
-		/*ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
-		wizard.addPage(ruleBaseProjectPage01);	
-		markPagesAdded();*/		 
+		//ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
+		//wizard.addPage(ruleBaseProjectPage01);	
+		//markPagesAdded();	 
 	}
 
 	public boolean isDependentOnParentWizard() {
