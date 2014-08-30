@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -496,16 +497,18 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
      * @return The bundle name of the rulebase plug-in (inside MANIFEST.MF).
      */
     public String getRuleBasePluginBundleName() {
-
-    	String editRulePluginId = "";
     	
+    	// Refresh first
+    	try {
+			getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException e2) {
+			// nothing
+		}
+
+    	String editRulePluginId = "";    	
     	IResource resource = getProject().findMember(new Path("META-INF").append("MANIFEST.MF"));
     	if (resource != null) {
-        	try {
-				resource.refreshLocal(IResource.DEPTH_ZERO, null);
-			} catch (CoreException e1) {
-				// nothing
-			}
+      	
     		StringBuffer contents = new StringBuffer();
     		try {
     			BufferedInputStream in = new BufferedInputStream(((IFile) resource).getContents());
