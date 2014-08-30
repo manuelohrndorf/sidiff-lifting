@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.silift.common.util.ui.EcoreSelectionDialogUtil;
@@ -150,6 +151,20 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		if(this.settings.getConfigPath()!=null){
 			txtRefinedConfig.setText(this.settings.getConfigPath());
 		}
+		
+		final Button cbtnSubfolder = new Button(composite, SWT.CHECK);
+		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 2, 1));
+		cbtnSubfolder
+				.setText("Create sub-folders for transformation kinds (create, delete, ...)");
+		cbtnSubfolder.setSelection(settings.isUseSubfolders());
+		new Label(composite, SWT.NONE);
+		
+		cbtnSubfolder.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {			
+				settings.setUseSubfolders(cbtnSubfolder.getSelection());
+			}});
 		return parent;
 	}
 

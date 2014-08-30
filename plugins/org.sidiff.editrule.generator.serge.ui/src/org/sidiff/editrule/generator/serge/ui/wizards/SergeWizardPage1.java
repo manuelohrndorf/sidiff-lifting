@@ -19,7 +19,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -79,7 +78,6 @@ public class SergeWizardPage1 extends WizardPage {
 
 		
 		final DirectoryDialog eOutputFolderChooser = new DirectoryDialog(this.getShell());
-		final FileDialog eConfigChooser = new FileDialog(this.getShell());
 		container.setLayout(new GridLayout(1, false));
 		
 		Composite cOutput = new Composite(container, SWT.NONE);
@@ -121,13 +119,6 @@ public class SergeWizardPage1 extends WizardPage {
 			}
 		});
 		btnBrowseOutputFolder.setText("Browse");
-
-		Button cbtnSubfolder = new Button(composite, SWT.CHECK);
-		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1));
-		cbtnSubfolder
-				.setText("Create sub-folders for transformation kinds (create, delete, ...)");
-		new Label(composite, SWT.NONE);
 		
 	
 		
