@@ -8,9 +8,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -19,7 +18,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.UIJob;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.Serge;
@@ -81,26 +79,23 @@ public class SergeWizard extends Wizard implements INewWizard {
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask("Generating Edit Rules", 100);
 				
-				monitor.subTask("Initializing SERGe");
 				Serge serge = new Serge();
-				serge.init(settings);
-				monitor.worked(25);
+				serge.init(settings, new SubProgressMonitor(monitor, 20));
 				
 				if (monitor.isCanceled()){
 					return Status.CANCEL_STATUS;
 				}
 				
-				monitor.subTask("Generating CPEOs");
-				
 				try {
-					serge.generateEditRules(monitor);
+					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
 				} catch (IOException | EPackageNotFoundException
 						| OperationTypeNotImplementedException e1) {
 					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "An Error occurred during generation",
 							e1.getMessage());
 								}
-				
-				monitor.done();
+				finally{
+					monitor.done();
+				}
 								
 				return Status.OK_STATUS;
 			}

@@ -30,17 +30,21 @@ public interface IEditRuleGenerator {
 	 * @return the generator short name (used as key).
 	 */
 	public String getKey();
-	
+
 	/**
 	 * Initialization method of the generator which makes use of
-	 * an instance of @link{EditRuleGeneratorSettings} to configure the generator.
+	 * an instance of @link{EditRuleGenerationSettings} to configure the generator.
+	 * 
+	 * @param settings The settings to use for configuration
+	 * @param monitor ProgressMonitor to detect progress
 	 */
-	public void init(EditRuleGenerationSettings settings);
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor);
 	
 	/**
 	 * Generate the EditRules. The configuration
 	 * of output folder and other stuff has to be done in the
 	 * 
+	 * @param monitor ProgressMonitor to detect progress
 	 */
     public void generateEditRules(IProgressMonitor monitor) throws IOException,
 			EPackageNotFoundException, OperationTypeNotImplementedException;

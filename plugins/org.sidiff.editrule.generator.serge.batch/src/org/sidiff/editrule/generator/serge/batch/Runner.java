@@ -25,7 +25,7 @@ public class Runner implements IApplication{
 		SergeSettings settings = new SergeSettings(OUTPUT_FOLDER, INPUT_CONFIG_PATH, false);
 		
 		Serge serge = new Serge();
-		serge.init(settings);
+		serge.init(settings,new NullProgressMonitor());
 		serge.generateEditRules(new NullProgressMonitor());
 				
 		return null;

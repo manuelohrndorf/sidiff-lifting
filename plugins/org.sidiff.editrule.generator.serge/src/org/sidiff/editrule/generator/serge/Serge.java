@@ -66,8 +66,11 @@ public class Serge implements IEditRuleGenerator{
 	private SergeSettings settings = null;
 	
 	@Override
-	public void init(EditRuleGenerationSettings settings) {
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) {
 		
+		monitor.beginTask("Initializing SERGe", 100);		
+		
+		monitor.subTask("Loading Configuration");
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(
 				"platform:/plugin/"+PLUGIN_NAME+"/config/Editrulesgeneratorconfig.dtdmap.xml")); 
@@ -77,7 +80,7 @@ public class Serge implements IEditRuleGenerator{
 		}
 		
 		assert(this.settings != null) : "This is no valid SergeSettings Instance:" + settings.toString();
-				
+		
 		try {
 			// create empty instances
 			config = Configuration.getInstance();
@@ -87,14 +90,24 @@ public class Serge implements IEditRuleGenerator{
 			// parse and gather infos
 			ConfigurationParser parser = new ConfigurationParser();
 			parser.parse(this.settings.getConfigPath());
+			monitor.worked(20);
+
+			monitor.subTask("Analyzing MetaModel");
+			//TODO make use of the monitor in a more fine grained way
+
 			ECM.gatherInformation(config.PROFILE_APPLICATION_IN_USE, config.EPACKAGESSTACK, config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
 			
 			// get ePackageStack for usage in generate()
 			ePackagesStack = config.EPACKAGESSTACK;
+			monitor.worked(80);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
+		finally{
+			// The monitor must be finished, even if an exception occurred
+			monitor.done();
+		}
 		
 	}
 
@@ -109,49 +122,68 @@ public class Serge implements IEditRuleGenerator{
 	@Override
 	public void generateEditRules(IProgressMonitor monitor) throws IOException, EPackageNotFoundException, OperationTypeNotImplementedException{
 
-		if(ePackagesStack != null && !ePackagesStack.isEmpty()){
+		monitor.beginTask("Generating CPEOs", 100);	
+		//TODO make use of the monitor in a more fine grained way
+		
+		//TODO pass the monitor to make the generation canceable!
+		// This has to be an new SubProgressMonitor if passed for
+		// right scaling
+		
+		if(ePackagesStack != null && !ePackagesStack.isEmpty()){			
+			
+			monitor.subTask("Visit MetaModel elements");
 			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
 			ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
-		
+			monitor.worked(50);
 			// Postprocessing...
 			
 			Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
 			
 			if (config.MULTIPLICITY_PRECONDITIONS_INTEGRATED){
+				monitor.subTask("Applying Constraints");
 				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
 				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
 				constraintApplicator.applyOn(allModules);
+				monitor.worked(5);
 			}
 			
 			if (config.ENABLE_EXECUTION_CHECK_FILTER){
+				monitor.subTask("Filtering Executions");
 				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
 				ExecutableFilter executionFilter = new ExecutableFilter();
 				executionFilter.applyOn(allModules);
+				monitor.worked(5);
 			}
 			
 			if(config.ENABLE_DUPLICATE_FILTER) {
+				monitor.subTask("Filtering Duplicates");
 				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
 				DuplicateFilter duplicateFilter = new DuplicateFilter();
 				duplicateFilter.filterIdenticalByName(allModules);
 				duplicateFilter.filterAddSet(allModules.get(OperationType.ADD), allModules.get(OperationType.SET_REFERENCE));
 				duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
+				monitor.worked(5);
+
 			}
 			
 			// Rule Parameter Application
-			
+			monitor.subTask("Applying Rule Parameter");
 			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 			RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
 			ruleParameterApplicator.applyOn(allModules);
-			
+			monitor.worked(5);
+
 			// MainUnit Application
-			
+			monitor.subTask("Applying Main Unit");
 			LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
 			MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 			mainUnitApplicator.applyOn(allModules);
-			
+			monitor.worked(5);
+
 			// InverseModulePair collection and log serialization + copy config file
 			
 			if(settings.isSaveLogs()) {
+				monitor.subTask("Logging Inverse Modules");
 				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 				InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 				inverseModuleMapper.findAndMapInversePairs(allModules);
@@ -174,6 +206,7 @@ public class Serge implements IEditRuleGenerator{
 							
 				}
 				Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
+				monitor.worked(5);
 				
 			}
 
@@ -181,6 +214,7 @@ public class Serge implements IEditRuleGenerator{
 			
 			// delete contents of manual folder if wished so
 			if(settings.isDeleteManualTransformations()) {
+				monitor.subTask("Deleting Manual Transformations");
 				File manualFolder = new File(settings.getOutputFolderPath() + "manual");
 				if(manualFolder.exists()) {
 					for(File f: manualFolder.listFiles()) {
@@ -188,6 +222,7 @@ public class Serge implements IEditRuleGenerator{
 						
 					}		
 				}
+				monitor.worked(5);
 			}
 			
 			// Name Mapping and Serialization...
@@ -201,21 +236,27 @@ public class Serge implements IEditRuleGenerator{
 			}
 			
 			if(config.ENABLE_NAME_MAPPER) {
+				monitor.subTask("Mapping Names");
 				LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
 				NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
 				nameMapper.replaceNames();
+				monitor.worked(5);
 			}
 			
 			// Serialize modules
-			
+			monitor.subTask("Saving Edit Rules");
 			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 			ModuleSerializer serializer = new ModuleSerializer(settings);
 			serializer.serialize(moduleSet);
+			monitor.worked(10);
 			
 			LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
 			
+			monitor.done();
+			
 		}else{
-			throw new EPackageNotFoundException();
+			monitor.done();
+			throw new EPackageNotFoundException();			
 		}
 	}
 
