@@ -2,6 +2,8 @@ package org.sidiff.difference.lifting.settings;
 
 import java.util.Set;
 
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -21,6 +23,12 @@ public class LiftingSettings extends Settings {
 	 */
 	private ITechnicalDifferenceBuilder techBuilder;
 
+	/**
+	 * The Recognition Rule Sorter to use. (
+	 * {@link IRecognitionRuleSorter})
+	 */
+	private IRecognitionRuleSorter rrSorter;
+	
 	/**
 	 * Triggering of the Recognition-Engine pipeline.
 	 * 
@@ -123,6 +131,8 @@ public class LiftingSettings extends Settings {
 
 		// Default: Use the default TechnicalDifference builder
 		this.techBuilder = TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentType);
+		// Default: Use the default RecognitionRuleSorter
+		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(documentType);
 	}
 
 	/**
@@ -142,11 +152,12 @@ public class LiftingSettings extends Settings {
 	 *            {@link LiftingSettings#setRecognitionEngineMode(RecognitionEngineMode)}
 	 */
 	public LiftingSettings(Scope scope, IMatcher matcher, ITechnicalDifferenceBuilder techBuilder,
-			Set<IRuleBase> ruleBases, boolean validate, RecognitionEngineMode recognitionEngine) {
+			IRecognitionRuleSorter rrSorter, Set<IRuleBase> ruleBases, boolean validate, RecognitionEngineMode recognitionEngine) {
 
 		super(scope, matcher, ruleBases);
 
 		this.techBuilder = techBuilder;
+		this.rrSorter = rrSorter;
 		this.validate = validate;
 		this.recognitionEngineMode = recognitionEngine;
 	}
@@ -192,6 +203,27 @@ public class LiftingSettings extends Settings {
 		if (this.techBuilder == null || !this.techBuilder.getName().equals(techBuilder.getName())) {
 			this.techBuilder = techBuilder;
 			this.notifyListeners(SettingsItem.TECH_BUILDER);
+		}
+	}
+
+	/**
+	 * @return The Recognition Rule Sorter. (
+	 * 			{@link IRecognitionRuleSorter})
+	 */
+	public IRecognitionRuleSorter getRrSorter() {
+		return rrSorter;
+	}
+
+	/**
+	 * 
+	 * @param rrSorter
+	 * 			The Recognition Rule Sorter. (
+	 * 			{@link IRecognitionRuleSorter})
+	 */
+	public void setRrSorter(IRecognitionRuleSorter rrSorter) {
+		if(this.rrSorter == null || !this.rrSorter.getName().equals(rrSorter.getName())){
+			this.rrSorter = rrSorter;
+			this.notifyListeners(SettingsItem.RECOGNITION_RULE_SORTER);
 		}
 	}
 
@@ -379,6 +411,7 @@ public class LiftingSettings extends Settings {
 		StringBuffer result = new StringBuffer(super.toString());
 
 		result.append(techBuilder != null ? "Technical-Difference-Builder: " + techBuilder.getName() + "\n" : "");
+		result.append("Recognition-Rule-Sorter: " + rrSorter.getName() + "\n");
 		result.append("Validate: " + validate + "\n");
 		result.append("Recognition-Engine mode: " + recognitionEngineMode + "\n");
 

@@ -26,6 +26,11 @@ public enum SettingsItem {
 	TECH_BUILDER,
 	
 	/**
+	 * {@link LiftingSettings#setRrSorter(IRecognitionRuleSorter)}
+	 */
+	RECOGNITION_RULE_SORTER,
+	
+	/**
 	 * {@link Settings#setRuleBases(Set)}
 	 */
 	RULEBASES,

@@ -30,6 +30,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
@@ -200,18 +201,19 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		RecognitionRuleSorter RuleSorter = new RecognitionRuleSorter(analysis);
+		IRecognitionRuleSorter ruleSorter = settings.getRrSorter();
+		ruleSorter.setDifferenceAnalysis(analysis);
 
 		for (Rule recognitionRule : this.recognitionRules) {
 			if (!filtered.contains(recognitionRule)) {
 				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), RuleSorter);
-				ECollections.sort(recognitionRule.getRhs().getNodes(), RuleSorter);
+				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);
+				ECollections.sort(recognitionRule.getRhs().getNodes(), ruleSorter);
 
 				// Sort all multi-rules (if there are any)
 				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), RuleSorter);
-					ECollections.sort(multiRule.getRhs().getNodes(), RuleSorter);
+					ECollections.sort(multiRule.getLhs().getNodes(), ruleSorter);
+					ECollections.sort(multiRule.getRhs().getNodes(), ruleSorter);
 				}
 			}
 		}
