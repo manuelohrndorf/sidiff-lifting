@@ -11,10 +11,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
+import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.AddObject;
@@ -86,6 +89,32 @@ public class PipelineUtils {
 		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentType);
 	}
 
+	/**
+	 * Find all available recognition rule sorter matching the given
+	 * document type.
+	 *
+	 * @param documentType
+	 *            The document type, i.e. the package namespace URI of a model.
+	 * @return All available recognition rule sorter matching the given
+	 *         document type.
+	 * @see LiftingFacade#getDocumentType(Resource)
+	 */
+	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType) {
+		return RecognitionRuleSorterUtil.getAvailableRecognitionRuleSorters(documentType);
+	}
+	
+	/**
+	 *
+	 * Returns the default recognition rule sorter for the given
+	 * documentType: <br/>
+	 *
+	 * @param documentType
+	 * @return
+	 */
+	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(String documentType) {
+		return RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(documentType);
+	}
+	
 	/**
 	 * Find all available rulebases matching the given document type.
 	 *

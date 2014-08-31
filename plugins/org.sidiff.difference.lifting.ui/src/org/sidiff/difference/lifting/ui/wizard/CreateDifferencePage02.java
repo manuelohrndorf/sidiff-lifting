@@ -19,6 +19,7 @@ import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
+import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
@@ -34,6 +35,7 @@ public class CreateDifferencePage02 extends WizardPage implements IPageChangedLi
 	private RecognitionEngineWidget recognitionWidget;
 	private MatchingEngineWidget matcherWidget;
 	private DifferenceBuilderWidget builderWidget;
+	private RecognitionRuleSorterWidget rrSorterWidget;
 
 	private SelectionAdapter validationListener;
 
@@ -139,6 +141,11 @@ public class CreateDifferencePage02 extends WizardPage implements IPageChangedLi
 //			addWidget(algorithmsGroup, builderWidget);
 //		}
 		addWidget(algorithmsGroup, builderWidget);
+		
+		// Recognition Rule Sorter:
+		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels);
+		rrSorterWidget.setSettings(this.settings);
+		addWidget(algorithmsGroup, rrSorterWidget);
 		
 		// Recognition engine:
 		recognitionWidget = new RecognitionEngineWidget();
