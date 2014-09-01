@@ -81,6 +81,7 @@ public class RecognizerThread extends Thread {
 
 				// Match Recognition-Rules:
 				LogUtil.log(LogEvent.NOTICE, "Matching: " + rr.getModule().getName() + "...");
+				LogUtil.log(LogEvent.DEBUG, "Matching: " + rr.getModule().eResource() + "...");
 				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
 				
 				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());

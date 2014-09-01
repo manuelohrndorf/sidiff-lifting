@@ -58,11 +58,11 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getUsedRulebases());
+			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getUsedRulebases());			
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
-				info.append(" node trace B: " + erNode + " ==> ");
+				info.append(" node trace B: " + erNode +  " (" + erNode.eResource() +  ") ==> ");
 				info.append(rrNode + " ==> ");
 				info.append(diffObjects + "\n");
 

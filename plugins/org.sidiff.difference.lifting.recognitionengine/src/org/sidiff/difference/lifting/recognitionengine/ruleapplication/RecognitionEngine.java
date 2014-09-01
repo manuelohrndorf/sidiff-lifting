@@ -346,6 +346,7 @@ public class RecognitionEngine {
 
 		// Execution of collected rule applications:
 		for (RuleApplication recognitionRuleApp : recognizerRuleApplications) {
+			LogUtil.log(LogEvent.DEBUG, "Execute recognition rule: " + recognitionRuleApp.getRule().eResource());
 			boolean success = recognitionRuleApp.execute(null);
 			assert (success) : "Could not apply rule " + recognitionRuleApp + ". Should never happen";
 
