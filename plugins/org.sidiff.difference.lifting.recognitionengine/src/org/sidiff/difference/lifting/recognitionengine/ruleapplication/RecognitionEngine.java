@@ -207,13 +207,11 @@ public class RecognitionEngine {
 		for (Rule recognitionRule : this.recognitionRules) {
 			if (!filtered.contains(recognitionRule)) {
 				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);
-				ECollections.sort(recognitionRule.getRhs().getNodes(), ruleSorter);
+				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);				
 
 				// Sort all multi-rules (if there are any)
 				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), ruleSorter);
-					ECollections.sort(multiRule.getRhs().getNodes(), ruleSorter);
+					ECollections.sort(multiRule.getLhs().getNodes(), ruleSorter);					
 				}
 			}
 		}
