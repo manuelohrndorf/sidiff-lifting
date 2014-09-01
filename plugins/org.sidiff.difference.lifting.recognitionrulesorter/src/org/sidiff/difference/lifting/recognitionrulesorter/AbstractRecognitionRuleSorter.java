@@ -3,6 +3,7 @@ package org.sidiff.difference.lifting.recognitionrulesorter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 
@@ -128,10 +129,22 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 
 		if ((node.getType() == EcorePackage.eINSTANCE.getEReference())
 				|| (node.getType() == EcorePackage.eINSTANCE.getEAttribute())) {
-			for (Edge edge : node.getIncoming()) {
-				if ((edge.getType() == SymmetricPackage.eINSTANCE.getAttributeValueChange_Type())
-						|| (edge.getType() == SymmetricPackage.eINSTANCE.getAddReference_Type())
-						|| (edge.getType() == SymmetricPackage.eINSTANCE.getRemoveReference_Type())) {
+			// We also need to find an incoming edge according to symmetric difference model:
+			
+			// ... try to find it in Kernel Rule
+			if (isUsedAsTypeNodeInChange(node)){
+				return true;
+			}
+			
+			// ... try to find it in multi-rules
+			Rule kernelRule = node.getGraph().getRule();
+			for (Rule multiRule : kernelRule.getMultiRules()) {
+				Node image = multiRule.getMultiMappings().getImage(node, multiRule.getLhs());
+				if (isUsedAsTypeNodeInChange(image)){
+					return true;
+				}
+				image = multiRule.getMultiMappings().getImage(node, multiRule.getRhs());
+				if (isUsedAsTypeNodeInChange(image)){
 					return true;
 				}
 			}
@@ -140,6 +153,22 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 		return false;
 	}
 
+	private boolean isUsedAsTypeNodeInChange(Node node){
+		if (node == null){
+			return false;
+		}
+		
+		for (Edge edge : node.getIncoming()) {
+			if ((edge.getType() == SymmetricPackage.eINSTANCE.getAttributeValueChange_Type())
+					|| (edge.getType() == SymmetricPackage.eINSTANCE.getAddReference_Type())
+					|| (edge.getType() == SymmetricPackage.eINSTANCE.getRemoveReference_Type())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Test node type.
 	 * 
