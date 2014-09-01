@@ -47,6 +47,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	 * Settings-Object with Generator Settings
 	 */
 	private EditRuleGenerationSettings settings;
+	
 	private final FileDialog eConfigChooser = new FileDialog(Display.getCurrent().getActiveShell());
 	
 	/**
@@ -87,6 +88,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	 *            Composite, which will be filled with UI-Tools.
 	 * @return Composite, filled with UI-Tools
 	 * @see createControl
+	 * @wbp.parser.entryPoint
 	 */
 	@Override
 	public Composite createControl(Composite parent) {
@@ -103,7 +105,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_composite.widthHint = 428;
 		composite.setLayoutData(gd_composite);
-		composite.setLayout(new GridLayout(5, false));
+		composite.setLayout(new GridLayout(3, false));
 		
 		rBtnRefinedConfig = new Button(composite, SWT.RADIO);
 		rBtnRefinedConfig.setText("Refined Config");
@@ -121,14 +123,14 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		});
 		
 		txtRefinedConfig = new Text(composite, SWT.BORDER);
-		txtRefinedConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		txtRefinedConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		rBtnDefaultConfig = new Button(composite, SWT.RADIO);
 		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		rBtnDefaultConfig.setText("Default Config");
 		
 		btnChooseDocumenttype = new Button(composite, SWT.NONE);
-		GridData gd_btnChooseDocumenttype = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+		GridData gd_btnChooseDocumenttype = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnChooseDocumenttype.widthHint = 164;
 		btnChooseDocumenttype.setLayoutData(gd_btnChooseDocumenttype);
 		btnChooseDocumenttype.setText("Choose Documenttype");
@@ -153,12 +155,13 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		}
 		
 		final Button cbtnSubfolder = new Button(composite, SWT.CHECK);
-		cbtnSubfolder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
-				false, 2, 1));
+		GridData gd_cbtnSubfolder = new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 3, 1);
+		gd_cbtnSubfolder.widthHint = 449;
+		cbtnSubfolder.setLayoutData(gd_cbtnSubfolder);
 		cbtnSubfolder
 				.setText("Create sub-folders for transformation kinds (create, delete, ...)");
 		cbtnSubfolder.setSelection(settings.isUseSubfolders());
-		new Label(composite, SWT.NONE);
 		
 		cbtnSubfolder.addSelectionListener(new SelectionAdapter() {
 			@Override
