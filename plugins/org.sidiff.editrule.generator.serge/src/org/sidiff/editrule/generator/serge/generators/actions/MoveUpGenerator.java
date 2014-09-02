@@ -1,8 +1,5 @@
 package org.sidiff.editrule.generator.serge.generators.actions;
 
-import java.util.HashMap;
-import java.util.Stack;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
@@ -14,6 +11,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
+import org.sidiff.common.emf.extensions.impl.ContainmentCyclePathStep;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -31,9 +30,9 @@ public class MoveUpGenerator {
 	private EClassifier eClassifier;
 	
 	/**
-	 * The path
+	 * The ContainmentCycle
 	 */
-	private Stack<HashMap<EReference,EClassifier>> path;
+	private ContainmentCycle cc;
 	
 	/**
 	 * The configuration.
@@ -46,16 +45,16 @@ public class MoveUpGenerator {
 	 * @param path
 	 */
 	public MoveUpGenerator(EClassifier eClassifier,
-			Stack<HashMap<EReference,EClassifier>> path) {
+			ContainmentCycle cc) {
 
 		this.eClassifier = eClassifier;
-		this.path = path;
+		this.cc = cc;
 	}
 	
 	public Module generate() throws OperationTypeNotImplementedException {
 		
-		HashMap<EReference,EClassifier> lastStep = path.peek();
-		EReference eRef = (EReference) lastStep.keySet().iterator().next();
+		ContainmentCyclePathStep lastStep = cc.getBackwardPointingStep();
+		EReference eRef = (EReference) lastStep.getTargetingReference();
 		EClassifier parent = (EClassifier) eRef.eContainer();		
 		
 		String name = GlobalConstants.MOVE_UP_prefix + eClassifier.getName()
@@ -110,38 +109,57 @@ public class MoveUpGenerator {
 		// 3. add new required nodes/edges iteratively					
 		// In the Beginning, the edge should have its source in the following node:
 		Node nodeToConnectNewEdgeWith = newSourceNodeInNCGraph;
-		int numbOfSteps = path.size();
+		int numberOfIntermediateSteps = cc.getNumberOfIntermediateSteps();
 		
-		// now create nodes and draw edges after the following principle
-		for(int i=0; i<=numbOfSteps-2; i++) {		
-			HashMap<EReference,EClassifier> step = path.get(i);
-			EClass eClass = (EClass) step.values().iterator().next();
-			EReference stepRef = step.keySet().iterator().next();
+		// == 0: direct backward pointer to self
+		if(numberOfIntermediateSteps==0) {
+			
+			// ...just draw edges between newSourceNodeInNCGraph and oldSourceNodeInNCGraph.
+			// no node creation is needed in this case.
+			EReference backwardRef = cc.getBackwardPointingStep().getTargetingReference();
+			Edge newEdge = HenshinFactory.eINSTANCE.createEdge(newSourceNodeInNCGraph, oldSourceNodeInNCGraph, backwardRef);
+			graph.getEdges().add(newEdge);
 	
-			// if numberOfSteps==2 (there is a direct cycle from one to the same classifier)
-			// do not create a new node but draw edges between newSourceNodeInNCGraph and oldSourceNodeInNCGraph
-			if(numbOfSteps==2) {
-				EReference backwardRef = (EReference) path.get(1).keySet().iterator().next();
-				Edge newEdge = HenshinFactory.eINSTANCE.createEdge(newSourceNodeInNCGraph, oldSourceNodeInNCGraph, backwardRef);
-				graph.getEdges().add(newEdge);
-			}
-			// if it is not the last step before the last entry in path create new Node...
-			else if((numbOfSteps==3 && i<=numbOfSteps-2)|| (numbOfSteps>3 && i<=numbOfSteps-3)) {
-				Node newNode = HenshinFactory.eINSTANCE.createNode(graph, eClass, "");
-				// ...and draw edge between  the current nodeToConnectNewEdgeWith and the following new node.
-				Edge newEdge = HenshinFactory.eINSTANCE.createEdge(nodeToConnectNewEdgeWith, newNode, stepRef);
-				graph.getEdges().add(newEdge);
-				// ...and  update the node to connect the next edge with
-				nodeToConnectNewEdgeWith = newNode;
-				// ...And additionally, check if step is one before the last.
-				// If so, draw also an edge between the new Node and the oldSourceNodeInNCGraph.
-				if((numbOfSteps==3 && i==numbOfSteps-2) || (numbOfSteps>3 && i==numbOfSteps-3)) {
-					Edge newEdgeBackToOld = HenshinFactory.eINSTANCE.createEdge(newNode, oldSourceNodeInNCGraph, stepRef);
-					graph.getEdges().add(newEdgeBackToOld);
-				}
-			}
-		}
+					
+		}// >= 0: contains intermediate steps
+		// (Note: an intermediate step includes the container of an object to move)
+		else{
+			Node lastCreatedNode = null;
+			for(ContainmentCyclePathStep step: cc.getIntermediateSteps()) {
+			
+				EClass eClass = (EClass) step.getTargetedEClassifier();
+				EReference stepRef = step.getTargetingReference();
 				
+				// create node for each intermediate step other than the last intermediate step
+				if(!cc.isLastIntermediateStep(step)) {
+					Node newNode = HenshinFactory.eINSTANCE.createNode(graph, eClass, "");
+					lastCreatedNode = newNode;
+					// ...and draw edge between  the current nodeToConnectNewEdgeWith and the following new node.
+					Edge newEdge = HenshinFactory.eINSTANCE.createEdge(nodeToConnectNewEdgeWith, newNode, stepRef);
+					graph.getEdges().add(newEdge);
+					// ...and  update the node to connect the next edge with
+					nodeToConnectNewEdgeWith = newNode;
+				}else{
+					// On last (single) intermediate step; (i.e., which has to be connected to object to move)
+					// ...draw an edge between the last created Node and the oldSourceNodeInNCGraph,
+					// if there has been an intermediate node before
+					if(lastCreatedNode!=null) {
+						Edge newEdgeBackToOld = HenshinFactory.eINSTANCE.createEdge(lastCreatedNode, oldSourceNodeInNCGraph, stepRef);
+						graph.getEdges().add(newEdgeBackToOld);
+					}
+					// otherwise (if there was no intermediate node before)
+					// ...draw edge between newSourceNodeInNCGraph and oldSourceNodeInNCGraph.
+					else{					
+						EReference backwardRef = stepRef;
+						Edge newEdge = HenshinFactory.eINSTANCE.createEdge(newSourceNodeInNCGraph, oldSourceNodeInNCGraph, backwardRef);
+						graph.getEdges().add(newEdge);
+						
+					}
+				}
+				
+			}
+			
+		}
 		return MOVE_UP_Module;
 	}
 	

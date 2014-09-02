@@ -1,6 +1,5 @@
 package org.sidiff.common.emf.extensions.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -88,10 +87,9 @@ public class ContainmentCycleDetector {
 			if(eRef.isContainment()) {
 				EClass target = eRef.getEReferenceType();
 				
-				// Build up path, starting from eClass as orgin (reference=null to indicate origin)
-				Stack<HashMap<EReference,EClassifier>> path = new Stack<HashMap<EReference,EClassifier>>();
-				HashMap<EReference,EClassifier> originPair = new HashMap<EReference, EClassifier>();
-				originPair.put(null,eClass); // the origin (eClass)
+				// Build up path, starting from eClass as orgin (reference=null to indicate origin/start)
+				Stack<ContainmentCyclePathStep> path = new Stack<ContainmentCyclePathStep>();
+				ContainmentCyclePathStep originPair = new ContainmentCyclePathStep(null, eClass);
 				path.push(originPair);
 				
 				if(checkTargetIsOriginOfPath(path, target)) {
@@ -103,12 +101,11 @@ public class ContainmentCycleDetector {
 					//******* Continue path for target of EReference ********************************/
 					
 					// backup the path, which was established up to this point
-					Stack<HashMap<EReference,EClassifier>> backedUpPath = new Stack<HashMap<EReference,EClassifier>>();
+					Stack<ContainmentCyclePathStep> backedUpPath = new Stack<ContainmentCyclePathStep>();
 					backedUpPath.addAll(path);
 					
 					//Continue on path: create new step for the direct target, not its indirect subtypes yet
-					HashMap<EReference,EClassifier> pDirectPair = new HashMap<EReference, EClassifier>();
-					pDirectPair.put(eRef, target);
+					ContainmentCyclePathStep pDirectPair = new ContainmentCyclePathStep(eRef, target);
 					path.push(pDirectPair);
 
 					// Continue finding next steps along this path
@@ -130,15 +127,15 @@ public class ContainmentCycleDetector {
 	 * A sub type results in a new path.
 	 * @param currentPath
 	 */
-	private void findNextStep(Stack<HashMap<EReference, EClassifier>> currentPath) {
+	private void findNextStep(Stack<ContainmentCyclePathStep> currentPath) {
 		
 		// back up current path
-		Stack<HashMap<EReference, EClassifier>> backedUpPath = new Stack<HashMap<EReference, EClassifier>>();
+		Stack<ContainmentCyclePathStep> backedUpPath = new Stack<ContainmentCyclePathStep>();
 		backedUpPath.addAll(currentPath);
 		
 		// get last step
-		HashMap<EReference,EClassifier> lastEntry = currentPath.lastElement();
-		EClassifier  eClassifier = lastEntry.values().iterator().next();
+		ContainmentCyclePathStep lastEntry = currentPath.lastElement();
+		EClassifier  eClassifier = lastEntry.getTargetedEClassifier();
 
 		// iterate over  eReferences of the last saved eClassifier target in last step
 		Iterator<EReference> refIterator = ((EClass)eClassifier).getEAllReferences().iterator();
@@ -152,7 +149,7 @@ public class ContainmentCycleDetector {
 			
 			// for each further EReference create a new individual path with the backed up path as basis
 			while(refIterator.hasNext()) {				
-				Stack<HashMap<EReference, EClassifier>> copyOfInitialPath = new Stack<HashMap<EReference, EClassifier>>();
+				Stack<ContainmentCyclePathStep> copyOfInitialPath = new Stack<ContainmentCyclePathStep>();
 				copyOfInitialPath.addAll(backedUpPath);
 				
 				EReference nextRef = refIterator.next();
@@ -166,7 +163,7 @@ public class ContainmentCycleDetector {
 	
 	
 	
-	private void checkAndStoreCycles(Stack<HashMap<EReference, EClassifier>> currentPath, EReference eRef, EClassifier eClassifier) {
+	private void checkAndStoreCycles(Stack<ContainmentCyclePathStep> currentPath, EReference eRef, EClassifier eClassifier) {
 		
 		boolean producesOuterCycle = checkTargetIsOriginOfPath(currentPath, eClassifier);
 		boolean producesInnerCycle = checkInnerCircle(currentPath, eClassifier);
@@ -187,12 +184,11 @@ public class ContainmentCycleDetector {
 		// ** otherwise no cycle --> keep adding steps *****************************************************/
 		else if(!producesOuterCycle && !producesInnerCycle && !considerInnerContainmentCycles){
 			// keep the currentPath for later usage of sub types
-			Stack<HashMap<EReference, EClassifier>> backedUpPath = new Stack<HashMap<EReference, EClassifier>>();
+			Stack<ContainmentCyclePathStep> backedUpPath = new Stack<ContainmentCyclePathStep>();
 			backedUpPath.addAll(currentPath);
 
 			// create next step (eRef, eClassifier)
-			HashMap<EReference,EClassifier> step = new HashMap<EReference, EClassifier>();
-			step.put(eRef, eClassifier);
+			ContainmentCyclePathStep step = new ContainmentCyclePathStep(eRef, eClassifier);
 			currentPath.push(step);
 			findNextStep(currentPath);
 
@@ -210,9 +206,9 @@ public class ContainmentCycleDetector {
 	 * @param eClassifier
 	 * @return
 	 */
-	private boolean checkTargetIsOriginOfPath(Stack<HashMap<EReference, EClassifier>> currentPath, EClassifier eClassifier) {
+	private boolean checkTargetIsOriginOfPath(Stack<ContainmentCyclePathStep> currentPath, EClassifier eClassifier) {
 		
-		EClass origin = (EClass) currentPath.firstElement().entrySet().iterator().next().getValue();
+		EClass origin = (EClass) currentPath.firstElement().getTargetedEClassifier();
 		EClass target = (EClass) eClassifier;
 		
 		return ( (target.equals(origin))  ||  (origin.getEAllSuperTypes().contains(target)) );	
@@ -225,17 +221,17 @@ public class ContainmentCycleDetector {
 	 * @param eClassifier
 	 * @return
 	 */
-	private boolean checkInnerCircle(Stack<HashMap<EReference, EClassifier>> currentPath, EClassifier eClassifier) {
+	private boolean checkInnerCircle(Stack<ContainmentCyclePathStep> currentPath, EClassifier eClassifier) {
 		
 		boolean alreadyContained = false;
 		
 		EClass target = (EClass) eClassifier;
 		
-		Iterator<HashMap<EReference,EClassifier>> stepIt = currentPath.iterator();
+		Iterator<ContainmentCyclePathStep> stepIt = currentPath.iterator();
 		stepIt.next(); //skip first (bottom) entry which indicates the origin.
 		while(stepIt.hasNext()) {
-			HashMap<EReference,EClassifier> step = stepIt.next();
-			EClass stepTarget = (EClass) step.values().iterator().next();
+			ContainmentCyclePathStep step = stepIt.next();
+			EClass stepTarget = (EClass) step.getTargetedEClassifier();
 			
 			if(target.equals(stepTarget) || stepTarget.getEAllSuperTypes().contains(target)) {
 				alreadyContained = true;
@@ -247,19 +243,18 @@ public class ContainmentCycleDetector {
 	}
 	
 	
-	private ContainmentCycle createAndStoreContainmentCycle(Stack<HashMap<EReference, EClassifier>> path,
+	private ContainmentCycle createAndStoreContainmentCycle(Stack<ContainmentCyclePathStep> path,
 			EReference eRef,
 			EClassifier eClassifier,
 			Boolean isInnerCircle) {
 		
 		// create step in path
-		HashMap<EReference,EClassifier> step = new HashMap<EReference, EClassifier>();
-		step.put(eRef, eClassifier);
+		ContainmentCyclePathStep step = new ContainmentCyclePathStep(eRef, eClassifier);
 		path.push(step);
 		
 		// create ContainmentCycle object and link it to the EClassifierInfo
 		// for first entry in the path (namely the EClassifier, which was first considered)
-		EClassifier firstConsideration = (EClassifier) path.get(0).values().iterator().next();
+		EClassifier firstConsideration = (EClassifier) path.get(0).getTargetedEClassifier();
 		ContainmentCycle cc = new ContainmentCycle(path, isInnerCircle);
 		ECM.getEClassifierInfo(firstConsideration).addContainmentCycle(cc);
 		

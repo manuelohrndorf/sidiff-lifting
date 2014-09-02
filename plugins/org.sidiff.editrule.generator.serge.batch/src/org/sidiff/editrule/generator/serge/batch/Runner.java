@@ -22,7 +22,7 @@ public class Runner implements IApplication{
 		String OUTPUT_FOLDER = argument[1];
 			
 		//Init default settings
-		SergeSettings settings = new SergeSettings(OUTPUT_FOLDER, INPUT_CONFIG_PATH, false);
+		SergeSettings settings = new SergeSettings(OUTPUT_FOLDER, INPUT_CONFIG_PATH, true);
 		
 		Serge serge = new Serge();
 		serge.init(settings,new NullProgressMonitor());

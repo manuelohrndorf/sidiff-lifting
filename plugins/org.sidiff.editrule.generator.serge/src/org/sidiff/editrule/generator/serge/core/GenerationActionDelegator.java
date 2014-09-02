@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Stack;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -17,6 +16,7 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
+import org.sidiff.common.emf.extensions.impl.ContainmentCyclePathStep;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.EcoreHelper;
@@ -235,9 +235,8 @@ public class GenerationActionDelegator {
 				//*** on outer circle **********
 				if(!cc.isInnerCircle()) {
 					
-					Stack<HashMap<EReference,EClassifier>> path = cc.getPath();
-					HashMap<EReference,EClassifier> step = path.peek();
-					EReference eRef = (EReference) step.keySet().iterator().next();
+					ContainmentCyclePathStep step = cc.getBackwardPointingStep();
+					EReference eRef = step.getTargetingReference();
 					EClassifier parent = (EClassifier) eRef.eContainer();
 					
 					if(c.CREATE_MOVE_UPS
@@ -245,7 +244,7 @@ public class GenerationActionDelegator {
 					
 						//TODO check every entry in path is allowed as dangling?
 						
-						MoveUpGenerator generator = new MoveUpGenerator(eClassifier, path);
+						MoveUpGenerator generator = new MoveUpGenerator(eClassifier, cc);
 						modules.add(generator.generate());
 						
 					}	
@@ -281,9 +280,8 @@ public class GenerationActionDelegator {
 				//*** on outer circle **********
 				if(!cc.isInnerCircle()) {
 					
-					Stack<HashMap<EReference,EClassifier>> path = cc.getPath();
-					HashMap<EReference,EClassifier> step = path.peek();
-					EReference eRef = (EReference) step.keySet().iterator().next();
+					ContainmentCyclePathStep step = cc.getBackwardPointingStep();
+					EReference eRef = (EReference) step.getTargetingReference();
 					EClassifier parent = (EClassifier) eRef.eContainer();
 					
 					if(c.CREATE_MOVE_DOWNS
@@ -291,7 +289,7 @@ public class GenerationActionDelegator {
 					
 						//TODO check every entry in path is allowed as dangling?
 						
-						MoveDownGenerator generator = new MoveDownGenerator(eClassifier, path);
+						MoveDownGenerator generator = new MoveDownGenerator(eClassifier, cc);
 						modules.add(generator.generate());
 						
 					}	
