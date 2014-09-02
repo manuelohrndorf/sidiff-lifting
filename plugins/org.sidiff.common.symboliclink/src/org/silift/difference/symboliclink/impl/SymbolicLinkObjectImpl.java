@@ -4,8 +4,6 @@ package org.silift.difference.symboliclink.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -159,6 +157,13 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract int hashCode();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -280,6 +285,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 		switch (operationID) {
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE:
 				return getOutgoings((EReference)arguments.get(0));
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___HASH_CODE:
+				return hashCode();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

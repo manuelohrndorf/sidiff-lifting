@@ -193,4 +193,12 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public int hashCode() {
+		return getEObject().hashCode();
+	}
+
 } //ExternalSymbolicLinkObjectImpl

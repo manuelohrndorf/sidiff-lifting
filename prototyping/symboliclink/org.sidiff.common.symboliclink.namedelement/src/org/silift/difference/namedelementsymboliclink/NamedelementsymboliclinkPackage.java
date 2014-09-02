@@ -77,6 +77,24 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__RELIABILITY = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__RELIABILITY;
 
 	/**
+	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__OUTGOING = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__OUTGOING;
+
+	/**
+	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT__INCOMING = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,6 +120,24 @@ public interface NamedelementsymboliclinkPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Outgoings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE;
+
+	/**
+	 * The operation id for the '<em>Hash Code</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_SYMBOLIC_LINK_OBJECT___HASH_CODE = SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___HASH_CODE;
 
 	/**
 	 * The number of operations of the '<em>Named Element Symbolic Link Object</em>' class.

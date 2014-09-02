@@ -215,4 +215,12 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 		return result.toString();
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public int hashCode() {
+		return uuid.hashCode();
+	}
+
 } //UUIDSymbolicLinkObjectImpl

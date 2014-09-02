@@ -202,6 +202,15 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getSymbolicLinkObject__HashCode() {
+		return symbolicLinkObjectEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSymbolicLinkReference() {
 		return symbolicLinkReferenceEClass;
 	}
@@ -298,6 +307,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__OUTGOING);
 		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__INCOMING);
 		createEOperation(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE);
+		createEOperation(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT___HASH_CODE);
 
 		symbolicLinkReferenceEClass = createEClass(SYMBOLIC_LINK_REFERENCE);
 		createEReference(symbolicLinkReferenceEClass, SYMBOLIC_LINK_REFERENCE__TYPE);
@@ -359,6 +369,8 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 		EGenericType g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		initEOperation(op, g1);
+
+		initEOperation(getSymbolicLinkObject__HashCode(), ecorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(symbolicLinkReferenceEClass, SymbolicLinkReference.class, "SymbolicLinkReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSymbolicLinkReference_Type(), theEcorePackage.getEReference(), null, "type", null, 1, 1, SymbolicLinkReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

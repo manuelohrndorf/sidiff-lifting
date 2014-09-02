@@ -168,13 +168,22 @@ public interface SymboliclinkPackage extends EPackage {
 	int SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = 0;
 
 	/**
+	 * The operation id for the '<em>Hash Code</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_OBJECT___HASH_CODE = 1;
+
+	/**
 	 * The number of operations of the '<em>Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = 1;
+	int SYMBOLIC_LINK_OBJECT_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.silift.difference.symboliclink.impl.SymbolicLinkReferenceImpl <em>Symbolic Link Reference</em>}' class.
@@ -305,6 +314,15 @@ public interface SymboliclinkPackage extends EPackage {
 	int EXTERNAL_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE;
 
 	/**
+	 * The operation id for the '<em>Hash Code</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT___HASH_CODE = SYMBOLIC_LINK_OBJECT___HASH_CODE;
+
+	/**
 	 * The number of operations of the '<em>External Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -408,6 +426,16 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getSymbolicLinkObject__GetOutgoings__EReference();
+
+	/**
+	 * Returns the meta object for the '{@link org.silift.difference.symboliclink.SymbolicLinkObject#hashCode() <em>Hash Code</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Hash Code</em>' operation.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#hashCode()
+	 * @generated
+	 */
+	EOperation getSymbolicLinkObject__HashCode();
 
 	/**
 	 * Returns the meta object for class '{@link org.silift.difference.symboliclink.SymbolicLinkReference <em>Symbolic Link Reference</em>}'.
@@ -582,6 +610,14 @@ public interface SymboliclinkPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE = eINSTANCE.getSymbolicLinkObject__GetOutgoings__EReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Hash Code</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation SYMBOLIC_LINK_OBJECT___HASH_CODE = eINSTANCE.getSymbolicLinkObject__HashCode();
 
 		/**
 		 * The meta object literal for the '{@link org.silift.difference.symboliclink.impl.SymbolicLinkReferenceImpl <em>Symbolic Link Reference</em>}' class.

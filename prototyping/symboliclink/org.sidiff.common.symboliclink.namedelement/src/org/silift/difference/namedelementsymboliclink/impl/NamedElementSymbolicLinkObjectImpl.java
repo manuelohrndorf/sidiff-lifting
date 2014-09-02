@@ -202,4 +202,12 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 		return result.toString();
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public int hashCode() {
+		return qualifiedName.hashCode();
+	}
+
 } //NamedElementSymbolicLinkObjectImpl

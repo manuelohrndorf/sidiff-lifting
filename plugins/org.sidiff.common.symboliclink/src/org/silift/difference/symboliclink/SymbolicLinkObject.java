@@ -95,4 +95,12 @@ public interface SymbolicLinkObject extends EObject {
 	 */
 	EList<SymbolicLinkReference> getOutgoings(EReference type);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	int hashCode();
+
 } // SymbolicLinkObject
