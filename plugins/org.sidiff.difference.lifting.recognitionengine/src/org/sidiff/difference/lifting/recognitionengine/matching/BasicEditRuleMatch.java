@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
@@ -14,6 +15,8 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.rulebase.EditRule;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
 
 /**
  * Match of edit rules into the (symmetric) difference. Thus, the following
@@ -137,7 +140,16 @@ public abstract class BasicEditRuleMatch {
 	public Set<Node> getMatchedNodesB() {
 		return nodeOccurencesB.keySet();
 	}
+	
+	public Set<Edge> getMatchedEdgesA(){
+		return edgeOccurencesA.keySet();
+	}
 
+	
+	public Set<Edge> getMatchedEdgesB(){
+		return edgeOccurencesB.keySet();
+	}
+	
 	protected String deriveEdgeOccurrences() {
 		StringBuffer info = new StringBuffer();
 
@@ -154,10 +166,7 @@ public abstract class BasicEditRuleMatch {
 			// 2. Checken, welche References (= edge occurrence) tatsächlich
 			// existieren
 			for (EObject[] tuple : crossProduct) {
-				if (EMFModelAccess.getNodeNeighbors(tuple[0], edge.getType()).contains(tuple[1])) {
-					// edge occurrence found
-					edgeOccurrences.add(new Link(tuple[0], tuple[1], edge.getType()));
-				}
+				createLink(edgeOccurrences, tuple, edge.getType());
 			}
 
 			if (!edgeOccurrences.isEmpty()) {
@@ -181,10 +190,7 @@ public abstract class BasicEditRuleMatch {
 			// 2. Checken, welche References (= edge occurrence) tatsächlich
 			// existieren
 			for (EObject[] tuple : crossProduct) {
-				if (EMFModelAccess.getNodeNeighbors(tuple[0], edge.getType()).contains(tuple[1])) {
-					// edge occurrence found
-					edgeOccurrences.add(new Link(tuple[0], tuple[1], edge.getType()));
-				}
+				createLink(edgeOccurrences, tuple, edge.getType());
 			}
 
 			Edge keyEdge = getKeyEdge(edge);
@@ -197,6 +203,23 @@ public abstract class BasicEditRuleMatch {
 		}
 
 		return info.toString();
+	}
+	
+	private void createLink(Set<Link> edgeOccurrences, EObject[] tuple, EReference reference ){
+		// FIXME (cpietsch: 02.09.2014) getNodeNeighbors doesn't work with symbolic links 
+		// (see also org.sidiff.common.emf.access.Link)
+		if(tuple[0] instanceof SymbolicLinkObject){
+			SymbolicLinkObject symbloSrc = (SymbolicLinkObject)tuple[0];
+			for(SymbolicLinkReference symblRef : symbloSrc.getOutgoings(reference)){
+				if(symblRef.getTarget().equals(tuple[1])){
+					edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
+				}
+			}
+		}else
+		if (EMFModelAccess.getNodeNeighbors(tuple[0], reference).contains(tuple[1])) {
+			// edge occurrence found
+			edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
+		}
 	}
 
 	protected void setEditRule(EditRule r) {
