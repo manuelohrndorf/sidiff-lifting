@@ -38,7 +38,8 @@ public class ContainmentCycleDetector {
 	private Boolean considerInnerContainmentCycles;
 	
 	/**
-	 * Constructor. It's argument determines
+	 * Constructor. 
+	 * <br/>Its argument determines
 	 * if inner containment cycles (inside a containment hierarchy path) should be
 	 * marked as ContainmentCylces or if they should be ignored.
 	 * <br/>
@@ -58,7 +59,7 @@ public class ContainmentCycleDetector {
 	 * Note: It indirectly accesses the EClassInfoManagement for quering sub types.
 	 * Thus, EClassInfoManagement should have been initialized already.
 	 * @param ePackagesStack
-	 * @return
+	 * @return ContainmentCycle
 	 */
 	public ContainmentCycle detectContainmentCycles(Stack<EPackage> ePackagesStack) {
 	
@@ -161,8 +162,12 @@ public class ContainmentCycleDetector {
 		}
 	}
 	
-	
-	
+	/**
+	 * This method checks for a possible cycle induced by a given eClassifier and eReference (pointing
+	 * to that eClassifier) back to an existing entry in the given path.
+	 * If one is found the creation of a ContainmentCycle object is
+	 * delegated to @see {@link #createAndStoreContainmentCycle(Stack, EReference, EClassifier, Boolean)}.
+	 */
 	private void checkAndStoreCycles(Stack<ContainmentCyclePathStep> currentPath, EReference eRef, EClassifier eClassifier) {
 		
 		boolean producesOuterCycle = checkTargetIsOriginOfPath(currentPath, eClassifier);
@@ -204,7 +209,7 @@ public class ContainmentCycleDetector {
 	 * If so, this inclines a containment cycle.
 	 * @param currentPath
 	 * @param eClassifier
-	 * @return
+	 * @return true | false
 	 */
 	private boolean checkTargetIsOriginOfPath(Stack<ContainmentCyclePathStep> currentPath, EClassifier eClassifier) {
 		
@@ -219,7 +224,7 @@ public class ContainmentCycleDetector {
 	 * If so, this inclines an inner containment cycle (i.e. an inner circle),
 	 * @param currentPath
 	 * @param eClassifier
-	 * @return
+	 * @return true | false
 	 */
 	private boolean checkInnerCircle(Stack<ContainmentCyclePathStep> currentPath, EClassifier eClassifier) {
 		
@@ -243,6 +248,14 @@ public class ContainmentCycleDetector {
 	}
 	
 	
+	/**
+	 * This method creates and returns a ContainmentCycle object.
+	 * @param path
+	 * @param eRef
+	 * @param eClassifier
+	 * @param isInnerCircle (@see {@link #checkInnerCircle(Stack, EClassifier)}
+	 * @return ContainmentCycle
+	 */
 	private ContainmentCycle createAndStoreContainmentCycle(Stack<ContainmentCyclePathStep> path,
 			EReference eRef,
 			EClassifier eClassifier,
@@ -263,7 +276,7 @@ public class ContainmentCycleDetector {
 	
 	
 	/**
-	 * Logs and prints out the paths of a containmnet cycle
+	 * Logs and prints out the paths of a containment cycle
 	 * @param path
 	 */
 	private void logCC(ContainmentCycle cc) {

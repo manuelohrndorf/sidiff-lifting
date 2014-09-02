@@ -25,7 +25,10 @@ public class ContainmentCycle {
 	
 	/**
 	 * Constructor
-	 * @param eClass
+	 * 
+	 * @param path
+	 * @param containsInnerCircle @see #containsInnerCircle
+	 * 
 	 */
 	public ContainmentCycle(Stack<ContainmentCyclePathStep> path, Boolean containsInnerCircle) {
 		this.path = path;
@@ -38,18 +41,6 @@ public class ContainmentCycle {
 	 */
 	private Boolean containsInnerCircle;
 	
-	
-	/**
-	 * Returns the path of a containment cycle.
-	 * The path is build up as a stack of ContainmentCyclePaths (i.e., pair like [reference, target classifier]).
-	 * The top-most entry in the stack is the last reachable pair, which consists of the classifier
-	 * that is the container of the first  reference (bottom entry) in the stack.
-	 * @return
-	 */
-	@Deprecated
-	public Stack<ContainmentCyclePathStep> getPath() {
-		return path;
-	}
 
 	/**
 	 * Returns all the path as String
@@ -84,23 +75,37 @@ public class ContainmentCycle {
 	}
 	
 	/**
-	 * Returns true, if there are no steps between origin and last entry in path;
-	 * i.e. an EClass has a containment reference to itself or its super type.
-	 * @return
+	 * Returns the first entry in the path. The first entry
+	 * is a ContainmentCyclePathStep comprising just an EClassifier,
+	 * from which a path starts.
+	 * This ContainmentCyclePathStep does not contain an eReference.
+	 * 
+	 * @return ContainmentCyclePathStep
 	 */
-	public Boolean isDirectCycle() {
-		
-		return (path.size()==2);
-	}
-	
 	public ContainmentCyclePathStep getStartingPoint() {
 		return path.firstElement();
 	}
 	
+	/**
+	 * Returns the last entry in the path. The last entry
+	 * is a ContainmentCyclePathStep comprising an EClassifier
+	 * equal to or super type of an entry EClassifier in the path.
+	 * (Usually the first entry). The ContainmentCyclePathStep
+	 * also contains an EReference, by which
+	 * this last step EClassifier is targeted.
+	 * 
+	 * @return ContainmentCyclePathStep
+	 */
 	public ContainmentCyclePathStep getBackwardPointingStep() {
 		return path.lastElement();
 	}
 	
+	/**
+	 * Returns all intermediate step between the first entry
+	 * (starting point of path) and last entry (end point of path).
+	 *
+	 * @return ContainmentCyclePathSteps
+	 */
 	public Stack<ContainmentCyclePathStep> getIntermediateSteps() {
 		Stack<ContainmentCyclePathStep> intermediates = new Stack<ContainmentCyclePathStep>();
 		
@@ -112,10 +117,21 @@ public class ContainmentCycle {
 		
 	}
 	
+	/**
+	 * Returns the number of steps between the first and the last entry.
+	 * 
+	 * @return number
+	 */
 	public Integer getNumberOfIntermediateSteps() {
 		return getIntermediateSteps().size();
 	}
 	
+	/**
+	 * Checks if the given step is the last intermediate step.
+	 * 
+	 * @param step
+	 * @return true |false
+	 */
 	public Boolean isLastIntermediateStep(ContainmentCyclePathStep step) {
 		int numberOfIntermediates = getNumberOfIntermediateSteps();
 		ContainmentCyclePathStep lastIntermediate = getIntermediateSteps().get(numberOfIntermediates-1);
