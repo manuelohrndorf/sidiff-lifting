@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
@@ -119,12 +120,12 @@ public class EditRuleFixer {
 		Map<Parameter, ParameterDirection> parameterDirections = deriveInOutParameter(rule);
 
 		// now create the 'mainUnit'
-		PriorityUnit mainUnit = HenshinFactoryImpl.eINSTANCE.createPriorityUnit();
+		SequentialUnit mainUnit = HenshinFactoryImpl.eINSTANCE.createSequentialUnit();
 		mainUnit.setName("mainUnit");
 		mainUnit.getSubUnits().add(rule);
 		for (Parameter ruleParameter : rule.getParameters()) {
 			Parameter unitParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
-			if (ruleParameter.equals(nodeDegree.lastEntry().getValue())) {
+			if (nodeDegree.size() > 0 && ruleParameter.equals(nodeDegree.lastEntry().getValue())) {
 				unitParameter.setName("selectedEObject");
 			} else {
 				unitParameter.setName(ruleParameter.getName());
