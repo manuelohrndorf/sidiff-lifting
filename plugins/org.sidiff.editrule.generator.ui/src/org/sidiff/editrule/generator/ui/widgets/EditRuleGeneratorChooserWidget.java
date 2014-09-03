@@ -59,6 +59,10 @@ public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidatio
 		return null;
 	}
 
+	public void setEnabled(Boolean enabled){
+		parent.setEnabled(enabled);
+	}
+	
 	@Override
 	public Composite getWidget() {
 		return parent;
