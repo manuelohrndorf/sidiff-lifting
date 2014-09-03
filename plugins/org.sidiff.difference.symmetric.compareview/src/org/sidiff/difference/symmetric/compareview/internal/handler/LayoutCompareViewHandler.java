@@ -121,10 +121,6 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 		//in the ecore case we can create a missing diagram file if needed
 		
 		URI diagramUriA = URI.createURI(uriA.toString().replaceAll(combination.modelFile + "$", combination.diagramFile));
-		IFile diagramA = null;
-		if (diagramUriA.toPlatformString(true) != null) {
-			diagramA = root.getFile(new Path(diagramUriA.toPlatformString(true)));
-		}
 		
 //		IFile diagramA = root.getFile(new Path(resourceA.getURI().toPlatformString(true).replace(".smf.xmi", "").replaceAll(combination.modelFile + "$", combination.diagramFile)));
 //		if(!diagramA.exists()){
@@ -138,16 +134,12 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 //			}
 //		}
 		editorAT = openDiagram(uriA, combination.treeEditorId);
-		if(diagramA != null && diagramA.exists())
-			editorA = openDiagram(diagramUriA, combination.editorId);
+		editorA = openDiagram(diagramUriA, combination.editorId);
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorAT);
 
 		URI diagramUriB = URI.createURI(uriB.toString().replaceAll(combination.modelFile + "$", combination.diagramFile));
-		IFile diagramB = null;
-		if (diagramUriB.toPlatformString(true) != null) {
-			diagramB = root.getFile(new Path(diagramUriB.toPlatformString(true)));
-		}
+
 
 //		IFile diagramB = root.getFile(new Path(resourceB.getURI().toPlatformString(true).replace(".smf.xmi", "").replaceAll(combination.modelFile + "$", combination.diagramFile)));
 //		if(!diagramB.exists()){
@@ -161,8 +153,7 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 //			}
 //		}
 		editorBT = openDiagram(uriB, combination.treeEditorId);
-		if(diagramB != null && diagramB.exists())
-			editorB = openDiagram(diagramUriB, combination.editorId);
+		editorB = openDiagram(diagramUriB, combination.editorId);
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorBT);
 		
