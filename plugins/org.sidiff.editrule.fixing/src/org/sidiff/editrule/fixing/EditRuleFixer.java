@@ -541,8 +541,8 @@ public class EditRuleFixer {
 		Parameter unitParameter = HenshinFactory.eINSTANCE.createParameter(parameter.getName());
 		mainUnit.getParameters().add(unitParameter);
 		ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-		parameterMapping.setSource(parameter);
-		parameterMapping.setTarget(unitParameter);
+		parameterMapping.setSource(unitParameter);
+		parameterMapping.setTarget(parameter);
 		mainUnit.getParameterMappings().add(parameterMapping);
 	}
 }

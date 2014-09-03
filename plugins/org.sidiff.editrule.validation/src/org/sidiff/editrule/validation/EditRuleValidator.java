@@ -510,23 +510,22 @@ public class EditRuleValidator {
 		}
 
 		// No internal variable, so the parameter must be mapped to a mainUnit
-		// IN-Parameter -> FIXME cpietsch 03.09.2014: OUT-Parameter???
+		// IN-Parameter 
 		Parameter outermostParameter = getOutermostParameter(ruleParameter);
 		if (outermostParameter == null) {
 			valid = false;
 			invalidAttribute = rhsAttribute;	
 		} 
-		//FIXME cpietsch 03.09.2014: OUT-Parameter??
-//		else {
-//			if (getParameterDirection(outermostParameter) != ParameterDirection.IN) {
-//				valid = false;
-//				invalidAttribute = rhsAttribute;
-//			}
-//		}
+		else {
+			if (getParameterDirection(outermostParameter) != ParameterDirection.IN) {
+				valid = false;
+				invalidAttribute = rhsAttribute;
+			}
+		}
 
 		if (!valid) {
 			EditRuleValidation info = new EditRuleValidation(
-					"Parameters which are used to set the value of an attribute must be mapped to an OUT-Parameter of the mainUnit!",
+					"Parameters which are used to set the value of an attribute must be mapped to an IN-Parameter of the mainUnit!",
 					rhsNode.getGraph().getRule().getModule(), ValidationType.mappedAllValueSettingParameters, rhsNode
 							.getGraph().getRule(), rhsNode, invalidAttribute);
 			invalids.add(info);
