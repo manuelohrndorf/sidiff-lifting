@@ -88,6 +88,9 @@ public class ERFixingEngine {
 			} else if (type.equals(ValidationType.noAcBoundaryAttributes.toString())) {
 				Node acBoundaryNode = (Node) eObject;
 				EditRuleFixer.fix_noAcBoundaryAttributes(acBoundaryNode);
+			}else if(type.equals(ValidationType.mappedAllValueSettingParameters.toString())){
+				Parameter parameter = ((Attribute)eObject).getGraph().getRule().getParameter(((Attribute)eObject).getValue());
+				EditRuleFixer.fix_mappedAllValueSettingParameters(parameter);
 			}
 		}
 	}

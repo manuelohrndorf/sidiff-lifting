@@ -13,6 +13,7 @@ import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -533,4 +534,14 @@ public class EditRuleFixer {
 		acBoundaryNode.getAttributes().clear();
 	}
 
+	public static void fix_mappedAllValueSettingParameters(Parameter parameter){
+		Rule rule = (Rule)parameter.getUnit();
+		Unit mainUnit = rule.getModule().getUnit("mainUnit");
+		Parameter unitParameter = HenshinFactory.eINSTANCE.createParameter(parameter.getName());
+		mainUnit.getParameters().add(unitParameter);
+		ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+		parameterMapping.setSource(parameter);
+		parameterMapping.setTarget(unitParameter);
+		mainUnit.getParameterMappings().add(parameterMapping);
+	}
 }

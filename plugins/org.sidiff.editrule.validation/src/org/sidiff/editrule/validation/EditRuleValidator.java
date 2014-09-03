@@ -510,17 +510,19 @@ public class EditRuleValidator {
 		}
 
 		// No internal variable, so the parameter must be mapped to a mainUnit
-		// IN-Parameter
+		// IN-Parameter -> FIXME cpietsch 03.09.2014: OUT-Parameter???
 		Parameter outermostParameter = getOutermostParameter(ruleParameter);
 		if (outermostParameter == null) {
 			valid = false;
-			invalidAttribute = rhsAttribute;
-		} else {
-			if (getParameterDirection(outermostParameter) != ParameterDirection.IN) {
-				valid = false;
-				invalidAttribute = rhsAttribute;
-			}
-		}
+			invalidAttribute = rhsAttribute;	
+		} 
+		//FIXME cpietsch 03.09.2014: OUT-Parameter??
+//		else {
+//			if (getParameterDirection(outermostParameter) != ParameterDirection.IN) {
+//				valid = false;
+//				invalidAttribute = rhsAttribute;
+//			}
+//		}
 
 		if (!valid) {
 			EditRuleValidation info = new EditRuleValidation(
