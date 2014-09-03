@@ -494,7 +494,4 @@ public class RecognitionEngine {
 		return editRule2SCS;
 	}
 
-	public Set<String> getDocumentTypes() {
-		return EMFModelAccessEx.getDocumentTypes(difference.getModelA());
-	}
 }
