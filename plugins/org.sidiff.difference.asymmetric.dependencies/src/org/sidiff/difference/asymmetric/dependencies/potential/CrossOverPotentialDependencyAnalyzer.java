@@ -1,6 +1,7 @@
 package org.sidiff.difference.asymmetric.dependencies.potential;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -85,7 +86,7 @@ public class CrossOverPotentialDependencyAnalyzer extends PotentialDependencyAna
 				List<Rule> rulesB = HenshinModuleAnalysis.getAllRules(editRuleB.getExecuteModule());
 				
 				// If rules are not in the same rule base
-				// Implicit: editRuleA != editRuleB
+				// (note that this implies "editRuleA != editRuleB")
 				if (ruleBaseA != ruleBaseB) {
 					for (Rule ruleA : rulesA) {
 						for (Rule ruleB : rulesB) {
@@ -119,19 +120,35 @@ public class CrossOverPotentialDependencyAnalyzer extends PotentialDependencyAna
 	}
 
 	public Set<PotentialNodeDependency> getPotentialNodeDependencies(EditRule sourceEditRule) {
-		return potDeps.get(sourceEditRule).getPotentialNodeDependencies();
+		if (potDeps.containsKey(sourceEditRule)){
+			return potDeps.get(sourceEditRule).getPotentialNodeDependencies();
+		} else {
+			return Collections.emptySet();
+		}
 	}
 
-	public Set<PotentialEdgeDependency> getPotentialEdgeDependencies(EditRule sourceEditRule) {
-		return potDeps.get(sourceEditRule).getPotentialEdgeDependencies();
+	public Set<PotentialEdgeDependency> getPotentialEdgeDependencies(EditRule sourceEditRule) {		
+		if (potDeps.containsKey(sourceEditRule)){
+			return potDeps.get(sourceEditRule).getPotentialEdgeDependencies();
+		} else {
+			return Collections.emptySet();
+		}
 	}
 
-	public Set<PotentialAttributeDependency> getPotentialAttributeDependencies(EditRule sourceEditRule) {
-		return potDeps.get(sourceEditRule).getPotentialAttributeDependencies();
+	public Set<PotentialAttributeDependency> getPotentialAttributeDependencies(EditRule sourceEditRule) {		
+		if (potDeps.containsKey(sourceEditRule)){
+			return potDeps.get(sourceEditRule).getPotentialAttributeDependencies();
+		} else {
+			return Collections.emptySet();
+		}
 	}
 	
-	public Set<PotentialDependency> getPotentialDependencies(EditRule sourceEditRule) {
-		return potDeps.get(sourceEditRule).getPotentialDependencies();
+	public Set<PotentialDependency> getPotentialDependencies(EditRule sourceEditRule) {		
+		if (potDeps.containsKey(sourceEditRule)){
+			return potDeps.get(sourceEditRule).getPotentialDependencies();
+		} else {
+			return Collections.emptySet();
+		}
 	}
 
 	protected PotentialRuleDependencies findRuleDependencies(
