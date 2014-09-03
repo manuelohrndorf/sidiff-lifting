@@ -68,9 +68,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	@Override
 	public void addPages(Wizard wizard) {
 		//TODO later on: Add This page
-		//ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
-		//wizard.addPage(ruleBaseProjectPage01);	
-		//markPagesAdded();	 
+		ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
+		wizard.addPage(ruleBaseProjectPage01);	
+		markPagesAdded();	 
 	}
 
 	public boolean isDependentOnParentWizard() {

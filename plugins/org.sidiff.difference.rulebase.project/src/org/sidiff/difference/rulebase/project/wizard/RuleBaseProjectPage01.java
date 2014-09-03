@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.difference.rulebase.project.Activator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
+import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorChooserWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
 import org.silift.common.util.ui.widgets.IWidget;
@@ -27,6 +28,7 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	private EditRuleGeneratorWidget generatorWidget;
 	private EditRuleGeneratorSettingsWidget generatorSettingsWidget;
+	private EditRuleGeneratorChooserWidget chooserWidget;
 	
 	private EditRuleGenerationSettings settings;
 
@@ -112,6 +114,9 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		generatorSettingsWidget = new EditRuleGeneratorSettingsWidget(this.settings);
 		addWidget(container, generatorSettingsWidget);
 		
+		chooserWidget = new EditRuleGeneratorChooserWidget();
+		addWidget(container, chooserWidget);
+		
 		
 	}
 
@@ -130,8 +135,11 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
+		validateWidget(chooserWidget);
 		validateWidget(generatorWidget);
-		validateWidget(generatorSettingsWidget);
+		validateWidget(generatorSettingsWidget);		
+		container.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
+		chooserWidget.setEnabled(true);
 		
 	}
 
