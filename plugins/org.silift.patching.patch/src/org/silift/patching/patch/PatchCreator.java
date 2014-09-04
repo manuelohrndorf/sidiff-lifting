@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.logging.LogEvent;
@@ -131,16 +132,12 @@ public class PatchCreator {
 		manifest_EditRules = new ArrayList<HashMap<String, String>>();
 		RuleBase rb = asymmetricDifference.getTransientRulebase();
 		for (RuleBaseItem rbi : rb.getItems()) {
-			Module module = rbi.getEditRule().getExecuteModule();
+			Module module = EcoreUtil.copy(rbi.getEditRule().getExecuteModule());
 			String erSavePath = savePath + separator + FOLDER_EDIT_RULES + separator + module.getName() + ".henshin";
-
+			rbi.getEditRule().setExecuteMainUnit(module.getUnit(INamingConventions.MAIN_UNIT));
 			LogUtil.log(LogEvent.NOTICE, "serialize " + rbi.getEditRule().getExecuteModule().getName() + " to "
 					+ erSavePath);
-			
-			// FIXME: Do not just save module. Copy module first, and then save it.
-			// EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
-			// Module newMod = (Module) EMFStorage.eLoad(EMFStorage.pathToUri(erSavePath));
-			// rbi.getEditRule().setExecuteMainUnit(newMod.getUnit(INamingConventions.MAIN_UNIT));
+			EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
 
 			// MANIFEST
 			String relSavePath = EMFStorage.pathToRelativeUri(savePath, erSavePath).toString();
