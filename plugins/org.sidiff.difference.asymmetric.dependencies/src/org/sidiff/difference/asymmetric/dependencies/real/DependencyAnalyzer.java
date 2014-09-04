@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.logging.LogEvent;
@@ -141,17 +140,13 @@ public class DependencyAnalyzer {
 								dependency = AsymmetricFactory.eINSTANCE.createEdgeDependency();
 								((EdgeDependency)dependency).setSrcObject(((Link)intersection).getSrc());
 								((EdgeDependency)dependency).setTgtObject(((Link)intersection).getTgt());
-								((EdgeDependency)dependency).setType(((Link)intersection).getType());
+								((EdgeDependency)dependency).setType(((Link)intersection).getType());								
 								break;
 							case 3: //AttributeDepenency
+								PotentialAttributeDependency potAttrDep = (PotentialAttributeDependency) potDep;
 								dependency = AsymmetricFactory.eINSTANCE.createAttributeDependency();
-								((AttributeDependency)dependency).setObject((EObject)intersection);
-								for(EAttribute e : ((EObject)intersection).eClass().getEAllAttributes()){
-									if(e.getName().equals("name")){
-										((AttributeDependency)dependency).setType(((EAttribute)((EObject)intersection).eGet(e)));
-										break;
-									}
-								}
+								((AttributeDependency)dependency).setObject((EObject)intersection);								
+								((AttributeDependency)dependency).setType(potAttrDep.getSourceAttribute().getType());								
 								break;
 							default:
 								break;
@@ -355,6 +350,8 @@ public class DependencyAnalyzer {
 	private Object intersects(EngineBasedEditRuleMatch erSrcMatch, EngineBasedEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
 			SemanticChangeSet scsTgt) {
 
+		assert(pad.getSourceAttribute().getType() == pad.getTargetAttribute().getType());
+		
 		if (pad.getKind() == PotentialDependencyKind.CHANGE_USE) {
 
 			// Bedingung 1: Objektschnittmenge nicht leer
