@@ -165,7 +165,7 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		}
 		generatorSettingsWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
 		generatorWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
-		
+		if (chooserWidget.getrBtnManually().getSelection()) setPageComplete(true);
 	}
 
 	private Boolean validateWidget(IWidgetValidation widget) {

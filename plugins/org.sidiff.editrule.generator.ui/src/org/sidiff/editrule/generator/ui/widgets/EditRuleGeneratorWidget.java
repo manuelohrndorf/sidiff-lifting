@@ -13,6 +13,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
@@ -149,7 +150,9 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 	}
 
 	public void setEnabled(Boolean enabled) {
-		container.setEnabled(enabled);
+		for (Control c : container.getChildren()){
+			c.setEnabled(enabled);
+		}
 	}
 	public EditRuleGenerationSettings getSettings() {
 		return settings;
