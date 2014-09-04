@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -31,12 +32,11 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	private RuleBaseProjectPage01 ruleBaseProjectPage01 = null;
 	private EditRuleGenerationSettings  settings;
 
-
 	public RuleBaseTemplateSection() {
 		addOption(KEY_PACKAGE_NAME, RuleBaseTemplateSection.KEY_PACKAGE_NAME, (String) null, 0);
 		//TODO uncomment
-		//	this.settings = new EditRuleGenerationSettings(null,"", null, true);
-		//	setPageCount(1);
+		this.settings = new EditRuleGenerationSettings(null,"", null, true);
+		setPageCount(1);
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/" ,
 				AbstractProjectRuleBase.BUILD_FOLDER + "/" , AbstractProjectRuleBase.RULEBASE_FILE + "/"}; 
 	}	
+
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
 		IPluginReference[] result = new IPluginReference[2];

@@ -1,10 +1,13 @@
 package org.sidiff.difference.rulebase.project.wizard;
 
+import org.eclipse.jdt.core.dom.Message;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -101,6 +104,27 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		
 		// Initial validation:
 		validate();
+		
+		chooserWidget.getrBtnGenerate().addSelectionListener(validationListener);
+		chooserWidget.getrBtnManually().addSelectionListener(validationListener);
+		generatorSettingsWidget.addSelectionListener(validationListener);
+		generatorWidget.getList_generators().addSelectionListener(validationListener);
+		generatorSettingsWidget.getTxtDefaultConfig().addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				validate();
+				
+			}
+		});		
+		generatorSettingsWidget.getTxtRefinedConfig().addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				validate();
+				
+			}
+		});
 	}
 
 	private void createWidgets() {	
@@ -135,19 +159,21 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 	private void validate() {
 		setErrorMessage(null);
 		setPageComplete(true);
-		validateWidget(chooserWidget);
-		validateWidget(generatorWidget);
-		validateWidget(generatorSettingsWidget);		
-		container.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
-		chooserWidget.setEnabled(true);
+		if (validateWidget(chooserWidget) && validateWidget(generatorWidget) &&	validateWidget(generatorSettingsWidget)) {
+			setErrorMessage(null);
+			setPageComplete(true);
+		}
+		generatorSettingsWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
+		generatorWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
 		
 	}
 
-	private void validateWidget(IWidgetValidation widget) {
+	private Boolean validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
 			setErrorMessage(widget.getValidationMessage());
 			setPageComplete(false);
 		}
+		return widget.validate();
 	}
 
 	public EditRuleGeneratorSettingsWidget getGeneratorSettingsWidget() {

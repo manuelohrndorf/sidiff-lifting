@@ -117,8 +117,14 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setConfigPath(eConfigChooser.open());
-				txtRefinedConfig.setText(settings.getConfigPath());
+				try{
+					settings.setConfigPath(eConfigChooser.open());
+					txtRefinedConfig.setText(settings.getConfigPath());
+				} catch (NullPointerException NPe){
+					System.out.println("Selection canceled.");
+				} catch (IllegalArgumentException ILe){
+					System.out.println("Selection canceled.");
+				}
 			}
 		});
 		
@@ -142,7 +148,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 				try{
 					txtDefaultConfig.setText(EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl()).getNsURI());
 				} catch (NullPointerException NPe) {
-					System.out.println("Selection canceled");
+					System.out.println("Selection canceled.");
 				}
 			}
 		});
@@ -212,7 +218,10 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	@Override
 	public void setLayoutData(Object layoutData) {
 		parent.setLayoutData(layoutData);
-		
+	}
+	
+	public void setEnabled(Boolean enabled) {
+		composite.setEnabled(enabled);
 	}
 
 	@Override
@@ -259,5 +268,13 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 
 	public void setrBtnDefaultConfig(Button rBtnDefaultConfig) {
 		this.rBtnDefaultConfig = rBtnDefaultConfig;
+	}
+
+	public void addSelectionListener(SelectionAdapter validationListener) {
+		rBtnDefaultConfig.addSelectionListener(validationListener);
+		rBtnRefinedConfig.addSelectionListener(validationListener);
+		btnBrowse.addSelectionListener(validationListener);
+		btnChooseDocumenttype.addSelectionListener(validationListener);
+		
 	}
 }

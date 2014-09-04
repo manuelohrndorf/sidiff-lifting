@@ -148,11 +148,24 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 		}
 	}
 
+	public void setEnabled(Boolean enabled) {
+		container.setEnabled(enabled);
+	}
 	public EditRuleGenerationSettings getSettings() {
 		return settings;
 	}
 
 	public void setSettings(EditRuleGenerationSettings settings) {
 		this.settings = settings;
+	}
+
+	public List getList_generators() {
+		return list_generators;
+	}
+
+	public void setList_generators(List list_generators) {
+		this.list_generators = list_generators;
 	}	
+	
+	
 }
