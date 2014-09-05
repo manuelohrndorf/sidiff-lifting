@@ -15,8 +15,6 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.rulebase.EditRule;
-import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.SymbolicLinkReference;
 
 /**
  * Match of edit rules into the (symmetric) difference. Thus, the following
@@ -205,17 +203,7 @@ public abstract class BasicEditRuleMatch {
 		return info.toString();
 	}
 	
-	private void createLink(Set<Link> edgeOccurrences, EObject[] tuple, EReference reference ){
-		// FIXME (cpietsch: 02.09.2014) getNodeNeighbors doesn't work with symbolic links 
-		// (see also org.sidiff.common.emf.access.Link)
-		if(tuple[0] instanceof SymbolicLinkObject){
-			SymbolicLinkObject symbloSrc = (SymbolicLinkObject)tuple[0];
-			for(SymbolicLinkReference symblRef : symbloSrc.getOutgoings(reference)){
-				if(symblRef.getTarget().equals(tuple[1])){
-					edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
-				}
-			}
-		}else
+	protected void createLink(Set<Link> edgeOccurrences, EObject[] tuple, EReference reference ){
 		if (EMFModelAccess.getNodeNeighbors(tuple[0], reference).contains(tuple[1])) {
 			// edge occurrence found
 			edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
