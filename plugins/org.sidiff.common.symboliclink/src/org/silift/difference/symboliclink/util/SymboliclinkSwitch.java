@@ -91,6 +91,12 @@ public class SymboliclinkSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE: {
+				SymbolicLinkAttribute symbolicLinkAttribute = (SymbolicLinkAttribute)theEObject;
+				T result = caseSymbolicLinkAttribute(symbolicLinkAttribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -152,6 +158,21 @@ public class SymboliclinkSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseExternalSymbolicLinkObject(ExternalSymbolicLinkObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Symbolic Link Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Symbolic Link Attribute</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSymbolicLinkAttribute(SymbolicLinkAttribute object) {
 		return null;
 	}
 

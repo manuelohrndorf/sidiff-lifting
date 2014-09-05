@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getReliability <em>Reliability</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming <em>Incoming</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getLinkAttributes <em>Link Attributes</em>}</li>
  * </ul>
  * </p>
  *
@@ -86,6 +87,22 @@ public interface SymbolicLinkObject extends EObject {
 	 * @generated
 	 */
 	EList<SymbolicLinkReference> getIncoming();
+
+	/**
+	 * Returns the value of the '<em><b>Link Attributes</b></em>' containment reference list.
+	 * The list contents are of type {@link org.silift.difference.symboliclink.SymbolicLinkAttribute}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Link Attributes</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Link Attributes</em>' containment reference list.
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkObject_LinkAttributes()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<SymbolicLinkAttribute> getLinkAttributes();
 
 	/**
 	 * <!-- begin-user-doc -->

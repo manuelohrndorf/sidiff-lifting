@@ -12,9 +12,11 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.silift.difference.symboliclink.SymbolicLinkAttribute;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkReference;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
@@ -29,6 +31,7 @@ import org.silift.difference.symboliclink.SymboliclinkPackage;
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getReliability <em>Reliability</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getIncoming <em>Incoming</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getLinkAttributes <em>Link Attributes</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,6 +77,16 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * @ordered
 	 */
 	protected EList<SymbolicLinkReference> incoming;
+
+	/**
+	 * The cached value of the '{@link #getLinkAttributes() <em>Link Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinkAttributes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SymbolicLinkAttribute> linkAttributes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -142,6 +155,18 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<SymbolicLinkAttribute> getLinkAttributes() {
+		if (linkAttributes == null) {
+			linkAttributes = new EObjectContainmentEList<SymbolicLinkAttribute>(SymbolicLinkAttribute.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES);
+		}
+		return linkAttributes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EList<SymbolicLinkReference> getOutgoings(EReference type) {
@@ -190,6 +215,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING:
 				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
+				return ((InternalEList<?>)getLinkAttributes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -208,6 +235,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return getOutgoing();
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING:
 				return getIncoming();
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
+				return getLinkAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -232,6 +261,10 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				getIncoming().clear();
 				getIncoming().addAll((Collection<? extends SymbolicLinkReference>)newValue);
 				return;
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
+				getLinkAttributes().clear();
+				getLinkAttributes().addAll((Collection<? extends SymbolicLinkAttribute>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -253,6 +286,9 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING:
 				getIncoming().clear();
 				return;
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
+				getLinkAttributes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -271,6 +307,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return outgoing != null && !outgoing.isEmpty();
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING:
 				return incoming != null && !incoming.isEmpty();
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
+				return linkAttributes != null && !linkAttributes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

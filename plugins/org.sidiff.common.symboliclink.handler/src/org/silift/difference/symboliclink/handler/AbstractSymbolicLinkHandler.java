@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -38,6 +39,7 @@ import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkAttribute;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkReference;
 import org.silift.difference.symboliclink.SymbolicLinks;
@@ -339,6 +341,19 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 						}
 					}
 				}
+				
+				// attribute occurrences in a
+				for(Iterator<EAttribute> iterator = srcObject.eClass().getEAllAttributes().iterator(); iterator.hasNext();){
+					EAttribute eAttribute = iterator.next();
+					if(!eAttribute.isDerived()){
+						if(eAttribute.isMany()){
+							
+						}else{
+							Object value = srcObject.eGet(eAttribute);
+							generateSymbolicLinkAttribute(obj2symbl_A, srcObject,  value, eAttribute);
+						}
+					}
+				}
 			}
 			editRuleMatch.getNodeOccurrencesA().put(nodeOccurrenceA_key,
 					eObjectSet);
@@ -367,6 +382,19 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 							if (tgtObject != null) {
 								generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgtObject, eReference);
 							}
+						}
+					}
+				}
+				
+				// attribute occurrences in b
+				for(Iterator<EAttribute> iterator = srcObject.eClass().getEAllAttributes().iterator(); iterator.hasNext();){
+					EAttribute eAttribute = iterator.next();
+					if(!eAttribute.isDerived()){
+						if(eAttribute.isMany()){
+							
+						}else{
+							Object value = srcObject.eGet(eAttribute);
+							generateSymbolicLinkAttribute(obj2symbl_B, srcObject, value, eAttribute);
 						}
 					}
 				}
@@ -421,6 +449,31 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 			}
 			symblReference.setType(eReference);
 			symblReferences.add(symblReference);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param symblObject
+	 * @param value
+	 * @param eAttribute
+	 */
+	private void generateSymbolicLinkAttribute(Map<EObject, SymbolicLinkObject> obj2symbl, EObject eObject, Object value, EAttribute eAttribute){
+		
+		boolean alreadyExists = false;
+		SymbolicLinkObject symblObject = obj2symbl.get(eObject);
+		for(SymbolicLinkAttribute symblAttribute : symblObject.getLinkAttributes()){
+			if(symblAttribute.getKind().equals(eAttribute)){
+				alreadyExists = true;
+				break;
+			}
+		}
+		
+		if(!alreadyExists){
+			SymbolicLinkAttribute symblAttribute = SymboliclinkFactory.eINSTANCE.createSymbolicLinkAttribute();
+			symblAttribute.setValue(value!=null?value.toString():null);
+			symblAttribute.setKind(eAttribute);
+			symblObject.getLinkAttributes().add(symblAttribute);
 		}
 	}
 

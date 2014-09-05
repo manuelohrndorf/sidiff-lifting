@@ -17,6 +17,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//SymbolicLinkObject/reliability"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinkObject/outgoing"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinkObject/incoming"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinkObject/linkAttributes"/>
       <genOperations ecoreOperation="SymbolicLink.ecore#//SymbolicLinkObject/getOutgoings">
         <genParameters ecoreParameter="SymbolicLink.ecore#//SymbolicLinkObject/getOutgoings/type"/>
       </genOperations>
@@ -30,6 +31,10 @@
     <genClasses ecoreClass="SymbolicLink.ecore#//ExternalSymbolicLinkObject">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//ExternalSymbolicLinkObject/eObject"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//ExternalSymbolicLinkObject/from"/>
+    </genClasses>
+    <genClasses ecoreClass="SymbolicLink.ecore#//SymbolicLinkAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SymbolicLink.ecore#//SymbolicLinkAttribute/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SymbolicLink.ecore#//SymbolicLinkAttribute/kind"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
