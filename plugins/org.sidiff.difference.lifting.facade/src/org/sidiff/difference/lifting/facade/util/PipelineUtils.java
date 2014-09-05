@@ -17,7 +17,6 @@ import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
-import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.AddObject;
@@ -45,14 +44,14 @@ import org.silift.common.util.emf.EMFStorage;
  * SiLift framework. UI components of the SiLift IDE should, if required, also
  * use these utility functions, and not the internal functions of the respective
  * engines.
- *
+ * 
  * @author kehrer, mohrndorf
  */
 public class PipelineUtils {
 
 	/**
 	 * Load EMF resource.
-	 *
+	 * 
 	 * @param path
 	 *            The EMF-file path.
 	 * @return The loaded EMF-object.
@@ -64,7 +63,7 @@ public class PipelineUtils {
 	/**
 	 * Find all available technical difference builders matching the given
 	 * document type.
-	 *
+	 * 
 	 * @param documentType
 	 *            The document type, i.e. the package namespace URI of a model.
 	 * @return All available technical difference builders matching the given
@@ -76,12 +75,12 @@ public class PipelineUtils {
 	}
 
 	/**
-	 *
+	 * 
 	 * Returns the default technical difference builder for the given
 	 * documentType: <br/>
 	 * In case of Ecore: take first non-generics diff builder. <br/>
 	 * Otherwise: take first technical difference builder
-	 *
+	 * 
 	 * @param documentType
 	 * @return
 	 */
@@ -90,46 +89,56 @@ public class PipelineUtils {
 	}
 
 	/**
-	 * Find all available recognition rule sorter matching the given
-	 * document type.
-	 *
+	 * Find all available recognition rule sorter matching the given document
+	 * type.
+	 * 
 	 * @param documentType
 	 *            The document type, i.e. the package namespace URI of a model.
-	 * @return All available recognition rule sorter matching the given
-	 *         document type.
+	 * @return All available recognition rule sorter matching the given document
+	 *         type.
 	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType) {
 		return RecognitionRuleSorterUtil.getAvailableRecognitionRuleSorters(documentType);
 	}
-	
+
 	/**
-	 *
-	 * Returns the default recognition rule sorter for the given
-	 * documentType: <br/>
-	 *
+	 * 
+	 * Returns the default recognition rule sorter for the given documentType: <br/>
+	 * 
 	 * @param documentType
 	 * @return
 	 */
 	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(String documentType) {
 		return RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(documentType);
 	}
-	
+
 	/**
 	 * Find all available rulebases matching the given document type.
-	 *
+	 * 
 	 * @param documentType
 	 *            The document type, i.e. the package namespace URI of a model.
 	 * @return All available rulebases matching the given document type.
-	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
 	public static Set<IRuleBase> getAvailableRulebases(String documentType) {
 		return RuleBaseUtil.getAvailableRulebases(documentType);
 	}
 
 	/**
+	 * Find all available rulebases matching the given document types.
+	 * 
+	 * @param documentTypes
+	 *            The document types, i.e. the package namespace URIs used by a
+	 *            model.
+	 * @return All available rulebases matching the given document types.
+	 */
+	public static Set<IRuleBase> getAvailableRulebases(Set<String> documentTypes) {
+		return RuleBaseUtil.getAvailableRulebases(documentTypes);
+	}
+
+	/**
 	 * Find all available matchers matching the given document type.
-	 *
+	 * 
 	 * @param modelA
 	 *            Model A of the comparison.
 	 * @param modelB
@@ -143,7 +152,7 @@ public class PipelineUtils {
 
 	/**
 	 * Get matcher by its key name.
-	 *
+	 * 
 	 * @param key
 	 *            The key name of the matcher.
 	 * @param modelA
@@ -174,7 +183,7 @@ public class PipelineUtils {
 
 	/**
 	 * Generates a file name for a new difference between model A and model B.
-	 *
+	 * 
 	 * @param modelA
 	 *            The earlier version of the model.
 	 * @param modelB
@@ -206,7 +215,7 @@ public class PipelineUtils {
 
 	/**
 	 * Generates a file name for a new lifted difference.
-	 *
+	 * 
 	 * @param model
 	 *            The technical difference to lift.
 	 * @param settings
@@ -227,7 +236,7 @@ public class PipelineUtils {
 
 	/**
 	 * Cut of the file extension.
-	 *
+	 * 
 	 * @param filename
 	 *            The file name with extension.
 	 * @return The file name without extension.
@@ -240,7 +249,7 @@ public class PipelineUtils {
 	/**
 	 * Cleanup, i.e. remove adapters from all the eObjects involved in
 	 * differencing in order to prevent memory leaks.
-	 *
+	 * 
 	 * @param difference
 	 * @param imports
 	 */
@@ -261,14 +270,14 @@ public class PipelineUtils {
 		}
 
 		// Release adapters for model A
-		for (Resource r : difference.getModelA().getResourceSet().getResources()) {			
+		for (Resource r : difference.getModelA().getResourceSet().getResources()) {
 			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
 				releaseAdapters(iterator.next());
 			}
 		}
 
 		// Release adapters for model B
-		for (Resource r : difference.getModelB().getResourceSet().getResources()) {			
+		for (Resource r : difference.getModelB().getResourceSet().getResources()) {
 			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
 				releaseAdapters(iterator.next());
 			}
@@ -283,8 +292,9 @@ public class PipelineUtils {
 	}
 
 	/**
-	 * Sorts the difference correspondences and changes by their label provider text.
-	 *
+	 * Sorts the difference correspondences and changes by their label provider
+	 * text.
+	 * 
 	 * @param difference
 	 *            The difference to sort.
 	 */
@@ -318,7 +328,8 @@ public class PipelineUtils {
 			AddReferenceItemProvider addReferenceItemProvider = new AddReferenceItemProvider(adapterFactory);;
 			RemoveReferenceItemProvider removeReferenceItemProvider = new RemoveReferenceItemProvider(adapterFactory);
 
-			AttributeValueChangeItemProvider attributeValueChangeItemProvider = new AttributeValueChangeItemProvider(adapterFactory);
+			AttributeValueChangeItemProvider attributeValueChangeItemProvider = new AttributeValueChangeItemProvider(
+					adapterFactory);
 
 			@Override
 			public int compare(Change o1, Change o2) {
@@ -327,33 +338,25 @@ public class PipelineUtils {
 
 				if (o1 instanceof AddObject) {
 					s1 = addObjectItemProvider.getText(o1);
-				}
-				else if (o1 instanceof RemoveObject) {
+				} else if (o1 instanceof RemoveObject) {
 					s1 = removeObjectItemProvider.getText(o1);
-				}
-				else if (o1 instanceof AddReference) {
+				} else if (o1 instanceof AddReference) {
 					s1 = addReferenceItemProvider.getText(o1);
-				}
-				else if (o1 instanceof RemoveReference) {
+				} else if (o1 instanceof RemoveReference) {
 					s1 = removeReferenceItemProvider.getText(o1);
-				}
-				else if (o1 instanceof AttributeValueChange) {
+				} else if (o1 instanceof AttributeValueChange) {
 					s1 = attributeValueChangeItemProvider.getText(o1);
 				}
 
 				if (o2 instanceof AddObject) {
 					s2 = addObjectItemProvider.getText(o2);
-				}
-				else if (o2 instanceof RemoveObject) {
+				} else if (o2 instanceof RemoveObject) {
 					s2 = removeObjectItemProvider.getText(o2);
-				}
-				else if (o2 instanceof AddReference) {
+				} else if (o2 instanceof AddReference) {
 					s2 = addReferenceItemProvider.getText(o2);
-				}
-				else if (o2 instanceof RemoveReference) {
+				} else if (o2 instanceof RemoveReference) {
 					s2 = removeReferenceItemProvider.getText(o2);
-				}
-				else if (o2 instanceof AttributeValueChange) {
+				} else if (o2 instanceof AttributeValueChange) {
 					s2 = attributeValueChangeItemProvider.getText(o2);
 				}
 
@@ -372,13 +375,13 @@ public class PipelineUtils {
 
 	/**
 	 * private helper method for cleanup.
-	 *
+	 * 
 	 * @param eObject
 	 */
 	private static void releaseAdapters(EObject eObject) {
 		if (eObject != null) {
 			EList<Adapter> adapters = eObject.eAdapters();
-			
+
 			if ((adapters != null) && (!adapters.isEmpty())) {
 				adapters.clear();
 			}

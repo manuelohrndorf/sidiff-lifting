@@ -249,18 +249,6 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		docTypViewer.setContentProvider(ArrayContentProvider.getInstance());
 		docTypViewer.setInput(rbManager.getRuleBase().getDocumentTypes());
 		
-		Label characteristicDocumentTypeLabel = new Label(generalComposite, SWT.NONE);
-		characteristicDocumentTypeLabel.setFont(labelFont);
-		characteristicDocumentTypeLabel.setText("Characteristic Document Type:");
-		Label characteristicDocumentType = new Label(generalComposite, SWT.NONE);
-		String docType = rbManager.getCharacteristicDocumentType();
-		
-		if (docType != null) {
-			characteristicDocumentType.setText(docType);			
-		} else {
-			characteristicDocumentType.setText("N/A");
-		}
-		
 		/*
 		 * JFace Table Viewer
 		 */

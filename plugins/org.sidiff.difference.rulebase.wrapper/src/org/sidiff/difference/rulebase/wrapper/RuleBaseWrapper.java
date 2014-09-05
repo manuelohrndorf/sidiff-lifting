@@ -617,14 +617,6 @@ public class RuleBaseWrapper extends Observable {
 	}
 	
 	/**
-	 * @return The most characteristic document type of the rulebase.
-	 */
-	public String getCharacteristicDocumentType() {
-		return rulebase.getCharacteristicDocumentType();
-	}
-
-	
-	/**
 	 * {@link EMFModelAccessEx#getCharacteristicDocumentType(Set)}
 	 * 
 	 * @param module

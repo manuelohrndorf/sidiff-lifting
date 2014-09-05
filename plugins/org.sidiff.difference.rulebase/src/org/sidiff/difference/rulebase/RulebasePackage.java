@@ -163,22 +163,13 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE__DOCUMENT_TYPES = 7;
 
 	/**
-	 * The feature id for the '<em><b>Characteristic Document Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE = 8;
-
-	/**
 	 * The feature id for the '<em><b>Edit Rule Folder</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__EDIT_RULE_FOLDER = 9;
+	int RULE_BASE__EDIT_RULE_FOLDER = 8;
 
 	/**
 	 * The feature id for the '<em><b>Recognition Rule Folder</b></em>' attribute.
@@ -187,7 +178,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__RECOGNITION_RULE_FOLDER = 10;
+	int RULE_BASE__RECOGNITION_RULE_FOLDER = 9;
 
 	/**
 	 * The number of structural features of the '<em>Rule Base</em>' class.
@@ -196,7 +187,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_FEATURE_COUNT = 11;
+	int RULE_BASE_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.EditRuleImpl <em>Edit Rule</em>}' class.
@@ -808,17 +799,6 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRuleBase_DocumentTypes();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBase#getCharacteristicDocumentType <em>Characteristic Document Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Characteristic Document Type</em>'.
-	 * @see org.sidiff.difference.rulebase.RuleBase#getCharacteristicDocumentType()
-	 * @see #getRuleBase()
-	 * @generated
-	 */
-	EAttribute getRuleBase_CharacteristicDocumentType();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder <em>Edit Rule Folder</em>}'.
@@ -1460,14 +1440,6 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RULE_BASE__DOCUMENT_TYPES = eINSTANCE.getRuleBase_DocumentTypes();
-
-		/**
-		 * The meta object literal for the '<em><b>Characteristic Document Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE = eINSTANCE.getRuleBase_CharacteristicDocumentType();
 
 		/**
 		 * The meta object literal for the '<em><b>Edit Rule Folder</b></em>' attribute feature.

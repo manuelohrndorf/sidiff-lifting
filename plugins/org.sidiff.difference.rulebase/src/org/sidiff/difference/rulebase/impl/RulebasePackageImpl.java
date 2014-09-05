@@ -224,7 +224,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRuleBase_CharacteristicDocumentType() {
+	public EAttribute getRuleBase_EditRuleFolder() {
 		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -233,17 +233,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRuleBase_EditRuleFolder() {
-		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getRuleBase_RecognitionRuleFolder() {
-		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -760,7 +751,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES);
 		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES);
 		createEAttribute(ruleBaseEClass, RULE_BASE__DOCUMENT_TYPES);
-		createEAttribute(ruleBaseEClass, RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE);
 		createEAttribute(ruleBaseEClass, RULE_BASE__EDIT_RULE_FOLDER);
 		createEAttribute(ruleBaseEClass, RULE_BASE__RECOGNITION_RULE_FOLDER);
 
@@ -868,7 +858,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getRuleBase_PotentialEdgeDependencies(), this.getPotentialEdgeDependency(), this.getPotentialEdgeDependency_RuleBase(), "potentialEdgeDependencies", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_PotentialAttributeDependencies(), this.getPotentialAttributeDependency(), this.getPotentialAttributeDependency_RuleBase(), "potentialAttributeDependencies", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRuleBase_DocumentTypes(), ecorePackage.getEString(), "documentTypes", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRuleBase_CharacteristicDocumentType(), ecorePackage.getEString(), "characteristicDocumentType", "", 0, 1, RuleBase.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRuleBase_EditRuleFolder(), ecorePackage.getEString(), "editRuleFolder", null, 0, 1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRuleBase_RecognitionRuleFolder(), ecorePackage.getEString(), "recognitionRuleFolder", null, 0, 1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

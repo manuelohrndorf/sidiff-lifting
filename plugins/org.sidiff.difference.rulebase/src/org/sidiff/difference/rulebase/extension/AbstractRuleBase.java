@@ -40,11 +40,6 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	}
 
 	@Override
-	public String getCharacteristicDocumentType() {
-		return getRuleBase().getCharacteristicDocumentType();
-	}
-
-	@Override
 	public Set<String> getDocumentTypes() {
 		Set<String> docTypes = new HashSet<String>(getRuleBase().getDocumentTypes());
 		return Collections.unmodifiableSet(docTypes);

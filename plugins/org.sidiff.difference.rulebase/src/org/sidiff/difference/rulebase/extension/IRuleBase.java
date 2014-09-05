@@ -39,15 +39,6 @@ public interface IRuleBase {
 	public Set<String> getDocumentTypes();
 
 	/**
-	 * In case of many documentTypes, this method returns the most
-	 * characteristic one. In other words, the meta-model the edit rules were
-	 * implemented for.
-	 * 
-	 * @return the characteristic rulebase document type.
-	 */
-	public String getCharacteristicDocumentType();
-
-	/**
 	 * Returns only the active rule base items of a rulebase.
 	 * 
 	 * 

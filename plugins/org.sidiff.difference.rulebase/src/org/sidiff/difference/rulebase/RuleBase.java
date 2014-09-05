@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getPotentialEdgeDependencies <em>Potential Edge Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getPotentialAttributeDependencies <em>Potential Attribute Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getDocumentTypes <em>Document Types</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getEditRuleFolder <em>Edit Rule Folder</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBase#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}</li>
  * </ul>
@@ -77,22 +76,6 @@ public interface RuleBase extends EObject {
 	 * @generated
 	 */
 	EList<String> getDocumentTypes();
-
-	/**
-	 * Returns the value of the '<em><b>Characteristic Document Type</b></em>' attribute.
-	 * The default value is <code>""</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Characteristic Document Type</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Characteristic Document Type</em>' attribute.
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBase_CharacteristicDocumentType()
-	 * @model default="" transient="true" changeable="false" volatile="true" derived="true"
-	 * @generated
-	 */
-	String getCharacteristicDocumentType();
 
 	/**
 	 * Returns the value of the '<em><b>Edit Rule Folder</b></em>' attribute.

@@ -1,5 +1,7 @@
 package org.silift.common.util.access;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,6 +17,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.emf.Scope;
 
 public class EMFModelAccessEx {
 
@@ -38,8 +41,8 @@ public class EMFModelAccessEx {
 		}
 
 		List<String> documentTypes = new LinkedList<String>();
-		documentTypes.addAll(docTypes);	
-		
+		documentTypes.addAll(docTypes);
+
 		if (documentTypes.size() == 1) {
 			// documentType is nonambiguous
 			return documentTypes.get(0);
@@ -48,12 +51,12 @@ public class EMFModelAccessEx {
 		// Remove irrelevant docTypes
 		for (Iterator<String> iterator = documentTypes.iterator(); iterator.hasNext();) {
 			String docType = (String) iterator.next();
-			if (docType.contains("UML") || docType.contains("Henshin/Trace")){
+			if (docType.contains("UML") || docType.contains("Henshin/Trace")) {
 				iterator.remove();
 			}
 		}
-		
-		if (documentTypes.size() == 1){
+
+		if (documentTypes.size() == 1) {
 			return documentTypes.get(0);
 		} else {
 			return docTypes.iterator().next();
@@ -79,49 +82,147 @@ public class EMFModelAccessEx {
 	 * First, all document types are extracted from the given model resource.
 	 * Afterwards, the most characteristic one is selected and returned.
 	 * 
+	 * In other words: Given a set of document types, we try to select the most
+	 * characteristic document type. Most often, docTypes will contain only one
+	 * element. However, there may be cases with multiple document types. Two
+	 * examples are currently supported, feel free to add (and implement) more
+	 * of them:
+	 * 
+	 * (a) In case of UML profiled models, there are two document types; one
+	 * representing the reference meta-model and the other one representing the
+	 * profile definition. In such a case, the document type of the profile
+	 * definition is to be considered characteristic. If there are even more
+	 * than two document types, the first one is returned.
+	 * 
+	 * (b) In case of multi-view models that are connected via Henshin trace
+	 * links, we have at least two documents types; the Henshin/Trace document
+	 * type and the docType of the model that holds the trace links.
+	 * 
 	 * @param model
-	 * @return
-	 */
-	public static String getCharacteristicDocumentType(Resource model) {
-		if (model.getContents().isEmpty()) {
-			return null;
-		}
-
-		// return most proper docType
-		return getCharacteristicDocumentType(getDocumentTypes(model));
-	}
-
-	/**
-	 * For each of the root objects of the given package, the retrieval of the
-	 * document type is simply delegated to the method
-	 * {@link EMFModelAccessEx#getDocumentType(EObject)}. The set of document
-	 * types which is obtained this way is finally returned.
+	 * @return The characteristic document type. Note: If model is empty,
+	 *         <code>null</code> will be returned.
 	 * 
 	 * @param model
 	 * @return
 	 */
-	public static Set<String> getDocumentTypes(Resource model) {
+	public static String getCharacteristicDocumentType(Resource model) {
+		// empty model -> return null
+		if (model.getContents().isEmpty()) {
+			return null;
+		}
+
+		// no docTypes -> return null
+		Set<String> docTypes = getDocumentTypes(model, Scope.RESOURCE);
+		if (docTypes.isEmpty()) {
+			return null;
+		}
+
+		List<String> documentTypes = new LinkedList<String>();
+		documentTypes.addAll(docTypes);
+
+		if (documentTypes.size() == 1) {
+			// documentType is non-ambiguous
+			return documentTypes.get(0);
+		}
+
+		boolean containsUML = containsDocType(documentTypes, "UML");
+		boolean containsHenshinTrace = containsDocType(documentTypes, "Henshin/Trace");
+
+		if (containsHenshinTrace) {
+			removeDocType(documentTypes, "Henshin/Trace");
+		}
+		if (containsUML && documentTypes.size() > 1) {
+			removeDocType(documentTypes, "UML");
+		}
+
+		// default
+		if (documentTypes.size() == 1) {
+			return documentTypes.get(0);
+		} else {
+			return docTypes.iterator().next();
+		}
+	}
+
+	private static boolean containsDocType(Collection<String> documentTypes, String docTypeFragment) {
+		for (Iterator<String> iterator = documentTypes.iterator(); iterator.hasNext();) {
+			String docType = (String) iterator.next();
+			if (docType.contains(docTypeFragment)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static void removeDocType(List<String> documentTypes, String docTypeFragment) {
+		for (Iterator<String> iterator = documentTypes.iterator(); iterator.hasNext();) {
+			String docType = (String) iterator.next();
+			if (docType.contains(docTypeFragment)) {
+				iterator.remove();
+			}
+		}
+	}
+
+	/**
+	 * For each of the root objects of the given modelResource, the retrieval of
+	 * the document type is simply delegated to the method
+	 * {@link EMFModelAccessEx#getDocumentType(EObject)}. The set of document
+	 * types which is obtained this way is finally returned.
+	 * 
+	 * @param modelResource
+	 * @return
+	 */
+	public static Set<String> getDocumentTypes(Resource modelResource, Scope scope) {
+		List<Resource> resources = new ArrayList<Resource>();
+		if (scope == Scope.RESOURCE_SET) {
+			resources.addAll(modelResource.getResourceSet().getResources());
+		} else {
+			resources.add(modelResource);
+		}
+
 		// Collect all document types of root objects
 		Set<String> documentTypes = new HashSet<String>();
-		for (EObject root : model.getContents()) {
-			documentTypes.add(getDocumentType(root));
+		for (Resource resource : resources) {
+			for (EObject root : resource.getContents()) {
+				documentTypes.add(getDocumentType(root));
+			}
 		}
 
 		return documentTypes;
 	}
 
-	
-
+	/**
+	 * Simple heuristic to check whether a model is profiled or not:
+	 * <ul>
+	 * <li>more than one docType</li>
+	 * <li>containsUML</li>
+	 * <li>!containsHenshinTrace</li>
+	 * </ul>
+	 * 
+	 * Feel free to refine the above heuristic.
+	 * 
+	 * @return true if the model contained by the given resource is profiled.
+	 */
 	public static boolean isProfiled(Resource model) {
-		// TODO: Question: Is this really a valid check for profiled models?
-		return getDocumentTypes(model).size() > 1;
+		Set<String> documentTypes = getDocumentTypes(model, Scope.RESOURCE);
+		boolean containsUML = containsDocType(documentTypes, "UML");
+		boolean containsHenshinTrace = containsDocType(documentTypes, "Henshin/Trace");
+
+		return (documentTypes.size() > 1) && containsUML && !containsHenshinTrace;
 	}
 
+	/**
+	 * Only applicable to profiled UML models. Return the base document type of
+	 * a profiled uml model.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public static String getBaseDocumentType(Resource model) {
 		assert (isProfiled(model)) : model + " is not a profile!";
 
 		String profileDocType = getProfileDocumentType(model);
-		for (String docType : getDocumentTypes(model)) {
+		for (String docType : getDocumentTypes(model, Scope.RESOURCE)) {
 			if (!docType.equals(profileDocType)) {
 				return docType;
 			}
@@ -131,38 +232,45 @@ public class EMFModelAccessEx {
 		return null;
 	}
 
+	/**
+	 * Only applicable to profiled UML models. Returns the documentType of the
+	 * profile definition.
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public static String getProfileDocumentType(Resource model) {
 		assert (isProfiled(model)) : model + " is not a profile!";
 
 		return getCharacteristicDocumentType(model);
 	}
-	
+
 	/**
 	 * derives the diagram file and all other files if exist
+	 * 
 	 * @param model
 	 * @return
 	 */
-	public static ResourceSet deriveDiagramFile(Resource model){
+	public static ResourceSet deriveDiagramFile(Resource model) {
 		String path = EMFStorage.uriToPath(model.getURI());
 		ResourceSet resourceSet = new ResourceSetImpl();
-		try{
-			if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")){
+		try {
+			if (EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")) {
 				path += "diag";
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
-			}else if(EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")){
+			} else if (EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")) {
 				path = path.replace(".uml", ".di");
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
 				path = path.replace(".di", ".notation");
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
 			}
 			// TODO other domains
-		}catch(Exception e){
+		} catch (Exception e) {
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 		}
 		return resourceSet;
 	}
 
-	
 	/**
 	 * Returns the URI fragment of the given object.
 	 * 

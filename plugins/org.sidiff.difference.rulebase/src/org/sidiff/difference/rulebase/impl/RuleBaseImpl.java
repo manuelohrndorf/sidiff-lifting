@@ -47,7 +47,6 @@ import org.silift.common.util.access.EMFModelAccessEx;
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getPotentialEdgeDependencies <em>Potential Edge Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getPotentialAttributeDependencies <em>Potential Attribute Dependencies</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getDocumentTypes <em>Document Types</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getCharacteristicDocumentType <em>Characteristic Document Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getEditRuleFolder <em>Edit Rule Folder</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}</li>
  * </ul>
@@ -125,16 +124,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @ordered
 	 */
 	protected EList<String> documentTypes;
-
-	/**
-	 * The default value of the '{@link #getCharacteristicDocumentType() <em>Characteristic Document Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCharacteristicDocumentType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT = "";
 
 	/**
 	 * The default value of the '{@link #getEditRuleFolder() <em>Edit Rule Folder</em>}' attribute.
@@ -229,17 +218,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 			documentTypes = new EDataTypeUniqueEList<String>(String.class, this, RulebasePackage.RULE_BASE__DOCUMENT_TYPES);
 		}
 		return documentTypes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String getCharacteristicDocumentType() {
-		Set<String> docTypes = new LinkedHashSet<String>(getDocumentTypes());
-		return EMFModelAccessEx.getCharacteristicDocumentType(docTypes);
 	}
 
 	/**
@@ -436,8 +414,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return getPotentialAttributeDependencies();
 			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
 				return getDocumentTypes();
-			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
-				return getCharacteristicDocumentType();
 			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
 				return getEditRuleFolder();
 			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
@@ -548,8 +524,6 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return potentialAttributeDependencies != null && !potentialAttributeDependencies.isEmpty();
 			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
 				return documentTypes != null && !documentTypes.isEmpty();
-			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
-				return CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT == null ? getCharacteristicDocumentType() != null : !CHARACTERISTIC_DOCUMENT_TYPE_EDEFAULT.equals(getCharacteristicDocumentType());
 			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
 				return EDIT_RULE_FOLDER_EDEFAULT == null ? editRuleFolder != null : !EDIT_RULE_FOLDER_EDEFAULT.equals(editRuleFolder);
 			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:

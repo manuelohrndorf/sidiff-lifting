@@ -67,7 +67,6 @@ public class RuleBaseItemProvider
 			addEditRulesPropertyDescriptor(object);
 			addRecognitionRulesPropertyDescriptor(object);
 			addDocumentTypesPropertyDescriptor(object);
-			addCharacteristicDocumentTypePropertyDescriptor(object);
 			addEditRuleFolderPropertyDescriptor(object);
 			addRecognitionRuleFolderPropertyDescriptor(object);
 		}
@@ -111,28 +110,6 @@ public class RuleBaseItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_documentTypes_feature", "_UI_RuleBase_type"),
 				 RulebasePackage.Literals.RULE_BASE__DOCUMENT_TYPES,
 				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Characteristic Document Type feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addCharacteristicDocumentTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_RuleBase_characteristicDocumentType_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_characteristicDocumentType_feature", "_UI_RuleBase_type"),
-				 RulebasePackage.Literals.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE,
-				 false,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -300,7 +277,6 @@ public class RuleBaseItemProvider
 		switch (notification.getFeatureID(RuleBase.class)) {
 			case RulebasePackage.RULE_BASE__NAME:
 			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
-			case RulebasePackage.RULE_BASE__CHARACTERISTIC_DOCUMENT_TYPE:
 			case RulebasePackage.RULE_BASE__EDIT_RULE_FOLDER:
 			case RulebasePackage.RULE_BASE__RECOGNITION_RULE_FOLDER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

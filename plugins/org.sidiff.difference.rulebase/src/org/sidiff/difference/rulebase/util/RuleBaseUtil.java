@@ -1,5 +1,6 @@
 package org.sidiff.difference.rulebase.util;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -123,12 +124,25 @@ public class RuleBaseUtil {
 	 * @return
 	 */
 	public static Set<IRuleBase> getAvailableRulebases(String documentType){
+		Set<String> documentTypes = new HashSet<String>();
+		documentTypes.add(documentType);
+		
+		return getAvailableRulebases(documentTypes);
+	}
+	
+	/**
+	 * Returns the available rulebases for the given model documentTypes.
+	 * 
+	 * @param documentType
+	 * @return
+	 */
+	public static Set<IRuleBase> getAvailableRulebases(Set<String> documentTypes){
 		Set<IRuleBase> rulebases = new HashSet<IRuleBase>();
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
 				IRuleBase.extensionPointID)) {
 			try {
 				IRuleBase rulebaseExtension = (IRuleBase) configurationElement.createExecutableExtension("rulebase");
-				if (documentType.equals(rulebaseExtension.getCharacteristicDocumentType())) {
+				if (documentTypes.containsAll(rulebaseExtension.getDocumentTypes())){
 					rulebases.add(rulebaseExtension);
 				}
 			} catch (Exception e) {
