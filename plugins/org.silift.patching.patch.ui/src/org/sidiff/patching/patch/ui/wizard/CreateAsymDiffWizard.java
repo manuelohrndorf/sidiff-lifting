@@ -46,7 +46,7 @@ public class CreateAsymDiffWizard extends Wizard {
 	private LiftingSettings settings;
 
 	public CreateAsymDiffWizard(IFile fileA, IFile fileB) {
-		this.setWindowTitle("New Patch Wizard");
+		this.setWindowTitle("New Asymmetric Difference Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
 		settings = new LiftingSettings(inputModels.getDocumentType());
