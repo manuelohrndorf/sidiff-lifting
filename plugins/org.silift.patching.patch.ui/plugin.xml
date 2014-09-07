@@ -12,6 +12,11 @@
             id="org.silift.patching.ui.createPatch"
             name="CreatePatch">
       </command>
+      <command
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.silift.patching.ui.create_asymmetricDifference"
+            name="Create Asymmetric Difference">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -22,6 +27,15 @@
             <reference
                   definitionId="org.sidiff.difference.lifting.ui.definition.modelFiles">
             </reference></activeWhen>
+      </handler>
+      <handler
+            class="org.sidiff.patching.patch.ui.handler.CreateAsymDiffHandler"
+            commandId="org.silift.patching.ui.create_asymmetricDifference">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.difference.lifting.ui.definition.modelFiles">
+            </reference>
+         </activeWhen>
       </handler>
    </extension>
    <extension point="org.eclipse.ui.menus">
@@ -37,6 +51,12 @@
            name="org.silift.patching.patch.ui.separator"
            visible="false">
      </separator>
+     <command
+           commandId="org.silift.patching.ui.create_asymmetricDifference"
+           label="Create Asymmetric Difference"
+           style="push"
+           tooltip="Create a Asymmetric Difference between two models">
+     </command>
   </menuContribution>
   </extension>
    <extension

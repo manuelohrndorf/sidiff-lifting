@@ -28,7 +28,7 @@ import org.silift.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends WizardPage implements IPageChangedListener {
 
-	private String DEFAULT_MESSAGE = "Create a patch from the changes between the models: origin -> changed";
+	private String default_message;
 	
 	private Composite container;
 
@@ -41,13 +41,24 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 
 	private InputModels inputModels;
 	private LiftingSettings settings;
+	
+	private String mode;
 
 	public CreatePatchPage01(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings) {
+			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings, Mode mode) {
 		super(pageName, title, titleImage);
 
 		this.inputModels = inputModels;
 		this.settings = settings;
+		
+		if(mode.equals(Mode.PATCH)){
+			this.mode = "Patch";
+		}else{
+			this.mode = "Asymmetric Difference";
+		}
+		
+		default_message = "Create a " + this.mode + " from the changes between the models: origin -> changed";
+		
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -103,7 +114,7 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage(DEFAULT_MESSAGE);
+		setMessage(default_message);
 		
 		// Initial validation:
 		validate();
@@ -112,7 +123,7 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 	private void createWidgets() {
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, "Patch Direction");
+		sourceWidget = new InputModelsWidget(inputModels, mode +" Direction");
 		sourceWidget.setSettings(this.settings);
 		addWidget(container, sourceWidget);
 		

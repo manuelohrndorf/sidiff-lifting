@@ -1,6 +1,8 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -23,16 +25,19 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.silift.common.util.ui.UIUtil;
-import org.silift.patching.patch.PatchCreator;
+import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 import org.silift.patching.patch.ui.Activator;
 
-public class CreatePatchWizard extends Wizard {
+public class CreateAsymDiffWizard extends Wizard {
 
 	private CreatePatchPage01 createPatchPage01;
 	private CreatePatchPage02 createPatchPage02;
@@ -40,7 +45,7 @@ public class CreatePatchWizard extends Wizard {
 	private InputModels inputModels;
 	private LiftingSettings settings;
 
-	public CreatePatchWizard(IFile fileA, IFile fileB) {
+	public CreateAsymDiffWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Patch Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
@@ -52,12 +57,12 @@ public class CreatePatchWizard extends Wizard {
 	public void addPages() {
 		createPatchPage01 = new CreatePatchPage01(
 				inputModels, 
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings, Mode.PATCH);
+				"CreateDifferencePage", "Create Asymmetric Difference", null, settings, Mode.ASYMMETRIC_DIFFERENCE);
 		addPage(createPatchPage01);
 		
 		createPatchPage02 = new CreatePatchPage02(
 				inputModels,
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings, Mode.PATCH);
+				"CreateDifferencePage", "Create Asymmetric Difference", null, settings, Mode.ASYMMETRIC_DIFFERENCE);
 		addPage(createPatchPage02);
 	}
 
@@ -104,16 +109,26 @@ public class CreatePatchWizard extends Wizard {
 		 * Create patch:
 		 */
 
-		try {
-			PatchCreator patchCreator = new PatchCreator(fullDiff.getAsymmetric(), settings);
-			
+		try {			
 			// Print report:
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
+			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Difference -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			final String patchPath = patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation().toOSString());
-
+			Difference difference = AsymmetricDiffFacade.liftMeUp(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			final String savePath = inputModels.getFileA().getLocation().toOSString().replace(inputModels.getFileA().getLocation().lastSegment(), "");
+			final String fileName = LiftingFacade.generateDifferenceFileName(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			
+			
+			
+			if(settings.useSymbolicLinks()){
+				ISymbolicLinkHandler symbolicLinkHandler = settings.getSymbolicLinkHandler();
+				// TODO add reliability setting to lifting settings
+				Collection<SymbolicLinks> symbolicLinksCollection =  symbolicLinkHandler.generateSymbolicLinks(difference.getAsymmetric(), false);
+				SymbolicLinkHandlerUtil.serializeSymbolicLinks(symbolicLinksCollection, difference.getAsymmetric(), savePath);
+			}
+			
+			AsymmetricDiffFacade.serializeDifference(difference, savePath, fileName);
 			LogUtil.log(LogEvent.NOTICE, "done...");
 			
 			/*
@@ -125,7 +140,7 @@ public class CreatePatchWizard extends Wizard {
 				public void run() {
 					try {
 						inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-						UIUtil.openEditor(patchPath);	
+						UIUtil.openEditor(savePath + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT);	
 					} catch (CoreException e) {
 						e.printStackTrace();
 					} catch (OperationCanceledException e) {
@@ -135,11 +150,11 @@ public class CreatePatchWizard extends Wizard {
 					}
 				}
 			});
-		} catch (FileNotFoundException e) {
+		} catch (InvalidModelException e) {
 			e.printStackTrace();
 
 			MessageDialog dialog = new MessageDialog(getShell(),
-					"Error", null, "File not found!", MessageDialog.ERROR,
+					"Error", null, "Invalid model!", MessageDialog.ERROR,
 					new String[] { "OK" }, 0);
 			dialog.open();
 			return false;
