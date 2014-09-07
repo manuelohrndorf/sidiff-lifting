@@ -1608,6 +1608,25 @@ public class HenshinRuleAnalysisUtilEx {
 		return false;
 	}
 	
+	
+	/**
+	 * Is the given attribute a << preserve >> attribute and differs in value
+	 * @param attribute
+	 * 			the attribute to test.
+	 * @return <code>true</code> if the attribute is a << preserve >> attribute and differs in value;
+	 * 			<code>false</code> otherwise.
+	 */
+	public static boolean isChangedAttribute(Attribute attribute){
+		if(isPreservedNode(attribute.getNode())){
+			Attribute remoteAttribute = getRemoteAttribute(attribute);
+			if(remoteAttribute != null){
+				if(!remoteAttribute.getValue().equals(attribute.getValue())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Is the given attribute a << create >> attribute in a << preserve >> node.
