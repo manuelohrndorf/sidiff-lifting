@@ -256,20 +256,20 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 			CorrespondencePattern multiPattern = multiTF.getTransformationPatterns()
 					.getCorrespondecePattern(mapping.getImage());
 
-			if (kernelPattern.getNode_a() != null) {
+			if (kernelPattern.nodeA != null) {
 				// Map Model A node
-				createMultiMapping(recognitionMulti, kernelPattern.getNode_a(), multiPattern.getNode_a());
+				createMultiMapping(recognitionMulti, kernelPattern.nodeA, multiPattern.nodeA);
 			}
 
-			if (kernelPattern.getNode_b() != null) {
+			if (kernelPattern.nodeB != null) {
 				// Map Model B node
-				createMultiMapping(recognitionMulti, kernelPattern.getNode_b(), multiPattern.getNode_b());
+				createMultiMapping(recognitionMulti, kernelPattern.nodeB, multiPattern.nodeB);
 			}
 
-			if (kernelPattern.getCorrespondence() != null) {
+			if (kernelPattern.correspondence != null) {
 				// Map Correspondence node
 				createMultiMapping(recognitionMulti,
-						kernelPattern.getCorrespondence(), multiPattern.getCorrespondence());
+						kernelPattern.correspondence, multiPattern.correspondence);
 			}
 		}
 	}
@@ -300,10 +300,10 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 			// Map RemoveObject node
 			createMultiMapping(recognitionMulti,
-					kernelPattern.getRemoveObject(), multiPattern.getRemoveObject());
+					kernelPattern.removeObject, multiPattern.removeObject);
 
 			// Map Model A node
-			createMultiMapping(recognitionMulti, kernelPattern.getNode_a(), multiPattern.getNode_a());
+			createMultiMapping(recognitionMulti, kernelPattern.nodeA, multiPattern.nodeA);
 		}
 	}
 
@@ -333,11 +333,11 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 			// Map RemoveObject node
 			createMultiMapping(recognitionMulti,
-					kernelPattern.getAddObject(), multiPattern.getAddObject());
+					kernelPattern.addObject, multiPattern.addObject);
 
 			// Map Model A node
 			createMultiMapping(recognitionMulti,
-					kernelPattern.getNode_b(), multiPattern.getNode_b());
+					kernelPattern.nodeB, multiPattern.nodeB);
 		}
 
 	}
@@ -387,7 +387,7 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 			// Map RemoveReference node
 			createMultiMapping(recognitionMulti,
-					kernelPattern.getRemoveReference(), multiPattern.getRemoveReference());
+					kernelPattern.removeReference, multiPattern.removeReference);
 		}
 	}
 
@@ -418,7 +418,7 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 			// Map RemoveReference node
 			createMultiMapping(recognitionMulti,
-					kernelPattern.getAddReference(), multiPattern.getAddReference());
+					kernelPattern.addReference, multiPattern.addReference);
 		}
 	}
 
@@ -469,7 +469,7 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 			if ((kernelPattern != null) && (multiPattern != null)) {
 				// Map RemoveReference node
 				createMultiMapping(recognitionMulti,
-						kernelPattern.getAttributeValueChange(), multiPattern.getAttributeValueChange());	
+						kernelPattern.attributeValueChange, multiPattern.attributeValueChange);	
 			}
 		}
 	}

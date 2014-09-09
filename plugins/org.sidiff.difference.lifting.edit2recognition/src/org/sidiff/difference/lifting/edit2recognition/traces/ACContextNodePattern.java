@@ -9,13 +9,17 @@ public class ACContextNodePattern {
 	/**
 	 * The Recognition-Rule context Node.
 	 */
-	private Node acContextNode;
+	public Node acContextNode;
 	
 	/**
 	 * The Edit-Rule nested condition context node.
 	 */
-	private Node acContextTrace;
+	public Node acContextTrace;
 
+	/**
+	 * @param acContextNode
+	 * @param acContextTrace
+	 */
 	public ACContextNodePattern(Node acContextNode, Node acContextTrace) {
 		super();
 		
@@ -23,22 +27,6 @@ public class ACContextNodePattern {
 		assert isNestedConditionNode(acContextTrace) : "Not a nested condition node!";
 		
 		this.acContextNode = acContextNode;
-		this.acContextTrace = acContextTrace;
-	}
-
-	public Node getAcContextNode() {
-		return acContextNode;
-	}
-
-	public void setAcContextNode(Node acContextNode) {
-		this.acContextNode = acContextNode;
-	}
-
-	public Node getAcContextTrace() {
-		return acContextTrace;
-	}
-
-	public void setAcContextTrace(Node acContextTrace) {
 		this.acContextTrace = acContextTrace;
 	}
 }

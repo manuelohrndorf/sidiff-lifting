@@ -4,30 +4,23 @@ import org.eclipse.emf.henshin.model.Node;
 
 public class ACObjectPattern {
 	
-	private Node node_b;
+	/**
+	 * The Recognition-Rule AC node.
+	 */
+	public Node acNode;
 	
-	private Node trace;
+	/**
+	 * The Edit-Rule AC node.
+	 */
+	public Node acTrace;
 
-	public ACObjectPattern(Node node_b, Node trace) {
+	/**
+	 * @param ac_node
+	 * @param ac_trace
+	 */
+	public ACObjectPattern(Node ac_node, Node ac_trace) {
 		super();
-		this.node_b = node_b;
-		this.trace = trace;
-	}
-
-	public Node getNode_b() {
-		return node_b;
-	}
-
-	public void setNode_b(Node node_b) {
-		this.node_b = node_b;
-	}
-
-	public Node getTrace() {
-		return trace;
-	}
-
-	public void setTrace(Node trace) {
-		this.trace = trace;
+		this.acNode = ac_node;
+		this.acTrace = ac_trace;
 	}
 }
-

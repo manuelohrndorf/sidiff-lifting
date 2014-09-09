@@ -6,92 +6,52 @@ import org.sidiff.common.henshin.NodePair;
 public class ACExtensionPattern {
 
 	/**
-	 * Recognition-Rule context node (model A node).
+	 * Recognition-Rule context/glue node.
 	 */
-	private NodePair context_node_a;
+	public NodePair contextNode;
 	
 	/**
-	 * Recognition-Rule (nested) NAC/PAC model A node.
+	 * Recognition-Rule (nested) NAC/PAC  context/glue node.
 	 */
-	private Node ac_context_node_a;
+	public Node acContextNode;
 	
 	/**
-	 * Recognition-Rule (nested) NAC/PAC model B node.
+	 * Recognition-Rule (nested) NAC/PAC extension node.
 	 */
-	private Node ac_node_b;
+	public Node acExtensionNode;
 	
 	/**
 	 * Recognition-Rule (nested) NAC/PAC correspondence node.
 	 */
-	private Node ac_correspondence;
+	public Node acCorrespondence;
 	
 	/**
 	 * Edit-Rule context node.
 	 */
-	private Node context_trace;
+	public Node contextTrace;
 
 	/**
 	 * Edit-Rule (nested) AC context node.
 	 */
-	private Node ac_context_trace;
+	public Node acContextTrace;
 
-	public ACExtensionPattern(NodePair context_node_a, 
-			Node ac_context_node_a, Node ac_node_b, Node ac_correspondence,
+	/**
+	 * @param context_node
+	 * @param ac_context_node
+	 * @param ac_extension_node
+	 * @param ac_correspondence
+	 * @param context_trace
+	 * @param ac_context_trace
+	 */
+	public ACExtensionPattern(NodePair context_node, 
+			Node ac_context_node, Node ac_extension_node, Node ac_correspondence, 
 			Node context_trace, Node ac_context_trace) {
 		super();
-		this.context_node_a = context_node_a;
-		this.ac_context_node_a = ac_context_node_a;
-		this.ac_node_b = ac_node_b;
-		this.ac_correspondence = ac_correspondence;
-		this.context_trace = context_trace;
-		this.ac_context_trace = ac_context_trace;
-	}
-
-	public NodePair getContext_node_a() {
-		return context_node_a;
-	}
-
-	public void setContext_node_a(NodePair context_node_a) {
-		this.context_node_a = context_node_a;
-	}
-
-	public Node getAc_context_node_a() {
-		return ac_context_node_a;
-	}
-
-	public void setAc_context_node_a(Node ac_context_node_a) {
-		this.ac_context_node_a = ac_context_node_a;
-	}
-
-	public Node getAc_node_b() {
-		return ac_node_b;
-	}
-
-	public void setAc_node_b(Node ac_node_b) {
-		this.ac_node_b = ac_node_b;
-	}
-
-	public Node getAc_correspondence() {
-		return ac_correspondence;
-	}
-
-	public void setAc_correspondence(Node ac_correspondence) {
-		this.ac_correspondence = ac_correspondence;
-	}
-
-	public Node getContext_trace() {
-		return context_trace;
-	}
-
-	public void setContext_trace(Node context_trace) {
-		this.context_trace = context_trace;
-	}
-
-	public Node getAc_context_trace() {
-		return ac_context_trace;
-	}
-
-	public void setAc_context_trace(Node ac_context_trace) {
-		this.ac_context_trace = ac_context_trace;
+		this.contextNode = context_node;
+		this.acContextNode = ac_context_node;
+		this.acExtensionNode = ac_extension_node;
+		this.acCorrespondence = ac_correspondence;
+		this.contextTrace = context_trace;
+		this.acContextTrace = ac_context_trace;
 	}
 }

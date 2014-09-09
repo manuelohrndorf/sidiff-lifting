@@ -46,44 +46,44 @@ public class TransformationPatterns {
 	 */
 
 	public void addCorrespondencePattern(CorrespondencePattern pattern) {
-		correspondencePatterns.put(pattern.getTrace().getLhsNode(), pattern);
+		correspondencePatterns.put(pattern.trace.getLhsNode(), pattern);
 	}
 	
 	public void addAddObjectPattern(AddObjectPattern pattern) {
-		addObjectPatterns.put(pattern.getTrace(), pattern);
+		addObjectPatterns.put(pattern.trace, pattern);
 	}
 	
 	public void addRemoveObjectPattern(RemoveObjectPattern pattern) {
-		removeObjectPatterns.put(pattern.getTrace(), pattern);
+		removeObjectPatterns.put(pattern.trace, pattern);
 	}
 	
 	public void addACObjectPattern(ACObjectPattern pattern) {
-		acObjectPatterns.put(pattern.getTrace(), pattern);
+		acObjectPatterns.put(pattern.acTrace, pattern);
 	}
 	
 	public void addAddReferencePattern(AddReferencePattern pattern) {
-		addReferencePatterns.put(pattern.getTrace(), pattern);
+		addReferencePatterns.put(pattern.trace, pattern);
 	}
 	
 	public void addRemoveReferencePattern(RemoveReferencePattern pattern) {
-		removeReferencePatterns.put(pattern.getTrace(), pattern);
+		removeReferencePatterns.put(pattern.trace, pattern);
 	}
 	
 	public void addACRreferencePatter(ACReferencePattern pattern) {
-		acReferencePatterns.put(pattern.getTrace(), pattern);
+		acReferencePatterns.put(pattern.trace, pattern);
 	}
 	
 	public void addACExtension(ACExtensionPattern pattern) {
-		acExtensionPatterns_lhsContext.put(pattern.getContext_trace(), pattern);
-		acExtensionPatterns_acContext.put(pattern.getAc_context_trace(), pattern);
+		acExtensionPatterns_lhsContext.put(pattern.contextTrace, pattern);
+		acExtensionPatterns_acContext.put(pattern.acContextTrace, pattern);
 	}
 	
 	public void addACContextNodePattern(ACContextNodePattern pattern) {
-		acContextNodePatterns.put(pattern.getAcContextTrace(), pattern);
+		acContextNodePatterns.put(pattern.acContextTrace, pattern);
 	}
 	
 	public void addAttributeValueChangePattern(AttributeValueChangePattern pattern) {
-		attributeValueChangePatterns.put(pattern.getTrace(), pattern);
+		attributeValueChangePatterns.put(pattern.trace, pattern);
 	}
 	
 	/*
@@ -92,20 +92,20 @@ public class TransformationPatterns {
 	
 	public NodePair getTraceA(Node editRuleNode) {
 		CorrespondencePattern correspondencePattern = getCorrespondecePattern(editRuleNode);
-		if (correspondencePattern != null) return correspondencePattern.getNode_a();
+		if (correspondencePattern != null) return correspondencePattern.nodeA;
 		
 		RemoveObjectPattern removeObjectPattern = getRemoveObjectPattern(editRuleNode);
-		if (removeObjectPattern != null) return removeObjectPattern.getNode_a();
+		if (removeObjectPattern != null) return removeObjectPattern.nodeA;
 		
 		return null;
 	}
 	
 	public NodePair getTraceB(Node editRuleNode) {
 		CorrespondencePattern correspondencePattern = getCorrespondecePattern(editRuleNode);
-		if (correspondencePattern != null) return correspondencePattern.getNode_b();
+		if (correspondencePattern != null) return correspondencePattern.nodeB;
 		
 		AddObjectPattern addObjectPattern = getAddObjectPattern(editRuleNode);
-		if (addObjectPattern != null) return addObjectPattern.getNode_b();
+		if (addObjectPattern != null) return addObjectPattern.nodeB;
 		
 		return null;
 	}
@@ -114,7 +114,10 @@ public class TransformationPatterns {
 		assert isNestedConditionNode(editRuleACNode) : "Not a nested condition node!";
 		
 		ACContextNodePattern acContextNodePattern = acContextNodePatterns.get(editRuleACNode);
-		if (acContextNodePattern != null) return acContextNodePattern.getAcContextNode();
+	
+		if (acContextNodePattern != null) {
+			return acContextNodePattern.acContextNode;
+		}
 		
 		return null;
 	}

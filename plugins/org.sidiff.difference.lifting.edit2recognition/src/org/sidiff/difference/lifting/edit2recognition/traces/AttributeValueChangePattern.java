@@ -5,40 +5,21 @@ import org.sidiff.common.henshin.NodePair;
 
 public class AttributeValueChangePattern {
 
-	private NodePair attributeValueChange;
-	private NodePair typeNode;
+	public NodePair attributeValueChange;
+	public NodePair typeNode;
 	
-	private Attribute trace;
+	public Attribute trace;
 
+	/**
+	 * @param attributeValueChange
+	 * @param typeNode
+	 * @param trace
+	 */
 	public AttributeValueChangePattern(NodePair attributeValueChange, NodePair typeNode,
 			Attribute trace) {
 		super();
 		this.attributeValueChange = attributeValueChange;
 		this.typeNode = typeNode;
-		this.trace = trace;
-	}
-
-	public NodePair getAttributeValueChange() {
-		return attributeValueChange;
-	}
-
-	public void setAttributeValueChange(NodePair attributeValueChange) {
-		this.attributeValueChange = attributeValueChange;
-	}
-
-	public NodePair getTypeNode() {
-		return typeNode;
-	}
-
-	public void setTypeNode(NodePair typeNode) {
-		this.typeNode = typeNode;
-	}
-
-	public Attribute getTrace() {
-		return trace;
-	}
-
-	public void setTrace(Attribute trace) {
 		this.trace = trace;
 	}
 }
