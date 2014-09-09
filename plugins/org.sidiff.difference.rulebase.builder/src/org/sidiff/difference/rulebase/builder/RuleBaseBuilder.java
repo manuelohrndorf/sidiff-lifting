@@ -37,8 +37,8 @@ import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 import org.sidiff.difference.rulebase.wrapper.util.Edit2RecognitionException;
-import org.sidiff.editrule.validation.EditRuleValidation;
-import org.sidiff.editrule.validation.EditRuleValidator;
+import org.sidiff.editrule.consistency.validation.EditRuleValidation;
+import org.sidiff.editrule.consistency.validation.EditRuleValidator;
 import org.silift.common.util.emf.EMFStorage;
 
 /**
