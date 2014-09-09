@@ -22,9 +22,9 @@ public class TransformationPatterns {
 	private Map<Edge, AddReferencePattern> addReferencePatterns;
 	private Map<Edge, RemoveReferencePattern> removeReferencePatterns;
 	private Map<Edge, ACReferencePattern> acReferencePatterns;
-	private Map<Node, ACExtensionPattern> acExtensionPatterns_acContext;
-	private Map<Node, ACExtensionPattern> acExtensionPatterns_lhsContext; // LHS Node
-	private Map<Node, ACContextNodePattern> acContextNodePatterns; // Including the AC-Extension traces
+	private Map<Node, ACExtensionPattern> acExtensionPatterns_acBoundary;
+	private Map<Node, ACExtensionPattern> acExtensionPatterns_lhsBoundary; // LHS Node
+	private Map<Node, ACBoundaryNodePattern> acBoundaryNodePatterns; // Including the AC-Extension traces
 	private Map<Attribute, AttributeValueChangePattern> attributeValueChangePatterns;
 	
 	public TransformationPatterns() {
@@ -35,9 +35,9 @@ public class TransformationPatterns {
 		addReferencePatterns = new HashMap<Edge, AddReferencePattern>();
 		removeReferencePatterns = new HashMap<Edge, RemoveReferencePattern>();
 		acReferencePatterns = new HashMap<Edge, ACReferencePattern>();
-		acExtensionPatterns_acContext = new HashMap<Node, ACExtensionPattern>();
-		acExtensionPatterns_lhsContext = new HashMap<Node, ACExtensionPattern>();
-		acContextNodePatterns = new HashMap<Node, ACContextNodePattern>();
+		acExtensionPatterns_acBoundary = new HashMap<Node, ACExtensionPattern>();
+		acExtensionPatterns_lhsBoundary = new HashMap<Node, ACExtensionPattern>();
+		acBoundaryNodePatterns = new HashMap<Node, ACBoundaryNodePattern>();
 		attributeValueChangePatterns = new HashMap<Attribute, AttributeValueChangePattern>();
 	}
 	
@@ -74,12 +74,12 @@ public class TransformationPatterns {
 	}
 	
 	public void addACExtension(ACExtensionPattern pattern) {
-		acExtensionPatterns_lhsContext.put(pattern.contextTrace, pattern);
-		acExtensionPatterns_acContext.put(pattern.acContextTrace, pattern);
+		acExtensionPatterns_lhsBoundary.put(pattern.boundrayTrace, pattern);
+		acExtensionPatterns_acBoundary.put(pattern.acBoundaryTrace, pattern);
 	}
 	
-	public void addACContextNodePattern(ACContextNodePattern pattern) {
-		acContextNodePatterns.put(pattern.acContextTrace, pattern);
+	public void addACBoundaryNodePattern(ACBoundaryNodePattern pattern) {
+		acBoundaryNodePatterns.put(pattern.acBoundaryTrace, pattern);
 	}
 	
 	public void addAttributeValueChangePattern(AttributeValueChangePattern pattern) {
@@ -110,13 +110,13 @@ public class TransformationPatterns {
 		return null;
 	}
 	
-	public Node getContextTrace(Node editRuleACNode) {
+	public Node getBoundaryTrace(Node editRuleACNode) {
 		assert isNestedConditionNode(editRuleACNode) : "Not a nested condition node!";
 		
-		ACContextNodePattern acContextNodePattern = acContextNodePatterns.get(editRuleACNode);
+		ACBoundaryNodePattern acBoundaryNodePattern = acBoundaryNodePatterns.get(editRuleACNode);
 	
-		if (acContextNodePattern != null) {
-			return acContextNodePattern.acContextNode;
+		if (acBoundaryNodePattern != null) {
+			return acBoundaryNodePattern.acBoundaryNode;
 		}
 		
 		return null;
@@ -157,18 +157,18 @@ public class TransformationPatterns {
 	public ACExtensionPattern getACExtensionPattern(Node editRuleNode) {
 		
 		if (isNestedConditionNode(editRuleNode)) {
-			return acExtensionPatterns_acContext.get(editRuleNode);
+			return acExtensionPatterns_acBoundary.get(editRuleNode);
 		} else {
 			if (isLHSNode(editRuleNode)) {
-				return acExtensionPatterns_lhsContext.get(editRuleNode);
+				return acExtensionPatterns_lhsBoundary.get(editRuleNode);
 			} else {
-				return acExtensionPatterns_lhsContext.get(getLHS(editRuleNode));
+				return acExtensionPatterns_lhsBoundary.get(getLHS(editRuleNode));
 			}
 		}
 	}
 	
-	public ACContextNodePattern getACContextNodePattern(Node editRuleACNode) {
-		return acContextNodePatterns.get(editRuleACNode);
+	public ACBoundaryNodePattern getACBoundaryNodePattern(Node editRuleACNode) {
+		return acBoundaryNodePatterns.get(editRuleACNode);
 	}
 
 	public AttributeValueChangePattern getAttributeValueChangePattern(Attribute editRuleAttribute) {
@@ -207,11 +207,11 @@ public class TransformationPatterns {
 	}
 	
 	public Collection<ACExtensionPattern> getACExtensionPatterns() {
-		return acExtensionPatterns_acContext.values();
+		return acExtensionPatterns_acBoundary.values();
 	}
 	
-	public Collection<ACContextNodePattern> getACContextNodePatterns() {
-		return acContextNodePatterns.values();
+	public Collection<ACBoundaryNodePattern> getACBoundaryNodePatterns() {
+		return acBoundaryNodePatterns.values();
 	}
 
 	public Collection<AttributeValueChangePattern> getAttributeValueChangePatterns() {

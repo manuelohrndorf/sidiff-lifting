@@ -8,12 +8,12 @@ public class ACExtensionPattern {
 	/**
 	 * Recognition-Rule context/glue node.
 	 */
-	public NodePair contextNode;
+	public NodePair boundaryNode;
 	
 	/**
 	 * Recognition-Rule (nested) NAC/PAC  context/glue node.
 	 */
-	public Node acContextNode;
+	public Node acBoundaryNode;
 	
 	/**
 	 * Recognition-Rule (nested) NAC/PAC extension node.
@@ -28,12 +28,12 @@ public class ACExtensionPattern {
 	/**
 	 * Edit-Rule context node.
 	 */
-	public Node contextTrace;
+	public Node boundrayTrace;
 
 	/**
 	 * Edit-Rule (nested) AC context node.
 	 */
-	public Node acContextTrace;
+	public Node acBoundaryTrace;
 
 	/**
 	 * @param context_node
@@ -47,11 +47,11 @@ public class ACExtensionPattern {
 			Node ac_context_node, Node ac_extension_node, Node ac_correspondence, 
 			Node context_trace, Node ac_context_trace) {
 		super();
-		this.contextNode = context_node;
-		this.acContextNode = ac_context_node;
+		this.boundaryNode = context_node;
+		this.acBoundaryNode = ac_context_node;
 		this.acExtensionNode = ac_extension_node;
 		this.acCorrespondence = ac_correspondence;
-		this.contextTrace = context_trace;
-		this.acContextTrace = ac_context_trace;
+		this.boundrayTrace = context_trace;
+		this.acBoundaryTrace = ac_context_trace;
 	}
 }

@@ -24,7 +24,7 @@ import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
-import org.sidiff.difference.lifting.edit2recognition.traces.ACContextNodePattern;
+import org.sidiff.difference.lifting.edit2recognition.traces.ACBoundaryNodePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACExtensionPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACReferencePattern;
@@ -43,10 +43,10 @@ public class EditCondition2RecognitionCondition {
 	 * er_				-> Edit-Rule
 	 * rr_				-> Recognition-Rule
 	 * _ac_ 			-> Application Condition
-	 * _ac_context_ 	-> A AC node of a nested graph that is mapped to a parent (LHS) graph node.
-	 * _context_		-> The node to which a 'context NAC/PAC node' is mapped.
+	 * _ac_boundary_ 	-> A AC node of a nested graph that is mapped to a parent (LHS) graph node.
+	 * _boundary_		-> The node to which a 'boundary NAC/PAC node' is mapped.
 	 * ac_extension_	-> The mapped extension node of an extension pattern:
-	 * 							- extension <-- correspondence -> context
+	 * 							- extension <-- correspondence -> boundary
 	 */
 
 	/**
@@ -171,7 +171,7 @@ public class EditCondition2RecognitionCondition {
 		
 		// Create patterns:
 		createACObjectPattern();
-		createACContextNodePattern();
+		createACBoundaryNodePattern();
 		createACReferencePattern();
 		createACAttributePattern();
 	}
@@ -210,13 +210,13 @@ public class EditCondition2RecognitionCondition {
 	private boolean checkForDeletionGlueNodes() {
 
 		// Edit rule AC nodes:
-		for (Node er_ac_context_node : editGraph.getNodes()) {
-			// Catch context (glue) nodes:
-			Node er_context_node = getRemoteNode(editCondition.getMappings(), er_ac_context_node);
+		for (Node er_ac_boundary_node : editGraph.getNodes()) {
+			// Catch boundary (glue) nodes:
+			Node er_boundary_node = getRemoteNode(editCondition.getMappings(), er_ac_boundary_node);
 
-			if ((er_context_node != null) && isACGlueNode(er_ac_context_node)) {
+			if ((er_boundary_node != null) && isACGlueNode(er_ac_boundary_node)) {
 				// Is glue node a << delete >> node?
-				if (isDeletionNode(er_context_node)) {
+				if (isDeletionNode(er_boundary_node)) {
 					return true;
 				}
 			}
@@ -233,7 +233,7 @@ public class EditCondition2RecognitionCondition {
 
 		// Edit rule AC nodes:
 		for (Node er_ac_node : editGraph.getNodes()) {
-			// Filter context nodes:
+			// Filter boundary nodes:
 			if (!HenshinRuleAnalysisUtilEx.isNodeMapped(editCondition.getMappings(), er_ac_node)) {
 				// Copy the Edit-Rule node as Recognition-Rule node:
 				Node rr_ac_node = copyNode(recognitionGraph, er_ac_node, false);
@@ -246,45 +246,45 @@ public class EditCondition2RecognitionCondition {
 	}
 	
 	/**
-	 * Creates the context of the Recognition-Rule NAC/PAC. Creates a NAC/PAC correspondence
+	 * Creates the boundary of the Recognition-Rule NAC/PAC. Creates a NAC/PAC correspondence
 	 * extension if needed.
 	 * 
 	 * <p> That means: LHS-A-Node -mapping-> AC-A-Node <- Correspondence -> AC-B-Node</p> 
 	 */
-	private void createACContextNodePattern() {
+	private void createACBoundaryNodePattern() {
 		
 		// Edit rule AC nodes:
-		for (Node er_ac_context_node : editGraph.getNodes()) {
-			// Catch context (glue) nodes:
-			Node er_context_node = getRemoteNode(editCondition.getMappings(), er_ac_context_node);
+		for (Node er_ac_boundary_node : editGraph.getNodes()) {
+			// Catch boundary (glue) nodes:
+			Node er_boundary_node = getRemoteNode(editCondition.getMappings(), er_ac_boundary_node);
 			
-			if ((er_context_node != null) && isACGlueNode(er_ac_context_node)) {
+			if ((er_boundary_node != null) && isACGlueNode(er_ac_boundary_node)) {
 				
-				NodePair rr_context_node;
-				Node rr_ac_context_node;
+				NodePair rr_boundary_node;
+				Node rr_ac_boundary_node;
 				
 				// Precondition OR Postcondition?
 				if (isPrecondition) {
 					// Precondition: Glue AC to model A:
-					rr_context_node = patterns.getTraceA(er_context_node);
+					rr_boundary_node = patterns.getTraceA(er_boundary_node);
 				} else {
 					// Postcondition: Glue AC to model B:
-					rr_context_node = patterns.getTraceB(er_context_node);
+					rr_boundary_node = patterns.getTraceB(er_boundary_node);
 				}
 				
 				// Need AC-Extension?
-				if (rr_context_node == null) {
+				if (rr_boundary_node == null) {
 					// Create AC-Extension:
-					rr_ac_context_node = createACExtensionPattern(er_context_node, er_ac_context_node);
+					rr_ac_boundary_node = createACExtensionPattern(er_boundary_node, er_ac_boundary_node);
 				} else {
-					// Create AC edge -> source context:
-					rr_ac_context_node = createContextOfAC(rr_context_node.getLhsNode());		
+					// Create AC edge -> source boundary:
+					rr_ac_boundary_node = createBoundaryOfAC(rr_boundary_node.getLhsNode());		
 				}
 				
 				// Save transformation pattern:
-				ACContextNodePattern acContextNodePattern = new ACContextNodePattern(
-						rr_ac_context_node, er_ac_context_node);
-				patterns.addACContextNodePattern(acContextNodePattern);
+				ACBoundaryNodePattern acBoundaryNodePattern = new ACBoundaryNodePattern(
+						rr_ac_boundary_node, er_ac_boundary_node);
+				patterns.addACBoundaryNodePattern(acBoundaryNodePattern);
 			}
 		}
 	}
@@ -294,52 +294,52 @@ public class EditCondition2RecognitionCondition {
 	 * <p>Precondition: Glue AC-Extension to model A</p>
 	 * <p>Postcondition: Glue AC-Extension to model B</p>
 	 * 
-	 * @param er_context_node
-	 *            The Edit-Rule LHS context node.
-	 * @param er_ac_contect_node
-	 *            The Edit-Rule nested condition context node.
+	 * @param er_boundary_node
+	 *            The Edit-Rule LHS boundary node.
+	 * @param er_ac_boundary_node
+	 *            The Edit-Rule nested condition boundary node.
 	 * @return The extension node of the NAC/PAC correspondence pattern.
 	 */
-	private Node createACExtensionPattern(Node er_context_node, Node er_ac_contect_node) {
+	private Node createACExtensionPattern(Node er_boundary_node, Node er_ac_boundary_node) {
 
 		/*
 		 * NAC/PAC correspondence pattern
 		 */
 
-		if (patterns.getACExtensionPattern(er_ac_contect_node) != null) {
+		if (patterns.getACExtensionPattern(er_ac_boundary_node) != null) {
 			// Pattern already exists.
-			return patterns.getACExtensionPattern(er_context_node).acExtensionNode;
+			return patterns.getACExtensionPattern(er_boundary_node).acExtensionNode;
 		} else {
 			
-			// Find trace of edit rule to recognition rule context node:
-			NodePair rr_context_node;
+			// Find trace of edit rule to recognition rule boundary node:
+			NodePair rr_boundary_node;
 			
 			// Precondition OR Postcondition?
 			if (isPrecondition) {
 				// Precondition: Glue AC-Extension to model B:
-				rr_context_node = patterns.getTraceB(er_context_node);
+				rr_boundary_node = patterns.getTraceB(er_boundary_node);
 			} else {
 				// Postcondition: Glue AC-Extension to model A:
-				rr_context_node = patterns.getTraceA(er_context_node);
+				rr_boundary_node = patterns.getTraceA(er_boundary_node);
 			}
 
-			assert (rr_context_node != null) : "Missing trace!";
+			assert (rr_boundary_node != null) : "Missing trace!";
 			
 			// Create new AC-Extension pattern:
 
-			// NAC/PAC context node:
-			Node rr_ac_context_node = createContextOfAC(rr_context_node.getLhsNode());
+			// NAC/PAC boundary node:
+			Node rr_ac_boundary_node = createBoundaryOfAC(rr_boundary_node.getLhsNode());
 
 			// NAC/PAC extension node:
-			Node rr_ac_extension_node = copyNode(recognitionGraph, rr_context_node.getLhsNode(), false);
+			Node rr_ac_extension_node = copyNode(recognitionGraph, rr_boundary_node.getLhsNode(), false);
 			rr_ac_extension_node.setName("");
 			
 			// NAC/PAC correspondence node:
 			Node rr_ac_correspondence = createNode(recognitionGraph,
 					SymmetricPackage.eINSTANCE.getCorrespondence());
 			
-			// NAC/PAC Correspondence -> NAC/PAC Edge -> Context Node
-			createEdge(rr_ac_correspondence, rr_ac_context_node,
+			// NAC/PAC Correspondence -> NAC/PAC Edge -> Boundary Node
+			createEdge(rr_ac_correspondence, rr_ac_boundary_node,
 					SymmetricPackage.eINSTANCE.getCorrespondence_ObjA(), recognitionGraph);
 
 			// NAC/PAC Correspondence -> NAC/PAC Edge -> Extension Node
@@ -348,9 +348,9 @@ public class EditCondition2RecognitionCondition {
 
 			// Save transformation pattern
 			ACExtensionPattern actExtensionPattern = new ACExtensionPattern(
-					rr_context_node,
-					rr_ac_context_node, rr_ac_extension_node, rr_ac_correspondence,
-					er_context_node, er_ac_contect_node);
+					rr_boundary_node,
+					rr_ac_boundary_node, rr_ac_extension_node, rr_ac_correspondence,
+					er_boundary_node, er_ac_boundary_node);
 			patterns.addACExtension(actExtensionPattern);
 
 			return rr_ac_extension_node;
@@ -360,23 +360,23 @@ public class EditCondition2RecognitionCondition {
 	/**
 	 * Creates a new node inside the NAC/PAC which is mapped to the given node of the parent graph.
 	 * 
-	 * @param lhsContext
+	 * @param lhsBoundary
 	 *            The LHS node of the parent graph.
-	 * @return The mapped NAC/PAC context node.
+	 * @return The mapped NAC/PAC boundary node.
 	 */
-	private Node createContextOfAC(Node lhsContext) {
+	private Node createBoundaryOfAC(Node lhsBoundary) {
 
-		// The mapped NAC/PAC context node
-		Node ac_context = copyNode(recognitionGraph, lhsContext, false);
+		// The mapped NAC/PAC boundary node
+		Node ac_boundary = copyNode(recognitionGraph, lhsBoundary, false);
 
-		Mapping contextMapping = HenshinFactory.eINSTANCE.createMapping();
-		contextMapping.setOrigin(lhsContext);
-		contextMapping.setImage(ac_context);
+		Mapping boundaryMapping = HenshinFactory.eINSTANCE.createMapping();
+		boundaryMapping.setOrigin(lhsBoundary);
+		boundaryMapping.setImage(ac_boundary);
 		
 		// Add mapping to AC
-		((NestedCondition) recognitionGraph.eContainer()).getMappings().add(contextMapping);
+		((NestedCondition) recognitionGraph.eContainer()).getMappings().add(boundaryMapping);
 
-		return ac_context;
+		return ac_boundary;
 	}
 
 	/**
@@ -384,16 +384,16 @@ public class EditCondition2RecognitionCondition {
 	 * NAC/PAC edge in the edit rule. We presuppose that application conditions will not be violated
 	 * after applying an edit operation. The function creates a AC-Extension if it is necessary.
 	 * 
-	 * @see EditCondition2RecognitionCondition#getACContextNode(Mapping)
+	 * @see EditCondition2RecognitionCondition#getACBoundaryNode(Mapping)
 	 * @see EditCondition2RecognitionCondition#createACExtensionPattern(Node)
-	 * @see EditCondition2RecognitionCondition#createContextOfAC(Node)
+	 * @see EditCondition2RecognitionCondition#createBoundaryOfAC(Node)
 	 */
 	private void createACReferencePattern() {
 
 		// Edit rule AC edges
 		for (Edge er_ac_edge : editGraph.getEdges()) {
 
-			// Mappings for context AC nodes
+			// Mappings for boundary AC nodes
 			List<Mapping> mappings = ((NestedCondition) er_ac_edge.getGraph().eContainer()).getMappings();
 			Mapping er_ac_source_mapping = findMappingByImage(mappings, er_ac_edge.getSource());
 			Mapping er_ac_target_mapping = findMappingByImage(mappings, er_ac_edge.getTarget());
@@ -410,8 +410,8 @@ public class EditCondition2RecognitionCondition {
 			Node rr_ac_source = null;
 
 			if (er_ac_source_mapping != null) {
-				// Source of the AC edge is a AC context node!
-				rr_ac_source = patterns.getContextTrace(er_ac_edge.getSource());
+				// Source of the AC edge is a AC boundary node!
+				rr_ac_source = patterns.getBoundaryTrace(er_ac_edge.getSource());
 			} else {
 				// Use existing AC-Object-Pattern
 				rr_ac_source = patterns.getACObjectPattern(er_ac_edge.getSource()).acNode;
@@ -424,8 +424,8 @@ public class EditCondition2RecognitionCondition {
 			Node rr_ac_target = null;
 
 			if (er_ac_target_mapping != null) {
-				// Target of the AC edge is a AC context node!
-				rr_ac_target = patterns.getContextTrace(er_ac_edge.getTarget());
+				// Target of the AC edge is a AC boundary node!
+				rr_ac_target = patterns.getBoundaryTrace(er_ac_edge.getTarget());
 			} else {
 				// Use existing AC-Object-Pattern
 				rr_ac_target = patterns.getACObjectPattern(er_ac_edge.getTarget()).acNode;
@@ -463,14 +463,14 @@ public class EditCondition2RecognitionCondition {
 			Node er_ac_node = er_ac_attr.getNode();
 			Node rr_ac_node = null;
 			
-			// Mapping for context AC nodes of the edit rule
+			// Mapping for boundary AC nodes of the edit rule
 			List<Mapping> er_ac_mappings = ((NestedCondition) er_ac_node.getGraph().eContainer()).getMappings();
 			Mapping er_ac_node_mapping = findMappingByImage(er_ac_mappings, er_ac_node);
 
 			if (er_ac_node_mapping != null) {
-				// Node of the AC attribute is a AC context node!
-				Node er_ac_context_node = er_ac_node_mapping.getImage();
-				rr_ac_node = patterns.getContextTrace(er_ac_context_node);
+				// Node of the AC attribute is a AC boundary node!
+				Node er_ac_boundary_node = er_ac_node_mapping.getImage();
+				rr_ac_node = patterns.getBoundaryTrace(er_ac_boundary_node);
 			} else {
 				// NAC/PAC attribute in NAC/PAC node.
 				rr_ac_node = patterns.getACObjectPattern(er_ac_node).acNode;

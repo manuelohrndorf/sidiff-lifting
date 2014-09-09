@@ -4,29 +4,29 @@ import static org.sidiff.common.henshin.HenshinConditionAnalysis.isNestedConditi
 
 import org.eclipse.emf.henshin.model.Node;
 
-public class ACContextNodePattern {
+public class ACBoundaryNodePattern {
 
 	/**
 	 * The Recognition-Rule context Node.
 	 */
-	public Node acContextNode;
+	public Node acBoundaryNode;
 	
 	/**
 	 * The Edit-Rule nested condition context node.
 	 */
-	public Node acContextTrace;
+	public Node acBoundaryTrace;
 
 	/**
 	 * @param acContextNode
 	 * @param acContextTrace
 	 */
-	public ACContextNodePattern(Node acContextNode, Node acContextTrace) {
+	public ACBoundaryNodePattern(Node acContextNode, Node acContextTrace) {
 		super();
 		
 		assert isNestedConditionNode(acContextNode) : "Not a nested condition node!";
 		assert isNestedConditionNode(acContextTrace) : "Not a nested condition node!";
 		
-		this.acContextNode = acContextNode;
-		this.acContextTrace = acContextTrace;
+		this.acBoundaryNode = acContextNode;
+		this.acBoundaryTrace = acContextTrace;
 	}
 }
