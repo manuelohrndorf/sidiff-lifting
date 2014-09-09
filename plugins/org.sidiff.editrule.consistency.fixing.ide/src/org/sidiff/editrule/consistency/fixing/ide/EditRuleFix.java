@@ -1,4 +1,4 @@
-package org.sidiff.editrule.fixing.quickfix.ui.ide;
+package org.sidiff.editrule.consistency.fixing.ide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.markers.WorkbenchMarkerResolution;
-import org.sidiff.editrule.fixing.ERFixingEngine;
+import org.sidiff.editrule.consistency.fixing.ERFixingEngine;
 import org.silift.common.util.emf.EMFStorage;
 
 /**

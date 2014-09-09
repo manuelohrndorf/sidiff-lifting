@@ -1,9 +1,9 @@
-package org.sidiff.editrule.fixing.quickfix.ui.ide;
+package org.sidiff.editrule.consistency.fixing.ide;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
-import org.sidiff.editrule.fixing.ERFixingEngine;
+import org.sidiff.editrule.consistency.fixing.ERFixingEngine;
 
 /**
  * This class is capable of returning a suitable

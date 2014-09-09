@@ -1,4 +1,4 @@
-package org.sidiff.editrule.fixing.quickfix.ui.ide;
+package org.sidiff.editrule.consistency.fixing.ide;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
