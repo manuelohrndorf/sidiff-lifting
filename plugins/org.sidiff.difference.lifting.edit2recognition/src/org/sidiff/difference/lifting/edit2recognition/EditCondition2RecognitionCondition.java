@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
+import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
@@ -165,15 +166,39 @@ public class EditCondition2RecognitionCondition {
 	 */
 	private void createPatterns() {
 		
-		// An AC with an incident << delete >> node will be interpreted as a precondition! 
-		if (checkForDeletionGlueNodes()) {
-			isPrecondition = true;
-		}
+		// Check weather the AC is pre- or a postcondition:
+		checkConditionType();
 		
+		// Create patterns:
 		createACObjectPattern();
 		createACContextNodePattern();
 		createACReferencePattern();
 		createACAttributePattern();
+	}
+	
+	private void checkConditionType() {
+		isPrecondition = false;
+		
+		// An AC with an incident << delete >> node will be interpreted as a precondition! 
+		if (checkForDeletionGlueNodes()) {
+			isPrecondition = true;
+			return;
+		}
+		
+		// Check annotations:
+		EditRuleAnnotations.Condition type = EditRuleAnnotations.getCondition(editGraph);
+		
+		if (type != null) {
+			if (type.equals(EditRuleAnnotations.Condition.pre)) {
+				isPrecondition = true;
+				return;
+			}
+			
+			if (type.equals(EditRuleAnnotations.Condition.post)) {
+				isPrecondition = false;
+				return;
+			}
+		}
 	}
 	
 	/**
