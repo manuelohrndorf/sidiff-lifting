@@ -6,7 +6,7 @@ import org.eclipse.core.resources.IFile;
 public class SergeFilePropertyTester extends PropertyTester {
 
 	private static final String SERGEFILE = "sergeFile";
-	private static final String SERGEENDING = ".xml";
+	private static final String SERGEENDING = ".serge";
 
 
 	@Override
