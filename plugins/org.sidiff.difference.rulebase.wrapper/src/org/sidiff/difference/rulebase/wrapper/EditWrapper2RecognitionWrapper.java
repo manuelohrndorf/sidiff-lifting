@@ -200,23 +200,23 @@ public class EditWrapper2RecognitionWrapper {
 		// Create traces for correspondence patterns
 		for (CorrespondencePattern pattern : patterns.getCorrespondencePatterns()) {
 
-			if (pattern.getNode_a() != null) {
+			if (pattern.nodeA != null) {
 				// Create trace: LHS <<preserve>> edit rule node
 				// -> LHS <<preserve>> model A recognition rule node
 				Trace lhs_traceA = RulebaseFactory.eINSTANCE.createTrace();
-				lhs_traceA.setEditRuleTrace(pattern.getTrace().getLhsNode());
-				lhs_traceA.setRecognitionRuleTrace(pattern.getNode_a().getLhsNode());
+				lhs_traceA.setEditRuleTrace(pattern.trace.getLhsNode());
+				lhs_traceA.setRecognitionRuleTrace(pattern.nodeA.getLhsNode());
 				
 				// Add model A traces
 				tracesA.add(lhs_traceA);
 			}
 
-			if (pattern.getNode_b() != null) {
+			if (pattern.nodeB != null) {
 				// Create trace: LHS <<preserve>> edit rule node
 				// -> LHS <<preserve>> model B recognition rule node
 				Trace rhs_traceB = RulebaseFactory.eINSTANCE.createTrace();
-				rhs_traceB.setEditRuleTrace(pattern.getTrace().getLhsNode());
-				rhs_traceB.setRecognitionRuleTrace(pattern.getNode_b().getLhsNode());
+				rhs_traceB.setEditRuleTrace(pattern.trace.getLhsNode());
+				rhs_traceB.setRecognitionRuleTrace(pattern.nodeB.getLhsNode());
 
 				// Add model B traces
 				tracesB.add(rhs_traceB);
@@ -229,8 +229,8 @@ public class EditWrapper2RecognitionWrapper {
 			// Create trace: RHS <<create>> edit rule node
 			// -> LHS <<preserve>> model B recognition rule node
 			Trace rhs_traceB = RulebaseFactory.eINSTANCE.createTrace();
-			rhs_traceB.setEditRuleTrace(pattern.getTrace());
-			rhs_traceB.setRecognitionRuleTrace(pattern.getNode_b().getLhsNode());
+			rhs_traceB.setEditRuleTrace(pattern.trace);
+			rhs_traceB.setRecognitionRuleTrace(pattern.nodeB.getLhsNode());
 
 			// Add model B traces
 			tracesB.add(rhs_traceB);
@@ -242,8 +242,8 @@ public class EditWrapper2RecognitionWrapper {
 			// Create trace: LHS <<delete>> edit rule node
 			// -> <<preserve>> model A recognition rule node
 			Trace rhs_traceA = RulebaseFactory.eINSTANCE.createTrace();
-			rhs_traceA.setEditRuleTrace(pattern.getTrace());
-			rhs_traceA.setRecognitionRuleTrace(pattern.getNode_a().getLhsNode());
+			rhs_traceA.setEditRuleTrace(pattern.trace);
+			rhs_traceA.setRecognitionRuleTrace(pattern.nodeA.getLhsNode());
 
 			// Add model A traces
 			tracesA.add(rhs_traceA);
@@ -255,8 +255,8 @@ public class EditWrapper2RecognitionWrapper {
 			// Create trace: Nested condition <<forbid/require>> edit rule node
 			// -> Nested condition <<forbid/require>> (model B) recognition rule node
 			Trace rhs_traceB = RulebaseFactory.eINSTANCE.createTrace();
-			rhs_traceB.setEditRuleTrace(pattern.getTrace());
-			rhs_traceB.setRecognitionRuleTrace(pattern.getNode_b());
+			rhs_traceB.setEditRuleTrace(pattern.acTrace);
+			rhs_traceB.setRecognitionRuleTrace(pattern.acNode);
 
 			// Add model B traces
 			tracesB.add(rhs_traceB);
