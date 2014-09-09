@@ -145,7 +145,6 @@ public class PatchEvaluationApplication implements IApplication {
 			patchingSettings.setArgumentManager(testSuite.getCorrespondence());
 			// patchingSettings.setBuildGraphPerRule(buildGraphPerRule);
 			patchingSettings.setExecutionMode(ExecutionMode.BATCH);
-			;
 			patchingSettings.setInterruptHandler(testSuite.getPatchInterruptHandler());
 			// patchingSettings.setMatcher(matcher);
 			// patchingSettings.setMinReliability(minReliability);
