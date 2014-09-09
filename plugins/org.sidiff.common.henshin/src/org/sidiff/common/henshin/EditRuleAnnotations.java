@@ -20,6 +20,22 @@ public class EditRuleAnnotations {
 		post
 	}
 	
+	public static boolean isKnownAnnotation(Annotation annotation) {
+		ModuleAnnotations known = null;
+			
+		try {
+			known = ModuleAnnotations.valueOf(annotation.getKey());
+		} catch (Exception e) {
+			return false;
+		}
+
+		if (known != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static Condition getCondition(Graph applicationCondition) {
 		String value = getAnnotation(applicationCondition, ModuleAnnotations.condition);
 		
