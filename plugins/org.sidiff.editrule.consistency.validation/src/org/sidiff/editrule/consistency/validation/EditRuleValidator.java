@@ -1,4 +1,4 @@
-package org.sidiff.editrule.validation;
+package org.sidiff.editrule.consistency.validation;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.equalReferenceType;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidEdges;

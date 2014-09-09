@@ -1,4 +1,4 @@
-package org.sidiff.editrule.validation;
+package org.sidiff.editrule.consistency.validation;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

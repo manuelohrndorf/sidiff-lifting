@@ -1,4 +1,4 @@
-package org.sidiff.editrule.validation;
+package org.sidiff.editrule.consistency.validation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
