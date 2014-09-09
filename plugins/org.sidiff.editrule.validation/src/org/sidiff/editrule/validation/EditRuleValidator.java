@@ -8,7 +8,6 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHS
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRequireEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRHSNode;
 import static org.sidiff.common.henshin.ParameterInfo.getOutermostParameter;
 import static org.sidiff.common.henshin.ParameterInfo.getParameterDirection;
@@ -77,7 +76,6 @@ public class EditRuleValidator {
 
 		// Application conditions (NACs/PACs)
 		validations.addAll(EditRuleValidator.validateEditRule_acComposition(editModule));
-		validations.addAll(EditRuleValidator.validateEditRule_acBoundaries(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_lhsBoundaries(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_noAcBoundaryAttributes(editModule));
 
@@ -910,42 +908,6 @@ public class EditRuleValidator {
 		}
 
 		return false;
-	}
-
-	/**
-	 * <p>
-	 * Validates the "AC Boundaries" constraint of the Edit-Rule:
-	 * </p>
-	 * <p>
-	 * Only << preserved >> nodes may serve as boundary nodes of an application
-	 * condition.
-	 * </p>
-	 * 
-	 * @param editModule
-	 *            The Module of the Edit-Rule.
-	 */
-	public static List<EditRuleValidation> validateEditRule_acBoundaries(Module editModule) {
-		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
-
-		for (Rule rule : HenshinModuleAnalysis.getAllRules(editModule)) {
-			for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
-				ApplicationCondition ac = new ApplicationCondition(nc);
-
-				for (Node lhsBoundaryNode : ac.getLhsBoundaryNodes()) {
-					if (!isPreservedNode(lhsBoundaryNode)) {
-						EditRuleValidation info = new EditRuleValidation(
-								"Only << preserved >> nodes may serve as boundary nodes of an application condition!",
-								editModule, ValidationType.acBoundaries, lhsBoundaryNode.getGraph().getRule(),
-								lhsBoundaryNode);
-						invalids.add(info);
-						break;
-					}
-				}
-			}
-
-		}
-
-		return invalids;
 	}
 
 	/**
