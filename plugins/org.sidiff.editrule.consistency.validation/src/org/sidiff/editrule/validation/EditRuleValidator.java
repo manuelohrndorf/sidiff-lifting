@@ -24,11 +24,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -38,6 +40,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.ApplicationCondition;
+import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
@@ -85,6 +88,9 @@ public class EditRuleValidator {
 		validations.addAll(EditRuleValidator.validateEditRule_multiRuleAttributeEmbedding(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_multiRuleParameterEmbedding(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_uniqueMultiMappings(editModule));
+		
+		// Annotations
+		validations.addAll(validateEditRule_checkKownAnnotations(editModule));
 
 		return validations;
 	}
@@ -1525,5 +1531,38 @@ public class EditRuleValidator {
 		for (Rule multiRule : kernel.getMultiRules()) {
 			checkUniqueMultiMappings(multiRule, invalids);
 		}
+	}
+	
+	/**
+	 * Check the Edit-Rule for unknown annotations.
+	 * 
+	 * @param editModule
+	 *            The Module of the Edit-Rule.
+	 * @param invalids
+	 *            List to collect the validation errors.
+	 */
+	private static  List<EditRuleValidation> validateEditRule_checkKownAnnotations(Module editModule) {
+		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
+		
+		for (Iterator<EObject> iterator = editModule.eAllContents(); iterator.hasNext();) {
+			EObject obj = iterator.next();
+			
+			if (obj instanceof NamedElement) {
+				NamedElement element = (NamedElement) obj;
+				
+				for (Annotation annotation : element.getAnnotations()) {
+					if (!EditRuleAnnotations.isKnownAnnotation(annotation)) {
+						invalids.add(new EditRuleValidation(
+								"Unknown Annotation found!", 
+								Diagnostic.WARNING,
+								editModule,
+								ValidationType.knownAnnotation, 
+								annotation));
+					}
+				}
+			}
+		}
+		
+		return invalids;
 	}
 }

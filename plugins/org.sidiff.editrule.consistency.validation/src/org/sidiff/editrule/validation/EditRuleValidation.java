@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -18,7 +19,7 @@ import org.sidiff.common.henshin.ParameterInfo;
  */
 public class EditRuleValidation {
 
-	public Object editModule;
+	public Module editModule;
 
 	/**
 	 * The object(s) violating a constraint.
@@ -45,7 +46,7 @@ public class EditRuleValidation {
 	 */
 	public int severity = Diagnostic.ERROR;
 
-	private EditRuleValidation(String infoMessage, Object editModule, ValidationType validationType) {
+	private EditRuleValidation(String infoMessage, Module editModule, ValidationType validationType) {
 		super();
 		this.infoMessage = infoMessage;
 		this.editModule = editModule;
@@ -67,7 +68,7 @@ public class EditRuleValidation {
 	 * @see Diagnostic#INFO
 	 * @see Diagnostic#OK
 	 */
-	public EditRuleValidation(String infoMessage, int severity, Object editModule, ValidationType validationType,
+	public EditRuleValidation(String infoMessage, int severity, Module editModule, ValidationType validationType,
 			Object... violatingObj) {
 
 		this(infoMessage, editModule, validationType);
@@ -87,7 +88,7 @@ public class EditRuleValidation {
 	 * @param violatingObj
 	 *            The object which violates a constraint.
 	 */
-	public EditRuleValidation(String infoMessage, Object editModule, ValidationType validationType,
+	public EditRuleValidation(String infoMessage, Module editModule, ValidationType validationType,
 			Object... violatingObj) {
 
 		this(infoMessage, editModule, validationType);

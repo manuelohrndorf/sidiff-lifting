@@ -22,5 +22,6 @@ public enum ValidationType {
 	multiRuleEdgeEmbedding,
 	multiRuleAttributeEmbedding,
 	multiRuleParameterEmbedding,
-	uniqueMultiMappings
+	uniqueMultiMappings,
+	knownAnnotation
 }
