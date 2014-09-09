@@ -1,4 +1,4 @@
-package org.sidiff.editrule.fixing;
+package org.sidiff.editrule.consistency.fixing;
 
 import java.util.ArrayList;
 import java.util.HashMap;

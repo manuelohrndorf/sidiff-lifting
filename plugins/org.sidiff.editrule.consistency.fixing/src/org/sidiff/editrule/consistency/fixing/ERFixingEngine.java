@@ -1,4 +1,4 @@
-package org.sidiff.editrule.fixing;
+package org.sidiff.editrule.consistency.fixing;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.editrule.validation.EditRuleValidation;
-import org.sidiff.editrule.validation.ValidationType;
+import org.sidiff.editrule.consistency.validation.EditRuleValidation;
+import org.sidiff.editrule.consistency.validation.ValidationType;
 
 public class ERFixingEngine {
 

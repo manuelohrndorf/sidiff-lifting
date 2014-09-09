@@ -1,4 +1,4 @@
-package org.sidiff.editrule.fixing;
+package org.sidiff.editrule.consistency.fixing;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
