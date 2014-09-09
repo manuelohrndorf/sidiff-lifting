@@ -53,6 +53,11 @@ public class FeatureModelMatcher extends BaseMatcher {
 			return false;
 		}
 		
+		// Elements must have the same type
+		if (elementA.eClass() != elementB.eClass()){
+			return false;
+		}
+		
 		// Check for @link{FeatureModel} element
 		if(elementA instanceof FeatureModel && elementB instanceof FeatureModel){
 			// As there shall be only one FeatureModel, they are always corresponding
