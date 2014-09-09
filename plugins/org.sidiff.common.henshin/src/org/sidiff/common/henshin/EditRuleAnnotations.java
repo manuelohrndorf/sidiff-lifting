@@ -3,6 +3,7 @@ package org.sidiff.common.henshin;
 import java.util.Iterator;
 
 import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.ModelElement;
 import org.eclipse.emf.henshin.model.Module;
@@ -11,10 +12,34 @@ public class EditRuleAnnotations {
 	
 	public static enum ModuleAnnotations {
 		priority,
+		condition
 	}
 	
-	public static String getAnnotationKey(Enum<?> type) {
-		return type.name();
+	public static enum Condition {
+		pre, 
+		post
+	}
+	
+	public static Condition getCondition(Graph applicationCondition) {
+		String value = getAnnotation(applicationCondition, ModuleAnnotations.condition);
+		
+		if (value != null) {
+			return Condition.valueOf(value);
+		}
+		
+		return null;
+	}
+	
+	public static void setCondition(Graph applicationCondition, Condition value) {
+		setAnnotation(applicationCondition, ModuleAnnotations.condition, getAnnotationKey(value));
+	}
+	
+	public static void removeCondition(Graph applicationCondition) {
+		removeAnnotation(applicationCondition, ModuleAnnotations.condition);
+	}
+	
+	public static void addCondition(Graph applicationCondition, Condition value) {
+		createAnnotation(applicationCondition, ModuleAnnotations.priority, getAnnotationKey(value));
 	}
 	
 	public static Integer getPriority(Module editRule) {
@@ -37,6 +62,10 @@ public class EditRuleAnnotations {
 	
 	public static void addPriority(Module editRule, int priority) {
 		createAnnotation(editRule, ModuleAnnotations.priority, priority + "");
+	}
+	
+	public static String getAnnotationKey(Enum<?> type) {
+		return type.name();
 	}
 	
 	private static void createAnnotation(ModelElement element, Enum<?> type, String value) {
