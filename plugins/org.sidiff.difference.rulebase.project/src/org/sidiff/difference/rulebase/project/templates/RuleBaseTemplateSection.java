@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -153,5 +154,12 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		} catch (CoreException e) {
 			// Something went wrong
 		}
+	}
+	
+	@Override
+	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
+		System.out.println(" ================================== execute =============================");
+		// TODO Auto-generated method stub
+		super.execute(project, model, monitor);
 	}
 }
