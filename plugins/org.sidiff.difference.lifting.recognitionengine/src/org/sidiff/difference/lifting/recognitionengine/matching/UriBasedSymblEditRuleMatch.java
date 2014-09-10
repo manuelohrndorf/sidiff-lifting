@@ -187,8 +187,10 @@ public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {
 	private Set<Attribute> getAllRHSAttributes(){
 		Set<Attribute> attributes = new HashSet<Attribute>();
 		for(Node n : nodeOccurencesB.keySet()){
-			Node rhs_node = HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n);
-			attributes.addAll(rhs_node.getAttributes());
+			if(HenshinRuleAnalysisUtilEx.isLHSNode(n)){
+				Node rhs_node = HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n);
+				attributes.addAll(rhs_node.getAttributes());
+			}
 		}
 		return attributes;
 	}
