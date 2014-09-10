@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -29,17 +28,16 @@ import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
-import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {
-	
+
 	private RuleBaseProjectPage01 ruleBaseProjectPage01 = null;
-	private EditRuleGenerationSettings  settings;
+	private EditRuleGenerationSettings settings;
 
 	public RuleBaseTemplateSection() {
 		addOption(KEY_PACKAGE_NAME, RuleBaseTemplateSection.KEY_PACKAGE_NAME, (String) null, 0);
-		//TODO uncomment
-		this.settings = new EditRuleGenerationSettings(null,"", null, true);
+		// TODO uncomment
+		this.settings = new EditRuleGenerationSettings(null, "", null, true);
 		setPageCount(1);
 	}
 
@@ -64,34 +62,31 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	protected void updateModel(IProgressMonitor monitor) throws CoreException {
-		addRuleBaseExtension();		
+		addRuleBaseExtension();
 		addRuleBaseNature();
 	}
 
-
 	@Override
 	public void addPages(Wizard wizard) {
-		//TODO later on: Add This page
+		// TODO later on: Add This page
 		ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
-		wizard.addPage(ruleBaseProjectPage01);	
-		markPagesAdded();	 
+		wizard.addPage(ruleBaseProjectPage01);
+		markPagesAdded();
 	}
 
 	public boolean isDependentOnParentWizard() {
 		return true;
 	}
 
-
 	@Override
 	public String[] getNewFiles() {
-		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/" ,
-				AbstractProjectRuleBase.BUILD_FOLDER + "/" , AbstractProjectRuleBase.RULEBASE_FILE + "/"}; 
-	}	
-
+		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/", AbstractProjectRuleBase.BUILD_FOLDER + "/",
+				AbstractProjectRuleBase.RULEBASE_FILE + "/" };
+	}
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
 		IPluginReference[] result = new IPluginReference[2];
-		result[0] = new PluginReference("org.sidiff.difference.rulebase", null, 0); 
+		result[0] = new PluginReference("org.sidiff.difference.rulebase", null, 0);
 		result[1] = new PluginReference("org.eclipse.emf.henshin.model", null, 0);
 		return result;
 	}
@@ -104,7 +99,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	}
 
 	public void initializeFields(IPluginModelBase model) {
-		// In the new extension wizard, the model exists so 
+		// In the new extension wizard, the model exists so
 		// we can initialize directly from it
 		String pluginId = model.getPluginBase().getId();
 		initializeOption(KEY_PACKAGE_NAME, getFormattedPackageName(pluginId));
@@ -125,9 +120,8 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return buffer.toString().toLowerCase(Locale.ENGLISH);
 	}
 
-
 	private void addRuleBaseExtension() throws CoreException {
-		try{
+		try {
 			IPluginBase plugin = model.getPluginBase();
 			IPluginModelFactory factory = model.getPluginFactory();
 			IPluginExtension extension = createExtension(IRuleBase.extensionPointID, true);
@@ -137,20 +131,18 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			element.setAttribute("rulebase", getStringOption(KEY_PACKAGE_NAME) + "." + "ProjectRuleBase");
 			extension.add(element);
 			plugin.add(extension);
-		}
-		catch (CoreException e){
-			//Nothing to do
+		} catch (CoreException e) {
+			// Nothing to do
 		}
 	}
 
-
-	private void addRuleBaseNature(){
+	private void addRuleBaseNature() {
 		try {
 			IProjectDescription description = project.getDescription();
 			String[] natures = description.getNatureIds();
 			String[] newNatures = new String[natures.length + 1];
 			System.arraycopy(natures, 0, newNatures, 1, natures.length);
-			//Copy to first so the icon is shown
+			// Copy to first so the icon is shown
 			newNatures[0] = RuleBaseProjectNature.NATURE_ID;
 			description.setNatureIds(newNatures);
 			project.setDescription(description, null);
@@ -158,26 +150,27 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			// Something went wrong
 		}
 	}
-	
+
 	@Override
 	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
-		System.out.println(" ================================== execute =============================");
 		super.execute(project, model, monitor);
-		
-		//TODO: check if settings are filled..
-		settings.setOutputFolderPath(project.getFolder("editrules").getLocation().toOSString());		
-		settings.getGenerator().init(settings, monitor);
-		try {
-			settings.getGenerator().generateEditRules(monitor);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EPackageNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OperationTypeNotImplementedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if (settings.getConfigPath() != null && settings.getGenerator() != null && settings.getMetaModelNsUri() != null
+				&& settings.getOutputFolderPath() != null) {
+
+			settings.getGenerator().init(settings, monitor);
+			try {
+				settings.getGenerator().generateEditRules(monitor);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (EPackageNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (OperationTypeNotImplementedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
