@@ -1,16 +1,17 @@
 package org.sidiff.difference.technical;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.common.util.emf.Scope;
 
 /**
- * This interface belongs to the 'org.sidiff.difference.technical'
- * extension point. This extension point is used to add a new technical 
- * difference builder to the lifting engine. 
- * A plug-in that adds this extension point has to implement
- * this interface.
+ * This interface belongs to the 'org.sidiff.difference.technical' extension
+ * point. This extension point is used to add a new technical difference builder
+ * to the lifting engine. A plug-in that adds this extension point has to
+ * implement this interface.
  * 
- * A generic implementation is given by {@link GenericTechnicalDifferenceBuilder}
+ * A generic implementation is given by
+ * {@link GenericTechnicalDifferenceBuilder}
  */
 public interface ITechnicalDifferenceBuilder {
 	/**
@@ -24,19 +25,30 @@ public interface ITechnicalDifferenceBuilder {
 	 * @return the technical difference builder name.
 	 */
 	public String getName();
-	
+
 	/**
-	 * Derives the technical difference. A default implementation 
-	 * is given by the abstract class {@link TechnicalDifferenceBuilder}
+	 * Derives the technical difference. A default implementation is given by
+	 * the abstract class {@link TechnicalDifferenceBuilder}
 	 * 
-	 * @param 	difference
-	 * @return	{@link SymmetricDifference}
+	 * @param difference
+	 * @return {@link SymmetricDifference}
 	 */
 	public SymmetricDifference deriveTechDiff(SymmetricDifference difference, Scope scope);
-	
+
 	/**
-	 * @return 	the document type the technical difference builder
-	 * 			was implemented for.
+	 * @return the document type the technical difference builder is primarily
+	 *         implemented for.
 	 */
 	public String getDocumentType();
+
+	/**
+	 * Returns whether this technical difference builder can handle models of
+	 * the given documentType.
+	 * 
+	 * @param modelA
+	 * @param modelB
+	 * @return
+	 */
+	public boolean canHandle(Resource modelA, Resource modelB);
+
 }

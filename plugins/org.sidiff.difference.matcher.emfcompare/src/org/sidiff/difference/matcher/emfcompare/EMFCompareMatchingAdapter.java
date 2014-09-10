@@ -31,8 +31,23 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
 			boolean calculateReliability) {
-		// TODO(DR): consider scope for EMF compare options (compare resource or compare resource set)
-		
+
+		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		matching.setUriModelA(modelA.getURI().toString());
+		matching.setUriModelB(modelB.getURI().toString());
+
+		addMatches(modelA, modelB, matching, scope, calculateReliability);
+
+		return matching;
+	}
+
+	@Override
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
+			boolean calculateReliability) {
+
+		// TODO(DR): consider scope for EMF compare options (compare resource or
+		// compare resource set)
+
 		// Specify options
 		/*
 		 * Map<String, Object> matchOptions = new HashMap<String, Object>();
@@ -46,12 +61,11 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 
 		EList<Match> matches = null;
 		IComparisonScope emfScope = null;
-		
+
 		// Just two way matching, two cases of scopes
-		if(scope == Scope.RESOURCE_SET){
+		if (scope == Scope.RESOURCE_SET) {
 			emfScope = new DefaultComparisonScope(modelA.getResourceSet(), modelB.getResourceSet(), null);
-		}
-		else{
+		} else {
 			emfScope = new DefaultComparisonScope(modelA, modelB, null);
 		}
 
@@ -59,13 +73,8 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 		Comparison comparison = EMFCompare.builder().build().compare(emfScope);
 		matches = comparison.getMatches();
 
-		SymmetricDifference difference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		difference.setUriModelA(modelA.getURI().toString());
-		difference.setUriModelB(modelB.getURI().toString());
-		populateDifference(difference, matches);
-
-		return difference;
-
+		// Convert to our own representation of correspondences
+		populateDifference(matching, matches);
 	}
 
 	private void populateDifference(SymmetricDifference difference, EList<Match> matches) {
@@ -78,7 +87,7 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 	private void populateDifference(SymmetricDifference difference, Match match) {
 
 		if (match.getLeft() != null && match.getRight() != null) {
-			difference.addCorrespondence(match.getLeft(), match.getRight());			
+			difference.addCorrespondence(match.getLeft(), match.getRight());
 		}
 		for (Match subMatch : match.getSubmatches()) {
 			populateDifference(difference, subMatch);
@@ -112,4 +121,5 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 	public boolean canComputeReliability() {
 		return false;
 	}
+
 }

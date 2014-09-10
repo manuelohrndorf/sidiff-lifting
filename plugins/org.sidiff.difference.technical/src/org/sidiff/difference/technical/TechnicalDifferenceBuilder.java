@@ -28,10 +28,20 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.access.EMFMetaAccessEx;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 import org.silift.common.util.emf.Scope;
 
+/**
+ * Abstract base class for deriving a low-level difference (which is called
+ * technical difference here for some historical reasons) from a given matching.
+ * 
+ * Subclasses can add unconsideredNodeTypes, unconsideredEdgeTypes and
+ * unconsideredAttributeTypes in order to filter the low-level difference.
+ * 
+ * @author kehrer
+ */
 public abstract class TechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
 
 	private Resource modelA;
@@ -65,9 +75,6 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 		this.diff = difference;
 		this.scope = scope;
 
-		checkDocumentType(modelA);
-		checkDocumentType(modelB);
-
 		processUnmatchedA();
 		processUnmatchedB();
 		processCorrespondences();
@@ -86,6 +93,11 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			assert (nodeB.eClass() == nodeType) : "Corresponding objects have different types..!?";
 
 			// filter
+
+			if (!doProcess(nodeA)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip correspondence (does not match docType): " + nodeA + " <-> " + nodeB);
+				continue;
+			}
 
 			if (unconsideredNodeTypes.contains(nodeType)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip correspondence (unconsideredNodeType): " + nodeA + " <-> " + nodeB);
@@ -153,7 +165,12 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			if (next instanceof EObject) {
 				EObject elementA = (EObject) next;
 				if (!isCorresponding(elementA)) {
+					if (!doProcess(elementA)) {
+						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
+						continue;
+					}
 					if (unconsideredNodeTypes.contains(elementA.eClass())) {
+						LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementA);
 						continue;
 					}
 
@@ -187,7 +204,12 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			if (next instanceof EObject) {
 				EObject elementB = (EObject) next;
 				if (!isCorresponding(elementB)) {
+					if (!doProcess(elementB)) {
+						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
+						continue;
+					}
 					if (unconsideredNodeTypes.contains(elementB.eClass())) {
+						LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementB);
 						continue;
 					}
 
@@ -274,17 +296,18 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 
 		Object valueA = nodeA.eGet(attributeType);
 		Object valueB = nodeB.eGet(attributeType);
-		
-		// Normalize null values of String attributes: We consider null to be conceptually equal to ""
-		if (attributeType.getEAttributeType().getName().equals("EString")){
-			if (valueA == null){
+
+		// Normalize null values of String attributes: We consider null to be
+		// conceptually equal to ""
+		if (attributeType.getEAttributeType().getName().equals("EString")) {
+			if (valueA == null) {
 				valueA = "";
 			}
-			if (valueB == null){
+			if (valueB == null) {
 				valueB = "";
 			}
 		}
-		
+
 		// TODO: This section needs to be revised if we want to support
 		// multi-valued attributes!
 
@@ -427,6 +450,28 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 		return diff.getCorrespondingObjectInA(object) != null || diff.getCorrespondingObjectInB(object) != null;
 	}
 
+	private boolean doProcess(EObject object) {
+		// generic td builders can process every eObject
+		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)){
+			return true;
+		}
+		
+		return EMFModelAccessEx.getDocumentType(object).equals(getDocumentType());
+	}
+
+	@Override
+	public boolean canHandle(Resource modelA, Resource modelB) {
+		// generic td builders can handle every model
+		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)){
+			return true;
+		}
+		
+		Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, scope);
+		Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, scope);
+
+		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
+	}
+
 	protected abstract String getObjectName(EObject obj);
 
 	/**
@@ -455,13 +500,5 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	 * @return
 	 */
 	protected abstract Set<EAttribute> getUnconsideredAttributeTypes();
-
-	/**
-	 * Subclasses have to check whether the given model is of the expected
-	 * document type. This is best done using an assertion.
-	 * 
-	 * @param model
-	 */
-	protected abstract void checkDocumentType(Resource model);
 
 }

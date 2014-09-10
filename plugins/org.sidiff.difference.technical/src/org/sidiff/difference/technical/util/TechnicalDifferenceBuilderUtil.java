@@ -33,8 +33,9 @@ public class TechnicalDifferenceBuilderUtil {
 			}
 		}
 		
-		if(tdbSet.size()==0)
+		if(tdbSet.size()==0){
 			tdbSet.add(genericTechnicalDifferenceBuilder);
+		}
 		
 		return tdbSet;
 	}

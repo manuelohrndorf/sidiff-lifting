@@ -34,7 +34,19 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
 			boolean calculateReliability) {
-		
+
+		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		matching.setUriModelA(modelA.getURI().toString());
+		matching.setUriModelB(modelB.getURI().toString());
+
+		addMatches(modelA, modelB, matching, scope, calculateReliability);
+
+		return matching;
+	}
+
+	@Override
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
+			boolean calculateReliability) {
 		// TODO: TK (6.11.2012): Expliziter Start aller SiDiff Matching Bundles
 		// resultiert in
 		// Nebenläufigkeitsproblem. Daher bislang doch alle SiDiff Matching
@@ -125,10 +137,7 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			reliabilityCalculator.endingMatch();
 		}
 
-		// Construct the matching (yet still as part of the symmetric diff)
-		SymmetricDifference difference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		difference.setUriModelA(modelA.getURI().toString());
-		difference.setUriModelB(modelB.getURI().toString());
+		// Convert correspondences to the SiLift representation of a matching
 		CorrespondencesService cs = context.getService(CorrespondencesService.class);
 
 		for (Iterator<EObject> it_a = modelA.getAllContents(); it_a.hasNext();) {
@@ -136,14 +145,12 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			if (cs.hasCorrespondences(elementA)) {
 				EObject elementB = cs.getCorrespondences(elementA).iterator().next();
 				Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(elementA, elementB);
-				if (calculateReliability){
+				if (calculateReliability) {
 					c.setReliability(reliabilityCalculator.getReliability(c.getObjA(), c.getObjB()));
 				}
-				difference.addCorrespondence(c);
+				matching.addCorrespondence(c);
 			}
 		}
-
-		return difference;
 	}
 
 	@Override
@@ -195,4 +202,5 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	public boolean canComputeReliability() {
 		return true;
 	}
+
 }

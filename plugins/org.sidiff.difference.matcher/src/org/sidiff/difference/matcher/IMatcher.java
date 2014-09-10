@@ -12,19 +12,35 @@ public interface IMatcher {
 	public static final String extensionPointID = "org.sidiff.difference.matcher.matcher_extension";
 
 	/**
+	 * Add matches (i.e. correspondences) between two models A and B. Here, we
+	 * assume that the symmetric difference which contains the correspondences
+	 * already exists. This way, this matcher can incrementally add
+	 * correspondences to the set of already existing correspondences.
+	 * 
+	 * 
+	 * @param matching
+	 *            the matching between model A and model B (difference that
+	 *            contains only correspondences).
+	 * @param scope
+	 *            RESOURCE or RESOURCE_SET
+	 */
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope, boolean calculateReliability);
+
+	/**
 	 * Calculates a matching between model A and model B. That means a
 	 * Correspondence for each preserved object between model A and model B.
 	 * 
 	 * @param modelA
-	 *            the earlier version of the model to compare to.
+	 *            the original version of the model to compare to.
 	 * @param modelB
-	 *            the older version of the model to compare to.
+	 *            the changed version of the model to compare to.
 	 * @param scope
 	 *            RESOURCE or RESOURCE_SET
 	 * @return the matching between model A and model B (difference that
 	 *         contains only correspondences).
 	 */
-	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope, boolean calculateReliability);
+	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
+			boolean calculateReliability);
 
 	/**
 	 * Returns the description name of the matcher.
@@ -57,7 +73,7 @@ public interface IMatcher {
 	 * @return
 	 */
 	public boolean isResourceSetCapable();
-	
+
 	/**
 	 * Returns whether this matcher supports the computation of reliability.
 	 * 

@@ -18,7 +18,7 @@ public abstract class BaseMatcher implements IMatcher {
 	/**
 	 * The difference which will contain the matching.
 	 */
-	private SymmetricDifference difference;
+	private SymmetricDifference matching;
 
 	/**
 	 * The A version of the model.
@@ -37,12 +37,24 @@ public abstract class BaseMatcher implements IMatcher {
 
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope, boolean calculateReliability) {
+		
+		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		matching.setUriModelA(modelA.getURI().toString());
+		matching.setUriModelB(modelB.getURI().toString());
+		
+		addMatches(modelA, modelB, matching, scope, calculateReliability);
+		
+		return matching;
+	}
+
+	@Override
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
+			boolean calculateReliability) {
+		
 		this.modelA = modelA;
 		this.modelB = modelB;
+		this.matching = matching;
 		this.scope = scope;
-		this.difference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		this.difference.setUriModelA(modelA.getURI().toString());
-		this.difference.setUriModelB(modelB.getURI().toString());
 		
 		if (scope == Scope.RESOURCE_SET){
 			// Include all ResourceSets A for matching			
@@ -53,10 +65,8 @@ public abstract class BaseMatcher implements IMatcher {
 			// Consider only resource model A
 			traverseResourceA(modelA);
 		}
-		
-		return this.difference;
 	}
-
+	
 	@Override
 	public boolean isResourceSetCapable() {
 		return true;
@@ -80,7 +90,7 @@ public abstract class BaseMatcher implements IMatcher {
 						elementB = iterB.next();
 
 						if (isCorresponding(elementA, elementB)) {							
-							difference.addCorrespondence(elementA, elementB);
+							matching.addCorrespondence(elementA, elementB);
 							matchFound = true;
 							break;
 						}
@@ -99,7 +109,7 @@ public abstract class BaseMatcher implements IMatcher {
 					elementB = iterB.next();
 
 					if (isCorresponding(elementA, elementB)) {																		
-						difference.addCorrespondence(elementA, elementB);
+						matching.addCorrespondence(elementA, elementB);
 						break;
 					}
 				}
@@ -127,7 +137,7 @@ public abstract class BaseMatcher implements IMatcher {
 	 * @return true if the object belongs to a correspondence; false otherwise.
 	 */
 	protected boolean isCorresponding(EObject obj) {
-		for (Correspondence c : difference.getCorrespondences()) {
+		for (Correspondence c : matching.getCorrespondences()) {
 			if (c.getObjA() == obj | c.getObjB() == obj) {
 				return true;
 			}
@@ -140,7 +150,7 @@ public abstract class BaseMatcher implements IMatcher {
 	 * @return the difference which will contain the matching.
 	 */
 	protected SymmetricDifference getDifference() {
-		return difference;
+		return matching;
 	}
 
 	/**
