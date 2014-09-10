@@ -19,7 +19,21 @@ import org.sidiff.common.logging.LogUtil;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
 
+/**
+ * 
+ * 
+ * @author kehrer, mohrndorf, dreuling, cpietsch
+ */
 public class EMFModelAccessEx {
+
+	/**
+	 * Constant that represents a "generic document type". If functions that are
+	 * usually designed for a specific document type (e.g., matchers or
+	 * technical difference builders) are generic in the sense that they can
+	 * handle any document type, the y can indicate this genericity by using
+	 * this constant as supported document type.
+	 */
+	public static final String GENERIC_DOCUMENT_TYPE = "generic";
 
 	/**
 	 * Selects, given a set of document types, the most characteristic document

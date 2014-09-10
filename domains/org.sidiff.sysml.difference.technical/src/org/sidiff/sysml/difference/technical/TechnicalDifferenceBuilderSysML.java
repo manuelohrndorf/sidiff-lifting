@@ -8,11 +8,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.papyrus.sysml.SysmlPackage;
 import org.eclipse.uml2.uml.NamedElement;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class TechnicalDifferenceBuilderSysML extends TechnicalDifferenceBuilder {
 	
@@ -47,12 +45,6 @@ public class TechnicalDifferenceBuilderSysML extends TechnicalDifferenceBuilder 
 		unconsideredAttributeTypes.add(EcorePackage.eINSTANCE.getEAnnotation_Source());
 		
 		return unconsideredAttributeTypes;
-	}
-
-	@Override
-	protected void checkDocumentType(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
-		assert (docType == SysmlPackage.eNS_URI) : "Wrong document type: Expected " + SysmlPackage.eNS_URI + " but got " + docType;
 	}
 	
 	@Override

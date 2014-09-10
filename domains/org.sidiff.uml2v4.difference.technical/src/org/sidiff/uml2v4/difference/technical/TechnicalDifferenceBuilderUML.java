@@ -8,11 +8,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class TechnicalDifferenceBuilderUML extends TechnicalDifferenceBuilder {
 
@@ -50,12 +48,6 @@ public class TechnicalDifferenceBuilderUML extends TechnicalDifferenceBuilder {
 	}
 
 	@Override
-	protected void checkDocumentType(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
-		assert (docType.equals(UMLPackage.eNS_URI)) : "Wrong document type: Expected " + UMLPackage.eNS_URI + " but got " + docType;
-	}
-
-	@Override
 	protected String getObjectName(EObject obj) {
 		if (obj instanceof NamedElement) {
 			return ((NamedElement) obj).getQualifiedName();
@@ -69,8 +61,7 @@ public class TechnicalDifferenceBuilderUML extends TechnicalDifferenceBuilder {
 	}
 	
 	@Override
-	public String getName(){
-		
+	public String getName(){	
 		return "TechnicalDifference Builder for UML";
 	}
 }

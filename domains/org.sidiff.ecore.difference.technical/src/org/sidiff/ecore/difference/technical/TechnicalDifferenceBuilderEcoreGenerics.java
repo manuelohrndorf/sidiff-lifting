@@ -8,9 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * Filters technical stuff but does not filter types related to Ecore Generics.
@@ -49,12 +47,6 @@ public class TechnicalDifferenceBuilderEcoreGenerics extends TechnicalDifference
 		unconsideredAttributeTypes.add(EcorePackage.eINSTANCE.getEClassifier_InstanceTypeName());
 
 		return unconsideredAttributeTypes;
-	}
-
-	@Override
-	protected void checkDocumentType(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
-		assert (docType == EcorePackage.eNS_URI) : "Wrong document type: Expected " + EcorePackage.eNS_URI + " but got " + docType;
 	}
 
 	@Override

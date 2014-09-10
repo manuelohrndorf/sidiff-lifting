@@ -7,9 +7,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPackage;
 
@@ -45,12 +43,6 @@ public class TechnicalDifferenceBuilderFeatureModelGenerics extends TechnicalDif
 		Set<EAttribute> unconsideredAttributeTypes = new HashSet<EAttribute>();
 
 		return unconsideredAttributeTypes;
-	}
-
-	@Override
-	protected void checkDocumentType(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
-		assert (docType == FeatureModelPackage.eNS_URI) : "Wrong document type: Expected " + FeatureModelPackage.eNS_URI + " but got " + docType;
 	}
 
 	@Override
