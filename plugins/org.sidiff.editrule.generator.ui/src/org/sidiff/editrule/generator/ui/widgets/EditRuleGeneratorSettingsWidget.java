@@ -120,6 +120,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 			public void widgetSelected(SelectionEvent e) {
 				try{
 					settings.setConfigPath(eConfigChooser.open());
+					settings.setUseDefaultConfig(false);
 					txtRefinedConfig.setText(settings.getConfigPath());
 				} catch (NullPointerException NPe){
 					System.out.println("Selection canceled.");
@@ -136,6 +137,16 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		rBtnDefaultConfig.setText("Default Config");
 		
+		
+		rBtnDefaultConfig.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean useDefault = rBtnDefaultConfig.getSelection();
+				settings.setUseDefaultConfig(useDefault);
+			}		
+		});
+		
+		
 		btnChooseDocumenttype = new Button(composite, SWT.NONE);
 		GridData gd_btnChooseDocumenttype = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnChooseDocumenttype.widthHint = 164;
@@ -147,7 +158,10 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 			public void widgetSelected(SelectionEvent e) {
 				//@SuppressWarnings("unused")
 				try{
-					txtDefaultConfig.setText(EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl()).getNsURI());
+					String ePackageNsUri = EcoreSelectionDialogUtil.selectRegisteredPackage(Display.getCurrent().getActiveShell(), new ResourceSetImpl()).getNsURI();
+					txtDefaultConfig.setText(ePackageNsUri);
+					settings.setUseDefaultConfig(true);
+					settings.setMetaModelNsUri(ePackageNsUri);
 				} catch (NullPointerException NPe) {
 					System.out.println("Selection canceled.");
 				}

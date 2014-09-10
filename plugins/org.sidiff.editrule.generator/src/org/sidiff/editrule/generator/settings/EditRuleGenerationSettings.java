@@ -6,7 +6,7 @@ import org.sidiff.editrule.generator.IEditRuleGenerator;
  * Class for the concept of EditRuleGeneratorSettings
  * which configure an implementation of such a generator.
  * 
- * @author dreuling
+ * @author dreuling, mrindt
  *
  */
 public class EditRuleGenerationSettings {
@@ -14,23 +14,33 @@ public class EditRuleGenerationSettings {
 	/**
 	 * The generator to use
 	 */
-	private IEditRuleGenerator generator;
+	protected IEditRuleGenerator generator;
 	
 	/**
 	 * The default folder path to write the generated EditRules to.
 	 */
-	private String outputFolderPath;
-	
+	protected String outputFolderPath;
+
 	/**
 	 * The config path for configuring the generator in more detail.
 	 */
-	private String configPath;
+	protected String configPath;
+	
+	/**
+	 * If a default config should be generated;
+	 */
+	protected boolean useDefaultConfig;	
+	
+	/**
+	 * Namespace uri of a meta-model that was selected when choosing default config.
+	 */
+	protected String metaModelNsUri;
 	
 	/**
 	 * This enables/disables subfolder creation/usage for different @link{OperationType}.
 	 * (e.g. CREATE, DELETE)
 	 */
-	private boolean useSubfolders;
+	protected boolean useSubfolders;
 	
 	public EditRuleGenerationSettings(IEditRuleGenerator generator,String outputFolderPath, String configPath, Boolean useSubfolders){
 		this.generator = generator;
@@ -70,6 +80,20 @@ public class EditRuleGenerationSettings {
 	public void setUseSubfolders(boolean useSubfolders) {
 		this.useSubfolders = useSubfolders;
 	}
+	public boolean isUseDefaultConfig() {
+		return useDefaultConfig;
+	}
 
+	public void setUseDefaultConfig(boolean useDefaultConfig) {
+		this.useDefaultConfig = useDefaultConfig;
+	}
+
+	public String getMetaModelNsUri() {
+		return metaModelNsUri;
+	}
+
+	public void setMetaModelNsUri(String metaModelNsUri) {
+		this.metaModelNsUri = metaModelNsUri;
+	}
 
 }

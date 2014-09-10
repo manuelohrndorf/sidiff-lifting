@@ -91,11 +91,13 @@ public class ModuleSerializer {
 		// check if file already exist and skip if overwriting is disabled
 		if(!settings.isOverwriteGeneratedTransformations()) {
 			File folder = new File(outputFolderPath);
-			for(File f:  folder.listFiles(henshinFileNameFilter)) {
-				if(module.getName().concat(GlobalConstants.EXECUTE_suffix).equals(f.getName())) {
-					LogUtil.log(LogEvent.NOTICE, "Already exists: " + module.getName()
-							+ "  Overwriting was disabled. Thus serialization for this module will be skipped. ");
-					return;
+			if(folder.isDirectory()) {
+				for(File f:  folder.listFiles(henshinFileNameFilter)) {
+					if(module.getName().concat(GlobalConstants.EXECUTE_suffix).equals(f.getName())) {
+						LogUtil.log(LogEvent.NOTICE, "Already exists: " + module.getName()
+								+ "  Overwriting was disabled. Thus serialization for this module will be skipped. ");
+						return;
+					}
 				}
 			}
 		}

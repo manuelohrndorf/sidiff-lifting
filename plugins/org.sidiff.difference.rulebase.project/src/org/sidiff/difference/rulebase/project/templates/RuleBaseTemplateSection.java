@@ -165,7 +165,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		super.execute(project, model, monitor);
 		
 		//TODO: check if settings are filled..
-		
+		settings.setOutputFolderPath(project.getFolder("editrules").getLocation().toOSString());		
 		settings.getGenerator().init(settings, monitor);
 		try {
 			settings.getGenerator().generateEditRules(monitor);

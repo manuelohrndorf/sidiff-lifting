@@ -75,8 +75,8 @@ public class Serge implements IEditRuleGenerator{
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(
 				"platform:/plugin/"+PLUGIN_NAME+"/config/Editrulesgeneratorconfig.dtdmap.xml")); 
 
-		if(settings instanceof SergeSettings){
-			this.settings = (SergeSettings)settings;
+		if(settings instanceof EditRuleGenerationSettings){
+			this.settings = new SergeSettings(settings.getGenerator(),settings.getOutputFolderPath(), settings.getConfigPath(),settings.isUseSubfolders());
 		}
 		
 		assert(this.settings != null) : "This is no valid SergeSettings Instance:" + settings.toString();
