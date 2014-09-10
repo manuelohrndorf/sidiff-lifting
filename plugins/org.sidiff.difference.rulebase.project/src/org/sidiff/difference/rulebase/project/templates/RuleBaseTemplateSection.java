@@ -1,5 +1,6 @@
 package org.sidiff.difference.rulebase.project.templates;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,10 +22,12 @@ import org.eclipse.pde.ui.IFieldData;
 import org.eclipse.pde.ui.templates.OptionTemplateSection;
 import org.eclipse.pde.ui.templates.PluginReference;
 import org.osgi.framework.Bundle;
+import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
+import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
@@ -159,7 +162,22 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	@Override
 	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
 		System.out.println(" ================================== execute =============================");
-		// TODO Auto-generated method stub
 		super.execute(project, model, monitor);
+		
+		//TODO: check if settings are filled..
+		
+		settings.getGenerator().init(settings, monitor);
+		try {
+			settings.getGenerator().generateEditRules(monitor);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EPackageNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationTypeNotImplementedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
