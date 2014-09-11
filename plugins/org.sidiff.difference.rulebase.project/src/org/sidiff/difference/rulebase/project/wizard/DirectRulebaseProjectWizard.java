@@ -14,18 +14,13 @@ import org.eclipse.pde.ui.IPluginContentWizard;
 public class DirectRulebaseProjectWizard extends NewPluginProjectWizard {
 	
 	private RulebaseProjectWizard rulebaseWizard = new RulebaseProjectWizard();
-	
-	
-	public DirectRulebaseProjectWizard() {
-		super();
-		this.setWindowTitle("Rule-Base Plug-In Project");
-	}
-	
+
 	@Override
 	public void addPage(IWizardPage page) {
 
 		if (page instanceof TemplateListSelectionPage) {
 			try {
+				// Replace template selection page with rulebase pages:
 				TemplateListSelectionPage templates = (TemplateListSelectionPage) page;
 				
 		        // Access private member: fWizardListPage
@@ -33,25 +28,24 @@ public class DirectRulebaseProjectWizard extends NewPluginProjectWizard {
 		        final java.lang.reflect.Field field = pluginWizardClass.getDeclaredField("fWizardListPage");
 		        field.setAccessible(true);
 
-				// Replace template selection page:
-		        field.set(this, new RulebaseTemplate(templates.getWizardElements(), fContentPage, templates.getMessage()));		        
+				// Replace template selection page field:
+		        field.set(this, new RulebaseTemplate(templates.getWizardElements(), fContentPage, templates.getMessage()));
+		        
+				// Add rulebase wizard pages:
+				rulebaseWizard.addPages();
+				
+				for (IWizardPage rulebasePage : rulebaseWizard.getPages()) {
+					addPage(rulebasePage);
+				}
+				
+				// Set window title:
+				this.setWindowTitle("Rule-Base Plug-In Project");
 			} catch (Exception e) {
+				// Normal behavior:
 				super.addPage(page);
 			}
 		} else {
 			super.addPage(page);
-		}
-	}
-	
-	@Override
-	public void addPages() {
-		super.addPages();
-		
-		// Add rulebase wizard pages:
-		rulebaseWizard.addPages();
-		
-		for (IWizardPage page : rulebaseWizard.getPages()) {
-			addPage(page);
 		}
 	}
 	
