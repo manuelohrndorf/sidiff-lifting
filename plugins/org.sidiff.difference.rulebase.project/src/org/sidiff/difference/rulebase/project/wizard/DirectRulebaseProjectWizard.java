@@ -13,8 +13,6 @@ import org.eclipse.pde.ui.IPluginContentWizard;
 @SuppressWarnings("restriction")
 public class DirectRulebaseProjectWizard extends NewPluginProjectWizard {
 	
-	private RulebaseProjectWizard rulebaseWizard = new RulebaseProjectWizard();
-
 	@Override
 	public void addPage(IWizardPage page) {
 
@@ -29,12 +27,13 @@ public class DirectRulebaseProjectWizard extends NewPluginProjectWizard {
 		        field.setAccessible(true);
 
 				// Replace template selection page field:
-		        field.set(this, new RulebaseTemplate(templates.getWizardElements(), fContentPage, templates.getMessage()));
+		        RulebaseTemplate rulebaseTemplate = new RulebaseTemplate(templates.getWizardElements(), fContentPage, templates.getMessage());
+		        field.set(this, rulebaseTemplate);
 		        
 				// Add rulebase wizard pages:
-				rulebaseWizard.addPages();
+		        rulebaseTemplate.rulebaseWizard.addPages();
 				
-				for (IWizardPage rulebasePage : rulebaseWizard.getPages()) {
+				for (IWizardPage rulebasePage : rulebaseTemplate.rulebaseWizard.getPages()) {
 					addPage(rulebasePage);
 				}
 				
@@ -45,14 +44,18 @@ public class DirectRulebaseProjectWizard extends NewPluginProjectWizard {
 				super.addPage(page);
 			}
 		} else {
+			// Normal behavior:
 			super.addPage(page);
 		}
 	}
 	
 	private class RulebaseTemplate extends TemplateListSelectionPage {
+		
+		public RulebaseProjectWizard rulebaseWizard;
 
 		public RulebaseTemplate(ElementList wizardElements, ContentPage page, String message) {
 			super(wizardElements, page, message);
+			rulebaseWizard = new RulebaseProjectWizard();
 		}
 		
 		@Override
