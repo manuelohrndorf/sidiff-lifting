@@ -80,8 +80,11 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String[] getNewFiles() {
-		return new String[] { AbstractProjectRuleBase.SOURCE_FOLDER + "/", AbstractProjectRuleBase.BUILD_FOLDER + "/",
-				AbstractProjectRuleBase.RULEBASE_FILE + "/" };
+		// build.properties:
+		return new String[] { 
+				AbstractProjectRuleBase.SOURCE_FOLDER + "/", 
+				AbstractProjectRuleBase.BUILD_FOLDER + "/",
+				AbstractProjectRuleBase.RULEBASE_FILE };
 	}
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
