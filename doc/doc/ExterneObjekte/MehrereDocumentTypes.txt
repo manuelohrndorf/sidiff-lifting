@@ -1,0 +1,60 @@
+EMFModelAccessEx:
+- Bisherige getDocumentTypes(Resource) aufbohren und Scope mitgeben..
+- getCharacteristicDocumentType(Set<String> docTypes)
+    - löschen und Funktionalität in getDocumentTypes(Resource,Scope) verschieben
+    - Henshin Traces beachten
+        - Wir unterscheiden zwei Fälle, wenn mehr als 2 docTypes
+        1. UML UND Henshin/Trace 
+             assert (#docTypes = 2) : Not yet supported: Multi-view models with profiles  
+	     remove UML and Henshin/Trace
+             return 1st Übrigbleibsel    
+        2. UML UND !Henshin/Trace 
+             remove UML
+             return 1st Übrigbleibsel 
+        4. X UND Henshin/Trace
+	     Charakterisitschen DocumentType liefert die Resource, welche Quell-Objekte der Traces hält
+        default:
+	     return 1st	
+- isProfiled -> revise 
+    - wie bisher: notwendige Bed.: mehr als 2 docTypes
+    - Weitere notw. Bed.: UML muss dabei sein
+    - Hinreichend (zumindest so lange wir keine Multi-view models mit Profiles supporten:
+         kein Henshin/Trace    
+
+BaseMatcher
+- 1 documentType
+
+Neue Klasse IncrementalMatcher
+- Führt eine Liste von IMatchern in der gegebenen Reihenfolge aus
+
+TechnicalDifferenceBuilder
+- 1 documentType, aber:
+  - processUnmatchedA(), processUnmatchedB() und processCorrespondences() 
+    prüfen vor dem eigentlichen verarbeiten eines EObject, ob dieses auch 
+    dem unterstützten documentType entspricht.
+
+- checkDocumentType (mit assertion) wird ersetzt durch canHandle
+  -> für alle konkreten TechDiffBuilders
+
+Neue Klasse IncrementalTechnicalDifferenceBuilder
+- Führt eine Liste von TD-Buildern in der gegebenen Reihenfolge aus
+
+
+
+RuleBase + Wrapper, UI und alles drum herum:
+- Hier gibt es keinen charakteristischen DocumentType, nur ein DocumentType-Set
+
+PipelineUtils + RuleBaseUtil
+- Neue Methoden getAvailableRulebases(Set<String> modelDocTypes)
+- Prüfung, ob eine Rulebase in Frage kommt
+    Set modelDocTypes = alle DocTypes der Resource bzw. des ResourceSet (je nach Scope)
+    Set rulebaseDocTypes
+    -> rulebaseDocTypes TEILMENGE_VON modelDocTypes 
+       (alle Elemente aus rulebaseDocTypes sind in modelDocTypes auch tatsächlich enthalten)
+- Alte getAvailableRulebases(String documentType) 
+  - als deprecated erst mal bestehen lassen
+  - sollte SiLift-intern aber nirgendwo mehr benutzt werden
+  - Implementierung delegiert an neue getAvailableRulebases(new Set(documentType))
+
+
+
