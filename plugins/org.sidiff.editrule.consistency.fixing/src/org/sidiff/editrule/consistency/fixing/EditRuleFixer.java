@@ -524,6 +524,24 @@ public class EditRuleFixer {
 		}
 	}
 
+	public static void fix_multiRuleEdgeEmbedding(Rule multiRule, Edge kernelEdge) {
+		Node kernelSrc = kernelEdge.getSource();
+		Node kernelTgt = kernelEdge.getTarget();
+		Graph kernelGraph = kernelSrc.getGraph();
+		Graph multiGraph = null;
+		if (kernelGraph.isLhs()){
+			multiGraph = multiRule.getLhs();
+		} else {
+			multiGraph = multiRule.getRhs();
+		}
+		Node multiSrc = multiRule.getMultiMappings().getImage(kernelSrc, multiGraph);
+		Node multiTgt = multiRule.getMultiMappings().getImage(kernelTgt, multiGraph);
+		if (multiSrc != null && multiTgt != null){
+			Edge multiEdge = HenshinFactory.eINSTANCE.createEdge(multiSrc, multiTgt, kernelEdge.getType());
+			multiGraph.getEdges().add(multiEdge);
+		}
+	}
+	
 	public static void fix_consistentEOpposite(Edge edge) {
 		EReference edgeType = edge.getType();
 		EReference oppositeEdgeType = edgeType.getEOpposite();

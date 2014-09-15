@@ -82,14 +82,19 @@ public class ERFixingEngine {
 					}
 				}
 				EditRuleFixer.fix_multiRuleNodeEmbedding(kernelRule, multiRule, node);
+			} else if (type.equals(ValidationType.multiRuleEdgeEmbedding.toString())) {
+				Rule multiRule = (Rule) eObjects.get(0);
+				Edge kernelEdge = (Edge) eObjects.get(1);
+				EditRuleFixer.fix_multiRuleEdgeEmbedding(multiRule, kernelEdge);
 			} else if (type.equals(ValidationType.consistentEOpposite.toString())) {
 				Edge edge = (Edge) eObject;
 				EditRuleFixer.fix_consistentEOpposite(edge);
 			} else if (type.equals(ValidationType.noAcBoundaryAttributes.toString())) {
 				Node acBoundaryNode = (Node) eObject;
 				EditRuleFixer.fix_noAcBoundaryAttributes(acBoundaryNode);
-			}else if(type.equals(ValidationType.mappedAllValueSettingParameters.toString())){
-				Parameter parameter = ((Attribute)eObject).getGraph().getRule().getParameter(((Attribute)eObject).getValue());
+			} else if (type.equals(ValidationType.mappedAllValueSettingParameters.toString())) {
+				Parameter parameter = ((Attribute) eObject).getGraph().getRule()
+						.getParameter(((Attribute) eObject).getValue());
 				EditRuleFixer.fix_mappedAllValueSettingParameters(parameter);
 			}
 		}
