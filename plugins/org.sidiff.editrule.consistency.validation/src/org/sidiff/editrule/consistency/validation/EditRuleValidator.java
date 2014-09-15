@@ -1351,9 +1351,9 @@ public class EditRuleValidator {
 					Node multiNode = null;
 
 					for (Mapping mapping : multiRule.getMultiMappings()) {
-						multiNode = mapping.getImage();
-						if ((mapping.getOrigin() == kernelNode) && (multiNode != null) && isLHSNode(mapping.getImage())) {
-
+						if ((mapping.getOrigin() == kernelNode) && (mapping.getImage() != null) && isLHSNode(mapping.getImage())) {
+							multiNode = mapping.getImage();
+							
 							for (Attribute embeddedAttribute : mapping.getImage().getAttributes()) {
 								if ((embeddedAttribute.getType() == kernelAttribute.getType())
 										&& (embeddedAttribute.getValue().equals(kernelAttribute.getValue()))) {
@@ -1367,7 +1367,7 @@ public class EditRuleValidator {
 
 					if (!isEmbedded) {
 						EditRuleValidation info = new EditRuleValidation(
-								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
+								"All LHS Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
 								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode,
 								kernelAttribute);
 						invalids.add(info);
@@ -1384,9 +1384,9 @@ public class EditRuleValidator {
 					Node multiNode = null;
 
 					for (Mapping mapping : multiRule.getMultiMappings()) {
-						multiNode = mapping.getImage();
-						if ((mapping.getOrigin() == kernelNode) && (multiNode != null) && isRHSNode(mapping.getImage())) {
-
+						if ((mapping.getOrigin() == kernelNode) && (mapping.getImage() != null) && isRHSNode(mapping.getImage())) {
+							multiNode = mapping.getImage();
+							
 							for (Attribute embeddedAttribute : mapping.getImage().getAttributes()) {
 								if ((embeddedAttribute.getType() == kernelAttribute.getType())
 										&& (embeddedAttribute.getValue().equals(kernelAttribute.getValue()))) {
@@ -1398,9 +1398,9 @@ public class EditRuleValidator {
 						}
 					}
 
-					if (!isEmbedded) {
+					if (!isEmbedded) {						
 						EditRuleValidation info = new EditRuleValidation(
-								"All Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
+								"All RHS Kernel-Rule attributes have to be embedded in a Multi-Rule!", kernel.getModule(),
 								ValidationType.multiRuleAttributeEmbedding, kernel, multiRule, kernelNode, multiNode,
 								kernelAttribute);
 						invalids.add(info);
