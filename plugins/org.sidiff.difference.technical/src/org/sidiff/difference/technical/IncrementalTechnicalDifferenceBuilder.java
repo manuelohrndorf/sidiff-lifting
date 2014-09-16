@@ -41,7 +41,7 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 	 * of sub-builders. These sub-builders will be executed in the order given
 	 * by the list.
 	 * 
-	 * @param matchers
+	 * @param tdBuilders
 	 */
 	public IncrementalTechnicalDifferenceBuilder(List<ITechnicalDifferenceBuilder> tdBuilders) {
 		super();
@@ -67,7 +67,7 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 				LogUtil.log(LogEvent.NOTICE, "Next tdBuilder (" + i + "): " + nextBuilder.getName());
 				nextBuilder.deriveTechDiff(difference, scope);
 			} else {
-				LogUtil.log(LogEvent.NOTICE, "Next matcher (" + i + "): " + nextBuilder.getName()
+				LogUtil.log(LogEvent.NOTICE, "Next tdBuilder (" + i + "): " + nextBuilder.getName()
 						+ ": Skip because cannot handle resources " + modelA + " and " + modelB);
 			}
 		}
@@ -79,6 +79,7 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 
 	@Override
 	public String getDocumentType() {
+		// depends on the sub td builders
 		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 

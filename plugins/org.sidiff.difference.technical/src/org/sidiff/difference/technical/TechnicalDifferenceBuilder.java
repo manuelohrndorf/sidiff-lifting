@@ -466,8 +466,8 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			return true;
 		}
 		
-		Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, scope);
-		Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, scope);
+		Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE_SET);
+		Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, Scope.RESOURCE_SET);
 
 		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
 	}
