@@ -16,6 +16,7 @@ import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
+import org.silift.common.HighlightableElement;
 
 /**
  * Encapsulates an operation invocation and keeps further information about the
@@ -23,7 +24,7 @@ import org.sidiff.patching.arguments.ObjectArgumentWrapper;
  * 
  * @author kehrer
  */
-public class OperationInvocationWrapper {
+public class OperationInvocationWrapper implements HighlightableElement {
 
 	/**
 	 * The operation manager
@@ -296,6 +297,21 @@ public class OperationInvocationWrapper {
 		for (ParameterBinding binding : args.keySet()) {
 			args.put(binding, null);
 		}
+	}
+
+	@Override
+	public List<EObject> getElements() {
+		List<EObject> res = new ArrayList<EObject>();
+		for (ArgumentWrapper argumentWrapper : getAllActualArguments()) {
+			if (argumentWrapper instanceof ObjectArgumentWrapper){
+				ObjectArgumentWrapper objArgumentWrapper = (ObjectArgumentWrapper) argumentWrapper;
+				if (objArgumentWrapper.isResolved()){
+					res.add(objArgumentWrapper.getTargetObject());
+				}	
+			}
+		}
+		
+		return res;
 	}
 
 }

@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -30,6 +31,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.sidiff.difference.symmetric.compareview.internal.DifferenceSelectionController;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -40,7 +42,8 @@ import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedList
 import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
-public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener, IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
+public class OperationExplorerView extends ViewPart implements IModelChangeListener, IValueChangedListener,
+		IPatchReportListener, ITabbedPropertySheetPageContributor, IPartListener {
 
 	public static final String ID = "org.sidiff.patching.ui.view.OperationExplorerView";
 
@@ -49,6 +52,8 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
 	private final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
 	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
+	private final ImageDescriptor toggle = PlatformUI.getWorkbench().getSharedImages()
+			.getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED);
 
 	private PatchEngine engine;
 
@@ -63,6 +68,9 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	// Expand
 	private Action expandAllAction;
 
+	// ----------- Toggle Highlight -------------
+	private Action toggleHighlightAction;
+
 	// ----------- Filter -------------------
 	private Action filterOperationsAction;
 	private OperationInvocationFilter executedOperationsFilter;
@@ -72,9 +80,9 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private Action iterativeValidationAction;
 	private Action finalValidationAction;
 	private Action noValidationAction;
-	
-	//FIXME cpietsch 26.02.2014: notify properties view
-	private void updatePropertyViewViaSelectionListener(TreeViewer viewer){
+
+	// FIXME cpietsch 26.02.2014: notify properties view
+	private void updatePropertyViewViaSelectionListener(TreeViewer viewer) {
 		ISelection selection = viewer.getSelection();
 		viewer.setSelection(null);
 		viewer.setSelection(selection);
@@ -84,12 +92,12 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	public void createPartControl(Composite parent) {
 
 		// TreeViewer
-		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL){
+		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL) {
 			public void setSelection(ISelection selection, boolean reveal) {
 				/**
 				 * <p>
-				 * If the new selection differs from the current selection the hook
-				 * <code>updateSelection</code> is called.
+				 * If the new selection differs from the current selection the
+				 * hook <code>updateSelection</code> is called.
 				 * </p>
 				 * <p>
 				 * If <code>setSelection</code> is called from within
@@ -98,20 +106,20 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				 * <code>preserveSelection</code>.
 				 * </p>
 				 * <p>
-				 * Subclasses do not typically override this method, but implement
-				 * <code>setSelectionToWidget</code> instead.
+				 * Subclasses do not typically override this method, but
+				 * implement <code>setSelectionToWidget</code> instead.
 				 * </p>
 				 */
 				Control control = getControl();
 				if (control == null || control.isDisposed()) {
 					return;
 				}
-				
+
 				setSelectionToWidget(selection, reveal);
 				ISelection sel = getSelection();
 				updateSelection(sel);
 				firePostSelectionChanged(new SelectionChangedEvent(this, sel));
-				
+
 			}
 		};
 		patchViewer.setContentProvider(new PatchContentProvider());
@@ -119,8 +127,8 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		operationLabelProvider = new OperationLabelProvider();
 		patchViewer.setLabelProvider(operationLabelProvider);
-				
-		//Register part listener (for editor)
+
+		// Register part listener (for editor)
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
 
 		patchViewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -133,13 +141,12 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				if (selectedNode instanceof OperationInvocationWrapper) {
 					OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
 					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED
-							&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED ) {
+							&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 						engine.revert(operationWrapper.getOperationInvocation());
-					} else if (operationWrapper.getStatus() != OperationInvocationStatus.IGNORED){
-						engine.apply(operationWrapper.getOperationInvocation(),true);
-					}
-					else if (operationWrapper.getStatus() == OperationInvocationStatus.IGNORED) {
-						engine.unignore(operationWrapper.getOperationInvocation());						
+					} else if (operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+						engine.apply(operationWrapper.getOperationInvocation(), true);
+					} else if (operationWrapper.getStatus() == OperationInvocationStatus.IGNORED) {
+						engine.unignore(operationWrapper.getOperationInvocation());
 					}
 					updatePropertyViewViaSelectionListener(viewer);
 					patchViewer.refresh();
@@ -164,12 +171,13 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 					Object selectedNode = selection.getFirstElement();
 					if (selectedNode instanceof OperationInvocationWrapper) {
 						final OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
-						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED && operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED
+								&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Apply operation", apply) {
 
 								@Override
 								public void run() {
-									engine.apply(operationWrapper.getOperationInvocation(),true);
+									engine.apply(operationWrapper.getOperationInvocation(), true);
 									updatePropertyViewViaSelectionListener(patchViewer);
 									patchViewer.refresh();
 								};
@@ -177,49 +185,47 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 							manager.add(new Action("Ignore operation", ignore) {
 
 								@Override
-								public void run(){
+								public void run() {
 									engine.ignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
 									patchViewer.refresh();
 								}
 							});
-						} else	if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED && operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+						} else if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED
+								&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Revert operation", revert) {
-							
+
 								@Override
 								public void run() {
 									engine.revert(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
 								};
 							});
-						}
-						else if(operationWrapper.getStatus() == OperationInvocationStatus.IGNORED){
+						} else if (operationWrapper.getStatus() == OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Unignore operation", unignore) {
-								
+
 								@Override
-								public void run(){
+								public void run() {
 									engine.unignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
 									patchViewer.refresh();
 								}
 							});
 						}
-						
+
 						manager.add(new Action("Show Properties View", properties) {
-							
+
 							@Override
-							public void run(){
+							public void run() {
 								try {
-									PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-									getActivePage().showView(IPageLayout.ID_PROP_SHEET);
-								} catch (PartInitException e) {									
+									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+											.showView(IPageLayout.ID_PROP_SHEET);
+								} catch (PartInitException e) {
 									e.printStackTrace();
 								}
 							}
-						});					
-
+						});
 					}
-
 				}
 			}
 		});
@@ -231,19 +237,17 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		createActions(patchViewer);
 		createMenus();
 		createToolbar();
-		
-		//Clear initially
+
+		// Clear initially
 		this.clearView();
-
-
 	}
 
 	public void setPatchEngine(PatchEngine patchEngine) {
-		
-		this.engine = patchEngine;		
-		
+
+		this.engine = patchEngine;
+
 		this.initView();
-		
+
 		this.patchViewer.setInput(engine.getOperationManager());
 
 		filterOperationsAction.setEnabled(true);
@@ -262,7 +266,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			iterativeValidationAction.setChecked(true);
 		else
 			noValidationAction.setChecked(true);
-		
+
 	}
 
 	/**
@@ -344,17 +348,28 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		};
 		this.collapseAllAction.setToolTipText("Collapse all");
 		this.collapseAllAction.setImageDescriptor(Activator.getImageDescriptor("collapseall.png"));
-		
-		// ----------- Expand All ------------------
-				this.expandAllAction = new Action("Expand all", IAction.AS_PUSH_BUTTON) {
-					@Override
-					public void run() {
-						treeViewer.expandAll();;
 
-					}
-				};
-				this.expandAllAction.setToolTipText("Expand all");
-				this.expandAllAction.setImageDescriptor(Activator.getImageDescriptor("expandall.gif"));
+		// ----------- Expand All ------------------
+		this.expandAllAction = new Action("Expand all", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				treeViewer.expandAll();
+				;
+			}
+		};
+		this.expandAllAction.setToolTipText("Expand all");
+		this.expandAllAction.setImageDescriptor(Activator.getImageDescriptor("expandall.gif"));
+
+		// ----------- Toggle Highlight ------------------
+		this.toggleHighlightAction = new Action("Highlighting of Changes", IAction.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				System.out.println("TOGGLE");
+				DifferenceSelectionController.getInstance().toggleHighlight();
+			}
+		};
+		this.toggleHighlightAction.setToolTipText("Highlighting of Changes");
+		this.toggleHighlightAction.setImageDescriptor(toggle);
 	}
 
 	private void updateFilter(Action action) {
@@ -388,6 +403,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		toolbarManager.add(filterOperationsAction);
 		toolbarManager.add(collapseAllAction);
 		toolbarManager.add(expandAllAction);
+		toolbarManager.add(toggleHighlightAction);
 		toolbarManager.add(validateMenu);
 	}
 
@@ -445,7 +461,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	@Override
 	public void pushReport(int i) {
-		
 
 	}
 
@@ -453,79 +468,73 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	public String getContributorId() {
 		return getSite().getId();
 	}
-	
+
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IPropertySheetPage.class)
 			return new TabbedPropertySheetPage(this);
 		return super.getAdapter(adapter);
-	}	
+	}
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		
-		
+
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
-		
-		
+
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-		
-		if (part instanceof EditorPart){
-			//Check if at least one editor is still open
-			if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0){
+		if (part instanceof EditorPart) {
+			// Check if at least one editor is still open
+			if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0) {
 				this.clearView();
 			}
 		}
-		
 	}
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		
-		
+
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPart part) {
-		
+
 	}
-	
-	private void clearView(){		
-		this.patchViewer.getTree().clearAll(true);	
+
+	private void clearView() {
+		this.patchViewer.getTree().clearAll(true);
 		this.patchViewer.getTree().setVisible(false);
 		this.applyPatchAction.setEnabled(false);
 		this.collapseAllAction.setEnabled(false);
 		this.expandAllAction.setEnabled(false);
+		this.toggleHighlightAction.setEnabled(false);
 		this.filterOperationsAction.setEnabled(false);
-		this.validateMenu.setEnabled(false);	
-		
+		this.validateMenu.setEnabled(false);
+
 		if (engine != null && engine.getPatchReportManager() != null) {
 			engine.getPatchReportManager().removePatchReportListener(this);
 		}
 
 	}
-	
-	private void initView(){	
-		
+
+	private void initView() {
+
 		if (engine != null && engine.getPatchReportManager() != null) {
 			engine.getPatchReportManager().addPatchReportListener(this);
 		}
-		
+
 		this.patchViewer.getTree().setVisible(true);
 		this.applyPatchAction.setEnabled(true);
 		this.collapseAllAction.setEnabled(true);
 		this.expandAllAction.setEnabled(true);
+		this.toggleHighlightAction.setEnabled(true);
 		this.filterOperationsAction.setEnabled(true);
-		this.validateMenu.setEnabled(true);			
+		this.validateMenu.setEnabled(true);
 	}
-
-	
-	
 
 }

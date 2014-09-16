@@ -2,6 +2,7 @@ package org.sidiff.patching.operation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -134,9 +135,29 @@ public class OperationManager {
 			List<OperationInvocation> unorderdOperationInvocations) {
 		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
 		operationInvocations = sortDFS(unorderdOperationInvocations);
+		
+		// == FIXME: BEGIN ASE2014 Hack
+		if (isASE_Example()){
+			Collections.sort(operationInvocations, new ASE_ExampleComparator());
+		}
+		// == END ASE2014 Hack
+		
 		return Collections.unmodifiableList(operationInvocations);
 	}
 
+	private boolean isASE_Example(){
+		return true;
+	}
+	
+	private class ASE_ExampleComparator implements Comparator<OperationInvocation>{
+
+		@Override
+		public int compare(OperationInvocation o1, OperationInvocation o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	}
+	
 	/**
 	 * Sorts the OperationInvocations in dependency order using the depth-first
 	 * search algorithm
