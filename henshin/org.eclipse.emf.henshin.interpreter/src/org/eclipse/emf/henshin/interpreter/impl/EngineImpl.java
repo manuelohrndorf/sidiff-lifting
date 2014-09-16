@@ -274,6 +274,11 @@ public class EngineImpl implements Engine {
 		private final EGraph graph;
 
 		/**
+		 * The given partial match.
+		 */
+		private Match partialMatch;
+
+		/**
 		 * Solution finder to be used.
 		 */
 		private final SolutionFinder solutionFinder;
@@ -304,6 +309,7 @@ public class EngineImpl implements Engine {
 			this.rule = rule;
 			this.ruleInfo = getRuleInfo(rule);
 			this.graph = graph;
+			this.partialMatch = partialMatch;
 			this.usedObjects = usedObjects;
 			this.solutionFinder = createSolutionFinder(partialMatch);
 		}
@@ -383,54 +389,103 @@ public class EngineImpl implements Engine {
 				// The used kernel objects:
 				Set<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
 				usedKernelObjects.addAll(nextMatch.getNodeTargets());
-
-				// Create the partial multi match:
-				Match partialMultiMatch = new MatchImpl(multiRule);
-				for (Parameter param : rule.getParameters()) {
-					Parameter multiParam = multiRule.getParameter(param.getName());
-					if (multiParam!=null) {
-						partialMultiMatch.setParameterValue(multiParam, nextMatch.getParameterValue(param));
-					}
-				}
-				for (Mapping mapping : multiRule.getMultiMappings()) {
-					partialMultiMatch.setNodeTarget(mapping.getImage(),
-							nextMatch.getNodeTarget(mapping.getOrigin()));
-				}
-
-				// Find nested multi-matches:
-				List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
 				
-				// Check if we can use worker threads:
-				if (workerPool!=null && (graph instanceof PartitionedEGraph) && (multiRule.getLhs().getNodes().size() > 1)) {
-					
-					// Create match finder workers:
-					List<Future<List<Match>>> matchFinderFutures = new ArrayList<Future<List<Match>>>();
-					int partitions = ((PartitionedEGraph) graph).getNumPartitions();
-					for (int p=0; p<partitions; p++) {
-						Set<EObject> freshUsedObjects = new HashSet<EObject>(usedKernelObjects);
-						MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, freshUsedObjects);
-						MatchFinderWorker worker = new MatchFinderWorker(matchFinder, p);
-						matchFinderFutures.add(workerPool.submit(worker));
-					}
-					
-					// Collect found matches:
-					try {
-						for (Future<List<Match>> futures : matchFinderFutures) {
-							nestedMatches.addAll(futures.get());
-						}
-					} catch (Throwable t) {
-						throw new RuntimeException(t);
-					}
-					
+				// The partial multi-matches:
+				List<Match> partialMultiMatches = partialMatch.getMultiMatches(multiRule);
+				
+				if (partialMultiMatches.isEmpty()) {
+					// Find all multi-matches (no partial multi-matches):
+					Match partialMultiMatch = new MatchImpl(multiRule);
+					findMultiMatch(multiRule, partialMultiMatch, usedKernelObjects);
 				} else {
-					
-					// Otherwise execute directly in this thread:
-					MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
-					while (matchFinder.hasNext()) {
-						nestedMatches.add(matchFinder.next());
+					// Find all complete multi-matches for each partially given multi-match:
+					for (Match partialMultiMatch : partialMultiMatches) {
+						Match internalPartialMultiMatch = copyMultiMatch(partialMultiMatch);
+						findMultiMatch(multiRule, internalPartialMultiMatch, usedKernelObjects);
 					}
-					
 				}
+			}
+		}
+		
+		/**
+		 * Creates a copy of a match including the original (not copied!) multi-matches.
+		 * 
+		 * @param match The match to copy.
+		 * @return The copy of the given match.
+		 */
+		private Match copyMultiMatch(Match match) {
+			Match matchCopy = new MatchImpl(match, false);
+			
+			for (Rule multiRule : match.getRule().getMultiRules()) {
+				for (Match childMultiMatch : match.getMultiMatches(multiRule)) {
+					matchCopy.getMultiMatches(multiRule).add(childMultiMatch);
+				}
+			}
+			
+			return matchCopy;
+		}
+		
+		/**
+		 * Find all matches for a multi-rule (with given partial match).
+		 * 
+		 * @param multiRule The multi-rule to process.
+		 * @param partialMultiMatch The partial match of the given multi-rule.
+		 * @param usedKernelObjects The used kernel objects.
+		 */
+		private void findMultiMatch(Rule multiRule, Match partialMultiMatch, Set<EObject> usedKernelObjects) {
+			
+			// Add the parameters of the kernel to the partial multi-match:
+			for (Parameter param : rule.getParameters()) {
+				Parameter multiParam = multiRule.getParameter(param.getName());
+				if (multiParam!=null) {
+					Object parameterValue = nextMatch.getParameterValue(param);
+					
+					// Do not overwrite the partial multi-match with empty parameters!
+					if (parameterValue!=null) {
+						partialMultiMatch.setParameterValue(multiParam, parameterValue);	
+					}
+				}
+			}
+			
+			// Add the kernel match to the partial multi-match:
+			for (Mapping mapping : multiRule.getMultiMappings()) {
+				partialMultiMatch.setNodeTarget(mapping.getImage(),
+						nextMatch.getNodeTarget(mapping.getOrigin()));
+			}
+
+			// Find nested multi-matches:
+			List<Match> nestedMatches = nextMatch.getMultiMatches(multiRule);
+			
+			// Check if we can use worker threads:
+			if (workerPool!=null && (graph instanceof PartitionedEGraph) && (multiRule.getLhs().getNodes().size() > 1)) {
+				
+				// Create match finder workers:
+				List<Future<List<Match>>> matchFinderFutures = new ArrayList<Future<List<Match>>>();
+				int partitions = ((PartitionedEGraph) graph).getNumPartitions();
+				for (int p=0; p<partitions; p++) {
+					Set<EObject> freshUsedObjects = new HashSet<EObject>(usedKernelObjects);
+					MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, freshUsedObjects);
+					MatchFinderWorker worker = new MatchFinderWorker(matchFinder, p);
+					matchFinderFutures.add(workerPool.submit(worker));
+				}
+				
+				// Collect found matches:
+				try {
+					for (Future<List<Match>> futures : matchFinderFutures) {
+						nestedMatches.addAll(futures.get());
+					}
+				} catch (Throwable t) {
+					throw new RuntimeException(t);
+				}
+				
+			} else {
+				
+				// Otherwise execute directly in this thread:
+				MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
+				while (matchFinder.hasNext()) {
+					nestedMatches.add(matchFinder.next());
+				}
+				
 			}
 		}
 
