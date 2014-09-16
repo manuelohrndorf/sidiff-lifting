@@ -105,7 +105,7 @@ public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListe
 		// Set dialog message:
 		/* Note: Needed to force correct layout for scrollbar!? *
 		 *       Set at least to setMessage(" ")!               */
-		setMessage("Merge three models");
+		setMessage("Propagates parallel changes by other developers, which were checked-in into a common repository, to the local workspace.");
 		
 	}
 

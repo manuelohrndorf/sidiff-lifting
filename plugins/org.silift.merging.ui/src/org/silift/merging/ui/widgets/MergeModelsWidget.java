@@ -75,7 +75,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			modelBaseGroup.setLayout(grid);
 			modelBaseGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-			modelBaseGroup.setText("Base model");
+			modelBaseGroup.setText("Base version");
 		}
         
 	    modelBaseButton1 = new Button(modelBaseGroup, SWT.RADIO);
@@ -121,7 +121,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			modelMineGroup.setLayout(grid);
 			modelMineGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-			modelMineGroup.setText("My model");
+			modelMineGroup.setText("Workspace version");
 		}
 		
 	    modelMineButton1 = new Button(modelMineGroup, SWT.RADIO);
@@ -168,7 +168,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 			modelTheirsGroup.setLayout(grid);
 			modelTheirsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-			modelTheirsGroup.setText("Their model");
+			modelTheirsGroup.setText("Repository version");
 		}
         
 	    modelTheirsButton1 = new Button(modelTheirsGroup, SWT.RADIO);

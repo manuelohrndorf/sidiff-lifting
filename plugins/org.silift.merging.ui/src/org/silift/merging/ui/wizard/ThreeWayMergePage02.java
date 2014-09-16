@@ -29,7 +29,7 @@ import org.silift.patching.settings.PatchingSettings;
 
 public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {
 
-	private String DEFAULT_MESSAGE = "Merge three models";
+	private String DEFAULT_MESSAGE = "Workspace update";
 
 	private Composite container;
 

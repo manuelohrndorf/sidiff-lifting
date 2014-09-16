@@ -80,7 +80,7 @@ public class ThreeWayMergeWizard extends Wizard {
 	Difference fullDiff = null;
 
 	public ThreeWayMergeWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
-		this.setWindowTitle("Three-Way-Merge Wizard");
+		this.setWindowTitle("Workspace Update Wizard");
 
 		this.mergeModels = new MergeModels(fileMine, fileTheirs, fileBase);
 		this.patchingSettings = new PatchingSettings();
@@ -89,11 +89,11 @@ public class ThreeWayMergeWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels, "ThreeWayMergePage", "Merge three models",
+		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels, "ThreeWayMergePage", "Workspace update",
 				getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage01);
 
-		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels, "ThreeWayMergePage", "Merge three models",
+		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels, "ThreeWayMergePage", "Workspace update",
 				getImageDescriptor("icon.png"), liftingSettings, patchingSettings);
 		addPage(threeWayMergePage02);
 	}
