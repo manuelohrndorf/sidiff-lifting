@@ -8,6 +8,7 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
 public class LiftingSettings extends Settings {
@@ -118,6 +119,9 @@ public class LiftingSettings extends Settings {
 	 */
 	public LiftingSettings() {
 		super();
+		
+		// Default: Use the default RecognitionRuleSorter
+		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE);
 	}
 
 	/**
