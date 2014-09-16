@@ -1,11 +1,16 @@
 package org.sidiff.difference.matcher;
 
+import java.util.Set;
+
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -29,35 +34,44 @@ public abstract class BaseMatcher implements IMatcher {
 	 * The B version of the model.
 	 */
 	private Resource modelB;
-	
+
 	/**
 	 * RESOURCE or RESOURCE_SET
 	 */
-	 private Scope scope;
+	private Scope scope;
 
 	@Override
-	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope, boolean calculateReliability) {
-		
+	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
+			boolean calculateReliability) {
+
 		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
 		matching.setUriModelA(modelA.getURI().toString());
 		matching.setUriModelB(modelB.getURI().toString());
-		
+
 		addMatches(modelA, modelB, matching, scope, calculateReliability);
-		
+
 		return matching;
 	}
 
 	@Override
 	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
 			boolean calculateReliability) {
-		
+
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "-------------------------- ADD MATCHES ---------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "Matcher: " + getClass().getSimpleName());
+		LogUtil.log(LogEvent.NOTICE, "Model A: " + modelA);
+		LogUtil.log(LogEvent.NOTICE, "Model B: " + modelB);
+		LogUtil.log(LogEvent.NOTICE, "Scope: " + scope);
+
 		this.modelA = modelA;
 		this.modelB = modelB;
 		this.matching = matching;
 		this.scope = scope;
-		
-		if (scope == Scope.RESOURCE_SET){
-			// Include all ResourceSets A for matching			
+
+		if (scope == Scope.RESOURCE_SET) {
+			// Include all ResourceSets A for matching
 			for (Resource r : modelA.getResourceSet().getResources()) {
 				traverseResourceA(r);
 			}
@@ -66,20 +80,40 @@ public abstract class BaseMatcher implements IMatcher {
 			traverseResourceA(modelA);
 		}
 	}
-	
+
+	@Override
+	public boolean canHandle(Resource modelA, Resource modelB) {
+		// generic matchers can handle every model
+		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)) {
+			return true;
+		}
+
+		if (isResourceSetCapable()) {
+			Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE_SET);
+			Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, Scope.RESOURCE_SET);
+
+			return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
+		} else {
+			String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+			String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(modelB);
+
+			return docTypeA.equals(getDocumentType()) && docTypeB.equals(getDocumentType());
+		}
+	}
+
 	@Override
 	public boolean isResourceSetCapable() {
 		return true;
 	}
-	
-	private void traverseResourceA(Resource resourceA){
+
+	private void traverseResourceA(Resource resourceA) {
 		EObject elementA = null;
 		TreeIterator<EObject> iterA = resourceA.getAllContents();
 
 		while (iterA.hasNext()) {
 			elementA = iterA.next();
-			
-			if (scope == Scope.RESOURCE_SET){
+
+			if (scope == Scope.RESOURCE_SET) {
 				// Include all resource sets B for search
 				for (Resource r : modelB.getResourceSet().getResources()) {
 					EObject elementB = null;
@@ -89,14 +123,16 @@ public abstract class BaseMatcher implements IMatcher {
 					while (iterB.hasNext()) {
 						elementB = iterB.next();
 
-						if (isCorresponding(elementA, elementB)) {							
-							matching.addCorrespondence(elementA, elementB);
-							matchFound = true;
-							break;
+						if (doProcess(elementA) && doProcess(elementB)) {
+							if (isCorresponding(elementA, elementB)) {
+								matching.addCorrespondence(elementA, elementB);
+								matchFound = true;
+								break;
+							}
 						}
 					}
-					
-					if (matchFound){
+
+					if (matchFound) {
 						break;
 					}
 				}
@@ -108,17 +144,29 @@ public abstract class BaseMatcher implements IMatcher {
 				while (iterB.hasNext()) {
 					elementB = iterB.next();
 
-					if (isCorresponding(elementA, elementB)) {																		
-						matching.addCorrespondence(elementA, elementB);
-						break;
+					if (doProcess(elementA) && doProcess(elementB)) {
+						if (isCorresponding(elementA, elementB)) {
+							matching.addCorrespondence(elementA, elementB);
+							break;
+						}
 					}
 				}
-			}	
+			}
 		}
-	} 
-	
+	}
+
+	private boolean doProcess(EObject object) {
+		// generic matchers can process every eObject
+		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)) {
+			return true;
+		}
+
+		return EMFModelAccessEx.getDocumentType(object).equals(getDocumentType());
+	}
+
 	/**
-	 * Calculates matching between to objects. Subclasses have to implement this method!
+	 * Calculates matching between to objects. Subclasses have to implement this
+	 * method!
 	 * 
 	 * @param elementA
 	 *            the model A version of the object.

@@ -24,7 +24,8 @@ public interface IMatcher {
 	 * @param scope
 	 *            RESOURCE or RESOURCE_SET
 	 */
-	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope, boolean calculateReliability);
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
+			boolean calculateReliability);
 
 	/**
 	 * Calculates a matching between model A and model B. That means a
@@ -65,6 +66,11 @@ public interface IMatcher {
 	 * @return
 	 */
 	public boolean canHandle(Resource modelA, Resource modelB);
+
+	/**
+	 * @return the document type the matcher is primarily implemented for.
+	 */
+	public String getDocumentType();
 
 	/**
 	 * Returns whether this matcher is principally capable of comparing two

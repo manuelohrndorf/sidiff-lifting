@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.matcher.BaseMatcher;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * Concrete matcher stub that checks whether two elements have a name attribute
@@ -62,10 +63,10 @@ public class NamedElementMatcher extends BaseMatcher {
 	}
 
 	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
+	public String getDocumentType() {
 		// can handle every documentType (maybe with bad results when only few
 		// name attributes are defined in the meta-model)
-		return true;
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

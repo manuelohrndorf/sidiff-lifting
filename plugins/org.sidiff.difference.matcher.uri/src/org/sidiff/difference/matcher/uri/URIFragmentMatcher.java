@@ -17,6 +17,7 @@ import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.difference.matcher.BaseMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -223,8 +224,8 @@ public class URIFragmentMatcher extends BaseMatcher {
 	}
 
 	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
-		return true;
+	public String getDocumentType() {
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

@@ -192,6 +192,12 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	}
 
 	@Override
+	public String getDocumentType() {
+		// generic (if configured properly)
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+	}
+	
+	@Override
 	public boolean isResourceSetCapable() {
 		// yet, SiDiff is not capable of comparing complete resource
 		// sets

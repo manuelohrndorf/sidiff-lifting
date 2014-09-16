@@ -27,16 +27,8 @@ public class FeatureModelMatcher extends BaseMatcher {
 	}
 
 	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
-		
-		// Get FeatureModel URI
-		String fmUri = FeatureModelPackage.eNS_URI;
-		
-		//Can only handle FeatureModel models, therefore both 
-		//models must conform to the corresponding fmUri.
-		return EMFModelAccessEx.getCharacteristicDocumentType(modelA).equals(fmUri) && 
-				EMFModelAccessEx.getCharacteristicDocumentType(modelB).equals(fmUri);
-
+	public String getDocumentType() {
+		return FeatureModelPackage.eNS_URI;
 	}
 
 	@Override

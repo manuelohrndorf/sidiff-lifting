@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.matcher.BaseMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
+import org.silift.common.util.access.EMFModelAccessEx;
 
 public class SMGMatcher extends BaseMatcher {
 
@@ -27,12 +28,20 @@ public class SMGMatcher extends BaseMatcher {
 		return KEY;
 	}
 
+	/**
+	 * We overwrite default canHandle behavior which only checks for documentType.
+	 */
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
 		if (correspondences != null)
 			return true;
 		else
 			return false;
+	}
+	
+	@Override
+	public String getDocumentType() {
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

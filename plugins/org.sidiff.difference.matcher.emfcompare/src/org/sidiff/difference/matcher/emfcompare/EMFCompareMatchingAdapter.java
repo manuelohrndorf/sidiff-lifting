@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -106,9 +107,12 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
-		// EMFCompare can handle every model type, at least with the generic
-		// matching engine.
 		return true;
+	}
+	
+	@Override
+	public String getDocumentType() {
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

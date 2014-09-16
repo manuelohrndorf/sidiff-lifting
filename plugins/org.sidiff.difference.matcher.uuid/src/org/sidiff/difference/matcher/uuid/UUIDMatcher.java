@@ -13,8 +13,15 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.matcher.BaseMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
+/**
+ * XMI-IDs are used as matching criterion. Works only if the resources have XMI
+ * IDs, otherwise we can't handle them.
+ * 
+ * @author kehrer
+ */
 public class UUIDMatcher extends BaseMatcher {
 
 	public static final String KEY = "UUIDMatcher";
@@ -32,7 +39,7 @@ public class UUIDMatcher extends BaseMatcher {
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
 			boolean calculateReliability) {
-		
+
 		checkHasUUIDs(modelA);
 		checkHasUUIDs(modelB);
 
@@ -42,10 +49,14 @@ public class UUIDMatcher extends BaseMatcher {
 		for (Correspondence c : getDifference().getCorrespondences()) {
 			c.setReliability(1.0f);
 		}
-		
+
 		return getDifference();
 	}
 
+	/**
+	 * We override the default canHandle Behavior which only checks for the
+	 * documentType. Here, we check if the resource really have XMI IDs.
+	 */
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
 		// Check modelA
@@ -62,6 +73,11 @@ public class UUIDMatcher extends BaseMatcher {
 
 		// Everything fine
 		return true;
+	}
+
+	@Override
+	public String getDocumentType() {
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

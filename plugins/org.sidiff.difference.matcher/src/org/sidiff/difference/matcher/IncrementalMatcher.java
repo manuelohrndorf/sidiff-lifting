@@ -7,6 +7,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -124,6 +125,12 @@ public class IncrementalMatcher implements IMatcher {
 		}
 
 		return true;
+	}
+
+	@Override
+	public String getDocumentType() {
+		// depends on the sub-matchers
+		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 }
