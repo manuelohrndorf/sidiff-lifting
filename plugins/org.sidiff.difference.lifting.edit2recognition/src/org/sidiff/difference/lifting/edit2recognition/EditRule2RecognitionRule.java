@@ -244,10 +244,10 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 		createAttributeValueChangePatterns();
 		createOptionalAttributeValueChangePatterns();
 		
-		// Test if any change patterns were created:
-		if (changes.isEmpty() && optionalChanges.isEmpty()) {
-			throw new NoRecognizableChangesInEditRule(editRule.getModule());
-		}
+//		// Test if any change patterns were created:
+//		if (changes.isEmpty() && optionalChanges.isEmpty()) {
+//			throw new NoRecognizableChangesInEditRule(editRule.getModule());
+//		}
 
 		// Application Condition:
 		createACPattern(editRule.getLhs().getFormula());
