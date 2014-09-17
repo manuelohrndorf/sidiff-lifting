@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getValue <em>Value</em>}</li>
- *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,29 +50,29 @@ public interface SymbolicLinkAttribute extends EObject {
 	void setValue(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Kind</b></em>' reference.
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Kind</em>' reference isn't clear,
+	 * If the meaning of the '<em>Type</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Kind</em>' reference.
-	 * @see #setKind(EAttribute)
-	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkAttribute_Kind()
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(EAttribute)
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkAttribute_Type()
 	 * @model required="true"
 	 * @generated
 	 */
-	EAttribute getKind();
+	EAttribute getType();
 
 	/**
-	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getKind <em>Kind</em>}' reference.
+	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getType <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Kind</em>' reference.
-	 * @see #getKind()
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
 	 * @generated
 	 */
-	void setKind(EAttribute value);
+	void setType(EAttribute value);
 
 } // SymbolicLinkAttribute

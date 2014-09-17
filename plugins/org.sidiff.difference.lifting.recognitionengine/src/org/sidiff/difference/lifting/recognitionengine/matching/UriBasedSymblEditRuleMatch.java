@@ -93,8 +93,8 @@ public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {
 		
 		if(eObject instanceof SymbolicLinkObject){
 			for(SymbolicLinkAttribute symblA : ((SymbolicLinkObject)eObject).getLinkAttributes()){
-				if(symblA.getKind().equals(eAttribute)){
-					attributeOccurrences.add(new Field(symblA.eContainer(), symblA.getKind() , symblA.getValue()));
+				if(symblA.getType().equals(eAttribute)){
+					attributeOccurrences.add(new Field(symblA.eContainer(), symblA.getType() , symblA.getValue()));
 				}
 			}
 		}

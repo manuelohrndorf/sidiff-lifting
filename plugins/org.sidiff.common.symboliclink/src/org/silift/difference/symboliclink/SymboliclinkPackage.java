@@ -369,13 +369,13 @@ public interface SymboliclinkPackage extends EPackage {
 	int SYMBOLIC_LINK_ATTRIBUTE__VALUE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Kind</b></em>' reference.
+	 * The feature id for the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_ATTRIBUTE__KIND = 1;
+	int SYMBOLIC_LINK_ATTRIBUTE__TYPE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Symbolic Link Attribute</em>' class.
@@ -609,15 +609,15 @@ public interface SymboliclinkPackage extends EPackage {
 	EAttribute getSymbolicLinkAttribute_Value();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getKind <em>Kind</em>}'.
+	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.SymbolicLinkAttribute#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Kind</em>'.
-	 * @see org.silift.difference.symboliclink.SymbolicLinkAttribute#getKind()
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkAttribute#getType()
 	 * @see #getSymbolicLinkAttribute()
 	 * @generated
 	 */
-	EReference getSymbolicLinkAttribute_Kind();
+	EReference getSymbolicLinkAttribute_Type();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -813,12 +813,12 @@ public interface SymboliclinkPackage extends EPackage {
 		EAttribute SYMBOLIC_LINK_ATTRIBUTE__VALUE = eINSTANCE.getSymbolicLinkAttribute_Value();
 
 		/**
-		 * The meta object literal for the '<em><b>Kind</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SYMBOLIC_LINK_ATTRIBUTE__KIND = eINSTANCE.getSymbolicLinkAttribute_Kind();
+		EReference SYMBOLIC_LINK_ATTRIBUTE__TYPE = eINSTANCE.getSymbolicLinkAttribute_Type();
 
 	}
 

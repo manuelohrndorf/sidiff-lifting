@@ -462,18 +462,21 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 		
 		boolean alreadyExists = false;
 		SymbolicLinkObject symblObject = obj2symbl.get(eObject);
-		for(SymbolicLinkAttribute symblAttribute : symblObject.getLinkAttributes()){
-			if(symblAttribute.getKind().equals(eAttribute)){
-				alreadyExists = true;
-				break;
+		// only attributes of internal objects have to be generated
+		if(!(symblObject instanceof ExternalSymbolicLinkObject)){
+			for(SymbolicLinkAttribute symblAttribute : symblObject.getLinkAttributes()){
+				if(symblAttribute.getType().equals(eAttribute)){
+					alreadyExists = true;
+					break;
+				}
 			}
-		}
-		
-		if(!alreadyExists){
-			SymbolicLinkAttribute symblAttribute = SymboliclinkFactory.eINSTANCE.createSymbolicLinkAttribute();
-			symblAttribute.setValue(value!=null?value.toString():null);
-			symblAttribute.setKind(eAttribute);
-			symblObject.getLinkAttributes().add(symblAttribute);
+			
+			if(!alreadyExists){
+				SymbolicLinkAttribute symblAttribute = SymboliclinkFactory.eINSTANCE.createSymbolicLinkAttribute();
+				symblAttribute.setValue(value!=null?value.toString():null);
+				symblAttribute.setType(eAttribute);
+				symblObject.getLinkAttributes().add(symblAttribute);
+			}
 		}
 	}
 

@@ -22,7 +22,7 @@ import org.silift.difference.symboliclink.SymboliclinkPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkAttributeImpl#getValue <em>Value</em>}</li>
- *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkAttributeImpl#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkAttributeImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,14 +50,14 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 	protected String value = VALUE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getKind() <em>Kind</em>}' reference.
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getKind()
+	 * @see #getType()
 	 * @generated
 	 * @ordered
 	 */
-	protected EAttribute kind;
+	protected EAttribute type;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -104,16 +104,16 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getKind() {
-		if (kind != null && kind.eIsProxy()) {
-			InternalEObject oldKind = (InternalEObject)kind;
-			kind = (EAttribute)eResolveProxy(oldKind);
-			if (kind != oldKind) {
+	public EAttribute getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (EAttribute)eResolveProxy(oldType);
+			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND, oldKind, kind));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE, oldType, type));
 			}
 		}
-		return kind;
+		return type;
 	}
 
 	/**
@@ -121,8 +121,8 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute basicGetKind() {
-		return kind;
+	public EAttribute basicGetType() {
+		return type;
 	}
 
 	/**
@@ -130,11 +130,11 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setKind(EAttribute newKind) {
-		EAttribute oldKind = kind;
-		kind = newKind;
+	public void setType(EAttribute newType) {
+		EAttribute oldType = type;
+		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND, oldKind, kind));
+			eNotify(new ENotificationImpl(this, Notification.SET, SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE, oldType, type));
 	}
 
 	/**
@@ -147,9 +147,9 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 		switch (featureID) {
 			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__VALUE:
 				return getValue();
-			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND:
-				if (resolve) return getKind();
-				return basicGetKind();
+			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -165,8 +165,8 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__VALUE:
 				setValue((String)newValue);
 				return;
-			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND:
-				setKind((EAttribute)newValue);
+			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE:
+				setType((EAttribute)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -183,8 +183,8 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__VALUE:
 				setValue(VALUE_EDEFAULT);
 				return;
-			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND:
-				setKind((EAttribute)null);
+			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE:
+				setType((EAttribute)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -200,8 +200,8 @@ public class SymbolicLinkAttributeImpl extends MinimalEObjectImpl.Container impl
 		switch (featureID) {
 			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
-			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__KIND:
-				return kind != null;
+			case SymboliclinkPackage.SYMBOLIC_LINK_ATTRIBUTE__TYPE:
+				return type != null;
 		}
 		return super.eIsSet(featureID);
 	}
