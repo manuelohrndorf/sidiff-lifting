@@ -8,7 +8,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.lifting.edit2recognition.EditModule2RecognitionModule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoRecognizableChangesInEditRule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedTransformationSytemException;
@@ -164,8 +163,7 @@ public class EditWrapper2RecognitionWrapper {
 			
 			throws UnsupportedTransformationSytemException, 
 			NoUnitFoundException, NoMainUnitFoundException, 
-			UnsupportedApplicationConditionException, 
-			NoRecognizableChangesInEditRule {
+			UnsupportedApplicationConditionException {
 		
 		// Create recognition rule wrapper:
 		RecognitionRule recognitionRule = RulebaseFactory.eINSTANCE.createRecognitionRule();

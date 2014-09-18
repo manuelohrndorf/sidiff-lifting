@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.asymmetric.dependencies.potential.RuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoRecognizableChangesInEditRule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedTransformationSytemException;
@@ -527,9 +526,6 @@ public class RuleBaseWrapper extends Observable {
 			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
 		} catch (UnsupportedApplicationConditionException e) {
 			// Error: UnsupportedApplicationConditionException
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
-		} catch (NoRecognizableChangesInEditRule e) {
-			// Error: NoRecognizableChangesInEditRule
 			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
 		}
 	}
