@@ -1373,7 +1373,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the image node.
 	 * @return the node mapping or null if no mapping exists.
 	 */
-	public static Mapping findMapping(List<Mapping> mappings, Node origin, Node image) {
+	public static Mapping findMapping(Collection<Mapping> mappings, Node origin, Node image) {
 		for (Mapping mapping : mappings) {
 			if (mapping.getImage() == image && mapping.getOrigin() == origin) {
 				return mapping;
@@ -1391,51 +1391,9 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the origin node.
 	 * @return the node mapping or null if no mapping exists.
 	 */
-	public static Mapping findMappingByOrigin(List<Mapping> mappings, Node origin) {
+	public static Mapping findMappingByOrigin(Collection<Mapping> mappings, Node origin) {
 		for (Mapping mapping : mappings) {
 			if (mapping.getOrigin() == origin) {
-				return mapping;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Returns the amalgamation mapping of the origin node or null if no mapping exists.
-	 * 
-	 * @param mappings
-	 *            the mappings to search.
-	 * @param origin
-	 *            the origin node.
-	 * @param multiRule
-	 *            the multi rule of the target image node.
-	 * @return the node mapping or null if no mapping exists.
-	 */
-	public static Mapping findAUMappingByOrigin(Collection<Mapping> mappings, Node origin, Rule multiRule) {
-		for (Mapping mapping : mappings) {
-			if ((mapping.getOrigin() == origin)
-					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
-				return mapping;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Returns the amalgamation mapping of the image node or null if no mapping exists.
-	 * 
-	 * @param mappings
-	 *            the mappings to search.
-	 * @param image
-	 *            the image node.
-	 * @param multiRule
-	 *            the multi rule of the target image node.
-	 * @return the node mapping or null if no mapping exists.
-	 */
-	public static Mapping findAUMappingByImage(Collection<Mapping> mappings, Node image, Rule multiRule) {
-		for (Mapping mapping : mappings) {
-			if ((mapping.getImage() == image)
-					&& (mapping.getImage().getGraph().getRule() == multiRule)) {
 				return mapping;
 			}
 		}
@@ -1451,7 +1409,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the image node.
 	 * @return the node mapping or null if no mapping exists.
 	 */
-	public static Mapping findMappingByImage(List<Mapping> mappings, Node image) {
+	public static Mapping findMappingByImage(Collection<Mapping> mappings, Node image) {
 		for (Mapping mapping : mappings) {
 			if (mapping.getImage() == image) {
 				return mapping;
