@@ -19,7 +19,6 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoRecognizableChangesInEditRule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedTransformationSytemException;
@@ -215,8 +214,7 @@ public class EditModule2RecognitionModule {
 
 			throws UnsupportedTransformationSytemException,
 			NoUnitFoundException, NoMainUnitFoundException, 
-			UnsupportedApplicationConditionException, 
-			NoRecognizableChangesInEditRule {
+			UnsupportedApplicationConditionException {
 
 		/*
 		 * Start unit transformation
@@ -261,8 +259,7 @@ public class EditModule2RecognitionModule {
 	 */
 	private Unit transformAmalgamationUnit() 
 			throws UnsupportedTransformationSytemException, 
-			UnsupportedApplicationConditionException, 
-			NoRecognizableChangesInEditRule {
+			UnsupportedApplicationConditionException {
 
 		List<Unit> subUnits = executeMainUnit.getSubUnits(false);
 		
@@ -300,8 +297,7 @@ public class EditModule2RecognitionModule {
 	private Unit transformSequentialUnit() 
 			
 			throws UnsupportedTransformationSytemException, 
-			UnsupportedApplicationConditionException, 
-			NoRecognizableChangesInEditRule {
+			UnsupportedApplicationConditionException {
 		
 		List<Unit> subUnits = ((SequentialUnit) executeMainUnit).getSubUnits();
 
@@ -334,8 +330,7 @@ public class EditModule2RecognitionModule {
 	private Unit transformPriorityUnit() 
 	
 			throws UnsupportedTransformationSytemException, 
-			UnsupportedApplicationConditionException, 
-			NoRecognizableChangesInEditRule {
+			UnsupportedApplicationConditionException {
 		
 		List<Unit> subUnits = ((PriorityUnit) executeMainUnit).getSubUnits();
 

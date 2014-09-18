@@ -32,7 +32,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.AttributePair;
 import org.sidiff.common.henshin.NodePair;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoRecognizableChangesInEditRule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddReferencePattern;
@@ -94,7 +93,7 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 	 * @throws CreateAmalgamationMappingException
 	 */
 	public Rule transform(Unit containingUnit, boolean atomic) 
-			throws UnsupportedApplicationConditionException, NoRecognizableChangesInEditRule {
+			throws UnsupportedApplicationConditionException {
 		
 		// Get kernel rule:
 		this.editRootKernel = (Rule) containingUnit.getSubUnits(false).get(0);
@@ -150,7 +149,7 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 	 * @throws NoRecognizableChangesInEditRule 
 	 */
 	private void transformMultiRules(EditRule2RecognitionRule kernelTF) 
-			throws UnsupportedApplicationConditionException, NoRecognizableChangesInEditRule {
+			throws UnsupportedApplicationConditionException {
 		
 		// Transform multi rules into recognition multi rules:
 		Rule editKernel = kernelTF.getEditRule();

@@ -56,7 +56,6 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoRecognizableChangesInEditRule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddReferencePattern;
@@ -184,7 +183,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 	 * @throws NoRecognizableChangesInEditRule 
 	 */
 	public Rule transform(Rule editRule, Unit containingUnit, boolean atomic) 
-			throws UnsupportedApplicationConditionException, NoRecognizableChangesInEditRule {
+			throws UnsupportedApplicationConditionException {
 		
 		assert (editRule != null);
 		assert (containingUnit != null);
@@ -243,11 +242,6 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 		// Attribute-Value-Changes:
 		createAttributeValueChangePatterns();
 		createOptionalAttributeValueChangePatterns();
-		
-//		// Test if any change patterns were created:
-//		if (changes.isEmpty() && optionalChanges.isEmpty()) {
-//			throw new NoRecognizableChangesInEditRule(editRule.getModule());
-//		}
 
 		// Application Condition:
 		createACPattern(editRule.getLhs().getFormula());
