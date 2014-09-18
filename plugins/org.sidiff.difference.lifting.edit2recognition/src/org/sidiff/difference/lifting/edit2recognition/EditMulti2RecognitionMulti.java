@@ -1,7 +1,7 @@
 package org.sidiff.difference.lifting.edit2recognition;
 
 import static org.sidiff.common.henshin.HenshinMultiRuleUtil.createMultiMapping;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findAUMappingByOrigin;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByOrigin;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getAttributeByType;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMappings;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges;
@@ -569,12 +569,12 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 		for (Edge kernelEdge : getLHSMinusRHSEdges(kernelRule)) {
 			Node kernelSource = kernelEdge.getSource();
-			Mapping sourceMapping = findAUMappingByOrigin(getLHSMappings(multiRule.getMultiMappings()),
-					kernelSource, multiRule);
+			Mapping sourceMapping = findMappingByOrigin(getLHSMappings(multiRule.getMultiMappings()),
+					kernelSource);
 
 			Node kernelTarget = kernelEdge.getTarget();
-			Mapping targetMapping = findAUMappingByOrigin(getLHSMappings(multiRule.getMultiMappings()),
-					kernelTarget, multiRule);
+			Mapping targetMapping = findMappingByOrigin(getLHSMappings(multiRule.getMultiMappings()),
+					kernelTarget);
 
 			Node multiSource = sourceMapping.getImage();
 			Node multiTarget = targetMapping.getImage();
@@ -614,12 +614,12 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 
 		for (Edge kernelEdge : getRHSMinusLHSEdges(kernelRule)) {
 			Node kernelSource = kernelEdge.getSource();
-			Mapping sourceMapping = findAUMappingByOrigin(getRHSMappings(multiRule.getMultiMappings()),
-					kernelSource, multiRule);
+			Mapping sourceMapping = findMappingByOrigin(getRHSMappings(multiRule.getMultiMappings()),
+					kernelSource);
 
 			Node kernelTarget = kernelEdge.getTarget();
-			Mapping targetMapping = findAUMappingByOrigin(getRHSMappings(multiRule.getMultiMappings()),
-					kernelTarget, multiRule);
+			Mapping targetMapping = findMappingByOrigin(getRHSMappings(multiRule.getMultiMappings()),
+					kernelTarget);
 
 			Node multiSource = sourceMapping.getImage();
 			Node multiTarget = targetMapping.getImage();
@@ -656,8 +656,8 @@ public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
 		for (Attribute kernelAttribute : getChangingAttributes(kernelRule)) {
 			
 			Node kernelNode = kernelAttribute.getNode();
-			Mapping mapping = findAUMappingByOrigin(getRHSMappings(
-					multiRule.getMultiMappings()), kernelNode, multiRule);
+			Mapping mapping = findMappingByOrigin(getRHSMappings(
+					multiRule.getMultiMappings()), kernelNode);
 			Node multiNode = mapping.getImage();
 
 			for (Attribute multiAttribute : multiNode.getAttributes()) {
