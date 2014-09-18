@@ -63,10 +63,11 @@ public class EditRuleAnalysis {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 
-		//TODO MO: Has to be checked if this is correct!!!
-		if (isNodeWithDeletionEdges(lhsNode) || isNodeWithCreationAttributes(rhsNode)) {
+		// TODO MO: Has to be checked if this is correct!!!
+		if (isNodeWithDeletionEdges(lhsNode) || isNodeWithCreationAttributes(rhsNode)
+				|| isMultiKontextNodeModelA(editRuleNode)) {
 			return true;
-		} 
+		}
 		
 		// Check if a mapping origin has deletion edges in a multi rule
 		for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
@@ -102,13 +103,20 @@ public class EditRuleAnalysis {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 
-		if ((isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode))
-				|| isNodeWithCreationEdges(rhsNode)
+		if (isNodeWithCreationEdges(rhsNode)
 				|| isNodeWithPreservedEdges(lhsNode)
 				|| isNodeWithCreationAttributes(rhsNode)
 				|| isNodeWithPreservedAttributes(lhsNode)) {
 			return true;
-		} 
+		}
+		
+		else if (isMultiKontextNodeModelB(editRuleNode)) {
+			return true;
+		}
+		
+		else if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode) && !isMultiKontextNode(editRuleNode)) {
+			return true;
+		}
 		
 		// Check if any of the conditions apply for a mapping origin in a multi rule
 		for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
@@ -122,6 +130,56 @@ public class EditRuleAnalysis {
 					|| (lhsNodeMulti != null && isNodeWithPreservedAttributes(lhsNodeMulti))) {
 				return true;
 			}	
+		}
+		
+		return false;
+	}
+	
+	public static boolean isMultiKontextNode(NodePair editRuleNode) {
+		if ((editRuleNode.getLhsNode() != null) && (editRuleNode.getRhsNode() != null)) {
+			return isMultiKontextNodeModelA(editRuleNode) || isMultiKontextNodeModelB(editRuleNode);
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean isMultiKontextNodeModelA(NodePair editRuleNode) {
+		Node lhsNode = editRuleNode.getLhsNode();
+		Node rhsNode = editRuleNode.getRhsNode();
+		
+		// Is node without any edge?
+		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)) {
+			
+			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
+				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
+				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode, multiRule.getRhs());
+				
+				// Is multi-node?
+				if ((lhsNodeMulti != null) && (rhsNodeMulti != null)) {
+					return isSearchedInModelA(new NodePair(lhsNodeMulti, rhsNodeMulti));
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean isMultiKontextNodeModelB(NodePair editRuleNode) {
+		Node lhsNode = editRuleNode.getLhsNode();
+		Node rhsNode = editRuleNode.getRhsNode();
+		
+		// Is node without any edge?
+		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)) {
+			
+			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
+				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
+				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode, multiRule.getRhs());
+				
+				// Is multi-node?
+				if ((lhsNodeMulti != null) && (rhsNodeMulti != null)) {
+					return isSearchedInModelB(new NodePair(lhsNodeMulti, rhsNodeMulti));	
+				}
+			}
 		}
 		
 		return false;
