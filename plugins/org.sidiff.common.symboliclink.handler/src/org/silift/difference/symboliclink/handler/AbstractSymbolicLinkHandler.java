@@ -347,7 +347,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 					EAttribute eAttribute = iterator.next();
 					if(!eAttribute.isDerived()){
 						if(eAttribute.isMany()){
-							
+							//TODO
 						}else{
 							Object value = srcObject.eGet(eAttribute);
 							generateSymbolicLinkAttribute(obj2symbl_A, srcObject,  value, eAttribute);
@@ -374,8 +374,8 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 						if (eReference.isMany()) {
 							@SuppressWarnings("unchecked")
 							List<EObject> list = (List<EObject>)srcObject.eGet(eReference);
-							for(EObject tgt : list){
-								generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgt, eReference);
+							for(EObject tgtObject : list){
+								generateSymbolicLinkReference(obj2symbl_B, symblReferences_B, modelB, srcObject, tgtObject, eReference);
 							}
 						} else {
 							EObject tgtObject = (EObject)srcObject.eGet(eReference);
@@ -391,7 +391,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 					EAttribute eAttribute = iterator.next();
 					if(!eAttribute.isDerived()){
 						if(eAttribute.isMany()){
-							
+							//TODO
 						}else{
 							Object value = srcObject.eGet(eAttribute);
 							generateSymbolicLinkAttribute(obj2symbl_B, srcObject, value, eAttribute);
