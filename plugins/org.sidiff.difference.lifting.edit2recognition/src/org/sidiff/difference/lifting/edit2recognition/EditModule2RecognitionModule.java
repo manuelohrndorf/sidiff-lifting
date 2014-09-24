@@ -130,7 +130,7 @@ public class EditModule2RecognitionModule {
 				boolean oppositeExists = false;
 
 				for (Edge opposite : edge.getTarget().getOutgoing()) {
-					if (opposite.getType() == edge.getType().getEOpposite()) {
+					if ((opposite.getType() == edge.getType().getEOpposite()) && (opposite.getTarget() == edge.getSource())) {
 						oppositeExists = true;
 					}
 				}
