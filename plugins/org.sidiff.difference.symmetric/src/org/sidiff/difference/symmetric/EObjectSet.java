@@ -43,6 +43,8 @@ public interface EObjectSet extends EObject {
 	
 	void addElement(EObject element);
 	
+	void replaceElement(EObject oldElement, EObject newElement);
+	
 	void addElements(Collection<EObject> element);
 	
 	Set<EObject> toJavaSet();

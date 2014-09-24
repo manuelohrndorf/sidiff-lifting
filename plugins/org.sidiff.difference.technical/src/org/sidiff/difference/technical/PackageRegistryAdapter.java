@@ -21,6 +21,9 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.Correspondence;
+import org.sidiff.difference.symmetric.EObjectSet;
+import org.sidiff.difference.symmetric.EditRuleMatch;
+import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.emf.ExternalManyReference;
@@ -389,6 +392,30 @@ public class PackageRegistryAdapter {
 			}
 		}
 
+		// EditRuleMatches (occurrences B)
+		for (SemanticChangeSet cs : difference.getChangeSets()) {
+			EditRuleMatch erMatch = cs.getEditRuleMatch();
+			
+			for (String nodeURI : erMatch.getNodeOccurrencesB().keySet()) {
+			
+				// (1) Calculate replacements in occurrence set (to avoid concurrent modification exception)
+				EObjectSet occurrences = erMatch.getNodeOccurrencesB().get(nodeURI);
+				Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();				
+				for (EObject occurrence : occurrences.getElements()) {					
+					Correspondence c = copy2Correspondence.get(occurrence);
+					if (c != null){
+						replacements.put(occurrence, c.getObjA());						
+					}					
+				}
+				
+				// (2) Do perform replacement
+				for (EObject oldElement : replacements.keySet()) {
+					EObject newElement = replacements.get(oldElement);
+					occurrences.replaceElement(oldElement, newElement);
+				}
+			}
+		}
+		
 		// External B-Parameters
 		if (asymmetricDifference != null) {
 			for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {

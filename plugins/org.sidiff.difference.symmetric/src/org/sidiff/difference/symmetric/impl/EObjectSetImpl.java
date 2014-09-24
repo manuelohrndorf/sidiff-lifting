@@ -138,6 +138,12 @@ public class EObjectSetImpl extends EObjectImpl implements EObjectSet {
 	}
 
 	@Override
+	public void replaceElement(EObject oldElement, EObject newElement) {
+		getElements().remove(oldElement);
+		getElements().add(newElement);
+	}
+	
+	@Override
 	public void addElements(Collection<EObject> element) {
 		for (EObject eObject : element) {
 			addElement(eObject);
