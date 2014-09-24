@@ -121,7 +121,8 @@ public class PackageRegistryAdapter {
 	 * @param relink
 	 */
 	public PackageRegistryAdapter(SymmetricDifference difference, AsymmetricDifference asymmetricDifference,
-			ExternalReferenceContainer registryReferencesA, ExternalReferenceContainer registryReferencesB, boolean relink) {
+			ExternalReferenceContainer registryReferencesA, ExternalReferenceContainer registryReferencesB,
+			boolean relink) {
 
 		this(difference, registryReferencesA, registryReferencesB, relink);
 
@@ -139,7 +140,7 @@ public class PackageRegistryAdapter {
 		registryCorrespondences = new HashSet<Correspondence>();
 		imports = new HashSet<EObject>();
 
-		// Find models which are imported from PackageRegistry		
+		// Find models which are imported from PackageRegistry
 		Set<Resource> registryModels = new HashSet<Resource>();
 		registryModels.addAll(registryReferencesA.getReferencedRegistryModels());
 		registryModels.addAll(registryReferencesB.getReferencedRegistryModels());
@@ -184,7 +185,7 @@ public class PackageRegistryAdapter {
 	public ExternalReferenceContainer getRegistryReferencesB() {
 		return registryReferencesB;
 	}
-	
+
 	/**
 	 * Creates a deep copy of each Reference in the given set of models.
 	 * 
@@ -319,7 +320,7 @@ public class PackageRegistryAdapter {
 			}
 		} else {
 			// orig <-> orig
-			if (!imports.contains(orig)){
+			if (!imports.contains(orig)) {
 				Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(orig, orig);
 				difference.addCorrespondence(c);
 				registryCorrespondences.add(c);
@@ -395,27 +396,30 @@ public class PackageRegistryAdapter {
 		// EditRuleMatches (occurrences B)
 		for (SemanticChangeSet cs : difference.getChangeSets()) {
 			EditRuleMatch erMatch = cs.getEditRuleMatch();
-			
-			for (String nodeURI : erMatch.getNodeOccurrencesB().keySet()) {
-			
-				// (1) Calculate replacements in occurrence set (to avoid concurrent modification exception)
-				EObjectSet occurrences = erMatch.getNodeOccurrencesB().get(nodeURI);
-				Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();				
-				for (EObject occurrence : occurrences.getElements()) {					
-					Correspondence c = copy2Correspondence.get(occurrence);
-					if (c != null){
-						replacements.put(occurrence, c.getObjA());						
-					}					
-				}
-				
-				// (2) Do perform replacement
-				for (EObject oldElement : replacements.keySet()) {
-					EObject newElement = replacements.get(oldElement);
-					occurrences.replaceElement(oldElement, newElement);
+
+			if (erMatch != null) {
+				for (String nodeURI : erMatch.getNodeOccurrencesB().keySet()) {
+
+					// (1) Calculate replacements in occurrence set (to avoid
+					// concurrent modification exception)
+					EObjectSet occurrences = erMatch.getNodeOccurrencesB().get(nodeURI);
+					Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
+					for (EObject occurrence : occurrences.getElements()) {
+						Correspondence c = copy2Correspondence.get(occurrence);
+						if (c != null) {
+							replacements.put(occurrence, c.getObjA());
+						}
+					}
+
+					// (2) Do perform replacement
+					for (EObject oldElement : replacements.keySet()) {
+						EObject newElement = replacements.get(oldElement);
+						occurrences.replaceElement(oldElement, newElement);
+					}
 				}
 			}
 		}
-		
+
 		// External B-Parameters
 		if (asymmetricDifference != null) {
 			for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {
