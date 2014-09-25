@@ -1,7 +1,6 @@
 package org.silift.difference.symboliclink.handler.namedelement;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -14,7 +13,8 @@ import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
 
 /**
- * A name-based symbolic-link-handler.
+ * A name-based symbolic-link-handler using the qualified name of an object.
+ * 
  * @author cpietsch
  *
  */
@@ -24,31 +24,35 @@ public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler
 	private static final String KEY = "NamedElementSymbolicLinkHandler";
 	
 	@Override
-	public SymbolicLinkObject generateSymbolicLinkObject(Map<EObject, SymbolicLinkObject> obj2symbl,
-			EObject eObject) {
-		if(obj2symbl.containsKey(eObject)){
-			return obj2symbl.get(eObject);
-		}else{
-			String name = deriveQualifiedName(eObject);
-			NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
-			link.setQualifiedName(name);
-			link.setReliability(1.f);
-			obj2symbl.put(eObject, link);
-			return link;
-		}
+	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
+
+		String name = deriveQualifiedName(eObject);
+		
+		NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
+		
+		link.setQualifiedName(name);
+		
+		link.setReliability(1.f);
+		
+		return link;
 	}
 
 	@Override
-	public EObject resolveSymbolicLink(SymbolicLinkObject symbolicLink, Resource targetModel) {
-		NamedElementSymbolicLinkObject namedElementSymbolicLink = (NamedElementSymbolicLinkObject)symbolicLink;
+	public EObject resolveSymbolicLinkObject(SymbolicLinkObject symbolicLinkObject, Resource targetModel) {
+		
+		NamedElementSymbolicLinkObject namedElementSymbolicLink = (NamedElementSymbolicLinkObject)symbolicLinkObject;
+		
 		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
+			
 			EObject eObject = (EObject) iterator.next();
 			EObjectLocation location = EMFResourceUtil.locate(targetModel, eObject);
 			String name = deriveQualifiedName(eObject);
+			
 			if(location.equals(EObjectLocation.RESOURCE_INTERNAL) && namedElementSymbolicLink.getQualifiedName().equals(name)){
 				return eObject;
 			}
 		}
+		
 		return null;
 	}
 
@@ -61,15 +65,22 @@ public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler
 	 * @return a String representation of the qualified Name
 	 */
 	private String deriveQualifiedName(EObject eObject){
+		
 		String featureName = "";
+		
 		if(eObject instanceof ENamedElement){
+			
 			featureName = eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString();
+			
 			assert (featureName != ""): eObject + "has no name";
+			
 			while (eObject.eContainer() != null){
+			
 				eObject = eObject.eContainer();
 				featureName = eObject.eGet(eObject.eClass().getEStructuralFeature("name")) + "." + featureName;
 			}
 		}
+		
 		return featureName;
 	}
 
