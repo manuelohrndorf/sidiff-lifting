@@ -20,18 +20,19 @@ public interface IStringResolver {
 	 * Resolves the textual representation of the given object
 	 * 
 	 * @param eObject
-	 * 			an object of which the textual representation shall be resolved
-	 * @return
-	 * 		a string representation of the object
+	 *            an object of which the textual representation shall be
+	 *            resolved
+	 * @return a string representation of the object
 	 */
 	public String resolve(EObject eObject);
-	
+
 	/**
-	 * proofs if the given document type can be handled by the resolver
+	 * checks if the given document type can be handled by the resolver
 	 * 
 	 * @param docType
-	 * 			the nsURI of the document type
-	 * @return <code>true</code> if the given document type can be handled by the resolver, <code>false</code> otherwise.
+	 *            the nsURI of the document type
+	 * @return <code>true</code> if the given document type can be handled by
+	 *         the resolver, <code>false</code> otherwise.
 	 */
 	public boolean canHandleDocType(String docType);
 
