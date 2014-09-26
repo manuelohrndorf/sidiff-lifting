@@ -41,7 +41,6 @@ public class AddGenerator {
 	 * 
 	 * @param outReference
 	 * @param contextClassifier
-	 * @param eClassifier
 	 */
 	public AddGenerator(EReference outReference, EClass contextClassifier) {
 		super();

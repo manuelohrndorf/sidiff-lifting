@@ -232,48 +232,62 @@ public class ModuleInternalsApplicator {
 
 		case CREATE:
 
-			// CamelCasing of target-context name
-			String contextName = "";
-			if (targetA != null) {
-				contextName = toCamelCase(targetA.getName());
-			} else {
-				contextName = "Model";
-			}
-
-			// Add new rule to Module
-			rule = HenshinRuleAnalysisUtilEx.createRule("create" + eClassifier.getName() + GlobalConstants.IN
-					+ contextName, "creates one " + eClassifier.getName() + " in the context: " + contextName, true,
-					module);
-
-			// create <<preserve>> nodes for context, if any
-			String selectedName = getFreeNodeName(GlobalConstants.SEL, rule);
-			Graph rhs = null;
-			if (targetA != null) {
+			// Create different CREATE-Modules depending on whether or not a context
+			// for the object to create is null
+			
+			// if target-context is available.....
+			if(targetA!=null) {
+			
+				// CamelCasing of target-context name
+				String contextName = toCamelCase(targetA.getName());
+	
+				// Add new rule to Module
+				rule = HenshinRuleAnalysisUtilEx.createRule("create" + eClassifier.getName() + GlobalConstants.IN
+						+ contextName, "creates one " + eClassifier.getName() + " in the context: " + contextName, true,
+						module);
+	
+				// create <<preserve>> nodes for context
+				String selectedName = getFreeNodeName(GlobalConstants.SEL, rule);
 				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, selectedName, (EClass) targetA);
-				rhs = nodePair.getRhsNode().getGraph();
-			} else {
-				rhs = rule.getRhs();
-			}
-
-			// Add new eClass to RHS
-			String newName = getFreeNodeName(GlobalConstants.NEW, rule);
-			Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
-
-			// Add necessary attributes to the new eClass node
-			createAttributes((EClass) eClassifier, newNode, rule);
-
-			// Add edge between target-context and new eClass, if any
-			if (targetA != null && eRefA != null) {
-				Node contextNode = null;
-				for (Node n : rhs.getNodes()) {
-					String nName = n.getName();
-					if (nName != null && nName.equals(selectedName)) {
-						contextNode = n;
+				Graph rhs = nodePair.getRhsNode().getGraph();
+	
+				// Add new eClass to RHS
+				String newName = getFreeNodeName(GlobalConstants.NEW, rule);
+				Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
+	
+				// Add necessary attributes to the new eClass node
+				createAttributes((EClass) eClassifier, newNode, rule);
+	
+				// Add edge between target-context and new eClass, if any
+				if (targetA != null && eRefA != null) {
+					Node contextNode = null;
+					for (Node n : rhs.getNodes()) {
+						String nName = n.getName();
+						if (nName != null && nName.equals(selectedName)) {
+							contextNode = n;
+						}
 					}
+					HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRefA);
 				}
-				HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRefA);
+		
 			}
+			// else (if target-context is not available)...			
+			else{
 
+				// Add new rule to Module
+				rule = HenshinRuleAnalysisUtilEx.createRule("create" + eClassifier.getName(),
+						"creates one " + eClassifier.getName(), true, module);
+
+				// Add new eClass to RHS
+				String newName = getFreeNodeName(GlobalConstants.NEW, rule);
+				Graph rhs = rule.getRhs();
+				Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
+
+				// Add necessary attributes to the new eClass node
+				createAttributes((EClass) eClassifier, newNode, rule);
+
+			}
+			
 			break;
 
 		default:

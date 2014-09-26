@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.Mask;
@@ -87,6 +91,7 @@ public class ElementFilter {
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
 		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
 		boolean requiredByStereotypes = isRequiredByWhitelistedStereotype(eClassifier);
+		boolean isNotCrossReferencedOrNotContainedInMainMetaModel = !crossReferencedOrContainedInMainMetaModel(eClassifier);
 		
 		switch(opType) {
 		
@@ -99,6 +104,7 @@ public class ElementFilter {
 					|| (requiredByStereotypes && !c.isRoot(eClassifier))
 					|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
 					|| (blackListed && !requiredBySubtypes)
+					|| isNotCrossReferencedOrNotContainedInMainMetaModel
 					)
 				return false;				
 				break;
@@ -107,6 +113,7 @@ public class ElementFilter {
 				if (
 						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes)&& (!c.isRoot(eClassifier)))
 						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes) && (!c.isRoot(eClassifier))) 
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						) {
 					return false;
 				}	
@@ -116,6 +123,7 @@ public class ElementFilter {
 				if (
 						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
 						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						) {
 					return false;
 				}	
@@ -125,6 +133,7 @@ public class ElementFilter {
 				if (
 						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
 						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						) {
 					return false;
 				}	
@@ -139,6 +148,7 @@ public class ElementFilter {
 						|| (requiredByStereotypes && !c.isRoot(eClassifier))
 						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
 						|| (blackListed && !requiredBySubtypes)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						)
 					return false;
 //				if ((c.isAnUnnestableRoot(eClassifier))
@@ -156,6 +166,7 @@ public class ElementFilter {
 						|| (requiredByStereotypes && !c.isRoot(eClassifier))
 						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
 						|| (blackListed && !requiredBySubtypes)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 					)
 					return false;
 //				if ((c.isAnUnnestableRoot(eClassifier))
@@ -173,6 +184,7 @@ public class ElementFilter {
 						|| (requiredByStereotypes && !c.isRoot(eClassifier))
 						|| (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/)
 						|| (blackListed && !requiredBySubtypes)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 					)
 					return false;
 //				if ((c.isAnUnnestableRoot(eClassifier))
@@ -190,6 +202,7 @@ public class ElementFilter {
 						|| (requiredByStereotypes && !c.isRoot(eClassifier))
 						|| (!whiteListed && !assumeAllOnWhitelist  /*&& !requiredBySubtypes*/)
 						|| (blackListed && !requiredBySubtypes)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 					)
 					return false;
 //				if ((c.isAnUnnestableRoot(eClassifier))
@@ -201,7 +214,8 @@ public class ElementFilter {
 			case SET_ATTRIBUTE:
 				if (
 						( (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/) && (!requiredByStereotypes))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes))
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						) {
 					return false;
 				}			
@@ -211,6 +225,7 @@ public class ElementFilter {
 				if (
 						( (!whiteListed && !assumeAllOnWhitelist /*&& !requiredBySubtypes*/) && (!requiredByStereotypes))
 						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel
 						) {
 					return false;
 				}	
@@ -258,9 +273,8 @@ public class ElementFilter {
 		boolean whiteListed	= whiteList.contains(eClassifier);
 		boolean assumeAllOnWhitelist = whiteList.isEmpty();
 		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByNeighbours = isRequiredByWhitelistedIncomingNeighbors(eClassifier, preferSupertypes);
-		boolean requiredByParents = isRequiredByWhitelistedIncomingParent(eClassifier, preferSupertypes);	
 		boolean requiredByChildren = isRequiredByWhitelistedChildren(eClassifier);
+		boolean isNotCrossReferencedOrNotContainedInMainMetaModel = !crossReferencedOrContainedInMainMetaModel(eClassifier);
 		
 		// The two scenarios of hard cut-offs:
 		// 1. blacklisted and no inconsistency prevention enabled
@@ -273,63 +287,72 @@ public class ElementFilter {
 			case CREATE:
 				
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case ADD:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 
 			case MOVE:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case MOVE_REFERENCE_COMBINATION:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case MOVE_UP:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case MOVE_DOWN:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case CHANGE_REFERENCE:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case SET_ATTRIBUTE:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
 				
 			case SET_REFERENCE:
 				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)) {
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
 					return false;
 				}
 				break;
@@ -358,73 +381,7 @@ public class ElementFilter {
 	
 	
 	/***** Convenience Methods  ************************************************************/
-	
-	/**
-	 * Checks if eClassifier is required by white listed incoming neighbour contexts.
-	 * @param eClassifier
-	 * @param preferSupertypes
-	 * @return
-	 */
-	private Boolean isRequiredByWhitelistedIncomingNeighbors(EClassifier eClassifier, Boolean preferSupertypes) {
 		
-		boolean requiredByNeighbours = false;
-		
-		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);		
-		for(Entry<EReference, List<EClassifier>> entry: eInf.getMandatoryNeighbourContext().entrySet()) {
-
-			// find out if reference is pointing to eClass or to a super type of the eClass
-			EReference eRef = entry.getKey();
-			boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
-			
-			for(EClassifier mnc: entry.getValue()) {										
-				
-				if(eClassIsDirectTarget && whiteList.contains(mnc)) {
-					requiredByNeighbours = true;
-					break;
-				}
-				else if(!eClassIsDirectTarget && whiteList.contains(mnc) && !preferSupertypes) {
-					requiredByNeighbours = true;
-					break;
-				}					
-			}		
-		}
-		return requiredByNeighbours;		
-	}
-	
-	/**
-	 * Checks if EClassifier is required by white listed incoming parent contexts
-	 * @param eClassifier
-	 * @param preferSupertypes
-	 * @return
-	 */
-	private Boolean isRequiredByWhitelistedIncomingParent(EClassifier eClassifier, Boolean preferSupertypes) {
-		
-		boolean requiredByParents = false;
-		
-		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
-		for(Entry<EReference, List<EClassifier>> entry: eInf.getMandatoryParentContext().entrySet()) {
-
-			// find out if reference is pointing to eClass or to a super type of the eClass
-			EReference eRef = entry.getKey();
-			boolean eClassIsDirectTarget = eRef.getEType().equals(eClassifier);		
-			
-			for(EClassifier mpc: entry.getValue()) {										
-				
-				if(eClassIsDirectTarget && whiteList.contains(mpc)) {
-					requiredByParents = true;
-					break;
-				}
-				else if(!eClassIsDirectTarget && whiteList.contains(mpc) && !preferSupertypes) {
-					requiredByParents = true;
-					break;
-				}					
-			}		
-		}
-				
-		return requiredByParents;
-	}
-	
-	
 	/**
 	 * Checks if EClassifier is required by white listed children.
 	 * @param eClassifier
@@ -587,4 +544,49 @@ public class ElementFilter {
 //		List<String> whiteListAsStrings = extractAllEClassifierNames(whiteList);
 //		mms.slice(metaModel, ePackages, whiteListAsStrings, blackList,newNS_URI, newNS_URI);
 //	}
+	
+	/**
+	 * Returns true if:<br/>
+	 * (1) the eClassifier's meta-model is simply the main meta-model OR <br/>
+	 * (2) this eClassifier's meta-model is not the main meta-model but targeted by
+	 * a containment reference of an element which is contained in the main meta-model.<br/><br/>
+	 * Example-Scenario: OWL2 meta-model "Ontology" >>---"container"---> "EObject"<br/>
+	 * @param eClassifier
+	 * @return
+	 */
+	private boolean crossReferencedOrContainedInMainMetaModel(EClassifier eClassifier) {
+		
+		Configuration config = Configuration.getInstance();
+		boolean crossReferencedOrContainedInMainMetaModel = false;
+		
+		// find out nsURI of the eClassifier's eResource root ePackage
+		List<EObject> resourceContents = eClassifier.eResource().getContents();
+		EPackage rootEPackage = (EPackage) resourceContents.get(0);
+		String eClassifiersRootPackageNsURI = rootEPackage.getNsURI();		
+
+		Stack<EPackage> ePackageStack = Configuration.getInstance().EPACKAGESSTACK;
+		for(EPackage ePackage: ePackageStack) {
+			// check (1)
+			if(ePackage.getNsURI().equals(config.METAMODEL.getNsURI()) 
+					&& eClassifiersRootPackageNsURI.equals(config.METAMODEL.getNsURI())) {
+				crossReferencedOrContainedInMainMetaModel = true;
+				break;
+			}// else check (2)
+			else if(!(ePackage.getNsURI().equals(config.METAMODEL.getNsURI()))
+					&& !eClassifiersRootPackageNsURI.equals(config.METAMODEL.getNsURI())) {
+
+				HashMap<EReference, List<EClassifier>>  relevantParents =
+						EClassifierInfoManagement.getInstance().getAllOptionalParentContext(eClassifier, true);
+				for(Entry<EReference, List<EClassifier>> eRefEntry: relevantParents.entrySet()) {
+					EClassifier container = (EClassifier) eRefEntry.getKey().eContainer();
+					List<EObject> eosInMM = EMFUtil.createListFromEAllContents(Configuration.getInstance().METAMODEL);
+					if(eosInMM.contains(container)) {
+						crossReferencedOrContainedInMainMetaModel = true;
+					}
+				}
+			}
+		}
+
+		return crossReferencedOrContainedInMainMetaModel;
+	}
 }

@@ -50,7 +50,6 @@ public class CreateGenerator {
 	 * @param childInfo
 	 */
 	public CreateGenerator(EReference containmentReference, EClassifier contextClassifier, EClassifierInfo childInfo) {
-		assert(containmentReference.isContainment());
 		
 		this.containmentReference = containmentReference;
 		this.contextClassifier = contextClassifier;
@@ -59,20 +58,53 @@ public class CreateGenerator {
 	}
 	
 	public Module generate() throws OperationTypeNotImplementedException{	
+		
+		// Create different CREATE-Modules depending on whether or not a context
+		// for the object to create is null
+		// This can be if
+		//   (a) there is no container for this type in the meta-model
+		//   (b) the object to create is a stereotype
+		
+		// common variables for both cases:
+		Module module = null;
+		Rule rule = null;
+		Node newNode = null;
+		
+		// check for available contextClassifier and produce modules accordingly	
+		if(contextClassifier!=null) {
+			
+			// Create Module				
+			module = HenshinFactory.eINSTANCE.createModule();
+			String name = GlobalConstants.CREATE_prefix + child.getName()+ GlobalConstants.IN + contextClassifier.getName()+"_("+containmentReference.getName()+")";
+			LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
+			module.setDescription("Creates one "+child.getName()+" in " + contextClassifier.getName());
+			module.setName(name);
 
-		// Create Module				
-		Module module = HenshinFactory.eINSTANCE.createModule();
-		String name = GlobalConstants.CREATE_prefix + child.getName()+ GlobalConstants.IN + contextClassifier.getName()+"_("+containmentReference.getName()+")";
-		LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
-		module.setDescription("Creates one "+child.getName()+" in " + contextClassifier.getName());
-		module.setName(name);
+			// Add imports for meta model
+			module.getImports().addAll(config.EPACKAGESSTACK);
 
-		// Add imports for meta model
-		module.getImports().addAll(config.EPACKAGESSTACK);
+			// create rule
+			rule = ModuleInternalsApplicator.createBasicRule(module, containmentReference, child, contextClassifier, null, null, OperationType.CREATE);
+			newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+			
+		}else{
+			
+			// Create Module				
+			module = HenshinFactory.eINSTANCE.createModule();
+			String name = GlobalConstants.CREATE_prefix + child.getName();
+			LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
+			module.setDescription("Creates one "+child.getName());
+			module.setName(name);
 
-		// create rule
-		Rule rule = ModuleInternalsApplicator.createBasicRule(module, containmentReference, child, contextClassifier, null, null, OperationType.CREATE);
-		Node newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+			// Add imports for meta model
+			module.getImports().addAll(config.EPACKAGESSTACK);
+
+			// create rule
+			rule = ModuleInternalsApplicator.createBasicRule(module, null, child, null, null, null, OperationType.CREATE);
+			newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);			
+			
+		}
+				
 
 		// create mandatories if any
 		if(childInfo.hasMandatories()) {

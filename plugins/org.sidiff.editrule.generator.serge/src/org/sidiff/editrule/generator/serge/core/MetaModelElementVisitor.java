@@ -7,9 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Module;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -19,11 +17,7 @@ import org.sidiff.editrule.generator.types.OperationType;
 /**
  * Todo-List for Reintegration:
  * 
- * - why use getAllModulesAsSet() ?
  * - ProfileModelIntegration
- * - implement MoveDown
- * - implement MoveUp
- * - contraint generation
  * - more detailed comment in filter identical / filter duplicates
  * - more detailed comments to when rule might not be executable in ExecutionChecker
  * - remove all the deprecated marks, old classes, old todos/fixmes
@@ -36,19 +30,19 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private GenerationActionDelegator GAD 		= GenerationActionDelegator.getInstance();
 	
 	// Sets for module variants and inverse creations
-	private Set<Module> allCreateModules 						= new HashSet<Module>();
-	private Set<Module> allVariantModules					= new HashSet<Module>();
-	private Set<Module> allDeleteModules 						= new HashSet<Module>();
-	private Set<Module> allMoveModules 							= new HashSet<Module>();
+	private Set<Module> allCreateModules 			= new HashSet<Module>();
+	private Set<Module> allVariantModules			= new HashSet<Module>();
+	private Set<Module> allDeleteModules 			= new HashSet<Module>();
+	private Set<Module> allMoveModules 				= new HashSet<Module>();
 	private Set<Module> allMoveCombinationModules 	= new HashSet<Module>();
-	private Set<Module> allMoveDownModules 					= new HashSet<Module>();
-	private Set<Module> allMoveUpModules 						= new HashSet<Module>();
-	private Set<Module> allAddModules 							= new HashSet<Module>();
-	private Set<Module> allRemoveModules 						= new HashSet<Module>();
-	private Set<Module> allSetAttributeModules 			= new HashSet<Module>();
-	private Set<Module> allSetReferenceModules			= new HashSet<Module>();
-	private Set<Module> allUnsetAttributeModules 		= new HashSet<Module>();
-	private Set<Module> allUnsetReferenceModules		= new HashSet<Module>();
+	private Set<Module> allMoveDownModules 			= new HashSet<Module>();
+	private Set<Module> allMoveUpModules 			= new HashSet<Module>();
+	private Set<Module> allAddModules 				= new HashSet<Module>();
+	private Set<Module> allRemoveModules 			= new HashSet<Module>();
+	private Set<Module> allSetAttributeModules 		= new HashSet<Module>();
+	private Set<Module> allSetReferenceModules		= new HashSet<Module>();
+	private Set<Module> allUnsetAttributeModules 	= new HashSet<Module>();
+	private Set<Module> allUnsetReferenceModules	= new HashSet<Module>();
 	private Set<Module> allChangeLiteralModules		= new HashSet<Module>();
 	private Set<Module> allChangeReferenceModules	= new HashSet<Module>();
 	
@@ -59,13 +53,6 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			assert(eClassifier instanceof EClass);
 			
 			EClass contextClass = (EClass) eClassifier;
-			
-			// exclude generation for Ecore Elements in case the main meta model is not Ecore
-			if(EMFUtil.createListFromEAllContents(EcorePackage.eINSTANCE).contains(contextClass) &&
-					!Configuration.getInstance().METAMODEL.getNsURI().equals(EcorePackage.eNS_URI)
-					) {				
-				return;
-			}
 
 			try{
 				
@@ -176,5 +163,6 @@ public class MetaModelElementVisitor implements EClassVisitor{
 		
 		return allModules;
 	}
+	
 
 }

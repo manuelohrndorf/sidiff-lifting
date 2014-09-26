@@ -1,7 +1,5 @@
 package org.sidiff.editrule.generator.serge.generators.actions;
 
-import java.util.Stack;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;

@@ -83,39 +83,54 @@ public class GenerationActionDelegator {
 
 				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 
-				/** In case of no Stereotype, create CREATE normally ******************************************************************************/
+				// In case eClassifier is not a profile stereotype in use
 				if (!c.PROFILE_APPLICATION_IN_USE || (c.PROFILE_APPLICATION_IN_USE && !eInf.isStereotype())) {
 
-					/**
-					 * Create Modules for every parent in which the EClass may
-					 * exist.
-					 ************************************************************/
 					HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(
 							eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
-					for (Entry<EReference, List<EClassifier>> pcEntry : optionalParents.entrySet()) {
-						List<EClassifier> contexts = pcEntry.getValue();
-						EReference eRef = pcEntry.getKey();
+					
+					// In case there are no parents (i.e., incoming eContainment references)
+					// and this eClassifier is no EEnum, we may create CPEOs
+					// to create the eClassifier instance without setting up a connected context
+					if(optionalParents.isEmpty() && !(eClassifier instanceof EEnum)) {
+						
+						CreateGenerator generator = new CreateGenerator(null, null, eInf);
+						Module resultModule = generator.generate();
 
-						for (EClassifier context : contexts) {
-
-							if (FILTER.isAllowedAsDangling(context, OperationType.CREATE,
-									c.REDUCETOSUPERTYPE_CREATEDELETE)) {
-
-								CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
-								Module resultModule = generator.generate();
-
-								modules.add(resultModule);
-
+						modules.add(resultModule);						
+						
+					}
+					// Otherwise (if there are contexts),
+					// Just create a node for the eClassifier and refrain from setting up a context node to connect
+					else{			
+					
+						for (Entry<EReference, List<EClassifier>> pcEntry : optionalParents.entrySet()) {
+							List<EClassifier> contexts = pcEntry.getValue();
+							EReference eRef = pcEntry.getKey();
+	
+							for (EClassifier context : contexts) {
+	
+								if (FILTER.isAllowedAsDangling(context, OperationType.CREATE,
+										c.REDUCETOSUPERTYPE_CREATEDELETE)) {
+	
+									CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
+									Module resultModule = generator.generate();
+	
+									modules.add(resultModule);
+	
+								}
 							}
 						}
 					}
 				}
-				/**
-				 * In case of Stereotype, there are no contexts! Just create
-				 * Rule with <<create>> Node for Stereotype
-				 ****************************/
+				// In case eClassifier is a profile stereotype in use there is no context.
+				// Just create a node for the eClassifier and refrain from setting up a context node to connect
+				// TODO test when re-integrating profile mechanism
 				else {
-					// TODO ProfileModelIntegration
+					CreateGenerator generator = new CreateGenerator(null, null, eInf);
+					Module resultModule = generator.generate();
+
+					modules.add(resultModule);
 				}
 
 			}
@@ -373,8 +388,14 @@ public class GenerationActionDelegator {
 
 	/**
 	 * General ADD-generation method, that finds all relevant contexts and
-	 * references that represent different ADD-Modules for this eClassifier. For
-	 * each setup the generation process will be delegated to
+	 * references that represent different ADD-Modules for this context.
+	 * Each target class type, which will be selected for an addition,
+	 * is retrieved from the given eReferences target type.
+	 * Note: we don't need super type replacements for target class.
+	 * The reason is that the target class will be connected as a preserved node
+	 * and have a parameter "existing" by which can be controlled
+	 * which exact sub type of the target class should be used.
+	 * For each setup the generation process will be delegated to
 	 * {@link AddGenerator}
 	 * 
 	 * @param eClassifier
