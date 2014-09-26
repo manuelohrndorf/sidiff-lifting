@@ -360,7 +360,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 			EditRuleMatch editRuleMatch = scs.getEditRuleMatch();
 			
 			if(editRuleMatch != null){
-				generateEditRuleMatchSymboicLinks(editRuleMatch);
+				generateEditRuleMatchSymbolicLinks(editRuleMatch);
 			}
 		}
 	}
@@ -370,7 +370,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 	 * 
 	 * @param editRuleMatch
 	 */
-	private void generateEditRuleMatchSymboicLinks(EditRuleMatch editRuleMatch){
+	private void generateEditRuleMatchSymbolicLinks(EditRuleMatch editRuleMatch){
 						
 		List<EReference> unconsideredEReferences = new LinkedList<EReference>();
 		
