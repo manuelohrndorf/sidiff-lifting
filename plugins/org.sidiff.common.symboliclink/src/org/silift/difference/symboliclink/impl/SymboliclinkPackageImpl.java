@@ -210,6 +210,15 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSymbolicLinkObject_Type() {
+		return (EReference)symbolicLinkObjectEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EOperation getSymbolicLinkObject__GetOutgoings__EReference() {
 		return symbolicLinkObjectEClass.getEOperations().get(0);
 	}
@@ -351,6 +360,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__OUTGOING);
 		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__INCOMING);
 		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES);
+		createEReference(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT__TYPE);
 		createEOperation(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE);
 		createEOperation(symbolicLinkObjectEClass, SYMBOLIC_LINK_OBJECT___HASH_CODE);
 
@@ -412,6 +422,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 		initEReference(getSymbolicLinkObject_Outgoing(), this.getSymbolicLinkReference(), this.getSymbolicLinkReference_Source(), "outgoing", null, 0, -1, SymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSymbolicLinkObject_Incoming(), this.getSymbolicLinkReference(), this.getSymbolicLinkReference_Target(), "incoming", null, 0, -1, SymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSymbolicLinkObject_LinkAttributes(), this.getSymbolicLinkAttribute(), null, "linkAttributes", null, 0, -1, SymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSymbolicLinkObject_Type(), theEcorePackage.getEObject(), null, "type", null, 1, 1, SymbolicLinkObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = initEOperation(getSymbolicLinkObject__GetOutgoings__EReference(), null, "getOutgoings", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEReference(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);

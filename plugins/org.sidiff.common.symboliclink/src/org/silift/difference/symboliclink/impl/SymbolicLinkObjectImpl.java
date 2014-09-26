@@ -8,6 +8,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -32,6 +33,7 @@ import org.silift.difference.symboliclink.SymboliclinkPackage;
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getLinkAttributes <em>Link Attributes</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,6 +89,16 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * @ordered
 	 */
 	protected EList<SymbolicLinkAttribute> linkAttributes;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EObject type;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -167,6 +179,44 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject basicGetType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(EObject newType) {
+		EObject oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EList<SymbolicLinkReference> getOutgoings(EReference type) {
@@ -237,6 +287,9 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return getIncoming();
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
 				return getLinkAttributes();
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -265,6 +318,9 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				getLinkAttributes().clear();
 				getLinkAttributes().addAll((Collection<? extends SymbolicLinkAttribute>)newValue);
 				return;
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE:
+				setType((EObject)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -289,6 +345,9 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
 				getLinkAttributes().clear();
 				return;
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE:
+				setType((EObject)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -309,6 +368,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return incoming != null && !incoming.isEmpty();
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES:
 				return linkAttributes != null && !linkAttributes.isEmpty();
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__TYPE:
+				return type != null;
 		}
 		return super.eIsSet(featureID);
 	}

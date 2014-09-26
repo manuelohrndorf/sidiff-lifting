@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getLinkAttributes <em>Link Attributes</em>}</li>
+ *   <li>{@link org.silift.difference.symboliclink.SymbolicLinkObject#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +104,32 @@ public interface SymbolicLinkObject extends EObject {
 	 * @generated
 	 */
 	EList<SymbolicLinkAttribute> getLinkAttributes();
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(EObject)
+	 * @see org.silift.difference.symboliclink.SymboliclinkPackage#getSymbolicLinkObject_Type()
+	 * @model required="true"
+	 * @generated
+	 */
+	EObject getType();
+
+	/**
+	 * Sets the value of the '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getType <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(EObject value);
 
 	/**
 	 * <!-- begin-user-doc -->

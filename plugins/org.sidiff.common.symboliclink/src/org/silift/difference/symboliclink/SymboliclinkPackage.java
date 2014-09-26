@@ -159,13 +159,22 @@ public interface SymboliclinkPackage extends EPackage {
 	int SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES = 3;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMBOLIC_LINK_OBJECT__TYPE = 4;
+
+	/**
 	 * The number of structural features of the '<em>Symbolic Link Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = 4;
+	int SYMBOLIC_LINK_OBJECT_FEATURE_COUNT = 5;
 
 	/**
 	 * The operation id for the '<em>Get Outgoings</em>' operation.
@@ -294,6 +303,15 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @ordered
 	 */
 	int EXTERNAL_SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES = SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_SYMBOLIC_LINK_OBJECT__TYPE = SYMBOLIC_LINK_OBJECT__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>EObject</b></em>' reference.
@@ -491,6 +509,17 @@ public interface SymboliclinkPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSymbolicLinkObject_LinkAttributes();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see org.silift.difference.symboliclink.SymbolicLinkObject#getType()
+	 * @see #getSymbolicLinkObject()
+	 * @generated
+	 */
+	EReference getSymbolicLinkObject_Type();
 
 	/**
 	 * Returns the meta object for the '{@link org.silift.difference.symboliclink.SymbolicLinkObject#getOutgoings(org.eclipse.emf.ecore.EReference) <em>Get Outgoings</em>}' operation.
@@ -717,6 +746,14 @@ public interface SymboliclinkPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES = eINSTANCE.getSymbolicLinkObject_LinkAttributes();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMBOLIC_LINK_OBJECT__TYPE = eINSTANCE.getSymbolicLinkObject_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Get Outgoings</b></em>' operation.

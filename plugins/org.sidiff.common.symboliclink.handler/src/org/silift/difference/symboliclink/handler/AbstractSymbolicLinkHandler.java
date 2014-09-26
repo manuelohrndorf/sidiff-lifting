@@ -606,6 +606,7 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 			}else if(location.equals(EObjectLocation.PACKAGE_REGISTRY)){
 				symbolicLinkObject = generateExternalSymbolicLinkObject(eObject);
 			}
+			symbolicLinkObject.setType(eObject.eClass());
 		}
 		
 		assert symbolicLinkObject!=null: "Can't create a SymbolicLinkObject for " + eObject;
