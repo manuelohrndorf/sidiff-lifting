@@ -55,4 +55,10 @@ public class SymbolicLinksStringResolver implements IStringResolver {
 		return res;
 	}
 
+	@Override
+	public String resolveQualified(EObject eObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

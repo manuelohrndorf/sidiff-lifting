@@ -27,6 +27,15 @@ public interface IStringResolver {
 	public String resolve(EObject eObject);
 
 	/**
+	 * Resolves a qualified textual representation of the given object
+	 * 
+	 * @param eObject
+	 *            an object of which the qualified textual representation shall
+	 *            be resolved
+	 * @return a qualified string representation of the object
+	 */
+	public String resolveQualified(EObject eObject);
+	/**
 	 * checks if the given document type can be handled by the resolver
 	 * 
 	 * @param docType

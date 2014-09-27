@@ -1,7 +1,11 @@
 package org.sidiff.common.stringresolver.ecore;
 
 
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.stringresolver.IStringResolver;
 
 /**
@@ -44,14 +48,40 @@ public class EcoreStringResolver implements IStringResolver {
 
 	@Override
 	public String resolve(EObject eObject) {
-		String res = "";
-		if(eObject.eClass().getEStructuralFeature("name") != null){
-			res += eObject.eGet(eObject.eClass().getEStructuralFeature("name"));
+		String res = null;
+		if(eObject instanceof EAnnotation){
+			EAnnotation eAnnotaion = (EAnnotation) eObject;
+			res = String.format("%s [%s]", eAnnotaion.getSource(),  eAnnotaion.eClass().getName());
+		}else if(eObject instanceof ENamedElement){
+			ENamedElement eNamedElement = (ENamedElement)eObject;
+			res = String.format("%s [%s]", eNamedElement.getName(),  eNamedElement.eClass().getName());;
+			if(eObject instanceof EAttribute){
+				EAttribute eAttribute = (EAttribute)eObject;
+				if(eAttribute.isID()){
+					res += ": ID"; 
+				}
+			}
 		}else{
-			res += eObject;
-		}
-		
+			String[] fragments = EcoreUtil.getURI(eObject).toString().split("\\.");
+			String indexFragment = fragments[fragments.length-1];
+
+			if(indexFragment.matches("\\d+")){
+				res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(), fragments[fragments.length-1], eObject.eClass().getName());
+			} else {
+				res = eObject.eClass().getName();
+			}
+		}		
 		return res;
 	}
 
+	@Override
+	public String resolveQualified(EObject eObject) {
+		String res = resolve(eObject);
+		EObject eContainer = eObject.eContainer();
+		while(eContainer != null){
+			res = resolve(eContainer) + "." + res;		
+			eContainer = eContainer.eContainer();
+		}
+		return res;
+	}
 }
