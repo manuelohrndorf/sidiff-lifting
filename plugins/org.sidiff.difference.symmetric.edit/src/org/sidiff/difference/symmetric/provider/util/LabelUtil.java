@@ -11,13 +11,23 @@ public class LabelUtil {
 		EObject eObject = (EObject)object;
 		String docType = EMFModelAccessEx.getCharacteristicDocumentType(eObject.eResource());
 		IStringResolver resolver = StringResolverUtil.getAvailableStringResolver(docType);
-		return resolver.resolve(eObject);
+		
+		if (resolver != null){
+			return resolver.resolve(eObject);
+		} else {
+			return eObject.toString();
+		}
 	}
 	
 	public static String getToolTipLabel(Object object){
 		EObject eObject = (EObject)object;
 		String docType = EMFModelAccessEx.getCharacteristicDocumentType(eObject.eResource());
 		IStringResolver resolver = StringResolverUtil.getAvailableStringResolver(docType);
-		return resolver.resolveQualified(eObject);
+		
+		if (resolver != null){
+			return resolver.resolveQualified(eObject);
+		} else {
+			return eObject.toString();
+		}
 	}
 }
