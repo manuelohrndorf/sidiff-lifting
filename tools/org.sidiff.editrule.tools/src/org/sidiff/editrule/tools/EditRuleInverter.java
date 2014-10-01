@@ -83,6 +83,42 @@ public class EditRuleInverter implements IApplication {
 		return invertedModule;
 	}
 	
+	private static List<Parameter> gatherInputParameters(Rule rule){
+		List<Parameter> inputParameters = new ArrayList<Parameter>();
+
+		for(Node node : rule.getLhs().getNodes()){
+			if(HenshinRuleAnalysisUtilEx.isDeletionNode(node)){
+				inputParameters.add(rule.getParameter(node.getName()));
+			}
+		}
+		for(Rule multiRule : rule.getMultiRules()){
+			inputParameters.addAll(gatherInputParameters(multiRule));
+		}
+		
+		return inputParameters;
+	}
+	
+	private static List<Parameter> gatherOutputParameters(Rule rule){
+		List<Parameter> outputParameters = new ArrayList<Parameter>();
+
+		for(Node node : rule.getRhs().getNodes()){
+			if(HenshinRuleAnalysisUtilEx.isCreationNode(node)){
+				if(rule.getParameter(node.getName())!= null){
+					Rule kernelRule = rule;
+					while(kernelRule.isMultiRule()){
+						kernelRule = kernelRule.getKernelRule();
+					}
+					outputParameters.add(kernelRule.getParameter(node.getName()));
+				}
+			}
+		}
+		for(Rule multiRule : rule.getMultiRules()){
+			outputParameters.addAll(gatherOutputParameters(multiRule));
+		}
+		
+		return outputParameters;
+	}
+	
 	/**
 	 * 
 	 * @param mainUnit
@@ -97,29 +133,31 @@ public class EditRuleInverter implements IApplication {
 			if(unit instanceof Rule){
 				Rule rule = (Rule)unit;
 				// gather all <<delete>> nodes
-				for(Node node : rule.getLhs().getNodes()){
-					if(HenshinRuleAnalysisUtilEx.isDeletionNode(node)){
-						inputParameters.add(rule.getParameter(node.getName()));
-					}
-				}
+				inputParameters.addAll(gatherInputParameters(rule));
 				
 				// gather all <<create>> nodes
-				for(Node node : rule.getRhs().getNodes()){
-					if(HenshinRuleAnalysisUtilEx.isCreationNode(node)){
-						outputParameters.add(rule.getParameter(node.getName()));
-					}
-				}
+				outputParameters.addAll(gatherOutputParameters(rule));
 			}
 		}
 		
 		// switch mappings
 		for(Parameter outputParameter : outputParameters){
+			boolean exists = false;
 			for(ParameterMapping parameterMapping : mainUnit.getParameterMappings()){
 				if(parameterMapping.getTarget().equals(outputParameter)){
 					parameterMapping.setTarget(parameterMapping.getSource());
 					parameterMapping.setSource(outputParameter);
+					exists = true;
 					break;
 				}
+			}
+			if(!exists){
+				Parameter unitParameter = HenshinFactory.eINSTANCE.createParameter(outputParameter.getName());
+				mainUnit.getParameters().add(unitParameter);
+				ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+				parameterMapping.setSource(outputParameter);
+				parameterMapping.setTarget(unitParameter);
+				mainUnit.getParameterMappings().add(parameterMapping);
 			}
 		}
 		
@@ -193,37 +231,40 @@ public class EditRuleInverter implements IApplication {
 		}
 		
 		// create attributes under <<create>> nodes and their parameters (only for kernel rules)
-		if(!rule.isMultiRule()){
-			for(Node node : rule.getRhs().getNodes()){
-				if(HenshinRuleAnalysisUtilEx.isCreationNode(node)){
-					for(EAttribute eAttribute : node.getType().eClass().getEAllAttributes()){
-						String parameterName = node.getName()+"_"+eAttribute.getName();
-						HenshinFactory.eINSTANCE.createAttribute(node, eAttribute, parameterName);
-						Parameter ruleParameter = HenshinFactory.eINSTANCE.createParameter(parameterName);
-						rule.getParameters().add(ruleParameter);
-						if(parameters != null){
-							parameters.add(ruleParameter);
-						}
+	
+		for (Node node : rule.getRhs().getNodes()) {
+			if (HenshinRuleAnalysisUtilEx.isCreationNode(node)) {
+				for (EAttribute eAttribute : node.getType().eClass()
+						.getEAllAttributes()) {
+					String parameterName = node.getName() + "_"
+							+ eAttribute.getName();
+					HenshinFactory.eINSTANCE.createAttribute(node, eAttribute,
+							parameterName);
+					Parameter ruleParameter = HenshinFactory.eINSTANCE
+							.createParameter(parameterName);
+					rule.getParameters().add(ruleParameter);
+					if (parameters != null) {
+						parameters.add(ruleParameter);
 					}
 				}
 			}
+			
 		}
 		
 		// create the inverse for each multirule
 		for(Rule multiRule : rule.getMultiRules()){
-			createInverseRule(multiRule, parameters);
+			createInverseRule(multiRule, null);
 			for(Node node : multiRule.getRhs().getNodes()){
 				if(HenshinRuleAnalysisUtilEx.isCreationNode(node)){
 					Parameter parameter = HenshinFactory.eINSTANCE.createParameter(node.getName());
-					Rule kernelRule = multiRule.getKernelRule();
-					kernelRule.getParameters().add(parameter);
+					multiRule.getParameters().add(parameter);
+					Rule kernelRule = multiRule;
 					// map the parameter to the outer rule
 					while(kernelRule.isMultiRule()){
 						kernelRule = kernelRule.getKernelRule();
 						Parameter outerParameter = HenshinFactory.eINSTANCE.createParameter(node.getName());
 						kernelRule.getParameters().add(outerParameter);
 					}
-					parameters.add(parameter);
 				}
 			}
 		}
