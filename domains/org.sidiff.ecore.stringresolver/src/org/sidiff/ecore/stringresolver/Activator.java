@@ -1,4 +1,4 @@
-package org.sidiff.common.stringresolver.ecore;
+package org.sidiff.ecore.stringresolver;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

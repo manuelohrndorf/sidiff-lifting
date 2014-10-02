@@ -1,4 +1,4 @@
-package org.sidiff.common.stringresolver.ecore;
+package org.sidiff.ecore.stringresolver;
 
 
 import org.eclipse.emf.ecore.EAnnotation;
