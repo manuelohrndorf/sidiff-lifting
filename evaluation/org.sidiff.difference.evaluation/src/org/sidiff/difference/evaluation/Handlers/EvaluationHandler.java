@@ -62,7 +62,7 @@ public class EvaluationHandler extends AbstractHandler {
 				engine.evaluate();
 				System.out.println("finsih");
 				try {
-					engine.saveStatistics(folder.getLocation().toOSString()+File.separator+"statistics.csv");
+					engine.createCSV(folder.getLocation().toOSString()+File.separator+"statistics.csv");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

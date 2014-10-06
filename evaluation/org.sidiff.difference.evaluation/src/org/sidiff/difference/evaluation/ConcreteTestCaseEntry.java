@@ -9,7 +9,7 @@ public class ConcreteTestCaseEntry extends AbstractTestCaseEntry {
 
 	private int stats;
 	
-	public ConcreteTestCaseEntry(String header, int stats){
+	public ConcreteTestCaseEntry(Header header, int stats){
 		super(header);
 		this.stats = stats;
 	}

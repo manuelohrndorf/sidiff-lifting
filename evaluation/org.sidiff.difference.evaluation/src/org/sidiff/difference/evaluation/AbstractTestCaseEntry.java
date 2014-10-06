@@ -7,17 +7,16 @@ package org.sidiff.difference.evaluation;
  */
 public abstract class AbstractTestCaseEntry {
 
-	private String header;
+	private Header header;
 	
-	public AbstractTestCaseEntry(String header) {
+	public AbstractTestCaseEntry(Header header) {
 		this.header = header;
 	}
-
-	public String getHeader() {
+	
+	public Header getHeader(){
 		return header;
 	}
-
-	public void setHeader(String header) {
-		this.header = header;
-	}	
+	
+	public abstract int getStats();
+	
 }

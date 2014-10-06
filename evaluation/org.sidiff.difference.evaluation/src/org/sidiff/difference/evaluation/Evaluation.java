@@ -1,9 +1,7 @@
 package org.sidiff.difference.evaluation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 
@@ -18,8 +16,11 @@ public class Evaluation {
 
 	private List<TestCase> cases;
 	
+	private List<Header> headers;
+	
 	public Evaluation() {
 		this.cases = new ArrayList<TestCase>();
+		this.headers = new ArrayList<Header>();
 	}
 	
 	public String getName() {
@@ -34,31 +35,47 @@ public class Evaluation {
 		return cases;
 	}
 	
+	public List<Header> getHeaders() {
+		return headers;
+	}
+	
+	public Header getHeader(String name){
+		for(Header header : headers){
+			if(header.getName().equals(name)){
+				return header;
+			}
+		}
+		return null;
+	}
+
 	public String toCSV(){
 		String csv = "Test Case";
-		List<CompositeTestCaseEntry> compositeTestCaseEntries = new ArrayList<CompositeTestCaseEntry>();
-		//create header
-		for(TestCase testCase : getCases()){
-			for(AbstractTestCaseEntry entry : testCase.getEntries()){
-				if(entry instanceof CompositeTestCaseEntry){
-					compositeTestCaseEntries.add((CompositeTestCaseEntry)entry);
-					csv += CSV_FIELD_DELIMITER + entry.getHeader();
+		//create Header
+		for(Header header : headers){
+			csv += CSV_FIELD_DELIMITER + header.getName();
+			if(!header.getSubHeaders().isEmpty()){
+				for(int i = 0 ; i < header.getSubHeaders().size()-1; i++){
+					csv += CSV_FIELD_DELIMITER;
 				}
+			}
+		}
+		csv += "\n";
+		
+		for(Header header : headers){
+			for(Header subHeader : header.getSubHeaders()){
+				csv += CSV_FIELD_DELIMITER + subHeader.getName();
+			}
+		}
+		csv += "\n";
+		
+		//Test-Cases
+		for(TestCase testCase : cases){
+			csv += testCase.getName();
+			// Entries
+			for(AbstractTestCaseEntry entry : testCase.getEntries()){
+				csv += CSV_FIELD_DELIMITER + entry.getStats();
 			}
 			csv += "\n";
-			for(CompositeTestCaseEntry outerEntry : compositeTestCaseEntries){
-				Set<String> testCaseHeaders = new HashSet<String>();
-				for(AbstractTestCaseEntry innerEntry : outerEntry.getEntries()){
-					if(innerEntry instanceof ConcreteTestCaseEntry){
-						ConcreteTestCaseEntry entry = (ConcreteTestCaseEntry)innerEntry;
-						testCaseHeaders.add(entry.getHeader());
-					}
-				}
-				for(String header : testCaseHeaders){
-					csv += CSV_FIELD_DELIMITER + header;
-				}
-			}
-			csv +="\n";
 		}
 		return csv;
 	}

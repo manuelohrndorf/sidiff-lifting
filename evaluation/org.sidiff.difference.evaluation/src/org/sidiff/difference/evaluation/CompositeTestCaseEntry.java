@@ -10,16 +10,22 @@ import java.util.List;
  */
 public class CompositeTestCaseEntry extends AbstractTestCaseEntry {
 
-	private static final String CSV_FIELD_DELIMITER = ";";
-	
 	private List<AbstractTestCaseEntry> entries;
 
-	public CompositeTestCaseEntry(String header) {
+	public CompositeTestCaseEntry(Header header) {
 		super(header);
 		this.entries = new ArrayList<AbstractTestCaseEntry>();
 	}
 	
 	public List<AbstractTestCaseEntry> getEntries() {
 		return entries;
+	}
+	
+	public int getStats(){
+		int stats = 0;
+		for(AbstractTestCaseEntry entry : entries){
+			stats += entry.getStats();
+		}
+		return stats;
 	}
 }
