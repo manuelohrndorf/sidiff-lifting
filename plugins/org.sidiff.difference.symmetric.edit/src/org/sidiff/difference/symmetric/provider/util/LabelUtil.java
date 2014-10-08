@@ -12,11 +12,8 @@ public class LabelUtil {
 		String docType = EMFModelAccessEx.getCharacteristicDocumentType(eObject.eResource());
 		IStringResolver resolver = StringResolverUtil.getAvailableStringResolver(docType);
 		
-		if (resolver != null){
-			return resolver.resolve(eObject);
-		} else {
-			return eObject.toString();
-		}
+		return resolver.resolve(eObject);
+		
 	}
 	
 	public static String getToolTipLabel(Object object){

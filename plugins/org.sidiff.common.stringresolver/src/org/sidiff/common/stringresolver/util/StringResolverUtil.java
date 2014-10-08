@@ -2,6 +2,7 @@ package org.sidiff.common.stringresolver.util;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.sidiff.common.stringresolver.GenericStringResolver;
 import org.sidiff.common.stringresolver.IStringResolver;
 
 /**
@@ -21,17 +22,22 @@ public class StringResolverUtil {
 	 */
 	public static IStringResolver getAvailableStringResolver(String documentType){
 		
+		IStringResolver stringResolver = null;
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IStringResolver.extensionPointID)) {
 			try {
 				IStringResolver stringResolverExtension = (IStringResolver) configurationElement.createExecutableExtension("string_resolver");
 				if (documentType.equals(stringResolverExtension.getDocType())) {
-					return stringResolverExtension;
+					stringResolver = stringResolverExtension;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return null;
+		if(stringResolver == null){
+			stringResolver = new GenericStringResolver();
+		}
+		
+		return stringResolver;
 	}
 }
