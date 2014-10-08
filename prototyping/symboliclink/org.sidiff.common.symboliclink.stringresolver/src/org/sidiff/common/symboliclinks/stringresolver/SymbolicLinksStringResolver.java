@@ -1,4 +1,4 @@
-package org.sidiff.common.stringresolver.symboliclinks;
+package org.sidiff.common.symboliclinks.stringresolver;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.stringresolver.IStringResolver;

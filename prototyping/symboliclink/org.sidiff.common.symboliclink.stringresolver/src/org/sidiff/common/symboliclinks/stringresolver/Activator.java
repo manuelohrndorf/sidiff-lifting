@@ -1,4 +1,4 @@
-package org.sidiff.common.stringresolver.symboliclinks;
+package org.sidiff.common.symboliclinks.stringresolver;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
