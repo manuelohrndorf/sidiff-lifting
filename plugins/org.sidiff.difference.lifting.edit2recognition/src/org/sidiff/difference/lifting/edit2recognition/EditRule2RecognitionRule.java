@@ -363,7 +363,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 		Formula rr_rightFormula =  null;
 		
 		if (er_rightFormula instanceof And) {
-			er_rightFormula = transformAndFormula((And) er_rightFormula);
+			rr_rightFormula = transformAndFormula((And) er_rightFormula);
 		} else {
 			rr_rightFormula = transformNestedCondition(er_rightFormula);
 		}
