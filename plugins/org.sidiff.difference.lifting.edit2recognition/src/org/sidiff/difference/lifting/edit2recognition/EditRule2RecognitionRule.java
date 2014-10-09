@@ -362,7 +362,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 		Formula er_rightFormula = and.getRight();
 		Formula rr_rightFormula =  null;
 		
-		if (er_leftFormula instanceof And) {
+		if (er_rightFormula instanceof And) {
 			er_rightFormula = transformAndFormula((And) er_rightFormula);
 		} else {
 			rr_rightFormula = transformNestedCondition(er_rightFormula);
