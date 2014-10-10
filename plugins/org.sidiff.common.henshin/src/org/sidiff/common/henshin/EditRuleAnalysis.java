@@ -106,9 +106,7 @@ public class EditRuleAnalysis {
 		if (isNodeWithCreationEdges(rhsNode)
 				|| isNodeWithPreservedEdges(lhsNode)
 				|| isNodeWithCreationAttributes(rhsNode)
-				|| isNodeWithPreservedAttributes(lhsNode)
-				//FIXME DR: Check whether this is valid 
-				|| isNodeWithDeletionEdges(lhsNode) ) {
+				|| isNodeWithPreservedAttributes(lhsNode)) {
 			return true;
 		}
 		
