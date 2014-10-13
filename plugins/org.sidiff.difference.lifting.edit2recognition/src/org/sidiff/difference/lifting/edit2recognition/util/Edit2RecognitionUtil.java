@@ -1,3 +1,4 @@
+
 package org.sidiff.difference.lifting.edit2recognition.util;
 
 import java.io.IOException;
@@ -15,27 +16,28 @@ import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundExce
 import org.silift.common.util.emf.EMFStorage;
 
 public class Edit2RecognitionUtil {
-
+	
 	/**
 	 * Searches the main unit of the edit rule.
 	 * 
 	 * @param editModule
-	 *            the edit rule to search.
-	 * @return
+	 *            The edit rule to search.
+	 * @return The main unit of the edit rule.
+	 * 
 	 * @throws NoMainUnitFoundException
 	 * @throws NoUnitFoundException
 	 */
-	public static Unit findExecuteMainUnit(Module editModule) 
+	public static Unit findExecuteMainUnit(Module editModule)
 			throws NoMainUnitFoundException, NoUnitFoundException {
-
+		
 		// Needed at least one transformation unit to perform generation
 		if (editModule.getUnits().isEmpty()) {
 			throw new NoUnitFoundException(editModule);
 		}
 		
 		// Search for unit with name mainUnit
-		Unit executeMainUnit = editModule.getUnit(INamingConventions.MAIN_UNIT);				
-
+		Unit executeMainUnit = editModule.getUnit(INamingConventions.MAIN_UNIT);
+		
 		if (executeMainUnit == null) {
 			throw new NoMainUnitFoundException(editModule);
 		}
@@ -66,17 +68,17 @@ public class Edit2RecognitionUtil {
 	 *            The target directory of the recognition rule.
 	 */
 	public static void saveRecognitionRule(Module recognitionModule, Module editModule, URI tgtDir) {
-
+		
 		// Edit-Rule URI
 		URI editRuleURI = EcoreUtil.getURI(editModule);
-
+		
 		// Save the recognition transformation system to file
 		saveFile(URI.createURI(
 				tgtDir.toString() + "/"
 						+ TransformationConstants.FILE_PREFIX + editRuleURI.lastSegment()),
 				recognitionModule);
 	}
-
+	
 	/**
 	 * Save henshin file by using UUIDs for serialization. UUIDs are necessary when trying to
 	 * initialize a henshin diagram.
@@ -95,12 +97,12 @@ public class Edit2RecognitionUtil {
 		} catch (IOException e) {
 		}
 	}
-
+	
 	/**
 	 * This class represents an XMIResource that uses UUIDs.
 	 */
 	private static class UUIDXmiResourceImpl extends XMIResourceImpl {
-
+		
 		/**
 		 * Constructor for UUIDXmiResourceImpl
 		 * 
@@ -110,7 +112,7 @@ public class Edit2RecognitionUtil {
 		public UUIDXmiResourceImpl(URI uri) {
 			super(uri);
 		}
-
+		
 		/*
 		 * (non-Javadoc)
 		 * 

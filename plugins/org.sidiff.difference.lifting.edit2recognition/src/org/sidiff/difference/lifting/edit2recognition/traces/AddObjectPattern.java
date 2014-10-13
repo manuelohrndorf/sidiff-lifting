@@ -3,22 +3,45 @@ package org.sidiff.difference.lifting.edit2recognition.traces;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.henshin.NodePair;
 
+/**
+ * Stores a transformation trace between the Edit-Rule and the corresponding Recognition-Rule.
+ * 
+ * @see {@link AddObjectPattern#AddObjectPattern(NodePair, NodePair, Node)}
+ * 
+ * @author Manuel Ohrndorf
+ */
 public class AddObjectPattern {
 	
-	public NodePair nodeB;
+	/**
+	 * The Recognition-Rule Add-Object (low-level difference) node. 
+	 */
 	public NodePair addObject;
 	
-	public Node trace;
+	/**
+	 * The Recognition-Rule model B node (representing the traced node). 
+	 */
+	public NodePair nodeB;
 	
 	/**
-	 * @param node_b
-	 * @param addObject
-	 * @param trace
+	 * The << create >> Edit-Rule node.
 	 */
-	public AddObjectPattern(NodePair node_b, NodePair addObject, Node trace) {
+	public Node trace;
+
+	/**
+	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes an add object
+	 * in the model difference.
+	 * 
+	 * @param addObject The Recognition-Rule Add-Object (low-level difference) node.
+	 * 
+	 * @param nodeB
+	 *            The Recognition-Rule model B node (representing the traced node).
+	 * @param trace
+	 *            The << create >> Edit-Rule node.
+	 */
+	public AddObjectPattern(NodePair addObject, NodePair nodeB, Node trace) {
 		super();
-		this.nodeB = node_b;
 		this.addObject = addObject;
+		this.nodeB = nodeB;
 		this.trace = trace;
 	}
 }

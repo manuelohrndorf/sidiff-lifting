@@ -18,6 +18,8 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
@@ -28,7 +30,17 @@ import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstan
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 /**
+ * <p>
  * Transforms an edit rule transformation system into an recognition transformation system.
+ * </p>
+ * <strong>Concept:</strong>
+ * <p>
+ * Timo Kehrer, Udo Kelter, and Gabriele Taentzer. 2011. A rule-based approach to the semantic
+ * lifting of model differences in the context of model versioning. In Proceedings of the 2011 26th
+ * IEEE/ACM International Conference on Automated Software Engineering (ASE '11). IEEE Computer
+ * Society, Washington, DC, USA, 163-172. DOI=10.1109/ASE.2011.6100050
+ * http://dx.doi.org/10.1109/ASE.2011.6100050
+ * </p>
  * 
  * @author Manuel Ohrndorf
  */
@@ -181,7 +193,7 @@ public class EditModule2RecognitionModule {
 		
 		// Copy description
 		if (editModule.getDescription() != null) {
-			recognitionModule.setDescription(TransformationConstants.RECOGNITION_TS_DESCRIPTION_PREFIX + editModule.getDescription());
+			recognitionModule.setDescription(TransformationConstants.RECOGNITION_MODULE_DESCRIPTION_PREFIX + editModule.getDescription());
 		}
 
 		for (EPackage eImport : editModule.getImports()) {
@@ -193,13 +205,14 @@ public class EditModule2RecognitionModule {
 	
 	/**
 	 * Transforms an edit rule transformation system into an recognition transformation system.
+	 * <p>
 	 * supports:
 	 * <ul>
-	 * <li>Sequential unit with single rule
-	 * <li>Priority unit with single rule
-	 * <li>Amalgamation unit
-	 * <ul>
-	 * <br>
+	 * <li>Sequential unit with single rule</li>
+	 * <li>Priority unit with single rule</li>
+	 * <li>Amalgamation unit: Unit -> Kernel-Rule -> Multi-Rules -> ... </li>
+	 * </ul>
+	 * </p>
 	 * 
 	 * @param editRuleModule
 	 *            the edit rule transformation system.
@@ -223,7 +236,7 @@ public class EditModule2RecognitionModule {
 		// Add implicit edges to all rules in the module
 		createImplicitEdges(editModule);
 		
-		// Supported: AmalgamationUnit := Unit -> Kernel Rule -> Multi-Rules
+		// Supported: AmalgamationUnit := Unit -> Kernel Rule -> Multi-Rules -> ... 
 		if (isAmalgamationUnit(executeMainUnit)) {
 			recognitionMainUnit = transformAmalgamationUnit();
 		}
@@ -267,12 +280,12 @@ public class EditModule2RecognitionModule {
 			Rule kernelRule = (Rule) subUnits.get(0);
 			
 			// Print report
-			//System.out.println("Amalgamation Unit (" + executeMainUnit.getName() + "): ");
-			//System.out.println("  Kernel rule: " + kernelRule.getName());
-			//System.out.println("  Multi rules: ");
+			LogUtil.log(LogEvent.NOTICE, "Amalgamation Unit (" + executeMainUnit.getName() + "): ");
+			LogUtil.log(LogEvent.NOTICE, "  Kernel rule: " + kernelRule.getName());
+			LogUtil.log(LogEvent.NOTICE, "  Multi rules: ");
 
 			for (Rule multiRule : kernelRule.getMultiRules()) {
-				//System.out.println("    -> " + multiRule.getName());
+				LogUtil.log(LogEvent.NOTICE, "    -> " + multiRule.getName());
 			}
 			
 			// Start rule transformation
@@ -305,8 +318,7 @@ public class EditModule2RecognitionModule {
 			Rule editRule = (Rule) subUnits.get(0);
 
 			// Print report
-			//System.out.println("Sequential Unit (" + executeMainUnit.getName() + "): "
-			//		+ editRule.getName());
+			LogUtil.log(LogEvent.NOTICE, "Sequential Unit (" + executeMainUnit.getName() + "): " + editRule.getName());
 			
 			// Start rule transformation
 			transformation = new EditRule2RecognitionRule();
@@ -338,8 +350,7 @@ public class EditModule2RecognitionModule {
 			Rule editRule = (Rule) subUnits.get(0);
 
 			// Print report
-			//System.out.println("Priority Unit (" + executeMainUnit.getName() + "): "
-			//		+ editRule.getName());
+			LogUtil.log(LogEvent.NOTICE, "Priority Unit (" + executeMainUnit.getName() + "): " + editRule.getName());
 			
 			// Start rule transformation
 			transformation =  new EditRule2RecognitionRule();

@@ -3,55 +3,71 @@ package org.sidiff.difference.lifting.edit2recognition.traces;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.henshin.NodePair;
 
+/**
+ * Stores a transformation trace between the Edit-Rule and the corresponding Recognition-Rule.
+ * 
+ * @see {@link ACExtensionPattern#ACExtensionPattern(NodePair, Node, Node, Node, Node, Node)}
+ * 
+ * @author Manuel Ohrndorf
+ */
 public class ACExtensionPattern {
 
 	/**
-	 * Recognition-Rule context/glue node.
+	 * The Recognition-Rule LHS boundary node.
 	 */
-	public NodePair boundaryNode;
+	public NodePair lhsBoundaryNode;
 	
 	/**
-	 * Recognition-Rule (nested) NAC/PAC  context/glue node.
+	 * The nested Recognition-Rule AC boundary node.
 	 */
 	public Node acBoundaryNode;
 	
 	/**
-	 * Recognition-Rule (nested) NAC/PAC extension node.
+	 * The Recognition-Rule AC extension node.
 	 */
 	public Node acExtensionNode;
 	
 	/**
-	 * Recognition-Rule (nested) NAC/PAC correspondence node.
+	 * The Recognition-Rule AC correspondence node.
 	 */
 	public Node acCorrespondence;
 	
 	/**
-	 * Edit-Rule context node.
+	 * The LHS Edit-Rule LHS boundary node.
 	 */
-	public Node boundrayTrace;
+	public Node lhsBoundrayTrace;
 
 	/**
-	 * Edit-Rule (nested) AC context node.
+	 * The nested Edit-Rule AC boundary node.
 	 */
 	public Node acBoundaryTrace;
 
 	/**
-	 * @param context_node
-	 * @param ac_context_node
-	 * @param ac_extension_node
-	 * @param ac_correspondence
-	 * @param context_trace
-	 * @param ac_context_trace
+	 * Creates a new (Edit- to Recognition-Rule) trace for an application condition (AC)
+	 * correspondence extension. Boundary-Node <-> Correspondence <-> AC-Extension-Node. The
+	 * AC boundary node is mapped to parent LHS-Boundary-Node.
+	 * 
+	 * @param lhsBoundaryNode
+	 *            The Recognition-Rule LHS boundary node.
+	 * @param acBoundaryNode
+	 *            The nested Recognition-Rule AC boundary node.
+	 * @param acExtensionNode
+	 *            The Recognition-Rule AC extension node.
+	 * @param acCorrespondence
+	 *            The Recognition-Rule AC correspondence node.
+	 * @param lhsBoundrayTrace
+	 *            The LHS Edit-Rule LHS boundary node.
+	 * @param acBoundaryTrace
+	 *            The nested Edit-Rule AC boundary node.
 	 */
-	public ACExtensionPattern(NodePair context_node, 
-			Node ac_context_node, Node ac_extension_node, Node ac_correspondence, 
-			Node context_trace, Node ac_context_trace) {
+	public ACExtensionPattern(NodePair lhsBoundaryNode, Node acBoundaryNode, Node acExtensionNode, 
+			Node acCorrespondence, Node lhsBoundrayTrace, Node acBoundaryTrace) {
 		super();
-		this.boundaryNode = context_node;
-		this.acBoundaryNode = ac_context_node;
-		this.acExtensionNode = ac_extension_node;
-		this.acCorrespondence = ac_correspondence;
-		this.boundrayTrace = context_trace;
-		this.acBoundaryTrace = ac_context_trace;
+		this.lhsBoundaryNode = lhsBoundaryNode;
+		this.acBoundaryNode = acBoundaryNode;
+		this.acExtensionNode = acExtensionNode;
+		this.acCorrespondence = acCorrespondence;
+		this.lhsBoundrayTrace = lhsBoundrayTrace;
+		this.acBoundaryTrace = acBoundaryTrace;
 	}
 }

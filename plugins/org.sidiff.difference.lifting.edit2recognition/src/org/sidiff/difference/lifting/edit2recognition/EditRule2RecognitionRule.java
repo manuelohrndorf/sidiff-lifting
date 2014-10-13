@@ -56,6 +56,8 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddReferencePattern;
@@ -79,13 +81,23 @@ import org.silift.common.util.access.EMFMetaAccessEx;
  */
 
 /**
+ * <p>
  * Transforms an edit rule into a recognition rule. A recognition rule matches the atomic changes in
  * a difference which were produced by the edit rule. The recognition rule groups the atomic changes
  * in a semantic change set.
+ * </p>
+ * <strong>Concept:</strong>
+ * <p>
+ * Timo Kehrer, Udo Kelter, and Gabriele Taentzer. 2011. A rule-based approach to the semantic
+ * lifting of model differences in the context of model versioning. In Proceedings of the 2011 26th
+ * IEEE/ACM International Conference on Automated Software Engineering (ASE '11). IEEE Computer
+ * Society, Washington, DC, USA, 163-172. DOI=10.1109/ASE.2011.6100050
+ * http://dx.doi.org/10.1109/ASE.2011.6100050
+ * </p>
  * 
  * @author Manuel Ohrndorf
  */
-public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
+public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 
 	/**
 	 * The edit rule from which the recognition rule will be created.
@@ -810,7 +822,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 
 			// Save transformation pattern
 			RemoveObjectPattern removeObjectPattern = new RemoveObjectPattern(
-					node_a, removeObject, node);
+					removeObject, node_a, node);
 			patterns.addRemoveObjectPattern(removeObjectPattern);
 		}
 	}
@@ -911,7 +923,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 			changes.add(addObject);
 
 			// Save transformation pattern
-			AddObjectPattern addObjectPattern = new AddObjectPattern(node_b, addObject, node);
+			AddObjectPattern addObjectPattern = new AddObjectPattern(addObject, node_b, node);
 			patterns.addAddObjectPattern(addObjectPattern);
 		}
 	}
@@ -1183,7 +1195,7 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 //			// Check for unit parameter
 //			for (Parameter parameter : usedParameter) {
 //				if (unitParameter.containsKey(parameter)) {
-//					System.out.println(WARNING_OPERATOR_ON_CONTENT_CHECK);
+//					LogUtil.log(LogEvent.WARNING, WARNING_OPERATOR_ON_CONTENT_CHECK);
 //					return;
 //				}
 //			}
@@ -1211,13 +1223,13 @@ public class EditRule2RecognitionRule extends EditUnit2RecognitionUnit {
 	 */
 	private boolean isUnconsideredAttribute(Attribute attribute) {
 		if (EMFMetaAccessEx.isUnconsideredStructualFeature(attribute.getType())) {
-			System.out.println();
-			System.out
-					.println("WARNING: Unconsidered (not changeable, transient, derived) attribute in edit rule! Skip that!");
-			System.out.println("Edit rule: " + editRule.getName());
-			System.out.println("Node:      " + attribute.getNode());
-			System.out.println("Attribute: " + attribute + " (type: " + attribute.getType() + ")");
-			System.out.println();
+			LogUtil.log(LogEvent.WARNING, "");
+			LogUtil.log(LogEvent.WARNING, "WARNING: Unconsidered (not changeable, transient, derived) attribute in edit rule! Skip that!");
+			LogUtil.log(LogEvent.WARNING, "Edit rule: " + editRule.getName());
+			LogUtil.log(LogEvent.WARNING, "Node:      " + attribute.getNode());
+			LogUtil.log(LogEvent.WARNING,"Attribute: " + attribute + " (type: " + attribute.getType() + ")");
+			LogUtil.log(LogEvent.WARNING, "");
+			
 			return true;
 		} else {
 			return false;

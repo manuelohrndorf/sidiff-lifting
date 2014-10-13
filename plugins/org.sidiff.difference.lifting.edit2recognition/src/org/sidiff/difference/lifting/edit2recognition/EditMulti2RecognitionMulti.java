@@ -44,11 +44,21 @@ import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstan
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 /**
+ * <p>
  * Transforms an multi rule into a recognition multi rule.
+ * </p>
+ * <strong>Concept:</strong>
+ * <p>
+ * Timo Kehrer, Udo Kelter, and Gabriele Taentzer. 2011. A rule-based approach to the semantic
+ * lifting of model differences in the context of model versioning. In Proceedings of the 2011 26th
+ * IEEE/ACM International Conference on Automated Software Engineering (ASE '11). IEEE Computer
+ * Society, Washington, DC, USA, 163-172. DOI=10.1109/ASE.2011.6100050
+ * http://dx.doi.org/10.1109/ASE.2011.6100050
+ * </p>
  * 
  * @author Manuel Ohrndorf
  */
-public class EditMulti2RecognitionMulti extends EditUnit2RecognitionUnit {
+public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
 	
 	/**
 	 * The input edit rule.

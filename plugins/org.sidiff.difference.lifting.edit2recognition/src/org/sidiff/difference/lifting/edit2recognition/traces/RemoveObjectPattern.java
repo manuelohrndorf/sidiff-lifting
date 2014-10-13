@@ -3,22 +3,45 @@ package org.sidiff.difference.lifting.edit2recognition.traces;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.henshin.NodePair;
 
+/**
+ * Stores a transformation trace between the Edit-Rule and the corresponding Recognition-Rule.
+ * 
+ * @see {@link RemoveObjectPattern#RemoveObjectPattern(NodePair, NodePair, Node)}
+ * 
+ * @author Manuel Ohrndorf
+ */
 public class RemoveObjectPattern {
-
-	public NodePair nodeA;
-	public NodePair removeObject;
-	
-	public Node trace;
 	
 	/**
-	 * @param node_a
-	 * @param removeObject
-	 * @param trace
+	 * The Recognition-Rule Remove-Object (low-level difference) node. 
 	 */
-	public RemoveObjectPattern(NodePair node_a, NodePair removeObject, Node trace) {
+	public NodePair removeObject;
+	
+	/**
+	 * The Recognition-Rule model A node (representing the traced node). 
+	 */
+	public NodePair nodeA;
+	
+	/**
+	 * The << delete >> Edit-Rule node.
+	 */
+	public Node trace;
+
+	/**
+	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes a remove
+	 * object in the model difference.
+	 * 
+	 * @param removeObject
+	 *            The Recognition-Rule Remove-Object (low-level difference) node.
+	 * @param nodeA
+	 *            The Recognition-Rule model A node (representing the traced node).
+	 * @param trace
+	 *            The << delete >> Edit-Rule node.
+	 */
+	public RemoveObjectPattern(NodePair removeObject, NodePair nodeA, Node trace) {
 		super();
-		this.nodeA = node_a;
 		this.removeObject = removeObject;
+		this.nodeA = nodeA;
 		this.trace = trace;
 	}
 }
