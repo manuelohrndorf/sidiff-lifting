@@ -2031,6 +2031,30 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Searches the corresponding LHS node of the given RHS node.
+	 * 
+	 * @param rhsNode
+	 *            A RHS node.
+	 * @return The corresponding LHS node or <code>null</code> if no node was found.
+	 */
+	public static Node getLHS(Node rhsNode) {
+		return HenshinRuleAnalysisUtilEx.getRemoteNode(
+				rhsNode.getGraph().getRule().getMappings(), rhsNode);
+	}
+	
+	/**
+	 * Searches the corresponding RHS node of the given LHS node.
+	 * 
+	 * @param rhsNode
+	 *            A LHS node.
+	 * @return The corresponding RHS node or <code>null</code> if no node was found.
+	 */
+	public static Node getRHS(Node lhsNode) {
+		return HenshinRuleAnalysisUtilEx.getRemoteNode(
+				lhsNode.getGraph().getRule().getMappings(), lhsNode);
+	}
+	
+	/**
 	 * Checks if the given edge represents a 'deletion' edge. This is the case,
 	 * if it is contained in a LHS and if there is no corresponding image edge
 	 * in the RHS.<br>
