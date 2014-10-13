@@ -95,6 +95,7 @@ public class Edit2RecognitionUtil {
 		try {
 			resource.save(null);
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

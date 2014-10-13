@@ -540,7 +540,7 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 		List<AttributePair> changeAttributes = getLHStoRHSChangedAttributes(editRule);
 		
 		for (Iterator<AttributePair> iterator = changeAttributes.iterator(); iterator.hasNext();) {
-			AttributePair attribute = (AttributePair) iterator.next();
+			AttributePair attribute = iterator.next();
 			
 			if (isUnconsideredAttribute(attribute.getLhsAttribute())) {
 				changeAttributes.remove(attribute);
@@ -1016,7 +1016,7 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 		attrDescription.setType(SymmetricPackage.eINSTANCE.getSemanticChangeSet_Description());
 		String description = this.editRule.getModule().getDescription();
 		
-		if ((description != null) && (description != "")) {
+		if ((description != null) && (!description.equals(""))) {
 			attrDescription.setValue("\"" + this.editRule.getModule().getDescription() + "\"");	
 		}	
 		else {
