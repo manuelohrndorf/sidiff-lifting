@@ -11,6 +11,7 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -315,12 +316,23 @@ public class EditCondition2RecognitionCondition {
 			NodePair rr_boundary_node;
 			
 			// Precondition OR Postcondition?
+			EReference CorrespondenceToBoundaryEdgeType = null;
+			EReference CorrespondenceToExtensionEdgeType = null;
+			
 			if (isPrecondition) {
 				// Precondition: Glue AC-Extension to model B:
 				rr_boundary_node = patterns.getTraceB(er_boundary_node);
+				
+				// Connect AC-Extension to model side B:
+				CorrespondenceToBoundaryEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjB();
+				CorrespondenceToExtensionEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjA();
 			} else {
 				// Postcondition: Glue AC-Extension to model A:
 				rr_boundary_node = patterns.getTraceA(er_boundary_node);
+				
+				// Connect AC-Extension to model side A:
+				CorrespondenceToBoundaryEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjA();
+				CorrespondenceToExtensionEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjB();
 			}
 
 			assert (rr_boundary_node != null) : "Missing trace!";
@@ -340,11 +352,11 @@ public class EditCondition2RecognitionCondition {
 			
 			// NAC/PAC Correspondence -> NAC/PAC Edge -> Boundary Node
 			createEdge(rr_ac_correspondence, rr_ac_boundary_node,
-					SymmetricPackage.eINSTANCE.getCorrespondence_ObjA(), recognitionGraph);
+					CorrespondenceToBoundaryEdgeType, recognitionGraph);
 
 			// NAC/PAC Correspondence -> NAC/PAC Edge -> Extension Node
 			createEdge(rr_ac_correspondence, rr_ac_extension_node,
-					SymmetricPackage.eINSTANCE.getCorrespondence_ObjB(), recognitionGraph);
+					CorrespondenceToExtensionEdgeType, recognitionGraph);
 
 			// Save transformation pattern
 			ACExtensionPattern actExtensionPattern = new ACExtensionPattern(
