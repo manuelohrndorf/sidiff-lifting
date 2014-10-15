@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -23,6 +24,7 @@ import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.matcher.IncrementalMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
@@ -67,7 +69,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		Label matchingLabel = new Label(container, SWT.NONE);
 		matchingLabel.setText("Matching Engine:");
 
-		list_matchers = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			data.heightHint = 70;
@@ -125,8 +127,31 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	}
 
 	public IMatcher getSelection() {
-
-		return matchers.get(list_matchers.getSelection()[0]);
+		
+		// If more than one Matcher selected make use of @link{IncrementalMatcher} class.
+		if(list_matchers.getSelectionCount() > 1){
+			
+			// Create Matcher list according to selection
+			ArrayList<IMatcher> imatchers = new ArrayList<IMatcher>();
+			for(String matcherName : list_matchers.getSelection()){
+				imatchers.add(matchers.get(matcherName));
+			}
+			
+			// If there has been more than one beforehand, just update the matcher
+			if(settings.getMatcher() instanceof IncrementalMatcher){
+				IncrementalMatcher incMatcher = (IncrementalMatcher) settings.getMatcher();				
+				incMatcher.setMatchers(imatchers);
+				return settings.getMatcher();
+			}
+			// Otherwise create a new IncrementalMatcher and include all selected matchers
+			else{
+				IncrementalMatcher incMatcher = new IncrementalMatcher(imatchers);
+				return incMatcher;				
+			}
+		}
+		else{
+			return matchers.get(list_matchers.getSelection()[0]);
+		}
 
 	}
 

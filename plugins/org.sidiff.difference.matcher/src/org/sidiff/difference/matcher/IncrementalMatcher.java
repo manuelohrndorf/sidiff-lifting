@@ -19,7 +19,9 @@ import org.silift.common.util.emf.Scope;
  * sub-matcher is skipped.
  * 
  * Note that this matcher is not registered via an extension point and will not
- * be shown in the SiLift UI. So far, it is only usable via API.
+ * be shown in the SiLift UI. If the user selects more than one @link{IMatcher} in the 
+ * @link{MatchingEngineWidget} this class will be created dynamically and all chosen matchers will
+ * be added.
  * 
  * 
  * @author kehrer
@@ -131,6 +133,10 @@ public class IncrementalMatcher implements IMatcher {
 	public String getDocumentType() {
 		// depends on the sub-matchers
 		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+	}
+	
+	public void setMatchers(List<IMatcher> matchers){
+		this.matchers = matchers;
 	}
 
 }
