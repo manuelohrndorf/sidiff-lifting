@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.compare.structureMergeViewers">
+      <viewer
+            class="org.sidiff.difference.symmetric.compareview.ide.structureviewer.SiLiftStructureViewerCreator"
+            extensions="ecore"
+            id="org.sidiff.difference.symmetric.compareview.ide.structureviewer.SiLiftStructureViewerCreator"
+            label="SiLift Edit-Rule Viewer">
+      </viewer>
+      <viewer
+            class="org.sidiff.difference.symmetric.compareview.ide.structureviewer.TestStructureViewerCreator"
+            extensions="ecore, org.sidiff.difference.symmetric.impl.RemoveReferenceImpl "
+            id="org.sidiff.difference.symmetric.compareview.ide.structureviewer.TestStructureViewerCreator"
+            label="SiLift TEST Structure Viewer">
+      </viewer>
+   </extension>
+   <extension
+         point="org.eclipse.compare.contentMergeViewers">
+      <viewer
+            class="org.sidiff.difference.symmetric.compareview.ide.contentviewer.TestContentViewerCreator"
+            extensions="org.sidiff.difference.symmetric.impl.RemoveReferenceImpl "
+            id="org.sidiff.difference.symmetric.compareview.ide.contentviewer.TestContentViewerCreator"
+            label="SiLift TEST Content Viewer">
+      </viewer>
+   </extension>
+
+</plugin>
