@@ -1,5 +1,6 @@
 package org.sidiff.common.henshin;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRules;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithCreationAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithCreationEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithDeletionEdges;
@@ -7,10 +8,32 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPres
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPreservedEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithoutEdges;
 
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 public class EditRuleAnalysis {
+	
+	/**
+	 * Checks if any rule of this module uses derived references.
+	 * 
+	 * @param editModule
+	 *            The module to test.
+	 * @return <code>true</code> if any rule of this module uses a derived reference;
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean checkDerivedReferences(Module editModule) {
+		
+		for (Rule rule : getRules(editModule)) {
+			for (Edge edge : rule.getLhs().getEdges()) {
+				if (edge.getType().isDerived()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * A edge is searched in model A if its source and target nodes are searched in model A.
