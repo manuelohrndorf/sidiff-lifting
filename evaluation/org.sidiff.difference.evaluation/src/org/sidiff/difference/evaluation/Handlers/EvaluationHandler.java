@@ -57,12 +57,19 @@ public class EvaluationHandler extends AbstractHandler {
 						differences_List.add(differences);
 					}
 				}
-				AbstractEvaluationEngine engine = EvaluationEngineUtil.getEvaluationEngines("EnsureEvaluation");
-				engine.setDifferences(differences_List);
-				engine.evaluate();
+				
+				AbstractEvaluationEngine engine_result = EvaluationEngineUtil.getEvaluationEngines("ResultEvaluation");
+				engine_result.setDifferences(differences_List);
+				engine_result.evaluate();
+				
+				AbstractEvaluationEngine engine_distribution = EvaluationEngineUtil.getEvaluationEngines("DistributionEvaluation");
+				engine_distribution.setDifferences(differences_List);
+				engine_distribution.evaluate();
+				
 				System.out.println("finsih");
 				try {
-					engine.createCSV(folder.getLocation().toOSString()+File.separator+"statistics.csv");
+					engine_result.createCSV(folder.getLocation().toOSString()+File.separator+"result-statistics.csv");
+					engine_distribution.createCSV(folder.getLocation().toOSString()+File.separator+"distribution-statistics.csv");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
