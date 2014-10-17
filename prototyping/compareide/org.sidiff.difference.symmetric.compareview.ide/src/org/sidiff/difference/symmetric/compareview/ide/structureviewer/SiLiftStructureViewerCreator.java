@@ -9,6 +9,6 @@ public class SiLiftStructureViewerCreator implements IViewerCreator {
 	
 	@Override
 	public Viewer createViewer(Composite parent, CompareConfiguration config) {
-		return new SiLiftStructureViewer(parent);
+		return new SiLiftStructureViewer(parent, config);
 	}
 }

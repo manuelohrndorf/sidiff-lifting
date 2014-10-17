@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
+import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.IEncodedStreamContentAccessor;
 import org.eclipse.compare.IStreamContentAccessor;
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.CompareFactory;
-import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.rcp.ui.internal.EMFCompareConstants;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -34,11 +34,8 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.compareview.ide.adapter.ConversionException;
-import org.sidiff.difference.symmetric.compareview.ide.adapter.SiLiftToEMFCompareAdapter;
+import org.sidiff.difference.symmetric.compareview.ide.proxy.SiLiftToEMFCompareConverter;
 import org.sidiff.difference.symmetric.provider.AdapterToolTipLabelProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.silift.common.util.access.EMFModelAccessEx;
@@ -46,14 +43,17 @@ import org.silift.common.util.exceptions.NoCorrespondencesException;
 
 public class SiLiftStructureViewer extends TreeViewer  {
 
+	CompareConfiguration config;
 	ComposedAdapterFactory adapterFactory;
 	
 	// TEST:
 	private static String matcherName = "NamedElement";
 	
-	public SiLiftStructureViewer(Composite parent) {
+	public SiLiftStructureViewer(Composite parent, CompareConfiguration config) {
 		super(parent, SWT.MULTI);
 		parent.setLayout(new GridLayout(1, false));
+		
+		this.config = config;
 		
 		// Create an adapter factory that yields item providers:
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
@@ -111,12 +111,14 @@ public class SiLiftStructureViewer extends TreeViewer  {
 			try {
 				ResourceSet resourceSet = new ResourceSetImpl();
 				
+				// Load the left resource from the input stream:
 				if (left instanceof IStreamContentAccessor) {
 					InputStream leftIn = ((IEncodedStreamContentAccessor) left).getContents();
 					leftResource = resourceSet.createResource(URI.createURI(left.getName()));
 					leftResource.load(leftIn, null);
 				}
 				
+				// Load the right resource from the input stream:
 				if (right instanceof IStreamContentAccessor) {
 					InputStream rightIn = ((IEncodedStreamContentAccessor) right).getContents();
 					rightResource = resourceSet.createResource(URI.createURI(right.getName()));
@@ -134,24 +136,10 @@ public class SiLiftStructureViewer extends TreeViewer  {
 				LiftingSettings settings =  buildSettings(leftResource, rightResource);
 				SymmetricDifference diff = LiftingFacade.liftMeUp(leftResource, rightResource, settings);
 				
-				// Adapt difference:
-				Comparison comparision = CompareFactory.eINSTANCE.createComparison();
-				
-				for(Correspondence c : diff.getCorrespondences()) {
-					try {
-						SiLiftToEMFCompareAdapter.replaceWithProxy(c, comparision);
-					} catch (ConversionException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				for(Change c : diff.getChanges()) {
-					try {
-						SiLiftToEMFCompareAdapter.replaceWithProxy(c, comparision);
-					} catch (ConversionException e) {
-//						e.printStackTrace();
-					}
-				}
+				// Convert to the EMF-Compare difference model:
+				SiLiftToEMFCompareConverter converter = new SiLiftToEMFCompareConverter(diff);
+				config.setProperty(EMFCompareConstants.COMPARE_RESULT, converter.getEmfcompareDiff());
+				// NOTE: EMFCompareConstants.COMPARE_RESULT -> Discouraged access -> As in EMF-Compare itself!?
 				
 				return diff;
 			} catch (InvalidModelException | NoCorrespondencesException e) {
