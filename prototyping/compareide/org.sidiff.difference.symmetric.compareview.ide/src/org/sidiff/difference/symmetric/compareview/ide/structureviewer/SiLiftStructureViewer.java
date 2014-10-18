@@ -133,8 +133,8 @@ public class SiLiftStructureViewer extends TreeViewer  {
 			
 			try {
 				// Run lifting:
-				LiftingSettings settings =  buildSettings(leftResource, rightResource);
-				SymmetricDifference diff = LiftingFacade.liftMeUp(leftResource, rightResource, settings);
+				LiftingSettings settings =  buildSettings(rightResource, leftResource);
+				SymmetricDifference diff = LiftingFacade.liftMeUp(rightResource, leftResource, settings);
 				
 				// Convert to the EMF-Compare difference model:
 				SiLiftToEMFCompareConverter converter = new SiLiftToEMFCompareConverter(diff);

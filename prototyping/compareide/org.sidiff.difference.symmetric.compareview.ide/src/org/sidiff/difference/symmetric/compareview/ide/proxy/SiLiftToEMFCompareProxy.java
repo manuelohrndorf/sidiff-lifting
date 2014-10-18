@@ -12,15 +12,14 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 
 public class SiLiftToEMFCompareProxy implements InvocationHandler {
 	
-	private ICompareInput compareInputAdapter;
+	private ICompareInput compareInput;
 	private EObject emfcompareDiffElement;
 	private EObject siliftDiffElement;
 	
 	protected SiLiftToEMFCompareProxy() {
 	}
 	
-	public SiLiftToEMFCompareProxy(EObject siliftDiffElement, EObject emfcompareDiffElement) 
-			throws ConverterException {
+	public SiLiftToEMFCompareProxy(EObject siliftDiffElement, EObject emfcompareDiffElement) {
 		
 		// SiLift difference model:
 		this.siliftDiffElement = siliftDiffElement;
@@ -32,7 +31,7 @@ public class SiLiftToEMFCompareProxy implements InvocationHandler {
 		// (AbstractEDiffNode extends AdapterImpl implements ICompareInput)
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		compareInputAdapter = (ICompareInput) adapterFactory.adapt(emfcompareDiffElement, ICompareInput.class);
+		compareInput = (ICompareInput) adapterFactory.adapt(emfcompareDiffElement, ICompareInput.class);
 	}
 	
 	public EObject createProxy() {
@@ -69,13 +68,27 @@ public class SiLiftToEMFCompareProxy implements InvocationHandler {
 		}
 
 		// Delegation to the Eclipse ICompareInput interface / EMF-Compare (AbstractEDiffNode):
-		return method.invoke(compareInputAdapter, args);
+		return method.invoke(compareInput, args);
 	}
 	
-	public static void replaceWithProxy(EObject siliftDiffElement, EObject emfcompareDiffElement) 
-			throws ConverterException {
+	public static void replaceWithProxy(EObject siliftDiffElement, EObject emfcompareDiffElement) {
 		
 		SiLiftToEMFCompareProxy invocationHandler = new SiLiftToEMFCompareProxy(siliftDiffElement, emfcompareDiffElement);
-		EcoreUtil.replace(siliftDiffElement, invocationHandler.createProxy());
+		EObject proxy = invocationHandler.createProxy();
+		EcoreUtil.replace(siliftDiffElement, proxy);
+	}
+
+	public ICompareInput getCompareInput() {
+		return compareInput;
+	}
+
+	
+	public EObject getEmfcompareDiffElement() {
+		return emfcompareDiffElement;
+	}
+
+	
+	public EObject getSiliftDiffElement() {
+		return siliftDiffElement;
 	}
 }
