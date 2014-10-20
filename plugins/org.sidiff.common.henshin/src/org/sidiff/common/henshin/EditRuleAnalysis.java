@@ -23,7 +23,7 @@ public class EditRuleAnalysis {
 	 * @return <code>true</code> if any rule of this module uses a derived reference;
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean checkDerivedReferences(Module editModule) {
+	public static boolean hasDerivedReferences(Module editModule) {
 		
 		for (Rule rule : getRules(editModule)) {
 			for (Edge edge : rule.getLhs().getEdges()) {

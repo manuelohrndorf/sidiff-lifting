@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.EditRuleAnalysis;
 import org.sidiff.difference.lifting.edit2recognition.EditModule2RecognitionModule;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
@@ -17,7 +18,6 @@ import org.sidiff.difference.lifting.edit2recognition.traces.CorrespondencePatte
 import org.sidiff.difference.lifting.edit2recognition.traces.RemoveObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
-import org.sidiff.difference.lifting.edit2recognition.util.RuleChecker;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
@@ -115,7 +115,7 @@ public class EditWrapper2RecognitionWrapper {
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();
 		editRule.setExecuteMainUnit(Edit2RecognitionUtil.findExecuteMainUnit(editModule));
-		editRule.setUseDerivedFeatures(RuleChecker.checkDerivedReferences(editModule));
+		editRule.setUseDerivedFeatures(EditRuleAnalysis.hasDerivedReferences(editModule));
 		
 		return editRule;
 	}
