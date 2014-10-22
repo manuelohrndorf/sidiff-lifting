@@ -49,6 +49,7 @@ public class FileToModelConverter {
 
 			String documentType = EMFModelAccess.getDocumentType(original);
 			LiftingSettings liftingSettings = new LiftingSettings(documentType);			
+			liftingSettings.setCalculateEditRuleMatch(true);
 			liftingSettings.setMatcher(new SMGMatcher(getCorrespondences(resourceSet, testFileGroup.matching)));
 			Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, liftingSettings);
 

@@ -322,6 +322,7 @@ public class ThreeWayMergeWizard extends Wizard {
 		Difference fullDiff = null;
 
 		// Init the lifting settings from the patching settings:
+		liftingSettings.setCalculateEditRuleMatch(true);
 		liftingSettings.setScope(patchingSettings.getScope());
 		liftingSettings.setMatcher(patchingSettings.getMatcher());
 		liftingSettings.setRuleBases(patchingSettings.getRuleBases());

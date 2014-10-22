@@ -39,6 +39,11 @@ public class LiftingSettings extends Settings {
 	private RecognitionEngineMode recognitionEngineMode = RecognitionEngineMode.LIFTING_AND_POST_PROCESSING;
 
 	/**
+	 * Whether to calculate the EditRuleMatch or not.
+	 */
+	private boolean calculateEditRuleMatch = false;
+	
+	/**
 	 * Whether to serialize the EditRuleMatch or not.
 	 */
 	private boolean serializeEditRuleMatch = false;
@@ -406,6 +411,17 @@ public class LiftingSettings extends Settings {
 		}		
 	}
 	
+	public boolean isCalculateEditRuleMatch() {
+		return calculateEditRuleMatch;
+	}
+
+	public void setCalculateEditRuleMatch(boolean calculateEditRuleMatch) {
+		if (calculateEditRuleMatch != this.calculateEditRuleMatch) {
+			this.calculateEditRuleMatch = calculateEditRuleMatch;
+			this.notifyListeners(SettingsItem.CALCULATE_EDIT_RULE_MATCH);
+		}		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -426,6 +442,9 @@ public class LiftingSettings extends Settings {
 		result.append("Rule set reduction: " + ruleSetReduction + "\n");
 		result.append("Build minimal working graph per rule: " + buildGraphPerRule + "\n");
 
+		result.append("Calculate edit rule match: " + calculateEditRuleMatch + "\n");
+		result.append("Serialize edit rule match: " + serializeEditRuleMatch + "\n");
+		
 		return result.toString();
 	}
 }

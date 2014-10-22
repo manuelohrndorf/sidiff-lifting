@@ -50,8 +50,7 @@ public class LiftingFacade extends PipelineUtils {
 		importMerger.merge();
 
 		// Start recognition engine
-		RecognitionEngine engine = new RecognitionEngine(settings.getRuleBases(), symmetricDifference,
-				importMerger.getImports(), settings);
+		RecognitionEngine engine = new RecognitionEngine(symmetricDifference, importMerger.getImports(), settings);
 		engine.execute();
 
 		// Postprocess
@@ -84,7 +83,7 @@ public class LiftingFacade extends PipelineUtils {
 	 * @see LiftingFacade#load(String)
 	 * @see LiftingFacade#liftMeUp(Resource, Resource, IMatcher)
 	 * @throws InvalidModelException
-	 * @throws NoCorrespondencesException 
+	 * @throws NoCorrespondencesException
 	 */
 	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings)
 			throws InvalidModelException, NoCorrespondencesException {
@@ -102,10 +101,10 @@ public class LiftingFacade extends PipelineUtils {
 		IMatcher matcher = settings.getMatcher();
 		SymmetricDifference symmetricDiff = matcher.createMatching(modelA, modelB, settings.getScope(), false);
 
-		if(!(symmetricDiff.getCorrespondences().size() != 0)){
+		if (!(symmetricDiff.getCorrespondences().size() != 0)) {
 			throw new NoCorrespondencesException();
 		}
-		
+
 		// Merge Imports
 		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), true);
 		importMerger.merge();
@@ -114,12 +113,9 @@ public class LiftingFacade extends PipelineUtils {
 		ITechnicalDifferenceBuilder diffBuilder = settings.getTechBuilder();
 		diffBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
 
-		
-
 		if (settings.getRecognitionEngineMode() != RecognitionEngineMode.NO_LIFTING) {
 			// Start recognition engine
-			RecognitionEngine engine = new RecognitionEngine(settings.getRuleBases(), symmetricDiff,
-					importMerger.getImports(), settings);
+			RecognitionEngine engine = new RecognitionEngine(symmetricDiff, importMerger.getImports(), settings);
 			engine.execute();
 
 			// Postprocess
@@ -199,7 +195,7 @@ public class LiftingFacade extends PipelineUtils {
 	 * @see LiftingFacade#getAvailableMatchers(String)
 	 * @see LiftingFacade#liftMeUp(Resource, Resource, LiftingSettings)
 	 * @throws InvalidModelException
-	 * @throws NoCorrespondencesException 
+	 * @throws NoCorrespondencesException
 	 */
 	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher)
 			throws InvalidModelException, NoCorrespondencesException {

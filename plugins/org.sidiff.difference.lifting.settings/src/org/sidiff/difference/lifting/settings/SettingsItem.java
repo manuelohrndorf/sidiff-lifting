@@ -61,6 +61,11 @@ public enum SettingsItem {
 	BUILD_GRAPH_PER_RULE,
 	
 	/**
+	 * {@link LiftingSettings#setCalculateEditRuleMatch(boolean)}
+	 */
+	CALCULATE_EDIT_RULE_MATCH,
+	
+	/**
 	 * {@link LiftingSettings#setSerializeEditRuleMatch(boolean)}
 	 */
 	SERIALIZE_EDIT_RULE_MATCH;

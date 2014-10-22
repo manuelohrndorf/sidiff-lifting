@@ -43,7 +43,7 @@ public class CrossOverPotentialDependencyAnalyzer extends PotentialDependencyAna
 	public CrossOverPotentialDependencyAnalyzer(RecognitionEngine engine) {
 		// set documentTypes
 		this.documentTypes = new HashSet<String>();
-		for (IRuleBase rb : engine.getUsedRulebases()) {
+		for (IRuleBase rb : engine.getLiftingSettings().getRuleBases()) {
 			documentTypes.addAll(rb.getDocumentTypes());
 		}
 		

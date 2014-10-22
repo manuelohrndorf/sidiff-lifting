@@ -72,7 +72,7 @@ public class DependencyAnalyzer {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Initialize RuleBase cross-over potential dependency analyzer
-		if (recognitionEngine.getUsedRulebases().size() > 1) {
+		if (recognitionEngine.getLiftingSettings().getRuleBases().size() > 1) {
 			crossOverPotDeps = new CrossOverPotentialDependencyAnalyzer(recognitionEngine);
 		}
 
@@ -190,7 +190,7 @@ public class DependencyAnalyzer {
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
 		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
-		for (IRuleBase rb : recognitionEngine.getUsedRulebases()) {
+		for (IRuleBase rb : recognitionEngine.getLiftingSettings().getRuleBases()) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
 

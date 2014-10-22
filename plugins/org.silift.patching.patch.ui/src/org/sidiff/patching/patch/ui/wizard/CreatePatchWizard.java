@@ -46,6 +46,7 @@ public class CreatePatchWizard extends Wizard {
 		inputModels = new InputModels(fileA, fileB);
 		settings = new LiftingSettings(inputModels.getDocumentType());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
+		settings.setCalculateEditRuleMatch(true);
 	}
 
 	@Override

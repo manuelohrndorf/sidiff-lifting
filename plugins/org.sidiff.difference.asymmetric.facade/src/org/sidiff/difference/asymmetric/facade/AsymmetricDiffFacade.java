@@ -115,7 +115,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 
 		// Start recognition engine
 		StatisticsUtil.getInstance().start("RecognitionEngine");
-		RecognitionEngine engine = new RecognitionEngine(settings.getRuleBases(), symmetricDiff, importMerger.getImports(), settings);
+		RecognitionEngine engine = new RecognitionEngine(symmetricDiff, importMerger.getImports(), settings);
 		engine.execute();
 		StatisticsUtil.getInstance().stop("RecognitionEngine");
 
@@ -211,6 +211,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		// Get default settings
 		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);
+		defaultSettings.setCalculateEditRuleMatch(true);
 		defaultSettings.setMatcher(matcher);
 
 		// Calculate lifted difference

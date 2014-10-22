@@ -75,12 +75,6 @@ public class RecognitionEngine {
 	private Set<Rule> recognitionRules;
 
 	/**
-	 * Rulebases containing all recognition rules that will be executed by the
-	 * recognition engine.
-	 */
-	private Set<IRuleBase> usedRulebases;
-
-	/**
 	 * The difference to be semantically lifted
 	 */
 	private SymmetricDifference difference;
@@ -113,10 +107,8 @@ public class RecognitionEngine {
 	 * @param settings
 	 *            The settings (scope, optimizations) of the Recognition-Engine.
 	 */
-	public RecognitionEngine(Set<IRuleBase> usedRulebases, SymmetricDifference difference, Set<EObject> imports,
-			LiftingSettings settings) {
+	public RecognitionEngine(SymmetricDifference difference, Set<EObject> imports, LiftingSettings settings) {
 
-		this.usedRulebases = usedRulebases;
 		this.difference = difference;
 		this.settings = settings;
 
@@ -129,7 +121,7 @@ public class RecognitionEngine {
 
 		// Get all recognition rules to be used:
 		recognitionRules = new HashSet<Rule>();
-		for (IRuleBase rb : usedRulebases) {
+		for (IRuleBase rb : settings.getRuleBases()) {
 			recognitionRules.addAll(rb.getActiveRecognitionTransformationUnits());
 		}
 
@@ -207,11 +199,11 @@ public class RecognitionEngine {
 		for (Rule recognitionRule : this.recognitionRules) {
 			if (!filtered.contains(recognitionRule)) {
 				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);				
+				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);
 
 				// Sort all multi-rules (if there are any)
 				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), ruleSorter);					
+					ECollections.sort(multiRule.getLhs().getNodes(), ruleSorter);
 				}
 			}
 		}
@@ -245,7 +237,6 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "---------------- SEQUENTIALLY MATCHING RECOGNITION RULES ----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		
 		// Sequential recognizer:
 		Set<Rule> units = new HashSet<Rule>();
 		units.addAll(recognitionRules);
@@ -254,7 +245,7 @@ public class RecognitionEngine {
 		// Start Recognizer-Thread in "sequential mode":
 		RecognizerThread recognizer = new RecognizerThread(units, this);
 		recognizer.recognize();
-		
+
 		// Apply recognition rules
 		applyRecognitionRules();
 	}
@@ -320,7 +311,7 @@ public class RecognitionEngine {
 		applyRecognitionRules();
 	}
 
-	private void applyRecognitionRules(){
+	private void applyRecognitionRules() {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "---------------- APPLYING RECOGNITION RULES ----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
@@ -353,10 +344,10 @@ public class RecognitionEngine {
 			}
 		}
 	}
-	
+
 	/**
-	 * Clients that want to apply recognition rules should use this methods to
-	 * obtain the single instance of a graph factory.
+	 * Clients that want to apply rules on a difference should use this methods
+	 * to obtain the single instance of a graph factory.
 	 * 
 	 * @return Single instance of a graph factory
 	 */
@@ -390,11 +381,13 @@ public class RecognitionEngine {
 	 * @param scs
 	 */
 	public void removeMatches(SemanticChangeSet scs) {
-		scs2rrMatch.remove(scs);
-		scs2erMatch.remove(scs);
-
-		// Remove from difference (if EditRuleMatch serialization is requested)
-		scs.setEditRuleMatch(null);
+		if (settings.isCalculateEditRuleMatch()) {
+			scs2rrMatch.remove(scs);
+			scs2erMatch.remove(scs);
+	
+			// Remove from difference (if EditRuleMatch serialization is requested)
+			scs.setEditRuleMatch(null);
+		}
 	}
 
 	/**
@@ -403,28 +396,31 @@ public class RecognitionEngine {
 	 * @param recognitionruleApp
 	 */
 	private void addMatches(RuleApplication recognitionruleApp) {
-		SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
+		if (settings.isCalculateEditRuleMatch()) {
 
-		// Internal data structures
-		RecognitionRuleMatch rrMatch = new RecognitionRuleMatch(recognitionruleApp);
-		EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
+			SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
 
-		scs2rrMatch.put(scs, rrMatch);
-		scs2erMatch.put(scs, erMatch);
+			// Internal data structures
+			RecognitionRuleMatch rrMatch = new RecognitionRuleMatch(recognitionruleApp);
+			EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
 
-		// Add to difference (if EditRuleMatch serialization is required)
-		if (settings.isSerializeEditRuleMatch()) {
-			EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
-			scs.setEditRuleMatch(editRuleMatch);
-			for (Node editRuleNode : erMatch.getMatchedNodesA()) {
-				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
-				occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
-				editRuleMatch.getNodeOccurrencesA().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
-			}
-			for (Node editRuleNode : erMatch.getMatchedNodesB()) {
-				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
-				occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
-				editRuleMatch.getNodeOccurrencesB().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
+			scs2rrMatch.put(scs, rrMatch);
+			scs2erMatch.put(scs, erMatch);
+
+			// Add to difference (if EditRuleMatch serialization is required)
+			if (settings.isSerializeEditRuleMatch()) {
+				EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
+				scs.setEditRuleMatch(editRuleMatch);
+				for (Node editRuleNode : erMatch.getMatchedNodesA()) {
+					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
+					occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
+					editRuleMatch.getNodeOccurrencesA().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
+				}
+				for (Node editRuleNode : erMatch.getMatchedNodesB()) {
+					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
+					occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
+					editRuleMatch.getNodeOccurrencesB().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
+				}
 			}
 		}
 	}
@@ -470,13 +466,6 @@ public class RecognitionEngine {
 	}
 
 	/**
-	 * @return The rulebases used by this RecognitionEngine
-	 */
-	public Set<IRuleBase> getUsedRulebases() {
-		return this.usedRulebases;
-	}
-
-	/**
 	 * Mapping: EditRule r -> Set of SemanticChangeSets representing an
 	 * invocation of r
 	 */
@@ -492,6 +481,10 @@ public class RecognitionEngine {
 		}
 
 		return editRule2SCS;
+	}
+	
+	public LiftingSettings getLiftingSettings() {
+		return settings;
 	}
 
 }
