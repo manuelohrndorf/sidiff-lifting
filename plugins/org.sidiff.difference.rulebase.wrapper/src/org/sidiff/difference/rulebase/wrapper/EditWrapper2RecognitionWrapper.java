@@ -7,17 +7,18 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.EditRuleAnalysis;
-import org.sidiff.difference.lifting.edit2recognition.EditModule2RecognitionModule;
+import org.sidiff.difference.lifting.edit2recognition.Edit2RecognitionTransformation;
+import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedTransformationSytemException;
+import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedUnitException;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.CorrespondencePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.RemoveObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
+import org.sidiff.difference.lifting.edit2recognition.util.ImplicitEdgeCompletion;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
@@ -40,7 +41,7 @@ public class EditWrapper2RecognitionWrapper {
 	/**
 	 * Module transformation engine.
 	 */
-	private EditModule2RecognitionModule transformation;
+	private Edit2RecognitionTransformation transformation;
 	
 	/**
 	 * Transforms an edit rule transformation system into an recognition transformation system.
@@ -56,8 +57,7 @@ public class EditWrapper2RecognitionWrapper {
 	 * @throws NoUnitFoundException 
 	 * @throws NoMainUnitFoundException 
 	 */
-	public EditWrapper2RecognitionWrapper(URI editRuleURI) 
-			throws NoMainUnitFoundException, NoUnitFoundException {
+	public EditWrapper2RecognitionWrapper(URI editRuleURI) throws EditToRecognitionException {
 		
 		// Load edit-rule:
 		Module editModule = (Module) EMFStorage.eLoad(editRuleURI);
@@ -80,8 +80,7 @@ public class EditWrapper2RecognitionWrapper {
 	 * @throws NoUnitFoundException 
 	 * @throws NoMainUnitFoundException 
 	 */
-	public EditWrapper2RecognitionWrapper(EditRule editRule) 
-			throws NoMainUnitFoundException, NoUnitFoundException {
+	public EditWrapper2RecognitionWrapper(EditRule editRule) throws EditToRecognitionException {
 		
 		// Initialize transformation:
 		init(editRule.getExecuteModule());
@@ -92,13 +91,12 @@ public class EditWrapper2RecognitionWrapper {
 	 * 
 	 * @param editRule
 	 *            The edit rule module to transform.
-	 * @throws NoMainUnitFoundException
-	 * @throws NoUnitFoundException
+	 * @throws EditToRecognitionException
 	 */
-	private void init(Module editRule) throws NoMainUnitFoundException, NoUnitFoundException {
+	private void init(Module editRule) throws EditToRecognitionException {
 		
 		// Initialize transformation:
-		transformation = new EditModule2RecognitionModule(editRule);
+		transformation = new Edit2RecognitionTransformation(editRule);
 		
 		// Initialize rulebase item:
 		item = createRuleBaseItem(editRule);
@@ -109,8 +107,7 @@ public class EditWrapper2RecognitionWrapper {
 	 * 
 	 * @return an edit rule wrapper.
 	 */
-	private EditRule createEditRule(Module editModule) 
-			throws NoMainUnitFoundException, NoUnitFoundException {
+	private EditRule createEditRule(Module editModule) throws EditToRecognitionException {
 
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();
@@ -136,13 +133,12 @@ public class EditWrapper2RecognitionWrapper {
 	 * @param editRule 
 	 * 
 	 * @return A new rule base item.
-	 * @throws UnsupportedTransformationSytemException
+	 * @throws UnsupportedUnitException
 	 * @throws NoUnitFoundException
 	 * @throws NoMainUnitFoundException
 	 * @throws UnsupportedApplicationConditionException
 	 */
-	private RuleBaseItem createRuleBaseItem(Module editRule) 
-			throws NoMainUnitFoundException, NoUnitFoundException  {
+	private RuleBaseItem createRuleBaseItem(Module editRule) throws EditToRecognitionException  {
 
 		// Create rule base element
 		RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
@@ -159,11 +155,11 @@ public class EditWrapper2RecognitionWrapper {
 	 * @return A rule base recognition rule wrapper.
 	 * @throws NoRecognizableChangesInEditRule 
 	 */
-	public RuleBaseItem transform() 
-			
-			throws UnsupportedTransformationSytemException, 
-			NoUnitFoundException, NoMainUnitFoundException, 
-			UnsupportedApplicationConditionException {
+	public RuleBaseItem transform() throws EditToRecognitionException {
+		
+		// Auto fixing the edit-rule:
+		ImplicitEdgeCompletion implicitEdgeCompletion = new ImplicitEdgeCompletion();
+		implicitEdgeCompletion.createImplicitEdges(item.getEditRule().getExecuteModule());
 		
 		// Create recognition rule wrapper:
 		RecognitionRule recognitionRule = RulebaseFactory.eINSTANCE.createRecognitionRule();
@@ -176,8 +172,8 @@ public class EditWrapper2RecognitionWrapper {
 			transformPatternsToTraces(patterns);
 		}
 		
-		// Finally remove implicit edges which were added during transformation:
-		transformation.deleteImplicitEdges();
+		// Undo edit-rule auto-fixes:
+		implicitEdgeCompletion.deleteImplicitEdges();
 		
 		// Fill recognition rule wrapper:
 		Unit recognitionMainUnit = transformation.getRecognitionMainUnit();

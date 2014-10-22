@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -23,10 +21,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.asymmetric.dependencies.potential.RuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedTransformationSytemException;
+import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.PotentialDependency;
@@ -34,7 +29,6 @@ import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
-import org.sidiff.difference.rulebase.wrapper.util.Edit2RecognitionException;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 
@@ -501,33 +495,19 @@ public class RuleBaseWrapper extends Observable {
 	 *            The input Edit-Rule.
 	 * @throws Edit2RecognitionException
 	 */
-	public void generateItemFromFile(URI editRule) throws Edit2RecognitionException {
+	public void generateItemFromFile(URI editRule) throws EditToRecognitionException {
 
 		EditWrapper2RecognitionWrapper generator = null;
 		
-		try {
-			// Generate new rule base item from given Module
-			generator = new EditWrapper2RecognitionWrapper(editRule);
-			RuleBaseItem newItem = generator.transform();
+		// Generate new rule base item from given Module
+		generator = new EditWrapper2RecognitionWrapper(editRule);
+		RuleBaseItem newItem = generator.transform();
 
-			// Add new refreshed item to rule base
-			addItem(newItem);
+		// Add new refreshed item to rule base
+		addItem(newItem);
 			
-			// Remember new recognition rules
-			newRecognitionRules.add(newItem.getRecognitionRule());
-		} catch (UnsupportedTransformationSytemException e) {
-			// Error: UnsupportedTransformationSytem
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
-		} catch (NoUnitFoundException e) {
-			// Error: NoUnitFound
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
-		} catch (NoMainUnitFoundException e) {
-			// Error: NoMainUnitFoundException
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
-		} catch (UnsupportedApplicationConditionException e) {
-			// Error: UnsupportedApplicationConditionException
-			throw new Edit2RecognitionException(e, new Status(IStatus.ERROR, org.sidiff.difference.lifting.edit2recognition.Activator.PLUGIN_ID, e.getMessage() + "\n\n" + EMFStorage.uriToPath(editRule)));
-		}
+		// Remember new recognition rules
+		newRecognitionRules.add(newItem.getRecognitionRule());
 	}
 
 	/**
