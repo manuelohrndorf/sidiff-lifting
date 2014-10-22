@@ -3,6 +3,9 @@ package org.sidiff.difference.evaluation.Handlers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +45,15 @@ public class EvaluationHandler extends AbstractHandler {
 
 				File[] fileArray = (new File(folder.getLocation().toOSString()))
 						.listFiles();
+				
+				// Sort fileArray				
+				Arrays.sort(fileArray, new Comparator<File>() {
+					@Override
+					public int compare(File o1, File o2) {
+						return o1.getName().compareTo(o2.getName());
+					}
+				});
+				
 				List<List<Difference>> differences_List = new ArrayList<List<Difference>>();
 				for (File file : fileArray) {
 					if (file.isDirectory()) {
