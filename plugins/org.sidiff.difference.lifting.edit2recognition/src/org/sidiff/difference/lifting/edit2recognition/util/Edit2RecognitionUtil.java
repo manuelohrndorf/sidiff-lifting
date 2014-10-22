@@ -12,7 +12,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoUnitFoundException;
 import org.silift.common.util.emf.EMFStorage;
 
 public class Edit2RecognitionUtil {
@@ -27,12 +26,11 @@ public class Edit2RecognitionUtil {
 	 * @throws NoMainUnitFoundException
 	 * @throws NoUnitFoundException
 	 */
-	public static Unit findExecuteMainUnit(Module editModule)
-			throws NoMainUnitFoundException, NoUnitFoundException {
+	public static Unit findExecuteMainUnit(Module editModule) throws NoMainUnitFoundException {
 		
 		// Needed at least one transformation unit to perform generation
 		if (editModule.getUnits().isEmpty()) {
-			throw new NoUnitFoundException(editModule);
+			throw new NoMainUnitFoundException(editModule);
 		}
 		
 		// Search for unit with name mainUnit

@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.edit2recognition;
+package org.sidiff.difference.lifting.edit2recognition.internal;
 
 import static org.sidiff.common.henshin.HenshinMultiRuleUtil.createMultiMapping;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByOrigin;
@@ -32,7 +32,8 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.AttributePair;
 import org.sidiff.common.henshin.NodePair;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
+import org.sidiff.difference.lifting.edit2recognition.EditPattern2RecognitionPattern;
+import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddReferencePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AttributeValueChangePattern;
@@ -58,7 +59,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * 
  * @author Manuel Ohrndorf
  */
-public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
+public class EditMulti2RecognitionMulti implements EditPattern2RecognitionPattern {
+	
+	/**
+	 * The unit containing the multi-rule.
+	 */
+	private Unit editContainingUnit;
 	
 	/**
 	 * The input edit rule.
@@ -88,35 +94,40 @@ public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
 	/**
 	 * All transformed units
 	 */
-	private Set<EditUnit2RecognitionUnit> transformations;
+	private Set<EditPattern2RecognitionPattern> transformations;
 
 	/**
-	 * Transforms an multi rule into a recognition multi rule.
+	 * Transforms an multi-rule into a recognition multi-rule.
 	 * 
-	 * @param containingUnit
-	 *            The unit containing the multi rule.
+	 * @param editContainingUnit
+	 *            The unit containing the multi-rule.
 	 * @param atomic
 	 *            Whether this is an <b>atomic</b> or a <b>complex</b> edit operation.
-	 * @return the recognition multi rule.
-	 * @throws UnsupportedApplicationConditionException 
-	 * @throws NoRecognizableChangesInEditRule 
-	 * @throws CreateAmalgamationMappingException
 	 */
-	public Rule transform(Unit containingUnit, boolean atomic) 
-			throws UnsupportedApplicationConditionException {
+	public EditMulti2RecognitionMulti(Unit editContainingUnit, boolean atomic) {
 		
-		// Get kernel rule:
-		this.editRootKernel = (Rule) containingUnit.getSubUnits(false).get(0);
+		this.editContainingUnit = editContainingUnit;
 		this.atomic = atomic;
 		
+		// Get kernel rule:
+		this.editRootKernel = (Rule) editContainingUnit.getSubUnits(false).get(0);
 		assert isKernelRule(editRootKernel) : "No multi rules found!"; 
 		
 		// Save all transformed units:
-		transformations = new HashSet<EditUnit2RecognitionUnit>();
+		transformations = new HashSet<EditPattern2RecognitionPattern>();
+	}
+	
+	/**
+	 * Transforms an multi rule into a recognition multi rule.
+	 * 
+	 * @return the recognition multi rule.
+	 * @throws EditToRecognitionException 
+	 */
+	public Rule transform() throws EditToRecognitionException {
 
 		// Transform kernel rule into recognition rule:
-		EditRule2RecognitionRule kernelTF = new EditRule2RecognitionRule();
-		recognitionRootKernel = kernelTF.transform(editRootKernel, containingUnit, atomic);
+		EditRule2RecognitionRule kernelTF = new EditRule2RecognitionRule(editRootKernel, editContainingUnit, atomic);
+		recognitionRootKernel = kernelTF.transform();
 		rootSemanticChangeSet = kernelTF.getSemanticChangeSet();
 
 		// Save transformed kernel rule:
@@ -137,7 +148,7 @@ public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
 		transformMultiRules(kernelTF);
 		
 		// Synchronize number of ACs:
-		for (EditUnit2RecognitionUnit tf : transformations) {
+		for (EditPattern2RecognitionPattern tf : transformations) {
 			if (tf instanceof EditRule2RecognitionRule) {
 				Attribute attr_numberOfACs = getAttributeByType(
 						((EditRule2RecognitionRule) tf).getSemanticChangeSet().getAttributes(),
@@ -155,20 +166,17 @@ public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
 	 * 
 	 * @param kernelTF
 	 *            The kernel rule transformation engine.
-	 * @throws UnsupportedApplicationConditionException 
-	 * @throws NoRecognizableChangesInEditRule 
+	 * @throws EditToRecognitionException 
 	 */
-	private void transformMultiRules(EditRule2RecognitionRule kernelTF) 
-			throws UnsupportedApplicationConditionException {
+	private void transformMultiRules(EditRule2RecognitionRule kernelTF) throws EditToRecognitionException {
 		
 		// Transform multi rules into recognition multi rules:
 		Rule editKernel = kernelTF.getEditRule();
 		Rule recognitionKernel = kernelTF.getRecognitionRule();
-		Unit containingUnit = kernelTF.getContainingUnit();
 		
 		for (Rule editMulti : editKernel.getMultiRules()) {
-			EditRule2RecognitionRule multiTF = new EditRule2RecognitionRule();
-			Rule recognitionMulti = multiTF.transform(editMulti, containingUnit, atomic);
+			EditRule2RecognitionRule multiTF = new EditRule2RecognitionRule(editMulti, editContainingUnit, atomic);
+			Rule recognitionMulti = multiTF.transform();
 			recognitionKernel.getMultiRules().add(recognitionMulti);
 
 			// Embed the multi rule into the kernel rule:
@@ -711,7 +719,7 @@ public class EditMulti2RecognitionMulti implements EditUnit2RecognitionUnit {
 		// Collect the traces for kernel rule and all multi rules:
 		List<TransformationPatterns> patterns = new ArrayList<TransformationPatterns>();
 		
-		for (EditUnit2RecognitionUnit transformation : transformations) {
+		for (EditPattern2RecognitionPattern transformation : transformations) {
 			patterns.addAll(transformation.getPatterns());
 		}
 		

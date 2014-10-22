@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.edit2recognition;
+package org.sidiff.difference.lifting.edit2recognition.internal;
 
 import static org.sidiff.common.henshin.HenshinConditionAnalysis.isACGlueNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.copyNode;
@@ -49,11 +49,16 @@ public class EditCondition2RecognitionCondition {
 	 * ac_extension_	-> The mapped extension node of an extension pattern:
 	 * 							- extension <-- correspondence -> boundary
 	 */
-
+	
 	/**
 	 * The generated transformation patterns and traces.
 	 */
 	private TransformationPatterns patterns;
+	
+	/**
+	 * The AC is either a negative- or a positive-application-condition.
+	 */
+	private boolean isNAC = false;
 	
 	/**
 	 * The AC is either a precondition or a postcondition.
@@ -84,81 +89,71 @@ public class EditCondition2RecognitionCondition {
 	 * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition
 	 * (PAC) formula.
 	 * 
-	 * @param editRuleformula
+	 * @param editFormula
 	 *            The nested PAC/NAC formula.
 	 * @param patterns
 	 *            The transformation patterns of the containing graph.
-	 * @return The transformed PAC/NAC recognition rule formula.
-	 * @throws UnsupportedApplicationConditionException
+	 * @throws UnsupportedApplicationConditionException 
 	 */
-	public Formula transform(Formula editRuleformula, TransformationPatterns patterns) 
+	public EditCondition2RecognitionCondition(Formula editFormula, TransformationPatterns patterns) 
 			throws UnsupportedApplicationConditionException {
 		
+		// Transformation patterns of the containing graph:
 		this.patterns = patterns;
 		
-		if (editRuleformula instanceof Not) {
-			return transformNAC(editRuleformula);
+		// Check if the formula is a NAC or a PAC:
+		if (editFormula instanceof Not) {
+			
+			// Formula is a NAC:
+			isNAC = true;
+			Formula er_not_child = ((Not) editFormula).getChild();
+			
+			if (er_not_child instanceof NestedCondition) {
+				editCondition = (NestedCondition) er_not_child;
+				editGraph = editCondition.getConclusion();
+			} else {
+				throw new UnsupportedApplicationConditionException(editFormula);
+			}
 		} else  {
-			return transformPAC(editRuleformula);
+			
+			// Formula is a PAC:
+			isNAC = false;
+			
+			if (editFormula instanceof NestedCondition) {
+				editCondition = (NestedCondition) editFormula;
+				editGraph = editCondition.getConclusion();
+			} else {
+				throw new UnsupportedApplicationConditionException(editFormula);
+			}
 		}
+		
+		// Check weather the AC is pre- or a postcondition:
+		checkConditionType();
 	}
 	
 	/**
-	 * Transforms a single Negative-Application-Condition (NAC) formula.
+	 * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition
+	 * (PAC) formula.
 	 * 
-	 * @param er_formula
-	 *            The nested NAC formula.
-	 * @return The transformed NAC recognition rule formula.
-	 * @throws UnsupportedApplicationConditionException
+	 * @return The transformed PAC/NAC recognition rule formula.
 	 */
-	private Formula transformNAC(Formula er_formula) 
-			throws UnsupportedApplicationConditionException {
-		
-		Formula er_not_child = ((Not) er_formula).getChild();
-		
-		if (er_not_child instanceof NestedCondition) {
-			editCondition = (NestedCondition) er_not_child;
-			editGraph = editCondition.getConclusion();
-			
-			recognitionGraph = HenshinFactory.eINSTANCE.createGraph(editGraph.getName());
-			recognitionCondition = HenshinFactory.eINSTANCE.createNestedCondition();
-			recognitionCondition.setConclusion(recognitionGraph);
+	public Formula transform() {
 
+		recognitionGraph = HenshinFactory.eINSTANCE.createGraph(editGraph.getName());
+		recognitionCondition = HenshinFactory.eINSTANCE.createNestedCondition();
+		recognitionCondition.setConclusion(recognitionGraph);
+	
+		// Create all NAC/PAC patters: 
+		createPatterns();
+		
+		// Return NAC or PAC:
+		if (isNAC) {
 			Not not = HenshinFactory.eINSTANCE.createNot();
 			not.setChild(recognitionCondition);
 
-			createPatterns();
-			
 			return not;	
-		} else {
-			throw new UnsupportedApplicationConditionException(er_formula);
-		}
-	}
-	
-	/**
-	 * Transforms a single Positive-Application-Condition (PAC) formula.
-	 * 
-	 * @param er_formula
-	 *            The nested PAC formula.
-	 * @return The transformed PAC recognition rule formula.
-	 * @throws UnsupportedApplicationConditionException
-	 */
-	private Formula transformPAC(Formula er_formula) 
-			throws UnsupportedApplicationConditionException {
-		
-		if (er_formula instanceof NestedCondition) {
-			editCondition = (NestedCondition) er_formula;
-			editGraph = editCondition.getConclusion();
-			
-			recognitionGraph = HenshinFactory.eINSTANCE.createGraph(editGraph.getName());
-			recognitionCondition = HenshinFactory.eINSTANCE.createNestedCondition();
-			recognitionCondition.setConclusion(recognitionGraph);
-			
-			createPatterns();
-			
+		} else  {
 			return recognitionCondition;	
-		}  else {
-			throw new UnsupportedApplicationConditionException(er_formula);
 		}
 	}
 	
@@ -166,9 +161,6 @@ public class EditCondition2RecognitionCondition {
 	 * Create all NAC/PAC patters.
 	 */
 	private void createPatterns() {
-		
-		// Check weather the AC is pre- or a postcondition:
-		checkConditionType();
 		
 		// Create patterns:
 		createACObjectPattern();

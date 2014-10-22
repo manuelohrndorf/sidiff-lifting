@@ -5,14 +5,14 @@ import java.util.Collection;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 
 /**
- * This interface has to be implemented by all Edit- to Recognition-Rule transformers.
+ * This interface has to be implemented by all edit- to recognition-rule transformers.
  * 
  * @author Manuel Ohrndorf
  */
-public interface EditUnit2RecognitionUnit {
+public interface EditPattern2RecognitionPattern {
 
 	/**
-	 * @return All transformation patterns of the unit transformation.
+	 * @return All transformation (trace) patterns of the unit transformation.
 	 */
 	public Collection<TransformationPatterns> getPatterns();
 }

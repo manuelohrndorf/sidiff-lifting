@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.edit2recognition;
+package org.sidiff.difference.lifting.edit2recognition.internal;
 
 import static org.sidiff.common.henshin.HenshinMultiRuleUtil.createMultiMapping;
 import static org.sidiff.common.henshin.HenshinMultiRuleUtil.recreateMultiRuleEmbedding;
@@ -58,6 +58,8 @@ import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.edit2recognition.EditPattern2RecognitionPattern;
+import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddReferencePattern;
@@ -97,7 +99,7 @@ import org.silift.common.util.access.EMFMetaAccessEx;
  * 
  * @author Manuel Ohrndorf
  */
-public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
+public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern {
 
 	/**
 	 * The edit rule from which the recognition rule will be created.
@@ -117,7 +119,7 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 	/**
 	 * The unit which contains the input edit rule.
 	 */
-	private Unit containingUnit;
+	private Unit editContainingUnit;
 
 	/**
 	 * The generated transformation patterns and traces.
@@ -178,30 +180,26 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 	 * TODO: TK (22.Sept.2013):	Content-Check disables for all parameters (also rule parameters) 
 	 *							if attribute value is a JavaScript expression.
 	 */	
-
+	
 	/**
 	 * Transforms an edit rule into a recognition rule. A recognition rule matches the atomic
 	 * changes in a difference which were produced by the edit rule. The recognition rule groups the
 	 * atomic changes in a semantic change set.
 	 * 
 	 * @param editRule
-	 *            the edit rule which will be transformed.
-	 * @param containingUnit
-	 *            the unit which contains the given edit rule.
+	 *            the edit-rule which will be transformed.
+	 * @param editContainingUnit
+	 *            the unit which contains the given edit-rule.
 	 * @param atomic
 	 * 			  whether this is an <b>atomic</b> or a <b>complex</b> edit operation.
-	 * @return the recognition rule
-	 * @throws UnsupportedApplicationConditionException 
-	 * @throws NoRecognizableChangesInEditRule 
 	 */
-	public Rule transform(Rule editRule, Unit containingUnit, boolean atomic) 
-			throws UnsupportedApplicationConditionException {
+	public EditRule2RecognitionRule(Rule editRule, Unit editContainingUnit, boolean atomic) {
 		
 		assert (editRule != null);
-		assert (containingUnit != null);
+		assert (editContainingUnit != null);
 
 		this.editRule = editRule;
-		this.containingUnit = containingUnit;
+		this.editContainingUnit = editContainingUnit;
 		this.atomic = atomic;
 
 		// another assertion: chack availability of all Packages imported by the edit rule
@@ -228,6 +226,17 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 		// Initialize Ecore-Type-Nodes lists
 		eReferenceTypeNodes = new HashMap<EReference, NodePair>();
 		eAttributeTypeNodes = new HashMap<EAttribute, NodePair>();
+	}
+
+	/**
+	 * Transforms an edit rule into a recognition rule. A recognition rule matches the atomic
+	 * changes in a difference which were produced by the edit rule. The recognition rule groups the
+	 * atomic changes in a semantic change set.
+	 * 
+	 * @return the recognition-rule.
+	 * @throws EditToRecognitionException 
+	 */
+	public Rule transform() throws EditToRecognitionException {
 
 		// Create recognition rule parameters
 		createParameters();
@@ -343,8 +352,9 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 			throws UnsupportedApplicationConditionException {
 		
 		// NAC or PAC:
-		EditCondition2RecognitionCondition conditionTF = new EditCondition2RecognitionCondition();
-		Formula recognitionAC = conditionTF.transform(formula, patterns);
+		EditCondition2RecognitionCondition conditionTF 
+				= new EditCondition2RecognitionCondition(formula, patterns);
+		Formula recognitionAC = conditionTF.transform();
 
 		return recognitionAC;
 	}
@@ -400,7 +410,7 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 		for (Parameter parameter : editRule.getParameters()) {
 			Parameter newParameter = createParameter(recognitionRule, parameter.getName(), parameter.getType());
 
-			if (findUnitParamterMapping(containingUnit.getParameterMappings(), parameter) != null) {
+			if (findUnitParamterMapping(editContainingUnit.getParameterMappings(), parameter) != null) {
 				unitParameter.put(parameter, newParameter);
 			} else {
 				ruleParameter.put(parameter, newParameter);
@@ -1248,13 +1258,6 @@ public class EditRule2RecognitionRule implements EditUnit2RecognitionUnit {
 	 */
 	public Rule getRecognitionRule() {
 		return recognitionRule;
-	}
-
-	/**
-	 * @return the unit which contains the given edit rule.
-	 */
-	public Unit getContainingUnit() {
-		return containingUnit;
 	}
 
 	/**
