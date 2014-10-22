@@ -226,7 +226,7 @@ public class RuleBaseItemInfo {
 		
 		if (unit instanceof Rule) {
 			if (isKernelRule((Rule) unit)) {
-				return "Amalgamation Rule";
+				return "Multi-Rule";
 			} else {
 				return "Rule";
 			}
