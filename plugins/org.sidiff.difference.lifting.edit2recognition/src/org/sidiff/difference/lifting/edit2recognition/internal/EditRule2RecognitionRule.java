@@ -619,11 +619,15 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			Parameter containingParameter = editRule.getParameter(rhsAttribute.getValue());
 			
 			if (containingParameter != null) {
+				
+				// Outermost parameter OR null if it is a rule internal parameter:
 				Parameter outermostParameter = ParameterInfo.getOutermostParameter(containingParameter);
 				
-				// Outermost parameter is Main-Unit parameter:
-				if (outermostParameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) {
-					createAttributeValueChangeContentCheck(bNode, rhsAttribute);
+				// Outermost parameter is Main-Unit parameter?
+				if (outermostParameter != null) {
+					if (outermostParameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) {
+						createAttributeValueChangeContentCheck(bNode, rhsAttribute);
+					}
 				}
 			}
 
