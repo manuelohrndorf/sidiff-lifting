@@ -121,7 +121,7 @@ public class EditUnit2RecognitionUnit implements EditPattern2RecognitionPattern 
 			Rule kernelRule = (Rule) subUnits.get(0);
 			
 			// Print report
-			LogUtil.log(LogEvent.NOTICE, "Amalgamation Unit (" + editUnit.getName() + "): ");
+			LogUtil.log(LogEvent.NOTICE, "Amalgamation Unit (" + editUnit.getModule().getName() + "): ");
 			LogUtil.log(LogEvent.NOTICE, "  Kernel rule: " + kernelRule.getName());
 			LogUtil.log(LogEvent.NOTICE, "  Multi rules: ");
 
@@ -153,7 +153,7 @@ public class EditUnit2RecognitionUnit implements EditPattern2RecognitionPattern 
 			Rule editRule = (Rule) subUnits.get(0);
 
 			// Print report
-			LogUtil.log(LogEvent.NOTICE, "Sequential Unit (" + editUnit.getName() + "): " + editRule.getName());
+			LogUtil.log(LogEvent.NOTICE, "Sequential Unit: " + editUnit.getModule().getName());
 			
 			// Start rule transformation
 			transformation = new EditRule2RecognitionRule(editRule, editUnit, atomic);
@@ -179,7 +179,7 @@ public class EditUnit2RecognitionUnit implements EditPattern2RecognitionPattern 
 			Rule editRule = (Rule) subUnits.get(0);
 
 			// Print report
-			LogUtil.log(LogEvent.NOTICE, "Priority Unit (" + editUnit.getName() + "): " + editRule.getName());
+			LogUtil.log(LogEvent.NOTICE, "Priority Unit: " + editUnit.getModule().getName());
 			
 			// Start rule transformation
 			transformation =  new EditRule2RecognitionRule(editRule, editUnit, atomic);
