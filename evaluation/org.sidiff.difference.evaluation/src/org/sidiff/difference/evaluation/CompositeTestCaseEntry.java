@@ -21,10 +21,14 @@ public class CompositeTestCaseEntry extends AbstractTestCaseEntry {
 		return entries;
 	}
 	
-	public int getStats(){
-		int stats = 0;
+	public Number getStats(){
+		Number stats = 0;
 		for(AbstractTestCaseEntry entry : entries){
-			stats += entry.getStats();
+			if(entry.getStats() instanceof Integer){
+				stats = stats.intValue() + entry.getStats().intValue();
+			}else{
+				stats = stats.doubleValue() + entry.getStats().doubleValue();
+			}
 		}
 		return stats;
 	}

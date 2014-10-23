@@ -1,5 +1,6 @@
 package org.sidiff.difference.evaluation;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +74,8 @@ public class Evaluation {
 			csv += testCase.getName();
 			// Entries
 			for(AbstractTestCaseEntry entry : testCase.getEntries()){
-				csv += CSV_FIELD_DELIMITER + entry.getStats();
+				DecimalFormat df = new DecimalFormat("0.##");
+				csv += CSV_FIELD_DELIMITER + df.format(entry.getStats()).replace(",", ".");
 			}
 			csv += "\n";
 		}

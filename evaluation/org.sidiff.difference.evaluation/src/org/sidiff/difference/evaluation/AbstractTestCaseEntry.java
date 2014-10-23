@@ -17,6 +17,6 @@ public abstract class AbstractTestCaseEntry {
 		return header;
 	}
 	
-	public abstract int getStats();
+	public abstract Number getStats();
 	
 }

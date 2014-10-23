@@ -7,14 +7,14 @@ package org.sidiff.difference.evaluation;
  */
 public class ConcreteTestCaseEntry extends AbstractTestCaseEntry {
 
-	private int stats;
+	private Number stats;
 	
-	public ConcreteTestCaseEntry(Header header, int stats){
+	public ConcreteTestCaseEntry(Header header, Number stats){
 		super(header);
 		this.stats = stats;
 	}
 	
-	public int getStats() {
+	public Number getStats() {
 		return stats;
 	}
 
