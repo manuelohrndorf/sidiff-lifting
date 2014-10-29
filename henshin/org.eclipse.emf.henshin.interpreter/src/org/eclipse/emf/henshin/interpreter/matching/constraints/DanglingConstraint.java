@@ -17,10 +17,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.silift.common.util.access.EMFMetaAccessEx;
 
 
 /**
@@ -48,6 +48,25 @@ public class DanglingConstraint implements Constraint {
 		this.outgoingEdgeCount = outgoingEdgeCount;
 		this.incomingEdgeCount = incomingEdgeCount;
 	}
+	
+	/**
+	 * (Meta-) attributes which are not changeable, derived or transient are
+	 * unconsidered while model comparison.
+	 * 
+	 * @param structualFeatureType
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is unconsidered while model
+	 *         comparison; <code>false</code> otherwise;
+	 */
+	public static boolean isUnconsideredStructualFeature(EStructuralFeature structualFeatureType) {
+		if ((structualFeatureType.isChangeable() == false)
+				|| (structualFeatureType.isDerived() == true)
+				|| (structualFeatureType.isTransient() == true)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/*
 	 * 
@@ -66,7 +85,7 @@ public class DanglingConstraint implements Constraint {
 			if (setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_EClassifier())   		||
 				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ERawType())  			||
 				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ETypeParameter())     ||
-				EMFMetaAccessEx.isUnconsideredStructualFeature(setting.getEStructuralFeature())
+				isUnconsideredStructualFeature(setting.getEStructuralFeature())
 			   ) 
 			{
 				iterator.remove();
