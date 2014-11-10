@@ -79,7 +79,7 @@ public class Serge implements IEditRuleGenerator{
 			this.settings = new SergeSettings(settings.getGenerator(),settings.getOutputFolderPath(), settings.getConfigPath(),settings.isUseSubfolders());
 		}
 		
-		assert(this.settings != null && settings.isUseDefaultConfig()) : "This is no valid SergeSettings Instance:" + settings.toString();
+		assert(this.settings != null || settings.isUseDefaultConfig()) : "This is no valid SergeSettings Instance:" + settings.toString();
 		
 				//TODO create a default config if necessary
 		
