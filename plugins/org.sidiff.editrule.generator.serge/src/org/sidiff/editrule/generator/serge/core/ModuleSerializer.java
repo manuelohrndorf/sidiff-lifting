@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -85,8 +86,16 @@ public class ModuleSerializer {
 
 		// create resource out of module and outputFileName
 		ResourceSet resourceSet = new ResourceSetImpl();
-		URI fileUri = URI.createFileURI(outputFolderPath+moduleFileName);
 		
+		URI fileUri = null;
+		Path path = new Path(outputFolderPath);		
+		
+		// Check whether executed in Plug-In environment
+		// or used with an absolute system file path
+		if (path.isAbsolute())
+			fileUri = URI.createFileURI(outputFolderPath+moduleFileName);
+		else
+			fileUri = URI.createPlatformResourceURI(outputFolderPath+moduleFileName,false);
 		
 		// check if file already exist and skip if overwriting is disabled
 		if(!settings.isOverwriteGeneratedTransformations()) {

@@ -36,7 +36,6 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	public RuleBaseTemplateSection() {
 		addOption(KEY_PACKAGE_NAME, RuleBaseTemplateSection.KEY_PACKAGE_NAME, (String) null, 0);
-		// TODO uncomment
 		this.settings = new EditRuleGenerationSettings(null, "", null, true);
 		setPageCount(1);
 	}
@@ -68,7 +67,6 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public void addPages(Wizard wizard) {
-		// TODO later on: Add This page
 		ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
 		wizard.addPage(ruleBaseProjectPage01);
 		markPagesAdded();
@@ -158,6 +156,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
 		super.execute(project, model, monitor);
 
+		// Use new plug-in project id + edit rule folder as output path 
+		settings.setOutputFolderPath(project.getName() + "/" + AbstractProjectRuleBase.SOURCE_FOLDER);
+	
 		// Only generate if valid
 		if (settings.getGenerator() != null && (settings.getConfigPath() != null || settings.getMetaModelNsUri() != null)) {
 
