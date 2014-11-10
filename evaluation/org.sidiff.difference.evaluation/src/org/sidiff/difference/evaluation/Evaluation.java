@@ -75,7 +75,7 @@ public class Evaluation {
 			// Entries
 			for(AbstractTestCaseEntry entry : testCase.getEntries()){
 				DecimalFormat df = new DecimalFormat("0.##");
-				csv += CSV_FIELD_DELIMITER + df.format(entry.getStats()).replace(",", ".");
+				csv += CSV_FIELD_DELIMITER + df.format(entry.getStats());
 			}
 			csv += "\n";
 		}
