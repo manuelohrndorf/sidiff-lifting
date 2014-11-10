@@ -50,12 +50,14 @@ public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidatio
 		rBtnManually = new Button(gChooser, SWT.RADIO);
 		rBtnManually.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		rBtnManually.setText("Define Edit Rule manually");
+		rBtnManually.setSelection(true);
+
 		
 		rBtnGenerate = new Button(gChooser, SWT.RADIO);
 		rBtnGenerate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		rBtnGenerate.setText("Generate Edit Rules");
 		
-		rBtnGenerate.setSelection(true);
+		rBtnGenerate.setSelection(false);
 		return null;
 	}
 

@@ -110,7 +110,7 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		
 		rBtnRefinedConfig = new Button(composite, SWT.RADIO);
 		rBtnRefinedConfig.setText("Refined Config");
-		rBtnRefinedConfig.setSelection(true);
+		rBtnRefinedConfig.setSelection(false);
 		
 		btnBrowse = new Button(composite, SWT.NONE);
 		btnBrowse.setText("Browse");
@@ -136,7 +136,8 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		rBtnDefaultConfig = new Button(composite, SWT.RADIO);
 		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		rBtnDefaultConfig.setText("Default Config");
-		
+		rBtnDefaultConfig.setSelection(true);
+	
 		
 		rBtnDefaultConfig.addSelectionListener(new SelectionAdapter() {
 			@Override

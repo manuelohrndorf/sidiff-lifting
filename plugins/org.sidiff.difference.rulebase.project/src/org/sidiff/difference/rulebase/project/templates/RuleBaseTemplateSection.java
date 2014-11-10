@@ -158,10 +158,14 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
 		super.execute(project, model, monitor);
 
-		if (settings.getConfigPath() != null && settings.getGenerator() != null && settings.getMetaModelNsUri() != null
-				&& settings.getOutputFolderPath() != null) {
+		// Only generate if valid
+		if (settings.getGenerator() != null && (settings.getConfigPath() != null || settings.getMetaModelNsUri() != null)) {
 
-			settings.getGenerator().init(settings, monitor);
+			// Use default or defined config
+			if(settings.isUseDefaultConfig())
+				settings.getGenerator().init(null, monitor);
+			else
+				settings.getGenerator().init(settings, monitor);
 			try {
 				settings.getGenerator().generateEditRules(monitor);
 			} catch (IOException e) {

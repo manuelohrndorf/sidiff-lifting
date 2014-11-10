@@ -129,6 +129,10 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	private void createWidgets() {	
 
+		// Chooser Widget
+		chooserWidget = new EditRuleGeneratorChooserWidget();
+		addWidget(container, chooserWidget);
+		
 		// EditRule Generator
 		generatorWidget = new EditRuleGeneratorWidget();
 		generatorWidget.setSettings(this.settings);
@@ -138,8 +142,6 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		generatorSettingsWidget = new EditRuleGeneratorSettingsWidget(this.settings);
 		addWidget(container, generatorSettingsWidget);
 		
-		chooserWidget = new EditRuleGeneratorChooserWidget();
-		addWidget(container, chooserWidget);
 		
 		
 	}
@@ -165,7 +167,12 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 		}
 		generatorSettingsWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
 		generatorWidget.setEnabled(chooserWidget.getrBtnGenerate().getSelection());
-		if (chooserWidget.getrBtnManually().getSelection()) setPageComplete(true);
+		if (chooserWidget.getrBtnManually().getSelection()) {
+			setPageComplete(true);
+			setErrorMessage(null);
+			setMessage("Press Finish for defining Edit Rules manually");
+
+		}
 	}
 
 	private Boolean validateWidget(IWidgetValidation widget) {
