@@ -1,0 +1,101 @@
+\usetheme{PI}
+\usepackage[utf8]{inputenc}
+\usepackage{etex}
+\usepackage{listings}
+\usepackage{pstricks-add}
+\usepackage{url}					
+\usepackage{booktabs}			
+\usepackage{dcolumn}			
+\usepackage{bm}						
+\usepackage[left]{eurosym}
+\usepackage{subfigure}		
+\usepackage{color}				
+\usepackage{epstopdf}	
+\usepackage[absolute,overlay]{textpos} 
+\usepackage{multirow}
+\usepackage{textpos}
+\usepackage{tikz}
+\usepackage{pst-pdf}
+\usepackage{graphicx}
+
+
+\lstset{
+    language=XML,
+    keywordstyle=\bfseries\ttfamily\color{blue},
+    identifierstyle=\ttfamily\color{black},
+    commentstyle=\color[rgb]{0.457,0.723,0.0},
+    stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+    showstringspaces=false,
+    basicstyle=\scriptsize,
+    numberstyle=\scriptsize,
+    numbers=left,
+    stepnumber=1,
+    numbersep=4pt,
+    tabsize=2,
+    breaklines=true,
+    keepspaces=true,
+    breakatwhitespace=false,
+    aboveskip={1.5\baselineskip},
+    columns=flexible,
+    frame=single key,
+    captionpos=b,
+    morekeywords={name,class,threshold,weight,parameter}
+    }
+
+%Use BeamerNotes?
+%\setbeameroption{show notes on second screen=right}
+\graphicspath{{images/}}
+
+%Make use of "normal" bibliography item styles
+\setbeamertemplate{bibliography item}[text]
+
+%Set PDF metadata according to data.tex
+\usepackage{hyperref}
+\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle = {\@title},
+    pdfauthor = {\@author}
+  }
+}
+\makeatother
+
+\titlegraphic{\pgfuseimage{titlegraphic}}
+
+\begin{document}
+
+ \pgfdeclareverticalshading{fadeBlue}{\paperwidth}%
+ {color(0cm)=(bg);color(1cm)=(structure.fg!25!structure.bg)}
+
+\begingroup
+\makeatletter
+%\setbeamertemplate{background canvas}[vertical shading][top=bg,bottom=structure.fg!25!structure.bg]
+\setlength{\hoffset}{-25pt}
+\beamertemplatenavigationsymbolsempty
+\makeatother
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+\endgroup
+
+%no subsections in toc
+\setcounter{tocdepth}{1}
+
+\begingroup
+\makeatletter
+\setbeamertemplate{sidebar left}{}
+\makeatother
+\begin{frame}
+  \frametitle{Agenda}
+  \tableofcontents
+\end{frame}
+\endgroup
+
+\AtBeginSection[]%
+{%
+\frame{\sectionpage}
+}
+
+\allSections
+
+\end{document}
