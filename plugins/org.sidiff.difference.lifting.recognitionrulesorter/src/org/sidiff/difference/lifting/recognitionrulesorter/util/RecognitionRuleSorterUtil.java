@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.difference.lifting.recognitionrulesorter.GeneralRecognitionRuleSorter;
+import org.sidiff.difference.lifting.recognitionrulesorter.GenericRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 
 public class RecognitionRuleSorterUtil {
@@ -18,7 +18,7 @@ public class RecognitionRuleSorterUtil {
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType){
 		Set<IRecognitionRuleSorter> rrSorters = new HashSet<IRecognitionRuleSorter>();
 		
-		IRecognitionRuleSorter generalRecognitionRuleSorter = new GeneralRecognitionRuleSorter();
+		IRecognitionRuleSorter generalRecognitionRuleSorter = new GenericRecognitionRuleSorter();
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IRecognitionRuleSorter.extensionPointID)) {
 			try {
 				IRecognitionRuleSorter rrsExtension = (IRecognitionRuleSorter) configurationElement.createExecutableExtension("recognition_rule_sorter");

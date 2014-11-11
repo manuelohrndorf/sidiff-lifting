@@ -42,4 +42,10 @@ public class GenericTechnicalDifferenceBuilder extends TechnicalDifferenceBuilde
 		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
+	@Override
+	public String getName(){
+		return "Generic Technical Difference Builder";
+		
+	}
+	
 }

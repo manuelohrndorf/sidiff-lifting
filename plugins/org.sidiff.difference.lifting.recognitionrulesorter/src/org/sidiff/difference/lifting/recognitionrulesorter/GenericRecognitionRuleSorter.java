@@ -2,13 +2,13 @@ package org.sidiff.difference.lifting.recognitionrulesorter;
 
 import org.eclipse.emf.henshin.model.Node;
 
-public class GeneralRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
+public class GenericRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 
-	private static final String KEY = "GeneralRRSorter";
+	private static final String KEY = "GenericRRSorter";
 	
-	private static final String NAME = "General Recognition Rule Sorter";
+	private static final String NAME = "Generic Recognition Rule Sorter";
 	
-	private static final String DOC_TYPE = "general";
+	private static final String DOC_TYPE = "generic";
 	
 	
 	@Override
