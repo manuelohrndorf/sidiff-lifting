@@ -8,12 +8,10 @@ import java.io.IOException;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 
 
@@ -63,16 +61,8 @@ public class LiftingPropertyTester extends PropertyTester {
 				IFile file = (IFile) receiver;
 				Resource resource = LiftingFacade.loadModel(file.getLocation().toOSString());
 				String documentType = EMFModelAccessEx.getCharacteristicDocumentType(resource);
-				for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
-					try {
-						ITechnicalDifferenceBuilder tdbExtension = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
-						if (documentType.equals(tdbExtension.getDocumentType())) {
-							return true;
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilder(documentType).size()>0)
+					return true;				
 			}
 		}
 
