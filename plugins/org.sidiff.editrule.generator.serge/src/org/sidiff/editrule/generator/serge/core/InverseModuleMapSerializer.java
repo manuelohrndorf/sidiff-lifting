@@ -46,7 +46,7 @@ public class InverseModuleMapSerializer extends LogSerializer{
 		String outputFilePath = settings.getOutputFolderPath()
 				+ System.getProperty("file.separator")
 				+ "_InverseModuleMap.log";
-		
+				
 		File file = new File(outputFilePath);
 		FileOutputStream fop = null;
 		try {

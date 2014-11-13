@@ -27,6 +27,7 @@ import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
+import org.sidiff.editrule.generator.serge.core.ConfigSerializer;
 import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapper;
@@ -49,68 +50,89 @@ public class Serge implements IEditRuleGenerator{
 	 */
 	public final static String PLUGIN_NAME = "org.sidiff.editrule.generator.serge";
 	
+	/**
+	 * The Generator Key defining which type of EditruleGenerator is used.
+	 */
 	public final static String GENERATOR_KEY = "serge";
-
 	
 	/**
 	 * The involved meta-models.
 	 */
 	private static Stack<EPackage> ePackagesStack = null;
-
 	
 	/**
-	 * The SERGe configuration.
+	 * The SERGe configuration (CPEO and meta-model specific configuration).
 	 */
 	private static Configuration config = null;
 	
+	/**
+	 * The settings object (i/o settings).
+	 */
 	private SergeSettings settings = null;
 	
 	@Override
 	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) {
 		
-		monitor.beginTask("Initializing SERGe", 100);		
+		// Start monitor
+		monitor.beginTask("Initializing SERGe", 100);
 		
-		monitor.subTask("Loading Configuration");
+		// First check if the given settings object really is a EditRuleGenerationSettings object
+		assert(settings instanceof EditRuleGenerationSettings): "Given Settings are not EditRuleGenerationSettings";
+
+		// Create more specific SergeSettings out of the general EditRuleGenerationSettings
+		this.settings = new SergeSettings(settings);		
+		
+		// Load config's DTD
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(
 				"platform:/plugin/"+PLUGIN_NAME+"/config/Editrulesgeneratorconfig.dtdmap.xml")); 
-
-		if(settings instanceof EditRuleGenerationSettings){
-			this.settings = new SergeSettings(settings.getGenerator(),settings.getOutputFolderPath(), settings.getConfigPath(),settings.isUseSubfolders());
-		}
 		
-		assert(this.settings != null || settings.isUseDefaultConfig()) : "This is no valid SergeSettings Instance:" + settings.toString();
+		// Create empty instance of the SergeConfiguration
+		config = Configuration.getInstance();
+		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
+		ElementFilter.getInstance();
 		
-				//TODO create a default config if necessary
-		
-		try {
-			// create empty instances
-			config = Configuration.getInstance();
-			EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
-			ElementFilter.getInstance();
-			
-			// parse and gather infos
+		// Case default config (if config path not set in settings).
+		if(settings.getConfigPath() == null) {	
+			monitor.subTask("Setting up default configuration..");
+			this.settings.setConfigPath("platform:/plugin/"+PLUGIN_NAME+"/config/DefaultConfigTemplate.xml");
 			ConfigurationParser parser = new ConfigurationParser();
-			parser.parse(this.settings.getConfigPath());
-			monitor.worked(20);
-
-			monitor.subTask("Analyzing MetaModel");
-			//TODO make use of the monitor in a more fine grained way
-
-			ECM.gatherInformation(config.PROFILE_APPLICATION_IN_USE, config.EPACKAGESSTACK, config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
-			
-			// get ePackageStack for usage in generate()
-			ePackagesStack = config.EPACKAGESSTACK;
-			monitor.worked(80);
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
-		finally{
-			// The monitor must be finished, even if an exception occurred
-			monitor.done();
+			try {
+				parser.setupDefaultConfig(
+						settings.getMetaModelNsUri(),
+						this.settings.getConfigPath());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+			finally{
+				monitor.worked(20);
+			}
+		}
+		// Case refined config.
+		else{
+			monitor.subTask("Loading configuration..");	
+			ConfigurationParser parser = new ConfigurationParser();
+			try {
+				parser.parse(this.settings.getConfigPath());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally{
+				monitor.worked(20);
+			}			
 		}
 		
+		// Analyse meta model
+		monitor.subTask("Analyzing MetaModel");
+		ECM.gatherInformation(
+				config.PROFILE_APPLICATION_IN_USE,
+				config.EPACKAGESSTACK,
+				config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
+		ePackagesStack = config.EPACKAGESSTACK;
+		monitor.worked(80);
+
+		// Finish monitor
+		monitor.done();	
 	}
 
 	
@@ -182,36 +204,22 @@ public class Serge implements IEditRuleGenerator{
 			mainUnitApplicator.applyOn(allModules);
 			monitor.worked(5);
 
-			// InverseModulePair collection and log serialization + copy config file
-			
+			// Serialization of logs/configs		
 			if(settings.isSaveLogs()) {
 				monitor.subTask("Logging Inverse Modules");
 				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 				InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 				inverseModuleMapper.findAndMapInversePairs(allModules);
 				InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
-				inverseModuleSerializer.serialize(inverseModuleMapper);
+				inverseModuleSerializer.serialize(inverseModuleMapper);				
+				monitor.worked(3);
 				
-				// copy config file to target transformation folder
-				String timestamp = new java.text.SimpleDateFormat("YYYYMMdd").format(new Date());
-				Path sourceConfig = Paths.get(settings.getConfigPath());
-				Path targetConfig = Paths.get(settings.getOutputFolderPath()
-																				+ System.getProperty("file.separator")
-																				+ "usedConfig"
-																				+ "_"+ timestamp + ".serge");
-				if(Files.exists(targetConfig) && !settings.isOverwriteConfigInTargetFolder()) {
-					timestamp = new java.text.SimpleDateFormat("YYYYMMdd_hhmmss").format(new Date());
-					targetConfig = Paths.get(settings.getOutputFolderPath()
-																		+ System.getProperty("file.separator")
-																		+ "usedConfig"
-																		+ "_"+ timestamp + ".serge");
-							
-				}
-				Files.copy(sourceConfig, targetConfig, StandardCopyOption.REPLACE_EXISTING);
-				monitor.worked(5);
-				
+				monitor.subTask("Saving Serge Configuration");
+				LogUtil.log(LogEvent.NOTICE, "-- Serge Config Serializer --");
+				ConfigSerializer configSerializer = new ConfigSerializer(settings);
+				configSerializer.serialize();
+				monitor.worked(2);				
 			}
-
 			
 			
 			// delete contents of manual folder if wished so

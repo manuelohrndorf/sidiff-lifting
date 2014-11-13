@@ -162,11 +162,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		// Only generate if valid
 		if (settings.getGenerator() != null && (settings.getConfigPath() != null || settings.getMetaModelNsUri() != null)) {
 
-			// Use default or defined config
-			if(settings.isUseDefaultConfig())
-				settings.getGenerator().init(null, monitor);
-			else
-				settings.getGenerator().init(settings, monitor);
+			// Init Generator with settings. Whether default or refined config
+			// should be used is simply found out in init()-implementation (when pathToConfig is null).
+			settings.getGenerator().init(settings, monitor);
 			try {
 				settings.getGenerator().generateEditRules(monitor);
 			} catch (IOException e) {

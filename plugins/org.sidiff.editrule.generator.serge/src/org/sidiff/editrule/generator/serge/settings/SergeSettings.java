@@ -1,6 +1,5 @@
 package org.sidiff.editrule.generator.serge.settings;
 
-import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
@@ -9,8 +8,21 @@ import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
 public class SergeSettings extends EditRuleGenerationSettings{
 	
-	public SergeSettings(IEditRuleGenerator generator, String outputFolderPath, String configPath, boolean useSubfolders) {
-		super(generator, outputFolderPath, configPath, useSubfolders);
+	public SergeSettings(EditRuleGenerationSettings generalSettings) {
+		
+		super(generalSettings.getGenerator(),
+			  generalSettings.getOutputFolderPath(),
+			  generalSettings.getConfigPath(),
+			  generalSettings.isUseSubfolders()
+			  );
+
+		this.deleteManualTransformations = false;
+		this.deleteGeneratedTransformations = true;
+		this.overwriteGeneratedTransformations = true;
+		this.overwriteConfigInTargetFolder = false;
+		this.saveLogs = false;
+		this.deleteLogs = false;
+		
 	}
 	/**
 	 * This enables/disables the deletion of any existing contents in "manual" folders

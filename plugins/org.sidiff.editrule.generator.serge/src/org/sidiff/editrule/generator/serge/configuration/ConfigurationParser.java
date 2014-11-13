@@ -15,8 +15,14 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreAdapterFactory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
@@ -40,14 +46,23 @@ import org.w3c.dom.NodeList;
 
 public class ConfigurationParser {
 	
-	private static Configuration c 									= Configuration.getInstance();
-	private static EClassifierInfoManagement ECM 	= EClassifierInfoManagement.getInstance();
-	private static ElementFilter filter 						= ElementFilter.getInstance();
+	private static Configuration c 							= Configuration.getInstance();
+	private static String metaModelForDefaultConfig			= null;
+	private static EClassifierInfoManagement ECM 			= EClassifierInfoManagement.getInstance();
+	private static ElementFilter filter 					= ElementFilter.getInstance();
 	
 	private static Stack<EPackage> calculatedEPackagesStack	= new Stack<EPackage>();
-	private static List<String> stringWhiteList 		= new ArrayList<String>();
-	private static List<String> stringBlackList 		= new ArrayList<String>();
-	private static String rootName									= null;
+	private static List<String> stringWhiteList 			= new ArrayList<String>();
+	private static List<String> stringBlackList 			= new ArrayList<String>();
+	private static String rootName							= null;
+	private static Document doc								= null;
+
+	public void setupDefaultConfig(String metaModelNsURI, String pathToDefaultConfigTemplate) throws Exception {
+		
+		this.metaModelForDefaultConfig = metaModelNsURI;
+		parse(pathToDefaultConfigTemplate);		
+		
+	}
 
 	public void parse (String pathToConfig) throws Exception {
 				
@@ -160,36 +175,44 @@ public class ConfigurationParser {
 		}
 		
 		/**** Resolve ePackages ********************************************************************************/
-		
-		// retrieve and set meta-model	
-		currentNode = doc.getElementsByTagName("MainModel").item(0);
-		String nsUri = String.valueOf(getAttributeValue("nsUri", currentNode));
+			
+		// Case refined config.
+		String nsUri = "";	
+		if(metaModelForDefaultConfig==null) {
+			currentNode = doc.getElementsByTagName("MainModel").item(0);
+			nsUri = String.valueOf(getAttributeValue("nsUri", currentNode));
+		}
+		// Case default config.
+		else{
+			nsUri = metaModelForDefaultConfig;
+		}
+
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
 		c.METAMODEL=metaModel;
 		calculatedEPackagesStack.add(metaModel);
 		try {
+			// add contained sub packages
 			calculatedEPackagesStack.addAll(EMFUtil.getAllSubEPackages(metaModel));
 		} catch (EPackageNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		// retrieve all other required meta models
 		NodeList requiredModelNodes = doc.getElementsByTagName("RequiredModel");
 		for(int i=0; i<=requiredModelNodes.getLength()-1; i++) {
 			Node requiredNode = requiredModelNodes.item(i);
 			String uri = String.valueOf(getAttributeValue("nsUri", requiredNode));
 			EPackage reqModel = EPackage.Registry.INSTANCE.getEPackage(uri);
-			
+
 			if(reqModel==null) {
 				throw new EPackageNotFoundException(uri);
 			}
-			
+
 			if(!calculatedEPackagesStack.contains(reqModel)) {
 				calculatedEPackagesStack.add(reqModel);
 			}
 		}
-		
 		/**** Read Root ********************************************************************************************/
 		
 		// retrieve and root and nested attribute	
@@ -207,7 +230,7 @@ public class ConfigurationParser {
 		LogUtil.log(LogEvent.NOTICE, "Analyzing Meta-Model...");
 		
 		// retrieve all other required EPackages
-		gatherAllRequiredEPackages(metaModel);
+		gatherAllRequiredEPackages(c.METAMODEL);
 	
 		// forward all necessary EPackage to Generator
 		c.EPACKAGESSTACK=calculatedEPackagesStack;
