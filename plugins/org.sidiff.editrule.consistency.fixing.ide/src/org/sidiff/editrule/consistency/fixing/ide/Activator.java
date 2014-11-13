@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 
 public class Activator implements BundleActivator {
 	
-	public static final String PLUGIN_ID = "org.sidiff.editrule.fixing.quickfix.ui.ide";
+	public static final String PLUGIN_ID = "org.sidiff.editrule.consistency.fixing.ide";
 
 	private static BundleContext context;
 
