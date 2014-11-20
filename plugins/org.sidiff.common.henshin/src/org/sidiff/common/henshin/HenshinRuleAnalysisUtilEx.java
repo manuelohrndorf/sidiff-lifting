@@ -1908,6 +1908,22 @@ public class HenshinRuleAnalysisUtilEx {
 			return false;	
 		}
 	}
+	
+	/**
+	 * Returns <code> true </code> if the node has no attributes; <code> false </code> otherwise.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return <code> true </code> if the node has no attributes; <code> false </code> otherwise.
+	 */
+	public static boolean isNodeWithoutAttributes(Node node) {
+
+		if (node.getAttributes().size() == 0) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Returns <code> true </code> if the node has no edges; <code> false </code> otherwise.

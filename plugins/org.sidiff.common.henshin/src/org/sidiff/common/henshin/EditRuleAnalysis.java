@@ -6,7 +6,7 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithCrea
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithDeletionEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPreservedAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPreservedEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithoutEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Module;
@@ -88,7 +88,7 @@ public class EditRuleAnalysis {
 
 		// TODO MO: Has to be checked if this is correct!!!
 		if (isNodeWithDeletionEdges(lhsNode) || isNodeWithCreationAttributes(rhsNode)
-				|| isMultiKontextNodeModelA(editRuleNode)) {
+				|| isMultiContextNodeModelA(editRuleNode)) {
 			return true;
 		}
 		
@@ -133,11 +133,11 @@ public class EditRuleAnalysis {
 			return true;
 		}
 		
-		else if (isMultiKontextNodeModelB(editRuleNode)) {
+		else if (isMultiContextNodeModelB(editRuleNode)) {
 			return true;
 		}
 		
-		else if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode) && !isMultiKontextNode(editRuleNode)) {
+		else if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode) && !isMultiContextNode(editRuleNode)) {
 			return true;
 		}
 		
@@ -158,20 +158,21 @@ public class EditRuleAnalysis {
 		return false;
 	}
 	
-	public static boolean isMultiKontextNode(NodePair editRuleNode) {
+	public static boolean isMultiContextNode(NodePair editRuleNode) {
 		if ((editRuleNode.getLhsNode() != null) && (editRuleNode.getRhsNode() != null)) {
-			return isMultiKontextNodeModelA(editRuleNode) || isMultiKontextNodeModelB(editRuleNode);
+			return isMultiContextNodeModelA(editRuleNode) || isMultiContextNodeModelB(editRuleNode);
 		} else {
 			return false;
 		}
 	}
 	
-	public static boolean isMultiKontextNodeModelA(NodePair editRuleNode) {
+	public static boolean isMultiContextNodeModelA(NodePair editRuleNode) {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 		
 		// Is node without any edge?
-		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)) {
+		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)
+				&& isNodeWithoutAttributes(rhsNode) && isNodeWithoutAttributes(lhsNode)) {
 			
 			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
 				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
@@ -187,13 +188,14 @@ public class EditRuleAnalysis {
 		return false;
 	}
 	
-	public static boolean isMultiKontextNodeModelB(NodePair editRuleNode) {
+	public static boolean isMultiContextNodeModelB(NodePair editRuleNode) {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 		
 		// Is node without any edge?
-		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)) {
-			
+		if (isNodeWithoutEdges(rhsNode) && isNodeWithoutEdges(lhsNode)
+				&& isNodeWithoutAttributes(rhsNode) && isNodeWithoutAttributes(lhsNode)) {
+
 			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
 				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
 				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode, multiRule.getRhs());
