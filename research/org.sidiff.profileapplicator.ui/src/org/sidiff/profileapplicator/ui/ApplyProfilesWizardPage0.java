@@ -2,89 +2,115 @@ package org.sidiff.profileapplicator.ui;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 
 public class ApplyProfilesWizardPage0 extends WizardPage {
 
-	protected ApplyProfilesWizardPage0(String defaultInputFolderPath) {
+	protected ApplyProfilesWizardPage0(ProfileApplicatorSettings settings) {
 		super("Main Page");
-		this.defaultInputFolderPath = defaultInputFolderPath;
+		this.settings=settings;
 		setTitle("ProfileApplicator configuration");
 		setDescription("");
 		
 	}
 	
-	/* Default values */
-	private final String defaultInputFolderPath;
-	
-	/* States */
-	private boolean inputFolderValid=false;
+	/* Settings */
+	private final ProfileApplicatorSettings settings;
 	
 	/* Components */
-	private Text inputFolderPath;
-	private Button includeSubfolders;
 	private Composite container;
-
+	private FolderSelectionWidget inputFolder;
+	private Button includeSubfolders;
+	private FolderSelectionWidget outputFolder;
+	private FileSelectionWidget configFile;
+	
 	@Override
 	public void createControl(Composite parent) {
 		/* Container and layout */
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		container = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		setControl(container);
+		setPageComplete(false);
+		/* Layout */
+		GridLayout layout = new GridLayout(2, false);
 		container.setLayout(layout);
-		layout.numColumns = 3;
 		/* Rule input folder */
 		Label label1 = new Label(container, SWT.NONE);
 		label1.setText("Rule input folder");
-		inputFolderPath = new Text(container, SWT.BORDER | SWT.SINGLE );
-		inputFolderPath.setText(defaultInputFolderPath);
-		inputFolderPath.addKeyListener(new KeyListener() {
+		inputFolder = new FolderSelectionWidget("Rule input folder",settings.getInputFolderPath(), true);
+		inputFolder.createControl(container);
+		inputFolder.setLayoutData(gd);
+		inputFolder.addModifiedListener(new ModifyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				inputFolderValid=checkInputFolderPath(inputFolderPath.getText());
-				updatePageState();
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				inputFolderValid=checkInputFolderPath(inputFolderPath.getText());
+			public void modifyText(ModifyEvent e) {
 				updatePageState();
 			}
 		});
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-	    inputFolderPath.setLayoutData(gd);
-	    Button inputPathBrowse=new Button(container, SWT.NONE);
-	    inputPathBrowse.setText("Browse...");
-	    /* Subfolders */
-	    //Empty Label for intend
+		/* Subfolders */
+		// Empty Label for intend
 		Label label2 = new Label(container, SWT.NONE);
 		label2.setText("");
-	    includeSubfolders = new Button(container, SWT.CHECK);
-	    includeSubfolders.setText("Include subfolders");
-	    includeSubfolders.setSelection(true);
-	    /* Finish */
-	    setControl(container);
-	    //Required to avoid an error in the system
-		inputFolderValid=checkInputFolderPath(inputFolderPath.getText());
-	    updatePageState();
+		includeSubfolders = new Button(container, SWT.CHECK);
+		includeSubfolders.setText("Include subfolders");
+		includeSubfolders.setSelection(true);
+		/* Output folder */
+		Label label3 = new Label(container, SWT.NONE);
+		label3.setText("Output folder");
+		String suggestedPath = "";
+		String inPath=settings.getInputFolderPath();
+		if (inPath != null){
+			java.io.File f = new java.io.File(inPath);
+			if (f.isDirectory()){
+				suggestedPath=inPath;
+				if (!inPath.endsWith(java.io.File.separator)) suggestedPath+=java.io.File.separator;
+				suggestedPath+="profiled"+java.io.File.separator;
+			}
+		}
+		outputFolder = new FolderSelectionWidget("Output folder",suggestedPath, false);
+		outputFolder.createControl(container);
+		outputFolder.setLayoutData(gd);
+		outputFolder.addModifiedListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updatePageState();
+			}
+		});
+		/* Config file */
+		Label label4 = new Label(container, SWT.NONE);
+		label4.setText("Configuration file");
+		configFile = new FileSelectionWidget("Configuration file", "", true, new String[]{"*.xml"});
+		configFile.createControl(container);
+		configFile.setLayoutData(gd);
+		configFile.addModifiedListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				updatePageState();
+			}
+		});
+		/* Finish */
+		updatePageState();
 	}
 	
 	private void updatePageState(){
+		boolean inputFolderValid = inputFolder.validate();
+		boolean outputFolderValid=outputFolder.validate();
+		boolean configFileValid=configFile.validate();
 		if (!inputFolderValid){
-			setErrorMessage("Rule input folder not valid");
+			setErrorMessage(inputFolder.getValidationMessage());
+		} else if (!outputFolderValid){
+			setErrorMessage(outputFolder.getValidationMessage());
+		} else if (!configFileValid){
+			setErrorMessage(configFile.getValidationMessage());
 		} else {
 			setErrorMessage(null);
 		}
-		setPageComplete(inputFolderValid);
-	}
-	
-	private boolean checkInputFolderPath(String path){
-		return (path != null && !path.isEmpty());
+		setPageComplete(inputFolderValid && outputFolderValid && configFileValid);
 	}
 }

@@ -16,7 +16,7 @@ public class ApplyProfilesHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(),
-				new ApplyProfilesWizard("F:\\LOL\\"));
+				new ApplyProfilesWizard("D:\\Programme"));
 		if (wizardDialog.open() == Window.OK) {
 			System.out.println("Ok pressed");
 		} else {

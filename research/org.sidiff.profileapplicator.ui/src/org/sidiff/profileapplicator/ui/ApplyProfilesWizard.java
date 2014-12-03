@@ -1,15 +1,16 @@
 package org.sidiff.profileapplicator.ui;
 
 import org.eclipse.jface.wizard.Wizard;
+import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 
 public class ApplyProfilesWizard extends Wizard {
 
 	protected ApplyProfilesWizardPage0 pg0;
-	private final String defaultInputFolder;
+	private final ProfileApplicatorSettings settings;
 
-	public ApplyProfilesWizard(String defaultInputFolder) {
+	public ApplyProfilesWizard(String defaultInputFolderPath) {
 		super();
-		this.defaultInputFolder=defaultInputFolder;
+		this.settings=new ProfileApplicatorSettings("", "", defaultInputFolderPath);
 		setNeedsProgressMonitor(true);
 	}
 
@@ -20,7 +21,7 @@ public class ApplyProfilesWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		pg0 = new ApplyProfilesWizardPage0(defaultInputFolder);
+		pg0 = new ApplyProfilesWizardPage0(settings);
 		addPage(pg0);
 	}
 
