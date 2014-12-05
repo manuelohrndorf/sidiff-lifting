@@ -1,7 +1,5 @@
 package org.sidiff.profileapplicator.ui;
 
-import java.util.regex.Pattern;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -10,13 +8,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.tweaklets.AllowGrabFocus;
-import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
