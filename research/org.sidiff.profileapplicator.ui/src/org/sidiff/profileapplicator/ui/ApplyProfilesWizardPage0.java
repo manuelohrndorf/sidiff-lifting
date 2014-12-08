@@ -44,4 +44,6 @@ public class ApplyProfilesWizardPage0 extends WizardPage {
 		setErrorMessage(applyProfilesWidget.getValidationMessage());
 		setPageComplete(valid);
 	}
+	
+	
 }

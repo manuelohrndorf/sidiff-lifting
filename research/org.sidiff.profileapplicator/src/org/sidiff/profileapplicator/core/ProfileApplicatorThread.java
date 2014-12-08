@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -31,11 +33,29 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
+	 * Counts number of base type processed since the last call of {@link #getProgessDelta()}.
+	 * Transformations that were skipped must be counted too, since
+	 * this field is used to track progress.
+	 */
+	private volatile int progressDelta=0;
+	
+	/**
 	 * The defined {@link ProfileApplicator} which executed this thread The
 	 * global configuration is just needed once and never changed by any of the
 	 * threads, hence this solution
 	 */
 	private ProfileApplicator applicator;
+	
+	/**
+	 * Set if the ProfileApplicator canceled execution of this thread.
+	 * The thread should finish its execution after this field is set.
+	 */
+	private boolean canceled=false;
+	
+	/**
+	 * Set if this thread is done working
+	 */
+	private boolean finished=false;
 
 	/**
 	 * 
@@ -70,7 +90,7 @@ public class ProfileApplicatorThread extends Thread {
 	 * through the constructor call of this thread.
 	 * 
 	 */
-	public void applyProfile() {
+	public int applyProfile() {
 
 		// Initialize organizing variables
 		boolean stereoTypesUsed = false;
@@ -87,11 +107,16 @@ public class ProfileApplicatorThread extends Thread {
 				+ "...");
 
 		// Iterate over all stereoTypes used in profile
-		for (StereoType stereoType : applicator.getStereoTypes()) {
-
+		for (int i=0; i < applicator.getStereoTypes().size(); i++) {
+			
+			StereoType stereoType = applicator.getStereoTypes().get(i);
+			
 			// Remember if at least one stereoType has been used
 			if (applyStereoType(stereoType))
 				stereoTypesUsed = true;
+			progressDelta++;
+			if (i == applicator.getStereoTypes().size()-1) finished=true;
+			if (canceled) break; //Goes to the top, to keep
 		}
 
 		if (applicator.isBaseTypeInstances() || !stereoTypesUsed) {
@@ -106,6 +131,9 @@ public class ProfileApplicatorThread extends Thread {
 		releaseAdapters(srcGraph);
 		srcResourceSet = null;
 		srcGraph = null;
+		
+		if (finished) return IStatus.OK;
+		return IStatus.CANCEL;
 	}
 
 	/**
@@ -123,7 +151,7 @@ public class ProfileApplicatorThread extends Thread {
 		boolean stereoTypeUsed = false;
 
 		for (EClass baseType : stereoType.getBaseTypeMap().keySet()) {
-
+		
 			boolean applied = false;
 
 			LogUtil.log(LogEvent.DEBUG, "---------------------------");
@@ -339,4 +367,23 @@ public class ProfileApplicatorThread extends Thread {
 		}
 	}
 
+	public int getProgessDelta() {
+		int tmp=progressDelta;
+		progressDelta = 0;
+		return tmp;
+	}
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled() {
+		this.canceled = true;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+	
+	
 }

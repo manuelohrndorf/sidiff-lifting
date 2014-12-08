@@ -115,4 +115,8 @@ public class FileSelectionWidget implements IWidget, IWidgetValidation,
 	public void addModifiedListener(ModifyListener listener) {
 		filePath.addModifyListener(listener);
 	}
+
+	public String getText() {
+		return filePath.getText();
+	}
 }

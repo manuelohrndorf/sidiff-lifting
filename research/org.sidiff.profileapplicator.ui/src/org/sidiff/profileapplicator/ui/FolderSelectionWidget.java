@@ -109,4 +109,8 @@ public class FolderSelectionWidget implements IWidget, IWidgetValidation,
 	public void addModifiedListener(ModifyListener listener){
 		folderPath.addModifyListener(listener);
 	}
+
+	public String getText() {
+		return folderPath.getText();
+	}
 }

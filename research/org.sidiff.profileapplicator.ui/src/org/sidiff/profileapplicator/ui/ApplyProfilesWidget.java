@@ -4,6 +4,9 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -16,13 +19,13 @@ import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class ApplyProfilesWidget implements IWidget, IWidgetValidation,
-IWidgetInformation {
+		IWidgetInformation {
 
 	/* Settings */
 	private final ProfileApplicatorSettings settings;
-	
+
 	/* Fields */
-	private String errorMessage=null;
+	private String errorMessage = null;
 
 	/* Components */
 	private Composite container;
@@ -35,23 +38,19 @@ IWidgetInformation {
 	private Button overwriteConfig;
 	private FileSelectionWidget configFile;
 
-	
 	public ApplyProfilesWidget(ProfileApplicatorSettings settings) {
 		super();
 		this.settings = settings;
 	}
 
-
 	@Override
 	public String getInformationMessage() {
 		return null;
 	}
-	
 
 	public ProfileApplicatorSettings getSettings() {
 		return settings;
 	}
-
 
 	@Override
 	public boolean validate() {
@@ -78,7 +77,7 @@ IWidgetInformation {
 	@Override
 	public Composite createControl(Composite parent) {
 		/* Container and layout */
-		//parent.setLayout(new FillLayout());
+		// parent.setLayout(new FillLayout());
 		GridData gdFillHorizontal = new GridData(GridData.FILL_HORIZONTAL);
 		container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(1, false));
@@ -95,13 +94,20 @@ IWidgetInformation {
 		inputFolder.addModifiedListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				validate();
+				settings.setInputFolderPath(inputFolder.getText());
 			}
 		});
 		(new Label(compGrid, SWT.NONE)).setText(""); // for intend
 		includeSubfolders = new Button(compGrid, SWT.CHECK);
 		includeSubfolders.setText("Include subfolders");
 		includeSubfolders.setSelection(settings.isUseSubfolders());
+		includeSubfolders.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				settings.setUseSubfolders(includeSubfolders.getSelection());
+			}
+			
+		});
 		/* Config file */
 		Label label4 = new Label(compGrid, SWT.NONE);
 		label4.setText("Configuration file");
@@ -110,12 +116,12 @@ IWidgetInformation {
 				new String[] { "*.xml" });
 		configFile.createControl(compGrid);
 		configFile.setLayoutData(gdFillHorizontal);
-//		configFile.addModifiedListener(new ModifyListener() {
-//			@Override
-//			public void modifyText(ModifyEvent e) {
-//				validate();
-//			}
-//		});
+		configFile.addModifiedListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				settings.setConfigPath(configFile.getText());
+			}
+		});
 		/* Output folder */
 		Label label3 = new Label(compGrid, SWT.NONE);
 		label3.setText("Output folder");
@@ -136,49 +142,76 @@ IWidgetInformation {
 				suggestedPath, false);
 		outputFolder.createControl(compGrid);
 		outputFolder.setLayoutData(gdFillHorizontal);
-//		outputFolder.addModifiedListener(new ModifyListener() {
-//			@Override
-//			public void modifyText(ModifyEvent e) {
-//				validate();
-//			}
-//		});
+		outputFolder.addModifiedListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				settings.setOutputFolderPath(outputFolder.getText());
+			}
+		});
 		/* Delete and override genrated transforms */
 		Group groupOutputMode = new Group(container, SWT.SHADOW_IN);
 		groupOutputMode
 				.setText("Transformations already present in output folder");
 		groupOutputMode.setLayout(new GridLayout(1, false));
-		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 85).applyTo(groupOutputMode);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 85)
+				.applyTo(groupOutputMode);
 		boolean keepTransforms;
 		boolean overwriteTransforms;
 		boolean deleteTransforms;
-		if (settings.isDeleteGeneratedTransformations()){
-			keepTransforms=false;
-			overwriteTransforms=false;
-			deleteTransforms=true;
-		} else if (settings.isOverwriteGeneratedTransformations()){
-			keepTransforms=false;
-			overwriteTransforms=true;
-			deleteTransforms=false;
+		if (settings.isDeleteGeneratedTransformations()) {
+			keepTransforms = false;
+			overwriteTransforms = false;
+			deleteTransforms = true;
+		} else if (settings.isOverwriteGeneratedTransformations()) {
+			keepTransforms = false;
+			overwriteTransforms = true;
+			deleteTransforms = false;
 		} else {
-			keepTransforms=true;
-			overwriteTransforms=false;
-			deleteTransforms=false;
+			keepTransforms = true;
+			overwriteTransforms = false;
+			deleteTransforms = false;
 		}
+		final SelectionListener groupOutputSelectionListener = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (overwriteGenerated.getSelection()){
+					settings.setDeleteGeneratedTransformations(false);
+					settings.setOverwriteGeneratedTransformations(true);
+				} else if (deleteGenerated.getSelection()){
+					settings.setDeleteGeneratedTransformations(true);
+					settings.setOverwriteGeneratedTransformations(true);
+				} else {
+					settings.setDeleteGeneratedTransformations(false);
+					settings.setOverwriteGeneratedTransformations(false);
+				}
+			}
+		};
 		keepGenerated = new Button(groupOutputMode, SWT.RADIO);
 		keepGenerated.setText("Keep");
 		keepGenerated.setSelection(keepTransforms);
-		overwriteGenerated = new Button(groupOutputMode, SWT.RADIO);
+		keepGenerated.addSelectionListener(groupOutputSelectionListener);
+		overwriteGenerated = new Button(groupOutputMode,
+				SWT.RADIO);
 		overwriteGenerated.setText("Overwrite");
 		overwriteGenerated.setSelection(overwriteTransforms);
+		overwriteGenerated.addSelectionListener(groupOutputSelectionListener);
 		deleteGenerated = new Button(groupOutputMode, SWT.RADIO);
 		deleteGenerated.setText("Delete");
 		deleteGenerated.setSelection(deleteTransforms);
+		deleteGenerated.addSelectionListener(groupOutputSelectionListener);
 		/* Overwrite config file */
 		overwriteConfig = new Button(container, SWT.CHECK);
 		overwriteConfig
 				.setText("Overwrite configuration file in output folder");
 		overwriteConfig
 				.setSelection(settings.isOverwriteConfigInTargetFolder());
+		overwriteConfig.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				settings.setOverwriteConfigInTargetFolder(overwriteConfig.getSelection());
+			}
+			
+		});
 		/* Finish */
 		container.pack();
 		return container;
@@ -193,7 +226,6 @@ IWidgetInformation {
 	public void setLayoutData(Object layoutData) {
 		container.setLayoutData(layoutData);
 	}
-
 
 	public void addModifyListener(ModifyListener listener) {
 		inputFolder.addModifiedListener(listener);
