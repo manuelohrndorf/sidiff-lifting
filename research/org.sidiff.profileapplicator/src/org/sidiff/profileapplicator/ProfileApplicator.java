@@ -1,9 +1,5 @@
 package org.sidiff.profileapplicator;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +11,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -25,11 +20,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import javax.xml.validation.ValidatorHandler;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -43,17 +35,17 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.xml.XMLParser;
 import org.sidiff.common.xml.XMLResolver;
 import org.sidiff.profileapplicator.core.ProfileApplicatorThread;
 import org.sidiff.profileapplicator.core.StereoType;
 import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -91,8 +83,7 @@ public class ProfileApplicator {
 		this.condition = this.lock.newCondition();
 
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(
-				IOUtil.getInputStream("ProfileApplicatorConfig.dtdmap.xml"));
+		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("ProfileApplicatorConfig.dtdmap.xml"));
 
 		init(settings);
 	}
@@ -101,16 +92,10 @@ public class ProfileApplicator {
 	 * Apply the profile to given input edit rules Configuration has already
 	 * taken place in {@see ProfileApplicatorServiceImpl}
 	 */
-	public Status applyProfile() {
+	public boolean applyProfile() throws Exception {
 
-		/*
-		 * 20 work units for deleting already present transformations 5 work
-		 * units for copying the config to the output folder 1 work unit for
-		 * every profile application (round 1) 1 work unit for every profile
-		 * application (round 2)
-		 */
-		final int cleaningWorkUnits = 20;
-		final int copyConfigWorkUnits = 5;
+		final int cleaningWorkUnits = 5;
+		final int copyConfigWorkUnits = 1;
 		int applicationWorkUnits = 0;
 		for (StereoType st1 : stereoTypes) {
 			applicationWorkUnits += st1.getBaseTypeMap().size();
@@ -197,7 +182,7 @@ public class ProfileApplicator {
 
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new Exception("Error copying the the configuration", e);
 		}
 		if (progressMonitor != null) {
 			progressMonitor.worked(copyConfigWorkUnits);
@@ -214,9 +199,7 @@ public class ProfileApplicator {
 			LogUtil.log(LogEvent.NOTICE, "Applying stereotypes did not finish");
 			if (progressMonitor != null)
 				progressMonitor.done();
-			return new Status(IStatus.CANCEL, "unkown",
-					"Application of profile " + profileName + " was canceled"); // TODO
-																				// Plugin-ID
+			return false;
 		}
 
 		// Get resulted files from first run as new input files
@@ -233,17 +216,14 @@ public class ProfileApplicator {
 			LogUtil.log(LogEvent.NOTICE, "Applying stereotypes did not finish");
 			if (progressMonitor != null)
 				progressMonitor.done();
-			return new Status(IStatus.CANCEL, "unkown",
-					"Application of profile " + profileName + " was canceled"); // TODO
-																				// Plugin-ID
+			return false;
 		}
 
 		LogUtil.log(LogEvent.NOTICE, "Applying profile " + profileName
 				+ " completed!");
 		if (progressMonitor != null)
 			progressMonitor.done();
-		return new Status(IStatus.OK, "unkown", "Application of profile "
-				+ profileName + " done"); // TODO Plugin-ID
+		return true;
 	}
 
 	/**
@@ -303,10 +283,12 @@ public class ProfileApplicator {
 		while (true) {
 			try {
 				lock.lock();
-				condition.await(5, TimeUnit.SECONDS);
+				condition.await(5, TimeUnit.MILLISECONDS); //TODO SECONDS
 				for (ProfileApplicatorThread paThread : threadList) {
-					if (progressMonitor != null)
-						progressMonitor.worked(paThread.getProgessDelta());
+					if (progressMonitor != null) {
+						int worked = paThread.getProgessDelta();
+						progressMonitor.worked(worked);
+					}
 				}
 				if (progressMonitor != null && progressMonitor.isCanceled()) {
 					for (ProfileApplicatorThread paThread : threadList) {
@@ -373,76 +355,86 @@ public class ProfileApplicator {
 
 	/**
 	 * Read the XML configuration file and define the applicator accordingly
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 * 
 	 */
 	private void init(ProfileApplicatorSettings settings) throws Exception {
-
-		//TODO Check provided settings
-		
+ 
 		// Interpreting the XML configuration file
-		//TODO Validate XML with DTD
 		LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
-		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-		domFactory.setValidating(false);
-		domFactory.setNamespaceAware(true);
-		DocumentBuilder builder = domFactory.newDocumentBuilder();
-		builder.setErrorHandler(new ErrorHandler() {
+
+		DocumentBuilderFactory dbF=DocumentBuilderFactory.newInstance();
+		dbF.setValidating(true);
+		DocumentBuilder db=dbF.newDocumentBuilder();
+		db.setEntityResolver(new EntityResolver() {
+		    @Override
+		    public InputSource resolveEntity(String publicId, String systemId)
+		            throws SAXException, IOException {
+		        if (systemId.equals("http://pi.informatik.uni-siegen.de/SiDiff/ProfileApplicatorConfig.dtd")) {
+		            return new InputSource(IOUtil
+		    				.getInputStream("config.dtd"));
+		        } else {
+		            return null;
+		        }
+		    }
+		});
+		final List<SAXParseException> parseErrors = new ArrayList<SAXParseException>();
+		db.setErrorHandler(new ErrorHandler() {
 			
 			@Override
-			public void warning(SAXParseException exception) throws SAXException {
-				// TODO Auto-generated method stub
-				
+			public void warning(SAXParseException arg0) throws SAXException {
+				System.out.println("Configuration warning: "+arg0.toString());
 			}
 			
 			@Override
-			public void fatalError(SAXParseException exception) throws SAXException {
-				// TODO Auto-generated method stub
-				
+			public void fatalError(SAXParseException arg0) throws SAXException {
+				System.out.println("Configuration fatal error: "+arg0.toString());
+				parseErrors.add(arg0);
 			}
 			
 			@Override
-			public void error(SAXParseException exception) throws SAXException {
-				// TODO Auto-generated method stub
-				
+			public void error(SAXParseException arg0) throws SAXException {
+				System.out.println("Configuration error: "+arg0.toString());
+				parseErrors.add(arg0);
 			}
 		});
-		Document doc = builder.parse(settings.getConfigPath());
+		Document doc=db.parse(IOUtil
+				.getInputStream(settings.getConfigPath()));
+		if (parseErrors.size() > 0){
+			String msg="";
+			for (SAXParseException e : parseErrors){
+				msg+="\r\n"+e.getLineNumber()+"."+e.getColumnNumber()+": "+e.getMessage();
+			}
+			throw new Exception("Error(s) in config file:"+msg);
+		}
+		
+		
 		org.w3c.dom.Node currentNode = null;
-
 		// retrieve and set configuration parameters
 
 		currentNode = doc.getElementsByTagName("Profile").item(0);
-		profileName = String.valueOf(getAttributeValue("name", currentNode));
-		if (profileName == null || profileName.isEmpty()){
-			throw new Exception("Error in configuration: No profile name provided");
-		}
-		
-		currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
-		if (currentNode != null) {
-			baseTypeInstances = Boolean.valueOf(getAttributeValue("allow",
-					currentNode));
-		} else {
-			LogUtil.log(LogEvent.DEBUG, "No configuration for baseTypeInstances provided, using default vaule");
-		}
+		profileName = String.valueOf(getAttributeValue("name",
+				currentNode));
 
-		currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(0);
-		if (currentNode != null) {
-			baseTypeInheritance = (Boolean.valueOf(getAttributeValue("allow",
-					currentNode)));
-		} else {
-			LogUtil.log(LogEvent.DEBUG, "No configuration for baseTypeInheritance provided, using default vaule");
-		}
+		currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
+		baseTypeInstances = Boolean.valueOf(getAttributeValue(
+				"allow", currentNode));
+
+		currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
+				0);
+		baseTypeInheritance = (Boolean.valueOf(getAttributeValue("allow",
+				currentNode)));
 
 		currentNode = doc.getElementsByTagName("BasePackage").item(0);
-		String basePackageAsString = String.valueOf(getAttributeValue("nsUri",
-				currentNode));
+		String basePackageAsString = String
+				.valueOf(getAttributeValue("nsUri", currentNode));
 		basePackage = EPackage.Registry.INSTANCE
 				.getEPackage(basePackageAsString);
 
 		currentNode = doc.getElementsByTagName("StereoPackage").item(0);
-		String stereoPackageAsString = String.valueOf(getAttributeValue(
-				"nsUri", currentNode));
+		String stereoPackageAsString = String.valueOf(getAttributeValue("nsUri",
+				currentNode));
 		stereoPackage = EPackage.Registry.INSTANCE
 				.getEPackage(stereoPackageAsString);
 
@@ -451,14 +443,15 @@ public class ProfileApplicator {
 				.getElementsByTagName("Transformation");
 		for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
 			Node transformationNode = transformationNodes.item(i);
-			String transformation = String.valueOf(getAttributeValue("name",
-					transformationNode));
+			String transformation = String.valueOf(getAttributeValue(
+					"name", transformationNode));
 			Boolean apply = Boolean.valueOf(getAttributeValue("apply",
 					transformationNode));
 
 			if (apply) {
 				URI transformationURI = URI.createPlatformPluginURI(
-						"org.sidiff.profileapplicator/hots/" + transformation
+						"org.sidiff.profileapplicator/hots/"
+								+ transformation
 								+ "_STEREOTYPE_IN_EDITRULE.henshin", false);
 
 				transformations.add(transformationURI);
@@ -484,7 +477,7 @@ public class ProfileApplicator {
 
 			if (classifier instanceof EClass) {
 				// Get stereoType Class
-				EClass stereoType = (EClass) classifier;
+				EClass stereoType = (EClass) classifier;					
 
 				// Test if stereotype is contained in configuration
 				// or no stereotype is configured at all, then all will be
@@ -510,18 +503,19 @@ public class ProfileApplicator {
 						// Create temporal variables
 						StereoType stereoTypeTemp = new StereoType(stereoType);
 						EReference baseReferenceTemp = (EReference) baseReference;
-						EClass baseTypeTemp = (EClass) baseReference.getEType();
+						EClass baseTypeTemp =(EClass) baseReference.getEType();
 
 						// Add stereoType and its corresponding baseType and
 						// baseReference without inheritance
 						HashMap<EClass, EReference> baseTypeMapTemp = new HashMap<EClass, EReference>();
-						baseTypeMapTemp.put(baseTypeTemp, baseReferenceTemp);
+						baseTypeMapTemp
+								.put(baseTypeTemp, baseReferenceTemp);
 						stereoTypeTemp.setBaseTypeMap(baseTypeMapTemp);
-
+						
 						if (baseTypeInheritance) {
 							// Adding all possible sub types of base type
-							for (Iterator<EObject> it = basePackage
-									.eAllContents(); it.hasNext();) {
+							for (Iterator<EObject> it = basePackage.eAllContents(); it
+									.hasNext();) {
 								EObject obj = it.next();
 
 								if (obj instanceof EClass) {
@@ -531,7 +525,8 @@ public class ProfileApplicator {
 									for (EClass eSuperClass : eSubClass
 											.getEAllSuperTypes()) {
 
-										if (eSuperClass.equals(baseTypeTemp)) {
+										if (eSuperClass.equals(
+												baseTypeTemp)) {
 
 											stereoTypeTemp.addBaseType(
 													eSubClass,
@@ -603,5 +598,5 @@ public class ProfileApplicator {
 
 		return null;
 	}
-	
+
 }

@@ -90,7 +90,7 @@ public class ProfileApplicatorThread extends Thread {
 	 * through the constructor call of this thread.
 	 * 
 	 */
-	public int applyProfile() {
+	public void applyProfile() {
 
 		// Initialize organizing variables
 		boolean stereoTypesUsed = false;
@@ -115,6 +115,10 @@ public class ProfileApplicatorThread extends Thread {
 			if (applyStereoType(stereoType))
 				stereoTypesUsed = true;
 			progressDelta++;
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+			} //TODO Remove
 			if (i == applicator.getStereoTypes().size()-1) finished=true;
 			if (canceled) break; //Goes to the top, to keep
 		}
@@ -131,9 +135,6 @@ public class ProfileApplicatorThread extends Thread {
 		releaseAdapters(srcGraph);
 		srcResourceSet = null;
 		srcGraph = null;
-		
-		if (finished) return IStatus.OK;
-		return IStatus.CANCEL;
 	}
 
 	/**
