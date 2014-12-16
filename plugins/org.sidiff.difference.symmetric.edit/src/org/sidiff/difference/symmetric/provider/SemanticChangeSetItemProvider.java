@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -24,6 +25,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.sidiff.common.stringresolver.util.StringResolverUtil;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
@@ -415,9 +417,7 @@ public class SemanticChangeSetItemProvider
 	@Override
 	public String getText(Object object) {
 		if(object instanceof SemanticChangeSet){
-			//return String.format("%s: \"%s\"", getString("_UI_SemanticChangeSet_type"), ((SemanticChangeSet)object).getName());
-			// Feedback from users: don't show the static label "Semantic-Change-Set"
-			return String.format("\"%s\"", ((SemanticChangeSet)object).getName());
+			return StringResolverUtil.getAvailableStringResolver(SymmetricPackage.eNS_URI).resolve((EObject)object);		
 		}
 		return getString("_UI_SemanticChangeSet_type");
 	}
