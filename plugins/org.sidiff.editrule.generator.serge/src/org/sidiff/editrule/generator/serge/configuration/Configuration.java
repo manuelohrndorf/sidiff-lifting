@@ -15,8 +15,6 @@ public class Configuration {
 	
 	// Tool specific configurations
 	
-	public String BASEMODELRULEFOLDERPATH	= null;
-
 	public boolean ENABLE_DUPLICATE_FILTER = false;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
 	public boolean ENABLE_NAME_MAPPER = true;

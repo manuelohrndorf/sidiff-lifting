@@ -99,6 +99,7 @@ public class ElementFilter {
 				if (
 					(!(eClassifier instanceof EClass))
 					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+					|| c.PROFILE_APPLICATION_IN_USE
 					|| (!eInf.selfMayHaveTransformations())
 					|| (c.isAnUnnestableRoot(eClassifier))
 					|| (requiredByStereotypes && !c.isRoot(eClassifier))

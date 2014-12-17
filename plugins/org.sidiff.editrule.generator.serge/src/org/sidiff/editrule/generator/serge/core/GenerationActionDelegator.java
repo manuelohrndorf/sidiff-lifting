@@ -83,8 +83,6 @@ public class GenerationActionDelegator {
 
 				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 
-				// In case eClassifier is not a profile stereotype in use
-				if (!c.PROFILE_APPLICATION_IN_USE || (c.PROFILE_APPLICATION_IN_USE && !eInf.isStereotype())) {
 
 					HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(
 							eClassifier, c.REDUCETOSUPERTYPE_CREATEDELETE);
@@ -123,17 +121,6 @@ public class GenerationActionDelegator {
 						}
 					}
 				}
-				// In case eClassifier is a profile stereotype in use there is no context.
-				// Just create a node for the eClassifier and refrain from setting up a context node to connect
-				// TODO test when re-integrating profile mechanism
-				else {
-					CreateGenerator generator = new CreateGenerator(null, null, eInf);
-					Module resultModule = generator.generate();
-
-					modules.add(resultModule);
-				}
-
-			}
 		}
 		return modules;
 	}

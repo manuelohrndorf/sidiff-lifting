@@ -144,13 +144,6 @@ public class ConfigurationParser {
 		c.CREATE_UNSET_REFERENCES=Boolean.valueOf(getAttributeValue("allow", currentNode));
 		
 		
-		//TODO remove this? base model rules path
-		// read ProfiledModel Settings if available
-		if(c.PROFILE_APPLICATION_IN_USE) {
-			currentNode = doc.getElementsByTagName("BaseModelRules").item(0);
-			c.BASEMODELRULEFOLDERPATH=String.valueOf(getAttributeValue("path", currentNode));
-		}
-		
 		/**** Read BlackList & WhiteList Elements as Strings ***************************************************/
 		
 		// read blacklisted names of EClasses
