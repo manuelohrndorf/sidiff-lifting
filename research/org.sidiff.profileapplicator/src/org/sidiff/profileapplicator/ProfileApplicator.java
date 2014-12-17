@@ -10,9 +10,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -83,7 +87,8 @@ public class ProfileApplicator {
 		this.condition = this.lock.newCondition();
 
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream("ProfileApplicatorConfig.dtdmap.xml"));
+		XMLResolver.getInstance().includeMapping(
+				IOUtil.getInputStream("ProfileApplicatorConfig.dtdmap.xml"));
 
 		init(settings);
 	}
@@ -226,6 +231,21 @@ public class ProfileApplicator {
 		return true;
 	}
 
+	private static Set<File> scanDirectoryForHenshinFiles(File inputFolder,
+			boolean includeSubfolders) {
+		Set<File> henshinFiles = new HashSet<File>();
+		for (File f : inputFolder.listFiles()) {
+			if (f.isFile()) {
+				if (f.getName().endsWith(".henshin"))
+					henshinFiles.add(f);
+			} else if (includeSubfolders && f.isDirectory()) {
+				henshinFiles.addAll(scanDirectoryForHenshinFiles(f,
+						includeSubfolders));
+			}
+		}
+		return henshinFiles;
+	}
+
 	/**
 	 * Real working method, applying all stereoTypes to inputFiles. This is done
 	 * twice, for applying all stereoType combinations possible. In the first
@@ -235,41 +255,38 @@ public class ProfileApplicator {
 	 * 
 	 * @param inputFiles
 	 *            Set of files to be used as input files
+	 * @throws Exception
 	 */
-	private boolean applyStereoTypes() {
+	private boolean applyStereoTypes() throws Exception {
 
-		// TODO 08.05.13 DR : Use subfolders if defined in settings
-
+		LogUtil.log(LogEvent.DEBUG,
+				"Scanning input folder for .henshin files...");
 		// Get all input henshin files
 		File sourceFolder = new File(this.settings.getInputFolderPath());
-		ArrayList<File> sourceFiles = new ArrayList<File>(
-				Arrays.asList(sourceFolder.listFiles()));
-
-		// Check if input is really a henshin file
-		// and create corresponding SET
-		Set<File> henshinFiles = new HashSet<File>();
-		for (File sourceFile : sourceFiles) {
-			if (sourceFile.getName().endsWith(".henshin"))
-				henshinFiles.add(sourceFile);
-		}
+		if (!sourceFolder.isDirectory())
+			throw new IOException("Folder "
+					+ this.settings.getInputFolderPath()
+					+ " does not exist or is not a folder");
+		Set<File> henshinFiles = scanDirectoryForHenshinFiles(sourceFolder,
+				this.settings.isUseSubfolders());
+		LogUtil.log(LogEvent.NOTICE, "Found " + henshinFiles.size()
+				+ " .henshin files");
 
 		LogUtil.log(LogEvent.DEBUG, "Creating thread pool...");
-
 		// Create thread pool
 		ExecutorService executor = Executors.newFixedThreadPool(this.settings
 				.getNumberOfThreads());
-		List<ProfileApplicatorThread> threadList = new ArrayList<ProfileApplicatorThread>();
+		//TODO afterExecute vom Executor nutzen um nach einem Task zu prüfen, ob dieser Erfolgreich war
+		Map<ProfileApplicatorThread, Future<?>> threadList = new HashMap<ProfileApplicatorThread, Future<?>>();
 		LogUtil.log(LogEvent.DEBUG, "Creating profiling threads...");
 
 		// Create pool of source files
 		for (File henshinFile : henshinFiles) {
 			// Add all files to workpool
-			ProfileApplicatorThread profileThread = new ProfileApplicatorThread(
-					henshinFile, this);
-			threadList.add(profileThread);
+			ProfileApplicatorThread task = new ProfileApplicatorThread(henshinFile, this);
 			// Do all the hard work in {@link ProfileApplicatorThread}
-			executor.execute(profileThread);
-
+			//executor.execute(profileThread);
+			threadList.put(task, executor.submit(task));
 		}
 
 		// This will make the executor accept no new threads
@@ -283,23 +300,28 @@ public class ProfileApplicator {
 		while (true) {
 			try {
 				lock.lock();
-				condition.await(5, TimeUnit.MILLISECONDS); //TODO SECONDS
-				for (ProfileApplicatorThread paThread : threadList) {
-					if (progressMonitor != null) {
+				condition.await(2, TimeUnit.SECONDS);
+				/* Update progress */
+				if (progressMonitor != null) {
+					for (ProfileApplicatorThread paThread : threadList.keySet()) {
 						int worked = paThread.getProgessDelta();
 						progressMonitor.worked(worked);
 					}
 				}
+				/* Check if user canceled the profile application */
 				if (progressMonitor != null && progressMonitor.isCanceled()) {
-					for (ProfileApplicatorThread paThread : threadList) {
-						paThread.setCanceled();
+					/* Cancel all future tasks */
+					for (Future<?>future : threadList.values()) {
+						future.cancel(false);
 					}
+					/* Cancel all ProfileApplicator tasks */
+					for (ProfileApplicatorThread paThread : threadList.keySet()){
+						paThread.cancel();
+					}
+					//Continue with loop, until all running tasks have finished
 				}
+				/* Check if profile application application is done */
 				if (executor.isTerminated()) {
-					finished = true;
-					for (ProfileApplicatorThread paThread : threadList) {
-						finished &= paThread.isFinished();
-					}
 					break;
 				}
 			} catch (InterruptedException e) {
@@ -308,11 +330,15 @@ public class ProfileApplicator {
 				lock.unlock();
 			}
 		}
-		if (finished) {
-			LogUtil.log(LogEvent.DEBUG, "Profile threads finished.");
-		} else {
-			LogUtil.log(LogEvent.DEBUG,
-					"Profile threads did NOT finish (maybe the user canceled the execution).");
+		/* Check if no error occured and all tasks are finished */
+		finished=true;
+		for (ProfileApplicatorThread paThread : threadList.keySet()){
+			if (paThread.getOccuredException() != null){
+				throw new Exception("Exception in worker for ", paThread.getOccuredException());
+			} else if (!paThread.isFinished()){
+				finished=false;
+				break;
+			}
 		}
 		return finished;
 	}
@@ -360,81 +386,80 @@ public class ProfileApplicator {
 	 * 
 	 */
 	private void init(ProfileApplicatorSettings settings) throws Exception {
- 
+
 		// Interpreting the XML configuration file
 		LogUtil.log(LogEvent.NOTICE, "Interpreting Configuration File...");
 
-		DocumentBuilderFactory dbF=DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory dbF = DocumentBuilderFactory.newInstance();
 		dbF.setValidating(true);
-		DocumentBuilder db=dbF.newDocumentBuilder();
+		DocumentBuilder db = dbF.newDocumentBuilder();
 		db.setEntityResolver(new EntityResolver() {
-		    @Override
-		    public InputSource resolveEntity(String publicId, String systemId)
-		            throws SAXException, IOException {
-		        if (systemId.equals("http://pi.informatik.uni-siegen.de/SiDiff/ProfileApplicatorConfig.dtd")) {
-		            return new InputSource(IOUtil
-		    				.getInputStream("config.dtd"));
-		        } else {
-		            return null;
-		        }
-		    }
+			@Override
+			public InputSource resolveEntity(String publicId, String systemId)
+					throws SAXException, IOException {
+				if (systemId
+						.equals("http://pi.informatik.uni-siegen.de/SiDiff/ProfileApplicatorConfig.dtd")) {
+					return new InputSource(IOUtil.getInputStream("config.dtd"));
+				} else {
+					return null;
+				}
+			}
 		});
 		final List<SAXParseException> parseErrors = new ArrayList<SAXParseException>();
 		db.setErrorHandler(new ErrorHandler() {
-			
+
 			@Override
 			public void warning(SAXParseException arg0) throws SAXException {
-				System.out.println("Configuration warning: "+arg0.toString());
+				System.out.println("Configuration warning: " + arg0.toString());
 			}
-			
+
 			@Override
 			public void fatalError(SAXParseException arg0) throws SAXException {
-				System.out.println("Configuration fatal error: "+arg0.toString());
+				System.out.println("Configuration fatal error: "
+						+ arg0.toString());
 				parseErrors.add(arg0);
 			}
-			
+
 			@Override
 			public void error(SAXParseException arg0) throws SAXException {
-				System.out.println("Configuration error: "+arg0.toString());
+				System.out.println("Configuration error: " + arg0.toString());
 				parseErrors.add(arg0);
 			}
 		});
-		Document doc=db.parse(IOUtil
-				.getInputStream(settings.getConfigPath()));
-		if (parseErrors.size() > 0){
-			String msg="";
-			for (SAXParseException e : parseErrors){
-				msg+="\r\n"+e.getLineNumber()+"."+e.getColumnNumber()+": "+e.getMessage();
+		Document doc = db
+				.parse(IOUtil.getInputStream(settings.getConfigPath()));
+		if (parseErrors.size() > 0) {
+			String msg = "";
+			for (SAXParseException e : parseErrors) {
+				msg += "\r\n" + e.getLineNumber() + "." + e.getColumnNumber()
+						+ ": " + e.getMessage();
 			}
-			throw new Exception("Error(s) in config file:"+msg);
+			throw new Exception("Error(s) in config file:" + msg);
 		}
-		
-		
+
 		org.w3c.dom.Node currentNode = null;
 		// retrieve and set configuration parameters
 
 		currentNode = doc.getElementsByTagName("Profile").item(0);
-		profileName = String.valueOf(getAttributeValue("name",
-				currentNode));
+		profileName = String.valueOf(getAttributeValue("name", currentNode));
 
 		currentNode = doc.getElementsByTagName("BaseTypeInstances").item(0);
-		baseTypeInstances = Boolean.valueOf(getAttributeValue(
-				"allow", currentNode));
+		baseTypeInstances = Boolean.valueOf(getAttributeValue("allow",
+				currentNode));
 
-		currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(
-				0);
+		currentNode = doc.getElementsByTagName("BaseTypeInheritance").item(0);
 		baseTypeInheritance = (Boolean.valueOf(getAttributeValue("allow",
 				currentNode)));
 
 		currentNode = doc.getElementsByTagName("BasePackage").item(0);
-		String basePackageAsString = String
-				.valueOf(getAttributeValue("nsUri", currentNode));
+		String basePackageAsString = String.valueOf(getAttributeValue("nsUri",
+				currentNode));
 		basePackage = EPackage.Registry.INSTANCE
 				.getEPackage(basePackageAsString);
 
 		currentNode = doc.getElementsByTagName("StereoPackage").item(0);
-		String stereoPackageAsString = String.valueOf(getAttributeValue("nsUri",
-				currentNode));
+		String stereoPackageAsString = String.valueOf(getAttributeValue(
+				"nsUri", currentNode));
 		stereoPackage = EPackage.Registry.INSTANCE
 				.getEPackage(stereoPackageAsString);
 
@@ -443,15 +468,14 @@ public class ProfileApplicator {
 				.getElementsByTagName("Transformation");
 		for (int i = 0; i <= transformationNodes.getLength() - 1; i++) {
 			Node transformationNode = transformationNodes.item(i);
-			String transformation = String.valueOf(getAttributeValue(
-					"name", transformationNode));
+			String transformation = String.valueOf(getAttributeValue("name",
+					transformationNode));
 			Boolean apply = Boolean.valueOf(getAttributeValue("apply",
 					transformationNode));
 
 			if (apply) {
 				URI transformationURI = URI.createPlatformPluginURI(
-						"org.sidiff.profileapplicator/hots/"
-								+ transformation
+						"org.sidiff.profileapplicator/hots/" + transformation
 								+ "_STEREOTYPE_IN_EDITRULE.henshin", false);
 
 				transformations.add(transformationURI);
@@ -477,7 +501,7 @@ public class ProfileApplicator {
 
 			if (classifier instanceof EClass) {
 				// Get stereoType Class
-				EClass stereoType = (EClass) classifier;					
+				EClass stereoType = (EClass) classifier;
 
 				// Test if stereotype is contained in configuration
 				// or no stereotype is configured at all, then all will be
@@ -503,19 +527,18 @@ public class ProfileApplicator {
 						// Create temporal variables
 						StereoType stereoTypeTemp = new StereoType(stereoType);
 						EReference baseReferenceTemp = (EReference) baseReference;
-						EClass baseTypeTemp =(EClass) baseReference.getEType();
+						EClass baseTypeTemp = (EClass) baseReference.getEType();
 
 						// Add stereoType and its corresponding baseType and
 						// baseReference without inheritance
 						HashMap<EClass, EReference> baseTypeMapTemp = new HashMap<EClass, EReference>();
-						baseTypeMapTemp
-								.put(baseTypeTemp, baseReferenceTemp);
+						baseTypeMapTemp.put(baseTypeTemp, baseReferenceTemp);
 						stereoTypeTemp.setBaseTypeMap(baseTypeMapTemp);
-						
+
 						if (baseTypeInheritance) {
 							// Adding all possible sub types of base type
-							for (Iterator<EObject> it = basePackage.eAllContents(); it
-									.hasNext();) {
+							for (Iterator<EObject> it = basePackage
+									.eAllContents(); it.hasNext();) {
 								EObject obj = it.next();
 
 								if (obj instanceof EClass) {
@@ -525,8 +548,7 @@ public class ProfileApplicator {
 									for (EClass eSuperClass : eSubClass
 											.getEAllSuperTypes()) {
 
-										if (eSuperClass.equals(
-												baseTypeTemp)) {
+										if (eSuperClass.equals(baseTypeTemp)) {
 
 											stereoTypeTemp.addBaseType(
 													eSubClass,

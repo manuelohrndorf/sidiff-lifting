@@ -1,8 +1,10 @@
 package org.sidiff.profileapplicator.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,29 +35,31 @@ public class ProfileApplicatorThread extends Thread {
 	private File sourceFile;
 
 	/**
-	 * Counts number of base type processed since the last call of {@link #getProgessDelta()}.
-	 * Transformations that were skipped must be counted too, since
-	 * this field is used to track progress.
+	 * Counts number of base type processed since the last call of
+	 * {@link #getProgessDelta()}. Transformations that were skipped must be
+	 * counted too, since this field is used to track progress.
 	 */
-	private volatile int progressDelta=0;
-	
+	private volatile int progressDelta = 0;
+
 	/**
 	 * The defined {@link ProfileApplicator} which executed this thread The
 	 * global configuration is just needed once and never changed by any of the
 	 * threads, hence this solution
 	 */
 	private ProfileApplicator applicator;
-	
+
 	/**
-	 * Set if the ProfileApplicator canceled execution of this thread.
-	 * The thread should finish its execution after this field is set.
+	 * Set if the ProfileApplicator canceled execution of this thread. The
+	 * thread should finish its execution after this field is set.
 	 */
-	private boolean canceled=false;
-	
+	private boolean canceled = false;
+
 	/**
 	 * Set if this thread is done working
 	 */
-	private boolean finished=false;
+	private boolean finished = false;
+	
+	private Exception occuredException=null;
 
 	/**
 	 * 
@@ -74,61 +78,62 @@ public class ProfileApplicatorThread extends Thread {
 	}
 
 	/**
-	 * Thread run method
-	 */
-	public void run() {
-
-		// Just execute applyProfile method
-		applyProfile();
-
-	}
-
-	/**
 	 * 
 	 * The working method, which applies a profile to a given input file,
 	 * whereas the input file is a henshin edit rule. Both are configured
 	 * through the constructor call of this thread.
 	 * 
+	 * @throws Exception
+	 * 
 	 */
-	public void applyProfile() {
+	public void applyProfile() throws Exception {
 
 		// Initialize organizing variables
 		boolean stereoTypesUsed = false;
 
 		// Create resourceSet for source
-		HenshinResourceSet srcResourceSet = new HenshinResourceSet(
-				applicator.getSettings().getInputFolderPath());
+		HenshinResourceSet srcResourceSet = new HenshinResourceSet(applicator
+				.getSettings().getInputFolderPath());
 
 		// Create EGraph for source
 		EGraph srcGraph = new EGraphImpl();
-		srcGraph.add(srcResourceSet.getModule(sourceFile.getName()));
+		String relPath =(new File(applicator.getSettings().getInputFolderPath())).toURI().relativize(sourceFile.toURI()).getPath();
+		Module mod = srcResourceSet.getModule(relPath);
+		if (mod == null) {
+			throw new IOException("Could not load module from " + relPath);
+		}
+		if (!srcGraph.add(mod)) {
+			throw new Exception("Could not add module " + relPath + " to graph");
+		}
 
-		LogUtil.log(LogEvent.NOTICE, "Transformating: " + sourceFile.getName()
-				+ "...");
+		LogUtil.log(LogEvent.NOTICE, "Transformating: " + relPath + "...");
 
 		// Iterate over all stereoTypes used in profile
-		for (int i=0; i < applicator.getStereoTypes().size(); i++) {
-			
+		for (int i = 0; i < applicator.getStereoTypes().size(); i++) {
+
 			StereoType stereoType = applicator.getStereoTypes().get(i);
-			
+
 			// Remember if at least one stereoType has been used
 			if (applyStereoType(stereoType))
 				stereoTypesUsed = true;
 			progressDelta++;
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-			} //TODO Remove
-			if (i == applicator.getStereoTypes().size()-1) finished=true;
-			if (canceled) break; //Goes to the top, to keep
+			if (i == applicator.getStereoTypes().size() - 1)
+				finished = true;
+			if (canceled) {
+				break;
+			}
 		}
 
 		if (applicator.isBaseTypeInstances() || !stereoTypesUsed) {
+			//TODO Check if saving works
+			//TODO Need check if root has contents?
+			File outputFile = getOutputFile(sourceFile, ((Module)srcGraph.getRoots().get(0)).getName());
+			srcResourceSet.saveEObject(srcGraph.getRoots().get(0), outputFile.toString());
 			LogUtil.log(
 					LogEvent.DEBUG,
 					"BaseTypeInstances allowed or stereoType not applicable"
 							+ ", copied unmodified module to: "
-							+ saveModule(srcResourceSet, srcGraph));
+							+ outputFile.toString());
 		}
 
 		// Clear memory
@@ -145,14 +150,15 @@ public class ProfileApplicatorThread extends Thread {
 	 * @param stereoType
 	 *            stereoType to apply
 	 * @return boolean if stereoType could be applied successfully
+	 * @throws Exception
 	 */
-	public boolean applyStereoType(StereoType stereoType) {
+	public boolean applyStereoType(StereoType stereoType) throws Exception {
 
 		// Initialize organizing variables
 		boolean stereoTypeUsed = false;
 
 		for (EClass baseType : stereoType.getBaseTypeMap().keySet()) {
-		
+
 			boolean applied = false;
 
 			LogUtil.log(LogEvent.DEBUG, "---------------------------");
@@ -165,17 +171,24 @@ public class ProfileApplicatorThread extends Thread {
 
 			HenshinResourceSet workResourceSet = null;
 			EGraph workGraph = null;
-			try {
-				// Create resourceSet as working copy
-				workResourceSet = new HenshinResourceSet(
-						applicator.getSettings().getInputFolderPath());
 
-				// Create Module EGraph and its children as working copy
-				workGraph = new EGraphImpl();
-				workGraph.addTree(workResourceSet.getModule(this.sourceFile
-						.getName()));
+			// Create resourceSet as working copy
+			workResourceSet = new HenshinResourceSet(applicator.getSettings()
+					.getInputFolderPath());
 
-				// Add all important elements for matching
+			// Create Module EGraph and its children as working copy
+			workGraph = new EGraphImpl();
+			String relPath=(new File(applicator.getSettings().getInputFolderPath())).toURI().relativize(sourceFile.toURI()).getPath();
+			Module mod = workResourceSet.getModule(relPath);
+			if (mod == null) {
+				throw new IOException("Could not load module " + relPath);
+			}
+			if (!workGraph.addTree(mod)) {
+				throw new Exception("Could not add module " + relPath);
+			}
+
+			try { // TODO Position dieses Trys überdenken
+					// Add all important elements for matching
 				workGraph.add(applicator.getStereoPackage());
 
 				// Add Stereotype and its Attributes
@@ -199,50 +212,43 @@ public class ProfileApplicatorThread extends Thread {
 			// Naming scheme defined via editrule generator
 			String baseTypeName = "_" + baseType.getName() + "_";
 			String stereoTypeName = "_" + stereoType.getName() + "("
-					+ baseType.getName() + ")" + "_";				
+					+ baseType.getName() + ")" + "_";
 
 			// Just for performance purposes:
 			// Check if modified module already exists in target folder
 			Pattern baseTypePattern = Pattern.compile(baseTypeName);
-			String moduleName = new String(((Module) workGraph.getRoots().get(0))
-					.getName());
-			Matcher m = baseTypePattern.matcher(moduleName); 
-			moduleName = m.replaceAll(stereoTypeName);	
-			
+			String moduleName = new String(((Module) workGraph.getRoots()
+					.get(0)).getName());
+			Matcher m = baseTypePattern.matcher(moduleName);
+			moduleName = m.replaceAll(stereoTypeName);
+
 			// Test if result file already exists
 			// Could be created by another thread or the previous run
 			// -> No Matching/Transformation needed
-			File targetFolder = new File(applicator.getSettings().getOutputFolderPath());
-			ArrayList<File> targetFiles = new ArrayList<File>(
-					Arrays.asList(targetFolder.listFiles()));
-
-			String outputName = applicator.getSettings().getOutputFolderPath() + moduleName
-					+ "_execute.henshin";
+			File outputFile = getOutputFile(sourceFile, moduleName);
+			outputFile.getParentFile().mkdirs();
 
 			boolean alreadyCreated = false;
 
-			for (File targetFile : targetFiles) {
-
-				if (targetFile.getAbsolutePath().equals(outputName)) {
+				if (outputFile.exists()) {
 					alreadyCreated = true;
-					LogUtil.log(LogEvent.DEBUG,
-							"File already created: " + outputName);
-					if(this.applicator.getSettings().isOverwriteGeneratedTransformations()){
-						LogUtil.log(LogEvent.DEBUG,
-								"Will be overwritten...");
-						
-					}
-					else {
-						LogUtil.log(LogEvent.DEBUG,
-								"Will be skipped...");						
-					}
+					LogUtil.log(LogEvent.DEBUG, "File already created: "
+							+ outputFile.toString());
+					if (this.applicator.getSettings()
+							.isOverwriteGeneratedTransformations()) {
+						LogUtil.log(LogEvent.DEBUG, "Will be overwritten...");
 
-				}
+					} else {
+						LogUtil.log(LogEvent.DEBUG, "Will be skipped...");
+					}
 
 			}
 
-			// If target file has not been created before or file shall be overwritten according to settings
-			if (!alreadyCreated || this.applicator.getSettings().isOverwriteGeneratedTransformations()) {
+			// If target file has not been created before or file shall be
+			// overwritten according to settings
+			if (!alreadyCreated
+					|| this.applicator.getSettings()
+							.isOverwriteGeneratedTransformations()) {
 
 				// Create Henshin Engine
 				Engine engine = new EngineImpl();
@@ -304,10 +310,9 @@ public class ProfileApplicatorThread extends Thread {
 
 				// Save created profiled henshin edit rule
 				if (applied) {
-
 					// Save module as new file
-					LogUtil.log(LogEvent.DEBUG, "Result saved as: "
-							+ saveModule(workResourceSet, workGraph));
+					workResourceSet.saveEObject(workGraph.getRoots().get(0), outputFile.toString());
+					LogUtil.log(LogEvent.DEBUG, "Result saved as: "+outputFile.toString());
 
 				}
 			}
@@ -322,26 +327,12 @@ public class ProfileApplicatorThread extends Thread {
 
 	}
 
-	/**
-	 * Helper method for saving a henshin module to a file according to its
-	 * module name. Returns the filename of the save file.
-	 * 
-	 * @param resSet
-	 *            ResourceSet containing the source graph
-	 * @param graph
-	 *            source graph
-	 * @return filename of saved henshin file
-	 */
-
-	public String saveModule(HenshinResourceSet resSet, EGraph graph) {
-
-		String outputName = applicator.getSettings().getOutputFolderPath()
-				+ ((Module) graph.getRoots().get(0)).getName()
-				+ "_execute.henshin";
-		resSet.saveEObject(graph.getRoots().get(0), outputName);
-
-		return outputName;
+	private File getOutputFile(File sourceFile, String moduleName){
+		String relTargetFolderPath = (new File(applicator.getSettings().getInputFolderPath())).toURI().relativize((new File(sourceFile.getParent()).toURI())).getPath();
+		File targetFolder = new File(applicator.getSettings().getOutputFolderPath(), relTargetFolderPath);
+		return new File(targetFolder, moduleName + "_execute.henshin");
 	}
+	
 
 	/**
 	 * Helper method for clearing adapters and memory leaks in EGraph
@@ -369,22 +360,29 @@ public class ProfileApplicatorThread extends Thread {
 	}
 
 	public int getProgessDelta() {
-		int tmp=progressDelta;
+		int tmp = progressDelta;
 		progressDelta = 0;
 		return tmp;
 	}
 
-	public boolean isCanceled() {
-		return canceled;
-	}
-
-	public void setCanceled() {
+	public void cancel() {
 		this.canceled = true;
 	}
 
 	public boolean isFinished() {
 		return finished;
 	}
-	
-	
+
+	@Override
+	public void run() {
+		try {
+			applyProfile();
+		} catch (Exception e) {
+			occuredException=e;
+		}
+	}
+
+	public Exception getOccuredException() {
+		return occuredException;
+	}
 }

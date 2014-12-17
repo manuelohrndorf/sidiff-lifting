@@ -42,20 +42,21 @@ public class ApplyProfilesWizard extends Wizard {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask("Appling profile(s)", 1000);
-				Status result;
 				try {
 					ProfileApplicator profileApplicator = new ProfileApplicator(
 							settings, new SubProgressMonitor(monitor, 1000));
-					result = profileApplicator.applyProfile();
+					if (profileApplicator.applyProfile()){
+						return new Status(IStatus.OK, "unkown", "Profile(s) sucessfully applied");//TODO Plugin ID
+					} else {
+						return new Status(IStatus.CANCEL, "unkown", "Applying profiles canceled");//TODO Plugin ID
+					}
 				} catch (Exception e) {
-					result = new Status(IStatus.ERROR, "unkown",
-							"An error occured running the ProfileApplicator", e); // TODO
-					e.printStackTrace();
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Applying profile(s)", result.getMessage()+": "+e.getMessage()); 
+					String message = (e.getMessage() != null ? e.getMessage()
+									: "[null]");
+					return new Status(IStatus.ERROR, "unkown", message);//TODO Plugin ID
 				} finally {
 					monitor.done();
 				}
-				return result;
 			}
 		};
 		job.setPriority(Job.BUILD);
