@@ -4,6 +4,7 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByI
 
 import java.util.List;
 
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -34,25 +35,46 @@ public class HenshinConditionAnalysis {
 	public static boolean isNestedConditionEdge(Edge edge) {
 		return edge.getGraph().isNestedCondition();
 	}
+	
+	/**
+	 * Check whether the given attribute is a attribute of a nested condition.
+	 * 
+	 * @param edge
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is part of a nested condition;
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean isNestedConditionAttribute(Attribute attribute) {
+		return attribute.getNode().getGraph().isNestedCondition();
+	}
 
 	/**
-	 * Checks whether the given node is an application condition (AC) glue node.
-	 * An AC glue point is an AC context node with incident AC edges.
+	 * Checks whether the given node is an application condition (AC) boundary
+	 * node. An AC boundary node is an AC context node with incident AC edges.
 	 * 
 	 * @param node
 	 *            The node to test.
 	 * @return <code>true</code> if the node is a glue node; <code>false</code>
 	 *         otherwise.
 	 */
-	public static boolean isACGlueNode(Node node) {
+	public static boolean isACBoundaryNode(Node node) {
 
 		if (!isNestedConditionNode(node)) {
 			return false;
 		}
 
 		if (isACContextNode(node)) {
+			
+			// Check for non-context edges:
 			for (Edge edge : node.getAllEdges()) {
-				if (isACEdge(edge)) {
+				if (!isACContextEdge(edge)) {
+					return true;
+				}
+			}
+			
+			// Check for non-context attributes:
+			for (Attribute attribute : node.getAttributes()) {
+				if (!isACContextAttribute(attribute)) {
 					return true;
 				}
 			}
@@ -62,7 +84,8 @@ public class HenshinConditionAnalysis {
 
 	/**
 	 * Checks whether this node is a context node of an application condition
-	 * (AC).
+	 * (AC). An AC context node is a node of an AC graph which is mapped to the
+	 * LHS of the parent graph.
 	 * 
 	 * @param node
 	 *            The node to test.
@@ -75,8 +98,7 @@ public class HenshinConditionAnalysis {
 			return false;
 		}
 
-		List<Mapping> mappings = ((NestedCondition) node.getGraph()
-				.eContainer()).getMappings();
+		List<Mapping> mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
 
 		if (HenshinRuleAnalysisUtilEx.isNodeMapped(mappings, node)) {
 			return true;
@@ -87,30 +109,65 @@ public class HenshinConditionAnalysis {
 
 	/**
 	 * Checks whether this edge is a context edge of an application condition
-	 * (AC).
+	 * (AC). An AC context edge is a edge of an AC graph which is mapped (by its
+	 * source and target nodes) to the LHS of the parent graph.
 	 * 
 	 * @param edge
 	 *            The edge to test.
-	 * @return <code>true</code> if the edge is a context node;
+	 * @return <code>true</code> if the edge is a context edge;
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isACEdge(Edge edge) {
+	public static boolean isACContextEdge(Edge edge) {
 
 		if (!isNestedConditionEdge(edge)) {
 			return false;
 		}
 
 		// Mappings for context AC nodes:
-		List<Mapping> mappings = ((NestedCondition) edge.getGraph()
-				.eContainer()).getMappings();
+		List<Mapping> mappings = ((NestedCondition) edge.getGraph().eContainer()).getMappings();
 		Mapping source_mapping = findMappingByImage(mappings, edge.getSource());
 		Mapping target_mapping = findMappingByImage(mappings, edge.getTarget());
 
 		// Is edge mapped?
 		if ((source_mapping != null) && (target_mapping != null)) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
+	}
+	
+	/**
+	 * Checks whether this attribute is a context attribute of an application
+	 * condition (AC). An AC context attribute is a attribute of an AC graph
+	 * which is mapped (by its type) to a LHS attribute of the parent graph.
+	 * 
+	 * @param edge
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is a context attribute;
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean isACContextAttribute(Attribute attribute) {
+		
+		if (!isNestedConditionAttribute(attribute)) {
+			return false;
+		}
+
+		List<Mapping> mappings = ((NestedCondition) attribute.getNode().getGraph().eContainer())
+				.getMappings();
+		Mapping mapping = findMappingByImage(mappings, attribute.getNode());
+
+		// Is AC context node?
+		if (mapping != null) {
+			Node lhsNode = mapping.getOrigin();
+			
+			// Is mapped AC attribute?
+			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
+				if (lhsAttribute.getType().equals(attribute.getType())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 }

@@ -157,7 +157,7 @@ public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {
 		Node editRuleNode = getKeyNode(keyAttribute.getNode());
 		
 		// Schritt(2):
-		if(HenshinRuleAnalysisUtilEx.isRHSChangedAttribute(keyAttribute)||HenshinRuleAnalysisUtilEx.isChangedAttribute(keyAttribute)){
+		if(HenshinRuleAnalysisUtilEx.isRHSChangingAttribute(keyAttribute)||HenshinRuleAnalysisUtilEx.isChangingAttribute(keyAttribute)){
 			if(HenshinRuleAnalysisUtilEx.isLHSAttribute(keyAttribute)){
 				return HenshinRuleAnalysisUtilEx.getRemoteAttribute(keyAttribute);
 			}else{

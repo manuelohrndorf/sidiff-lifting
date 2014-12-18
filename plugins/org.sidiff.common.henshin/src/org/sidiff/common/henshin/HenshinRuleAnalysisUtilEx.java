@@ -2,6 +2,7 @@ package org.sidiff.common.henshin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -128,8 +129,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static NodePair copyPreserveNodes(Rule rule, NodePair node, boolean attributes) {
 		Node lhsNode = copyNode(rule.getLhs(), node.getLhsNode(), attributes);
-		Node rhsNode = copyNode(rule.getLhs(), node.getRhsNode(), attributes);
-		HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode);
+		Node rhsNode = copyNode(rule.getRhs(), node.getRhsNode(), attributes);
+		
+		Mapping mapping = HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode);
+		rule.getMappings().add(mapping);
+		
 		return new NodePair(lhsNode, rhsNode); 
 	}
 	
@@ -910,6 +914,47 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Checks if the given attribute is a << require >> attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is a << require >> attribute; <code>false</code> otherwise.
+	 */
+	public static boolean isRequireAttribute(Attribute attribute) {
+
+		// Load attribute container:
+		Object container = attribute.getNode().getGraph().eContainer();
+
+		// Container must be a NestedCondition:
+		if (!(container instanceof NestedCondition)) {
+			return false;
+		}
+
+		// Nested condition that contains the attribute:
+		NestedCondition nestedCondition = (NestedCondition) container;
+
+		if (!(nestedCondition.isPAC())) {
+			return false;
+		}
+		
+		for (Mapping mapping : nestedCondition.getMappings()) {
+			if (mapping.getImage() == attribute.getNode()) {
+				// Node is a context attribute!
+				for (Attribute originAttribute : mapping.getOrigin().getAttributes()) {
+					if (originAttribute.getType().equals(attribute.getType())) {
+						// Mapped Attribute:
+						return false;
+					}
+				}
+			}
+		}
+
+		// Attribute is require attribute!
+		return true;
+	}
+
+	
+	/**
 	 * Returns whether the edge is << require >> or not.
 	 * 
 	 * @param edge
@@ -957,7 +1002,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the Henshin rule.
 	 * @return the changing attributes.
 	 */
-	public static List<AttributePair> getLHStoRHSChangedAttributes(Rule rule) {
+	public static List<AttributePair> getLHStoRHSChangingAttributes(Rule rule) {
 		List<AttributePair> res = new LinkedList<AttributePair>();
 
 		for (Node lhsNode : getLHSIntersectRHSNodes(rule)) {
@@ -982,7 +1027,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the Henshin rule.
 	 * @return the << create >> attributes.
 	 */
-	public static List<Attribute> getRHSChangedAttributes(Rule rule) {
+	public static List<Attribute> getRHSChangingAttributes(Rule rule) {
 		List<Attribute> res = new LinkedList<Attribute>();
 
 		for (Node rhsNode : rule.getRhs().getNodes()) {
@@ -1042,7 +1087,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * Returns all << forbid >> attributes of a rule.
 	 * 
 	 * @param rule
-	 * 	the Henshin rule.
+	 *            the Henshin rule.
 	 * @return the << forbid >> attributes.
 	 */
 	public static List<Attribute> getForbidAttributes(Rule rule) {
@@ -1061,10 +1106,104 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Returns all << forbid >> attributes of a node.
+	 * 
+	 * @param rule
+	 *            the node.
+	 * @return the << forbid >> attributes.
+	 */
+	public static Set<Attribute> getForbidAttributes(Node node) {
+		
+		// Collect all << forbid >> nodes:
+		List<Node> forbidNodes = new ArrayList<Node>();
+		
+		if(isForbiddenNode(node)) {
+			// Given node is a forbid node:
+			forbidNodes.add(node);
+		} else {
+			Node lhsNode;
+			
+			if(isLHSNode(node)) {
+				lhsNode = node;
+			} else {
+				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+			}
+			
+			if (lhsNode != null) {
+				for (NestedCondition nac : node.getGraph().getNACs()) {
+					Node forbidNode = getRemoteNode(nac.getMappings(), lhsNode);
+					
+					if (forbidNode != null) {
+						forbidNodes.add(forbidNode);
+					}
+				}
+			} else {
+				return Collections.emptySet();
+			}
+		}
+		
+		// Collect all << forbid >> attributes:
+		Set<Attribute> forbidAttributes = new HashSet<Attribute>();
+		
+		for (Node forbidNode : forbidNodes) {
+			forbidAttributes.addAll(forbidNode.getAttributes());
+		}
+		
+		return forbidAttributes;
+	}
+	
+	/**
+	 * Returns all incident << forbid >> edges of a node.
+	 * 
+	 * @param rule
+	 *            the node.
+	 * @return the << forbid >> edges.
+	 */
+	public static Set<Edge> getForbidEdges(Node node) {
+		
+		// Collect all << forbid >> nodes:
+		List<Node> forbidNodes = new ArrayList<Node>();
+		
+		if(isForbiddenNode(node)) {
+			// Given node is a forbid node:
+			forbidNodes.add(node);
+		} else {
+			Node lhsNode;
+			
+			if(isLHSNode(node)) {
+				lhsNode = node;
+			} else {
+				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+			}
+			
+			if (lhsNode != null) {
+				for (NestedCondition nac : node.getGraph().getNACs()) {
+					Node forbidNode = getRemoteNode(nac.getMappings(), lhsNode);
+					
+					if (forbidNode != null) {
+						forbidNodes.add(forbidNode);
+					}
+				}
+			} else {
+				return Collections.emptySet();
+			}
+		}
+		
+		// Collect all << forbid >> attributes:
+		Set<Edge> forbidEdges = new HashSet<Edge>();
+		
+		for (Node forbidNode : forbidNodes) {
+			forbidEdges.addAll(forbidNode.getAllEdges());
+		}
+		
+		return forbidEdges;
+	}
+	
+	/**
 	 * Returns all << require >> attributes of a rule.
 	 * 
 	 * @param rule
-	 * 	the Henshin rule.
+	 *            the Henshin rule.
 	 * @return the << require >> attributes.
 	 */
 	public static List<Attribute> getRequireAttributes(Rule rule) {
@@ -1081,6 +1220,100 @@ public class HenshinRuleAnalysisUtilEx {
 		
 		return res;
 	}
+	
+	/**
+	 * Returns all << require >> attributes of a node.
+	 * 
+	 * @param rule
+	 *            the node.
+	 * @return the << require >> attributes.
+	 */
+	public static Set<Attribute> getRequireAttributes(Node node) {
+		
+		// Collect all << forbid >> nodes:
+		List<Node> requireNodes = new ArrayList<Node>();
+		
+		if(isRequireNode(node)) {
+			// Given node is a forbid node:
+			requireNodes.add(node);
+		} else {
+			Node lhsNode;
+			
+			if(isLHSNode(node)) {
+				lhsNode = node;
+			} else {
+				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+			}
+			
+			if (lhsNode != null) {
+				for (NestedCondition nac : node.getGraph().getPACs()) {
+					Node requireNode = getRemoteNode(nac.getMappings(), lhsNode);
+					
+					if (requireNode != null) {
+						requireNodes.add(requireNode);
+					}
+				}
+			} else {
+				return Collections.emptySet();
+			}
+		}
+		
+		// Collect all << require >> attributes:
+		Set<Attribute> requireAttributes = new HashSet<Attribute>();
+		
+		for (Node requireNode: requireNodes) {
+			requireAttributes.addAll(requireNode.getAttributes());
+		}
+		
+		return requireAttributes;
+	}
+	
+	/**
+	 * Returns all incident << require >> edges of a node.
+	 * 
+	 * @param rule
+	 *            the node.
+	 * @return the << require >> edges.
+	 */
+	public static Set<Edge> getRequireEdges(Node node) {
+		
+		// Collect all << forbid >> nodes:
+		List<Node> requireNodes = new ArrayList<Node>();
+		
+		if(isRequireNode(node)) {
+			// Given node is a forbid node:
+			requireNodes.add(node);
+		} else {
+			Node lhsNode;
+			
+			if(isLHSNode(node)) {
+				lhsNode = node;
+			} else {
+				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+			}
+			
+			if (lhsNode != null) {
+				for (NestedCondition nac : node.getGraph().getPACs()) {
+					Node requireNode = getRemoteNode(nac.getMappings(), lhsNode);
+					
+					if (requireNode != null) {
+						requireNodes.add(requireNode);
+					}
+				}
+			} else {
+				return Collections.emptySet();
+			}
+		}
+		
+		// Collect all << require >> attributes:
+		Set<Edge> requireAttributes = new HashSet<Edge>();
+		
+		for (Node requireNode: requireNodes) {
+			requireAttributes.addAll(requireNode.getAllEdges());
+		}
+		
+		return requireAttributes;
+	}
 
 	/**
 	 * Returns the LHS/RHS attribute corresponding to the RHS/LHS attribute.
@@ -1090,6 +1323,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the corresponding remote attribute or null if it not exists.
 	 */
 	public static Attribute getRemoteAttribute(Attribute attribute) {
+		
+		if (attribute.getNode().getGraph().getRule() == null) {
+			return null;
+		}
+		
 		Node node = attribute.getNode();
 		Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 
@@ -1493,6 +1731,30 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * Returns whether this is a << preserve / delete >> attribute in a <<
+	 * preserve >> node or not.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return <code>true</code> if this is a << preserve / delete >> attribute
+	 *         in a << preserve >> node; <code>false</code> otherwise.
+	 */
+	public static boolean isPreservedAttribute(Attribute attribute) {
+
+		if (getRemoteAttribute(attribute) != null) {
+			// << preserve >> attribute in << preserve >> node:
+			return true;
+		} else {
+			if (isPreservedNode(attribute.getNode()) && isLHSAttribute(attribute)) {
+				// << delete >> attribute in << preserve >> node:
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Returns whether the node is << delete >> or not.
 	 * 
 	 * @param node
@@ -1568,13 +1830,14 @@ public class HenshinRuleAnalysisUtilEx {
 	
 	
 	/**
-	 * Is the given attribute a << preserve >> attribute and differs in value
+	 * Is the given attribute a << preserve >> attribute and LHS/RHS differs in value.
+	 * 
 	 * @param attribute
-	 * 			the attribute to test.
-	 * @return <code>true</code> if the attribute is a << preserve >> attribute and differs in value;
-	 * 			<code>false</code> otherwise.
+	 *            the attribute to test.
+	 * @return <code>true</code> if the attribute is a << preserve >> attribute
+	 *         and LHS/RHS differs in value; <code>false</code> otherwise.
 	 */
-	public static boolean isChangedAttribute(Attribute attribute){
+	public static boolean isChangingAttribute(Attribute attribute){
 		if(isPreservedNode(attribute.getNode())){
 			Attribute remoteAttribute = getRemoteAttribute(attribute);
 			if(remoteAttribute != null){
@@ -1594,7 +1857,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return <code>true</code> if the attribute is a << create >> attribute in a << preserve >> node;
 	 *         <code>false</code> otherwise.
 	 */
-	public static boolean isRHSChangedAttribute(Attribute attribute) {
+	public static boolean isRHSChangingAttribute(Attribute attribute) {
 
 		// Parent node is a << preserve >> node
 		if (isPreservedNode(attribute.getNode())) {
@@ -1617,6 +1880,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static boolean isCreationAttribute(Attribute attribute) {
 		
+		// Attribute on RHS
+		if (!isRHSAttribute(attribute)) {
+			return false;
+		}
+		
 		// Attribute has no LHS
 		if (getRemoteAttribute(attribute) == null) {
 			return true;
@@ -1634,30 +1902,64 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static boolean isForbiddenNode(Node node) {
 
-		// Load node container
+		// Load node container:
 		Object container = node.getGraph().eContainer();
 
-		// Container must be a NestedCondition
+		// Container must be a NestedCondition:
 		if (!(container instanceof NestedCondition)) {
 			return false;
 		}
 
-		// Nested condition that contains the node
+		// Nested condition that contains the node:
 		NestedCondition nestedCondition = (NestedCondition) container;
 
-		if (!(nestedCondition.eContainer() instanceof Not)) {
+		if (!(nestedCondition.isNAC())) {
 			return false;
 		}
 		
 		for (Mapping mapping : nestedCondition.getMappings()) {
-
-			// Forbidden node from LHS can not preserve to RHS
 			if (mapping.getImage() == node) {
+				// Node is a context node!
 				return false;
 			}
 		}
 
-		// Node is forbid note
+		// Node is forbid note!
+		return true;
+	}
+	
+	/**
+	 * Returns whether the node is << require >> or not.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return true if node is << require >>; false otherwise.
+	 */
+	public static boolean isRequireNode(Node node) {
+
+		// Load node container:
+		Object container = node.getGraph().eContainer();
+
+		// Container must be a NestedCondition:
+		if (!(container instanceof NestedCondition)) {
+			return false;
+		}
+
+		// Nested condition that contains the node:
+		NestedCondition nestedCondition = (NestedCondition) container;
+
+		if (!(nestedCondition.isPAC())) {
+			return false;
+		}
+		
+		for (Mapping mapping : nestedCondition.getMappings()) {
+			if (mapping.getImage() == node) {
+				// Node is a context node!
+				return false;
+			}
+		}
+
+		// Node is require note!
 		return true;
 	}
 	
@@ -1704,17 +2006,6 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Returns whether the Node is a LHS of a Rule.
-	 * 
-	 * @param node
-	 *            the node to test.
-	 * @return whether the Node is a LHS of a Rule.
-	 */
-	public static boolean isLHSNode(Node node) {
-		return node.getGraph().isLhs();
-	}
-	
-	/**
 	 * Checks whether two nodes n1 and n2 have the same node identifiers (names).
 	 * 
 	 * @param n1
@@ -1731,6 +2022,17 @@ public class HenshinRuleAnalysisUtilEx {
 		} else {
 			return n1.getName().equals(n2.getName());
 		}
+	}
+	
+	/**
+	 * Returns whether the Node is a LHS of a Rule.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return whether the Node is a LHS of a Rule.
+	 */
+	public static boolean isLHSNode(Node node) {
+		return node.getGraph().isLhs();
 	}
 	
 	/**
@@ -1775,6 +2077,17 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static boolean isRHSEdge(Edge edge) {
 		return edge.getGraph().isRhs();		
+	}
+	
+	/**
+	 * Returns whether the Attribute is a RHS of a Rule.
+	 * 
+	 * @param attribute
+	 *            the attribute to test.
+	 * @return whether the Attribute is a RHS of a Rule.
+	 */
+	public static boolean isRHSAttribute(Attribute attribute) {
+		return isRHSNode(attribute.getNode());
 	}
 	
 	/**
@@ -1854,7 +2167,7 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	/**
-	 * Searches for << create >> attribute in an node.
+	 * Searches for << create >> attribute in a node.
 	 * 
 	 * @param node the node to test.
 	 * @return <code> true </code> if there is a << create >> attribute;
@@ -1867,15 +2180,13 @@ public class HenshinRuleAnalysisUtilEx {
 		if (node.getGraph().isRhs()) {
 			rhsNode = node;
 		} else {
-			rhsNode = getRemoteNode(
-					node.getGraph().getRule().getMappings(), node);
+			rhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 		}
 
 		for (Attribute rhsAttribute : rhsNode.getAttributes()) {
-
 			Attribute lhsAttribute = getRemoteAttribute(rhsAttribute);
 
-			if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
+			if (lhsAttribute == null) {
 				return true;
 			}
 		}
@@ -1884,13 +2195,12 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
-	 * Searches for LHS attribute in an << preserve >> node.
+	 * Searches for << preserved >> attributes in a << preserve >> node.
 	 * 
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << preserved >> attribute;
-	 *         <code> false </code> otherwise, i.e. it will
-	 *         search for a LHS attribute in an << preserve >> node.
+	 *         <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreservedAttributes(Node node) {
 		
@@ -1903,10 +2213,66 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
-			return true;
-		} else {
-			return false;	
+			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
+				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
+				
+				if ((rhsAttribute != null) && (lhsAttribute.getValue().equals(rhsAttribute.getValue()))) {
+					return true;
+				}
+			}
 		}
+		
+		return false;
+	}
+	
+	/**
+	 * Searches for << delete >> attributes in a node.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return <code> true </code> if there is a << delete >> attribute;
+	 *         <code> false </code> otherwise.
+	 */
+	public static boolean isNodeWithDeletionAttributes(Node node) {
+		
+		Node lhsNode;
+		
+		if(isLHSNode(node)) {
+			lhsNode = node;
+		} else {
+			lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+		}
+		
+		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
+			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
+				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
+				
+				if ((rhsAttribute == null)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Searches for (X -> Y) attributes in a << preserve >> node.
+	 * 
+	 * @param node
+	 *            the node to test.
+	 * @return <code> true </code> if there is a (X -> Y) attribute;
+	 *         <code> false </code> otherwise.
+	 */
+	public static boolean isNodeWithChangingAttributes(Node node) {
+		
+		for (Attribute attribute : node.getAttributes()) {
+			if (isChangingAttribute(attribute)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**
