@@ -1,6 +1,6 @@
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
-import static org.sidiff.common.henshin.HenshinConditionAnalysis.isACGlueNode;
+import static org.sidiff.common.henshin.HenshinConditionAnalysis.isACBoundaryNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.copyNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createNode;
@@ -21,9 +21,9 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
-import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
+import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACBoundaryNodePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACExtensionPattern;
@@ -33,8 +33,7 @@ import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatte
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 /**
- * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition (PAC)
- * formula.
+ * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition (PAC) formula.
  * 
  * @author Manuel Ohrndorf
  */
@@ -173,24 +172,22 @@ public class EditCondition2RecognitionCondition {
 		isPrecondition = false;
 		
 		// An AC with an incident << delete >> node will be interpreted as a precondition! 
-		if (checkForDeletionGlueNodes()) {
+		if (checkForDeletionBoundaryNodes()) {
 			isPrecondition = true;
 			return;
 		}
 		
 		// Check annotations:
-		EditRuleAnnotations.Condition type = EditRuleAnnotations.getCondition(editGraph);
+		EditRuleAnnotations.Condition conditionType = EditRuleAnnotations.getCondition(editGraph);
 		
-		if (type != null) {
-			if (type.equals(EditRuleAnnotations.Condition.pre)) {
-				isPrecondition = true;
-				return;
-			}
-			
-			if (type.equals(EditRuleAnnotations.Condition.post)) {
-				isPrecondition = false;
-				return;
-			}
+		if (conditionType.equals(EditRuleAnnotations.Condition.pre)) {
+			isPrecondition = true;
+			return;
+		}
+		
+		if (conditionType.equals(EditRuleAnnotations.Condition.post)) {
+			isPrecondition = false;
+			return;
 		}
 	}
 	
@@ -200,14 +197,14 @@ public class EditCondition2RecognitionCondition {
 	 * @return <code>true</code> if at least on glue nodes is a << delete >> nodes;
 	 *         <code>false</code> otherwise.
 	 */
-	private boolean checkForDeletionGlueNodes() {
+	private boolean checkForDeletionBoundaryNodes() {
 
 		// Edit rule AC nodes:
 		for (Node er_ac_boundary_node : editGraph.getNodes()) {
 			// Catch boundary (glue) nodes:
 			Node er_boundary_node = getRemoteNode(editCondition.getMappings(), er_ac_boundary_node);
 
-			if ((er_boundary_node != null) && isACGlueNode(er_ac_boundary_node)) {
+			if ((er_boundary_node != null) && isACBoundaryNode(er_ac_boundary_node)) {
 				// Is glue node a << delete >> node?
 				if (isDeletionNode(er_boundary_node)) {
 					return true;
@@ -251,7 +248,7 @@ public class EditCondition2RecognitionCondition {
 			// Catch boundary (glue) nodes:
 			Node er_boundary_node = getRemoteNode(editCondition.getMappings(), er_ac_boundary_node);
 			
-			if ((er_boundary_node != null) && isACGlueNode(er_ac_boundary_node)) {
+			if ((er_boundary_node != null) && isACBoundaryNode(er_ac_boundary_node)) {
 				
 				NodePair rr_boundary_node;
 				Node rr_ac_boundary_node;

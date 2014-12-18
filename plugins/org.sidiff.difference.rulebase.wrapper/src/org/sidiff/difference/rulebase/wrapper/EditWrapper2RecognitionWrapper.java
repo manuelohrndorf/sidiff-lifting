@@ -6,7 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.common.henshin.EditRuleAnalysis;
+import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.lifting.edit2recognition.Edit2RecognitionTransformation;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
@@ -112,7 +112,7 @@ public class EditWrapper2RecognitionWrapper {
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();
 		editRule.setExecuteMainUnit(Edit2RecognitionUtil.findExecuteMainUnit(editModule));
-		editRule.setUseDerivedFeatures(EditRuleAnalysis.hasDerivedReferences(editModule));
+		editRule.setUseDerivedFeatures(HenshinModuleAnalysis.hasDerivedReferences(editModule));
 		
 		return editRule;
 	}

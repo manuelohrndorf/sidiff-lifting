@@ -1,6 +1,7 @@
 package org.sidiff.difference.asymmetric.dependencies.potential;
 
 import static org.silift.common.util.access.EMFMetaAccessEx.*;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,11 +19,10 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.EdgePair;
-import org.sidiff.common.henshin.EditRuleAnalysis;
-import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.EmbeddedRule;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
+import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.PotentialAttributeDependency;
 import org.sidiff.difference.rulebase.PotentialDependencyKind;
@@ -55,44 +55,44 @@ public abstract class PotentialDependencyAnalyzer {
 		 */
 		
 		// Get nodes
-		List<NodePair> predecessorPreserveNodes = HenshinRuleAnalysisUtilEx.getPreservedNodes(predecessor);
-		List<Node> predecessorCreateNodes = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(predecessor);
-		List<Node> predecessorDeleteNodes = HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes(predecessor);
+		List<NodePair> predecessorPreserveNodes = getPreservedNodes(predecessor);
+		List<Node> predecessorCreateNodes = getRHSMinusLHSNodes(predecessor);
+		List<Node> predecessorDeleteNodes = getLHSMinusRHSNodes(predecessor);
 		
-		List<NodePair> successorPreserveNodes = HenshinRuleAnalysisUtilEx.getPreservedNodes(successor);
-		List<Node> successorDeleteNodes = HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes(successor);
+		List<NodePair> successorPreserveNodes = getPreservedNodes(successor);
+		List<Node> successorDeleteNodes = getLHSMinusRHSNodes(successor);
 
 		// Get <<forbid>> nodes
-		List<Node> successorForbidNodes = HenshinRuleAnalysisUtilEx.getForbidNodes(successor);
+		List<Node> successorForbidNodes = getForbidNodes(successor);
 		
 		// Get <<require>> nodes
-		List<Node> successorRequireNodes = HenshinRuleAnalysisUtilEx.getRequireNodes(successor);
+		List<Node> successorRequireNodes = getRequireNodes(successor);
 		
 		// Get edges
-		List<EdgePair> predecessorPreserveEdges = HenshinRuleAnalysisUtilEx.getPreservedEdges(predecessor);
-		List<Edge> predecessorCreateEdges = HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(predecessor);
-		List<Edge> predecessorDeleteEdges = HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges(predecessor);
+		List<EdgePair> predecessorPreserveEdges = getPreservedEdges(predecessor);
+		List<Edge> predecessorCreateEdges = getRHSMinusLHSEdges(predecessor);
+		List<Edge> predecessorDeleteEdges = getLHSMinusRHSEdges(predecessor);
 		
-		List<EdgePair> successorPreserveEdges = HenshinRuleAnalysisUtilEx.getPreservedEdges(successor);
-		List<Edge> successorDeleteEdges = HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges(successor);
-		
-		// Get <<forbid>> edges
-		List<Edge> successorForbidEdges = HenshinRuleAnalysisUtilEx.getForbidEdges(successor);
+		List<EdgePair> successorPreserveEdges = getPreservedEdges(successor);
+		List<Edge> successorDeleteEdges = getLHSMinusRHSEdges(successor);
 		
 		// Get <<forbid>> edges
-				List<Edge> successorRequireEdges = HenshinRuleAnalysisUtilEx.getRequireEdges(successor);
+		List<Edge> successorForbidEdges = getForbidEdges(successor);
+		
+		// Get <<forbid>> edges
+		List<Edge> successorRequireEdges = getRequireEdges(successor);
 		
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = HenshinRuleAnalysisUtilEx.getRHSChangedAttributes(predecessor);
+		List<Attribute> predecessorChangingAttributes = getRHSChangingAttributes(predecessor);
 		
-		List<Attribute> successorUsingAttributes = HenshinRuleAnalysisUtilEx.getPreservedAttributes(successor);
-		successorUsingAttributes.addAll(HenshinRuleAnalysisUtilEx.getDeletionAttributes(successor));
+		List<Attribute> successorUsingAttributes = getPreservedAttributes(successor);
+		successorUsingAttributes.addAll(getDeletionAttributes(successor));
 		
 		// Get <<forbid>> attributes
-		List<Attribute> successorForbidAttributes = HenshinRuleAnalysisUtilEx.getForbidAttributes(successor);
+		List<Attribute> successorForbidAttributes = getForbidAttributes(successor);
 		
 		// Get <<require>> attributes
-		List<Attribute> successorRequireAttributes = HenshinRuleAnalysisUtilEx.getRequireAttributes(successor);
+		List<Attribute> successorRequireAttributes = getRequireAttributes(successor);
 		
 		/*
 		 * Filter embedded nodes from amalgamation units
@@ -302,7 +302,7 @@ public abstract class PotentialDependencyAnalyzer {
 	}
 
 	protected boolean isUseDeleteDependency(NodePair predecessor, Node lhsSuccessor) {
-		assert(HenshinRuleAnalysisUtilEx.isDeletionNode(lhsSuccessor));
+		assert(isDeletionNode(lhsSuccessor));
 		
 		/*
 		 * Preserve-Node-Type + Preserve-Node-Sub-Types + Preserve-Node-Super-Types == Delete-Node-Type
@@ -315,7 +315,7 @@ public abstract class PotentialDependencyAnalyzer {
 		if (directType || superType || subType) {
 
 			// Filter transient potential dependences:
-			if (EditRuleAnalysis.isSearchedInModelA(predecessor)) {
+			if (EditRuleAnalysis.isPreservedNodeSearchedInModelA(predecessor)) {
 				return true;
 			}
 		}
@@ -375,7 +375,7 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isCreateUseDependency(Node rhsPredecessor, NodePair successor) {
 
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationNode(rhsPredecessor)) 
+		assert (isCreationNode(rhsPredecessor)) 
 				: "Unfulfilled Precondition";
 		
 		/*
@@ -388,7 +388,7 @@ public abstract class PotentialDependencyAnalyzer {
 		if (directType || superType) {
 
 			// Filter transient potential dependences:
-			if (EditRuleAnalysis.isSearchedInModelB(successor)) {
+			if (EditRuleAnalysis.isPreservedNodeSearchedInModelB(successor)) {
 				return true;
 			}
 		}
@@ -406,7 +406,7 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isCreateUseDependency_PAC(Node rhsPredecessor, Node successor) {
 
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationNode(rhsPredecessor)) 
+		assert (isCreationNode(rhsPredecessor)) 
 				: "Unfulfilled Precondition";
 		
 		/*
@@ -418,12 +418,10 @@ public abstract class PotentialDependencyAnalyzer {
 
 		if (directType || superType) {
 
-// TODO TK (8.12.2013): yet, PACs are only searched in model B, so this condition is not necessary			
-//			// Filter transient potential dependences:
-//			if (EditRule2RecognitionRule.isSearchedInModelB(successor)) {
-//				return true;
-//			}
-			return true;
+			// Filter transient potential dependences:
+			if (EditRuleAnalysis.isPostcondition(successor.getGraph())) {
+				return true;
+			}
 		}
 
 		return false;
@@ -461,8 +459,8 @@ public abstract class PotentialDependencyAnalyzer {
 	 */
 	protected boolean isDeleteForbidDependency(Node lhsPredecessor, Node forbidSuccessor) {
 		
-		assert (HenshinRuleAnalysisUtilEx.isDeletionNode(lhsPredecessor) &&
-				HenshinRuleAnalysisUtilEx.isForbiddenNode(forbidSuccessor)) 
+		assert (isDeletionNode(lhsPredecessor) &&
+				isForbiddenNode(forbidSuccessor)) 
 				: "Unfulfilled Precondition";
 		
 		if (assignable(lhsPredecessor.getType(), forbidSuccessor.getType())) {
@@ -502,11 +500,11 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isUseDeleteDependency(EdgePair predecessor, Edge lhsSuccessor, 
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert(HenshinRuleAnalysisUtilEx.isDeletionEdge(lhsSuccessor));
+		assert(isDeletionEdge(lhsSuccessor));
 		
 		if (predecessor.getType() == lhsSuccessor.getType()) {
 			// Filter transient potential dependences:
-			if (EditRuleAnalysis.isSearchedInModelA(predecessor)) {
+			if (EditRuleAnalysis.isPreservedEdgeSearchedInModelA()) {
 				Node predecessorSrc = predecessor.getLhsEdge().getSource();
 				Node predecessorTgt = predecessor.getLhsEdge().getTarget();
 				Node succesorSrc = lhsSuccessor.getSource();
@@ -582,12 +580,12 @@ public abstract class PotentialDependencyAnalyzer {
 			PotentialRuleDependencies potRuleDep) {
 		
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationEdge(rhsPredecessor)) 
+		assert (isCreationEdge(rhsPredecessor)) 
 				: "Unfulfilled Precondition";
 		
 		if (rhsPredecessor.getType() == successor.getType()) {
 			// Filter transient potential dependences:
-			if (EditRuleAnalysis.isSearchedInModelB(successor)) {
+			if (EditRuleAnalysis.isPreservedEdgeSearchedInModelB()) {
 				Node predecessorSrc = rhsPredecessor.getSource();
 				Node predecessorTgt = rhsPredecessor.getTarget();
 				Node succesorSrc = successor.getLhsEdge().getSource();
@@ -596,10 +594,10 @@ public abstract class PotentialDependencyAnalyzer {
 				// Src
 				boolean srcOK = false;
 				
-				if (HenshinRuleAnalysisUtilEx.isPreservedNode(predecessorSrc) 
+				if (isPreservedNode(predecessorSrc) 
 						&& assignable(predecessorSrc.getType(), succesorSrc.getType())) {
 					srcOK = true;
-				} else if (HenshinRuleAnalysisUtilEx.isCreationNode(predecessorSrc)
+				} else if (isCreationNode(predecessorSrc)
 						&& hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc)) {
 					srcOK = true;
 				}
@@ -607,10 +605,10 @@ public abstract class PotentialDependencyAnalyzer {
 				// Tgt
 				boolean tgtOK = false;
 				
-				if (HenshinRuleAnalysisUtilEx.isPreservedNode(predecessorTgt) 
+				if (isPreservedNode(predecessorTgt) 
 						&& assignable(predecessorTgt.getType(), succesorTgt.getType())) {
 					tgtOK = true;
-				} else if (HenshinRuleAnalysisUtilEx.isCreationNode(predecessorTgt)
+				} else if (isCreationNode(predecessorTgt)
 						&& hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt)) {
 					tgtOK = true;
 				}
@@ -638,50 +636,49 @@ public abstract class PotentialDependencyAnalyzer {
 			PotentialRuleDependencies potRuleDep) {
 		
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationEdge(rhsPredecessor)) 
+		assert (isCreationEdge(rhsPredecessor)) 
 				: "Unfulfilled Precondition";
 		
 		if (rhsPredecessor.getType() == successor.getType()) {
 
-// TODO: TK (8.12.2013): yet, PACs are only searched in model B, so this "transient check" is not necessary			
 			// Filter transient potential dependences:
-//			if (EditRule2RecognitionRule.isSearchedInModelB(successor)) {
-			
-			Node predecessorSrc = rhsPredecessor.getSource();
-			Node predecessorTgt = rhsPredecessor.getTarget();
-			Node succesorSrc = successor.getSource();
-			Node succesorTgt = successor.getTarget();
-			
-			// Src
-			boolean srcOK = false;
-			
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(predecessorSrc) 
-					&& assignable(predecessorSrc.getType(), succesorSrc.getType())) {
-				srcOK = true;
-			} else if (HenshinRuleAnalysisUtilEx.isCreationNode(predecessorSrc)
-					&& hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc)) {
-				srcOK = true;
+			if (EditRuleAnalysis.isPostcondition(successor.getGraph())) {
+
+				Node predecessorSrc = rhsPredecessor.getSource();
+				Node predecessorTgt = rhsPredecessor.getTarget();
+				Node succesorSrc = successor.getSource();
+				Node succesorTgt = successor.getTarget();
+
+				// Src
+				boolean srcOK = false;
+
+				if (isPreservedNode(predecessorSrc)
+						&& assignable(predecessorSrc.getType(), succesorSrc.getType())) {
+					srcOK = true;
+				} else if (isCreationNode(predecessorSrc)
+						&& hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc)) {
+					srcOK = true;
+				}
+
+				// Tgt
+				boolean tgtOK = false;
+
+				if (isPreservedNode(predecessorTgt)
+						&& assignable(predecessorTgt.getType(), succesorTgt.getType())) {
+					tgtOK = true;
+				} else if (isCreationNode(predecessorTgt)
+						&& hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt)) {
+					tgtOK = true;
+				}
+
+				// Tgt & Src
+				if (srcOK && tgtOK) {
+					return true;
+				} else {
+					return false;
+				}
+
 			}
-			
-			// Tgt
-			boolean tgtOK = false;
-			
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(predecessorTgt) 
-					&& assignable(predecessorTgt.getType(), succesorTgt.getType())) {
-				tgtOK = true;
-			} else if (HenshinRuleAnalysisUtilEx.isCreationNode(predecessorTgt)
-					&& hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt)) {
-				tgtOK = true;
-			}
-			
-			// Tgt & Src
-			if (srcOK && tgtOK) {
-				return true;
-			} else {
-				return false;
-			}
-			
-//			}
 		}
 		return false;
 	}
@@ -718,8 +715,8 @@ public abstract class PotentialDependencyAnalyzer {
 	 */
 	protected boolean isDeleteForbidDependency(Edge lhsPredecessor, Edge forbidSuccessor) {
 		
-		assert (HenshinRuleAnalysisUtilEx.isDeletionEdge(lhsPredecessor) &&
-				HenshinRuleAnalysisUtilEx.isForbiddenEdge(forbidSuccessor))
+		assert (isDeletionEdge(lhsPredecessor) &&
+				isForbiddenEdge(forbidSuccessor))
 				: "Unfulfilled Precondition";
 		
 		// Edge types are equal?
@@ -771,13 +768,14 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isChangeUseDependency(Attribute rhsPredecessor, Attribute lhsSuccessor) {
 		
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationAttribute(rhsPredecessor) &&
-				HenshinRuleAnalysisUtilEx.isLHSAttribute(lhsSuccessor)) : "Unfulfilled Precondition";
-		
+		assert (isCreationAttribute(rhsPredecessor) && 
+				(isLHSAttribute(lhsSuccessor) || isRequireAttribute(lhsSuccessor)))
+				: "Unfulfilled Precondition";
+
 		// Attributes have the same type
 		if (rhsPredecessor.getType().equals(lhsSuccessor.getType())){
 			// Predecessor nodes is <<preserve>> ?
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(rhsPredecessor.getNode())) {
+			if (isPreservedNode(rhsPredecessor.getNode())) {
 				// is predecessor nodeType assignable to successor nodeType?
 				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
 					// Attribute case differentiation precondition is fulfilled?
@@ -824,14 +822,14 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isChangeForbidDependency(Attribute rhsPredecessor, Attribute forbidSuccessor) {
 		
 		// Input assertion
-		assert (HenshinRuleAnalysisUtilEx.isCreationAttribute(rhsPredecessor) &&
-				HenshinRuleAnalysisUtilEx.isForbiddenAttribute(forbidSuccessor)) 
+		assert (isCreationAttribute(rhsPredecessor) &&
+				isForbiddenAttribute(forbidSuccessor)) 
 				: "Unfulfilled Precondition";
 		
 		// Attributes have the same type
 		if (rhsPredecessor.getType().equals(forbidSuccessor.getType())){
 			// Predecessor nodes is <<preserve>> ?
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(rhsPredecessor.getNode())) {
+			if (isPreservedNode(rhsPredecessor.getNode())) {
 				if (assignable(rhsPredecessor.getNode().getType(), forbidSuccessor.getNode().getType())) {
 					// Attribute case differentiation precondition is fulfilled?
 					if (attributeCaseDifferentiation(rhsPredecessor, forbidSuccessor)) {

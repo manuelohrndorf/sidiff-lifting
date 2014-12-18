@@ -5,8 +5,8 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByO
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getAttributeByType;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMappings;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHStoRHSChangedAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChangedAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHStoRHSChangingAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChangingAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMappings;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
@@ -47,14 +47,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
 /**
  * <p>
  * Transforms an multi rule into a recognition multi rule.
- * </p>
- * <strong>Concept:</strong>
- * <p>
- * Timo Kehrer, Udo Kelter, and Gabriele Taentzer. 2011. A rule-based approach to the semantic
- * lifting of model differences in the context of model versioning. In Proceedings of the 2011 26th
- * IEEE/ACM International Conference on Automated Software Engineering (ASE '11). IEEE Computer
- * Society, Washington, DC, USA, 163-172. DOI=10.1109/ASE.2011.6100050
- * http://dx.doi.org/10.1109/ASE.2011.6100050
  * </p>
  * 
  * @author Manuel Ohrndorf
@@ -702,13 +694,13 @@ public class EditMulti2RecognitionMulti implements EditPattern2RecognitionPatter
 		// Unpacking value1->value2 attributes
 		List<Attribute> changingAttributes = new LinkedList<Attribute>();
 
-		for (AttributePair attribute : getLHStoRHSChangedAttributes(rule)) {
+		for (AttributePair attribute : getLHStoRHSChangingAttributes(rule)) {
 			Attribute rhsAttribute = attribute.getRhsAttribute();
 			changingAttributes.add(rhsAttribute);
 		}
 
 		// All <<create>> attributes in a <<create>> node
-		changingAttributes.addAll(getRHSChangedAttributes(rule));
+		changingAttributes.addAll(getRHSChangingAttributes(rule));
 
 		return changingAttributes;
 	}

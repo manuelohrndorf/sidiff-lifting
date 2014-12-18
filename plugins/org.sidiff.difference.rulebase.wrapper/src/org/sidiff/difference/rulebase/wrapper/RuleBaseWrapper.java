@@ -130,6 +130,13 @@ public class RuleBaseWrapper extends Observable {
 			this.editRuleFolder = editRuleFolder;
 		}
 
+		init();
+	}
+	
+	/**
+	 * Initializes this rulebase wrapper.
+	 */
+	private void init() {
 		ruleBasePotentialDependencyAnalyzer = new RuleBasePotentialDependencyAnalyzer(rulebase);
 		newRecognitionRules = new HashSet<RecognitionRule>();
 		changedEditRules = new HashSet<EditRule>();
@@ -161,7 +168,22 @@ public class RuleBaseWrapper extends Observable {
 	public RuleBaseWrapper(URI rulebaseURI) {
 		this(rulebaseURI, null, null);
 	}
-	
+
+	/**
+	 * Initializes an existing rulebase.
+	 * 
+	 * @param rulebase
+	 *            The rulebase model.
+	 * @see RuleBaseWrapper#saveRuleBase()
+	 */
+	public RuleBaseWrapper(RuleBase rulebase) {
+		this.rulebase = rulebase;
+		this.recognitionRuleFolder = URI.createURI(rulebase.getRecognitionRuleFolder());
+		this.editRuleFolder = URI.createURI(rulebase.getEditRuleFolder());
+		
+		init();
+	}
+
 	/**
 	 * Checks if the given rulebase file exists.
 	 * 

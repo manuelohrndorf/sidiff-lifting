@@ -41,7 +41,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.ApplicationCondition;
-import org.sidiff.common.henshin.EditRuleAnnotations;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
@@ -49,6 +48,8 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
+import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
+import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 
 /**
  * Checks the Edit-Rule constraints.
@@ -82,7 +83,6 @@ public class EditRuleValidator {
 		validations.addAll(EditRuleValidator.validateEditRule_acComposition(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_acBoundaries(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_lhsBoundaries(editModule));
-		validations.addAll(EditRuleValidator.validateEditRule_noAcBoundaryAttributes(editModule));
 
 		// Multi-Rules
 		validations.addAll(EditRuleValidator.validateEditRule_multiRuleNodeEmbedding(editModule));
@@ -937,9 +937,7 @@ public class EditRuleValidator {
 				ApplicationCondition ac = new ApplicationCondition(nc);
 
 				// Is explicit postcondition?
-				EditRuleAnnotations.Condition type = EditRuleAnnotations.getCondition(nc.getConclusion());
-				
-				if ((type != null) && (type.equals(EditRuleAnnotations.Condition.post))) {
+				if (EditRuleAnalysis.isPostcondition(nc.getConclusion())) {
 					
 					// Check boundary nodes:
 					for (Node lhsBoundaryNode : ac.getLhsBoundaryNodes()) {
@@ -954,42 +952,6 @@ public class EditRuleValidator {
 					}
 				}
 			}
-		}
-
-		return invalids;
-	}
-
-	/**
-	 * <p>
-	 * Validates the "No AC Boundary Attributes" constraint of the Edit-Rule:
-	 * </p>
-	 * <p>
-	 * Boundary nodes of an application condition should not have attributes,
-	 * this is a warning as it can be seen as uncritical for generation
-	 * </p>
-	 * 
-	 * @param editModule
-	 *            The Module of the Edit-Rule.
-	 */
-	public static List<EditRuleValidation> validateEditRule_noAcBoundaryAttributes(Module editModule) {
-		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
-
-		for (Rule rule : HenshinModuleAnalysis.getAllRules(editModule)) {
-			for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
-				ApplicationCondition ac = new ApplicationCondition(nc);
-
-				for (Node acBoundaryNode : ac.getAcBoundaryNodes()) {
-					if (acBoundaryNode.getAttributes().size() > 0) {
-						EditRuleValidation info = new EditRuleValidation(
-								"Boundary nodes of an application condition should not have attributes!",
-								Diagnostic.WARNING, editModule, ValidationType.noAcBoundaryAttributes, acBoundaryNode
-										.getGraph().getRule(), acBoundaryNode);
-						invalids.add(info);
-						break;
-					}
-				}
-			}
-
 		}
 
 		return invalids;
@@ -1028,11 +990,16 @@ public class EditRuleValidator {
 							neighbours.add(neighbour);
 						}
 					}
-
-					// At least one of the neighbours of acNode must be a pure
-					// AC node
-					ApplicationCondition ac = new ApplicationCondition(nc);
+					
 					boolean valid = false;
+					
+					// The AC node contains a attribute condition:
+					if (!acNode.getAttributes().isEmpty()) {
+						valid = true;
+					}
+
+					// At least one of the neighbours of acNode must be a pure AC node:
+					ApplicationCondition ac = new ApplicationCondition(nc);
 					for (Node acNeighbour : neighbours) {
 						if (ac.getNonBoundaryNodes().contains(acNeighbour)) {
 							valid = true;
