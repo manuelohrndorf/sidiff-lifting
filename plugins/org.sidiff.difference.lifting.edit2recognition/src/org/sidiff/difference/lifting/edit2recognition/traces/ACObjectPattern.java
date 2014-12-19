@@ -1,3 +1,4 @@
+
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
 import org.eclipse.emf.henshin.model.Node;
@@ -14,13 +15,13 @@ public class ACObjectPattern {
 	/**
 	 * The Recognition-Rule AC node.
 	 */
-	public Node acNode;
+	private Node acNode;
 	
 	/**
 	 * The Edit-Rule AC node.
 	 */
-	public Node acTrace;
-
+	private Node acTrace;
+	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for an application condition (AC) node.
 	 * 
@@ -34,6 +35,18 @@ public class ACObjectPattern {
 		this.acNode = acNode;
 		this.acTrace = acTrace;
 	}
-
-
+	
+	/**
+	 * @return The {@link ACObjectPattern#acNode}
+	 */
+	public Node getACNode() {
+		return acNode;
+	}
+	
+	/**
+	 * @return The {@link ACObjectPattern#acTrace}
+	 */
+	public Node getACTrace() {
+		return acTrace;
+	}
 }

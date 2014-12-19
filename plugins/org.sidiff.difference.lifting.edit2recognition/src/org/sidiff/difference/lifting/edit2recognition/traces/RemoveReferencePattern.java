@@ -17,22 +17,22 @@ public class RemoveReferencePattern {
 	/**
 	 * The Recognition-Rule Remove-Reference (low-level difference) node.
 	 */
-	public NodePair removeReference;
+	private NodePair removeReference;
 	
 	/**
 	 * The Recognition-Rule node which indicates the type of the removed reference.
 	 */
-	public NodePair typeNode;
+	private NodePair typeNode;
 	
 	/**
 	 * The Recognition-Rule model A edge (representing the traced edge).
 	 */
-	public EdgePair edgeA;
+	private EdgePair edgeA;
 	
 	/**
 	 * The << delete >> Edit-Rule edge.
 	 */
-	public Edge trace;
+	private Edge trace;
 	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes a removed
@@ -55,4 +55,31 @@ public class RemoveReferencePattern {
 		this.trace = trace;
 	}
 	
+	/**
+	 * @return The {@link RemoveReferencePattern#removeReference}
+	 */
+	public NodePair getRemoveReference() {
+		return removeReference;
+	}
+	
+	/**
+	 * @return The {@link RemoveReferencePattern#typeNode}
+	 */
+	public NodePair getTypeNode() {
+		return typeNode;
+	}
+	
+	/**
+	 * @return The {@link RemoveReferencePattern#edgeA}
+	 */
+	public EdgePair getEdgeA() {
+		return edgeA;
+	}
+	
+	/**
+	 * @return The {@link RemoveReferencePattern#trace}
+	 */
+	public Edge getTrace() {
+		return trace;
+	}
 }

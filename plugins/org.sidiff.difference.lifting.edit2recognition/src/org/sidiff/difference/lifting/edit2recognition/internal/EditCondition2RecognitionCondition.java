@@ -298,7 +298,7 @@ public class EditCondition2RecognitionCondition {
 
 		if (patterns.getACExtensionPattern(er_ac_boundary_node) != null) {
 			// Pattern already exists.
-			return patterns.getACExtensionPattern(er_boundary_node).acExtensionNode;
+			return patterns.getACExtensionPattern(er_boundary_node).getACExtensionNode();
 		} else {
 			
 			// Find trace of edit rule to recognition rule boundary node:
@@ -415,7 +415,7 @@ public class EditCondition2RecognitionCondition {
 				rr_ac_source = patterns.getBoundaryTrace(er_ac_edge.getSource());
 			} else {
 				// Use existing AC-Object-Pattern
-				rr_ac_source = patterns.getACObjectPattern(er_ac_edge.getSource()).acNode;
+				rr_ac_source = patterns.getACObjectPattern(er_ac_edge.getSource()).getACNode();
 			}
 
 			/*
@@ -429,7 +429,7 @@ public class EditCondition2RecognitionCondition {
 				rr_ac_target = patterns.getBoundaryTrace(er_ac_edge.getTarget());
 			} else {
 				// Use existing AC-Object-Pattern
-				rr_ac_target = patterns.getACObjectPattern(er_ac_edge.getTarget()).acNode;
+				rr_ac_target = patterns.getACObjectPattern(er_ac_edge.getTarget()).getACNode();
 			}
 
 			// Create Recognition-Rule AC edge:
@@ -474,7 +474,7 @@ public class EditCondition2RecognitionCondition {
 				rr_ac_node = patterns.getBoundaryTrace(er_ac_boundary_node);
 			} else {
 				// NAC/PAC attribute in NAC/PAC node.
-				rr_ac_node = patterns.getACObjectPattern(er_ac_node).acNode;
+				rr_ac_node = patterns.getACObjectPattern(er_ac_node).getACNode();
 			}
 			
 			/*

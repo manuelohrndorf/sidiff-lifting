@@ -1,3 +1,4 @@
+
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
 import org.eclipse.emf.henshin.model.Edge;
@@ -10,17 +11,17 @@ import org.eclipse.emf.henshin.model.Edge;
  * @author Manuel Ohrndorf
  */
 public class ACReferencePattern {
-
+	
 	/**
 	 * The Recognition-Rule AC edge.
 	 */
-	public Edge acReference;
+	private Edge acReference;
 	
 	/**
 	 * The Edit-Rule AC edge.
 	 */
-	public Edge acTrace;
-
+	private Edge acTrace;
+	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for an application condition (AC) node.
 	 * 
@@ -33,5 +34,19 @@ public class ACReferencePattern {
 		super();
 		this.acReference = acReference;
 		this.acTrace = acTrace;
+	}
+	
+	/**
+	 * @return The {@link ACReferencePattern#acReference}
+	 */
+	public Edge getACReference() {
+		return acReference;
+	}
+	
+	/**
+	 * @return The {@link ACReferencePattern#acTrace}
+	 */
+	public Edge getACTrace() {
+		return acTrace;
 	}
 }

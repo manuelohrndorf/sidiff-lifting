@@ -15,22 +15,22 @@ public class CorrespondencePattern {
 	/**
 	 * The Recognition-Rule model A node (representing the traced node).
 	 */
-	public NodePair nodeA;
+	private NodePair nodeA;
 	
 	/**
 	 * The Recognition-Rule model B node (representing the traced node).
 	 */
-	public NodePair nodeB;
+	private NodePair nodeB;
 	
 	/**
 	 * The Recognition-Rule correspondence node between model A and model B.
 	 */
-	public NodePair correspondence;
+	private NodePair correspondence;
 	
 	/**
 	 * The << preserve >> Edit-Rule node.
 	 */
-	public NodePair trace;
+	private NodePair trace;
 	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes corresponding
@@ -51,5 +51,33 @@ public class CorrespondencePattern {
 		this.nodeB = nodeB;
 		this.correspondence = correspondence;
 		this.trace = trace;
+	}
+	
+	/**
+	 * @return The {@link CorrespondencePattern#nodeA}
+	 */
+	public NodePair getNodeA() {
+		return nodeA;
+	}
+	
+	/**
+	 * @return The {@link CorrespondencePattern#nodeB}
+	 */
+	public NodePair getNodeB() {
+		return nodeB;
+	}
+	
+	/**
+	 * @return The {@link CorrespondencePattern#correspondence}
+	 */
+	public NodePair getCorrespondence() {
+		return correspondence;
+	}
+	
+	/**
+	 * @return The {@link CorrespondencePattern#trace}
+	 */
+	public NodePair getTrace() {
+		return trace;
 	}
 }

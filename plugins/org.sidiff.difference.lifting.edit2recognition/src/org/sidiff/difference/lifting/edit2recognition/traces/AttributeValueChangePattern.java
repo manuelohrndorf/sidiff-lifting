@@ -1,3 +1,4 @@
+
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
 import org.eclipse.emf.henshin.model.Attribute;
@@ -11,22 +12,22 @@ import org.sidiff.common.henshin.NodePair;
  * @author Manuel Ohrndorf
  */
 public class AttributeValueChangePattern {
-
+	
 	/**
-	 * The Recognition-Rule Attribute-Value-Change (low-level difference) node. 
+	 * The Recognition-Rule Attribute-Value-Change (low-level difference) node.
 	 */
-	public NodePair attributeValueChange;
+	private NodePair attributeValueChange;
 	
 	/**
 	 * The Recognition-Rule node which indicates the type of the modified attribute.
 	 */
-	public NodePair typeNode;
+	private NodePair typeNode;
 	
 	/**
 	 * The RHS Edit-Rule attribute.
 	 */
-	public Attribute trace;
-
+	private Attribute trace;
+	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes an attribute
 	 * value change in the model difference.
@@ -43,5 +44,26 @@ public class AttributeValueChangePattern {
 		this.attributeValueChange = attributeValueChange;
 		this.typeNode = typeNode;
 		this.trace = trace;
+	}
+	
+	/**
+	 * @return The {@link AttributeValueChangePattern#attributeValueChange}
+	 */
+	public NodePair getAttributeValueChange() {
+		return attributeValueChange;
+	}
+	
+	/**
+	 * @return The {@link AttributeValueChangePattern#typeNode}
+	 */
+	public NodePair getTypeNode() {
+		return typeNode;
+	}
+	
+	/**
+	 * @return The {@link AttributeValueChangePattern#trace}
+	 */
+	public Attribute getTrace() {
+		return trace;
 	}
 }

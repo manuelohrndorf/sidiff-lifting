@@ -15,17 +15,17 @@ public class AddObjectPattern {
 	/**
 	 * The Recognition-Rule Add-Object (low-level difference) node. 
 	 */
-	public NodePair addObject;
+	private NodePair addObject;
 	
 	/**
 	 * The Recognition-Rule model B node (representing the traced node). 
 	 */
-	public NodePair nodeB;
+	private NodePair nodeB;
 	
 	/**
 	 * The << create >> Edit-Rule node.
 	 */
-	public Node trace;
+	private Node trace;
 
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes an add object
@@ -43,5 +43,26 @@ public class AddObjectPattern {
 		this.addObject = addObject;
 		this.nodeB = nodeB;
 		this.trace = trace;
+	}
+	
+	/**
+	 * @return The {@link AddObjectPattern#addObject}
+	 */
+	public NodePair getAddObject() {
+		return addObject;
+	}
+	
+	/**
+	 * @return The {@link AddObjectPattern#nodeB}
+	 */
+	public NodePair getNodeB() {
+		return nodeB;
+	}
+	
+	/**
+	 * @return The {@link AddObjectPattern#trace}
+	 */
+	public Node getTrace() {
+		return trace;
 	}
 }

@@ -110,7 +110,7 @@ public class TransformationPatterns {
 	 *            The new {@link CorrespondencePattern}.
 	 */
 	public void addCorrespondencePattern(CorrespondencePattern pattern) {
-		correspondencePatterns.put(pattern.trace.getLhsNode(), pattern);
+		correspondencePatterns.put(pattern.getTrace().getLhsNode(), pattern);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ public class TransformationPatterns {
 	 *            The new {@link AddObjectPattern}.
 	 */
 	public void addAddObjectPattern(AddObjectPattern pattern) {
-		addObjectPatterns.put(pattern.trace, pattern);
+		addObjectPatterns.put(pattern.getTrace(), pattern);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class TransformationPatterns {
 	 *            The new {@link RemoveObjectPattern}.
 	 */
 	public void addRemoveObjectPattern(RemoveObjectPattern pattern) {
-		removeObjectPatterns.put(pattern.trace, pattern);
+		removeObjectPatterns.put(pattern.getTrace(), pattern);
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public class TransformationPatterns {
 	 *            The new {@link ACObjectPattern}.
 	 */
 	public void addACObjectPattern(ACObjectPattern pattern) {
-		acObjectPatterns.put(pattern.acTrace, pattern);
+		acObjectPatterns.put(pattern.getACTrace(), pattern);
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class TransformationPatterns {
 	 *            The new {@link AddReferencePattern}.
 	 */
 	public void addAddReferencePattern(AddReferencePattern pattern) {
-		addReferencePatterns.put(pattern.trace, pattern);
+		addReferencePatterns.put(pattern.getTrace(), pattern);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class TransformationPatterns {
 	 *            The new {@link RemoveReferencePattern}.
 	 */
 	public void addRemoveReferencePattern(RemoveReferencePattern pattern) {
-		removeReferencePatterns.put(pattern.trace, pattern);
+		removeReferencePatterns.put(pattern.getTrace(), pattern);
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class TransformationPatterns {
 	 *            The new {@link ACReferencePattern}.
 	 */
 	public void addACRreferencePatter(ACReferencePattern pattern) {
-		acReferencePatterns.put(pattern.acTrace, pattern);
+		acReferencePatterns.put(pattern.getACTrace(), pattern);
 	}
 	
 	/**
@@ -180,8 +180,8 @@ public class TransformationPatterns {
 	 *            The new {@link ACExtensionPattern}.
 	 */
 	public void addACExtension(ACExtensionPattern pattern) {
-		acExtensionPatterns_lhsBoundary.put(pattern.lhsBoundrayTrace, pattern);
-		acExtensionPatterns_acBoundary.put(pattern.acBoundaryTrace, pattern);
+		acExtensionPatterns_lhsBoundary.put(pattern.getLHSBoundrayTrace(), pattern);
+		acExtensionPatterns_acBoundary.put(pattern.getACBoundaryTrace(), pattern);
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class TransformationPatterns {
 	 *            The new {@link ACBoundaryNodePattern}.
 	 */
 	public void addACBoundaryNodePattern(ACBoundaryNodePattern pattern) {
-		acBoundaryNodePatterns.put(pattern.acBoundaryTrace, pattern);
+		acBoundaryNodePatterns.put(pattern.getACBoundaryTrace(), pattern);
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class TransformationPatterns {
 	 *            The new {@link AttributeValueChangePattern}.
 	 */
 	public void addAttributeValueChangePattern(AttributeValueChangePattern pattern) {
-		attributeValueChangePatterns.put(pattern.trace, pattern);
+		attributeValueChangePatterns.put(pattern.getTrace(), pattern);
 	}
 	
 	/*
@@ -220,13 +220,13 @@ public class TransformationPatterns {
 		CorrespondencePattern correspondencePattern = getCorrespondecePattern(editRuleNode);
 		
 		if (correspondencePattern != null) {
-			return correspondencePattern.nodeA;
+			return correspondencePattern.getNodeA();
 		}
 		
 		RemoveObjectPattern removeObjectPattern = getRemoveObjectPattern(editRuleNode);
 		
 		if (removeObjectPattern != null) {
-			return removeObjectPattern.nodeA;
+			return removeObjectPattern.getNodeA();
 		}
 		
 		return null;
@@ -244,13 +244,13 @@ public class TransformationPatterns {
 		CorrespondencePattern correspondencePattern = getCorrespondecePattern(editRuleNode);
 		
 		if (correspondencePattern != null) {
-			return correspondencePattern.nodeB;
+			return correspondencePattern.getNodeB();
 		}
 		
 		AddObjectPattern addObjectPattern = getAddObjectPattern(editRuleNode);
 		
 		if (addObjectPattern != null) {
-			return addObjectPattern.nodeB;
+			return addObjectPattern.getNodeB();
 		}
 		
 		return null;
@@ -271,7 +271,7 @@ public class TransformationPatterns {
 		ACBoundaryNodePattern acBoundaryNodePattern = acBoundaryNodePatterns.get(editRuleACNode);
 		
 		if (acBoundaryNodePattern != null) {
-			return acBoundaryNodePattern.acBoundaryNode;
+			return acBoundaryNodePattern.getACBoundaryNode();
 		}
 		
 		return null;

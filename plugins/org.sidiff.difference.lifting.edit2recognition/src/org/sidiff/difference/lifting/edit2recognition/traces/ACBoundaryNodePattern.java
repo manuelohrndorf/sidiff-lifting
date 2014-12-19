@@ -16,12 +16,12 @@ public class ACBoundaryNodePattern {
 	/**
 	 * The nested Recognition-Rule AC boundary node.
 	 */
-	public Node acBoundaryNode;
+	private Node acBoundaryNode;
 	
 	/**
 	 * The nested Edit-Rule AC boundary node.
 	 */
-	public Node acBoundaryTrace;
+	private Node acBoundaryTrace;
 
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for an application condition (AC) boundary
@@ -41,5 +41,19 @@ public class ACBoundaryNodePattern {
 		
 		this.acBoundaryNode = acBoundaryNode;
 		this.acBoundaryTrace = acBoundaryTrace;
+	}
+
+	/**
+	 * @return The {@link ACBoundaryNodePattern#acBoundaryNode}
+	 */
+	public Node getACBoundaryNode() {
+		return acBoundaryNode;
+	}
+
+	/**
+	 * @return The {@link ACBoundaryNodePattern#acBoundaryTrace}
+	 */
+	public Node getACBoundaryTrace() {
+		return acBoundaryTrace;
 	}
 }

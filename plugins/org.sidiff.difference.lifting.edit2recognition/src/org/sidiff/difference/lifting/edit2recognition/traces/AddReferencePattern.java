@@ -17,22 +17,22 @@ public class AddReferencePattern {
 	/**
 	 * The Recognition-Rule Add-Reference (low-level difference) node.
 	 */
-	public NodePair addReference;
+	private NodePair addReference;
 	
 	/**
 	 * The Recognition-Rule node which indicates the type of the added reference.
 	 */
-	public NodePair typeNode;
+	private NodePair typeNode;
 	
 	/**
 	 * The Recognition-Rule model B edge (representing the traced edge).
 	 */
-	public EdgePair edgeB;
+	private EdgePair edgeB;
 	
 	/**
 	 * The << create >> Edit-Rule edge.
 	 */
-	public Edge trace;
+	private Edge trace;
 	
 	/**
 	 * Creates a new (Edit- to Recognition-Rule) trace for the pattern that recognizes an add
@@ -54,4 +54,33 @@ public class AddReferencePattern {
 		this.edgeB = edgeB;
 		this.trace = trace;
 	}
+	
+	/**
+	 * @return The {@link AddReferencePattern#addReference}
+	 */
+	public NodePair getAddReference() {
+		return addReference;
+	}
+	
+	/**
+	 * @return The {@link AddReferencePattern#typeNode}
+	 */
+	public NodePair getTypeNode() {
+		return typeNode;
+	}
+	
+	/**
+	 * @return The {@link AddReferencePattern#edgeB}
+	 */
+	public EdgePair getEdgeB() {
+		return edgeB;
+	}
+	
+	/**
+	 * @return The {@link AddReferencePattern#trace}
+	 */
+	public Edge getTrace() {
+		return trace;
+	}
+	
 }
