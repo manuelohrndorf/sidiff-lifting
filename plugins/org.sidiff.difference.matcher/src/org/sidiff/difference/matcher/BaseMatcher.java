@@ -1,15 +1,8 @@
 package org.sidiff.difference.matcher;
 
-import java.util.Set;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.symmetric.Correspondence;
-import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
@@ -18,58 +11,10 @@ import org.silift.common.util.emf.Scope;
  * subclass this basic matcher and provide a specific implementation for method
  * {@link BaseMatcher#isCorresponding(EObject, EObject)}
  */
-public abstract class BaseMatcher implements IMatcher {
-
-	/**
-	 * The difference which will contain the matching.
-	 */
-	private SymmetricDifference matching;
-
-	/**
-	 * The A version of the model.
-	 */
-	private Resource modelA;
-
-	/**
-	 * The B version of the model.
-	 */
-	private Resource modelB;
-
-	/**
-	 * RESOURCE or RESOURCE_SET
-	 */
-	private Scope scope;
+public abstract class BaseMatcher extends AbstractMatcher {
 
 	@Override
-	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
-			boolean calculateReliability) {
-
-		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		matching.setUriModelA(modelA.getURI().toString());
-		matching.setUriModelB(modelB.getURI().toString());
-
-		addMatches(modelA, modelB, matching, scope, calculateReliability);
-
-		return matching;
-	}
-
-	@Override
-	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
-			boolean calculateReliability) {
-
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "-------------------------- ADD MATCHES ---------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "Matcher: " + getClass().getSimpleName());
-		LogUtil.log(LogEvent.NOTICE, "Model A: " + modelA);
-		LogUtil.log(LogEvent.NOTICE, "Model B: " + modelB);
-		LogUtil.log(LogEvent.NOTICE, "Scope: " + scope);
-
-		this.modelA = modelA;
-		this.modelB = modelB;
-		this.matching = matching;
-		this.scope = scope;
-
+	protected void compareResources(){
 		if (scope == Scope.RESOURCE_SET) {
 			// Include all ResourceSets A for matching
 			for (Resource r : modelA.getResourceSet().getResources()) {
@@ -80,32 +25,7 @@ public abstract class BaseMatcher implements IMatcher {
 			traverseResourceA(modelA);
 		}
 	}
-
-	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
-		// generic matchers can handle every model
-		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)) {
-			return true;
-		}
-
-		if (isResourceSetCapable()) {
-			Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE_SET);
-			Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, Scope.RESOURCE_SET);
-
-			return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
-		} else {
-			String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-			String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(modelB);
-
-			return docTypeA.equals(getDocumentType()) && docTypeB.equals(getDocumentType());
-		}
-	}
-
-	@Override
-	public boolean isResourceSetCapable() {
-		return true;
-	}
-
+	
 	private void traverseResourceA(Resource resourceA) {
 		EObject elementA = null;
 		TreeIterator<EObject> iterA = resourceA.getAllContents();
@@ -177,42 +97,5 @@ public abstract class BaseMatcher implements IMatcher {
 	 */
 	protected abstract boolean isCorresponding(EObject elementA, EObject elementB);
 
-	/**
-	 * Check if a correspondence for this object (already) exists.
-	 * 
-	 * @param obj
-	 *            the object to test.
-	 * @return true if the object belongs to a correspondence; false otherwise.
-	 */
-	protected boolean isCorresponding(EObject obj) {
-		for (Correspondence c : matching.getCorrespondences()) {
-			if (c.getObjA() == obj | c.getObjB() == obj) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return the difference which will contain the matching.
-	 */
-	protected SymmetricDifference getDifference() {
-		return matching;
-	}
-
-	/**
-	 * @return the A version of the model.
-	 */
-	protected Resource getModelA() {
-		return modelA;
-	}
-
-	/**
-	 * @return the B version of the model.
-	 */
-	protected Resource getModelB() {
-		return modelB;
-	}
 
 }
