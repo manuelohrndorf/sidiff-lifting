@@ -34,7 +34,7 @@ public class NamedElementMatcher extends BaseMatcher {
 		}
 
 		// None of the elements must be already in a correspondence
-		if (isCorresponding(elementA) || isCorresponding(elementB)) {
+		if (hasCorrespondence(elementA) || hasCorrespondence(elementB)) {
 			return false;
 		}
 

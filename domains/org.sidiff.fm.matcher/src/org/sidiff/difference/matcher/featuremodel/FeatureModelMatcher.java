@@ -41,7 +41,7 @@ public class FeatureModelMatcher extends BaseMatcher {
 		assert (elementA != null && elementB != null) : "One of the elements to check for correspondence is null!";		
 		
 		// None of the elements must be already in a correspondence
-		if (isCorresponding(elementA) || isCorresponding(elementB)) {
+		if (hasCorrespondence(elementA) || hasCorrespondence(elementB)) {
 			return false;
 		}
 		
@@ -64,7 +64,7 @@ public class FeatureModelMatcher extends BaseMatcher {
 			RequireConstraint rcB = (RequireConstraint) elementB;
 			
 			// Note:This could be done better through ordered comparisons
-			// 		as we then could ask isCorresponding(). But 
+			// 		as we then could ask hasCorrespondence(). But 
 			// 		we can not guarantee that the Features have been matched beforehand.
 			if(isSameEcoreID(rcA.getFeature(),rcB.getFeature())
 					&& isSameEcoreID(rcA.getRequiredFeature(),rcB.getRequiredFeature())){
@@ -80,7 +80,7 @@ public class FeatureModelMatcher extends BaseMatcher {
 			ExcludeConstraint ecB = (ExcludeConstraint) elementB;
 
 			// Note:This could be done better through ordered comparisons
-			// 		as we then could ask isCorresponding(). But 
+			// 		as we then could ask hasCorrespondence(). But 
 			// 		we can not guarantee that the Features have been matched beforehand.
 			if(isSameEcoreID(ecA.getExcludedFeatureA(), ecB.getExcludedFeatureA()) 
 					&& isSameEcoreID(ecA.getExcludedFeatureB(),	ecB.getExcludedFeatureB())){
