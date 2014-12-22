@@ -36,7 +36,7 @@ public class EcoreIDMatcher extends BaseMatcher {
 		assert (elementA != null && elementB != null) : "One of the elements to check for correspondence is null!";
 
 		// None of the elements must be already in a correspondence
-		if (isCorresponding(elementA) || isCorresponding(elementB)) {
+		if (hasCorrespondence(elementA) || hasCorrespondence(elementB)) {
 			return false;
 		}
 
