@@ -12,6 +12,15 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
+/**
+ * An abstract implementation of the IMatcher interface.
+ * A subclass has to implement the methods {@link #compareResources()},
+ * {@link #getDocumentType()}, {@link #canHandle(Resource, Resource)}
+ * and {@link #canComputeReliability()}.
+ * 
+ *@author cpietsch
+ *
+ */
 public abstract class AbstractMatcher implements IMatcher {
 
 	/**
@@ -116,12 +125,6 @@ public abstract class AbstractMatcher implements IMatcher {
 		}
 
 		return false;
-	}
-
-	@Override
-	public String getDocumentType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

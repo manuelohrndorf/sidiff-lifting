@@ -11,6 +11,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.silift.common.util.emf.Scope;
 
 /**
+ * An abstract signature based matcher.
+ * A subclass has to implement the method {@link #calculateSignature(EObject)},
+ * {@link #getDocumentType()}, {@link #canHandle(Resource, Resource)} and 
+ * {@link #canComputeReliability()}
  * 
  * @author cpietsch
  *
