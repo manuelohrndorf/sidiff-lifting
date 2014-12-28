@@ -2,9 +2,7 @@ package org.sidiff.difference.matcher.featuremodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.ExcludeConstraint;
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModel;
