@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Z73YINlCEeKomu7rfXwhHg" name="pull_up_eattribute" description="Moves an EAttribute of all subclasses to the superclass.">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Z-q0o9lCEeKomu7rfXwhHg" name="pull_up_EAttribute">
+  <units xsi:type="henshin:Rule" xmi:id="_Z-q0o9lCEeKomu7rfXwhHg" name="pull_up_EAttribute" checkDangling="false">
     <parameters xmi:id="_Z-q0pNlCEeKomu7rfXwhHg" name="kernel_selectedEAttribute"/>
+    <parameters xmi:id="_GWO0EHGjEeS3UdXb9HN4MQ" name="eAttributeName"/>
     <parameters xmi:id="_Z-q0pdlCEeKomu7rfXwhHg" name="kernel_superEClass"/>
     <lhs xmi:id="_Z-q0ptlCEeKomu7rfXwhHg" name="LHS">
       <nodes xmi:id="_Z-q0p9lCEeKomu7rfXwhHg" name="kernel_selectedEAttribute" incoming="_Z-q0q9lCEeKomu7rfXwhHg" outgoing="_Z-q0rdlCEeKomu7rfXwhHg _Z-q0rtlCEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_zcZnUHGiEeS3UdXb9HN4MQ" value="eAttributeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Z-q0qNlCEeKomu7rfXwhHg" name="kernel_subClass" incoming="_Z-q0rdlCEeKomu7rfXwhHg" outgoing="_Z-q0q9lCEeKomu7rfXwhHg _Z-q0rNlCEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -33,6 +37,9 @@
     <rhs xmi:id="_Z-q0r9lCEeKomu7rfXwhHg" name="RHS">
       <nodes xmi:id="_Z-q0sNlCEeKomu7rfXwhHg" name="kernel_selectedEAttribute" incoming="_Z-q0tNlCEeKomu7rfXwhHg" outgoing="_Z-q0ttlCEeKomu7rfXwhHg _ilfJIOmEEeKYreIym4Zk3g">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_zcg8EHGiEeS3UdXb9HN4MQ" value="eAttributeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Z-q0sdlCEeKomu7rfXwhHg" name="kernel_subClass" outgoing="_Z-q0tdlCEeKomu7rfXwhHg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -79,7 +86,7 @@
         </nodes>
         <nodes xmi:id="_Z-q0iNlCEeKomu7rfXwhHg" name="multi_multiObjEAttribute" incoming="_Z-q0jdlCEeKomu7rfXwhHg" outgoing="_Z-q0j9lCEeKomu7rfXwhHg _Z-q0kdlCEeKomu7rfXwhHg">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
-          <attributes xmi:id="_Z-q0idlCEeKomu7rfXwhHg" value="multi_eAttributeName">
+          <attributes xmi:id="_Z-q0idlCEeKomu7rfXwhHg" value="eAttributeName">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
           </attributes>
         </nodes>
