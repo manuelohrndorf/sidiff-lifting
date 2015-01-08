@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="symmetricprofiled" nsURI="http://www.sidiff.org/difference/symmetricprofiled/1.0"
+    nsPrefix="symmetricprofiled">
+  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSD">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profiledscss" upperBound="-1"
+        eType="#//ProfiledSCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sd" lowerBound="1" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unprofiledscss" upperBound="-1"
+        eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scs" lowerBound="1" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appliedStereotypes" lowerBound="1"
+        upperBound="-1" eType="#//AppliedStereotype" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AppliedStereotype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stereoType" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseObject" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseReference" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profile" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
+  </eClassifiers>
+</ecore:EPackage>
