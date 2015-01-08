@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -22,6 +23,7 @@ import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
@@ -35,9 +37,12 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	private SortedMap<String, ITechnicalDifferenceBuilder> builders;
 	private Composite container;
 	private List list_builders;
+	
+	private boolean multiSelection;
 
 	public DifferenceBuilderWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
+		multiSelection = inputModels.getDocumentTypes().size()>1? true: false;
 		getBuilders();
 	}
 
@@ -59,7 +64,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		Label tdbLabel = new Label(container, SWT.NONE);
 		tdbLabel.setText("Technical Difference Builder:");
 
-		list_builders = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		list_builders = new List(container, multiSelection? SWT.MULTI : SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			data.heightHint = 70;
@@ -100,7 +105,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 
 		// Search registered matcher extension points
 		Set<ITechnicalDifferenceBuilder> builderSet = LiftingFacade
-				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentType());
+				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentTypes());
 
 		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {
 			ITechnicalDifferenceBuilder builder = iterator.next();
@@ -110,7 +115,16 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 
 	public ITechnicalDifferenceBuilder getSelection() {
 		if (validate()) {
-			return builders.get(list_builders.getSelection()[0]);
+			if(list_builders.getSelection().length > 1){
+				ArrayList<ITechnicalDifferenceBuilder> tecBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
+				for(String key : list_builders.getSelection()){
+					tecBuilders.add(builders.get(key));
+				}
+				IncrementalTechnicalDifferenceBuilder incBuilder = new IncrementalTechnicalDifferenceBuilder(tecBuilders);
+				return incBuilder;
+			}else{
+				return builders.get(list_builders.getSelection()[0]);
+			}
 		} else {
 			return null;
 		}

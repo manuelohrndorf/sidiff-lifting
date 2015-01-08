@@ -1,5 +1,7 @@
 package org.sidiff.difference.lifting.ui.handler;
 
+import java.util.Set;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -17,6 +19,7 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.ui.wizard.CreateDifferenceWizard;
 import org.sidiff.difference.lifting.ui.wizard.CreateLiftingWizard;
 import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.emf.Scope;
 
 public class LiftDifferenceHandler extends AbstractHandler {
 
@@ -53,8 +56,8 @@ public class LiftDifferenceHandler extends AbstractHandler {
 						IFile fileB = (IFile) selection.toArray()[1];
 						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
 						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-						String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
-						String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+						Set<String> docTypeA = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+						Set<String> docTypeB = EMFModelAccessEx.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
 						if (docTypeA.equals(docTypeB)){
 
 							// Create a new difference:

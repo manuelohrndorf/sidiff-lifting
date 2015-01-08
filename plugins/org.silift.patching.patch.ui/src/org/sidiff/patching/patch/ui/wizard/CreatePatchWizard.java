@@ -44,7 +44,7 @@ public class CreatePatchWizard extends Wizard {
 		this.setWindowTitle("New Patch Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
-		settings = new LiftingSettings(inputModels.getDocumentType());
+		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
 	}

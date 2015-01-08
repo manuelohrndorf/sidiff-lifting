@@ -44,7 +44,7 @@ public class CreateDifferenceWizard extends Wizard {
 		this.setWindowTitle("New Symmetric Difference Wizard");
 
 		inputModels = new InputModels(fileA, fileB);
-		settings = new LiftingSettings(inputModels.getDocumentType());
+		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 		diffSavePath = fileA.getParent().getLocation().toOSString();
 	}
 

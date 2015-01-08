@@ -227,7 +227,7 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 	private void getRulebasesEntries() {
 		// Search registered rulebase extension points
 		Set<IRuleBase> rulebaseInstances = LiftingFacade.getAvailableRulebases(
-				inputModels.getDocumentType());
+				inputModels.getDocumentTypes());
 
 		// Create rulebase list for table viewer
 		rulebases = new LinkedList<RuleBaseEntry>();

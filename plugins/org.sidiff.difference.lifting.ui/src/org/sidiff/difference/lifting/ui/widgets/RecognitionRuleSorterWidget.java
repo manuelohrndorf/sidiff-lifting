@@ -99,7 +99,7 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 		sorters = new TreeMap<String, IRecognitionRuleSorter>();
 
 		// Search registered sorter extension points
-		Set<IRecognitionRuleSorter> sorterSet = LiftingFacade.getAvailableRecognitionRuleSorters(inputModels.getDocumentType());
+		Set<IRecognitionRuleSorter> sorterSet = LiftingFacade.getAvailableRecognitionRuleSorters(inputModels.getCharacteristicDocumentType());
 
 		for (Iterator<IRecognitionRuleSorter> iterator = sorterSet.iterator(); iterator.hasNext();) {
 			IRecognitionRuleSorter sorter = iterator.next();

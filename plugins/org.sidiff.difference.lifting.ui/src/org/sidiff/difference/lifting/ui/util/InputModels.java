@@ -1,5 +1,7 @@
 package org.sidiff.difference.lifting.ui.util;
 
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -7,6 +9,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.emf.Scope;
 
 public class InputModels {
 	private IFile fileA;
@@ -16,6 +19,7 @@ public class InputModels {
 	private Resource resourceB;
 
 	private String documentType;
+	private Set<String> documentTypes;
 
 	public InputModels(IFile fileA, IFile fileB) {
 		this.fileA = fileA;
@@ -77,11 +81,19 @@ public class InputModels {
 		return resourceB;
 	}
 
-	public String getDocumentType() {
+	public String getCharacteristicDocumentType() {
 		if (documentType == null) {
 			documentType = EMFModelAccessEx.getCharacteristicDocumentType(getResourceA());
 		}
 
 		return documentType;
+	}
+	
+	public Set<String> getDocumentTypes(){
+		if(documentTypes == null){
+			documentTypes = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+		}
+		
+		return documentTypes;
 	}
 }

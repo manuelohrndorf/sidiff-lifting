@@ -39,7 +39,7 @@ public class CreateLiftingWizard extends Wizard{
 		diffSavePath = differenceFile.getParent().getLocation().toOSString() ;
 
 		inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
-		settings = new LiftingSettings(inputModels.getDocumentType());
+		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 	}
 
 

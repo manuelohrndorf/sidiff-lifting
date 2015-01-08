@@ -2,6 +2,7 @@ package org.sidiff.difference.lifting.facade.util;
 
 import java.io.File;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -72,6 +73,24 @@ public class PipelineUtils {
 	 */
 	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType) {
 		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilder(documentType);
+	}
+	
+	/**
+	 * Find all available technical difference builders matching the given
+	 * document types.
+	 * 
+	 * @param documentTypes
+	 *            The document types, i.e. the package namespace URI of a model. There can be more than one.
+	 * @return All available technical difference builders matching the given
+	 *         document types.
+	 * @see #getAvailableTechnicalDifferenceBuilders(String)
+	 */
+	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
+		Set<ITechnicalDifferenceBuilder> builders = new HashSet<ITechnicalDifferenceBuilder>();
+		for(String documentType : documentTypes){
+			builders.addAll(getAvailableTechnicalDifferenceBuilders(documentType));
+		}
+		return builders;
 	}
 
 	/**
