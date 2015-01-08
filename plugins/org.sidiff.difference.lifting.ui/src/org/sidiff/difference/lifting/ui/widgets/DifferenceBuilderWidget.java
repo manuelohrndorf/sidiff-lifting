@@ -73,7 +73,23 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.setItems(builders.keySet().toArray(new String[0]));
 
 		if(list_builders.getItems().length != 0){
-			list_builders.select(0);
+			if(multiSelection){
+				for(String docType : inputModels.getDocumentTypes()){
+					for(ITechnicalDifferenceBuilder builder : builders.values()){
+						if(builder.getDocumentType().equals(docType)){
+							for(int i = 0; i < list_builders.getItems().length; i++){
+								if(list_builders.getItem(i).equals(builder.getName())){
+									list_builders.select(i);
+									break;
+								}
+							}
+							break;
+						}
+					}
+				}
+			}else{
+				list_builders.select(0);
+			}
 		}else{
 			MessageDialog.openError(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
