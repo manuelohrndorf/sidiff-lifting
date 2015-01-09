@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -22,6 +23,7 @@ import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
+import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
@@ -39,10 +41,12 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	private List list_builders;
 	
 	private boolean multiSelection;
+	private boolean useGeneric;
 
 	public DifferenceBuilderWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
 		multiSelection = inputModels.getDocumentTypes().size()>1? true: false;
+		useGeneric = false;
 		getBuilders();
 	}
 
@@ -64,7 +68,8 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		Label tdbLabel = new Label(container, SWT.NONE);
 		tdbLabel.setText("Technical Difference Builder:");
 
-		list_builders = new List(container, multiSelection? SWT.MULTI : SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+		int swtSelection = multiSelection? SWT.MULTI : SWT.SINGLE;
+		list_builders = new List(container, swtSelection | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			data.heightHint = 70;
@@ -125,13 +130,14 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 
 		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {
 			ITechnicalDifferenceBuilder builder = iterator.next();
+			if(builder instanceof GenericTechnicalDifferenceBuilder) useGeneric = true;
 			builders.put(builder.getName(), builder);
 		}
 	}
 
 	public ITechnicalDifferenceBuilder getSelection() {
-		if (validate()) {
-			if(list_builders.getSelection().length > 1){
+		//if (validate()) {
+			if(list_builders.getSelectionCount() > 1){
 				ArrayList<ITechnicalDifferenceBuilder> tecBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
 				for(String key : list_builders.getSelection()){
 					tecBuilders.add(builders.get(key));
@@ -141,9 +147,9 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 			}else{
 				return builders.get(list_builders.getSelection()[0]);
 			}
-		} else {
-			return null;
-		}
+//		} else {
+//			return null;
+//		}
 	}
 
 	public SortedMap<String, ITechnicalDifferenceBuilder> getDifferenceBuilders() {
@@ -153,6 +159,21 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	@Override
 	public boolean validate() {
 		if (list_builders.getSelectionIndex() != -1) {
+			if(multiSelection){
+				Set<String> supportedDocTypes = new HashSet<String>();
+				for(String s : list_builders.getSelection()){
+					ITechnicalDifferenceBuilder builder = builders.get(s);
+					supportedDocTypes.add(builder.getDocumentType());
+				}
+				
+				if(!useGeneric){
+					for(String docType : inputModels.getDocumentTypes()){
+						if(!supportedDocTypes.contains(docType)){
+							return false;
+						}
+					}
+				}
+			}
 			return true;
 		} else {
 			return false;
@@ -164,6 +185,9 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		if (validate()) {
 			return "";
 		} else {
+			if(multiSelection){
+				return "Please select a technical difference builder for every document type!";
+			}
 			return "Please select a technical difference builder!";
 		}
 	}
