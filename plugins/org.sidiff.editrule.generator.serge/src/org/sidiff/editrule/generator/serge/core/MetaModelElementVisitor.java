@@ -15,12 +15,6 @@ import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**
- * Todo-List for Reintegration:
- * 
- * - ProfileModelIntegration
- * - more detailed comment in filter identical / filter duplicates
- * - more detailed comments to when rule might not be executable in ExecutionChecker
- * - remove all the deprecated marks, old classes, old todos/fixmes
  * 
  * @author mrindt
  *

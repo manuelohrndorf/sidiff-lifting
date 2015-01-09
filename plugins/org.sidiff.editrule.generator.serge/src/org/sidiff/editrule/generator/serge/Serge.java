@@ -2,11 +2,6 @@ package org.sidiff.editrule.generator.serge;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -43,6 +38,27 @@ import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.types.OperationType;
 
+
+/** Todo-List :
+* 
+* - make monitors cancel-able
+* - InverseMapping can't be saved anymore due to path setting changes, fix this.
+* - XML-Config should be cleaned up (so does the Configuration Parser)
+* - more detailed comment in filter identical / filter duplicates
+* - more detailed comments to when rule might not be executable in ExecutionChecker
+* - remove all the deprecated marks, old classes, old todos/fixmes
+* - ProfileModelIntegration: generate APPLY_STEREOTYPE, DETACH_STEREOTYPE modules:
+* This requires:
+* --> new OperationTypes in the org.sidiff.editrule.generator.types-plugin
+* --> new actions classes in the "..generator.actions"-package
+* --> respective action calls in GenerationActionDelegator ("..serge.core"-package)
+* --> respective delegator calls in MetaModelElementVisitor ("..serge.core"-package) 
+*        and mappings in getAllModules() method
+* --> further case-distinctions in ElementFilter ("..serge.filter"-package)
+*        inside the methods isAllowedAsModuleBasis() and isAllowedAsDangling() to let them
+*        allow the generation of APPlY_STEREOTYPE / DETACH_STEREOTYPE modules in case of profile
+*        usage and stereotype consideration.
+*/
 public class Serge implements IEditRuleGenerator{
 
 	/**
