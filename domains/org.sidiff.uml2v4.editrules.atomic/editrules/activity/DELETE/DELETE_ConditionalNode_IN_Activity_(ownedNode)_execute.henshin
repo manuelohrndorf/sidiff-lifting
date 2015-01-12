@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l1hSQJpwEeSHctBnTKrNNw" name="DELETE_ConditionalNode_IN_Activity_(ownedNode)" description="Deletes one ConditionalNode in Activity">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l1hSQZpwEeSHctBnTKrNNw" name="deleteConditionalNode_IN_Activity" description="deletes one ConditionalNode in the context: Activity">
+    <parameters xmi:id="_l1hSQppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l1hSQ5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+    </parameters>
+    <lhs xmi:id="_l1hSRJpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l1hSRZpwEeSHctBnTKrNNw" name="Selected" outgoing="_l1hSR5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l1hSRppwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l1hSR5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+      </nodes>
+      <edges xmi:id="_l1hSR5pwEeSHctBnTKrNNw" source="_l1hSRZpwEeSHctBnTKrNNw" target="_l1hSRppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l1hSSJpwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l1hSSZpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l1hSSppwEeSHctBnTKrNNw" origin="_l1hSRZpwEeSHctBnTKrNNw" image="_l1hSSZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l1hSS5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l1hSQZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l1hSTJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l1hSTZpwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+    </parameters>
+    <parameterMappings xmi:id="_l1hSTppwEeSHctBnTKrNNw" source="_l1hSTJpwEeSHctBnTKrNNw" target="_l1hSQppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1hST5pwEeSHctBnTKrNNw" source="_l1hSTZpwEeSHctBnTKrNNw" target="_l1hSQ5pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

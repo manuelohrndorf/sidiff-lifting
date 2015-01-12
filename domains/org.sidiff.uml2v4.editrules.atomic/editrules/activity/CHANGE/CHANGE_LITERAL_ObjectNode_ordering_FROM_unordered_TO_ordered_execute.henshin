@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l9HIAJpwEeSHctBnTKrNNw" name="CHANGE_LITERAL_ObjectNode_ordering_FROM_unordered_TO_ordered" description="Changes the attribute value of ordering_FROM_unordered_TO_ordered">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l9HIAZpwEeSHctBnTKrNNw" name="changeObjectNodeOrdering_FROM_Unordered_TO_ordered" description="Changes the attribute value of ordering_FROM_unordered_TO_ordered">
+    <parameters xmi:id="_l9HIAppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l9HIA5pwEeSHctBnTKrNNw" name="&quot;unordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l9HIBJpwEeSHctBnTKrNNw" name="&quot;ordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <lhs xmi:id="_l9HIBZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l9HIBppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l9HIB5pwEeSHctBnTKrNNw" value="&quot;unordered&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l9HICJpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l9HICZpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l9HICppwEeSHctBnTKrNNw" value="&quot;ordered&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l9HIC5pwEeSHctBnTKrNNw" origin="_l9HIBppwEeSHctBnTKrNNw" image="_l9HICZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l9HIDJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l9HIAZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l9HIDZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l9HIDppwEeSHctBnTKrNNw" name="&quot;unordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l9HID5pwEeSHctBnTKrNNw" name="&quot;ordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_l9HIEJpwEeSHctBnTKrNNw" source="_l9HIDZpwEeSHctBnTKrNNw" target="_l9HIAppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9HIEZpwEeSHctBnTKrNNw" source="_l9HIDppwEeSHctBnTKrNNw" target="_l9HIA5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9HIEppwEeSHctBnTKrNNw" source="_l9HID5pwEeSHctBnTKrNNw" target="_l9HIBJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

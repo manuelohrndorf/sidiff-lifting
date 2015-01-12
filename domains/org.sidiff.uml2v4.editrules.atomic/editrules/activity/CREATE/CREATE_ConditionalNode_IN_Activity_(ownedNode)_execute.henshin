@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l4nCgJpwEeSHctBnTKrNNw" name="CREATE_ConditionalNode_IN_Activity_(ownedNode)" description="Creates one ConditionalNode in Activity">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l4nCgZpwEeSHctBnTKrNNw" name="createConditionalNode_IN_Activity" description="creates one ConditionalNode in the context: Activity">
+    <parameters xmi:id="_l4nCgppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l4nCg5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+    </parameters>
+    <parameters xmi:id="_l4nChJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nChZpwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nChppwEeSHctBnTKrNNw" name="MustIsolate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCh5pwEeSHctBnTKrNNw" name="IsAssured">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCiJpwEeSHctBnTKrNNw" name="IsDeterminate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_l4nCiZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l4nCippwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l4nCi5pwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l4nCjJpwEeSHctBnTKrNNw" name="Selected" outgoing="_l4nCk5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l4nCjZpwEeSHctBnTKrNNw" name="New" incoming="_l4nCk5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+        <attributes xmi:id="_l4nCjppwEeSHctBnTKrNNw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_l4nCj5pwEeSHctBnTKrNNw" value="IsLocallyReentrant">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Action/isLocallyReentrant"/>
+        </attributes>
+        <attributes xmi:id="_l4nCkJpwEeSHctBnTKrNNw" value="MustIsolate">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode/mustIsolate"/>
+        </attributes>
+        <attributes xmi:id="_l4nCkZpwEeSHctBnTKrNNw" value="IsAssured">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode/isAssured"/>
+        </attributes>
+        <attributes xmi:id="_l4nCkppwEeSHctBnTKrNNw" value="IsDeterminate">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode/isDeterminate"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_l4nCk5pwEeSHctBnTKrNNw" source="_l4nCjJpwEeSHctBnTKrNNw" target="_l4nCjZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l4nClJpwEeSHctBnTKrNNw" origin="_l4nCippwEeSHctBnTKrNNw" image="_l4nCjJpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l4nClZpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l4nCgZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l4nClppwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l4nCl5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConditionalNode"/>
+    </parameters>
+    <parameters xmi:id="_l4nCmJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCmZpwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCmppwEeSHctBnTKrNNw" name="MustIsolate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCm5pwEeSHctBnTKrNNw" name="IsAssured">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l4nCnJpwEeSHctBnTKrNNw" name="IsDeterminate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_l4nCnZpwEeSHctBnTKrNNw" source="_l4nClppwEeSHctBnTKrNNw" target="_l4nCgppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCnppwEeSHctBnTKrNNw" source="_l4nCg5pwEeSHctBnTKrNNw" target="_l4nCl5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCn5pwEeSHctBnTKrNNw" source="_l4nCmJpwEeSHctBnTKrNNw" target="_l4nChJpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCoJpwEeSHctBnTKrNNw" source="_l4nCmZpwEeSHctBnTKrNNw" target="_l4nChZpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCoZpwEeSHctBnTKrNNw" source="_l4nCmppwEeSHctBnTKrNNw" target="_l4nChppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCoppwEeSHctBnTKrNNw" source="_l4nCm5pwEeSHctBnTKrNNw" target="_l4nCh5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4nCo5pwEeSHctBnTKrNNw" source="_l4nCnJpwEeSHctBnTKrNNw" target="_l4nCiJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l3SM0JpwEeSHctBnTKrNNw" name="SET_ATTRIBUTE_ExpansionRegion_Mode" description="Sets ExpansionRegion Mode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l3SM0ZpwEeSHctBnTKrNNw" name="setExpansionRegionMode" description="Sets the EAttribute mode">
+    <parameters xmi:id="_l3SM0ppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+    </parameters>
+    <parameters xmi:id="_l3SM05pwEeSHctBnTKrNNw" name="Mode">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionKind"/>
+    </parameters>
+    <lhs xmi:id="_l3SM1JpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l3SM1ZpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l3SM1ppwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l3SM15pwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+        <attributes xmi:id="_l3SM2JpwEeSHctBnTKrNNw" value="Mode">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion/mode"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l3SM2ZpwEeSHctBnTKrNNw" origin="_l3SM1ZpwEeSHctBnTKrNNw" image="_l3SM15pwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l3SM2ppwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l3SM0ZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l3SM25pwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+    </parameters>
+    <parameters xmi:id="_l3SM3JpwEeSHctBnTKrNNw" name="Mode">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_l3SM3ZpwEeSHctBnTKrNNw" source="_l3SM25pwEeSHctBnTKrNNw" target="_l3SM0ppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l3SM3ppwEeSHctBnTKrNNw" source="_l3SM3JpwEeSHctBnTKrNNw" target="_l3SM05pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

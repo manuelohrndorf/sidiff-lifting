@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l9kbAJpwEeSHctBnTKrNNw" name="CREATE_ReadSelfAction_IN_SequenceNode_(executableNode)" description="Creates one ReadSelfAction in SequenceNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l9kbAZpwEeSHctBnTKrNNw" name="createReadSelfAction_IN_SequenceNode" description="creates one ReadSelfAction in the context: SequenceNode">
+    <parameters xmi:id="_l9kbAppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l9kbA5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ReadSelfAction"/>
+    </parameters>
+    <parameters xmi:id="_l9lCEJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l9lCEZpwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_l9lCEppwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l9lCE5pwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l9lCFJpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l9lCFZpwEeSHctBnTKrNNw" name="Selected" outgoing="_l9lCGZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l9lCFppwEeSHctBnTKrNNw" name="New" incoming="_l9lCGZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ReadSelfAction"/>
+        <attributes xmi:id="_l9lCF5pwEeSHctBnTKrNNw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_l9lCGJpwEeSHctBnTKrNNw" value="IsLocallyReentrant">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Action/isLocallyReentrant"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_l9lCGZpwEeSHctBnTKrNNw" source="_l9lCFZpwEeSHctBnTKrNNw" target="_l9lCFppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode/executableNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l9lCGppwEeSHctBnTKrNNw" origin="_l9lCE5pwEeSHctBnTKrNNw" image="_l9lCFZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l9lCG5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l9kbAZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l9lCHJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l9lCHZpwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ReadSelfAction"/>
+    </parameters>
+    <parameters xmi:id="_l9lCHppwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l9lCH5pwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_l9lCIJpwEeSHctBnTKrNNw" source="_l9lCHJpwEeSHctBnTKrNNw" target="_l9kbAppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9lCIZpwEeSHctBnTKrNNw" source="_l9kbA5pwEeSHctBnTKrNNw" target="_l9lCHZpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9lCIppwEeSHctBnTKrNNw" source="_l9lCHppwEeSHctBnTKrNNw" target="_l9lCEJpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9lCI5pwEeSHctBnTKrNNw" source="_l9lCH5pwEeSHctBnTKrNNw" target="_l9lCEZpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

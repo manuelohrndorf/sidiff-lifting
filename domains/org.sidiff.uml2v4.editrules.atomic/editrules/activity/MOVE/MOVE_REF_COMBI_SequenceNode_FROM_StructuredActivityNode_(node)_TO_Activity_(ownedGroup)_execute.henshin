@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l85soJpwEeSHctBnTKrNNw" name="MOVE_REF_COMBI_SequenceNode_FROM_StructuredActivityNode_(node)_TO_Activity_(ownedGroup)" description="MOVEs SequenceNode from StructuredActivityNode(Reference:node) to Activity(Reference:ownedGroup">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l85soZpwEeSHctBnTKrNNw" name="moveSequenceNode_FROM_StructuredActivityNode_node_TO_Activity_Activity" description="Moves SequenceNode from StructuredActivityNode(Reference:node) toActivity(Reference:Activity)">
+    <parameters xmi:id="_l85soppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l85so5pwEeSHctBnTKrNNw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l85spJpwEeSHctBnTKrNNw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <lhs xmi:id="_l85spZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l85spppwEeSHctBnTKrNNw" name="Selected" incoming="_l85sqZpwEeSHctBnTKrNNw" outgoing="_l85sqppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l85sp5pwEeSHctBnTKrNNw" name="OldSource" incoming="_l85sqppwEeSHctBnTKrNNw" outgoing="_l85sqZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <nodes xmi:id="_l85sqJpwEeSHctBnTKrNNw" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <edges xmi:id="_l85sqZpwEeSHctBnTKrNNw" source="_l85sp5pwEeSHctBnTKrNNw" target="_l85spppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode/node"/>
+      </edges>
+      <edges xmi:id="_l85sqppwEeSHctBnTKrNNw" source="_l85spppwEeSHctBnTKrNNw" target="_l85sp5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityNode/inStructuredNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l85sq5pwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l85srJpwEeSHctBnTKrNNw" name="Selected" incoming="_l85sr5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l85srZpwEeSHctBnTKrNNw" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <nodes xmi:id="_l85srppwEeSHctBnTKrNNw" name="NewSource" outgoing="_l85sr5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <edges xmi:id="_l85sr5pwEeSHctBnTKrNNw" source="_l85srppwEeSHctBnTKrNNw" target="_l85srJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedGroup"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l85ssJpwEeSHctBnTKrNNw" origin="_l85spppwEeSHctBnTKrNNw" image="_l85srJpwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l85ssZpwEeSHctBnTKrNNw" origin="_l85sp5pwEeSHctBnTKrNNw" image="_l85srZpwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l85ssppwEeSHctBnTKrNNw" origin="_l85sqJpwEeSHctBnTKrNNw" image="_l85srppwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l85ss5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l85soZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l85stJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l85stZpwEeSHctBnTKrNNw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l85stppwEeSHctBnTKrNNw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameterMappings xmi:id="_l85st5pwEeSHctBnTKrNNw" source="_l85stJpwEeSHctBnTKrNNw" target="_l85soppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l85suJpwEeSHctBnTKrNNw" source="_l85stZpwEeSHctBnTKrNNw" target="_l85so5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l85suZpwEeSHctBnTKrNNw" source="_l85stppwEeSHctBnTKrNNw" target="_l85spJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

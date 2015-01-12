@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l96ZQJpwEeSHctBnTKrNNw" name="DELETE_MergeNode_IN_StructuredActivityNode_(node)" description="Deletes one MergeNode in StructuredActivityNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l96ZQZpwEeSHctBnTKrNNw" name="deleteMergeNode_IN_StructuredActivityNode" description="deletes one MergeNode in the context: StructuredActivityNode">
+    <parameters xmi:id="_l96ZQppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l96ZQ5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//MergeNode"/>
+    </parameters>
+    <lhs xmi:id="_l96ZRJpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l96ZRZpwEeSHctBnTKrNNw" name="Selected" incoming="_l96ZSJpwEeSHctBnTKrNNw" outgoing="_l96ZR5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <nodes xmi:id="_l96ZRppwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l96ZR5pwEeSHctBnTKrNNw" outgoing="_l96ZSJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MergeNode"/>
+      </nodes>
+      <edges xmi:id="_l96ZR5pwEeSHctBnTKrNNw" source="_l96ZRZpwEeSHctBnTKrNNw" target="_l96ZRppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode/node"/>
+      </edges>
+      <edges xmi:id="_l96ZSJpwEeSHctBnTKrNNw" source="_l96ZRppwEeSHctBnTKrNNw" target="_l96ZRZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityNode/inStructuredNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l96ZSZpwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l96ZSppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l96ZS5pwEeSHctBnTKrNNw" origin="_l96ZRZpwEeSHctBnTKrNNw" image="_l96ZSppwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l96ZTJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l96ZQZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l96ZTZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l96ZTppwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//MergeNode"/>
+    </parameters>
+    <parameterMappings xmi:id="_l96ZT5pwEeSHctBnTKrNNw" source="_l96ZTZpwEeSHctBnTKrNNw" target="_l96ZQppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l96ZUJpwEeSHctBnTKrNNw" source="_l96ZTppwEeSHctBnTKrNNw" target="_l96ZQ5pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

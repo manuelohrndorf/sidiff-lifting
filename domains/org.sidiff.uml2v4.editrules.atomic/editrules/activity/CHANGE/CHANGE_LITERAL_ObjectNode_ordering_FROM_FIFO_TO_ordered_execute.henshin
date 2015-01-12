@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l5X3gJpwEeSHctBnTKrNNw" name="CHANGE_LITERAL_ObjectNode_ordering_FROM_FIFO_TO_ordered" description="Changes the attribute value of ordering_FROM_FIFO_TO_ordered">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l5X3gZpwEeSHctBnTKrNNw" name="changeObjectNodeOrdering_FROM_FIFO_TO_ordered" description="Changes the attribute value of ordering_FROM_FIFO_TO_ordered">
+    <parameters xmi:id="_l5X3gppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l5X3g5pwEeSHctBnTKrNNw" name="&quot;FIFO&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l5X3hJpwEeSHctBnTKrNNw" name="&quot;ordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <lhs xmi:id="_l5X3hZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l5X3hppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l5X3h5pwEeSHctBnTKrNNw" value="&quot;FIFO&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l5X3iJpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l5X3iZpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l5X3ippwEeSHctBnTKrNNw" value="&quot;ordered&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l5X3i5pwEeSHctBnTKrNNw" origin="_l5X3hppwEeSHctBnTKrNNw" image="_l5X3iZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l5X3jJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l5X3gZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l5X3jZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l5X3jppwEeSHctBnTKrNNw" name="&quot;FIFO&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l5X3j5pwEeSHctBnTKrNNw" name="&quot;ordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_l5X3kJpwEeSHctBnTKrNNw" source="_l5X3jZpwEeSHctBnTKrNNw" target="_l5X3gppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l5X3kZpwEeSHctBnTKrNNw" source="_l5X3jppwEeSHctBnTKrNNw" target="_l5X3g5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l5X3kppwEeSHctBnTKrNNw" source="_l5X3j5pwEeSHctBnTKrNNw" target="_l5X3hJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

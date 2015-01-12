@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l9pTgJpwEeSHctBnTKrNNw" name="DELETE_CallBehaviorAction_IN_Activity_(ownedNode)" description="Deletes one CallBehaviorAction in Activity">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l9pTgZpwEeSHctBnTKrNNw" name="deleteCallBehaviorAction_IN_Activity" description="deletes one CallBehaviorAction in the context: Activity">
+    <parameters xmi:id="_l9pTgppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l9pTg5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+    </parameters>
+    <parameters xmi:id="_l9pThJpwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <lhs xmi:id="_l9pThZpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l9pThppwEeSHctBnTKrNNw" name="Selected" outgoing="_l9pTiZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l9pTh5pwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l9pTiZpwEeSHctBnTKrNNw" outgoing="_l9pTippwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+      </nodes>
+      <nodes xmi:id="_l9pTiJpwEeSHctBnTKrNNw" name="Existing" incoming="_l9pTippwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <edges xmi:id="_l9pTiZpwEeSHctBnTKrNNw" source="_l9pThppwEeSHctBnTKrNNw" target="_l9pTh5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedNode"/>
+      </edges>
+      <edges xmi:id="_l9pTippwEeSHctBnTKrNNw" source="_l9pTh5pwEeSHctBnTKrNNw" target="_l9pTiJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction/behavior"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l9pTi5pwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l9pTjJpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l9pTjZpwEeSHctBnTKrNNw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l9pTjppwEeSHctBnTKrNNw" origin="_l9pThppwEeSHctBnTKrNNw" image="_l9pTjJpwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l9pTj5pwEeSHctBnTKrNNw" origin="_l9pTiJpwEeSHctBnTKrNNw" image="_l9pTjZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l9pTkJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l9pTgZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l9pTkZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l9pTkppwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+    </parameters>
+    <parameters xmi:id="_l9pTk5pwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_l9pTlJpwEeSHctBnTKrNNw" source="_l9pTkZpwEeSHctBnTKrNNw" target="_l9pTgppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9pTlZpwEeSHctBnTKrNNw" source="_l9pTkppwEeSHctBnTKrNNw" target="_l9pTg5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9pTlppwEeSHctBnTKrNNw" source="_l9pTk5pwEeSHctBnTKrNNw" target="_l9pThJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

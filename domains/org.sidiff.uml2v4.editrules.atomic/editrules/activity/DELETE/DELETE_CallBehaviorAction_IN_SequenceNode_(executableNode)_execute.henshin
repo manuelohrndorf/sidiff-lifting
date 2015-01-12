@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l3iEcJpwEeSHctBnTKrNNw" name="DELETE_CallBehaviorAction_IN_SequenceNode_(executableNode)" description="Deletes one CallBehaviorAction in SequenceNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l3iEcZpwEeSHctBnTKrNNw" name="deleteCallBehaviorAction_IN_SequenceNode" description="deletes one CallBehaviorAction in the context: SequenceNode">
+    <parameters xmi:id="_l3iEcppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l3iEc5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+    </parameters>
+    <parameters xmi:id="_l3iEdJpwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <lhs xmi:id="_l3iEdZpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l3iEdppwEeSHctBnTKrNNw" name="Selected" outgoing="_l3iEeZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l3iEd5pwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l3iEeZpwEeSHctBnTKrNNw" outgoing="_l3iEeppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+      </nodes>
+      <nodes xmi:id="_l3iEeJpwEeSHctBnTKrNNw" name="Existing" incoming="_l3iEeppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <edges xmi:id="_l3iEeZpwEeSHctBnTKrNNw" source="_l3iEdppwEeSHctBnTKrNNw" target="_l3iEd5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode/executableNode"/>
+      </edges>
+      <edges xmi:id="_l3iEeppwEeSHctBnTKrNNw" source="_l3iEd5pwEeSHctBnTKrNNw" target="_l3iEeJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction/behavior"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l3iEe5pwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l3iEfJpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l3iEfZpwEeSHctBnTKrNNw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l3iEfppwEeSHctBnTKrNNw" origin="_l3iEdppwEeSHctBnTKrNNw" image="_l3iEfJpwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l3iEf5pwEeSHctBnTKrNNw" origin="_l3iEeJpwEeSHctBnTKrNNw" image="_l3iEfZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l3iEgJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l3iEcZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l3iEgZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l3iEgppwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CallBehaviorAction"/>
+    </parameters>
+    <parameters xmi:id="_l3iEg5pwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_l3iEhJpwEeSHctBnTKrNNw" source="_l3iEgZpwEeSHctBnTKrNNw" target="_l3iEcppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l3iEhZpwEeSHctBnTKrNNw" source="_l3iEgppwEeSHctBnTKrNNw" target="_l3iEc5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l3iEhppwEeSHctBnTKrNNw" source="_l3iEg5pwEeSHctBnTKrNNw" target="_l3iEdJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

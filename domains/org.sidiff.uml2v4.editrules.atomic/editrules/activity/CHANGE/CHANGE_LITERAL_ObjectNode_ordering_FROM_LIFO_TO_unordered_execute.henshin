@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l6sGIJpwEeSHctBnTKrNNw" name="CHANGE_LITERAL_ObjectNode_ordering_FROM_LIFO_TO_unordered" description="Changes the attribute value of ordering_FROM_LIFO_TO_unordered">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l6sGIZpwEeSHctBnTKrNNw" name="changeObjectNodeOrdering_FROM_LIFO_TO_unordered" description="Changes the attribute value of ordering_FROM_LIFO_TO_unordered">
+    <parameters xmi:id="_l6sGIppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l6sGI5pwEeSHctBnTKrNNw" name="&quot;LIFO&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l6sGJJpwEeSHctBnTKrNNw" name="&quot;unordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <lhs xmi:id="_l6sGJZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l6sGJppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l6sGJ5pwEeSHctBnTKrNNw" value="&quot;LIFO&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l6sGKJpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l6stMJpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+        <attributes xmi:id="_l6stMZpwEeSHctBnTKrNNw" value="&quot;unordered&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode/ordering"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l6stMppwEeSHctBnTKrNNw" origin="_l6sGJppwEeSHctBnTKrNNw" image="_l6stMJpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l6stM5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l6sGIZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l6stNJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_l6stNZpwEeSHctBnTKrNNw" name="&quot;LIFO&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameters xmi:id="_l6stNppwEeSHctBnTKrNNw" name="&quot;unordered&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ObjectNodeOrderingKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_l6stN5pwEeSHctBnTKrNNw" source="_l6stNJpwEeSHctBnTKrNNw" target="_l6sGIppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l6stOJpwEeSHctBnTKrNNw" source="_l6stNZpwEeSHctBnTKrNNw" target="_l6sGI5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l6stOZpwEeSHctBnTKrNNw" source="_l6stNppwEeSHctBnTKrNNw" target="_l6sGJJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l07cYJpwEeSHctBnTKrNNw" name="DELETE_StructuredActivityNode_IN_SequenceNode_(executableNode)" description="Deletes one StructuredActivityNode in SequenceNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l07cYZpwEeSHctBnTKrNNw" name="deleteStructuredActivityNode_IN_SequenceNode" description="deletes one StructuredActivityNode in the context: SequenceNode">
+    <parameters xmi:id="_l07cYppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l07cY5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <lhs xmi:id="_l07cZJpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l07cZZpwEeSHctBnTKrNNw" name="Selected" outgoing="_l07cZ5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l07cZppwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l07cZ5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <edges xmi:id="_l07cZ5pwEeSHctBnTKrNNw" source="_l07cZZpwEeSHctBnTKrNNw" target="_l07cZppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode/executableNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l07caJpwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l07caZpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l07cappwEeSHctBnTKrNNw" origin="_l07cZZpwEeSHctBnTKrNNw" image="_l07caZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l07ca5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l07cYZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l07cbJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l07cbZpwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameterMappings xmi:id="_l07cbppwEeSHctBnTKrNNw" source="_l07cbJpwEeSHctBnTKrNNw" target="_l07cYppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l07cb5pwEeSHctBnTKrNNw" source="_l07cbZpwEeSHctBnTKrNNw" target="_l07cY5pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

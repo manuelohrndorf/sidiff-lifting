@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l1-lQJpwEeSHctBnTKrNNw" name="CREATE_DecisionNode_IN_StructuredActivityNode_(node)" description="Creates one DecisionNode in StructuredActivityNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l1-lQZpwEeSHctBnTKrNNw" name="createDecisionNode_IN_StructuredActivityNode" description="creates one DecisionNode in the context: StructuredActivityNode">
+    <parameters xmi:id="_l1-lQppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l1-lQ5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//DecisionNode"/>
+    </parameters>
+    <parameters xmi:id="_l1-lRJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_l1-lRZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l1-lRppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l1-lR5pwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l1-lSJpwEeSHctBnTKrNNw" name="Selected" incoming="_l1-lTJpwEeSHctBnTKrNNw" outgoing="_l1-lS5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <nodes xmi:id="_l1-lSZpwEeSHctBnTKrNNw" name="New" incoming="_l1-lS5pwEeSHctBnTKrNNw" outgoing="_l1-lTJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//DecisionNode"/>
+        <attributes xmi:id="_l1-lSppwEeSHctBnTKrNNw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_l1-lS5pwEeSHctBnTKrNNw" source="_l1-lSJpwEeSHctBnTKrNNw" target="_l1-lSZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode/node"/>
+      </edges>
+      <edges xmi:id="_l1-lTJpwEeSHctBnTKrNNw" source="_l1-lSZpwEeSHctBnTKrNNw" target="_l1-lSJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityNode/inStructuredNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l1-lTZpwEeSHctBnTKrNNw" origin="_l1-lRppwEeSHctBnTKrNNw" image="_l1-lSJpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l1-lTppwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l1-lQZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l1-lT5pwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l1-lUJpwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//DecisionNode"/>
+    </parameters>
+    <parameters xmi:id="_l1-lUZpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_l1-lUppwEeSHctBnTKrNNw" source="_l1-lT5pwEeSHctBnTKrNNw" target="_l1-lQppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1-lU5pwEeSHctBnTKrNNw" source="_l1-lQ5pwEeSHctBnTKrNNw" target="_l1-lUJpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1-lVJpwEeSHctBnTKrNNw" source="_l1-lUZpwEeSHctBnTKrNNw" target="_l1-lRJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

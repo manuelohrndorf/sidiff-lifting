@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l9BBYJpwEeSHctBnTKrNNw" name="MOVE_REF_COMBI_ActivityPartition_FROM_Activity_(ownedGroup)_TO_ActivityPartition_(subpartition)" description="MOVEs ActivityPartition from Activity(Reference:ownedGroup) to ActivityPartition(Reference:subpartition">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l9BBYZpwEeSHctBnTKrNNw" name="moveActivityPartition_FROM_Activity_ownedGroup_TO_ActivityPartition_ActivityPartition" description="Moves ActivityPartition from Activity(Reference:ownedGroup) toActivityPartition(Reference:ActivityPartition)">
+    <parameters xmi:id="_l9BBYppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+    </parameters>
+    <parameters xmi:id="_l9BBY5pwEeSHctBnTKrNNw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l9BBZJpwEeSHctBnTKrNNw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+    </parameters>
+    <lhs xmi:id="_l9BBZZpwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l9BBZppwEeSHctBnTKrNNw" name="Selected" incoming="_l9BBaZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+      </nodes>
+      <nodes xmi:id="_l9BBZ5pwEeSHctBnTKrNNw" name="OldSource" outgoing="_l9BBaZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l9BBaJpwEeSHctBnTKrNNw" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+      </nodes>
+      <edges xmi:id="_l9BBaZpwEeSHctBnTKrNNw" source="_l9BBZ5pwEeSHctBnTKrNNw" target="_l9BBZppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedGroup"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_l9BBappwEeSHctBnTKrNNw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_l9BBa5pwEeSHctBnTKrNNw">
+          <conclusion xmi:id="_l9BBbJpwEeSHctBnTKrNNw" name="ub0">
+            <nodes xmi:id="_l9BBbZpwEeSHctBnTKrNNw" outgoing="_l9BBb5pwEeSHctBnTKrNNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+            </nodes>
+            <nodes xmi:id="_l9BBbppwEeSHctBnTKrNNw" incoming="_l9BBb5pwEeSHctBnTKrNNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+            </nodes>
+            <edges xmi:id="_l9BBb5pwEeSHctBnTKrNNw" source="_l9BBbZpwEeSHctBnTKrNNw" target="_l9BBbppwEeSHctBnTKrNNw">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition/superPartition"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_l9BBcJpwEeSHctBnTKrNNw" origin="_l9BBZppwEeSHctBnTKrNNw" image="_l9BBbZpwEeSHctBnTKrNNw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_l9BBcZpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l9BBcppwEeSHctBnTKrNNw" name="Selected" incoming="_l9BBdZpwEeSHctBnTKrNNw" outgoing="_l9BBdppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+      </nodes>
+      <nodes xmi:id="_l9BBc5pwEeSHctBnTKrNNw" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l9BBdJpwEeSHctBnTKrNNw" name="NewSource" incoming="_l9BBdppwEeSHctBnTKrNNw" outgoing="_l9BBdZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+      </nodes>
+      <edges xmi:id="_l9BBdZpwEeSHctBnTKrNNw" source="_l9BBdJpwEeSHctBnTKrNNw" target="_l9BBcppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition/subpartition"/>
+      </edges>
+      <edges xmi:id="_l9BBdppwEeSHctBnTKrNNw" source="_l9BBcppwEeSHctBnTKrNNw" target="_l9BBdJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition/superPartition"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l9BBd5pwEeSHctBnTKrNNw" origin="_l9BBZppwEeSHctBnTKrNNw" image="_l9BBcppwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l9BBeJpwEeSHctBnTKrNNw" origin="_l9BBZ5pwEeSHctBnTKrNNw" image="_l9BBc5pwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l9BBeZpwEeSHctBnTKrNNw" origin="_l9BBaJpwEeSHctBnTKrNNw" image="_l9BBdJpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l9BBeppwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l9BBYZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l9BBe5pwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+    </parameters>
+    <parameters xmi:id="_l9BBfJpwEeSHctBnTKrNNw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l9BBfZpwEeSHctBnTKrNNw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityPartition"/>
+    </parameters>
+    <parameterMappings xmi:id="_l9BBfppwEeSHctBnTKrNNw" source="_l9BBe5pwEeSHctBnTKrNNw" target="_l9BBYppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9BBf5pwEeSHctBnTKrNNw" source="_l9BBfJpwEeSHctBnTKrNNw" target="_l9BBY5pwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l9BBgJpwEeSHctBnTKrNNw" source="_l9BBfZpwEeSHctBnTKrNNw" target="_l9BBZJpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

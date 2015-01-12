@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l6X9EJpwEeSHctBnTKrNNw" name="DELETE_LoopNode_IN_SequenceNode_(executableNode)" description="Deletes one LoopNode in SequenceNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l6YkIJpwEeSHctBnTKrNNw" name="deleteLoopNode_IN_SequenceNode" description="deletes one LoopNode in the context: SequenceNode">
+    <parameters xmi:id="_l6YkIZpwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l6YkIppwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LoopNode"/>
+    </parameters>
+    <parameters xmi:id="_l6YkI5pwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExecutableNode"/>
+    </parameters>
+    <lhs xmi:id="_l6YkJJpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l6YkJZpwEeSHctBnTKrNNw" name="Selected" outgoing="_l6YkKJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l6YkJppwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l6YkKJpwEeSHctBnTKrNNw" outgoing="_l6YkKZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LoopNode"/>
+      </nodes>
+      <nodes xmi:id="_l6YkJ5pwEeSHctBnTKrNNw" name="Existing" incoming="_l6YkKZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExecutableNode"/>
+      </nodes>
+      <edges xmi:id="_l6YkKJpwEeSHctBnTKrNNw" source="_l6YkJZpwEeSHctBnTKrNNw" target="_l6YkJppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode/executableNode"/>
+      </edges>
+      <edges xmi:id="_l6YkKZpwEeSHctBnTKrNNw" source="_l6YkJppwEeSHctBnTKrNNw" target="_l6YkJ5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LoopNode/test"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l6YkKppwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l6YkK5pwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l6YkLJpwEeSHctBnTKrNNw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExecutableNode"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l6YkLZpwEeSHctBnTKrNNw" origin="_l6YkJZpwEeSHctBnTKrNNw" image="_l6YkK5pwEeSHctBnTKrNNw"/>
+    <mappings xmi:id="_l6YkLppwEeSHctBnTKrNNw" origin="_l6YkJ5pwEeSHctBnTKrNNw" image="_l6YkLJpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l6YkL5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l6YkIJpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l6YkMJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l6YkMZpwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LoopNode"/>
+    </parameters>
+    <parameters xmi:id="_l6YkMppwEeSHctBnTKrNNw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExecutableNode"/>
+    </parameters>
+    <parameterMappings xmi:id="_l6YkM5pwEeSHctBnTKrNNw" source="_l6YkMJpwEeSHctBnTKrNNw" target="_l6YkIZpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l6YkNJpwEeSHctBnTKrNNw" source="_l6YkMZpwEeSHctBnTKrNNw" target="_l6YkIppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l6YkNZpwEeSHctBnTKrNNw" source="_l6YkMppwEeSHctBnTKrNNw" target="_l6YkI5pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

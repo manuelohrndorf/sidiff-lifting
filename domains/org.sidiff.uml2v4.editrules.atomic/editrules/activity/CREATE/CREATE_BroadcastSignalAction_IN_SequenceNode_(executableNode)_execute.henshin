@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l1L7EJpwEeSHctBnTKrNNw" name="CREATE_BroadcastSignalAction_IN_SequenceNode_(executableNode)" description="Creates one BroadcastSignalAction in SequenceNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l1L7EZpwEeSHctBnTKrNNw" name="createBroadcastSignalAction_IN_SequenceNode" description="creates one BroadcastSignalAction in the context: SequenceNode">
+    <parameters xmi:id="_l1L7EppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l1L7E5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BroadcastSignalAction"/>
+    </parameters>
+    <parameters xmi:id="_l1L7FJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l1L7FZpwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_l1L7FppwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l1L7F5pwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l1L7GJpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l1L7GZpwEeSHctBnTKrNNw" name="Selected" outgoing="_l1L7HZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+      </nodes>
+      <nodes xmi:id="_l1L7GppwEeSHctBnTKrNNw" name="New" incoming="_l1L7HZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BroadcastSignalAction"/>
+        <attributes xmi:id="_l1L7G5pwEeSHctBnTKrNNw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_l1L7HJpwEeSHctBnTKrNNw" value="IsLocallyReentrant">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Action/isLocallyReentrant"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_l1L7HZpwEeSHctBnTKrNNw" source="_l1L7GZpwEeSHctBnTKrNNw" target="_l1L7GppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode/executableNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l1L7HppwEeSHctBnTKrNNw" origin="_l1L7F5pwEeSHctBnTKrNNw" image="_l1L7GZpwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l1L7H5pwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l1L7EZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l1L7IJpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//SequenceNode"/>
+    </parameters>
+    <parameters xmi:id="_l1L7IZpwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BroadcastSignalAction"/>
+    </parameters>
+    <parameters xmi:id="_l1L7IppwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l1L7I5pwEeSHctBnTKrNNw" name="IsLocallyReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_l1L7JJpwEeSHctBnTKrNNw" source="_l1L7IJpwEeSHctBnTKrNNw" target="_l1L7EppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1L7JZpwEeSHctBnTKrNNw" source="_l1L7E5pwEeSHctBnTKrNNw" target="_l1L7IZpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1L7JppwEeSHctBnTKrNNw" source="_l1L7IppwEeSHctBnTKrNNw" target="_l1L7FJpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l1L7J5pwEeSHctBnTKrNNw" source="_l1L7I5pwEeSHctBnTKrNNw" target="_l1L7FZpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

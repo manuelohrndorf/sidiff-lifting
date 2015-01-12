@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l45WYJpwEeSHctBnTKrNNw" name="CREATE_JoinNode_IN_Activity_(ownedNode)" description="Creates one JoinNode in Activity">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l45WYZpwEeSHctBnTKrNNw" name="createJoinNode_IN_Activity" description="creates one JoinNode in the context: Activity">
+    <parameters xmi:id="_l45WYppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l45WY5pwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//JoinNode"/>
+    </parameters>
+    <parameters xmi:id="_l45WZJpwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l45WZZpwEeSHctBnTKrNNw" name="IsCombineDuplicate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_l45WZppwEeSHctBnTKrNNw" name="Lhs">
+      <nodes xmi:id="_l459cJpwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_l459cZpwEeSHctBnTKrNNw" name="Rhs">
+      <nodes xmi:id="_l459cppwEeSHctBnTKrNNw" name="Selected" outgoing="_l459dppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+      </nodes>
+      <nodes xmi:id="_l459c5pwEeSHctBnTKrNNw" name="New" incoming="_l459dppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//JoinNode"/>
+        <attributes xmi:id="_l459dJpwEeSHctBnTKrNNw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_l459dZpwEeSHctBnTKrNNw" value="IsCombineDuplicate">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//JoinNode/isCombineDuplicate"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_l459dppwEeSHctBnTKrNNw" source="_l459cppwEeSHctBnTKrNNw" target="_l459c5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity/ownedNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_l459d5pwEeSHctBnTKrNNw" origin="_l459cJpwEeSHctBnTKrNNw" image="_l459cppwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l459eJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l45WYZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l459eZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Activity"/>
+    </parameters>
+    <parameters xmi:id="_l459eppwEeSHctBnTKrNNw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//JoinNode"/>
+    </parameters>
+    <parameters xmi:id="_l459e5pwEeSHctBnTKrNNw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_l459fJpwEeSHctBnTKrNNw" name="IsCombineDuplicate">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_l459fZpwEeSHctBnTKrNNw" source="_l459eZpwEeSHctBnTKrNNw" target="_l45WYppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l459fppwEeSHctBnTKrNNw" source="_l45WY5pwEeSHctBnTKrNNw" target="_l459eppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l459f5pwEeSHctBnTKrNNw" source="_l459e5pwEeSHctBnTKrNNw" target="_l45WZJpwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l459gJpwEeSHctBnTKrNNw" source="_l459fJpwEeSHctBnTKrNNw" target="_l45WZZpwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>

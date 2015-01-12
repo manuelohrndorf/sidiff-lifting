@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_l4kmQJpwEeSHctBnTKrNNw" name="DELETE_ExpansionRegion_IN_StructuredActivityNode_(node)" description="Deletes one ExpansionRegion in StructuredActivityNode">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_l4kmQZpwEeSHctBnTKrNNw" name="deleteExpansionRegion_IN_StructuredActivityNode" description="deletes one ExpansionRegion in the context: StructuredActivityNode">
+    <parameters xmi:id="_l4kmQppwEeSHctBnTKrNNw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l4kmQ5pwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+    </parameters>
+    <lhs xmi:id="_l4kmRJpwEeSHctBnTKrNNw" name="LHS">
+      <nodes xmi:id="_l4kmRZpwEeSHctBnTKrNNw" name="Selected" incoming="_l4kmSJpwEeSHctBnTKrNNw" outgoing="_l4kmR5pwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+      <nodes xmi:id="_l4kmRppwEeSHctBnTKrNNw" name="ToBeDeleted" incoming="_l4kmR5pwEeSHctBnTKrNNw" outgoing="_l4kmSJpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+      </nodes>
+      <edges xmi:id="_l4kmR5pwEeSHctBnTKrNNw" source="_l4kmRZpwEeSHctBnTKrNNw" target="_l4kmRppwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode/node"/>
+      </edges>
+      <edges xmi:id="_l4kmSJpwEeSHctBnTKrNNw" source="_l4kmRppwEeSHctBnTKrNNw" target="_l4kmRZpwEeSHctBnTKrNNw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ActivityNode/inStructuredNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_l4kmSZpwEeSHctBnTKrNNw" name="RHS">
+      <nodes xmi:id="_l4kmSppwEeSHctBnTKrNNw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_l4kmS5pwEeSHctBnTKrNNw" origin="_l4kmRZpwEeSHctBnTKrNNw" image="_l4kmSppwEeSHctBnTKrNNw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_l4kmTJpwEeSHctBnTKrNNw" name="mainUnit" subUnits="_l4kmQZpwEeSHctBnTKrNNw">
+    <parameters xmi:id="_l4kmTZpwEeSHctBnTKrNNw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredActivityNode"/>
+    </parameters>
+    <parameters xmi:id="_l4kmTppwEeSHctBnTKrNNw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ExpansionRegion"/>
+    </parameters>
+    <parameterMappings xmi:id="_l4kmT5pwEeSHctBnTKrNNw" source="_l4kmTZpwEeSHctBnTKrNNw" target="_l4kmQppwEeSHctBnTKrNNw"/>
+    <parameterMappings xmi:id="_l4kmUJpwEeSHctBnTKrNNw" source="_l4kmTppwEeSHctBnTKrNNw" target="_l4kmQ5pwEeSHctBnTKrNNw"/>
+  </units>
+</henshin:Module>
