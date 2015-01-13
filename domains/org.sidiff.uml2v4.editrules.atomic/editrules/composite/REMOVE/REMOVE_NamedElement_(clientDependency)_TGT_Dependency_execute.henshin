@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Mc8bAJshEeS9C-GKpSgYyA" name="REMOVE_NamedElement_(clientDependency)_TGT_Dependency" description="Removes NamedElement's reference clientDependency the target Dependency">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Mc8bAZshEeS9C-GKpSgYyA" name="removeFromNamedElement_clientDependency_Dependency" description="Removes from NamedElement's reference clientDependency the target Dependency">
+    <parameters xmi:id="_Mc8bApshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_Mc8bA5shEeS9C-GKpSgYyA" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+    </parameters>
+    <lhs xmi:id="_Mc8bBJshEeS9C-GKpSgYyA" name="LHS">
+      <nodes xmi:id="_Mc8bBZshEeS9C-GKpSgYyA" name="Selected" incoming="_Mc8bCJshEeS9C-GKpSgYyA" outgoing="_Mc8bB5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_Mc8bBpshEeS9C-GKpSgYyA" name="OldTarget" incoming="_Mc8bB5shEeS9C-GKpSgYyA" outgoing="_Mc8bCJshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+      </nodes>
+      <edges xmi:id="_Mc8bB5shEeS9C-GKpSgYyA" source="_Mc8bBZshEeS9C-GKpSgYyA" target="_Mc8bBpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/clientDependency"/>
+      </edges>
+      <edges xmi:id="_Mc8bCJshEeS9C-GKpSgYyA" source="_Mc8bBpshEeS9C-GKpSgYyA" target="_Mc8bBZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency/client"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_Mc8bCZshEeS9C-GKpSgYyA">
+        <conclusion xmi:id="_Mc8bCpshEeS9C-GKpSgYyA" name="lb0">
+          <nodes xmi:id="_Mc8bC5shEeS9C-GKpSgYyA" outgoing="_Mc8bDZshEeS9C-GKpSgYyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+          </nodes>
+          <nodes xmi:id="_Mc8bDJshEeS9C-GKpSgYyA" incoming="_Mc8bDZshEeS9C-GKpSgYyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+          </nodes>
+          <edges xmi:id="_Mc8bDZshEeS9C-GKpSgYyA" source="_Mc8bC5shEeS9C-GKpSgYyA" target="_Mc8bDJshEeS9C-GKpSgYyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency/client"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_Mc8bDpshEeS9C-GKpSgYyA" origin="_Mc8bBpshEeS9C-GKpSgYyA" image="_Mc8bC5shEeS9C-GKpSgYyA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Mc8bD5shEeS9C-GKpSgYyA" name="RHS">
+      <nodes xmi:id="_Mc8bEJshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_Mc8bEZshEeS9C-GKpSgYyA" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Mc8bEpshEeS9C-GKpSgYyA" origin="_Mc8bBZshEeS9C-GKpSgYyA" image="_Mc8bEJshEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_Mc8bE5shEeS9C-GKpSgYyA" origin="_Mc8bBpshEeS9C-GKpSgYyA" image="_Mc8bEZshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Mc8bFJshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_Mc8bAZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_Mc8bFZshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_Mc8bFpshEeS9C-GKpSgYyA" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+    </parameters>
+    <parameterMappings xmi:id="_Mc8bF5shEeS9C-GKpSgYyA" source="_Mc8bFZshEeS9C-GKpSgYyA" target="_Mc8bApshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_Mc8bGJshEeS9C-GKpSgYyA" source="_Mc8bFpshEeS9C-GKpSgYyA" target="_Mc8bA5shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

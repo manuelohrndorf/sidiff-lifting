@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_MZQN0JshEeS9C-GKpSgYyA" name="ADD_Behavior_(precondition)_TGT_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_MZQN0ZshEeS9C-GKpSgYyA" name="addToBehavior_precondition_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
+    <parameters xmi:id="_MZQN0pshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_MZQN05shEeS9C-GKpSgYyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_MZQN1JshEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_MZQN1ZshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_MZQN1pshEeS9C-GKpSgYyA" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_MZQN15shEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_MZQN2JshEeS9C-GKpSgYyA" name="Selected" outgoing="_MZQN2pshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_MZQN2ZshEeS9C-GKpSgYyA" name="NewTarget" incoming="_MZQN2pshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_MZQN2pshEeS9C-GKpSgYyA" source="_MZQN2JshEeS9C-GKpSgYyA" target="_MZQN2ZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior/precondition"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_MZQN25shEeS9C-GKpSgYyA" origin="_MZQN1ZshEeS9C-GKpSgYyA" image="_MZQN2JshEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MZQN3JshEeS9C-GKpSgYyA" origin="_MZQN1pshEeS9C-GKpSgYyA" image="_MZQN2ZshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MZQN3ZshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_MZQN0ZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_MZQN3pshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_MZQN35shEeS9C-GKpSgYyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_MZQN4JshEeS9C-GKpSgYyA" source="_MZQN3pshEeS9C-GKpSgYyA" target="_MZQN0pshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZQN4ZshEeS9C-GKpSgYyA" source="_MZQN35shEeS9C-GKpSgYyA" target="_MZQN05shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

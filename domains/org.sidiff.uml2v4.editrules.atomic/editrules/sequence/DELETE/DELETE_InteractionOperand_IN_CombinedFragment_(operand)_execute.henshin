@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JrJloJsdEeSp451AMUERyA" name="DELETE_InteractionOperand_IN_CombinedFragment_(operand)" description="Deletes one InteractionOperand in CombinedFragment">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_JrJloZsdEeSp451AMUERyA" name="deleteInteractionOperand_IN_CombinedFragment" description="deletes one InteractionOperand in the context: CombinedFragment">
+    <parameters xmi:id="_JrJlopsdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment"/>
+    </parameters>
+    <parameters xmi:id="_JrJlo5sdEeSp451AMUERyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionOperand"/>
+    </parameters>
+    <lhs xmi:id="_JrJlpJsdEeSp451AMUERyA" name="LHS">
+      <nodes xmi:id="_JrJlpZsdEeSp451AMUERyA" name="Selected" outgoing="_JrJlp5sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment"/>
+      </nodes>
+      <nodes xmi:id="_JrJlppsdEeSp451AMUERyA" name="ToBeDeleted" incoming="_JrJlp5sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionOperand"/>
+      </nodes>
+      <edges xmi:id="_JrJlp5sdEeSp451AMUERyA" source="_JrJlpZsdEeSp451AMUERyA" target="_JrJlppsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment/operand"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_JrJlqJsdEeSp451AMUERyA">
+        <conclusion xmi:id="_JrJlqZsdEeSp451AMUERyA" name="lb0">
+          <nodes xmi:id="_JrJlqpsdEeSp451AMUERyA" outgoing="_JrJlrJsdEeSp451AMUERyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment"/>
+          </nodes>
+          <nodes xmi:id="_JrJlq5sdEeSp451AMUERyA" incoming="_JrJlrJsdEeSp451AMUERyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionOperand"/>
+          </nodes>
+          <edges xmi:id="_JrJlrJsdEeSp451AMUERyA" source="_JrJlqpsdEeSp451AMUERyA" target="_JrJlq5sdEeSp451AMUERyA">
+            <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment/operand"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_JrKMsJsdEeSp451AMUERyA" origin="_JrJlpZsdEeSp451AMUERyA" image="_JrJlqpsdEeSp451AMUERyA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_JrKMsZsdEeSp451AMUERyA" name="RHS">
+      <nodes xmi:id="_JrKMspsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_JrKMs5sdEeSp451AMUERyA" origin="_JrJlpZsdEeSp451AMUERyA" image="_JrKMspsdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_JrKMtJsdEeSp451AMUERyA" name="mainUnit" subUnits="_JrJloZsdEeSp451AMUERyA">
+    <parameters xmi:id="_JrKMtZsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CombinedFragment"/>
+    </parameters>
+    <parameters xmi:id="_JrKMtpsdEeSp451AMUERyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionOperand"/>
+    </parameters>
+    <parameterMappings xmi:id="_JrKMt5sdEeSp451AMUERyA" source="_JrKMtZsdEeSp451AMUERyA" target="_JrJlopsdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_JrKMuJsdEeSp451AMUERyA" source="_JrKMtpsdEeSp451AMUERyA" target="_JrJlo5sdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

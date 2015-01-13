@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Jo7YEJsdEeSp451AMUERyA" name="DELETE_Gate_IN_InteractionUse_(actualGate)" description="Deletes one Gate in InteractionUse">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Jo7YEZsdEeSp451AMUERyA" name="deleteGate_IN_InteractionUse" description="deletes one Gate in the context: InteractionUse">
+    <parameters xmi:id="_Jo7YEpsdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters xmi:id="_Jo7YE5sdEeSp451AMUERyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Gate"/>
+    </parameters>
+    <lhs xmi:id="_Jo7YFJsdEeSp451AMUERyA" name="LHS">
+      <nodes xmi:id="_Jo7YFZsdEeSp451AMUERyA" name="Selected" outgoing="_Jo7YF5sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <nodes xmi:id="_Jo7YFpsdEeSp451AMUERyA" name="ToBeDeleted" incoming="_Jo7YF5sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Gate"/>
+      </nodes>
+      <edges xmi:id="_Jo7YF5sdEeSp451AMUERyA" source="_Jo7YFZsdEeSp451AMUERyA" target="_Jo7YFpsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionUse/actualGate"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Jo7YGJsdEeSp451AMUERyA" name="RHS">
+      <nodes xmi:id="_Jo7YGZsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionUse"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Jo7YGpsdEeSp451AMUERyA" origin="_Jo7YFZsdEeSp451AMUERyA" image="_Jo7YGZsdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Jo7YG5sdEeSp451AMUERyA" name="mainUnit" subUnits="_Jo7YEZsdEeSp451AMUERyA">
+    <parameters xmi:id="_Jo7YHJsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters xmi:id="_Jo7YHZsdEeSp451AMUERyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Gate"/>
+    </parameters>
+    <parameterMappings xmi:id="_Jo7YHpsdEeSp451AMUERyA" source="_Jo7YHJsdEeSp451AMUERyA" target="_Jo7YEpsdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_Jo7YH5sdEeSp451AMUERyA" source="_Jo7YHZsdEeSp451AMUERyA" target="_Jo7YE5sdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

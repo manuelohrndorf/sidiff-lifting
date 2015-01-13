@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_McXzQJshEeS9C-GKpSgYyA" name="DELETE_Interaction_IN_BehavioredClassifier_(ownedBehavior)" description="Deletes one Interaction in BehavioredClassifier">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_McXzQZshEeS9C-GKpSgYyA" name="deleteInteraction_IN_BehavioredClassifier" description="deletes one Interaction in the context: BehavioredClassifier">
+    <parameters xmi:id="_McXzQpshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_McXzQ5shEeS9C-GKpSgYyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Interaction"/>
+    </parameters>
+    <lhs xmi:id="_McXzRJshEeS9C-GKpSgYyA" name="LHS">
+      <nodes xmi:id="_McXzRZshEeS9C-GKpSgYyA" name="Selected" outgoing="_McXzR5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+      <nodes xmi:id="_McXzRpshEeS9C-GKpSgYyA" name="ToBeDeleted" incoming="_McXzR5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Interaction"/>
+      </nodes>
+      <edges xmi:id="_McXzR5shEeS9C-GKpSgYyA" source="_McXzRZshEeS9C-GKpSgYyA" target="_McXzRpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_McXzSJshEeS9C-GKpSgYyA" name="RHS">
+      <nodes xmi:id="_McXzSZshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_McXzSpshEeS9C-GKpSgYyA" origin="_McXzRZshEeS9C-GKpSgYyA" image="_McXzSZshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_McXzS5shEeS9C-GKpSgYyA" name="mainUnit" subUnits="_McXzQZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_McXzTJshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_McXzTZshEeS9C-GKpSgYyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameterMappings xmi:id="_McXzTpshEeS9C-GKpSgYyA" source="_McXzTJshEeS9C-GKpSgYyA" target="_McXzQpshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_McXzT5shEeS9C-GKpSgYyA" source="_McXzTZshEeS9C-GKpSgYyA" target="_McXzQ5shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Jq4f4JsdEeSp451AMUERyA" name="CREATE_Constraint_IN_Namespace_(ownedRule)" description="Creates one Constraint in Namespace">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Jq4f4ZsdEeSp451AMUERyA" name="createConstraint_IN_Namespace" description="creates one Constraint in the context: Namespace">
+    <parameters xmi:id="_Jq4f4psdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_Jq4f45sdEeSp451AMUERyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_Jq4f5JsdEeSp451AMUERyA" name="Lhs">
+      <nodes xmi:id="_Jq4f5ZsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Jq4f5psdEeSp451AMUERyA" name="Rhs">
+      <nodes xmi:id="_Jq4f55sdEeSp451AMUERyA" name="Selected" incoming="_Jq4f6psdEeSp451AMUERyA" outgoing="_Jq4f6ZsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+      </nodes>
+      <nodes xmi:id="_Jq4f6JsdEeSp451AMUERyA" name="New" incoming="_Jq4f6ZsdEeSp451AMUERyA" outgoing="_Jq4f6psdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_Jq4f6ZsdEeSp451AMUERyA" source="_Jq4f55sdEeSp451AMUERyA" target="_Jq4f6JsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_Jq4f6psdEeSp451AMUERyA" source="_Jq4f6JsdEeSp451AMUERyA" target="_Jq4f55sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/context"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Jq4f65sdEeSp451AMUERyA" origin="_Jq4f5ZsdEeSp451AMUERyA" image="_Jq4f55sdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Jq4f7JsdEeSp451AMUERyA" name="mainUnit" subUnits="_Jq4f4ZsdEeSp451AMUERyA">
+    <parameters xmi:id="_Jq4f7ZsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_Jq4f7psdEeSp451AMUERyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_Jq4f75sdEeSp451AMUERyA" source="_Jq4f7ZsdEeSp451AMUERyA" target="_Jq4f4psdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_Jq4f8JsdEeSp451AMUERyA" source="_Jq4f45sdEeSp451AMUERyA" target="_Jq4f7psdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

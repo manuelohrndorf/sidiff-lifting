@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JqIR8JsdEeSp451AMUERyA" name="SET_REFERENCE_MessageEnd_(message)_TGT_Message" description="Sets MessageEnd's reference message the target Message">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_JqIR8ZsdEeSp451AMUERyA" name="setMessageEnd_message_TO_Message" description="SetMessageEndRefmessageToMessage">
+    <parameters xmi:id="_JqIR8psdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd"/>
+    </parameters>
+    <parameters xmi:id="_JqIR85sdEeSp451AMUERyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+    </parameters>
+    <lhs xmi:id="_JqIR9JsdEeSp451AMUERyA" name="Lhs">
+      <nodes xmi:id="_JqIR9ZsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd"/>
+      </nodes>
+      <nodes xmi:id="_JqIR9psdEeSp451AMUERyA" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_JqIR95sdEeSp451AMUERyA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_JqIR-JsdEeSp451AMUERyA">
+          <conclusion xmi:id="_JqIR-ZsdEeSp451AMUERyA" name="ub0">
+            <nodes xmi:id="_JqIR-psdEeSp451AMUERyA" outgoing="_JqIR_JsdEeSp451AMUERyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd"/>
+            </nodes>
+            <nodes xmi:id="_JqIR-5sdEeSp451AMUERyA" incoming="_JqIR_JsdEeSp451AMUERyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+            </nodes>
+            <edges xmi:id="_JqIR_JsdEeSp451AMUERyA" source="_JqIR-psdEeSp451AMUERyA" target="_JqIR-5sdEeSp451AMUERyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd/message"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_JqIR_ZsdEeSp451AMUERyA" origin="_JqIR9ZsdEeSp451AMUERyA" image="_JqIR-psdEeSp451AMUERyA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_JqIR_psdEeSp451AMUERyA" name="Rhs">
+      <nodes xmi:id="_JqIR_5sdEeSp451AMUERyA" name="Selected" outgoing="_JqISAZsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd"/>
+      </nodes>
+      <nodes xmi:id="_JqISAJsdEeSp451AMUERyA" name="NewTarget" incoming="_JqISAZsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+      </nodes>
+      <edges xmi:id="_JqISAZsdEeSp451AMUERyA" source="_JqIR_5sdEeSp451AMUERyA" target="_JqISAJsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd/message"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_JqISApsdEeSp451AMUERyA" origin="_JqIR9ZsdEeSp451AMUERyA" image="_JqIR_5sdEeSp451AMUERyA"/>
+    <mappings xmi:id="_JqISA5sdEeSp451AMUERyA" origin="_JqIR9psdEeSp451AMUERyA" image="_JqISAJsdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_JqISBJsdEeSp451AMUERyA" name="mainUnit" subUnits="_JqIR8ZsdEeSp451AMUERyA">
+    <parameters xmi:id="_JqISBZsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageEnd"/>
+    </parameters>
+    <parameters xmi:id="_JqISBpsdEeSp451AMUERyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+    </parameters>
+    <parameterMappings xmi:id="_JqISB5sdEeSp451AMUERyA" source="_JqISBZsdEeSp451AMUERyA" target="_JqIR8psdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_JqISCJsdEeSp451AMUERyA" source="_JqISBpsdEeSp451AMUERyA" target="_JqIR85sdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

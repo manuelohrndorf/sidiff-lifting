@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JqxLIJsdEeSp451AMUERyA" name="CHANGE_LITERAL_Message_messageSort_FROM_synchCall_TO_asynchCall" description="Changes the attribute value of messageSort_FROM_synchCall_TO_asynchCall">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_JqxLIZsdEeSp451AMUERyA" name="changeMessageMessageSort_FROM_SynchCall_TO_asynchCall" description="Changes the attribute value of messageSort_FROM_synchCall_TO_asynchCall">
+    <parameters xmi:id="_JqxLIpsdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_JqxLI5sdEeSp451AMUERyA" name="&quot;synchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameters xmi:id="_JqxLJJsdEeSp451AMUERyA" name="&quot;asynchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageSort"/>
+    </parameters>
+    <lhs xmi:id="_JqxLJZsdEeSp451AMUERyA" name="Lhs">
+      <nodes xmi:id="_JqxLJpsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+        <attributes xmi:id="_JqxLJ5sdEeSp451AMUERyA" value="&quot;synchCall&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_JqxLKJsdEeSp451AMUERyA" name="Rhs">
+      <nodes xmi:id="_JqxLKZsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+        <attributes xmi:id="_JqxLKpsdEeSp451AMUERyA" value="&quot;asynchCall&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_JqxLK5sdEeSp451AMUERyA" origin="_JqxLJpsdEeSp451AMUERyA" image="_JqxLKZsdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_JqxLLJsdEeSp451AMUERyA" name="mainUnit" subUnits="_JqxLIZsdEeSp451AMUERyA">
+    <parameters xmi:id="_JqxLLZsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_JqxLLpsdEeSp451AMUERyA" name="&quot;synchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameters xmi:id="_JqxLL5sdEeSp451AMUERyA" name="&quot;asynchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameterMappings xmi:id="_JqxyMJsdEeSp451AMUERyA" source="_JqxLLZsdEeSp451AMUERyA" target="_JqxLIpsdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_JqxyMZsdEeSp451AMUERyA" source="_JqxLLpsdEeSp451AMUERyA" target="_JqxLI5sdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_JqxyMpsdEeSp451AMUERyA" source="_JqxLL5sdEeSp451AMUERyA" target="_JqxLJJsdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

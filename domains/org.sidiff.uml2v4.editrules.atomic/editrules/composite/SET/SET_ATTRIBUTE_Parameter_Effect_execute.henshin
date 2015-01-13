@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_McDDIJshEeS9C-GKpSgYyA" name="SET_ATTRIBUTE_Parameter_Effect" description="Sets Parameter Effect">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_McDDIZshEeS9C-GKpSgYyA" name="setParameterEffect" description="Sets the EAttribute effect">
+    <parameters xmi:id="_McDDIpshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_McDDI5shEeS9C-GKpSgYyA" name="Effect">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ParameterEffectKind"/>
+    </parameters>
+    <lhs xmi:id="_McDDJJshEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_McDDJZshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_McDDJpshEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_McDDJ5shEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+        <attributes xmi:id="_McDDKJshEeS9C-GKpSgYyA" value="Effect">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter/effect"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_McDDKZshEeS9C-GKpSgYyA" origin="_McDDJZshEeS9C-GKpSgYyA" image="_McDDJ5shEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_McDDKpshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_McDDIZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_McDDK5shEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_McDDLJshEeS9C-GKpSgYyA" name="Effect">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//ParameterEffectKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_McDDLZshEeS9C-GKpSgYyA" source="_McDDK5shEeS9C-GKpSgYyA" target="_McDDIpshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_McDDLpshEeS9C-GKpSgYyA" source="_McDDLJshEeS9C-GKpSgYyA" target="_McDDI5shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

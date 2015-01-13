@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_MZ_NoJshEeS9C-GKpSgYyA" name="CREATE_Usage_IN_CollaborationUse_(roleBinding)" description="Creates one Usage in CollaborationUse">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_MZ_NoZshEeS9C-GKpSgYyA" name="createUsage_IN_CollaborationUse" description="creates one Usage in the context: CollaborationUse">
+    <parameters xmi:id="_MZ_NopshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <parameters xmi:id="_MZ_No5shEeS9C-GKpSgYyA" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_MZ_NpJshEeS9C-GKpSgYyA" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_MZ_NpZshEeS9C-GKpSgYyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Usage"/>
+    </parameters>
+    <lhs xmi:id="_MZ_NppshEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_MZ_Np5shEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <nodes xmi:id="_MZ_NqJshEeS9C-GKpSgYyA" name="Existing">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_MZ_NqZshEeS9C-GKpSgYyA" name="Existing1">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_MZ_NqpshEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_MZ_Nq5shEeS9C-GKpSgYyA" name="Selected" outgoing="_MZ_Nr5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <nodes xmi:id="_MZ_NrJshEeS9C-GKpSgYyA" name="New" incoming="_MZ_Nr5shEeS9C-GKpSgYyA _MZ_NspshEeS9C-GKpSgYyA" outgoing="_MZ_NsJshEeS9C-GKpSgYyA _MZ_NsZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Usage"/>
+      </nodes>
+      <nodes xmi:id="_MZ_NrZshEeS9C-GKpSgYyA" name="Existing" incoming="_MZ_NsJshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_MZ_NrpshEeS9C-GKpSgYyA" name="Existing1" incoming="_MZ_NsZshEeS9C-GKpSgYyA" outgoing="_MZ_NspshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+      </nodes>
+      <edges xmi:id="_MZ_Nr5shEeS9C-GKpSgYyA" source="_MZ_Nq5shEeS9C-GKpSgYyA" target="_MZ_NrJshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse/roleBinding"/>
+      </edges>
+      <edges xmi:id="_MZ_NsJshEeS9C-GKpSgYyA" source="_MZ_NrJshEeS9C-GKpSgYyA" target="_MZ_NrZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency/supplier"/>
+      </edges>
+      <edges xmi:id="_MZ_NsZshEeS9C-GKpSgYyA" source="_MZ_NrJshEeS9C-GKpSgYyA" target="_MZ_NrpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency/client"/>
+      </edges>
+      <edges xmi:id="_MZ_NspshEeS9C-GKpSgYyA" source="_MZ_NrpshEeS9C-GKpSgYyA" target="_MZ_NrJshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/clientDependency"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_MZ_Ns5shEeS9C-GKpSgYyA" origin="_MZ_Np5shEeS9C-GKpSgYyA" image="_MZ_Nq5shEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MZ_NtJshEeS9C-GKpSgYyA" origin="_MZ_NqJshEeS9C-GKpSgYyA" image="_MZ_NrZshEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MZ_NtZshEeS9C-GKpSgYyA" origin="_MZ_NqZshEeS9C-GKpSgYyA" image="_MZ_NrpshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MZ_NtpshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_MZ_NoZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_MZ_Nt5shEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <parameters xmi:id="_MZ_NuJshEeS9C-GKpSgYyA" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_MZ_NuZshEeS9C-GKpSgYyA" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_MZ_NupshEeS9C-GKpSgYyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Usage"/>
+    </parameters>
+    <parameterMappings xmi:id="_MZ_Nu5shEeS9C-GKpSgYyA" source="_MZ_Nt5shEeS9C-GKpSgYyA" target="_MZ_NopshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZ_NvJshEeS9C-GKpSgYyA" source="_MZ_NuJshEeS9C-GKpSgYyA" target="_MZ_No5shEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZ_NvZshEeS9C-GKpSgYyA" source="_MZ_NuZshEeS9C-GKpSgYyA" target="_MZ_NpJshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZ_NvpshEeS9C-GKpSgYyA" source="_MZ_NpZshEeS9C-GKpSgYyA" target="_MZ_NupshEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

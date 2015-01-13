@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_MY3MQJshEeS9C-GKpSgYyA" name="MOVE_Dependency_FROM_CollaborationUse_(roleBinding)_TO_CollaborationUse_(roleBinding)" description="MOVEs Dependency from CollaborationUse(Reference:roleBinding) to CollaborationUse(Reference:roleBinding">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_MY3MQZshEeS9C-GKpSgYyA" name="moveDependency_FROM_CollaborationUse_roleBinding_TO_CollaborationUse_CollaborationUse" description="Moves Dependency from CollaborationUse(Reference:roleBinding) toCollaborationUse(Reference:CollaborationUse)">
+    <parameters xmi:id="_MY3MQpshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+    </parameters>
+    <parameters xmi:id="_MY3MQ5shEeS9C-GKpSgYyA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <parameters xmi:id="_MY3MRJshEeS9C-GKpSgYyA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <lhs xmi:id="_MY3MRZshEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_MY3MRpshEeS9C-GKpSgYyA" name="Selected" incoming="_MY3MSZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+      </nodes>
+      <nodes xmi:id="_MY3MR5shEeS9C-GKpSgYyA" name="OldSource" outgoing="_MY3MSZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <nodes xmi:id="_MY3MSJshEeS9C-GKpSgYyA" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <edges xmi:id="_MY3MSZshEeS9C-GKpSgYyA" source="_MY3MR5shEeS9C-GKpSgYyA" target="_MY3MRpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse/roleBinding"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_MY3MSpshEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_MY3MS5shEeS9C-GKpSgYyA" name="Selected" incoming="_MY3MTpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+      </nodes>
+      <nodes xmi:id="_MY3MTJshEeS9C-GKpSgYyA" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <nodes xmi:id="_MY3MTZshEeS9C-GKpSgYyA" name="NewSource" outgoing="_MY3MTpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+      </nodes>
+      <edges xmi:id="_MY3MTpshEeS9C-GKpSgYyA" source="_MY3MTZshEeS9C-GKpSgYyA" target="_MY3MS5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse/roleBinding"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_MY3MT5shEeS9C-GKpSgYyA" origin="_MY3MRpshEeS9C-GKpSgYyA" image="_MY3MS5shEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MY3MUJshEeS9C-GKpSgYyA" origin="_MY3MR5shEeS9C-GKpSgYyA" image="_MY3MTJshEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MY3zUJshEeS9C-GKpSgYyA" origin="_MY3MSJshEeS9C-GKpSgYyA" image="_MY3MTZshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MY3zUZshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_MY3MQZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_MY3zUpshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Dependency"/>
+    </parameters>
+    <parameters xmi:id="_MY3zU5shEeS9C-GKpSgYyA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <parameters xmi:id="_MY3zVJshEeS9C-GKpSgYyA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//CollaborationUse"/>
+    </parameters>
+    <parameterMappings xmi:id="_MY3zVZshEeS9C-GKpSgYyA" source="_MY3zUpshEeS9C-GKpSgYyA" target="_MY3MQpshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MY3zVpshEeS9C-GKpSgYyA" source="_MY3zU5shEeS9C-GKpSgYyA" target="_MY3MQ5shEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MY3zV5shEeS9C-GKpSgYyA" source="_MY3zVJshEeS9C-GKpSgYyA" target="_MY3MRJshEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

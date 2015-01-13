@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Mb__0JshEeS9C-GKpSgYyA" name="CREATE_Collaboration_IN_Class_(nestedClassifier)" description="Creates one Collaboration in Class">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Mb__0ZshEeS9C-GKpSgYyA" name="createCollaboration_IN_Class" description="creates one Collaboration in the context: Class">
+    <parameters xmi:id="_Mb__0pshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_Mb__05shEeS9C-GKpSgYyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Collaboration"/>
+    </parameters>
+    <parameters xmi:id="_Mb__1JshEeS9C-GKpSgYyA" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Mb__1ZshEeS9C-GKpSgYyA" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Mb__1pshEeS9C-GKpSgYyA" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_Mb__15shEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_Mb__2JshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Mb__2ZshEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_Mb__2pshEeS9C-GKpSgYyA" name="Selected" outgoing="_Mb__35shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_Mb__25shEeS9C-GKpSgYyA" name="New" incoming="_Mb__35shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Collaboration"/>
+        <attributes xmi:id="_Mb__3JshEeS9C-GKpSgYyA" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_Mb__3ZshEeS9C-GKpSgYyA" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_Mb__3pshEeS9C-GKpSgYyA" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_Mb__35shEeS9C-GKpSgYyA" source="_Mb__2pshEeS9C-GKpSgYyA" target="_Mb__25shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Mb__4JshEeS9C-GKpSgYyA" origin="_Mb__2JshEeS9C-GKpSgYyA" image="_Mb__2pshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Mb__4ZshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_Mb__0ZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_Mb__4pshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_Mb__45shEeS9C-GKpSgYyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Collaboration"/>
+    </parameters>
+    <parameters xmi:id="_Mb__5JshEeS9C-GKpSgYyA" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Mb__5ZshEeS9C-GKpSgYyA" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Mb__5pshEeS9C-GKpSgYyA" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_Mb__55shEeS9C-GKpSgYyA" source="_Mb__4pshEeS9C-GKpSgYyA" target="_Mb__0pshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_Mb__6JshEeS9C-GKpSgYyA" source="_Mb__05shEeS9C-GKpSgYyA" target="_Mb__45shEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_Mb__6ZshEeS9C-GKpSgYyA" source="_Mb__5JshEeS9C-GKpSgYyA" target="_Mb__1JshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_Mb__6pshEeS9C-GKpSgYyA" source="_Mb__5ZshEeS9C-GKpSgYyA" target="_Mb__1ZshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_Mb__65shEeS9C-GKpSgYyA" source="_Mb__5pshEeS9C-GKpSgYyA" target="_Mb__1pshEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

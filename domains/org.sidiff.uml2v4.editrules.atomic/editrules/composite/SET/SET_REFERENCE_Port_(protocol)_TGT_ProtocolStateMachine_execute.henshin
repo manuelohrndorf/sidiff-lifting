@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_MZO_sJshEeS9C-GKpSgYyA" name="SET_REFERENCE_Port_(protocol)_TGT_ProtocolStateMachine" description="Sets Port's reference protocol the target ProtocolStateMachine">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_MZO_sZshEeS9C-GKpSgYyA" name="setPort_protocol_TO_ProtocolStateMachine" description="SetPortRefprotocolToProtocolStateMachine">
+    <parameters xmi:id="_MZO_spshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_MZO_s5shEeS9C-GKpSgYyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ProtocolStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_MZO_tJshEeS9C-GKpSgYyA" name="Lhs">
+      <nodes xmi:id="_MZO_tZshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_MZO_tpshEeS9C-GKpSgYyA" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ProtocolStateMachine"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_MZO_t5shEeS9C-GKpSgYyA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_MZO_uJshEeS9C-GKpSgYyA">
+          <conclusion xmi:id="_MZO_uZshEeS9C-GKpSgYyA" name="ub0">
+            <nodes xmi:id="_MZO_upshEeS9C-GKpSgYyA" outgoing="_MZO_vJshEeS9C-GKpSgYyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+            </nodes>
+            <nodes xmi:id="_MZO_u5shEeS9C-GKpSgYyA" incoming="_MZO_vJshEeS9C-GKpSgYyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ProtocolStateMachine"/>
+            </nodes>
+            <edges xmi:id="_MZO_vJshEeS9C-GKpSgYyA" source="_MZO_upshEeS9C-GKpSgYyA" target="_MZO_u5shEeS9C-GKpSgYyA">
+              <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/protocol"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_MZO_vZshEeS9C-GKpSgYyA" origin="_MZO_tZshEeS9C-GKpSgYyA" image="_MZO_upshEeS9C-GKpSgYyA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_MZO_vpshEeS9C-GKpSgYyA" name="Rhs">
+      <nodes xmi:id="_MZO_v5shEeS9C-GKpSgYyA" name="Selected" outgoing="_MZO_wZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_MZO_wJshEeS9C-GKpSgYyA" name="NewTarget" incoming="_MZO_wZshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ProtocolStateMachine"/>
+      </nodes>
+      <edges xmi:id="_MZO_wZshEeS9C-GKpSgYyA" source="_MZO_v5shEeS9C-GKpSgYyA" target="_MZO_wJshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/protocol"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_MZO_wpshEeS9C-GKpSgYyA" origin="_MZO_tZshEeS9C-GKpSgYyA" image="_MZO_v5shEeS9C-GKpSgYyA"/>
+    <mappings xmi:id="_MZO_w5shEeS9C-GKpSgYyA" origin="_MZO_tpshEeS9C-GKpSgYyA" image="_MZO_wJshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MZO_xJshEeS9C-GKpSgYyA" name="mainUnit" subUnits="_MZO_sZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_MZO_xZshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_MZO_xpshEeS9C-GKpSgYyA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ProtocolStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_MZO_x5shEeS9C-GKpSgYyA" source="_MZO_xZshEeS9C-GKpSgYyA" target="_MZO_spshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZO_yJshEeS9C-GKpSgYyA" source="_MZO_xpshEeS9C-GKpSgYyA" target="_MZO_s5shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>

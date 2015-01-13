@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Jrye0JsdEeSp451AMUERyA" name="CREATE_DurationConstraint_IN_Namespace_(ownedRule)" description="Creates one DurationConstraint in Namespace">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Jrye0ZsdEeSp451AMUERyA" name="createDurationConstraint_IN_Namespace" description="creates one DurationConstraint in the context: Namespace">
+    <parameters xmi:id="_Jrye0psdEeSp451AMUERyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_Jrye05sdEeSp451AMUERyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//DurationConstraint"/>
+    </parameters>
+    <lhs xmi:id="_Jrye1JsdEeSp451AMUERyA" name="Lhs">
+      <nodes xmi:id="_JrzF4JsdEeSp451AMUERyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_JrzF4ZsdEeSp451AMUERyA" name="Rhs">
+      <nodes xmi:id="_JrzF4psdEeSp451AMUERyA" name="Selected" incoming="_JrzF5ZsdEeSp451AMUERyA" outgoing="_JrzF5JsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+      </nodes>
+      <nodes xmi:id="_JrzF45sdEeSp451AMUERyA" name="New" incoming="_JrzF5JsdEeSp451AMUERyA" outgoing="_JrzF5ZsdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//DurationConstraint"/>
+      </nodes>
+      <edges xmi:id="_JrzF5JsdEeSp451AMUERyA" source="_JrzF4psdEeSp451AMUERyA" target="_JrzF45sdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_JrzF5ZsdEeSp451AMUERyA" source="_JrzF45sdEeSp451AMUERyA" target="_JrzF4psdEeSp451AMUERyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/context"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_JrzF5psdEeSp451AMUERyA" origin="_JrzF4JsdEeSp451AMUERyA" image="_JrzF4psdEeSp451AMUERyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_JrzF55sdEeSp451AMUERyA" name="mainUnit" subUnits="_Jrye0ZsdEeSp451AMUERyA">
+    <parameters xmi:id="_JrzF6JsdEeSp451AMUERyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_JrzF6ZsdEeSp451AMUERyA" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//DurationConstraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_JrzF6psdEeSp451AMUERyA" source="_JrzF6JsdEeSp451AMUERyA" target="_Jrye0psdEeSp451AMUERyA"/>
+    <parameterMappings xmi:id="_JrzF65sdEeSp451AMUERyA" source="_Jrye05sdEeSp451AMUERyA" target="_JrzF6ZsdEeSp451AMUERyA"/>
+  </units>
+</henshin:Module>

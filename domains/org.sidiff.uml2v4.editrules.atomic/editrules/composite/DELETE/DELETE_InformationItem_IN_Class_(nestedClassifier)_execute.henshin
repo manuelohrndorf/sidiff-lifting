@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_MZWUcJshEeS9C-GKpSgYyA" name="DELETE_InformationItem_IN_Class_(nestedClassifier)" description="Deletes one InformationItem in Class">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_MZWUcZshEeS9C-GKpSgYyA" name="deleteInformationItem_IN_Class" description="deletes one InformationItem in the context: Class">
+    <parameters xmi:id="_MZWUcpshEeS9C-GKpSgYyA" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_MZWUc5shEeS9C-GKpSgYyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InformationItem"/>
+    </parameters>
+    <lhs xmi:id="_MZWUdJshEeS9C-GKpSgYyA" name="LHS">
+      <nodes xmi:id="_MZWUdZshEeS9C-GKpSgYyA" name="Selected" outgoing="_MZWUd5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_MZWUdpshEeS9C-GKpSgYyA" name="ToBeDeleted" incoming="_MZWUd5shEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InformationItem"/>
+      </nodes>
+      <edges xmi:id="_MZWUd5shEeS9C-GKpSgYyA" source="_MZWUdZshEeS9C-GKpSgYyA" target="_MZWUdpshEeS9C-GKpSgYyA">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_MZWUeJshEeS9C-GKpSgYyA" name="RHS">
+      <nodes xmi:id="_MZWUeZshEeS9C-GKpSgYyA" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_MZWUepshEeS9C-GKpSgYyA" origin="_MZWUdZshEeS9C-GKpSgYyA" image="_MZWUeZshEeS9C-GKpSgYyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MZWUe5shEeS9C-GKpSgYyA" name="mainUnit" subUnits="_MZWUcZshEeS9C-GKpSgYyA">
+    <parameters xmi:id="_MZWUfJshEeS9C-GKpSgYyA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_MZWUfZshEeS9C-GKpSgYyA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InformationItem"/>
+    </parameters>
+    <parameterMappings xmi:id="_MZWUfpshEeS9C-GKpSgYyA" source="_MZWUfJshEeS9C-GKpSgYyA" target="_MZWUcpshEeS9C-GKpSgYyA"/>
+    <parameterMappings xmi:id="_MZWUf5shEeS9C-GKpSgYyA" source="_MZWUfZshEeS9C-GKpSgYyA" target="_MZWUc5shEeS9C-GKpSgYyA"/>
+  </units>
+</henshin:Module>
