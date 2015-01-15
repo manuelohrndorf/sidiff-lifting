@@ -1,8 +1,10 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -29,6 +31,7 @@ import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -78,18 +81,26 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.setItems(builders.keySet().toArray(new String[0]));
 
 		if(list_builders.getItems().length != 0){
-			if(multiSelection){
-				for(String docType : inputModels.getDocumentTypes()){
-					for(ITechnicalDifferenceBuilder builder : builders.values()){
-						if(builder.getDocumentType().equals(docType)){
-							for(int i = 0; i < list_builders.getItems().length; i++){
-								if(list_builders.getItem(i).equals(builder.getName())){
-									list_builders.select(i);
-									break;
-								}
-							}
-							break;
-						}
+//			if(multiSelection){
+//				for(String docType : inputModels.getDocumentTypes()){
+//					for(ITechnicalDifferenceBuilder builder : builders.values()){
+//						if(builder.getDocumentType().equals(docType)){
+//							for(int i = 0; i < list_builders.getItems().length; i++){
+//								if(list_builders.getItem(i).equals(builder.getName())){
+//									list_builders.select(i);
+//									break;
+//								}
+//							}
+//							break;
+//						}
+//					}
+//				}
+//			}else{
+			if(useGeneric){
+				for(int i = 0; i < list_builders.getItemCount(); i++){
+					if(builders.get(list_builders.getItem(i)) instanceof GenericTechnicalDifferenceBuilder){
+						list_builders.select(i);
+						break;
 					}
 				}
 			}else{
@@ -104,7 +115,8 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				((LiftingSettings)settings).setTechBuilder(getSelection());
+				ITechnicalDifferenceBuilder techBuilder = getSelection();
+				((LiftingSettings)settings).setTechBuilder(techBuilder);
 			}		
 		});
 		this.settings.setTechBuilder(this.getSelection());
@@ -159,6 +171,18 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	@Override
 	public boolean validate() {
 		if (list_builders.getSelectionIndex() != -1) {
+			if(list_builders.getSelectionCount() > 1){
+				for(String key : list_builders.getSelection()){
+					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
+						return false;
+					}
+				}
+			}
+			
+			
+			
+			
+			
 			if(multiSelection){
 				Set<String> supportedDocTypes = new HashSet<String>();
 				for(String s : list_builders.getSelection()){
@@ -181,15 +205,34 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
-		} else {
-			if(multiSelection){
-				return "Please select a technical difference builder for every document type!";
+			message = new ValidationMessage(ValidationType.OK, "");
+		}else{
+			if(list_builders.getSelectionIndex() == -1){
+				message = new ValidationMessage(ValidationType.ERROR, "Please select a technical difference builder!");
+			}else if(list_builders.getSelectionCount() > 1){
+				boolean isGeneric = false;
+				for(String key : list_builders.getSelection()){
+					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
+						isGeneric = true;
+						break;
+					}
+				}
+				if(isGeneric){
+					message = new ValidationMessage(ValidationType.ERROR, "Please select a technical difference builder for every document type!");
+				}else{
+					message = new ValidationMessage(ValidationType.WARNING, "unexpected");
+					//TODO Warning
+				}
+			}else{
+				message = new ValidationMessage(ValidationType.ERROR, "Unexpected error due to the selection of a technical difference builder");
 			}
-			return "Please select a technical difference builder!";
 		}
+		
+		return message;
+		
 	}
 
 	@Override

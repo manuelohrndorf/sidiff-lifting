@@ -192,7 +192,7 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 
 	private void validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage());
+			setErrorMessage(widget.getValidationMessage().getMessage());
 			setPageComplete(false);
 		}
 	}

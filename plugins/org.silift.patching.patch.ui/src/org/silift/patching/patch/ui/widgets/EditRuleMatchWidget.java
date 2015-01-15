@@ -32,7 +32,7 @@ public class EditRuleMatchWidget implements IWidget, IWidgetSelection, IWidgetVa
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}

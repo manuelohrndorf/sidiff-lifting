@@ -39,6 +39,8 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -283,12 +285,14 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else {
-			return "Please select at least one rulebase!";
+			message = new ValidationMessage(ValidationType.ERROR, "Please select at least one rulebase!");
 		}
+		return message;
 	}
 
 	@Override

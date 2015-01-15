@@ -17,6 +17,8 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	
@@ -106,14 +108,16 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
-			return "Selected matching engine does not support resourceset scope, select another matching engine!!";
+			message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine does not support resourceset scope, select another matching engine!");
 		}else{
-			return "Please select a scope!";
+			message = new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
+		return message;
 	}
 
 	@Override

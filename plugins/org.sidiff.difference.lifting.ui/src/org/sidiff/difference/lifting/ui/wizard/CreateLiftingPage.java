@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.wizard;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -20,6 +21,7 @@ import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class CreateLiftingPage extends WizardPage {
 
@@ -173,8 +175,12 @@ public class CreateLiftingPage extends WizardPage {
 
 	private void validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage());
-			setPageComplete(false);
+			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
+				setErrorMessage(widget.getValidationMessage().getMessage());
+				setPageComplete(false);
+			}else{
+				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
+			}
 		}
 	}
 	

@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 import org.silift.patching.patch.Manifest;
@@ -82,12 +84,14 @@ public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetVali
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else {
-			return "Missing Symbolic Link Handler!";
+			message = new ValidationMessage(ValidationType.ERROR, "Missing Symbolic Link Handler!");
 		}
+		return message;
 	}
 
 	@Override

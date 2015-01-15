@@ -16,6 +16,8 @@ import org.sidiff.difference.lifting.settings.Settings;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.silift.merging.ui.util.MergeModels;
 
 public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
@@ -241,12 +243,14 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else {
-			return "Please define only one role for each model!";
+			message = new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
 		}
+		return message;
 	}
 
 	@Override

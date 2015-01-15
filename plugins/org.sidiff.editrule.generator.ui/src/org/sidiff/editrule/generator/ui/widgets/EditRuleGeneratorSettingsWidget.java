@@ -19,6 +19,8 @@ import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 /**
  * Widget containing UI-Tools for generating CPEO Configurations.
@@ -222,8 +224,14 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	 * 	If Configuration Path is not set while selected - "Configuration Path is missing" <>
 	 */
 	@Override
-	public String getValidationMessage() {
-		return MESSAGE[state];
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
+		if(validate()){
+			message = new ValidationMessage(ValidationType.OK, "");
+		}else{
+			message = new ValidationMessage(ValidationType.OK, MESSAGE[state]);
+		}
+		return message;
 	}
 	
 	@Override

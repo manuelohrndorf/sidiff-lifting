@@ -20,6 +20,7 @@ import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -217,12 +218,14 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else {
-			return "Please select a source model!";
+			message = new ValidationMessage(ValidationType.ERROR, "Please select a source model!");
 		}
+		return message;
 	}
 
 	@Override

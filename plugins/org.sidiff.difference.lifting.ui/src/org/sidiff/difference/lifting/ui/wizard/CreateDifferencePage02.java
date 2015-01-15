@@ -1,7 +1,9 @@
 package org.sidiff.difference.lifting.ui.wizard;
 
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -25,6 +27,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class CreateDifferencePage02 extends WizardPage implements IPageChangedListener {
 
@@ -175,8 +178,12 @@ public class CreateDifferencePage02 extends WizardPage implements IPageChangedLi
 
 	private void validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage());
-			setPageComplete(false);
+			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
+				setErrorMessage(widget.getValidationMessage().getMessage());
+				setPageComplete(false);
+			}else{
+				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
+			}
 		}
 	}
 

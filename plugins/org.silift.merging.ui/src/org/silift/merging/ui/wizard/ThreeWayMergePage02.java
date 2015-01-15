@@ -189,7 +189,7 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 
 	private void validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage());
+			setErrorMessage(widget.getValidationMessage().getMessage());
 			setPageComplete(false);
 		}
 	}

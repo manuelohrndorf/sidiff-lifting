@@ -30,6 +30,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -172,18 +173,20 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
+		ValidationMessage message;
 		if (validate()) {
-			return "";
+			message = new ValidationMessage(ValidationType.OK, "");
 		} else {
 			if (settings.getScope().equals(Scope.RESOURCE_SET)
 					&& !matchers.get(list_matchers.getSelection()[0]).isResourceSetCapable()) {
-				return "Selected matching engine does not support resourceset scope, select another matching engine!!";
-
+				message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine does not support resourceset scope, select another matching engine!");
 			} else {
-				return "Please select a matching engine";
+				message = new ValidationMessage(ValidationType.ERROR, "Please select a matching engine");
 			}
+			message = new ValidationMessage(ValidationType.ERROR, "Unexpected error due to the selection of the matching engine");
 		}
+		return message;
 	}
 
 	@Override

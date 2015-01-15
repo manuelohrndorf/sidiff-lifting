@@ -57,7 +57,7 @@ public class SergeWizardPage1 extends WizardPage {
 		Boolean valid = false;
 		configWidget.getSettings();
 		valid = configWidget.validate();
-		setErrorMessage(configWidget.getValidationMessage());
+		setErrorMessage(configWidget.getValidationMessage().getMessage());
 		if (txtSelectOutputFolder.getText().length() == 0) {
 			setErrorMessage("Output Folder Path is missing.");
 			valid = false;

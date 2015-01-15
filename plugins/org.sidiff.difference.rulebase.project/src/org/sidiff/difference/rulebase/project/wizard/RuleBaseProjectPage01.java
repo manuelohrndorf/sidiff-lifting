@@ -177,7 +177,7 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	private Boolean validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage());
+			setErrorMessage(widget.getValidationMessage().getMessage());
 			setPageComplete(false);
 		}
 		return widget.validate();

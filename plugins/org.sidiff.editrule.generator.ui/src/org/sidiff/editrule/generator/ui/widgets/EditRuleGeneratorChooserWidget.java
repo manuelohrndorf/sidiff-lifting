@@ -30,7 +30,7 @@ public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidatio
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
