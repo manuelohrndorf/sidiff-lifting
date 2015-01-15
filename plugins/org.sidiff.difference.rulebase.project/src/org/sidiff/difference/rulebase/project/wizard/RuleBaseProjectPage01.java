@@ -1,6 +1,7 @@
 package org.sidiff.difference.rulebase.project.wizard;
 
 import org.eclipse.jdt.core.dom.Message;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
@@ -22,6 +23,7 @@ import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedListener{
 
@@ -177,8 +179,12 @@ public class RuleBaseProjectPage01 extends WizardPage implements IPageChangedLis
 
 	private Boolean validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage().getMessage());
-			setPageComplete(false);
+			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
+				setErrorMessage(widget.getValidationMessage().getMessage());
+				setPageComplete(false);
+			}else{
+				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
+			}
 		}
 		return widget.validate();
 	}

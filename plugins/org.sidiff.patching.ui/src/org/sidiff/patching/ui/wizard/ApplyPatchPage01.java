@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -21,6 +22,7 @@ import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener{
@@ -144,8 +146,12 @@ public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener
 
 	private void validateWidget(IWidgetValidation widget) {
 		if (!widget.validate()) {
-			setErrorMessage(widget.getValidationMessage().getMessage());
-			setPageComplete(false);
+			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
+				setErrorMessage(widget.getValidationMessage().getMessage());
+				setPageComplete(false);
+			}else{
+				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
+			}
 		}
 	}
 	
