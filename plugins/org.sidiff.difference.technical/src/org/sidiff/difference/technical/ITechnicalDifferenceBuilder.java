@@ -50,5 +50,14 @@ public interface ITechnicalDifferenceBuilder {
 	 * @return
 	 */
 	public boolean canHandle(Resource modelA, Resource modelB);
+	
+	/**
+	 * Returns whether this technical difference builder can handle models of
+	 * the given documentType.
+	 * 
+	 * @param docType
+	 * @return
+	 */
+	public boolean canHandle(String docType);
 
 }

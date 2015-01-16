@@ -94,5 +94,17 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 
 		return false;
 	}
+	
+	@Override
+	public boolean canHandle(String docType){
+		// true if at least one of the tdBuilders can handle the doc type
+		for (ITechnicalDifferenceBuilder builder : tdBuilders) {
+			if (builder.canHandle(docType)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }

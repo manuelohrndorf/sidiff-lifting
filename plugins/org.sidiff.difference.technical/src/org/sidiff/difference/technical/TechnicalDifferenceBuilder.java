@@ -471,6 +471,14 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 
 		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
 	}
+	
+	@Override
+	public boolean canHandle(String docType){
+		if(docType.equals(getDocumentType()))
+			return true;
+		else
+			return false;
+	}
 
 	protected abstract String getObjectName(EObject obj);
 
