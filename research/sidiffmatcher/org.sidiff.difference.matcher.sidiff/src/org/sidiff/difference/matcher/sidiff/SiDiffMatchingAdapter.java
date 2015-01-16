@@ -1,6 +1,7 @@
 package org.sidiff.difference.matcher.sidiff;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -169,13 +170,23 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		if (EMFModelAccessEx.isProfiled(modelA)) {
 			// Profile
 			assert (EMFModelAccessEx.isProfiled(modelB)) : "modelA is profiled, modelB not!";
-
-			String baseDocType = EMFModelAccessEx.getBaseDocumentType(modelA);
-			return ServiceHelper.getService(Activator.context, AnnotationService.class, baseDocType) != null
+			//String baseDocType = EMFModelAccessEx.getBaseDocumentType(modelA);
+			String baseDocType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+			Set<String> profileDocTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
+			profileDocTypes.remove(baseDocType);
+			
+			boolean canHandle = ServiceHelper.getService(Activator.context, AnnotationService.class, baseDocType) != null
 					&& ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
 							baseDocType) != null
-					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class, baseDocType) != null
-					&& ServiceHelper.getService(Activator.context, ProfilesMatchingService.class, baseDocType) != null;
+					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class, baseDocType) != null;
+			
+			for(String profileDocType : profileDocTypes){
+				if(canHandle){
+					canHandle = ServiceHelper.getService(Activator.context, ProfilesMatchingService.class, profileDocType) != null;
+				}
+			}
+			
+			return canHandle;
 
 		} else {
 			// No Profile
