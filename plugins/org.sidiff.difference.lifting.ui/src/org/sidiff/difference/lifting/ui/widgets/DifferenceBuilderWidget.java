@@ -1,10 +1,8 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -46,6 +44,8 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	private boolean multiSelection;
 	private boolean useGeneric;
 
+	private ValidationMessage message;
+	
 	public DifferenceBuilderWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
 		multiSelection = inputModels.getDocumentTypes().size()>1? true: false;
@@ -81,30 +81,15 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.setItems(builders.keySet().toArray(new String[0]));
 
 		if(list_builders.getItems().length != 0){
-//			if(multiSelection){
-//				for(String docType : inputModels.getDocumentTypes()){
-//					for(ITechnicalDifferenceBuilder builder : builders.values()){
-//						if(builder.getDocumentType().equals(docType)){
-//							for(int i = 0; i < list_builders.getItems().length; i++){
-//								if(list_builders.getItem(i).equals(builder.getName())){
-//									list_builders.select(i);
-//									break;
-//								}
-//							}
-//							break;
-//						}
-//					}
-//				}
-//			}else{
+			list_builders.select(0);
 			if(useGeneric){
+				// select the generic builder
 				for(int i = 0; i < list_builders.getItemCount(); i++){
 					if(builders.get(list_builders.getItem(i)) instanceof GenericTechnicalDifferenceBuilder){
 						list_builders.select(i);
 						break;
 					}
 				}
-			}else{
-				list_builders.select(0);
 			}
 		}else{
 			MessageDialog.openError(
@@ -143,25 +128,21 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {
 			ITechnicalDifferenceBuilder builder = iterator.next();
 			if(builder instanceof GenericTechnicalDifferenceBuilder) useGeneric = true;
-			builders.put(builder.getName(), builder);
+			builders.put(builder.getName() + " ("+builder.getDocumentType()+")", builder);
 		}
 	}
 
 	public ITechnicalDifferenceBuilder getSelection() {
-		//if (validate()) {
-			if(list_builders.getSelectionCount() > 1){
-				ArrayList<ITechnicalDifferenceBuilder> tecBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
-				for(String key : list_builders.getSelection()){
-					tecBuilders.add(builders.get(key));
-				}
-				IncrementalTechnicalDifferenceBuilder incBuilder = new IncrementalTechnicalDifferenceBuilder(tecBuilders);
-				return incBuilder;
-			}else{
-				return builders.get(list_builders.getSelection()[0]);
+		if(list_builders.getSelectionCount() > 1){
+			ArrayList<ITechnicalDifferenceBuilder> tecBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
+			for(String key : list_builders.getSelection()){
+				tecBuilders.add(builders.get(key));
 			}
-//		} else {
-//			return null;
-//		}
+			IncrementalTechnicalDifferenceBuilder incBuilder = new IncrementalTechnicalDifferenceBuilder(tecBuilders);
+			return incBuilder;
+		}else{
+			return builders.get(list_builders.getSelection()[0]);
+		}
 	}
 
 	public SortedMap<String, ITechnicalDifferenceBuilder> getDifferenceBuilders() {
@@ -172,67 +153,71 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	public boolean validate() {
 		if (list_builders.getSelectionIndex() != -1) {
 			if(list_builders.getSelectionCount() > 1){
+				// check if a generic builder is selected
 				for(String key : list_builders.getSelection()){
 					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
+						message = new ValidationMessage(ValidationType.ERROR, "To use the generic builder another builder must not be selected");
 						return false;
 					}
 				}
 			}
-			
-			
-			
-			
-			
-			if(multiSelection){
-				Set<String> supportedDocTypes = new HashSet<String>();
-				for(String s : list_builders.getSelection()){
-					ITechnicalDifferenceBuilder builder = builders.get(s);
-					supportedDocTypes.add(builder.getDocumentType());
-				}
-				
-				if(!useGeneric){
-					for(String docType : inputModels.getDocumentTypes()){
-						if(!supportedDocTypes.contains(docType)){
-							return false;
-						}
-					}
-				}
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
-		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
-		}else{
-			if(list_builders.getSelectionIndex() == -1){
-				message = new ValidationMessage(ValidationType.ERROR, "Please select a technical difference builder!");
-			}else if(list_builders.getSelectionCount() > 1){
-				boolean isGeneric = false;
+			// check for each doc type if a builder is selected that can handle it
+			LinkedList<String> unsupportedDocTypes = new LinkedList<String>();
+			for(String docType : inputModels.getDocumentTypes()){
+				boolean canHandle = false;
 				for(String key : list_builders.getSelection()){
-					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
-						isGeneric = true;
+					if(builders.get(key).canHandle(docType)){
+						canHandle = true;
 						break;
 					}
 				}
-				if(isGeneric){
-					message = new ValidationMessage(ValidationType.ERROR, "Please select a technical difference builder for every document type!");
-				}else{
-					message = new ValidationMessage(ValidationType.WARNING, "unexpected");
-					//TODO Warning
+				if(!canHandle){
+					unsupportedDocTypes.add(docType);				
 				}
-			}else{
-				message = new ValidationMessage(ValidationType.ERROR, "Unexpected error due to the selection of a technical difference builder");
 			}
+			if(!unsupportedDocTypes.isEmpty()){
+				String docTypestxt = "";
+				for (Iterator<String> iterator = unsupportedDocTypes.iterator(); iterator
+						.hasNext();) {
+					docTypestxt += iterator.next();
+					if(iterator.hasNext()){
+						docTypestxt += ", ";
+					}
+				}
+				message = new ValidationMessage(ValidationType.WARNING, "Missing builder for: " + docTypestxt);
+				return false;
+			}
+		
+			// check if multiple builders for the same doc type are selected
+			for(String docType: inputModels.getDocumentTypes()){
+				boolean canHandle = false;
+				boolean intersection = false;
+				for(String key : list_builders.getSelection()){
+					if(canHandle && !intersection){
+						if(builders.get(key).canHandle(docType)) intersection = true;
+					}
+					if(intersection){
+						message = new ValidationMessage(ValidationType.WARNING, "Multiple builders for the document type: " + docType);
+						return false;
+					}else{
+						canHandle = builders.get(key).canHandle(docType);
+					}	
+				}
+			}
+				
+		}else{
+			message = new ValidationMessage(ValidationType.ERROR, "No technical difference builders are found.");
+			return false;
 		}
+		message = new ValidationMessage(ValidationType.OK, "");
+		return true;
+	}
 		
+
+
+	@Override
+	public ValidationMessage getValidationMessage() {
 		return message;
-		
 	}
 
 	@Override

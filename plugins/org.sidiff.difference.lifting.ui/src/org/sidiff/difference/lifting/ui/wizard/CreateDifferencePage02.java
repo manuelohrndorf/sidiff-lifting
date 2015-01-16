@@ -3,7 +3,6 @@ package org.sidiff.difference.lifting.ui.wizard;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -169,7 +168,7 @@ public class CreateDifferencePage02 extends WizardPage implements IPageChangedLi
 	}
 
 	private void validate() {
-		setErrorMessage(null);
+		setMessage(null);
 		setPageComplete(true);
 		validateWidget(recognitionWidget);
 		validateWidget(builderWidget);
