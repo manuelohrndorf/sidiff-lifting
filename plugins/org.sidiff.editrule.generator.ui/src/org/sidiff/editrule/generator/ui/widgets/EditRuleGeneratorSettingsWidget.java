@@ -224,14 +224,15 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 	 * 	If Configuration Path is not set while selected - "Configuration Path is missing" <>
 	 */
 	@Override
-	public ValidationMessage getValidationMessage() {
+	public ValidationMessage getValidationMessage() {		
 		ValidationMessage message;
 		if(validate()){
 			message = new ValidationMessage(ValidationType.OK, "");
-		}else{
-			message = new ValidationMessage(ValidationType.OK, MESSAGE[state]);
 		}
-		return message;
+		else{
+			message = new ValidationMessage(ValidationType.ERROR,  MESSAGE[state]);
+		}	
+		return message;			
 	}
 	
 	@Override

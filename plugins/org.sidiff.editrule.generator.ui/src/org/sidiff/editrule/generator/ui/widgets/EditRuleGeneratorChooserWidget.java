@@ -1,15 +1,15 @@
 package org.sidiff.editrule.generator.ui.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetInformation;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
+import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidation, IWidgetInformation{
 
@@ -31,8 +31,8 @@ public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidatio
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		ValidationMessage message = new ValidationMessage(ValidationType.OK, "");
+		return message;	
 	}
 
 	/**

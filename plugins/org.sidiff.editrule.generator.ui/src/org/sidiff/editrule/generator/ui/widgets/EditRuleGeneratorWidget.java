@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,14 +15,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.PlatformUI;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
 import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidgetValidation {
@@ -74,8 +71,7 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 				list_generators.setSelection(0);
 
 		} else {
-			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Missing EditRule Generator",
-					"No EditRule generators are found!");
+			this.getWidget().setEnabled(false);
 		}
 		list_generators.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -84,7 +80,9 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 			}
 		});
 
-		settings.setGenerator(this.getSelection());
+		if(list_generators.getItems().length != 0){
+			settings.setGenerator(this.getSelection());
+		}
 
 		return container;
 	}
@@ -132,10 +130,10 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 		ValidationMessage message;
 		if (validate()) {
 			message = new ValidationMessage(ValidationType.OK, "");
-		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select an EditRule generator");
+		}else{
+			message = new ValidationMessage(ValidationType.ERROR, "Please select an EditRule generator!");
 		}
-		return message;
+		return message;			
 	}
 
 	@Override
