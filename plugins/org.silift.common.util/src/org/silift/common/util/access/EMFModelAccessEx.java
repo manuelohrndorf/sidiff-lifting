@@ -225,39 +225,6 @@ public class EMFModelAccessEx {
 		return (documentTypes.size() > 1) && containsUML && !containsHenshinTrace;
 	}
 
-	/**
-	 * Only applicable to profiled UML models. Return the base document type of
-	 * a profiled uml model.
-	 * 
-	 * @param model
-	 * @return
-	 */
-	public static String getBaseDocumentType(Resource model) {
-		assert (isProfiled(model)) : model + " is not a profile!";
-
-		String profileDocType = getProfileDocumentType(model);
-		for (String docType : getDocumentTypes(model, Scope.RESOURCE)) {
-			if (!docType.equals(profileDocType)) {
-				return docType;
-			}
-		}
-
-		// should never happen
-		return null;
-	}
-
-	/**
-	 * Only applicable to profiled UML models. Returns the documentType of the
-	 * profile definition.
-	 * 
-	 * @param model
-	 * @return
-	 */
-	public static String getProfileDocumentType(Resource model) {
-		assert (isProfiled(model)) : model + " is not a profile!";
-
-		return getCharacteristicDocumentType(model);
-	}
 
 	/**
 	 * derives the diagram file and all other files if exist
