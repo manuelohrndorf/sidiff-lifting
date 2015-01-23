@@ -2,6 +2,7 @@ package org.silift.merging.ui.wizard;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.filesystem.EFS;
@@ -40,6 +41,8 @@ import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
+import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
+import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -214,8 +217,17 @@ public class ThreeWayMergeWizard extends Wizard {
 					patchingSettings.setArgumentManager(argumentManager);
 					// Find transformation engine (no other available right now)
 					String documentType = null;
-					if (EMFModelAccessEx.isProfiled(resourceResult.get())) {
-						documentType = EMFModelAccessEx.getBaseDocumentType(resourceResult.get());
+					Set<String> documentTypes = EMFModelAccessEx.getDocumentTypes(resourceResult.get(), Scope.RESOURCE);
+					IDifferenceProfileHandler profileHandler = null;
+					for(String docType : documentTypes){
+						// at the moment there is only one profile handler available
+						profileHandler = DifferenceProfileHandlerUtil.getDefaultDifferenceProfileHandler(docType);
+						if(profileHandler!=null){
+							break;
+						}
+					}
+					if (profileHandler!=null && profileHandler.isProfiled(resourceResult.get())) {
+						documentType = profileHandler.getBaseType();
 					} else {
 						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 					}

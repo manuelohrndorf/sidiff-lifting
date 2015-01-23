@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.filesystem.EFS;
@@ -34,6 +35,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
 import org.sidiff.difference.patch.animation.GMFAnimation;
+import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
+import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -51,6 +54,7 @@ import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.emf.Scope;
 import org.silift.patching.patch.Manifest;
 import org.silift.patching.patch.Patch;
 import org.silift.patching.settings.ExecutionMode;
@@ -212,8 +216,17 @@ public class ApplyPatchWizard extends Wizard {
 					
 					// Find transformation engine (no other available right now)
 					String documentType = null;
-					if (EMFModelAccessEx.isProfiled(resourceResult.get())) {
-						documentType = EMFModelAccessEx.getBaseDocumentType(resourceResult.get());
+					Set<String> documentTypes = EMFModelAccessEx.getDocumentTypes(resourceResult.get(), Scope.RESOURCE);
+					IDifferenceProfileHandler profileHandler = null;
+					for(String docType : documentTypes){
+						// at the moment there is only one profile handler available
+						profileHandler = DifferenceProfileHandlerUtil.getDefaultDifferenceProfileHandler(docType);
+						if(profileHandler!=null){
+							break;
+						}
+					}
+					if (profileHandler!=null && profileHandler.isProfiled(resourceResult.get())) {
+						documentType = profileHandler.getBaseType();
 					} else {
 						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
 					}
