@@ -208,7 +208,11 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		 * Set table input
 		 */
 
-		rulebaseTableViewer.setInput(rulebases);
+		if(!rulebases.isEmpty()){
+			rulebaseTableViewer.setInput(rulebases);
+		}else{
+			this.setEnabled(false);
+		}
 		rulebaseTableViewer.refresh();
 
 		this.settings.setRuleBases(this.getSelection());
@@ -237,6 +241,7 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		for (IRuleBase rulebase : rulebaseInstances) {
 			rulebases.add(new RuleBaseEntry(rulebase, true));
 		}
+		
 
 		Collections.sort(rulebases);
 	}
@@ -277,11 +282,8 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 	@Override
 	public boolean validate() {
-		if (getSelection().isEmpty() && ruleBaseTable.isEnabled()) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
+		
 	}
 
 	@Override

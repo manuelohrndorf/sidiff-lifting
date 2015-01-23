@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.silift.common.util.ui.widgets.IWidget;
@@ -181,6 +182,15 @@ public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidg
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if(item.equals(SettingsItem.RULEBASES)){
+			if(settings.getRuleBases().isEmpty()){
+				this.list_recEngines.select(0);
+				this.list_recEngines.setEnabled(false);
+			}else{
+				this.list_recEngines.setEnabled(true);
+				this.list_recEngines.select(2);
+			}
+		}
 	}
 
 	public Settings getSettings() {
