@@ -22,6 +22,8 @@ import org.sidiff.core.matching.XMIIDMatchingService;
 import org.sidiff.core.similarities.DefaultSimilaritiesService;
 import org.sidiff.core.similaritiescalculator.DefaultSimilaritiesCalculationService;
 import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
+import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
@@ -31,6 +33,8 @@ import org.silift.common.util.emf.Scope;
 public class SiDiffMatchingAdapter implements IMatcher {
 
 	public static final String KEY = "SiDiff";
+	
+	private IDifferenceProfileHandler profileHandler;
 
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
@@ -58,9 +62,10 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		// BundleHandler.getInstance().startBundles();
 
 		// Get document type of models
+		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
 		String documentType = null;
-		if (EMFModelAccessEx.isProfiled(modelA)) {
-			documentType = EMFModelAccessEx.getBaseDocumentType(modelA);
+		if (getProfileHandler(docTypes)!=null && profileHandler.isProfiled(modelA)) {
+			documentType = profileHandler.getBaseType();
 		} else {
 			documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
 		}
@@ -86,7 +91,7 @@ public class SiDiffMatchingAdapter implements IMatcher {
 				ServiceHelper.DEFAULT));
 
 		// ad hoc stereotype matching?
-		if (EMFModelAccessEx.isProfiled(modelA)) {
+		if (profileHandler!=null && profileHandler.isProfiled(modelA)) {
 			context.putService(ServiceHelper.getService(Activator.context, ProfilesMatchingService.class, documentType,
 					ServiceHelper.DEFAULT));
 		}
@@ -164,41 +169,45 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		return KEY;
 	}
 
+	/**
+	 * considers no resource set
+	 * @see {@link getDocumentType()}
+	 */
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
 
-		if (EMFModelAccessEx.isProfiled(modelA)) {
+		boolean canHandle = true;
+		
+		
+		
+		
+		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
+		if(getProfileHandler(docTypes)!=null && getProfileHandler(docTypes).isProfiled(modelA) && getProfileHandler(docTypes).isProfiled(modelB)){
 			// Profile
-			assert (EMFModelAccessEx.isProfiled(modelB)) : "modelA is profiled, modelB not!";
-			//String baseDocType = EMFModelAccessEx.getBaseDocumentType(modelA);
-			String baseDocType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-			Set<String> profileDocTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
-			profileDocTypes.remove(baseDocType);
-			
-			boolean canHandle = ServiceHelper.getService(Activator.context, AnnotationService.class, baseDocType) != null
-					&& ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
+			String baseDocType = getProfileHandler(docTypes).getBaseType();
+
+			canHandle = ServiceHelper.getService(Activator.context,
+					AnnotationService.class, baseDocType) != null
+					&& ServiceHelper.getService(Activator.context,
+							DefaultSimilaritiesCalculationService.class,
 							baseDocType) != null
-					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class, baseDocType) != null;
-			
-			for(String profileDocType : profileDocTypes){
+					&& ServiceHelper.getService(Activator.context,
+							IterativeMatchingService.class, baseDocType) != null
+					&& ServiceHelper.getService(Activator.context,  ProfilesMatchingService.class, baseDocType)!=null;
+		} else {
+			// No Profile or no handler found
+			for(String docType : docTypes){
 				if(canHandle){
-					canHandle = ServiceHelper.getService(Activator.context, ProfilesMatchingService.class, profileDocType) != null;
+					canHandle = ServiceHelper.getService(Activator.context, AnnotationService.class, docType) != null
+					&& ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
+							docType) != null
+					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class,
+							docType) != null;
 				}
 			}
-			
-			return canHandle;
-
-		} else {
-			// No Profile
-			assert (!EMFModelAccessEx.isProfiled(modelB)) : "modelA is not profiled, but modelB is!";
-
-			String characteristicDocType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-			return ServiceHelper.getService(Activator.context, AnnotationService.class, characteristicDocType) != null
-					&& ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
-							characteristicDocType) != null
-					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class,
-							characteristicDocType) != null;
 		}
+		
+		return canHandle;
 
 	}
 
@@ -218,6 +227,19 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	@Override
 	public boolean canComputeReliability() {
 		return true;
+	}
+	
+	private IDifferenceProfileHandler getProfileHandler(Set<String> docTypes){
+		if(profileHandler == null){
+			for(String docType : docTypes){
+				// at the moment there is only one profile handler available
+				profileHandler = DifferenceProfileHandlerUtil.getDefaultDifferenceProfileHandler(docType);
+				if(profileHandler != null){
+					break;
+				}
+			}
+		}
+		return profileHandler;
 	}
 
 }
