@@ -101,6 +101,11 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 						if (targetObject != null) {
 							arg.resolveTo(targetObject);
 						}
+					}else if(objBinding.getIncoming() != null && objBinding.getActualB() != null){
+						EObject targetObject = resolveOriginObject(objBinding.getActualB());
+						if(targetObject != null){
+							arg.resolveTo(targetObject);
+						}
 					}
 					argumentResolutions.put(binding, arg);
 				}

@@ -20,7 +20,9 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	/**
 	 * Mapping of symbolic links and objects of the target model
 	 */
-	private Map<SymbolicLinkObject, EObject> linkResolving;
+	private Map<SymbolicLinkObject, EObject> linkResolvingA;
+	
+	private Map<SymbolicLinkObject, EObject> linkResolvingB;
 
 	public AbstractSymblBasedArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
 		this.symbolicLinkHandler = symbolicLinkHandler;
@@ -43,13 +45,21 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	
 	@Override
 	protected EObject resolveOriginObject(EObject originObject) {
-		if(linkResolving == null){
-			linkResolving = symbolicLinkHandler.resolveSymbolicLinkObjects(
+		if(linkResolvingA == null){
+			linkResolvingA = symbolicLinkHandler.resolveSymbolicLinkObjects(
 					(SymbolicLinks) getOriginModel().getContents().get(0),
 					getTargetModel(), true);
 		}
+		if(linkResolvingB == null){
+			EObject modelB = super.getPatch().getSymmetricDifference().getModelB().getContents().get(0);
+			linkResolvingB = symbolicLinkHandler.resolveSymbolicLinkObjects((SymbolicLinks) modelB, getTargetModel(), true);
+		}
 		if(originObject instanceof SymbolicLinkObject){
-			return linkResolving.get(originObject);
+			if(linkResolvingA.get(originObject)!=null){
+				return linkResolvingA.get(originObject);
+			}else{
+				return linkResolvingB.get(originObject);
+			}
 		}else{
 			//if the origin object is not a symbolic link, it can only be 
 			//taken from a model of the package registry
@@ -70,7 +80,16 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	 * 
 	 * @return
 	 */
-	protected Map<SymbolicLinkObject, EObject> getLinkResolving() {
-		return linkResolving;
+	protected Map<SymbolicLinkObject, EObject> getLinkResolvingA() {
+		return linkResolvingA;
+	}
+	
+	/**
+	 * Getter method.
+	 * 
+	 * @return
+	 */
+	protected Map<SymbolicLinkObject, EObject> getLinkResolvingB() {
+		return linkResolvingB;
 	}
 }
