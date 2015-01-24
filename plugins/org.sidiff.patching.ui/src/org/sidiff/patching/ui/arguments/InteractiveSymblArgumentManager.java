@@ -15,8 +15,6 @@ import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 import org.sidiff.patching.arguments.AbstractSymblBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -79,7 +77,7 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 		// if the origin object is a symbolic link, resolve the 
 		// appropriate object of the target model.
 		if (originObject instanceof SymbolicLinkObject) {
-			originObject = getLinkResolving().get(originObject);
+			originObject = getLinkResolvingA().get(originObject);
 		}
 		// Do not include elements defined in Ecore Meta-model itself
 		// (except EDataTypes).
