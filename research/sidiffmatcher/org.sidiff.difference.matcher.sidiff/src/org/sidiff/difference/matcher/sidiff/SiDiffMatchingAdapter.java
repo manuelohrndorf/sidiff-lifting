@@ -1,6 +1,8 @@
 package org.sidiff.difference.matcher.sidiff;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -240,6 +242,12 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			}
 		}
 		return profileHandler;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return Collections.emptyMap();
 	}
 
 }
