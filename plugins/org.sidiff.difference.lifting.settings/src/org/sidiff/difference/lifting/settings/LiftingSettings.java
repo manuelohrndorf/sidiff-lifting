@@ -209,7 +209,7 @@ public class LiftingSettings extends Settings {
 	 *            {@link ITechnicalDifferenceBuilder})
 	 */
 	public void setTechBuilder(ITechnicalDifferenceBuilder techBuilder) {
-		if (this.techBuilder == null || !this.techBuilder.getName().equals(techBuilder.getName())) {
+		if (this.techBuilder == null || !this.techBuilder.equals(techBuilder)) {
 			this.techBuilder = techBuilder;
 			this.notifyListeners(SettingsItem.TECH_BUILDER);
 		}
