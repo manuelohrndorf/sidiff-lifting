@@ -1,5 +1,6 @@
 package org.sidiff.difference.matcher.uri;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -231,6 +232,12 @@ public class URIFragmentMatcher extends BaseMatcher {
 	@Override
 	public boolean canComputeReliability() {
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return Collections.emptyMap();
 	}
 
 }

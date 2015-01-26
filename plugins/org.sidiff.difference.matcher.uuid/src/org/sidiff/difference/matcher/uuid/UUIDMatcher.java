@@ -1,5 +1,6 @@
 package org.sidiff.difference.matcher.uuid;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -132,6 +133,12 @@ public class UUIDMatcher extends BaseMatcher {
 	@Override
 	public boolean canComputeReliability() {
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return Collections.emptyMap();
 	}
 
 }

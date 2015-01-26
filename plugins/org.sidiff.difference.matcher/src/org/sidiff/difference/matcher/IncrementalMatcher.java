@@ -1,6 +1,8 @@
 package org.sidiff.difference.matcher;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.logging.LogEvent;
@@ -137,6 +139,12 @@ public class IncrementalMatcher implements IMatcher {
 	
 	public void setMatchers(List<IMatcher> matchers){
 		this.matchers = matchers;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return Collections.emptyMap();
 	}
 
 }

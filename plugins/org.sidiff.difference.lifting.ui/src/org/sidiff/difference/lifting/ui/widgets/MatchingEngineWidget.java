@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -14,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -41,12 +43,13 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	protected Composite container;
 	protected List list_matchers;
+	
+	protected Composite config_container;
 
 	protected IPageChangedListener pageChangedListener;
 
 	public MatchingEngineWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
-
 		// Connect scope widget:
 
 		getMatchers();
@@ -96,9 +99,46 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				settings.setMatcher(getSelection());
+				config_container.dispose();
+				config_container = new Composite(container, SWT.NONE);
+				{
+					GridLayout grid = new GridLayout(1, false);
+					grid.marginWidth = 0;
+					grid.marginHeight = 0;
+					config_container.setLayout(grid);
+				}
+				for(String option : getSelection().getConfigurationOptions().keySet()){
+					
+					final String key = option;
+					// use a checkbox for boolean values 
+					if(getSelection().getConfigurationOptions().get(option) instanceof Boolean){
+						final Button button = new Button(config_container, SWT.CHECK);
+						button.setText(option);
+						button.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								if(button.getSelection()){
+									getSelection().getConfigurationOptions().put(key, true);
+								}else{
+									getSelection().getConfigurationOptions().put(key, false);
+								}
+							}
+						});
+					}
+				}
+				
+				container.layout();
 			}
 		});
 
+		config_container = new Composite(container, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 0;
+			grid.marginHeight = 0;
+			config_container.setLayout(grid);
+		}
+		
 		settings.setMatcher(this.getSelection());
 
 		return container;

@@ -1,6 +1,8 @@
 package org.sidiff.difference.matcher.emfcompare;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.Comparison;
@@ -124,6 +126,12 @@ public class EMFCompareMatchingAdapter implements IMatcher {
 	@Override
 	public boolean canComputeReliability() {
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return Collections.emptyMap();
 	}
 
 }
