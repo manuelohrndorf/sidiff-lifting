@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureModel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:FeatureModel="http://de.imotep.variability/featuremodel" name="PPUFM">
+  <constraints xsi:type="FeatureModel:RequireConstraint" name="StampZuMetal" language="" requiredFeature="Metal" feature="Stamp"/>
+  <constraints xsi:type="FeatureModel:RequireConstraint" name="LightZuAPressure" language="" requiredFeature="APressure" feature="Light"/>
+  <root name="PPU" abstract="true">
+    <children name="Crane" mandatory="true" abstract="true">
+      <children name="ERouting" group="Cr"/>
+      <children name="SRouting" group="Cr"/>
+    </children>
+    <children name="Slide" mandatory="true" abstract="true">
+      <children name="Straight" group="Sli"/>
+      <children name="Conveyor" abstract="true" group="Sli">
+        <children name="SSorting" group="Conv"/>
+        <children name="DSorting" group="Conv"/>
+      </children>
+    </children>
+    <children name="Workpiece" mandatory="true" abstract="true">
+      <children name="Plastic" group="Workp">
+        <children name="Light" requireConstraints="LightZuAPressure" group="Plas"/>
+        <children name="Dark" group="Plas"/>
+      </children>
+      <children name="Metal" requiredConstraints="StampZuMetal" group="Workp"/>
+    </children>
+    <children name="Stamp" abstract="true" requireConstraints="StampZuMetal">
+      <children name="SPressure" group="Sta"/>
+      <children name="APressure" requiredConstraints="LightZuAPressure" group="Sta"/>
+    </children>
+  </root>
+  <groups name="Cr" features="ERouting SRouting" groupType="ALT"/>
+  <groups name="Sli" features="Straight Conveyor" groupType="ALT"/>
+  <groups name="Conv" features="SSorting DSorting" groupType="ALT"/>
+  <groups name="Workp" features="Plastic Metal"/>
+  <groups name="Plas" features="Light Dark"/>
+  <groups name="Sta" features="SPressure APressure" groupType="ALT"/>
+</FeatureModel:FeatureModel>
