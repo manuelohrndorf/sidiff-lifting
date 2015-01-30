@@ -93,7 +93,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 	 */
 	public T selectNextCandidate(){
 		LogUtil.log(LogEvent.NOTICE, "Selecting candidate [" + (selectedCandidates.size()+1) + "/" + getNumberToBeSelected() + "] from "
-				+ getRankedCandidates().size() + " possible candidates");
+				+ getRankedCandidates().size() + " possible candidates...");
 		T candidate = getNextCandidate();
 		if(candidate == null){
 			LogUtil.log(LogEvent.NOTICE, "No possible candidate found.");
@@ -125,7 +125,6 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 	public void initializeCandidates(LinkedList<T> candidates){
 		this.rankedCandidates = candidates;
 		this.numberOfCandidates = rankedCandidates.size();
-		rankCandidates();
 	}
 
 	/**

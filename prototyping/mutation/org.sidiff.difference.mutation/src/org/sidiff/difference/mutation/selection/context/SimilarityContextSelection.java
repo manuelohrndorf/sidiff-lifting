@@ -1,4 +1,4 @@
-package org.sidiff.difference.mutation.selection.context.util;
+package org.sidiff.difference.mutation.selection.context;
 
 import java.util.LinkedList;
 
@@ -12,27 +12,28 @@ public class SimilarityContextSelection extends SimilaritySelection<Match> {
 
 	public SimilarityContextSelection(LinkedList<Match> rankedCandidates,
 			LinkedList<Match> selectedCandidates, int selectionCoveragePercent,
-			boolean allowDuplicateCandidateSelection) {
-		super(rankedCandidates, selectedCandidates, selectionCoveragePercent,
+			boolean invertSort,	boolean allowDuplicateCandidateSelection) {
+		super(rankedCandidates, selectedCandidates, selectionCoveragePercent, invertSort,
 				allowDuplicateCandidateSelection);
 	}
 
 	@Override
 	protected void setFitness(Match candidate) {
 		
+		int candidateSelectedBefore = 0;
+		
 		// We annotate all referenced EObjects in
 		// the current context.
-		int selectedBefore = 0;
 		for(EObject refObj : candidate.getNodeTargets()){
 			AnnotateableElement annotElem = EMFAdapter.INSTANCE.adapt(refObj , AnnotateableElement.class);
 		
 			// Get old value and add it
 			if(annotElem.hasAnnotation(SimilarityContextSelection.KEY_SELECTED)){
-				selectedBefore += annotElem.getAnnotation(SimilarityContextSelection.KEY_SELECTED, int.class);				
+				candidateSelectedBefore += annotElem.getAnnotation(SimilaritySelection.KEY_SELECTED, int.class);				
 			}			
 			// Annotate with new value
-			++selectedBefore;
-			annotElem.setAnnotation(SimilarityContextSelection.KEY_SELECTED, selectedBefore);
+			++candidateSelectedBefore;
+			annotElem.setAnnotation(SimilaritySelection.KEY_SELECTED, candidateSelectedBefore);
 		}
 	}
 
@@ -44,12 +45,15 @@ public class SimilarityContextSelection extends SimilaritySelection<Match> {
 		for(EObject objo1 : candidate.getNodeTargets()){
 			// Check for Annotation on referenced EObjects
 			AnnotateableElement annotElem = EMFAdapter.INSTANCE.adapt(objo1 , AnnotateableElement.class);
-			if(annotElem.hasAnnotation(SimilarityContextSelection.KEY_SELECTED)){
-				candidateSelectedBefore = annotElem.getAnnotation(SimilarityContextSelection.KEY_SELECTED, int.class);
+			if(annotElem.hasAnnotation(SimilaritySelection.KEY_SELECTED)){
+				candidateSelectedBefore += annotElem.getAnnotation(SimilaritySelection.KEY_SELECTED, int.class);
 			}				
 		}
 		
-		return candidateSelectedBefore;
+		//Invert as the fitness is defined inverse
+		int fitness = candidateSelectedBefore * -1 ;
+		
+		return fitness;
 	}
 
 }

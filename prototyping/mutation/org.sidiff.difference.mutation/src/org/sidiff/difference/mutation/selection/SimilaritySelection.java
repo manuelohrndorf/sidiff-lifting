@@ -2,24 +2,22 @@ package org.sidiff.difference.mutation.selection;
 
 import java.util.LinkedList;
 
+import org.sidiff.difference.rulebase.EditRule;
+
 public abstract class SimilaritySelection<T> extends AbstractSelection<T> {
 
 	public SimilaritySelection(LinkedList<T> rankedCandidates,
 			LinkedList<T> selectedCandidates, int selectionCoveragePercent,
-			boolean allowDuplicateCandidateSelection) {
+			boolean invertSorting, boolean allowDuplicateCandidateSelection) {
 		super(rankedCandidates, selectedCandidates, selectionCoveragePercent,
 				allowDuplicateCandidateSelection);
+		this.invertSorting = invertSorting;
 	}
 	
 	/**
 	 * Annotation key for selection
 	 */
 	public static final String KEY_SELECTED = "Selected";
-	
-	/**
-	 * Annotation key for selection
-	 */
-	public static final String KEY_MODIFIED = "Modified";
 	
 	/**
 	 * Defines whether the similarity sorting is inverted.
@@ -43,12 +41,15 @@ public abstract class SimilaritySelection<T> extends AbstractSelection<T> {
 		if(o1Fitness == o2Fitness)
 			result = 0;
 		else if(o1Fitness < o2Fitness)
-			result = -1;
-		else
 			result = 1;
+		else
+			result = -1;
 		
 		if(invertSorting)
 			result *= -1 ;
+		
+		if(o1 instanceof EditRule)
+			System.out.println("test");
 
 		return result;
 	

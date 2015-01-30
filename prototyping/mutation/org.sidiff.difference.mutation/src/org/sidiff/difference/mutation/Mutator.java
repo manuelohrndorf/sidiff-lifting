@@ -177,7 +177,12 @@ public class Mutator {
 			currentOrder++;
 		}
 		StatisticsUtil.getInstance().stop("Mutation");
-		LogUtil.log(LogEvent.NOTICE, "Finished Mutation. Generated " + this.mutants.size() + " Mutants(" +
+		
+		int numberOfGeneratedMutants = 0;
+		for(int order :this.orderToMutants.keySet()){
+			numberOfGeneratedMutants += this.orderToMutants.get(order).size();
+		}
+		LogUtil.log(LogEvent.NOTICE, "Finished Mutation. Generated " + numberOfGeneratedMutants + " Mutants(" +
 				StatisticsUtil.getInstance().getTime("Mutation") + "ms)");
 
 
