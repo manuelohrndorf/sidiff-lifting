@@ -1,7 +1,6 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -20,7 +19,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
@@ -42,10 +40,17 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	protected SortedMap<String, IMatcher> matchers;
 
 	protected Composite container;
+	
 	protected List list_matchers;
 	
-	protected Composite config_container;
+	protected Button moveUp;
+	protected Button moveDown;
 
+	
+	protected Composite config_container;
+	
+	protected Button useIncrementalMatcher;
+	
 	protected IPageChangedListener pageChangedListener;
 
 	public MatchingEngineWidget(InputModels inputModels) {
@@ -63,21 +68,28 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 		container = new Composite(parent, SWT.NONE);
 		{
-			GridLayout grid = new GridLayout(1, false);
+			GridLayout grid = new GridLayout(2, false);
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			container.setLayout(grid);
 		}
-
+		
 		// Matcher controls:
 		Label matchingLabel = new Label(container, SWT.NONE);
 		matchingLabel.setText("Matching Engine:");
-
+		{
+			GridData gridData = new GridData();
+			gridData.horizontalAlignment = GridData.FILL;
+			gridData.horizontalSpan = 2;
+			matchingLabel.setLayoutData(gridData);
+		}
+		
 		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
-			list_matchers.setLayoutData(data);
+			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+			gridData.heightHint = 70;
+			gridData.verticalSpan = 2;
+			list_matchers.setLayoutData(gridData);
 		}
 		list_matchers.setItems(matchers.keySet().toArray(new String[0]));
 
@@ -98,6 +110,15 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		list_matchers.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
+				if(list_matchers.getSelectionCount() > 1){
+					moveUp.setEnabled(false);
+					moveDown.setEnabled(false);
+				}else{
+					moveUp.setEnabled(true);
+					moveDown.setEnabled(true);
+				}
+				
 				settings.setMatcher(getSelection());
 				config_container.dispose();
 				config_container = new Composite(container, SWT.NONE);
@@ -126,19 +147,50 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 						});
 					}
 				}
-				
-				container.layout();
+				container.getParent().layout();
 			}
 		});
 
+		
+		moveUp = new Button(container, SWT.PUSH);
+		moveUp.setText("Move Up");
+		moveUp.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = list_matchers.getSelectionIndex();
+				if(index > 0){
+					String item = list_matchers.getItem(index);
+					list_matchers.remove(index);
+					list_matchers.add(item, index-1);
+					list_matchers.select(index-1);
+				}
+			}
+		});
+		
+		
+		
+		moveDown = new Button(container, SWT.PUSH);
+		moveDown.setText("Move Down");
+		moveDown.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = list_matchers.getSelectionIndex();
+				if(index < list_matchers.getItemCount()-1){
+					String item = list_matchers.getItem(index);
+					list_matchers.remove(index);
+					list_matchers.add(item, index+1);
+					list_matchers.select(index+1);
+				}
+			}
+		});
+		
 		config_container = new Composite(container, SWT.NONE);
 		{
 			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			config_container.setLayout(grid);
-		}
-		
+		}		
 		settings.setMatcher(this.getSelection());
 
 		return container;
