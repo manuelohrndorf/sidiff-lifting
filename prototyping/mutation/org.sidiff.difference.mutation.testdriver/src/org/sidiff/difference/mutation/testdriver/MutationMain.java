@@ -3,6 +3,7 @@ package org.sidiff.difference.mutation.testdriver;
 import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.osgi.framework.BundleContext;
@@ -13,8 +14,7 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.mutation.Mutator;
 import org.sidiff.difference.mutation.config.MutationConfig;
 import org.sidiff.difference.mutation.selection.IntactSelection;
-import org.sidiff.difference.mutation.selection.context.SimilarityContextSelection;
-import org.sidiff.difference.mutation.selection.operator.SimilarityOperatorSelection;
+import org.sidiff.difference.mutation.selection.RandomSelection;
 import org.sidiff.difference.rulebase.EditRule;
 
 
@@ -57,27 +57,27 @@ public class MutationMain implements IApplication {
 		
 		// Edit Rules
 		LinkedList<EditRule> ers = new LinkedList<EditRule>();
+		EditRule er2 = EditRuleUtil.getEditRule(docType,"SET_Feature_Abstract");
 		EditRule er0 = EditRuleUtil.getEditRule(docType,"CreateRequireConstraint");
 		EditRule er1 = EditRuleUtil.getEditRule(docType,"CREATE_ExcludeConstraint_IN_FeatureModel_(constraints)");
-		EditRule er2 = EditRuleUtil.getEditRule(docType,"SET_Feature_Mandatory");
 		EditRule er3 = EditRuleUtil.getEditRule(docType,"SET_Feature_Optional");
 
-		ers.add(er0);
-		ers.add(er1);
+	//	ers.add(er0);
+	//	ers.add(er1);
 		ers.add(er2);
-		ers.add(er3);
+	//	ers.add(er3);
 		
 		
 		// Context Selection
-		//RandomSelection<Match> cs = new RandomSelection<Match>(null, null, 10, false);
-		SimilarityContextSelection cs = new SimilarityContextSelection(null, null, 10, false, true);
+		RandomSelection<Match> cs = new RandomSelection<Match>(null, null, 50, false);
+		//SimilarityContextSelection cs = new SimilarityContextSelection(null, null, 10, false, true);
 		
 		// Operator Selection
-		//IntactSelection<EditRule> os = new IntactSelection<EditRule>(null, null, 100, false);
-		SimilarityOperatorSelection os = new SimilarityOperatorSelection(null, null, 100, false, true);
+		IntactSelection<EditRule> os = new IntactSelection<EditRule>(null, null, 100, false);
+		//SimilarityOperatorSelection os = new SimilarityOperatorSelection(null, null, 100, false, true);
 		
 		// Order of Mutation
-		int order = 2;
+		int order = 3;
 		
 		MutationConfig mc = new MutationConfig("RQC",inputModel, ers, os, cs, order);		
 		LogUtil.log(LogEvent.NOTICE, mc);

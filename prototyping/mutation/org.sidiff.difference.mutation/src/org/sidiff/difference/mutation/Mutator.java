@@ -1,13 +1,8 @@
 package org.sidiff.difference.mutation;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -43,27 +38,16 @@ public class Mutator {
 	private MutationConfig mc;
 	
 	/**
-	 * Input models to use
+	 * Mutation management for
+	 * saving result and writing logs
 	 */
-	private List<Resource> inputModels;
+	private MutationManagement mm;
 	
-	/**
-	 * The result mutants
-	 */
-	private List<Resource> mutants;	
 	
-	/**
-	 * Mapping between mutation order and generated mutants
-	 */
-	private Map<Integer,List<Resource>> orderToMutants;
-	
-
 	public Mutator(MutationConfig mc) {
 		super();
 		this.mc = mc;	
-		this.mutants = new ArrayList<Resource>();
-		this.inputModels = new ArrayList<Resource>();
-		this.orderToMutants = new HashMap<Integer, List<Resource>>();
+		this.mm = new MutationManagement();
 	}
 
 	/**
@@ -79,113 +63,106 @@ public class Mutator {
 
 		while(currentOrder <= this.mc.getMutationOrder()){
 			
-			clearPreviousOrderResults();
+		//	clearPreviousOrderResults();			
 			
-			// Copy operator catalogue to selection
-			Copier c = new Copier();
-			c.copyAll(this.mc.getMutationOperators());
-			c.copyReferences();
-			
-			LinkedList<EditRule> copiedOPs = new LinkedList<EditRule>(); 			
-			for(EditRule operator : this.mc.getMutationOperators()){
-				copiedOPs.add((EditRule) c.get(operator));				
-			}
-			
-			this.mc.getAos().initializeCandidates(copiedOPs);
-			
+			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
 			LogUtil.log(LogEvent.NOTICE, "MutationOrder: " + currentOrder);			
+			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
 					
 			// Use input model in first iteration
 			if(currentOrder==1){
-				this.inputModels.add(this.mc.getTargetModel());
+				this.mm.setInputModels(currentOrder,Collections.singletonList(mc.getTargetModel()));
 			}
 			
 			// Use result mutants from last iteration
 			else{
-				this.inputModels = this.orderToMutants.get(currentOrder-1);
+				this.mm.initializeOrder(currentOrder);
 			}
 			
 		
-			for(Resource inputModel : this.inputModels){	
-
-				LogUtil.log(LogEvent.NOTICE, "Selected Input Model: " + inputModel);			
+			for(Resource inputModel : this.mm.getInputModels(currentOrder)){
+				
+				clearPreviousResults();
+				
+				LogUtil.log(LogEvent.DEBUG, "Selected Input Model: " + inputModel.getURI());			
 
 				while(!this.mc.getAos().selectionCoverageReached()){
-					EditRule editRule = this.mc.getAos().selectNextCandidate();
+					
+					// select next operator
+					EditRule operator = this.mc.getAos().selectNextCandidate();
 
 					//Compute all possible contexts
-					LinkedList<Match> contexts = computeContexts(inputModel,editRule);
+					LinkedList<Match> contexts = computeContexts(inputModel,operator);
 					this.mc.getAcs().initializeCandidates(contexts);
+					
 					int mutantNumber = 1;
 
 					while(!this.mc.getAcs().selectionCoverageReached()){
 
-						// Instantiate Copier
-						Copier copier = new Copier();
-
-						// Copy input model
-						Resource targetModel = initTargetModel(inputModel, currentOrder, mutantNumber, copier);
-
-						// Create a graph
-						EGraph graph = new EGraphImpl(targetModel);
-
-						// Get Rule
-						Rule rule = (Rule) editRule.getExecuteModule().getUnits().get(0);
-
-						// Create an engine and a rule application:
-						Engine engine = new EngineImpl();		
-						RuleApplication ra = new RuleApplicationImpl(engine);
-						ra.setEGraph(graph);
-						ra.setRule(rule);						
-
 						// select next context
 						Match context = this.mc.getAcs().selectNextCandidate();		
 
-						// find corresponding context in copied model
-						// and adapt references
-						Match adaptedContext = adaptContext(copier, context, rule);				
+						// check if this mutation has already been
+						// performed before
+						//TODO
+						if(!this.mm.mutationHasBeenUsedBefore(operator, context)){
 
-						// Use adapted context for execution
-						ra.setCompleteMatch(adaptedContext);
+							// Instantiate Copier
+							Copier copier = new Copier();
 
-						// Apply transformation
-						boolean result = ra.execute(null);
+							// Copy input model
+							Resource targetModel = initTargetModel(inputModel, currentOrder, mutantNumber, copier);
 
-						//TODO Validation
-						// Validate the mutated model					
+							// Create a graph
+							EGraph graph = new EGraphImpl(targetModel);
 
-						if (result) {
-							try {
-								//Save mutant
+							// Get Rule
+							Rule rule = (Rule) operator.getExecuteModule().getUnits().get(0);
+
+							// Create an engine and a rule application:
+							Engine engine = new EngineImpl();		
+							RuleApplication ra = new RuleApplicationImpl(engine);
+							ra.setEGraph(graph);
+							ra.setRule(rule);						
+
+							// find corresponding context in copied model
+							// and adapt references
+							Match adaptedContext = adaptContext(copier, context, rule);				
+
+							// Use adapted context for execution
+							ra.setCompleteMatch(adaptedContext);
+
+							// Apply transformation
+							boolean result = ra.execute(null);
+
+							//TODO Validation
+							// Validate the mutated model					
+
+							if (result) {
+								// Remember mutation
+								Mutation mutation = new Mutation(inputModel, targetModel,
+										copier, operator, adaptedContext);
+								this.mm.addMutation(currentOrder, mutation);
+
+								// Save mutant
 								targetModel.save(Collections.EMPTY_MAP);
-								LogUtil.log(LogEvent.NOTICE, "Created Mutant " + targetModel.toString());
 
-								//Remember mutant
-								this.mutants.add(targetModel);
+								LogUtil.log(LogEvent.NOTICE, "------  Created Mutant  ------");
+								LogUtil.log(LogEvent.NOTICE, mutation);
 
 								mutantNumber++;
-
-							} catch (IOException e) {
-								e.printStackTrace();
 							}
 						}
 					}
 				}		
 			}
 
-			this.orderToMutants.put(currentOrder, new ArrayList<Resource>(mutants));
 			currentOrder++;
 		}
 		StatisticsUtil.getInstance().stop("Mutation");
 		
-		int numberOfGeneratedMutants = 0;
-		for(int order :this.orderToMutants.keySet()){
-			numberOfGeneratedMutants += this.orderToMutants.get(order).size();
-		}
-		LogUtil.log(LogEvent.NOTICE, "Finished Mutation. Generated " + numberOfGeneratedMutants + " Mutants(" +
+		LogUtil.log(LogEvent.NOTICE, "Finished Mutation. Generated " + this.mm.getAllMutations().size() + " Mutant(s)(" +
 				StatisticsUtil.getInstance().getTime("Mutation") + "ms)");
-
-
 	}
 
 	/**
@@ -221,10 +198,23 @@ public class Mutator {
 		// Calculate file names
 		String targetFile = inputModel.getURI().toFileString();
 		String folder = targetFile.substring(0, targetFile.lastIndexOf(File.separator));
+		String mutantFolder = "Mutants_" + mc.getName();
+		String orderFolder = "Order_" + currenOrder;
 		String file = targetFile.substring(targetFile.lastIndexOf(File.separator) + 1, targetFile.length());
 		String baseName = file.substring(0, file.lastIndexOf("."));
-		String targetFileCopy = folder + File.separator + "Mutants" + File.separator + baseName + mutantNumber + "_" + mc.getName()
-				+ ".featuremodel";		
+		
+		//Use only one flat mutant folder
+		if(folder.contains(mutantFolder)){
+			mutantFolder = "";
+		}
+		
+		//Use order folder just once
+		if(folder.contains(orderFolder)){
+			orderFolder = "";
+		}
+		
+		String targetFileCopy = folder + File.separator + mutantFolder + File.separator +  orderFolder +
+				File.separator+ baseName + "_M" +  mutantNumber +".featuremodel";		
 
 		// do copy
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -236,7 +226,7 @@ public class Mutator {
 			targetModel.getContents().add(copier.get(orig));
 		}
 		
-		LogUtil.log(LogEvent.NOTICE, "Created copy of input model: " + targetFileCopy);
+		LogUtil.log(LogEvent.DEBUG, "Created copy of input model: " + targetFileCopy);
 		
 		return targetModel;
 	}
@@ -260,24 +250,39 @@ public class Mutator {
 		return context;		
 	}
 	
-	/**
+/*	*//**
 	 * Convenient method for cleaning up results of
 	 * a previous mutation order.
-	 */
+	 *//*
 	private void clearPreviousOrderResults(){
 		
 		// Cleanup old lists
-		this.mutants.clear();
-		this.inputModels.clear();
+		this.mm.getMutants().clear();
+		this.mm.getInputModels().clear();		
 		
+	}*/
+	
+	private void clearPreviousResults(){
+
 		// Cleanup selections
 		this.mc.getAcs().clearCandidates();
 		this.mc.getAos().clearCandidates();
 		this.mc.getAcs().clearResults();
 		this.mc.getAos().clearResults();
 		
+		// Copy operator catalogue to selection				
+		Copier c = new Copier();
+		c.copyAll(this.mc.getMutationOperators());
+		c.copyReferences();
+		
+		LinkedList<EditRule> copiedOPs = new LinkedList<EditRule>(); 			
+		for(EditRule operator : this.mc.getMutationOperators()){
+			copiedOPs.add((EditRule) c.get(operator));				
+		}
+		
 		// Re-Initialize operators
-		this.mc.getAos().initializeCandidates(this.mc.getMutationOperators());
+		this.mc.getAos().initializeCandidates(copiedOPs);
+		
 	}
 
 	protected MutationConfig getMutationConfig() {

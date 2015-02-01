@@ -92,11 +92,11 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 	 * @return the candidate selected next
 	 */
 	public T selectNextCandidate(){
-		LogUtil.log(LogEvent.NOTICE, "Selecting candidate [" + (selectedCandidates.size()+1) + "/" + getNumberToBeSelected() + "] from "
+		LogUtil.log(LogEvent.DEBUG, "Selecting candidate [" + (selectedCandidates.size()+1) + "/" + getNumberToBeSelected() + "] from "
 				+ getRankedCandidates().size() + " possible candidates...");
 		T candidate = getNextCandidate();
 		if(candidate == null){
-			LogUtil.log(LogEvent.NOTICE, "No possible candidate found.");
+			LogUtil.log(LogEvent.DEBUG, "No possible candidate found.");
 			return null;			
 		}
 		if(allowDuplicateCandidateSelection)
@@ -105,7 +105,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 			rankedCandidates.remove(candidate);
 		
 		selectedCandidates.add(candidate);
-		LogUtil.log(LogEvent.NOTICE, "Selected candidate: " + candidate);
+		LogUtil.log(LogEvent.DEBUG, "Selected candidate: " + candidate);
 		return candidate;
 	}
 	
@@ -145,11 +145,13 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 		
 		// No candidates available
 		if(rankedCandidates.size() == 0){
+			LogUtil.log(LogEvent.DEBUG, "No candidates left.");
 			return true;
 		}
 		
 		//Coverage reached
 		if(selectedCandidates.size() >= getNumberToBeSelected()){
+			LogUtil.log(LogEvent.DEBUG, "Selection Coverage Reached.");
 			return true;
 		}
 		
