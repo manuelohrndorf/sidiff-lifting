@@ -177,7 +177,7 @@ public abstract class PotentialDependencyAnalyzer {
 		successorUsingAttributes.addAll(getDeletionAttributes(successor));
 		
 		// Get <<forbid>> attributes
-		List<Attribute> predecessorForbidAttributes = getForbidAttributes(successor);
+		List<Attribute> predecessorForbidAttributes = getForbidAttributes(predecessor);
 		
 		List<Attribute> successorForbidAttributes = getForbidAttributes(successor);
 		
