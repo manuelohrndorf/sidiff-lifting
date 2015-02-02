@@ -1,5 +1,8 @@
 package org.sidiff.difference.matcher.ecoreid;
 
+import java.util.Collections;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.matcher.BaseMatcher;
@@ -55,5 +58,10 @@ public class EcoreIDMatcher extends BaseMatcher {
 				return idA.equals(idB);
 			}
 		}
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		return Collections.emptyMap();
 	}
 }
