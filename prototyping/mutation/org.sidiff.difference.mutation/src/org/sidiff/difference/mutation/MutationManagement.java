@@ -1,6 +1,5 @@
 package org.sidiff.difference.mutation;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +9,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.sidiff.difference.mutation.util.MutationUtil;
 import org.sidiff.difference.rulebase.EditRule;
 
 public class MutationManagement {
@@ -80,10 +80,10 @@ public class MutationManagement {
 		mutations.add(mutation);
 		this.orderToMutations.put(mutationOrder, mutations);
 		
-		// Create a mutation sequence for current mutant
-		LinkedList<Mutation> mutationSequence = getMutationSequence(mutation.getInputModel());
-		mutationSequence.add(mutation);
-		
+		// Copy mutation sequence of input model
+		LinkedList<Mutation> mutationSequence = (LinkedList<Mutation>) getMutationSequence(mutation.getInputModel()).clone();
+		// Add current mutation
+		mutationSequence.add(mutation);		
 		// Add to map
 		this.mutantToMutationSequence.put(mutation.getMutant(), mutationSequence);
 		
@@ -111,26 +111,16 @@ public class MutationManagement {
 	}
 	
 	public String printMutationSequence(Resource mutant){
-		
-		//FIXME the result is still wrong
 		LinkedList<Mutation> mutationSequence = getMutationSequence(mutant);
 		String result = "";
 		for(Mutation mutation : mutationSequence){
-			String inputFileName = mutation.getInputModel().getURI().toFileString();
-			inputFileName = inputFileName.substring(inputFileName.lastIndexOf(File.separator) + 1, inputFileName.length());
-			
-			String mutantFileName = mutation.getMutant().getURI().toFileString();
-			mutantFileName = mutantFileName.substring(mutantFileName.lastIndexOf(File.separator) + 1, mutantFileName.length());
-			
+			String inputFileName = MutationUtil.getResourceName(mutation.getInputModel());
+			String mutantFileName = MutationUtil.getResourceName(mutation.getMutant());
 			String opName = mutation.getUsedOperator().getExecuteModule().getName();
 			
-			result += inputFileName + "(" + opName + ") -> " ;
+			result += " " + inputFileName + "(" + opName + ") -> "  + mutantFileName + " ";
 			
 		}
-		String mutantFileName = mutant.getURI().toFileString();
-		mutantFileName = mutantFileName.substring(mutantFileName.lastIndexOf(File.separator) + 1, mutantFileName.length());
-		result += mutantFileName;
-		
 		return result;
 		
 	}

@@ -3,6 +3,7 @@ package org.sidiff.difference.mutation;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.sidiff.difference.mutation.util.MutationUtil;
 import org.sidiff.difference.rulebase.EditRule;
 
 public class Mutation {
@@ -49,10 +50,10 @@ public class Mutation {
 	
 	@Override
 	public String toString() {
-		String result = "Input Model: " + getInputModel() + System.lineSeparator();
+		String result = "Input Model: " + MutationUtil.getResourceName(getInputModel()) + System.lineSeparator();
 		result += "Mutation Operator: " + getUsedOperator() + System.lineSeparator();
 		result += "Mutation Context: " + getUsedContext();
-		result += "Resulting Mutant: " + getMutant() + System.lineSeparator();
+		result += "Resulting Mutant: " + MutationUtil.getResourceName(getMutant());
 		return result; 
 	}
 	

@@ -26,6 +26,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.mutation.config.MutationConfig;
+import org.sidiff.difference.mutation.util.MutationUtil;
 import org.sidiff.difference.rulebase.EditRule;
 import org.silift.common.util.emf.EMFStorage;
 
@@ -78,9 +79,9 @@ public class Mutator {
 			SubProgressMonitor spm = new SubProgressMonitor(monitor, 1/this.mc.getMutationOrder());
 			spm.beginTask("Mutating Order " + currentOrder, 100);
 		
-			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
+			LogUtil.log(LogEvent.NOTICE, "-------------------------");			
 			LogUtil.log(LogEvent.NOTICE, "MutationOrder: " + currentOrder);			
-			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
+			LogUtil.log(LogEvent.NOTICE, "-------------------------");			
 					
 			// Use input model in first iteration
 			if(currentOrder==1){
@@ -175,9 +176,9 @@ public class Mutator {
 									e.printStackTrace();
 								}
 
-								LogUtil.log(LogEvent.NOTICE, "------  Created Mutant " + targetModel.getURI() + " ------");
+								LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
 								LogUtil.log(LogEvent.DEBUG, mutation);
-							//	LogUtil.log(LogEvent.NOTICE, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));
+								LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));
 
 								mutantNumber++;
 							}
