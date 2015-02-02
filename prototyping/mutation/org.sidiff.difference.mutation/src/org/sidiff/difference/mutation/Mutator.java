@@ -1,9 +1,12 @@
 package org.sidiff.difference.mutation;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,6 +27,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.mutation.config.MutationConfig;
 import org.sidiff.difference.rulebase.EditRule;
+import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Mutator class
@@ -48,14 +52,22 @@ public class Mutator {
 		super();
 		this.mc = mc;	
 		this.mm = new MutationManagement();
+		
+		LogUtil.log(LogEvent.NOTICE, this.mc);
+
 	}
 
 	/**
 	 * Peform the mutation.
 	 * @throws Exception 
 	 */
-	public void mutate() throws Exception {
-		LogUtil.log(LogEvent.NOTICE, "Running Mutator...");
+	public void mutate(IProgressMonitor monitor){
+		
+		
+		//TODO Make use of IProgressMonitor
+		// Create subprogressmonitors and stuff
+		
+		LogUtil.log(LogEvent.NOTICE, "Running Mutator...");		
 		
 		StatisticsUtil.getInstance().start("Mutation");
 		
@@ -63,15 +75,16 @@ public class Mutator {
 
 		while(currentOrder <= this.mc.getMutationOrder()){
 			
-		//	clearPreviousOrderResults();			
-			
+			SubProgressMonitor spm = new SubProgressMonitor(monitor, 1/this.mc.getMutationOrder());
+			spm.beginTask("Mutating Order " + currentOrder, 100);
+		
 			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
 			LogUtil.log(LogEvent.NOTICE, "MutationOrder: " + currentOrder);			
 			LogUtil.log(LogEvent.NOTICE, "----------------------------------------------");			
 					
 			// Use input model in first iteration
 			if(currentOrder==1){
-				this.mm.setInputModels(currentOrder,Collections.singletonList(mc.getTargetModel()));
+				this.mm.setInputModels(currentOrder,Collections.singleton(mc.getTargetModel()));
 			}
 			
 			// Use result mutants from last iteration
@@ -81,6 +94,10 @@ public class Mutator {
 			
 		
 			for(Resource inputModel : this.mm.getInputModels(currentOrder)){
+				
+				SubProgressMonitor spmm = new SubProgressMonitor(spm, 1/this.mm.getInputModels(currentOrder).size());
+
+				monitor.beginTask("Mutating Model " + inputModel.getURI(), 100);
 				
 				clearPreviousResults();
 				
@@ -98,13 +115,19 @@ public class Mutator {
 					int mutantNumber = 1;
 
 					while(!this.mc.getAcs().selectionCoverageReached()){
+						
+						// check for user cancel request
+						if(monitor.isCanceled()){
+							//Mark finished and exit
+							monitor.done();
+							return;
+						}
 
 						// select next context
 						Match context = this.mc.getAcs().selectNextCandidate();		
 
 						// check if this mutation has already been
 						// performed before
-						//TODO
 						if(!this.mm.mutationHasBeenUsedBefore(operator, context)){
 
 							// Instantiate Copier
@@ -145,24 +168,35 @@ public class Mutator {
 								this.mm.addMutation(currentOrder, mutation);
 
 								// Save mutant
-								targetModel.save(Collections.EMPTY_MAP);
+								try {
+									targetModel.save(Collections.EMPTY_MAP);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 
-								LogUtil.log(LogEvent.NOTICE, "------  Created Mutant  ------");
-								LogUtil.log(LogEvent.NOTICE, mutation);
+								LogUtil.log(LogEvent.NOTICE, "------  Created Mutant " + targetModel.getURI() + " ------");
+								LogUtil.log(LogEvent.DEBUG, mutation);
+							//	LogUtil.log(LogEvent.NOTICE, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));
 
 								mutantNumber++;
 							}
 						}
 					}
 				}		
+				
+				spmm.done();
+				
 			}
 
 			currentOrder++;
+			spm.done();
 		}
 		StatisticsUtil.getInstance().stop("Mutation");
 		
 		LogUtil.log(LogEvent.NOTICE, "Finished Mutation. Generated " + this.mm.getAllMutations().size() + " Mutant(s)(" +
 				StatisticsUtil.getInstance().getTime("Mutation") + "ms)");
+		monitor.done();
 	}
 
 	/**
@@ -197,6 +231,8 @@ public class Mutator {
 	private Resource initTargetModel(Resource inputModel, int currenOrder, int mutantNumber, Copier copier) {
 		// Calculate file names
 		String targetFile = inputModel.getURI().toFileString();
+		if(targetFile == null)
+			targetFile = EMFStorage.uriToPath(inputModel.getURI());
 		String folder = targetFile.substring(0, targetFile.lastIndexOf(File.separator));
 		String mutantFolder = "Mutants_" + mc.getName();
 		String orderFolder = "Order_" + currenOrder;
@@ -250,18 +286,6 @@ public class Mutator {
 		return context;		
 	}
 	
-/*	*//**
-	 * Convenient method for cleaning up results of
-	 * a previous mutation order.
-	 *//*
-	private void clearPreviousOrderResults(){
-		
-		// Cleanup old lists
-		this.mm.getMutants().clear();
-		this.mm.getInputModels().clear();		
-		
-	}*/
-	
 	private void clearPreviousResults(){
 
 		// Cleanup selections
@@ -270,7 +294,7 @@ public class Mutator {
 		this.mc.getAcs().clearResults();
 		this.mc.getAos().clearResults();
 		
-		// Copy operator catalogue to selection				
+		// Copy operator catalog to selection				
 		Copier c = new Copier();
 		c.copyAll(this.mc.getMutationOperators());
 		c.copyReferences();
