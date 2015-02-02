@@ -1,13 +1,14 @@
 package org.sidiff.difference.mutation.selection;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.sidiff.difference.rulebase.EditRule;
 
 public abstract class SimilaritySelection<T> extends AbstractSelection<T> {
 
 	public SimilaritySelection(LinkedList<T> rankedCandidates,
-			LinkedList<T> selectedCandidates, int selectionCoveragePercent,
+			Set<T> selectedCandidates, int selectionCoveragePercent,
 			boolean invertSorting, boolean allowDuplicateCandidateSelection) {
 		super(rankedCandidates, selectedCandidates, selectionCoveragePercent,
 				allowDuplicateCandidateSelection);

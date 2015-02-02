@@ -1,8 +1,7 @@
 package org.sidiff.difference.mutation.selection;
 
 import java.util.LinkedList;
-
-
+import java.util.Set;
 
 public interface ISelection<T>{
 	
@@ -16,7 +15,7 @@ public interface ISelection<T>{
 	
 	public LinkedList<T> getRankedCandidates();
 	
-	public LinkedList<T> getSelectedCandidates();	
+	public Set<T> getSelectedCandidates();	
 	
 	public boolean selectionCoverageReached();
 

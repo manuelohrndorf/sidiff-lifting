@@ -1,6 +1,7 @@
 package org.sidiff.difference.mutation.selection.operator;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.sidiff.common.emf.EMFAdapter;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
@@ -10,7 +11,7 @@ import org.sidiff.difference.rulebase.EditRule;
 public class SimilarityOperatorSelection extends SimilaritySelection<EditRule> {
 
 	public SimilarityOperatorSelection(LinkedList<EditRule> rankedCandidates,
-			LinkedList<EditRule> selectedCandidates,
+			Set<EditRule> selectedCandidates,
 			int selectionCoveragePercent,boolean invertSort,
 			boolean allowDuplicateCandidateSelection) {
 		super(rankedCandidates, selectedCandidates, selectionCoveragePercent, invertSort,

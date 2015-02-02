@@ -2,7 +2,9 @@ package org.sidiff.difference.mutation.selection;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -26,7 +28,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 	/**
 	 * Set of candidates which have been selected before.
 	 */
-	private LinkedList<T> selectedCandidates;	
+	private Set<T> selectedCandidates;	
 	
 	/**
 	 * Number of possible candidates
@@ -48,7 +50,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 	/**
 	 * Constructor with initialization
 	 */
-	public AbstractSelection(LinkedList<T> rankedCandidates, LinkedList<T> selectedCandidates, int selectionCoveragePercent, boolean
+	public AbstractSelection(LinkedList<T> rankedCandidates, Set<T> selectedCandidates, int selectionCoveragePercent, boolean
 			allowDuplicateCandidateSelection) {
 		super();
 		if(rankedCandidates != null){
@@ -64,7 +66,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 		if(selectedCandidates != null)
 			this.selectedCandidates = selectedCandidates;
 		else
-			this.selectedCandidates = new LinkedList<T>();
+			this.selectedCandidates = new HashSet<T>();
 		
 		this.selectionCoveragePercent = selectionCoveragePercent;
 		this.allowDuplicateCandidateSelection = allowDuplicateCandidateSelection;
@@ -113,7 +115,7 @@ public abstract class AbstractSelection<T> implements ISelection<T>, Comparator<
 		return rankedCandidates;
 	}
 
-	public LinkedList<T> getSelectedCandidates() {
+	public Set<T> getSelectedCandidates() {
 		return selectedCandidates;
 	}
 	

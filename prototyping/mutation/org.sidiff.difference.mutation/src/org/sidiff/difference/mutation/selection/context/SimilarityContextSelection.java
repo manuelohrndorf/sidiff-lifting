@@ -1,6 +1,7 @@
 package org.sidiff.difference.mutation.selection.context;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.Match;
@@ -11,7 +12,7 @@ import org.sidiff.difference.mutation.selection.SimilaritySelection;
 public class SimilarityContextSelection extends SimilaritySelection<Match> {
 
 	public SimilarityContextSelection(LinkedList<Match> rankedCandidates,
-			LinkedList<Match> selectedCandidates, int selectionCoveragePercent,
+			Set<Match> selectedCandidates, int selectionCoveragePercent,
 			boolean invertSort,	boolean allowDuplicateCandidateSelection) {
 		super(rankedCandidates, selectedCandidates, selectionCoveragePercent, invertSort,
 				allowDuplicateCandidateSelection);

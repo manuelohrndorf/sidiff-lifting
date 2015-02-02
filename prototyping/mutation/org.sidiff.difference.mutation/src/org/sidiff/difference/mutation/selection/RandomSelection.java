@@ -2,11 +2,12 @@ package org.sidiff.difference.mutation.selection;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Set;
 
 public class RandomSelection<T> extends AbstractSelection<T> {
 
 	public RandomSelection(LinkedList<T> rankedCandidates,
-			LinkedList<T> selectedCandidates, int selectionCoveragePercent,
+			Set<T> selectedCandidates, int selectionCoveragePercent,
 			boolean allowDuplicateCandidateSelection) {
 		super(rankedCandidates, selectedCandidates, selectionCoveragePercent,
 				allowDuplicateCandidateSelection);
