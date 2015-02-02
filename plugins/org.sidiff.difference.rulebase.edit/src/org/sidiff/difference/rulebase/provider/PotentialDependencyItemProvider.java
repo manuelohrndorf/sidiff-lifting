@@ -65,6 +65,7 @@ public class PotentialDependencyItemProvider
 			addKindPropertyDescriptor(object);
 			addSourceRulePropertyDescriptor(object);
 			addTargetRulePropertyDescriptor(object);
+			addTransientPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -109,6 +110,28 @@ public class PotentialDependencyItemProvider
 				 false,
 				 false,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Transient feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTransientPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialDependency_transient_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDependency_transient_feature", "_UI_PotentialDependency_type"),
+				 RulebasePackage.Literals.POTENTIAL_DEPENDENCY__TRANSIENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -163,6 +186,7 @@ public class PotentialDependencyItemProvider
 
 		switch (notification.getFeatureID(PotentialDependency.class)) {
 			case RulebasePackage.POTENTIAL_DEPENDENCY__KIND:
+			case RulebasePackage.POTENTIAL_DEPENDENCY__TRANSIENT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

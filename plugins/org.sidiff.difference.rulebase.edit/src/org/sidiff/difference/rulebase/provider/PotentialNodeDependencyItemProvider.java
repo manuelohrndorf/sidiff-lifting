@@ -30,13 +30,7 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * @generated
  */
 public class PotentialNodeDependencyItemProvider
-	extends PotentialDependencyItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends PotentialDependencyItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

@@ -1,92 +1,48 @@
 package org.sidiff.difference.asymmetric.dependencies.potential;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.henshin.HenshinUnitAnalysis;
-import org.sidiff.difference.asymmetric.dependencies.potential.util.EmbeddedRule;
-import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.RuleBase;
-import org.sidiff.difference.rulebase.RuleBaseItem;
+import org.eclipse.emf.ecore.EPackage;
 
-public class RuleBasePotentialDependencyAnalyzer extends PotentialDependencyAnalyzer {
+/**
+ * Base class for rulebase potential dependency analyzer.
+ * 
+ * @author Manuel Ohrndorf
+ */
+public abstract class RuleBasePotentialDependencyAnalyzer extends PotentialDependencyAnalyzer {
 
-	private RuleBase rulebase;
-
-	public RuleBasePotentialDependencyAnalyzer(RuleBase rulebase) {		
-		this.rulebase = rulebase;
+	/**
+	 * Initializes a new rulebase potential dependency analyzer.
+	 * 
+	 * @param transientPDs
+	 *            <code>true</code> to calculate transient potential dependencies; 
+	 *            <code>false</code> otherwise.
+	 * @param nonTransientPDs
+	 *            <code>true</code> to calculate non transient potential dependencies; 
+	 *            <code>false</code> otherwise.
+	 */
+	public RuleBasePotentialDependencyAnalyzer(boolean transientPDs, boolean nonTransientPDs) {
+		super(transientPDs, nonTransientPDs);
 	}
 
 	/**
-	 * Calculates all potential dependencies caused by adding edit rule A to the
-	 * rulebase. The potential dependences are added directly to the rulebase.
-	 * It is unimportant if edit rule A was already added to the rulebase or if
-	 * it will be added later.
-	 * 
-	 * @param editRuleA
-	 *            the new edit rule in the rulebase.
+	 * @param documentTypes
+	 *            All document types of the rulebase(s).
+	 * @return All imports of the Henshin rules (document types) which shall be analyzed.
 	 */
-	public void findDependencies(EditRule editRuleA) {
-		List<Rule> rulesA = HenshinUnitAnalysis.getRules(editRuleA.getExecuteMainUnit());
-		
-		// Get embedded multi-rule parts if rule A is an amalgamation unit
-		EmbeddedRule embeddedRuleA = new EmbeddedRule(editRuleA); 
+	protected Set<EPackage> getImports(Collection<String> documentTypes) {
 
-		/*
-		 * In (1) we compare each rule with itself. E.g. a rule 'add package to package'. 
-		 * (We also compare each rule in an amalgamation unit with itself.)
-		 */
-		for (Rule ruleA : rulesA) {
-			// (1) Compare each rule in the Module with itself.
-			findRuleDependencies(ruleA, editRuleA, embeddedRuleA, ruleA, editRuleA, embeddedRuleA);
+		Set<EPackage> docTypePackages = new HashSet<EPackage>();
+
+		for (String docType : documentTypes) {
+			EPackage docTypePackage = EPackage.Registry.INSTANCE.getEPackage(docType);
+			assert (docTypePackage != null) : "Package for docType " + docType
+					+ " not found in the global EMF package registry";
+			docTypePackages.add(docTypePackage);
 		}
-		
-		for (RuleBaseItem item : rulebase.getItems()) {
-			EditRule editRuleB = item.getEditRule();
 
-			// Get embedded multi-rule parts if rule B is an amalgamation unit
-			EmbeddedRule embeddedRuleB = new EmbeddedRule(editRuleB); 
-
-			/*
-			 * Do not (cross) compare all rules in a Module with all other rules in this Module. E.g. a kernel- and a
-			 * multi-rule. (Currently the only Modules with more than one rule are amalgamation units.)
-			 */
-			if (editRuleA == editRuleB)
-				continue;
-
-			// Compare all rules in both transformation systems
-			List<Rule> rulesB = HenshinUnitAnalysis.getRules(editRuleB.getExecuteMainUnit());
-
-			for (Rule ruleA : rulesA) {
-				for (Rule ruleB : rulesB) {
-					// (2) Compare the new rule A with all old rules B
-					findRuleDependencies(ruleA, editRuleA, embeddedRuleA, ruleB, editRuleB, embeddedRuleB);
-					// (3) Compare all old rules B with the new rule A
-					findRuleDependencies(ruleB, editRuleB, embeddedRuleB, ruleA, editRuleA, embeddedRuleA);
-				}
-			}
-		}
-	}
-
-	protected PotentialRuleDependencies findRuleDependencies(
-			Rule predecessor, EditRule predecessorEditRule, EmbeddedRule embeddedPredecessor, 
-			Rule successor, EditRule successorEditRule, EmbeddedRule embeddedSuccessor) {
-
-		PotentialRuleDependencies potDeps = super.findRuleDependencies(
-				predecessor, predecessorEditRule, embeddedPredecessor,
-				successor, successorEditRule, embeddedSuccessor);
-		
-		rulebase.getPotentialNodeDependencies().addAll(potDeps.getPotentialNodeDependencies());
-		rulebase.getPotentialEdgeDependencies().addAll(potDeps.getPotentialEdgeDependencies());
-		rulebase.getPotentialAttributeDependencies().addAll(potDeps.getPotentialAttributeDependencies());
-		
-		return potDeps;
-	}
-
-	@Override
-	protected Collection<String> getDocumentTypes() {
-		return rulebase.getDocumentTypes();
+		return docTypePackages;
 	}
 }

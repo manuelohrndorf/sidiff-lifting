@@ -7,8 +7,6 @@
 package org.sidiff.difference.rulebase.impl;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -30,7 +28,6 @@ import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebasePackage;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * <!-- begin-user-doc -->

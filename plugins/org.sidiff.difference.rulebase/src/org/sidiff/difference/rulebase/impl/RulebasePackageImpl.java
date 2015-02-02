@@ -503,6 +503,15 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPotentialDependency_Transient() {
+		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getPotentialDependency_Kind() {
 		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -782,6 +791,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__KIND);
 		createEReference(potentialDependencyEClass, POTENTIAL_DEPENDENCY__SOURCE_RULE);
 		createEReference(potentialDependencyEClass, POTENTIAL_DEPENDENCY__TARGET_RULE);
+		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__TRANSIENT);
 
 		potentialNodeDependencyEClass = createEClass(POTENTIAL_NODE_DEPENDENCY);
 		createEReference(potentialNodeDependencyEClass, POTENTIAL_NODE_DEPENDENCY__RULE_BASE);
@@ -896,6 +906,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEAttribute(getPotentialDependency_Kind(), this.getPotentialDependencyKind(), "kind", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialDependency_SourceRule(), this.getEditRule(), null, "sourceRule", null, 1, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialDependency_TargetRule(), this.getEditRule(), null, "targetRule", null, 1, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPotentialDependency_Transient(), ecorePackage.getEBoolean(), "transient", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialNodeDependencyEClass, PotentialNodeDependency.class, "PotentialNodeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialNodeDependency_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialNodeDependencies(), "ruleBase", null, 0, 1, PotentialNodeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -12,7 +12,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.difference.rulebase.EditRule;
 
-// TODO: Forbids
 public class EmbeddedRule {
 	EditRule editRule;
 	Rule kernelRule;

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getTargetRule <em>Target Rule</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#isTransient <em>Transient</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +79,32 @@ public interface PotentialDependency extends EObject {
 	 * @generated
 	 */
 	void setTargetRule(EditRule value);
+
+	/**
+	 * Returns the value of the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Transient</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Transient</em>' attribute.
+	 * @see #setTransient(boolean)
+	 * @see org.sidiff.difference.rulebase.RulebasePackage#getPotentialDependency_Transient()
+	 * @model
+	 * @generated
+	 */
+	boolean isTransient();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.rulebase.PotentialDependency#isTransient <em>Transient</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Transient</em>' attribute.
+	 * @see #isTransient()
+	 * @generated
+	 */
+	void setTransient(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.

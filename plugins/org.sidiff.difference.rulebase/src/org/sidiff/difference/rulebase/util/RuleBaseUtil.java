@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.util;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

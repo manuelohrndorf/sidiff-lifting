@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.difference.asymmetric.dependencies.potential.RuleBasePotentialDependencyAnalyzer;
+import org.sidiff.difference.asymmetric.dependencies.potential.IntraRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
@@ -75,9 +75,9 @@ public class RuleBaseWrapper extends Observable {
 	private RuleBase rulebase;
 	
 	/**
-	 * Internal {@link RuleBasePotentialDependencyAnalyzer} 
+	 * Internal {@link IntraRuleBasePotentialDependencyAnalyzer} 
 	 */
-	private RuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
+	private IntraRuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
 	
 	/**
 	 * List of edited/new (Henshin) Recognition-Rules. Used to delay the storage of the Henshin
@@ -137,7 +137,7 @@ public class RuleBaseWrapper extends Observable {
 	 * Initializes this rulebase wrapper.
 	 */
 	private void init() {
-		ruleBasePotentialDependencyAnalyzer = new RuleBasePotentialDependencyAnalyzer(rulebase);
+		ruleBasePotentialDependencyAnalyzer = new IntraRuleBasePotentialDependencyAnalyzer(rulebase);
 		newRecognitionRules = new HashSet<RecognitionRule>();
 		changedEditRules = new HashSet<EditRule>();
 		resetDirtyFlag();

@@ -437,13 +437,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DEPENDENCY__TARGET_RULE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DEPENDENCY__TRANSIENT = 3;
+
+	/**
 	 * The number of structural features of the '<em>Potential Dependency</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 3;
+	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.PotentialNodeDependencyImpl <em>Potential Node Dependency</em>}' class.
@@ -481,6 +490,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_NODE_DEPENDENCY__TARGET_RULE = POTENTIAL_DEPENDENCY__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -556,6 +574,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_DEPENDENCY__TARGET_RULE = POTENTIAL_DEPENDENCY__TARGET_RULE;
 
 	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -617,6 +644,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_ATTRIBUTE_DEPENDENCY__TARGET_RULE = POTENTIAL_DEPENDENCY__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1135,6 +1171,17 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPotentialDependency_TargetRule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.PotentialDependency#isTransient <em>Transient</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Transient</em>'.
+	 * @see org.sidiff.difference.rulebase.PotentialDependency#isTransient()
+	 * @see #getPotentialDependency()
+	 * @generated
+	 */
+	EAttribute getPotentialDependency_Transient();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.PotentialDependency#getKind <em>Kind</em>}'.
@@ -1698,6 +1745,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference POTENTIAL_DEPENDENCY__TARGET_RULE = eINSTANCE.getPotentialDependency_TargetRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Transient</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POTENTIAL_DEPENDENCY__TRANSIENT = eINSTANCE.getPotentialDependency_Transient();
 
 		/**
 		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
