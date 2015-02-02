@@ -51,7 +51,7 @@ IItemPropertySource
 	 * @generated NOT
 	 */
 	@Override
-	public Collection getChildren(Object object){
+	public Collection<?> getChildren(Object object){
 		return super.getChildren(target);
 	}
 	

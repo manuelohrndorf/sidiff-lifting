@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
@@ -39,7 +40,7 @@ public class DependenciesItemProvider extends TransientAsymmetricDifferenceItemP
 	 * @generated NOT
 	 */
 	@Override
-	public Collection getChildrenFeatures(Object object){
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object){
 		if (childrenFeatures == null){
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__DEP_CONTAINERS);
@@ -74,7 +75,7 @@ public class DependenciesItemProvider extends TransientAsymmetricDifferenceItemP
 	 * @generated NOT
 	 */
 	@Override
-	protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object){
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object){
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 		newChildDescriptors.add (createChildParameter(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__DEP_CONTAINERS,
 			AsymmetricFactory.eINSTANCE.createNodeDependency()));

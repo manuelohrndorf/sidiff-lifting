@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -55,13 +54,13 @@ public class AsymmetricDifferenceItemProvider
 		super(adapterFactory);
 	}
 
-	protected List children = null;
+	protected List<Object> children = null;
 	@Override
 	public Collection<?> getChildren(Object object) {		
 		if(children == null){
 			AsymmetricDifference difference = (AsymmetricDifference) object;
 			//children = (List) super.getChildren(object);
-			children = new ArrayList();
+			children = new ArrayList<Object>();
 			children.addAll(difference.getOperationInvocations());
 			children.addAll(difference.getParameterMappings());
 

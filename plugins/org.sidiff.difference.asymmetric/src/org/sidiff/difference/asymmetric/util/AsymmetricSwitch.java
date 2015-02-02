@@ -9,7 +9,6 @@ package org.sidiff.difference.asymmetric.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.sidiff.difference.asymmetric.*;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.AttributeDependency;

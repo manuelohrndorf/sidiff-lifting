@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.difference.asymmetric.*;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.AttributeDependency;

@@ -9,7 +9,6 @@ package org.sidiff.difference.asymmetric.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -33,7 +32,6 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.SequentialExecution;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.rulebase.RulebasePackage;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 /**
