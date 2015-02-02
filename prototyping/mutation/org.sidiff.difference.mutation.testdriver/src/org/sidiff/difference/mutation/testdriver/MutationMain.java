@@ -2,6 +2,7 @@ package org.sidiff.difference.mutation.testdriver;
 
 import java.util.LinkedList;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.equinox.app.IApplication;
@@ -10,12 +11,12 @@ import org.osgi.framework.BundleContext;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.mutation.Mutator;
 import org.sidiff.difference.mutation.config.MutationConfig;
 import org.sidiff.difference.mutation.selection.IntactSelection;
 import org.sidiff.difference.mutation.selection.RandomSelection;
 import org.sidiff.difference.rulebase.EditRule;
+import org.silift.common.util.emf.EMFStorage;
 
 
 /**
@@ -52,7 +53,7 @@ public class MutationMain implements IApplication {
 	
 	public static void main(String[] args) throws Exception {
 			
-		Resource inputModel = LiftingFacade.loadModel(args[0]);	
+		Resource inputModel = EMFStorage.eLoad(EMFStorage.pathToUri(args[0])).eResource();	
 		String docType = EMFModelAccess.getDocumentType(inputModel);
 		
 		// Edit Rules
@@ -83,7 +84,7 @@ public class MutationMain implements IApplication {
 		LogUtil.log(LogEvent.NOTICE, mc);
 		
 		Mutator mutator = new Mutator(mc);
-		mutator.mutate();
+		mutator.mutate(new NullProgressMonitor());
 		
 		
 		
