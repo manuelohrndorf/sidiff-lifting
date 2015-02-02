@@ -19,8 +19,8 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.emf.Scope;
 import org.silift.common.util.exceptions.NoCorrespondencesException;
 
 /**

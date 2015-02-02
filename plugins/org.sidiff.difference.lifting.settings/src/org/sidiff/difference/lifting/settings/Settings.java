@@ -10,7 +10,6 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.silift.common.util.emf.Scope;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
-import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 public abstract class Settings {
 

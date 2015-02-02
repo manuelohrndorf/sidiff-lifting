@@ -1,5 +1,7 @@
 package org.sidiff.difference.lifting.settings;
 
+import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+
 /**
  * Enumerations which are associated with a lifting setting.
  */

@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.project.wizard;
 
-import org.eclipse.jdt.core.dom.Message;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
