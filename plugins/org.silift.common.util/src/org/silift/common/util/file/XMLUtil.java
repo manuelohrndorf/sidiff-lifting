@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Attribute;
+import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -46,7 +47,7 @@ public class XMLUtil {
 	 * @return List of all attributes of a XML file
 	 */
 	public List<Attribute> getAttributes(){
-		Iterator it = doc.getRootElement().getDescendants();
+		Iterator<Content> it = doc.getRootElement().getDescendants();
 		ArrayList<Attribute> result = new ArrayList<Attribute>();
 		result.addAll(doc.getRootElement().getAttributes());
 		while(it.hasNext()){
@@ -65,7 +66,7 @@ public class XMLUtil {
 	 * @return List of attributes
 	 */
 	public List<Attribute> getAttributesByName(String...names){
-		Iterator it = doc.getRootElement().getDescendants();
+		Iterator<Content> it = doc.getRootElement().getDescendants();
 		ArrayList<Attribute> result = new ArrayList<Attribute>();
 		for(int i = 0; i<names.length; i++){
 			result.add(doc.getRootElement().getAttribute(names[i]));

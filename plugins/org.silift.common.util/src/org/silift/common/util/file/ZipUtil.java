@@ -19,7 +19,6 @@ import java.util.zip.ZipOutputStream;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.silift.common.util.exceptions.FileAlreadyExistsException;
-import org.silift.common.util.exceptions.FileNotCreatedException;
 
 public class ZipUtil {
 
@@ -262,7 +261,7 @@ public class ZipUtil {
 				}
 			}
 			file.close();
-		} catch (IOException | FileNotCreatedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
