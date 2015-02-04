@@ -1,5 +1,7 @@
 package org.sidiff.difference.matcher.featuremodel;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.matcher.BaseMatcher;
@@ -116,5 +118,11 @@ public class FeatureModelMatcher extends BaseMatcher {
 				return idA.equals(idB);
 			}
 		}
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
