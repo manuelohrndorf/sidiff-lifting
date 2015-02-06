@@ -19,11 +19,12 @@ public class MutationConfig {
 	private AbstractSelection<EditRule> aos;
 	private AbstractSelection<Match> acs;	
 	private int mutationOrder;	
+	private boolean validateMutants;
 	
 	private String name;
 
 	public MutationConfig(String name, Resource targetModel,LinkedList<EditRule> mutationOperators, AbstractSelection<EditRule> aos, AbstractSelection<Match> acs,
-			int mutationOrder) {
+			int mutationOrder, boolean validateMutants) {
 		super();
 
 		this.name = name;
@@ -32,6 +33,7 @@ public class MutationConfig {
 		this.aos = aos;
 		this.acs = acs;
 		this.mutationOrder = mutationOrder;
+		this.validateMutants = validateMutants;
 	}
 
 	public Resource getTargetModel() {
@@ -58,6 +60,10 @@ public class MutationConfig {
 		return name;
 	}
 	
+	public boolean isValidateMutants() {
+		return validateMutants;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -69,7 +75,4 @@ public class MutationConfig {
 		result += "-------------------------------------------------------------------------" + System.lineSeparator();
 		return result; 
 	}
-	
-	
-
 }

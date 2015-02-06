@@ -56,6 +56,31 @@ public class Mutation {
 		result += "Resulting Mutant: " + MutationUtil.getResourceName(getMutant());
 		return result; 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		//Both mutations have to use the same operator
+		boolean sameOperator = this.getUsedOperator().getExecuteModule().getName().
+				equals(((Mutation)obj).getUsedOperator().getExecuteModule().getName());
+		
+		//Both mutations have to apply the mutation to the same context		
+		boolean sameContext = this.getUsedContext().equals(((Mutation)obj).getUsedContext());
+		
+		return sameOperator && sameContext;		
+	}
+
+	@Override
+	public int hashCode() {
+		
+		int hash = 1;
+		hash = 37 * hash + this.getUsedOperator().getExecuteModule().getName().hashCode();
+		hash = 37 * hash +this.getUsedContext().hashCode();	
+		
+		return hash;
+	}
+	
+	
 	
 	
 	

@@ -19,9 +19,12 @@ import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.EMFValidate;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
@@ -52,7 +55,7 @@ public class Mutator {
 	public Mutator(MutationConfig mc) {
 		super();
 		this.mc = mc;	
-		this.mm = new MutationManagement();
+		this.mm = new MutationManagement(this.mc.getTargetModel());
 		
 		LogUtil.log(LogEvent.NOTICE, this.mc);
 
@@ -98,11 +101,11 @@ public class Mutator {
 				
 				SubProgressMonitor spmm = new SubProgressMonitor(spm, 1/this.mm.getInputModels(currentOrder).size());
 
-				monitor.beginTask("Mutating Model " + inputModel.getURI(), 100);
+				monitor.beginTask("Mutating Model " + MutationUtil.getResourceName(inputModel), 100);
 				
 				clearPreviousResults();
 				
-				LogUtil.log(LogEvent.DEBUG, "Selected Input Model: " + inputModel.getURI());			
+				LogUtil.log(LogEvent.NOTICE, "###### Selected Input Model: " + MutationUtil.getResourceName(inputModel) + "######");			
 
 				while(!this.mc.getAos().selectionCoverageReached()){
 					
@@ -125,11 +128,11 @@ public class Mutator {
 						}
 
 						// select next context
-						Match context = this.mc.getAcs().selectNextCandidate();		
+						Match context = this.mc.getAcs().selectNextCandidate();						
 
-						// check if this mutation has already been
-						// performed before
-						if(!this.mm.mutationHasBeenUsedBefore(operator, context)){
+						// Check beforehand if the resulting mutant has already been
+						// created before
+						if(!this.mm.mutantHasBeenCreatedBefore(inputModel, operator, context, currentOrder)){
 
 							// Instantiate Copier
 							Copier copier = new Copier();
@@ -137,11 +140,11 @@ public class Mutator {
 							// Copy input model
 							Resource targetModel = initTargetModel(inputModel, currentOrder, mutantNumber, copier);
 
-							// Create a graph
-							EGraph graph = new EGraphImpl(targetModel);
-
 							// Get Rule
 							Rule rule = (Rule) operator.getExecuteModule().getUnits().get(0);
+							
+							// Create a graph
+							EGraph graph = new EGraphImpl(targetModel);						
 
 							// Create an engine and a rule application:
 							Engine engine = new EngineImpl();		
@@ -151,21 +154,28 @@ public class Mutator {
 
 							// find corresponding context in copied model
 							// and adapt references
-							Match adaptedContext = adaptContext(copier, context, rule);				
+							MutationUtil.adaptContext(copier, context, rule);				
 
 							// Use adapted context for execution
-							ra.setCompleteMatch(adaptedContext);
+							ra.setCompleteMatch(context);
 
 							// Apply transformation
 							boolean result = ra.execute(null);
 
-							//TODO Validation
-							// Validate the mutated model					
+							// Validate the mutated model
+							if(this.mc.isValidateMutants()){
+								try {
+									EMFValidate.validateModel(targetModel);
+								} catch (InvalidModelException e1) {								
+									System.err.println(e1.getMessage());
+									result = false;
+								}
+							}
 
 							if (result) {
 								// Remember mutation
 								Mutation mutation = new Mutation(inputModel, targetModel,
-										copier, operator, adaptedContext);
+										copier, operator, context);
 								this.mm.addMutation(currentOrder, mutation);
 
 								// Save mutant
@@ -178,7 +188,7 @@ public class Mutator {
 
 								LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
 								LogUtil.log(LogEvent.DEBUG, mutation);
-								LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));
+								LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));							
 
 								mutantNumber++;
 							}
@@ -268,25 +278,10 @@ public class Mutator {
 		return targetModel;
 	}
 	
+
 	/**
-	 * Adapts the given context references according to
-	 * the information given by the copier. This is used to redirect
-	 * references of an copied model.
-	 * @param copier
-	 * @param context
-	 * @param rule
-	 * @return
+	 * Clean up method
 	 */
-	private Match adaptContext(Copier copier, Match context, Rule rule){
-		
-		for(Node node : rule.getLhs().getNodes()){
-			if(copier.containsKey(context.getNodeTarget(node))){				
-				context.setNodeTarget(node, copier.get(context.getNodeTarget(node)));				
-			}			
-		}		
-		return context;		
-	}
-	
 	private void clearPreviousResults(){
 
 		// Cleanup selections
@@ -310,8 +305,6 @@ public class Mutator {
 		
 	}
 
-	protected MutationConfig getMutationConfig() {
-		return mc;
-	}
+	
 
 }
