@@ -431,4 +431,57 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 		return res.toString();
 	}
 	
+	/**
+	 * @generated NOT
+	 * 
+	 * EditRules are equal:
+	 * <ul>
+	 * <li> If they are the same object </li>
+	 * <li> of if they share the same module name, the same parameter list,
+	 * and the same recognition rule.</li>
+	 * </ul>
+	 */
+	@Override
+	public boolean equals(Object o){
+
+		// Test equality first in default manner
+		if(super.equals(o)){
+			return true;
+		}
+		else{		
+			
+			if(!(o instanceof EditRule)){	
+				return false;
+			}
+			else{
+				EditRule er = (EditRule) o;
+				
+				if(!er.getExecuteModule().getName().equals(this.getExecuteModule().getName()))
+					return false;
+				if(er.getParameters().size() != this.getParameters().size())
+					return false;
+				if(!er.getRecognitionRule().equals(this.getRecognitionRule()))
+					return false;
+
+				return true;
+			}
+		}		
+	}
+	/**
+	 * @generated NOT
+	 * @return
+	 */
+	@Override
+	public int hashCode(){
+		
+		// Create a "signature" of an EditRule, which
+		// is representative to decide whether EditRules are 
+		// represented by the same hash
+		int hash = 1;
+		hash = 37 * hash + this.getExecuteModule().getName().hashCode();
+		hash = 37 * hash + this.getParameters().size();
+		hash = 37 * hash + this.getRecognitionRule().hashCode();
+		return hash;
+		
+	}
 } //EditRuleImpl
