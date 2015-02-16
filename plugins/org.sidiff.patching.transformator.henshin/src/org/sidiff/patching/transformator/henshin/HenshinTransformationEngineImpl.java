@@ -15,8 +15,8 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -133,6 +133,8 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 					if (binding instanceof ObjectParameterBinding) {
 						String formalName = binding.getFormalName();
 						Object parameterValue = application.getResultParameterValue(formalName);
+						String id = EMFUtil.getXmiId(((ObjectParameterBinding) binding).getActualB());
+						EMFUtil.setXmiId((EObject)parameterValue, id);
 						outputMap.put(binding, (EObject) parameterValue);
 					}
 				}
