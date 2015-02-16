@@ -197,8 +197,10 @@ public class EMFModelAccessEx {
 		// Collect all document types of root objects
 		Set<String> documentTypes = new HashSet<String>();
 		for (Resource resource : resources) {
-			for (EObject root : resource.getContents()) {
-				documentTypes.add(getDocumentType(root));
+			if(resource.getContents()!=null){
+				for (EObject root : resource.getContents()) {
+					documentTypes.add(getDocumentType(root));
+				}
 			}
 		}
 
