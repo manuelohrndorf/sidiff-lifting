@@ -133,7 +133,17 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 					if (binding instanceof ObjectParameterBinding) {
 						String formalName = binding.getFormalName();
 						Object parameterValue = application.getResultParameterValue(formalName);
-						String id = EMFUtil.getXmiId(((ObjectParameterBinding) binding).getActualB());
+						EObject eObject = ((ObjectParameterBinding)binding).getActualB();
+						String id = "";
+						//FIXME (cpietsch 17.02.2015) prototypical handling of symbolic links with uuids in order to preserve the original object id
+						try{
+							id = (String)eObject.eGet(eObject.eClass().getEStructuralFeature("uuid"));
+						}catch (Exception e){
+							System.out.println("WARNING: " + eObject + " has no uuid attribute");
+						}
+						if(id.isEmpty()){
+							id = EMFUtil.getXmiId(eObject);
+						}
 						EMFUtil.setXmiId((EObject)parameterValue, id);
 						outputMap.put(binding, (EObject) parameterValue);
 					}
