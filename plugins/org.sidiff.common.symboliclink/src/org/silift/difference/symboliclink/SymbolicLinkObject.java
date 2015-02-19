@@ -147,4 +147,12 @@ public interface SymbolicLinkObject extends EObject {
 	 */
 	int hashCode();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean equals(Object o);
+
 } // SymbolicLinkObject

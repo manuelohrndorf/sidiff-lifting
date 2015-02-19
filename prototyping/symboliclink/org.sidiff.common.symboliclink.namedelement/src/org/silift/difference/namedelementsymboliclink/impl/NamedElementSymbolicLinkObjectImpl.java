@@ -206,6 +206,20 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 	 * @generated NOT
 	 */
 	@Override
+	public boolean equals(Object o){
+		if(o instanceof NamedElementSymbolicLinkObject){
+			NamedElementSymbolicLinkObject symbl = (NamedElementSymbolicLinkObject)o;
+			if(this.getQualifiedName().equals(symbl.getQualifiedName())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
 	public int hashCode() {
 		return qualifiedName.hashCode();
 	}

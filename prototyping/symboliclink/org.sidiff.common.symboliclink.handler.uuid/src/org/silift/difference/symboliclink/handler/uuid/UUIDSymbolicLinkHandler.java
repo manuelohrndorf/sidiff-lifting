@@ -32,8 +32,11 @@ public class UUIDSymbolicLinkHandler extends AbstractSymbolicLinkHandler {
 		
 		UUIDSymbolicLinkObject link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
 		
-		link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
-		
+		try{
+			link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
+		}catch (NullPointerException e){
+			System.out.println("INFO: " + eObject + " has no name");
+		}
 		link.setUuid(uuid);
 		
 		link.setReliability(1.f);

@@ -192,6 +192,14 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public boolean equals(Object o){
+		return this == o;
+	}
 
 	/**
 	 * @generated NOT

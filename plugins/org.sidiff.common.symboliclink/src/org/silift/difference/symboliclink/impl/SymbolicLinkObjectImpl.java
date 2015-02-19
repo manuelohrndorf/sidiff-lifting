@@ -239,6 +239,13 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public abstract boolean equals(Object o);
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -386,6 +393,8 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 				return getOutgoings((EReference)arguments.get(0));
 			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___HASH_CODE:
 				return hashCode();
+			case SymboliclinkPackage.SYMBOLIC_LINK_OBJECT___EQUALS__OBJECT:
+				return equals(arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}

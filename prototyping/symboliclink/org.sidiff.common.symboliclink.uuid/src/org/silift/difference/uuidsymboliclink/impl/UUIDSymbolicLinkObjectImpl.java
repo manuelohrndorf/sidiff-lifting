@@ -3,13 +3,9 @@
 package org.silift.difference.uuidsymboliclink.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl;
-
 import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage;
 
@@ -213,6 +209,20 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 		result.append(name);
 		result.append(')');
 		return result.toString();
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof UUIDSymbolicLinkObject){
+			UUIDSymbolicLinkObject symbl = (UUIDSymbolicLinkObject)o;
+			if(this.getUuid().equals(symbl.getUuid())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
