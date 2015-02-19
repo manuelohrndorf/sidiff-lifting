@@ -241,13 +241,13 @@ public class EMFModelAccessEx {
 			if (EMFModelAccessEx.getCharacteristicDocumentType(model).contains("Ecore")) {
 				path += "diag";
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
-			} else if (EMFModelAccessEx.getCharacteristicDocumentType(model).contains("SysML")) {
+			} else if (EMFModelAccessEx.getCharacteristicDocumentType(model).contains("UML")) {
 				path = path.replace(".uml", ".di");
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
 				path = path.replace(".di", ".notation");
 				resourceSet.getResources().add(EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource());
 			}
-			// TODO other domains
+			// TODO here we could define an extension point which has to be extended by each doc type bringing along it's own diagram type 
 		} catch (Exception e) {
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 		}
