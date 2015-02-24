@@ -64,7 +64,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	 * The global boolean to decide if in the last change there
 	 * has been some EditRule involved.
 	 */
-	private boolean editRuleChanged;
+	private boolean editRuleChanged = false;
 	
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 		
@@ -137,6 +137,14 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 	
 	private void fullBuild(final IProgressMonitor monitor) {
+		
+		//Clean up before, to be sure to "regenerate" rulebase
+		try {
+			clean(monitor);
+		} catch (CoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		try {
 			getProject().accept(new IResourceVisitor() {
