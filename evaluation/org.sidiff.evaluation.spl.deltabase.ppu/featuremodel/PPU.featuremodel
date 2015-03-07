@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<FeatureModel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:FeatureModel="http://de.imotep.variability/featuremodel" xmi:id="_KdlvYMTDEeSzvsuptrDhJA" name="PPU">
+  <constraints xsi:type="FeatureModel:RequireConstraint" xmi:id="_KdlvYcTDEeSzvsuptrDhJA" name="Light_requires_APressure" requiredFeature="_Kdlvc8TDEeSzvsuptrDhJA" feature="_KdlvbsTDEeSzvsuptrDhJA"/>
+  <constraints xsi:type="FeatureModel:RequireConstraint" xmi:id="_KdlvYsTDEeSzvsuptrDhJA" name="ERouting_requires_Stamp" requiredFeature="_KdlvccTDEeSzvsuptrDhJA" feature="_KdlvZsTDEeSzvsuptrDhJA"/>
+  <root xmi:id="_KdlvY8TDEeSzvsuptrDhJA" name="PPU">
+    <children xmi:id="_KdlvZMTDEeSzvsuptrDhJA" name="Crane" mandatory="true">
+      <children xmi:id="_KdlvZcTDEeSzvsuptrDhJA" name="SRouting" group="_KdlvdMTDEeSzvsuptrDhJA"/>
+      <children xmi:id="_KdlvZsTDEeSzvsuptrDhJA" name="ERouting" requireConstraints="_KdlvYsTDEeSzvsuptrDhJA" group="_KdlvdMTDEeSzvsuptrDhJA"/>
+    </children>
+    <children xmi:id="_KdlvZ8TDEeSzvsuptrDhJA" name="Slide" mandatory="true">
+      <children xmi:id="_KdlvaMTDEeSzvsuptrDhJA" name="Straight" group="_KdlvdcTDEeSzvsuptrDhJA"/>
+      <children xmi:id="_KdlvacTDEeSzvsuptrDhJA" name="Conveyer" group="_KdlvdcTDEeSzvsuptrDhJA">
+        <children xmi:id="_KdlvasTDEeSzvsuptrDhJA" name="SSortation" group="_KdlvdsTDEeSzvsuptrDhJA"/>
+        <children xmi:id="_Kdlva8TDEeSzvsuptrDhJA" name="DSortation" group="_KdlvdsTDEeSzvsuptrDhJA"/>
+      </children>
+    </children>
+    <children xmi:id="_KdlvbMTDEeSzvsuptrDhJA" name="Workpiece" mandatory="true">
+      <children xmi:id="_KdlvbcTDEeSzvsuptrDhJA" name="Plastic" group="_Kdlvd8TDEeSzvsuptrDhJA">
+        <children xmi:id="_KdlvbsTDEeSzvsuptrDhJA" name="Light" requireConstraints="_KdlvYcTDEeSzvsuptrDhJA" group="_KdlveMTDEeSzvsuptrDhJA"/>
+        <children xmi:id="_Kdlvb8TDEeSzvsuptrDhJA" name="Dark" group="_KdlveMTDEeSzvsuptrDhJA"/>
+      </children>
+      <children xmi:id="_KdlvcMTDEeSzvsuptrDhJA" name="Metal" group="_Kdlvd8TDEeSzvsuptrDhJA"/>
+    </children>
+    <children xmi:id="_KdlvccTDEeSzvsuptrDhJA" name="Stamp" requiredConstraints="_KdlvYsTDEeSzvsuptrDhJA">
+      <children xmi:id="_KdlvcsTDEeSzvsuptrDhJA" name="SPressure" group="_KdlvecTDEeSzvsuptrDhJA"/>
+      <children xmi:id="_Kdlvc8TDEeSzvsuptrDhJA" name="APressure" requiredConstraints="_KdlvYcTDEeSzvsuptrDhJA" group="_KdlvecTDEeSzvsuptrDhJA"/>
+    </children>
+  </root>
+  <groups xmi:id="_KdlvdMTDEeSzvsuptrDhJA" name="ALT(SRouting,ERouting)" features="_KdlvZcTDEeSzvsuptrDhJA _KdlvZsTDEeSzvsuptrDhJA" groupType="ALT"/>
+  <groups xmi:id="_KdlvdcTDEeSzvsuptrDhJA" name="ALT(Straight,Conveyer)" features="_KdlvaMTDEeSzvsuptrDhJA _KdlvacTDEeSzvsuptrDhJA" groupType="ALT"/>
+  <groups xmi:id="_KdlvdsTDEeSzvsuptrDhJA" name="ALT(SSortation,DSortation)" features="_Kdlva8TDEeSzvsuptrDhJA _KdlvasTDEeSzvsuptrDhJA" groupType="ALT"/>
+  <groups xmi:id="_Kdlvd8TDEeSzvsuptrDhJA" name="OR(Plastic,Metal)" features="_KdlvbcTDEeSzvsuptrDhJA _KdlvcMTDEeSzvsuptrDhJA"/>
+  <groups xmi:id="_KdlveMTDEeSzvsuptrDhJA" name="OR(Light,Dark)" features="_KdlvbsTDEeSzvsuptrDhJA _Kdlvb8TDEeSzvsuptrDhJA"/>
+  <groups xmi:id="_KdlvecTDEeSzvsuptrDhJA" name="ALT(SPressure,APressure)" features="_KdlvcsTDEeSzvsuptrDhJA _Kdlvc8TDEeSzvsuptrDhJA" groupType="ALT"/>
+</FeatureModel:FeatureModel>
