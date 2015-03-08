@@ -74,8 +74,7 @@ public class EmbeddedRule {
 	}
 
 	public boolean isEmpty() {
-		return embeddedNodes.isEmpty() && embeddedEdges.isEmpty()
-				&& embeddedAttributes.isEmpty();
+		return embeddedNodes.isEmpty() && embeddedEdges.isEmpty()  && embeddedAttributes.isEmpty();
 	}
 	
 	public Rule getKernelRule() {

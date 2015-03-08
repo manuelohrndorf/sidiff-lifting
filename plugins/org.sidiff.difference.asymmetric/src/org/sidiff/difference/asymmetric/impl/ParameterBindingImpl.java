@@ -24,19 +24,16 @@ import org.sidiff.difference.rulebase.Parameter;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.ParameterBindingImpl#getFormalName
- * <em>Formal Name</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.ParameterBindingImpl#getFormalName <em>Formal Name</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public abstract class ParameterBindingImpl extends EObjectImpl implements ParameterBinding {
 	/**
-	 * The default value of the '{@link #getFormalName() <em>Formal Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getFormalName() <em>Formal Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormalName()
 	 * @generated
 	 * @ordered
@@ -44,9 +41,8 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 	protected static final String FORMAL_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFormalName() <em>Formal Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormalName() <em>Formal Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormalName()
 	 * @generated
 	 * @ordered
@@ -55,7 +51,6 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ParameterBindingImpl() {
@@ -64,7 +59,6 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -74,7 +68,6 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getFormalName() {
@@ -83,15 +76,13 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormalName(String newFormalName) {
 		String oldFormalName = formalName;
 		formalName = newFormalName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME,
-					oldFormalName, formalName));
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME, oldFormalName, formalName));
 	}
 
 	/**
@@ -142,71 +133,65 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
-			return getFormalName();
+			case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
+				return getFormalName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
-			setFormalName((String) newValue);
-			return;
+			case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
+				setFormalName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
-			setFormalName(FORMAL_NAME_EDEFAULT);
-			return;
+			case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
+				setFormalName(FORMAL_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
-			return FORMAL_NAME_EDEFAULT == null ? formalName != null : !FORMAL_NAME_EDEFAULT.equals(formalName);
+			case AsymmetricPackage.PARAMETER_BINDING__FORMAL_NAME:
+				return FORMAL_NAME_EDEFAULT == null ? formalName != null : !FORMAL_NAME_EDEFAULT.equals(formalName);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (formalName: ");

@@ -134,13 +134,31 @@ public interface AsymmetricPackage extends EPackage {
 	int ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Uri Origin Model</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL = 7;
+
+	/**
+	 * The feature id for the '<em><b>Uri Changed Model</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL = 8;
+
+	/**
 	 * The number of structural features of the '<em>Difference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASYMMETRIC_DIFFERENCE_FEATURE_COUNT = 7;
+	int ASYMMETRIC_DIFFERENCE_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.asymmetric.impl.ExecutionImpl <em>Execution</em>}' class.
@@ -172,31 +190,22 @@ public interface AsymmetricPackage extends EPackage {
 	int OPERATION_INVOCATION = 1;
 
 	/**
-	 * The feature id for the '<em><b>Parameter Bindings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION__PARAMETER_BINDINGS = EXECUTION_FEATURE_COUNT + 0;
+	int OPERATION_INVOCATION__NAME = EXECUTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+	 * The feature id for the '<em><b>Edit Rule Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION__OUTGOING = EXECUTION_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_INVOCATION__INCOMING = EXECUTION_FEATURE_COUNT + 2;
+	int OPERATION_INVOCATION__EDIT_RULE_NAME = EXECUTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Apply</b></em>' attribute.
@@ -205,7 +214,34 @@ public interface AsymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION__APPLY = EXECUTION_FEATURE_COUNT + 3;
+	int OPERATION_INVOCATION__APPLY = EXECUTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION__PARAMETER_BINDINGS = EXECUTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION__OUTGOING = EXECUTION_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION__INCOMING = EXECUTION_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Change Set</b></em>' reference.
@@ -214,7 +250,16 @@ public interface AsymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION__CHANGE_SET = EXECUTION_FEATURE_COUNT + 4;
+	int OPERATION_INVOCATION__CHANGE_SET = EXECUTION_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Asymmetric Difference</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE = EXECUTION_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Operation Invocation</em>' class.
@@ -223,7 +268,7 @@ public interface AsymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_FEATURE_COUNT = EXECUTION_FEATURE_COUNT + 5;
+	int OPERATION_INVOCATION_FEATURE_COUNT = EXECUTION_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.asymmetric.impl.ParameterBindingImpl <em>Parameter Binding</em>}' class.
@@ -866,6 +911,28 @@ public interface AsymmetricPackage extends EPackage {
 	EReference getAsymmetricDifference_SymmetricDifference();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriOriginModel <em>Uri Origin Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri Origin Model</em>'.
+	 * @see org.sidiff.difference.asymmetric.AsymmetricDifference#getUriOriginModel()
+	 * @see #getAsymmetricDifference()
+	 * @generated
+	 */
+	EAttribute getAsymmetricDifference_UriOriginModel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriChangedModel <em>Uri Changed Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri Changed Model</em>'.
+	 * @see org.sidiff.difference.asymmetric.AsymmetricDifference#getUriChangedModel()
+	 * @see #getAsymmetricDifference()
+	 * @generated
+	 */
+	EAttribute getAsymmetricDifference_UriChangedModel();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.asymmetric.OperationInvocation <em>Operation Invocation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -874,6 +941,28 @@ public interface AsymmetricPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getOperationInvocation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.asymmetric.OperationInvocation#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.sidiff.difference.asymmetric.OperationInvocation#getName()
+	 * @see #getOperationInvocation()
+	 * @generated
+	 */
+	EAttribute getOperationInvocation_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.asymmetric.OperationInvocation#getEditRuleName <em>Edit Rule Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Edit Rule Name</em>'.
+	 * @see org.sidiff.difference.asymmetric.OperationInvocation#getEditRuleName()
+	 * @see #getOperationInvocation()
+	 * @generated
+	 */
+	EAttribute getOperationInvocation_EditRuleName();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.asymmetric.OperationInvocation#getParameterBindings <em>Parameter Bindings</em>}'.
@@ -929,6 +1018,17 @@ public interface AsymmetricPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOperationInvocation_ChangeSet();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference <em>Asymmetric Difference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Asymmetric Difference</em>'.
+	 * @see org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference()
+	 * @see #getOperationInvocation()
+	 * @generated
+	 */
+	EReference getOperationInvocation_AsymmetricDifference();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.asymmetric.ParameterBinding <em>Parameter Binding</em>}'.
@@ -1412,6 +1512,22 @@ public interface AsymmetricPackage extends EPackage {
 		EReference ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE = eINSTANCE.getAsymmetricDifference_SymmetricDifference();
 
 		/**
+		 * The meta object literal for the '<em><b>Uri Origin Model</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL = eINSTANCE.getAsymmetricDifference_UriOriginModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri Changed Model</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL = eINSTANCE.getAsymmetricDifference_UriChangedModel();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl <em>Operation Invocation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1420,6 +1536,22 @@ public interface AsymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EClass OPERATION_INVOCATION = eINSTANCE.getOperationInvocation();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATION_INVOCATION__NAME = eINSTANCE.getOperationInvocation_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Edit Rule Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATION_INVOCATION__EDIT_RULE_NAME = eINSTANCE.getOperationInvocation_EditRuleName();
 
 		/**
 		 * The meta object literal for the '<em><b>Parameter Bindings</b></em>' containment reference list feature.
@@ -1460,6 +1592,14 @@ public interface AsymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OPERATION_INVOCATION__CHANGE_SET = eINSTANCE.getOperationInvocation_ChangeSet();
+
+		/**
+		 * The meta object literal for the '<em><b>Asymmetric Difference</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE = eINSTANCE.getOperationInvocation_AsymmetricDifference();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.asymmetric.impl.ParameterBindingImpl <em>Parameter Binding</em>}' class.

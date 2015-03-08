@@ -171,6 +171,8 @@ public class AsymmetricDifferenceItemProvider
 			addOriginModelPropertyDescriptor(object);
 			addChangedModelPropertyDescriptor(object);
 			addSymmetricDifferencePropertyDescriptor(object);
+			addUriOriginModelPropertyDescriptor(object);
+			addUriChangedModelPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -237,6 +239,50 @@ public class AsymmetricDifferenceItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Uri Origin Model feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUriOriginModelPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AsymmetricDifference_uriOriginModel_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AsymmetricDifference_uriOriginModel_feature", "_UI_AsymmetricDifference_type"),
+				 AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Uri Changed Model feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUriChangedModelPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AsymmetricDifference_uriChangedModel_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AsymmetricDifference_uriChangedModel_feature", "_UI_AsymmetricDifference_type"),
+				 AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -316,6 +362,8 @@ public class AsymmetricDifferenceItemProvider
 		switch (notification.getFeatureID(AsymmetricDifference.class)) {
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__ORIGIN_MODEL:
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__CHANGED_MODEL:
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL:
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS:

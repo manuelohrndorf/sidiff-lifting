@@ -12,6 +12,7 @@ import java.util.HashMap;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -32,6 +34,7 @@ import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.silift.common.util.emf.EMFStorage;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,6 +50,8 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getExecutions <em>Executions</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getSymmetricDifference <em>Symmetric Difference</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getUriOriginModel <em>Uri Origin Model</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getUriChangedModel <em>Uri Changed Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,6 +79,16 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	protected static final Resource ORIGIN_MODEL_EDEFAULT = null;
 
 	/**
+	 * The cached value of the '{@link #getOriginModel() <em>Origin Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOriginModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected Resource originModel = ORIGIN_MODEL_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getChangedModel() <em>Changed Model</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,6 +97,16 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * @ordered
 	 */
 	protected static final Resource CHANGED_MODEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getChangedModel() <em>Changed Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChangedModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected Resource changedModel = CHANGED_MODEL_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getDepContainers() <em>Dep Containers</em>}' containment reference list.
@@ -124,6 +149,46 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	protected SymmetricDifference symmetricDifference;
 
 	/**
+	 * The default value of the '{@link #getUriOriginModel() <em>Uri Origin Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUriOriginModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String URI_ORIGIN_MODEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUriOriginModel() <em>Uri Origin Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUriOriginModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String uriOriginModel = URI_ORIGIN_MODEL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getUriChangedModel() <em>Uri Changed Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUriChangedModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String URI_CHANGED_MODEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUriChangedModel() <em>Uri Changed Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUriChangedModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected String uriChangedModel = URI_CHANGED_MODEL_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -150,7 +215,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	@Override
 	public EList<OperationInvocation> getOperationInvocations() {
 		if (operationInvocations == null) {
-			operationInvocations = new EObjectContainmentEList<OperationInvocation>(OperationInvocation.class, this, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS);
+			operationInvocations = new EObjectContainmentWithInverseEList<OperationInvocation>(OperationInvocation.class, this, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS, AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE);
 		}
 		return operationInvocations;
 	}
@@ -162,7 +227,18 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 */
 	@Override
 	public Resource getOriginModel() {
-		return getSymmetricDifference().getModelA();
+		
+		// Try to derive the model from the symmetric difference: (-> same resource)
+		if ((originModel == null) && (getSymmetricDifference() != null)) {
+			originModel = getSymmetricDifference().getModelA();
+		}
+		
+		// Load the model from the URI: (-> new resource)
+		if (originModel == null) {
+			originModel = EMFStorage.eLoad(URI.createURI(getUriOriginModel())).eResource();
+		}
+		
+		return originModel;
 	}
 
 	/**
@@ -172,7 +248,18 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 */
 	@Override
 	public Resource getChangedModel() {
-		return getSymmetricDifference().getModelB();
+		
+		// Try to derive the model from the symmetric difference: (-> same resource)
+		if ((changedModel == null) && (getSymmetricDifference() != null)) {
+			changedModel = getSymmetricDifference().getModelB();
+		}
+		
+		// Load the model from the URI: (-> new resource)
+		if (changedModel == null) {
+			changedModel = EMFStorage.eLoad(URI.createURI(getUriChangedModel())).eResource();
+		}
+		
+		return changedModel;
 	}
 
 	/**
@@ -257,6 +344,75 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getUriOriginModel() {
+		
+		// Try to derive the URI from the symmetric difference:
+		if ((uriOriginModel == null) && (getSymmetricDifference() != null)) {
+			uriOriginModel = getSymmetricDifference().getUriModelA();
+		}
+		
+		return uriOriginModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUriOriginModel(String newUriOriginModel) {
+		String oldUriOriginModel = uriOriginModel;
+		uriOriginModel = newUriOriginModel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL, oldUriOriginModel, uriOriginModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getUriChangedModel() {
+		
+		// Try to derive the URI from the symmetric difference:
+		if ((uriChangedModel == null) && (getSymmetricDifference() != null)) {
+			uriChangedModel = getSymmetricDifference().getUriModelB();
+		}
+		
+		return uriChangedModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUriChangedModel(String newUriChangedModel) {
+		String oldUriChangedModel = uriChangedModel;
+		uriChangedModel = newUriChangedModel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL, oldUriChangedModel, uriChangedModel));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOperationInvocations()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -297,6 +453,10 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE:
 				if (resolve) return getSymmetricDifference();
 				return basicGetSymmetricDifference();
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL:
+				return getUriOriginModel();
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
+				return getUriChangedModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -329,6 +489,12 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE:
 				setSymmetricDifference((SymmetricDifference)newValue);
 				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL:
+				setUriOriginModel((String)newValue);
+				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
+				setUriChangedModel((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -356,6 +522,12 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE:
 				setSymmetricDifference((SymmetricDifference)null);
 				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL:
+				setUriOriginModel(URI_ORIGIN_MODEL_EDEFAULT);
+				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
+				setUriChangedModel(URI_CHANGED_MODEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -371,9 +543,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS:
 				return operationInvocations != null && !operationInvocations.isEmpty();
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__ORIGIN_MODEL:
-				return ORIGIN_MODEL_EDEFAULT == null ? getOriginModel() != null : !ORIGIN_MODEL_EDEFAULT.equals(getOriginModel());
+				return ORIGIN_MODEL_EDEFAULT == null ? originModel != null : !ORIGIN_MODEL_EDEFAULT.equals(originModel);
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__CHANGED_MODEL:
-				return CHANGED_MODEL_EDEFAULT == null ? getChangedModel() != null : !CHANGED_MODEL_EDEFAULT.equals(getChangedModel());
+				return CHANGED_MODEL_EDEFAULT == null ? changedModel != null : !CHANGED_MODEL_EDEFAULT.equals(changedModel);
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__DEP_CONTAINERS:
 				return depContainers != null && !depContainers.isEmpty();
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__PARAMETER_MAPPINGS:
@@ -382,10 +554,36 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 				return executions != null && !executions.isEmpty();
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE:
 				return symmetricDifference != null;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL:
+				return URI_ORIGIN_MODEL_EDEFAULT == null ? uriOriginModel != null : !URI_ORIGIN_MODEL_EDEFAULT.equals(uriOriginModel);
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
+				return URI_CHANGED_MODEL_EDEFAULT == null ? uriChangedModel != null : !URI_CHANGED_MODEL_EDEFAULT.equals(uriChangedModel);
 		}
 		return super.eIsSet(featureID);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (originModel: ");
+		result.append(originModel);
+		result.append(", changedModel: ");
+		result.append(changedModel);
+		result.append(", uriOriginModel: ");
+		result.append(uriOriginModel);
+		result.append(", uriChangedModel: ");
+		result.append(uriChangedModel);
+		result.append(')');
+		return result.toString();
+	}
+
 	private RuleBase transientRulebase;
 	
 	@Override

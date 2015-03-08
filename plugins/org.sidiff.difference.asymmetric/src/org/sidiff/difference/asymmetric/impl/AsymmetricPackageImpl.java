@@ -295,6 +295,24 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAsymmetricDifference_UriOriginModel() {
+		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAsymmetricDifference_UriChangedModel() {
+		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperationInvocation() {
 		return operationInvocationEClass;
 	}
@@ -304,8 +322,26 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getOperationInvocation_Name() {
+		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOperationInvocation_EditRuleName() {
+		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getOperationInvocation_ParameterBindings() {
-		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(0);
+		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -314,7 +350,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * @generated
 	 */
 	public EReference getOperationInvocation_Outgoing() {
-		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(1);
+		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -323,7 +359,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * @generated
 	 */
 	public EReference getOperationInvocation_Incoming() {
-		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(2);
+		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -332,7 +368,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * @generated
 	 */
 	public EAttribute getOperationInvocation_Apply() {
-		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -341,7 +377,16 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * @generated
 	 */
 	public EReference getOperationInvocation_ChangeSet() {
-		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(4);
+		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationInvocation_AsymmetricDifference() {
+		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -713,13 +758,18 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		createEReference(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__PARAMETER_MAPPINGS);
 		createEReference(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__EXECUTIONS);
 		createEReference(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE);
+		createEAttribute(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL);
+		createEAttribute(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL);
 
 		operationInvocationEClass = createEClass(OPERATION_INVOCATION);
+		createEAttribute(operationInvocationEClass, OPERATION_INVOCATION__NAME);
+		createEAttribute(operationInvocationEClass, OPERATION_INVOCATION__EDIT_RULE_NAME);
+		createEAttribute(operationInvocationEClass, OPERATION_INVOCATION__APPLY);
 		createEReference(operationInvocationEClass, OPERATION_INVOCATION__PARAMETER_BINDINGS);
 		createEReference(operationInvocationEClass, OPERATION_INVOCATION__OUTGOING);
 		createEReference(operationInvocationEClass, OPERATION_INVOCATION__INCOMING);
-		createEAttribute(operationInvocationEClass, OPERATION_INVOCATION__APPLY);
 		createEReference(operationInvocationEClass, OPERATION_INVOCATION__CHANGE_SET);
+		createEReference(operationInvocationEClass, OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE);
 
 		parameterBindingEClass = createEClass(PARAMETER_BINDING);
 		createEAttribute(parameterBindingEClass, PARAMETER_BINDING__FORMAL_NAME);
@@ -818,20 +868,25 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(asymmetricDifferenceEClass, AsymmetricDifference.class, "AsymmetricDifference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAsymmetricDifference_OperationInvocations(), this.getOperationInvocation(), null, "operationInvocations", null, 0, -1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAsymmetricDifference_OriginModel(), ecorePackage.getEResource(), "originModel", null, 0, 1, AsymmetricDifference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAsymmetricDifference_ChangedModel(), ecorePackage.getEResource(), "changedModel", null, 0, 1, AsymmetricDifference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getAsymmetricDifference_OperationInvocations(), this.getOperationInvocation(), this.getOperationInvocation_AsymmetricDifference(), "operationInvocations", null, 0, -1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAsymmetricDifference_OriginModel(), ecorePackage.getEResource(), "originModel", null, 0, 1, AsymmetricDifference.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAsymmetricDifference_ChangedModel(), ecorePackage.getEResource(), "changedModel", null, 0, 1, AsymmetricDifference.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getAsymmetricDifference_DepContainers(), this.getDependencyContainer(), null, "depContainers", null, 0, -1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAsymmetricDifference_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAsymmetricDifference_Executions(), this.getExecution(), null, "executions", null, 0, -1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAsymmetricDifference_SymmetricDifference(), theSymmetricPackage.getSymmetricDifference(), null, "symmetricDifference", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAsymmetricDifference_UriOriginModel(), theEcorePackage.getEString(), "uriOriginModel", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAsymmetricDifference_UriChangedModel(), theEcorePackage.getEString(), "uriChangedModel", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationInvocationEClass, OperationInvocation.class, "OperationInvocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOperationInvocation_Name(), theEcorePackage.getEString(), "name", null, 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOperationInvocation_EditRuleName(), theEcorePackage.getEString(), "editRuleName", null, 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOperationInvocation_Apply(), theEcorePackage.getEBoolean(), "apply", "true", 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationInvocation_ParameterBindings(), this.getParameterBinding(), null, "parameterBindings", null, 0, -1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationInvocation_Outgoing(), this.getDependencyContainer(), this.getDependencyContainer_Source(), "outgoing", null, 0, -1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationInvocation_Incoming(), this.getDependencyContainer(), this.getDependencyContainer_Target(), "incoming", null, 0, -1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOperationInvocation_Apply(), theEcorePackage.getEBoolean(), "apply", "true", 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationInvocation_ChangeSet(), theSymmetricPackage.getSemanticChangeSet(), null, "changeSet", null, 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperationInvocation_AsymmetricDifference(), this.getAsymmetricDifference(), this.getAsymmetricDifference_OperationInvocations(), "asymmetricDifference", null, 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterBindingEClass, ParameterBinding.class, "ParameterBinding", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getParameterBinding_FormalName(), ecorePackage.getEString(), "formalName", null, 1, 1, ParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

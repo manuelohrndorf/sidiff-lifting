@@ -86,6 +86,8 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDiff = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDiff.setSymmetricDifference(symmetricDiff);
+		asymmetricDiff.setUriOriginModel(symmetricDiff.getUriModelA());
+		asymmetricDiff.setUriChangedModel(symmetricDiff.getUriModelB());
 
 		// Merge Imports
 		StatisticsUtil.getInstance().start("MergeImports");
@@ -104,7 +106,6 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 
 		// Start lifting
 		long lifting = System.currentTimeMillis();
-
 
 		// Filter out all rules with derived references
 		StatisticsUtil.getInstance().start("FilterRRs");

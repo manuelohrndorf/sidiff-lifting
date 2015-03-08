@@ -4,11 +4,11 @@
     nsPrefix="asymmetric">
   <eClassifiers xsi:type="ecore:EClass" name="AsymmetricDifference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operationInvocations" upperBound="-1"
-        eType="#//OperationInvocation" containment="true"/>
+        eType="#//OperationInvocation" containment="true" eOpposite="#//OperationInvocation/asymmetricDifference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
-        changeable="false" volatile="true" transient="true" derived="true"/>
+        changeable="false" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="changedModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
-        changeable="false" volatile="true" transient="true" derived="true"/>
+        changeable="false" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="depContainers" upperBound="-1"
         eType="#//DependencyContainer" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterMappings" upperBound="-1"
@@ -16,17 +16,23 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="executions" upperBound="-1"
         eType="#//Execution" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="symmetricDifference" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uriOriginModel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uriChangedModel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OperationInvocation" eSuperTypes="#//Execution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editRuleName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apply" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterBindings" upperBound="-1"
         eType="#//ParameterBinding" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
         eType="#//DependencyContainer" eOpposite="#//DependencyContainer/source"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//DependencyContainer" eOpposite="#//DependencyContainer/target"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="apply" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
-        defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changeSet" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="asymmetricDifference" eType="#//AsymmetricDifference"
+        eOpposite="#//AsymmetricDifference/operationInvocations"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterBinding" abstract="true">
     <eOperations name="isDefaultValue" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>

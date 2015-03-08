@@ -19,11 +19,14 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getName <em>Name</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getEditRuleName <em>Edit Rule Name</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#isApply <em>Apply</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getParameterBindings <em>Parameter Bindings</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getIncoming <em>Incoming</em>}</li>
- *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#isApply <em>Apply</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getChangeSet <em>Change Set</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference <em>Asymmetric Difference</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,6 +35,58 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
  * @generated
  */
 public interface OperationInvocation extends Execution {
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getOperationInvocation_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.OperationInvocation#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Edit Rule Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Edit Rule Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Edit Rule Name</em>' attribute.
+	 * @see #setEditRuleName(String)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getOperationInvocation_EditRuleName()
+	 * @model
+	 * @generated
+	 */
+	String getEditRuleName();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.OperationInvocation#getEditRuleName <em>Edit Rule Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Edit Rule Name</em>' attribute.
+	 * @see #getEditRuleName()
+	 * @generated
+	 */
+	void setEditRuleName(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Parameter Bindings</b></em>' containment
 	 * reference list. The list contents are of type
@@ -139,6 +194,34 @@ public interface OperationInvocation extends Execution {
 	 * @generated
 	 */
 	void setChangeSet(SemanticChangeSet value);
+
+	/**
+	 * Returns the value of the '<em><b>Asymmetric Difference</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getOperationInvocations <em>Operation Invocations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Asymmetric Difference</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Asymmetric Difference</em>' container reference.
+	 * @see #setAsymmetricDifference(AsymmetricDifference)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getOperationInvocation_AsymmetricDifference()
+	 * @see org.sidiff.difference.asymmetric.AsymmetricDifference#getOperationInvocations
+	 * @model opposite="operationInvocations" transient="false"
+	 * @generated
+	 */
+	AsymmetricDifference getAsymmetricDifference();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference <em>Asymmetric Difference</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Asymmetric Difference</em>' container reference.
+	 * @see #getAsymmetricDifference()
+	 * @generated
+	 */
+	void setAsymmetricDifference(AsymmetricDifference value);
 
 	/**
 	 * Return whether this is the invocation of a complex or an atomic edit

@@ -1010,9 +1010,9 @@ public class AsymmetricEditor
 			// Set title:
 			String title =
 					"Patch: " +
-					difference.getSymmetricDifference().getModelA().getURI().lastSegment() +
+					URI.createURI(difference.getUriOriginModel()).lastSegment() +
 					" -> " +
-					difference.getSymmetricDifference().getModelB().getURI().lastSegment();
+					URI.createURI(difference.getUriChangedModel()).lastSegment();
 			viewerPane.setTitle(title, getTitleImage());
 
 			// Set focus to viewer:

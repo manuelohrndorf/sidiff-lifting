@@ -27,6 +27,8 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getParameterMappings <em>Parameter Mappings</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getExecutions <em>Executions</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getSymmetricDifference <em>Symmetric Difference</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriOriginModel <em>Uri Origin Model</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriChangedModel <em>Uri Changed Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,6 +40,7 @@ public interface AsymmetricDifference extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Operation Invocations</b></em>' containment reference list.
 	 * The list contents are of type {@link org.sidiff.difference.asymmetric.OperationInvocation}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference <em>Asymmetric Difference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Operation Invocations</em>' containment reference list isn't clear,
@@ -46,7 +49,8 @@ public interface AsymmetricDifference extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operation Invocations</em>' containment reference list.
 	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_OperationInvocations()
-	 * @model containment="true"
+	 * @see org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference
+	 * @model opposite="asymmetricDifference" containment="true"
 	 * @generated
 	 */
 	EList<OperationInvocation> getOperationInvocations();
@@ -61,7 +65,7 @@ public interface AsymmetricDifference extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Origin Model</em>' attribute.
 	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_OriginModel()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" derived="true"
 	 * @generated
 	 */
 	Resource getOriginModel();
@@ -76,7 +80,7 @@ public interface AsymmetricDifference extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Changed Model</em>' attribute.
 	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_ChangedModel()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" derived="true"
 	 * @generated
 	 */
 	Resource getChangedModel();
@@ -155,6 +159,58 @@ public interface AsymmetricDifference extends EObject {
 	 */
 	void setSymmetricDifference(SymmetricDifference value);
 	
+	/**
+	 * Returns the value of the '<em><b>Uri Origin Model</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Uri Origin Model</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Uri Origin Model</em>' attribute.
+	 * @see #setUriOriginModel(String)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_UriOriginModel()
+	 * @model
+	 * @generated
+	 */
+	String getUriOriginModel();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriOriginModel <em>Uri Origin Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Uri Origin Model</em>' attribute.
+	 * @see #getUriOriginModel()
+	 * @generated
+	 */
+	void setUriOriginModel(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Uri Changed Model</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Uri Changed Model</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Uri Changed Model</em>' attribute.
+	 * @see #setUriChangedModel(String)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_UriChangedModel()
+	 * @model
+	 * @generated
+	 */
+	String getUriChangedModel();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriChangedModel <em>Uri Changed Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Uri Changed Model</em>' attribute.
+	 * @see #getUriChangedModel()
+	 * @generated
+	 */
+	void setUriChangedModel(String value);
+
 	void initTransientRulebase();
 	
 	RuleBase getTransientRulebase();

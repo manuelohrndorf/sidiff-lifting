@@ -14,13 +14,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemColorProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.swt.graphics.Color;
@@ -36,14 +30,7 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
  * @generated
  */
 public class OperationInvocationItemProvider
-	extends ExecutionItemProvider
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource,
-		IItemColorProvider {
+	extends ExecutionItemProvider {
 	
 	private Color grey = null;
 
@@ -82,12 +69,58 @@ public class OperationInvocationItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
+			addEditRuleNamePropertyDescriptor(object);
+			addApplyPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
-			addApplyPropertyDescriptor(object);
 			addChangeSetPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OperationInvocation_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OperationInvocation_name_feature", "_UI_OperationInvocation_type"),
+				 AsymmetricPackage.Literals.OPERATION_INVOCATION__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Edit Rule Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEditRuleNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OperationInvocation_editRuleName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OperationInvocation_editRuleName_feature", "_UI_OperationInvocation_type"),
+				 AsymmetricPackage.Literals.OPERATION_INVOCATION__EDIT_RULE_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -229,7 +262,7 @@ public class OperationInvocationItemProvider
 	@Override
 	public String getText(Object object) {
 		OperationInvocation operationInvocation = (OperationInvocation)object;
-		return String.format("%s: \"%s\"", "OperationInvocation", operationInvocation.getChangeSet().getName());
+		return String.format("%s: \"%s\"", "OperationInvocation", operationInvocation.getName());
 	}
 
 	/**
@@ -244,6 +277,8 @@ public class OperationInvocationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(OperationInvocation.class)) {
+			case AsymmetricPackage.OPERATION_INVOCATION__NAME:
+			case AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME:
 			case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

@@ -19,16 +19,20 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.RuleBase;
+import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -36,27 +40,78 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getParameterBindings
- * <em>Parameter Bindings</em>}</li>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getOutgoing
- * <em>Outgoing</em>}</li>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getIncoming
- * <em>Incoming</em>}</li>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#isApply
- * <em>Apply</em>}</li>
- * <li>
- * {@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getChangeSet
- * <em>Change Set</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getEditRuleName <em>Edit Rule Name</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#isApply <em>Apply</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getParameterBindings <em>Parameter Bindings</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getIncoming <em>Incoming</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getChangeSet <em>Change Set</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getAsymmetricDifference <em>Asymmetric Difference</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class OperationInvocationImpl extends ExecutionImpl implements OperationInvocation {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getEditRuleName() <em>Edit Rule Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEditRuleName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String EDIT_RULE_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getEditRuleName() <em>Edit Rule Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEditRuleName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String editRuleName = EDIT_RULE_NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isApply() <em>Apply</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isApply()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean APPLY_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isApply() <em>Apply</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isApply()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean apply = APPLY_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getParameterBindings()
 	 * <em>Parameter Bindings</em>}' containment reference list. <!--
@@ -69,9 +124,8 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	protected EList<ParameterBinding> parameterBindings;
 
 	/**
-	 * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutgoing()
 	 * @generated
 	 * @ordered
@@ -79,9 +133,8 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	protected EList<DependencyContainer> outgoing;
 
 	/**
-	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getIncoming()
 	 * @generated
 	 * @ordered
@@ -89,29 +142,8 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	protected EList<DependencyContainer> incoming;
 
 	/**
-	 * The default value of the '{@link #isApply() <em>Apply</em>}' attribute.
+	 * The cached value of the '{@link #getChangeSet() <em>Change Set</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #isApply()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean APPLY_EDEFAULT = true;
-
-	/**
-	 * The cached value of the '{@link #isApply() <em>Apply</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #isApply()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean apply = APPLY_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getChangeSet() <em>Change Set</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getChangeSet()
 	 * @generated
 	 * @ordered
@@ -120,7 +152,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected OperationInvocationImpl() {
@@ -129,7 +160,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -138,50 +168,97 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getName() {
+		
+		// Try to derive the name from the semantic change set:
+		if ((name == null) && (getChangeSet() != null)) {
+			name = getChangeSet().getName();
+		}
+		
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getEditRuleName() {
+		
+		// Try to derive the edit rule name from the semantic change set:
+		if ((editRuleName == null) && (getChangeSet() != null)) {
+			editRuleName = getChangeSet().getEditRName();
+		}
+		
+		return editRuleName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditRuleName(String newEditRuleName) {
+		String oldEditRuleName = editRuleName;
+		editRuleName = newEditRuleName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME, oldEditRuleName, editRuleName));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<ParameterBinding> getParameterBindings() {
 		if (parameterBindings == null) {
-			parameterBindings = new EObjectContainmentEList<ParameterBinding>(ParameterBinding.class, this,
-					AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS);
+			parameterBindings = new EObjectContainmentEList<ParameterBinding>(ParameterBinding.class, this, AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS);
 		}
 		return parameterBindings;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<DependencyContainer> getOutgoing() {
 		if (outgoing == null) {
-			outgoing = new EObjectWithInverseResolvingEList<DependencyContainer>(DependencyContainer.class, this,
-					AsymmetricPackage.OPERATION_INVOCATION__OUTGOING, AsymmetricPackage.DEPENDENCY_CONTAINER__SOURCE);
+			outgoing = new EObjectWithInverseResolvingEList<DependencyContainer>(DependencyContainer.class, this, AsymmetricPackage.OPERATION_INVOCATION__OUTGOING, AsymmetricPackage.DEPENDENCY_CONTAINER__SOURCE);
 		}
 		return outgoing;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<DependencyContainer> getIncoming() {
 		if (incoming == null) {
-			incoming = new EObjectWithInverseResolvingEList<DependencyContainer>(DependencyContainer.class, this,
-					AsymmetricPackage.OPERATION_INVOCATION__INCOMING, AsymmetricPackage.DEPENDENCY_CONTAINER__TARGET);
+			incoming = new EObjectWithInverseResolvingEList<DependencyContainer>(DependencyContainer.class, this, AsymmetricPackage.OPERATION_INVOCATION__INCOMING, AsymmetricPackage.DEPENDENCY_CONTAINER__TARGET);
 		}
 		return incoming;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -191,7 +268,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -199,24 +275,21 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		boolean oldApply = apply;
 		apply = newApply;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__APPLY,
-					oldApply, apply));
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__APPLY, oldApply, apply));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public SemanticChangeSet getChangeSet() {
 		if (changeSet != null && changeSet.eIsProxy()) {
-			InternalEObject oldChangeSet = (InternalEObject) changeSet;
-			changeSet = (SemanticChangeSet) eResolveProxy(oldChangeSet);
+			InternalEObject oldChangeSet = (InternalEObject)changeSet;
+			changeSet = (SemanticChangeSet)eResolveProxy(oldChangeSet);
 			if (changeSet != oldChangeSet) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET, oldChangeSet, changeSet));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET, oldChangeSet, changeSet));
 			}
 		}
 		return changeSet;
@@ -224,7 +297,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SemanticChangeSet basicGetChangeSet() {
@@ -233,7 +305,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -241,161 +312,246 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		SemanticChangeSet oldChangeSet = changeSet;
 		changeSet = newChangeSet;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET,
-					oldChangeSet, changeSet));
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET, oldChangeSet, changeSet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AsymmetricDifference getAsymmetricDifference() {
+		if (eContainerFeatureID() != AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE) return null;
+		return (AsymmetricDifference)eInternalContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetAsymmetricDifference(AsymmetricDifference newAsymmetricDifference, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newAsymmetricDifference, AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAsymmetricDifference(AsymmetricDifference newAsymmetricDifference) {
+		if (newAsymmetricDifference != eInternalContainer() || (eContainerFeatureID() != AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE && newAsymmetricDifference != null)) {
+			if (EcoreUtil.isAncestor(this, newAsymmetricDifference))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newAsymmetricDifference != null)
+				msgs = ((InternalEObject)newAsymmetricDifference).eInverseAdd(this, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS, AsymmetricDifference.class, msgs);
+			msgs = basicSetAsymmetricDifference(newAsymmetricDifference, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE, newAsymmetricDifference, newAsymmetricDifference));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			return ((InternalEList<InternalEObject>) (InternalEList<?>) getOutgoing()).basicAdd(otherEnd, msgs);
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			return ((InternalEList<InternalEObject>) (InternalEList<?>) getIncoming()).basicAdd(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetAsymmetricDifference((AsymmetricDifference)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
-			return ((InternalEList<?>) getParameterBindings()).basicRemove(otherEnd, msgs);
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			return ((InternalEList<?>) getOutgoing()).basicRemove(otherEnd, msgs);
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			return ((InternalEList<?>) getIncoming()).basicRemove(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
+				return ((InternalEList<?>)getParameterBindings()).basicRemove(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				return basicSetAsymmetricDifference(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				return eInternalContainer().eInverseRemove(this, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__OPERATION_INVOCATIONS, AsymmetricDifference.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
-			return getParameterBindings();
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			return getOutgoing();
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			return getIncoming();
-		case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
-			return isApply();
-		case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
-			if (resolve)
-				return getChangeSet();
-			return basicGetChangeSet();
+			case AsymmetricPackage.OPERATION_INVOCATION__NAME:
+				return getName();
+			case AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME:
+				return getEditRuleName();
+			case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
+				return isApply();
+			case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
+				return getParameterBindings();
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				return getOutgoing();
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				return getIncoming();
+			case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
+				if (resolve) return getChangeSet();
+				return basicGetChangeSet();
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				return getAsymmetricDifference();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
-			getParameterBindings().clear();
-			getParameterBindings().addAll((Collection<? extends ParameterBinding>) newValue);
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			getOutgoing().clear();
-			getOutgoing().addAll((Collection<? extends DependencyContainer>) newValue);
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			getIncoming().clear();
-			getIncoming().addAll((Collection<? extends DependencyContainer>) newValue);
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
-			setApply((Boolean) newValue);
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
-			setChangeSet((SemanticChangeSet) newValue);
-			return;
+			case AsymmetricPackage.OPERATION_INVOCATION__NAME:
+				setName((String)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME:
+				setEditRuleName((String)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
+				setApply((Boolean)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
+				getParameterBindings().clear();
+				getParameterBindings().addAll((Collection<? extends ParameterBinding>)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				getOutgoing().clear();
+				getOutgoing().addAll((Collection<? extends DependencyContainer>)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				getIncoming().clear();
+				getIncoming().addAll((Collection<? extends DependencyContainer>)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
+				setChangeSet((SemanticChangeSet)newValue);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				setAsymmetricDifference((AsymmetricDifference)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
-			getParameterBindings().clear();
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			getOutgoing().clear();
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			getIncoming().clear();
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
-			setApply(APPLY_EDEFAULT);
-			return;
-		case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
-			setChangeSet((SemanticChangeSet) null);
-			return;
+			case AsymmetricPackage.OPERATION_INVOCATION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME:
+				setEditRuleName(EDIT_RULE_NAME_EDEFAULT);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
+				setApply(APPLY_EDEFAULT);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
+				getParameterBindings().clear();
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				getOutgoing().clear();
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				getIncoming().clear();
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
+				setChangeSet((SemanticChangeSet)null);
+				return;
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				setAsymmetricDifference((AsymmetricDifference)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
-			return parameterBindings != null && !parameterBindings.isEmpty();
-		case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
-			return outgoing != null && !outgoing.isEmpty();
-		case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
-			return incoming != null && !incoming.isEmpty();
-		case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
-			return apply != APPLY_EDEFAULT;
-		case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
-			return changeSet != null;
+			case AsymmetricPackage.OPERATION_INVOCATION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case AsymmetricPackage.OPERATION_INVOCATION__EDIT_RULE_NAME:
+				return EDIT_RULE_NAME_EDEFAULT == null ? editRuleName != null : !EDIT_RULE_NAME_EDEFAULT.equals(editRuleName);
+			case AsymmetricPackage.OPERATION_INVOCATION__APPLY:
+				return apply != APPLY_EDEFAULT;
+			case AsymmetricPackage.OPERATION_INVOCATION__PARAMETER_BINDINGS:
+				return parameterBindings != null && !parameterBindings.isEmpty();
+			case AsymmetricPackage.OPERATION_INVOCATION__OUTGOING:
+				return outgoing != null && !outgoing.isEmpty();
+			case AsymmetricPackage.OPERATION_INVOCATION__INCOMING:
+				return incoming != null && !incoming.isEmpty();
+			case AsymmetricPackage.OPERATION_INVOCATION__CHANGE_SET:
+				return changeSet != null;
+			case AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE:
+				return getAsymmetricDifference() != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (apply: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", editRuleName: ");
+		result.append(editRuleName);
+		result.append(", apply: ");
 		result.append(apply);
 		result.append(')');
 		return result.toString();
@@ -403,9 +559,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 	@Override
 	public boolean isComplex() {
-		// TODO: Use TransformationConstants for Literal instead of Literal
-		// "editrules.complex"
-		return resolveEditRule().getExecuteModule().eResource().getURI().toString().contains("editrules.complex");
+		return resolveEditRule().getExecuteModule().eResource().getURI().toString().contains(TransformationConstants.PATH_SEGMENT_COMPLEX_EDITRULES);
 	}
 
 	@Override
@@ -502,12 +656,12 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 		}
 
-		// If there is no rule physically available, we delegate the resolution
-		// to the SemanticChangeSet (which finally tries to derive it via the
-		// available rulebases)
-		this.editRule = this.getChangeSet().resolveEditRule();
-		return this.editRule;
+		// Try to derive the EditRule via the available rulebases:
+		AsymmetricDifference difference = (AsymmetricDifference) this.eContainer();
+		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
+		this.editRule = RuleBaseUtil.resolveEditRule(documentType, this.getEditRuleName());
 
+		return this.editRule;
 	}
 
 } // OperationInvocationImpl
