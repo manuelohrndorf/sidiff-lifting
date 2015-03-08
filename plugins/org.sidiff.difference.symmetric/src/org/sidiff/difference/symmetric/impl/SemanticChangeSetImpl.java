@@ -25,9 +25,7 @@ import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.difference.symboliclink.SymbolicLinks;
-import org.silift.difference.symboliclink.SymboliclinkPackage;
+import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -827,14 +825,9 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 
 	@Override
 	public EditRule resolveEditRule() {
-		// Try to derive the EditRule via the available rulebases
+		// Try to derive the EditRule via the available rulebases:
 		SymmetricDifference difference = (SymmetricDifference) this.eContainer();
-		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(difference.getModelA());
-		// if the origin model is a symbolic link file, get the doc type information from the 
-		// appropriate field
-		if (documentType.equals(SymboliclinkPackage.eNS_URI)) {
-			documentType = ((SymbolicLinks) difference.getModelA().getContents().get(0)).getDocType();
-		}
+		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getModelA());
 		return RuleBaseUtil.resolveEditRule(documentType, this.getEditRName());
 	}
 
