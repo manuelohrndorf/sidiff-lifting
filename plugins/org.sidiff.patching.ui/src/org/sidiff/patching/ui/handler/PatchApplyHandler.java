@@ -1,5 +1,7 @@
 package org.sidiff.patching.ui.handler;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -11,21 +13,22 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.gmt.modisco.xml.Attribute;
-import org.eclipse.gmt.modisco.xml.Element;
-import org.eclipse.gmt.modisco.xml.Node;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.xml.XMLParser;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.patching.ui.wizard.ApplyPatchWizard;
 import org.silift.common.util.file.ZipUtil;
 import org.silift.patching.patch.Manifest;
 import org.silift.patching.patch.Patch;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class PatchApplyHandler extends AbstractHandler {
 	public static final String ARCHIVE_URI_PREFIX = "archive:file:///";
@@ -60,7 +63,13 @@ public class PatchApplyHandler extends AbstractHandler {
 				Resource patchResource = resourceSet.getResource(uri_asymDiff, true);
 
 				// Load Manifest
-				Manifest manifest = loadManifest(uri_manifest);
+				Manifest manifest = null;
+				try {
+					manifest = loadManifest(uri_manifest);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if (patchResource.getContents().size() == 0) {
 					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model", "There is something wrong with this patch!");
@@ -87,32 +96,23 @@ public class PatchApplyHandler extends AbstractHandler {
 	/** loads the settings stored in the manifest.xml
 	 * @param uri
 	 * @return
+	 * @throws FileNotFoundException 
 	 */
-	public Manifest loadManifest(URI uri){
+	public Manifest loadManifest(URI uri) throws FileNotFoundException{
 		// Load Resource
-		ResourceSet resourceSet_Manifest = new ResourceSetImpl();
-		Resource manifestResource = resourceSet_Manifest.getResource(uri, true);
-		
+
+		Document manifestResource = XMLParser.parseStream(new FileInputStream(uri.toFileString()));
+		Element setting = (Element)manifestResource.getElementsByTagName("setting").item(0);
+		Attr matcher = setting.getAttributeNode("matcher");
+		Attr symblH = setting.getAttributeNode("symboliclinkhandler");
 		Manifest manifest = new Manifest();
-		// Search for setting nodes
-		for (Iterator<EObject> iterator = manifestResource.getAllContents(); iterator.hasNext();) {
-			EObject eObject = (EObject) iterator.next();
-			if(eObject instanceof Element){
-				Element elem = (Element)eObject;
-				if(elem.getName().equals("setting")){
-					for(Node node : elem.getChildren()){
-						if(node instanceof Attribute){
-							Attribute attr = (Attribute)node;
-							if(attr.getName().equals("matcher")){
-								manifest.setMatcherName(attr.getValue());
-							}else if(attr.getName().equals("symboliclinkhandler")){
-								manifest.setSymbolicLinkHandlerName(attr.getValue());
-							}
-						}
-					}
-				}
-			}
+		if(matcher != null){
+			manifest.setMatcherName(matcher.getValue());
+		}else if(symblH != null){
+			manifest.setSymbolicLinkHandlerName(symblH.getValue());
 		}
+		
+		assert !(matcher==null && symblH==null): "There went something wrong during reading the manifest";
 		return manifest;
 	}
 }
