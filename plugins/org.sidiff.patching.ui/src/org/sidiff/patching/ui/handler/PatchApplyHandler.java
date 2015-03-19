@@ -1,9 +1,7 @@
 package org.sidiff.patching.ui.handler;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
-import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
