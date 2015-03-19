@@ -2,6 +2,7 @@ package org.sidiff.patching.ui.handler;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -29,6 +30,7 @@ import org.silift.patching.patch.Patch;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 public class PatchApplyHandler extends AbstractHandler {
 	public static final String ARCHIVE_URI_PREFIX = "archive:file:///";
@@ -55,7 +57,7 @@ public class PatchApplyHandler extends AbstractHandler {
 					if (entry.endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
 						uri_asymDiff = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
 					}if(entry.endsWith("xml")){
-						uri_manifest = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+						uri_manifest = URI.createURI(patchPath); //URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
 					}
 				}
 				// Load AsymmetricDifference
@@ -100,8 +102,8 @@ public class PatchApplyHandler extends AbstractHandler {
 	 */
 	public Manifest loadManifest(URI uri) throws FileNotFoundException{
 		// Load Resource
-
-		Document manifestResource = XMLParser.parseStream(new FileInputStream(uri.toFileString()));
+		String txt = ZipUtil.readFileFromZip(uri.toString(), "MANIFEST.xml");
+		Document manifestResource = XMLParser.parseXML(new InputSource(new StringReader(txt)));
 		Element setting = (Element)manifestResource.getElementsByTagName("setting").item(0);
 		Attr matcher = setting.getAttributeNode("matcher");
 		Attr symblH = setting.getAttributeNode("symboliclinkhandler");
