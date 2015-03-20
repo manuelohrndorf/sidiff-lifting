@@ -14,22 +14,21 @@ import org.eclipse.ui.PlatformUI;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
+import org.sidiff.patching.patch.patch.Patch;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetSelection;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.patching.patch.Manifest;
 
 public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
-	private Manifest manifest;
-	
+	private Patch patch;
 	private Button use_manifest;
 	
 
 
-	public ApplyPatchMatchingEngineWidget(InputModels inputModels, Manifest manifest) {
+	public ApplyPatchMatchingEngineWidget(InputModels inputModels, Patch patch) {
 		super(inputModels);
-		this.manifest = manifest;
+		this.patch = patch;
 		
 		//Connect scope widget:
 		
@@ -87,7 +86,7 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 		list_matchers.setItems(matchers.keySet().toArray(new String[0]));
 
 		// Set selection:
-		if(manifest != null && list_matchers.getItems().length != 0){
+		if(patch.getSettings().get("matcher") != null && list_matchers.getItems().length != 0){
 			int item = getItemFromManifest();
 			if(item != -1){
 				use_manifest.setSelection(true);
@@ -128,6 +127,6 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 	}
 
 	private int getItemFromManifest(){
-		return list_matchers.indexOf(manifest.getMatcherName());
+		return list_matchers.indexOf(patch.getSettings().get("matcher"));
 	}
 }

@@ -1,6 +1,7 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -28,8 +29,8 @@ import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.sidiff.patching.patch.patch.PatchCreator;
 import org.silift.common.util.ui.UIUtil;
-import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {

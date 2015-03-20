@@ -11,13 +11,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.patching.patch.patch.Patch;
 import org.silift.common.util.ui.widgets.IWidget;
 import org.silift.common.util.ui.widgets.IWidgetValidation;
 import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage;
 import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
-import org.silift.patching.patch.Manifest;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetValidation{
@@ -26,15 +26,13 @@ public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetVali
 	private SortedMap<String, ISymbolicLinkHandler> symbolicLinkHandlers;
 	
 	private PatchingSettings settings;
-	private Manifest manifest;
-	
+	private Patch patch;
 	protected Composite container;
 	private Label symbolicLinkHandler_from_manifest;
 	
-	public ApplyPatchSymbolicLinkHandlerWidget(PatchingSettings settings, Manifest manifest) {
+	public ApplyPatchSymbolicLinkHandlerWidget(PatchingSettings settings, Patch patch) {
 		super();
 		this.settings = settings;
-		this.manifest = manifest;
 		symbolicLinkHandlers = new TreeMap<String, ISymbolicLinkHandler>();
 
 		// Search registered symbolic link resolver extension
@@ -61,9 +59,9 @@ public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetVali
 		
 		symbolicLinkHandler_from_manifest = new Label(container, SWT.NONE);
 		
-		if(symbolicLinkHandlers.get(manifest.getSymbolicLinkHandlerName()) != null){
-			symbolicLinkHandler_from_manifest.setText(manifest.getSymbolicLinkHandlerName());
-			settings.setSymbolicLinkHandler(symbolicLinkHandlers.get(manifest.getSymbolicLinkHandlerName()));
+		if(symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler")) != null){
+			symbolicLinkHandler_from_manifest.setText(patch.getSettings().get("symbolicLinkHandler"));
+			settings.setSymbolicLinkHandler(symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler")));
 		}else{
 			MessageDialog.openInformation(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -76,7 +74,7 @@ public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetVali
 	
 	@Override
 	public boolean validate() {
-		if (symbolicLinkHandlers.get(manifest.getSymbolicLinkHandlerName()) != null) {
+		if (symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler")) != null) {
 			return true;
 		} else {
 			return false;

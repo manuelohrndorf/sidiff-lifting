@@ -40,6 +40,7 @@ import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
@@ -55,8 +56,6 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.patch.Manifest;
-import org.silift.patching.patch.Patch;
 import org.silift.patching.settings.ExecutionMode;
 import org.silift.patching.settings.PatchMode;
 import org.silift.patching.settings.PatchingSettings;
@@ -69,16 +68,14 @@ public class ApplyPatchWizard extends Wizard {
 
 	private IFile file;
 	private Patch patch;
-	private Manifest manifest;
 	private String patchName;
 	private boolean validationState;
 	private PatchingSettings settings;
 
-	public ApplyPatchWizard(Patch patch, Manifest manifest, IFile file) {
+	public ApplyPatchWizard(Patch patch,  IFile file) {
 		this.setWindowTitle("Apply Patch Wizard");
 		this.file = file;
 		this.patch = patch;
-		this.manifest = manifest;
 		this.patchName = file.getName();
 		this.settings = new PatchingSettings();
 	}
@@ -91,7 +88,7 @@ public class ApplyPatchWizard extends Wizard {
 		
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage", "Apply Patch: " + patchName,
-				getImageDescriptor("icon.png"),settings, manifest);
+				getImageDescriptor("icon.png"),settings);
 		addPage(applyPatchPage01);
 		addPage(applyPatchPage02);
 	}
@@ -245,7 +242,7 @@ public class ApplyPatchWizard extends Wizard {
 					
 					
 					monitor.subTask("Initialize PatchEngine");			
-					final PatchEngine patchEngine = new PatchEngine(patch.getDifference(), resourceResult.get(), settings);
+					final PatchEngine patchEngine = new PatchEngine(patch.getAsymmetricDifference(), resourceResult.get(), settings);
 				
 					if(finalFilePath.endsWith("diag")){
 						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
