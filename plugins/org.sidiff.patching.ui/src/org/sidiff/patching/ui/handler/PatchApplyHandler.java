@@ -38,7 +38,7 @@ public class PatchApplyHandler extends AbstractHandler {
 				String patchPath = iFile.getLocation().toOSString();
 
 				//TODO own util class
-				// Search asymmetric difference:
+				// Search manifest:
 				URI uri_patch = null;
 				for (String entry : ZipUtil.getEntries(patchPath)) {
 					if (entry.endsWith("MF")) {
