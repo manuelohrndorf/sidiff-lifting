@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated patch -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.sidiff.patching.patch.patch.presentation.PatchModelWizardID"
+            name="%_UI_PatchModelWizard_label"
+            class="org.sidiff.patching.patch.patch.presentation.PatchModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/PatchModelFile.gif">
+         <description>%_UI_PatchModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated patch -->
+      <editor
+            id="org.sidiff.patching.patch.patch.presentation.PatchEditorID"
+            name="%_UI_PatchEditor_label"
+            icon="icons/full/obj16/PatchModelFile.gif"
+            extensions="MF"
+            class="org.sidiff.patching.patch.patch.presentation.PatchEditor"
+            contributorClass="org.sidiff.patching.patch.patch.presentation.PatchActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
