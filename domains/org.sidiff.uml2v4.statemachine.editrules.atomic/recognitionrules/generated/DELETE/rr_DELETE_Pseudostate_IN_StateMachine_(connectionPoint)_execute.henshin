@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uCuGIMRSEeS_152siUb53g" name="RR: DELETE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Recognize: Deletes one Pseudostate in StateMachine">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uCuGIcRSEeS_152siUb53g" name="rr:deletePseudostate_IN_StateMachine" description="Recognize: deletes one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_uCuGIsRSEeS_152siUb53g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_uCuGI8RSEeS_152siUb53g" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <lhs xmi:id="_uCuGJMRSEeS_152siUb53g" name="Lhs">
+      <nodes xmi:id="_uCuGJcRSEeS_152siUb53g" name="A.Selected" incoming="_uCuGMMRSEeS_152siUb53g _uCuGNcRSEeS_152siUb53g _uCuGN8RSEeS_152siUb53g" outgoing="_uCuGM8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_uCuGJsRSEeS_152siUb53g" name="" outgoing="_uCuGL8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_uCuGJ8RSEeS_152siUb53g" name="A.ToBeDeleted" incoming="_uCuGL8RSEeS_152siUb53g _uCuGMcRSEeS_152siUb53g _uCuGM8RSEeS_152siUb53g _uCuGNMRSEeS_152siUb53g" outgoing="_uCuGN8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_uCuGKMRSEeS_152siUb53g" name="" outgoing="_uCuGMMRSEeS_152siUb53g _uCuGMcRSEeS_152siUb53g _uCuGMsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGKcRSEeS_152siUb53g" name="" incoming="_uCuGMsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_uCuGKsRSEeS_152siUb53g" value="&quot;connectionPoint&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uCuGK8RSEeS_152siUb53g" name="" outgoing="_uCuGNMRSEeS_152siUb53g _uCuGNcRSEeS_152siUb53g _uCuGNsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGLMRSEeS_152siUb53g" name="" incoming="_uCuGNsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_uCuGLcRSEeS_152siUb53g" value="&quot;stateMachine&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uCuGLsRSEeS_152siUb53g" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uCuGL8RSEeS_152siUb53g" source="_uCuGJsRSEeS_152siUb53g" target="_uCuGJ8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_uCuGMMRSEeS_152siUb53g" source="_uCuGKMRSEeS_152siUb53g" target="_uCuGJcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uCuGMcRSEeS_152siUb53g" source="_uCuGKMRSEeS_152siUb53g" target="_uCuGJ8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uCuGMsRSEeS_152siUb53g" source="_uCuGKMRSEeS_152siUb53g" target="_uCuGKcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uCuGM8RSEeS_152siUb53g" source="_uCuGJcRSEeS_152siUb53g" target="_uCuGJ8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_uCuGNMRSEeS_152siUb53g" source="_uCuGK8RSEeS_152siUb53g" target="_uCuGJ8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uCuGNcRSEeS_152siUb53g" source="_uCuGK8RSEeS_152siUb53g" target="_uCuGJcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uCuGNsRSEeS_152siUb53g" source="_uCuGK8RSEeS_152siUb53g" target="_uCuGLMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uCuGN8RSEeS_152siUb53g" source="_uCuGJ8RSEeS_152siUb53g" target="_uCuGJcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uCuGOMRSEeS_152siUb53g" name="Rhs">
+      <nodes xmi:id="_uCuGOcRSEeS_152siUb53g" name="A.Selected" incoming="_uCuGS8RSEeS_152siUb53g _uCuGUMRSEeS_152siUb53g _uCuGUsRSEeS_152siUb53g" outgoing="_uCuGTsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_uCuGOsRSEeS_152siUb53g" name="" incoming="_uCuGU8RSEeS_152siUb53g" outgoing="_uCuGSsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_uCuGO8RSEeS_152siUb53g" name="A.ToBeDeleted" incoming="_uCuGSsRSEeS_152siUb53g _uCuGTMRSEeS_152siUb53g _uCuGTsRSEeS_152siUb53g _uCuGT8RSEeS_152siUb53g" outgoing="_uCuGUsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_uCuGPMRSEeS_152siUb53g" name="" incoming="_uCuGVMRSEeS_152siUb53g" outgoing="_uCuGS8RSEeS_152siUb53g _uCuGTMRSEeS_152siUb53g _uCuGTcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGPcRSEeS_152siUb53g" name="" incoming="_uCuGTcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGPsRSEeS_152siUb53g" name="" incoming="_uCuGVcRSEeS_152siUb53g" outgoing="_uCuGT8RSEeS_152siUb53g _uCuGUMRSEeS_152siUb53g _uCuGUcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGP8RSEeS_152siUb53g" name="" incoming="_uCuGUcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_uCuGQMRSEeS_152siUb53g" incoming="_uCuGVsRSEeS_152siUb53g" outgoing="_uCuGU8RSEeS_152siUb53g _uCuGVMRSEeS_152siUb53g _uCuGVcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_uCuGQcRSEeS_152siUb53g" value="&quot;DELETE_Pseudostate_IN_StateMachine_(connectionPoint)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_uCuGQsRSEeS_152siUb53g" value="&quot;Deletes one Pseudostate in StateMachine&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_uCuGQ8RSEeS_152siUb53g" value="&quot;DELETE_Pseudostate_IN_StateMachine_(connectionPoint)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_uCuGRMRSEeS_152siUb53g" value="&quot;RR: DELETE_Pseudostate_IN_StateMachine_(connectionPoint)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_uCuGRcRSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_uCuGRsRSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_uCuGR8RSEeS_152siUb53g" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_uCuGSMRSEeS_152siUb53g" value="21">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uCuGScRSEeS_152siUb53g" name="" outgoing="_uCuGVsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uCuGSsRSEeS_152siUb53g" source="_uCuGOsRSEeS_152siUb53g" target="_uCuGO8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_uCuGS8RSEeS_152siUb53g" source="_uCuGPMRSEeS_152siUb53g" target="_uCuGOcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uCuGTMRSEeS_152siUb53g" source="_uCuGPMRSEeS_152siUb53g" target="_uCuGO8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uCuGTcRSEeS_152siUb53g" source="_uCuGPMRSEeS_152siUb53g" target="_uCuGPcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uCuGTsRSEeS_152siUb53g" source="_uCuGOcRSEeS_152siUb53g" target="_uCuGO8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_uCuGT8RSEeS_152siUb53g" source="_uCuGPsRSEeS_152siUb53g" target="_uCuGO8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uCuGUMRSEeS_152siUb53g" source="_uCuGPsRSEeS_152siUb53g" target="_uCuGOcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uCuGUcRSEeS_152siUb53g" source="_uCuGPsRSEeS_152siUb53g" target="_uCuGP8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uCuGUsRSEeS_152siUb53g" source="_uCuGO8RSEeS_152siUb53g" target="_uCuGOcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+      <edges xmi:id="_uCuGU8RSEeS_152siUb53g" source="_uCuGQMRSEeS_152siUb53g" target="_uCuGOsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uCuGVMRSEeS_152siUb53g" source="_uCuGQMRSEeS_152siUb53g" target="_uCuGPMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uCuGVcRSEeS_152siUb53g" source="_uCuGQMRSEeS_152siUb53g" target="_uCuGPsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uCuGVsRSEeS_152siUb53g" source="_uCuGScRSEeS_152siUb53g" target="_uCuGQMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_uCuGV8RSEeS_152siUb53g" origin="_uCuGJcRSEeS_152siUb53g" image="_uCuGOcRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGWMRSEeS_152siUb53g" origin="_uCuGJsRSEeS_152siUb53g" image="_uCuGOsRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGWcRSEeS_152siUb53g" origin="_uCuGJ8RSEeS_152siUb53g" image="_uCuGO8RSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGWsRSEeS_152siUb53g" origin="_uCuGKMRSEeS_152siUb53g" image="_uCuGPMRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGW8RSEeS_152siUb53g" origin="_uCuGKcRSEeS_152siUb53g" image="_uCuGPcRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGXMRSEeS_152siUb53g" origin="_uCuGK8RSEeS_152siUb53g" image="_uCuGPsRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGXcRSEeS_152siUb53g" origin="_uCuGLMRSEeS_152siUb53g" image="_uCuGP8RSEeS_152siUb53g"/>
+    <mappings xmi:id="_uCuGXsRSEeS_152siUb53g" origin="_uCuGLsRSEeS_152siUb53g" image="_uCuGScRSEeS_152siUb53g"/>
+  </units>
+</henshin:Module>

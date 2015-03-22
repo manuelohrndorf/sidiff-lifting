@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uIqWEMRSEeS_152siUb53g" name="RR: UNSET_REFERENCE_Transition_(guard)_TGT_Constraint" description="Recognize: Sets Transition's reference guard the target Constraint">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uIqWEcRSEeS_152siUb53g" name="rr:setTransition_guard_TO_Constraint" description="Recognize: SetTransitionRefguardToConstraint">
+    <parameters xmi:id="_uIqWEsRSEeS_152siUb53g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_uIqWE8RSEeS_152siUb53g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_uIqWFMRSEeS_152siUb53g" name="Lhs">
+      <nodes xmi:id="_uIqWFcRSEeS_152siUb53g" name="A.Selected" incoming="_uIqWG8RSEeS_152siUb53g" outgoing="_uIqWHsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_uIqWFsRSEeS_152siUb53g" name="A.NewTarget" incoming="_uIqWHMRSEeS_152siUb53g _uIqWHsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_uIqWF8RSEeS_152siUb53g" name="" outgoing="_uIqWG8RSEeS_152siUb53g _uIqWHMRSEeS_152siUb53g _uIqWHcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uIqWGMRSEeS_152siUb53g" name="" incoming="_uIqWHcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_uIqWGcRSEeS_152siUb53g" value="&quot;guard&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uIqWGsRSEeS_152siUb53g" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uIqWG8RSEeS_152siUb53g" source="_uIqWF8RSEeS_152siUb53g" target="_uIqWFcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uIqWHMRSEeS_152siUb53g" source="_uIqWF8RSEeS_152siUb53g" target="_uIqWFsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uIqWHcRSEeS_152siUb53g" source="_uIqWF8RSEeS_152siUb53g" target="_uIqWGMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uIqWHsRSEeS_152siUb53g" source="_uIqWFcRSEeS_152siUb53g" target="_uIqWFsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uIqWH8RSEeS_152siUb53g" name="Rhs">
+      <nodes xmi:id="_uIqWIMRSEeS_152siUb53g" name="A.Selected" incoming="_uIqWLsRSEeS_152siUb53g" outgoing="_uIqWMcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_uIqWIcRSEeS_152siUb53g" name="A.NewTarget" incoming="_uIqWL8RSEeS_152siUb53g _uIqWMcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_uIqWIsRSEeS_152siUb53g" name="" incoming="_uIqWMsRSEeS_152siUb53g" outgoing="_uIqWLsRSEeS_152siUb53g _uIqWL8RSEeS_152siUb53g _uIqWMMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_uIqWI8RSEeS_152siUb53g" name="" incoming="_uIqWMMRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_uIqWJMRSEeS_152siUb53g" incoming="_uIqWM8RSEeS_152siUb53g" outgoing="_uIqWMsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_uIqWJcRSEeS_152siUb53g" value="&quot;UNSET_REFERENCE_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_uIqWJsRSEeS_152siUb53g" value="&quot;Sets Transition's reference guard the target Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_uIqWJ8RSEeS_152siUb53g" value="&quot;UNSET_REFERENCE_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_uIqWKMRSEeS_152siUb53g" value="&quot;RR: UNSET_REFERENCE_Transition_(guard)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_uIqWKcRSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_uIqWKsRSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_uIqWK8RSEeS_152siUb53g" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_uIqWLMRSEeS_152siUb53g" value="12">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uIqWLcRSEeS_152siUb53g" name="" outgoing="_uIqWM8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uIqWLsRSEeS_152siUb53g" source="_uIqWIsRSEeS_152siUb53g" target="_uIqWIMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_uIqWL8RSEeS_152siUb53g" source="_uIqWIsRSEeS_152siUb53g" target="_uIqWIcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uIqWMMRSEeS_152siUb53g" source="_uIqWIsRSEeS_152siUb53g" target="_uIqWI8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_uIqWMcRSEeS_152siUb53g" source="_uIqWIMRSEeS_152siUb53g" target="_uIqWIcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/guard"/>
+      </edges>
+      <edges xmi:id="_uIqWMsRSEeS_152siUb53g" source="_uIqWJMRSEeS_152siUb53g" target="_uIqWIsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uIqWM8RSEeS_152siUb53g" source="_uIqWLcRSEeS_152siUb53g" target="_uIqWJMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_uIqWNMRSEeS_152siUb53g" origin="_uIqWFcRSEeS_152siUb53g" image="_uIqWIMRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uIqWNcRSEeS_152siUb53g" origin="_uIqWFsRSEeS_152siUb53g" image="_uIqWIcRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uIqWNsRSEeS_152siUb53g" origin="_uIqWF8RSEeS_152siUb53g" image="_uIqWIsRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uIqWN8RSEeS_152siUb53g" origin="_uIqWGMRSEeS_152siUb53g" image="_uIqWI8RSEeS_152siUb53g"/>
+    <mappings xmi:id="_uIqWOMRSEeS_152siUb53g" origin="_uIqWGsRSEeS_152siUb53g" image="_uIqWLcRSEeS_152siUb53g"/>
+  </units>
+</henshin:Module>

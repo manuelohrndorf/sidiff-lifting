@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mC4loAdAEeSgEeYoZauFHg" name="DELETE_Constraint_IN_Package_(packagedElement)" description="Deletes one Constraint in Package">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mC4loQdAEeSgEeYoZauFHg" name="deleteConstraint_IN_Package" description="deletes one Constraint in the context: Package">
+    <parameters xmi:id="_mC4logdAEeSgEeYoZauFHg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_mC4lowdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_mC4lpAdAEeSgEeYoZauFHg" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <lhs xmi:id="_mC4lpQdAEeSgEeYoZauFHg" name="LHS">
+      <nodes xmi:id="_mC4lpgdAEeSgEeYoZauFHg" name="Selected" outgoing="_mC4lqQdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_mC4lpwdAEeSgEeYoZauFHg" name="ToBeDeleted" incoming="_mC4lqQdAEeSgEeYoZauFHg" outgoing="_mC5MsAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_mC4lqAdAEeSgEeYoZauFHg" name="Child" incoming="_mC5MsAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ValueSpecification"/>
+      </nodes>
+      <edges xmi:id="_mC4lqQdAEeSgEeYoZauFHg" source="_mC4lpgdAEeSgEeYoZauFHg" target="_mC4lpwdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_mC5MsAdAEeSgEeYoZauFHg" source="_mC4lpwdAEeSgEeYoZauFHg" target="_mC4lqAdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mC5MsQdAEeSgEeYoZauFHg" name="RHS">
+      <nodes xmi:id="_mC5MsgdAEeSgEeYoZauFHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mC5MswdAEeSgEeYoZauFHg" origin="_mC4lpgdAEeSgEeYoZauFHg" image="_mC5MsgdAEeSgEeYoZauFHg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_mC5MtAdAEeSgEeYoZauFHg" name="mainUnit" subUnits="_mC4loQdAEeSgEeYoZauFHg">
+    <parameters xmi:id="_mC5MtQdAEeSgEeYoZauFHg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_mC5MtgdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_mC5MtwdAEeSgEeYoZauFHg" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameterMappings xmi:id="_mC5MuAdAEeSgEeYoZauFHg" source="_mC5MtQdAEeSgEeYoZauFHg" target="_mC4logdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mC5MuQdAEeSgEeYoZauFHg" source="_mC5MtgdAEeSgEeYoZauFHg" target="_mC4lowdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mC5MugdAEeSgEeYoZauFHg" source="_mC5MtwdAEeSgEeYoZauFHg" target="_mC4lpAdAEeSgEeYoZauFHg"/>
+  </units>
+</henshin:Module>

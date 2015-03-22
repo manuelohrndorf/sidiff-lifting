@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uBEgUMRSEeS_152siUb53g" name="RR: CREATE_LiteralString_IN_InstanceSpecification_(specification)" description="Recognize: Creates one LiteralString in InstanceSpecification">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uBEgUcRSEeS_152siUb53g" name="rr:createLiteralString_IN_InstanceSpecification" description="Recognize: creates one LiteralString in the context: InstanceSpecification">
+    <parameters xmi:id="_uBEgUsRSEeS_152siUb53g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+    </parameters>
+    <parameters xmi:id="_uBEgU8RSEeS_152siUb53g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_uBEgVMRSEeS_152siUb53g" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_uBEgVcRSEeS_152siUb53g" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_uBEgVsRSEeS_152siUb53g" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_uBEgV8RSEeS_152siUb53g" name="Lhs">
+      <nodes xmi:id="_uBEgWMRSEeS_152siUb53g" name="B.Selected" incoming="_uBEgY8RSEeS_152siUb53g" outgoing="_uBEgZsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_uBEgWcRSEeS_152siUb53g" name="" outgoing="_uBEgYsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_uBEgWsRSEeS_152siUb53g" name="B.New" incoming="_uBEgYsRSEeS_152siUb53g _uBEgZMRSEeS_152siUb53g _uBEgZsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+        <attributes xmi:id="_uBEgW8RSEeS_152siUb53g" value="Name">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_uBEgXMRSEeS_152siUb53g" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_uBEgXcRSEeS_152siUb53g" value="Value">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uBEgXsRSEeS_152siUb53g" name="" outgoing="_uBEgY8RSEeS_152siUb53g _uBEgZMRSEeS_152siUb53g _uBEgZcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_uBEgX8RSEeS_152siUb53g" name="" incoming="_uBEgZcRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_uBEgYMRSEeS_152siUb53g" value="&quot;specification&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uBEgYcRSEeS_152siUb53g" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uBEgYsRSEeS_152siUb53g" source="_uBEgWcRSEeS_152siUb53g" target="_uBEgWsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_uBEgY8RSEeS_152siUb53g" source="_uBEgXsRSEeS_152siUb53g" target="_uBEgWMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_uBEgZMRSEeS_152siUb53g" source="_uBEgXsRSEeS_152siUb53g" target="_uBEgWsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uBEgZcRSEeS_152siUb53g" source="_uBEgXsRSEeS_152siUb53g" target="_uBEgX8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_uBEgZsRSEeS_152siUb53g" source="_uBEgWMRSEeS_152siUb53g" target="_uBEgWsRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uBEgZ8RSEeS_152siUb53g" name="Rhs">
+      <nodes xmi:id="_uBEgaMRSEeS_152siUb53g" name="B.Selected" incoming="_uBEgeMRSEeS_152siUb53g" outgoing="_uBEge8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_uBEgacRSEeS_152siUb53g" name="" incoming="_uBEgfMRSEeS_152siUb53g" outgoing="_uBEgd8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_uBEgasRSEeS_152siUb53g" name="B.New" incoming="_uBEgd8RSEeS_152siUb53g _uBEgecRSEeS_152siUb53g _uBEge8RSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <nodes xmi:id="_uBEga8RSEeS_152siUb53g" name="" incoming="_uBEgfcRSEeS_152siUb53g" outgoing="_uBEgeMRSEeS_152siUb53g _uBEgecRSEeS_152siUb53g _uBEgesRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_uBEgbMRSEeS_152siUb53g" name="" incoming="_uBEgesRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_uBEgbcRSEeS_152siUb53g" incoming="_uBEgfsRSEeS_152siUb53g" outgoing="_uBEgfMRSEeS_152siUb53g _uBEgfcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_uBEgbsRSEeS_152siUb53g" value="&quot;CREATE_LiteralString_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_uBEgb8RSEeS_152siUb53g" value="&quot;Creates one LiteralString in InstanceSpecification&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_uBEgcMRSEeS_152siUb53g" value="&quot;CREATE_LiteralString_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_uBEgccRSEeS_152siUb53g" value="&quot;RR: CREATE_LiteralString_IN_InstanceSpecification_(specification)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_uBEgcsRSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_uBEgc8RSEeS_152siUb53g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_uBEgdMRSEeS_152siUb53g" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_uBEgdcRSEeS_152siUb53g" value="17">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_uBEgdsRSEeS_152siUb53g" name="" outgoing="_uBEgfsRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_uBEgd8RSEeS_152siUb53g" source="_uBEgacRSEeS_152siUb53g" target="_uBEgasRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_uBEgeMRSEeS_152siUb53g" source="_uBEga8RSEeS_152siUb53g" target="_uBEgaMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_uBEgecRSEeS_152siUb53g" source="_uBEga8RSEeS_152siUb53g" target="_uBEgasRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_uBEgesRSEeS_152siUb53g" source="_uBEga8RSEeS_152siUb53g" target="_uBEgbMRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_uBEge8RSEeS_152siUb53g" source="_uBEgaMRSEeS_152siUb53g" target="_uBEgasRSEeS_152siUb53g">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//InstanceSpecification/specification"/>
+      </edges>
+      <edges xmi:id="_uBEgfMRSEeS_152siUb53g" source="_uBEgbcRSEeS_152siUb53g" target="_uBEgacRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uBEgfcRSEeS_152siUb53g" source="_uBEgbcRSEeS_152siUb53g" target="_uBEga8RSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_uBEgfsRSEeS_152siUb53g" source="_uBEgdsRSEeS_152siUb53g" target="_uBEgbcRSEeS_152siUb53g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_uBEgf8RSEeS_152siUb53g" origin="_uBEgWMRSEeS_152siUb53g" image="_uBEgaMRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uBEggMRSEeS_152siUb53g" origin="_uBEgWcRSEeS_152siUb53g" image="_uBEgacRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uBEggcRSEeS_152siUb53g" origin="_uBEgWsRSEeS_152siUb53g" image="_uBEgasRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uBEggsRSEeS_152siUb53g" origin="_uBEgXsRSEeS_152siUb53g" image="_uBEga8RSEeS_152siUb53g"/>
+    <mappings xmi:id="_uBEgg8RSEeS_152siUb53g" origin="_uBEgX8RSEeS_152siUb53g" image="_uBEgbMRSEeS_152siUb53g"/>
+    <mappings xmi:id="_uBEghMRSEeS_152siUb53g" origin="_uBEgYcRSEeS_152siUb53g" image="_uBEgdsRSEeS_152siUb53g"/>
+  </units>
+</henshin:Module>

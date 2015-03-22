@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mEcE0AdAEeSgEeYoZauFHg" name="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Deletes one Pseudostate in StateMachine">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mEcE0QdAEeSgEeYoZauFHg" name="deletePseudostate_IN_StateMachine" description="deletes one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_mEcE0gdAEeSgEeYoZauFHg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_mEcE0wdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <lhs xmi:id="_mEcE1AdAEeSgEeYoZauFHg" name="LHS">
+      <nodes xmi:id="_mEcE1QdAEeSgEeYoZauFHg" name="Selected" incoming="_mEcE2AdAEeSgEeYoZauFHg" outgoing="_mEcE1wdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_mEcE1gdAEeSgEeYoZauFHg" name="ToBeDeleted" incoming="_mEcE1wdAEeSgEeYoZauFHg" outgoing="_mEcE2AdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <edges xmi:id="_mEcE1wdAEeSgEeYoZauFHg" source="_mEcE1QdAEeSgEeYoZauFHg" target="_mEcE1gdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_mEcE2AdAEeSgEeYoZauFHg" source="_mEcE1gdAEeSgEeYoZauFHg" target="_mEcE1QdAEeSgEeYoZauFHg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mEcE2QdAEeSgEeYoZauFHg" name="RHS">
+      <nodes xmi:id="_mEcE2gdAEeSgEeYoZauFHg" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mEcE2wdAEeSgEeYoZauFHg" origin="_mEcE1QdAEeSgEeYoZauFHg" image="_mEcE2gdAEeSgEeYoZauFHg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_mEcE3AdAEeSgEeYoZauFHg" name="mainUnit" subUnits="_mEcE0QdAEeSgEeYoZauFHg">
+    <parameters xmi:id="_mEcE3QdAEeSgEeYoZauFHg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_mEcE3gdAEeSgEeYoZauFHg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameterMappings xmi:id="_mEcE3wdAEeSgEeYoZauFHg" source="_mEcE3QdAEeSgEeYoZauFHg" target="_mEcE0gdAEeSgEeYoZauFHg"/>
+    <parameterMappings xmi:id="_mEcE4AdAEeSgEeYoZauFHg" source="_mEcE3gdAEeSgEeYoZauFHg" target="_mEcE0wdAEeSgEeYoZauFHg"/>
+  </units>
+</henshin:Module>
