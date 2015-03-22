@@ -33,6 +33,7 @@ public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetVali
 	public ApplyPatchSymbolicLinkHandlerWidget(PatchingSettings settings, Patch patch) {
 		super();
 		this.settings = settings;
+		this.patch = patch;
 		symbolicLinkHandlers = new TreeMap<String, ISymbolicLinkHandler>();
 
 		// Search registered symbolic link resolver extension
