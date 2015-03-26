@@ -3,12 +3,15 @@ package org.sidiff.common.henshin;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByImage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -17,13 +20,71 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 
 public class HenshinMultiRuleAnalysis {
-
+	
 	/**
-	 * Returns all root rules of Multi-Rules contained by the module.
+	 * @param rule
+	 *            The multi-rule.
+	 * @return All embedded/mapped nodes as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedNodes(Collection)
+	 */
+	public static Set<Node> getEmbeddedNodes(Rule rule) {
+		return HenshinRuleAnalysisUtilEx.getEmbeddedNodes(rule.getMultiMappings());
+	}
+	
+	/**
+	 * @param rule
+	 *            The multi-rule.
+	 * @param embeddedNodes
+	 *            {@link HenshinMultiRuleAnalysis#getEmbeddedNodes(Rule)}
+	 * @return All embedded/mapped edges as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedEdges(Graph, Collection)
+	 */
+	public static Set<Edge> getEmbeddedEdges(Rule rule, Collection<Node> embeddedNodes) {
+		Set<Edge> embeddedMultiEdges = HenshinRuleAnalysisUtilEx.getEmbeddedEdges(rule.getLhs(), embeddedNodes);
+		embeddedMultiEdges.addAll(HenshinRuleAnalysisUtilEx.getEmbeddedEdges(rule.getRhs(), embeddedNodes));
+		
+		return embeddedMultiEdges;
+	}
+	
+	/**
+	 * @param rule
+	 *            The multi-rule.
+	 * @param embeddedNodes
+	 *            {@link HenshinMultiRuleAnalysis#getEmbeddedNodes(Rule)}
+	 * @return All embedded/mapped attributes as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedAttributes(Graph, Collection)
+	 */
+	public static Set<Attribute> getEmbeddedAttributes(Rule rule, Collection<Node> embeddedNodes) {
+		Set<Attribute> embeddedMultiAttributes = HenshinRuleAnalysisUtilEx.getEmbeddedAttributes(rule.getLhs(), embeddedNodes);
+		embeddedMultiAttributes.addAll(HenshinRuleAnalysisUtilEx.getEmbeddedAttributes(rule.getRhs(), embeddedNodes));
+		
+		return embeddedMultiAttributes;
+	}
+	
+	/**
+	 * An attribute is embedded if its corresponding node is embedded and if one
+	 * of the mapped nodes contains the same attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#isEmbedddeAttribute(Attribute)
+	 */
+	public static boolean isEmbedddeAttribute(Attribute attribute) {
+		return HenshinRuleAnalysisUtilEx.isEmbedddeAttribute(attribute);
+	}
+	
+	/**
+	 * Returns all top level (root) kernel-rules contained by the module. A
+	 * kernel-rule has to contain at least one multi-rule.
 	 * 
 	 * @param module
 	 *            The module to search.
-	 * @return All root rules of Multi-Rules contained by the module.
+	 * @return All top level (root) rules of multi-rules contained by the module.
 	 */
 	public static Set<Rule> getRootRules(Module module) {
 		Set<Rule> rootRules = new HashSet<Rule>();
@@ -39,6 +100,36 @@ public class HenshinMultiRuleAnalysis {
 		}
 		
 		return rootRules;
+	}
+	
+	/**
+	 * @param rule
+	 *            The multi-rule.
+	 * @return All parent kernel rules of the given multi-rule.
+	 */
+	public List<Rule> getParentKernelRules(Rule rule) {
+		List<Rule> parentRules = new ArrayList<Rule>();
+		getParentKernelRules(rule, parentRules);
+		
+		return parentRules;
+	}
+	
+	/**
+	 * @param rule
+	 *            The multi-rule.
+	 * @param parentRules
+	 *            The list of parent kernel rules which will be recursively filled.
+	 * @return All parent kernel rules of the given multi-rule.
+	 */
+	private List<Rule> getParentKernelRules(Rule rule, List<Rule> parentRules) {
+		Rule parentKernelRule = rule.getKernelRule();
+		
+		if (parentKernelRule != null) {
+			parentRules.add(parentKernelRule);
+			getParentKernelRules(parentKernelRule, parentRules);
+		}
+		
+		return parentRules;
 	}
 	
 	/**
@@ -127,12 +218,12 @@ public class HenshinMultiRuleAnalysis {
 	
 	/**
 	 * Returns all nodes that are mapped with the given node (in all
-	 * Multi-Rules).
+	 * multi-rules).
 	 * 
 	 * @param node
 	 *            The start node.
 	 * @return All nodes that are mapped with the given node (in all
-	 *         Multi-Rules).
+	 *         multi-rules).
 	 */
 	public static Set<Node> getAllMappedNodes(Node node) {
 		Set<Node> multiNodes = new HashSet<Node>();
@@ -141,7 +232,7 @@ public class HenshinMultiRuleAnalysis {
 	}
 
 	/**
-	 * Follows the mappings (of the given node) from the Multi-Rule to the Kernel-Rule and returns
+	 * Follows the mappings (of the given node) from the multi-rule to the kernel-rule and returns
 	 * the node origin.
 	 * 
 	 * @param nodeImage
@@ -162,7 +253,7 @@ public class HenshinMultiRuleAnalysis {
 	}
 	
 	/**
-	 * Follows the mappings (of the given node) from the Kernel-Rule to all deeper Multi-Rules and
+	 * Follows the mappings (of the given node) from the kernel-rule to all deeper multi-rules and
 	 * collects all nodes.
 	 * 
 	 * @param nodeOrigin
@@ -189,11 +280,11 @@ public class HenshinMultiRuleAnalysis {
 	
 	
 	/**
-	 * Collects all parameters which are not embedded from the Kernel-Rule.
+	 * Collects all parameters which are not embedded from the kernel-rule.
 	 * 
 	 * @param multiRule
-	 *            The Multi-Rule to process.
-	 * @return All (real) Multi-Rule parameters.
+	 *            The multi-rule to process.
+	 * @return All (real) multi-rule parameters.
 	 */
 	public static List<Parameter> getMultiRuleParameters(Rule multiRule) {
 		
@@ -209,11 +300,11 @@ public class HenshinMultiRuleAnalysis {
 	}
 	
 	/**
-	 * Collects all mappings of << preserve >> nodes which are not mapped to the Kernel-Rule.
+	 * Collects all mappings of << preserve >> nodes which are not mapped to the kernel-rule.
 	 * 
 	 * @param multiRule
-	 *            The Multi-Rule to process.
-	 * @return All (real) Multi-Rule mappings of << preserve >> nodes.
+	 *            The multi-rule to process.
+	 * @return All (real) multi-rule mappings of << preserve >> nodes.
 	 */
 	public static List<Mapping> getMultiRulePreservedNodes(Rule multiRule) {
 		
@@ -230,11 +321,11 @@ public class HenshinMultiRuleAnalysis {
 	}
 
 	/**
-	 * Collects all nodes which are not mapped to the Kernel-Rule.
+	 * Collects all nodes which are not mapped to the kernel-rule.
 	 * 
 	 * @param multiRule
-	 *            The Multi-Rule to process.
-	 * @return All (real) Multi-Rule nodes.
+	 *            The multi-rule to process.
+	 * @return All (real) multi-rule nodes.
 	 */
 	public static List<Node> getMultiRuleNodes(Rule multiRule) {
 		
@@ -242,14 +333,14 @@ public class HenshinMultiRuleAnalysis {
 		
 		for (Node lhsNode : multiRule.getLhs().getNodes()) {
 			if (findMappingByImage(multiRule.getMultiMappings(), lhsNode) == null) {
-				// Node is not mapped => Node is a Multi-Rule node:
+				// Node is not mapped => Node is a multi-rule node:
 				multiNodes.add(lhsNode);
 			}
 		}
 		
 		for (Node rhsNode : multiRule.getRhs().getNodes()) {
 			if (findMappingByImage(multiRule.getMultiMappings(), rhsNode) == null) {
-				// Node is not mapped => Node is a Multi-Rule node:
+				// Node is not mapped => Node is a multi-rule node:
 				multiNodes.add(rhsNode);
 			}
 		}
@@ -258,11 +349,11 @@ public class HenshinMultiRuleAnalysis {
 	}
 	
 	/**
-	 * Collects all edges which are not mapped to the Kernel-Rule.
+	 * Collects all edges which are not mapped to the kernel-rule.
 	 * 
 	 * @param multiRule
-	 *            The Multi-Rule to process.
-	 * @return All (real) Multi-Rule edges.
+	 *            The multi-rule to process.
+	 * @return All (real) multi-rule edges.
 	 */
 	public static List<Edge> getMultiRuleEdges(Rule multiRule) {
 		List<Edge> multiEdges = new ArrayList<Edge>();
@@ -270,7 +361,7 @@ public class HenshinMultiRuleAnalysis {
 		for (Edge lhsEdge : multiRule.getLhs().getEdges()) {
 			if ((findMappingByImage(multiRule.getMultiMappings(), lhsEdge.getSource()) == null)
 					|| (findMappingByImage(multiRule.getMultiMappings(), lhsEdge.getTarget())== null)) {
-				// Source or edge target is not mapped => Edge is a Multi-Rule node:
+				// Source or edge target is not mapped => Edge is a multi-rule node:
 				multiEdges.add(lhsEdge);
 			}
 		}
@@ -278,7 +369,7 @@ public class HenshinMultiRuleAnalysis {
 		for (Edge rhsEdge : multiRule.getRhs().getEdges()) {
 			if ((findMappingByImage(multiRule.getMultiMappings(), rhsEdge.getSource()) == null)
 					|| (findMappingByImage(multiRule.getMultiMappings(), rhsEdge.getTarget())== null)) {
-				// Source or edge target is not mapped => Edge is a Multi-Rule node:
+				// Source or edge target is not mapped => Edge is a multi-rule node:
 				multiEdges.add(rhsEdge);
 			}
 		}

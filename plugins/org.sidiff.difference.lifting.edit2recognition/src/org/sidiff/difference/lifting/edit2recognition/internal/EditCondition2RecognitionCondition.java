@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACBoundaryNodePattern;

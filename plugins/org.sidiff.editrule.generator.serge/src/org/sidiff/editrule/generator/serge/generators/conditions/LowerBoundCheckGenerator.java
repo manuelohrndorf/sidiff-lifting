@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinConditionUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.FormulaCombineOperator;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 public class LowerBoundCheckGenerator extends AbstractBoundCheckGenerator {
 

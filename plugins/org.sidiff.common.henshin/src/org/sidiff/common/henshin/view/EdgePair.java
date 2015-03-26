@@ -1,4 +1,7 @@
-package org.sidiff.common.henshin;
+package org.sidiff.common.henshin.view;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
@@ -35,6 +38,17 @@ public class EdgePair {
 		this.lhsEdge = lhsEdge;
 		this.rhsEdge = rhsEdge;
 	}
+	
+	/**
+	 * @param edge
+	 *            The edge to test.
+	 * @return <code>true</code> if the edge is the LHS or RHS edge of the edge pair; 
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean contains(Edge edge) {
+		return ((lhsEdge != null) && lhsEdge.equals(edge)) 
+				|| ((rhsEdge != null) && rhsEdge.equals(edge));
+	}
 
 	/**
 	 * @return the LHS edge.
@@ -69,5 +83,26 @@ public class EdgePair {
 	 */
 	public EReference getType() {
 		return this.lhsEdge.getType();
+	}
+	
+	/**
+	 * @param edgePairs
+	 *            A collection of edge pairs.
+	 * @param edges
+	 *            Collection (preferably a set) containing edges to be removed from the given collection.
+	 */
+	public static void removeAll(Collection<EdgePair> edgePairs, Collection<Edge> edges) {
+		
+		for (Iterator<EdgePair> iterator = edgePairs.iterator(); iterator.hasNext();) {
+			EdgePair edgePair = (EdgePair) iterator.next();
+			
+			 if ((edgePair.getLhsEdge() != null) && edges.contains(edgePair.getLhsEdge())) {
+				 iterator.remove();
+			 }
+			 
+			 else if ((edgePair.getRhsEdge() != null) && edges.contains(edgePair.getRhsEdge())) {
+				 iterator.remove();
+			 }
+		}
 	}
 }

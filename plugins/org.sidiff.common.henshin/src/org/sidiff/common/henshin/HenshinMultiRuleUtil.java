@@ -24,6 +24,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.view.NodePair;
 
 public class HenshinMultiRuleUtil {
 	

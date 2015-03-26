@@ -12,7 +12,7 @@ import java.util.Map;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 /**
  * Storage and indexed access of the Edit- to Recognition-Rule transformation traces.

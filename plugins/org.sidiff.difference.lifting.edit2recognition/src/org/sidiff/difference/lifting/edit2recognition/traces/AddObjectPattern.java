@@ -1,7 +1,7 @@
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 /**
  * Stores a transformation trace between the Edit-Rule and the corresponding Recognition-Rule.

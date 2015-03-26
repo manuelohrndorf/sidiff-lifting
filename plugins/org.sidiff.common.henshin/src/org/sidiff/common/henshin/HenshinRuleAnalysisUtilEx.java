@@ -31,6 +31,9 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.view.AttributePair;
+import org.sidiff.common.henshin.view.EdgePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 /**
  * Utility methods for analyzing Henshin Modules, Units and Rules.
@@ -2650,5 +2653,119 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static List<NestedCondition> getNestedConditions(Rule editRule) {
 		return editRule.getLhs().getNestedConditions();
+	}
+	
+	/**
+	 * @param mappings
+	 *            All mappings of the embedded nodes.
+	 * @return All embedded/mapped nodes as a hash set.
+	 */
+	public static Set<Node> getEmbeddedNodes(Collection<Mapping> mappings) {
+		Set<Node> embeddedNodes = new HashSet<Node>();
+		
+		for (Mapping mapping : mappings) {
+			embeddedNodes.add(mapping.getImage());
+		}
+		
+		return embeddedNodes;
+	}
+	
+	/**
+	 * @param graph
+	 *            The Graph that contains the edges.
+	 * @param embeddedNodes
+	 *            {@link HenshinRuleAnalysisUtilEx#getEmbeddedNodes(Collection)}
+	 * @return All embedded/mapped edges as a hash set.
+	 */
+	public static Set<Edge> getEmbeddedEdges(Graph graph, Collection<Node> embeddedNodes) {
+		
+		// An edge is embedded if source and target nodes are embedded:
+		Set<Edge> embeddedEdges = new HashSet<Edge>();
+		
+		for(Edge lhsEdge : graph.getEdges()) {
+			if(embeddedNodes.contains(lhsEdge.getSource()) 
+					&& embeddedNodes.contains(lhsEdge.getTarget())) {
+				embeddedEdges.add(lhsEdge);
+			}
+		}
+		
+		return embeddedEdges;
+	}
+	
+	/**
+	 * @param graph
+	 *            The Graph that contains the attributes.
+	 * @param embeddedNodes
+	 *            {@link HenshinRuleAnalysisUtilEx#getEmbeddedNodes(Collection)}
+	 * @return All embedded/mapped attributes as a hash set.
+	 */
+	public static Set<Attribute> getEmbeddedAttributes(Graph graph, Collection<Node> embeddedNodes) {
+		
+		// An attribute is embedded if its corresponding node is embedded and if
+		// one of the mapped (parent) nodes contains the same attribute:
+		Set<Attribute> embeddedAttributes = new HashSet<Attribute>();
+		
+		for (Node node : graph.getNodes()) {
+			if (embeddedNodes.contains(node)) {
+				for (Attribute attribute : node.getAttributes()) {
+					if (isEmbedddeAttribute(attribute)) {
+						embeddedAttributes.add(attribute);
+					}
+				}
+			}
+		}
+		
+		return embeddedAttributes;
+	}
+	
+	/**
+	 * An attribute is embedded if its corresponding node is embedded and if one
+	 * of the mapped nodes contains the same attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
+	 */
+	public static boolean isEmbedddeAttribute(Attribute attribute) {
+		return isEmbedddeAttribute(attribute.getNode(), attribute);
+	}
+	
+	/**
+	 * An attribute is embedded if its corresponding node is embedded and if one
+	 * of the mapped nodes contains the same attribute.
+	 * 
+	 * @param node
+	 *            The containing node or a mapped node (recursively).
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
+	 */
+	private static boolean isEmbedddeAttribute(Node node, Attribute attribute) {
+		
+		// An attribute is embedded if its corresponding node is embedded and if
+		// one of the mapped (parent) nodes contains the same attribute:
+		Collection<Mapping> mappings;
+		
+		if (node.getGraph().isNestedCondition()) {
+			// NestedCondition:
+			mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
+		} else {
+			// Rule:
+			mappings = node.getGraph().getRule().getMultiMappings();
+		}
+		
+		Node parentNode = getRemoteNode(mappings, node);
+		
+		if (parentNode != null) {
+			for (Attribute parentAttribute : parentNode.getAttributes()) {
+				if (attribute.getType().equals(parentAttribute.getType())) {
+					return true;
+				}
+			}
+			// Find attribute recursively in the mapped parent nodes:
+			return isEmbedddeAttribute(parentNode, attribute);
+		}
+		
+		return false;
 	}
 }

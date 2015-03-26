@@ -1,7 +1,11 @@
-package org.sidiff.common.henshin;
+package org.sidiff.common.henshin.view;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 
 /**
  * Contains a LHS and its corresponding RHS Henshin attribute.
@@ -37,6 +41,17 @@ public class AttributePair {
 		super();
 		this.lhsAttribute = lhsAttribute;
 		this.rhsAttribute = rhsAttribute;
+	}
+	
+	/**
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is the LHS or RHS attribute of the attribute pair; 
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean contains(Edge attribute) {
+		return ((lhsAttribute != null) && lhsAttribute.equals(attribute)) 
+				|| ((rhsAttribute != null) && rhsAttribute.equals(attribute));
 	}
 
 	/**
@@ -74,5 +89,26 @@ public class AttributePair {
 	 */
 	public EAttribute getType() {
 		return lhsAttribute.getType();
+	}
+	
+	/**
+	 * @param attributePairs
+	 *            A collection of attribute pairs.
+	 * @param attributes
+	 *            Collection (preferably a set) containing attributes to be removed from the given collection.
+	 */
+	public static void removeAll(Collection<AttributePair> attributePairs, Collection<Attribute> attributes) {
+		
+		for (Iterator<AttributePair> iterator = attributePairs.iterator(); iterator.hasNext();) {
+			AttributePair attributePair = (AttributePair) iterator.next();
+			
+			 if ((attributePair.getLhsAttribute() != null) && attributes.contains(attributePair.getLhsAttribute())) {
+				 iterator.remove();
+			 }
+			 
+			 else if ((attributePair.getRhsAttribute() != null) && attributes.contains(attributePair.getRhsAttribute())) {
+				 iterator.remove();
+			 }
+		}
 	}
 }

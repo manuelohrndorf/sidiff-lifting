@@ -2,10 +2,13 @@ package org.sidiff.common.henshin;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByImage;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
@@ -46,6 +49,59 @@ public class HenshinConditionAnalysis {
 	 */
 	public static boolean isNestedConditionAttribute(Attribute attribute) {
 		return attribute.getNode().getGraph().isNestedCondition();
+	}
+	
+	/**
+	 * @param condition
+	 *            The nested condition.
+	 * @return All embedded/mapped nodes as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedNodes(Collection)
+	 */
+	public static Set<Node> getEmbeddedNodes(NestedCondition condition) {
+		return HenshinRuleAnalysisUtilEx.getEmbeddedNodes(condition.getMappings());
+	}
+	
+	/**
+	 * @param condition
+	 *            The nested condition.
+	 * @param embeddedNodes
+	 *            {@link HenshinConditionAnalysis#getEmbeddedNodes(NestedCondition)}
+	 * @return All embedded/mapped edges as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedEdges(Graph, Collection)
+	 */
+	public static Set<Edge> getEmbeddedEdges(NestedCondition condition, Collection<Node> embeddedNodes) {
+		Set<Edge> embeddedNestedEdges = HenshinRuleAnalysisUtilEx.getEmbeddedEdges(condition.getConclusion(), embeddedNodes);
+		return embeddedNestedEdges;
+	}
+	
+	/**
+	 * @param condition
+	 *            The nested condition.
+	 * @param embeddedNodes
+	 *            {@link HenshinConditionAnalysis#getEmbeddedNodes(NestedCondition)}
+	 * @return All embedded/mapped attributes as a hash set.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#getEmbeddedAttributes(Graph, Collection)
+	 */
+	public static Set<Attribute> getEmbeddedAttributes(NestedCondition condition, Collection<Node> embeddedNodes) {
+		Set<Attribute> embeddedNestedAttributes = HenshinRuleAnalysisUtilEx.getEmbeddedAttributes(condition.getConclusion(), embeddedNodes);
+		return embeddedNestedAttributes;
+	}
+	
+	/**
+	 * An attribute is embedded if its corresponding node is embedded and if one
+	 * of the mapped nodes contains the same attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
+	 * 
+	 * @see HenshinRuleAnalysisUtilEx#isEmbedddeAttribute(Attribute)
+	 */
+	public static boolean isEmbedddeAttribute(Attribute attribute) {
+		return HenshinRuleAnalysisUtilEx.isEmbedddeAttribute(attribute);
 	}
 
 	/**

@@ -1,4 +1,7 @@
-package org.sidiff.common.henshin;
+package org.sidiff.common.henshin.view;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Node;
@@ -39,6 +42,17 @@ public class NodePair {
 	}
 	
 	/**
+	 * @param node
+	 *            The node to test.
+	 * @return <code>true</code> if the node is the LHS or RHS node of the node pair; 
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean contains(Node node) {
+		return ((lhsNode != null) && lhsNode.equals(node)) 
+				|| ((rhsNode != null) && rhsNode.equals(node));
+	}
+	
+	/**
 	 * @return the LHS node.
 	 */
 	public Node getLhsNode() {
@@ -71,5 +85,26 @@ public class NodePair {
 	 */
 	public EClass getType() {
 		return lhsNode.getType();
+	}
+	
+	/**
+	 * @param nodePairs
+	 *            A collection of node pairs.
+	 * @param nodes
+	 *            Collection (preferably a set) containing nodes to be removed from the given collection.
+	 */
+	public static void removeAll(Collection<NodePair> nodePairs, Collection<Node> nodes) {
+		
+		for (Iterator<NodePair> iterator = nodePairs.iterator(); iterator.hasNext();) {
+			NodePair nodePair = (NodePair) iterator.next();
+			
+			 if ((nodePair.getLhsNode() != null) && nodes.contains(nodePair.getLhsNode())) {
+				 iterator.remove();
+			 }
+			 
+			 else if ((nodePair.getRhsNode() != null) && nodes.contains(nodePair.getRhsNode())) {
+				 iterator.remove();
+			 }
+		}
 	}
 }

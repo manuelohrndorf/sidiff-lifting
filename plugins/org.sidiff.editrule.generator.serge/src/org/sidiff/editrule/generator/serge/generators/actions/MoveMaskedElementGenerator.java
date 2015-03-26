@@ -9,7 +9,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;

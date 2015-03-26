@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;

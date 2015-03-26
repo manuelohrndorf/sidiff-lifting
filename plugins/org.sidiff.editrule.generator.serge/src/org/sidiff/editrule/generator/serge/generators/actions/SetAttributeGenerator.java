@@ -8,7 +8,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;

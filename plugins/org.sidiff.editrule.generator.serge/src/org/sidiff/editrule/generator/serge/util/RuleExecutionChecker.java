@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EReferenceInfo;
 import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 /**
  * Primitive utility class that can check if a given rule is executable in

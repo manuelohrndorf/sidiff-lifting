@@ -45,7 +45,7 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
@@ -908,7 +908,6 @@ public class EditRuleValidator {
 
 	private static boolean isAttributeValueToBeSet(NodePair nodePair, Attribute rhsAttribute) {
 		Node lhsNode = nodePair.getLhsNode();
-		Node rhsNode = nodePair.getRhsNode();
 
 		Attribute lhsAttribute = lhsNode.getAttribute(rhsAttribute.getType());
 		if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {

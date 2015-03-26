@@ -16,7 +16,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 public abstract class AbstractBoundCheckGenerator extends AbstractConditionGenerator {
 

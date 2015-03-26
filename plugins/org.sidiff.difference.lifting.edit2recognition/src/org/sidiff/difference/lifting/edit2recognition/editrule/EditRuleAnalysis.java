@@ -20,8 +20,8 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.henshin.AttributePair;
-import org.sidiff.common.henshin.NodePair;
+import org.sidiff.common.henshin.view.AttributePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations.Condition;
 
 /**
