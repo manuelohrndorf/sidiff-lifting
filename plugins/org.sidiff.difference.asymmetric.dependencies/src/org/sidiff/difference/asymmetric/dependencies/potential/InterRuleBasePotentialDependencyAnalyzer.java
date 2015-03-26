@@ -11,7 +11,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.difference.asymmetric.dependencies.potential.util.EmbeddedRule;
+import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.rulebase.EditRule;
@@ -159,17 +159,6 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	private void calculate(Set<EditRule> editRules) {
 		potDeps = new HashMap<EditRule, PotentialRuleDependencies>();
 
-		// Get embedded multi-rule nodes if the rule is an amalgamation unit
-		Map<EditRule, EmbeddedRule> embeddedRules = new HashMap<EditRule, EmbeddedRule>();
-
-		for (EditRule editRule : editRules) {
-			EmbeddedRule embeddedRule = new EmbeddedRule(editRule); 
-			
-			if (!embeddedRule.isEmpty()) {
-				embeddedRules.put(editRule, embeddedRule);
-			}
-		}
-
 		// Calculate potential dependencies
 		for (EditRule editRuleA : editRules) {
 			RuleBase ruleBaseA = editRuleA.getRuleBaseItem().getRuleBase();
@@ -186,8 +175,8 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 						for (Rule ruleB : rulesB) {
 							// (1) Compare rule A with rules B
 							findRuleDependencies(
-									ruleA, editRuleA, embeddedRules.get(editRuleA),
-									ruleB, editRuleB, embeddedRules.get(editRuleB));
+									getActionGraph(ruleA), editRuleA,
+									getActionGraph(ruleB), editRuleB);
 						}
 					}
 				}
@@ -270,13 +259,13 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 
 	@Override
 	protected PotentialRuleDependencies findRuleDependencies(
-			Rule predecessor, EditRule predecessorEditRule, EmbeddedRule embeddedPredecessor, 
-			Rule successor, EditRule successorEditRule, EmbeddedRule embeddedSuccessor) {
+			ActionGraph predecessor, EditRule predecessorEditRule, 
+			ActionGraph successor, EditRule successorEditRule) {
 
 		// Calculate dependencies
 		PotentialRuleDependencies PotRuleDeps = super.findRuleDependencies(
-				predecessor, predecessorEditRule, embeddedPredecessor, 
-				successor, successorEditRule, embeddedSuccessor);
+				predecessor, predecessorEditRule, 
+				successor, successorEditRule);
 
 		// Indexing the new dependencies
 		if (!potDeps.containsKey(successorEditRule)) {

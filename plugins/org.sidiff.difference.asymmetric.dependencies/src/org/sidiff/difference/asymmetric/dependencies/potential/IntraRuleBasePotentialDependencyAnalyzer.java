@@ -6,7 +6,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinUnitAnalysis;
-import org.sidiff.difference.asymmetric.dependencies.potential.util.EmbeddedRule;
+import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RuleBase;
@@ -67,9 +67,6 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 */
 	public void findDependencies(EditRule editRuleA) {
 		List<Rule> rulesA = HenshinUnitAnalysis.getRules(editRuleA.getExecuteMainUnit());
-		
-		// Get embedded multi-rule parts if rule A is an amalgamation unit
-		EmbeddedRule embeddedRuleA = new EmbeddedRule(editRuleA); 
 
 		/*
 		 * In (1) we compare each rule with itself. E.g. a rule 'add package to package'. 
@@ -77,14 +74,11 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		 */
 		for (Rule ruleA : rulesA) {
 			// (1) Compare each rule in the Module with itself.
-			findRuleDependencies(ruleA, editRuleA, embeddedRuleA, ruleA, editRuleA, embeddedRuleA);
+			findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleA), editRuleA);
 		}
 		
 		for (RuleBaseItem item : rulebase.getItems()) {
 			EditRule editRuleB = item.getEditRule();
-
-			// Get embedded multi-rule parts if rule B is an amalgamation unit
-			EmbeddedRule embeddedRuleB = new EmbeddedRule(editRuleB); 
 
 			/*
 			 * Do not (cross) compare all rules in a Module with all other rules
@@ -100,9 +94,9 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 			for (Rule ruleA : rulesA) {
 				for (Rule ruleB : rulesB) {
 					// (2) Compare the new rule A with all old rules B
-					findRuleDependencies(ruleA, editRuleA, embeddedRuleA, ruleB, editRuleB, embeddedRuleB);
+					findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleB), editRuleB);
 					// (3) Compare all old rules B with the new rule A
-					findRuleDependencies(ruleB, editRuleB, embeddedRuleB, ruleA, editRuleA, embeddedRuleA);
+					findRuleDependencies(getActionGraph(ruleB), editRuleB, getActionGraph(ruleA), editRuleA);
 				}
 			}
 		}
@@ -110,12 +104,12 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 
 	@Override
 	protected PotentialRuleDependencies findRuleDependencies(
-			Rule predecessor, EditRule predecessorEditRule, EmbeddedRule embeddedPredecessor, 
-			Rule successor, EditRule successorEditRule, EmbeddedRule embeddedSuccessor) {
+			ActionGraph predecessor, EditRule predecessorEditRule, 
+			ActionGraph successor, EditRule successorEditRule) {
 
 		PotentialRuleDependencies potDeps = super.findRuleDependencies(
-				predecessor, predecessorEditRule, embeddedPredecessor,
-				successor, successorEditRule, embeddedSuccessor);
+				predecessor, predecessorEditRule,
+				successor, successorEditRule);
 		
 		rulebase.getPotentialNodeDependencies().addAll(potDeps.getPotentialNodeDependencies());
 		rulebase.getPotentialEdgeDependencies().addAll(potDeps.getPotentialEdgeDependencies());

@@ -1,20 +1,5 @@
 package org.sidiff.difference.asymmetric.dependencies.potential;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getDeletionAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidNodes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedNodes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChangingAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRequireAttributes;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRequireEdges;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRequireNodes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
@@ -52,9 +37,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.henshin.EdgePair;
-import org.sidiff.common.henshin.NodePair;
-import org.sidiff.difference.asymmetric.dependencies.potential.util.EmbeddedRule;
+import org.sidiff.common.henshin.view.ActionGraph;
+import org.sidiff.common.henshin.view.EdgePair;
+import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.PotentialAttributeDependency;
@@ -75,6 +60,11 @@ public abstract class PotentialDependencyAnalyzer {
 	 * The EMF Rulebase factory instance.
 	 */
 	protected static RulebaseFactory rbFactory = RulebaseFactory.eINSTANCE;
+	
+	/**
+	 * Caches the Henshin rules as {@link ActionGraph}.
+	 */
+	protected Map<Rule, ActionGraph> actionGraphCache = new HashMap<Rule, ActionGraph>();
 	
 	/**
 	 * Type index form each EClass to its sub-types.
@@ -113,6 +103,24 @@ public abstract class PotentialDependencyAnalyzer {
 		this.transientPDs = transientPDs;
 		this.nonTransientPDs = nonTransientPDs;
 	}
+	
+	/**
+	 * Transforms the Henshin rule to a {@link ActionGraph}
+	 * 
+	 * @param rule
+	 *            The Henshin rule.
+	 * @return The {@link ActionGraph}.
+	 */
+	protected ActionGraph getActionGraph(Rule rule) {
+		ActionGraph actionGraph = actionGraphCache.get(rule);
+		
+		if (actionGraph == null) {
+			actionGraph = new ActionGraph(rule, true);
+			actionGraphCache.put(rule, actionGraph);
+		}
+		
+		return actionGraph;
+	}
 
 	/**
 	 * Adds all potential dependences from the predecessor to the successor rule.
@@ -123,98 +131,67 @@ public abstract class PotentialDependencyAnalyzer {
 	 *            The successor rule, i.e. the source of dependencies
 	 */
 	protected PotentialRuleDependencies findRuleDependencies(
-			Rule predecessor, EditRule predecessorEditRule, EmbeddedRule embeddedPredecessor, 
-			Rule successor, EditRule successorEditRule, EmbeddedRule embeddedSuccessor) {
+			ActionGraph predecessor, EditRule predecessorEditRule, 
+			ActionGraph successor, EditRule successorEditRule) {
 		
 		/*
 		 * Divide the rule
 		 */
 		
 		// Get nodes
-		List<NodePair> predecessorPreserveNodes = getPreservedNodes(predecessor);
-		List<Node> predecessorCreateNodes = getRHSMinusLHSNodes(predecessor);
-		List<Node> predecessorDeleteNodes = getLHSMinusRHSNodes(predecessor);
+		List<NodePair> predecessorPreserveNodes = predecessor.getPreserveNodes();
+		List<Node> predecessorCreateNodes = predecessor.getCreateNodes();
+		List<Node> predecessorDeleteNodes = predecessor.getDeleteNodes();
 		
-		List<NodePair> successorPreserveNodes = getPreservedNodes(successor);
-		List<Node> successorCreateNodes = getRHSMinusLHSNodes(successor);
-		List<Node> successorDeleteNodes = getLHSMinusRHSNodes(successor);
+		List<NodePair> successorPreserveNodes = successor.getPreserveNodes();
+		List<Node> successorCreateNodes = successor.getCreateNodes();
+		List<Node> successorDeleteNodes = successor.getDeleteNodes();
 
 		// Get <<forbid>> nodes
-		List<Node> predecessorForbidNodes  = getForbidNodes(predecessor);
+		List<Node> predecessorForbidNodes  = predecessor.getForbidNodes();
 		
-		List<Node> successorForbidNodes = getForbidNodes(successor);
+		List<Node> successorForbidNodes = successor.getForbidNodes();
 		
 		// Get <<require>> nodes
-		List<Node> predecessorRequireNodes = getRequireNodes(predecessor);
+		List<Node> predecessorRequireNodes = predecessor.getRequireNodes();
 		
-		List<Node> successorRequireNodes = getRequireNodes(successor);
+		List<Node> successorRequireNodes = successor.getRequireNodes();
 		
 		// Get edges
-		List<EdgePair> predecessorPreserveEdges = getPreservedEdges(predecessor);
-		List<Edge> predecessorCreateEdges = getRHSMinusLHSEdges(predecessor);
-		List<Edge> predecessorDeleteEdges = getLHSMinusRHSEdges(predecessor);
+		List<EdgePair> predecessorPreserveEdges = predecessor.getPreserveEdges();
+		List<Edge> predecessorCreateEdges = predecessor.getCreateEdges();
+		List<Edge> predecessorDeleteEdges = predecessor.getDeleteEdges();
 		
-		List<EdgePair> successorPreserveEdges = getPreservedEdges(successor);
-		List<Edge> successorCreateEdges = getRHSMinusLHSEdges(successor);
-		List<Edge> successorDeleteEdges = getLHSMinusRHSEdges(successor);
+		List<EdgePair> successorPreserveEdges = successor.getPreserveEdges();
+		List<Edge> successorCreateEdges = successor.getCreateEdges();
+		List<Edge> successorDeleteEdges = successor.getDeleteEdges();
 		
 		// Get <<forbid>> edges
-		List<Edge> predecessorForbidEdges  = getForbidEdges(predecessor);
+		List<Edge> predecessorForbidEdges  = predecessor.getForbidEdges();
 		
-		List<Edge> successorForbidEdges = getForbidEdges(successor);
+		List<Edge> successorForbidEdges = successor.getForbidEdges();
 		
 		// Get <<require>> edges
-		List<Edge> predecessorRequireEdges = getRequireEdges(predecessor);
+		List<Edge> predecessorRequireEdges = predecessor.getRequireEdges();
 		
-		List<Edge> successorRequireEdges = getRequireEdges(successor);
+		List<Edge> successorRequireEdges = successor.getRequireEdges();
 		
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = getRHSChangingAttributes(predecessor);
-		List<Attribute> predecessorUsingAttributes = getPreservedAttributes(predecessor);
+		List<Attribute> predecessorChangingAttributes = predecessor.getSetAttributes();
+		List<Attribute> predecessorUsingAttributes = predecessor.getPreserveAttributes();
 		
-		List<Attribute> successorChangingAttributes = getRHSChangingAttributes(successor);
-		List<Attribute> successorUsingAttributes = getPreservedAttributes(successor);
-		successorUsingAttributes.addAll(getDeletionAttributes(successor));
+		List<Attribute> successorChangingAttributes = successor.getSetAttributes();
+		List<Attribute> successorUsingAttributes = successor.getPreserveAttributes(); 
 		
 		// Get <<forbid>> attributes
-		List<Attribute> predecessorForbidAttributes = getForbidAttributes(predecessor);
+		List<Attribute> predecessorForbidAttributes = predecessor.getForbidAttributes();
 		
-		List<Attribute> successorForbidAttributes = getForbidAttributes(successor);
+		List<Attribute> successorForbidAttributes = successor.getForbidAttributes();
 		
 		// Get <<require>> attributes
-		List<Attribute> predecessorRequireAttributes = getRequireAttributes(predecessor);
+		List<Attribute> predecessorRequireAttributes = predecessor.getRequireAttributes();
 		
-		List<Attribute> successorRequireAttributes = getRequireAttributes(successor);
-		
-		/*
-		 * Filter embedded nodes from multi-rules
-		 */
-		
-		if (embeddedPredecessor != null) {
-			// Filter embedded nodes
-			removeAllNodes(predecessorPreserveNodes, embeddedPredecessor.getEmbeddedNodes());
-			predecessorCreateNodes.removeAll(embeddedPredecessor.getEmbeddedNodes());
-			
-			// Filter embedded edges
-			removeAllEdges(predecessorPreserveEdges, embeddedPredecessor.getEmbeddedEdges());
-			predecessorCreateEdges.removeAll(embeddedPredecessor.getEmbeddedEdges());
-			
-			// Filter embedded attributes
-			predecessorChangingAttributes.removeAll(embeddedPredecessor.getEmbeddedAttributes());
-		}
-		
-		if (embeddedSuccessor != null) {
-			// Filter embedded nodes
-			removeAllNodes(successorPreserveNodes, embeddedSuccessor.getEmbeddedNodes());
-			successorDeleteNodes.removeAll(embeddedSuccessor.getEmbeddedNodes());
-			
-			// Filter embedded edges
-			removeAllEdges(successorPreserveEdges, embeddedSuccessor.getEmbeddedEdges());
-			successorDeleteEdges.removeAll(embeddedSuccessor.getEmbeddedEdges());
-			
-			// Filter embedded attributes
-			successorUsingAttributes.removeAll(embeddedSuccessor.getEmbeddedAttributes());
-		}
+		List<Attribute> successorRequireAttributes = successor.getRequireAttributes();
 		
 		/*
 		 *  Find all potential dependencies - if the predecessor rule is applied first
