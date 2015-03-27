@@ -45,7 +45,7 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.common.henshin.view.NodePair;
+import org.sidiff.common.henshin.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
@@ -894,6 +894,14 @@ public class EditRuleValidator {
 						break;
 					}
 				}
+				
+				Node lhsNode = nodePair.getLhsNode();
+				for(Attribute lhsAttribute : lhsNode.getAttributes()){
+					if(isAttributeValueToBeUnset(nodePair, lhsAttribute)){
+						valid = true;
+						break;
+					}
+				}
 			}
 		}
 
@@ -911,6 +919,17 @@ public class EditRuleValidator {
 
 		Attribute lhsAttribute = lhsNode.getAttribute(rhsAttribute.getType());
 		if ((lhsAttribute == null) || !lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	private static boolean isAttributeValueToBeUnset(NodePair nodePair, Attribute lhsAttribute){
+		Node rhsNode = nodePair.getRhsNode();
+
+		Attribute rhsAttribute = rhsNode.getAttribute(lhsAttribute.getType());
+		if (rhsAttribute == null) {
 			return true;
 		}
 
