@@ -44,6 +44,8 @@ public class PatchCreator {
 	private String separator;
 	private String savePath;
 
+	private String filename;
+	
 	private String resourceA_name;
 	private String resourceB_name;
 
@@ -67,6 +69,12 @@ public class PatchCreator {
 		this.asymmetricDifference = asymmetricDifference;
 		this.asymmetricDifference.initTransientRulebase();
 	}
+	
+	public String serializePatch(String path, String filename) throws FileNotFoundException{
+		
+		this.filename = filename;
+		return serializePatch(path);
+	}
 
 	public String serializePatch(String path) throws FileNotFoundException {
 
@@ -77,9 +85,13 @@ public class PatchCreator {
 		if (!s_path.endsWith(separator)){
 			s_path += separator;
 		}
+		if(filename == null){
 		savePath = s_path + "PATCH(origin_" + resourceA_name + "_to_" + "modified_"
 				+ resourceB_name + ")";
-
+		}else{
+			savePath = s_path + filename;
+		}
+		
 		if (!settings.useSymbolicLinks()) {
 			String modelADir = savePath + separator + FOLDER_MODEL_A;
 			String modelBDir = savePath + separator + FOLDER_MODEL_B;
