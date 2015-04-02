@@ -162,7 +162,7 @@ public class RecognitionEngineStatistics {
 	/**
 	 * Count of Low-Level in the difference which are contained by a Semantic-Change-Sets.
 	 */
-	public static final String DIFFERENCE_LL_CHANGES_IN = COMMON_PREFIX + "Difference:SemanticChangeSetsInSCS";
+	public static final String DIFFERENCE_LL_CHANGES_IN = COMMON_PREFIX + "Difference:LowLevelChangesInSCS";
 	
 	/**
 	 * Count of applied Recognition-Rules after filtering.
