@@ -108,8 +108,10 @@ public class SymbolicLinkHandlerUtil {
 			String relativeSavePath = EMFStorage.pathToRelativeUri(path, path+fileName).toString();
 			if(c == 'A'){
 				asymmetricDifference.getSymmetricDifference().setUriModelA(relativeSavePath);
+				asymmetricDifference.setUriOriginModel(relativeSavePath);
 			}else if(c == 'B'){
 				asymmetricDifference.getSymmetricDifference().setUriModelB(relativeSavePath);
+				asymmetricDifference.setUriChangedModel(relativeSavePath);
 			}
 			c++;
 		}
