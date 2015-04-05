@@ -26,7 +26,38 @@ public class ZipUtil {
 	public static final String ZIP_SEPERATOR = "/";
 
 	/**
-	 * Zips a directory given by an absolute path.
+	 * Zips a directory that is given by an absolute path.
+	 * 
+	 * <p>
+	 * <strong>Example:</strong>
+	 * <code>zip("/example/folderToZip", "/example/zipFile")</code>
+	 * </p>
+	 * <p>
+	 * The directory <code>folderToZip</code> in the directory example will be
+	 * saved as <code>zipFile.zip</code> in the same directory.
+	 * </p>
+	 * 
+	 * @param inputPath
+	 *            absolute path of the directory to zip.
+	 * @param outputPath
+	 *            absolute path of the zip file.
+	 * @param extension
+	 *            the file extension of the zip.
+	 * @param clear
+	 * 			  flag to determine if the input folder should be deleted after compression
+	 * 
+	 * @see {@link #zipDir(String, String, File, ZipOutputStream)}
+	 * 
+	 */
+	public static void zip(String inputPath, String outputPath, String extension, boolean clear){
+		zip(inputPath, outputPath, extension);
+		if(clear){
+			FileOperations.removeFolder(inputPath);
+		}
+	}
+	
+	/**
+	 * Zips a directory that is given by an absolute path.
 	 * 
 	 * <p>
 	 * <strong>Example:</strong>
@@ -59,7 +90,7 @@ public class ZipUtil {
 	}
 
 	/**
-	 * Zips a directory given by an absolute path.
+	 * Zips a directory that is given by an absolute path.
 	 * 
 	 * <p>
 	 * <strong>Example:</strong>
