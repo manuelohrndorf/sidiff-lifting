@@ -3,7 +3,6 @@ package org.sidiff.difference.lifting.facade.util;
 import java.io.File;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -275,6 +274,7 @@ public class PipelineUtils {
 	protected static void cleanup(SymmetricDifference difference, Set<EObject> imports) {
 		
 		// TODO[MO@2015-04-03]: Nothing to do... Remove this workaround!?
+		// (does not work for ECrossReferenceAdapters!?) 
 		
 //		// Release adapters for difference
 //		for (Iterator<EObject> iterator = difference.eAllContents(); iterator.hasNext();) {
@@ -400,6 +400,9 @@ public class PipelineUtils {
 	 * 
 	 * @param eObject
 	 */
+	@SuppressWarnings("unused")
+	// TODO[MO@2015-04-03]: Nothing to do... Remove this workaround!?
+	// (does not work for ECrossReferenceAdapters!?) 
 	private static void releaseAdapters(EObject eObject) {
 		if (eObject != null) {
 			EList<Adapter> adapters = eObject.eAdapters();
