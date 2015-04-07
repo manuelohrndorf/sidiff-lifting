@@ -273,41 +273,44 @@ public class PipelineUtils {
 	 * @param imports
 	 */
 	protected static void cleanup(SymmetricDifference difference, Set<EObject> imports) {
-		// Release adapters for difference
-		for (Iterator<EObject> iterator = difference.eAllContents(); iterator.hasNext();) {
-			EObject object = iterator.next();
-			releaseAdapters(object);
-			if (object instanceof AddReference) {
-				releaseAdapters(((AddReference) object).getType());
-			}
-			if (object instanceof RemoveReference) {
-				releaseAdapters(((RemoveReference) object).getType());
-			}
-			if (object instanceof AttributeValueChange) {
-				releaseAdapters(((AttributeValueChange) object).getType());
-			}
-		}
-
-		// Release adapters for model A
-		for (Resource r : difference.getModelA().getResourceSet().getResources()) {
-			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
-				releaseAdapters(iterator.next());
-			}
-		}
-
-		// Release adapters for model B
-		for (Resource r : difference.getModelB().getResourceSet().getResources()) {
-			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
-				releaseAdapters(iterator.next());
-			}
-		}
-
-		// Release adapters for imported eObjects
-		if (imports != null) {
-			for (EObject eObject : imports) {
-				releaseAdapters(eObject);
-			}
-		}
+		
+		// TODO[MO@2015-04-03]: Nothing to do... Remove this workaround!?
+		
+//		// Release adapters for difference
+//		for (Iterator<EObject> iterator = difference.eAllContents(); iterator.hasNext();) {
+//			EObject object = iterator.next();
+//			releaseAdapters(object);
+//			if (object instanceof AddReference) {
+//				releaseAdapters(((AddReference) object).getType());
+//			}
+//			if (object instanceof RemoveReference) {
+//				releaseAdapters(((RemoveReference) object).getType());
+//			}
+//			if (object instanceof AttributeValueChange) {
+//				releaseAdapters(((AttributeValueChange) object).getType());
+//			}
+//		}
+//
+//		// Release adapters for model A
+//		for (Resource r : difference.getModelA().getResourceSet().getResources()) {
+//			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
+//				releaseAdapters(iterator.next());
+//			}
+//		}
+//
+//		// Release adapters for model B
+//		for (Resource r : difference.getModelB().getResourceSet().getResources()) {
+//			for (Iterator<EObject> iterator = r.getAllContents(); iterator.hasNext();) {
+//				releaseAdapters(iterator.next());
+//			}
+//		}
+//
+//		// Release adapters for imported eObjects
+//		if (imports != null) {
+//			for (EObject eObject : imports) {
+//				releaseAdapters(eObject);
+//			}
+//		}
 	}
 
 	/**

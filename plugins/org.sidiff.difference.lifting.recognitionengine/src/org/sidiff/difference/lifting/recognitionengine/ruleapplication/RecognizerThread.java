@@ -3,7 +3,6 @@ package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.CREATE_GRAPH;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.MATCH_RR;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.STATISTICS;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.analyseEGraph;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startSplitTimer;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopSplitTimer;
 
@@ -77,15 +76,15 @@ public class RecognizerThread extends Thread {
 				EGraph graph = recognitionEngine.getGraphFactory().getEGraph(rr);
 				
 				if (STATISTICS) stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
-				if (STATISTICS) analyseEGraph(graph, rr);
 
 				// Match Recognition-Rules:
 				LogUtil.log(LogEvent.NOTICE, "Matching: " + rr.getModule().getName() + "...");
 				LogUtil.log(LogEvent.DEBUG, "Matching: " + rr.getModule().eResource() + "...");
-				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
 				
 				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
 				
+				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
+								
 				int numberOfMatches = 0;
 				while (matchFinder.hasNext()) {
 					Match match = matchFinder.next();
@@ -100,14 +99,18 @@ public class RecognizerThread extends Thread {
 					recognitionEngine.addRecognitionRuleApplication(ruleApp);
 				}
 				
-				if (STATISTICS) stopSplitTimer(MATCH_RR, "" + rr.hashCode());	
+				if (STATISTICS) stopSplitTimer(MATCH_RR, "" + rr.hashCode());
+				
+				// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
+				recognitionEngine.addGraph(graph);
+				
 				LogUtil.log(LogEvent.NOTICE, "Matches found: " + numberOfMatches);	
 			}
 		} finally {
 			// Shutdown:
 			engine.shutdown();
 			
-			// FIXME: Workaround to remove Henshin rule change listeners: 
+			// FIXME: WORKAROUND: Remove Henshin rule change listeners: 
 			for (Rule rr : recognitionRules) {
 				rr.eAdapters().clear();
 			}
@@ -119,6 +122,4 @@ public class RecognizerThread extends Thread {
 		// Just delegates the job to recognize()
 		recognize();
 	}
-	
-	
 }

@@ -2,7 +2,6 @@ package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.EXECUTION;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.RULE_SET_REDUCTION;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.analyseFullEGraph;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.finishStatistic;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startTimer;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopTimer;
@@ -21,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -115,9 +115,6 @@ public class RecognitionEngine {
 		// Create a graph factory:
 		this.graphFactory = new LiftingGraphFactory(difference, imports, settings.getScope(),
 				settings.isBuildGraphPerRule());
-
-		// Statistics: Measure size of the full working graph:
-		analyseFullEGraph(graphFactory);
 
 		// Get all recognition rules to be used:
 		recognitionRules = new HashSet<Rule>();
@@ -221,11 +218,14 @@ public class RecognitionEngine {
 		} else {
 			executeSequential();
 		}
+		
+		// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
+		clearGraphs();
 
 		stopTimer(EXECUTION);
 
 		// Finish Statistic:
-		finishStatistic(difference, recognitionRules, filtered);
+		finishStatistic(difference, recognitionRules, filtered, graphFactory);
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class RecognitionEngine {
 	private void executeSequential() {
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "---------------- SEQUENTIALLY MATCHING RECOGNITION RULES ----------------");
+		LogUtil.log(LogEvent.NOTICE, "--------- SEQUENTIALLY MATCHING RECOGNITION RULES ----------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Sequential recognizer:
@@ -257,7 +257,7 @@ public class RecognitionEngine {
 	private void executeParallel() {
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "---------------- PARALLEL MATCHING RECOGNITION RULES ----------------");
+		LogUtil.log(LogEvent.NOTICE, "----------- PARALLEL MATCHING RECOGNITION RULES ------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Create thread pool
@@ -457,6 +457,22 @@ public class RecognitionEngine {
 	public synchronized void addRecognitionRuleApplication(RuleApplication rrApp) {
 		recognizerRuleApplications.add(rrApp);
 	}
+	
+	// FIXME: BEGIN_WORKAROUND: Remove ECrossReferenceAdapter
+	private List<EGraph> graphs = new ArrayList<EGraph>();
+	
+	public synchronized void addGraph(EGraph graph) {
+		graphs.add(graph);
+	}
+	
+	private void clearGraphs() {
+		
+		for (EGraph graph : graphs) {
+			graph.clear();
+		}
+	}
+	
+	// FIXME: END_WORKAROUND: Remove ECrossReferenceAdapter
 
 	/**
 	 * @return The difference this RecognitionEngine is working on

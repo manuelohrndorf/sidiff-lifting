@@ -432,4 +432,28 @@ public class LiftingGraphFactory {
 		}
 		return graph;
 	}
+	
+	/**
+	 * @return
+	 * 
+	 * <ul>
+	 *  <li><code>true</code>: Builds a minimal working graph for each Recognition-Rule.
+	 *  <li><code>false</code>: Build a single working graph for all Recognition-Rule.
+	 * </ul>
+	 */
+	public boolean isBuildGraphPerRule() {
+		return buildGraphPerRule;
+	}
+	
+	/**
+	 * @param buildGraphPerRule
+	 *
+	 * <ul>
+	 *  <li><code>true</code>: Builds a minimal working graph for each Recognition-Rule.
+	 *  <li><code>false</code>: Build a single working graph for all Recognition-Rule.
+	 * </ul>
+	 */
+	public void setBuildGraphPerRule(boolean buildGraphPerRule) {
+		this.buildGraphPerRule = buildGraphPerRule;
+	}
 }
