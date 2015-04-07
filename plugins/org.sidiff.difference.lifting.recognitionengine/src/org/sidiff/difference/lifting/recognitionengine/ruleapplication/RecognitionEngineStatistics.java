@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.common.util.StatisticsUtil.StatisticType;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -33,11 +35,23 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
  * @author Manuel Ohrndorf
  */
 public class RecognitionEngineStatistics {
-	
+
 	/**
 	 * Global statistic trigger.
 	 */
 	public static boolean STATISTICS = false;
+	
+	/**
+	 * The count of nodes/edges in the working graph will be post calculated in
+	 * a simulation. Counting the working graph edges is time consuming and
+	 * would lead to an execution time overhead in the real calculation.
+	 */
+	public static boolean MEASURE_GRAPH_SIZE = true;
+	
+	/**
+	 * Print an unavailable value.
+	 */
+	private static final String UNAVAILABLE_VALUE = "N/A";
 	
 	/**
 	 * The common prefix of all statistic entities in the {@link StatisticsUtil}
@@ -238,6 +252,23 @@ public class RecognitionEngineStatistics {
 	}
 	
 	/**
+	 * Statistic types <-> Primitive types: 
+	 */
+	private static Map<Enum<?>, String> statisticTypeToPrimitiveTypes = new HashMap<Enum<?>, String>();
+    static {
+    	statisticTypeToPrimitiveTypes.put(StatisticType.Count, "Integer");
+    	statisticTypeToPrimitiveTypes.put(StatisticType.Other, "");
+    	statisticTypeToPrimitiveTypes.put(StatisticType.Size, "Integer");
+    	statisticTypeToPrimitiveTypes.put(StatisticType.Time, "Decimal");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.Average, "Decimal");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.Maximum, "Decimal");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.MaximumInfo, "String");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.Minimum, "Decimal");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.MinimumInfo, "String");
+    	statisticTypeToPrimitiveTypes.put(StatisticTypeExtensions.String, "String");
+    }
+	
+	/**
 	 * All columns of the statistic:
 	 */
 	private static Object[][] columns = {
@@ -376,34 +407,6 @@ public class RecognitionEngineStatistics {
 	}
 	
 	/**
-	 * Starts a (statistic) overhead timer. The overhead will be deducted finally.
-	 * 
-	 * @param marker
-	 *            The marker name of the corresponding timer.
-	 * @param id
-	 *            A unique ID for the overhead timer.
-	 */
-	protected synchronized static void startOverheadTimer(String marker, String id) {
-		if (STATISTICS) {
-			startSplitTimer(marker + "@overhead", id);
-		}
-	}
-	
-	/**
-	 * Stops a (statistic) overhead timer. The overhead will be deducted finally.
-	 * 
-	 * @param marker
-	 *            The marker name of the corresponding timer.
-	 * @param id
-	 *            The unique ID of the overhead timer.
-	 */
-	protected synchronized static void stopOverheadTimer(String marker, String id) {
-		if (STATISTICS) {
-			stopSplitTimer(marker + "@overhead", id);
-		}
-	}
-	
-	/**
 	 * Returns the measured time (deducting a measured overhead of the statistics).
 	 * 
 	 * @param marker
@@ -414,11 +417,7 @@ public class RecognitionEngineStatistics {
 		float time = -1;
 		
 		if (StatisticsUtil.getInstance().getTimeStatistic().containsKey(marker)) {
-			time = StatisticsUtil.getInstance().getTime(marker);
-		}
-		
-		if (splitTimers.containsKey(marker + "@overhead")) {
-			time -= joinSplitTimer(marker + "@overhead");
+			return StatisticsUtil.getInstance().getTime(marker);
 		}
 		
 		return time;
@@ -445,13 +444,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @param id
 	 *            The ID of the Split-Timer.
+	 * @param info
+	 *            A comment which will be assoziated with the actual split timer.
 	 */
 	protected synchronized static void startSplitTimer(String marker, String id, String info) {
 		if (STATISTICS)  {
-			// Info:
-			if (info != null) {
-				StatisticsUtil.getInstance().put(marker + "@" + id + "@info", info);
-			}
 			
 			// Timer:
 			Set<String> splitTimerIDs = null;
@@ -460,15 +457,18 @@ public class RecognitionEngineStatistics {
 				splitTimerIDs = splitTimers.get(marker);
 			} else {
 				splitTimerIDs = new HashSet<String>();
+				splitTimers.put(marker, splitTimerIDs);
 			}
 			
 			if (!splitTimerIDs.contains(id)) {
 				splitTimerIDs.add(id);
-			} else {
-				assert false : "Restart of Split-Timer!";
+				
+				// Info:
+				if (info != null) {
+					StatisticsUtil.getInstance().put(marker + "@" + id + "@info", info);
+				}
 			}
 			
-			splitTimers.put(marker, splitTimerIDs);
 			StatisticsUtil.getInstance().start(marker + "@" + id);
 		}
 	}
@@ -649,7 +649,7 @@ public class RecognitionEngineStatistics {
 	 * @return The info string of the measured minimum.
 	 */
 	protected static String getMinimumInfo(String marker) {
-		String info = null;
+		String info = UNAVAILABLE_VALUE;
 		
 		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@minInfo")) {
 			info = (String) StatisticsUtil.getInstance().getObject(marker + "@minInfo");
@@ -683,7 +683,7 @@ public class RecognitionEngineStatistics {
 	 * @return The info string of the measured maximum.
 	 */
 	protected static String getMaximumInfo(String marker) {
-		String info = null;
+		String info = UNAVAILABLE_VALUE;
 		
 		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@maxInfo")) {
 			info = (String) StatisticsUtil.getInstance().getObject(marker + "@maxInfo");
@@ -731,8 +731,8 @@ public class RecognitionEngineStatistics {
 	 * @return The calculated average.
 	 */
 	protected static double getAverage(String marker) {
-		double fullSize = 0;
-		double counter = 1;
+		double fullSize = -1;
+		double counter = -1;
 		
 		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@average:size")) {
 			fullSize = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:size");
@@ -742,7 +742,11 @@ public class RecognitionEngineStatistics {
 			counter = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:count");
 		}
 		
-		return (fullSize / counter);	
+		if ((fullSize != -1) && (counter != -1)) {
+			return (fullSize / counter);
+		} else {
+			return -1;
+		}
 	}
 	
 	/**
@@ -758,30 +762,56 @@ public class RecognitionEngineStatistics {
 	}
 	
 	/**
-	 * Count the nodes and edges of the given working graph.
+	 * Count the nodes and edges of the used working graphs.
 	 * 
-	 * @param graph
-	 *            The working graph.
+	 * @param liftingGraphFactory
+	 *            The factory that creates a Henshin graph.
+	 * @param recognitionRules
+	 *            The all executed Recognition-Rules.
+	 * 
+	 * @see RecognitionEngineStatistics#MEASURE_GRAPH_SIZE
+	 */
+	private static void analyseEGraphs(LiftingGraphFactory liftingGraphFactory, Collection<Rule> recognitionRules) {
+		if (!MEASURE_GRAPH_SIZE) {
+			return;
+		}
+		
+		// Simulate graph building: Full working graph
+		analyseFullEGraph(liftingGraphFactory);
+		
+		// Simulate graph building: Dedicated working graph
+		if (liftingGraphFactory.isBuildGraphPerRule()) {
+			for (Rule recognitionRule : recognitionRules) {
+				analyseEGraph(liftingGraphFactory, recognitionRule);
+			}
+		}
+	}
+	
+	/**
+	 * Count the nodes and edges of the (dedicated) recognition-rule working graph.
+	 * 
+	 * @param liftingGraphFactory
+	 *            The factory that creates a Henshin graph.
 	 * @param recognitionRule
 	 *            The corresponding Recognition-Rule.
 	 */
-	protected static void analyseEGraph(EGraph graph, Rule recognitionRule) {
+	private static void analyseEGraph(LiftingGraphFactory liftingGraphFactory, Rule recognitionRule) {
 		if (!STATISTICS) {
 			return;
 		}
 		
-		startOverheadTimer(EXECUTION, "" + recognitionRule.hashCode());
+		EGraph graph = liftingGraphFactory.createEGraph(recognitionRule);
 		
 		// Nodes:
 		noteMinMax(GRAPH_NODES, graph.size(), recognitionRule.getName());
 		noteAverage(GRAPH_NODES, graph.size());
 		
-		// Edges:
+		//  Edges: Counting the working graph edges is time consuming and will lead to an execution time overhead.
 		int edgeCount = getModelReferenceCount(graph.iterator());
 		noteMinMax(GRAPH_EDGES, edgeCount, recognitionRule.getName());
 		noteAverage(GRAPH_EDGES, edgeCount);
 		
-		stopOverheadTimer(EXECUTION, "" + recognitionRule.hashCode());
+		graph.clear();
 	}
 	
 	/**
@@ -790,7 +820,7 @@ public class RecognitionEngineStatistics {
 	 * @param liftingGraphFactory
 	 *            The factory that creates a Henshin graph.
 	 */
-	protected static void analyseFullEGraph(LiftingGraphFactory liftingGraphFactory) {
+	private static void analyseFullEGraph(LiftingGraphFactory liftingGraphFactory) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -809,7 +839,7 @@ public class RecognitionEngineStatistics {
 	 * @param difference
 	 *            The Symmetric-Difference.
 	 */
-	protected static void analyseDifference(SymmetricDifference difference) {
+	private static void analyseDifference(SymmetricDifference difference) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -853,7 +883,7 @@ public class RecognitionEngineStatistics {
 	 * @param filtered
 	 *            Recognition-Rules that were not needed.
 	 */
-	protected static void analyseRuleSet(Collection<Rule> recognitionRules, Collection<Rule> filtered) {
+	private static void analyseRuleSet(Collection<Rule> recognitionRules, Collection<Rule> filtered) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -914,7 +944,7 @@ public class RecognitionEngineStatistics {
 	 * @param difference
 	 *            The lifted difference.
 	 * @param recognitionRules
-	 *            Full set of Recognition-Rules.
+	 *            Set of processed Recognition-Rules.
 	 * @param filtered
 	 *            All filtered Recognition-Rules.
 	 * 
@@ -922,15 +952,19 @@ public class RecognitionEngineStatistics {
 	protected static void finishStatistic(
 			SymmetricDifference difference, 
 			Collection<Rule> recognitionRules,
-			Collection<Rule> filtered) {
+			Collection<Rule> filtered,
+			LiftingGraphFactory liftingGraphFactory) {
 		
 		if (!STATISTICS) {
 			return;
 		}
 		
+		LogUtil.log(LogEvent.MESSAGE, "Recognition-Engine-Statistics: Analyse data...");
+		
 		// Analyse difference and rule set:
 		analyseDifference(difference);
 		analyseRuleSet(recognitionRules, filtered);
+		analyseEGraphs(liftingGraphFactory, recognitionRules);
 		
 		// Save statistics:
 		flushStatisticToCSV();
@@ -974,6 +1008,7 @@ public class RecognitionEngineStatistics {
 		try {
 			writer = new BufferedWriter(new FileWriter(csvFile, true));
 			
+			// Column names:
 			for (int i = 0; i < columns.length; i++) {
 				String column = (String) columns[i][0];
 				Enum<?> typeA = (Enum<?>) columns[i][1];
@@ -984,7 +1019,27 @@ public class RecognitionEngineStatistics {
 				}
 				
 				writer.write(parseHeaderField(column, typeA, typeB));
-				writer.write(COL);
+				
+				if (i < (columns.length - 1)) {
+					writer.write(COL);
+				}
+			}
+			
+			// Column types:
+			writer.write(ROW);
+			
+			for (int i = 0; i < columns.length; i++) {
+				Enum<?> type = (Enum<?>) columns[i][1];
+				
+				if (columns[i].length > 2) {
+					type = (Enum<?>) columns[i][2];
+				}
+				
+				writer.write(statisticTypeToPrimitiveTypes.get(type));
+				
+				if (i < (columns.length - 1)) {
+					writer.write(COL);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -1041,18 +1096,11 @@ public class RecognitionEngineStatistics {
 		
 		try {
 			// Write new row:
-			StatisticsUtil stats = StatisticsUtil.getInstance();
 			writer = new BufferedWriter(new FileWriter(csvFile, true));
 			writer.write(ROW);
 			
 			for (int i = 0; i < columns.length; i++) {
 				String column = (String) columns[i][0];
-				Enum<?> typeA = (Enum<?>) columns[i][1];
-				Enum<?> typeB = null;
-				
-				if (columns[i].length > 2) {
-					typeB = (Enum<?>) columns[i][2];
-				}
 				
 				try {
 					if (columns[i][1].equals(StatisticType.Time)) {
@@ -1061,22 +1109,22 @@ public class RecognitionEngineStatistics {
 					}
 					
 					else if (columns[i][1].equals(StatisticType.Size)) {
-						writer.write("" + stats.getSize(column));
+						writer.write("" + getStatisticSize(column));
 						writer.write(COL);
 					}
 					
 					else if (columns[i][1].equals(StatisticType.Count)) {
-						writer.write("" + stats.getCounter(column));
+						writer.write("" + getStatisticCounter(column));
 						writer.write(COL);
 					}
 					
 					else if (columns[i][1].equals(StatisticType.Other)) {
-						writer.write("" + stats.getObject(column));
+						writer.write("" + getStatisticObject(column));
 						writer.write(COL);
 					}
 					
 					else if (columns[i][1].equals(StatisticTypeExtensions.String)) {
-						writer.write("" + stats.getObject(column));
+						writer.write("" + getStatisticObject(column));
 						writer.write(COL);
 					}
 					
@@ -1121,7 +1169,7 @@ public class RecognitionEngineStatistics {
 						}
 						
 						else if (columns[i][2].equals(StatisticTypeExtensions.MinimumInfo)) {
-							writer.write("" + stats.getObject(column + "@" + minID + "@info"));
+							writer.write("" + getStatisticObject(column + "@" + minID + "@info"));
 							writer.write(COL);
 						}
 						
@@ -1131,7 +1179,7 @@ public class RecognitionEngineStatistics {
 						}
 						
 						else if (columns[i][2].equals(StatisticTypeExtensions.MaximumInfo)) {
-							writer.write("" + stats.getObject(column + "@" + maxID + "@info"));
+							writer.write("" + getStatisticObject(column + "@" + maxID + "@info"));
 							writer.write(COL);
 						}
 						
@@ -1142,8 +1190,7 @@ public class RecognitionEngineStatistics {
 						
 					}
 				} catch (Exception e) {
-					System.err.println(parseHeaderField(column, typeA, typeB) + " not available!");
-					writer.write("N/A");
+					writer.write(UNAVAILABLE_VALUE);
 					writer.write(COL);
 					e.printStackTrace();
 				}
@@ -1164,7 +1211,30 @@ public class RecognitionEngineStatistics {
 		}
 	}
 	
+	private static String getStatisticObject(String marker) {
+		Object obj = StatisticsUtil.getInstance().getObject(marker);
+		
+		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
+	}
+	
+	private static String getStatisticCounter(String marker) {
+		Object obj = StatisticsUtil.getInstance().getCounter(marker);
+		
+		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
+	}
+	
+	private static String getStatisticSize(String marker) {
+		Object obj = StatisticsUtil.getInstance().getSize(marker);
+		
+		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
+	}
+	
 	private static String format(double number) {
+		
+		if (number < 0) {
+			return UNAVAILABLE_VALUE;
+		}
+		
 		if ((number % 1) == 0) {
 			int result = (int) number;
 			return result + "";
@@ -1177,6 +1247,11 @@ public class RecognitionEngineStatistics {
 	}
 	
 	private static String format(float number) {
+		
+		if (number < 0) {
+			return UNAVAILABLE_VALUE;
+		}
+		
 		if ((number % 1) == 0) {
 			int result = (int) number;
 			return result + "";
