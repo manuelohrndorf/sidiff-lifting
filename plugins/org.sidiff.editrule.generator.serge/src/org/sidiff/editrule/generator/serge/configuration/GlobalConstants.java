@@ -4,6 +4,8 @@ public interface GlobalConstants {
 	
 	public static final String CREATE_prefix 							= "CREATE_";
 	public static final String DELETE_prefix							= "DELETE_";
+	public static final String ATTACH_prefix 							= "ATTACH_";
+	public static final String DETACH_prefix 							= "DETACH_";
 	public static final String SET_ATTRIBUTE_prefix 			= "SET_ATTRIBUTE_";
 	public static final String UNSET_ATTRIBUTE_prefix 		= "UNSET_ATTRIBUTE_";
 	public static final String SET_REFERENCE_prefix 			= "SET_REFERENCE_";
@@ -34,6 +36,7 @@ public interface GlobalConstants {
 	public static final String NEWSRC	= "NewSource";
 	public static final String OLDTGT		= "OldTarget";
 	public static final String OLDSRC	= "OldSource";
+	public static final String METACLASS	= "Metaclass";
 	
 	public static final String UNITNAME = "mainUnit";
 	public static final String HENSHIN_EXT = ".henshin";

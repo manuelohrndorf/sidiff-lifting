@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
+import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
@@ -27,6 +28,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 	private Set<Module> allCreateModules 			= new HashSet<Module>();
 	private Set<Module> allVariantModules			= new HashSet<Module>();
 	private Set<Module> allDeleteModules 			= new HashSet<Module>();
+	private Set<Module> allAttachModules 			= new HashSet<Module>();
+	private Set<Module> allDetachModules 			= new HashSet<Module>();
 	private Set<Module> allMoveModules 				= new HashSet<Module>();
 	private Set<Module> allMoveCombinationModules 	= new HashSet<Module>();
 	private Set<Module> allMoveDownModules 			= new HashSet<Module>();
@@ -47,8 +50,18 @@ public class MetaModelElementVisitor implements EClassVisitor{
 			assert(eClassifier instanceof EClass);
 			
 			EClass contextClass = (EClass) eClassifier;
-
+			
 			try{
+				
+				Set<Module> attachModules = GAD.generate_ATTACH(contextClass);
+				if (!attachModules.isEmpty()){
+					allAttachModules.addAll(attachModules);
+				}
+				
+				Set<Module> detachModules = GAD.generate_DETACH(attachModules);
+				if (!detachModules.isEmpty()){
+					allDetachModules.addAll(detachModules);
+				}
 				
 				Set<Module> createModules 	= GAD.generate_CREATE(contextClass);
 				if (!createModules.isEmpty()){
@@ -142,6 +155,8 @@ public class MetaModelElementVisitor implements EClassVisitor{
 		allModules.put(OperationType.CREATE, allCreateModules);
 		allModules.get(OperationType.CREATE).addAll(allVariantModules);
 		allModules.put(OperationType.DELETE, allDeleteModules);
+		allModules.put(OperationType.ATTACH, allAttachModules);
+		allModules.put(OperationType.DETACH, allDetachModules);
 		allModules.put(OperationType.MOVE, allMoveModules);
 		allModules.put(OperationType.MOVE_REFERENCE_COMBINATION, allMoveCombinationModules);
 		allModules.put(OperationType.MOVE_UP, allMoveUpModules);

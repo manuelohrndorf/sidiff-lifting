@@ -24,6 +24,8 @@ public class Configuration {
 	
 	public boolean CREATE_CREATES;
 	public boolean CREATE_DELETES;
+	public boolean CREATE_ATTACHES;
+	public boolean CREATE_DETACHES;
 	public boolean CREATE_MOVES;
 	public boolean CREATE_MOVE_UPS;
 	public boolean CREATE_MOVE_DOWNS;
@@ -52,12 +54,15 @@ public class Configuration {
 	public boolean REDUCETOSUPERTYPE_MOVE_UP;
 	public boolean REDUCETOSUPERTYPE_MOVE_DOWN;
 	public boolean REDUCETOSUPERTYPE_CREATEDELETE;
-
+	public boolean REDUCETOSUPERTYPE_ATTACHDETACH;
+	
 	public boolean LITERALSWITCHING_CHANGE;
 	public boolean REFERENCESWITCHING_MOVE;	
 	public boolean REFERENCESWITCHING_MOVE_UP;
 	public boolean REFERENCESWITCHING_MOVE_DOWN;	
 	
+	public boolean USE_SIMPLE_NAMES_ATTACHDETACH;
+		
 	public EPackage METAMODEL;
 	
 	public String ROOTNAME;

@@ -11,6 +11,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
+import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
+import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.io.IOUtil;
@@ -19,18 +21,24 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLResolver;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
+import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
+import org.sidiff.editrule.generator.serge.core.AnnotationApplicator;
+import org.sidiff.editrule.generator.serge.core.AnnotationGenerator;
 import org.sidiff.editrule.generator.serge.core.ConfigSerializer;
 import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapper;
+import org.sidiff.editrule.generator.serge.core.InverseTracker;
 import org.sidiff.editrule.generator.serge.core.MainUnitApplicator;
 import org.sidiff.editrule.generator.serge.core.MetaModelElementVisitor;
 import org.sidiff.editrule.generator.serge.core.ModuleSerializer;
 import org.sidiff.editrule.generator.serge.core.NameMapper;
 import org.sidiff.editrule.generator.serge.core.RuleParameterApplicator;
+import org.sidiff.editrule.generator.serge.exceptions.NoEncapsulatedTypeInformationException;
+import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException;
 import org.sidiff.editrule.generator.serge.filter.DuplicateFilter;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
@@ -87,7 +95,7 @@ public class Serge implements IEditRuleGenerator{
 	private SergeSettings settings = null;
 	
 	@Override
-	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) {
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException {
 		
 		// Start monitor
 		monitor.beginTask("Initializing SERGe", 100);
@@ -117,11 +125,11 @@ public class Serge implements IEditRuleGenerator{
 				parser.setupDefaultConfig(
 						settings.getMetaModelNsUri(),
 						this.settings.getConfigPath());
+				monitor.worked(20);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}			
-			finally{
-				monitor.worked(20);
+				monitor.done();
+				throw new EditRuleGenerationException(e);
 			}
 		}
 		// Case refined config.
@@ -130,12 +138,18 @@ public class Serge implements IEditRuleGenerator{
 			ConfigurationParser parser = new ConfigurationParser();
 			try {
 				parser.parse(this.settings.getConfigPath());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally{
 				monitor.worked(20);
-			}			
+			}
+			catch (SERGeConfigParserException 
+					| EPackageNotFoundException
+					| NoEncapsulatedTypeInformationException
+					| EAttributeNotFoundException
+					| EClassifierUnresolvableException e)
+			{
+				e.printStackTrace();
+				monitor.done();
+				throw new EditRuleGenerationException(e);
+			}		
 		}
 		
 		// Analyse meta model
@@ -268,6 +282,11 @@ public class Serge implements IEditRuleGenerator{
 				nameMapper.replaceNames();
 				monitor.worked(5);
 			}
+			
+			//Generate Annotations
+			AnnotationApplicator annotationApplicator = new AnnotationApplicator();
+			annotationApplicator.applyOn(allModules);
+			InverseTracker.INSTANCE.printInverses();
 			
 			// Serialize modules
 			monitor.subTask("Saving Edit Rules");

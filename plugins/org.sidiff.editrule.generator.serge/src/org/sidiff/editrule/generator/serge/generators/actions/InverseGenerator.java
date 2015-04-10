@@ -1,5 +1,8 @@
 package org.sidiff.editrule.generator.serge.generators.actions;
 
+import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -7,8 +10,10 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.HenshinUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
+import org.sidiff.editrule.generator.serge.core.InverseTracker;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class InverseGenerator {
@@ -57,7 +62,16 @@ public class InverseGenerator {
 			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
 			firstRule.setName(firstRule.getName().replaceFirst("create", "delete"));
 			firstRule.setDescription(firstRule.getDescription().replaceFirst("create", "delete"));
-
+			break;
+			
+		case ATTACH:
+			
+			name = inputModule.getName().replaceFirst(GlobalConstants.ATTACH_prefix, GlobalConstants.DETACH_prefix);
+			description = inputModule.getDescription().replaceFirst("Attaches", "Detaches");
+			inverse = HenshinModuleUtil.createInverse(name, description, inputModule);
+			firstRule = HenshinModuleAnalysis.getAllRules(inverse).get(0);
+			firstRule.setName(firstRule.getName().replaceFirst("attach", "detach"));
+			firstRule.setDescription(firstRule.getDescription().replaceFirst("attach", "detach"));
 			break;
 
 		case ADD:
@@ -99,9 +113,49 @@ public class InverseGenerator {
 			throw new OperationTypeNotImplementedException(opType);
 		}
 		
+		//Find node/attribute equivalents
+		InverseTracker.INSTANCE.addInversePair(inputModule, inverse);
+		mapNodesAndAttributesByName(HenshinModuleAnalysis.getAllRules(inputModule).get(0),
+				HenshinModuleAnalysis.getAllRules(inverse).get(0));
+		
 		// adjust Strings inside
 		replaceNewsWithToBeDeleted(inverse);
 		return inverse;
+	}
+	
+	private void mapNodesAndAttributesByName(Rule rule, Rule inverseRule){
+		mapNodesAndAttributesByName(rule.getRhs(), inverseRule.getLhs());
+		mapNodesAndAttributesByName(rule.getLhs(), inverseRule.getRhs());
+		mapNodesAndAttributesByName(rule.getLhs(), inverseRule.getLhs());
+	}
+	
+	private void mapNodesAndAttributesByName(Graph graphA, Graph graphB){
+		//Nodes
+		for (Node n : graphA.getNodes()) {
+			if (graphA.isRhs() && HenshinRuleAnalysisUtilEx.isPreservedNode(n)) continue;
+			String nN = n.getName();
+			if (nN == null || nN.equals("")) continue;
+			for (Node iN : graphB.getNodes()){
+				if (graphB.isRhs() && HenshinRuleAnalysisUtilEx.isPreservedNode(iN)) continue;
+				String inN = iN.getName();
+				if (inN != null && nN.equals(inN)) InverseTracker.INSTANCE.addInversePair(n, iN);
+			}
+		}
+		
+		//Attributes
+		//TODO Braucht es hier noch einen Preserve-RHS-Schutz wie bei den Nodes?
+		for (Node n : graphA.getNodes()) {
+			for (Attribute a : n.getAttributes()){
+				String aN = a.getValue();
+				if (aN == null || aN.equals("")) continue;
+				for (Node iN : graphB.getNodes()){
+					for (Attribute iA : iN.getAttributes()){
+						String iaN = iA.getValue();
+						if (iaN != null && aN.equals(iaN)) InverseTracker.INSTANCE.addInversePair(a, iA);
+					}
+				}
+			}
+		}
 	}
 	
 	/**
@@ -124,6 +178,7 @@ public class InverseGenerator {
 					n.setName(GlobalConstants.DEL);
 				}
 			}
+			//TODO An dieser Stelle sollte es keine Parameter geben
 			for (Parameter p : r.getParameters()) {
 				String pN = p.getName();
 				if (pN != null && pN.equals(GlobalConstants.NEW)) {

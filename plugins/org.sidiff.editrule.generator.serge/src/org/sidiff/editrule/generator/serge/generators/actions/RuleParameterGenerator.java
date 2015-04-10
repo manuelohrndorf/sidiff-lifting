@@ -6,6 +6,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.editrule.generator.serge.core.InverseTracker;
 
 public class RuleParameterGenerator {
 
@@ -20,33 +21,49 @@ public class RuleParameterGenerator {
 		// LHS nodes
 		for (Node lhsNode : rule.getLhs().getNodes()) {
 			if (lhsNode.getName() != null && !lhsNode.getName().equals("")) {
-				generateParameter(lhsNode.getName(), lhsNode.getType());
+				Parameter p=generateParameter(lhsNode.getName(), lhsNode.getType());
+				if (p != null){
+					rule.getParameters().add(p);
+					InverseTracker.INSTANCE.addParameter(lhsNode, p);
+				}
 			}
 
 			for (Attribute attribute : lhsNode.getAttributes()) {
-				generateParameter(attribute.getValue(), attribute.getType().getEAttributeType());
+				Parameter p=generateParameter(attribute.getValue(), attribute.getType().getEAttributeType());
+				if (p != null){
+					rule.getParameters().add(p);
+					InverseTracker.INSTANCE.addParameter(attribute, p);
+				}
 			}
 		}
 
 		// RHS nodes
 		for (Node rhsNode : rule.getRhs().getNodes()) {
 			if (rhsNode.getName() != null && !rhsNode.getName().equals("")) {
-				generateParameter(rhsNode.getName(), rhsNode.getType());
+				Parameter p=generateParameter(rhsNode.getName(), rhsNode.getType());
+				if (p != null){
+					rule.getParameters().add(p);
+					InverseTracker.INSTANCE.addParameter(rhsNode, p);
+				}
 			}
 
 			for (Attribute attribute : rhsNode.getAttributes()) {
-				generateParameter(attribute.getValue(), attribute.getType().getEAttributeType());
+				Parameter p=generateParameter(attribute.getValue(), attribute.getType().getEAttributeType());
+				if (p != null){
+					rule.getParameters().add(p);
+					InverseTracker.INSTANCE.addParameter(attribute, p);
+				}
 			}
 		}
 	}
 
-	private void generateParameter(String name, EClassifier type) {
+	private Parameter generateParameter(String name, EClassifier type) {
 		if (rule.getParameter(name) != null && rule.getParameter(name).getType() == type) {
-			return;
+			return null;
 		}
 
 		Parameter p = HenshinFactory.eINSTANCE.createParameter(name);
 		p.setType(type);
-		rule.getParameters().add(p);
+		return p;
 	}
 }

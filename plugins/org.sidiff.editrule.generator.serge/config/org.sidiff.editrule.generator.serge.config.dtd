@@ -26,6 +26,8 @@
 <!ELEMENT NameUniqueness EMPTY>
 <!ELEMENT Transformations (	Creates,
 													Deletes,
+													Attaches,
+													Detaches,
 													Moves,
 													MoveUps,
 													MoveDowns,
@@ -50,6 +52,8 @@
 
 <!ELEMENT Creates EMPTY>
 <!ELEMENT Deletes EMPTY>
+<!ELEMENT Attaches EMPTY>
+<!ELEMENT Detaches EMPTY>
 <!ELEMENT Moves EMPTY>
 <!ELEMENT MoveDowns EMPTY>
 <!ELEMENT MoveUps EMPTY>
@@ -97,10 +101,14 @@
 					SET_UNSET_REFERENCE  (true|false)  #REQUIRED							
 					ADD_REMOVE  (true|false)  #REQUIRED
 					CHANGE_REFERENCE  (true|false)  #REQUIRED
-					CHANGE_LITERAL  (true|false)  #REQUIRED>
+					CHANGE_LITERAL  (true|false)  #REQUIRED
+					ATTACH_DETACH  (true|false)  #IMPLIED>
 
 <!ATTLIST Creates allow (true|false) #REQUIRED>
 <!ATTLIST Deletes allow  (true|false)  #REQUIRED>
+<!ATTLIST Attaches allow (true|false)  #REQUIRED>
+<!ATTLIST Detaches allow  (true|false)  #REQUIRED
+					useSimpleNames (true|false) #REQUIRED>
 <!ATTLIST Moves allow  (true|false)  #REQUIRED
 					allowReferenceSwitching  (true|false)  #REQUIRED
 					allowReferenceCombinations  (true|false)  #REQUIRED>

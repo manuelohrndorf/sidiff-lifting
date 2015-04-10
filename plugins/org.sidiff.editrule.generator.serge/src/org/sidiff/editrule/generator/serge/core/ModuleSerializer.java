@@ -205,13 +205,14 @@ public class ModuleSerializer {
 			if(settings.isUseSubfolders()) {
 				folderPaths.add(outputFolderPath+"CREATE");
 				folderPaths.add(outputFolderPath+"DELETE");
+				folderPaths.add(outputFolderPath+"ATTACH");
+				folderPaths.add(outputFolderPath+"DETACH");
 				folderPaths.add(outputFolderPath+"MOVE");
 				folderPaths.add(outputFolderPath+"SET");
 				folderPaths.add(outputFolderPath+"UNSET");
 				folderPaths.add(outputFolderPath+"CHANGE");
 				folderPaths.add(outputFolderPath+"ADD");
 				folderPaths.add(outputFolderPath+"REMOVE");
-
 			}
 
 			for(String folderPath: folderPaths) {
@@ -254,6 +255,20 @@ public class ModuleSerializer {
 				|| module.getName().startsWith("delete")))) {
 			
 			expectedSubfolderName = "DELETE" + System.getProperty("file.separator");
+		}
+		else if(config.CREATE_ATTACHES &&
+				(module.getName().startsWith(GlobalConstants.ATTACH_prefix)
+				|| module.getName().startsWith("attach"))) {
+			
+			expectedSubfolderName = "ATTACH" + System.getProperty("file.separator");
+			
+		}
+		else if(config.CREATE_DETACHES &&
+				(module.getName().startsWith(GlobalConstants.DETACH_prefix)
+				|| module.getName().startsWith("detach"))) {
+			
+			expectedSubfolderName = "DETACH" + System.getProperty("file.separator");
+			
 		}
 		else if(config.CREATE_MOVES && (
 				(module.getName().startsWith(GlobalConstants.MOVE_prefix)

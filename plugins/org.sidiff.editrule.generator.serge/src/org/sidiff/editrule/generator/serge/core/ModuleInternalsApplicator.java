@@ -289,7 +289,7 @@ public class ModuleInternalsApplicator {
 			}
 			
 			break;
-
+			
 		default:
 			throw new OperationTypeNotImplementedException(opType);
 		}
@@ -432,7 +432,7 @@ public class ModuleInternalsApplicator {
 	 * @param rule
 	 * @return free attribute variable name
 	 */
-	private static String getFreeAttributeName(String originalName, Rule rule) {
+	public static String getFreeAttributeName(String originalName, Rule rule) {
 
 		originalName = toCamelCase(originalName);
 
@@ -458,7 +458,7 @@ public class ModuleInternalsApplicator {
 	 * @param inEClassNode
 	 * @param rule
 	 */
-	private static void createAttributes(EClass forEClass, Node inEClassNode, Rule rule) {
+	public static void createAttributes(EClass forEClass, Node inEClassNode, Rule rule) {
 
 		// Add necessary attributes to the new eClass node
 		for (EAttribute ea : forEClass.getEAllAttributes()) {
@@ -486,7 +486,7 @@ public class ModuleInternalsApplicator {
 	 * @param rule
 	 * @return free node name
 	 */
-	private static String getFreeNodeName(String originalName, Rule rule) {
+	public static String getFreeNodeName(String originalName, Rule rule) {
 
 		originalName = toCamelCase(originalName);
 

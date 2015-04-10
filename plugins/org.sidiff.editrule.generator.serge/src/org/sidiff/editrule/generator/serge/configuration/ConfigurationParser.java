@@ -15,14 +15,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreAdapterFactory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
@@ -37,6 +31,8 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
+import org.sidiff.editrule.generator.serge.exceptions.NoEncapsulatedTypeInformationException;
+import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,7 +51,6 @@ public class ConfigurationParser {
 	private static List<String> stringWhiteList 			= new ArrayList<String>();
 	private static List<String> stringBlackList 			= new ArrayList<String>();
 	private static String rootName							= null;
-	private static Document doc								= null;
 
 	public void setupDefaultConfig(String metaModelNsURI, String pathToDefaultConfigTemplate) throws Exception {
 		
@@ -64,7 +59,7 @@ public class ConfigurationParser {
 		
 	}
 
-	public void parse (String pathToConfig) throws Exception {
+	public void parse (String pathToConfig) throws SERGeConfigParserException, EPackageNotFoundException, EClassifierUnresolvableException, NoEncapsulatedTypeInformationException, EAttributeNotFoundException {
 				
 		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
 		Element docElem = doc.getDocumentElement();
@@ -82,7 +77,7 @@ public class ConfigurationParser {
 		currentNode = doc.getElementsByTagName("createAllAttributes").item(0);		
 		c.CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES=Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("modelUsesProfileMechanism").item(0);		
-		c.PROFILE_APPLICATION_IN_USE=Boolean.valueOf(getAttributeValue("value", currentNode));
+		c.PROFILE_APPLICATION_IN_USE= Boolean.valueOf(getAttributeValue("value", currentNode));
 		currentNode = doc.getElementsByTagName("outputFolder").item(0);	
 		
 		// reduce to supertype settings
@@ -96,7 +91,8 @@ public class ConfigurationParser {
 		c.REDUCETOSUPERTYPE_MOVE_UP=Boolean.valueOf(getAttributeValue("MOVE_UP", currentNode));
 		c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES=Boolean.valueOf(getAttributeValue("SET_UNSET_ATTRIBUTE", currentNode));
 		c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES=Boolean.valueOf(getAttributeValue("SET_UNSET_REFERENCE", currentNode));
-		
+		String reduceToSupertypeAttachDetach=getAttributeValue("ATTACH_DETACH", currentNode);
+		c.REDUCETOSUPERTYPE_ATTACHDETACH=(reduceToSupertypeAttachDetach != null ? Boolean.valueOf(reduceToSupertypeAttachDetach) : false);
 	
 		// enable/disable transformation types and its settings
 		currentNode = doc.getElementsByTagName("Creates").item(0);
@@ -104,6 +100,13 @@ public class ConfigurationParser {
 		
 		currentNode = doc.getElementsByTagName("Deletes").item(0);
 		c.CREATE_DELETES=Boolean.valueOf(getAttributeValue("allow", currentNode));
+		
+		currentNode = doc.getElementsByTagName("Attaches").item(0);
+		c.CREATE_ATTACHES=currentNode != null ? Boolean.valueOf(getAttributeValue("allow", currentNode)) : false;
+		c.USE_SIMPLE_NAMES_ATTACHDETACH = currentNode != null ? Boolean.valueOf(getAttributeValue("useSimpleName", currentNode)) : false;
+		
+		currentNode = doc.getElementsByTagName("Detaches").item(0);
+		c.CREATE_DETACHES=currentNode != null ? Boolean.valueOf(getAttributeValue("allow", currentNode)) : false;
 		
 		currentNode = doc.getElementsByTagName("Moves").item(0);
 		c.CREATE_MOVES=Boolean.valueOf(getAttributeValue("allow", currentNode));
@@ -142,7 +145,7 @@ public class ConfigurationParser {
 		
 		currentNode = doc.getElementsByTagName("UnsetReferences").item(0);
 		c.CREATE_UNSET_REFERENCES=Boolean.valueOf(getAttributeValue("allow", currentNode));
-		
+
 		
 		/**** Read BlackList & WhiteList Elements as Strings ***************************************************/
 		
@@ -258,7 +261,7 @@ public class ConfigurationParser {
 					if(valueContainer instanceof EEnum) {					
 						valueLiteral = ((EEnum) valueContainer).getEEnumLiteral(eAttributeValue);
 					}else{
-						throw new Exception("Masked Classifier contains type information that is not represented by EEnum(Literals)");
+						throw new NoEncapsulatedTypeInformationException();
 					}
 					// add mask to EClassInfo of maskContainer
 					Mask mask = new Mask(maskName, maskContainer, eAttribute, valueLiteral);

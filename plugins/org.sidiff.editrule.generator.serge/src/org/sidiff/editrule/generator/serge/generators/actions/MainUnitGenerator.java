@@ -21,6 +21,7 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
+import org.sidiff.editrule.generator.serge.core.InverseTracker;
 
 public class MainUnitGenerator {
 
@@ -135,6 +136,9 @@ public class MainUnitGenerator {
 		// Add to unit
 		prioUnit.getParameters().add(unitParameter);
 		prioUnit.getParameterMappings().add(pm);
+		
+		// Add to inverse tracker
+		InverseTracker.INSTANCE.overrideParameter(ruleParameter, unitParameter);
 	}
 
 	/**

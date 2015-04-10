@@ -109,6 +109,18 @@ public class ElementFilter {
 					)
 				return false;				
 				break;
+			
+			case ATTACH:
+				//TODO Check
+				if (
+					(!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
+					|| !c.PROFILE_APPLICATION_IN_USE
+					|| (!whiteListed && !assumeAllOnWhitelist)
+					|| (blackListed && !requiredBySubtypes)
+					)
+				return false;				
+				break;
 				
 			case ADD:				
 				if (
@@ -233,6 +245,9 @@ public class ElementFilter {
 				break;
 			
 			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
+			case DETACH:
+				return true;
+			
 			case UNSET_ATTRIBUTE:
 				return true;
 				
@@ -244,15 +259,13 @@ public class ElementFilter {
 				
 			case REMOVE:
 				return true;
-				
+
 			// -----unsupported ---------------------------/
 			default:
 				throw new OperationTypeNotImplementedException(opType);
 		}
 		
-		
-		
-		
+
 		return true;
 	}
 	
@@ -287,6 +300,15 @@ public class ElementFilter {
 		
 			case CREATE:
 				
+				if( hardCutOff
+						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))
+						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
+					return false;
+				}
+				break;
+				
+			case ATTACH:
+			
 				if( hardCutOff
 						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))
 						|| isNotCrossReferencedOrNotContainedInMainMetaModel) {
@@ -360,6 +382,9 @@ public class ElementFilter {
 				
 				
 			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
+			case DETACH:
+				return true;
+			
 			case UNSET_ATTRIBUTE:
 				return true;
 				
