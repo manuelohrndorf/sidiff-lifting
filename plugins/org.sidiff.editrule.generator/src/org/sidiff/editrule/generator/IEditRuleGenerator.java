@@ -48,8 +48,7 @@ public interface IEditRuleGenerator {
 	 * 
 	 * @param monitor ProgressMonitor to detect progress
 	 */
-    public void generateEditRules(IProgressMonitor monitor) throws IOException,
-			EPackageNotFoundException, OperationTypeNotImplementedException;
+    public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException;
 	
 
 }

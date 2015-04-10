@@ -211,11 +211,10 @@ public class ConfigurationParser {
 		}
 		/**** Read Root ********************************************************************************************/
 		
-		// retrieve and root and nested attribute	
+		// retrieve a root and nested attribute	
 		currentNode = docElem.getElementsByTagName("Root").item(0);
 		rootName = String.valueOf(getAttributeValue("name", currentNode));
 		if(!rootName.equals("")) {
-			//resolve root
 			EClassifier root = resolveStringAsEClassifier(rootName, calculatedEPackagesStack);
 			c.ROOT=root;
 		}

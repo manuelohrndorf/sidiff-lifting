@@ -1,7 +1,5 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
-import java.io.IOException;
-
 import javax.swing.JFrame;
 
 import org.eclipse.core.resources.IFile;
@@ -16,11 +14,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
-import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
@@ -78,17 +75,16 @@ public class SergeWizard extends Wizard implements INewWizard {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Generating Edit Rules", 100);
+				IWorkbenchWindow currentWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				monitor.beginTask("Generating Edit Rules", 100);		
 				
 				Serge serge = new Serge();
-				try {
+				try {					
 					serge.init(settings, new SubProgressMonitor(monitor, 20));
 					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (EditRuleGenerationException
-						| EPackageNotFoundException 
-						| OperationTypeNotImplementedException 
-						| IOException e) {
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "An Error occurred during generation",
+				} catch (EditRuleGenerationException e) {
+					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
+					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
 							e.getMessage());
 				}
 				finally{

@@ -26,7 +26,6 @@ import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedExcep
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
 import org.sidiff.editrule.generator.serge.core.AnnotationApplicator;
-import org.sidiff.editrule.generator.serge.core.AnnotationGenerator;
 import org.sidiff.editrule.generator.serge.core.ConfigSerializer;
 import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
@@ -52,20 +51,7 @@ import org.sidiff.editrule.generator.types.OperationType;
 * - make monitors cancel-able
 * - InverseMapping can't be saved anymore due to path setting changes, fix this.
 * - XML-Config should be cleaned up (so does the Configuration Parser)
-* - more detailed comment in filter identical / filter duplicates
-* - more detailed comments to when rule might not be executable in ExecutionChecker
 * - remove all the deprecated marks, old classes, old todos/fixmes
-* - ProfileModelIntegration: generate APPLY_STEREOTYPE, DETACH_STEREOTYPE modules:
-* This requires:
-* --> new OperationTypes in the org.sidiff.editrule.generator.types-plugin
-* --> new actions classes in the "..generator.actions"-package
-* --> respective action calls in GenerationActionDelegator ("..serge.core"-package)
-* --> respective delegator calls in MetaModelElementVisitor ("..serge.core"-package) 
-*        and mappings in getAllModules() method
-* --> further case-distinctions in ElementFilter ("..serge.filter"-package)
-*        inside the methods isAllowedAsModuleBasis() and isAllowedAsDangling() to let them
-*        allow the generation of APPlY_STEREOTYPE / DETACH_STEREOTYPE modules in case of profile
-*        usage and stereotype consideration.
 */
 public class Serge implements IEditRuleGenerator{
 
@@ -127,9 +113,9 @@ public class Serge implements IEditRuleGenerator{
 						this.settings.getConfigPath());
 				monitor.worked(20);
 			} catch (Exception e) {
-				e.printStackTrace();
 				monitor.done();
-				throw new EditRuleGenerationException(e);
+				throw new EditRuleGenerationException(
+						"Error when loading selected meta model NsUri\n" + e.getMessage());
 			}
 		}
 		// Case refined config.
@@ -146,13 +132,14 @@ public class Serge implements IEditRuleGenerator{
 					| EAttributeNotFoundException
 					| EClassifierUnresolvableException e)
 			{
-				e.printStackTrace();
 				monitor.done();
-				throw new EditRuleGenerationException(e);
+				throw new EditRuleGenerationException(
+						"Error when parsing config file."
+								+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
 			}		
 		}
 		
-		// Analyse meta model
+		// Analyze meta model
 		monitor.subTask("Analyzing MetaModel");
 		ECM.gatherInformation(
 				config.PROFILE_APPLICATION_IN_USE,
@@ -174,135 +161,140 @@ public class Serge implements IEditRuleGenerator{
 	 * @throws EPackageNotFoundException 
 	 */
 	@Override
-	public void generateEditRules(IProgressMonitor monitor) throws IOException, EPackageNotFoundException, OperationTypeNotImplementedException{
+	public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException{
 
-		monitor.beginTask("Generating CPEOs", 100);	
-		//TODO make use of the monitor in a more fine grained way
-		
-		//TODO pass the monitor to make the generation canceable!
-		// This has to be an new SubProgressMonitor if passed for
-		// right scaling
-		
-		if(ePackagesStack != null && !ePackagesStack.isEmpty()){			
-			
-			monitor.subTask("Visit MetaModel elements");
-			MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
-			ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
-			monitor.worked(50);
-			// Postprocessing...
-			
-			Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
-			
-			if (config.MULTIPLICITY_PRECONDITIONS_INTEGRATED){
-				monitor.subTask("Applying Constraints");
-				LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
-				ConstraintApplicator constraintApplicator = new ConstraintApplicator();
-				constraintApplicator.applyOn(allModules);
-				monitor.worked(5);
-			}
-			
-			if (config.ENABLE_EXECUTION_CHECK_FILTER){
-				monitor.subTask("Filtering Executions");
-				LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
-				ExecutableFilter executionFilter = new ExecutableFilter();
-				executionFilter.applyOn(allModules);
-				monitor.worked(5);
-			}
-			
-			if(config.ENABLE_DUPLICATE_FILTER) {
-				monitor.subTask("Filtering Duplicates");
-				LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
-				DuplicateFilter duplicateFilter = new DuplicateFilter();
-				duplicateFilter.filterIdenticalByName(allModules);
-				duplicateFilter.filterAddSet(allModules.get(OperationType.ADD), allModules.get(OperationType.SET_REFERENCE));
-				duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
-				monitor.worked(5);
-
-			}
-			
-			// Rule Parameter Application
-			monitor.subTask("Applying Rule Parameter");
-			LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
-			RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
-			ruleParameterApplicator.applyOn(allModules);
-			monitor.worked(5);
-
-			// MainUnit Application
-			monitor.subTask("Applying Main Unit");
-			LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
-			MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
-			mainUnitApplicator.applyOn(allModules);
-			monitor.worked(5);
-
-			// Serialization of logs/configs		
-			if(settings.isSaveLogs()) {
-				monitor.subTask("Logging Inverse Modules");
-				LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
-				InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
-				inverseModuleMapper.findAndMapInversePairs(allModules);
-				InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
-				inverseModuleSerializer.serialize(inverseModuleMapper);				
-				monitor.worked(3);
-				
-				monitor.subTask("Saving Serge Configuration");
-				LogUtil.log(LogEvent.NOTICE, "-- Serge Config Serializer --");
-				ConfigSerializer configSerializer = new ConfigSerializer(settings);
-				configSerializer.serialize();
-				monitor.worked(2);				
-			}
-			
-			
-			// delete contents of manual folder if wished so
-			if(settings.isDeleteManualTransformations()) {
-				monitor.subTask("Deleting Manual Transformations");
-				File manualFolder = new File(settings.getOutputFolderPath() + "manual");
-				if(manualFolder.exists()) {
-					for(File f: manualFolder.listFiles()) {
-						f.delete();
-						
-					}		
-				}
-				monitor.worked(5);
-			}
-			
-			// Name Mapping and Serialization...
-			
-			Set<Module> moduleSet = new HashSet<Module>();
-			for (OperationType opType : allModules.keySet()) {
-				Set<Module> opSet = allModules.get(opType);
-				if(!opSet.isEmpty()) {
-					moduleSet.addAll(opSet);
-				}
-			}
-			
-			if(config.ENABLE_NAME_MAPPER) {
-				monitor.subTask("Mapping Names");
-				LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
-				NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
-				nameMapper.replaceNames();
-				monitor.worked(5);
-			}
-			
-			//Generate Annotations
-			AnnotationApplicator annotationApplicator = new AnnotationApplicator();
-			annotationApplicator.applyOn(allModules);
-			InverseTracker.INSTANCE.printInverses();
-			
-			// Serialize modules
-			monitor.subTask("Saving Edit Rules");
-			LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
-			ModuleSerializer serializer = new ModuleSerializer(settings);
-			serializer.serialize(moduleSet);
-			monitor.worked(10);
-			
-			LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
-			
+		if((ePackagesStack == null) || (ePackagesStack.isEmpty())){
 			monitor.done();
-			
-		}else{
-			monitor.done();
-			throw new EPackageNotFoundException();			
+			throw new EditRuleGenerationException("EPackage could not be resolved.\n");			
 		}
+		
+		//Start monitor
+		monitor.beginTask("Generating CPEOs", 100);	
+		
+		// visit all model elements and trigger rule generation
+		monitor.subTask("Visit MetaModel elements");
+		MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
+		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
+		monitor.worked(50);
+
+		// Module filtering			
+		Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
+
+		if (config.MULTIPLICITY_PRECONDITIONS_INTEGRATED){
+			monitor.subTask("Applying Constraints");
+			LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
+			ConstraintApplicator constraintApplicator = new ConstraintApplicator();
+			constraintApplicator.applyOn(allModules);
+			monitor.worked(5);
+		}
+
+		if (config.ENABLE_EXECUTION_CHECK_FILTER){
+			monitor.subTask("Filtering Executions");
+			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
+			ExecutableFilter executionFilter = new ExecutableFilter();
+			executionFilter.applyOn(allModules);
+			monitor.worked(5);
+		}
+
+		if(config.ENABLE_DUPLICATE_FILTER) {
+			monitor.subTask("Filtering Duplicates");
+			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
+			DuplicateFilter duplicateFilter = new DuplicateFilter();
+			duplicateFilter.filterIdenticalByName(allModules);
+			duplicateFilter.filterAddSet(allModules.get(OperationType.ADD), allModules.get(OperationType.SET_REFERENCE));
+			duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
+			monitor.worked(5);
+
+		}
+
+		// Rule Parameter Application
+		monitor.subTask("Applying Rule Parameter");
+		LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
+		RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
+		ruleParameterApplicator.applyOn(allModules);
+		monitor.worked(5);
+
+		// MainUnit Application
+		monitor.subTask("Applying Main Unit");
+		LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
+		MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
+		mainUnitApplicator.applyOn(allModules);
+		monitor.worked(5);
+
+		// Serialization of logs/configs		
+		if(settings.isSaveLogs()) {
+			monitor.subTask("Logging Inverse Modules");
+			LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
+			InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
+			inverseModuleMapper.findAndMapInversePairs(allModules);
+			InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
+			inverseModuleSerializer.serialize(inverseModuleMapper);				
+			monitor.worked(3);
+
+			monitor.subTask("Saving Serge Configuration");
+			LogUtil.log(LogEvent.NOTICE, "-- Serge Config Serializer --");
+			ConfigSerializer configSerializer = new ConfigSerializer(settings);
+			try {
+				configSerializer.serialize();
+			} catch (IOException e) {
+				monitor.done();
+				throw new EditRuleGenerationException("When saving config/log.\n" + e.getMessage());
+			}
+			monitor.worked(2);				
+		}
+
+
+		// delete contents of manual folder if wished so
+		if(settings.isDeleteManualTransformations()) {
+			monitor.subTask("Deleting Manual Transformations");
+			File manualFolder = new File(settings.getOutputFolderPath() + "manual");
+			if(manualFolder.exists()) {
+				for(File f: manualFolder.listFiles()) {
+					f.delete();
+
+				}		
+			}
+			monitor.worked(5);
+		}
+
+		// Name Mapping and Serialization...			
+		Set<Module> moduleSet = new HashSet<Module>();
+		for (OperationType opType : allModules.keySet()) {
+			Set<Module> opSet = allModules.get(opType);
+			if(!opSet.isEmpty()) {
+				moduleSet.addAll(opSet);
+			}
+		}
+
+		if(config.ENABLE_NAME_MAPPER) {
+			monitor.subTask("Mapping Names");
+			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
+			NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
+			nameMapper.replaceNames();
+			monitor.worked(5);
+		}
+
+		//Generate Annotations
+		AnnotationApplicator annotationApplicator = new AnnotationApplicator();
+		annotationApplicator.applyOn(allModules);
+		InverseTracker.INSTANCE.printInverses();
+
+		// Serialize modules
+		monitor.subTask("Saving Edit Rules");
+		LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
+		ModuleSerializer serializer = new ModuleSerializer(settings);
+		try {
+			serializer.serialize(moduleSet);
+		} catch (OperationTypeNotImplementedException e) {
+			monitor.done();
+			throw new EditRuleGenerationException(
+					"Error when serializing modules."
+							+ "There is an unsupported operation type.\n"+ e.getMessage());
+		}
+		//finish
+		monitor.worked(10);			
+		LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");			
+		monitor.done();
 	}
 
 

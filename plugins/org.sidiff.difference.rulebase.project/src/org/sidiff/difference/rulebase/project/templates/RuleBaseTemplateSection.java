@@ -26,6 +26,7 @@ import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
+import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
@@ -163,18 +164,11 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		if (settings.getGenerator() != null && (settings.getConfigPath() != null || settings.getMetaModelNsUri() != null)) {
 
 			// Init Generator with settings. Whether default or refined config
-			// should be used is simply found out in init()-implementation (when pathToConfig is null).
-			settings.getGenerator().init(settings, monitor);
+			// should be used is simply found out in init()-implementation (when pathToConfig is null).			
 			try {
+				settings.getGenerator().init(settings, monitor);
 				settings.getGenerator().generateEditRules(monitor);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (EPackageNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (OperationTypeNotImplementedException e) {
-				// TODO Auto-generated catch block
+			} catch (EditRuleGenerationException e) {
 				e.printStackTrace();
 			}
 		}
