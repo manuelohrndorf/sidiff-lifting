@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
+import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
@@ -80,22 +81,24 @@ public class SergeWizard extends Wizard implements INewWizard {
 				monitor.beginTask("Generating Edit Rules", 100);
 				
 				Serge serge = new Serge();
-				serge.init(settings, new SubProgressMonitor(monitor, 20));
+				try {
+					serge.init(settings, new SubProgressMonitor(monitor, 20));
+					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
+				} catch (EditRuleGenerationException
+						| EPackageNotFoundException 
+						| OperationTypeNotImplementedException 
+						| IOException e) {
+					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "An Error occurred during generation",
+							e.getMessage());
+				}
+				finally{
+					monitor.done();
+				}
 				
 				if (monitor.isCanceled()){
 					return Status.CANCEL_STATUS;
 				}
 				
-				try {
-					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (IOException | EPackageNotFoundException
-						| OperationTypeNotImplementedException e1) {
-					MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "An Error occurred during generation",
-							e1.getMessage());
-								}
-				finally{
-					monitor.done();
-				}
 								
 				return Status.OK_STATUS;
 			}
