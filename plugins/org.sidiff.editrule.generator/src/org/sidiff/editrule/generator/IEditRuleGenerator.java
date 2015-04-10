@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
 import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
+import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
@@ -37,8 +38,9 @@ public interface IEditRuleGenerator {
 	 * 
 	 * @param settings The settings to use for configuration
 	 * @param monitor ProgressMonitor to detect progress
+	 * @throws EditRuleGenerationException 
 	 */
-	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor);
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException;
 	
 	/**
 	 * Generate the EditRules. The configuration
