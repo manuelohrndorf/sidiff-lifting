@@ -1,6 +1,7 @@
 package org.sidiff.patching.test.smg;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -57,6 +58,12 @@ public class SMGMatcher extends BaseMatcher {
 	@Override
 	public boolean canComputeReliability() {
 		return false;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
