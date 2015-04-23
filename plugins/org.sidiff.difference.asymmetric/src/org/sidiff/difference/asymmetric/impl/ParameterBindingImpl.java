@@ -117,7 +117,7 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 				// Workaround
 				if (valBinding.getFormalName().equals("UpperBound")) {
 					OperationInvocation op = (OperationInvocation) valBinding.eContainer();
-					if (op.getChangeSet().getName().equals("createTypedAttribute")) {
+					if (op.getChangeSet().getName() != null && op.getChangeSet().getName().equals("createTypedAttribute")) {
 						return true;
 					}
 				}
