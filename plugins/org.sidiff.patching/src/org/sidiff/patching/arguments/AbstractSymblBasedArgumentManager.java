@@ -51,8 +51,9 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 					getTargetModel(), true);
 		}
 		if(linkResolvingB == null){
-			EObject modelB = super.getPatch().getSymmetricDifference().getModelB().getContents().get(0);
-			linkResolvingB = symbolicLinkHandler.resolveSymbolicLinkObjects((SymbolicLinks) modelB, getTargetModel(), true);
+			linkResolvingB = symbolicLinkHandler.resolveSymbolicLinkObjects(
+					(SymbolicLinks) getChangedModel().getContents().get(0),
+					getTargetModel(), true);
 		}
 		if(originObject instanceof SymbolicLinkObject){
 			if(linkResolvingA.get(originObject)!=null){

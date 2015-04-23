@@ -41,6 +41,11 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * The origin model.
 	 */
 	private Resource originModel;
+	
+	/**
+	 * The changed model.
+	 */
+	private Resource changedModel;
 
 	/**
 	 * The target model.
@@ -80,6 +85,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
+		this.changedModel = patch.getChangedModel();
 		this.targetModel = targetModel;
 		this.scope = scope;
 		this.patchMode = patchMode;
@@ -196,6 +202,15 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 		return originModel;
 	}
 
+	/**
+	 * Getter method.
+	 * 
+	 * @return
+	 */
+	protected Resource getChangedModel() {
+		return changedModel;
+	}
+	
 	/**
 	 * Getter method.
 	 * 
