@@ -233,9 +233,11 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			originModel = getSymmetricDifference().getModelA();
 		}
 		
-		// Load the model from the URI: (-> new resource)
+		// Load the model from the relative URI: (-> new resource)
 		if (originModel == null) {
-			originModel = EMFStorage.eLoad(URI.createURI(getUriOriginModel())).eResource();
+			Resource resource = this.eResource();
+			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriOriginModel()));
+			originModel = EMFStorage.eLoad(uri).eResource();
 		}
 		
 		return originModel;
@@ -254,9 +256,11 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			changedModel = getSymmetricDifference().getModelB();
 		}
 		
-		// Load the model from the URI: (-> new resource)
+		// Load the model from the relative URI: (-> new resource)
 		if (changedModel == null) {
-			changedModel = EMFStorage.eLoad(URI.createURI(getUriChangedModel())).eResource();
+			Resource resource = this.eResource();
+			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriChangedModel()));
+			changedModel = EMFStorage.eLoad(uri).eResource();
 		}
 		
 		return changedModel;
