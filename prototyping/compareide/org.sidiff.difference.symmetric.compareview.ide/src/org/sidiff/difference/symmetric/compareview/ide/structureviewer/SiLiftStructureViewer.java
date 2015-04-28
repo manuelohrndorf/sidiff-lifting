@@ -11,6 +11,7 @@ import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.ide.ui.internal.EMFCompareIDEUIPlugin;
 import org.eclipse.emf.compare.rcp.ui.internal.EMFCompareConstants;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -138,7 +139,7 @@ public class SiLiftStructureViewer extends TreeViewer  {
 				
 				// Convert to the EMF-Compare difference model:
 				SiLiftToEMFCompareConverter converter = new SiLiftToEMFCompareConverter(diff);
-				config.setProperty(EMFCompareConstants.COMPARE_RESULT, converter.getEmfcompareDiff());
+				config.setProperty(EMFCompareIDEUIPlugin.PLUGIN_ID + ".COMPARE_RESULT", converter.getEmfcompareDiff());
 				// NOTE: EMFCompareConstants.COMPARE_RESULT -> Discouraged access -> As in EMF-Compare itself!?
 				
 				return diff;
