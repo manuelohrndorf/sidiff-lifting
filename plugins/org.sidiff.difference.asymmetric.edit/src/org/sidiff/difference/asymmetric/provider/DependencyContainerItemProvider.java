@@ -162,8 +162,8 @@ public class DependencyContainerItemProvider
 		DependencyContainer depContainer = (DependencyContainer) object;
 		
 		return getString("_UI_DependencyContainer_type") 
-				+ ": " + depContainer.getSource().getChangeSet().getName()
-				+ " -> " + depContainer.getTarget().getChangeSet().getName() ;
+				+ ": " + depContainer.getSource().getEditRuleName()
+				+ " -> " + depContainer.getTarget().getEditRuleName();
 	}
 
 	/**
