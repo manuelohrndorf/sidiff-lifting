@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SiDiff Mutation
+Bundle-SymbolicName: org.sidiff.mutation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.sidiff.mutation.Activator
+Bundle-Vendor: Software Engineering Group, University of Siegen
+Require-Bundle: org.eclipse.core.runtime,
+ org.sidiff.difference.rulebase;visibility:=reexport,
+ org.eclipse.emf.henshin.interpreter;visibility:=reexport,
+ org.sidiff.common,
+ org.sidiff.common.emf,
+ org.silift.common.util,
+ org.sidiff.common.henshin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Export-Package: org.sidiff.mutation,
+ org.sidiff.mutation.config,
+ org.sidiff.mutation.selection,
+ org.sidiff.mutation.selection.context,
+ org.sidiff.mutation.selection.operator,
+ org.sidiff.mutation.util
