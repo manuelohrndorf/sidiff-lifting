@@ -251,6 +251,11 @@ public class Mutator {
 		// for initializing value parameters
 		List<Attribute> paList = HenshinRuleAnalysisUtilEx.getPreservedAttributes(ra.getRule());
 	
+		//TODO this has to make use of a "catalogue" somehow, which
+		// is valid in the current context(type), e.g. a class name must
+		// be well-formed.
+		
+		
 		// Initialize value parameter in RHS with default values
 		// as they are irrelevant in this scenario
 		for(Parameter para : editRule.getParameters()){
@@ -317,6 +322,7 @@ public class Mutator {
 			orderFolder = "Order" + currenOrder;
 		String file = targetFile.substring(targetFile.lastIndexOf(File.separator) + 1, targetFile.length());
 		String baseName = file.substring(0, file.lastIndexOf("."));
+		String ending = file.substring(file.lastIndexOf("."), file.length());
 		
 		//Use only one flat mutant folder
 		if(folder.contains(mutantFolder)){
@@ -329,7 +335,7 @@ public class Mutator {
 		}
 		
 		String targetFileCopy = folder + File.separator + mutantFolder + File.separator +  orderFolder + 
-				File.separator + baseName + "_M" +  mutantNumber +".featuremodel";		
+				File.separator + baseName + "_M" +  mutantNumber + ending;		
 
 		// do copy
 		ResourceSet resourceSet = new ResourceSetImpl();
