@@ -5,14 +5,10 @@ package org.sidiff.difference.symmetricprofiled.provider;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,9 +19,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
-import org.sidiff.difference.symmetricprofiled.SymmetricProfiledFactory;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
 
 /**
@@ -83,7 +77,7 @@ public class ProfiledSCSItemProvider
 				 getString("_UI_ProfiledSCS_scs_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSCS_scs_feature", "_UI_ProfiledSCS_type"),
 				 SymmetricProfiledPackage.Literals.PROFILED_SCS__SCS,
-				 true,
+				 false,
 				 false,
 				 true,
 				 null,
@@ -105,7 +99,7 @@ public class ProfiledSCSItemProvider
 				 getString("_UI_ProfiledSCS_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSCS_name_feature", "_UI_ProfiledSCS_type"),
 				 SymmetricProfiledPackage.Literals.PROFILED_SCS__NAME,
-				 true,
+				 false,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
@@ -125,6 +119,7 @@ public class ProfiledSCSItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SCS__SCS);
 			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SCS__APPLIED_STEREOTYPES);
 		}
 		return childrenFeatures;
@@ -200,11 +195,6 @@ public class ProfiledSCSItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(SymmetricProfiledPackage.Literals.PROFILED_SCS__APPLIED_STEREOTYPES,
-				 SymmetricProfiledFactory.eINSTANCE.createAppliedStereotype()));
 	}
 
 	/**

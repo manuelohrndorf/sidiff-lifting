@@ -4,6 +4,7 @@ package org.sidiff.difference.symmetricprofiled;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -76,7 +77,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 	int PROFILED_SD__PROFILEDSCSS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Sd</b></em>' reference.
+	 * The feature id for the '<em><b>Sd</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -94,13 +95,31 @@ public interface SymmetricProfiledPackage extends EPackage {
 	int PROFILED_SD__UNPROFILEDSCSS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Correspondences</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROFILED_SD__CORRESPONDENCES = 3;
+
+	/**
 	 * The number of structural features of the '<em>Profiled SD</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD_FEATURE_COUNT = 3;
+	int PROFILED_SD_FEATURE_COUNT = 4;
+
+	/**
+	 * The operation id for the '<em>Derive</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE = 0;
 
 	/**
 	 * The number of operations of the '<em>Profiled SD</em>' class.
@@ -109,7 +128,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD_OPERATION_COUNT = 0;
+	int PROFILED_SD_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl <em>Profiled SCS</em>}' class.
@@ -131,22 +150,22 @@ public interface SymmetricProfiledPackage extends EPackage {
 	int PROFILED_SCS__SCS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROFILED_SCS__NAME = 1;
-
-	/**
 	 * The feature id for the '<em><b>Applied Stereotypes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS__APPLIED_STEREOTYPES = 2;
+	int PROFILED_SCS__APPLIED_STEREOTYPES = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROFILED_SCS__NAME = 2;
 
 	/**
 	 * The number of structural features of the '<em>Profiled SCS</em>' class.
@@ -158,13 +177,22 @@ public interface SymmetricProfiledPackage extends EPackage {
 	int PROFILED_SCS_FEATURE_COUNT = 3;
 
 	/**
+	 * The operation id for the '<em>Add Applied Stereotype</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = 0;
+
+	/**
 	 * The number of operations of the '<em>Profiled SCS</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS_OPERATION_COUNT = 0;
+	int PROFILED_SCS_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.AppliedStereotypeImpl <em>Applied Stereotype</em>}' class.
@@ -177,22 +205,13 @@ public interface SymmetricProfiledPackage extends EPackage {
 	int APPLIED_STEREOTYPE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int APPLIED_STEREOTYPE__NAME = 0;
-
-	/**
 	 * The feature id for the '<em><b>Stereo Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int APPLIED_STEREOTYPE__STEREO_TYPE = 1;
+	int APPLIED_STEREOTYPE__STEREO_TYPE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Base Object</b></em>' reference.
@@ -201,25 +220,16 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int APPLIED_STEREOTYPE__BASE_OBJECT = 2;
+	int APPLIED_STEREOTYPE__BASE_OBJECT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Base Reference</b></em>' reference.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int APPLIED_STEREOTYPE__BASE_REFERENCE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Profile</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int APPLIED_STEREOTYPE__PROFILE = 4;
+	int APPLIED_STEREOTYPE__NAME = 2;
 
 	/**
 	 * The number of structural features of the '<em>Applied Stereotype</em>' class.
@@ -228,7 +238,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int APPLIED_STEREOTYPE_FEATURE_COUNT = 5;
+	int APPLIED_STEREOTYPE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Applied Stereotype</em>' class.
@@ -262,10 +272,10 @@ public interface SymmetricProfiledPackage extends EPackage {
 	EReference getProfiledSD_Profiledscss();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Sd</em>'.
+	 * @return the meta object for the containment reference '<em>Sd</em>'.
 	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd()
 	 * @see #getProfiledSD()
 	 * @generated
@@ -282,6 +292,27 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getProfiledSD_Unprofiledscss();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getCorrespondences <em>Correspondences</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Correspondences</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getCorrespondences()
+	 * @see #getProfiledSD()
+	 * @generated
+	 */
+	EReference getProfiledSD_Correspondences();
+
+	/**
+	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#derive(org.sidiff.difference.symmetric.SymmetricDifference) <em>Derive</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Derive</em>' operation.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#derive(org.sidiff.difference.symmetric.SymmetricDifference)
+	 * @generated
+	 */
+	EOperation getProfiledSD__Derive__SymmetricDifference();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS <em>Profiled SCS</em>}'.
@@ -305,17 +336,6 @@ public interface SymmetricProfiledPackage extends EPackage {
 	EReference getProfiledSCS_Scs();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName()
-	 * @see #getProfiledSCS()
-	 * @generated
-	 */
-	EAttribute getProfiledSCS_Name();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getAppliedStereotypes <em>Applied Stereotypes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -327,6 +347,27 @@ public interface SymmetricProfiledPackage extends EPackage {
 	EReference getProfiledSCS_AppliedStereotypes();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName()
+	 * @see #getProfiledSCS()
+	 * @generated
+	 */
+	EAttribute getProfiledSCS_Name();
+
+	/**
+	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype) <em>Add Applied Stereotype</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Add Applied Stereotype</em>' operation.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype)
+	 * @generated
+	 */
+	EOperation getProfiledSCS__AddAppliedStereotype__AppliedStereotype();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype <em>Applied Stereotype</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -335,17 +376,6 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAppliedStereotype();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.AppliedStereotype#getName()
-	 * @see #getAppliedStereotype()
-	 * @generated
-	 */
-	EAttribute getAppliedStereotype_Name();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getStereoType <em>Stereo Type</em>}'.
@@ -359,6 +389,17 @@ public interface SymmetricProfiledPackage extends EPackage {
 	EReference getAppliedStereotype_StereoType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.AppliedStereotype#getName()
+	 * @see #getAppliedStereotype()
+	 * @generated
+	 */
+	EAttribute getAppliedStereotype_Name();
+
+	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getBaseObject <em>Base Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -368,28 +409,6 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAppliedStereotype_BaseObject();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getBaseReference <em>Base Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Base Reference</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.AppliedStereotype#getBaseReference()
-	 * @see #getAppliedStereotype()
-	 * @generated
-	 */
-	EReference getAppliedStereotype_BaseReference();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype#getProfile <em>Profile</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Profile</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.AppliedStereotype#getProfile()
-	 * @see #getAppliedStereotype()
-	 * @generated
-	 */
-	EReference getAppliedStereotype_Profile();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -433,7 +452,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 		EReference PROFILED_SD__PROFILEDSCSS = eINSTANCE.getProfiledSD_Profiledscss();
 
 		/**
-		 * The meta object literal for the '<em><b>Sd</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Sd</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -447,6 +466,22 @@ public interface SymmetricProfiledPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROFILED_SD__UNPROFILEDSCSS = eINSTANCE.getProfiledSD_Unprofiledscss();
+
+		/**
+		 * The meta object literal for the '<em><b>Correspondences</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROFILED_SD__CORRESPONDENCES = eINSTANCE.getProfiledSD_Correspondences();
+
+		/**
+		 * The meta object literal for the '<em><b>Derive</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE = eINSTANCE.getProfiledSD__Derive__SymmetricDifference();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl <em>Profiled SCS</em>}' class.
@@ -467,6 +502,14 @@ public interface SymmetricProfiledPackage extends EPackage {
 		EReference PROFILED_SCS__SCS = eINSTANCE.getProfiledSCS_Scs();
 
 		/**
+		 * The meta object literal for the '<em><b>Applied Stereotypes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROFILED_SCS__APPLIED_STEREOTYPES = eINSTANCE.getProfiledSCS_AppliedStereotypes();
+
+		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -475,12 +518,12 @@ public interface SymmetricProfiledPackage extends EPackage {
 		EAttribute PROFILED_SCS__NAME = eINSTANCE.getProfiledSCS_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Applied Stereotypes</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Add Applied Stereotype</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROFILED_SCS__APPLIED_STEREOTYPES = eINSTANCE.getProfiledSCS_AppliedStereotypes();
+		EOperation PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = eINSTANCE.getProfiledSCS__AddAppliedStereotype__AppliedStereotype();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.AppliedStereotypeImpl <em>Applied Stereotype</em>}' class.
@@ -493,14 +536,6 @@ public interface SymmetricProfiledPackage extends EPackage {
 		EClass APPLIED_STEREOTYPE = eINSTANCE.getAppliedStereotype();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute APPLIED_STEREOTYPE__NAME = eINSTANCE.getAppliedStereotype_Name();
-
-		/**
 		 * The meta object literal for the '<em><b>Stereo Type</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -509,28 +544,20 @@ public interface SymmetricProfiledPackage extends EPackage {
 		EReference APPLIED_STEREOTYPE__STEREO_TYPE = eINSTANCE.getAppliedStereotype_StereoType();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute APPLIED_STEREOTYPE__NAME = eINSTANCE.getAppliedStereotype_Name();
+
+		/**
 		 * The meta object literal for the '<em><b>Base Object</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference APPLIED_STEREOTYPE__BASE_OBJECT = eINSTANCE.getAppliedStereotype_BaseObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Base Reference</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference APPLIED_STEREOTYPE__BASE_REFERENCE = eINSTANCE.getAppliedStereotype_BaseReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Profile</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference APPLIED_STEREOTYPE__PROFILE = eINSTANCE.getAppliedStereotype_Profile();
 
 	}
 

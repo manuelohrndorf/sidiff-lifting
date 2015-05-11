@@ -2,6 +2,7 @@
  */
 package org.sidiff.difference.symmetricprofiled.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -19,25 +20,25 @@ import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Profiled SCS</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Profiled SCS</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl#getScs <em>Scs</em>}</li>
- *   <li>{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl#getAppliedStereotypes <em>Applied Stereotypes</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements ProfiledSCS {
+public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements
+		ProfiledSCS {
 	/**
-	 * The cached value of the '{@link #getScs() <em>Scs</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getScs() <em>Scs</em>}' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScs()
 	 * @generated
 	 * @ordered
@@ -45,19 +46,10 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	protected SemanticChangeSet scs;
 
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getAppliedStereotypes() <em>Applied Stereotypes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAppliedStereotypes()
+	 * <em>Applied Stereotypes</em>}' containment reference list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAppliedStereotypes()
 	 * @generated
 	 * @ordered
@@ -65,8 +57,25 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	protected EList<AppliedStereotype> appliedStereotypes;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ProfiledSCSImpl() {
@@ -74,8 +83,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -84,8 +92,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public SemanticChangeSet getScs() {
@@ -101,8 +108,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public SemanticChangeSet basicGetScs() {
@@ -110,8 +116,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setScs(SemanticChangeSet newScs) {
@@ -122,28 +127,31 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public String getName() {
-		String result = "";
-		if(getScs() != null && getScs().getName() != null){
-			result  = getScs().getName();
-			result += "<<";
-			for(AppliedStereotype st : getAppliedStereotypes()){
-				result += st.getName();
-				result += ",";
+		if (name == null) {
+			String result = "";
+			if (getScs() != null && getScs().getName() != null) {
+				result = getScs().getName();
+				result += " <<";
+				for (AppliedStereotype st : getAppliedStereotypes()) {
+					String name=st.getName();
+					result += name.substring(name.lastIndexOf(".")+1);
+					result += ", ";
+				}
+				result = result.substring(0, result.length() - 2);
+				result += ">>";
 			}
-			result = result.substring(0,result.length()-1);
-			result += ">>";
+			name = result;
 		}
-		return result;
+		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<AppliedStereotype> getAppliedStereotypes() {
@@ -154,12 +162,26 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public void addAppliedStereotype(AppliedStereotype appliedStereotype) {
+		if (appliedStereotypes == null) {
+			appliedStereotypes = new EObjectContainmentEList<AppliedStereotype>(
+					AppliedStereotype.class, this,
+					SymmetricProfiledPackage.PROFILED_SCS__APPLIED_STEREOTYPES);
+		}
+		appliedStereotypes.add(appliedStereotype);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SymmetricProfiledPackage.PROFILED_SCS__APPLIED_STEREOTYPES:
 				return ((InternalEList<?>)getAppliedStereotypes()).basicRemove(otherEnd, msgs);
@@ -168,8 +190,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -178,17 +199,16 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 			case SymmetricProfiledPackage.PROFILED_SCS__SCS:
 				if (resolve) return getScs();
 				return basicGetScs();
-			case SymmetricProfiledPackage.PROFILED_SCS__NAME:
-				return getName();
 			case SymmetricProfiledPackage.PROFILED_SCS__APPLIED_STEREOTYPES:
 				return getAppliedStereotypes();
+			case SymmetricProfiledPackage.PROFILED_SCS__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -207,8 +227,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -225,8 +244,7 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -234,12 +252,42 @@ public class ProfiledSCSImpl extends MinimalEObjectImpl.Container implements Pro
 		switch (featureID) {
 			case SymmetricProfiledPackage.PROFILED_SCS__SCS:
 				return scs != null;
-			case SymmetricProfiledPackage.PROFILED_SCS__NAME:
-				return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
 			case SymmetricProfiledPackage.PROFILED_SCS__APPLIED_STEREOTYPES:
 				return appliedStereotypes != null && !appliedStereotypes.isEmpty();
+			case SymmetricProfiledPackage.PROFILED_SCS__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //ProfiledSCSImpl
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments)
+			throws InvocationTargetException {
+		switch (operationID) {
+			case SymmetricProfiledPackage.PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE:
+				addAppliedStereotype((AppliedStereotype)arguments.get(0));
+				return null;
+		}
+		return super.eInvoke(operationID, arguments);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
+	}
+
+} // ProfiledSCSImpl

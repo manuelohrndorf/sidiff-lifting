@@ -5,14 +5,10 @@ package org.sidiff.difference.symmetricprofiled.provider;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,7 +18,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.sidiff.difference.symmetricprofiled.ProfiledSD;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledFactory;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
@@ -64,6 +59,7 @@ public class ProfiledSDItemProvider
 
 			addSdPropertyDescriptor(object);
 			addUnprofiledscssPropertyDescriptor(object);
+			addCorrespondencesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -82,7 +78,7 @@ public class ProfiledSDItemProvider
 				 getString("_UI_ProfiledSD_sd_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSD_sd_feature", "_UI_ProfiledSD_type"),
 				 SymmetricProfiledPackage.Literals.PROFILED_SD__SD,
-				 true,
+				 false,
 				 false,
 				 true,
 				 null,
@@ -104,9 +100,31 @@ public class ProfiledSDItemProvider
 				 getString("_UI_ProfiledSD_unprofiledscss_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSD_unprofiledscss_feature", "_UI_ProfiledSD_type"),
 				 SymmetricProfiledPackage.Literals.PROFILED_SD__UNPROFILEDSCSS,
-				 true,
+				 false,
 				 false,
 				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Correspondences feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCorrespondencesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ProfiledSD_correspondences_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSD_correspondences_feature", "_UI_ProfiledSD_type"),
+				 SymmetricProfiledPackage.Literals.PROFILED_SD__CORRESPONDENCES,
+				 false,
+				 false,
+				 false,
 				 null,
 				 null,
 				 null));
@@ -125,6 +143,8 @@ public class ProfiledSDItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SD__PROFILEDSCSS);
+			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SD__UNPROFILEDSCSS);
+			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SD__CORRESPONDENCES);
 		}
 		return childrenFeatures;
 	}
@@ -177,6 +197,7 @@ public class ProfiledSDItemProvider
 
 		switch (notification.getFeatureID(ProfiledSD.class)) {
 			case SymmetricProfiledPackage.PROFILED_SD__PROFILEDSCSS:
+			case SymmetricProfiledPackage.PROFILED_SD__CORRESPONDENCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

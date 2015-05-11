@@ -3,8 +3,7 @@
 package org.sidiff.difference.symmetricprofiled.util;
 
 import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -13,7 +12,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @see org.sidiff.difference.symmetricprofiled.util.SymmetricProfiledResourceFactoryImpl
  * @generated
  */
-public class SymmetricProfiledResourceImpl extends XMLResourceImpl {
+public class SymmetricProfiledResourceImpl extends XMIResourceImpl {
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->

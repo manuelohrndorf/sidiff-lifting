@@ -17,8 +17,8 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getScs <em>Scs</em>}</li>
- *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getAppliedStereotypes <em>Applied Stereotypes</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,7 +63,7 @@ public interface ProfiledSCS extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage#getProfiledSCS_Name()
-	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" derived="true"
 	 * @generated
 	 */
 	String getName();
@@ -83,5 +83,13 @@ public interface ProfiledSCS extends EObject {
 	 * @generated
 	 */
 	EList<AppliedStereotype> getAppliedStereotypes();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void addAppliedStereotype(AppliedStereotype appliedStereotype);
 
 } // ProfiledSCS

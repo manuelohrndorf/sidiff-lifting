@@ -4,14 +4,12 @@ package org.sidiff.difference.symmetricprofiled.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.sidiff.difference.symmetric.SymmetricPackage;
-
 import org.sidiff.difference.symmetricprofiled.AppliedStereotype;
 import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
 import org.sidiff.difference.symmetricprofiled.ProfiledSD;
@@ -93,6 +91,7 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 		isInited = true;
 
 		// Initialize simple dependencies
+		EcorePackage.eINSTANCE.eClass();
 		SymmetricPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -151,6 +150,24 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getProfiledSD_Correspondences() {
+		return (EReference)profiledSDEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getProfiledSD__Derive__SymmetricDifference() {
+		return profiledSDEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getProfiledSCS() {
 		return profiledSCSEClass;
 	}
@@ -169,8 +186,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProfiledSCS_Name() {
-		return (EAttribute)profiledSCSEClass.getEStructuralFeatures().get(1);
+	public EReference getProfiledSCS_AppliedStereotypes() {
+		return (EReference)profiledSCSEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -178,8 +195,17 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSCS_AppliedStereotypes() {
-		return (EReference)profiledSCSEClass.getEStructuralFeatures().get(2);
+	public EAttribute getProfiledSCS_Name() {
+		return (EAttribute)profiledSCSEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getProfiledSCS__AddAppliedStereotype__AppliedStereotype() {
+		return profiledSCSEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -196,8 +222,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAppliedStereotype_Name() {
-		return (EAttribute)appliedStereotypeEClass.getEStructuralFeatures().get(0);
+	public EReference getAppliedStereotype_StereoType() {
+		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -205,8 +231,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAppliedStereotype_StereoType() {
-		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(1);
+	public EAttribute getAppliedStereotype_Name() {
+		return (EAttribute)appliedStereotypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -215,25 +241,7 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * @generated
 	 */
 	public EReference getAppliedStereotype_BaseObject() {
-		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAppliedStereotype_BaseReference() {
-		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAppliedStereotype_Profile() {
-		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(4);
+		return (EReference)appliedStereotypeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -268,18 +276,19 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 		createEReference(profiledSDEClass, PROFILED_SD__PROFILEDSCSS);
 		createEReference(profiledSDEClass, PROFILED_SD__SD);
 		createEReference(profiledSDEClass, PROFILED_SD__UNPROFILEDSCSS);
+		createEReference(profiledSDEClass, PROFILED_SD__CORRESPONDENCES);
+		createEOperation(profiledSDEClass, PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE);
 
 		profiledSCSEClass = createEClass(PROFILED_SCS);
 		createEReference(profiledSCSEClass, PROFILED_SCS__SCS);
-		createEAttribute(profiledSCSEClass, PROFILED_SCS__NAME);
 		createEReference(profiledSCSEClass, PROFILED_SCS__APPLIED_STEREOTYPES);
+		createEAttribute(profiledSCSEClass, PROFILED_SCS__NAME);
+		createEOperation(profiledSCSEClass, PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE);
 
 		appliedStereotypeEClass = createEClass(APPLIED_STEREOTYPE);
-		createEAttribute(appliedStereotypeEClass, APPLIED_STEREOTYPE__NAME);
 		createEReference(appliedStereotypeEClass, APPLIED_STEREOTYPE__STEREO_TYPE);
 		createEReference(appliedStereotypeEClass, APPLIED_STEREOTYPE__BASE_OBJECT);
-		createEReference(appliedStereotypeEClass, APPLIED_STEREOTYPE__BASE_REFERENCE);
-		createEReference(appliedStereotypeEClass, APPLIED_STEREOTYPE__PROFILE);
+		createEAttribute(appliedStereotypeEClass, APPLIED_STEREOTYPE__NAME);
 	}
 
 	/**
@@ -318,20 +327,25 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 		// Initialize classes, features, and operations; add parameters
 		initEClass(profiledSDEClass, ProfiledSD.class, "ProfiledSD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProfiledSD_Profiledscss(), this.getProfiledSCS(), null, "profiledscss", null, 0, -1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProfiledSD_Sd(), theSymmetricPackage.getSymmetricDifference(), null, "sd", null, 1, 1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProfiledSD_Sd(), theSymmetricPackage.getSymmetricDifference(), null, "sd", null, 1, 1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProfiledSD_Unprofiledscss(), theSymmetricPackage.getSemanticChangeSet(), null, "unprofiledscss", null, 0, -1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProfiledSD_Correspondences(), theSymmetricPackage.getCorrespondence(), null, "correspondences", null, 0, -1, ProfiledSD.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		EOperation op = initEOperation(getProfiledSD__Derive__SymmetricDifference(), null, "derive", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theSymmetricPackage.getSymmetricDifference(), "symmetricDifference", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(profiledSCSEClass, ProfiledSCS.class, "ProfiledSCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProfiledSCS_Scs(), theSymmetricPackage.getSemanticChangeSet(), null, "scs", null, 1, 1, ProfiledSCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProfiledSCS_Name(), ecorePackage.getEString(), "name", null, 1, 1, ProfiledSCS.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getProfiledSCS_AppliedStereotypes(), this.getAppliedStereotype(), null, "appliedStereotypes", null, 1, -1, ProfiledSCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProfiledSCS_Name(), theEcorePackage.getEString(), "name", null, 0, 1, ProfiledSCS.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+
+		op = initEOperation(getProfiledSCS__AddAppliedStereotype__AppliedStereotype(), null, "addAppliedStereotype", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getAppliedStereotype(), "appliedStereotype", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(appliedStereotypeEClass, AppliedStereotype.class, "AppliedStereotype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAppliedStereotype_Name(), ecorePackage.getEString(), "name", null, 1, 1, AppliedStereotype.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getAppliedStereotype_StereoType(), theEcorePackage.getEObject(), null, "stereoType", null, 1, 1, AppliedStereotype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAppliedStereotype_BaseObject(), ecorePackage.getEObject(), null, "baseObject", null, 1, 1, AppliedStereotype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAppliedStereotype_BaseReference(), theEcorePackage.getEReference(), null, "baseReference", null, 1, 1, AppliedStereotype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAppliedStereotype_Profile(), theEcorePackage.getEPackage(), null, "profile", null, 1, 1, AppliedStereotype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAppliedStereotype_BaseObject(), theEcorePackage.getEObject(), null, "baseObject", null, 1, 1, AppliedStereotype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAppliedStereotype_Name(), theEcorePackage.getEString(), "name", "", 0, 1, AppliedStereotype.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -3,9 +3,8 @@
 package org.sidiff.difference.symmetricprofiled;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
+import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 
@@ -20,6 +19,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
  *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getProfiledscss <em>Profiledscss</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getUnprofiledscss <em>Unprofiledscss</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getCorrespondences <em>Correspondences</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,26 +45,26 @@ public interface ProfiledSD extends EObject {
 	EList<ProfiledSCS> getProfiledscss();
 
 	/**
-	 * Returns the value of the '<em><b>Sd</b></em>' reference.
+	 * Returns the value of the '<em><b>Sd</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Sd</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sd</em>' reference.
+	 * @return the value of the '<em>Sd</em>' containment reference.
 	 * @see #setSd(SymmetricDifference)
 	 * @see org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage#getProfiledSD_Sd()
-	 * @model required="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	SymmetricDifference getSd();
 
 	/**
-	 * Sets the value of the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}' reference.
+	 * Sets the value of the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Sd</em>' reference.
+	 * @param value the new value of the '<em>Sd</em>' containment reference.
 	 * @see #getSd()
 	 * @generated
 	 */
@@ -85,5 +85,29 @@ public interface ProfiledSD extends EObject {
 	 * @generated
 	 */
 	EList<SemanticChangeSet> getUnprofiledscss();
+
+	/**
+	 * Returns the value of the '<em><b>Correspondences</b></em>' reference list.
+	 * The list contents are of type {@link org.sidiff.difference.symmetric.Correspondence}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Correspondences</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Correspondences</em>' reference list.
+	 * @see org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage#getProfiledSD_Correspondences()
+	 * @model transient="true" changeable="false" derived="true"
+	 * @generated
+	 */
+	EList<Correspondence> getCorrespondences();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void derive(SymmetricDifference symmetricDifference);
 
 } // ProfiledSD

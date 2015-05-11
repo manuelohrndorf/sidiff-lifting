@@ -6,24 +6,35 @@
     complianceLevel="7.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.sidiff.difference.symmetric/model/Symmetric.genmodel#//symmetric"
     operationReflection="true" importOrganizing="true">
   <foreignModel>ProfiledSD.ecore</foreignModel>
-  <genPackages prefix="SymmetricProfiled" basePackage="org.sidiff.difference" resource="XML"
-      disposableProviderFactory="true" ecorePackage="ProfiledSD.ecore#/">
+  <genPackages prefix="SymmetricProfiled" basePackage="org.sidiff.difference" resource="XMI"
+      disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="ProfiledSD.ecore#/">
     <genClasses ecoreClass="ProfiledSD.ecore#//ProfiledSD">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/profiledscss"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/sd"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/unprofiledscss"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/sd"/>
+      <genFeatures property="Readonly" notify="false" children="true" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/unprofiledscss"/>
+      <genFeatures property="Readonly" children="true" createChild="false" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSD/correspondences"/>
+      <genOperations ecoreOperation="ProfiledSD.ecore#//ProfiledSD/derive">
+        <genParameters ecoreParameter="ProfiledSD.ecore#//ProfiledSD/derive/symmetricDifference"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="ProfiledSD.ecore#//ProfiledSCS">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSCS/scs"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProfiledSD.ecore#//ProfiledSCS/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSCS/appliedStereotypes"/>
+      <genFeatures property="Readonly" notify="false" children="true" createChild="false"
+          propertyCategory="" propertyDescription="" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSCS/scs"/>
+      <genFeatures property="None" children="true" createChild="false" propertyCategory=""
+          ecoreFeature="ecore:EReference ProfiledSD.ecore#//ProfiledSCS/appliedStereotypes"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ProfiledSD.ecore#//ProfiledSCS/name"/>
+      <genOperations ecoreOperation="ProfiledSD.ecore#//ProfiledSCS/addAppliedStereotype">
+        <genParameters ecoreParameter="ProfiledSD.ecore#//ProfiledSCS/addAppliedStereotype/appliedStereotype"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="ProfiledSD.ecore#//AppliedStereotype">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ProfiledSD.ecore#//AppliedStereotype/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/stereoType"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/baseObject"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/baseReference"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/profile"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/stereoType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference ProfiledSD.ecore#//AppliedStereotype/baseObject"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute ProfiledSD.ecore#//AppliedStereotype/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
