@@ -5,6 +5,7 @@ package org.sidiff.difference.symmetricprofiled.provider;
 
 import java.util.Collection;
 import java.util.List;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -19,16 +20,17 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
+import org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet;
+import org.sidiff.difference.symmetricprofiled.SymmetricProfiledFactory;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
 
 /**
- * This is the item provider adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSCS} object.
+ * This is the item provider adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ProfiledSCSItemProvider
+public class ProfiledSemanticChangeSetItemProvider
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -42,7 +44,7 @@ public class ProfiledSCSItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProfiledSCSItemProvider(AdapterFactory adapterFactory) {
+	public ProfiledSemanticChangeSetItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -57,27 +59,27 @@ public class ProfiledSCSItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addScsPropertyDescriptor(object);
+			addSemanticChangeSetPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Scs feature.
+	 * This adds a property descriptor for the Semantic Change Set feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addScsPropertyDescriptor(Object object) {
+	protected void addSemanticChangeSetPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ProfiledSCS_scs_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSCS_scs_feature", "_UI_ProfiledSCS_type"),
-				 SymmetricProfiledPackage.Literals.PROFILED_SCS__SCS,
-				 false,
+				 getString("_UI_ProfiledSemanticChangeSet_semanticChangeSet_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSemanticChangeSet_semanticChangeSet_feature", "_UI_ProfiledSemanticChangeSet_type"),
+				 SymmetricProfiledPackage.Literals.PROFILED_SEMANTIC_CHANGE_SET__SEMANTIC_CHANGE_SET,
+				 true,
 				 false,
 				 true,
 				 null,
@@ -96,9 +98,9 @@ public class ProfiledSCSItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ProfiledSCS_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSCS_name_feature", "_UI_ProfiledSCS_type"),
-				 SymmetricProfiledPackage.Literals.PROFILED_SCS__NAME,
+				 getString("_UI_ProfiledSemanticChangeSet_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ProfiledSemanticChangeSet_name_feature", "_UI_ProfiledSemanticChangeSet_type"),
+				 SymmetricProfiledPackage.Literals.PROFILED_SEMANTIC_CHANGE_SET__NAME,
 				 false,
 				 false,
 				 false,
@@ -119,8 +121,8 @@ public class ProfiledSCSItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SCS__SCS);
-			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SCS__APPLIED_STEREOTYPES);
+			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SEMANTIC_CHANGE_SET__SEMANTIC_CHANGE_SET);
+			childrenFeatures.add(SymmetricProfiledPackage.Literals.PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES);
 		}
 		return childrenFeatures;
 	}
@@ -139,28 +141,27 @@ public class ProfiledSCSItemProvider
 	}
 
 	/**
-	 * This returns ProfiledSCS.gif.
+	 * This returns ProfiledSemanticChangeSet.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ProfiledSCS"));
+		return overlayImage(object, getResourceLocator().getImage("PSCS"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ProfiledSCS)object).getName();
+		String label = ((ProfiledSemanticChangeSet)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ProfiledSCS_type") :
-			getString("_UI_ProfiledSCS_type") + " " + label;
+			getString("_UI_ProfiledSCS_type") : label;
 	}
 
 	/**
@@ -174,11 +175,11 @@ public class ProfiledSCSItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ProfiledSCS.class)) {
-			case SymmetricProfiledPackage.PROFILED_SCS__NAME:
+		switch (notification.getFeatureID(ProfiledSemanticChangeSet.class)) {
+			case SymmetricProfiledPackage.PROFILED_SEMANTIC_CHANGE_SET__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case SymmetricProfiledPackage.PROFILED_SCS__APPLIED_STEREOTYPES:
+			case SymmetricProfiledPackage.PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -195,6 +196,11 @@ public class ProfiledSCSItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SymmetricProfiledPackage.Literals.PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES,
+				 SymmetricProfiledFactory.eINSTANCE.createAppliedStereotype()));
 	}
 
 	/**

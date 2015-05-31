@@ -7,11 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.sidiff.difference.symmetricprofiled.AppliedStereotype;
-import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
-import org.sidiff.difference.symmetricprofiled.ProfiledSD;
-import org.sidiff.difference.symmetricprofiled.SymmetricProfiledFactory;
-import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
+import org.sidiff.difference.symmetricprofiled.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,8 +53,8 @@ public class SymmetricProfiledFactoryImpl extends EFactoryImpl implements Symmet
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SymmetricProfiledPackage.PROFILED_SD: return createProfiledSD();
-			case SymmetricProfiledPackage.PROFILED_SCS: return createProfiledSCS();
+			case SymmetricProfiledPackage.PROFILED_SYMMETRIC_DIFFERENCE: return createProfiledSymmetricDifference();
+			case SymmetricProfiledPackage.PROFILED_SEMANTIC_CHANGE_SET: return createProfiledSemanticChangeSet();
 			case SymmetricProfiledPackage.APPLIED_STEREOTYPE: return createAppliedStereotype();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -70,9 +66,9 @@ public class SymmetricProfiledFactoryImpl extends EFactoryImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProfiledSD createProfiledSD() {
-		ProfiledSDImpl profiledSD = new ProfiledSDImpl();
-		return profiledSD;
+	public ProfiledSymmetricDifference createProfiledSymmetricDifference() {
+		ProfiledSymmetricDifferenceImpl profiledSymmetricDifference = new ProfiledSymmetricDifferenceImpl();
+		return profiledSymmetricDifference;
 	}
 
 	/**
@@ -80,9 +76,9 @@ public class SymmetricProfiledFactoryImpl extends EFactoryImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ProfiledSCS createProfiledSCS() {
-		ProfiledSCSImpl profiledSCS = new ProfiledSCSImpl();
-		return profiledSCS;
+	public ProfiledSemanticChangeSet createProfiledSemanticChangeSet() {
+		ProfiledSemanticChangeSetImpl profiledSemanticChangeSet = new ProfiledSemanticChangeSetImpl();
+		return profiledSemanticChangeSet;
 	}
 
 	/**

@@ -58,59 +58,41 @@ public interface SymmetricProfiledPackage extends EPackage {
 	SymmetricProfiledPackage eINSTANCE = org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSDImpl <em>Profiled SD</em>}' class.
+	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSymmetricDifferenceImpl <em>Profiled Symmetric Difference</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSDImpl
-	 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSD()
+	 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSymmetricDifferenceImpl
+	 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSymmetricDifference()
 	 * @generated
 	 */
-	int PROFILED_SD = 0;
+	int PROFILED_SYMMETRIC_DIFFERENCE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Profiledscss</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Profiled Semantic Change Sets</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD__PROFILEDSCSS = 0;
+	int PROFILED_SYMMETRIC_DIFFERENCE__PROFILED_SEMANTIC_CHANGE_SETS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Sd</b></em>' containment reference.
+	 * The feature id for the '<em><b>Symmetric Difference</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD__SD = 1;
+	int PROFILED_SYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Unprofiledscss</b></em>' reference list.
+	 * The number of structural features of the '<em>Profiled Symmetric Difference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD__UNPROFILEDSCSS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Correspondences</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROFILED_SD__CORRESPONDENCES = 3;
-
-	/**
-	 * The number of structural features of the '<em>Profiled SD</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROFILED_SD_FEATURE_COUNT = 4;
+	int PROFILED_SYMMETRIC_DIFFERENCE_FEATURE_COUNT = 2;
 
 	/**
 	 * The operation id for the '<em>Derive</em>' operation.
@@ -119,35 +101,35 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE = 0;
+	int PROFILED_SYMMETRIC_DIFFERENCE___DERIVE__SYMMETRICDIFFERENCE = 0;
 
 	/**
-	 * The number of operations of the '<em>Profiled SD</em>' class.
+	 * The number of operations of the '<em>Profiled Symmetric Difference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SD_OPERATION_COUNT = 1;
+	int PROFILED_SYMMETRIC_DIFFERENCE_OPERATION_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl <em>Profiled SCS</em>}' class.
+	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSemanticChangeSetImpl <em>Profiled Semantic Change Set</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl
-	 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSCS()
+	 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSemanticChangeSetImpl
+	 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSemanticChangeSet()
 	 * @generated
 	 */
-	int PROFILED_SCS = 1;
+	int PROFILED_SEMANTIC_CHANGE_SET = 1;
 
 	/**
-	 * The feature id for the '<em><b>Scs</b></em>' reference.
+	 * The feature id for the '<em><b>Semantic Change Set</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS__SCS = 0;
+	int PROFILED_SEMANTIC_CHANGE_SET__SEMANTIC_CHANGE_SET = 0;
 
 	/**
 	 * The feature id for the '<em><b>Applied Stereotypes</b></em>' containment reference list.
@@ -156,7 +138,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS__APPLIED_STEREOTYPES = 1;
+	int PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -165,16 +147,16 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS__NAME = 2;
+	int PROFILED_SEMANTIC_CHANGE_SET__NAME = 2;
 
 	/**
-	 * The number of structural features of the '<em>Profiled SCS</em>' class.
+	 * The number of structural features of the '<em>Profiled Semantic Change Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS_FEATURE_COUNT = 3;
+	int PROFILED_SEMANTIC_CHANGE_SET_FEATURE_COUNT = 3;
 
 	/**
 	 * The operation id for the '<em>Add Applied Stereotype</em>' operation.
@@ -183,16 +165,16 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = 0;
+	int PROFILED_SEMANTIC_CHANGE_SET___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = 0;
 
 	/**
-	 * The number of operations of the '<em>Profiled SCS</em>' class.
+	 * The number of operations of the '<em>Profiled Semantic Change Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROFILED_SCS_OPERATION_COUNT = 1;
+	int PROFILED_SEMANTIC_CHANGE_SET_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.symmetricprofiled.impl.AppliedStereotypeImpl <em>Applied Stereotype</em>}' class.
@@ -251,121 +233,99 @@ public interface SymmetricProfiledPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD <em>Profiled SD</em>}'.
+	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference <em>Profiled Symmetric Difference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Profiled SD</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD
+	 * @return the meta object for class '<em>Profiled Symmetric Difference</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference
 	 * @generated
 	 */
-	EClass getProfiledSD();
+	EClass getProfiledSymmetricDifference();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getProfiledscss <em>Profiledscss</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#getProfiledSemanticChangeSets <em>Profiled Semantic Change Sets</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Profiledscss</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getProfiledscss()
-	 * @see #getProfiledSD()
+	 * @return the meta object for the containment reference list '<em>Profiled Semantic Change Sets</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#getProfiledSemanticChangeSets()
+	 * @see #getProfiledSymmetricDifference()
 	 * @generated
 	 */
-	EReference getProfiledSD_Profiledscss();
+	EReference getProfiledSymmetricDifference_ProfiledSemanticChangeSets();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd <em>Sd</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#getSymmetricDifference <em>Symmetric Difference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Sd</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getSd()
-	 * @see #getProfiledSD()
+	 * @return the meta object for the containment reference '<em>Symmetric Difference</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#getSymmetricDifference()
+	 * @see #getProfiledSymmetricDifference()
 	 * @generated
 	 */
-	EReference getProfiledSD_Sd();
+	EReference getProfiledSymmetricDifference_SymmetricDifference();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getUnprofiledscss <em>Unprofiledscss</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Unprofiledscss</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getUnprofiledscss()
-	 * @see #getProfiledSD()
-	 * @generated
-	 */
-	EReference getProfiledSD_Unprofiledscss();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#getCorrespondences <em>Correspondences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Correspondences</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#getCorrespondences()
-	 * @see #getProfiledSD()
-	 * @generated
-	 */
-	EReference getProfiledSD_Correspondences();
-
-	/**
-	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD#derive(org.sidiff.difference.symmetric.SymmetricDifference) <em>Derive</em>}' operation.
+	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#derive(org.sidiff.difference.symmetric.SymmetricDifference) <em>Derive</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Derive</em>' operation.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD#derive(org.sidiff.difference.symmetric.SymmetricDifference)
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference#derive(org.sidiff.difference.symmetric.SymmetricDifference)
 	 * @generated
 	 */
-	EOperation getProfiledSD__Derive__SymmetricDifference();
+	EOperation getProfiledSymmetricDifference__Derive__SymmetricDifference();
 
 	/**
-	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS <em>Profiled SCS</em>}'.
+	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet <em>Profiled Semantic Change Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Profiled SCS</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS
+	 * @return the meta object for class '<em>Profiled Semantic Change Set</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet
 	 * @generated
 	 */
-	EClass getProfiledSCS();
+	EClass getProfiledSemanticChangeSet();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getScs <em>Scs</em>}'.
+	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getSemanticChangeSet <em>Semantic Change Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Scs</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#getScs()
-	 * @see #getProfiledSCS()
+	 * @return the meta object for the reference '<em>Semantic Change Set</em>'.
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getSemanticChangeSet()
+	 * @see #getProfiledSemanticChangeSet()
 	 * @generated
 	 */
-	EReference getProfiledSCS_Scs();
+	EReference getProfiledSemanticChangeSet_SemanticChangeSet();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getAppliedStereotypes <em>Applied Stereotypes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getAppliedStereotypes <em>Applied Stereotypes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Applied Stereotypes</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#getAppliedStereotypes()
-	 * @see #getProfiledSCS()
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getAppliedStereotypes()
+	 * @see #getProfiledSemanticChangeSet()
 	 * @generated
 	 */
-	EReference getProfiledSCS_AppliedStereotypes();
+	EReference getProfiledSemanticChangeSet_AppliedStereotypes();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#getName()
-	 * @see #getProfiledSCS()
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#getName()
+	 * @see #getProfiledSemanticChangeSet()
 	 * @generated
 	 */
-	EAttribute getProfiledSCS_Name();
+	EAttribute getProfiledSemanticChangeSet_Name();
 
 	/**
-	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype) <em>Add Applied Stereotype</em>}' operation.
+	 * Returns the meta object for the '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype) <em>Add Applied Stereotype</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Add Applied Stereotype</em>' operation.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype)
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet#addAppliedStereotype(org.sidiff.difference.symmetricprofiled.AppliedStereotype)
 	 * @generated
 	 */
-	EOperation getProfiledSCS__AddAppliedStereotype__AppliedStereotype();
+	EOperation getProfiledSemanticChangeSet__AddAppliedStereotype__AppliedStereotype();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.symmetricprofiled.AppliedStereotype <em>Applied Stereotype</em>}'.
@@ -434,46 +394,30 @@ public interface SymmetricProfiledPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSDImpl <em>Profiled SD</em>}' class.
+		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSymmetricDifferenceImpl <em>Profiled Symmetric Difference</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSDImpl
-		 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSD()
+		 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSymmetricDifferenceImpl
+		 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSymmetricDifference()
 		 * @generated
 		 */
-		EClass PROFILED_SD = eINSTANCE.getProfiledSD();
+		EClass PROFILED_SYMMETRIC_DIFFERENCE = eINSTANCE.getProfiledSymmetricDifference();
 
 		/**
-		 * The meta object literal for the '<em><b>Profiledscss</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Profiled Semantic Change Sets</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROFILED_SD__PROFILEDSCSS = eINSTANCE.getProfiledSD_Profiledscss();
+		EReference PROFILED_SYMMETRIC_DIFFERENCE__PROFILED_SEMANTIC_CHANGE_SETS = eINSTANCE.getProfiledSymmetricDifference_ProfiledSemanticChangeSets();
 
 		/**
-		 * The meta object literal for the '<em><b>Sd</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Symmetric Difference</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROFILED_SD__SD = eINSTANCE.getProfiledSD_Sd();
-
-		/**
-		 * The meta object literal for the '<em><b>Unprofiledscss</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROFILED_SD__UNPROFILEDSCSS = eINSTANCE.getProfiledSD_Unprofiledscss();
-
-		/**
-		 * The meta object literal for the '<em><b>Correspondences</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROFILED_SD__CORRESPONDENCES = eINSTANCE.getProfiledSD_Correspondences();
+		EReference PROFILED_SYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE = eINSTANCE.getProfiledSymmetricDifference_SymmetricDifference();
 
 		/**
 		 * The meta object literal for the '<em><b>Derive</b></em>' operation.
@@ -481,25 +425,25 @@ public interface SymmetricProfiledPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE = eINSTANCE.getProfiledSD__Derive__SymmetricDifference();
+		EOperation PROFILED_SYMMETRIC_DIFFERENCE___DERIVE__SYMMETRICDIFFERENCE = eINSTANCE.getProfiledSymmetricDifference__Derive__SymmetricDifference();
 
 		/**
-		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl <em>Profiled SCS</em>}' class.
+		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.ProfiledSemanticChangeSetImpl <em>Profiled Semantic Change Set</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSCSImpl
-		 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSCS()
+		 * @see org.sidiff.difference.symmetricprofiled.impl.ProfiledSemanticChangeSetImpl
+		 * @see org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledPackageImpl#getProfiledSemanticChangeSet()
 		 * @generated
 		 */
-		EClass PROFILED_SCS = eINSTANCE.getProfiledSCS();
+		EClass PROFILED_SEMANTIC_CHANGE_SET = eINSTANCE.getProfiledSemanticChangeSet();
 
 		/**
-		 * The meta object literal for the '<em><b>Scs</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Semantic Change Set</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROFILED_SCS__SCS = eINSTANCE.getProfiledSCS_Scs();
+		EReference PROFILED_SEMANTIC_CHANGE_SET__SEMANTIC_CHANGE_SET = eINSTANCE.getProfiledSemanticChangeSet_SemanticChangeSet();
 
 		/**
 		 * The meta object literal for the '<em><b>Applied Stereotypes</b></em>' containment reference list feature.
@@ -507,7 +451,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROFILED_SCS__APPLIED_STEREOTYPES = eINSTANCE.getProfiledSCS_AppliedStereotypes();
+		EReference PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES = eINSTANCE.getProfiledSemanticChangeSet_AppliedStereotypes();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -515,7 +459,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PROFILED_SCS__NAME = eINSTANCE.getProfiledSCS_Name();
+		EAttribute PROFILED_SEMANTIC_CHANGE_SET__NAME = eINSTANCE.getProfiledSemanticChangeSet_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Add Applied Stereotype</b></em>' operation.
@@ -523,7 +467,7 @@ public interface SymmetricProfiledPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = eINSTANCE.getProfiledSCS__AddAppliedStereotype__AppliedStereotype();
+		EOperation PROFILED_SEMANTIC_CHANGE_SET___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE = eINSTANCE.getProfiledSemanticChangeSet__AddAppliedStereotype__AppliedStereotype();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.symmetricprofiled.impl.AppliedStereotypeImpl <em>Applied Stereotype</em>}' class.

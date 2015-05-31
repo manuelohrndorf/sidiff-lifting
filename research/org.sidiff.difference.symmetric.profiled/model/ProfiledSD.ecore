@@ -2,25 +2,22 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="symmetricprofiled" nsURI="http://www.sidiff.org/difference/symmetricprofiled/1.0"
     nsPrefix="symmetricprofiled">
-  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSD">
+  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSymmetricDifference">
     <eOperations name="derive">
       <eParameters name="symmetricDifference" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="profiledscss" upperBound="-1"
-        eType="#//ProfiledSCS" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sd" lowerBound="1" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="profiledSemanticChangeSets"
+        upperBound="-1" eType="#//ProfiledSemanticChangeSet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="symmetricDifference" lowerBound="1"
+        eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unprofiledscss" upperBound="-1"
-        eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondences" upperBound="-1"
-        eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//Correspondence"
-        changeable="false" transient="true" derived="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSCS">
+  <eClassifiers xsi:type="ecore:EClass" name="ProfiledSemanticChangeSet">
     <eOperations name="addAppliedStereotype">
       <eParameters name="appliedStereotype" eType="#//AppliedStereotype"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="scs" lowerBound="1" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="semanticChangeSet" lowerBound="1"
+        eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SemanticChangeSet"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="appliedStereotypes" lowerBound="1"
         upperBound="-1" eType="#//AppliedStereotype" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"

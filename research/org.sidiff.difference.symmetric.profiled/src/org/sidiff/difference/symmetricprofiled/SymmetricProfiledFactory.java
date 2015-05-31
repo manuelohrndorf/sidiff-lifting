@@ -22,22 +22,22 @@ public interface SymmetricProfiledFactory extends EFactory {
 	SymmetricProfiledFactory eINSTANCE = org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Profiled SD</em>'.
+	 * Returns a new object of class '<em>Profiled Symmetric Difference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Profiled SD</em>'.
+	 * @return a new object of class '<em>Profiled Symmetric Difference</em>'.
 	 * @generated
 	 */
-	ProfiledSD createProfiledSD();
+	ProfiledSymmetricDifference createProfiledSymmetricDifference();
 
 	/**
-	 * Returns a new object of class '<em>Profiled SCS</em>'.
+	 * Returns a new object of class '<em>Profiled Semantic Change Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Profiled SCS</em>'.
+	 * @return a new object of class '<em>Profiled Semantic Change Set</em>'.
 	 * @generated
 	 */
-	ProfiledSCS createProfiledSCS();
+	ProfiledSemanticChangeSet createProfiledSemanticChangeSet();
 
 	/**
 	 * Returns a new object of class '<em>Applied Stereotype</em>'.

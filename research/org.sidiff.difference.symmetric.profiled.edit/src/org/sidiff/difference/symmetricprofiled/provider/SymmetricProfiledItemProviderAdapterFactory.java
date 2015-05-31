@@ -72,49 +72,49 @@ public class SymmetricProfiledItemProviderAdapterFactory extends SymmetricProfil
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetricprofiled.ProfiledSD} instances.
+	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ProfiledSDItemProvider profiledSDItemProvider;
+	protected ProfiledSymmetricDifferenceItemProvider profiledSymmetricDifferenceItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSD}.
+	 * This creates an adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createProfiledSDAdapter() {
-		if (profiledSDItemProvider == null) {
-			profiledSDItemProvider = new ProfiledSDItemProvider(this);
+	public Adapter createProfiledSymmetricDifferenceAdapter() {
+		if (profiledSymmetricDifferenceItemProvider == null) {
+			profiledSymmetricDifferenceItemProvider = new ProfiledSymmetricDifferenceItemProvider(this);
 		}
 
-		return profiledSDItemProvider;
+		return profiledSymmetricDifferenceItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetricprofiled.ProfiledSCS} instances.
+	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ProfiledSCSItemProvider profiledSCSItemProvider;
+	protected ProfiledSemanticChangeSetItemProvider profiledSemanticChangeSetItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSCS}.
+	 * This creates an adapter for a {@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createProfiledSCSAdapter() {
-		if (profiledSCSItemProvider == null) {
-			profiledSCSItemProvider = new ProfiledSCSItemProvider(this);
+	public Adapter createProfiledSemanticChangeSetAdapter() {
+		if (profiledSemanticChangeSetItemProvider == null) {
+			profiledSemanticChangeSetItemProvider = new ProfiledSemanticChangeSetItemProvider(this);
 		}
 
-		return profiledSCSItemProvider;
+		return profiledSemanticChangeSetItemProvider;
 	}
 
 	/**
@@ -239,8 +239,8 @@ public class SymmetricProfiledItemProviderAdapterFactory extends SymmetricProfil
 	 * @generated
 	 */
 	public void dispose() {
-		if (profiledSDItemProvider != null) profiledSDItemProvider.dispose();
-		if (profiledSCSItemProvider != null) profiledSCSItemProvider.dispose();
+		if (profiledSymmetricDifferenceItemProvider != null) profiledSymmetricDifferenceItemProvider.dispose();
+		if (profiledSemanticChangeSetItemProvider != null) profiledSemanticChangeSetItemProvider.dispose();
 		if (appliedStereotypeItemProvider != null) appliedStereotypeItemProvider.dispose();
 	}
 

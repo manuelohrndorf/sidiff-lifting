@@ -129,11 +129,11 @@ public class AppliedStereotypeItemProvider extends ItemProviderAdapter
 	 * This returns AppliedStereotype.gif.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/AppliedStereotype"));
+		return overlayImage(object, getResourceLocator().getImage("AppliedStereotype"));
 	}
 
 	/**

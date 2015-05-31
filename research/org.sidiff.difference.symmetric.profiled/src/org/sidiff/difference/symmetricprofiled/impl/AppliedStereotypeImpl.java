@@ -87,10 +87,8 @@ public class AppliedStereotypeImpl extends MinimalEObjectImpl.Container
 	 */
 	public String getName() {
 		if (name == null || name.equals(NAME_EDEFAULT)) {
-			String result=getStereoType().eClass().getInstanceTypeName();
-			if (result != null){
-				name =result;
-			}
+			name=getStereoType().eClass().getInstanceTypeName();
+			if (name == null) name = getStereoType().eClass().getName();
 		}
 		return name;
 	}

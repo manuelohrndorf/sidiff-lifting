@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetricprofiled.AppliedStereotype;
-import org.sidiff.difference.symmetricprofiled.ProfiledSCS;
-import org.sidiff.difference.symmetricprofiled.ProfiledSD;
+import org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet;
+import org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledFactory;
 import org.sidiff.difference.symmetricprofiled.SymmetricProfiledPackage;
 
@@ -28,14 +28,14 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass profiledSDEClass = null;
+	private EClass profiledSymmetricDifferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass profiledSCSEClass = null;
+	private EClass profiledSemanticChangeSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -114,8 +114,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProfiledSD() {
-		return profiledSDEClass;
+	public EClass getProfiledSymmetricDifference() {
+		return profiledSymmetricDifferenceEClass;
 	}
 
 	/**
@@ -123,8 +123,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSD_Profiledscss() {
-		return (EReference)profiledSDEClass.getEStructuralFeatures().get(0);
+	public EReference getProfiledSymmetricDifference_ProfiledSemanticChangeSets() {
+		return (EReference)profiledSymmetricDifferenceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSD_Sd() {
-		return (EReference)profiledSDEClass.getEStructuralFeatures().get(1);
+	public EReference getProfiledSymmetricDifference_SymmetricDifference() {
+		return (EReference)profiledSymmetricDifferenceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -141,8 +141,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSD_Unprofiledscss() {
-		return (EReference)profiledSDEClass.getEStructuralFeatures().get(2);
+	public EOperation getProfiledSymmetricDifference__Derive__SymmetricDifference() {
+		return profiledSymmetricDifferenceEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -150,8 +150,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSD_Correspondences() {
-		return (EReference)profiledSDEClass.getEStructuralFeatures().get(3);
+	public EClass getProfiledSemanticChangeSet() {
+		return profiledSemanticChangeSetEClass;
 	}
 
 	/**
@@ -159,8 +159,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getProfiledSD__Derive__SymmetricDifference() {
-		return profiledSDEClass.getEOperations().get(0);
+	public EReference getProfiledSemanticChangeSet_SemanticChangeSet() {
+		return (EReference)profiledSemanticChangeSetEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -168,8 +168,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProfiledSCS() {
-		return profiledSCSEClass;
+	public EReference getProfiledSemanticChangeSet_AppliedStereotypes() {
+		return (EReference)profiledSemanticChangeSetEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -177,8 +177,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSCS_Scs() {
-		return (EReference)profiledSCSEClass.getEStructuralFeatures().get(0);
+	public EAttribute getProfiledSemanticChangeSet_Name() {
+		return (EAttribute)profiledSemanticChangeSetEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -186,26 +186,8 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProfiledSCS_AppliedStereotypes() {
-		return (EReference)profiledSCSEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getProfiledSCS_Name() {
-		return (EAttribute)profiledSCSEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getProfiledSCS__AddAppliedStereotype__AppliedStereotype() {
-		return profiledSCSEClass.getEOperations().get(0);
+	public EOperation getProfiledSemanticChangeSet__AddAppliedStereotype__AppliedStereotype() {
+		return profiledSemanticChangeSetEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -272,18 +254,16 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 		isCreated = true;
 
 		// Create classes and their features
-		profiledSDEClass = createEClass(PROFILED_SD);
-		createEReference(profiledSDEClass, PROFILED_SD__PROFILEDSCSS);
-		createEReference(profiledSDEClass, PROFILED_SD__SD);
-		createEReference(profiledSDEClass, PROFILED_SD__UNPROFILEDSCSS);
-		createEReference(profiledSDEClass, PROFILED_SD__CORRESPONDENCES);
-		createEOperation(profiledSDEClass, PROFILED_SD___DERIVE__SYMMETRICDIFFERENCE);
+		profiledSymmetricDifferenceEClass = createEClass(PROFILED_SYMMETRIC_DIFFERENCE);
+		createEReference(profiledSymmetricDifferenceEClass, PROFILED_SYMMETRIC_DIFFERENCE__PROFILED_SEMANTIC_CHANGE_SETS);
+		createEReference(profiledSymmetricDifferenceEClass, PROFILED_SYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE);
+		createEOperation(profiledSymmetricDifferenceEClass, PROFILED_SYMMETRIC_DIFFERENCE___DERIVE__SYMMETRICDIFFERENCE);
 
-		profiledSCSEClass = createEClass(PROFILED_SCS);
-		createEReference(profiledSCSEClass, PROFILED_SCS__SCS);
-		createEReference(profiledSCSEClass, PROFILED_SCS__APPLIED_STEREOTYPES);
-		createEAttribute(profiledSCSEClass, PROFILED_SCS__NAME);
-		createEOperation(profiledSCSEClass, PROFILED_SCS___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE);
+		profiledSemanticChangeSetEClass = createEClass(PROFILED_SEMANTIC_CHANGE_SET);
+		createEReference(profiledSemanticChangeSetEClass, PROFILED_SEMANTIC_CHANGE_SET__SEMANTIC_CHANGE_SET);
+		createEReference(profiledSemanticChangeSetEClass, PROFILED_SEMANTIC_CHANGE_SET__APPLIED_STEREOTYPES);
+		createEAttribute(profiledSemanticChangeSetEClass, PROFILED_SEMANTIC_CHANGE_SET__NAME);
+		createEOperation(profiledSemanticChangeSetEClass, PROFILED_SEMANTIC_CHANGE_SET___ADD_APPLIED_STEREOTYPE__APPLIEDSTEREOTYPE);
 
 		appliedStereotypeEClass = createEClass(APPLIED_STEREOTYPE);
 		createEReference(appliedStereotypeEClass, APPLIED_STEREOTYPE__STEREO_TYPE);
@@ -325,21 +305,19 @@ public class SymmetricProfiledPackageImpl extends EPackageImpl implements Symmet
 		// Add supertypes to classes
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(profiledSDEClass, ProfiledSD.class, "ProfiledSD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getProfiledSD_Profiledscss(), this.getProfiledSCS(), null, "profiledscss", null, 0, -1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProfiledSD_Sd(), theSymmetricPackage.getSymmetricDifference(), null, "sd", null, 1, 1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProfiledSD_Unprofiledscss(), theSymmetricPackage.getSemanticChangeSet(), null, "unprofiledscss", null, 0, -1, ProfiledSD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProfiledSD_Correspondences(), theSymmetricPackage.getCorrespondence(), null, "correspondences", null, 0, -1, ProfiledSD.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEClass(profiledSymmetricDifferenceEClass, ProfiledSymmetricDifference.class, "ProfiledSymmetricDifference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProfiledSymmetricDifference_ProfiledSemanticChangeSets(), this.getProfiledSemanticChangeSet(), null, "profiledSemanticChangeSets", null, 0, -1, ProfiledSymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProfiledSymmetricDifference_SymmetricDifference(), theSymmetricPackage.getSymmetricDifference(), null, "symmetricDifference", null, 1, 1, ProfiledSymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = initEOperation(getProfiledSD__Derive__SymmetricDifference(), null, "derive", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = initEOperation(getProfiledSymmetricDifference__Derive__SymmetricDifference(), null, "derive", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theSymmetricPackage.getSymmetricDifference(), "symmetricDifference", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(profiledSCSEClass, ProfiledSCS.class, "ProfiledSCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getProfiledSCS_Scs(), theSymmetricPackage.getSemanticChangeSet(), null, "scs", null, 1, 1, ProfiledSCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProfiledSCS_AppliedStereotypes(), this.getAppliedStereotype(), null, "appliedStereotypes", null, 1, -1, ProfiledSCS.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProfiledSCS_Name(), theEcorePackage.getEString(), "name", null, 0, 1, ProfiledSCS.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEClass(profiledSemanticChangeSetEClass, ProfiledSemanticChangeSet.class, "ProfiledSemanticChangeSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getProfiledSemanticChangeSet_SemanticChangeSet(), theSymmetricPackage.getSemanticChangeSet(), null, "semanticChangeSet", null, 1, 1, ProfiledSemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProfiledSemanticChangeSet_AppliedStereotypes(), this.getAppliedStereotype(), null, "appliedStereotypes", null, 1, -1, ProfiledSemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProfiledSemanticChangeSet_Name(), theEcorePackage.getEString(), "name", null, 0, 1, ProfiledSemanticChangeSet.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
-		op = initEOperation(getProfiledSCS__AddAppliedStereotype__AppliedStereotype(), null, "addAppliedStereotype", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getProfiledSemanticChangeSet__AddAppliedStereotype__AppliedStereotype(), null, "addAppliedStereotype", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getAppliedStereotype(), "appliedStereotype", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(appliedStereotypeEClass, AppliedStereotype.class, "AppliedStereotype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

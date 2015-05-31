@@ -68,12 +68,12 @@ public class SymmetricProfiledAdapterFactory extends AdapterFactoryImpl {
 	protected SymmetricProfiledSwitch<Adapter> modelSwitch =
 		new SymmetricProfiledSwitch<Adapter>() {
 			@Override
-			public Adapter caseProfiledSD(ProfiledSD object) {
-				return createProfiledSDAdapter();
+			public Adapter caseProfiledSymmetricDifference(ProfiledSymmetricDifference object) {
+				return createProfiledSymmetricDifferenceAdapter();
 			}
 			@Override
-			public Adapter caseProfiledSCS(ProfiledSCS object) {
-				return createProfiledSCSAdapter();
+			public Adapter caseProfiledSemanticChangeSet(ProfiledSemanticChangeSet object) {
+				return createProfiledSemanticChangeSetAdapter();
 			}
 			@Override
 			public Adapter caseAppliedStereotype(AppliedStereotype object) {
@@ -100,30 +100,30 @@ public class SymmetricProfiledAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSD <em>Profiled SD</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference <em>Profiled Symmetric Difference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSD
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference
 	 * @generated
 	 */
-	public Adapter createProfiledSDAdapter() {
+	public Adapter createProfiledSymmetricDifferenceAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSCS <em>Profiled SCS</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet <em>Profiled Semantic Change Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSCS
+	 * @see org.sidiff.difference.symmetricprofiled.ProfiledSemanticChangeSet
 	 * @generated
 	 */
-	public Adapter createProfiledSCSAdapter() {
+	public Adapter createProfiledSemanticChangeSetAdapter() {
 		return null;
 	}
 

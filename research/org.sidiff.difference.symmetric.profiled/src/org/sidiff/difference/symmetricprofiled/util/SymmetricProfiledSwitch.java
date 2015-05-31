@@ -66,15 +66,15 @@ public class SymmetricProfiledSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SymmetricProfiledPackage.PROFILED_SD: {
-				ProfiledSD profiledSD = (ProfiledSD)theEObject;
-				T result = caseProfiledSD(profiledSD);
+			case SymmetricProfiledPackage.PROFILED_SYMMETRIC_DIFFERENCE: {
+				ProfiledSymmetricDifference profiledSymmetricDifference = (ProfiledSymmetricDifference)theEObject;
+				T result = caseProfiledSymmetricDifference(profiledSymmetricDifference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SymmetricProfiledPackage.PROFILED_SCS: {
-				ProfiledSCS profiledSCS = (ProfiledSCS)theEObject;
-				T result = caseProfiledSCS(profiledSCS);
+			case SymmetricProfiledPackage.PROFILED_SEMANTIC_CHANGE_SET: {
+				ProfiledSemanticChangeSet profiledSemanticChangeSet = (ProfiledSemanticChangeSet)theEObject;
+				T result = caseProfiledSemanticChangeSet(profiledSemanticChangeSet);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -89,32 +89,32 @@ public class SymmetricProfiledSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Profiled SD</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Profiled Symmetric Difference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Profiled SD</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Profiled Symmetric Difference</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseProfiledSD(ProfiledSD object) {
+	public T caseProfiledSymmetricDifference(ProfiledSymmetricDifference object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Profiled SCS</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Profiled Semantic Change Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Profiled SCS</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Profiled Semantic Change Set</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseProfiledSCS(ProfiledSCS object) {
+	public T caseProfiledSemanticChangeSet(ProfiledSemanticChangeSet object) {
 		return null;
 	}
 
