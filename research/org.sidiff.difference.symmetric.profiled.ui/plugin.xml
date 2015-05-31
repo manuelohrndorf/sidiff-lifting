@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.silift.menu?after=header">
+         <command
+               commandId="org.sidiff.difference.symmetric.profiled.ui.derive"
+               label="Derive Profiled Symmetic Difference"
+               style="push"
+               tooltip="Derices a Profiled Symmetirc Difference from a Symmetric Difference">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            id="org.sidiff.difference.symmetric.profiled.ui.derive"
+            name="Derive Profiled Symmetric Difference">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.difference.symmetric.profiled.ui.definition.derive">
+         <with
+               variable="selection">
+            <count
+                  value="1">
+            </count>
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <test
+                     forcePluginActivation="true"
+                     property="org.sidiff.difference.symmetric.profiled.ui.properties.derive">
+               </test>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.sidiff.difference.symmetric.profiled.ui.handler.DerivePropertyTester"
+            id="org.sidiff.difference.symmetric.profiled.ui.derivePropertyTester"
+            namespace="org.sidiff.difference.symmetric.profiled.ui.properties"
+            properties="derive"
+            type="org.eclipse.core.resources.IFile">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.sidiff.difference.symmetric.profiled.ui.handler.DeriveHandler"
+            commandId="org.sidiff.difference.symmetric.profiled.ui.derive">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.difference.symmetric.profiled.ui.definition.derive">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+
+</plugin>

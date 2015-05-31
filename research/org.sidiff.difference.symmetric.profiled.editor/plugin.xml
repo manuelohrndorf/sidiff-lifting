@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated ProfiledSD -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.sidiff.difference.symmetricprofiled.presentation.SymmetricProfiledModelWizardID"
+            name="%_UI_SymmetricProfiledModelWizard_label"
+            class="org.sidiff.difference.symmetricprofiled.presentation.SymmetricProfiledModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SymmetricProfiledModelFile.gif">
+         <description>%_UI_SymmetricProfiledModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated ProfiledSD -->
+      <editor
+            id="org.sidiff.difference.symmetricprofiled.presentation.SymmetricProfiledEditorID"
+            name="%_UI_SymmetricProfiledEditor_label"
+            icon="icons/full/obj16/SymmetricProfiledModelFile.gif"
+            extensions="symmetricprofiled"
+            class="org.sidiff.difference.symmetricprofiled.presentation.SymmetricProfiledEditor"
+            contributorClass="org.sidiff.difference.symmetricprofiled.presentation.SymmetricProfiledActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
