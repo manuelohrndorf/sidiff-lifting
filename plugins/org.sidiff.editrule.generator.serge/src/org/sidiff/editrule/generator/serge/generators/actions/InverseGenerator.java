@@ -1,6 +1,5 @@
 package org.sidiff.editrule.generator.serge.generators.actions;
 
-import org.eclipse.emf.henshin.interpreter.giraph.HenshinUtilTemplate;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Module;
@@ -10,7 +9,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinModuleUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.common.henshin.HenshinUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.core.InverseTracker;
