@@ -2,6 +2,7 @@ package org.sidiff.mutation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -26,19 +28,34 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.collections.ClassificationUtil;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
+import org.sidiff.core.correspondences.util.CorrespondencesUtil;
+import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.difference.matcher.copier.CopierMatcher;
+import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
+import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.MergeImports;
+import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.mutation.config.MutationConfig;
 import org.sidiff.mutation.util.MutationUtil;
+import org.sidiff.pipeline.correspondences.model.Correspondence;
+import org.sidiff.pipeline.correspondences.model.Matching;
+import org.sidiff.pipeline.correspondences.model.MatchingModelFactory;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.emf.Scope;
 
 /**
  * Mutator class
@@ -202,13 +219,19 @@ public class Mutator {
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
+
 								}
+
+								LogUtil.log(LogEvent.DEBUG, "Creating Matching...");
+								createMatching(mutation);								
+								LogUtil.log(LogEvent.DEBUG, "Created Matching.");
 
 								monitor.subTask("Created Mutant " + MutationUtil.getResourceName(targetModel));
 								LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
 								LogUtil.log(LogEvent.DEBUG, mutation);
 								LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));							
 
+																
 								mutantNumber++;
 								spm3.worked(1);
 							}
@@ -288,7 +311,7 @@ public class Mutator {
 
 					// Use just a sequential number otherwise
 					else{
-						ra.setParameterValue(paramName, this.mm.getCurrentInputParameter());
+						ra.setParameterValue(paramName, paramType.eClass().toString() + this.mm.getCurrentInputParameter());
 					}
 				}
 			}
@@ -316,7 +339,7 @@ public class Mutator {
 		if(targetFile == null)
 			targetFile = EMFStorage.uriToPath(inputModel.getURI());
 		String folder = targetFile.substring(0, targetFile.lastIndexOf(File.separator));
-		String mutantFolder = "Mutants" + mc.getName();
+		String mutantFolder = "Mutants";
 		String orderFolder = "";
 		if(mc.getMutationOrder() > 1)
 			orderFolder = "Order" + currenOrder;
@@ -334,12 +357,16 @@ public class Mutator {
 			orderFolder = "";
 		}
 		
-		String targetFileCopy = folder + File.separator + mutantFolder + File.separator +  orderFolder + 
-				File.separator + baseName + "_M" +  mutantNumber + ending;		
+		String targetFileCopy = folder + File.separator + mutantFolder ;
+		
+		if(orderFolder != "")
+			targetFileCopy +=  File.separator +  orderFolder; 
+		
+		targetFileCopy += File.separator + baseName + "_M" +  mutantNumber + ending;		
 
 		// do copy
-		ResourceSet resourceSet = new ResourceSetImpl();
-		URI uri = URI.createFileURI(targetFileCopy);
+		ResourceSet resourceSet = new ResourceSetImpl();		
+		URI uri = EMFStorage.pathToUri(targetFileCopy);
 		Resource targetModel = resourceSet.createResource(uri);		
 		copier.copyAll(inputModel.getContents());
 		copier.copyReferences();
@@ -350,6 +377,56 @@ public class Mutator {
 		LogUtil.log(LogEvent.DEBUG, "Created copy of input model: " + targetFileCopy);
 		
 		return targetModel;
+	}
+	
+	private void createMatching(Mutation mutation){		
+		
+		//Resolve all
+		EcoreUtil.resolveAll(mutation.getInputModel().getResourceSet());
+		EcoreUtil.resolveAll(mutation.getMutant().getResourceSet());
+		
+		//Create Matching
+		CopierMatcher cmatcher =(CopierMatcher)MatcherUtil.getMatcherByKey("Copier", mutation.getInputModel(), mutation.getMutant());
+		cmatcher.setCopier(mutation.getCopier());
+		SymmetricDifference sd = cmatcher.createMatching(mutation.getInputModel(),  mutation.getMutant(),
+				Scope.RESOURCE_SET, false);
+		
+		
+		// Merge Imports
+		MergeImports importMerger = new MergeImports(sd, Scope.RESOURCE_SET, true);
+		importMerger.merge();		
+		
+		//Derive Technical Difference
+		ITechnicalDifferenceBuilder tdb = TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(
+				EMFModelAccessEx.getCharacteristicDocumentType(mutation.getInputModel()));
+		tdb.deriveTechDiff(sd, Scope.RESOURCE_SET);
+		
+		// Unmerge Imports
+		importMerger.unmerge();
+		
+		//Save Matching Model	
+		String mutantFile = mutation.getMutant().getURI().toFileString();
+		if(mutantFile == null)
+			mutantFile = EMFStorage.uriToPath(mutation.getMutant().getURI());		
+		
+		String folder = mutantFile.substring(0, mutantFile.lastIndexOf(File.separator));
+		String inputName = MutationUtil.getResourceName(mutation.getInputModel());
+		String mutantName = MutationUtil.getResourceName(mutation.getMutant());
+		
+		String matchingFile = folder + File.separator + inputName + "-" + mutantName + ".symmetric";
+
+		// do copy
+		ResourceSet resourceSet = new ResourceSetImpl();
+		URI uri = URI.createFileURI(matchingFile);
+		Resource targetModel = resourceSet.createResource(uri);	
+		targetModel.getContents().add(sd);
+		try {
+			targetModel.save(Collections.EMPTY_MAP);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 

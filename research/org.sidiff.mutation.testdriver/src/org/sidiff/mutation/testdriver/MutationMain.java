@@ -78,7 +78,7 @@ public class MutationMain implements IApplication {
 		// Validate mutants
 		boolean validateMutants = false;
 		
-		MutationConfig mc = new MutationConfig(inputModel, ers, os, cs, order, validateMutants, "FOLDERNAME");		
+		MutationConfig mc = new MutationConfig(inputModel, ers, os, cs, order, validateMutants);		
 		
 		Mutator mutator = new Mutator(mc);
 		mutator.mutate(new NullProgressMonitor());

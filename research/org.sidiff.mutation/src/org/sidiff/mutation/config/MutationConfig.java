@@ -19,9 +19,7 @@ public class MutationConfig {
 	private AbstractSelection<EditRule> aos;
 	private AbstractSelection<Match> acs;	
 	private int mutationOrder;	
-	private boolean validateMutants;
-	
-	private String name;
+	private boolean validateMutants;	
 	
 	public MutationConfig(){
 		super();
@@ -29,7 +27,7 @@ public class MutationConfig {
 	
 
 	public MutationConfig(Resource targetModel,LinkedList<EditRule> mutationOperators, AbstractSelection<EditRule> aos, AbstractSelection<Match> acs,
-			int mutationOrder, boolean validateMutants, String name) {
+			int mutationOrder, boolean validateMutants) {
 		super();
 		this.targetModel = targetModel;
 		this.mutationOperators = mutationOperators;
@@ -37,7 +35,6 @@ public class MutationConfig {
 		this.acs = acs;
 		this.mutationOrder = mutationOrder;
 		this.validateMutants = validateMutants;
-		this.name = name;
 	}
 
 
@@ -123,22 +120,11 @@ public class MutationConfig {
 	public void setValidateMutants(boolean validateMutants) {
 		this.validateMutants = validateMutants;
 	}
-
-
-
-
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 
 	@Override
 	public String toString() {
-		String result = "-----------------------Mutation Config: " + getName() + "-------------------------------" + System.lineSeparator();
+		String result = "-----------------------Mutation Config-------------------------------" + System.lineSeparator();
 		result += "Target Model: " + getTargetModel() + System.lineSeparator();
 		result += "Mutation Operators: " + getMutationOperators() + System.lineSeparator();
 		result += "Operator Selection: " + getAos() + System.lineSeparator();

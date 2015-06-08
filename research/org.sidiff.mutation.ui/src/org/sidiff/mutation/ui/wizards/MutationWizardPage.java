@@ -35,7 +35,6 @@ public class MutationWizardPage extends WizardPage {
 	private static final String DEFAULT_MESSAGE = "Mutation configuration";
 
 	private Composite container;
-	private NameWidget nameWidget;
 	private MutationOperatorsWidget operatorsWidget;
 	private MutationOptionsSelectionWidget optionsWidget;
 
@@ -99,7 +98,8 @@ public class MutationWizardPage extends WizardPage {
 		/*
 		 * Name widget
 		 */
-		nameWidget = new NameWidget(false, null, null, null);
+		//TODO Filter Widget
+		/*nameWidget = new NameWidget(false, null, null, null);
 		addWidget(container, nameWidget, new GridData(GridData.FILL_HORIZONTAL));
 
 		/*
@@ -151,7 +151,6 @@ public class MutationWizardPage extends WizardPage {
 	public void updateConfiguration(MutationConfig config) {
 		if (container == null)
 			throw new RuntimeException("Controls not created");
-		config.setName(nameWidget.getName());
 		operatorsWidget.updateConfiguration(config);
 		optionsWidget.updateConfiguration(config);
 		config.setTargetModel(targetModel);
@@ -176,7 +175,7 @@ public class MutationWizardPage extends WizardPage {
 	private void validate() {
 		updateWizardMessage(validateTargetModel()
 				&& validateWidget(operatorsWidget)
-				&& validateWidget(optionsWidget) && validateWidget(nameWidget));
+				&& validateWidget(optionsWidget));
 	}
 
 	private boolean validateTargetModel() {
