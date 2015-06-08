@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Group;
 import org.sidiff.mutation.config.MutationConfig;
 import org.sidiff.mutation.ui.widgets.MutationOperatorsWidget;
 import org.sidiff.mutation.ui.widgets.MutationOptionsSelectionWidget;
-import org.sidiff.mutation.ui.widgets.NameWidget;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 import org.silift.common.util.ui.widgets.IWidget;
