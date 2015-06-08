@@ -51,18 +51,20 @@ public class CopierMatcher extends BaseMatcher {
 
 	@Override
 	public String getDocumentType() {
-		// can handle every documentType (maybe with bad results when only few
-		// name attributes are defined in the meta-model)
+		// can handle every documentType 
 		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override
 	public boolean canComputeReliability() {
-		return false;	}
+		return false;	
+		
+	}
 
 	@Override
 	public Map<String, Object> getConfigurationOptions() {
-		// TODO Auto-generated method stub
+		
+		//Nothing
 		return null;
 	}
 
