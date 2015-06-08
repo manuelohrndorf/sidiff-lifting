@@ -1,0 +1,18 @@
+/**
+ */
+package org.eclipse.emf.refactor.examples.simpleWebModelingLanguage;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Static Page</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.SimpleWebModelingLanguagePackage#getStaticPage()
+ * @model
+ * @generated
+ */
+public interface StaticPage extends Page
+{
+} // StaticPage

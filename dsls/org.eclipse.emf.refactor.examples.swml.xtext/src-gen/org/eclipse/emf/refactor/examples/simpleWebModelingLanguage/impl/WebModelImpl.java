@@ -1,0 +1,337 @@
+/**
+ */
+package org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.impl;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+import org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.DataLayer;
+import org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.HypertextLayer;
+import org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.SimpleWebModelingLanguagePackage;
+import org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.WebModel;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Web Model</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.impl.WebModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.impl.WebModelImpl#getDataLayer <em>Data Layer</em>}</li>
+ *   <li>{@link org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.impl.WebModelImpl#getHypertextLayer <em>Hypertext Layer</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class WebModelImpl extends MinimalEObjectImpl.Container implements WebModel
+{
+  /**
+   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected static final String NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getName()
+   * @generated
+   * @ordered
+   */
+  protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getDataLayer() <em>Data Layer</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDataLayer()
+   * @generated
+   * @ordered
+   */
+  protected DataLayer dataLayer;
+
+  /**
+   * The cached value of the '{@link #getHypertextLayer() <em>Hypertext Layer</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getHypertextLayer()
+   * @generated
+   * @ordered
+   */
+  protected HypertextLayer hypertextLayer;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected WebModelImpl()
+  {
+    super();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return SimpleWebModelingLanguagePackage.Literals.WEB_MODEL;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setName(String newName)
+  {
+    String oldName = name;
+    name = newName;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SimpleWebModelingLanguagePackage.WEB_MODEL__NAME, oldName, name));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public DataLayer getDataLayer()
+  {
+    return dataLayer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetDataLayer(DataLayer newDataLayer, NotificationChain msgs)
+  {
+    DataLayer oldDataLayer = dataLayer;
+    dataLayer = newDataLayer;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER, oldDataLayer, newDataLayer);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDataLayer(DataLayer newDataLayer)
+  {
+    if (newDataLayer != dataLayer)
+    {
+      NotificationChain msgs = null;
+      if (dataLayer != null)
+        msgs = ((InternalEObject)dataLayer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER, null, msgs);
+      if (newDataLayer != null)
+        msgs = ((InternalEObject)newDataLayer).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER, null, msgs);
+      msgs = basicSetDataLayer(newDataLayer, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER, newDataLayer, newDataLayer));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public HypertextLayer getHypertextLayer()
+  {
+    return hypertextLayer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetHypertextLayer(HypertextLayer newHypertextLayer, NotificationChain msgs)
+  {
+    HypertextLayer oldHypertextLayer = hypertextLayer;
+    hypertextLayer = newHypertextLayer;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER, oldHypertextLayer, newHypertextLayer);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setHypertextLayer(HypertextLayer newHypertextLayer)
+  {
+    if (newHypertextLayer != hypertextLayer)
+    {
+      NotificationChain msgs = null;
+      if (hypertextLayer != null)
+        msgs = ((InternalEObject)hypertextLayer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER, null, msgs);
+      if (newHypertextLayer != null)
+        msgs = ((InternalEObject)newHypertextLayer).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER, null, msgs);
+      msgs = basicSetHypertextLayer(newHypertextLayer, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER, newHypertextLayer, newHypertextLayer));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER:
+        return basicSetDataLayer(null, msgs);
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER:
+        return basicSetHypertextLayer(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__NAME:
+        return getName();
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER:
+        return getDataLayer();
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER:
+        return getHypertextLayer();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__NAME:
+        setName((String)newValue);
+        return;
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER:
+        setDataLayer((DataLayer)newValue);
+        return;
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER:
+        setHypertextLayer((HypertextLayer)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER:
+        setDataLayer((DataLayer)null);
+        return;
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER:
+        setHypertextLayer((HypertextLayer)null);
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__DATA_LAYER:
+        return dataLayer != null;
+      case SimpleWebModelingLanguagePackage.WEB_MODEL__HYPERTEXT_LAYER:
+        return hypertextLayer != null;
+    }
+    return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (name: ");
+    result.append(name);
+    result.append(')');
+    return result.toString();
+  }
+
+} //WebModelImpl
