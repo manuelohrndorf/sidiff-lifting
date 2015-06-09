@@ -34,8 +34,14 @@ public class CopierMatcher extends BaseMatcher {
 		
 		// Both EObjects are corresponding if elementB has been created through copying elementA or vice versa.			
 		EObject BfromA = this.copier.get(elementA);
-		EObject AfromB = this.copier.get(elementB);		
-		return ((BfromA != null && BfromA.equals(elementB)) || (AfromB != null &&AfromB.equals(elementA)));		
+		EObject AfromB = this.copier.get(elementB);
+		
+		// Elements have been created/deleted without using a copier
+		if(BfromA == null && AfromB == null)
+			return false;
+		
+		return ((BfromA != null && BfromA.equals(elementB)) ||
+				(AfromB != null && AfromB.equals(elementA)));		
 	
 	}
 
