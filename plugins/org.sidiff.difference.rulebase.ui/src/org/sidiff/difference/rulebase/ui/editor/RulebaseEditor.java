@@ -279,9 +279,11 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 					int direction = ((TableViewer) viewer).getTable().getSortDirection();
 					
 					if(direction == SWT.UP){
-						return RBIW.getName(item1).compareTo(RBIW.getName(item2));
+						if(RBIW.getName(item1) != null && RBIW.getName(item2) != null)
+							return RBIW.getName(item1).compareTo(RBIW.getName(item2));
 					} else {
-						return RBIW.getName(item1).compareTo(RBIW.getName(item2)) * -1;
+						if(RBIW.getName(item1) != null && RBIW.getName(item2) != null)
+							return RBIW.getName(item1).compareTo(RBIW.getName(item2)) * -1;
 					}
 				}
 				return super.compare(viewer, e1, e2);
