@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -80,6 +82,16 @@ public class RuleBaseWrapper extends Observable {
 	private IntraRuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
 	
 	/**
+	 * Interface class for Henshin CPA integration
+	 */
+	private CpaClient cpaClient;
+	
+	/**
+	 * Global identifier for enabling/disabling of the extended dependency check of the rules
+	 */
+	public static final String PREF_ENABLE_EXTENDED_DEPENDENCY_CHECK = "Global.enableExtendedDependencyCheck";
+	
+	/**
 	 * List of edited/new (Henshin) Recognition-Rules. Used to delay the storage of the Henshin
 	 * files. Call {@link RuleBaseWrapper#saveRuleBase()} to save all.
 	 */
@@ -131,6 +143,9 @@ public class RuleBaseWrapper extends Observable {
 		}
 
 		init();
+		
+		// Init interface class for CPA integration
+		cpaClient = new CpaClient(rulebase);
 	}
 	
 	/**
@@ -380,14 +395,57 @@ public class RuleBaseWrapper extends Observable {
 	 *            The new rulebase item.
 	 */
 	public void addItem(RuleBaseItem item) {
+		
 		// Add item to rule base
 		rulebase.getItems().add(item);
 
 		// Add document type (if it is not already added).
 		addDocumentType(item.getEditRule());
+		
+		//load preference regarding the applied dependency analysis
+		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode("org.eclipse.ui");
+		boolean extendedDependencyCheckByHenshinCPAEnabled = preferences.getBoolean(PREF_ENABLE_EXTENDED_DEPENDENCY_CHECK, false);
 
-		// Find new potential dependencies in the rule base
-		ruleBasePotentialDependencyAnalyzer.findDependencies(item.getEditRule());
+		/**
+		 * Former dependency Analysis - very fast analysis
+		 */		
+//		extendedDependencyCheckByHenshinCPAEnabled = false; //enable for DEBUGGING purpose
+		if(!extendedDependencyCheckByHenshinCPAEnabled){
+			// Ausgabe von details zur formerCPA auf der Console
+//			long starttime = System.currentTimeMillis();
+			
+			// Find new potential dependencies in the ruleBase
+			/*Set<PotentialDependency> dependenciesOfFormerCPA =  */ruleBasePotentialDependencyAnalyzer.findDependencies(item.getEditRule());
+			
+			// --> Ausgabe von details zur formerCPA auf der Console
+//			long duration = System.currentTimeMillis()-starttime;
+			// required for mapping of Rules and EditRules
+//			Map<Rule,List<RuleBaseItem>> henshinRulesWithinRuleBaseItemsMapping = cpaClient.generateMappingOfHenshinRulesAndRuleBaseItems(rulebase);
+//			System.out.println("Anzahl der bereits vorhandenen Regeln: "+henshinRulesWithinRuleBaseItemsMapping.keySet().size() );
+//			System.out.println("Anzahl der neuen Units: "+item.getEditRule().getExecuteMainUnit().getModule().getUnits().size());
+//			System.out.println("Anzahl der Dependencies der formerCPA: "+dependenciesOfFormerCPA.size());
+//			System.out.println("Berechnungsdauer: "+duration/1000 +" Sekunden");
+		}
+		
+		/**
+		 * new dependency Analysis by henshin CPA - very fast analysis
+		 */	
+//		extendedDependencyCheckByHenshinCPAEnabled = true; //enable for DEBUGGING purpose
+		if(extendedDependencyCheckByHenshinCPAEnabled){
+			// Ausgabe von details zur henshin CPA auf der Console
+//			long starttime = System.currentTimeMillis();
+			
+			/*Set<PotentialDependency> dependenciesOfNewCPA = */cpaClient.analyseNewItem(item);
+			
+//			long duration = System.currentTimeMillis()-starttime;
+//			System.out.println("Anzahl der Dependencies der HenshinCPA: "+dependenciesOfNewCPA.size());
+//			System.out.println("Berechnungsdauer: "+duration/1000 +" Sekunden");
+			
+//			dependenciesOfFormerCPA.size();
+//			dependenciesOfNewCPA.size();
+			// add a "consistency" check, which checks, that the sourceNode and targetNode are within the sourRule and targetRule
+		}
+			
 	
 		// Extract formal parameters of the edit rule
 		ParameterExtractor paramExtractor = new ParameterExtractor(item.getEditRule());
@@ -448,7 +506,9 @@ public class RuleBaseWrapper extends Observable {
 
 		// Remove from maybe refreshed
 		newRecognitionRules.remove(item.getRecognitionRule());
-
+			if(item.getRecognitionRule().getRecognitionMainUnit() == null) {
+				removeRecognRuleFile = false;
+			}; 
 		// Remove recognition rule from file system
 		if (removeRecognRuleFile) {
 			URI recognitionRuleURI = EcoreUtil.getURI(item.getRecognitionRule().getRecognitionMainUnit()).trimFragment();

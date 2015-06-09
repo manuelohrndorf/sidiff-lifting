@@ -544,7 +544,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	/*
 	 * Check whether a type is a supported primitive type.
 	 */
-	private boolean isSupportedPrimitiveType(EClassifier type) {
+	public boolean isSupportedPrimitiveType(EClassifier type) {
 		return (type==ECORE.getEInt() || type==ECORE.getEDouble() || 
 				type==ECORE.getEBoolean() || type==ECORE.getEString());
 	}

@@ -9,6 +9,7 @@ import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.difference.asymmetric.dependencies.potential.util.PotentialRuleDependencies;
 import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.difference.rulebase.PotentialDependency;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 
@@ -65,8 +66,11 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * @param editRuleA
 	 *            The new edit rule in the rulebase.
 	 */
-	public void findDependencies(EditRule editRuleA) {
+	public Set<PotentialDependency> findDependencies(EditRule editRuleA) {
 		List<Rule> rulesA = HenshinUnitAnalysis.getRules(editRuleA.getExecuteMainUnit());
+		
+		// only serves for the inspection of the results.
+		PotentialRuleDependencies potentialRuleDependencies = new PotentialRuleDependencies();
 
 		/*
 		 * In (1) we compare each rule with itself. E.g. a rule 'add package to package'. 
@@ -74,7 +78,8 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		 */
 		for (Rule ruleA : rulesA) {
 			// (1) Compare each rule in the Module with itself.
-			findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleA), editRuleA);
+			PotentialRuleDependencies findRuleDependencies = findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleA), editRuleA);
+			potentialRuleDependencies.add(findRuleDependencies);
 		}
 		
 		for (RuleBaseItem item : rulebase.getItems()) {
@@ -94,12 +99,15 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 			for (Rule ruleA : rulesA) {
 				for (Rule ruleB : rulesB) {
 					// (2) Compare the new rule A with all old rules B
-					findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleB), editRuleB);
+					PotentialRuleDependencies ruleDependenciesOfAthenB = findRuleDependencies(getActionGraph(ruleA), editRuleA, getActionGraph(ruleB), editRuleB);
+					potentialRuleDependencies.add(ruleDependenciesOfAthenB);
 					// (3) Compare all old rules B with the new rule A
-					findRuleDependencies(getActionGraph(ruleB), editRuleB, getActionGraph(ruleA), editRuleA);
+					PotentialRuleDependencies ruleDependenciesofBthenA = findRuleDependencies(getActionGraph(ruleB), editRuleB, getActionGraph(ruleA), editRuleA);
+					potentialRuleDependencies.add(ruleDependenciesofBthenA);
 				}
 			}
 		}
+		return potentialRuleDependencies.getPotentialDependencies();
 	}
 
 	@Override
@@ -111,6 +119,7 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 				predecessor, predecessorEditRule,
 				successor, successorEditRule);
 		
+		//extracted to add the analysis
 		rulebase.getPotentialNodeDependencies().addAll(potDeps.getPotentialNodeDependencies());
 		rulebase.getPotentialEdgeDependencies().addAll(potDeps.getPotentialEdgeDependencies());
 		rulebase.getPotentialAttributeDependencies().addAll(potDeps.getPotentialAttributeDependencies());
