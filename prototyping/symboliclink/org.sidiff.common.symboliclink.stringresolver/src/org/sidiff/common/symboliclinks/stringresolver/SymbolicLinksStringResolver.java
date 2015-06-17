@@ -47,7 +47,7 @@ public class SymbolicLinksStringResolver implements IStringResolver {
 		String res = "";
 		if(eObject instanceof SymbolicLinkObject){
 			SymbolicLinkObject symbolicLinkObject = (SymbolicLinkObject)eObject;
-			res += "(" + symbolicLinkObject.getType().eGet(symbolicLinkObject.eClass().getEStructuralFeature("name")) + ")";
+			res += "(" + symbolicLinkObject.getType().eGet(symbolicLinkObject.getType().eClass().getEStructuralFeature("name")) + ") ";
 			if(symbolicLinkObject.eClass().getEStructuralFeature("name") != null){
 				res += symbolicLinkObject.eGet(symbolicLinkObject.eClass().getEStructuralFeature("name"));
 			}
