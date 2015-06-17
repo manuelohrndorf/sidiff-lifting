@@ -63,7 +63,6 @@ import org.silift.merging.ui.Activator;
 import org.silift.merging.ui.util.MergeModels;
 import org.silift.modifieddetector.IModifiedDetector;
 import org.silift.modifieddetector.util.ModifiedDetectorUtil;
-import org.silift.patching.patch.PatchCreator;
 import org.silift.patching.settings.ExecutionMode;
 import org.silift.patching.settings.PatchMode;
 import org.silift.patching.settings.PatchingSettings;
