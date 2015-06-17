@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.common.stringresolver.util.StringResolverUtil;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 /**
@@ -380,6 +381,8 @@ public class SemanticChangeSetItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(SymmetricPackage.Literals.SEMANTIC_CHANGE_SET__CHANGES);
+			childrenFeatures.add(SymmetricPackage.Literals.SEMANTIC_CHANGE_SET__JOINS);
+			childrenFeatures.add(SymmetricPackage.Literals.SEMANTIC_CHANGE_SET__SPLITS);
 		}
 		return childrenFeatures;
 	}
@@ -444,6 +447,10 @@ public class SemanticChangeSetItemProvider
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__NUMBER_OF_PARAMS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -458,6 +465,16 @@ public class SemanticChangeSetItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SymmetricPackage.Literals.SEMANTIC_CHANGE_SET__JOINS,
+				 SymmetricFactory.eINSTANCE.createFragmentJoin()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SymmetricPackage.Literals.SEMANTIC_CHANGE_SET__SPLITS,
+				 SymmetricFactory.eINSTANCE.createFragmentSplit()));
 	}
 
 	/**

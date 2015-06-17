@@ -117,6 +117,24 @@ public interface SymmetricFactory extends EFactory {
 	EObjectSet createEObjectSet();
 
 	/**
+	 * Returns a new object of class '<em>Fragment Join</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Fragment Join</em>'.
+	 * @generated
+	 */
+	FragmentJoin createFragmentJoin();
+
+	/**
+	 * Returns a new object of class '<em>Fragment Split</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Fragment Split</em>'.
+	 * @generated
+	 */
+	FragmentSplit createFragmentSplit();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

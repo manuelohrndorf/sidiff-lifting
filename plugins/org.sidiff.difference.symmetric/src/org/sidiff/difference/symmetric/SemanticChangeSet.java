@@ -32,6 +32,8 @@ import org.sidiff.difference.rulebase.EditRule;
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getNumberOfACs <em>Number Of ACs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getNumberOfParams <em>Number Of Params</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getEditRuleMatch <em>Edit Rule Match</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getJoins <em>Joins</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getSplits <em>Splits</em>}</li>
  * </ul>
  * </p>
  *
@@ -333,6 +335,42 @@ public interface SemanticChangeSet extends EObject {
 	 * @generated
 	 */
 	void setEditRuleMatch(EditRuleMatch value);
+
+	/**
+	 * Returns the value of the '<em><b>Joins</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.difference.symmetric.FragmentJoin}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.symmetric.FragmentJoin#getScs <em>Scs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Joins</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Joins</em>' containment reference list.
+	 * @see org.sidiff.difference.symmetric.SymmetricPackage#getSemanticChangeSet_Joins()
+	 * @see org.sidiff.difference.symmetric.FragmentJoin#getScs
+	 * @model opposite="scs" containment="true"
+	 * @generated
+	 */
+	EList<FragmentJoin> getJoins();
+
+	/**
+	 * Returns the value of the '<em><b>Splits</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.difference.symmetric.FragmentSplit}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.symmetric.FragmentSplit#getScs <em>Scs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Splits</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Splits</em>' containment reference list.
+	 * @see org.sidiff.difference.symmetric.SymmetricPackage#getSemanticChangeSet_Splits()
+	 * @see org.sidiff.difference.symmetric.FragmentSplit#getScs
+	 * @model opposite="scs" containment="true"
+	 * @generated
+	 */
+	EList<FragmentSplit> getSplits();
 
 	/**
 	 * Returns the value of the '<em><b>Recognition RName</b></em>' attribute.

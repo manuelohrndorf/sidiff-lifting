@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -81,6 +82,8 @@ public class SymmetricFactoryImpl extends EFactoryImpl implements SymmetricFacto
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP: return (EObject)createEString2EObjectSetMap();
 			case SymmetricPackage.EDIT_RULE_MATCH: return createEditRuleMatch();
 			case SymmetricPackage.EOBJECT_SET: return createEObjectSet();
+			case SymmetricPackage.FRAGMENT_JOIN: return createFragmentJoin();
+			case SymmetricPackage.FRAGMENT_SPLIT: return createFragmentSplit();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -209,6 +212,26 @@ public class SymmetricFactoryImpl extends EFactoryImpl implements SymmetricFacto
 	public EObjectSet createEObjectSet() {
 		EObjectSetImpl eObjectSet = new EObjectSetImpl();
 		return eObjectSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FragmentJoin createFragmentJoin() {
+		FragmentJoinImpl fragmentJoin = new FragmentJoinImpl();
+		return fragmentJoin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FragmentSplit createFragmentSplit() {
+		FragmentSplitImpl fragmentSplit = new FragmentSplitImpl();
+		return fragmentSplit;
 	}
 
 	/**

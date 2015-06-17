@@ -21,14 +21,24 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sidiff.difference.symmetric.impl.EString2EObjectSetMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.EString2EObjectSetMapImpl#getTypedValue <em>Value</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.impl.EString2EObjectSetMapImpl#getTypedKey <em>Key</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.Entry<String,EObjectSet> {
+	/**
+	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTypedValue()
+	 * @generated
+	 * @ordered
+	 */
+	protected EObjectSet value;
+
 	/**
 	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -48,16 +58,6 @@ public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.
 	 * @ordered
 	 */
 	protected String key = KEY_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTypedValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected EObjectSet value;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -164,10 +164,10 @@ public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
-				return getTypedKey();
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__VALUE:
 				return getTypedValue();
+			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
+				return getTypedKey();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -180,11 +180,11 @@ public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
-				setTypedKey((String)newValue);
-				return;
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__VALUE:
 				setTypedValue((EObjectSet)newValue);
+				return;
+			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
+				setTypedKey((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -198,11 +198,11 @@ public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
-				setTypedKey(KEY_EDEFAULT);
-				return;
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__VALUE:
 				setTypedValue((EObjectSet)null);
+				return;
+			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
+				setTypedKey(KEY_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -216,10 +216,10 @@ public class EString2EObjectSetMapImpl extends EObjectImpl implements BasicEMap.
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
-				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__VALUE:
 				return value != null;
+			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP__KEY:
+				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
 		}
 		return super.eIsSet(featureID);
 	}

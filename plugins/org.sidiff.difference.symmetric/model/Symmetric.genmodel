@@ -82,6 +82,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Symmetric.ecore#//SemanticChangeSet/numberOfACs"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Symmetric.ecore#//SemanticChangeSet/numberOfParams"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Symmetric.ecore#//SemanticChangeSet/editRuleMatch"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symmetric.ecore#//SemanticChangeSet/joins"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symmetric.ecore#//SemanticChangeSet/splits"/>
     </genClasses>
     <genClasses ecoreClass="Symmetric.ecore#//Correspondence">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//Correspondence/objA"/>
@@ -94,8 +96,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//AttributeValueChange/type"/>
     </genClasses>
     <genClasses ecoreClass="Symmetric.ecore#//EString2EObjectSetMap">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Symmetric.ecore#//EString2EObjectSetMap/key"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symmetric.ecore#//EString2EObjectSetMap/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Symmetric.ecore#//EString2EObjectSetMap/key"/>
     </genClasses>
     <genClasses ecoreClass="Symmetric.ecore#//EditRuleMatch">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Symmetric.ecore#//EditRuleMatch/nodeOccurrencesA"/>
@@ -103,6 +105,16 @@
     </genClasses>
     <genClasses ecoreClass="Symmetric.ecore#//EObjectSet">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//EObjectSet/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Symmetric.ecore#//FragmentJoin">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentJoin/scs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentJoin/joinFrom"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentJoin/joinInto"/>
+    </genClasses>
+    <genClasses ecoreClass="Symmetric.ecore#//FragmentSplit">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentSplit/scs"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentSplit/splitFrom"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Symmetric.ecore#//FragmentSplit/splitInto"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

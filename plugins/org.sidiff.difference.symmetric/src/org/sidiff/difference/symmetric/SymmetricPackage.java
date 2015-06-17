@@ -463,13 +463,31 @@ public interface SymmetricPackage extends EPackage {
 	int SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH = 13;
 
 	/**
+	 * The feature id for the '<em><b>Joins</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEMANTIC_CHANGE_SET__JOINS = 14;
+
+	/**
+	 * The feature id for the '<em><b>Splits</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEMANTIC_CHANGE_SET__SPLITS = 15;
+
+	/**
 	 * The number of structural features of the '<em>Semantic Change Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEMANTIC_CHANGE_SET_FEATURE_COUNT = 14;
+	int SEMANTIC_CHANGE_SET_FEATURE_COUNT = 16;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.symmetric.impl.CorrespondenceImpl <em>Correspondence</em>}' class.
@@ -575,22 +593,22 @@ public interface SymmetricPackage extends EPackage {
 	int ESTRING2_EOBJECT_SET_MAP = 9;
 
 	/**
-	 * The feature id for the '<em><b>Key</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ESTRING2_EOBJECT_SET_MAP__KEY = 0;
-
-	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ESTRING2_EOBJECT_SET_MAP__VALUE = 1;
+	int ESTRING2_EOBJECT_SET_MAP__VALUE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ESTRING2_EOBJECT_SET_MAP__KEY = 1;
 
 	/**
 	 * The number of structural features of the '<em>EString2 EObject Set Map</em>' class.
@@ -665,6 +683,99 @@ public interface SymmetricPackage extends EPackage {
 	 * @ordered
 	 */
 	int EOBJECT_SET_FEATURE_COUNT = 1;
+
+
+	/**
+	 * The meta object id for the '{@link org.sidiff.difference.symmetric.impl.FragmentJoinImpl <em>Fragment Join</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.difference.symmetric.impl.FragmentJoinImpl
+	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentJoin()
+	 * @generated
+	 */
+	int FRAGMENT_JOIN = 12;
+
+	/**
+	 * The feature id for the '<em><b>Scs</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_JOIN__SCS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Join From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_JOIN__JOIN_FROM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Join Into</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_JOIN__JOIN_INTO = 2;
+
+	/**
+	 * The number of structural features of the '<em>Fragment Join</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_JOIN_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.sidiff.difference.symmetric.impl.FragmentSplitImpl <em>Fragment Split</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.difference.symmetric.impl.FragmentSplitImpl
+	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentSplit()
+	 * @generated
+	 */
+	int FRAGMENT_SPLIT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Scs</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_SPLIT__SCS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Split From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_SPLIT__SPLIT_FROM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Split Into</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_SPLIT__SPLIT_INTO = 2;
+
+	/**
+	 * The number of structural features of the '<em>Fragment Split</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FRAGMENT_SPLIT_FEATURE_COUNT = 3;
 
 
 	/**
@@ -1068,6 +1179,28 @@ public interface SymmetricPackage extends EPackage {
 	EReference getSemanticChangeSet_EditRuleMatch();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetric.SemanticChangeSet#getJoins <em>Joins</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Joins</em>'.
+	 * @see org.sidiff.difference.symmetric.SemanticChangeSet#getJoins()
+	 * @see #getSemanticChangeSet()
+	 * @generated
+	 */
+	EReference getSemanticChangeSet_Joins();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetric.SemanticChangeSet#getSplits <em>Splits</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Splits</em>'.
+	 * @see org.sidiff.difference.symmetric.SemanticChangeSet#getSplits()
+	 * @see #getSemanticChangeSet()
+	 * @generated
+	 */
+	EReference getSemanticChangeSet_Splits();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetric.SemanticChangeSet#getRecognitionRName <em>Recognition RName</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1170,8 +1303,9 @@ public interface SymmetricPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EString2 EObject Set Map</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyDataType="org.eclipse.emf.ecore.EString"
+	 * @model features="value key" 
 	 *        valueType="org.sidiff.difference.symmetric.EObjectSet" valueContainment="true"
+	 *        keyDataType="org.eclipse.emf.ecore.EString"
 	 * @generated
 	 */
 	EClass getEString2EObjectSetMap();
@@ -1250,6 +1384,92 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEObjectSet_Elements();
+
+	/**
+	 * Returns the meta object for class '{@link org.sidiff.difference.symmetric.FragmentJoin <em>Fragment Join</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Fragment Join</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentJoin
+	 * @generated
+	 */
+	EClass getFragmentJoin();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.sidiff.difference.symmetric.FragmentJoin#getScs <em>Scs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Scs</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentJoin#getScs()
+	 * @see #getFragmentJoin()
+	 * @generated
+	 */
+	EReference getFragmentJoin_Scs();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetric.FragmentJoin#getJoinFrom <em>Join From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Join From</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentJoin#getJoinFrom()
+	 * @see #getFragmentJoin()
+	 * @generated
+	 */
+	EReference getFragmentJoin_JoinFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetric.FragmentJoin#getJoinInto <em>Join Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Join Into</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentJoin#getJoinInto()
+	 * @see #getFragmentJoin()
+	 * @generated
+	 */
+	EReference getFragmentJoin_JoinInto();
+
+	/**
+	 * Returns the meta object for class '{@link org.sidiff.difference.symmetric.FragmentSplit <em>Fragment Split</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Fragment Split</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentSplit
+	 * @generated
+	 */
+	EClass getFragmentSplit();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.sidiff.difference.symmetric.FragmentSplit#getScs <em>Scs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Scs</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentSplit#getScs()
+	 * @see #getFragmentSplit()
+	 * @generated
+	 */
+	EReference getFragmentSplit_Scs();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetric.FragmentSplit#getSplitFrom <em>Split From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Split From</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentSplit#getSplitFrom()
+	 * @see #getFragmentSplit()
+	 * @generated
+	 */
+	EReference getFragmentSplit_SplitFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.sidiff.difference.symmetric.FragmentSplit#getSplitInto <em>Split Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Split Into</em>'.
+	 * @see org.sidiff.difference.symmetric.FragmentSplit#getSplitInto()
+	 * @see #getFragmentSplit()
+	 * @generated
+	 */
+	EReference getFragmentSplit_SplitInto();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1584,6 +1804,22 @@ public interface SymmetricPackage extends EPackage {
 		EReference SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH = eINSTANCE.getSemanticChangeSet_EditRuleMatch();
 
 		/**
+		 * The meta object literal for the '<em><b>Joins</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SEMANTIC_CHANGE_SET__JOINS = eINSTANCE.getSemanticChangeSet_Joins();
+
+		/**
+		 * The meta object literal for the '<em><b>Splits</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SEMANTIC_CHANGE_SET__SPLITS = eINSTANCE.getSemanticChangeSet_Splits();
+
+		/**
 		 * The meta object literal for the '<em><b>Recognition RName</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1728,6 +1964,74 @@ public interface SymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EOBJECT_SET__ELEMENTS = eINSTANCE.getEObjectSet_Elements();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.difference.symmetric.impl.FragmentJoinImpl <em>Fragment Join</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.difference.symmetric.impl.FragmentJoinImpl
+		 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentJoin()
+		 * @generated
+		 */
+		EClass FRAGMENT_JOIN = eINSTANCE.getFragmentJoin();
+
+		/**
+		 * The meta object literal for the '<em><b>Scs</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_JOIN__SCS = eINSTANCE.getFragmentJoin_Scs();
+
+		/**
+		 * The meta object literal for the '<em><b>Join From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_JOIN__JOIN_FROM = eINSTANCE.getFragmentJoin_JoinFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Join Into</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_JOIN__JOIN_INTO = eINSTANCE.getFragmentJoin_JoinInto();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.difference.symmetric.impl.FragmentSplitImpl <em>Fragment Split</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.difference.symmetric.impl.FragmentSplitImpl
+		 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentSplit()
+		 * @generated
+		 */
+		EClass FRAGMENT_SPLIT = eINSTANCE.getFragmentSplit();
+
+		/**
+		 * The meta object literal for the '<em><b>Scs</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_SPLIT__SCS = eINSTANCE.getFragmentSplit_Scs();
+
+		/**
+		 * The meta object literal for the '<em><b>Split From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_SPLIT__SPLIT_FROM = eINSTANCE.getFragmentSplit_SplitFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Split Into</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FRAGMENT_SPLIT__SPLIT_INTO = eINSTANCE.getFragmentSplit_SplitInto();
 
 	}
 

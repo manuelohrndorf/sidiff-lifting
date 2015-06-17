@@ -8955,8 +8955,10 @@ plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateDifference
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateEString2EObjectSetMap_value_EObjectSet.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateEditRuleMatch_nodeOccurrencesA_EString2EObjectSetMap.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateEditRuleMatch_nodeOccurrencesB_EString2EObjectSetMap.gif -text
+plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSemanticChangeSet_joins_FragmentJoin.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSemanticChangeSet_parameterSubstitutions_ObjectParameterSubstitution.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSemanticChangeSet_parameterSubstitutions_ValueParameterSubstitution.gif -text
+plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSemanticChangeSet_splits_FragmentSplit.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSymmetricDifference_changeSets_SemanticChangeSet.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSymmetricDifference_changes_AddObject.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/ctool16/CreateSymmetricDifference_changes_AddReference.gif -text
@@ -8973,6 +8975,8 @@ plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/Difference.gif -te
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/EObjectSet.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/EString2EObjectSetMap.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/EditRuleMatch.gif -text
+plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/FragmentJoin.gif -text
+plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/FragmentSplit.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/ObjectParameterSubstitution.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/RemoveObject.gif -text
 plugins/org.sidiff.difference.symmetric.edit/icons/full/obj16/RemoveReference.gif -text
@@ -8995,6 +8999,8 @@ plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/EObjectSetItemProvider.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/EString2EObjectSetMapItemProvider.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/EditRuleMatchItemProvider.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/FragmentJoinItemProvider.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/FragmentSplitItemProvider.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/RemoveObjectItemProvider.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/RemoveReferenceItemProvider.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric.edit/src/org/sidiff/difference/symmetric/provider/SemanticChangeSetItemProvider.java -text svneol=unset#text/plain
@@ -9037,6 +9043,8 @@ plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/Chan
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/Correspondence.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/EObjectSet.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/EditRuleMatch.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/FragmentJoin.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/FragmentSplit.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/RemoveObject.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/RemoveReference.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/SemanticChangeSet.java -text svneol=unset#text/plain
@@ -9051,6 +9059,8 @@ plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/EObjectSetImpl.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/EString2EObjectSetMapImpl.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/EditRuleMatchImpl.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/FragmentJoinImpl.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/FragmentSplitImpl.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/RemoveObjectImpl.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/RemoveReferenceImpl.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/impl/SemanticChangeSetImpl.java -text svneol=unset#text/plain
@@ -9064,6 +9074,21 @@ plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/util
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/util/SymmetricAdapterFactory.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/util/SymmetricSwitch.java -text svneol=unset#text/plain
 plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/util/debug/ModelReducer.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/AddObjectValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/AddReferenceValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/AttributeValueChangeValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/ChangeValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/CorrespondenceValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/EObjectSetValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/EString2EObjectSetMapValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/EditRuleMatchValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/FragmentJoinValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/FragmentSplitValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/RemoveObjectValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/RemoveReferenceValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/SemanticChangeSetValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/src/org/sidiff/difference/symmetric/validation/SymmetricDifferenceValidator.java -text svneol=unset#text/plain
+plugins/org.sidiff.difference.symmetric/text/description.txt -text svneol=unset#text/plain
 plugins/org.sidiff.difference.technical/.classpath -text svneol=unset#text/plain
 plugins/org.sidiff.difference.technical/.project -text svneol=unset#text/plain
 plugins/org.sidiff.difference.technical/.settings/org.eclipse.jdt.core.prefs -text svneol=unset#text/plain

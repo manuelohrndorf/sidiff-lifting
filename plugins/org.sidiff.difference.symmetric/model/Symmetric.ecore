@@ -91,6 +91,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfParams" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editRuleMatch" eType="#//EditRuleMatch"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joins" upperBound="-1"
+        eType="#//FragmentJoin" containment="true" eOpposite="#//FragmentJoin/scs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splits" upperBound="-1"
+        eType="#//FragmentSplit" containment="true" eOpposite="#//FragmentSplit/scs"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Correspondence">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
@@ -104,9 +108,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EString2EObjectSetMap" instanceClassName="java.util.Map$Entry">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//EObjectSet"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditRuleMatch">
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeOccurrencesA" upperBound="-1"
@@ -121,5 +125,21 @@
         <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FragmentJoin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scs" lowerBound="1" eType="#//SemanticChangeSet"
+        eOpposite="#//SemanticChangeSet/joins"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinFrom" lowerBound="2"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinInto" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FragmentSplit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scs" lowerBound="1" eType="#//SemanticChangeSet"
+        eOpposite="#//SemanticChangeSet/splits"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splitFrom" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splitInto" lowerBound="2"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
 </ecore:EPackage>

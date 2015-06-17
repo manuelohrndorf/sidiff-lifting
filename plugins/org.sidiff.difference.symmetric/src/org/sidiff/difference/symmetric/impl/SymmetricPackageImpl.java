@@ -21,6 +21,8 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
+import org.sidiff.difference.symmetric.FragmentJoin;
+import org.sidiff.difference.symmetric.FragmentSplit;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
@@ -118,6 +120,20 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	private EClass eObjectSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass fragmentJoinEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass fragmentSplitEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -518,6 +534,24 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSemanticChangeSet_Joins() {
+		return (EReference)semanticChangeSetEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSemanticChangeSet_Splits() {
+		return (EReference)semanticChangeSetEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getSemanticChangeSet_RecognitionRName() {
 		return (EAttribute)semanticChangeSetEClass.getEStructuralFeatures().get(3);
 	}
@@ -609,7 +643,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EAttribute getEString2EObjectSetMap_Key() {
-		return (EAttribute)eString2EObjectSetMapEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)eString2EObjectSetMapEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -618,7 +652,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EReference getEString2EObjectSetMap_Value() {
-		return (EReference)eString2EObjectSetMapEClass.getEStructuralFeatures().get(1);
+		return (EReference)eString2EObjectSetMapEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -664,6 +698,78 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 */
 	public EReference getEObjectSet_Elements() {
 		return (EReference)eObjectSetEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFragmentJoin() {
+		return fragmentJoinEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentJoin_Scs() {
+		return (EReference)fragmentJoinEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentJoin_JoinFrom() {
+		return (EReference)fragmentJoinEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentJoin_JoinInto() {
+		return (EReference)fragmentJoinEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFragmentSplit() {
+		return fragmentSplitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentSplit_Scs() {
+		return (EReference)fragmentSplitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentSplit_SplitFrom() {
+		return (EReference)fragmentSplitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFragmentSplit_SplitInto() {
+		return (EReference)fragmentSplitEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -738,6 +844,8 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		createEAttribute(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__NUMBER_OF_ACS);
 		createEAttribute(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__NUMBER_OF_PARAMS);
 		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH);
+		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__JOINS);
+		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__SPLITS);
 
 		correspondenceEClass = createEClass(CORRESPONDENCE);
 		createEReference(correspondenceEClass, CORRESPONDENCE__OBJ_A);
@@ -750,8 +858,8 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		createEReference(attributeValueChangeEClass, ATTRIBUTE_VALUE_CHANGE__TYPE);
 
 		eString2EObjectSetMapEClass = createEClass(ESTRING2_EOBJECT_SET_MAP);
-		createEAttribute(eString2EObjectSetMapEClass, ESTRING2_EOBJECT_SET_MAP__KEY);
 		createEReference(eString2EObjectSetMapEClass, ESTRING2_EOBJECT_SET_MAP__VALUE);
+		createEAttribute(eString2EObjectSetMapEClass, ESTRING2_EOBJECT_SET_MAP__KEY);
 
 		editRuleMatchEClass = createEClass(EDIT_RULE_MATCH);
 		createEReference(editRuleMatchEClass, EDIT_RULE_MATCH__NODE_OCCURRENCES_A);
@@ -759,6 +867,16 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 
 		eObjectSetEClass = createEClass(EOBJECT_SET);
 		createEReference(eObjectSetEClass, EOBJECT_SET__ELEMENTS);
+
+		fragmentJoinEClass = createEClass(FRAGMENT_JOIN);
+		createEReference(fragmentJoinEClass, FRAGMENT_JOIN__SCS);
+		createEReference(fragmentJoinEClass, FRAGMENT_JOIN__JOIN_FROM);
+		createEReference(fragmentJoinEClass, FRAGMENT_JOIN__JOIN_INTO);
+
+		fragmentSplitEClass = createEClass(FRAGMENT_SPLIT);
+		createEReference(fragmentSplitEClass, FRAGMENT_SPLIT__SCS);
+		createEReference(fragmentSplitEClass, FRAGMENT_SPLIT__SPLIT_FROM);
+		createEReference(fragmentSplitEClass, FRAGMENT_SPLIT__SPLIT_INTO);
 	}
 
 	/**
@@ -871,6 +989,8 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		initEAttribute(getSemanticChangeSet_NumberOfACs(), ecorePackage.getEInt(), "numberOfACs", null, 0, 1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSemanticChangeSet_NumberOfParams(), ecorePackage.getEInt(), "numberOfParams", null, 0, 1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSemanticChangeSet_EditRuleMatch(), this.getEditRuleMatch(), null, "editRuleMatch", null, 0, 1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSemanticChangeSet_Joins(), this.getFragmentJoin(), this.getFragmentJoin_Scs(), "joins", null, 0, -1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSemanticChangeSet_Splits(), this.getFragmentSplit(), this.getFragmentSplit_Scs(), "splits", null, 0, -1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(correspondenceEClass, Correspondence.class, "Correspondence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCorrespondence_ObjA(), ecorePackage.getEObject(), null, "objA", null, 0, 1, Correspondence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -883,8 +1003,8 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		initEReference(getAttributeValueChange_Type(), ecorePackage.getEAttribute(), null, "type", null, 0, 1, AttributeValueChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eString2EObjectSetMapEClass, Map.Entry.class, "EString2EObjectSetMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEString2EObjectSetMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEString2EObjectSetMap_Value(), this.getEObjectSet(), null, "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEString2EObjectSetMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editRuleMatchEClass, EditRuleMatch.class, "EditRuleMatch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEditRuleMatch_NodeOccurrencesA(), this.getEString2EObjectSetMap(), null, "nodeOccurrencesA", null, 0, -1, EditRuleMatch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -892,6 +1012,16 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 
 		initEClass(eObjectSetEClass, EObjectSet.class, "EObjectSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEObjectSet_Elements(), ecorePackage.getEObject(), null, "elements", null, 0, -1, EObjectSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(fragmentJoinEClass, FragmentJoin.class, "FragmentJoin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFragmentJoin_Scs(), this.getSemanticChangeSet(), this.getSemanticChangeSet_Joins(), "scs", null, 1, 1, FragmentJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFragmentJoin_JoinFrom(), ecorePackage.getEObject(), null, "joinFrom", null, 2, -1, FragmentJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFragmentJoin_JoinInto(), ecorePackage.getEObject(), null, "joinInto", null, 1, -1, FragmentJoin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(fragmentSplitEClass, FragmentSplit.class, "FragmentSplit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFragmentSplit_Scs(), this.getSemanticChangeSet(), this.getSemanticChangeSet_Splits(), "scs", null, 1, 1, FragmentSplit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFragmentSplit_SplitFrom(), ecorePackage.getEObject(), null, "splitFrom", null, 1, -1, FragmentSplit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFragmentSplit_SplitInto(), ecorePackage.getEObject(), null, "splitInto", null, 2, -1, FragmentSplit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

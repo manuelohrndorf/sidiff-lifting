@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -128,6 +129,14 @@ public class SymmetricAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseEObjectSet(EObjectSet object) {
 				return createEObjectSetAdapter();
+			}
+			@Override
+			public Adapter caseFragmentJoin(FragmentJoin object) {
+				return createFragmentJoinAdapter();
+			}
+			@Override
+			public Adapter caseFragmentSplit(FragmentSplit object) {
+				return createFragmentSplitAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -314,6 +323,34 @@ public class SymmetricAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEObjectSetAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetric.FragmentJoin <em>Fragment Join</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.difference.symmetric.FragmentJoin
+	 * @generated
+	 */
+	public Adapter createFragmentJoinAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetric.FragmentSplit <em>Fragment Split</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.difference.symmetric.FragmentSplit
+	 * @generated
+	 */
+	public Adapter createFragmentSplitAdapter() {
 		return null;
 	}
 

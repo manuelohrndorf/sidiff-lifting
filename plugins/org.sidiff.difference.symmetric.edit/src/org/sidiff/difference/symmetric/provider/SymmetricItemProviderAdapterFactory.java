@@ -324,6 +324,52 @@ public class SymmetricItemProviderAdapterFactory extends SymmetricAdapterFactory
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetric.FragmentJoin} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FragmentJoinItemProvider fragmentJoinItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.difference.symmetric.FragmentJoin}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFragmentJoinAdapter() {
+		if (fragmentJoinItemProvider == null) {
+			fragmentJoinItemProvider = new FragmentJoinItemProvider(this);
+		}
+
+		return fragmentJoinItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetric.FragmentSplit} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FragmentSplitItemProvider fragmentSplitItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.difference.symmetric.FragmentSplit}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFragmentSplitAdapter() {
+		if (fragmentSplitItemProvider == null) {
+			fragmentSplitItemProvider = new FragmentSplitItemProvider(this);
+		}
+
+		return fragmentSplitItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

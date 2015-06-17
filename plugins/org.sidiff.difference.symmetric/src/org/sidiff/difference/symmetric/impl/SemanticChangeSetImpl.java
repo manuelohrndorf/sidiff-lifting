@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -22,6 +23,8 @@ import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.EditRuleMatch;
+import org.sidiff.difference.symmetric.FragmentJoin;
+import org.sidiff.difference.symmetric.FragmentSplit;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
@@ -48,6 +51,8 @@ import org.silift.difference.symboliclink.util.SymboliclinkUtil;
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getNumberOfACs <em>Number Of ACs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getNumberOfParams <em>Number Of Params</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getEditRuleMatch <em>Edit Rule Match</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getJoins <em>Joins</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getSplits <em>Splits</em>}</li>
  * </ul>
  * </p>
  *
@@ -273,6 +278,26 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 	 * @ordered
 	 */
 	protected EditRuleMatch editRuleMatch;
+
+	/**
+	 * The cached value of the '{@link #getJoins() <em>Joins</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJoins()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FragmentJoin> joins;
+
+	/**
+	 * The cached value of the '{@link #getSplits() <em>Splits</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSplits()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<FragmentSplit> splits;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -548,6 +573,30 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<FragmentJoin> getJoins() {
+		if (joins == null) {
+			joins = new EObjectContainmentWithInverseEList<FragmentJoin>(FragmentJoin.class, this, SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS, SymmetricPackage.FRAGMENT_JOIN__SCS);
+		}
+		return joins;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<FragmentSplit> getSplits() {
+		if (splits == null) {
+			splits = new EObjectContainmentWithInverseEList<FragmentSplit>(FragmentSplit.class, this, SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS, SymmetricPackage.FRAGMENT_SPLIT__SCS);
+		}
+		return splits;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -556,6 +605,10 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSubsets()).basicAdd(otherEnd, msgs);
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__SUPERSETS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSupersets()).basicAdd(otherEnd, msgs);
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getJoins()).basicAdd(otherEnd, msgs);
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSplits()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -574,6 +627,10 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 				return ((InternalEList<?>)getSupersets()).basicRemove(otherEnd, msgs);
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH:
 				return basicSetEditRuleMatch(null, msgs);
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				return ((InternalEList<?>)getJoins()).basicRemove(otherEnd, msgs);
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				return ((InternalEList<?>)getSplits()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -635,6 +692,10 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 				return getNumberOfParams();
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH:
 				return getEditRuleMatch();
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				return getJoins();
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				return getSplits();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -695,6 +756,14 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH:
 				setEditRuleMatch((EditRuleMatch)newValue);
 				return;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				getJoins().clear();
+				getJoins().addAll((Collection<? extends FragmentJoin>)newValue);
+				return;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				getSplits().clear();
+				getSplits().addAll((Collection<? extends FragmentSplit>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -749,6 +818,12 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH:
 				setEditRuleMatch((EditRuleMatch)null);
 				return;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				getJoins().clear();
+				return;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				getSplits().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -789,6 +864,10 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 				return numberOfParams != NUMBER_OF_PARAMS_EDEFAULT;
 			case SymmetricPackage.SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH:
 				return editRuleMatch != null;
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__JOINS:
+				return joins != null && !joins.isEmpty();
+			case SymmetricPackage.SEMANTIC_CHANGE_SET__SPLITS:
+				return splits != null && !splits.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

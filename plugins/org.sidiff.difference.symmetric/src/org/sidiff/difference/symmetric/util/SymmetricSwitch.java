@@ -11,6 +11,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -155,6 +156,18 @@ public class SymmetricSwitch<T> extends Switch<T> {
 			case SymmetricPackage.EOBJECT_SET: {
 				EObjectSet eObjectSet = (EObjectSet)theEObject;
 				T result = caseEObjectSet(eObjectSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SymmetricPackage.FRAGMENT_JOIN: {
+				FragmentJoin fragmentJoin = (FragmentJoin)theEObject;
+				T result = caseFragmentJoin(fragmentJoin);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SymmetricPackage.FRAGMENT_SPLIT: {
+				FragmentSplit fragmentSplit = (FragmentSplit)theEObject;
+				T result = caseFragmentSplit(fragmentSplit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -339,6 +352,36 @@ public class SymmetricSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEObjectSet(EObjectSet object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Fragment Join</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Fragment Join</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFragmentJoin(FragmentJoin object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Fragment Split</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Fragment Split</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFragmentSplit(FragmentSplit object) {
 		return null;
 	}
 
