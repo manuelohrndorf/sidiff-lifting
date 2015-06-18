@@ -181,6 +181,8 @@ public class RuleItemProvider extends UnitItemProvider implements IEditingDomain
 			// childrenFeatures.add(HenshinPackage.Literals.RULE__MAPPINGS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__MULTI_RULES);
 			// childrenFeatures.add(HenshinPackage.Literals.RULE__MULTI_MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.RULE__JOINS);
+			childrenFeatures.add(HenshinPackage.Literals.RULE__SPLITS);
 		}
 		return childrenFeatures;
 	}
@@ -216,6 +218,7 @@ public class RuleItemProvider extends UnitItemProvider implements IEditingDomain
 		
 		// childrenList.add(new RuleMultiMappingItemProvider(adapterFactory,
 		// rule));
+		
 		return childrenList;
 	}
 	
@@ -282,6 +285,8 @@ public class RuleItemProvider extends UnitItemProvider implements IEditingDomain
 			case HenshinPackage.RULE__RHS:
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 			case HenshinPackage.RULE__MULTI_RULES:
+			case HenshinPackage.RULE__JOINS:
+			case HenshinPackage.RULE__SPLITS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
 						true, false));
 				
@@ -377,6 +382,17 @@ public class RuleItemProvider extends UnitItemProvider implements IEditingDomain
 		//	(createChildParameter
 		//		(HenshinPackage.Literals.RULE__MULTI_MAPPINGS,
 		//		 HenshinFactory.eINSTANCE.createMapping()));
+		
+		newChildDescriptors.add
+		(createChildParameter
+			(HenshinPackage.Literals.RULE__SPLITS,
+			 HenshinFactory.eINSTANCE.createSplit()));
+		
+		newChildDescriptors.add
+		(createChildParameter
+			(HenshinPackage.Literals.RULE__JOINS,
+			 HenshinFactory.eINSTANCE.createJoin()));
+		
 	}
 	
 	/**

@@ -289,6 +289,24 @@ public interface HenshinFactory extends EFactory {
 	Not createNot();
 
 	/**
+	 * Returns a new object of class '<em>Split</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Split</em>'.
+	 * @generated
+	 */
+	Split createSplit();
+
+	/**
+	 * Returns a new object of class '<em>Join</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Join</em>'.
+	 * @generated
+	 */
+	Join createJoin();
+
+	/**
 	 * Returns a new object of class '<em>Xor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

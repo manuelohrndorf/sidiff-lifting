@@ -348,6 +348,18 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.SPLIT: {
+				Split split = (Split)theEObject;
+				T result = caseSplit(split);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.JOIN: {
+				Join join = (Join)theEObject;
+				T result = caseJoin(join);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -784,6 +796,36 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T caseNot(Not object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Split</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Split</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSplit(Split object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Join</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Join</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseJoin(Join object) {
 		return null;
 	}
 

@@ -91,6 +91,8 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.OR: return createOr();
 			case HenshinPackage.XOR: return createXor();
 			case HenshinPackage.NOT: return createNot();
+			case HenshinPackage.SPLIT: return createSplit();
+			case HenshinPackage.JOIN: return createJoin();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -414,6 +416,26 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public Not createNot() {
 		NotImpl not = new NotImpl();
 		return not;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Split createSplit() {
+		SplitImpl split = new SplitImpl();
+		return split;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Join createJoin() {
+		JoinImpl join = new JoinImpl();
+		return join;
 	}
 
 	/**

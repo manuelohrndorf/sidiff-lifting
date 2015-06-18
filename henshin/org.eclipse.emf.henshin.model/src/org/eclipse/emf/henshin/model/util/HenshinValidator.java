@@ -170,6 +170,10 @@ public class HenshinValidator extends EObjectValidator {
 				return validateXor((Xor)value, diagnostics, context);
 			case HenshinPackage.NOT:
 				return validateNot((Not)value, diagnostics, context);
+			case HenshinPackage.SPLIT:
+				return validateSplit((Split)value, diagnostics, context);
+			case HenshinPackage.JOIN:
+				return validateJoin((Join)value, diagnostics, context);
 			case HenshinPackage.ACTION:
 				return validateAction((Action)value, diagnostics, context);
 			default:
@@ -905,6 +909,24 @@ public class HenshinValidator extends EObjectValidator {
 		return validate_EveryDefaultConstraint(not, diagnostics, context);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateSplit(Split split, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(split, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateJoin(Join join, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(join, diagnostics, context);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

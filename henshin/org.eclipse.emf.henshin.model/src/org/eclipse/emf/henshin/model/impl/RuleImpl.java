@@ -40,12 +40,14 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Join;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Split;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
@@ -66,6 +68,8 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiRules <em>Multi Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiMappings <em>Multi Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getJavaImports <em>Java Imports</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getSplits <em>Splits</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getJoins <em>Joins</em>}</li>
  * </ul>
  * </p>
  *
@@ -182,6 +186,26 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected EList<String> javaImports;
+
+	/**
+	 * The cached value of the '{@link #getSplits() <em>Splits</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSplits()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Split> splits;
+
+	/**
+	 * The cached value of the '{@link #getJoins() <em>Joins</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJoins()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Join> joins;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -940,6 +964,30 @@ public class RuleImpl extends UnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Split> getSplits() {
+		if (splits == null) {
+			splits = new EObjectContainmentWithInverseEList<Split>(Split.class, this, HenshinPackage.RULE__SPLITS, HenshinPackage.SPLIT__RULE);
+		}
+		return splits;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Join> getJoins() {
+		if (joins == null) {
+			joins = new EObjectContainmentWithInverseEList<Join>(Join.class, this, HenshinPackage.RULE__JOINS, HenshinPackage.JOIN__RULE);
+		}
+		return joins;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID,
@@ -947,6 +995,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 		switch (featureID) {
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.RULE__SPLITS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSplits()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.RULE__JOINS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getJoins()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -972,6 +1024,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 				return ((InternalEList<?>)getMultiRules()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.RULE__MULTI_MAPPINGS:
 				return ((InternalEList<?>)getMultiMappings()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__SPLITS:
+				return ((InternalEList<?>)getSplits()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__JOINS:
+				return ((InternalEList<?>)getJoins()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -1002,6 +1058,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 				return getMultiMappings();
 			case HenshinPackage.RULE__JAVA_IMPORTS:
 				return getJavaImports();
+			case HenshinPackage.RULE__SPLITS:
+				return getSplits();
+			case HenshinPackage.RULE__JOINS:
+				return getJoins();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1047,6 +1107,14 @@ public class RuleImpl extends UnitImpl implements Rule {
 				getJavaImports().clear();
 				getJavaImports().addAll((Collection<? extends String>)newValue);
 				return;
+			case HenshinPackage.RULE__SPLITS:
+				getSplits().clear();
+				getSplits().addAll((Collection<? extends Split>)newValue);
+				return;
+			case HenshinPackage.RULE__JOINS:
+				getJoins().clear();
+				getJoins().addAll((Collection<? extends Join>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -1086,6 +1154,12 @@ public class RuleImpl extends UnitImpl implements Rule {
 			case HenshinPackage.RULE__JAVA_IMPORTS:
 				getJavaImports().clear();
 				return;
+			case HenshinPackage.RULE__SPLITS:
+				getSplits().clear();
+				return;
+			case HenshinPackage.RULE__JOINS:
+				getJoins().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -1116,6 +1190,10 @@ public class RuleImpl extends UnitImpl implements Rule {
 				return multiMappings != null && !multiMappings.isEmpty();
 			case HenshinPackage.RULE__JAVA_IMPORTS:
 				return javaImports != null && !javaImports.isEmpty();
+			case HenshinPackage.RULE__SPLITS:
+				return splits != null && !splits.isEmpty();
+			case HenshinPackage.RULE__JOINS:
+				return joins != null && !joins.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

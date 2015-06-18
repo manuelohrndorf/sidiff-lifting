@@ -119,6 +119,10 @@
         eType="#//Mapping" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaImports" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splits" upperBound="-1"
+        eType="#//Split" containment="true" eOpposite="#//Split/rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joins" upperBound="-1"
+        eType="#//Join" containment="true" eOpposite="#//Join/rule"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -216,6 +220,14 @@
         eType="#//Edge" eOpposite="#//Edge/target"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
         eType="#//Edge" eOpposite="#//Edge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tgtOfSplit" lowerBound="1"
+        eType="#//Split" eOpposite="#//Split/splitInto"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcOfSplit" lowerBound="1"
+        eType="#//Split" eOpposite="#//Split/splitFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcForJoin" lowerBound="1"
+        eType="#//Join" eOpposite="#//Join/joinFrom"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tgtForJoin" lowerBound="1"
+        eType="#//Join" eOpposite="#//Join/joinInto"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//ModelElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -312,4 +324,20 @@
   <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Action" instanceClassName="org.eclipse.emf.henshin.model.Action"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Split">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
+        eOpposite="#//Rule/splits"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splitFrom" lowerBound="1"
+        upperBound="-1" eType="#//Node" eOpposite="#//Node/srcOfSplit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="splitInto" lowerBound="2"
+        upperBound="-1" eType="#//Node" eOpposite="#//Node/tgtOfSplit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Join">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
+        eOpposite="#//Rule/joins"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinFrom" lowerBound="2"
+        upperBound="-1" eType="#//Node" eOpposite="#//Node/srcForJoin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joinInto" lowerBound="1"
+        upperBound="-1" eType="#//Node" eOpposite="#//Node/tgtForJoin"/>
+  </eClassifiers>
 </ecore:EPackage>

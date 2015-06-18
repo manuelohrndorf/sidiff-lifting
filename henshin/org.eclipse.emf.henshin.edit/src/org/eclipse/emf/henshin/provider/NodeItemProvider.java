@@ -74,6 +74,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements IEditi
 			addTypePropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
+			addTgtOfSplitPropertyDescriptor(object);
+			addSrcOfSplitPropertyDescriptor(object);
+			addSrcForJoinPropertyDescriptor(object);
+			addTgtForJoinPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -158,6 +162,94 @@ public class NodeItemProvider extends NamedElementItemProvider implements IEditi
 				 null));
 	}
 	
+	/**
+	 * This adds a property descriptor for the Tgt Of Split feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTgtOfSplitPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_tgtOfSplit_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_tgtOfSplit_feature", "_UI_Node_type"),
+				 HenshinPackage.Literals.NODE__TGT_OF_SPLIT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Src Of Split feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSrcOfSplitPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_srcOfSplit_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_srcOfSplit_feature", "_UI_Node_type"),
+				 HenshinPackage.Literals.NODE__SRC_OF_SPLIT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Src For Join feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSrcForJoinPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_srcForJoin_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_srcForJoin_feature", "_UI_Node_type"),
+				 HenshinPackage.Literals.NODE__SRC_FOR_JOIN,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Tgt For Join feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTgtForJoinPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_tgtForJoin_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_tgtForJoin_feature", "_UI_Node_type"),
+				 HenshinPackage.Literals.NODE__TGT_FOR_JOIN,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
 	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or

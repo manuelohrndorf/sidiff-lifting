@@ -542,6 +542,52 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Split} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SplitItemProvider splitItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Split}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSplitAdapter() {
+		if (splitItemProvider == null) {
+			splitItemProvider = new SplitItemProvider(this);
+		}
+
+		return splitItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Join} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected JoinItemProvider joinItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Join}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createJoinAdapter() {
+		if (joinItemProvider == null) {
+			joinItemProvider = new JoinItemProvider(this);
+		}
+
+		return joinItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Xor} instances.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->

@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiRules <em>Multi Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiMappings <em>Multi Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getJavaImports <em>Java Imports</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#getSplits <em>Splits</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#getJoins <em>Joins</em>}</li>
  * </ul>
  * </p>
  *
@@ -326,5 +328,41 @@ public interface Rule extends Unit {
 	 * @generated
 	 */
 	EList<String> getJavaImports();
+
+	/**
+	 * Returns the value of the '<em><b>Splits</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Split}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Split#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Splits</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Splits</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Splits()
+	 * @see org.eclipse.emf.henshin.model.Split#getRule
+	 * @model opposite="rule" containment="true"
+	 * @generated
+	 */
+	EList<Split> getSplits();
+
+	/**
+	 * Returns the value of the '<em><b>Joins</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Join}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Join#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Joins</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Joins</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Joins()
+	 * @see org.eclipse.emf.henshin.model.Join#getRule
+	 * @model opposite="rule" containment="true"
+	 * @generated
+	 */
+	EList<Join> getJoins();
 
 } // Rule

@@ -592,13 +592,31 @@ public interface HenshinPackage extends EPackage {
 	int RULE__JAVA_IMPORTS = UNIT_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Splits</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__SPLITS = UNIT_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Joins</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__JOINS = UNIT_FEATURE_COUNT + 10;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = UNIT_FEATURE_COUNT + 9;
+	int RULE_FEATURE_COUNT = UNIT_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -1005,13 +1023,49 @@ public interface HenshinPackage extends EPackage {
 	int NODE__OUTGOING = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Tgt Of Split</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__TGT_OF_SPLIT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Src Of Split</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__SRC_OF_SPLIT = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Src For Join</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__SRC_FOR_JOIN = NAMED_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Tgt For Join</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__TGT_FOR_JOIN = NAMED_ELEMENT_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
@@ -2121,6 +2175,98 @@ public interface HenshinPackage extends EPackage {
 	int NOT_FEATURE_COUNT = UNARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.SplitImpl <em>Split</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.SplitImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSplit()
+	 * @generated
+	 */
+	int SPLIT = 31;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPLIT__RULE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Split From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPLIT__SPLIT_FROM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Split Into</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPLIT__SPLIT_INTO = 2;
+
+	/**
+	 * The number of structural features of the '<em>Split</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPLIT_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.JoinImpl <em>Join</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.JoinImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getJoin()
+	 * @generated
+	 */
+	int JOIN = 32;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOIN__RULE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Join From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOIN__JOIN_FROM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Join Into</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOIN__JOIN_INTO = 2;
+
+	/**
+	 * The number of structural features of the '<em>Join</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JOIN_FEATURE_COUNT = 3;
+
+	/**
 	 * The meta object id for the '<em>Action</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2128,7 +2274,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAction()
 	 * @generated
 	 */
-	int ACTION = 31;
+	int ACTION = 33;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ModelElement <em>Model Element</em>}'.
@@ -2323,6 +2469,28 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRule_JavaImports();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Rule#getSplits <em>Splits</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Splits</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#getSplits()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_Splits();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Rule#getJoins <em>Joins</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Joins</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#getJoins()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_Joins();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AttributeCondition <em>Attribute Condition</em>}'.
@@ -2656,6 +2824,50 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNode_Outgoing();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.Node#getTgtOfSplit <em>Tgt Of Split</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Tgt Of Split</em>'.
+	 * @see org.eclipse.emf.henshin.model.Node#getTgtOfSplit()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_TgtOfSplit();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.Node#getSrcOfSplit <em>Src Of Split</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Src Of Split</em>'.
+	 * @see org.eclipse.emf.henshin.model.Node#getSrcOfSplit()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_SrcOfSplit();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.Node#getSrcForJoin <em>Src For Join</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Src For Join</em>'.
+	 * @see org.eclipse.emf.henshin.model.Node#getSrcForJoin()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_SrcForJoin();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.Node#getTgtForJoin <em>Tgt For Join</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Tgt For Join</em>'.
+	 * @see org.eclipse.emf.henshin.model.Node#getTgtForJoin()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_TgtForJoin();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Attribute <em>Attribute</em>}'.
@@ -3092,6 +3304,92 @@ public interface HenshinPackage extends EPackage {
 	EClass getNot();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Split <em>Split</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Split</em>'.
+	 * @see org.eclipse.emf.henshin.model.Split
+	 * @generated
+	 */
+	EClass getSplit();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Split#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Rule</em>'.
+	 * @see org.eclipse.emf.henshin.model.Split#getRule()
+	 * @see #getSplit()
+	 * @generated
+	 */
+	EReference getSplit_Rule();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Split#getSplitFrom <em>Split From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Split From</em>'.
+	 * @see org.eclipse.emf.henshin.model.Split#getSplitFrom()
+	 * @see #getSplit()
+	 * @generated
+	 */
+	EReference getSplit_SplitFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Split#getSplitInto <em>Split Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Split Into</em>'.
+	 * @see org.eclipse.emf.henshin.model.Split#getSplitInto()
+	 * @see #getSplit()
+	 * @generated
+	 */
+	EReference getSplit_SplitInto();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Join <em>Join</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Join</em>'.
+	 * @see org.eclipse.emf.henshin.model.Join
+	 * @generated
+	 */
+	EClass getJoin();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Join#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Rule</em>'.
+	 * @see org.eclipse.emf.henshin.model.Join#getRule()
+	 * @see #getJoin()
+	 * @generated
+	 */
+	EReference getJoin_Rule();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Join#getJoinFrom <em>Join From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Join From</em>'.
+	 * @see org.eclipse.emf.henshin.model.Join#getJoinFrom()
+	 * @see #getJoin()
+	 * @generated
+	 */
+	EReference getJoin_JoinFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Join#getJoinInto <em>Join Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Join Into</em>'.
+	 * @see org.eclipse.emf.henshin.model.Join#getJoinInto()
+	 * @see #getJoin()
+	 * @generated
+	 */
+	EReference getJoin_JoinInto();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.model.Action <em>Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3317,6 +3615,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RULE__JAVA_IMPORTS = eINSTANCE.getRule_JavaImports();
+
+		/**
+		 * The meta object literal for the '<em><b>Splits</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__SPLITS = eINSTANCE.getRule_Splits();
+
+		/**
+		 * The meta object literal for the '<em><b>Joins</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__JOINS = eINSTANCE.getRule_Joins();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
@@ -3581,6 +3895,38 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NODE__OUTGOING = eINSTANCE.getNode_Outgoing();
+
+		/**
+		 * The meta object literal for the '<em><b>Tgt Of Split</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__TGT_OF_SPLIT = eINSTANCE.getNode_TgtOfSplit();
+
+		/**
+		 * The meta object literal for the '<em><b>Src Of Split</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__SRC_OF_SPLIT = eINSTANCE.getNode_SrcOfSplit();
+
+		/**
+		 * The meta object literal for the '<em><b>Src For Join</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__SRC_FOR_JOIN = eINSTANCE.getNode_SrcForJoin();
+
+		/**
+		 * The meta object literal for the '<em><b>Tgt For Join</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__TGT_FOR_JOIN = eINSTANCE.getNode_TgtForJoin();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -3943,6 +4289,74 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NOT = eINSTANCE.getNot();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.SplitImpl <em>Split</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.SplitImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSplit()
+		 * @generated
+		 */
+		EClass SPLIT = eINSTANCE.getSplit();
+
+		/**
+		 * The meta object literal for the '<em><b>Rule</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SPLIT__RULE = eINSTANCE.getSplit_Rule();
+
+		/**
+		 * The meta object literal for the '<em><b>Split From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SPLIT__SPLIT_FROM = eINSTANCE.getSplit_SplitFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Split Into</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SPLIT__SPLIT_INTO = eINSTANCE.getSplit_SplitInto();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.JoinImpl <em>Join</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.JoinImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getJoin()
+		 * @generated
+		 */
+		EClass JOIN = eINSTANCE.getJoin();
+
+		/**
+		 * The meta object literal for the '<em><b>Rule</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JOIN__RULE = eINSTANCE.getJoin_Rule();
+
+		/**
+		 * The meta object literal for the '<em><b>Join From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JOIN__JOIN_FROM = eINSTANCE.getJoin_JoinFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Join Into</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference JOIN__JOIN_INTO = eINSTANCE.getJoin_JoinInto();
 
 		/**
 		 * The meta object literal for the '<em>Action</em>' data type.

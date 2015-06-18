@@ -32,7 +32,9 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Join;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Split;
 import org.eclipse.emf.henshin.model.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
 
@@ -49,6 +51,10 @@ import org.eclipse.emf.henshin.model.actions.NodeActionHelper;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getTgtOfSplit <em>Tgt Of Split</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getSrcOfSplit <em>Src Of Split</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getSrcForJoin <em>Src For Join</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getTgtForJoin <em>Tgt For Join</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,6 +111,46 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * @ordered
 	 */
 	protected EList<Edge> outgoing;
+
+	/**
+	 * The cached value of the '{@link #getTgtOfSplit() <em>Tgt Of Split</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTgtOfSplit()
+	 * @generated
+	 * @ordered
+	 */
+	protected Split tgtOfSplit;
+
+	/**
+	 * The cached value of the '{@link #getSrcOfSplit() <em>Src Of Split</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSrcOfSplit()
+	 * @generated
+	 * @ordered
+	 */
+	protected Split srcOfSplit;
+
+	/**
+	 * The cached value of the '{@link #getSrcForJoin() <em>Src For Join</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSrcForJoin()
+	 * @generated
+	 * @ordered
+	 */
+	protected Join srcForJoin;
+
+	/**
+	 * The cached value of the '{@link #getTgtForJoin() <em>Tgt For Join</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTgtForJoin()
+	 * @generated
+	 * @ordered
+	 */
+	protected Join tgtForJoin;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -269,6 +315,246 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Split getTgtOfSplit() {
+		if (tgtOfSplit != null && tgtOfSplit.eIsProxy()) {
+			InternalEObject oldTgtOfSplit = (InternalEObject)tgtOfSplit;
+			tgtOfSplit = (Split)eResolveProxy(oldTgtOfSplit);
+			if (tgtOfSplit != oldTgtOfSplit) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__TGT_OF_SPLIT, oldTgtOfSplit, tgtOfSplit));
+			}
+		}
+		return tgtOfSplit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Split basicGetTgtOfSplit() {
+		return tgtOfSplit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTgtOfSplit(Split newTgtOfSplit, NotificationChain msgs) {
+		Split oldTgtOfSplit = tgtOfSplit;
+		tgtOfSplit = newTgtOfSplit;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TGT_OF_SPLIT, oldTgtOfSplit, newTgtOfSplit);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTgtOfSplit(Split newTgtOfSplit) {
+		if (newTgtOfSplit != tgtOfSplit) {
+			NotificationChain msgs = null;
+			if (tgtOfSplit != null)
+				msgs = ((InternalEObject)tgtOfSplit).eInverseRemove(this, HenshinPackage.SPLIT__SPLIT_INTO, Split.class, msgs);
+			if (newTgtOfSplit != null)
+				msgs = ((InternalEObject)newTgtOfSplit).eInverseAdd(this, HenshinPackage.SPLIT__SPLIT_INTO, Split.class, msgs);
+			msgs = basicSetTgtOfSplit(newTgtOfSplit, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TGT_OF_SPLIT, newTgtOfSplit, newTgtOfSplit));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Split getSrcOfSplit() {
+		if (srcOfSplit != null && srcOfSplit.eIsProxy()) {
+			InternalEObject oldSrcOfSplit = (InternalEObject)srcOfSplit;
+			srcOfSplit = (Split)eResolveProxy(oldSrcOfSplit);
+			if (srcOfSplit != oldSrcOfSplit) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__SRC_OF_SPLIT, oldSrcOfSplit, srcOfSplit));
+			}
+		}
+		return srcOfSplit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Split basicGetSrcOfSplit() {
+		return srcOfSplit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSrcOfSplit(Split newSrcOfSplit, NotificationChain msgs) {
+		Split oldSrcOfSplit = srcOfSplit;
+		srcOfSplit = newSrcOfSplit;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__SRC_OF_SPLIT, oldSrcOfSplit, newSrcOfSplit);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSrcOfSplit(Split newSrcOfSplit) {
+		if (newSrcOfSplit != srcOfSplit) {
+			NotificationChain msgs = null;
+			if (srcOfSplit != null)
+				msgs = ((InternalEObject)srcOfSplit).eInverseRemove(this, HenshinPackage.SPLIT__SPLIT_FROM, Split.class, msgs);
+			if (newSrcOfSplit != null)
+				msgs = ((InternalEObject)newSrcOfSplit).eInverseAdd(this, HenshinPackage.SPLIT__SPLIT_FROM, Split.class, msgs);
+			msgs = basicSetSrcOfSplit(newSrcOfSplit, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__SRC_OF_SPLIT, newSrcOfSplit, newSrcOfSplit));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Join getSrcForJoin() {
+		if (srcForJoin != null && srcForJoin.eIsProxy()) {
+			InternalEObject oldSrcForJoin = (InternalEObject)srcForJoin;
+			srcForJoin = (Join)eResolveProxy(oldSrcForJoin);
+			if (srcForJoin != oldSrcForJoin) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__SRC_FOR_JOIN, oldSrcForJoin, srcForJoin));
+			}
+		}
+		return srcForJoin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Join basicGetSrcForJoin() {
+		return srcForJoin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSrcForJoin(Join newSrcForJoin, NotificationChain msgs) {
+		Join oldSrcForJoin = srcForJoin;
+		srcForJoin = newSrcForJoin;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__SRC_FOR_JOIN, oldSrcForJoin, newSrcForJoin);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSrcForJoin(Join newSrcForJoin) {
+		if (newSrcForJoin != srcForJoin) {
+			NotificationChain msgs = null;
+			if (srcForJoin != null)
+				msgs = ((InternalEObject)srcForJoin).eInverseRemove(this, HenshinPackage.JOIN__JOIN_FROM, Join.class, msgs);
+			if (newSrcForJoin != null)
+				msgs = ((InternalEObject)newSrcForJoin).eInverseAdd(this, HenshinPackage.JOIN__JOIN_FROM, Join.class, msgs);
+			msgs = basicSetSrcForJoin(newSrcForJoin, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__SRC_FOR_JOIN, newSrcForJoin, newSrcForJoin));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Join getTgtForJoin() {
+		if (tgtForJoin != null && tgtForJoin.eIsProxy()) {
+			InternalEObject oldTgtForJoin = (InternalEObject)tgtForJoin;
+			tgtForJoin = (Join)eResolveProxy(oldTgtForJoin);
+			if (tgtForJoin != oldTgtForJoin) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__TGT_FOR_JOIN, oldTgtForJoin, tgtForJoin));
+			}
+		}
+		return tgtForJoin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Join basicGetTgtForJoin() {
+		return tgtForJoin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTgtForJoin(Join newTgtForJoin, NotificationChain msgs) {
+		Join oldTgtForJoin = tgtForJoin;
+		tgtForJoin = newTgtForJoin;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TGT_FOR_JOIN, oldTgtForJoin, newTgtForJoin);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTgtForJoin(Join newTgtForJoin) {
+		if (newTgtForJoin != tgtForJoin) {
+			NotificationChain msgs = null;
+			if (tgtForJoin != null)
+				msgs = ((InternalEObject)tgtForJoin).eInverseRemove(this, HenshinPackage.JOIN__JOIN_INTO, Join.class, msgs);
+			if (newTgtForJoin != null)
+				msgs = ((InternalEObject)newTgtForJoin).eInverseAdd(this, HenshinPackage.JOIN__JOIN_INTO, Join.class, msgs);
+			msgs = basicSetTgtForJoin(newTgtForJoin, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TGT_FOR_JOIN, newTgtForJoin, newTgtForJoin));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
@@ -390,6 +676,22 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
 			case HenshinPackage.NODE__OUTGOING:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				if (tgtOfSplit != null)
+					msgs = ((InternalEObject)tgtOfSplit).eInverseRemove(this, HenshinPackage.SPLIT__SPLIT_INTO, Split.class, msgs);
+				return basicSetTgtOfSplit((Split)otherEnd, msgs);
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				if (srcOfSplit != null)
+					msgs = ((InternalEObject)srcOfSplit).eInverseRemove(this, HenshinPackage.SPLIT__SPLIT_FROM, Split.class, msgs);
+				return basicSetSrcOfSplit((Split)otherEnd, msgs);
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				if (srcForJoin != null)
+					msgs = ((InternalEObject)srcForJoin).eInverseRemove(this, HenshinPackage.JOIN__JOIN_FROM, Join.class, msgs);
+				return basicSetSrcForJoin((Join)otherEnd, msgs);
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				if (tgtForJoin != null)
+					msgs = ((InternalEObject)tgtForJoin).eInverseRemove(this, HenshinPackage.JOIN__JOIN_INTO, Join.class, msgs);
+				return basicSetTgtForJoin((Join)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -410,6 +712,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.NODE__OUTGOING:
 				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				return basicSetTgtOfSplit(null, msgs);
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				return basicSetSrcOfSplit(null, msgs);
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				return basicSetSrcForJoin(null, msgs);
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				return basicSetTgtForJoin(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -449,6 +759,18 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return getIncoming();
 			case HenshinPackage.NODE__OUTGOING:
 				return getOutgoing();
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				if (resolve) return getTgtOfSplit();
+				return basicGetTgtOfSplit();
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				if (resolve) return getSrcOfSplit();
+				return basicGetSrcOfSplit();
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				if (resolve) return getSrcForJoin();
+				return basicGetSrcForJoin();
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				if (resolve) return getTgtForJoin();
+				return basicGetTgtForJoin();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -483,6 +805,18 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				getOutgoing().clear();
 				getOutgoing().addAll((Collection<? extends Edge>)newValue);
 				return;
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				setTgtOfSplit((Split)newValue);
+				return;
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				setSrcOfSplit((Split)newValue);
+				return;
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				setSrcForJoin((Join)newValue);
+				return;
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				setTgtForJoin((Join)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -513,6 +847,18 @@ public class NodeImpl extends NamedElementImpl implements Node {
 			case HenshinPackage.NODE__OUTGOING:
 				getOutgoing().clear();
 				return;
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				setTgtOfSplit((Split)null);
+				return;
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				setSrcOfSplit((Split)null);
+				return;
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				setSrcForJoin((Join)null);
+				return;
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				setTgtForJoin((Join)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -536,6 +882,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return incoming != null && !incoming.isEmpty();
 			case HenshinPackage.NODE__OUTGOING:
 				return outgoing != null && !outgoing.isEmpty();
+			case HenshinPackage.NODE__TGT_OF_SPLIT:
+				return tgtOfSplit != null;
+			case HenshinPackage.NODE__SRC_OF_SPLIT:
+				return srcOfSplit != null;
+			case HenshinPackage.NODE__SRC_FOR_JOIN:
+				return srcForJoin != null;
+			case HenshinPackage.NODE__TGT_FOR_JOIN:
+				return tgtForJoin != null;
 		}
 		return super.eIsSet(featureID);
 	}

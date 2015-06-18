@@ -28,6 +28,10 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Node#getTgtOfSplit <em>Tgt Of Split</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Node#getSrcOfSplit <em>Src Of Split</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Node#getSrcForJoin <em>Src For Join</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Node#getTgtForJoin <em>Tgt For Join</em>}</li>
  * </ul>
  * </p>
  *
@@ -124,6 +128,118 @@ public interface Node extends NamedElement, GraphElement {
 	 * @generated
 	 */
 	EList<Edge> getOutgoing();
+
+	/**
+	 * Returns the value of the '<em><b>Tgt Of Split</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Split#getSplitInto <em>Split Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Tgt Of Split</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tgt Of Split</em>' reference.
+	 * @see #setTgtOfSplit(Split)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_TgtOfSplit()
+	 * @see org.eclipse.emf.henshin.model.Split#getSplitInto
+	 * @model opposite="splitInto" required="true"
+	 * @generated
+	 */
+	Split getTgtOfSplit();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getTgtOfSplit <em>Tgt Of Split</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tgt Of Split</em>' reference.
+	 * @see #getTgtOfSplit()
+	 * @generated
+	 */
+	void setTgtOfSplit(Split value);
+
+	/**
+	 * Returns the value of the '<em><b>Src Of Split</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Split#getSplitFrom <em>Split From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Src Of Split</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Src Of Split</em>' reference.
+	 * @see #setSrcOfSplit(Split)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_SrcOfSplit()
+	 * @see org.eclipse.emf.henshin.model.Split#getSplitFrom
+	 * @model opposite="splitFrom" required="true"
+	 * @generated
+	 */
+	Split getSrcOfSplit();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getSrcOfSplit <em>Src Of Split</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Src Of Split</em>' reference.
+	 * @see #getSrcOfSplit()
+	 * @generated
+	 */
+	void setSrcOfSplit(Split value);
+
+	/**
+	 * Returns the value of the '<em><b>Src For Join</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Join#getJoinFrom <em>Join From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Src For Join</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Src For Join</em>' reference.
+	 * @see #setSrcForJoin(Join)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_SrcForJoin()
+	 * @see org.eclipse.emf.henshin.model.Join#getJoinFrom
+	 * @model opposite="joinFrom" required="true"
+	 * @generated
+	 */
+	Join getSrcForJoin();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getSrcForJoin <em>Src For Join</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Src For Join</em>' reference.
+	 * @see #getSrcForJoin()
+	 * @generated
+	 */
+	void setSrcForJoin(Join value);
+
+	/**
+	 * Returns the value of the '<em><b>Tgt For Join</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Join#getJoinInto <em>Join Into</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Tgt For Join</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Tgt For Join</em>' reference.
+	 * @see #setTgtForJoin(Join)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_TgtForJoin()
+	 * @see org.eclipse.emf.henshin.model.Join#getJoinInto
+	 * @model opposite="joinInto" required="true"
+	 * @generated
+	 */
+	Join getTgtForJoin();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getTgtForJoin <em>Tgt For Join</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tgt For Join</em>' reference.
+	 * @see #getTgtForJoin()
+	 * @generated
+	 */
+	void setTgtForJoin(Join value);
 
 	/**
 	 * <!-- begin-user-doc -->

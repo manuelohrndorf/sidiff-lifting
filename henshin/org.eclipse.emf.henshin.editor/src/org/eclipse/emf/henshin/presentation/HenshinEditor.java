@@ -203,6 +203,14 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
+
+	/**
+	 * This is the property sheet page.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	protected PropertySheetPage propertySheetPage;
 	
 	/**
@@ -318,7 +326,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 					}
 				}
 				else if (p instanceof PropertySheet) {
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
+					if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage())) {
 						getActionBarContributor().setActiveEditor(HenshinEditor.this);
 						handleActivate();
 					}
@@ -469,6 +477,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 										}
 									}
 								}
+								return false;
 							}
 
 							return true;
@@ -1950,7 +1959,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 			getActionBarContributor().setActiveEditor(null);
 		}
 
-		if (propertySheetPage != null) {
+		for (PropertySheetPage propertySheetPage : propertySheetPages) {
 			propertySheetPage.dispose();
 		}
 

@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.IteratedUnit;
+import org.eclipse.emf.henshin.model.Join;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.ModelElement;
@@ -52,6 +53,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.eclipse.emf.henshin.model.Split;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
 import org.eclipse.emf.henshin.model.Unit;
@@ -278,6 +280,20 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass notEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass splitEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass joinEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -591,6 +607,24 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRule_Splits() {
+		return (EReference)ruleEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRule_Joins() {
+		return (EReference)ruleEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttributeCondition() {
 		return attributeConditionEClass;
 	}
@@ -863,6 +897,42 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 */
 	public EReference getNode_Outgoing() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_TgtOfSplit() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_SrcOfSplit() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_SrcForJoin() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_TgtForJoin() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1239,6 +1309,78 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getSplit() {
+		return splitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSplit_Rule() {
+		return (EReference)splitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSplit_SplitFrom() {
+		return (EReference)splitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSplit_SplitInto() {
+		return (EReference)splitEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getJoin() {
+		return joinEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getJoin_Rule() {
+		return (EReference)joinEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getJoin_JoinFrom() {
+		return (EReference)joinEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getJoin_JoinInto() {
+		return (EReference)joinEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getAction() {
 		return actionEDataType;
 	}
@@ -1343,6 +1485,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEReference(ruleEClass, RULE__MULTI_RULES);
 		createEReference(ruleEClass, RULE__MULTI_MAPPINGS);
 		createEAttribute(ruleEClass, RULE__JAVA_IMPORTS);
+		createEReference(ruleEClass, RULE__SPLITS);
+		createEReference(ruleEClass, RULE__JOINS);
 
 		parameterEClass = createEClass(PARAMETER);
 		createEReference(parameterEClass, PARAMETER__UNIT);
@@ -1363,6 +1507,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEReference(nodeEClass, NODE__GRAPH);
 		createEReference(nodeEClass, NODE__INCOMING);
 		createEReference(nodeEClass, NODE__OUTGOING);
+		createEReference(nodeEClass, NODE__TGT_OF_SPLIT);
+		createEReference(nodeEClass, NODE__SRC_OF_SPLIT);
+		createEReference(nodeEClass, NODE__SRC_FOR_JOIN);
+		createEReference(nodeEClass, NODE__TGT_FOR_JOIN);
 
 		edgeEClass = createEClass(EDGE);
 		createEReference(edgeEClass, EDGE__SOURCE);
@@ -1431,6 +1579,16 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		xorEClass = createEClass(XOR);
 
 		notEClass = createEClass(NOT);
+
+		splitEClass = createEClass(SPLIT);
+		createEReference(splitEClass, SPLIT__RULE);
+		createEReference(splitEClass, SPLIT__SPLIT_FROM);
+		createEReference(splitEClass, SPLIT__SPLIT_INTO);
+
+		joinEClass = createEClass(JOIN);
+		createEReference(joinEClass, JOIN__RULE);
+		createEReference(joinEClass, JOIN__JOIN_FROM);
+		createEReference(joinEClass, JOIN__JOIN_INTO);
 
 		// Create data types
 		actionEDataType = createEDataType(ACTION);
@@ -1552,6 +1710,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getRule_MultiRules(), this.getRule(), null, "multiRules", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_MultiMappings(), this.getMapping(), null, "multiMappings", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRule_JavaImports(), ecorePackage.getEString(), "javaImports", "", 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRule_Splits(), this.getSplit(), this.getSplit_Rule(), "splits", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRule_Joins(), this.getJoin(), this.getJoin_Rule(), "joins", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(ruleEClass, this.getRule(), "getKernelRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1665,6 +1825,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getNode_Graph(), this.getGraph(), this.getGraph_Nodes(), "graph", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Incoming(), this.getEdge(), this.getEdge_Target(), "incoming", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Outgoing(), this.getEdge(), this.getEdge_Source(), "outgoing", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_TgtOfSplit(), this.getSplit(), this.getSplit_SplitInto(), "tgtOfSplit", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_SrcOfSplit(), this.getSplit(), this.getSplit_SplitFrom(), "srcOfSplit", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_SrcForJoin(), this.getJoin(), this.getJoin_JoinFrom(), "srcForJoin", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_TgtForJoin(), this.getJoin(), this.getJoin_JoinInto(), "tgtForJoin", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(nodeEClass, this.getEdge(), "getAllEdges", 0, -1, IS_UNIQUE, IS_ORDERED);
 
@@ -1771,6 +1935,16 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(xorEClass, Xor.class, "Xor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(notEClass, Not.class, "Not", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(splitEClass, Split.class, "Split", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSplit_Rule(), this.getRule(), this.getRule_Splits(), "rule", null, 1, 1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSplit_SplitFrom(), this.getNode(), this.getNode_SrcOfSplit(), "splitFrom", null, 1, -1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSplit_SplitInto(), this.getNode(), this.getNode_TgtOfSplit(), "splitInto", null, 2, -1, Split.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(joinEClass, Join.class, "Join", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getJoin_Rule(), this.getRule(), this.getRule_Joins(), "rule", null, 1, 1, Join.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getJoin_JoinFrom(), this.getNode(), this.getNode_SrcForJoin(), "joinFrom", null, 2, -1, Join.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getJoin_JoinInto(), this.getNode(), this.getNode_TgtForJoin(), "joinInto", null, 1, -1, Join.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(actionEDataType, Action.class, "Action", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

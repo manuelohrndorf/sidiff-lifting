@@ -25,6 +25,22 @@
       </wizard>
    </extension>
 
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated henshin -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.henshin.presentation.HenshinModelWizardID"
+            name="%_UI_HenshinModelWizard_label"
+            class="org.eclipse.emf.henshin.presentation.HenshinModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/HenshinModelFile.gif">
+         <description>%_UI_HenshinModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
    <extension point="org.eclipse.ui.editors">
       <editor
             id="org.eclipse.emf.henshin.presentation.HenshinEditorID"

@@ -23,9 +23,11 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Join;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.Split;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**

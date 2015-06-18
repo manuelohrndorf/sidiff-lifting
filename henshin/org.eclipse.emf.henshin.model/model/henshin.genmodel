@@ -12,6 +12,13 @@
       interfacePackageSuffix="model" metaDataPackageSuffix="model" classPackageSuffix="model.impl"
       utilityPackageSuffix="model.util" ecorePackage="henshin.ecore#/">
     <genDataTypes ecoreDataType="henshin.ecore#//Action"/>
+    <genClasses image="false" ecoreClass="henshin.ecore#//ModelElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ModelElement/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Annotation/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Annotation/value"/>
+    </genClasses>
     <genClasses ecoreClass="henshin.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NamedElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NamedElement/description"/>
@@ -54,6 +61,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/injectiveMatching"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiRules"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiMappings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/javaImports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/splits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/joins"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getKernelRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getRootRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getMultiRule">
@@ -127,6 +137,8 @@
       <genOperations ecoreOperation="henshin.ecore#//Graph/getNAC">
         <genParameters ecoreParameter="henshin.ecore#//Graph/getNAC/name"/>
       </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getPACs"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getNACs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isLhs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isRhs"/>
       <genOperations ecoreOperation="henshin.ecore#//Graph/isNestedCondition"/>
@@ -152,6 +164,10 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Node/graph"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/outgoing"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/tgtOfSplit"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/srcOfSplit"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/srcForJoin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/tgtForJoin"/>
       <genOperations ecoreOperation="henshin.ecore#//Node/getAllEdges"/>
       <genOperations ecoreOperation="henshin.ecore#//Node/getOutgoing">
         <genParameters ecoreParameter="henshin.ecore#//Node/getOutgoing/type"/>
@@ -243,5 +259,15 @@
     <genClasses ecoreClass="henshin.ecore#//Or"/>
     <genClasses ecoreClass="henshin.ecore#//Xor"/>
     <genClasses ecoreClass="henshin.ecore#//Not"/>
+    <genClasses ecoreClass="henshin.ecore#//Split">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Split/rule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Split/splitFrom"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Split/splitInto"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Join">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Join/rule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Join/joinFrom"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Join/joinInto"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
