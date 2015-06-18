@@ -57,9 +57,15 @@ public class SergeWizardPage1 extends WizardPage {
 		Boolean valid = false;
 		configWidget.getSettings();
 		valid = configWidget.validate();
-		setErrorMessage(configWidget.getValidationMessage().getMessage());
+		setMessage(configWidget.getValidationMessage().getMessage(), ERROR);
+		if (configWidget.getValidationMessage().getMessage().equals("")){
+			/** TODO
+			 * Enter Message, that should be displayed.
+			 */
+			setMessage("HIER KÖNNTE IHRE NACHRICHT STEHEN.", NONE);
+		}
 		if (txtSelectOutputFolder.getText().length() == 0) {
-			setErrorMessage("Output Folder Path is missing.");
+			setMessage("Output Folder Path is missing.", ERROR);
 			valid = false;
 		}
 		setPageComplete(valid);
@@ -157,7 +163,7 @@ public class SergeWizardPage1 extends WizardPage {
 		
 		txtSelectOutputFolder.addModifyListener(validationListener);
 		
-		setErrorMessage("Output Folder Path is missing");
+		setMessage("Output Folder Path is missing", ERROR);
 	}
 
 	/**
@@ -226,6 +232,9 @@ public class SergeWizardPage1 extends WizardPage {
 	}
 
 	private void updateStatus(String message) {
+		/* TODO 
+		 * Change from setErrorMessage() to setMessage with if-clause on type
+		 */
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
