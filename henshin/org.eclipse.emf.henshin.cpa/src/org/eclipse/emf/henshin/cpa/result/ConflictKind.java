@@ -19,7 +19,8 @@ public enum ConflictKind {
 	DELETE_USE_CONFLICT("delete-use-conflict"), 
 	PRODUCE_FORBID_CONFLICT("produce-forbid-conflict"), 
 	CHANGE_USE_ATTR_CONFLICT("change-use-attr-conflict"), 
-	CHANGE_FORBID_ATTR_CONFLICT("change-forbid-attr-conflict");
+	CHANGE_FORBID_ATTR_CONFLICT("change-forbid-attr-conflict"),
+	PRODUCE_EDGE_DELETE_NODE_CONFLICT("produce_edge-delete_node-conflict");
 
 	private String name;
 
@@ -47,7 +48,6 @@ public enum ConflictKind {
 	// DELETE_USE_CONFLICT // r1.LHS --> r2.LHS
 	// DELETE_NEED_CONFLICT // r1.LHS --> r2.PAC
 	// PRODUCE_FORBID_CONFLICT // r1.RHS --> r2.NAC
-	// PRODUCE_EDGE_DELTE_NODE_CONFLICT // r1.RHS --> r2.LHS
 	// CHANGE_ATTR_CONFLICT // r1.LHS --> r2.LHS
 	// CHANGE_USE_ATTR_CONFLICT // r1.LHS --> r2.LHS (+PAC?)
 	// CHANGE_NEED_ATTR_CONFLICT // r1.LHS --> r2.PAC

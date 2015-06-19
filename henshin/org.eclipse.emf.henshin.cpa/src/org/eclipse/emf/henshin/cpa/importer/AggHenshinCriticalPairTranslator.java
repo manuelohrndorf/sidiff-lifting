@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.cpa.modelExtension.ComatchImpl;
 import org.eclipse.emf.henshin.cpa.modelExtension.ExtendedMatchImpl;
 import org.eclipse.emf.henshin.cpa.result.CPAResult;
@@ -37,12 +36,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.MappingList;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.Unit;
-
 import agg.attribute.AttrInstance;
 import agg.attribute.AttrMember;
 import agg.attribute.impl.ValueTuple;
@@ -903,7 +899,7 @@ public class AggHenshinCriticalPairTranslator {
 		case CriticalPairData.PRODUCE_FORBID_CONFLICT:
 			return ConflictKind.PRODUCE_FORBID_CONFLICT;
 		case CriticalPairData.PRODUCE_EDGE_DELTE_NODE_CONFLICT:
-			return ConflictKind.PRODUCE_FORBID_CONFLICT;
+			return ConflictKind.PRODUCE_EDGE_DELETE_NODE_CONFLICT;
 		case CriticalPairData.CHANGE_USE_ATTR_CONFLICT:
 			return ConflictKind.CHANGE_USE_ATTR_CONFLICT;
 		case CriticalPairData.CHANGE_NEED_ATTR_CONFLICT:

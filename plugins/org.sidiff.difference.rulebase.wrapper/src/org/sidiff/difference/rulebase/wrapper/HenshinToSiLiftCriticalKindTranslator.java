@@ -36,6 +36,9 @@ public class HenshinToSiLiftCriticalKindTranslator {
 			return PotentialDependencyKind.FORBID_CREATE;
 		if(conflictKind == ConflictKind.DELETE_USE_CONFLICT)
 			return PotentialDependencyKind.FORBID_CHANGE;
+		if(conflictKind == ConflictKind.PRODUCE_EDGE_DELETE_NODE_CONFLICT)
+			return PotentialDependencyKind.USE_DELETE;
+		System.err.println("WARNING: The conflict '"+conflict.toString()+"' could not have been translated to to an appropriated dependency kind of SiDiff.");
 		return null;
 	}
 
@@ -49,6 +52,7 @@ public class HenshinToSiLiftCriticalKindTranslator {
 			return PotentialDependencyKind.DELETE_FORBID;
 		if(dependencyKind == DependencyKind.CHANGE_FORBID_ATTR_DEPENDENCY)
 			return PotentialDependencyKind.CHANGE_FORBID;
+		System.err.println("WARNING: The dependency '"+dependency.toString()+"' could not have been translated to to an appropriated dependency kind of SiDiff.");
 		return null;
 	}
 }
