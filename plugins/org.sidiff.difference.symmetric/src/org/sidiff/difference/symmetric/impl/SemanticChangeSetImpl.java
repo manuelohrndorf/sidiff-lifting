@@ -902,11 +902,16 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 		return result.toString();
 	}
 
+	/**
+	 * @generated NOT
+	 */
 	@Override
 	public EditRule resolveEditRule() {
 		// Try to derive the EditRule via the available rulebases:
 		SymmetricDifference difference = (SymmetricDifference) this.eContainer();
-		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getModelA());
+
+		//TODO cpietsch 19.06.2015: überarbeiten
+		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getCorrespondences().get(0).getObjA());
 		return RuleBaseUtil.resolveEditRule(documentType, this.getEditRName());
 	}
 
