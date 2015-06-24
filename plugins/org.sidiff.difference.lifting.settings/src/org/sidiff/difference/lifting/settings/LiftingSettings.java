@@ -47,6 +47,13 @@ public class LiftingSettings extends Settings {
 	 * Whether to serialize the EditRuleMatch or not.
 	 */
 	private boolean serializeEditRuleMatch = false;
+	
+	
+	/**
+	 * Whether to detect Split/Joins or not
+	 */
+	private boolean detectSplitJoins = false;
+	
 
 	/**
 	 * <p>
@@ -181,6 +188,17 @@ public class LiftingSettings extends Settings {
 		return validate;
 	}
 
+	
+	/**
+	 * Checks if Split/Join Detection is enabled
+	 * 
+	 * @return <code>true</code> if enabled;
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean isDetectSplitJoins() {
+		return detectSplitJoins;
+	}
+	
 	/**
 	 * Set the validation of the input models. (Default: False)
 	 * 
@@ -195,6 +213,17 @@ public class LiftingSettings extends Settings {
 		}
 	}
 
+	/**
+	 * Enables or disables Split/Join Detection.
+	 * 
+	 * @param detectSplitJoins
+	 * 			<code>true</code> if enabled
+	 *          <code>false</code> otherwise.
+	 */
+	public void setDetectSplitJoins(boolean detectSplitJoins) {
+		this.detectSplitJoins = detectSplitJoins;
+	}
+	
 	/**
 	 * @return The Technical Difference Builder. (
 	 *         {@link ITechnicalDifferenceBuilder})
