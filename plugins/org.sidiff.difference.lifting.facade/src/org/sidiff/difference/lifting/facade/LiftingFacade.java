@@ -13,6 +13,7 @@ import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.splitjoindetection.SplitJoinDetector;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
@@ -59,6 +60,12 @@ public class LiftingFacade extends PipelineUtils {
 			postProcessor.postProcess();
 		}
 
+		// Split/Join Detection
+		if (settings.isDetectSplitJoins()) {
+			SplitJoinDetector sjDetect = new SplitJoinDetector(symmetricDifference);
+			symmetricDifference = sjDetect.detect();
+		}
+		
 		// Unmerge Imports
 		importMerger.unmerge();
 
@@ -129,6 +136,12 @@ public class LiftingFacade extends PipelineUtils {
 			// DeletedSubtreeAggregator aggregator = new
 			// DeletedSubtreeAggregator();
 			// aggregator.aggregate(d);
+			
+			// Split/Join Detection
+			if (settings.isDetectSplitJoins()) {			
+				SplitJoinDetector sjDetect = new SplitJoinDetector(symmetricDiff);
+				symmetricDiff = sjDetect.detect();
+			}
 		}
 
 		// Unmerge Imports

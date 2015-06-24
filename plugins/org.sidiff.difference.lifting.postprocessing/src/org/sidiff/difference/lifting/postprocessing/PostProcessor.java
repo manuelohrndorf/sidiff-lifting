@@ -16,23 +16,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.model.Annotation;
-import org.eclipse.emf.henshin.model.Join;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Split;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.matching.UriBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.symmetric.EObjectSet;
-import org.sidiff.difference.symmetric.FragmentJoin;
-import org.sidiff.difference.symmetric.FragmentSplit;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.ChangeSetPriorityComparator;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 
@@ -229,98 +217,8 @@ public class PostProcessor {
 		// sets which are not included in PCS_min to 'unused change sets'.
 		retainPCS_min(saveUnusedChangeSets);
 		
-		// In case lifted edit rules represent refactorings (e.g., Splits/Joins)
-		// arrange matched EObjects in FragmentSplits/Joins inside the SymmetricDifference.
-		arrangeRefactoringObjects();
-		
 	}
 
-	/**
-	 * Finds SemanticChangeSets with Refactorings (e.g., Splits/Joins Edit rules)
-	 * and arranges matched EObjects into respective Reference lists (e.g., splitInto)
-	 */
-	private void arrangeRefactoringObjects() {
-		
-		for(SemanticChangeSet scs: difference.getChangeSets()) {
-			
-			// use URIbasedEditruleMatch for easy access to EditRuleMatches from Nodes to EObjects
-			UriBasedEditRuleMatch uriBasedERMatch = new UriBasedEditRuleMatch(scs);
-			
-			EditRule er = scs.resolveEditRule();
-			Rule r = (Rule) er.getExecuteMainUnit().getSubUnits(false).get(0);
-						
-			// Check, if rule is a refactoring
-			// Current requirement: rule needs embedded Annotation [RuleType = "Refactoring"]		
-			for(Annotation anno: r.getAnnotations()) {
-				if(! anno.getKey().equals("RuleType") && anno.getValue().equals("Refactoring")) {
-					return;	//nothing to do
-				}
-			}
-
-			// process Rule Splits
-			for(Split erSplit: r.getSplits()) {
-
-				// create FragmentSplit for SymmetricDiff
-				FragmentSplit fSplit = SymmetricFactory.eINSTANCE.createFragmentSplit();
-
-				//arrange sources for FragmentSplit
-				for(Node erFromNode: erSplit.getSplitFrom()) {
-
-					Set<EObject> targetElements = uriBasedERMatch.getOccurenceA(erFromNode);
-					assert(targetElements.size()==1) : "Splits do not support Multi-Nodes, yet.";
-					EObject target = targetElements.iterator().next();
-					fSplit.getSplitFrom().add(target);	
-					
-				}
-
-				//arrange targets of FragmentSplit
-				for(Node erIntoNode: erSplit.getSplitInto()) {
-
-					Set<EObject> targetElements = uriBasedERMatch.getOccurenceB(erIntoNode);
-					assert(targetElements.size()==1) : "Splits do not support Multi-Nodes, yet.";
-					EObject targetElem = targetElements.iterator().next();
-					fSplit.getSplitInto().add(targetElem);
-
-				}
-
-				// add FragmentSplit to SCS
-				scs.getSplits().add(fSplit);
-
-			}
-
-			// process Rule Joins
-			for(Join erJoin: r.getJoins()) {
-
-				// create FragmentJoin for SymmetricDiff
-				FragmentJoin fJoin = SymmetricFactory.eINSTANCE.createFragmentJoin();
-
-				//arrange sources for FragmentJoin
-				for(Node erFromNode: erJoin.getJoinFrom()) {
-
-					Set<EObject> targetElements = uriBasedERMatch.getOccurenceA(erFromNode);
-					assert(targetElements.size()==1) : "Joins do not support Multi-Nodes, yet.";
-					EObject target = targetElements.iterator().next();
-					fJoin.getJoinFrom().add(target);	
-					
-				}
-
-				//arrange targets of FragmentJoin
-				for(Node erIntoNode: erJoin.getJoinInto()) {
-
-					Set<EObject> targetElements = uriBasedERMatch.getOccurenceB(erIntoNode);
-					assert(targetElements.size()==1) : "Joins do not support Multi-Nodes, yet.";
-					EObject targetElem = targetElements.iterator().next();
-					fJoin.getJoinInto().add(targetElem);
-
-				}
-
-				// add FragmentJoins to SCS
-				scs.getJoins().add(fJoin);
-			}
-		}
-
-	}
-	
 	
 	/**
 	 * Search for all semantic change sets that are not overlapping with another semantic change set

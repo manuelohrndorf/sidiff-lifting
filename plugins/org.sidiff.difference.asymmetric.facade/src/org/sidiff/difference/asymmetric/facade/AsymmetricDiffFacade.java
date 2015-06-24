@@ -23,6 +23,7 @@ import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.splitjoindetection.SplitJoinDetector;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
@@ -129,6 +130,13 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		postProcessor.postProcess();
 		StatisticsUtil.getInstance().stop("PostProcessing");
 
+		// Split/Join Detection
+		if (settings.isDetectSplitJoins()) {			
+			SplitJoinDetector sjDetect = new SplitJoinDetector(symmetricDiff);
+			symmetricDiff = sjDetect.detect();
+		}
+				
+		
 		// Print report
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "---------------------- FINISHED LIFTING --------------------");
