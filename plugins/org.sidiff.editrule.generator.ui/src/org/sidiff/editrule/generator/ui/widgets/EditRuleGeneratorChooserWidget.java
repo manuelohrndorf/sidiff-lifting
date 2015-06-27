@@ -6,10 +6,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetInformation;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetInformation;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidation, IWidgetInformation{
 

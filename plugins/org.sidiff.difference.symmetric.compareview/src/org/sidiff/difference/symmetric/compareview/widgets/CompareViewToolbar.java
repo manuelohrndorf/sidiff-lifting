@@ -16,11 +16,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.services.IEvaluationService;
 import org.eclipse.ui.services.IServiceLocator;
+import org.sidiff.common.ui.widgets.IToolbarContribution;
 import org.sidiff.difference.symmetric.compareview.Activator;
 import org.sidiff.difference.symmetric.compareview.internal.handler.CollapseCompareViewHandler;
 import org.sidiff.difference.symmetric.compareview.internal.handler.LayoutCompareViewHandler;
 import org.sidiff.difference.symmetric.compareview.internal.handler.ToggleHighlightHandler;
-import org.silift.common.util.ui.widgets.IToolbarContribution;
 
 public class CompareViewToolbar implements IToolbarContribution {
 

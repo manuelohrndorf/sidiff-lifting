@@ -14,6 +14,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.matcher.IMatcher;
@@ -21,10 +25,6 @@ import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
 import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetSelection;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener {
