@@ -77,6 +77,7 @@ public class MergingEngine {
 		this.modelA = modelA;
 		this.modelB = modelB;
 		this.documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+		this.mergingSettings = settings;
 	}
 	
 	/**
