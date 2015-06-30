@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
@@ -16,6 +17,7 @@ import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -57,12 +59,15 @@ import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.compareview.XtextMarker;
 import org.silift.common.HighlightableElement;
 
 @SuppressWarnings("restriction")
 public class DifferenceSelectionController implements ISelectionListener, INullSelectionListener {
 
 	private static final String COMPARE_VIEWER_EXTENSION = "org.sidiff.difference.compareViewer";
+	private static final String XTEXT_MARKER_EXTENSION = "org.sidiff.difference.symmetric.compareview.xtextmarker";
 
 	private static DifferenceSelectionController instance = null;
 
@@ -71,6 +76,9 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	private List<EObject> selected = null;
 	private List<EObject> treeDecorations = null;
 	private Set<TreeViewer> treeViewersWithDecorations = null;
+	private Map<EObject, URI> eObjecToResourceURI = new HashMap<EObject, URI>();
+	
+	private XtextMarker xtextmarker = null;
 
 	private Map<String, Collection<SupportedEditor>> compareViewers = null;
 
@@ -103,6 +111,16 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			}
 
 			compareViewers.put(compareViewerID, supportedEditors);
+		}
+		
+		config = registry.getConfigurationElementsFor(XTEXT_MARKER_EXTENSION);
+	
+		for (IConfigurationElement configElement : config) {
+			try {
+				xtextmarker = (XtextMarker) configElement.createExecutableExtension("xtextmarker");
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -166,6 +184,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			lastSelection = selection;
 
 			selected.clear();
+			eObjecToResourceURI.clear();
 			if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 				IStructuredSelection _selection = (IStructuredSelection) selection;
 				if (_selection.getFirstElement() instanceof SemanticChangeSet) {
@@ -178,8 +197,15 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 					handleChange((Change) _selection.getFirstElement());
 				} else if (_selection.getFirstElement() instanceof Correspondence) {
 					Correspondence corr = (Correspondence) _selection.getFirstElement();
-					selected.add(corr.getObjA());
-					selected.add(corr.getObjB());
+					
+					EObject eObjectA = corr.getObjA();
+					EObject eObjectB = corr.getObjB();
+					
+					selected.add(eObjectA);
+					selected.add(eObjectB);
+					
+					eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) corr.eContainer()).getModelA().getURI());
+					eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) corr.eContainer()).getModelB().getURI());
 				} else if (_selection.getFirstElement() instanceof OperationInvocation) {
 					OperationInvocation operationInvocation = (OperationInvocation) _selection.getFirstElement();
 					SemanticChangeSet semanticChangeSet = operationInvocation.getChangeSet();
@@ -222,6 +248,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			}
 		}
 		treeViewersWithDecorations.clear();
+		
+		if (xtextmarker != null) {
+			xtextmarker.clear();
+		}
 
 		List<EObject> decoratedViews = new ArrayList<EObject>();
 		for (int i = 0; i < decorators.size(); i++) {
@@ -244,11 +274,18 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			}
 
 			for (EObject selectedObject : selected) {
-				DecoratedTuple decoratedTuple = findObjectInEditor(selectedObject, treeEditors);
+				DecoratedTuple decoratedTuple = null;
+				if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
+					decoratedTuple = findTextObjectInEditor(selectedObject, treeEditors);
+				} else {
+					decoratedTuple = findObjectInEditor(selectedObject, treeEditors);
+				}
 				int index = 0;
 				for (IEditorPart editor : decoratedTuple.editors) {
 					bringEditorToTop(editor);
-					if (editor instanceof IViewerProvider) {
+					if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
+						xtextmarker.mark(selectedObject, editor);
+					} else if (editor instanceof IViewerProvider) {
 						Viewer viewer = ((IViewerProvider) editor).getViewer();
 
 						if (viewer instanceof TreeViewer) {
@@ -288,6 +325,26 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 				}
 			}
 		}
+	}
+	
+	private DecoratedTuple findTextObjectInEditor(EObject eObject, List<String> filter) {
+		DecoratedTuple decoratedTuple = new DecoratedTuple();
+		for (IEditorReference editorReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getEditorReferences()) {
+			if (xtextmarker != null && filter.contains(editorReference.getId())) {
+				URI resourceURI = eObjecToResourceURI.get(eObject);
+				Set<EObject> results = xtextmarker.findXtextObjectInEditor(eObject, editorReference.getEditor(true), resourceURI);
+				
+				if (!results.isEmpty()) {
+					decoratedTuple.editors.add(editorReference.getEditor(true));
+					for (EObject result : results)  {
+						decoratedTuple.eObjects.add(result);
+					}
+				}
+			}
+		}
+		
+		return decoratedTuple;
 	}
 
 	private DecoratedTuple findObjectInEditor(EObject eObject, List<String> filter) {
@@ -379,18 +436,34 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 	private void handleChange(Change change) {
 		if (change instanceof AddObject) {
-			selected.add(((AddObject) change).getObj());
+			EObject eObjectB = ((AddObject) change).getObj();
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof RemoveObject) {
-			selected.add(((RemoveObject) change).getObj());
+			EObject eObjectB = ((RemoveObject) change).getObj();
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof AttributeValueChange) {
-			selected.add(((AttributeValueChange) change).getObjA());
-			selected.add(((AttributeValueChange) change).getObjB());
+			EObject eObjectA = ((AttributeValueChange) change).getObjA();
+			EObject eObjectB = ((AttributeValueChange) change).getObjB();
+			selected.add(eObjectA);
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelA().getURI());
+			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof AddReference) {
-			selected.add(((AddReference) change).getSrc());
-			selected.add(((AddReference) change).getTgt());
+			EObject eObjectA = ((AddReference) change).getSrc();
+			EObject eObjectB = ((AddReference) change).getTgt();
+			selected.add(eObjectA);
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof RemoveReference) {
-			selected.add(((RemoveReference) change).getSrc());
-			selected.add(((RemoveReference) change).getTgt());
+			EObject eObjectA = ((RemoveReference) change).getSrc();
+			EObject eObjectB = ((RemoveReference) change).getTgt();
+			selected.add(eObjectA);
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		}
 	}
 

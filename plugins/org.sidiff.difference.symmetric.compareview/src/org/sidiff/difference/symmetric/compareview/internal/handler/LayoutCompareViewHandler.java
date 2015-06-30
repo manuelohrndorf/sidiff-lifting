@@ -129,8 +129,11 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 //				}		
 //			}
 //		}
+		System.out.println(uriA);
+		System.out.println(combination.treeEditorId);
 		editorAT = openDiagram(uriA, combination.treeEditorId);
-		editorA = openDiagram(diagramUriA, combination.editorId);
+		if (diagramUriA != null) 
+			editorA = openDiagram(diagramUriA, combination.editorId);
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorAT);
 
@@ -149,7 +152,8 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 //			}
 //		}
 		editorBT = openDiagram(uriB, combination.treeEditorId);
-		editorB = openDiagram(diagramUriB, combination.editorId);
+		if (diagramUriB != null) 
+			editorB = openDiagram(diagramUriB, combination.editorId);
 		
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorBT);
 		

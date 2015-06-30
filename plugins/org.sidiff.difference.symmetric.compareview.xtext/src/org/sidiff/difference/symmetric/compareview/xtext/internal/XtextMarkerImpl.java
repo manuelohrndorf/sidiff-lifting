@@ -32,12 +32,11 @@ public class XtextMarkerImpl implements XtextMarker {
 	@Override
 	public void mark(EObject textEObject, IEditorPart editor) {
 		INode textNode = adapt(INode.class, textEObject);
-	
 		if (textNode != null) {
 			IResource resource = ((XtextEditor) editor).getResource();
 			try {
 				IMarker marker = resource
-						.createMarker("org.sidiff.compare.textdecorator");
+						.createMarker("org.eclipse.core.resources.problemmarker");
 				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 				marker.setAttribute(IMarker.MESSAGE, "Textdecorator");
 				marker.setAttribute(IMarker.LINE_NUMBER,

@@ -65,6 +65,16 @@ public class CompareViewToolbar implements IToolbarContribution {
 				"org.sidiff.difference.symmetric.compareview.simplewebmodelFileCombination",
 				web);
 		
+		String smwl =
+				"-," +
+				"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage," +
+				"swml," +
+				"simplewebmodel_diagram";
+
+		editorFileCombinations.put(
+				"org.sidiff.difference.symmetric.compareview.simplewebmodellanguageFileCombination",
+				smwl);
+		
 		String fm =
 				"org.eclipse.featuremodel.diagrameditor.diagrameditor," +
 				"de.imotep.featuremodel.variability.metamodel.FeatureModel.presentation.FeatureModelEditorID," +
