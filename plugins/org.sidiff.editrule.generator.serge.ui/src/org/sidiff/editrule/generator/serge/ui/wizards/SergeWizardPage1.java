@@ -62,7 +62,7 @@ public class SergeWizardPage1 extends WizardPage {
 			/** TODO
 			 * Enter Message, that should be displayed.
 			 */
-			setMessage("HIER KÖNNTE IHRE NACHRICHT STEHEN.", NONE);
+			setMessage("", NONE);
 		}
 		if (txtSelectOutputFolder.getText().length() == 0) {
 			setMessage("Output Folder Path is missing.", ERROR);
