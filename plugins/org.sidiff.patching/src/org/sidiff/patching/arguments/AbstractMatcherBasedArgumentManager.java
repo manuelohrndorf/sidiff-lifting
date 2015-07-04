@@ -20,7 +20,12 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	/**
 	 * Correspondences between originModel and targetModel.
 	 */
-	private SymmetricDifference matching;
+	private SymmetricDifference matchingOriginTarget;
+	
+	/**
+	 * Correspondences between changedModel and targetModel.
+	 */
+	private SymmetricDifference matchingChangedTarget;
 
 	public AbstractMatcherBasedArgumentManager(IMatcher matcher) {
 		this.matcher = matcher;
@@ -29,8 +34,8 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	@Override
 	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
 		EObject originObject = binding.getActualA();
-		if (originObject != null && matching.getCorrespondingObjectInB(originObject) == targetObject) {
-			return matching.getReliability(originObject, targetObject);
+		if (originObject != null && matchingOriginTarget.getCorrespondingObjectInB(originObject) == targetObject) {
+			return matchingOriginTarget.getReliability(originObject, targetObject);
 		}
 
 		return 0.0f;
@@ -39,12 +44,18 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	@Override
 	protected EObject resolveOriginObject(EObject originObject) {
 		// Lazy calculate the matching
-		if (matching == null){
-			matching = matcher.createMatching(getOriginModel(), getTargetModel(), getScope(), true);
+		if (matchingOriginTarget == null){
+			matchingOriginTarget = matcher.createMatching(getOriginModel(), getTargetModel(), getScope(), true);
 		}
 		
-		if (matching.getCorrespondingObjectInB(originObject) != null) {
-			return matching.getCorrespondingObjectInB(originObject);
+		if(matchingChangedTarget == null){
+			matchingChangedTarget = matcher.createMatching(getChangedModel(), getTargetModel(), getScope(), true);
+		}
+		
+		if (matchingOriginTarget.getCorrespondingObjectInB(originObject) != null) {
+			return matchingOriginTarget.getCorrespondingObjectInB(originObject);
+		} else if(matchingChangedTarget.getCorrespondingObjectInB(originObject) != null){
+			return matchingChangedTarget.getCorrespondingObjectInB(originObject);
 		}
 
 		EObjectLocation location = EMFResourceUtil.locate(getOriginModel(), originObject);
@@ -52,7 +63,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 		if (location == EObjectLocation.PACKAGE_REGISTRY) {
 			Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(originObject, originObject);
 			c.setReliability(1.0f);			
-			matching.addCorrespondence(c);
+			matchingOriginTarget.addCorrespondence(c);
 			return originObject;
 		}
 		if (location == EObjectLocation.RESOURCE_SET_INTERNAL) {
