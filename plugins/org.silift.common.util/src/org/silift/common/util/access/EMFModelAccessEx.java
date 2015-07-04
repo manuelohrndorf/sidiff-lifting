@@ -1,5 +1,6 @@
 package org.silift.common.util.access;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,12 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.silift.common.util.emf.EMFStorage;
@@ -269,4 +272,11 @@ public class EMFModelAccessEx {
 		}
 	}
 
+	public static Resource copyResource(Resource resource, String path, String filename){
+		URI uri = EMFStorage.pathToUri(path+File.separator+filename+"."+resource.getURI().fileExtension()); 
+		
+
+		EMFStorage.eSaveAs(uri, EcoreUtil.copy(resource.getContents().get(0)));
+		return EMFStorage.eLoad(uri).eResource();
+	}
 }
