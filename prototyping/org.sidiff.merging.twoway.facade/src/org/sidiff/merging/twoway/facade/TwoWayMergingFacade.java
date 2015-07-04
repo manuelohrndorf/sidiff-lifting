@@ -3,7 +3,9 @@ package org.sidiff.merging.twoway.facade;
 import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.deriveAsymmetricDifference;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -16,18 +18,17 @@ import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.asymmetric.facade.util.RuleBaseFilter;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterMapper;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
+import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.symmetric.AddObject;
-import org.sidiff.difference.symmetric.AddReference;
+import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
-import org.sidiff.merging.twoway.facade.TwoWayMergingSettings.ChangeKind;
 
 /**
  * 
@@ -71,10 +72,16 @@ public class TwoWayMergingFacade {
 
 		// Derive technical difference
 		ITechnicalDifferenceBuilder diffBuilder = settings.getTechBuilder();
-		diffBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
+		symmetricDiff = diffBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
 
 		// Remove changes
-		cleanUpSymmetricDifference(symmetricDiff, settings.getChangeKind());
+		List<Change> changes = new ArrayList<Change>();
+		for(Change change : symmetricDiff.getChanges()){
+			if(change instanceof RemoveObject || change instanceof RemoveReference){
+				changes.add(change);
+			}
+		}
+		symmetricDiff.getChanges().removeAll(changes);
 		
 		// Lift difference
 		assert (symmetricDiff.getCorrespondences().size() > 0) : "Empty difference!";
@@ -129,26 +136,13 @@ public class TwoWayMergingFacade {
 		return fullDiff;
 	}
 	
-	/**
-	 * 
-	 * @param symmetricDifference
-	 * @param kind
-	 */
-	private static void cleanUpSymmetricDifference(SymmetricDifference symmetricDifference, ChangeKind kind) {
-		List<Change> changes = new ArrayList<Change>();
-		if(kind.equals(ChangeKind.ADD)){
-			for(Change change : symmetricDifference.getChanges()){
-				if(change instanceof AddObject || change instanceof AddReference){
-					changes.add(change);
-				}
-			}
-		}else if(kind.equals(ChangeKind.REMOVE)){
-			for(Change change : symmetricDifference.getChanges()){
-				if(change instanceof RemoveObject || change instanceof RemoveReference){
-					changes.add(change);
-				}
+	public static Set<IRuleBase> getAvailableAtomicRuleBases(String docType){
+		Set<IRuleBase> rulebases = new HashSet<IRuleBase>();
+		for(IRuleBase rulebase : PipelineUtils.getAvailableRulebases(docType)){
+			if(rulebase.getName().toLowerCase().contains("atomic")){
+				rulebases.add(rulebase);
 			}
 		}
-		symmetricDifference.getChanges().removeAll(changes);
+		return rulebases;
 	}
 }

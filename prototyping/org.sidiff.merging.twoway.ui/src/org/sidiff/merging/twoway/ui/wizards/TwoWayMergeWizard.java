@@ -1,32 +1,36 @@
 package org.sidiff.merging.twoway.ui.wizards;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.merging.twoway.MergingEngine;
+import org.sidiff.merging.twoway.facade.TwoWayMergingFacade;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 import org.sidiff.merging.twoway.ui.pages.TwoWayMergeConfigurationPage;
+import org.sidiff.patching.PatchEngine;
+import org.silift.common.util.access.EMFModelAccessEx;
+import org.silift.common.util.emf.EMFStorage;
+import org.silift.patching.settings.ExecutionMode;
 
 public class TwoWayMergeWizard extends Wizard {
 
-	InputModels inputModels;
+	private InputModels inputModels;
 	
-	TwoWayMergingSettings settings;
+	private TwoWayMergingSettings settings;
 	
-	TwoWayMergeConfigurationPage page;
+	private TwoWayMergeConfigurationPage page;
+	
+	private String savePath;
 
 	public TwoWayMergeWizard(IFile fileA, IFile fileB){
 		inputModels = new InputModels(fileA, fileB);
+		savePath = fileA.getLocation().toOSString().replace(fileA.getLocation().lastSegment(), "");
 		settings = new TwoWayMergingSettings(inputModels.getCharacteristicDocumentType());
 	}
 	
@@ -42,18 +46,19 @@ public class TwoWayMergeWizard extends Wizard {
 		Job job = new Job("Merging two models") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				Set<IRuleBase> rulebases = new HashSet<IRuleBase>();
-				for(IRuleBase rulebase : PipelineUtils.getAvailableRulebases(inputModels.getCharacteristicDocumentType())){
-					if(rulebase.getName().equalsIgnoreCase("atomic")){
-						rulebases.add(rulebase);
-					}
-				}
-				settings.setRuleBases(rulebases);
-				MergingEngine engine = new MergingEngine(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+				
+				settings.setRuleBases(TwoWayMergingFacade.getAvailableAtomicRuleBases(inputModels.getCharacteristicDocumentType()));
+				Resource mergedResource = EMFModelAccessEx.copyResource(inputModels.getResourceA(), savePath, "merged"+inputModels.getResourceA().getURI().lastSegment()+ inputModels.getResourceB().getURI().lastSegment());
+				
+				MergingEngine engine = new MergingEngine(inputModels.getResourceA(), inputModels.getResourceB(), mergedResource, settings);
 				try {
 					engine.init();
-					engine.merge();
-					engine.serializeMergedModel(inputModels.getFileA().getLocation().toOSString().replace(inputModels.getFileA().getName(), "Merged." + inputModels.getFileA().getFileExtension()));
+					PatchEngine interactiveMergeEngine = engine.merge();
+					if(settings.getExecutionMode().equals(ExecutionMode.INTERACTIVE)){
+						//TODO initialize Patching UI
+					}else{
+						EMFStorage.eSave(mergedResource.getContents().get(0));
+					}
 				} catch (InvalidModelException e) {
 					e.printStackTrace();
 					return Status.CANCEL_STATUS;				
