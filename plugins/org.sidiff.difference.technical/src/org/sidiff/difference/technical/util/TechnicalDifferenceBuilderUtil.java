@@ -68,5 +68,26 @@ public class TechnicalDifferenceBuilderUtil {
 		
 		return tdBuilder;
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilderByName(String name){
+		
+		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
+			try {
+				ITechnicalDifferenceBuilder tdbExtension = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
+				if (name.equals(tdbExtension.getName())) {
+					return tdbExtension;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
 
 }
