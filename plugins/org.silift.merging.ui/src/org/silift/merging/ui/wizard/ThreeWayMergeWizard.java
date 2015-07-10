@@ -1,12 +1,10 @@
 package org.silift.merging.ui.wizard;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -15,22 +13,19 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.ide.IDE;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
@@ -43,6 +38,8 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
+import org.sidiff.domain.editor.access.DomainEditorAccess;
+import org.sidiff.domain.editor.extension.IDomainEditor;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -68,6 +65,7 @@ import org.silift.patching.settings.PatchMode;
 import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
+//TODO Migration: Test class
 public class ThreeWayMergeWizard extends Wizard {
 
 	private ThreeWayMergePage01 threeWayMergePage01;
@@ -91,18 +89,22 @@ public class ThreeWayMergeWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels, "ThreeWayMergePage", "Workspace update",
+		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels,
+				"ThreeWayMergePage", "Workspace update",
 				getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage01);
 
-		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels, "ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), liftingSettings, patchingSettings);
+		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
+				"ThreeWayMergePage", "Workspace update",
+				getImageDescriptor("icon.png"), liftingSettings,
+				patchingSettings);
 		addPage(threeWayMergePage02);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return threeWayMergePage01.isPageComplete() && threeWayMergePage02.isPageComplete();
+		return threeWayMergePage01.isPageComplete()
+				&& threeWayMergePage02.isPageComplete();
 	}
 
 	private void finish() {
@@ -110,15 +112,18 @@ public class ThreeWayMergeWizard extends Wizard {
 		patchingSettings.setPatchMode(PatchMode.MERGING);
 
 		// Gather all information
-		final MergeModels configuredMergeModels = this.threeWayMergePage01.getMergeModelsWidget().getMergeModels();
+		final MergeModels configuredMergeModels = this.threeWayMergePage01
+				.getMergeModelsWidget().getMergeModels();
 		final Scope scope = patchingSettings.getScope();
-		final ValidationMode validationMode = patchingSettings.getValidationMode();
+		final ValidationMode validationMode = patchingSettings
+				.getValidationMode();
 
 		final Integer reliability = patchingSettings.getMinReliability();
 		final IMatcher matcher = patchingSettings.getMatcher();
 
 		// First create a patch between BASE<->THEIRS
-		final InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
+		final InputModels inputModels = new InputModels(
+				mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		final Resource resourceA = inputModels.getResourceA();
 		final Resource resourceB = inputModels.getResourceB();
 
@@ -140,69 +145,89 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.worked(30);
 
 					// Now apply that patch onto MINE
-					final String separator = System.getProperty("file.separator");
-					Resource targetResource = configuredMergeModels.getResourceMine();
-					ResourceSet diagramResourceSet = EMFModelAccessEx.deriveDiagramFile(targetResource);
-					String savePath = EMFStorage.uriToPath(targetResource.getURI());
-					savePath = savePath.replace(targetResource.getURI().lastSegment(), "merged");
+					final String separator = System
+							.getProperty("file.separator");
+					Resource targetResource = configuredMergeModels
+							.getResourceMine();
+					final IDomainEditor domainEditor = DomainEditorAccess
+							.getInstance().getDomainEditorForModel(resourceA);
+					final boolean domainEditorSupportsDiagramming=domainEditor.supportsDiagramming(targetResource);
+					final URI originalModelUri = targetResource.getURI();
+					String savePath = EMFStorage.uriToPath(targetResource
+							.getURI());
+					savePath = savePath.replace(targetResource.getURI()
+							.lastSegment(), "merged");
 					EMFStorage.eSaveAs(
-							EMFStorage.pathToUri(savePath + separator + targetResource.getURI().lastSegment()),
+							EMFStorage.pathToUri(savePath + separator
+									+ targetResource.getURI().lastSegment()),
 							targetResource.getContents().get(0), true);
 
-					String filePath = savePath + separator + targetResource.getURI().lastSegment();
-
-					if (!diagramResourceSet.getResources().isEmpty()) {
-						filePath += "diag";
-						for (Resource resource : diagramResourceSet.getResources()) {
-							EMFStorage.eSaveAs(
-									EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()),
-									resource.getContents().get(0), false);
+					final String modelFilePath = savePath + separator
+							+ targetResource.getURI().lastSegment();
+					final URI diagramFileUri;
+					if (domainEditorSupportsDiagramming) {
+						URI tmpDiagramFileUri;
+						try {
+							tmpDiagramFileUri = domainEditor.copyDiagram(originalModelUri, savePath);
+						} catch (FileNotFoundException e) {
+							tmpDiagramFileUri = null;
 						}
+						diagramFileUri = tmpDiagramFileUri;
+					} else {
+						diagramFileUri = null;
 					}
-
-					final String finalFilePath = filePath;
-
-					final File fileToOpen = new File(finalFilePath);
+					final boolean useDiagramEditor = (diagramFileUri != null && domainEditor
+							.isDiagramEditorPresent());
 
 					monitor.subTask("Opening editor for target resource");
 					final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
 					Display.getDefault().syncExec(new Runnable() {
 						@Override
 						public void run() {
-							try {
-								IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-										.getActivePage();
-								IFileStore fileStore = EFS.getLocalFileSystem().getStore(fileToOpen.toURI());
-								IEditorPart editorPart = IDE.openEditorOnFileStore(page, fileStore);
-								Resource resource = null;
-								if (editorPart instanceof EcoreDiagramEditor) {
-									EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
-									resource = editor.getDiagram().getElement().eResource();
-									editingDomain = editor.getEditingDomain();
-
-									if (finalFilePath.endsWith("diag")) {
-										GMFAnimation.enableAnimation(resource, false, GMFAnimation.MODE_TRIGGER);
-									}
-								} else if (editorPart instanceof IEditingDomainProvider) {
-									IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
-									resource = editor.getEditingDomain().getResourceSet().getResources().get(0);
-									editingDomain = editor.getEditingDomain();
+							Resource resource = null;
+							if (domainEditor != null) {
+								IEditorPart editorPart;
+								if (useDiagramEditor) {
+									editorPart = domainEditor.openDiagram(diagramFileUri);
+								} else if (domainEditor.isTreeEditorPresent()) {
+									editorPart = domainEditor.openModelInTreeEditor(EMFStorage
+											.pathToFileUri(modelFilePath));
+								} else {
+									MessageDialog.openError(Display
+											.getCurrent().getActiveShell(),
+											"Error", "No editor present");
+									return;
 								}
-								resourceResult.set(resource);
-								if (validationMode != ValidationMode.NO_VALIDATION) {
-									// TODO: Nur Multiplicity-Check (hat nichts
-									// mit validationMode zu tun)
-									// EMFValidate.validateObject(resourceResult.get().getContents().get(0));
+								if (editorPart == null) {
+									MessageDialog.openError(Display
+											.getCurrent().getActiveShell(),
+											"Error", "No editor present");
+									return;
 								}
-								validationState = true;
-							} catch (PartInitException e) {
-								e.printStackTrace();
+								resource = domainEditor.getResource(editorPart);
+								editingDomain = domainEditor
+										.getEditingDomain(editorPart);
+								if (resource == null || editingDomain == null) {
+									MessageDialog
+											.openError(Display.getCurrent()
+													.getActiveShell(), "Error",
+													"Error getting resource or editing domain from the editor");
+									return;
+								}
+								if (useDiagramEditor
+										&& domainEditor
+												.supportsGMFAnimation(diagramFileUri)) {
+									GMFAnimation.enableAnimation(resource,
+											false, GMFAnimation.MODE_TRIGGER);
+								}
 							}
-							// catch (InvalidModelException e) {
-							// ValidateDialog.openErrorDialog(Activator.PLUGIN_ID,
-							// e);
-							// validationState = false;
-							// }
+							resourceResult.set(resource);
+							if (validationMode != ValidationMode.NO_VALIDATION) {
+								// TODO: Nur Multiplicity-Check (hat nichts
+								// mit validationMode zu tun)
+								// EMFValidate.validateObject(resourceResult.get().getContents().get(0));
+							}
+							validationState = true;
 						}
 					});
 					if (!validationState) {
@@ -211,33 +236,44 @@ public class ThreeWayMergeWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager = new InteractiveArgumentManager(matcher);
+					IArgumentManager argumentManager = new InteractiveArgumentManager(
+							matcher);
 					argumentManager.setMinReliability(reliability);
 					patchingSettings.setArgumentManager(argumentManager);
 					// Find transformation engine (no other available right now)
 					String documentType = null;
-					Set<String> documentTypes = EMFModelAccessEx.getDocumentTypes(resourceResult.get(), Scope.RESOURCE);
+					Set<String> documentTypes = EMFModelAccessEx
+							.getDocumentTypes(resourceResult.get(),
+									Scope.RESOURCE);
 					IDifferenceProfileHandler profileHandler = null;
-					for(String docType : documentTypes){
-						// at the moment there is only one profile handler available
-						profileHandler = DifferenceProfileHandlerUtil.getDefaultDifferenceProfileHandler(docType);
-						if(profileHandler!=null){
+					for (String docType : documentTypes) {
+						// at the moment there is only one profile handler
+						// available
+						profileHandler = DifferenceProfileHandlerUtil
+								.getDefaultDifferenceProfileHandler(docType);
+						if (profileHandler != null) {
 							break;
 						}
 					}
-					if (profileHandler!=null && profileHandler.isProfiled(resourceResult.get())) {
+					if (profileHandler != null
+							&& profileHandler.isProfiled(resourceResult.get())) {
 						documentType = profileHandler.getBaseType();
 					} else {
-						documentType = EMFModelAccessEx.getCharacteristicDocumentType(resourceResult.get());
+						documentType = EMFModelAccessEx
+								.getCharacteristicDocumentType(resourceResult
+										.get());
 					}
 					ITransformationEngine transformationEngine = TransformationEngineUtil
 							.getFirstTransformationEngine(documentType);
 					if (transformationEngine == null) {
-						MessageDialog.openError(Display.getCurrent().getActiveShell(),
-								"No Transformator Service found!", "No suitable Transformator Service found!");
+						MessageDialog.openError(Display.getCurrent()
+								.getActiveShell(),
+								"No Transformator Service found!",
+								"No suitable Transformator Service found!");
 						return Status.CANCEL_STATUS;
 					}
-					patchingSettings.setTransformationEngine(transformationEngine);
+					patchingSettings
+							.setTransformationEngine(transformationEngine);
 					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
 					patchingSettings.setInterruptHandler(patchInterruptHandler);
@@ -247,28 +283,34 @@ public class ThreeWayMergeWizard extends Wizard {
 					patchingSettings.setModifiedDetector(modifiedDetector);
 					// Init detector if available
 					if (modifiedDetector != null) {
-						modifiedDetector.init(fullDiff.getAsymmetric().getOriginModel(), resourceResult.get(), matcher,
-								scope);
+						modifiedDetector.init(fullDiff.getAsymmetric()
+								.getOriginModel(), resourceResult.get(),
+								matcher, scope);
 					}
 
 					monitor.subTask("Initialize PatchEngine");
-					final PatchEngine patchEngine = new PatchEngine(fullDiff.getAsymmetric(), resourceResult.get(),
+					final PatchEngine patchEngine = new PatchEngine(
+							fullDiff.getAsymmetric(), resourceResult.get(),
 							patchingSettings);
 
-					if (finalFilePath.endsWith("diag")) {
-						patchEngine.getPatchReportManager().addPatchReportListener(new IPatchReportListener() {
+					if (useDiagramEditor
+							&& domainEditor.supportsGMFAnimation(diagramFileUri)) {
+						patchEngine.getPatchReportManager()
+								.addPatchReportListener(
+										new IPatchReportListener() {
 
-							@Override
-							public void reportChanged() {
-								GMFAnimation.trigger();
-							}
+											@Override
+											public void reportChanged() {
+												GMFAnimation.trigger();
+											}
 
-							@Override
-							public void pushReport(int i) {
-								// TODO Auto-generated method stub
+											@Override
+											public void pushReport(int i) {
+												// TODO Auto-generated method
+												// stub
 
-							}
-						});
+											}
+										});
 					}
 					patchEngine.setPatchedEditingDomain(editingDomain);
 					monitor.worked(30);
@@ -284,20 +326,31 @@ public class ThreeWayMergeWizard extends Wizard {
 								Activator
 										.getDefault()
 										.getWorkbench()
-										.showPerspective(SiLiftPerspective.ID,
-												PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+										.showPerspective(
+												SiLiftPerspective.ID,
+												PlatformUI
+														.getWorkbench()
+														.getActiveWorkbenchWindow());
 
 								// Opening and setting operation explorer view
 								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI
-										.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+										.getWorkbench()
+										.getActiveWorkbenchWindow()
+										.getActivePage()
 										.showView(OperationExplorerView.ID);
-								operationExplorerView.setPatchEngine(patchEngine);
-								operationExplorerViewReference.set(operationExplorerView);
+								operationExplorerView
+										.setPatchEngine(patchEngine);
+								operationExplorerViewReference
+										.set(operationExplorerView);
 
 								// Opening and setting report view
-								ReportView reportView = (ReportView) PlatformUI.getWorkbench()
-										.getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
-								reportView.setPatchReportManager(patchEngine.getPatchReportManager());
+								ReportView reportView = (ReportView) PlatformUI
+										.getWorkbench()
+										.getActiveWorkbenchWindow()
+										.getActivePage()
+										.showView(ReportView.ID);
+								reportView.setPatchReportManager(patchEngine
+										.getPatchReportManager());
 								reportViewReference.set(reportView);
 							} catch (PartInitException e) {
 								e.printStackTrace();
@@ -306,14 +359,16 @@ public class ThreeWayMergeWizard extends Wizard {
 							}
 						}
 					});
-					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
+					OperationExplorerView operationExplorerView = operationExplorerViewReference
+							.get();
 					ReportView reportView = reportViewReference.get();
 					monitor.worked(20);
 
 					// ModelChangeHandler works independent; PatchView is
 					// interested in model changes
 					monitor.subTask("Adding Modellistener");
-					ModelAdapter adapter = new ModelAdapter(resourceResult.get());
+					ModelAdapter adapter = new ModelAdapter(
+							resourceResult.get());
 					adapter.addListener(new ModelChangeHandler(argumentManager));
 					adapter.addListener(operationExplorerView);
 					monitor.worked(10);
@@ -329,7 +384,8 @@ public class ThreeWayMergeWizard extends Wizard {
 		job.schedule();
 	}
 
-	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
+	private Difference calculateDifference(Resource resourceA,
+			Resource resourceB) {
 		Difference fullDiff = null;
 
 		// Init the lifting settings from the patching settings:
@@ -338,18 +394,23 @@ public class ThreeWayMergeWizard extends Wizard {
 		liftingSettings.setMatcher(patchingSettings.getMatcher());
 		liftingSettings.setRuleBases(patchingSettings.getRuleBases());
 		liftingSettings
-				.setValidate(patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false : true);
-		liftingSettings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
+				.setValidate(patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false
+						: true);
+		liftingSettings
+				.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 
 		try {
-			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, liftingSettings);
+			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB,
+					liftingSettings);
 		} catch (InvalidModelException e) {
 			ValidateDialog validateDialog = new ValidateDialog();
-			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			boolean skipValidation = validateDialog.openErrorDialog(
+					Activator.PLUGIN_ID, e);
 
 			if (skipValidation) {
 				// Retry without validation:
-				patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
+				patchingSettings
+						.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
 		}
@@ -366,7 +427,8 @@ public class ThreeWayMergeWizard extends Wizard {
 		try {
 			getContainer().run(false, false, new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
 					finish();
 				}
 			});
@@ -380,7 +442,8 @@ public class ThreeWayMergeWizard extends Wizard {
 	}
 
 	protected ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(Activator.PLUGIN_ID),
+		return ImageDescriptor.createFromURL(FileLocator.find(
+				Platform.getBundle(Activator.PLUGIN_ID),
 				new Path(String.format("icons/%s", name)), null));
 	}
 }

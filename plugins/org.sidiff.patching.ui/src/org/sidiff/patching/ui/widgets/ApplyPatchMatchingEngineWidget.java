@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.widgets;
 
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

@@ -20,7 +20,8 @@ import org.sidiff.difference.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.patching.settings.PatchingSettings;
 
-public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInformation, ISettingsChangedListener {
+public class ReliabilityWidget implements IWidget, IWidgetSelection,
+		IWidgetInformation, ISettingsChangedListener {
 
 	private final int defaultReliability = 50;
 
@@ -31,32 +32,34 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 	private int reliability;
 
 	public ReliabilityWidget(Integer reliability) {
-		if(reliability != null)
+		if (reliability != null)
 			this.reliability = reliability;
 		else
 			this.reliability = defaultReliability;
-		
+
 		// Connect to matching engine widget:
-//		this.matchingEngineWidget = matchingEngineWidget;
-//		
-//		matchingEngineWidget.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				checkMatcher();
-//			}
-//		});
+		// this.matchingEngineWidget = matchingEngineWidget;
+		//
+		// matchingEngineWidget.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// checkMatcher();
+		// }
+		// });
 	}
-	
+
 	private boolean checkComputability() {
-		if(settings.useSymbolicLinks()){
-			ISymbolicLinkHandler symbolicLinkHandler = settings.getSymbolicLinkHandler();
-			if((symbolicLinkHandler != null) && symbolicLinkHandler.canComputeReliability()){
+		if (settings.useSymbolicLinks()) {
+			ISymbolicLinkHandler symbolicLinkHandler = settings
+					.getSymbolicLinkHandler();
+			if ((symbolicLinkHandler != null)
+					&& symbolicLinkHandler.canComputeReliability()) {
 				scale.setEnabled(true);
 				spinner.setEnabled(true);
 				container.setEnabled(true);
 				return true;
 			}
-		}else{
+		} else {
 			IMatcher matcher = settings.getMatcher();
 
 			if ((matcher != null) && matcher.canComputeReliability()) {
@@ -92,7 +95,8 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			reliabilityGroup.setLayout(grid);
-			reliabilityGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			reliabilityGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+					true, true));
 		}
 		reliabilityGroup.setText("Minimal Reliability:");
 
@@ -109,26 +113,27 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 		scale.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				int perspectiveValue = scale.getSelection() + scale.getMinimum();
+				int perspectiveValue = scale.getSelection()
+						+ scale.getMinimum();
 				spinner.setSelection(perspectiveValue);
 				reliability = scale.getSelection();
 			}
 		});
-		
+
 		spinner.addListener(SWT.Selection, new Listener() {
-			
+
 			@Override
 			public void handleEvent(Event event) {
 				scale.setSelection(spinner.getSelection());
 				reliability = spinner.getSelection();
-				((PatchingSettings)settings).setMinReliability(reliability);
+				((PatchingSettings) settings).setMinReliability(reliability);
 			}
 		});
-		
+
 		// Initialize...
 		checkComputability();
-		
-		((PatchingSettings)settings).setMinReliability(reliability);
+
+		((PatchingSettings) settings).setMinReliability(reliability);
 		return container;
 	}
 
@@ -155,9 +160,9 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 		if (checkComputability()) {
 			return "";
 		} else {
-			if(settings.useSymbolicLinks()){
+			if (settings.useSymbolicLinks()) {
 				return "Selected Symbolic Link Handler does not support Reliability!";
-			}else{
+			} else {
 				return "Selected Matching Engine does not support Reliability!";
 			}
 		}
@@ -165,7 +170,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if((spinner == null) || (scale == null)){
+		if ((spinner == null) || (scale == null)) {
 			throw new RuntimeException("Create controls first!");
 		}
 		spinner.addSelectionListener(listener);
@@ -174,15 +179,16 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection, IWidgetInfo
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if(spinner != null)
+		if (spinner != null)
 			spinner.removeSelectionListener(listener);
-		if(scale != null)
+		if (scale != null)
 			scale.removeSelectionListener(listener);
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(SettingsItem.MATCHER) || item.equals(SettingsItem.SYMBOLIC_LINK_HANDLER)){
+		if (item.equals(SettingsItem.MATCHER)
+				|| item.equals(SettingsItem.SYMBOLIC_LINK_HANDLER)) {
 			checkComputability();
 		}
 	}
