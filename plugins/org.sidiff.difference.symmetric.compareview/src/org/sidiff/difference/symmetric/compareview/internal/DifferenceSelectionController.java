@@ -61,12 +61,14 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
+import org.sidiff.domain.editor.access.DomainEditorAccess;
+import org.sidiff.domain.editor.extension.IDomainEditor;
 import org.silift.common.HighlightableElement;
 
 @SuppressWarnings("restriction")
 public class DifferenceSelectionController implements ISelectionListener, INullSelectionListener {
 
-	private static final String COMPARE_VIEWER_EXTENSION = "org.sidiff.difference.compareViewer";
+	//private static final String COMPARE_VIEWER_EXTENSION = "org.sidiff.difference.compareViewer";
 	private static final String XTEXT_MARKER_EXTENSION = "org.sidiff.difference.symmetric.compareview.xtextmarker";
 
 	private static DifferenceSelectionController instance = null;
@@ -80,7 +82,6 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	
 	private XtextMarker xtextmarker = null;
 
-	private Map<String, Collection<SupportedEditor>> compareViewers = null;
 
 	private boolean highlightEnabled = false;
 	private ISelection lastSelection = null;
@@ -92,29 +93,9 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		decorators = new ArrayList<IDecorator>();
 		treeDecorations = new ArrayList<EObject>();
 		treeViewersWithDecorations = new HashSet<TreeViewer>();
-
-		compareViewers = new HashMap<String, Collection<SupportedEditor>>();
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IConfigurationElement[] config = registry.getConfigurationElementsFor(COMPARE_VIEWER_EXTENSION);
-
-		for (IConfigurationElement configElement : config) {
-			String compareViewerID = configElement.getAttribute("editorId");
-
-			List<SupportedEditor> supportedEditors = new ArrayList<DifferenceSelectionController.SupportedEditor>();
-			for (IConfigurationElement childElement : configElement.getChildren()) {
-				SupportedEditor supportedEditor = new SupportedEditor();
-
-				supportedEditor.treeId = childElement.getAttribute("treeEditorId");
-				supportedEditor.diagramId = childElement.getAttribute("diagramEditorId");
-
-				supportedEditors.add(supportedEditor);
-			}
-
-			compareViewers.put(compareViewerID, supportedEditors);
-		}
 		
-		config = registry.getConfigurationElementsFor(XTEXT_MARKER_EXTENSION);
-	
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] config = registry.getConfigurationElementsFor(XTEXT_MARKER_EXTENSION);
 		for (IConfigurationElement configElement : config) {
 			try {
 				xtextmarker = (XtextMarker) configElement.createExecutableExtension("xtextmarker");
@@ -179,7 +160,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		if (compareViewers.containsKey(part.getSite().getId())) {
+		//if (compareViewers.containsKey(part.getSite().getId())) {
 			lastPart = part;
 			lastSelection = selection;
 
@@ -235,7 +216,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			if (highlightEnabled) {
 				doHighlight();
 			}
-		}
+		//} //if (compareViewers.containsKey(part.getSite().getId()))
 	}
 
 	private void doHighlight() {
@@ -269,8 +250,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		if (decoratedViews.size() == 0) {
 			List<String> treeEditors = new ArrayList<String>();
 
-			for (SupportedEditor supportedEditor : compareViewers.get(lastPart.getSite().getId())) {
-				treeEditors.add(supportedEditor.treeId);
+			for (IDomainEditor de : DomainEditorAccess.getInstance().getDomainEditors()) {
+				if (de.isTreeEditorPresent()) treeEditors.add(de.getTreeEditorID());
 			}
 
 			for (EObject selectedObject : selected) {
@@ -313,9 +294,9 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
 
-			for (SupportedEditor supportedEditor : compareViewers.get(lastPart.getSite().getId())) {
-				if (supportedEditor.diagramId != null) {
-					diagramEditors.add(supportedEditor.diagramId);
+			for (IDomainEditor de : DomainEditorAccess.getInstance().getDomainEditors()) {
+				if (de.isDiagramEditorPresent()) {
+					diagramEditors.add(de.getDiagramEditorID());
 				}
 			}
 			for (EObject decoratedView : decoratedViews) {
@@ -467,12 +448,6 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		}
 	}
 
-	private static class SupportedEditor {
-
-		public String treeId = null;
-		public String diagramId = null;
-
-	}
 
 	private static class DecoratedTuple {
 
