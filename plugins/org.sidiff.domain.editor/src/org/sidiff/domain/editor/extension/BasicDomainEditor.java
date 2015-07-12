@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -12,11 +11,9 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -71,7 +68,13 @@ public class BasicDomainEditor extends AbstractDomainEditor {
 					.getActiveWorkbenchWindow().getActivePage();
 			IPath location= Path.fromOSString(EMFStorage.uriToFile(modelURI).getAbsolutePath());
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
-			return page.openEditor(new FileEditorInput(file), treeEditorId);
+			IEditorInput input;
+			if (file !=null && file.exists()){
+				input=new FileEditorInput(file);
+			} else {
+				input = new URIEditorInput(modelURI);
+			}
+			return page.openEditor(input, treeEditorId);
 		} catch (PartInitException ex) {
 			return null;
 		}
@@ -86,8 +89,13 @@ public class BasicDomainEditor extends AbstractDomainEditor {
 					.getActiveWorkbenchWindow().getActivePage();
 			IPath location= Path.fromOSString(EMFStorage.uriToFile(diagramURI).getAbsolutePath());
 			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
-			return page.openEditor(new FileEditorInput(file),
-					diagramEditorId);
+			IEditorInput input;
+			if (file != null  && file.exists()){
+				input=new FileEditorInput(file);
+			} else {
+				input = new URIEditorInput(diagramURI);
+			}
+			return page.openEditor(input, diagramEditorId);
 		} catch (PartInitException ex) {
 			return null;
 		}
