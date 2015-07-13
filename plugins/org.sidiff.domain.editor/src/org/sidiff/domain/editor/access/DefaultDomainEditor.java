@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -131,6 +132,11 @@ public class DefaultDomainEditor implements IDomainEditor {
 	@Override
 	public IEditorPart openDiagramForModel(URI modelFile) {
 		return null;
+	}
+
+	@Override
+	public EObject getHighlightableElement(EObject element) {
+		return element;
 	}
 
 	

@@ -7,9 +7,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.PlatformUI;
 import org.sidiff.domain.editor.extension.IDomainEditor;
 
 public class DomainEditorAccess {
@@ -114,5 +113,21 @@ public class DomainEditorAccess {
 		return candiate;
 	}
 
-	
+	/**
+	 * {@link IDomainEditor#getHighlightableElement(EObject)}
+	 * @param element
+	 * @return 
+	 */
+	public EObject getHighlightableElement(EObject element){
+		EObject candidate=null;
+		for (IDomainEditor de : domainEditors) {
+			EObject he=de.getHighlightableElement(element);
+			if (he != null){
+				if (he != element) return he;
+				candidate=he;
+			}
+		}
+		if (candidate != null) return candidate;
+		return DefaultDomainEditor.getInstance().getHighlightableElement(element);
+	}
 }

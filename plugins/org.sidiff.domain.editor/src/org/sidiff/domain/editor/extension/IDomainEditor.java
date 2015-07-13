@@ -3,12 +3,20 @@ package org.sidiff.domain.editor.extension;
 import java.io.FileNotFoundException;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.ui.IEditorPart;
 
 public interface IDomainEditor {
-
+	/**
+	 * This method is used to find a highlightable element corresponding to "element" in a diagram
+	 * It sould be called using {@link DomainEditorAccess#}
+	 * @param obj 
+	 * @return Highlightable element corresponding to "element", "element" itself or null
+	 */
+	public EObject getHighlightableElement(EObject element);
+	
 	/**
 	 * Checks if a model file can be opened by the domain editor
 	 * @param modelFile

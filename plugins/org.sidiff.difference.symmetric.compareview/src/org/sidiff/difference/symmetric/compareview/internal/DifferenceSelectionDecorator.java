@@ -29,6 +29,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.difference.symmetric.compareview.DecorationHook;
+import org.sidiff.domain.editor.access.DomainEditorAccess;
 
 public class DifferenceSelectionDecorator extends AbstractDecorator {
 	
@@ -128,6 +129,7 @@ public class DifferenceSelectionDecorator extends AbstractDecorator {
 	}
 	
 	private boolean selectionContains(EObject element){
+		element=DomainEditorAccess.getInstance().getHighlightableElement(element);
 		boolean contained = false;
 		if(element != null){
 			for(EObject selected : controller.getSelected()){
