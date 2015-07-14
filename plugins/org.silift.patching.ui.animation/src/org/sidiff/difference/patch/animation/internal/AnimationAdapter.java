@@ -15,6 +15,7 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.sidiff.difference.patch.animation.GMFAnimation.EditorMatching;
+import org.silift.common.util.emf.EMFStorage;
 
 public class AnimationAdapter extends EContentAdapter {
 		
@@ -72,7 +73,7 @@ public class AnimationAdapter extends EContentAdapter {
 				if (input instanceof IFileEditorInput){
 					file=((IFileEditorInput) editor.getEditorInput()).getFile();
 				} else if (input instanceof URIEditorInput){
-					file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromOSString(((URIEditorInput)input).getURI().toFileString()));
+					file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromOSString(EMFStorage.uriToFile(((URIEditorInput)input).getURI()).getAbsolutePath()));
 				} 
 				affectedFiles.add(file);
 				AnimateChangeCommand operation = new AnimateChangeCommand(editor.getEditingDomain(), "Reflect external change", affectedFiles, notification, editorMatching);
