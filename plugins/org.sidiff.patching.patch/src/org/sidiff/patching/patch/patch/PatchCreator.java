@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.henshin.INamingConventions;
@@ -42,8 +41,9 @@ public class PatchCreator {
 	private final URI modelAOriginalUri;
 	private final URI modelBOriginalUri;
 	private final IDomainEditor domainEditorA, domainEditorB;
-	private final boolean domainEditorAsupportsDiagram, domainEditorBsupportsDiagram;
-	
+	private final boolean domainEditorAsupportsDiagram,
+			domainEditorBsupportsDiagram;
+
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
 
@@ -71,11 +71,13 @@ public class PatchCreator {
 		modelBOriginalUri = resourceB.getURI();
 		domainEditorA = DomainEditorAccess.getInstance()
 				.getDomainEditorForModel(resourceA);
-		domainEditorAsupportsDiagram = domainEditorA.supportsDiagramming(resourceA);
+		domainEditorAsupportsDiagram = domainEditorA
+				.supportsDiagramming(resourceA);
 		domainEditorB = DomainEditorAccess.getInstance()
 				.getDomainEditorForModel(resourceB);
-		domainEditorBsupportsDiagram = domainEditorB.supportsDiagramming(resourceB);
-		
+		domainEditorBsupportsDiagram = domainEditorB
+				.supportsDiagramming(resourceB);
+
 		separator = System.getProperty("file.separator");
 
 		this.symmetricDifference = asymmetricDifference
@@ -121,7 +123,12 @@ public class PatchCreator {
 					.getContents().get(0), true);
 
 			if (domainEditorAsupportsDiagram) {
-				domainEditorA.copyDiagram(modelAOriginalUri, modelADir);
+				try {
+					domainEditorA.copyDiagram(modelAOriginalUri, modelADir);
+				} catch (FileNotFoundException e) {
+					LogUtil.log(LogEvent.MESSAGE, "Diagram was not copied: "
+							+ e.getMessage());
+				}
 			}
 
 			LogUtil.log(LogEvent.NOTICE, "serialize " + resourceB_name + " to "
@@ -130,7 +137,12 @@ public class PatchCreator {
 					.getContents().get(0), true);
 
 			if (domainEditorBsupportsDiagram) {
-				domainEditorB.copyDiagram(modelBOriginalUri, modelBDir);
+				try {
+					domainEditorB.copyDiagram(modelBOriginalUri, modelBDir);
+				} catch (FileNotFoundException e) {
+					LogUtil.log(LogEvent.MESSAGE, "Diagram was not copied: "
+							+ e.getMessage());
+				}
 			}
 
 			relativeResASavePath = EMFStorage.pathToRelativeUri(savePath,

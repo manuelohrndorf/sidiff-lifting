@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gmf.runtime.common.core.command.CompositeCommand;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.sidiff.difference.patch.animation.GMFAnimation.EditorMatching;
 
@@ -36,7 +40,14 @@ public class AnimationAdapter extends EContentAdapter {
 				DiagramEditor editor = editorMatching.editor;
 
 				List<IFile> affectedFiles = new ArrayList<IFile>();
-				affectedFiles.add(((IFileEditorInput) editor.getEditorInput()).getFile());
+				IFile file = null;
+				IEditorInput input=editor.getEditorInput();
+				if (input instanceof IFileEditorInput){
+					file=((IFileEditorInput) editor.getEditorInput()).getFile();
+				} else if (input instanceof URIEditorInput){
+					file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromOSString(((URIEditorInput)input).getURI().toFileString()));
+				} 
+				affectedFiles.add(file);
 				AnimateChangeCommand operation = new AnimateChangeCommand(editor.getEditingDomain(), "Reflect external change", affectedFiles, notification, editorMatching);
 
 				CompositeCommand compositeCommand = new CompositeCommand("Reflect external change");
@@ -56,7 +67,14 @@ public class AnimationAdapter extends EContentAdapter {
 				DiagramEditor editor = editorMatching.editor;
 
 				List<IFile> affectedFiles = new ArrayList<IFile>();
-				affectedFiles.add(((IFileEditorInput) editor.getEditorInput()).getFile());
+				IFile file = null;
+				IEditorInput input=editor.getEditorInput();
+				if (input instanceof IFileEditorInput){
+					file=((IFileEditorInput) editor.getEditorInput()).getFile();
+				} else if (input instanceof URIEditorInput){
+					file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromOSString(((URIEditorInput)input).getURI().toFileString()));
+				} 
+				affectedFiles.add(file);
 				AnimateChangeCommand operation = new AnimateChangeCommand(editor.getEditingDomain(), "Reflect external change", affectedFiles, notification, editorMatching);
 
 				CompositeCommand compositeCommand = new CompositeCommand("Reflect external change");

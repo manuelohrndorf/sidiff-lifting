@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -151,7 +150,8 @@ public class ThreeWayMergeWizard extends Wizard {
 							.getResourceMine();
 					final IDomainEditor domainEditor = DomainEditorAccess
 							.getInstance().getDomainEditorForModel(resourceA);
-					final boolean domainEditorSupportsDiagramming=domainEditor.supportsDiagramming(targetResource);
+					final boolean domainEditorSupportsDiagramming = domainEditor
+							.supportsDiagramming(targetResource);
 					final URI originalModelUri = targetResource.getURI();
 					String savePath = EMFStorage.uriToPath(targetResource
 							.getURI());
@@ -168,7 +168,8 @@ public class ThreeWayMergeWizard extends Wizard {
 					if (domainEditorSupportsDiagramming) {
 						URI tmpDiagramFileUri;
 						try {
-							tmpDiagramFileUri = domainEditor.copyDiagram(originalModelUri, savePath);
+							tmpDiagramFileUri = domainEditor.copyDiagram(
+									originalModelUri, savePath);
 						} catch (FileNotFoundException e) {
 							tmpDiagramFileUri = null;
 						}
@@ -176,7 +177,9 @@ public class ThreeWayMergeWizard extends Wizard {
 					} else {
 						diagramFileUri = null;
 					}
-					final boolean useDiagramEditor = (diagramFileUri != null && domainEditor
+					final boolean useDiagramEditor = (diagramFileUri != null
+							&& domainEditor
+									.supportsGMFAnimation(diagramFileUri) && domainEditor
 							.isDiagramEditorPresent());
 
 					monitor.subTask("Opening editor for target resource");
@@ -188,7 +191,8 @@ public class ThreeWayMergeWizard extends Wizard {
 							if (domainEditor != null) {
 								IEditorPart editorPart;
 								if (useDiagramEditor) {
-									editorPart = domainEditor.openDiagram(diagramFileUri);
+									editorPart = domainEditor
+											.openDiagram(diagramFileUri);
 								} else if (domainEditor.isTreeEditorPresent()) {
 									editorPart = domainEditor.openModelInTreeEditor(EMFStorage
 											.pathToFileUri(modelFilePath));
@@ -294,7 +298,8 @@ public class ThreeWayMergeWizard extends Wizard {
 							patchingSettings);
 
 					if (useDiagramEditor
-							&& domainEditor.supportsGMFAnimation(diagramFileUri)) {
+							&& domainEditor
+									.supportsGMFAnimation(diagramFileUri)) {
 						patchEngine.getPatchReportManager()
 								.addPatchReportListener(
 										new IPatchReportListener() {

@@ -1,7 +1,9 @@
 package org.sidiff.domain.editor.siriusecore;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -15,8 +17,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
@@ -27,6 +32,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.domain.editor.extension.AbstractDomainEditor;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
@@ -52,9 +59,8 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return false;
-		// return DOC_TYPE.equals(EMFModelAccessEx
-		// .getCharacteristicDocumentType(model));
+		return DOC_TYPE.equals(EMFModelAccessEx
+				.getCharacteristicDocumentType(model));
 	}
 
 	@Override
@@ -71,25 +77,30 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 	@Override
 	public URI copyDiagram(URI modelFile, String savePath)
 			throws FileNotFoundException {
-		// final String separator = System.getProperty("file.separator");
-		// try {
-		// final URI mainDiagramUri = getDiagramForModel(modelFile);
-		// if (mainDiagramUri == null) return null;
-		// final String saveFile=savePath
-		// + separator + mainDiagramUri.lastSegment();
-		//
-		// IPath destP=org.eclipse.core.filesystem.URIUtil.toPath((new
-		// File(savePath)).toURI());
-		// IFile destF=new Fil
-		// IFile newFile = dest.getFile;
-		// newFile.create(new FileInputStream(f), true, null);
-		// return EMFStorage.pathToUri(saveFile);
-		// } catch (Exception e) {
-		// LogUtil.log(LogEvent.NOTICE, e.getMessage());
-		// // TODO Exception-handling?
-		// throw new RuntimeException("Error copying diagram", e);
-		// }
-		return null;
+		final String separator = System.getProperty("file.separator");
+		try {
+			final URI mainDiagramUri = getDiagramForModel(modelFile);
+			if (mainDiagramUri == null)
+				throw new RuntimeException("Model not supported");
+			ResourceSet set = new ResourceSetImpl();
+			final File testFile = new File(EMFStorage.uriToPath(mainDiagramUri));
+			if (!testFile.exists() || !testFile.isFile())
+				throw new FileNotFoundException("A diagram file was not found");
+			Resource resource = EMFStorage.eLoad(mainDiagramUri).eResource();
+			set.getResources().add(resource);
+			final URI diagramSaveFile = EMFStorage.pathToUri(savePath
+					+ separator + resource.getURI().lastSegment());
+			EMFStorage.eSaveAs(diagramSaveFile, resource.getContents().get(0),
+					false);
+			return EMFStorage.pathToUri(savePath + separator
+					+ mainDiagramUri.lastSegment());
+		} catch (Exception e) {
+			if (e instanceof FileNotFoundException)
+				throw (FileNotFoundException) e;
+			LogUtil.log(LogEvent.NOTICE, e.getMessage());
+			// TODO Exception-handling?
+			throw new RuntimeException("Error copying diagram", e);
+		}
 	}
 
 	@Override
@@ -122,6 +133,7 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 		}
 		return null;
 	}
+	
 
 	@Override
 	public IEditorPart openDiagramForModel(URI modelFile) {
@@ -140,10 +152,14 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 	public IEditorPart openDiagram(URI diagramFile) {
 		if (diagramFile == null || !isDiagramEditorPresent())
 			return null;
-		
+
 		// Start Sirius Session
 		Session session = SessionManager.INSTANCE.getSession(diagramFile,
 				new NullProgressMonitor());
+		if (session == null){
+			System.out.println("Session was not opened"); //TODO Remove
+			return null;
+		}
 		if (!session.isOpen()) {
 			session.open(new NullProgressMonitor());
 		}
@@ -163,13 +179,12 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 		if (representations.size() < 1)
 			return null;
 		representation = representations.get(0);
-
 		if (representation != null) {
 			return DialectUIManager.INSTANCE.openEditor(session,
 					representation, new NullProgressMonitor());
-		} else
+		} else {
 			return null;
-
+		}
 	}
 
 	@Override
@@ -181,4 +196,23 @@ public class EcoreSiriusDomainEditor extends AbstractDomainEditor {
 		}
 	}
 
+	@Override
+	public Resource getResource(IEditorPart editorPart) {
+		if (editorPart instanceof DDiagramEditor) {
+			DDiagramEditor editor = (DDiagramEditor) editorPart;
+			Iterator<Resource> iter=editor.getSession().getSemanticResources().iterator();
+			if(iter.hasNext()){
+				//TODO Determine the right resource if there are multiple
+				return iter.next();
+			} else {
+				return null;
+			}
+		} else {
+			// TODO Exception?
+			return null;
+		}
+	}
+
+	
+	
 }
