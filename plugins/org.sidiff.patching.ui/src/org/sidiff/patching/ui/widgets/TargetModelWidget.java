@@ -55,7 +55,7 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 		}
 		modelChooseGroup.setText("Target model:");
 		
-		targetModelText = new Text(modelChooseGroup, SWT.NONE);
+		targetModelText = new Text(modelChooseGroup, SWT.BORDER);
 		targetModelText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		modelChooseButton = new Button(modelChooseGroup, SWT.PUSH);
 		modelChooseButton.setText("Choose Model");

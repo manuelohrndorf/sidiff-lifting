@@ -2,9 +2,9 @@ package org.sidiff.domain.editor.access;
 
 import java.io.FileNotFoundException;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -17,7 +17,6 @@ import org.sidiff.domain.editor.extension.IDomainEditor;
 import org.silift.common.util.emf.EMFStorage;
 
 
-//TODO Use Default editor to open default editors^^
 public class DefaultDomainEditor implements IDomainEditor {
 
 	private static DefaultDomainEditor INSTANCE = null;
@@ -60,7 +59,6 @@ public class DefaultDomainEditor implements IDomainEditor {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain();
 		} else {
-			// TODO Exception?
 			return null;
 		}
 	}
@@ -72,7 +70,6 @@ public class DefaultDomainEditor implements IDomainEditor {
 			return editor.getEditingDomain().getResourceSet().getResources()
 					.get(0);
 		} else {
-			// TODO Exception?
 			return null;
 		}
 	}
@@ -85,7 +82,6 @@ public class DefaultDomainEditor implements IDomainEditor {
 
 	@Override
 	public String getTreeEditorID() {
-		//TODO Test
 		return null;
 	}
 
@@ -106,9 +102,9 @@ public class DefaultDomainEditor implements IDomainEditor {
 
 	@Override
 	public IEditorPart openModelInTreeEditor(URI modelURI) {
-		//TODO Test
 		try {
-			String path=EMFStorage.uriToPath(modelURI);
+			//FIXME Could be problematic with files in archives
+			String path=EMFStorage.uriToPath(modelURI); 
 			IEditorDescriptor desc = PlatformUI.getWorkbench().
 			        getEditorRegistry().getDefaultEditor(path);
 			IWorkbenchPage page = PlatformUI.getWorkbench()
@@ -138,6 +134,5 @@ public class DefaultDomainEditor implements IDomainEditor {
 	public EObject getHighlightableElement(EObject element) {
 		return element;
 	}
-
 	
 }

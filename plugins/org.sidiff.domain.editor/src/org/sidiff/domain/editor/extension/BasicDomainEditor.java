@@ -154,6 +154,7 @@ public class BasicDomainEditor extends AbstractDomainEditor {
 			return EMFStorage.pathToUri(savePath
 					+ separator + mainDiagramUri.lastSegment());
 		} catch (Exception e) {
+			if (e instanceof FileNotFoundException) throw (FileNotFoundException)e;
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 			// TODO Exception-handling?
 			throw new RuntimeException("Error copying diagram", e);
