@@ -28,6 +28,9 @@ public class NameMapper {
 		if (metaModel.getNsURI().equals("http://FaultTree/1.0")) {
 			initFTMappings();
 		}
+		if(metaModel.getNsURI().equals( "http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage")){
+			initSWMLMappings();
+		}
 
 		// init module index
 		moduleIndex = new HashMap<String, Module>();
@@ -176,6 +179,56 @@ public class NameMapper {
 		mappings.add(new NameMapping("UNSET_REFERENCE_Hazard_(inEvent)_TGT_IntermediateEvent","unsetHazardInEvent"));
 		mappings.add(new NameMapping("UNSET_REFERENCE_IntermediateEvent_(inEvent)_TGT_Event","unsetIntermediateEventInEvent"));
 		mappings.add(new NameMapping("UNSET_REFERENCE_IntermediateEvent_(outEvent)_TGT_Event","unsetIntermediateEventOutEvent"));
+	}
+	
+	private void initSWMLMappings(){
+		mappings.add(new NameMapping("DELETE_IndexPage_IN_HypertextLayer_(pages)","deleteIndexPageInHypertextLayer"));
+		mappings.add(new NameMapping("DELETE_DataPage_IN_HypertextLayer_(pages)","deleteDataPageInHypertextLayer"));
+		mappings.add(new NameMapping("DELETE_DataLayer_IN_WebModel_(dataLayer)","deleteDataLayerInWebModel"));
+		mappings.add(new NameMapping("MOVE_StaticPage_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)","moveStaticPageFromHypertextLayerToHypertextLayer"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_Reference_(type)_TGT_Entity","unsetReferenceReferenceTgtEntity"));
+		mappings.add(new NameMapping("MOVE_Reference_FROM_Entity_(references)_TO_Entity_(references)","moveReferenceFromEntityToEntity"));
+		mappings.add(new NameMapping("MOVE_DataLayer_FROM_WebModel_(dataLayer)_TO_WebModel_(dataLayer)","moveDataLayerFromWebModelToWebModel"));
+		mappings.add(new NameMapping("SET_REFERENCE_Link_(target)_TGT_Page","setReferenceLinkTgtPage"));
+		mappings.add(new NameMapping("MOVE_DynamicPage_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)","moveDynamicPageFromHypertextLayerToHypertextLayer"));
+		mappings.add(new NameMapping("CREATE_HypertextLayer_IN_WebModel_(hypertextLayer)","createHypertextLayerInWebModel"));
+		mappings.add(new NameMapping("CREATE_DynamicPage_IN_HypertextLayer_(pages)","createDynamicPageInHypertextLayer"));
+		mappings.add(new NameMapping("DELETE_StaticPage_IN_HypertextLayer_(pages)","deleteStaticPageInHypertextLayer"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_WebModel_Name","setAttributeWebModelName"));
+		mappings.add(new NameMapping("CREATE_Link_IN_Page_(links)","createLinkInPage"));
+		mappings.add(new NameMapping("DELETE_Link_IN_Page_(links)","deleteLinkInPage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_Entity_Name","setAttributeEntityName"));
+		mappings.add(new NameMapping("DELETE_Entity_IN_DataLayer_(entities)","deleteEntityInDataLayer"));
+		mappings.add(new NameMapping("MOVE_Entity_FROM_DataLayer_(entities)_TO_DataLayer_(entities)","moveEntityFromDataLayerToDataLayer"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_Attribute_Type","setAttributeAttributeType"));
+		mappings.add(new NameMapping("DELETE_Attribute_IN_Entity_(attributes)","deleteAttributeInEntity"));
+		mappings.add(new NameMapping("MOVE_DataPage_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)","moveDataPageFromHypertextLayerToHypertextLayer"));
+		mappings.add(new NameMapping("MOVE_Page_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)","movePageFromHypertextLayerToHypertextLayer"));
+		mappings.add(new NameMapping("SET_REFERENCE_HypertextLayer_(startPage)_TGT_StaticPage","setReferenceHypertextLayerTgtStaticPage"));
+		mappings.add(new NameMapping("DELETE_Reference_IN_Entity_(references)","deleteReferenceInEntity"));
+		mappings.add(new NameMapping("DELETE_DynamicPage_IN_HypertextLayer_(pages)","deleteDynamicPageInHypertextLayer"));
+		mappings.add(new NameMapping("CREATE_Attribute_IN_Entity_(attributes)","createAttributeInEntity"));
+		mappings.add(new NameMapping("MOVE_Attribute_FROM_Entity_(attributes)_TO_Entity_(attributes)","moveAttributeFromEntityToEntity"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_Link_(target)_TGT_Page","unsetReferenceLinkTgtPage"));
+		mappings.add(new NameMapping("CREATE_Reference_IN_Entity_(references)","createReferenceInEntity"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_HypertextLayer_(startPage)_TGT_StaticPage","unsetReferenceHypertextLayerTgtStaticPage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_Reference_Name","setAttributeReferenceName"));
+		mappings.add(new NameMapping("DELETE_HypertextLayer_IN_WebModel_(hypertextLayer)","deleteHypertextLayerInWebModel"));
+		mappings.add(new NameMapping("DELETE_Page_IN_HypertextLayer_(pages)","deletePageInHypertextLayer"));
+		mappings.add(new NameMapping("CREATE_StaticPage_IN_HypertextLayer_(pages)","createStaticPageInHypertextLayer"));
+		mappings.add(new NameMapping("CREATE_DataPage_IN_HypertextLayer_(pages)","createDataPageInHypertextLayer"));
+		mappings.add(new NameMapping("SET_REFERENCE_Reference_(type)_TGT_Entity","setReferenceReferenceTgtEntity"));
+		mappings.add(new NameMapping("CREATE_DataLayer_IN_WebModel_(dataLayer)","createDataLayerInWebModel"));
+		mappings.add(new NameMapping("MOVE_Link_FROM_Page_(links)_TO_Page_(links)","moveLinkFromPageToPage"));
+		mappings.add(new NameMapping("CREATE_IndexPage_IN_HypertextLayer_(pages)","createIndexPageInHypertextLayer"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_Attribute_Name","setAttributeAttributeName"));
+		mappings.add(new NameMapping("MOVE_HypertextLayer_FROM_WebModel_(hypertextLayer)_TO_WebModel_(hypertextLayer)","moveHypertextLayerFromWebModelToWebModel"));
+		mappings.add(new NameMapping("MOVE_IndexPage_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)","moveIndexPageFromHypertextLayerToHypertextLayer"));
+		mappings.add(new NameMapping("CREATE_Page_IN_HypertextLayer_(pages)","createPageInHypertextLayer"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity","unsetReferenceDynamicPageTgtEntity"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_Page_Name","setAttributePageName"));
+		mappings.add(new NameMapping("SET_REFERENCE_DynamicPage_(entity)_TGT_Entity","setReferenceDynamicPageTgtEntity"));
+		mappings.add(new NameMapping("CREATE_Entity_IN_DataLayer_(entities)","createEntityInDataLayer"));
 	}
 	
 	class NameMapping {
