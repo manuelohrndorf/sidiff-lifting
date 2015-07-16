@@ -1,0 +1,39 @@
+webmodel VehicleRentalCompany {
+	data {
+		entity Customer {
+			att name : String
+			att email : Email
+			ref address : Address
+			ref account : BankAccount  }
+		entity Address {
+			att street : String
+			att postalCode : Integer
+			att city : String }	
+		entity BankAccount {
+			att number : Integer
+			att bankCode : String
+			att bankName : String  }	
+		entity Car {
+			att manufacturer : String
+			att type : String
+			att power : Integer }
+		entity Agency { 
+			ref address : Address }  	
+	}	
+	hypertext {
+		index page carindex shows entity Car {
+			link to page cardata }
+		data page cardata shows entity Car {  }
+		index page agencyindex shows entity Agency { 
+			link to page agencydata }	
+		data page agencydata shows entity Agency {  }	
+		index page customerindex shows entity Customer {
+			link to page customerdata } 
+		data page customerdata shows entity Customer { } 
+		static page indexpage {
+			link to page carindex	
+			link to page agencyindex 
+			link to page customerindex } 
+		start page is indexpage			
+	}	
+}
