@@ -77,7 +77,7 @@ public class EclStandaloneExample {
 	}
 
 	private String getSource() throws Exception {
-		return "Comparison2.ecl";
+		return "Comparison.ecl";
 	}
 
 	private EmfModel createEmfModelByURI(String name, String model, String metamodel, boolean readOnLoad,
