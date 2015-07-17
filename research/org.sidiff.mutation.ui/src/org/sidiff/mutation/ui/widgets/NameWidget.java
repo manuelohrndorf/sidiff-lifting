@@ -1,20 +1,16 @@
 package org.sidiff.mutation.ui.widgets;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetModification;
-import org.silift.common.util.ui.widgets.IWidgetSelection;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
-import org.silift.common.util.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetModification;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class NameWidget implements IWidget, IWidgetModification,
 		IWidgetValidation {

@@ -2,19 +2,18 @@ package org.sidiff.mutation.ui.widgets;
 
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.mutation.config.MutationConfig;
 import org.sidiff.mutation.selection.AbstractSelection;
@@ -22,9 +21,6 @@ import org.sidiff.mutation.selection.IntactSelection;
 import org.sidiff.mutation.selection.RandomSelection;
 import org.sidiff.mutation.selection.context.SimilarityContextSelection;
 import org.sidiff.mutation.selection.operator.SimilarityOperatorSelection;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetSelection;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class MutationOptionsSelectionWidget implements IWidget,
 		IWidgetSelection, IWidgetValidation {
