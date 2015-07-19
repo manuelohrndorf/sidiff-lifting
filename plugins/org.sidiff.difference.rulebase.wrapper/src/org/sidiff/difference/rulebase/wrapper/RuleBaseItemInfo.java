@@ -48,10 +48,9 @@ public class RuleBaseItemInfo {
 	}
 
 	public static String formatName(RuleBaseItem item) {
-		String internalName = getName(item);
-		
+
 		// Remove quotes:
-		String displayName = internalName.substring(1, internalName.length() - 1);
+		String displayName = getName(item);
 		
 		// Remove underscore
 		displayName = displayName.replace('_', ' ');
