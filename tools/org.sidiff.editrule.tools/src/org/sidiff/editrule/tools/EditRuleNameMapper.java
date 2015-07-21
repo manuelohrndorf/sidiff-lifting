@@ -3,7 +3,9 @@ package org.sidiff.editrule.tools;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.eclipse.emf.refactor.examples.simpleWebModelingLanguage.SimpleWebModelingLanguagePackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
@@ -23,31 +25,53 @@ System.out.println("--------------- START ---------------");
 		HashMap<String, String> replacments = new HashMap<String, String>();
 		
 		replacments.put("CREATE_", "create");
-		replacments.put("DELETE_", "delete");
-		replacments.put("UNSET_", "unset");
-		replacments.put("SET_", "set");
-		replacments.put("ADD_", "add");
-		replacments.put("REMOVE_", "remove");
-		replacments.put("MOVE_", "move");
-		replacments.put("_", "");
+		replacments.put("DELETE", "delete");
+		replacments.put("UNSET", "unset");
+		replacments.put("SET", "set");
+		replacments.put("ADD", "add");
+		replacments.put("REMOVE", "remove");
+		replacments.put("MOVE", "move");
+
 		replacments.put("\\(\\w*\\)", "");
+		
+		HashMap<String, String> replacments2 = new HashMap<String, String>();
+		replacments2.put("eattribute", "EAttribute");
+		replacments2.put("eclass", "EClass");
+		replacments2.put("eoperation", "EOperation");
+		replacments2.put("eenum", "EEnum");
 		
 		
 //		EObject eObject = EMFStorage.eLoad(EMFStorage.pathToFileUri(resourceURI));
 		
-		Set<IRuleBase> rulebases = PipelineUtils.getAvailableRulebases(SimpleWebModelingLanguagePackage.eNS_URI);
+		Set<IRuleBase> rulebases = PipelineUtils.getAvailableRulebases(EcorePackage.eNS_URI);
 		
 		for(IRuleBase rb : rulebases){
 			for(EditRule er : rb.getActiveEditRules()){
 				String revisedName = er.getExecuteModule().getName();
-				for(String key : replacments.keySet()){
-					revisedName = revisedName.replaceAll(key, replacments.get(key));
+				revisedName = revisedName.replaceAll("\\(\\w*\\)", "");
+				for(String s : revisedName.split("_")){
+					String replacement = s;
+					if(s.length() > 1){
+						if(s.equals(s.toUpperCase())){
+							replacement = s.replace(s.subSequence(1, s.length()).toString(), s.subSequence(1, s.length()).toString().toLowerCase());
+						}
+						revisedName = revisedName.replace(s, replacement);
+						
+						revisedName = revisedName.replaceAll("_", "");
+						// Create a resource set with a base directory:
+						HenshinResourceSet resourceSet = new HenshinResourceSet();
+
+						// Load the module:
+						//FIXME
+						Module module = resourceSet.getModule("path/to/rulebases"+er.getExecuteModule().eResource().getURI().toPlatformString(true));
+						module.setName(revisedName);
+						er.getExecuteModule().setName(revisedName);
+						resourceSet.saveEObject(module, "path/to/rulebases"+er.getExecuteModule().eResource().getURI().toPlatformString(true));
+					}
+					
 				}
-				for(String s : revisedName.split("[a-z]+")){
-					if(s.length()>2)
-						revisedName = revisedName.replace(s.subSequence(1, s.length()-1), s.subSequence(1, s.length()-1).toString().toLowerCase());
-				}
-				System.out.println("mappings.add(new NameMapping(\"" + er.getExecuteModule().getName()+"\",\"" + revisedName + "\"));");
+				
+				System.out.println("mappings.add(new NameMapping(\"" + er.getExecuteModule().getName()+"\",\"" + revisedName+ "\"));");
 			}
 		}
 		
