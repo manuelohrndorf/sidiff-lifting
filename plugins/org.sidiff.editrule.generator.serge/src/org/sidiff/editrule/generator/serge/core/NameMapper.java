@@ -48,10 +48,10 @@ public class NameMapper {
 		}
 	}
 
-	private void initEcoreNameMappings() {
-		mappings.add(new NameMapping("<gen-name>", "<understandable-name>"));
-		// ....
-	}
+//	private void initEcoreNameMappings() {
+//		mappings.add(new NameMapping("<gen-name>", "<understandable-name>"));
+//		// ....
+//	}
 
 	private void initSAMappings(){
 		mappings.add(new NameMapping("CHANGE_REFERENCE_ComponentInstance_(type)_TGT_ComponentType","changeTypeOfComponent"));
@@ -181,6 +181,128 @@ public class NameMapper {
 		mappings.add(new NameMapping("UNSET_REFERENCE_IntermediateEvent_(outEvent)_TGT_Event","unsetIntermediateEventOutEvent"));
 	}
 	
+	private void initEcoreNameMappings(){
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Changeable","SetAttributeEReferenceChangeable"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnumLiteral_Literal","SetAttributeEEnumLiteralLiteral"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_DefaultValueLiteral","SetAttributeEAttributeDefaultValueLiteral"));
+		mappings.add(new NameMapping("changeBidirectionalReferenceType","changeBidirectionalReferenceType"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_UpperBound","SetAttributeEAttributeUpperBound"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EPackage_NsPrefix","SetAttributeEPackageNsPrefix"));
+		mappings.add(new NameMapping("ADD_EAnnotation_(references)_TGT_EObject","AddEAnnotationTgtEObject"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EDataType_Serializable","SetAttributeEDataTypeSerializable"));
+		mappings.add(new NameMapping("CREATE_EReferenceInEClass","CreateEReferenceInEClass"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnumLiteral_Name","SetAttributeEEnumLiteralName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Unique","SetAttributeEReferenceUnique"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Transient","SetAttributeEReferenceTransient"));
+		mappings.add(new NameMapping("MOVE_EEnumLiteral_FROM_EEnum_(eLiterals)_TO_EEnum_(eLiterals)","MoveEEnumLiteralFromEEnumToEEnum"));
+		mappings.add(new NameMapping("MOVE_EOperation_FROM_EClass_(eOperations)_TO_EClass_(eOperations)","MoveEOperationFromEClassToEClass"));
+		mappings.add(new NameMapping("DELETE_EEnum_IN_EPackage_(eClassifiers)","DeleteEEnumInEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_DefaultValueLiteral","SetAttributeEReferenceDefaultValueLiteral"));
+		mappings.add(new NameMapping("DELETE_EAnnotation_IN_EModelElement_(eAnnotations)","DeleteEAnnotationInEModelElement"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAnnotation_Source","SetAttributeEAnnotationSource"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_ETypeParameter_Name","SetAttributeETypeParameterName"));
+		mappings.add(new NameMapping("DELETE_EStringToStringMapEntry_IN_EAnnotation_(details)","DeleteEStringToStringMapEntryInEAnnotation"));
+		mappings.add(new NameMapping("SET_REFERENCE_EOperation_(eType)_TGT_EClassifier","SetReferenceEOperationTgtEClassifier"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EOperation_LowerBound","SetAttributeEOperationLowerBound"));
+		mappings.add(new NameMapping("CREATE_ETypeParameter_IN_EClassifier_(eTypeParameters)","CreateETypeParameterInEClassifier"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_EAttribute_(eType)_TGT_EClassifier","UnsetReferenceEAttributeTgtEClassifier"));
+		mappings.add(new NameMapping("CHANGE_EReferenceType","ChangeEReferenceType"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Unsettable","SetAttributeEAttributeUnsettable"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EPackage_NsURI","SetAttributeEPackageNsURI"));
+		mappings.add(new NameMapping("deleteOppositeReference","deleteOppositeReference"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EOperation_UpperBound","SetAttributeEOperationUpperBound"));
+		mappings.add(new NameMapping("DELETE_EEnumLiteral_IN_EEnum_(eLiterals)","DeleteEEnumLiteralInEEnum"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EDataType_InstanceClassName","SetAttributeEDataTypeInstanceClassName"));
+		mappings.add(new NameMapping("DELETE_ETypeParameter_IN_EOperation_(eTypeParameters)","DeleteETypeParameterInEOperation"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Transient","SetAttributeEAttributeTransient"));
+		mappings.add(new NameMapping("DELETE_EAttribute_IN_EClass_(eStructuralFeatures)","DeleteEAttributeInEClass"));
+		mappings.add(new NameMapping("DELETE_EReferenceInEClass","DeleteEReferenceInEClass"));
+		mappings.add(new NameMapping("MOVE_EClass_FROM_EPackage_(eClassifiers)_TO_EPackage_(eClassifiers)","MoveEClassFromEPackageToEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnum_Serializable","SetAttributeEEnumSerializable"));
+		mappings.add(new NameMapping("CREATE_EClass_IN_EPackage_(eClassifiers)","CreateEClassInEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Changeable","SetAttributeEAttributeChangeable"));
+		mappings.add(new NameMapping("DELETE_EClass_IN_EPackage_(eClassifiers)","DeleteEClassInEPackage"));
+		mappings.add(new NameMapping("MOVE_EDataType_FROM_EPackage_(eClassifiers)_TO_EPackage_(eClassifiers)","MoveEDataTypeFromEPackageToEPackage"));
+		mappings.add(new NameMapping("MOVE_EEnum_FROM_EPackage_(eClassifiers)_TO_EPackage_(eClassifiers)","MoveEEnumFromEPackageToEPackage"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_EReference_(eOpposite)_TGT_EReference","UnsetReferenceEReferenceTgtEReference"));
+		mappings.add(new NameMapping("MOVE_ETypeParameter_FROM_EClassifier_(eTypeParameters)_TO_EClassifier_(eTypeParameters)","MoveETypeParameterFromEClassifierToEClassifier"));
+		mappings.add(new NameMapping("SET_REFERENCE_EReference_(eOpposite)_TGT_EReference","SetReferenceEReferenceTgtEReference"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EDataType_Name","SetAttributeEDataTypeName"));
+		mappings.add(new NameMapping("UNSET_EReference_Ref_eOpposite_tgt_EReference","UnsetEReferenceRefeOppositetgtEReference"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_ID","SetAttributeEAttributeId"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_ResolveProxies","SetAttributeEReferenceResolveProxies"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Containment","SetAttributeEReferenceContainment"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Derived","SetAttributeEAttributeDerived"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnumLiteral_Value","SetAttributeEEnumLiteralValue"));
+		mappings.add(new NameMapping("DELETE_EOperation_IN_EClass_(eOperations)","DeleteEOperationInEClass"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EParameter_Ordered","SetAttributeEParameterOrdered"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Volatile","SetAttributeEReferenceVolatile"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EParameter_Name","SetAttributeEParameterName"));
+		mappings.add(new NameMapping("CREATE_EEnum_IN_EPackage_(eClassifiers)","CreateEEnumInEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EClass_Interface","SetAttributeEClassInterface"));
+		mappings.add(new NameMapping("MOVE_EPackage_FROM_EPackage_(eSubpackages)_TO_EPackage_(eSubpackages)","MoveEPackageFromEPackageToEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EClass_InstanceClassName","SetAttributeEClassInstanceClassName"));
+		mappings.add(new NameMapping("MOVE_EAttribute_FROM_EClass_(eStructuralFeatures)_TO_EClass_(eStructuralFeatures)","MoveEAttributeFromEClassToEClass"));
+		mappings.add(new NameMapping("MOVE_EReference_Ref_eStructuralFeatures_To_EClass","MoveEReferenceRefeStructuralFeaturesToEClass"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EClass_Abstract","SetAttributeEClassAbstract"));
+		mappings.add(new NameMapping("SET_EReference_Ref_eOpposite_tgt_EReference","SetEReferenceRefeOppositetgtEReference"));
+		mappings.add(new NameMapping("CREATE_EOperation_IN_EClass_(eOperations)","CreateEOperationInEClass"));
+		mappings.add(new NameMapping("SET_REFERENCE_EAttribute_(eType)_TGT_EClassifier","SetReferenceEAttributeTgtEClassifier"));
+		mappings.add(new NameMapping("ADD_EOperation_(eExceptions)_TGT_EClassifier","AddEOperationTgtEClassifier"));
+		mappings.add(new NameMapping("DELETE_EDataType_IN_EPackage_(eClassifiers)","DeleteEDataTypeInEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EStringToStringMapEntry_Value","SetAttributeEStringToStringMapEntryValue"));
+		mappings.add(new NameMapping("DELETE_ETypeParameter_IN_EClassifier_(eTypeParameters)","DeleteETypeParameterInEClassifier"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EClass_InstanceTypeName","SetAttributeEClassInstanceTypeName"));
+		mappings.add(new NameMapping("REMOVE_EReference_(eKeys)_TGT_EAttribute","RemoveEReferenceTgtEAttribute"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EClass_Name","SetAttributeEClassName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Name","SetAttributeEAttributeName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EStringToStringMapEntry_Key","SetAttributeEStringToStringMapEntryKey"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnum_Name","SetAttributeEEnumName"));
+		mappings.add(new NameMapping("MOVE_EAnnotation_FROM_EModelElement_(eAnnotations)_TO_EModelElement_(eAnnotations)","MoveEAnnotationFromEModelElementToEModelElement"));
+		mappings.add(new NameMapping("MOVE_ETypeParameter_FROM_EOperation_(eTypeParameters)_TO_EOperation_(eTypeParameters)","MoveETypeParameterFromEOperationToEOperation"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EOperation_Unique","SetAttributeEOperationUnique"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Ordered","SetAttributeEReferenceOrdered"));
+		mappings.add(new NameMapping("CREATE_ETypeParameter_IN_EOperation_(eTypeParameters)","CreateETypeParameterInEOperation"));
+		mappings.add(new NameMapping("CREATE_EAnnotation_IN_EModelElement_(eAnnotations)","CreateEAnnotationInEModelElement"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_EOperation_(eType)_TGT_EClassifier","UnsetReferenceEOperationTgtEClassifier"));
+		mappings.add(new NameMapping("CREATE_EEnumLiteral_IN_EEnum_(eLiterals)","CreateEEnumLiteralInEEnum"));
+		mappings.add(new NameMapping("deleteBidirectionalReference","deleteBidirectionalReference"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EDataType_InstanceTypeName","SetAttributeEDataTypeInstanceTypeName"));
+		mappings.add(new NameMapping("MOVE_EStringToStringMapEntry_FROM_EAnnotation_(details)_TO_EAnnotation_(details)","MoveEStringToStringMapEntryFromEAnnotationToEAnnotation"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnum_InstanceTypeName","SetAttributeEEnumInstanceTypeName"));
+		mappings.add(new NameMapping("DELETE_EParameter_IN_EOperation_(eParameters)","DeleteEParameterInEOperation"));
+		mappings.add(new NameMapping("ADD_EReference_(eKeys)_TGT_EAttribute","AddEReferenceTgtEAttribute"));
+		mappings.add(new NameMapping("UNSET_REFERENCE_EParameter_(eType)_TGT_EClassifier","UnsetReferenceEParameterTgtEClassifier"));
+		mappings.add(new NameMapping("REMOVE_EClass_(eSuperTypes)_TGT_EClass","RemoveEClassTgtEClass"));
+		mappings.add(new NameMapping("CREATE_EDataType_IN_EPackage_(eClassifiers)","CreateEDataTypeInEPackage"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EParameter_Unique","SetAttributeEParameterUnique"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EEnum_InstanceClassName","SetAttributeEEnumInstanceClassName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Unique","SetAttributeEAttributeUnique"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EParameter_UpperBound","SetAttributeEParameterUpperBound"));
+		mappings.add(new NameMapping("CREATE_EAttribute_IN_EClass_(eStructuralFeatures)","CreateEAttributeInEClass"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EOperation_Name","SetAttributeEOperationName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_UpperBound","SetAttributeEReferenceUpperBound"));
+		mappings.add(new NameMapping("CREATE_EParameter_IN_EOperation_(eParameters)","CreateEParameterInEOperation"));
+		mappings.add(new NameMapping("REMOVE_EAnnotation_(references)_TGT_EObject","RemoveEAnnotationTgtEObject"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_LowerBound","SetAttributeEAttributeLowerBound"));
+		mappings.add(new NameMapping("MOVE_EParameter_FROM_EOperation_(eParameters)_TO_EOperation_(eParameters)","MoveEParameterFromEOperationToEOperation"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EParameter_LowerBound","SetAttributeEParameterLowerBound"));
+		mappings.add(new NameMapping("REMOVE_EOperation_(eExceptions)_TGT_EClassifier","RemoveEOperationTgtEClassifier"));
+		mappings.add(new NameMapping("SET_REFERENCE_EParameter_(eType)_TGT_EClassifier","SetReferenceEParameterTgtEClassifier"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_LowerBound","SetAttributeEReferenceLowerBound"));
+		mappings.add(new NameMapping("moveBidirectionalReference","moveBidirectionalReference"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Ordered","SetAttributeEAttributeOrdered"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EPackage_Name","SetAttributeEPackageName"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Name","SetAttributeEReferenceName"));
+		mappings.add(new NameMapping("ADD_EClass_(eSuperTypes)_TGT_EClass","AddEClassTgtEClass"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Unsettable","SetAttributeEReferenceUnsettable"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EReference_Derived","SetAttributeEReferenceDerived"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EOperation_Ordered","SetAttributeEOperationOrdered"));
+		mappings.add(new NameMapping("CREATE_EStringToStringMapEntry_IN_EAnnotation_(details)","CreateEStringToStringMapEntryInEAnnotation"));
+		mappings.add(new NameMapping("SET_ATTRIBUTE_EAttribute_Volatile","SetAttributeEAttributeVolatile"));
+	}
+	
+
 	private void initSWMLMappings(){
 		mappings.add(new NameMapping("DELETE_IndexPage_IN_HypertextLayer_(pages)","deleteIndexPageInHypertextLayer"));
 		mappings.add(new NameMapping("DELETE_DataPage_IN_HypertextLayer_(pages)","deleteDataPageInHypertextLayer"));
@@ -231,6 +353,7 @@ public class NameMapper {
 		mappings.add(new NameMapping("CREATE_Entity_IN_DataLayer_(entities)","createEntityInDataLayer"));
 	}
 	
+
 	class NameMapping {
 		String generatedName;
 		String manualName;
