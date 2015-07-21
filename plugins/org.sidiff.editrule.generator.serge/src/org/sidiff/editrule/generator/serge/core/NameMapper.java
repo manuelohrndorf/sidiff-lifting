@@ -329,7 +329,7 @@ public class NameMapper {
 		mappings.add(new NameMapping("SET_REFERENCE_HypertextLayer_(startPage)_TGT_StaticPage","setReferenceHypertextLayerTgtStaticPage"));
 		mappings.add(new NameMapping("DELETE_Reference_IN_Entity_(references)","deleteReferenceInEntity"));
 		mappings.add(new NameMapping("DELETE_DynamicPage_IN_HypertextLayer_(pages)","deleteDynamicPageInHypertextLayer"));
-		mappings.add(new NameMapping("CREATE_Attribute_IN_Entity_(attributes)","createAttributeInEntity"));
+		mappings.add(new NameMapping("CREATE_Attribute_IN_Entity_(attributes)","Create Attribute"));
 		mappings.add(new NameMapping("MOVE_Attribute_FROM_Entity_(attributes)_TO_Entity_(attributes)","moveAttributeFromEntityToEntity"));
 		mappings.add(new NameMapping("UNSET_REFERENCE_Link_(target)_TGT_Page","unsetReferenceLinkTgtPage"));
 		mappings.add(new NameMapping("CREATE_Reference_IN_Entity_(references)","createReferenceInEntity"));
@@ -350,7 +350,7 @@ public class NameMapper {
 		mappings.add(new NameMapping("UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity","unsetReferenceDynamicPageTgtEntity"));
 		mappings.add(new NameMapping("SET_ATTRIBUTE_Page_Name","setAttributePageName"));
 		mappings.add(new NameMapping("SET_REFERENCE_DynamicPage_(entity)_TGT_Entity","setReferenceDynamicPageTgtEntity"));
-		mappings.add(new NameMapping("CREATE_Entity_IN_DataLayer_(entities)","createEntityInDataLayer"));
+		mappings.add(new NameMapping("CREATE_Entity_IN_DataLayer_(entities)","Create Entity"));
 	}
 	
 
