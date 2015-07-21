@@ -3,7 +3,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
@@ -14,18 +13,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.domain.editor.access.DomainEditorAccess;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
 //import org.eclipse.ui.internal.EditorPane;
 //import org.eclipse.ui.internal.EditorSashContainer;
 //import org.eclipse.ui.internal.EditorStack;
 //import org.eclipse.ui.internal.PageLayout;
-import org.sidiff.domain.editor.extension.IDomainEditor;
 
 
 @SuppressWarnings("restriction")
@@ -60,43 +58,15 @@ public class LayoutCompareViewHandler extends AbstractHandler implements IHandle
 		
 		URI uriA = resourceA.getURI();
 		URI uriB = resourceB.getURI();
-		
 	
-//		Path resourcePathA = new Path(resourceA.getURI().toPlatformString(true).replace(".smf.xmi", ""));
-//		Path resourcePathB = new Path(resourceB.getURI().toPlatformString(true).replace(".smf.xmi", ""));
-		
-		IDomainEditor deA = DomainEditorAccess.getInstance().getDomainEditorForModelOrDiagramFile(uriA);
-		IDomainEditor deB = DomainEditorAccess.getInstance().getDomainEditorForModelOrDiagramFile(uriB);
-		
-		
-//		IFile diagramA = root.getFile(new Path(resourceA.getURI().toPlatformString(true).replace(".smf.xmi", "").replaceAll(combination.modelFile + "$", combination.diagramFile)));
-//		if(!diagramA.exists()){
-//			if(combination.editorId.equals(EcoreDiagramEditor.ID)){
-//				try {
-//					diagramA.create(null, true, new NullProgressMonitor());
-//					createDiagram(resourceA.getContents().get(0), diagramA);
-//				} catch (CoreException e) {
-//					EcoreDiagramEditorPlugin.getInstance().logError("Unable to create diagram file", e); //$NON-NLS-1$
-//				}		
-//			}
-//		}
-		editorAT = deA.openModelInTreeEditor(uriA);
+		IEditorIntegration deA = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriA);
+		IEditorIntegration deB = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriB);
+
+		editorAT = deA.openModelInDefaultEditor(uriA);
 		editorA = deA.openDiagramForModel(uriA);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorAT);
 
-
-//		IFile diagramB = root.getFile(new Path(resourceB.getURI().toPlatformString(true).replace(".smf.xmi", "").replaceAll(combination.modelFile + "$", combination.diagramFile)));
-//		if(!diagramB.exists()){
-//			if(combination.editorId.equals(EcoreDiagramEditor.ID)){
-//				try {
-//					diagramB.create(null, true, new NullProgressMonitor());
-//					createDiagram(resourceB.getContents().get(0), diagramB);
-//				} catch (CoreException e) {
-//					EcoreDiagramEditorPlugin.getInstance().logError("Unable to create diagram file", e); //$NON-NLS-1$
-//				}
-//			}
-//		}
-		editorBT = deB.openModelInTreeEditor(uriB);
+		editorBT = deB.openModelInDefaultEditor(uriB);
 		editorB = deB.openDiagramForModel(uriB);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorBT);
 		

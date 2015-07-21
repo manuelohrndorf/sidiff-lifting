@@ -61,8 +61,8 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
-import org.sidiff.domain.editor.access.DomainEditorAccess;
-import org.sidiff.domain.editor.extension.IDomainEditor;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.silift.common.HighlightableElement;
 
 @SuppressWarnings("restriction")
@@ -250,8 +250,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		if (decoratedViews.size() == 0) {
 			List<String> treeEditors = new ArrayList<String>();
 
-			for (IDomainEditor de : DomainEditorAccess.getInstance().getDomainEditors()) {
-				if (de.isTreeEditorPresent()) treeEditors.add(de.getTreeEditorID());
+			for (IEditorIntegration de : IntegrationEditorAccess.getInstance().getIntegrationEditors()) {
+				if (de.isDefaultEditorPresent()) treeEditors.add(de.getDefaultEditorID());
 			}
 
 			for (EObject selectedObject : selected) {
@@ -294,7 +294,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
 
-			for (IDomainEditor de : DomainEditorAccess.getInstance().getDomainEditors()) {
+			for (IEditorIntegration de : IntegrationEditorAccess.getInstance().getIntegrationEditors()) {
 				if (de.isDiagramEditorPresent()) {
 					diagramEditors.add(de.getDiagramEditorID());
 				}

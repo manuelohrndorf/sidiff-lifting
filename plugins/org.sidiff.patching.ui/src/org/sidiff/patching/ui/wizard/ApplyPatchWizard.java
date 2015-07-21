@@ -29,8 +29,8 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.difference.patch.animation.GMFAnimation;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
-import org.sidiff.domain.editor.access.DomainEditorAccess;
-import org.sidiff.domain.editor.extension.IDomainEditor;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -129,8 +129,8 @@ public class ApplyPatchWizard extends Wizard {
 
 		final URI fileURI = URI.createFileURI(filename);
 		Resource targetResource = EMFStorage.eLoad(fileURI).eResource();
-		final IDomainEditor domainEditor = DomainEditorAccess.getInstance()
-				.getDomainEditorForModel(targetResource);
+		final IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance()
+				.getIntegrationEditorForModel(targetResource);
 		final boolean domainEditorSupportsDiagramming = domainEditor
 				.supportsDiagramming(targetResource);
 		final URI originalModelUri = targetResource.getURI();
@@ -178,8 +178,8 @@ public class ApplyPatchWizard extends Wizard {
 								if (useDiagramEditor) {
 									editorPart = domainEditor
 											.openDiagram(diagramFileUri);
-								} else if (domainEditor.isTreeEditorPresent()) {
-									editorPart = domainEditor.openModelInTreeEditor(EMFStorage
+								} else if (domainEditor.isDefaultEditorPresent()) {
+									editorPart = domainEditor.openModelInDefaultEditor(EMFStorage
 											.pathToFileUri(modelFilePath));
 								} else {
 									MessageDialog.openError(Display

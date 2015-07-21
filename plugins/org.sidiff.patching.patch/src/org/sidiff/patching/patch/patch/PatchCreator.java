@@ -17,8 +17,8 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.domain.editor.access.DomainEditorAccess;
-import org.sidiff.domain.editor.extension.IDomainEditor;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.file.FileOperations;
 import org.silift.common.util.file.ZipUtil;
@@ -40,7 +40,8 @@ public class PatchCreator {
 	private Resource resourceB;
 	private final URI modelAOriginalUri;
 	private final URI modelBOriginalUri;
-	private final IDomainEditor domainEditorA, domainEditorB;
+	
+	private final IEditorIntegration domainEditorA, domainEditorB;
 	private final boolean domainEditorAsupportsDiagram,
 			domainEditorBsupportsDiagram;
 
@@ -69,12 +70,12 @@ public class PatchCreator {
 		modelAOriginalUri = resourceA.getURI();
 		this.resourceB = asymmetricDifference.getChangedModel();
 		modelBOriginalUri = resourceB.getURI();
-		domainEditorA = DomainEditorAccess.getInstance()
-				.getDomainEditorForModel(resourceA);
+		domainEditorA = IntegrationEditorAccess.getInstance()
+				.getIntegrationEditorForModel(resourceA);
 		domainEditorAsupportsDiagram = domainEditorA
 				.supportsDiagramming(resourceA);
-		domainEditorB = DomainEditorAccess.getInstance()
-				.getDomainEditorForModel(resourceB);
+		domainEditorB = IntegrationEditorAccess.getInstance()
+				.getIntegrationEditorForModel(resourceB);
 		domainEditorBsupportsDiagram = domainEditorB
 				.supportsDiagramming(resourceB);
 

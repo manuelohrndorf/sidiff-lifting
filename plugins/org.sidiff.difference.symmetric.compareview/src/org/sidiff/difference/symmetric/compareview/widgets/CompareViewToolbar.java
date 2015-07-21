@@ -31,59 +31,6 @@ public class CompareViewToolbar implements IToolbarContribution {
 	@Override
 	public void createItems(ToolBar toolBar) {
 		
-		// FIXME[MO@29.11.13]: This is yet only a quick and dirty solution!
-		// [DR@03.05.14]: This has to be synchronous/consistent to the "new" extension
-//		//final HashMap<String, String> editorFileCombinations = new HashMap<String, String>();
-//
-//		String ecore =
-//				"org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditorID," +
-//				"org.eclipse.emf.ecore.presentation.EcoreEditorID," +
-//				"ecore," +
-//				"ecorediag";
-//
-//		editorFileCombinations.put(
-//				"org.sidiff.difference.symmetric.compareview.ecoreFileCombination",
-//				ecore);
-//
-//		String uml2 =
-//				"org.eclipse.papyrus.infra.core.papyrusEditor," +
-//				"org.eclipse.uml2.uml.editor.presentation.UMLEditorID," +
-//				"uml," +
-//				"di";
-//
-//		editorFileCombinations.put(
-//				"org.sidiff.difference.symmetric.compareview.papyrusFileCombination",
-//				uml2);
-//
-//		String web =
-//				"simplewebmodel.diagram.part.SimplewebmodelDiagramEditorID," +
-//				"simplewebmodel.presentation.SimplewebmodelEditorID," +
-//				"simplewebmodel," +
-//				"simplewebmodel_diagram";
-//
-//		editorFileCombinations.put(
-//				"org.sidiff.difference.symmetric.compareview.simplewebmodelFileCombination",
-//				web);
-//		
-//		String fm =
-//				"org.eclipse.featuremodel.diagrameditor.diagrameditor," +
-//				"de.imotep.featuremodel.variability.metamodel.FeatureModel.presentation.FeatureModelEditorID," +
-//				"featuremodel," +
-//				"featurediagram";
-//
-//		editorFileCombinations.put(
-//				"org.sidiff.difference.symmetric.compareview.featuremodelFileCombination",
-//				fm);
-//
-//		String smwl =
-//				"-," +
-//				"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage," +
-//				"swml," +
-//				"simplewebmodel_diagram";
-//
-//		editorFileCombinations.put(
-//				"org.sidiff.difference.symmetric.compareview.simplewebmodellanguageFileCombination",
-//				smwl);
 		
 		// Arrange Compare View
 		ToolItem tool_compareViewLayout = new ToolItem(toolBar, SWT.NONE);
