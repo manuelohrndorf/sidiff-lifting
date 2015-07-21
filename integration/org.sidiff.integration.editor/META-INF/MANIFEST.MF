@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Editor Integration
+Bundle-SymbolicName: org.sidiff.integration.editor;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.sidiff.integration.editor.Activator
+Bundle-Vendor: www.sidiff.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.ui.workbench,
+ org.eclipse.emf.edit,
+ org.silift.common.util,
+ org.sidiff.common,
+ org.eclipse.emf.common.ui,
+ org.eclipse.core.resources
+Bundle-ActivationPolicy: lazy
+Export-Package: org.sidiff.integration.editor.access;uses:="org.eclipse.emf.ecore.resource",
+ org.sidiff.integration.editor.extension;uses:="org.eclipse.emf.common.util,org.eclipse.emf.ecore.resource"
+Import-Package: org.eclipse.ui.part
