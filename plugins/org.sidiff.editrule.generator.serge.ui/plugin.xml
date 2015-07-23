@@ -21,6 +21,29 @@
                   label="Generate CPEOs"
                   style="push"
                   tooltip="Generates CPEOs">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="or">
+                        <adapt
+                              type="org.eclipse.core.resources.IResource">
+                           <or>
+                              <test
+                                    property="org.eclipse.core.resources.extension"
+                                    value="serge">
+                              </test>
+                              <test
+                                    property="org.eclipse.core.resources.extension"
+                                    value="ecore">
+                              </test>
+                           </or>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
             </command>
          </menu>
       </menuContribution>
