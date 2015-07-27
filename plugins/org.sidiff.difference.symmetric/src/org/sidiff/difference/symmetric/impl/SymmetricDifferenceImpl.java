@@ -241,8 +241,8 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 		for (Correspondence c : getCorrespondences()) {
 			// TODO cpietsch, relative vs. absolute path
 			// if (c.getObjA().eResource() != null &&
-			// c.getObjA().eResource().getURI().toString().equals(getUriModelA())){
-			if (c.getObjA().eResource() != null && c.getObjA().eResource().getURI().toString().contains(getUriModelA())) {
+			// c.getObjA().eResource().getURI().toString().equals(getUriModelA())){	
+			if (c.getObjA().eResource() != null && getUriModelA().endsWith(c.getObjA().eResource().getURI().lastSegment())) {
 				return c.getObjA().eResource();
 			}
 		}
@@ -263,7 +263,7 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 			// TODO cpietsch, relative vs. absolute path
 			// if (c.getObjB().eResource() != null &&
 			// c.getObjB().eResource().getURI().toString().equals(getUriModelB())){
-			if (c.getObjB().eResource() != null && c.getObjB().eResource().getURI().toString().contains(getUriModelB())) {
+			if (c.getObjB().eResource() != null && getUriModelB().endsWith(c.getObjB().eResource().getURI().lastSegment())) {
 				return c.getObjB().eResource();
 			}
 		}
