@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -20,17 +21,22 @@ import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DView;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.integration.editor.extension.AbstractEditorIntegration;
 import org.silift.common.util.emf.EMFStorage;
+import org.silift.common.util.file.ZipUtil;
 
 public class SiriusEditorIntegration extends AbstractEditorIntegration {
 
 	public SiriusEditorIntegration() {
 		// The fake editor is sufficient for this purpose
-		super(null,	"org.eclipse.sirius.ui.fakeeditoronlyforicon");
+		super(null, "org.eclipse.sirius.ui.fakeeditoronlyforicon");
 
 	}
 
@@ -58,7 +64,6 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		return diagramFile.fileExtension().toLowerCase()
 				.endsWith(DIAGRAM_FILE_EXT);
 	}
-	
 
 	@Override
 	public URI copyDiagram(URI modelFile, String savePath)
@@ -90,24 +95,44 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public IEditorPart openModelInDefaultEditor(URI modelURI) {		
-		
-		return null;
-		
+	public IEditorPart openModelInDefaultEditor(URI modelURI) {
+		try {
+			// FIXME Could be problematic with files in archives
+			String path = EMFStorage.uriToPath(modelURI);
+			IEditorDescriptor desc = PlatformUI.getWorkbench()
+					.getEditorRegistry().getDefaultEditor(path);
+			IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+			return page.openEditor(new URIEditorInput(modelURI), desc.getId());
+		} catch (PartInitException ex) {
+			return null;
+		}
 	}
 
 	private URI getDiagramForModel(URI modelFile) {
-		
 		String ext = modelFile.fileExtension();
-		int index =  modelFile.toString().lastIndexOf(ext);
-		String modelName = modelFile.toString().substring(0,index);
-		URI diagramURI =URI.createURI(modelName + DIAGRAM_FILE_EXT);
-		if(EMFStorage.uriToFile(diagramURI).exists())	
-			return URI.createURI(modelName + DIAGRAM_FILE_EXT);
-		else
+		int index = modelFile.toString().lastIndexOf(ext);
+		String modelName = modelFile.toString().substring(0, index);
+		URI diagramURI = URI.createURI(modelName + DIAGRAM_FILE_EXT);
+		if (modelFile.isArchive()) {
+			String authority = diagramURI.authority().replaceAll("\\\\", "/");
+			if (authority.endsWith("!")) authority = authority.substring(0, authority.length() - 1);
+			File authorityFile = new File(java.net.URI.create(authority));
+			if (!authorityFile.isFile())
+				return null;
+			String fileString = diagramURI.toString().substring(diagramURI.toString().indexOf(diagramURI.authority())+ diagramURI.authority().length()).replaceAll("\\\\", "/");
+			if (fileString.startsWith("/")) fileString=fileString.substring(1);
+			for (String s : ZipUtil.getEntries(authorityFile.getAbsolutePath())) {
+				if (s != null && s.equals(fileString)) return diagramURI;
+			}
 			return null;
+		} else {
+			if (EMFStorage.uriToFile(diagramURI).exists())
+				return diagramURI;
+			else
+				return null;
+		}
 	}
-	
 
 	@Override
 	public IEditorPart openDiagramForModel(URI modelFile) {
@@ -130,13 +155,10 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		// Start Sirius Session
 		Session session = SessionManager.INSTANCE.getSession(diagramFile,
 				new NullProgressMonitor());
-		if (session == null){
-			System.out.println("Session was not opened"); //TODO Remove
+		if (session == null)
 			return null;
-		}
-		if (!session.isOpen()) {
+		if (!session.isOpen())
 			session.open(new NullProgressMonitor());
-		}
 
 		for (Session otherSession : SessionManager.INSTANCE.getSessions()) {
 			otherSession.getOwnedViews();
@@ -174,19 +196,17 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	public Resource getResource(IEditorPart editorPart) {
 		if (editorPart instanceof DDiagramEditor) {
 			DDiagramEditor editor = (DDiagramEditor) editorPart;
-			Iterator<Resource> iter=editor.getSession().getSemanticResources().iterator();
-			if(iter.hasNext()){
-				//TODO Determine the right resource if there are multiple
+			Iterator<Resource> iter = editor.getSession()
+					.getSemanticResources().iterator();
+			if (iter.hasNext()) {
+				// FIXME: Determine the right resource if there are multiple
 				return iter.next();
 			} else {
 				return null;
 			}
 		} else {
-			// TODO Exception?
 			return null;
 		}
 	}
 
-	
-	
 }
