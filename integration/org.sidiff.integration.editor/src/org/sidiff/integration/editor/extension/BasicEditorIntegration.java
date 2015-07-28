@@ -28,8 +28,9 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected final String docType, modelFileExt, diagramFileExt;
 
-	public BasicEditorIntegration(String defaultEditorId, String diagramEditorId,
-			String docType, String modelFileExt, String diagramFileExt) {
+	public BasicEditorIntegration(String defaultEditorId,
+			String diagramEditorId, String docType, String modelFileExt,
+			String diagramFileExt) {
 		super(defaultEditorId, diagramEditorId);
 		this.docType = docType;
 		this.modelFileExt = modelFileExt;
@@ -42,22 +43,26 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	protected URI[] getDiagramFiles(URI modelFile) {
-		if (modelFileExt != null && modelFileExt.equals(modelFile.fileExtension().toLowerCase())) {
-			return new URI[] { URI.createURI(modelFile.toString().replaceAll(
-					modelFileExt + "$", diagramFileExt)) };
+		String ext = modelFile.fileExtension();
+		if (modelFileExt != null && diagramFileExt != null
+				&& modelFileExt.equals(ext)) {
+			int index = modelFile.toString().lastIndexOf(ext);
+			String modelName = modelFile.toString().substring(0, index);
+			return new URI[] { URI.createURI(modelName + this.diagramFileExt) };
 		}
 		return new URI[0];
 	}
 
 	@Override
 	public boolean supportsModel(URI modelFile) {
-		return (modelFileExt != null && modelFile.fileExtension().toLowerCase().endsWith(modelFileExt));
+		return (modelFileExt != null && modelFile.fileExtension().toLowerCase()
+				.endsWith(modelFileExt));
 	}
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-		return (diagramFile != null && diagramFile.fileExtension().toLowerCase()
-				.endsWith(diagramFileExt));
+		return (diagramFile != null && diagramFileExt != null && diagramFile
+				.fileExtension().toLowerCase().endsWith(diagramFileExt));
 	}
 
 	@Override
@@ -67,11 +72,13 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 		try {
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
-			IPath location= Path.fromOSString(EMFStorage.uriToFile(modelURI).getAbsolutePath());
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
+			IPath location = Path.fromOSString(EMFStorage.uriToFile(modelURI)
+					.getAbsolutePath());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(location);
 			IEditorInput input;
-			if (file !=null && file.exists()){
-				input=new FileEditorInput(file);
+			if (file != null && file.exists()) {
+				input = new FileEditorInput(file);
 			} else {
 				input = new URIEditorInput(modelURI);
 			}
@@ -88,11 +95,13 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 		try {
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
-			IPath location= Path.fromOSString(EMFStorage.uriToFile(diagramURI).getAbsolutePath());
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
+			IPath location = Path.fromOSString(EMFStorage.uriToFile(diagramURI)
+					.getAbsolutePath());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(location);
 			IEditorInput input;
-			if (file != null  && file.exists()){
-				input=new FileEditorInput(file);
+			if (file != null && file.exists()) {
+				input = new FileEditorInput(file);
 			} else {
 				input = new URIEditorInput(diagramURI);
 			}
@@ -114,15 +123,18 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return (docType != null && docType.equals(EMFModelAccessEx
-				.getCharacteristicDocumentType(model)));
-		// TODO Auch Dateiendung überprüfen
+		return (docType != null
+				&& docType.equals(EMFModelAccessEx
+						.getCharacteristicDocumentType(model)) && getMainDiagramFile(model
+					.getURI()) != null);
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
-		return (docType != null && docType.equals(EMFModelAccessEx
-				.getCharacteristicDocumentType(model)));
+		return (docType != null
+				&& docType.equals(EMFModelAccessEx
+						.getCharacteristicDocumentType(model)) && model
+				.getURI().fileExtension().equals(this.modelFileExt));
 	}
 
 	@Override
@@ -132,9 +144,10 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 		try {
 			final URI[] diagramFiles = getDiagramFiles(modelFile);
 			final URI mainDiagramUri = getMainDiagramFile(modelFile);
-			if (diagramFiles == null || diagramFiles.length == 0 || mainDiagramUri == null)
+			if (diagramFiles == null || diagramFiles.length == 0
+					|| mainDiagramUri == null)
 				throw new RuntimeException("Model not supported");
-			//TODO Check if main diagram file is in array
+			//This code assumes that mainDiagramUri is in diagramFiles
 			ResourceSet set = new ResourceSetImpl();
 			for (URI diagramFile : diagramFiles) {
 				final File testFile = new File(
@@ -145,18 +158,18 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 				Resource resource = EMFStorage.eLoad(diagramFile).eResource();
 				set.getResources().add(resource);
 			}
-			for (Resource resource : set.getResources()){
+			for (Resource resource : set.getResources()) {
 				final URI diagramSaveFile = EMFStorage.pathToUri(savePath
 						+ separator + resource.getURI().lastSegment());
 				EMFStorage.eSaveAs(diagramSaveFile,
 						resource.getContents().get(0), false);
 			}
-			return EMFStorage.pathToUri(savePath
-					+ separator + mainDiagramUri.lastSegment());
+			return EMFStorage.pathToUri(savePath + separator
+					+ mainDiagramUri.lastSegment());
 		} catch (Exception e) {
-			if (e instanceof FileNotFoundException) throw (FileNotFoundException)e;
+			if (e instanceof FileNotFoundException)
+				throw (FileNotFoundException) e;
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
-			// TODO Exception-handling?
 			throw new RuntimeException("Error copying diagram", e);
 		}
 	}
