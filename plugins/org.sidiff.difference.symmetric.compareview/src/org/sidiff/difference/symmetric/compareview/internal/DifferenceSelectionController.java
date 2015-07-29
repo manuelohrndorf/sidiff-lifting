@@ -257,7 +257,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			for (EObject selectedObject : selected) {
 				DecoratedTuple decoratedTuple = null;
 				if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
-					decoratedTuple = findTextObjectInEditor(selectedObject, treeEditors);
+					decoratedTuple = findTextObjectInEditor(selectedObject);
 				} else {
 					decoratedTuple = findObjectInEditor(selectedObject, treeEditors);
 				}
@@ -308,11 +308,11 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		}
 	}
 	
-	private DecoratedTuple findTextObjectInEditor(EObject eObject, List<String> filter) {
+	private DecoratedTuple findTextObjectInEditor(EObject eObject) {
 		DecoratedTuple decoratedTuple = new DecoratedTuple();
 		for (IEditorReference editorReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getEditorReferences()) {
-			if (xtextmarker != null && filter.contains(editorReference.getId())) {
+			if (xtextmarker != null) {
 				URI resourceURI = eObjecToResourceURI.get(eObject);
 				Set<EObject> results = xtextmarker.findXtextObjectInEditor(eObject, editorReference.getEditor(true), resourceURI);
 				
@@ -434,17 +434,27 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else if (change instanceof AddReference) {
 			EObject eObjectA = ((AddReference) change).getSrc();
 			EObject eObjectB = ((AddReference) change).getTgt();
-			selected.add(eObjectA);
-			selected.add(eObjectB);
-			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
-			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB))) {
+				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
+				// since this usually leads to too many underlined lines of text in textual model representations.
+			} else {
+				selected.add(eObjectA);
+				selected.add(eObjectB);
+				eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+				eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			}
 		} else if (change instanceof RemoveReference) {
 			EObject eObjectA = ((RemoveReference) change).getSrc();
 			EObject eObjectB = ((RemoveReference) change).getTgt();
-			selected.add(eObjectA);
-			selected.add(eObjectB);
-			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
-			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB))) {
+				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
+				// since this usually leads to too many underlined lines of text in textual model representations.
+			} else {
+				selected.add(eObjectA);
+				selected.add(eObjectB);
+				eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+				eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			}
 		}
 	}
 
