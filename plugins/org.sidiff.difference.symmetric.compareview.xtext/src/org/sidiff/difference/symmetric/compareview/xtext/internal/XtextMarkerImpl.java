@@ -31,6 +31,11 @@ public class XtextMarkerImpl implements XtextMarker {
 
 	@Override
 	public void mark(EObject textEObject, IEditorPart editor) {
+		if (!(editor instanceof XtextEditor)){
+			// no Xtext editor, nothing to mark
+			return;
+		}
+		
 		INode textNode = adapt(INode.class, textEObject);
 		if (textNode != null) {
 			IResource resource = ((XtextEditor) editor).getResource();
