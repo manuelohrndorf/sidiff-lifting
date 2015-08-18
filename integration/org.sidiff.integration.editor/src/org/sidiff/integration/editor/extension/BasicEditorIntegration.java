@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -158,11 +159,20 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 				Resource resource = EMFStorage.eLoad(diagramFile).eResource();
 				set.getResources().add(resource);
 			}
+			EcoreUtil.resolveAll(set);
+			for(Resource resource : set.getResources()) {
+				if(resource.getURI().fileExtension().equals(modelFile.fileExtension())){
+					final URI modelFileURI = EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()); 
+					EMFStorage.eSaveAs(modelFileURI, resource.getContents().get(0), true);
+				}
+			}
 			for (Resource resource : set.getResources()) {
-				final URI diagramSaveFile = EMFStorage.pathToUri(savePath
-						+ separator + resource.getURI().lastSegment());
-				EMFStorage.eSaveAs(diagramSaveFile,
-						resource.getContents().get(0), false);
+				if(!resource.getURI().fileExtension().equals(modelFile.fileExtension())){
+					final URI diagramSaveFile = EMFStorage.pathToUri(savePath
+							+ separator + resource.getURI().lastSegment());
+					EMFStorage.eSaveAs(diagramSaveFile,
+							resource.getContents().get(0), true);
+				}
 			}
 			return EMFStorage.pathToUri(savePath + separator
 					+ mainDiagramUri.lastSegment());
