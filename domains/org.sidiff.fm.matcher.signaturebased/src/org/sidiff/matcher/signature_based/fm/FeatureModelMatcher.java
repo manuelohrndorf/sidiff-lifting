@@ -1,5 +1,7 @@
 package org.sidiff.matcher.signature_based.fm;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -63,6 +65,12 @@ public class FeatureModelMatcher extends SignatureBasedMatcher {
 	@Override
 	public String getDocumentType() {
 		return FeatureModelPackage.eNS_URI;
+	}
+
+	@Override
+	public Map<String, Object> getConfigurationOptions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
