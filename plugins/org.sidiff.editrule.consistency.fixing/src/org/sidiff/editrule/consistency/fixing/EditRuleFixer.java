@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
@@ -562,5 +561,15 @@ public class EditRuleFixer {
 		parameterMapping.setSource(unitParameter);
 		parameterMapping.setTarget(parameter);
 		mainUnit.getParameterMappings().add(parameterMapping);
+	}
+
+	public static void fix_derivedEdges(Edge edge) {
+		Graph graph  = edge.getGraph();
+		graph.removeEdge(edge);		
+	}
+
+	//FIXME dirty solution
+	public static void fix_correctParameterTyping(Parameter parameter) {
+		parameter.setType(null);
 	}
 }

@@ -96,6 +96,12 @@ public class ERFixingEngine {
 				Parameter parameter = ((Attribute) eObject).getGraph().getRule()
 						.getParameter(((Attribute) eObject).getValue());
 				EditRuleFixer.fix_mappedAllValueSettingParameters(parameter);
+			} else if(type.equals(ValidationType.derivedEdges.toString())){
+				Edge edge = (Edge) eObject;
+				EditRuleFixer.fix_derivedEdges(edge);
+			} else if(type.equals(ValidationType.correctParameterTyping.toString())){
+				Parameter parameter = (Parameter) eObject;
+				EditRuleFixer.fix_correctParameterTyping(parameter);
 			}
 		}
 	}
