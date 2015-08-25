@@ -42,10 +42,7 @@ public abstract class SignatureBasedMatcher extends AbstractMatcher {
 				if(!hasCorrespondence(eObjectA) && !hasCorrespondence(eObjectB)){
 					// TODO there can be multiple objects with the same signature
 					
-					// only create correspondence when EClasses are equal
-					if(eObjectA.eClass().equals(eObjectB.eClass())) {
-						matching.addCorrespondence(eObjectA, eObjectB);
-					}
+					matching.addCorrespondence(eObjectA, eObjectB);
 				}
 			}
 		}
