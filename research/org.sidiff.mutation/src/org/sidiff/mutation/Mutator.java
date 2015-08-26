@@ -2,6 +2,7 @@ package org.sidiff.mutation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -26,13 +28,16 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.collections.ClassificationUtil;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.core.correspondences.util.CorrespondencesUtil;
+import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.matcher.copier.CopierMatcher;
 import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.rulebase.EditRule;
@@ -40,10 +45,17 @@ import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.difference.rulebase.ParameterKind;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.MergeImports;
+import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.mutation.config.MutationConfig;
 import org.sidiff.mutation.util.MutationUtil;
+import org.sidiff.pipeline.correspondences.model.Correspondence;
+import org.sidiff.pipeline.correspondences.model.Matching;
+import org.sidiff.pipeline.correspondences.model.MatchingModelFactory;
+import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.exceptions.NoCorrespondencesException;
+import org.silift.common.util.emf.Scope;
 
 /**
  * Mutator class
@@ -210,9 +222,9 @@ public class Mutator {
 
 								}
 
-								LogUtil.log(LogEvent.DEBUG, "Creating Difference...");
-								createDifference(mutation);								
-								LogUtil.log(LogEvent.DEBUG, "Created Difference.");
+								LogUtil.log(LogEvent.DEBUG, "Creating Matching...");
+								createMatching(mutation);								
+								LogUtil.log(LogEvent.DEBUG, "Created Matching.");
 
 								monitor.subTask("Created Mutant " + MutationUtil.getResourceName(targetModel));
 								LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
@@ -367,21 +379,30 @@ public class Mutator {
 		return targetModel;
 	}
 	
-	private void createDifference(Mutation mutation){
+	private void createMatching(Mutation mutation){		
 		
-		//TODO This could be done in a prescriptive way instead of (re)computing everything
-		CopierMatcher cmatcher = (CopierMatcher)MatcherUtil.getMatcherByKey("Copier", mutation.getInputModel(), mutation.getMutant());
-		cmatcher.setCopier(mutation.getCopier());		
-		SymmetricDifference sd = null;
-		try {
-			sd = LiftingFacade.liftMeUp(mutation.getInputModel(), mutation.getMutant(), cmatcher);
-		} catch (InvalidModelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NoCorrespondencesException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		//Resolve all
+		EcoreUtil.resolveAll(mutation.getInputModel().getResourceSet());
+		EcoreUtil.resolveAll(mutation.getMutant().getResourceSet());
+		
+		//Create Matching
+		CopierMatcher cmatcher =(CopierMatcher)MatcherUtil.getMatcherByKey("Copier", mutation.getInputModel(), mutation.getMutant());
+		cmatcher.setCopier(mutation.getCopier());
+		SymmetricDifference sd = cmatcher.createMatching(mutation.getInputModel(),  mutation.getMutant(),
+				Scope.RESOURCE_SET, false);
+		
+		
+		// Merge Imports
+		MergeImports importMerger = new MergeImports(sd, Scope.RESOURCE_SET, true);
+		importMerger.merge();		
+		
+		//Derive Technical Difference
+		ITechnicalDifferenceBuilder tdb = TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(
+				EMFModelAccessEx.getCharacteristicDocumentType(mutation.getInputModel()));
+		tdb.deriveTechDiff(sd, Scope.RESOURCE_SET);
+		
+		// Unmerge Imports
+		importMerger.unmerge();
 		
 		//Save Matching Model	
 		String mutantFile = mutation.getMutant().getURI().toFileString();

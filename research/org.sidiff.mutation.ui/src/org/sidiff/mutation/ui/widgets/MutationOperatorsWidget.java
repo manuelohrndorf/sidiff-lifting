@@ -19,7 +19,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
-import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -28,7 +27,8 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.mutation.config.MutationConfig;
 
-public class MutationOperatorsWidget implements IWidget, IWidgetSelection,
+
+public class MutationOperatorsWidget implements org.sidiff.common.ui.widgets.IWidget, IWidgetSelection,
 		IWidgetValidation {
 
 	private Composite container;
