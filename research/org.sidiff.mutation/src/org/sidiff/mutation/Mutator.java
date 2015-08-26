@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
@@ -260,7 +261,25 @@ public class Mutator {
 		Engine engine = new EngineImpl();		
 		RuleApplication ra = new RuleApplicationImpl(engine);
 		ra.setEGraph(graph);
-		ra.setRule((Rule) editRule.getExecuteModule().getUnits().get(0));	
+		
+		Rule rule = null;
+		
+		for(Unit unit : editRule.getExecuteModule().getUnits()){
+			if(unit instanceof Rule)
+				rule = (Rule)unit;
+			break;
+
+		}	
+
+			
+		// Abort if no executable rule could be found in units
+		if(rule == null){			
+			System.err.println("No Rule for application found!");
+			return new LinkedList<Match>();		
+		}
+		
+		
+		ra.setRule(rule);		
 	
 		// Get all creation attributes, they are relevant
 		// for initializing value parameters
