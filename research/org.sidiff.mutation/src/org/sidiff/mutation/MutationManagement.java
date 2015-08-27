@@ -31,9 +31,9 @@ public class MutationManagement {
 		this.currentInputParameterNumber = 0;
 	}
 	
-	public int getCurrentInputParameter(){
+	public String getCurrentInputParameter(){
 		this.currentInputParameterNumber++;
-		return this.currentInputParameterNumber;	
+		return "P" + this.currentInputParameterNumber;	
 	}
 
 	public Set<Mutation> getMutations(int mutationOrder){

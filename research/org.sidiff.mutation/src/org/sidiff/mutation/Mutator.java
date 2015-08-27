@@ -187,7 +187,7 @@ public class Mutator {
 							ra.setCompleteMatch(context);							
 												
 							// Apply transformation
-							boolean result = ra.execute(null);
+							boolean result = ra.execute(null);							
 
 							// Validate the mutated model
 							if(this.mc.isValidateMutants()){
@@ -200,33 +200,49 @@ public class Mutator {
 								}
 							}
 
-							if (result) {
-								// Remember mutation
+							if (result) {								
+								
 								Mutation mutation = new Mutation(inputModel, targetModel,
 										copier, operator, context);
-								this.mm.addMutation(currentOrder, mutation);
+								
+								LogUtil.log(LogEvent.DEBUG, "Derive Difference...");
+								SymmetricDifference sd = deriveDifference(mutation);								
+								LogUtil.log(LogEvent.DEBUG, "Derived Difference.");
+								
+								//Only proceed iff mutation has introduced changes at all
+								if(sd.getChanges().size() > 0){
 
-								// Save mutant
-								try {
-									targetModel.save(Collections.EMPTY_MAP);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+									// Remember mutation
+									this.mm.addMutation(currentOrder, mutation);
+
+									// Save mutant and difference
+									try {
+										targetModel.save(Collections.EMPTY_MAP);
+										saveDifference(mutation, sd);
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+
+									}
+
+
+
+									monitor.subTask("Created Mutant " + MutationUtil.getResourceName(targetModel));
+									LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
+									LogUtil.log(LogEvent.DEBUG, mutation);
+									LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));							
+
+
+									mutantNumber++;
+									spm3.worked(1);
+								}
+								
+								else{
+									LogUtil.log(LogEvent.DEBUG, "Difference is empty, Mutation did"
+											+ "not introduce any changes!");							
 
 								}
-
-								LogUtil.log(LogEvent.DEBUG, "Creating Matching...");
-								createMatching(mutation);								
-								LogUtil.log(LogEvent.DEBUG, "Created Matching.");
-
-								monitor.subTask("Created Mutant " + MutationUtil.getResourceName(targetModel));
-								LogUtil.log(LogEvent.NOTICE, "- Created Mutant " + MutationUtil.getResourceName(targetModel) + " -");
-								LogUtil.log(LogEvent.DEBUG, mutation);
-								LogUtil.log(LogEvent.DEBUG, "Mutation Sequence: " + this.mm.printMutationSequence(targetModel));							
-
-																
-								mutantNumber++;
-								spm3.worked(1);
+								
 							}
 							
 							releaseAdapters(graph);	
@@ -322,7 +338,7 @@ public class Mutator {
 
 					// Use just a sequential number otherwise
 					else{
-						ra.setParameterValue(paramName, paramType.eClass().toString() + this.mm.getCurrentInputParameter());
+						ra.setParameterValue(paramName, this.mm.getCurrentInputParameter());
 					}
 				}
 			}
@@ -390,7 +406,7 @@ public class Mutator {
 		return targetModel;
 	}
 	
-	private void createMatching(Mutation mutation){		
+	private SymmetricDifference deriveDifference(Mutation mutation){		
 		
 		//Resolve all
 		EcoreUtil.resolveAll(mutation.getInputModel().getResourceSet());
@@ -415,15 +431,23 @@ public class Mutator {
 		// Unmerge Imports
 		importMerger.unmerge();
 		
+		
+		return sd;
+
+	}
+	
+	
+	private void saveDifference(Mutation mutation, SymmetricDifference sd) throws IOException{
+		
 		//Save Matching Model	
 		String mutantFile = mutation.getMutant().getURI().toFileString();
 		if(mutantFile == null)
 			mutantFile = EMFStorage.uriToPath(mutation.getMutant().getURI());		
-		
+
 		String folder = mutantFile.substring(0, mutantFile.lastIndexOf(File.separator));
 		String inputName = MutationUtil.getResourceName(mutation.getInputModel());
 		String mutantName = MutationUtil.getResourceName(mutation.getMutant());
-		
+
 		String matchingFile = folder + File.separator + inputName + "-" + mutantName + ".symmetric";
 
 		// do copy
@@ -431,15 +455,8 @@ public class Mutator {
 		URI uri = URI.createFileURI(matchingFile);
 		Resource targetModel = resourceSet.createResource(uri);	
 		targetModel.getContents().add(sd);
-		try {
-			targetModel.save(Collections.EMPTY_MAP);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		targetModel.save(Collections.EMPTY_MAP);
 		}
-
-	}
-	
 
 	/**
 	 * Clean up method
