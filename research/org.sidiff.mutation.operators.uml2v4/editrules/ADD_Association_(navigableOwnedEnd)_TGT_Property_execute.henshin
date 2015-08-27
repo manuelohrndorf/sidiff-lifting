@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xV3-EFHsEeOwv-kVbb2fiQ" name="ADD_Association_(navigableOwnedEnd)_TGT_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xV3-EVHsEeOwv-kVbb2fiQ" name="addToAssociation_navigableOwnedEnd_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
+    <parameters xmi:id="_xV3-ElHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_xV3-E1HsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_xV3-FFHsEeOwv-kVbb2fiQ" name="Lhs">
+      <nodes xmi:id="_xV3-FVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_xV3-FlHsEeOwv-kVbb2fiQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_xV3-F1HsEeOwv-kVbb2fiQ" name="Rhs">
+      <nodes xmi:id="_xV3-GFHsEeOwv-kVbb2fiQ" name="Selected" outgoing="_xV3-GlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_xV3-GVHsEeOwv-kVbb2fiQ" name="NewTarget" incoming="_xV3-GlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+      </nodes>
+      <edges xmi:id="_xV3-GlHsEeOwv-kVbb2fiQ" source="_xV3-GFHsEeOwv-kVbb2fiQ" target="_xV3-GVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association/navigableOwnedEnd"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xV3-G1HsEeOwv-kVbb2fiQ" origin="_xV3-FVHsEeOwv-kVbb2fiQ" image="_xV3-GFHsEeOwv-kVbb2fiQ"/>
+    <mappings xmi:id="_xV3-HFHsEeOwv-kVbb2fiQ" origin="_xV3-FlHsEeOwv-kVbb2fiQ" image="_xV3-GVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xV3-HVHsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xV3-EVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xV3-HlHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_xV4lIFHsEeOwv-kVbb2fiQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_xV4lIVHsEeOwv-kVbb2fiQ" source="_xV3-HlHsEeOwv-kVbb2fiQ" target="_xV3-ElHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xV4lIlHsEeOwv-kVbb2fiQ" source="_xV4lIFHsEeOwv-kVbb2fiQ" target="_xV3-E1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

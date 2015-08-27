@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xk-KAFHsEeOwv-kVbb2fiQ" name="DELETE_Generalization_IN_Association_(generalization)" description="Deletes one Generalization in Association">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xk-xEFHsEeOwv-kVbb2fiQ" name="deleteGeneralization_IN_Association" description="deletes one Generalization in the context: Association">
+    <parameters xmi:id="_xk-xEVHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+    </parameters>
+    <parameters xmi:id="_xk-xElHsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <lhs xmi:id="_xk-xE1HsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xk-xFFHsEeOwv-kVbb2fiQ" name="Selected" incoming="_xk-xF1HsEeOwv-kVbb2fiQ" outgoing="_xk-xFlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_xk-xFVHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xk-xFlHsEeOwv-kVbb2fiQ" outgoing="_xk-xF1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+      </nodes>
+      <edges xmi:id="_xk-xFlHsEeOwv-kVbb2fiQ" source="_xk-xFFHsEeOwv-kVbb2fiQ" target="_xk-xFVHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/generalization"/>
+      </edges>
+      <edges xmi:id="_xk-xF1HsEeOwv-kVbb2fiQ" source="_xk-xFVHsEeOwv-kVbb2fiQ" target="_xk-xFFHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization/specific"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xk-xGFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xk-xGVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xk-xGlHsEeOwv-kVbb2fiQ" origin="_xk-xFFHsEeOwv-kVbb2fiQ" image="_xk-xGVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xk-xG1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xk-xEFHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xk_YIFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Generalization"/>
+    </parameters>
+    <parameters xmi:id="_xk_YIVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
+    </parameters>
+    <parameterMappings xmi:id="_xk_YIlHsEeOwv-kVbb2fiQ" source="_xk_YIFHsEeOwv-kVbb2fiQ" target="_xk-xEVHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xk_YI1HsEeOwv-kVbb2fiQ" source="_xk_YIVHsEeOwv-kVbb2fiQ" target="_xk-xElHsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xp6UYFHsEeOwv-kVbb2fiQ" name="DELETE_LiteralString_IN_Port_(upperValue)" description="Deletes one LiteralString in Port">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xp6UYVHsEeOwv-kVbb2fiQ" name="deleteLiteralString_IN_Port" description="deletes one LiteralString in the context: Port">
+    <parameters xmi:id="_xp6UYlHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xp6UY1HsEeOwv-kVbb2fiQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_xp6UZFHsEeOwv-kVbb2fiQ" name="LHS">
+      <nodes xmi:id="_xp6UZVHsEeOwv-kVbb2fiQ" name="Selected" outgoing="_xp6UZ1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_xp6UZlHsEeOwv-kVbb2fiQ" name="ToBeDeleted" incoming="_xp6UZ1HsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+      </nodes>
+      <edges xmi:id="_xp6UZ1HsEeOwv-kVbb2fiQ" source="_xp6UZVHsEeOwv-kVbb2fiQ" target="_xp6UZlHsEeOwv-kVbb2fiQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/upperValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xp6UaFHsEeOwv-kVbb2fiQ" name="RHS">
+      <nodes xmi:id="_xp6UaVHsEeOwv-kVbb2fiQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xp6UalHsEeOwv-kVbb2fiQ" origin="_xp6UZVHsEeOwv-kVbb2fiQ" image="_xp6UaVHsEeOwv-kVbb2fiQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xp6Ua1HsEeOwv-kVbb2fiQ" name="mainUnit" subUnits="_xp6UYVHsEeOwv-kVbb2fiQ">
+    <parameters xmi:id="_xp6UbFHsEeOwv-kVbb2fiQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_xp6UbVHsEeOwv-kVbb2fiQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_xp6UblHsEeOwv-kVbb2fiQ" source="_xp6UbFHsEeOwv-kVbb2fiQ" target="_xp6UYlHsEeOwv-kVbb2fiQ"/>
+    <parameterMappings xmi:id="_xp6Ub1HsEeOwv-kVbb2fiQ" source="_xp6UbVHsEeOwv-kVbb2fiQ" target="_xp6UY1HsEeOwv-kVbb2fiQ"/>
+  </units>
+</henshin:Module>
