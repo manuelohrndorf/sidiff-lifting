@@ -14,6 +14,15 @@ import org.silift.common.util.emf.Scope;
 public class LiftingSettings extends Settings {
 
 	/**
+	 * Enables/disables the internal mergeImports function
+	 * (more specifically the EObject location lookup)
+	 * This lookup is quite costly when comparing big models
+	 * and can be disabled here for performance gain
+	 * however at the expense of some matching correctness.
+	 */
+	private boolean mergeImports = true;
+	
+	/**
 	 * Validation of the input models. (Default: False)
 	 */
 	private boolean validate = false;
@@ -178,6 +187,18 @@ public class LiftingSettings extends Settings {
 		this.recognitionEngineMode = recognitionEngine;
 	}
 
+	/**
+	 * Returns whether mergeImports (esp. EObject Localization Lookup)
+	 * is enabled. (Default: true)
+	 * 
+	 * @return <code>true</code> if enabled;
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean isEnabled_MergeImports() {
+		return mergeImports;
+	}
+	
+	
 	/**
 	 * Get the validation of the input models. (Default: False)
 	 * 
@@ -449,6 +470,13 @@ public class LiftingSettings extends Settings {
 			this.calculateEditRuleMatch = calculateEditRuleMatch;
 			this.notifyListeners(SettingsItem.CALCULATE_EDIT_RULE_MATCH);
 		}		
+	}
+	/**
+	 * Disables merge imports (esp. EObject location lookup)
+	 * See {@link LiftingSettings#mergeImports}
+	 */
+	public void disableMergeImports() {
+		mergeImports = false;
 	}
 	
 	/*
