@@ -23,11 +23,11 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChanging
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
-import static org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis.isOptionalAttributeValueChange;
-import static org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis.isPreservedAttributeSearchedInModelA;
-import static org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis.isPreservedAttributeSearchedInModelB;
-import static org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis.isPreservedEdgeSearchedInModelA;
-import static org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis.isPreservedEdgeSearchedInModelB;
+import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
+import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
+import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
+import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
+import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isOptionalAttributeValueChange;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,8 +62,6 @@ import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.edit2recognition.EditPattern2RecognitionPattern;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.AddObjectPattern;
@@ -75,6 +73,8 @@ import org.sidiff.difference.lifting.edit2recognition.traces.RemoveReferencePatt
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.editrule.analysis.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.EditRuleTransientEffects;
 import org.silift.common.util.access.EMFMetaAccessEx;
 
 // TODO: Forbid/Prevent wrong correspondences if there are nodes with the same type!
@@ -434,7 +434,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			NodePair correspondence = null;
 			
 			// Create model B correspondence pattern.
-			if (EditRuleAnalysis.isPreservedNodeSearchedInModelB(node)) {
+			if (EditRuleTransientEffects.isPreservedNodeSearchedInModelB(node)) {
 				
 				// Create model B node
 				node_b = createPreservedNode(
@@ -442,7 +442,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			}
 			
 			// Create model A correspondence pattern.
-			if (EditRuleAnalysis.isPreservedNodeSearchedInModelA(node)) {
+			if (EditRuleTransientEffects.isPreservedNodeSearchedInModelA(node)) {
 				
 				// Create model A node
 				node_a = createPreservedNode(
@@ -512,8 +512,8 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 	 * in the edit rule. That means the attribute which is checked in the edit rule will be check
 	 * for the corresponding model A/B node* of the recognition rule.
 	 * <p>
-	 * *Depends on:</br> {@link EditRuleAnalysis#isPreservedNodeSearchedInModelA(EdgePair)}</br>
-	 * {@link EditRuleAnalysis#isPreservedNodeSearchedInModelB(EdgePair)}
+	 * *Depends on:</br> {@link EditRuleTransientEffects#isPreservedNodeSearchedInModelA(EdgePair)}</br>
+	 * {@link EditRuleTransientEffects#isPreservedNodeSearchedInModelB(EdgePair)}
 	 * </p>
 	 */
 	private void createPreservedAttributeValueCheckPatterns() {
@@ -522,7 +522,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		for (Attribute attribute : getPreservedAttributes(editRule)) {
 			if (!isUnconsideredAttribute(attribute)) {
 				
-				if (isPreservedAttributeSearchedInModelA()) {
+				if (isPreservedAttributePreCondition()) {
 					// Find model A node for edit rule attribute
 					NodePair aNode = patterns.getTraceA(attribute.getNode());
 					
@@ -530,7 +530,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 					createAttributeValueChangeContentCheck(aNode, attribute);
 				}
 				
-				if (isPreservedAttributeSearchedInModelB()) {
+				if (isPreservedAttributePostCondition()) {
 					// Find model B node for edit rule attribute
 					NodePair bNode = patterns.getTraceB(attribute.getNode());
 					
@@ -865,8 +865,8 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 	 * between model A/B node* for each << preserve >> edge in the edit rule.
 	 * 
 	 * <p>
-	 * *Depends on:</br> {@link EditRuleAnalysis#isPreservedNodeSearchedInModelA(EdgePair)}</br>
-	 * {@link EditRuleAnalysis#isPreservedNodeSearchedInModelB(EdgePair)}
+	 * *Depends on:</br> {@link EditRuleTransientEffects#isPreservedNodeSearchedInModelA(EdgePair)}</br>
+	 * {@link EditRuleTransientEffects#isPreservedNodeSearchedInModelB(EdgePair)}
 	 * </p>
 	 */
 	private void createPreservedReferencePattterns() {
@@ -874,7 +874,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		// Intersection of edit rule LHS and RHS (preserved)
 		for (EdgePair edge : getPreservedEdges(editRule)) {
 			
-			if (isPreservedEdgeSearchedInModelA()) {
+			if (isPreservedEdgePreCondition()) {
 				// Corresponding model A node:
 				createPreservedEdge(
 						recognitionRule,
@@ -883,7 +883,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 						edge.getType());
 			}
 			
-			if (isPreservedEdgeSearchedInModelB()) {
+			if (isPreservedEdgePostCondition()) {
 				// Corresponding model B node:
 				createPreservedEdge(
 						recognitionRule,

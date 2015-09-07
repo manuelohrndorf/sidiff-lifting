@@ -23,7 +23,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACBoundaryNodePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACExtensionPattern;
@@ -31,6 +30,7 @@ import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACReferencePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.editrule.analysis.EditRuleAnnotations;
 
 /**
  * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition (PAC) formula.

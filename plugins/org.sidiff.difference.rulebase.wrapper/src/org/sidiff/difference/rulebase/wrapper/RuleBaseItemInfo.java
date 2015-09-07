@@ -20,9 +20,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.editrule.analysis.EditRuleAnnotations;
 import org.silift.common.util.emf.EMFStorage;
 
 public class RuleBaseItemInfo {

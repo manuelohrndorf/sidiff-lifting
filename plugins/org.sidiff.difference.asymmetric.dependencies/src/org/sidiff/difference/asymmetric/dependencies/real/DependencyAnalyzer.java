@@ -21,7 +21,6 @@ import org.sidiff.difference.asymmetric.DependencyKind;
 import org.sidiff.difference.asymmetric.EdgeDependency;
 import org.sidiff.difference.asymmetric.NodeDependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.dependencies.potential.InterRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
@@ -35,6 +34,7 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.editrule.analysis.criticalpairs.InterRuleBasePotentialDependencyAnalyzer;
 
 public class DependencyAnalyzer {
 
@@ -73,7 +73,11 @@ public class DependencyAnalyzer {
 
 		// Initialize RuleBase cross-over potential dependency analyzer
 		if (recognitionEngine.getLiftingSettings().getRuleBases().size() > 1) {
-			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(recognitionEngine);
+			
+			
+			
+			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(
+					recognitionEngine.getLiftingSettings().getRuleBases());
 		}
 
 		// Map edit rule types to occurring SCS.

@@ -45,11 +45,11 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnalysis;
-import org.sidiff.difference.lifting.edit2recognition.editrule.EditRuleAnnotations;
+import org.sidiff.common.henshin.view.NodePair;
+import org.sidiff.editrule.analysis.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.EditRuleConditions;
 
 /**
  * Checks the Edit-Rule constraints.
@@ -955,7 +955,7 @@ public class EditRuleValidator {
 				ApplicationCondition ac = new ApplicationCondition(nc);
 
 				// Is explicit postcondition?
-				if (EditRuleAnalysis.isPostcondition(nc.getConclusion())) {
+				if (EditRuleConditions.isPostcondition(nc.getConclusion())) {
 					
 					// Check boundary nodes:
 					for (Node lhsBoundaryNode : ac.getLhsBoundaryNodes()) {

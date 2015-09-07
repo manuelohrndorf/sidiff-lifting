@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.difference.asymmetric.dependencies.potential.IntraRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
@@ -29,6 +28,7 @@ import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
+import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 
