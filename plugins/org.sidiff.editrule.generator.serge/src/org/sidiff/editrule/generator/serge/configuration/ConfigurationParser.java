@@ -54,7 +54,7 @@ public class ConfigurationParser {
 
 	public void setupDefaultConfig(String metaModelNsURI, String pathToDefaultConfigTemplate) throws Exception {
 		
-		this.metaModelForDefaultConfig = metaModelNsURI;
+		ConfigurationParser.metaModelForDefaultConfig = metaModelNsURI;
 		parse(pathToDefaultConfigTemplate);		
 		
 	}
