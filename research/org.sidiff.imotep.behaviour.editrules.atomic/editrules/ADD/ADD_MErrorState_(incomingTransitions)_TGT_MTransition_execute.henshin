@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yWWE4FqnEeWk0Igb5N6Tgg" name="ADD_MErrorState_(incomingTransitions)_TGT_MTransition" description="Adds to MErrorState's reference incomingTransitions the target MTransition">
+  <annotations xmi:id="_yWWE4VqnEeWk0Igb5N6Tgg" key="INVERSE" value="REMOVE_MErrorState_(incomingTransitions)_TGT_MTransition"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yWWE4lqnEeWk0Igb5N6Tgg" name="addToMErrorState_incomingTransitions_MTransition" description="Adds to MErrorState's reference incomingTransitions the target MTransition">
+    <parameters xmi:id="_yWWE41qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MErrorState"/>
+    </parameters>
+    <parameters xmi:id="_yWWE5FqnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+    </parameters>
+    <lhs xmi:id="_yWWE5VqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yWWE5lqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MErrorState"/>
+      </nodes>
+      <nodes xmi:id="_yWWE51qnEeWk0Igb5N6Tgg" name="NewTarget">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_yWWE6FqnEeWk0Igb5N6Tgg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_yWWE6VqnEeWk0Igb5N6Tgg">
+          <conclusion xmi:id="_yWWE6lqnEeWk0Igb5N6Tgg" name="ub0">
+            <nodes xmi:id="_yWWE61qnEeWk0Igb5N6Tgg" outgoing="_yWWE7VqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+            </nodes>
+            <nodes xmi:id="_yWWE7FqnEeWk0Igb5N6Tgg" incoming="_yWWE7VqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MAbstractState"/>
+            </nodes>
+            <edges xmi:id="_yWWE7VqnEeWk0Igb5N6Tgg" source="_yWWE61qnEeWk0Igb5N6Tgg" target="_yWWE7FqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/targetState"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_yWWE7lqnEeWk0Igb5N6Tgg" origin="_yWWE51qnEeWk0Igb5N6Tgg" image="_yWWE61qnEeWk0Igb5N6Tgg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_yWWE71qnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yWWE8FqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yWWE81qnEeWk0Igb5N6Tgg" outgoing="_yWWE8lqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MErrorState"/>
+      </nodes>
+      <nodes xmi:id="_yWWE8VqnEeWk0Igb5N6Tgg" name="NewTarget" incoming="_yWWE8lqnEeWk0Igb5N6Tgg" outgoing="_yWWE81qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+      </nodes>
+      <edges xmi:id="_yWWE8lqnEeWk0Igb5N6Tgg" source="_yWWE8FqnEeWk0Igb5N6Tgg" target="_yWWE8VqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAbstractState/incomingTransitions"/>
+      </edges>
+      <edges xmi:id="_yWWE81qnEeWk0Igb5N6Tgg" source="_yWWE8VqnEeWk0Igb5N6Tgg" target="_yWWE8FqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/targetState"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yWWE9FqnEeWk0Igb5N6Tgg" origin="_yWWE5lqnEeWk0Igb5N6Tgg" image="_yWWE8FqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yWWE9VqnEeWk0Igb5N6Tgg" origin="_yWWE51qnEeWk0Igb5N6Tgg" image="_yWWE8VqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yWWE9lqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yWWE4lqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yWWE91qnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MErrorState"/>
+    </parameters>
+    <parameters xmi:id="_yWWE-FqnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+    </parameters>
+    <parameterMappings xmi:id="_yWWE-VqnEeWk0Igb5N6Tgg" source="_yWWE91qnEeWk0Igb5N6Tgg" target="_yWWE41qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yWWE-lqnEeWk0Igb5N6Tgg" source="_yWWE-FqnEeWk0Igb5N6Tgg" target="_yWWE5FqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

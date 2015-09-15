@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="de_imotep_core_behavior" nsURI="http://www.moflon.org.de_imotep_core_behavior"
+    nsPrefix="de_imotep_core_behavior">
+  <eClassifiers xsi:type="ecore:EClass" name="MStateMachine" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regions" upperBound="-1"
+        eType="#//MRegion" eOpposite="#//MRegion/parentStateMachine"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//MAction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass ../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MAttribute"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rootRegion" eType="#//MRegion"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guards" upperBound="-1"
+        eType="#//MGuard" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//MEvent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MFinalState" eSuperTypes="#//MAbstractState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MErrorState" eSuperTypes="#//MState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MStateMachineState" eSuperTypes="#//MAbstractState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" lowerBound="1"
+        eType="#//MStateMachine" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MTerminateState" eSuperTypes="#//MAbstractState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MTransition" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceState" lowerBound="1"
+        eType="#//MAbstractState" eOpposite="#//MAbstractState/outgoingTransitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetState" lowerBound="1"
+        eType="#//MAbstractState" eOpposite="#//MAbstractState/incomingTransitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//MGuard"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//MEvent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRegion" lowerBound="1"
+        eType="#//MRegion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//MAction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="internal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MInitialState" eSuperTypes="#//MAbstractState"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MBehaviorEntity" abstract="true" eSuperTypes="../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MNamedEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MState" eSuperTypes="#//MAbstractState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onEntryActions" upperBound="-1"
+        eType="#//MAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="regions" upperBound="-1"
+        eType="#//MRegion" containment="true" eOpposite="#//MRegion/parentState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="doActions" upperBound="-1"
+        eType="#//MAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onExitActions" upperBound="-1"
+        eType="#//MAction"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temporary" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MEvent" eSuperTypes="#//MBehaviorEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MHistoryState" eSuperTypes="#//MAbstractState">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deep" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MGuard" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conditions" upperBound="-1"
+        eType="#//MCodeFragment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MRegion" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentState" eType="#//MState"
+        eOpposite="#//MState/regions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateGroups" upperBound="-1"
+        eType="#//MStateGroup" containment="true" eOpposite="#//MStateGroup/parentRegion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//MAbstractState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" lowerBound="1"
+        eType="#//MInitialState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//MTransition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentStateMachine" lowerBound="1"
+        eType="#//MStateMachine" eOpposite="#//MStateMachine/regions"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MAction" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expressions" upperBound="-1"
+        eType="#//MCodeFragment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MELanguages">
+    <eLiterals name="PROMELA"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MCodeFragment" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cuse" upperBound="-1" eType="ecore:EClass ../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="puse" upperBound="-1" eType="ecore:EClass ../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="duse" upperBound="-1" eType="ecore:EClass ../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedAttributes" upperBound="-1"
+        eType="ecore:EClass ../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.ecore#//MAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" ordered="false"
+        lowerBound="1" eType="#//MELanguages"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MStateGroup" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRegion" lowerBound="1"
+        eType="#//MRegion" eOpposite="#//MRegion/stateGroups"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//MAbstractState" eOpposite="#//MAbstractState/stateGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentStateGroup" eType="#//MStateGroup"
+        eOpposite="#//MStateGroup/stateGroups"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateGroups" upperBound="-1"
+        eType="#//MStateGroup" eOpposite="#//MStateGroup/parentStateGroup"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onExitActions" upperBound="-1"
+        eType="#//MAction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onEntryActions" upperBound="-1"
+        eType="#//MAction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MAbstractState" abstract="true" eSuperTypes="#//MBehaviorEntity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateGroup" eType="#//MStateGroup"
+        eOpposite="#//MStateGroup/states"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentRegion" lowerBound="1"
+        eType="#//MRegion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
+        eType="#//MTransition" eOpposite="#//MTransition/sourceState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
+        eType="#//MTransition" eOpposite="#//MTransition/targetState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MErrorTransition" eSuperTypes="#//MTransition"/>
+</ecore:EPackage>

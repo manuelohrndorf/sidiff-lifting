@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yaQUgFqnEeWk0Igb5N6Tgg" name="MOVE_MRegion_FROM_MState_(regions)_TO_MState_(regions)" description="MOVEs MRegion from MState(Reference:regions) to MState(Reference:regions">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yaQUgVqnEeWk0Igb5N6Tgg" name="moveMRegion_FROM_MState_regions_TO_MState_MState" description="Moves MRegion from MState(Reference:regions) toMState(Reference:MState)">
+    <parameters xmi:id="_yaQUglqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yaQUg1qnEeWk0Igb5N6Tgg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yaQUhFqnEeWk0Igb5N6Tgg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <lhs xmi:id="_yaQUhVqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yaQUhlqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yaQUiVqnEeWk0Igb5N6Tgg" outgoing="_yaQUilqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yaQUh1qnEeWk0Igb5N6Tgg" name="OldSource" incoming="_yaQUilqnEeWk0Igb5N6Tgg" outgoing="_yaQUiVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <nodes xmi:id="_yaQUiFqnEeWk0Igb5N6Tgg" name="NewSource">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <edges xmi:id="_yaQUiVqnEeWk0Igb5N6Tgg" source="_yaQUh1qnEeWk0Igb5N6Tgg" target="_yaQUhlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState/regions"/>
+      </edges>
+      <edges xmi:id="_yaQUilqnEeWk0Igb5N6Tgg" source="_yaQUhlqnEeWk0Igb5N6Tgg" target="_yaQUh1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/parentState"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yaQUi1qnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yaQUjFqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yaQUj1qnEeWk0Igb5N6Tgg" outgoing="_yaQUkFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yaQUjVqnEeWk0Igb5N6Tgg" name="OldSource">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <nodes xmi:id="_yaQUjlqnEeWk0Igb5N6Tgg" name="NewSource" incoming="_yaQUkFqnEeWk0Igb5N6Tgg" outgoing="_yaQUj1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <edges xmi:id="_yaQUj1qnEeWk0Igb5N6Tgg" source="_yaQUjlqnEeWk0Igb5N6Tgg" target="_yaQUjFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState/regions"/>
+      </edges>
+      <edges xmi:id="_yaQUkFqnEeWk0Igb5N6Tgg" source="_yaQUjFqnEeWk0Igb5N6Tgg" target="_yaQUjlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/parentState"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yaQUkVqnEeWk0Igb5N6Tgg" origin="_yaQUhlqnEeWk0Igb5N6Tgg" image="_yaQUjFqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yaQUklqnEeWk0Igb5N6Tgg" origin="_yaQUh1qnEeWk0Igb5N6Tgg" image="_yaQUjVqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yaQUk1qnEeWk0Igb5N6Tgg" origin="_yaQUiFqnEeWk0Igb5N6Tgg" image="_yaQUjlqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yaQUlFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yaQUgVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yaQUlVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yaQUllqnEeWk0Igb5N6Tgg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yaQUl1qnEeWk0Igb5N6Tgg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameterMappings xmi:id="_yaQUmFqnEeWk0Igb5N6Tgg" source="_yaQUlVqnEeWk0Igb5N6Tgg" target="_yaQUglqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yaQUmVqnEeWk0Igb5N6Tgg" source="_yaQUllqnEeWk0Igb5N6Tgg" target="_yaQUg1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yaQUmlqnEeWk0Igb5N6Tgg" source="_yaQUl1qnEeWk0Igb5N6Tgg" target="_yaQUhFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

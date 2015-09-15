@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yQf7kFqnEeWk0Igb5N6Tgg" name="SET_REFERENCE_MTransition_(event)_TGT_MEvent" description="Sets MTransition's reference event the target MEvent">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yQf7kVqnEeWk0Igb5N6Tgg" name="setMTransition_event_TO_MEvent" description="SetMTransitionRefeventToMEvent">
+    <parameters xmi:id="_yQf7klqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_yQf7k1qnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_yQf7lFqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yQf7lVqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_yQf7llqnEeWk0Igb5N6Tgg" name="NewTarget">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_yQf7l1qnEeWk0Igb5N6Tgg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_yQf7mFqnEeWk0Igb5N6Tgg">
+          <conclusion xmi:id="_yQf7mVqnEeWk0Igb5N6Tgg" name="ub0">
+            <nodes xmi:id="_yQf7mlqnEeWk0Igb5N6Tgg" outgoing="_yQf7nFqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+            </nodes>
+            <nodes xmi:id="_yQf7m1qnEeWk0Igb5N6Tgg" incoming="_yQf7nFqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+            </nodes>
+            <edges xmi:id="_yQf7nFqnEeWk0Igb5N6Tgg" source="_yQf7mlqnEeWk0Igb5N6Tgg" target="_yQf7m1qnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/event"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_yQf7nVqnEeWk0Igb5N6Tgg" origin="_yQf7lVqnEeWk0Igb5N6Tgg" image="_yQf7mlqnEeWk0Igb5N6Tgg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_yQf7nlqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yQf7n1qnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yQf7oVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_yQf7oFqnEeWk0Igb5N6Tgg" name="NewTarget" incoming="_yQf7oVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_yQf7oVqnEeWk0Igb5N6Tgg" source="_yQf7n1qnEeWk0Igb5N6Tgg" target="_yQf7oFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/event"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yQf7olqnEeWk0Igb5N6Tgg" origin="_yQf7lVqnEeWk0Igb5N6Tgg" image="_yQf7n1qnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yQf7o1qnEeWk0Igb5N6Tgg" origin="_yQf7llqnEeWk0Igb5N6Tgg" image="_yQf7oFqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yQf7pFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yQf7kVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yQf7pVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_yQf7plqnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_yQf7p1qnEeWk0Igb5N6Tgg" source="_yQf7pVqnEeWk0Igb5N6Tgg" target="_yQf7klqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQf7qFqnEeWk0Igb5N6Tgg" source="_yQf7plqnEeWk0Igb5N6Tgg" target="_yQf7k1qnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

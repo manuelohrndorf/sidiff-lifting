@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yIWsMFqnEeWk0Igb5N6Tgg" name="CREATE_MCodeFragment_IN_MGuard_(conditions)" description="Creates one MCodeFragment in MGuard">
+  <annotations xmi:id="_yIWsMVqnEeWk0Igb5N6Tgg" key="INVERSE" value="DELETE_MCodeFragment_IN_MGuard_(conditions)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yIWsMlqnEeWk0Igb5N6Tgg" name="createMCodeFragment_IN_MGuard" description="creates one MCodeFragment in the context: MGuard">
+    <parameters xmi:id="_yIWsM1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_yIWsNFqnEeWk0Igb5N6Tgg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_yIWsNVqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsNlqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsN1qnEeWk0Igb5N6Tgg" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsOFqnEeWk0Igb5N6Tgg" name="Language">
+      <type xsi:type="ecore:EEnum" href="http://www.moflon.org.de_imotep_core_behavior#//MELanguages"/>
+    </parameters>
+    <lhs xmi:id="_yIWsOVqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yIWsOlqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yIWsO1qnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yIWsPFqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yIWsQlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_yIWsPVqnEeWk0Igb5N6Tgg" name="New" incoming="_yIWsQlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+        <attributes xmi:id="_yIWsPlqnEeWk0Igb5N6Tgg" value="Id">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_yIWsP1qnEeWk0Igb5N6Tgg" value="Name">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_yIWsQFqnEeWk0Igb5N6Tgg" value="Expression">
+          <type href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment/expression"/>
+        </attributes>
+        <attributes xmi:id="_yIWsQVqnEeWk0Igb5N6Tgg" value="Language">
+          <type href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment/language"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_yIWsQlqnEeWk0Igb5N6Tgg" source="_yIWsPFqnEeWk0Igb5N6Tgg" target="_yIWsPVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard/conditions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yIWsQ1qnEeWk0Igb5N6Tgg" origin="_yIWsOlqnEeWk0Igb5N6Tgg" image="_yIWsPFqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yIWsRFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yIWsMlqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yIWsRVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yIWsRlqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_yIWsR1qnEeWk0Igb5N6Tgg" name="New">
+      <annotations xmi:id="_yIWsSFqnEeWk0Igb5N6Tgg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_yIWsSVqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsSlqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsS1qnEeWk0Igb5N6Tgg" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yIWsTFqnEeWk0Igb5N6Tgg" name="Language">
+      <type xsi:type="ecore:EEnum" href="http://www.moflon.org.de_imotep_core_behavior#//MELanguages"/>
+    </parameters>
+    <parameterMappings xmi:id="_yIWsTVqnEeWk0Igb5N6Tgg" source="_yIWsRVqnEeWk0Igb5N6Tgg" target="_yIWsM1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yIWsTlqnEeWk0Igb5N6Tgg" source="_yIWsNFqnEeWk0Igb5N6Tgg" target="_yIWsR1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yIWsT1qnEeWk0Igb5N6Tgg" source="_yIWsSVqnEeWk0Igb5N6Tgg" target="_yIWsNVqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yIWsUFqnEeWk0Igb5N6Tgg" source="_yIWsSlqnEeWk0Igb5N6Tgg" target="_yIWsNlqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yIWsUVqnEeWk0Igb5N6Tgg" source="_yIWsS1qnEeWk0Igb5N6Tgg" target="_yIWsN1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yIWsUlqnEeWk0Igb5N6Tgg" source="_yIWsTFqnEeWk0Igb5N6Tgg" target="_yIWsOFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

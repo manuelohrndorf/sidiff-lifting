@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yarLQFqnEeWk0Igb5N6Tgg" name="REMOVE_MStateGroup_(onExitActions)_TGT_MAction" description="Removes MStateGroup's reference onExitActions the target MAction">
+  <annotations xmi:id="_yarLQVqnEeWk0Igb5N6Tgg" key="INVERSE" value="ADD_MStateGroup_(onExitActions)_TGT_MAction"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yarLQlqnEeWk0Igb5N6Tgg" name="removeFromMStateGroup_onExitActions_MAction" description="Removes from MStateGroup's reference onExitActions the target MAction">
+    <parameters xmi:id="_yarLQ1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+    </parameters>
+    <parameters xmi:id="_yarLRFqnEeWk0Igb5N6Tgg" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <lhs xmi:id="_yarLRVqnEeWk0Igb5N6Tgg" name="LHS">
+      <nodes xmi:id="_yarLRlqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yarLSFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+      </nodes>
+      <nodes xmi:id="_yarLR1qnEeWk0Igb5N6Tgg" name="OldTarget" incoming="_yarLSFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+      </nodes>
+      <edges xmi:id="_yarLSFqnEeWk0Igb5N6Tgg" source="_yarLRlqnEeWk0Igb5N6Tgg" target="_yarLR1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup/onExitActions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yarLSVqnEeWk0Igb5N6Tgg" name="RHS">
+      <nodes xmi:id="_yarLSlqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+      </nodes>
+      <nodes xmi:id="_yarLS1qnEeWk0Igb5N6Tgg" name="OldTarget">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yarLTFqnEeWk0Igb5N6Tgg" origin="_yarLRlqnEeWk0Igb5N6Tgg" image="_yarLSlqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yarLTVqnEeWk0Igb5N6Tgg" origin="_yarLR1qnEeWk0Igb5N6Tgg" image="_yarLS1qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yarLTlqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yarLQlqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yarLT1qnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yarLUFqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+    </parameters>
+    <parameters xmi:id="_yarLUVqnEeWk0Igb5N6Tgg" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <parameterMappings xmi:id="_yarLUlqnEeWk0Igb5N6Tgg" source="_yarLT1qnEeWk0Igb5N6Tgg" target="_yarLQ1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yarLU1qnEeWk0Igb5N6Tgg" source="_yarLUVqnEeWk0Igb5N6Tgg" target="_yarLRFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

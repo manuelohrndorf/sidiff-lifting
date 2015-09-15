@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yRahkFqnEeWk0Igb5N6Tgg" name="DELETE_MRegion_IN_MStateMachine_(rootRegion)" description="Deletes one MRegion in MStateMachine">
+  <annotations xmi:id="_yRahkVqnEeWk0Igb5N6Tgg" key="INVERSE" value="CREATE_MRegion_IN_MStateMachine_(rootRegion)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yRahklqnEeWk0Igb5N6Tgg" name="deleteMRegion_IN_MStateMachine" description="deletes one MRegion in the context: MStateMachine">
+    <parameters xmi:id="_yRahk1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yRahlFqnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yRahlVqnEeWk0Igb5N6Tgg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_yRahllqnEeWk0Igb5N6Tgg" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_yRahl1qnEeWk0Igb5N6Tgg" name="LHS">
+      <nodes xmi:id="_yRahmFqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yRahnFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_yRahmVqnEeWk0Igb5N6Tgg" name="ToBeDeleted" incoming="_yRahnFqnEeWk0Igb5N6Tgg _yRahn1qnEeWk0Igb5N6Tgg" outgoing="_yRahnVqnEeWk0Igb5N6Tgg _yRahnlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yRahmlqnEeWk0Igb5N6Tgg" name="Existing" incoming="_yRahnVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_yRahm1qnEeWk0Igb5N6Tgg" name="Existing1" incoming="_yRahnlqnEeWk0Igb5N6Tgg" outgoing="_yRahn1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_yRahnFqnEeWk0Igb5N6Tgg" source="_yRahmFqnEeWk0Igb5N6Tgg" target="_yRahmVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine/rootRegion"/>
+      </edges>
+      <edges xmi:id="_yRahnVqnEeWk0Igb5N6Tgg" source="_yRahmVqnEeWk0Igb5N6Tgg" target="_yRahmlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/initialState"/>
+      </edges>
+      <edges xmi:id="_yRahnlqnEeWk0Igb5N6Tgg" source="_yRahmVqnEeWk0Igb5N6Tgg" target="_yRahm1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/parentStateMachine"/>
+      </edges>
+      <edges xmi:id="_yRahn1qnEeWk0Igb5N6Tgg" source="_yRahm1qnEeWk0Igb5N6Tgg" target="_yRahmVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine/regions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yRahoFqnEeWk0Igb5N6Tgg" name="RHS">
+      <nodes xmi:id="_yRahoVqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_yRaholqnEeWk0Igb5N6Tgg" name="Existing">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_yRaho1qnEeWk0Igb5N6Tgg" name="Existing1">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yRahpFqnEeWk0Igb5N6Tgg" origin="_yRahmFqnEeWk0Igb5N6Tgg" image="_yRahoVqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yRahpVqnEeWk0Igb5N6Tgg" origin="_yRahmlqnEeWk0Igb5N6Tgg" image="_yRaholqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yRahplqnEeWk0Igb5N6Tgg" origin="_yRahm1qnEeWk0Igb5N6Tgg" image="_yRaho1qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yRahp1qnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yRahklqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yRahqFqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yRahqVqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yRahqlqnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <annotations xmi:id="_yRahq1qnEeWk0Igb5N6Tgg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yRahrFqnEeWk0Igb5N6Tgg" name="Existing">
+      <annotations xmi:id="_yRahrVqnEeWk0Igb5N6Tgg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_yRahrlqnEeWk0Igb5N6Tgg" name="Existing1">
+      <annotations xmi:id="_yRahr1qnEeWk0Igb5N6Tgg" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_yRahsFqnEeWk0Igb5N6Tgg" source="_yRahqFqnEeWk0Igb5N6Tgg" target="_yRahk1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yRahsVqnEeWk0Igb5N6Tgg" source="_yRahqlqnEeWk0Igb5N6Tgg" target="_yRahlFqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yRahslqnEeWk0Igb5N6Tgg" source="_yRahrFqnEeWk0Igb5N6Tgg" target="_yRahlVqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yRahs1qnEeWk0Igb5N6Tgg" source="_yRahrlqnEeWk0Igb5N6Tgg" target="_yRahllqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

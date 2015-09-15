@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yJdfcFqnEeWk0Igb5N6Tgg" name="SET_ATTRIBUTE_MState_Temporary" description="Sets MState Temporary">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yJdfcVqnEeWk0Igb5N6Tgg" name="setMStateTemporary" description="Sets the EAttribute temporary">
+    <parameters xmi:id="_yJdfclqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yJdfc1qnEeWk0Igb5N6Tgg" name="Temporary">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_yJdfdFqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yJdfdVqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yJdfdlqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yJdfd1qnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+        <attributes xmi:id="_yJdfeFqnEeWk0Igb5N6Tgg" value="Temporary">
+          <type href="http://www.moflon.org.de_imotep_core_behavior#//MState/temporary"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yJdfeVqnEeWk0Igb5N6Tgg" origin="_yJdfdVqnEeWk0Igb5N6Tgg" image="_yJdfd1qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yJdfelqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yJdfcVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yJdfe1qnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yJdffFqnEeWk0Igb5N6Tgg" name="Temporary">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_yJdffVqnEeWk0Igb5N6Tgg" source="_yJdfe1qnEeWk0Igb5N6Tgg" target="_yJdfclqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yJdfflqnEeWk0Igb5N6Tgg" source="_yJdffFqnEeWk0Igb5N6Tgg" target="_yJdfc1qnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yV-RcFqnEeWk0Igb5N6Tgg" name="DELETE_MEvent_IN_MStateMachine_(events)" description="Deletes one MEvent in MStateMachine">
+  <annotations xmi:id="_yV-RcVqnEeWk0Igb5N6Tgg" key="INVERSE" value="CREATE_MEvent_IN_MStateMachine_(events)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yV-RclqnEeWk0Igb5N6Tgg" name="deleteMEvent_IN_MStateMachine" description="deletes one MEvent in the context: MStateMachine">
+    <parameters xmi:id="_yV-Rc1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yV-RdFqnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_yV-RdVqnEeWk0Igb5N6Tgg" name="LHS">
+      <nodes xmi:id="_yV-RdlqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yV-ReFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_yV-Rd1qnEeWk0Igb5N6Tgg" name="ToBeDeleted" incoming="_yV-ReFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_yV-ReFqnEeWk0Igb5N6Tgg" source="_yV-RdlqnEeWk0Igb5N6Tgg" target="_yV-Rd1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine/events"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yV-ReVqnEeWk0Igb5N6Tgg" name="RHS">
+      <nodes xmi:id="_yV-RelqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yV-Re1qnEeWk0Igb5N6Tgg" origin="_yV-RdlqnEeWk0Igb5N6Tgg" image="_yV-RelqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yV-RfFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yV-RclqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yV-RfVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yV-RflqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yV-Rf1qnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <annotations xmi:id="_yV-RgFqnEeWk0Igb5N6Tgg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_yV-RgVqnEeWk0Igb5N6Tgg" source="_yV-RfVqnEeWk0Igb5N6Tgg" target="_yV-Rc1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yV-RglqnEeWk0Igb5N6Tgg" source="_yV-Rf1qnEeWk0Igb5N6Tgg" target="_yV-RdFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

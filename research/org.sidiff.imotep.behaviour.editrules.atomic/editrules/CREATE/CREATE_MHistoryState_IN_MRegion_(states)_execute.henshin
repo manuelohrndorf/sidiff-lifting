@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yL2sIFqnEeWk0Igb5N6Tgg" name="CREATE_MHistoryState_IN_MRegion_(states)" description="Creates one MHistoryState in MRegion">
+  <annotations xmi:id="_yL2sIVqnEeWk0Igb5N6Tgg" key="INVERSE" value="DELETE_MHistoryState_IN_MRegion_(states)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yL2sIlqnEeWk0Igb5N6Tgg" name="createMHistoryState_IN_MRegion" description="creates one MHistoryState in the context: MRegion">
+    <parameters xmi:id="_yL2sI1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yL2sJFqnEeWk0Igb5N6Tgg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yL2sJVqnEeWk0Igb5N6Tgg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_yL2sJlqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yL2sJ1qnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yL2sKFqnEeWk0Igb5N6Tgg" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_yL2sKVqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yL2sKlqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yL2sK1qnEeWk0Igb5N6Tgg" name="Existing">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yL2sLFqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yL2sLVqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yL2sM1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yL2sLlqnEeWk0Igb5N6Tgg" name="New" incoming="_yL2sM1qnEeWk0Igb5N6Tgg" outgoing="_yL2sNFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MHistoryState"/>
+        <attributes xmi:id="_yL2sL1qnEeWk0Igb5N6Tgg" value="Id">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_yL2sMFqnEeWk0Igb5N6Tgg" value="Name">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_yL2sMVqnEeWk0Igb5N6Tgg" value="Deep">
+          <type href="http://www.moflon.org.de_imotep_core_behavior#//MHistoryState/deep"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_yL2sMlqnEeWk0Igb5N6Tgg" name="Existing" incoming="_yL2sNFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <edges xmi:id="_yL2sM1qnEeWk0Igb5N6Tgg" source="_yL2sLVqnEeWk0Igb5N6Tgg" target="_yL2sLlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/states"/>
+      </edges>
+      <edges xmi:id="_yL2sNFqnEeWk0Igb5N6Tgg" source="_yL2sLlqnEeWk0Igb5N6Tgg" target="_yL2sMlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAbstractState/parentRegion"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yL2sNVqnEeWk0Igb5N6Tgg" origin="_yL2sKlqnEeWk0Igb5N6Tgg" image="_yL2sLVqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yL2sNlqnEeWk0Igb5N6Tgg" origin="_yL2sK1qnEeWk0Igb5N6Tgg" image="_yL2sMlqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yL2sN1qnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yL2sIlqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yL2sOFqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yL2sOVqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yL2sOlqnEeWk0Igb5N6Tgg" name="Existing">
+      <annotations xmi:id="_yL2sO1qnEeWk0Igb5N6Tgg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yL2sPFqnEeWk0Igb5N6Tgg" name="New">
+      <annotations xmi:id="_yL2sPVqnEeWk0Igb5N6Tgg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_yL2sPlqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yL2sP1qnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yL2sQFqnEeWk0Igb5N6Tgg" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_yL2sQVqnEeWk0Igb5N6Tgg" source="_yL2sOFqnEeWk0Igb5N6Tgg" target="_yL2sI1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yL2sQlqnEeWk0Igb5N6Tgg" source="_yL2sOlqnEeWk0Igb5N6Tgg" target="_yL2sJFqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yL2sQ1qnEeWk0Igb5N6Tgg" source="_yL2sJVqnEeWk0Igb5N6Tgg" target="_yL2sPFqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yL2sRFqnEeWk0Igb5N6Tgg" source="_yL2sPlqnEeWk0Igb5N6Tgg" target="_yL2sJlqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yL2sRVqnEeWk0Igb5N6Tgg" source="_yL2sP1qnEeWk0Igb5N6Tgg" target="_yL2sJ1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yL2sRlqnEeWk0Igb5N6Tgg" source="_yL2sQFqnEeWk0Igb5N6Tgg" target="_yL2sKFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

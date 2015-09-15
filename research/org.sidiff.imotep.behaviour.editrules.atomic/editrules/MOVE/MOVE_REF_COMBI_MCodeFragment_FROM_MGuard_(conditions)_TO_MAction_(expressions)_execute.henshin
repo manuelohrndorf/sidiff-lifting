@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yLanQFqnEeWk0Igb5N6Tgg" name="MOVE_REF_COMBI_MCodeFragment_FROM_MGuard_(conditions)_TO_MAction_(expressions)" description="MOVEs MCodeFragment from MGuard(Reference:conditions) to MAction(Reference:expressions">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yLanQVqnEeWk0Igb5N6Tgg" name="moveMCodeFragment_FROM_MGuard_conditions_TO_MAction_MAction" description="Moves MCodeFragment from MGuard(Reference:conditions) toMAction(Reference:MAction)">
+    <parameters xmi:id="_yLanQlqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_yLanQ1qnEeWk0Igb5N6Tgg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_yLanRFqnEeWk0Igb5N6Tgg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <lhs xmi:id="_yLanRVqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yLanRlqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yLanSVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+      </nodes>
+      <nodes xmi:id="_yLanR1qnEeWk0Igb5N6Tgg" name="OldSource" outgoing="_yLanSVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_yLanSFqnEeWk0Igb5N6Tgg" name="NewSource">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+      </nodes>
+      <edges xmi:id="_yLanSVqnEeWk0Igb5N6Tgg" source="_yLanR1qnEeWk0Igb5N6Tgg" target="_yLanRlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard/conditions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yLanSlqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yLanS1qnEeWk0Igb5N6Tgg" name="Selected" incoming="_yLanTlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+      </nodes>
+      <nodes xmi:id="_yLanTFqnEeWk0Igb5N6Tgg" name="OldSource">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_yLanTVqnEeWk0Igb5N6Tgg" name="NewSource" outgoing="_yLanTlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+      </nodes>
+      <edges xmi:id="_yLanTlqnEeWk0Igb5N6Tgg" source="_yLanTVqnEeWk0Igb5N6Tgg" target="_yLanS1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction/expressions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yLanT1qnEeWk0Igb5N6Tgg" origin="_yLanRlqnEeWk0Igb5N6Tgg" image="_yLanS1qnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yLanUFqnEeWk0Igb5N6Tgg" origin="_yLanR1qnEeWk0Igb5N6Tgg" image="_yLanTFqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yLanUVqnEeWk0Igb5N6Tgg" origin="_yLanSFqnEeWk0Igb5N6Tgg" image="_yLanTVqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yLanUlqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yLanQVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yLanU1qnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_yLanVFqnEeWk0Igb5N6Tgg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_yLanVVqnEeWk0Igb5N6Tgg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <parameterMappings xmi:id="_yLanVlqnEeWk0Igb5N6Tgg" source="_yLanU1qnEeWk0Igb5N6Tgg" target="_yLanQlqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yLanV1qnEeWk0Igb5N6Tgg" source="_yLanVFqnEeWk0Igb5N6Tgg" target="_yLanQ1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yLanWFqnEeWk0Igb5N6Tgg" source="_yLanVVqnEeWk0Igb5N6Tgg" target="_yLanRFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

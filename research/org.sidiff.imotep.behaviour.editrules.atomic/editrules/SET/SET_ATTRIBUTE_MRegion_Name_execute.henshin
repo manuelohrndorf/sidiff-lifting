@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yOl3EFqnEeWk0Igb5N6Tgg" name="SET_ATTRIBUTE_MRegion_Name" description="Sets MRegion Name">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yOl3EVqnEeWk0Igb5N6Tgg" name="setMRegionName" description="Sets the EAttribute name">
+    <parameters xmi:id="_yOl3ElqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yOl3E1qnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_yOl3FFqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yOl3FVqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yOl3FlqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yOl3F1qnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+        <attributes xmi:id="_yOl3GFqnEeWk0Igb5N6Tgg" value="Name">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yOl3GVqnEeWk0Igb5N6Tgg" origin="_yOl3FVqnEeWk0Igb5N6Tgg" image="_yOl3F1qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yOl3GlqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yOl3EVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yOl3G1qnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yOl3HFqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_yOl3HVqnEeWk0Igb5N6Tgg" source="_yOl3G1qnEeWk0Igb5N6Tgg" target="_yOl3ElqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yOl3HlqnEeWk0Igb5N6Tgg" source="_yOl3HFqnEeWk0Igb5N6Tgg" target="_yOl3E1qnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

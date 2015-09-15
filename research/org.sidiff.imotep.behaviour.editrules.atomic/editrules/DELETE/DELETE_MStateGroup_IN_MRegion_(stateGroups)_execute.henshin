@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yJX_4FqnEeWk0Igb5N6Tgg" name="DELETE_MStateGroup_IN_MRegion_(stateGroups)" description="Deletes one MStateGroup in MRegion">
+  <annotations xmi:id="_yJX_4VqnEeWk0Igb5N6Tgg" key="INVERSE" value="CREATE_MStateGroup_IN_MRegion_(stateGroups)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yJX_4lqnEeWk0Igb5N6Tgg" name="deleteMStateGroup_IN_MRegion" description="deletes one MStateGroup in the context: MRegion">
+    <parameters xmi:id="_yJX_41qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yJX_5FqnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+    </parameters>
+    <lhs xmi:id="_yJX_5VqnEeWk0Igb5N6Tgg" name="LHS">
+      <nodes xmi:id="_yJX_5lqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yJX_6VqnEeWk0Igb5N6Tgg" outgoing="_yJX_6FqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_yJX_51qnEeWk0Igb5N6Tgg" name="ToBeDeleted" incoming="_yJX_6FqnEeWk0Igb5N6Tgg" outgoing="_yJX_6VqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+      </nodes>
+      <edges xmi:id="_yJX_6FqnEeWk0Igb5N6Tgg" source="_yJX_5lqnEeWk0Igb5N6Tgg" target="_yJX_51qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/stateGroups"/>
+      </edges>
+      <edges xmi:id="_yJX_6VqnEeWk0Igb5N6Tgg" source="_yJX_51qnEeWk0Igb5N6Tgg" target="_yJX_5lqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup/parentRegion"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_yJX_6lqnEeWk0Igb5N6Tgg" name="RHS">
+      <nodes xmi:id="_yJX_61qnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_yJX_7FqnEeWk0Igb5N6Tgg" origin="_yJX_5lqnEeWk0Igb5N6Tgg" image="_yJX_61qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yJX_7VqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yJX_4lqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yJX_7lqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yJX_71qnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yJX_8FqnEeWk0Igb5N6Tgg" name="ToBeDeleted">
+      <annotations xmi:id="_yJX_8VqnEeWk0Igb5N6Tgg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateGroup"/>
+    </parameters>
+    <parameterMappings xmi:id="_yJX_8lqnEeWk0Igb5N6Tgg" source="_yJX_7lqnEeWk0Igb5N6Tgg" target="_yJX_41qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yJX_81qnEeWk0Igb5N6Tgg" source="_yJX_8FqnEeWk0Igb5N6Tgg" target="_yJX_5FqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

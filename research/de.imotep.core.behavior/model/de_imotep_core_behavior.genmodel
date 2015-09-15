@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/de.imotep.core.behavior/src" modelPluginID="de.imotep.core.behavior"
+    modelName="De_imotep_core_behavior" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../de.imotep.core.datamodel/model/de_imotep_core_datamodel.genmodel#//de_imotep_core_datamodel"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>de_imotep_core_behavior.ecore</foreignModel>
+  <genPackages prefix="De_imotep_core_behavior" basePackage="de.imotep.core.behavior"
+      disposableProviderFactory="true" ecorePackage="de_imotep_core_behavior.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="de_imotep_core_behavior.ecore#//MELanguages">
+      <genEnumLiterals ecoreEnumLiteral="de_imotep_core_behavior.ecore#//MELanguages/PROMELA"/>
+    </genEnums>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MStateMachine">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/regions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/actions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/rootRegion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/guards"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachine/events"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MStateMachine/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MStateMachine/type"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MFinalState"/>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MErrorState"/>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MStateMachineState">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateMachineState/stateMachine"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MTerminateState"/>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MTransition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/sourceState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/targetState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/guard"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/event"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/parentRegion"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MTransition/actions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MTransition/internal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MTransition/priority"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MInitialState"/>
+    <genClasses image="false" ecoreClass="de_imotep_core_behavior.ecore#//MBehaviorEntity"/>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MState">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MState/onEntryActions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MState/regions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MState/doActions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MState/onExitActions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MState/temporary"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MEvent"/>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MHistoryState">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MHistoryState/deep"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MGuard">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MGuard/conditions"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MRegion">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/parentState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/stateGroups"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/states"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/initialState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/transitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MRegion/parentStateMachine"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MAction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MAction/expressions"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MCodeFragment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MCodeFragment/cuse"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MCodeFragment/puse"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MCodeFragment/duse"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MCodeFragment/usedAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MCodeFragment/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute de_imotep_core_behavior.ecore#//MCodeFragment/language"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MStateGroup">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/parentRegion"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/states"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/parentStateGroup"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/stateGroups"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/onExitActions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MStateGroup/onEntryActions"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="de_imotep_core_behavior.ecore#//MAbstractState">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MAbstractState/stateGroup"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MAbstractState/parentRegion"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MAbstractState/outgoingTransitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference de_imotep_core_behavior.ecore#//MAbstractState/incomingTransitions"/>
+    </genClasses>
+    <genClasses ecoreClass="de_imotep_core_behavior.ecore#//MErrorTransition"/>
+  </genPackages>
+</genmodel:GenModel>

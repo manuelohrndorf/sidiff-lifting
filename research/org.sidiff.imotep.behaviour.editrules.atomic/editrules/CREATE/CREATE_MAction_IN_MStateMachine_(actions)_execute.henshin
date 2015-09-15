@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yJjmEFqnEeWk0Igb5N6Tgg" name="CREATE_MAction_IN_MStateMachine_(actions)" description="Creates one MAction in MStateMachine">
+  <annotations xmi:id="_yJjmEVqnEeWk0Igb5N6Tgg" key="INVERSE" value="DELETE_MAction_IN_MStateMachine_(actions)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yJjmElqnEeWk0Igb5N6Tgg" name="createMAction_IN_MStateMachine" description="creates one MAction in the context: MStateMachine">
+    <parameters xmi:id="_yJjmE1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yJjmFFqnEeWk0Igb5N6Tgg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_yJjmFVqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yJjmFlqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_yJjmF1qnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yJjmGFqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yJjmGVqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yJjmGlqnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yJjmHlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_yJjmG1qnEeWk0Igb5N6Tgg" name="New" incoming="_yJjmHlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+        <attributes xmi:id="_yJjmHFqnEeWk0Igb5N6Tgg" value="Id">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_yJjmHVqnEeWk0Igb5N6Tgg" value="Name">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_yJjmHlqnEeWk0Igb5N6Tgg" source="_yJjmGlqnEeWk0Igb5N6Tgg" target="_yJjmG1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine/actions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yJjmH1qnEeWk0Igb5N6Tgg" origin="_yJjmGFqnEeWk0Igb5N6Tgg" image="_yJjmGlqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yJjmIFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yJjmElqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yJjmIVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yJjmIlqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yJjmI1qnEeWk0Igb5N6Tgg" name="New">
+      <annotations xmi:id="_yJjmJFqnEeWk0Igb5N6Tgg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_yJjmJVqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yJjmJlqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_yJjmJ1qnEeWk0Igb5N6Tgg" source="_yJjmIVqnEeWk0Igb5N6Tgg" target="_yJjmE1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yJjmKFqnEeWk0Igb5N6Tgg" source="_yJjmFFqnEeWk0Igb5N6Tgg" target="_yJjmI1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yJjmKVqnEeWk0Igb5N6Tgg" source="_yJjmJVqnEeWk0Igb5N6Tgg" target="_yJjmFVqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yJjmKlqnEeWk0Igb5N6Tgg" source="_yJjmJlqnEeWk0Igb5N6Tgg" target="_yJjmFlqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

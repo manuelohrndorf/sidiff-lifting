@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yPHbgFqnEeWk0Igb5N6Tgg" name="SET_REFERENCE_MErrorTransition_(event)_TGT_MEvent" description="Sets MErrorTransition's reference event the target MEvent">
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yPHbgVqnEeWk0Igb5N6Tgg" name="setMErrorTransition_event_TO_MEvent" description="SetMErrorTransitionRefeventToMEvent">
+    <parameters xmi:id="_yPHbglqnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MErrorTransition"/>
+    </parameters>
+    <parameters xmi:id="_yPHbg1qnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_yPHbhFqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yPHbhVqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MErrorTransition"/>
+      </nodes>
+      <nodes xmi:id="_yPHbhlqnEeWk0Igb5N6Tgg" name="NewTarget">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_yPHbh1qnEeWk0Igb5N6Tgg">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_yPHbiFqnEeWk0Igb5N6Tgg">
+          <conclusion xmi:id="_yPHbiVqnEeWk0Igb5N6Tgg" name="ub0">
+            <nodes xmi:id="_yPHbilqnEeWk0Igb5N6Tgg" outgoing="_yPHbjFqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MErrorTransition"/>
+            </nodes>
+            <nodes xmi:id="_yPHbi1qnEeWk0Igb5N6Tgg" incoming="_yPHbjFqnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+            </nodes>
+            <edges xmi:id="_yPHbjFqnEeWk0Igb5N6Tgg" source="_yPHbilqnEeWk0Igb5N6Tgg" target="_yPHbi1qnEeWk0Igb5N6Tgg">
+              <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/event"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_yPHbjVqnEeWk0Igb5N6Tgg" origin="_yPHbhVqnEeWk0Igb5N6Tgg" image="_yPHbilqnEeWk0Igb5N6Tgg"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_yPHbjlqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yPHbj1qnEeWk0Igb5N6Tgg" name="Selected" outgoing="_yPHbkVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MErrorTransition"/>
+      </nodes>
+      <nodes xmi:id="_yPHbkFqnEeWk0Igb5N6Tgg" name="NewTarget" incoming="_yPHbkVqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_yPHbkVqnEeWk0Igb5N6Tgg" source="_yPHbj1qnEeWk0Igb5N6Tgg" target="_yPHbkFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MTransition/event"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yPHbklqnEeWk0Igb5N6Tgg" origin="_yPHbhVqnEeWk0Igb5N6Tgg" image="_yPHbj1qnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yPHbk1qnEeWk0Igb5N6Tgg" origin="_yPHbhlqnEeWk0Igb5N6Tgg" image="_yPHbkFqnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yPHblFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yPHbgVqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yPHblVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MErrorTransition"/>
+    </parameters>
+    <parameters xmi:id="_yPHbllqnEeWk0Igb5N6Tgg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_yPHbl1qnEeWk0Igb5N6Tgg" source="_yPHblVqnEeWk0Igb5N6Tgg" target="_yPHbglqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yPHbmFqnEeWk0Igb5N6Tgg" source="_yPHbllqnEeWk0Igb5N6Tgg" target="_yPHbg1qnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>

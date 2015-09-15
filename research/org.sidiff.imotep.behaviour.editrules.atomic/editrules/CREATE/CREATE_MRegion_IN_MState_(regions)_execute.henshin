@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_yQHhEFqnEeWk0Igb5N6Tgg" name="CREATE_MRegion_IN_MState_(regions)" description="Creates one MRegion in MState">
+  <annotations xmi:id="_yQHhEVqnEeWk0Igb5N6Tgg" key="INVERSE" value="DELETE_MRegion_IN_MState_(regions)"/>
+  <imports href="http://www.moflon.org.de_imotep_core_behavior#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_yQHhElqnEeWk0Igb5N6Tgg" name="createMRegion_IN_MState" description="creates one MRegion in the context: MState">
+    <parameters xmi:id="_yQHhE1qnEeWk0Igb5N6Tgg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yQHhFFqnEeWk0Igb5N6Tgg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_yQHhFVqnEeWk0Igb5N6Tgg" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yQHhFlqnEeWk0Igb5N6Tgg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yQHhF1qnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yQHhGFqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_yQHhGVqnEeWk0Igb5N6Tgg" name="Lhs">
+      <nodes xmi:id="_yQHhGlqnEeWk0Igb5N6Tgg" name="Selected">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <nodes xmi:id="_yQHhG1qnEeWk0Igb5N6Tgg" name="Existing">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_yQHhHFqnEeWk0Igb5N6Tgg" name="Existing1">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_yQHhHVqnEeWk0Igb5N6Tgg" name="Rhs">
+      <nodes xmi:id="_yQHhHlqnEeWk0Igb5N6Tgg" name="Selected" incoming="_yQHhJVqnEeWk0Igb5N6Tgg" outgoing="_yQHhJFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+      </nodes>
+      <nodes xmi:id="_yQHhH1qnEeWk0Igb5N6Tgg" name="New" incoming="_yQHhJFqnEeWk0Igb5N6Tgg _yQHhKFqnEeWk0Igb5N6Tgg" outgoing="_yQHhJVqnEeWk0Igb5N6Tgg _yQHhJlqnEeWk0Igb5N6Tgg _yQHhJ1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+        <attributes xmi:id="_yQHhIFqnEeWk0Igb5N6Tgg" value="Id">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_yQHhIVqnEeWk0Igb5N6Tgg" value="Name">
+          <type href="http://www.moflon.org.de_imotep_core_datamodel#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_yQHhIlqnEeWk0Igb5N6Tgg" name="Existing" incoming="_yQHhJlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_yQHhI1qnEeWk0Igb5N6Tgg" name="Existing1" incoming="_yQHhJ1qnEeWk0Igb5N6Tgg" outgoing="_yQHhKFqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_yQHhJFqnEeWk0Igb5N6Tgg" source="_yQHhHlqnEeWk0Igb5N6Tgg" target="_yQHhH1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MState/regions"/>
+      </edges>
+      <edges xmi:id="_yQHhJVqnEeWk0Igb5N6Tgg" source="_yQHhH1qnEeWk0Igb5N6Tgg" target="_yQHhHlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/parentState"/>
+      </edges>
+      <edges xmi:id="_yQHhJlqnEeWk0Igb5N6Tgg" source="_yQHhH1qnEeWk0Igb5N6Tgg" target="_yQHhIlqnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/initialState"/>
+      </edges>
+      <edges xmi:id="_yQHhJ1qnEeWk0Igb5N6Tgg" source="_yQHhH1qnEeWk0Igb5N6Tgg" target="_yQHhI1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MRegion/parentStateMachine"/>
+      </edges>
+      <edges xmi:id="_yQHhKFqnEeWk0Igb5N6Tgg" source="_yQHhI1qnEeWk0Igb5N6Tgg" target="_yQHhH1qnEeWk0Igb5N6Tgg">
+        <type href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine/regions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_yQHhKVqnEeWk0Igb5N6Tgg" origin="_yQHhGlqnEeWk0Igb5N6Tgg" image="_yQHhHlqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yQHhKlqnEeWk0Igb5N6Tgg" origin="_yQHhG1qnEeWk0Igb5N6Tgg" image="_yQHhIlqnEeWk0Igb5N6Tgg"/>
+    <mappings xmi:id="_yQHhK1qnEeWk0Igb5N6Tgg" origin="_yQHhHFqnEeWk0Igb5N6Tgg" image="_yQHhI1qnEeWk0Igb5N6Tgg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_yQHhLFqnEeWk0Igb5N6Tgg" name="mainUnit" subUnits="_yQHhElqnEeWk0Igb5N6Tgg">
+    <parameters xmi:id="_yQHhLVqnEeWk0Igb5N6Tgg" name="selectedEObject">
+      <annotations xmi:id="_yQHhLlqnEeWk0Igb5N6Tgg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MState"/>
+    </parameters>
+    <parameters xmi:id="_yQHhL1qnEeWk0Igb5N6Tgg" name="Existing">
+      <annotations xmi:id="_yQHhMFqnEeWk0Igb5N6Tgg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_yQHhMVqnEeWk0Igb5N6Tgg" name="Existing1">
+      <annotations xmi:id="_yQHhMlqnEeWk0Igb5N6Tgg" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_yQHhM1qnEeWk0Igb5N6Tgg" name="New">
+      <annotations xmi:id="_yQHhNFqnEeWk0Igb5N6Tgg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.moflon.org.de_imotep_core_behavior#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_yQHhNVqnEeWk0Igb5N6Tgg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_yQHhNlqnEeWk0Igb5N6Tgg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_yQHhN1qnEeWk0Igb5N6Tgg" source="_yQHhLVqnEeWk0Igb5N6Tgg" target="_yQHhE1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQHhOFqnEeWk0Igb5N6Tgg" source="_yQHhL1qnEeWk0Igb5N6Tgg" target="_yQHhFFqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQHhOVqnEeWk0Igb5N6Tgg" source="_yQHhMVqnEeWk0Igb5N6Tgg" target="_yQHhFVqnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQHhOlqnEeWk0Igb5N6Tgg" source="_yQHhFlqnEeWk0Igb5N6Tgg" target="_yQHhM1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQHhO1qnEeWk0Igb5N6Tgg" source="_yQHhNVqnEeWk0Igb5N6Tgg" target="_yQHhF1qnEeWk0Igb5N6Tgg"/>
+    <parameterMappings xmi:id="_yQHhPFqnEeWk0Igb5N6Tgg" source="_yQHhNlqnEeWk0Igb5N6Tgg" target="_yQHhGFqnEeWk0Igb5N6Tgg"/>
+  </units>
+</henshin:Module>
