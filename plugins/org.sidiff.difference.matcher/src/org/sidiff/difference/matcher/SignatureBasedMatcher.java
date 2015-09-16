@@ -33,7 +33,6 @@ public abstract class SignatureBasedMatcher extends AbstractMatcher {
 		}else{
 			calculateSignatures(modelA);
 		}
-		calculateSignatures(modelA);
 		for (Iterator<EObject> iterator= modelB.getAllContents(); iterator.hasNext();) {
 			EObject eObjectB =  iterator.next();
 			int signature = calculateSignature(eObjectB);
