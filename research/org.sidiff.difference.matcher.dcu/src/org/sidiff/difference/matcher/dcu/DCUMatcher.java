@@ -2,7 +2,6 @@ package org.sidiff.difference.matcher.dcu;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -89,14 +88,13 @@ public class DCUMatcher extends SignatureBasedMatcher {
 			EStructuralFeature attrName = eObject.eClass().getEStructuralFeature("name");
 			if (attrName != null && attrName instanceof EAttribute) {
 				
-				String nameA = (String)eObject.eGet(attrName);
-				System.out.println(nameA);
-				System.out.println(nameA.hashCode());
+				String nameA = (String)eObject.eGet(attrName);			
 				return nameA.hashCode();
 
 		}
 			
-			return new Random().nextInt();
+			//No meaningful signature otherwise
+			return 0;
 	}
 		
 }
