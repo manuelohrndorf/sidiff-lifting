@@ -2,15 +2,14 @@ package org.sidiff.difference.matcher.dcu;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.sidiff.difference.matcher.BaseMatcher;
+import org.sidiff.difference.matcher.SignatureBasedMatcher;
 
 import de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage;
-import de.imotep.core.behavior.de_imotep_core_behavior.MAbstractState;
-import de.imotep.core.behavior.de_imotep_core_behavior.MGuard;
 import de.imotep.core.behavior.de_imotep_core_behavior.MRegion;
 import de.imotep.core.behavior.de_imotep_core_behavior.MStateMachine;
 import de.imotep.core.behavior.de_imotep_core_behavior.MTransition;
@@ -20,11 +19,12 @@ import de.imotep.core.behavior.de_imotep_core_behavior.MTransition;
  * 
  * @author dreuling
  */
-public class DCUMatcher extends BaseMatcher {
+public class DCUMatcher extends SignatureBasedMatcher {
 
 	public static final String KEY = "DCU";	
 
 	private Map<String, Object> configuration;
+
 
 	/**
 	 * Initialize matcher and start matching.
@@ -35,74 +35,6 @@ public class DCUMatcher extends BaseMatcher {
 
 	}
 
-	@Override
-	protected boolean isCorresponding(EObject elementA, EObject elementB) {
-		assert (elementA != null && elementB != null) : "One of the elements to check for correspondence is null!";
-
-		// type should be identical in order to correspond
-		if (elementA.eClass() != elementB.eClass()) {
-			return false;
-		}
-
-		// None of the elements must be already in a correspondence
-		if (hasCorrespondence(elementA) || hasCorrespondence(elementB)) {
-			return false;
-		}
-		// Statemachines are always corresponding, as there is only one
-		if(elementA instanceof MStateMachine && elementB instanceof MStateMachine)
-			return true;
-
-		// Regions are always corresponding, as there is only one
-		if(elementA instanceof MRegion && elementB instanceof MRegion)
-			return true;
-		
-		
-		// Transitions are matched using their signatures
-		if(elementA instanceof MTransition && elementB instanceof MTransition){
-			MAbstractState srcStateA = ((MTransition)elementA).getSourceState();
-			MAbstractState srcStateB = ((MTransition)elementB).getSourceState();
-			MAbstractState tgtStateA = ((MTransition)elementA).getTargetState();
-			MAbstractState tgtStateB = ((MTransition)elementB).getTargetState();
-			MGuard guardA = ((MTransition)elementA).getGuard();
-			MGuard guardB = ((MTransition)elementB).getGuard();
-
-			if(nameEquals(srcStateA, srcStateB) && nameEquals(tgtStateA, tgtStateB)
-					&& nameEquals(guardA, guardB))
-				return true;
-			else
-				return false;
-		}
-		
-		//All remaining elements are matched using their name (for now)
-		return nameEquals(elementA, elementB);
-	}
-		
-		private boolean nameEquals(EObject elementA, EObject elementB){
-		// Check for attribute "name" and its values equality
-		EStructuralFeature attrName = elementA.eClass().getEStructuralFeature("name");
-		if (attrName != null && attrName instanceof EAttribute) {
-			Object nameA;
-			Object nameB;
-
-
-			nameA = elementA.eGet(attrName);
-			nameB = elementB.eGet(attrName);
-
-			if (nameA != null && nameB != null) {
-				
-				//First equality
-				if(nameA.equals(nameB))
-					return true;
-				
-				//Hamming distance between names
-//				double similarity = similarity((String)nameA, (String)nameB);
-//				if(similarity > 0.8)
-//					return true;
-			}
-		}
-
-		return false;
-	}
 		
 
 	@Override
@@ -129,43 +61,42 @@ public class DCUMatcher extends BaseMatcher {
 	@Override
 	public Map<String, Object> getConfigurationOptions() {
 		return configuration;
+		
 	}
-	
-    /**
-     * Calculate the similarity of two strings.
-     *
-     * @param a
-     *            - the first string
-     * @param b
-     *            - the second string
-     * @return the similarity
-     */
-    private double similarity(final String a, final String b) {
-	// return 1.0 in case of identity (includes both being null)
-	if (a == b)
-	    return 1.0;
+	   
 
-	// return null if one of the strings is null
-	if (a == null || b == null)
-	    return 0.0;
+	@Override
+	protected int calculateSignature(EObject eObject) {
+		
+		// Statemachines have the same signature, as there is only one
+		if(eObject instanceof MStateMachine)
+		return MStateMachine.class.hashCode();
 
-	// normalize value to [0,1] by dividing by length of the longer string,
-	// then convert distance to similarity
-	return 1.0 - hammingDistance(a, b) * 1.0 / Math.max(a.length(), b.length());
-    }
+		// Regions have the same signature, as there is only one
+		if(eObject instanceof MRegion)
+		return MRegion.class.hashCode();
+		
+		// Transitions are "really" signatured
+		if(eObject instanceof MTransition){
+			int ts = ((MTransition)eObject).getSourceState().getName().hashCode();
+			ts += ((MTransition)eObject).getTargetState().getName().hashCode();
+			ts += ((MTransition)eObject).getGuard().getName().hashCode();
+			//Maybe priority has to be taken into consideration
+			return ts;
+		}
+		
+		// Check for attribute "name" and its values equality
+			EStructuralFeature attrName = eObject.eClass().getEStructuralFeature("name");
+			if (attrName != null && attrName instanceof EAttribute) {
+				
+				String nameA = (String)eObject.eGet(attrName);
+				System.out.println(nameA);
+				System.out.println(nameA.hashCode());
+				return nameA.hashCode();
 
-
-    // calculates the Hamming-Distance of two strings
-    private int hammingDistance(final String a, final String b) {
-	final int la = a.length();
-	final int lb = b.length();
-	// treat missing characters as difference
-	int d = Math.abs(la - lb);
-	// count number of differences
-	for (int i = 0; i < Math.min(la, lb); i++)
-	    if (a.charAt(i) != b.charAt(i))
-		++d;
-	return d;
-    }
-	
+		}
+			
+			return new Random().nextInt();
+	}
+		
 }
