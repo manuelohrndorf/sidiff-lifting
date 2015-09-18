@@ -6,6 +6,7 @@ package de.imotep.core.behavior.de_imotep_core_behavior.provider;
 import de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorFactory;
 import de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage;
 import de.imotep.core.behavior.de_imotep_core_behavior.MState;
+import de.imotep.core.behavior.de_imotep_core_behavior.MTransition;
 
 import java.util.Collection;
 import java.util.List;
@@ -178,11 +179,14 @@ public class MStateItemProvider extends MAbstractStateItemProvider {
 	 * This returns MState.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/MState"));
+		String img = "full/obj16/MState";
+		if(((MState)object).isTemporary())
+			img = "full/obj16/MState_temp";
+		return overlayImage(object, getResourceLocator().getImage(img));
 	}
 
 	/**
