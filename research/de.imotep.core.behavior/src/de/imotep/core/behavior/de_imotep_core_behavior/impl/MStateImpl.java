@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateImpl#getOnEntryActions <em>On Entry Actions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateImpl#getRegions <em>Regions</em>}</li>
@@ -36,7 +37,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateImpl#getOnExitActions <em>On Exit Actions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateImpl#isTemporary <em>Temporary</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

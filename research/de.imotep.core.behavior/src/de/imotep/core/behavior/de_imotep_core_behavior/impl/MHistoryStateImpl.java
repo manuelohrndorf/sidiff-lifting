@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MHistoryStateImpl#isDeep <em>Deep</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

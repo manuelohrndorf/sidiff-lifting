@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MTransition#getSourceState <em>Source State</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MTransition#getTargetState <em>Target State</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MTransition#isInternal <em>Internal</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MTransition#getPriority <em>Priority</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMTransition()
  * @model

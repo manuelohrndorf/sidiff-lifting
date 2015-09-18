@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MStateMachine#getRegions <em>Regions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MStateMachine#getActions <em>Actions</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MStateMachine#getPosition <em>Position</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MStateMachine#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMStateMachine()
  * @model
@@ -149,7 +149,7 @@ public interface MStateMachine extends MBehaviorEntity {
 	 * @return the value of the '<em>Position</em>' attribute.
 	 * @see #setPosition(String)
 	 * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMStateMachine_Position()
-	 * @model required="true" ordered="false"
+	 * @model ordered="false"
 	 * @generated
 	 */
 	String getPosition();
@@ -175,7 +175,7 @@ public interface MStateMachine extends MBehaviorEntity {
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see #setType(String)
 	 * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMStateMachine_Type()
-	 * @model required="true" ordered="false"
+	 * @model ordered="false"
 	 * @generated
 	 */
 	String getType();

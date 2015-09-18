@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MCodeFragment#getCuse <em>Cuse</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MCodeFragment#getPuse <em>Puse</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MCodeFragment#getExpression <em>Expression</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MCodeFragment#getLanguage <em>Language</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMCodeFragment()
  * @model

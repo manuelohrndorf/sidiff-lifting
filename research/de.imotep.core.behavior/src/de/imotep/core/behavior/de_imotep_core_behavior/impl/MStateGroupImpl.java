@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateGroupImpl#getParentRegion <em>Parent Region</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateGroupImpl#getStates <em>States</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateGroupImpl#getOnExitActions <em>On Exit Actions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateGroupImpl#getOnEntryActions <em>On Entry Actions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

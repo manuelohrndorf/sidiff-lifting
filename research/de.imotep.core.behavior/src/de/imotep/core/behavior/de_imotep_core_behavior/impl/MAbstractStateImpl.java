@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MAbstractStateImpl#getStateGroup <em>State Group</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MAbstractStateImpl#getParentRegion <em>Parent Region</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MAbstractStateImpl#getOutgoingTransitions <em>Outgoing Transitions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MAbstractStateImpl#getIncomingTransitions <em>Incoming Transitions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

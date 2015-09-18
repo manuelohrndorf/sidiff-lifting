@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateMachineImpl#getRegions <em>Regions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateMachineImpl#getActions <em>Actions</em>}</li>
@@ -43,7 +44,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateMachineImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MStateMachineImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

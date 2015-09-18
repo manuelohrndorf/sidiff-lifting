@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MState#getOnEntryActions <em>On Entry Actions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MState#getRegions <em>Regions</em>}</li>
@@ -18,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MState#getOnExitActions <em>On Exit Actions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MState#isTemporary <em>Temporary</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMState()
  * @model

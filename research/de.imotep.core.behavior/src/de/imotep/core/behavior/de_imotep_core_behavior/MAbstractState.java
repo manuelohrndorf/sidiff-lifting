@@ -11,13 +11,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MAbstractState#getStateGroup <em>State Group</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MAbstractState#getParentRegion <em>Parent Region</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MAbstractState#getOutgoingTransitions <em>Outgoing Transitions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MAbstractState#getIncomingTransitions <em>Incoming Transitions</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMAbstractState()
  * @model abstract="true"

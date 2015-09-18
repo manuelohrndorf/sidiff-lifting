@@ -10,10 +10,10 @@ package de.imotep.core.behavior.de_imotep_core_behavior;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.MStateMachineState#getStateMachine <em>State Machine</em>}</li>
  * </ul>
- * </p>
  *
  * @see de.imotep.core.behavior.de_imotep_core_behavior.De_imotep_core_behaviorPackage#getMStateMachineState()
  * @model

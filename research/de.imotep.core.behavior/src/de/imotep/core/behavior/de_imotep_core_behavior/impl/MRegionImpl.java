@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MRegionImpl#getParentState <em>Parent State</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MRegionImpl#getStateGroups <em>State Groups</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MRegionImpl#getTransitions <em>Transitions</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MRegionImpl#getParentStateMachine <em>Parent State Machine</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

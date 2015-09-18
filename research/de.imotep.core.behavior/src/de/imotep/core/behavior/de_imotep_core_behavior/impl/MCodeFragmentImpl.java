@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MCodeFragmentImpl#getCuse <em>Cuse</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MCodeFragmentImpl#getPuse <em>Puse</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MCodeFragmentImpl#getExpression <em>Expression</em>}</li>
  *   <li>{@link de.imotep.core.behavior.de_imotep_core_behavior.impl.MCodeFragmentImpl#getLanguage <em>Language</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
