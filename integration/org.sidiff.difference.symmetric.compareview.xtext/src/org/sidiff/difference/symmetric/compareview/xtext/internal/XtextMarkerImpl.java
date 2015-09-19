@@ -17,6 +17,7 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
+import org.sidiff.difference.symmetric.compareview.ChangeType;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
 
 public class XtextMarkerImpl implements XtextMarker {
@@ -30,7 +31,7 @@ public class XtextMarkerImpl implements XtextMarker {
 	}
 
 	@Override
-	public void mark(EObject textEObject, IEditorPart editor) {
+	public void mark(EObject textEObject, IEditorPart editor, ChangeType type, String markerID) {
 		if (!(editor instanceof XtextEditor)){
 			// no Xtext editor, nothing to mark
 			return;
@@ -41,9 +42,24 @@ public class XtextMarkerImpl implements XtextMarker {
 			IResource resource = ((XtextEditor) editor).getResource();
 			try {
 				IMarker marker = resource
-						.createMarker("org.eclipse.core.resources.problemmarker");
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-				marker.setAttribute(IMarker.MESSAGE, "Textdecorator");
+						.createMarker(markerID);
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+				switch(type){
+				case ADD:
+					marker.setAttribute(IMarker.MESSAGE, "added element");
+					break;
+				case DELETE:
+					marker.setAttribute(IMarker.MESSAGE, "deleted element");
+					break;
+				case CHANGE:
+					marker.setAttribute(IMarker.MESSAGE, "modified element");
+					break;
+				case CORRESPONDENCE:
+					marker.setAttribute(IMarker.MESSAGE, "correspondent element");
+				default: 
+					marker.setAttribute(IMarker.MESSAGE, "unsupported difference information");
+					break;
+				}
 				marker.setAttribute(IMarker.LINE_NUMBER,
 						textNode.getStartLine());
 				marker.setAttribute(IMarker.CHAR_START, textNode.getOffset());

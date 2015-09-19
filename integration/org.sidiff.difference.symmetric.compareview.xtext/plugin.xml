@@ -4,16 +4,142 @@
    <extension
          point="org.sidiff.difference.symmetric.compareview.xtextmarker">
       <XtextMarker
-            XtextMarker="org.sidiff.difference.symmetric.compareview.xtext.internal.XtextMarkerImpl"
             xtextmarker="org.sidiff.difference.symmetric.compareview.xtext.internal.XtextMarkerImpl">
       </XtextMarker>
    </extension>
    <extension
-         id="org.sidiff.compare.textdecorator"
+         id="org.sidiff.compare.marker.add"
+         name="CompareMarkerAdd"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.eclipse.core.resources.problemmarker">
+            type="org.eclipse.core.resources.textmarker">
       </super>
+   </extension>
+   <extension
+         id="org.sidiff.compare.marker.delete"
+         name="CompareMarkerDelete"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
+         id="org.sidiff.compare.marker.change"
+         name="CompareMarkerChange"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
+         id="org.sidiff.compare.marker.correspondence"
+         name="CompareMarkerCorrespondence"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
+         id="org.sidiff.compare.annotationTypes"
+         name="CompareAnnotationTypes"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="org.sidiff.compare.marker.add"
+            name="org.sidiff.compare.annotationType.add">
+      </type>
+      <type
+            markerType="org.sidiff.compare.marker.delete"
+            name="org.sidiff.compare.annotationType.delete">
+      </type>
+      <type
+            markerType="org.sidiff.compare.marker.change"
+            name="org.sidiff.compare.annotationType.change">
+      </type>
+      <type
+            markerType="org.sidiff.compare.marker.correspondence"
+            name="org.sidiff.compare.annotationType.correspondence">
+      </type>
+   </extension>
+   <extension
+         id="org.sidiff.compare.markerAnnotationSpecification"
+         name="CompareMarkerAnnotationSpecification"
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="org.sidiff.compare.annotationType.add"
+            colorPreferenceKey="addcolor"
+            colorPreferenceValue="128,255,128"
+            contributesToHeader="true"
+            highlightPreferenceKey="addhighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Add Annotation"
+            overviewRulerPreferenceKey="addruler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="addtext"
+            textPreferenceValue="true"
+            textStylePreferenceKey="addstyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="addvertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="org.sidiff.compare.annotationType.delete"
+            colorPreferenceKey="deletecolor"
+            colorPreferenceValue="255,128,128"
+            contributesToHeader="true"
+            highlightPreferenceKey="deletehighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Delete Annotation"
+            overviewRulerPreferenceKey="deleteruler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="deletetext"
+            textPreferenceValue="true"
+            textStylePreferenceKey="deletestyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="deletevertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="org.sidiff.compare.annotationType.modified"
+            colorPreferenceKey="changecolor"
+            colorPreferenceValue="0,128,255"
+            contributesToHeader="true"
+            highlightPreferenceKey="changehighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Change Annotation"
+            overviewRulerPreferenceKey="changeruler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="changetext"
+            textPreferenceValue="true"
+            textStylePreferenceKey="changestyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="changevertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="org.sidiff.compare.annotationType.correspondence"
+            colorPreferenceKey="correspondenceecolor"
+            colorPreferenceValue="225,225,225"
+            contributesToHeader="true"
+            highlightPreferenceKey="correspondencehighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Correspondence Annotation"
+            overviewRulerPreferenceKey="correspondenceruler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="correspondencetext"
+            textPreferenceValue="true"
+            textStylePreferenceKey="correspondencestyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="correspondencevertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
    </extension>
 
 </plugin>

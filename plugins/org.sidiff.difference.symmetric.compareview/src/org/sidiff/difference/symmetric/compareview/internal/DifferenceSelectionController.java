@@ -60,6 +60,7 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.compareview.ChangeType;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
@@ -76,6 +77,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	private List<IDecorator> decorators = null;
 	private Map<EObject, IDecoratorTarget> decoratorTargets = null;
 	private List<EObject> selected = null;
+	private List<EObject> addedElements = null;
+	private List<EObject> deletedElements = null;
+	private List<EObject> changedElements = null;
+	private List<EObject> correspondentElements = null;
 	private List<EObject> treeDecorations = null;
 	private Set<TreeViewer> treeViewersWithDecorations = null;
 	private Map<EObject, URI> eObjecToResourceURI = new HashMap<EObject, URI>();
@@ -89,6 +94,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 	private DifferenceSelectionController() {
 		selected = new ArrayList<EObject>();
+		addedElements = new ArrayList<EObject>();
+		deletedElements = new ArrayList<EObject>();
+		changedElements = new ArrayList<EObject>();
+		correspondentElements = new ArrayList<EObject>();
 		decoratorTargets = new HashMap<EObject, IDecoratorTarget>();
 		decorators = new ArrayList<IDecorator>();
 		treeDecorations = new ArrayList<EObject>();
@@ -123,6 +132,9 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			selectionChanged(lastPart, lastSelection);
 		} else {
 			selected.clear();
+			addedElements.clear();
+			deletedElements.clear();
+			changedElements.clear();
 			doHighlight();
 		}
 	}
@@ -184,6 +196,9 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 					
 					selected.add(eObjectA);
 					selected.add(eObjectB);
+					
+					correspondentElements.add(eObjectA);
+					correspondentElements.add(eObjectB);
 					
 					eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) corr.eContainer()).getModelA().getURI());
 					eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) corr.eContainer()).getModelB().getURI());
@@ -253,44 +268,13 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			for (IEditorIntegration de : IntegrationEditorAccess.getInstance().getIntegrationEditors()) {
 				if (de.isDefaultEditorPresent()) treeEditors.add(de.getDefaultEditorID());
 			}
-
-			for (EObject selectedObject : selected) {
-				DecoratedTuple decoratedTuple = null;
-				if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
-					decoratedTuple = findTextObjectInEditor(selectedObject);
-				} else {
-					decoratedTuple = findObjectInEditor(selectedObject, treeEditors);
-				}
-				int index = 0;
-				for (IEditorPart editor : decoratedTuple.editors) {
-					bringEditorToTop(editor);
-					if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
-						xtextmarker.mark(selectedObject, editor);
-					} else if (editor instanceof IViewerProvider) {
-						Viewer viewer = ((IViewerProvider) editor).getViewer();
-
-						if (viewer instanceof TreeViewer) {
-							TreeViewer treeViewer = (TreeViewer) viewer;
-							treeViewer.collapseAll();
-							treeViewer.reveal(decoratedTuple.eObjects.get(index));
-							IBaseLabelProvider labelProvider = treeViewer.getLabelProvider();
-							if (!(labelProvider instanceof WrapperLabelProvider)) {
-								WrapperLabelProvider wrapper = new WrapperLabelProvider();
-
-								wrapper.labelProvider = (ILabelProvider) labelProvider;
-								wrapper.treeDecorations = treeDecorations;
-
-								treeViewer.setLabelProvider(wrapper);
-							}
-
-							treeDecorations.add(decoratedTuple.eObjects.get(index));
-							treeViewersWithDecorations.add(treeViewer);
-							treeViewer.update(decoratedTuple.eObjects.get(index), null);
-						}
-					}
-					index++;
-				}
-			}
+			
+			markElements(addedElements, treeEditors, ChangeType.ADD, "org.sidiff.compare.marker.add");
+			markElements(deletedElements, treeEditors, ChangeType.DELETE, "org.sidiff.compare.marker.delete");
+			markElements(changedElements, treeEditors, ChangeType.CHANGE, "org.sidiff.compare.marker.change");
+			markElements(correspondentElements, treeEditors, ChangeType.CORRESPONDENCE, "org.sidiff.compare.marker.correspondence");
+			
+			
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
 
@@ -304,6 +288,46 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 				for (IEditorPart editor : tuple.editors) {
 					bringEditorToTop(editor);
 				}
+			}
+		}
+	}
+	
+	private void markElements(List<EObject> elements, List<String> treeEditors, ChangeType type, String markerID){
+		for (EObject selectedObject : elements) {
+			DecoratedTuple decoratedTuple = null;
+			if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
+				decoratedTuple = findTextObjectInEditor(selectedObject);
+			} else {
+				decoratedTuple = findObjectInEditor(selectedObject, treeEditors);
+			}
+			int index = 0;
+			for (IEditorPart editor : decoratedTuple.editors) {
+				bringEditorToTop(editor);
+				if (xtextmarker != null && xtextmarker.isXtextObject(selectedObject)) {
+					xtextmarker.mark(selectedObject, editor, type, markerID);
+				} else if (editor instanceof IViewerProvider) {
+					Viewer viewer = ((IViewerProvider) editor).getViewer();
+
+					if (viewer instanceof TreeViewer) {
+						TreeViewer treeViewer = (TreeViewer) viewer;
+						treeViewer.collapseAll();
+						treeViewer.reveal(decoratedTuple.eObjects.get(index));
+						IBaseLabelProvider labelProvider = treeViewer.getLabelProvider();
+						if (!(labelProvider instanceof WrapperLabelProvider)) {
+							WrapperLabelProvider wrapper = new WrapperLabelProvider();
+
+							wrapper.labelProvider = (ILabelProvider) labelProvider;
+							wrapper.treeDecorations = treeDecorations;
+
+							treeViewer.setLabelProvider(wrapper);
+						}
+
+						treeDecorations.add(decoratedTuple.eObjects.get(index));
+						treeViewersWithDecorations.add(treeViewer);
+						treeViewer.update(decoratedTuple.eObjects.get(index), null);
+					}
+				}
+				index++;
 			}
 		}
 	}
@@ -419,16 +443,20 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		if (change instanceof AddObject) {
 			EObject eObjectB = ((AddObject) change).getObj();
 			selected.add(eObjectB);
+			addedElements.add(eObjectB);
 			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof RemoveObject) {
-			EObject eObjectB = ((RemoveObject) change).getObj();
-			selected.add(eObjectB);
-			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			EObject eObjectA = ((RemoveObject) change).getObj();
+			selected.add(eObjectA);
+			deletedElements.add(eObjectA);
+			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelA().getURI());
 		} else if (change instanceof AttributeValueChange) {
 			EObject eObjectA = ((AttributeValueChange) change).getObjA();
 			EObject eObjectB = ((AttributeValueChange) change).getObjB();
 			selected.add(eObjectA);
+			changedElements.add(eObjectA);
 			selected.add(eObjectB);
+			changedElements.add(eObjectB);
 			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelA().getURI());
 			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
 		} else if (change instanceof AddReference) {
