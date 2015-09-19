@@ -413,10 +413,12 @@ public class MTransitionImpl extends MBehaviorEntityImpl implements MTransition 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean isInternal() {
-		return internal;
+		return getSourceState().equals(getTargetState());
+		//FIXME Workaround until Transformator is fixed
+		//return internal;
 	}
 
 	/**
