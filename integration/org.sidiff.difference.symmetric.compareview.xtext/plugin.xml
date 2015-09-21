@@ -40,6 +40,14 @@
       </super>
    </extension>
    <extension
+         id="org.sidiff.compare.marker.context"
+         name="CompareMarkerContext"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
          id="org.sidiff.compare.annotationTypes"
          name="CompareAnnotationTypes"
          point="org.eclipse.ui.editors.annotationTypes">
@@ -58,6 +66,10 @@
       <type
             markerType="org.sidiff.compare.marker.correspondence"
             name="org.sidiff.compare.annotationType.correspondence">
+      </type>
+      <type
+            markerType="org.sidiff.compare.marker.context"
+            name="org.sidiff.compare.annotationType.context">
       </type>
    </extension>
    <extension
@@ -103,7 +115,7 @@
             verticalRulerPreferenceValue="true">
       </specification>
       <specification
-            annotationType="org.sidiff.compare.annotationType.modified"
+            annotationType="org.sidiff.compare.annotationType.change"
             colorPreferenceKey="changecolor"
             colorPreferenceValue="0,128,255"
             contributesToHeader="true"
@@ -138,6 +150,25 @@
             textStylePreferenceKey="correspondencestyle"
             textStylePreferenceValue="BOX"
             verticalRulerPreferenceKey="correspondencevertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
+      <specification
+            annotationType="org.sidiff.compare.annotationType.context"
+            colorPreferenceKey="contextColor"
+            colorPreferenceValue="0,0,0"
+            contributesToHeader="true"
+            highlightPreferenceKey="contextHighlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            label="Context Annotation"
+            overviewRulerPreferenceKey="contextRuler"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="contextText"
+            textPreferenceValue="true"
+            textStylePreferenceKey="contextStyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="contextVertical"
             verticalRulerPreferenceValue="true">
       </specification>
    </extension>
