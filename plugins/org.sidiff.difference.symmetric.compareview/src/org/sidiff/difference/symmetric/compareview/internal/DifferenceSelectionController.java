@@ -81,6 +81,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	private List<EObject> deletedElements = null;
 	private List<EObject> changedElements = null;
 	private List<EObject> correspondentElements = null;
+	private List<EObject> contextElements = null;
 	private List<EObject> treeDecorations = null;
 	private Set<TreeViewer> treeViewersWithDecorations = null;
 	private Map<EObject, URI> eObjecToResourceURI = new HashMap<EObject, URI>();
@@ -98,6 +99,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		deletedElements = new ArrayList<EObject>();
 		changedElements = new ArrayList<EObject>();
 		correspondentElements = new ArrayList<EObject>();
+		contextElements = new ArrayList<EObject>();
 		decoratorTargets = new HashMap<EObject, IDecoratorTarget>();
 		decorators = new ArrayList<IDecorator>();
 		treeDecorations = new ArrayList<EObject>();
@@ -177,6 +179,11 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			lastSelection = selection;
 
 			selected.clear();
+			addedElements.clear();
+			deletedElements.clear();
+			changedElements.clear();
+			correspondentElements.clear();
+			contextElements.clear();
 			eObjecToResourceURI.clear();
 			if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 				IStructuredSelection _selection = (IStructuredSelection) selection;
@@ -273,7 +280,7 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			markElements(deletedElements, treeEditors, ChangeType.DELETE, "org.sidiff.compare.marker.delete");
 			markElements(changedElements, treeEditors, ChangeType.CHANGE, "org.sidiff.compare.marker.change");
 			markElements(correspondentElements, treeEditors, ChangeType.CORRESPONDENCE, "org.sidiff.compare.marker.correspondence");
-			
+			markElements(contextElements, treeEditors, ChangeType.CONTEXT, "org.sidiff.compare.marker.context");
 			
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
@@ -440,16 +447,37 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	}
 
 	private void handleChange(Change change) {
+		SymmetricDifference diff = (SymmetricDifference) change.eContainer();
 		if (change instanceof AddObject) {
 			EObject eObjectB = ((AddObject) change).getObj();
 			selected.add(eObjectB);
 			addedElements.add(eObjectB);
-			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
+		
+			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectB)){
+				for(Correspondence c : diff.getCorrespondences()){
+					if(c.getObjB().equals(xtextmarker.getContextElement(eObjectB))){
+						contextElements.add(c.getObjA());
+						eObjecToResourceURI.put(c.getObjA(), diff.getModelA().getURI());
+						break;
+					}
+				}
+			}
 		} else if (change instanceof RemoveObject) {
 			EObject eObjectA = ((RemoveObject) change).getObj();
 			selected.add(eObjectA);
 			deletedElements.add(eObjectA);
-			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelA().getURI());
+			eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
+			
+			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectA)){
+				for(Correspondence c : diff.getCorrespondences()){
+					if(c.getObjA().equals(xtextmarker.getContextElement(eObjectA))){
+						contextElements.add(c.getObjB());
+						eObjecToResourceURI.put(c.getObjB(), diff.getModelB().getURI());
+						break;
+					}
+				}
+			}
 		} else if (change instanceof AttributeValueChange) {
 			EObject eObjectA = ((AttributeValueChange) change).getObjA();
 			EObject eObjectB = ((AttributeValueChange) change).getObjB();
@@ -457,8 +485,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			changedElements.add(eObjectA);
 			selected.add(eObjectB);
 			changedElements.add(eObjectB);
-			eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelA().getURI());
-			eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+			eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
+			eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 		} else if (change instanceof AddReference) {
 			EObject eObjectA = ((AddReference) change).getSrc();
 			EObject eObjectB = ((AddReference) change).getTgt();
@@ -468,8 +496,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			} else {
 				selected.add(eObjectA);
 				selected.add(eObjectB);
-				eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
-				eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
+				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 			}
 		} else if (change instanceof RemoveReference) {
 			EObject eObjectA = ((RemoveReference) change).getSrc();
@@ -480,8 +508,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			} else {
 				selected.add(eObjectA);
 				selected.add(eObjectB);
-				eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
-				eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) change.eContainer()).getModelB().getURI());
+				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
+				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 			}
 		}
 	}

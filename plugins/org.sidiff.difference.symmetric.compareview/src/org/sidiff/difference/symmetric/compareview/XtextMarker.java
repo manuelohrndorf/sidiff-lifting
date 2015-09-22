@@ -10,6 +10,8 @@ public interface XtextMarker {
 	
 	public boolean isXtextObject(EObject eObject);
 
+	public EObject getContextElement(EObject eObject);
+	
 	public void mark(EObject textEObject, IEditorPart editor, ChangeType type, String markerID);
 	
 	public void clear();

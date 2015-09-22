@@ -5,5 +5,6 @@ public enum ChangeType {
 	ADD,
 	DELETE,
 	CHANGE,
-	CORRESPONDENCE
+	CORRESPONDENCE, 
+	CONTEXT
 }

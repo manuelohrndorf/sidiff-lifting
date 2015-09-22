@@ -56,15 +56,21 @@ public class XtextMarkerImpl implements XtextMarker {
 					break;
 				case CORRESPONDENCE:
 					marker.setAttribute(IMarker.MESSAGE, "correspondent element");
+				case CONTEXT:
+					marker.setAttribute(IMarker.MESSAGE, "context element");
+					break;
 				default: 
 					marker.setAttribute(IMarker.MESSAGE, "unsupported difference information");
 					break;
 				}
-				marker.setAttribute(IMarker.LINE_NUMBER,
-						textNode.getStartLine());
-				marker.setAttribute(IMarker.CHAR_START, textNode.getOffset());
-				marker.setAttribute(IMarker.CHAR_END, textNode.getOffset()
-						+ textNode.getLength());
+				
+				marker.setAttribute(IMarker.LINE_NUMBER, textNode.getStartLine());
+				
+				if(!type.equals(ChangeType.CONTEXT)){
+					marker.setAttribute(IMarker.CHAR_START, textNode.getOffset());
+					marker.setAttribute(IMarker.CHAR_END, textNode.getOffset()+ textNode.getLength());
+				}
+				
 
 				textMarker.add(marker);
 			} catch (CoreException e) {
@@ -123,5 +129,18 @@ public class XtextMarkerImpl implements XtextMarker {
 			
 		}
 		return result;
+	}
+
+	@Override
+	public EObject getContextElement(EObject eObject) {
+		INode textNode = adapt(INode.class, eObject);
+		//FIXME 
+		INode sibling = null;//textNode.getPreviousSibling();
+		if(sibling != null){
+			return sibling.getSemanticElement();
+		}else{
+			INode parent = textNode.getParent();
+			return parent.getSemanticElement();
+		}
 	}
 }
