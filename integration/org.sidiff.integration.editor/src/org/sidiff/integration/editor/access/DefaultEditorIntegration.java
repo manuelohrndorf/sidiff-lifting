@@ -92,7 +92,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public Boolean isDefaultEditorPresent() {
-		return null;
+		return true;
 	}
 
 	@Override
@@ -103,7 +103,6 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
 		try {
-			//FIXME Could be problematic with files in archives
 			String path=EMFStorage.uriToPath(modelURI); 
 			IEditorDescriptor desc = PlatformUI.getWorkbench().
 			        getEditorRegistry().getDefaultEditor(path);
