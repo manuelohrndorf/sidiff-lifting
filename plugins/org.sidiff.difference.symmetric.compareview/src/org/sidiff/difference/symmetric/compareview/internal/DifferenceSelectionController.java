@@ -271,10 +271,15 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 		if (decoratedViews.size() == 0) {
 			List<String> treeEditors = new ArrayList<String>();
+			
+			//Get "best" default Editor for current model			
+			IEditorIntegration editor = IntegrationEditorAccess.getInstance().
+					getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
 
-			for (IEditorIntegration de : IntegrationEditorAccess.getInstance().getIntegrationEditors()) {
-				if (de.isDefaultEditorPresent()) treeEditors.add(de.getDefaultEditorID());
-			}
+			if(editor != null && editor.isDefaultEditorPresent()){
+				treeEditors.add(editor.getDefaultEditorID());
+
+			}			
 			
 			markElements(addedElements, treeEditors, ChangeType.ADD, "org.sidiff.compare.marker.add");
 			markElements(deletedElements, treeEditors, ChangeType.DELETE, "org.sidiff.compare.marker.delete");
@@ -285,15 +290,18 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
 
-			for (IEditorIntegration de : IntegrationEditorAccess.getInstance().getIntegrationEditors()) {
-				if (de.isDiagramEditorPresent()) {
-					diagramEditors.add(de.getDiagramEditorID());
-				}
-			}
+			//Get "best" diagram Editor for current model			
+			IEditorIntegration editor = IntegrationEditorAccess.getInstance().
+					getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
+			if(editor != null && editor.isDiagramEditorPresent()){
+				diagramEditors.add(editor.getDefaultEditorID());
+
+			}		
+
 			for (EObject decoratedView : decoratedViews) {
 				DecoratedTuple tuple = findObjectInEditor(decoratedView, diagramEditors);
-				for (IEditorPart editor : tuple.editors) {
-					bringEditorToTop(editor);
+				for (IEditorPart ed : tuple.editors) {
+					bringEditorToTop(ed);
 				}
 			}
 		}
