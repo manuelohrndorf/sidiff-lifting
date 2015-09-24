@@ -84,7 +84,7 @@ public class IntegrationEditorAccess {
 				}
 			}
 		}
-		if (candiate == null) candiate = DefaultEditorIntegration.getInstance();
+		if (candiate == null) candiate = DefaultEditorIntegration.getInstance(model.getURI());
 		return candiate;
 	}
 
@@ -105,7 +105,7 @@ public class IntegrationEditorAccess {
 					break;
 			}
 		}
-		if (candidate == null) return DefaultEditorIntegration.getInstance();
+		if (candidate == null) return DefaultEditorIntegration.getInstance(modelOrDiagramFile);
 		return candidate;
 	}
 
@@ -124,6 +124,6 @@ public class IntegrationEditorAccess {
 			}
 		}
 		if (candidate != null) return candidate;
-		return DefaultEditorIntegration.getInstance().getHighlightableElement(element);
+		return DefaultEditorIntegration.getInstance(element.eResource().getURI()).getHighlightableElement(element);
 	}
 }
