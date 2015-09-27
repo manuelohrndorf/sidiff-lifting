@@ -271,16 +271,17 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 		if (decoratedViews.size() == 0) {
 			List<String> treeEditors = new ArrayList<String>();
-			
-			//Get "best" default Editor for current model			
-			IEditorIntegration editor = IntegrationEditorAccess.getInstance().
-					getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
 
-			if(editor != null && editor.isDefaultEditorPresent()){
-				treeEditors.add(editor.getDefaultEditorID());
+			//Get "best" default Editor for current model
+			if(!eObjecToResourceURI.values().isEmpty()){
+				IEditorIntegration editor = IntegrationEditorAccess.getInstance().
+						getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
 
-			}			
-			
+				if(editor != null && editor.isDefaultEditorPresent()){
+					treeEditors.add(editor.getDefaultEditorID());
+
+				}			
+			}
 			markElements(addedElements, treeEditors, ChangeType.ADD, "org.sidiff.compare.marker.add");
 			markElements(deletedElements, treeEditors, ChangeType.DELETE, "org.sidiff.compare.marker.delete");
 			markElements(changedElements, treeEditors, ChangeType.CHANGE, "org.sidiff.compare.marker.change");
@@ -290,13 +291,15 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
 
-			//Get "best" diagram Editor for current model			
-			IEditorIntegration editor = IntegrationEditorAccess.getInstance().
-					getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
-			if(editor != null && editor.isDiagramEditorPresent()){
-				diagramEditors.add(editor.getDefaultEditorID());
+			//Get "best" diagram Editor for current model	
+			if(!eObjecToResourceURI.values().isEmpty()){
+				IEditorIntegration editor = IntegrationEditorAccess.getInstance().
+						getIntegrationEditorForModelOrDiagramFile(eObjecToResourceURI.values().iterator().next());
+				if(editor != null && editor.isDiagramEditorPresent()){
+					diagramEditors.add(editor.getDefaultEditorID());
 
-			}		
+				}		
+			}
 
 			for (EObject decoratedView : decoratedViews) {
 				DecoratedTuple tuple = findObjectInEditor(decoratedView, diagramEditors);
