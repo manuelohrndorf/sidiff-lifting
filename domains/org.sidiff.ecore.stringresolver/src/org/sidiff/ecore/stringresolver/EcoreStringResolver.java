@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.stringresolver.AbstractStringResolver;
 import org.sidiff.common.stringresolver.IStringResolver;
 
 /**
@@ -14,22 +15,13 @@ import org.sidiff.common.stringresolver.IStringResolver;
  * @author cpietsch
  *
  */
-public class EcoreStringResolver implements IStringResolver {
+public class EcoreStringResolver extends AbstractStringResolver {
 
 	private final static String DOC_TYPE = "http://www.eclipse.org/emf/2002/Ecore";
 	
 	private final static String KEY = "EcoreStringResolver";
 	
 	private final static String NAME = "Ecore String Resolver";
-	
-	@Override
-	public boolean canHandleDocType(String docType) {
-		if(docType.equals(DOC_TYPE)){
-			return true;
-		}else{
-			return false;
-		}
-	}
 
 	@Override
 	public String getDocType() {
@@ -48,13 +40,13 @@ public class EcoreStringResolver implements IStringResolver {
 
 	@Override
 	public String resolve(EObject eObject) {
-		String res = null;
+		String res = eObject.toString();
 		if(eObject instanceof EAnnotation){
 			EAnnotation eAnnotaion = (EAnnotation) eObject;
 			res = String.format("%s [%s]", eAnnotaion.getSource(),  eAnnotaion.eClass().getName());
 		}else if(eObject instanceof ENamedElement){
 			ENamedElement eNamedElement = (ENamedElement)eObject;
-			res = String.format("%s [%s]", eNamedElement.getName(),  eNamedElement.eClass().getName());;
+			res = String.format("%s [%s]", eNamedElement.getName(),  eNamedElement.eClass().getName());
 			if(eObject instanceof EAttribute){
 				EAttribute eAttribute = (EAttribute)eObject;
 				if(eAttribute.isID()){
@@ -71,17 +63,6 @@ public class EcoreStringResolver implements IStringResolver {
 				res = eObject.eClass().getName();
 			}
 		}		
-		return res;
-	}
-
-	@Override
-	public String resolveQualified(EObject eObject) {
-		String res = resolve(eObject);
-		EObject eContainer = eObject.eContainer();
-		while(eContainer != null){
-			res = resolve(eContainer) + "." + res;		
-			eContainer = eContainer.eContainer();
-		}
 		return res;
 	}
 }
