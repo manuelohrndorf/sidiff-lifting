@@ -56,9 +56,17 @@ public class LiftDifferenceHandler extends AbstractHandler {
 						IFile fileB = (IFile) selection.toArray()[1];
 						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
 						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-						Set<String> docTypeA = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
-						Set<String> docTypeB = EMFModelAccessEx.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
-						if (docTypeA.equals(docTypeB)){
+						//TODO Workaround: bisher keine einheitliche Regelung für Ressourcen mit mehreren Dokumenttypen
+						// Annahme: Sofern nicht alle Dokumenttypen der Profile gleich sind, sollte zumindest der eigentliche Dokumenttyp gleich sein.
+						boolean canHandle = false;
+						if(EMFModelAccessEx.isProfiled(resourceA) || EMFModelAccessEx.isProfiled(resourceB)){
+								canHandle = EMFModelAccessEx.getCharacteristicDocumentType(resourceA).equals(EMFModelAccessEx.getCharacteristicDocumentType(resourceB));
+						}else {
+							Set<String> docTypeA = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+							Set<String> docTypeB = EMFModelAccessEx.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
+							canHandle = docTypeA.equals(docTypeB);
+						}
+						if (canHandle){
 
 							// Create a new difference:
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI
