@@ -15,7 +15,7 @@ import org.silift.common.util.access.EMFModelAccessEx;
  * @author cpietsch
  *
  */
-public class SignatureBasedNamedElementMatcher extends SignatureBasedMatcher {
+public class SignatureBasedNamedElementMatcher extends SignatureBasedMatcher<String> {
 
 	
 	private Map<String, Object> configuration;
@@ -56,22 +56,22 @@ public class SignatureBasedNamedElementMatcher extends SignatureBasedMatcher {
 	}
 
 	@Override
-	protected int calculateSignature(EObject eObject) {
+	protected String calculateSignature(EObject eObject) {
 	
 		if(eObject.eClass().getEStructuralFeature("name")!=null){
 			boolean useQualifiedNames = (Boolean)configuration.get("use qualified names");
 			if(useQualifiedNames){
-				return deriveQualifiedName(eObject).hashCode();
+				return deriveQualifiedName(eObject);
 			}
 			
 			if(eObject.eGet(eObject.eClass().getEStructuralFeature("name")) != null){
 				String name = eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString();
 				name += eObject.eClass().getName() + eObject.eResource().getURI().lastSegment();
-				return name.hashCode();
+				return name;
 			}
 		}
 		
-		return (eObject.toString()+eObject.eClass().getName()).hashCode();
+		return (eObject.toString()+eObject.eClass().getName());
 	}
 
 	private String deriveQualifiedName(EObject eObject){
