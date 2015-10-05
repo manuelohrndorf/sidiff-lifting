@@ -17,15 +17,16 @@ import org.silift.common.util.emf.Scope;
  * {@link #canComputeReliability()}
  * 
  * @author cpietsch
+ * @param <T>
  *
  */
-public abstract class SignatureBasedMatcher extends AbstractMatcher {
+public abstract class SignatureBasedMatcher<T> extends AbstractMatcher {
 
-	protected Map<Integer,Set<EObject>> signatures;
+	protected Map<T,Set<EObject>> signatures;
 	
 	@Override
 	protected void compareResources(){
-		signatures = new HashMap<Integer, Set<EObject>>();
+		signatures = new HashMap<T, Set<EObject>>();
 		if(scope.equals(Scope.RESOURCE_SET)){
 			for(Resource r : modelA.getResourceSet().getResources()){
 				calculateSignatures(r);
@@ -35,10 +36,10 @@ public abstract class SignatureBasedMatcher extends AbstractMatcher {
 		}
 		for (Iterator<EObject> iterator= modelB.getAllContents(); iterator.hasNext();) {
 			EObject eObjectB =  iterator.next();
-			int signature = calculateSignature(eObjectB);
+			T signature = calculateSignature(eObjectB);
 			if(signatures.containsKey(signature)){
 				EObject eObjectA = signatures.get(signature).iterator().next();
-				if(!hasCorrespondence(eObjectA) && !hasCorrespondence(eObjectB)){
+				if(eObjectA.eClass() == eObjectB.eClass() && !hasCorrespondence(eObjectA) && !hasCorrespondence(eObjectB)){
 					// TODO there can be multiple objects with the same signature
 					
 					matching.addCorrespondence(eObjectA, eObjectB);
@@ -52,8 +53,8 @@ public abstract class SignatureBasedMatcher extends AbstractMatcher {
 		for (Iterator<EObject> iterator = model.getAllContents(); iterator
 				.hasNext();) {
 			EObject eObject = iterator.next();
-			int signature = calculateSignature(eObject);
-			if (signature == 0)
+			T signature = calculateSignature(eObject);
+			if (signature == null)
 				continue;
 			if (signatures.containsKey(signature)) {
 				signatures.get(signature).add(eObject);
@@ -67,5 +68,5 @@ public abstract class SignatureBasedMatcher extends AbstractMatcher {
 		
 	}
 	
-	protected abstract int calculateSignature(EObject eObject);
+	protected abstract T calculateSignature(EObject eObject);
 }
