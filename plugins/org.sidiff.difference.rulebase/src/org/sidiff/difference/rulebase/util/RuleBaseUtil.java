@@ -43,15 +43,12 @@ public class RuleBaseUtil {
 		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);
 		Resource rulebaseResource = resourceSet.getResource(rulebasePluginURI, true);
 
-		if (rulebaseResource == null) {
-			LogUtil.log(LogEvent.WARNING, "No Rule Base found for URI " + rulebasePluginURI);
-			return null;
+		if ((rulebaseResource == null) || (rulebaseResource.getContents().isEmpty())) {
+			LogUtil.log(LogEvent.ERROR, "No Rule Base found for URI: " + rulebasePluginURI);
+			throw new RuntimeException("No Rule Base found for URI: " + rulebasePluginURI);
 		}
 
-		assert (rulebaseResource.getContents().get(0) instanceof RuleBase) : ": No Rule Base..?";
-
 		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
-		
 		return rulebase;
 	}
 	
