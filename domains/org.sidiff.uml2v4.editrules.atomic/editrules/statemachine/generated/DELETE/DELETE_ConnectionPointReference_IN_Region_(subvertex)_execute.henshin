@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ud-023DyEeW9w4lFJVXLSw" name="DELETE_ConnectionPointReference_IN_Region_(subvertex)" description="Deletes one ConnectionPointReference in Region">
+  <annotations xmi:id="_Ud-03HDyEeW9w4lFJVXLSw" key="INVERSE" value="CREATE_ConnectionPointReference_IN_Region_(subvertex)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Ud-03XDyEeW9w4lFJVXLSw" name="deleteConnectionPointReference_IN_Region" description="deletes one ConnectionPointReference in the context: Region">
+    <parameters xmi:id="_Ud-03nDyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ud-033DyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+    </parameters>
+    <lhs xmi:id="_Ud-04HDyEeW9w4lFJVXLSw" name="LHS">
+      <nodes xmi:id="_Ud-04XDyEeW9w4lFJVXLSw" name="Selected" incoming="_Ud-05HDyEeW9w4lFJVXLSw" outgoing="_Ud-043DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Ud-04nDyEeW9w4lFJVXLSw" name="ToBeDeleted" incoming="_Ud-043DyEeW9w4lFJVXLSw" outgoing="_Ud-05HDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+      </nodes>
+      <edges xmi:id="_Ud-043DyEeW9w4lFJVXLSw" source="_Ud-04XDyEeW9w4lFJVXLSw" target="_Ud-04nDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Ud-05HDyEeW9w4lFJVXLSw" source="_Ud-04nDyEeW9w4lFJVXLSw" target="_Ud-04XDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex/container"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ud-05XDyEeW9w4lFJVXLSw" name="RHS">
+      <nodes xmi:id="_Ud-05nDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Ud-053DyEeW9w4lFJVXLSw" origin="_Ud-04XDyEeW9w4lFJVXLSw" image="_Ud-05nDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Ud-06HDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_Ud-03XDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_Ud-06XDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_Ud-06nDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ud-063DyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <annotations xmi:id="_Ud-07HDyEeW9w4lFJVXLSw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+    </parameters>
+    <parameterMappings xmi:id="_Ud-07XDyEeW9w4lFJVXLSw" source="_Ud-06XDyEeW9w4lFJVXLSw" target="_Ud-03nDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ud-07nDyEeW9w4lFJVXLSw" source="_Ud-063DyEeW9w4lFJVXLSw" target="_Ud-033DyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

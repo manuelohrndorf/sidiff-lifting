@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ub5KEHDyEeW9w4lFJVXLSw" name="CREATE_FinalState_IN_Region_(subvertex)" description="Creates one FinalState in Region">
+  <annotations xmi:id="_Ub5KEXDyEeW9w4lFJVXLSw" key="INVERSE" value="DELETE_FinalState_IN_Region_(subvertex)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Ub5KEnDyEeW9w4lFJVXLSw" name="createFinalState_IN_Region" description="creates one FinalState in the context: Region">
+    <parameters xmi:id="_Ub5KE3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ub5KFHDyEeW9w4lFJVXLSw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_Ub5KFXDyEeW9w4lFJVXLSw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_Ub5KFnDyEeW9w4lFJVXLSw" name="Lhs">
+      <nodes xmi:id="_Ub5KF3DyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Ub5KGHDyEeW9w4lFJVXLSw" name="Rhs">
+      <nodes xmi:id="_Ub5KGXDyEeW9w4lFJVXLSw" name="Selected" incoming="_Ub5KHXDyEeW9w4lFJVXLSw" outgoing="_Ub5KHHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Ub5KGnDyEeW9w4lFJVXLSw" name="New" incoming="_Ub5KHHDyEeW9w4lFJVXLSw" outgoing="_Ub5KHXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+        <attributes xmi:id="_Ub5KG3DyEeW9w4lFJVXLSw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_Ub5KHHDyEeW9w4lFJVXLSw" source="_Ub5KGXDyEeW9w4lFJVXLSw" target="_Ub5KGnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Ub5KHXDyEeW9w4lFJVXLSw" source="_Ub5KGnDyEeW9w4lFJVXLSw" target="_Ub5KGXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Ub5KHnDyEeW9w4lFJVXLSw" origin="_Ub5KF3DyEeW9w4lFJVXLSw" image="_Ub5KGXDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Ub5KH3DyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_Ub5KEnDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_Ub5KIHDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_Ub5KIXDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ub5KInDyEeW9w4lFJVXLSw" name="New">
+      <annotations xmi:id="_Ub5KI3DyEeW9w4lFJVXLSw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_Ub5KJHDyEeW9w4lFJVXLSw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_Ub5KJXDyEeW9w4lFJVXLSw" source="_Ub5KIHDyEeW9w4lFJVXLSw" target="_Ub5KE3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ub5KJnDyEeW9w4lFJVXLSw" source="_Ub5KFHDyEeW9w4lFJVXLSw" target="_Ub5KInDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ub5KJ3DyEeW9w4lFJVXLSw" source="_Ub5KJHDyEeW9w4lFJVXLSw" target="_Ub5KFXDyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

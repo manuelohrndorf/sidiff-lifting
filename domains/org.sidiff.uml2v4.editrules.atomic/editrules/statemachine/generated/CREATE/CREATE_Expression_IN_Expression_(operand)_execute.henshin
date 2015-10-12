@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UcuQgHDyEeW9w4lFJVXLSw" name="CREATE_Expression_IN_Expression_(operand)" description="Creates one Expression in Expression">
+  <annotations xmi:id="_UcuQgXDyEeW9w4lFJVXLSw" key="INVERSE" value="DELETE_Expression_IN_Expression_(operand)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UcuQgnDyEeW9w4lFJVXLSw" name="createExpression_IN_Expression" description="creates one Expression in the context: Expression">
+    <parameters xmi:id="_UcuQg3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters xmi:id="_UcuQhHDyEeW9w4lFJVXLSw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <lhs xmi:id="_UcuQhXDyEeW9w4lFJVXLSw" name="Lhs">
+      <nodes xmi:id="_UcuQhnDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_UcuQh3DyEeW9w4lFJVXLSw" name="Rhs">
+      <nodes xmi:id="_UcuQiHDyEeW9w4lFJVXLSw" name="Selected" outgoing="_UcuQinDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+      </nodes>
+      <nodes xmi:id="_UcuQiXDyEeW9w4lFJVXLSw" name="New" incoming="_UcuQinDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+      </nodes>
+      <edges xmi:id="_UcuQinDyEeW9w4lFJVXLSw" source="_UcuQiHDyEeW9w4lFJVXLSw" target="_UcuQiXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression/operand"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_UcuQi3DyEeW9w4lFJVXLSw" origin="_UcuQhnDyEeW9w4lFJVXLSw" image="_UcuQiHDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UcuQjHDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UcuQgnDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UcuQjXDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_UcuQjnDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters xmi:id="_UcuQj3DyEeW9w4lFJVXLSw" name="New">
+      <annotations xmi:id="_UcuQkHDyEeW9w4lFJVXLSw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <parameterMappings xmi:id="_UcuQkXDyEeW9w4lFJVXLSw" source="_UcuQjXDyEeW9w4lFJVXLSw" target="_UcuQg3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UcuQknDyEeW9w4lFJVXLSw" source="_UcuQhHDyEeW9w4lFJVXLSw" target="_UcuQj3DyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

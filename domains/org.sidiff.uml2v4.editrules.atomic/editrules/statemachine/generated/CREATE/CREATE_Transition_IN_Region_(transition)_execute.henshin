@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ucj4cHDyEeW9w4lFJVXLSw" name="CREATE_Transition_IN_Region_(transition)" description="Creates one Transition in Region">
+  <annotations xmi:id="_Ucj4cXDyEeW9w4lFJVXLSw" key="INVERSE" value="DELETE_Transition_IN_Region_(transition)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Ucj4cnDyEeW9w4lFJVXLSw" name="createTransition_IN_Region" description="creates one Transition in the context: Region">
+    <parameters xmi:id="_Ucj4c3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4dHDyEeW9w4lFJVXLSw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4dXDyEeW9w4lFJVXLSw" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4dnDyEeW9w4lFJVXLSw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4d3DyEeW9w4lFJVXLSw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4eHDyEeW9w4lFJVXLSw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//TransitionKind"/>
+    </parameters>
+    <lhs xmi:id="_Ucj4eXDyEeW9w4lFJVXLSw" name="Lhs">
+      <nodes xmi:id="_Ucj4enDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Ucj4e3DyEeW9w4lFJVXLSw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_Ucj4fHDyEeW9w4lFJVXLSw" name="Existing1">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Ucj4fXDyEeW9w4lFJVXLSw" name="Rhs">
+      <nodes xmi:id="_Ucj4fnDyEeW9w4lFJVXLSw" name="Selected" incoming="_Ucj4hXDyEeW9w4lFJVXLSw" outgoing="_Ucj4hHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Ucj4f3DyEeW9w4lFJVXLSw" name="New" incoming="_Ucj4hHDyEeW9w4lFJVXLSw" outgoing="_Ucj4hXDyEeW9w4lFJVXLSw _Ucj4hnDyEeW9w4lFJVXLSw _Ucj4h3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+        <attributes xmi:id="_Ucj4gHDyEeW9w4lFJVXLSw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_Ucj4gXDyEeW9w4lFJVXLSw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Ucj4gnDyEeW9w4lFJVXLSw" name="Existing" incoming="_Ucj4hnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_Ucj4g3DyEeW9w4lFJVXLSw" name="Existing1" incoming="_Ucj4h3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_Ucj4hHDyEeW9w4lFJVXLSw" source="_Ucj4fnDyEeW9w4lFJVXLSw" target="_Ucj4f3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/transition"/>
+      </edges>
+      <edges xmi:id="_Ucj4hXDyEeW9w4lFJVXLSw" source="_Ucj4f3DyEeW9w4lFJVXLSw" target="_Ucj4fnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/container"/>
+      </edges>
+      <edges xmi:id="_Ucj4hnDyEeW9w4lFJVXLSw" source="_Ucj4f3DyEeW9w4lFJVXLSw" target="_Ucj4gnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_Ucj4h3DyEeW9w4lFJVXLSw" source="_Ucj4f3DyEeW9w4lFJVXLSw" target="_Ucj4g3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Ucj4iHDyEeW9w4lFJVXLSw" origin="_Ucj4enDyEeW9w4lFJVXLSw" image="_Ucj4fnDyEeW9w4lFJVXLSw"/>
+    <mappings xmi:id="_Ucj4iXDyEeW9w4lFJVXLSw" origin="_Ucj4e3DyEeW9w4lFJVXLSw" image="_Ucj4gnDyEeW9w4lFJVXLSw"/>
+    <mappings xmi:id="_Ucj4inDyEeW9w4lFJVXLSw" origin="_Ucj4fHDyEeW9w4lFJVXLSw" image="_Ucj4g3DyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Ucj4i3DyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_Ucj4cnDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_Ucj4jHDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_Ucj4jXDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4jnDyEeW9w4lFJVXLSw" name="Existing">
+      <annotations xmi:id="_Ucj4j3DyEeW9w4lFJVXLSw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4kHDyEeW9w4lFJVXLSw" name="Existing1">
+      <annotations xmi:id="_Ucj4kXDyEeW9w4lFJVXLSw" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4knDyEeW9w4lFJVXLSw" name="New">
+      <annotations xmi:id="_Ucj4k3DyEeW9w4lFJVXLSw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4lHDyEeW9w4lFJVXLSw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_Ucj4lXDyEeW9w4lFJVXLSw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//TransitionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_Ucj4lnDyEeW9w4lFJVXLSw" source="_Ucj4jHDyEeW9w4lFJVXLSw" target="_Ucj4c3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ucj4l3DyEeW9w4lFJVXLSw" source="_Ucj4jnDyEeW9w4lFJVXLSw" target="_Ucj4dHDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ucj4mHDyEeW9w4lFJVXLSw" source="_Ucj4kHDyEeW9w4lFJVXLSw" target="_Ucj4dXDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ucj4mXDyEeW9w4lFJVXLSw" source="_Ucj4dnDyEeW9w4lFJVXLSw" target="_Ucj4knDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ucj4mnDyEeW9w4lFJVXLSw" source="_Ucj4lHDyEeW9w4lFJVXLSw" target="_Ucj4d3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_Ucj4m3DyEeW9w4lFJVXLSw" source="_Ucj4lXDyEeW9w4lFJVXLSw" target="_Ucj4eHDyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

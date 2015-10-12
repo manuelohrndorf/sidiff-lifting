@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UdIgMHDyEeW9w4lFJVXLSw" name="MOVE_ForkPseudostate_FROM_State_(connectionPoint)_TO_State_(connectionPoint)" description="Moves ForkPseudostate from State(Reference:connectionPoint) to State(Reference:connectionPoint)">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UdIgMXDyEeW9w4lFJVXLSw" name="movePseudostate_FROM_State_connectionPoint_TO_State_State" description="Moves Pseudostate from State(Reference:connectionPoint) toState(Reference:State)">
+    <parameters xmi:id="_UdIgMnDyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_UdIgM3DyEeW9w4lFJVXLSw" name="&quot;fork&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_UdIgNHDyEeW9w4lFJVXLSw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_UdIgNXDyEeW9w4lFJVXLSw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <lhs xmi:id="_UdIgNnDyEeW9w4lFJVXLSw" name="Lhs">
+      <nodes xmi:id="_UdIgN3DyEeW9w4lFJVXLSw" name="Selected" incoming="_UdIgO3DyEeW9w4lFJVXLSw" outgoing="_UdIgPHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_UdIgOHDyEeW9w4lFJVXLSw" value="&quot;fork&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_UdIgOXDyEeW9w4lFJVXLSw" name="OldSource" incoming="_UdIgPHDyEeW9w4lFJVXLSw" outgoing="_UdIgO3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_UdIgOnDyEeW9w4lFJVXLSw" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_UdIgO3DyEeW9w4lFJVXLSw" source="_UdIgOXDyEeW9w4lFJVXLSw" target="_UdIgN3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_UdIgPHDyEeW9w4lFJVXLSw" source="_UdIgN3DyEeW9w4lFJVXLSw" target="_UdIgOXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/state"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_UdIgPXDyEeW9w4lFJVXLSw" name="Rhs">
+      <nodes xmi:id="_UdIgPnDyEeW9w4lFJVXLSw" name="Selected" incoming="_UdIgQnDyEeW9w4lFJVXLSw" outgoing="_UdIgQ3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_UdIgP3DyEeW9w4lFJVXLSw" value="&quot;fork&quot;">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_UdIgQHDyEeW9w4lFJVXLSw" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_UdIgQXDyEeW9w4lFJVXLSw" name="NewSource" incoming="_UdIgQ3DyEeW9w4lFJVXLSw" outgoing="_UdIgQnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+      </nodes>
+      <edges xmi:id="_UdIgQnDyEeW9w4lFJVXLSw" source="_UdIgQXDyEeW9w4lFJVXLSw" target="_UdIgPnDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//State/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_UdIgQ3DyEeW9w4lFJVXLSw" source="_UdIgPnDyEeW9w4lFJVXLSw" target="_UdIgQXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate/state"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_UdIgRHDyEeW9w4lFJVXLSw" origin="_UdIgN3DyEeW9w4lFJVXLSw" image="_UdIgPnDyEeW9w4lFJVXLSw"/>
+    <mappings xmi:id="_UdIgRXDyEeW9w4lFJVXLSw" origin="_UdIgOXDyEeW9w4lFJVXLSw" image="_UdIgQHDyEeW9w4lFJVXLSw"/>
+    <mappings xmi:id="_UdIgRnDyEeW9w4lFJVXLSw" origin="_UdIgOnDyEeW9w4lFJVXLSw" image="_UdIgQXDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UdIgR3DyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UdIgMXDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UdIgSHDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_UdIgSXDyEeW9w4lFJVXLSw" name="&quot;fork&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_UdIgSnDyEeW9w4lFJVXLSw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_UdIgS3DyEeW9w4lFJVXLSw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_UdIgTHDyEeW9w4lFJVXLSw" name="&quot;fork&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_UdIgTXDyEeW9w4lFJVXLSw" source="_UdIgSHDyEeW9w4lFJVXLSw" target="_UdIgMnDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UdIgTnDyEeW9w4lFJVXLSw" source="_UdIgSXDyEeW9w4lFJVXLSw" target="_UdIgM3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UdIgT3DyEeW9w4lFJVXLSw" source="_UdIgSnDyEeW9w4lFJVXLSw" target="_UdIgNHDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UdIgUHDyEeW9w4lFJVXLSw" source="_UdIgS3DyEeW9w4lFJVXLSw" target="_UdIgNXDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UdIgUXDyEeW9w4lFJVXLSw" source="_UdIgTHDyEeW9w4lFJVXLSw" target="_UdIgM3DyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

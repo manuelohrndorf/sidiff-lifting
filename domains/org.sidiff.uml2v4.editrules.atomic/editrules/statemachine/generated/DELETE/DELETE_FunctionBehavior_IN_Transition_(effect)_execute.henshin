@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UYeCoHDyEeW9w4lFJVXLSw" name="DELETE_FunctionBehavior_IN_Transition_(effect)" description="Deletes one FunctionBehavior in Transition">
+  <annotations xmi:id="_UYeCoXDyEeW9w4lFJVXLSw" key="INVERSE" value="CREATE_FunctionBehavior_IN_Transition_(effect)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UYeConDyEeW9w4lFJVXLSw" name="deleteFunctionBehavior_IN_Transition" description="deletes one FunctionBehavior in the context: Transition">
+    <parameters xmi:id="_UYeCo3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_UYeCpHDyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+    </parameters>
+    <lhs xmi:id="_UYeCpXDyEeW9w4lFJVXLSw" name="LHS">
+      <nodes xmi:id="_UYeCpnDyEeW9w4lFJVXLSw" name="Selected" outgoing="_UYeCqHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_UYeCp3DyEeW9w4lFJVXLSw" name="ToBeDeleted" incoming="_UYeCqHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+      </nodes>
+      <edges xmi:id="_UYeCqHDyEeW9w4lFJVXLSw" source="_UYeCpnDyEeW9w4lFJVXLSw" target="_UYeCp3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition/effect"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_UYeCqXDyEeW9w4lFJVXLSw" name="RHS">
+      <nodes xmi:id="_UYeCqnDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_UYeCq3DyEeW9w4lFJVXLSw" origin="_UYeCpnDyEeW9w4lFJVXLSw" image="_UYeCqnDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UYeCrHDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UYeConDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UYeCrXDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_UYeCrnDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_UYeCr3DyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <annotations xmi:id="_UYeCsHDyEeW9w4lFJVXLSw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_UYeCsXDyEeW9w4lFJVXLSw" source="_UYeCrXDyEeW9w4lFJVXLSw" target="_UYeCo3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UYeCsnDyEeW9w4lFJVXLSw" source="_UYeCr3DyEeW9w4lFJVXLSw" target="_UYeCpHDyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

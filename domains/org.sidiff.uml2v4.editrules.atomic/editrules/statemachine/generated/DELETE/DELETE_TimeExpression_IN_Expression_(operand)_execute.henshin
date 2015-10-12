@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UebgsHDyEeW9w4lFJVXLSw" name="DELETE_TimeExpression_IN_Expression_(operand)" description="Deletes one TimeExpression in Expression">
+  <annotations xmi:id="_UebgsXDyEeW9w4lFJVXLSw" key="INVERSE" value="CREATE_TimeExpression_IN_Expression_(operand)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UebgsnDyEeW9w4lFJVXLSw" name="deleteTimeExpression_IN_Expression" description="deletes one TimeExpression in the context: Expression">
+    <parameters xmi:id="_Uebgs3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters xmi:id="_UebgtHDyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//TimeExpression"/>
+    </parameters>
+    <lhs xmi:id="_UebgtXDyEeW9w4lFJVXLSw" name="LHS">
+      <nodes xmi:id="_UebgtnDyEeW9w4lFJVXLSw" name="Selected" outgoing="_UebguHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+      </nodes>
+      <nodes xmi:id="_Uebgt3DyEeW9w4lFJVXLSw" name="ToBeDeleted" incoming="_UebguHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TimeExpression"/>
+      </nodes>
+      <edges xmi:id="_UebguHDyEeW9w4lFJVXLSw" source="_UebgtnDyEeW9w4lFJVXLSw" target="_Uebgt3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression/operand"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_UebguXDyEeW9w4lFJVXLSw" name="RHS">
+      <nodes xmi:id="_UebgunDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Uebgu3DyEeW9w4lFJVXLSw" origin="_UebgtnDyEeW9w4lFJVXLSw" image="_UebgunDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UebgvHDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UebgsnDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UebgvXDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_UebgvnDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters xmi:id="_Uebgv3DyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <annotations xmi:id="_UebgwHDyEeW9w4lFJVXLSw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//TimeExpression"/>
+    </parameters>
+    <parameterMappings xmi:id="_UebgwXDyEeW9w4lFJVXLSw" source="_UebgvXDyEeW9w4lFJVXLSw" target="_Uebgs3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UebgwnDyEeW9w4lFJVXLSw" source="_Uebgv3DyEeW9w4lFJVXLSw" target="_UebgtHDyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

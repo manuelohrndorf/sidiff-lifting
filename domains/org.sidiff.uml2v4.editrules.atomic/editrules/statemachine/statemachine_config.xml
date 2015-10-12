@@ -14,8 +14,8 @@
 			MOVE_UP="true"
 			SET_UNSET_ATTRIBUTE="true"
 			SET_UNSET_REFERENCE="true" />
-		<disableVariantsWithSupertypeReplacement value="true"/>
-		<createAllAttributes value="true" />		
+		<disableVariantsWithSupertypeReplacement value="false"/>
+		<createAllAttributes value="false" />		
    		<modelUsesProfileMechanism value="false"/>
 	</GeneralSettings>
 	
@@ -64,28 +64,36 @@
 	
 	<WhiteList>		
 		
-		<EClassifier name="Activity" />		
-		<EClassifier name="Constraint" />	
-		<EClassifier name="Comment"/>
-		<EClassifier name="Enumeration" />
-		<EClassifier name="EnumerationLiteral" />	
-		<EClassifier name="FinalState" />		
-		<EClassifier name="LiteralBoolean" />
-		<EClassifier name="LiteralString" />		
-		<EClassifier name="OpaqueBehavior" />
-		<EClassifier name="OpaqueExpression"/>		
-		<EClassifier name="Package" />		
-		<EClassifier name="Pseudostate" />
-		<EClassifier name="Region" />
-		<EClassifier name="State" />
 		<EClassifier name="StateMachine" />
-		<EClassifier name="Transition" />			
+		<EClassifier name="Region" />
+		<EClassifier name="State" />			
+		<EClassifier name="Pseudostate" />
+		<EClassifier name="FinalState" />
+		<EClassifier name="Transition" />
+		<EClassifier name="Trigger" />
+		<EClassifier name="Constraint" />
+		<EClassifier name="Behavior" />
+		<EClassifier name="Vertex" />	
+		<EClassifier name="ConnectionPointReference" />
+		<!-- ommit the following if reduced set of cpeos is wished -->
+		<EClassifier name="Event" />
+		<EClassifier name="CallEvent" />
+		<EClassifier name="AnyReceiveEvent" />
+		<EClassifier name="ChangeEvent" />
+		<EClassifier name="SignalEvent" />
+		<EClassifier name="TimeEvent" />
+		<EClassifier name="Expression" />
+		<EClassifier name="TimeExpression" />
+		<EClassifier name="ValueSpecification" />
+		<EClassifier name="DurationObservation" />
+		<EClassifier name="TimeObservation" />
+		<EClassifier name="OpaqueBehavior" />
+		<EClassifier name="FunctionBehavior" />
+		
 		
 	</WhiteList>
 	
 	<BlackList>
-		<!--  Using "Constraint" is not adviced when MOVEs, which include switching of references, are enabled -->
-		<!--  <EClassifier name="Constraint" /> -->
 	
 	</BlackList>
 	

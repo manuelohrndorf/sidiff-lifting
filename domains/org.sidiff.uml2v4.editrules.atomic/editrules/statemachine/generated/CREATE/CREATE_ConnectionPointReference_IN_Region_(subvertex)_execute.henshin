@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UfMVy3DyEeW9w4lFJVXLSw" name="CREATE_ConnectionPointReference_IN_Region_(subvertex)" description="Creates one ConnectionPointReference in Region">
+  <annotations xmi:id="_UfM8wHDyEeW9w4lFJVXLSw" key="INVERSE" value="DELETE_ConnectionPointReference_IN_Region_(subvertex)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UfM8wXDyEeW9w4lFJVXLSw" name="createConnectionPointReference_IN_Region" description="creates one ConnectionPointReference in the context: Region">
+    <parameters xmi:id="_UfM8wnDyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_UfM8w3DyEeW9w4lFJVXLSw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+    </parameters>
+    <lhs xmi:id="_UfM8xHDyEeW9w4lFJVXLSw" name="Lhs">
+      <nodes xmi:id="_UfM8xXDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_UfM8xnDyEeW9w4lFJVXLSw" name="Rhs">
+      <nodes xmi:id="_UfM8x3DyEeW9w4lFJVXLSw" name="Selected" incoming="_UfM8ynDyEeW9w4lFJVXLSw" outgoing="_UfM8yXDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_UfM8yHDyEeW9w4lFJVXLSw" name="New" incoming="_UfM8yXDyEeW9w4lFJVXLSw" outgoing="_UfM8ynDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+      </nodes>
+      <edges xmi:id="_UfM8yXDyEeW9w4lFJVXLSw" source="_UfM8x3DyEeW9w4lFJVXLSw" target="_UfM8yHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_UfM8ynDyEeW9w4lFJVXLSw" source="_UfM8yHDyEeW9w4lFJVXLSw" target="_UfM8x3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_UfM8y3DyEeW9w4lFJVXLSw" origin="_UfM8xXDyEeW9w4lFJVXLSw" image="_UfM8x3DyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UfM8zHDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UfM8wXDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UfM8zXDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_UfM8znDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_UfM8z3DyEeW9w4lFJVXLSw" name="New">
+      <annotations xmi:id="_UfM80HDyEeW9w4lFJVXLSw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//ConnectionPointReference"/>
+    </parameters>
+    <parameterMappings xmi:id="_UfM80XDyEeW9w4lFJVXLSw" source="_UfM8zXDyEeW9w4lFJVXLSw" target="_UfM8wnDyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UfM80nDyEeW9w4lFJVXLSw" source="_UfM8w3DyEeW9w4lFJVXLSw" target="_UfM8z3DyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>

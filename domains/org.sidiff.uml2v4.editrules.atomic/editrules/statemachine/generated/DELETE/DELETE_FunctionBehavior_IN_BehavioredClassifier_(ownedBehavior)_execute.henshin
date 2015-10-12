@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_UcveoHDyEeW9w4lFJVXLSw" name="DELETE_FunctionBehavior_IN_BehavioredClassifier_(ownedBehavior)" description="Deletes one FunctionBehavior in BehavioredClassifier">
+  <annotations xmi:id="_UcveoXDyEeW9w4lFJVXLSw" key="INVERSE" value="CREATE_FunctionBehavior_IN_BehavioredClassifier_(ownedBehavior)"/>
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_UcveonDyEeW9w4lFJVXLSw" name="deleteFunctionBehavior_IN_BehavioredClassifier" description="deletes one FunctionBehavior in the context: BehavioredClassifier">
+    <parameters xmi:id="_Ucveo3DyEeW9w4lFJVXLSw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_UcvepHDyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+    </parameters>
+    <lhs xmi:id="_UcvepXDyEeW9w4lFJVXLSw" name="LHS">
+      <nodes xmi:id="_UcvepnDyEeW9w4lFJVXLSw" name="Selected" outgoing="_UcveqHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+      <nodes xmi:id="_Ucvep3DyEeW9w4lFJVXLSw" name="ToBeDeleted" incoming="_UcveqHDyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+      </nodes>
+      <edges xmi:id="_UcveqHDyEeW9w4lFJVXLSw" source="_UcvepnDyEeW9w4lFJVXLSw" target="_Ucvep3DyEeW9w4lFJVXLSw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_UcveqXDyEeW9w4lFJVXLSw" name="RHS">
+      <nodes xmi:id="_UcveqnDyEeW9w4lFJVXLSw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Ucveq3DyEeW9w4lFJVXLSw" origin="_UcvepnDyEeW9w4lFJVXLSw" image="_UcveqnDyEeW9w4lFJVXLSw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_UcverHDyEeW9w4lFJVXLSw" name="mainUnit" subUnits="_UcveonDyEeW9w4lFJVXLSw">
+    <parameters xmi:id="_UcverXDyEeW9w4lFJVXLSw" name="selectedEObject">
+      <annotations xmi:id="_UcvernDyEeW9w4lFJVXLSw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_Ucver3DyEeW9w4lFJVXLSw" name="ToBeDeleted">
+      <annotations xmi:id="_UcvesHDyEeW9w4lFJVXLSw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//FunctionBehavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_UcvesXDyEeW9w4lFJVXLSw" source="_UcverXDyEeW9w4lFJVXLSw" target="_Ucveo3DyEeW9w4lFJVXLSw"/>
+    <parameterMappings xmi:id="_UcvesnDyEeW9w4lFJVXLSw" source="_Ucver3DyEeW9w4lFJVXLSw" target="_UcvepHDyEeW9w4lFJVXLSw"/>
+  </units>
+</henshin:Module>
