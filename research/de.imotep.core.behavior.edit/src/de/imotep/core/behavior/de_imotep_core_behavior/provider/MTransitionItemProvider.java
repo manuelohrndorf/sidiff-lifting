@@ -236,14 +236,11 @@ public class MTransitionItemProvider extends MBehaviorEntityItemProvider {
 	 * This returns MTransition.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		String img = "full/obj16/MTransition";
-		if(((MTransition)object).isInternal())
-			img = "full/obj16/MTransition_internal";
-		return overlayImage(object, getResourceLocator().getImage(img));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MTransition"));
 	}
 
 	/**
