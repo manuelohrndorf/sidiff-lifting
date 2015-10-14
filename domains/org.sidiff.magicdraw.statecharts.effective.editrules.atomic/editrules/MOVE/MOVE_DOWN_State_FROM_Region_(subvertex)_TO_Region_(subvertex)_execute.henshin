@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yr3C8HJ9EeWsLqShlA86Dw" name="MOVE_DOWN_State_FROM_Region_(subvertex)_TO_Region_(subvertex)" description="MOVE DOWNWARDs State from Region(Reference:subvertex) to Region(Reference:subvertex">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Yr3C8XJ9EeWsLqShlA86Dw" name="moveDownState_FROM_Region_subvertex_TO_Region_Region" description="Moves down State from Region(Reference:subvertex) toRegion(Reference:Region)">
+    <parameters xmi:id="_Yr3C8nJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_Yr3C83J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Yr3C9HJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_Yr3C9XJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_Yr3C9nJ9EeWsLqShlA86Dw" name="Selected" incoming="_Yr3C-XJ9EeWsLqShlA86Dw" outgoing="_Yr3C-nJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_Yr3C93J9EeWsLqShlA86Dw" name="OldSource" incoming="_Yr3C-nJ9EeWsLqShlA86Dw" outgoing="_Yr3C-XJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Yr3C-HJ9EeWsLqShlA86Dw" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_Yr3C-XJ9EeWsLqShlA86Dw" source="_Yr3C93J9EeWsLqShlA86Dw" target="_Yr3C9nJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Yr3C-nJ9EeWsLqShlA86Dw" source="_Yr3C9nJ9EeWsLqShlA86Dw" target="_Yr3C93J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex/container"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_Yr3C-3J9EeWsLqShlA86Dw">
+        <conclusion xmi:id="_Yr3C_HJ9EeWsLqShlA86Dw" name="cyclePath">
+          <nodes xmi:id="_Yr3C_XJ9EeWsLqShlA86Dw" name="OldSource" outgoing="_Yr3C_3J9EeWsLqShlA86Dw">
+            <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+          </nodes>
+          <nodes xmi:id="_Yr3C_nJ9EeWsLqShlA86Dw" name="NewSource" incoming="_Yr3C_3J9EeWsLqShlA86Dw">
+            <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+          </nodes>
+          <edges xmi:id="_Yr3C_3J9EeWsLqShlA86Dw" source="_Yr3C_XJ9EeWsLqShlA86Dw" target="_Yr3C_nJ9EeWsLqShlA86Dw">
+            <type href="http://Magicdraw/Statecharts/Effective#//State/region"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_Yr3DAHJ9EeWsLqShlA86Dw" origin="_Yr3C-HJ9EeWsLqShlA86Dw" image="_Yr3C_nJ9EeWsLqShlA86Dw"/>
+        <mappings xmi:id="_Yr3DAXJ9EeWsLqShlA86Dw" origin="_Yr3C93J9EeWsLqShlA86Dw" image="_Yr3C_XJ9EeWsLqShlA86Dw"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Yr3DAnJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_Yr3DA3J9EeWsLqShlA86Dw" name="Selected" incoming="_Yr3DBnJ9EeWsLqShlA86Dw" outgoing="_Yr3DB3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_Yr3DBHJ9EeWsLqShlA86Dw" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Yr3DBXJ9EeWsLqShlA86Dw" name="NewSource" incoming="_Yr3DB3J9EeWsLqShlA86Dw" outgoing="_Yr3DBnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_Yr3DBnJ9EeWsLqShlA86Dw" source="_Yr3DBXJ9EeWsLqShlA86Dw" target="_Yr3DA3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Yr3DB3J9EeWsLqShlA86Dw" source="_Yr3DA3J9EeWsLqShlA86Dw" target="_Yr3DBXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex/container"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Yr3DCHJ9EeWsLqShlA86Dw" origin="_Yr3C9nJ9EeWsLqShlA86Dw" image="_Yr3DA3J9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yr3DCXJ9EeWsLqShlA86Dw" origin="_Yr3C93J9EeWsLqShlA86Dw" image="_Yr3DBHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yr3DCnJ9EeWsLqShlA86Dw" origin="_Yr3C-HJ9EeWsLqShlA86Dw" image="_Yr3DBXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yr3DC3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_Yr3C8XJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_Yr3DDHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_Yr3DDXJ9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Yr3DDnJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_Yr3DD3J9EeWsLqShlA86Dw" source="_Yr3DDHJ9EeWsLqShlA86Dw" target="_Yr3C8nJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yr3DEHJ9EeWsLqShlA86Dw" source="_Yr3DDXJ9EeWsLqShlA86Dw" target="_Yr3C83J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yr3DEXJ9EeWsLqShlA86Dw" source="_Yr3DDnJ9EeWsLqShlA86Dw" target="_Yr3C9HJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

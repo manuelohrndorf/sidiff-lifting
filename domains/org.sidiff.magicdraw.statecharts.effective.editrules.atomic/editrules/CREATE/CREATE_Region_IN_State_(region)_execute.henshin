@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YtpysHJ9EeWsLqShlA86Dw" name="CREATE_Region_IN_State_(region)" description="Creates one Region in State">
+  <annotations xmi:id="_YtpysXJ9EeWsLqShlA86Dw" key="INVERSE" value="DELETE_Region_IN_State_(region)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YtpysnJ9EeWsLqShlA86Dw" name="createRegion_IN_State" description="creates one Region in the context: State">
+    <parameters xmi:id="_Ytpys3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_YtpytHJ9EeWsLqShlA86Dw" name="New">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_YtpytXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YtpytnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Ytpyt3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YtpyuHJ9EeWsLqShlA86Dw" name="Selected" incoming="_Ytpyu3J9EeWsLqShlA86Dw" outgoing="_YtpyunJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_YtpyuXJ9EeWsLqShlA86Dw" name="New" incoming="_YtpyunJ9EeWsLqShlA86Dw" outgoing="_Ytpyu3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_YtpyunJ9EeWsLqShlA86Dw" source="_YtpyuHJ9EeWsLqShlA86Dw" target="_YtpyuXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State/region"/>
+      </edges>
+      <edges xmi:id="_Ytpyu3J9EeWsLqShlA86Dw" source="_YtpyuXJ9EeWsLqShlA86Dw" target="_YtpyuHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/state"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YtpyvHJ9EeWsLqShlA86Dw" origin="_YtpytnJ9EeWsLqShlA86Dw" image="_YtpyuHJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YtpyvXJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YtpysnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YtpyvnJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_Ytpyv3J9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_YtpywHJ9EeWsLqShlA86Dw" name="New">
+      <annotations xmi:id="_YtpywXJ9EeWsLqShlA86Dw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_YtpywnJ9EeWsLqShlA86Dw" source="_YtpyvnJ9EeWsLqShlA86Dw" target="_Ytpys3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Ytpyw3J9EeWsLqShlA86Dw" source="_YtpytHJ9EeWsLqShlA86Dw" target="_YtpywHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

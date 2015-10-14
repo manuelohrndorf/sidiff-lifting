@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YrXTsHJ9EeWsLqShlA86Dw" name="CREATE_Transition_IN_Region_(transition)" description="Creates one Transition in Region">
+  <annotations xmi:id="_YrXTsXJ9EeWsLqShlA86Dw" key="INVERSE" value="DELETE_Transition_IN_Region_(transition)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YrXTsnJ9EeWsLqShlA86Dw" name="createTransition_IN_Region" description="creates one Transition in the context: Region">
+    <parameters xmi:id="_YrXTs3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_YrXTtHJ9EeWsLqShlA86Dw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YrXTtXJ9EeWsLqShlA86Dw" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YrXTtnJ9EeWsLqShlA86Dw" name="New">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YrXTt3J9EeWsLqShlA86Dw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <lhs xmi:id="_YrXTuHJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YrXTuXJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_YrXTunJ9EeWsLqShlA86Dw" name="Existing">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_YrXTu3J9EeWsLqShlA86Dw" name="Existing1">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YrXTvHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YrXTvXJ9EeWsLqShlA86Dw" name="Selected" incoming="_YrXTw3J9EeWsLqShlA86Dw" outgoing="_YrXTwnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_YrXTvnJ9EeWsLqShlA86Dw" name="New" incoming="_YrXTwnJ9EeWsLqShlA86Dw" outgoing="_YrXTw3J9EeWsLqShlA86Dw _YrXTxHJ9EeWsLqShlA86Dw _YrXTxXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+        <attributes xmi:id="_YrXTv3J9EeWsLqShlA86Dw" value="Kind">
+          <type href="http://Magicdraw/Statecharts/Effective#//Transition/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YrXTwHJ9EeWsLqShlA86Dw" name="Existing" incoming="_YrXTxHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_YrXTwXJ9EeWsLqShlA86Dw" name="Existing1" incoming="_YrXTxXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_YrXTwnJ9EeWsLqShlA86Dw" source="_YrXTvXJ9EeWsLqShlA86Dw" target="_YrXTvnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/transition"/>
+      </edges>
+      <edges xmi:id="_YrXTw3J9EeWsLqShlA86Dw" source="_YrXTvnJ9EeWsLqShlA86Dw" target="_YrXTvXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/container"/>
+      </edges>
+      <edges xmi:id="_YrXTxHJ9EeWsLqShlA86Dw" source="_YrXTvnJ9EeWsLqShlA86Dw" target="_YrXTwHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/target"/>
+      </edges>
+      <edges xmi:id="_YrXTxXJ9EeWsLqShlA86Dw" source="_YrXTvnJ9EeWsLqShlA86Dw" target="_YrXTwXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/source"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YrXTxnJ9EeWsLqShlA86Dw" origin="_YrXTuXJ9EeWsLqShlA86Dw" image="_YrXTvXJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YrXTx3J9EeWsLqShlA86Dw" origin="_YrXTunJ9EeWsLqShlA86Dw" image="_YrXTwHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YrXTyHJ9EeWsLqShlA86Dw" origin="_YrXTu3J9EeWsLqShlA86Dw" image="_YrXTwXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YrXTyXJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YrXTsnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YrXTynJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YrXTy3J9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_YrXTzHJ9EeWsLqShlA86Dw" name="Existing">
+      <annotations xmi:id="_YrXTzXJ9EeWsLqShlA86Dw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YrXTznJ9EeWsLqShlA86Dw" name="Existing1">
+      <annotations xmi:id="_YrXTz3J9EeWsLqShlA86Dw" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YrXT0HJ9EeWsLqShlA86Dw" name="New">
+      <annotations xmi:id="_YrXT0XJ9EeWsLqShlA86Dw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YrXT0nJ9EeWsLqShlA86Dw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YrXT03J9EeWsLqShlA86Dw" source="_YrXTynJ9EeWsLqShlA86Dw" target="_YrXTs3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YrXT1HJ9EeWsLqShlA86Dw" source="_YrXTzHJ9EeWsLqShlA86Dw" target="_YrXTtHJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YrXT1XJ9EeWsLqShlA86Dw" source="_YrXTznJ9EeWsLqShlA86Dw" target="_YrXTtXJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YrXT1nJ9EeWsLqShlA86Dw" source="_YrXTtnJ9EeWsLqShlA86Dw" target="_YrXT0HJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YrXT13J9EeWsLqShlA86Dw" source="_YrXT0nJ9EeWsLqShlA86Dw" target="_YrXTt3J9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ys16YHJ9EeWsLqShlA86Dw" name="REMOVE_Behavior_(precondition)_TGT_Constraint" description="Removes Behavior's reference precondition the target Constraint">
+  <annotations xmi:id="_Ys16YXJ9EeWsLqShlA86Dw" key="INVERSE" value="ADD_Behavior_(precondition)_TGT_Constraint"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Ys16YnJ9EeWsLqShlA86Dw" name="removeFromBehavior_precondition_Constraint" description="Removes from Behavior's reference precondition the target Constraint">
+    <parameters xmi:id="_Ys16Y3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_Ys16ZHJ9EeWsLqShlA86Dw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_Ys16ZXJ9EeWsLqShlA86Dw" name="LHS">
+      <nodes xmi:id="_Ys16ZnJ9EeWsLqShlA86Dw" name="Selected" outgoing="_Ys16aHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_Ys16Z3J9EeWsLqShlA86Dw" name="OldTarget" incoming="_Ys16aHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_Ys16aHJ9EeWsLqShlA86Dw" source="_Ys16ZnJ9EeWsLqShlA86Dw" target="_Ys16Z3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Behavior/precondition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ys16aXJ9EeWsLqShlA86Dw" name="RHS">
+      <nodes xmi:id="_Ys16anJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_Ys16a3J9EeWsLqShlA86Dw" name="OldTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Ys16bHJ9EeWsLqShlA86Dw" origin="_Ys16ZnJ9EeWsLqShlA86Dw" image="_Ys16anJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Ys16bXJ9EeWsLqShlA86Dw" origin="_Ys16Z3J9EeWsLqShlA86Dw" image="_Ys16a3J9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Ys16bnJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_Ys16YnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_Ys16b3J9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_Ys16cHJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_Ys16cXJ9EeWsLqShlA86Dw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_Ys16cnJ9EeWsLqShlA86Dw" source="_Ys16b3J9EeWsLqShlA86Dw" target="_Ys16Y3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Ys16c3J9EeWsLqShlA86Dw" source="_Ys16cXJ9EeWsLqShlA86Dw" target="_Ys16ZHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

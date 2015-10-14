@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvPHEHJ9EeWsLqShlA86Dw" name="MOVE_DOWN_StateMachine_FROM_Transition_(effect)_TO_Transition_(effect)" description="MOVE DOWNWARDs StateMachine from Transition(Reference:effect) to Transition(Reference:effect">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvPHEXJ9EeWsLqShlA86Dw" name="moveDownStateMachine_FROM_Transition_effect_TO_Transition_Transition" description="Moves down StateMachine from Transition(Reference:effect) toTransition(Reference:Transition)">
+    <parameters xmi:id="_YvPHEnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvPHE3J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvPHFHJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <lhs xmi:id="_YvPHFXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YvPHFnJ9EeWsLqShlA86Dw" name="Selected" incoming="_YvPHGXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_YvPHF3J9EeWsLqShlA86Dw" name="OldSource" outgoing="_YvPHGXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YvPHGHJ9EeWsLqShlA86Dw" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <edges xmi:id="_YvPHGXJ9EeWsLqShlA86Dw" source="_YvPHF3J9EeWsLqShlA86Dw" target="_YvPHFnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/effect"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_YvPHGnJ9EeWsLqShlA86Dw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_YvPHG3J9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_YvPHHHJ9EeWsLqShlA86Dw" name="cyclePath">
+            <nodes xmi:id="_YvPHHXJ9EeWsLqShlA86Dw" name="OldSource" outgoing="_YvPHIHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+            </nodes>
+            <nodes xmi:id="_YvPHHnJ9EeWsLqShlA86Dw" name="NewSource" incoming="_YvPHIXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+            </nodes>
+            <nodes xmi:id="_YvPHH3J9EeWsLqShlA86Dw" incoming="_YvPHIHJ9EeWsLqShlA86Dw" outgoing="_YvPHIXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+            </nodes>
+            <edges xmi:id="_YvPHIHJ9EeWsLqShlA86Dw" source="_YvPHHXJ9EeWsLqShlA86Dw" target="_YvPHH3J9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/region"/>
+            </edges>
+            <edges xmi:id="_YvPHIXJ9EeWsLqShlA86Dw" source="_YvPHH3J9EeWsLqShlA86Dw" target="_YvPHHnJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region/transition"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_YvPHInJ9EeWsLqShlA86Dw" origin="_YvPHGHJ9EeWsLqShlA86Dw" image="_YvPHHnJ9EeWsLqShlA86Dw"/>
+          <mappings xmi:id="_YvPHI3J9EeWsLqShlA86Dw" origin="_YvPHF3J9EeWsLqShlA86Dw" image="_YvPHHXJ9EeWsLqShlA86Dw"/>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_YvPHJHJ9EeWsLqShlA86Dw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_YvPHJXJ9EeWsLqShlA86Dw">
+            <conclusion xmi:id="_YvPHJnJ9EeWsLqShlA86Dw" name="ub0">
+              <nodes xmi:id="_YvPHJ3J9EeWsLqShlA86Dw" outgoing="_YvPHKXJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+              </nodes>
+              <nodes xmi:id="_YvPHKHJ9EeWsLqShlA86Dw" incoming="_YvPHKXJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+              </nodes>
+              <edges xmi:id="_YvPHKXJ9EeWsLqShlA86Dw" source="_YvPHJ3J9EeWsLqShlA86Dw" target="_YvPHKHJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Transition/effect"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_YvPHKnJ9EeWsLqShlA86Dw" origin="_YvPHGHJ9EeWsLqShlA86Dw" image="_YvPHJ3J9EeWsLqShlA86Dw"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_YvPHK3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YvPHLHJ9EeWsLqShlA86Dw" name="Selected" incoming="_YvPHL3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_YvPHLXJ9EeWsLqShlA86Dw" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YvPHLnJ9EeWsLqShlA86Dw" name="NewSource" outgoing="_YvPHL3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <edges xmi:id="_YvPHL3J9EeWsLqShlA86Dw" source="_YvPHLnJ9EeWsLqShlA86Dw" target="_YvPHLHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/effect"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YvPHMHJ9EeWsLqShlA86Dw" origin="_YvPHFnJ9EeWsLqShlA86Dw" image="_YvPHLHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YvPHMXJ9EeWsLqShlA86Dw" origin="_YvPHF3J9EeWsLqShlA86Dw" image="_YvPHLXJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YvPHMnJ9EeWsLqShlA86Dw" origin="_YvPHGHJ9EeWsLqShlA86Dw" image="_YvPHLnJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvPHM3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvPHEXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvPHNHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvPHNXJ9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvPHNnJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvPHN3J9EeWsLqShlA86Dw" source="_YvPHNHJ9EeWsLqShlA86Dw" target="_YvPHEnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvPHOHJ9EeWsLqShlA86Dw" source="_YvPHNXJ9EeWsLqShlA86Dw" target="_YvPHE3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvPHOXJ9EeWsLqShlA86Dw" source="_YvPHNnJ9EeWsLqShlA86Dw" target="_YvPHFHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YrkIAHJ9EeWsLqShlA86Dw" name="SET_REFERENCE_Region_(extendedRegion)_TGT_Region" description="Sets Region's reference extendedRegion the target Region">
+  <annotations xmi:id="_YrkIAXJ9EeWsLqShlA86Dw" key="INVERSE" value="UNSET_REFERENCE_Region_(extendedRegion)_TGT_Region"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YrkIAnJ9EeWsLqShlA86Dw" name="setRegion_extendedRegion_TO_Region" description="SetRegionRefextendedRegionToRegion">
+    <parameters xmi:id="_YrkIA3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_YrkIBHJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_YrkIBXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YrkIBnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_YrkvEHJ9EeWsLqShlA86Dw" name="NewTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_YrkvEXJ9EeWsLqShlA86Dw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_YrkvEnJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_YrkvE3J9EeWsLqShlA86Dw" name="ub0">
+            <nodes xmi:id="_YrkvFHJ9EeWsLqShlA86Dw" outgoing="_YrkvFnJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+            </nodes>
+            <nodes xmi:id="_YrkvFXJ9EeWsLqShlA86Dw" incoming="_YrkvFnJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+            </nodes>
+            <edges xmi:id="_YrkvFnJ9EeWsLqShlA86Dw" source="_YrkvFHJ9EeWsLqShlA86Dw" target="_YrkvFXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region/extendedRegion"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_YrkvF3J9EeWsLqShlA86Dw" origin="_YrkIBnJ9EeWsLqShlA86Dw" image="_YrkvFHJ9EeWsLqShlA86Dw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_YrkvGHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YrkvGXJ9EeWsLqShlA86Dw" name="Selected" outgoing="_YrkvG3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_YrkvGnJ9EeWsLqShlA86Dw" name="NewTarget" incoming="_YrkvG3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_YrkvG3J9EeWsLqShlA86Dw" source="_YrkvGXJ9EeWsLqShlA86Dw" target="_YrkvGnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/extendedRegion"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YrkvHHJ9EeWsLqShlA86Dw" origin="_YrkIBnJ9EeWsLqShlA86Dw" image="_YrkvGXJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YrkvHXJ9EeWsLqShlA86Dw" origin="_YrkvEHJ9EeWsLqShlA86Dw" image="_YrkvGnJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YrkvHnJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YrkIAnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YrkvH3J9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YrkvIHJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_YrkvIXJ9EeWsLqShlA86Dw" name="NewTarget">
+      <annotations xmi:id="_YrkvInJ9EeWsLqShlA86Dw" key="INVERSE" value="NewTarget"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_YrkvI3J9EeWsLqShlA86Dw" source="_YrkvH3J9EeWsLqShlA86Dw" target="_YrkIA3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YrkvJHJ9EeWsLqShlA86Dw" source="_YrkvIXJ9EeWsLqShlA86Dw" target="_YrkIBHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

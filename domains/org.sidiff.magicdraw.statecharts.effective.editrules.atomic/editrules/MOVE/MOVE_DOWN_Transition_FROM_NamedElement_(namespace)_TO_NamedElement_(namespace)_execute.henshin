@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YuNzYHJ9EeWsLqShlA86Dw" name="MOVE_DOWN_Transition_FROM_NamedElement_(namespace)_TO_NamedElement_(namespace)" description="MOVE DOWNWARDs Transition from NamedElement(Reference:namespace) to NamedElement(Reference:namespace">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YuNzYXJ9EeWsLqShlA86Dw" name="moveDownTransition_FROM_NamedElement_namespace_TO_NamedElement_NamedElement" description="Moves down Transition from NamedElement(Reference:namespace) toNamedElement(Reference:NamedElement)">
+    <parameters xmi:id="_YuNzYnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YuNzY3J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_YuNzZHJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <lhs xmi:id="_YuNzZXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YuNzZnJ9EeWsLqShlA86Dw" name="Selected" incoming="_YuNzaXJ9EeWsLqShlA86Dw" outgoing="_YuNzanJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YuNzZ3J9EeWsLqShlA86Dw" name="OldSource" incoming="_YuNzanJ9EeWsLqShlA86Dw" outgoing="_YuNzaXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_YuNzaHJ9EeWsLqShlA86Dw" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+      </nodes>
+      <edges xmi:id="_YuNzaXJ9EeWsLqShlA86Dw" source="_YuNzZ3J9EeWsLqShlA86Dw" target="_YuNzZnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement/namespace"/>
+      </edges>
+      <edges xmi:id="_YuNzanJ9EeWsLqShlA86Dw" source="_YuNzZnJ9EeWsLqShlA86Dw" target="_YuNzZ3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedMember"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_YuNza3J9EeWsLqShlA86Dw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_YuNzbHJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_YuNzbXJ9EeWsLqShlA86Dw" name="cyclePath">
+            <nodes xmi:id="_YuNzbnJ9EeWsLqShlA86Dw" name="OldSource" outgoing="_YuNzcHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+            </nodes>
+            <nodes xmi:id="_YuNzb3J9EeWsLqShlA86Dw" name="NewSource" incoming="_YuNzcHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+            </nodes>
+            <edges xmi:id="_YuNzcHJ9EeWsLqShlA86Dw" source="_YuNzbnJ9EeWsLqShlA86Dw" target="_YuNzb3J9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition/trigger"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_YuNzcXJ9EeWsLqShlA86Dw" origin="_YuNzaHJ9EeWsLqShlA86Dw" image="_YuNzb3J9EeWsLqShlA86Dw"/>
+          <mappings xmi:id="_YuNzcnJ9EeWsLqShlA86Dw" origin="_YuNzZ3J9EeWsLqShlA86Dw" image="_YuNzbnJ9EeWsLqShlA86Dw"/>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_YuNzc3J9EeWsLqShlA86Dw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_YuNzdHJ9EeWsLqShlA86Dw">
+            <conclusion xmi:id="_YuNzdXJ9EeWsLqShlA86Dw" name="ub0">
+              <nodes xmi:id="_YuNzdnJ9EeWsLqShlA86Dw" outgoing="_YuNzeHJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+              </nodes>
+              <nodes xmi:id="_YuNzd3J9EeWsLqShlA86Dw" incoming="_YuNzeHJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Namespace"/>
+              </nodes>
+              <edges xmi:id="_YuNzeHJ9EeWsLqShlA86Dw" source="_YuNzdnJ9EeWsLqShlA86Dw" target="_YuNzd3J9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//NamedElement/namespace"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_YuNzeXJ9EeWsLqShlA86Dw" origin="_YuNzaHJ9EeWsLqShlA86Dw" image="_YuNzdnJ9EeWsLqShlA86Dw"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_YuNzenJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YuNze3J9EeWsLqShlA86Dw" name="Selected" incoming="_YuNzfnJ9EeWsLqShlA86Dw" outgoing="_YuNzf3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YuNzfHJ9EeWsLqShlA86Dw" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_YuNzfXJ9EeWsLqShlA86Dw" name="NewSource" incoming="_YuNzf3J9EeWsLqShlA86Dw" outgoing="_YuNzfnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+      </nodes>
+      <edges xmi:id="_YuNzfnJ9EeWsLqShlA86Dw" source="_YuNzfXJ9EeWsLqShlA86Dw" target="_YuNze3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement/namespace"/>
+      </edges>
+      <edges xmi:id="_YuNzf3J9EeWsLqShlA86Dw" source="_YuNze3J9EeWsLqShlA86Dw" target="_YuNzfXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedMember"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YuNzgHJ9EeWsLqShlA86Dw" origin="_YuNzZnJ9EeWsLqShlA86Dw" image="_YuNze3J9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YuNzgXJ9EeWsLqShlA86Dw" origin="_YuNzZ3J9EeWsLqShlA86Dw" image="_YuNzfHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YuNzgnJ9EeWsLqShlA86Dw" origin="_YuNzaHJ9EeWsLqShlA86Dw" image="_YuNzfXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YuNzg3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YuNzYXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YuNzhHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YuNzhXJ9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_YuNzhnJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_YuNzh3J9EeWsLqShlA86Dw" source="_YuNzhHJ9EeWsLqShlA86Dw" target="_YuNzYnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YuNziHJ9EeWsLqShlA86Dw" source="_YuNzhXJ9EeWsLqShlA86Dw" target="_YuNzY3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YuNziXJ9EeWsLqShlA86Dw" source="_YuNzhnJ9EeWsLqShlA86Dw" target="_YuNzZHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

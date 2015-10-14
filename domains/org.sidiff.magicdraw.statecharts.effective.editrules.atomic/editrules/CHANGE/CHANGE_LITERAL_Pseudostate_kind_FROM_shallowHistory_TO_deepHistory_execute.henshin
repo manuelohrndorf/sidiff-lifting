@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YqwPsHJ9EeWsLqShlA86Dw" name="CHANGE_LITERAL_Pseudostate_kind_FROM_shallowHistory_TO_deepHistory" description="Changes the attribute value of kind_FROM_shallowHistory_TO_deepHistory">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YqwPsXJ9EeWsLqShlA86Dw" name="changePseudostateKind_FROM_ShallowHistory_TO_deepHistory" description="Changes the attribute value of kind_FROM_shallowHistory_TO_deepHistory">
+    <parameters xmi:id="_YqwPsnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YqwPs3J9EeWsLqShlA86Dw" name="&quot;shallowHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_YqwPtHJ9EeWsLqShlA86Dw" name="&quot;deepHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_YqwPtXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YqwPtnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+        <attributes xmi:id="_YqwPt3J9EeWsLqShlA86Dw" value="&quot;shallowHistory&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YqwPuHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YqwPuXJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+        <attributes xmi:id="_YqwPunJ9EeWsLqShlA86Dw" value="&quot;deepHistory&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YqwPu3J9EeWsLqShlA86Dw" origin="_YqwPtnJ9EeWsLqShlA86Dw" image="_YqwPuXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YqwPvHJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YqwPsXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YqwPvXJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YqwPvnJ9EeWsLqShlA86Dw" name="&quot;shallowHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_YqwPv3J9EeWsLqShlA86Dw" name="&quot;deepHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YqwPwHJ9EeWsLqShlA86Dw" source="_YqwPvXJ9EeWsLqShlA86Dw" target="_YqwPsnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yqw2wHJ9EeWsLqShlA86Dw" source="_YqwPvnJ9EeWsLqShlA86Dw" target="_YqwPs3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yqw2wXJ9EeWsLqShlA86Dw" source="_YqwPv3J9EeWsLqShlA86Dw" target="_YqwPtHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

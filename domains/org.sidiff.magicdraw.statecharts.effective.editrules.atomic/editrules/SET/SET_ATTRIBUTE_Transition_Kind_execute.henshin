@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvT_kHJ9EeWsLqShlA86Dw" name="SET_ATTRIBUTE_Transition_Kind" description="Sets Transition Kind">
+  <annotations xmi:id="_YvT_kXJ9EeWsLqShlA86Dw" key="INVERSE" value="UNSET_ATTRIBUTE_Transition_Kind"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvT_knJ9EeWsLqShlA86Dw" name="setTransitionKind" description="Sets the EAttribute kind">
+    <parameters xmi:id="_YvT_k3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvT_lHJ9EeWsLqShlA86Dw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <lhs xmi:id="_YvT_lXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YvT_lnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YvT_l3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YvT_mHJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+        <attributes xmi:id="_YvT_mXJ9EeWsLqShlA86Dw" value="Kind">
+          <type href="http://Magicdraw/Statecharts/Effective#//Transition/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YvT_mnJ9EeWsLqShlA86Dw" origin="_YvT_lnJ9EeWsLqShlA86Dw" image="_YvT_mHJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvT_m3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvT_knJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvT_nHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YvT_nXJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvT_nnJ9EeWsLqShlA86Dw" name="Kind">
+      <annotations xmi:id="_YvT_n3J9EeWsLqShlA86Dw" key="INVERSE" value="Kind"/>
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvT_oHJ9EeWsLqShlA86Dw" source="_YvT_nHJ9EeWsLqShlA86Dw" target="_YvT_k3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvT_oXJ9EeWsLqShlA86Dw" source="_YvT_nnJ9EeWsLqShlA86Dw" target="_YvT_lHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

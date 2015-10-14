@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvUmoHJ9EeWsLqShlA86Dw" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+  <annotations xmi:id="_YvUmoXJ9EeWsLqShlA86Dw" key="INVERSE" value="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvUmonJ9EeWsLqShlA86Dw" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_YvUmo3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvUmpHJ9EeWsLqShlA86Dw" name="New">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YvUmpXJ9EeWsLqShlA86Dw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_YvUmpnJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YvUmp3J9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YvUmqHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YvUmqXJ9EeWsLqShlA86Dw" name="Selected" incoming="_YvUmrXJ9EeWsLqShlA86Dw" outgoing="_YvUmrHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_YvUmqnJ9EeWsLqShlA86Dw" name="New" incoming="_YvUmrHJ9EeWsLqShlA86Dw" outgoing="_YvUmrXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+        <attributes xmi:id="_YvUmq3J9EeWsLqShlA86Dw" value="Kind">
+          <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_YvUmrHJ9EeWsLqShlA86Dw" source="_YvUmqXJ9EeWsLqShlA86Dw" target="_YvUmqnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_YvUmrXJ9EeWsLqShlA86Dw" source="_YvUmqnJ9EeWsLqShlA86Dw" target="_YvUmqXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YvUmrnJ9EeWsLqShlA86Dw" origin="_YvUmp3J9EeWsLqShlA86Dw" image="_YvUmqXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvUmr3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvUmonJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvUmsHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YvUmsXJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvUmsnJ9EeWsLqShlA86Dw" name="New">
+      <annotations xmi:id="_YvUms3J9EeWsLqShlA86Dw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YvUmtHJ9EeWsLqShlA86Dw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvUmtXJ9EeWsLqShlA86Dw" source="_YvUmsHJ9EeWsLqShlA86Dw" target="_YvUmo3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvUmtnJ9EeWsLqShlA86Dw" source="_YvUmpHJ9EeWsLqShlA86Dw" target="_YvUmsnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvUmt3J9EeWsLqShlA86Dw" source="_YvUmtHJ9EeWsLqShlA86Dw" target="_YvUmpXJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

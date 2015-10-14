@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YqPSUHJ9EeWsLqShlA86Dw" name="CHANGE_REFERENCE_Transition_(target)_TGT_Vertex" description="CHANGEs Transition's reference target the target Vertex">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YqPSUXJ9EeWsLqShlA86Dw" name="changeTransition_target_TO_Vertex" description="Change the EReference target">
+    <parameters xmi:id="_YqPSUnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YqPSU3J9EeWsLqShlA86Dw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YqPSVHJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <lhs xmi:id="_YqPSVXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YqPSVnJ9EeWsLqShlA86Dw" name="Selected" outgoing="_YqPSWXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YqPSV3J9EeWsLqShlA86Dw" name="OldTarget" incoming="_YqPSWXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_YqPSWHJ9EeWsLqShlA86Dw" name="NewTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_YqPSWXJ9EeWsLqShlA86Dw" source="_YqPSVnJ9EeWsLqShlA86Dw" target="_YqPSV3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/target"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YqPSWnJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YqPSW3J9EeWsLqShlA86Dw" name="Selected" outgoing="_YqPSXnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YqPSXHJ9EeWsLqShlA86Dw" name="OldTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_YqPSXXJ9EeWsLqShlA86Dw" name="NewTarget" incoming="_YqPSXnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_YqPSXnJ9EeWsLqShlA86Dw" source="_YqPSW3J9EeWsLqShlA86Dw" target="_YqPSXXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YqPSX3J9EeWsLqShlA86Dw" origin="_YqPSVnJ9EeWsLqShlA86Dw" image="_YqPSW3J9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YqPSYHJ9EeWsLqShlA86Dw" origin="_YqPSV3J9EeWsLqShlA86Dw" image="_YqPSXHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YqPSYXJ9EeWsLqShlA86Dw" origin="_YqPSWHJ9EeWsLqShlA86Dw" image="_YqPSXXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YqPSYnJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YqPSUXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YqPSY3J9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YqPSZHJ9EeWsLqShlA86Dw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_YqPSZXJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Vertex"/>
+    </parameters>
+    <parameterMappings xmi:id="_YqPSZnJ9EeWsLqShlA86Dw" source="_YqPSY3J9EeWsLqShlA86Dw" target="_YqPSUnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YqPSZ3J9EeWsLqShlA86Dw" source="_YqPSZHJ9EeWsLqShlA86Dw" target="_YqPSU3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YqPSaHJ9EeWsLqShlA86Dw" source="_YqPSZXJ9EeWsLqShlA86Dw" target="_YqPSVHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yt8GkHJ9EeWsLqShlA86Dw" name="SET_REFERENCE_Transition_(redefinedTransition)_TGT_Transition" description="Sets Transition's reference redefinedTransition the target Transition">
+  <annotations xmi:id="_Yt8GkXJ9EeWsLqShlA86Dw" key="INVERSE" value="UNSET_REFERENCE_Transition_(redefinedTransition)_TGT_Transition"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Yt8GknJ9EeWsLqShlA86Dw" name="setTransition_redefinedTransition_TO_Transition" description="SetTransitionRefredefinedTransitionToTransition">
+    <parameters xmi:id="_Yt8Gk3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_Yt8GlHJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <lhs xmi:id="_Yt8GlXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_Yt8GlnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_Yt8Gl3J9EeWsLqShlA86Dw" name="NewTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Yt8GmHJ9EeWsLqShlA86Dw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Yt8GmXJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_Yt8GmnJ9EeWsLqShlA86Dw" name="ub0">
+            <nodes xmi:id="_Yt8Gm3J9EeWsLqShlA86Dw" outgoing="_Yt8GnXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+            </nodes>
+            <nodes xmi:id="_Yt8GnHJ9EeWsLqShlA86Dw" incoming="_Yt8GnXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+            </nodes>
+            <edges xmi:id="_Yt8GnXJ9EeWsLqShlA86Dw" source="_Yt8Gm3J9EeWsLqShlA86Dw" target="_Yt8GnHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition/redefinedTransition"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Yt8GnnJ9EeWsLqShlA86Dw" origin="_Yt8GlnJ9EeWsLqShlA86Dw" image="_Yt8Gm3J9EeWsLqShlA86Dw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Yt8Gn3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_Yt8GoHJ9EeWsLqShlA86Dw" name="Selected" outgoing="_Yt8GonJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_Yt8GoXJ9EeWsLqShlA86Dw" name="NewTarget" incoming="_Yt8GonJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <edges xmi:id="_Yt8GonJ9EeWsLqShlA86Dw" source="_Yt8GoHJ9EeWsLqShlA86Dw" target="_Yt8GoXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/redefinedTransition"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Yt8Go3J9EeWsLqShlA86Dw" origin="_Yt8GlnJ9EeWsLqShlA86Dw" image="_Yt8GoHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yt8GpHJ9EeWsLqShlA86Dw" origin="_Yt8Gl3J9EeWsLqShlA86Dw" image="_Yt8GoXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yt8GpXJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_Yt8GknJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_Yt8GpnJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_Yt8Gp3J9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_Yt8GqHJ9EeWsLqShlA86Dw" name="NewTarget">
+      <annotations xmi:id="_Yt8GqXJ9EeWsLqShlA86Dw" key="INVERSE" value="NewTarget"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameterMappings xmi:id="_Yt8GqnJ9EeWsLqShlA86Dw" source="_Yt8GpnJ9EeWsLqShlA86Dw" target="_Yt8Gk3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yt8Gq3J9EeWsLqShlA86Dw" source="_Yt8GqHJ9EeWsLqShlA86Dw" target="_Yt8GlHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

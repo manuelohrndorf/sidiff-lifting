@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YuF3kHJ9EeWsLqShlA86Dw" name="CHANGE_LITERAL_Pseudostate_kind_FROM_shallowHistory_TO_junction" description="Changes the attribute value of kind_FROM_shallowHistory_TO_junction">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YuF3kXJ9EeWsLqShlA86Dw" name="changePseudostateKind_FROM_ShallowHistory_TO_junction" description="Changes the attribute value of kind_FROM_shallowHistory_TO_junction">
+    <parameters xmi:id="_YuF3knJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YuF3k3J9EeWsLqShlA86Dw" name="&quot;shallowHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_YuF3lHJ9EeWsLqShlA86Dw" name="&quot;junction&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_YuF3lXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YuF3lnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+        <attributes xmi:id="_YuF3l3J9EeWsLqShlA86Dw" value="&quot;shallowHistory&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YuF3mHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YuF3mXJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+        <attributes xmi:id="_YuF3mnJ9EeWsLqShlA86Dw" value="&quot;junction&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YuF3m3J9EeWsLqShlA86Dw" origin="_YuF3lnJ9EeWsLqShlA86Dw" image="_YuF3mXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YuF3nHJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YuF3kXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YuF3nXJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_YuF3nnJ9EeWsLqShlA86Dw" name="&quot;shallowHistory&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameters xmi:id="_YuF3n3J9EeWsLqShlA86Dw" name="&quot;junction&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YuF3oHJ9EeWsLqShlA86Dw" source="_YuF3nXJ9EeWsLqShlA86Dw" target="_YuF3knJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YuF3oXJ9EeWsLqShlA86Dw" source="_YuF3nnJ9EeWsLqShlA86Dw" target="_YuF3k3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YuF3onJ9EeWsLqShlA86Dw" source="_YuF3n3J9EeWsLqShlA86Dw" target="_YuF3lHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

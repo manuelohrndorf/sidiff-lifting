@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvCSwHJ9EeWsLqShlA86Dw" name="DELETE_Trigger_IN_Transition_(trigger)" description="Deletes one Trigger in Transition">
+  <annotations xmi:id="_YvCSwXJ9EeWsLqShlA86Dw" key="INVERSE" value="CREATE_Trigger_IN_Transition_(trigger)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvCSwnJ9EeWsLqShlA86Dw" name="deleteTrigger_IN_Transition" description="deletes one Trigger in the context: Transition">
+    <parameters xmi:id="_YvCSw3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvCSxHJ9EeWsLqShlA86Dw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Trigger"/>
+    </parameters>
+    <lhs xmi:id="_YvCSxXJ9EeWsLqShlA86Dw" name="LHS">
+      <nodes xmi:id="_YvCSxnJ9EeWsLqShlA86Dw" name="Selected" outgoing="_YvCSyHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YvCSx3J9EeWsLqShlA86Dw" name="ToBeDeleted" incoming="_YvCSyHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Trigger"/>
+      </nodes>
+      <edges xmi:id="_YvCSyHJ9EeWsLqShlA86Dw" source="_YvCSxnJ9EeWsLqShlA86Dw" target="_YvCSx3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/trigger"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YvCSyXJ9EeWsLqShlA86Dw" name="RHS">
+      <nodes xmi:id="_YvCSynJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YvCSy3J9EeWsLqShlA86Dw" origin="_YvCSxnJ9EeWsLqShlA86Dw" image="_YvCSynJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvCSzHJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvCSwnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvCSzXJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YvCSznJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YvCSz3J9EeWsLqShlA86Dw" name="ToBeDeleted">
+      <annotations xmi:id="_YvCS0HJ9EeWsLqShlA86Dw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Trigger"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvCS0XJ9EeWsLqShlA86Dw" source="_YvCSzXJ9EeWsLqShlA86Dw" target="_YvCSw3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvCS0nJ9EeWsLqShlA86Dw" source="_YvCSz3J9EeWsLqShlA86Dw" target="_YvCSxHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

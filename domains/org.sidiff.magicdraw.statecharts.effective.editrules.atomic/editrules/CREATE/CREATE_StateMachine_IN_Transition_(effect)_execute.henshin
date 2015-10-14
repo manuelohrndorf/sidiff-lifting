@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YsmCwHJ9EeWsLqShlA86Dw" name="CREATE_StateMachine_IN_Transition_(effect)" description="Creates one StateMachine in Transition">
+  <annotations xmi:id="_YsmCwXJ9EeWsLqShlA86Dw" key="INVERSE" value="DELETE_StateMachine_IN_Transition_(effect)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YsmCwnJ9EeWsLqShlA86Dw" name="createStateMachine_IN_Transition" description="creates one StateMachine in the context: Transition">
+    <parameters xmi:id="_YsmCw3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YsmCxHJ9EeWsLqShlA86Dw" name="New">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YsmCxXJ9EeWsLqShlA86Dw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_YsmCxnJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YsmCx3J9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_YsmCyHJ9EeWsLqShlA86Dw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_YsmCyXJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_YsmCynJ9EeWsLqShlA86Dw" name="ub0">
+            <nodes xmi:id="_YsmCy3J9EeWsLqShlA86Dw" outgoing="_YsmCzXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+            </nodes>
+            <nodes xmi:id="_YsmCzHJ9EeWsLqShlA86Dw" incoming="_YsmCzXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+            </nodes>
+            <edges xmi:id="_YsmCzXJ9EeWsLqShlA86Dw" source="_YsmCy3J9EeWsLqShlA86Dw" target="_YsmCzHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Transition/effect"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_YsmCznJ9EeWsLqShlA86Dw" origin="_YsmCx3J9EeWsLqShlA86Dw" image="_YsmCy3J9EeWsLqShlA86Dw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_YsmCz3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YsmC0HJ9EeWsLqShlA86Dw" name="Selected" outgoing="_YsmC03J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_YsmC0XJ9EeWsLqShlA86Dw" name="New" incoming="_YsmC03J9EeWsLqShlA86Dw _YsmC1XJ9EeWsLqShlA86Dw" outgoing="_YsmC1HJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_YsmC0nJ9EeWsLqShlA86Dw" name="Child" incoming="_YsmC1HJ9EeWsLqShlA86Dw" outgoing="_YsmC1XJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_YsmC03J9EeWsLqShlA86Dw" source="_YsmC0HJ9EeWsLqShlA86Dw" target="_YsmC0XJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition/effect"/>
+      </edges>
+      <edges xmi:id="_YsmC1HJ9EeWsLqShlA86Dw" source="_YsmC0XJ9EeWsLqShlA86Dw" target="_YsmC0nJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_YsmC1XJ9EeWsLqShlA86Dw" source="_YsmC0nJ9EeWsLqShlA86Dw" target="_YsmC0XJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YsmC1nJ9EeWsLqShlA86Dw" origin="_YsmCx3J9EeWsLqShlA86Dw" image="_YsmC0HJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YsmC13J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YsmCwnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YsmC2HJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YsmC2XJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YsmC2nJ9EeWsLqShlA86Dw" name="New">
+      <annotations xmi:id="_YsmC23J9EeWsLqShlA86Dw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YsmC3HJ9EeWsLqShlA86Dw" name="Child">
+      <annotations xmi:id="_YsmC3XJ9EeWsLqShlA86Dw" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_YsmC3nJ9EeWsLqShlA86Dw" source="_YsmC2HJ9EeWsLqShlA86Dw" target="_YsmCw3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YsmC33J9EeWsLqShlA86Dw" source="_YsmCxHJ9EeWsLqShlA86Dw" target="_YsmC2nJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YsmC4HJ9EeWsLqShlA86Dw" source="_YsmCxXJ9EeWsLqShlA86Dw" target="_YsmC3HJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

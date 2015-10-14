@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvsaEHJ9EeWsLqShlA86Dw" name="DELETE_StateMachine_IN_State_(exit)" description="Deletes one StateMachine in State">
+  <annotations xmi:id="_YvsaEXJ9EeWsLqShlA86Dw" key="INVERSE" value="CREATE_StateMachine_IN_State_(exit)"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvsaEnJ9EeWsLqShlA86Dw" name="deleteStateMachine_IN_State" description="deletes one StateMachine in the context: State">
+    <parameters xmi:id="_YvsaE3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_YvsaFHJ9EeWsLqShlA86Dw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvsaFXJ9EeWsLqShlA86Dw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_YvsaFnJ9EeWsLqShlA86Dw" name="LHS">
+      <nodes xmi:id="_YvsaF3J9EeWsLqShlA86Dw" name="Selected" outgoing="_YvsaGnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_YvsaGHJ9EeWsLqShlA86Dw" name="ToBeDeleted" incoming="_YvsaGnJ9EeWsLqShlA86Dw _YvsaHHJ9EeWsLqShlA86Dw" outgoing="_YvsaG3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_YvsaGXJ9EeWsLqShlA86Dw" name="Child" incoming="_YvsaG3J9EeWsLqShlA86Dw" outgoing="_YvsaHHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_YvsaGnJ9EeWsLqShlA86Dw" source="_YvsaF3J9EeWsLqShlA86Dw" target="_YvsaGHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State/exit"/>
+      </edges>
+      <edges xmi:id="_YvsaG3J9EeWsLqShlA86Dw" source="_YvsaGHJ9EeWsLqShlA86Dw" target="_YvsaGXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_YvsaHHJ9EeWsLqShlA86Dw" source="_YvsaGXJ9EeWsLqShlA86Dw" target="_YvsaGHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_YvsaHXJ9EeWsLqShlA86Dw" name="RHS">
+      <nodes xmi:id="_YvsaHnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YvsaH3J9EeWsLqShlA86Dw" origin="_YvsaF3J9EeWsLqShlA86Dw" image="_YvsaHnJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvsaIHJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvsaEnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvsaIXJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YvsaInJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_YvsaI3J9EeWsLqShlA86Dw" name="ToBeDeleted">
+      <annotations xmi:id="_YvsaJHJ9EeWsLqShlA86Dw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_YvsaJXJ9EeWsLqShlA86Dw" name="Child">
+      <annotations xmi:id="_YvsaJnJ9EeWsLqShlA86Dw" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvsaJ3J9EeWsLqShlA86Dw" source="_YvsaIXJ9EeWsLqShlA86Dw" target="_YvsaE3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvsaKHJ9EeWsLqShlA86Dw" source="_YvsaI3J9EeWsLqShlA86Dw" target="_YvsaFHJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvsaKXJ9EeWsLqShlA86Dw" source="_YvsaJXJ9EeWsLqShlA86Dw" target="_YvsaFXJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

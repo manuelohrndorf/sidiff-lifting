@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yvp90HJ9EeWsLqShlA86Dw" name="ADD_StateMachine_(submachineState)_TGT_State" description="Adds to StateMachine's reference submachineState the target State">
+  <annotations xmi:id="_Yvp90XJ9EeWsLqShlA86Dw" key="INVERSE" value="REMOVE_StateMachine_(submachineState)_TGT_State"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Yvp90nJ9EeWsLqShlA86Dw" name="addToStateMachine_submachineState_State" description="Adds to StateMachine's reference submachineState the target State">
+    <parameters xmi:id="_Yvp903J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_Yvp91HJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <lhs xmi:id="_Yvp91XJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_Yvp91nJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_Yvp913J9EeWsLqShlA86Dw" name="NewTarget">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Yvp92HJ9EeWsLqShlA86Dw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_Yvp92XJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_Yvp92nJ9EeWsLqShlA86Dw" name="ub0">
+            <nodes xmi:id="_Yvp923J9EeWsLqShlA86Dw" outgoing="_Yvp93XJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+            </nodes>
+            <nodes xmi:id="_Yvp93HJ9EeWsLqShlA86Dw" incoming="_Yvp93XJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+            </nodes>
+            <edges xmi:id="_Yvp93XJ9EeWsLqShlA86Dw" source="_Yvp923J9EeWsLqShlA86Dw" target="_Yvp93HJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//State/submachine"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Yvp93nJ9EeWsLqShlA86Dw" origin="_Yvp913J9EeWsLqShlA86Dw" image="_Yvp923J9EeWsLqShlA86Dw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Yvp933J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_Yvp94HJ9EeWsLqShlA86Dw" name="Selected" incoming="_Yvp943J9EeWsLqShlA86Dw" outgoing="_Yvp94nJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_Yvp94XJ9EeWsLqShlA86Dw" name="NewTarget" incoming="_Yvp94nJ9EeWsLqShlA86Dw" outgoing="_Yvp943J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <edges xmi:id="_Yvp94nJ9EeWsLqShlA86Dw" source="_Yvp94HJ9EeWsLqShlA86Dw" target="_Yvp94XJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/submachineState"/>
+      </edges>
+      <edges xmi:id="_Yvp943J9EeWsLqShlA86Dw" source="_Yvp94XJ9EeWsLqShlA86Dw" target="_Yvp94HJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//State/submachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Yvp95HJ9EeWsLqShlA86Dw" origin="_Yvp91nJ9EeWsLqShlA86Dw" image="_Yvp94HJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yvp95XJ9EeWsLqShlA86Dw" origin="_Yvp913J9EeWsLqShlA86Dw" image="_Yvp94XJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yvp95nJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_Yvp90nJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_Yvp953J9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_Yvp96HJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_Yvp96XJ9EeWsLqShlA86Dw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameterMappings xmi:id="_Yvp96nJ9EeWsLqShlA86Dw" source="_Yvp953J9EeWsLqShlA86Dw" target="_Yvp903J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yvp963J9EeWsLqShlA86Dw" source="_Yvp96XJ9EeWsLqShlA86Dw" target="_Yvp91HJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

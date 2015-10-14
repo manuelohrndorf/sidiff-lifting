@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YtcXUHJ9EeWsLqShlA86Dw" name="SET_ATTRIBUTE_NamedElement_Name" description="Sets NamedElement Name">
+  <annotations xmi:id="_YtcXUXJ9EeWsLqShlA86Dw" key="INVERSE" value="UNSET_ATTRIBUTE_NamedElement_Name"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YtcXUnJ9EeWsLqShlA86Dw" name="setNamedElementName" description="Sets the EAttribute name">
+    <parameters xmi:id="_YtcXU3J9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_YtcXVHJ9EeWsLqShlA86Dw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_YtcXVXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YtcXVnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YtcXV3J9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YtcXWHJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+        <attributes xmi:id="_YtcXWXJ9EeWsLqShlA86Dw" value="Name">
+          <type href="http://Magicdraw/Statecharts/Effective#//NamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_YtcXWnJ9EeWsLqShlA86Dw" origin="_YtcXVnJ9EeWsLqShlA86Dw" image="_YtcXWHJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YtcXW3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YtcXUnJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YtcXXHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <annotations xmi:id="_YtcXXXJ9EeWsLqShlA86Dw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_YtcXXnJ9EeWsLqShlA86Dw" name="Name">
+      <annotations xmi:id="_YtcXX3J9EeWsLqShlA86Dw" key="INVERSE" value="Name"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_YtcXYHJ9EeWsLqShlA86Dw" source="_YtcXXHJ9EeWsLqShlA86Dw" target="_YtcXU3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YtcXYXJ9EeWsLqShlA86Dw" source="_YtcXXnJ9EeWsLqShlA86Dw" target="_YtcXVHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

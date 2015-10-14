@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yvb7YHJ9EeWsLqShlA86Dw" name="MOVE_UP_Region_FROM_Constraint_(context)_TO_Constraint_(context)" description="MOVE UPWARDs Region from Constraint(Reference:context) to Constraint(Reference:context">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Yvb7YXJ9EeWsLqShlA86Dw" name="moveUpRegion_FROM_Constraint_context_TO_Constraint_Constraint" description="Moves up Region from Constraint(Reference:context) toConstraint(Reference:Constraint)">
+    <parameters xmi:id="_Yvb7YnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Yvb7Y3J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_Yvb7ZHJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_Yvb7ZXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_Yvb7ZnJ9EeWsLqShlA86Dw" name="Selected" incoming="_Yvb7aXJ9EeWsLqShlA86Dw" outgoing="_Yvb7anJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Yvb7Z3J9EeWsLqShlA86Dw" name="OldSource" incoming="_Yvb7anJ9EeWsLqShlA86Dw" outgoing="_Yvb7aXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Yvb7aHJ9EeWsLqShlA86Dw" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_Yvb7aXJ9EeWsLqShlA86Dw" source="_Yvb7Z3J9EeWsLqShlA86Dw" target="_Yvb7ZnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_Yvb7anJ9EeWsLqShlA86Dw" source="_Yvb7ZnJ9EeWsLqShlA86Dw" target="_Yvb7Z3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedRule"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_Yvb7a3J9EeWsLqShlA86Dw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_Yvb7bHJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_Yvb7bXJ9EeWsLqShlA86Dw" name="cyclePath">
+            <nodes xmi:id="_Yvb7bnJ9EeWsLqShlA86Dw" name="OldSource" incoming="_Yvb7cHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+            </nodes>
+            <nodes xmi:id="_Yvb7b3J9EeWsLqShlA86Dw" name="NewSource" outgoing="_Yvb7cHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+            </nodes>
+            <edges xmi:id="_Yvb7cHJ9EeWsLqShlA86Dw" source="_Yvb7b3J9EeWsLqShlA86Dw" target="_Yvb7bnJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedRule"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Yvb7cXJ9EeWsLqShlA86Dw" origin="_Yvb7aHJ9EeWsLqShlA86Dw" image="_Yvb7b3J9EeWsLqShlA86Dw"/>
+          <mappings xmi:id="_Yvb7cnJ9EeWsLqShlA86Dw" origin="_Yvb7Z3J9EeWsLqShlA86Dw" image="_Yvb7bnJ9EeWsLqShlA86Dw"/>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_Yvb7c3J9EeWsLqShlA86Dw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_Yvb7dHJ9EeWsLqShlA86Dw">
+            <conclusion xmi:id="_Yvb7dXJ9EeWsLqShlA86Dw" name="ub0">
+              <nodes xmi:id="_Yvb7dnJ9EeWsLqShlA86Dw" outgoing="_Yvb7eHJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+              </nodes>
+              <nodes xmi:id="_Yvb7d3J9EeWsLqShlA86Dw" incoming="_Yvb7eHJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Namespace"/>
+              </nodes>
+              <edges xmi:id="_Yvb7eHJ9EeWsLqShlA86Dw" source="_Yvb7dnJ9EeWsLqShlA86Dw" target="_Yvb7d3J9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_Yvb7eXJ9EeWsLqShlA86Dw" origin="_Yvb7aHJ9EeWsLqShlA86Dw" image="_Yvb7dnJ9EeWsLqShlA86Dw"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Yvb7enJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_Yvb7e3J9EeWsLqShlA86Dw" name="Selected" incoming="_Yvb7fnJ9EeWsLqShlA86Dw" outgoing="_Yvb7f3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Yvb7fHJ9EeWsLqShlA86Dw" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Yvb7fXJ9EeWsLqShlA86Dw" name="NewSource" incoming="_Yvb7f3J9EeWsLqShlA86Dw" outgoing="_Yvb7fnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_Yvb7fnJ9EeWsLqShlA86Dw" source="_Yvb7fXJ9EeWsLqShlA86Dw" target="_Yvb7e3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_Yvb7f3J9EeWsLqShlA86Dw" source="_Yvb7e3J9EeWsLqShlA86Dw" target="_Yvb7fXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedRule"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Yvb7gHJ9EeWsLqShlA86Dw" origin="_Yvb7ZnJ9EeWsLqShlA86Dw" image="_Yvb7e3J9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yvb7gXJ9EeWsLqShlA86Dw" origin="_Yvb7Z3J9EeWsLqShlA86Dw" image="_Yvb7fHJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yvb7gnJ9EeWsLqShlA86Dw" origin="_Yvb7aHJ9EeWsLqShlA86Dw" image="_Yvb7fXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yvb7g3J9EeWsLqShlA86Dw" name="mainUnit" subUnits="_Yvb7YXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_Yvb7hHJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Yvb7hXJ9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_Yvb7hnJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_Yvb7h3J9EeWsLqShlA86Dw" source="_Yvb7hHJ9EeWsLqShlA86Dw" target="_Yvb7YnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yvb7iHJ9EeWsLqShlA86Dw" source="_Yvb7hXJ9EeWsLqShlA86Dw" target="_Yvb7Y3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yvb7iXJ9EeWsLqShlA86Dw" source="_Yvb7hnJ9EeWsLqShlA86Dw" target="_Yvb7ZHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

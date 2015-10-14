@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YreocHJ9EeWsLqShlA86Dw" name="CHANGE_LITERAL_Transition_kind_FROM_local_TO_internal" description="Changes the attribute value of kind_FROM_local_TO_internal">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YreocXJ9EeWsLqShlA86Dw" name="changeTransitionKind_FROM_Local_TO_internal" description="Changes the attribute value of kind_FROM_local_TO_internal">
+    <parameters xmi:id="_YreocnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_Yreoc3J9EeWsLqShlA86Dw" name="&quot;local&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <parameters xmi:id="_YreodHJ9EeWsLqShlA86Dw" name="&quot;internal&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <lhs xmi:id="_YreodXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YreodnJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+        <attributes xmi:id="_Yreod3J9EeWsLqShlA86Dw" value="&quot;local&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Transition/kind"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YreoeHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YreoeXJ9EeWsLqShlA86Dw" name="Selected">
+        <type href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+        <attributes xmi:id="_YreoenJ9EeWsLqShlA86Dw" value="&quot;internal&quot;">
+          <type href="http://Magicdraw/Statecharts/Effective#//Transition/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Yreoe3J9EeWsLqShlA86Dw" origin="_YreodnJ9EeWsLqShlA86Dw" image="_YreoeXJ9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YreofHJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YreocXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YreofXJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_YreofnJ9EeWsLqShlA86Dw" name="&quot;local&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <parameters xmi:id="_Yreof3J9EeWsLqShlA86Dw" name="&quot;internal&quot;">
+      <type xsi:type="ecore:EEnum" href="http://Magicdraw/Statecharts/Effective#//TransitionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_YreogHJ9EeWsLqShlA86Dw" source="_YreofXJ9EeWsLqShlA86Dw" target="_YreocnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YreogXJ9EeWsLqShlA86Dw" source="_YreofnJ9EeWsLqShlA86Dw" target="_Yreoc3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YreognJ9EeWsLqShlA86Dw" source="_Yreof3J9EeWsLqShlA86Dw" target="_YreodHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>

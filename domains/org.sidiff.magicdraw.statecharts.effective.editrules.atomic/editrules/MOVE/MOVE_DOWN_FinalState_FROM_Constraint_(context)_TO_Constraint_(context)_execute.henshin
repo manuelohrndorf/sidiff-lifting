@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YvwrgHJ9EeWsLqShlA86Dw" name="MOVE_DOWN_FinalState_FROM_Constraint_(context)_TO_Constraint_(context)" description="MOVE DOWNWARDs FinalState from Constraint(Reference:context) to Constraint(Reference:context">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YvwrgXJ9EeWsLqShlA86Dw" name="moveDownFinalState_FROM_Constraint_context_TO_Constraint_Constraint" description="Moves down FinalState from Constraint(Reference:context) toConstraint(Reference:Constraint)">
+    <parameters xmi:id="_YvwrgnJ9EeWsLqShlA86Dw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_Yvwrg3J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_YvwrhHJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_YvwrhXJ9EeWsLqShlA86Dw" name="Lhs">
+      <nodes xmi:id="_YvwrhnJ9EeWsLqShlA86Dw" name="Selected" incoming="_YvwriXJ9EeWsLqShlA86Dw" outgoing="_YvwrinJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_Yvwrh3J9EeWsLqShlA86Dw" name="OldSource" incoming="_YvwrinJ9EeWsLqShlA86Dw" outgoing="_YvwriXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_YvwriHJ9EeWsLqShlA86Dw" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_YvwriXJ9EeWsLqShlA86Dw" source="_Yvwrh3J9EeWsLqShlA86Dw" target="_YvwrhnJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_YvwrinJ9EeWsLqShlA86Dw" source="_YvwrhnJ9EeWsLqShlA86Dw" target="_Yvwrh3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedRule"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_Yvwri3J9EeWsLqShlA86Dw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_YvwrjHJ9EeWsLqShlA86Dw">
+          <conclusion xmi:id="_YvwrjXJ9EeWsLqShlA86Dw" name="cyclePath">
+            <nodes xmi:id="_YvwrjnJ9EeWsLqShlA86Dw" name="OldSource" outgoing="_YvwrkXJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+            </nodes>
+            <nodes xmi:id="_Yvwrj3J9EeWsLqShlA86Dw" name="NewSource" incoming="_YvwrknJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+            </nodes>
+            <nodes xmi:id="_YvwrkHJ9EeWsLqShlA86Dw" incoming="_YvwrkXJ9EeWsLqShlA86Dw" outgoing="_YvwrknJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Behavior"/>
+            </nodes>
+            <edges xmi:id="_YvwrkXJ9EeWsLqShlA86Dw" source="_YvwrjnJ9EeWsLqShlA86Dw" target="_YvwrkHJ9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//State/entry"/>
+            </edges>
+            <edges xmi:id="_YvwrknJ9EeWsLqShlA86Dw" source="_YvwrkHJ9EeWsLqShlA86Dw" target="_Yvwrj3J9EeWsLqShlA86Dw">
+              <type href="http://Magicdraw/Statecharts/Effective#//Behavior/postcondition"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_Yvwrk3J9EeWsLqShlA86Dw" origin="_YvwriHJ9EeWsLqShlA86Dw" image="_Yvwrj3J9EeWsLqShlA86Dw"/>
+          <mappings xmi:id="_YvwrlHJ9EeWsLqShlA86Dw" origin="_Yvwrh3J9EeWsLqShlA86Dw" image="_YvwrjnJ9EeWsLqShlA86Dw"/>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_YvwrlXJ9EeWsLqShlA86Dw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_YvwrlnJ9EeWsLqShlA86Dw">
+            <conclusion xmi:id="_Yvwrl3J9EeWsLqShlA86Dw" name="ub0">
+              <nodes xmi:id="_YvwrmHJ9EeWsLqShlA86Dw" outgoing="_YvwrmnJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+              </nodes>
+              <nodes xmi:id="_YvwrmXJ9EeWsLqShlA86Dw" incoming="_YvwrmnJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Namespace"/>
+              </nodes>
+              <edges xmi:id="_YvwrmnJ9EeWsLqShlA86Dw" source="_YvwrmHJ9EeWsLqShlA86Dw" target="_YvwrmXJ9EeWsLqShlA86Dw">
+                <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_Yvwrm3J9EeWsLqShlA86Dw" origin="_YvwriHJ9EeWsLqShlA86Dw" image="_YvwrmHJ9EeWsLqShlA86Dw"/>
+          </child>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_YvwrnHJ9EeWsLqShlA86Dw" name="Rhs">
+      <nodes xmi:id="_YvwrnXJ9EeWsLqShlA86Dw" name="Selected" incoming="_YvwroHJ9EeWsLqShlA86Dw" outgoing="_YvwroXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//FinalState"/>
+      </nodes>
+      <nodes xmi:id="_YvwrnnJ9EeWsLqShlA86Dw" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_Yvwrn3J9EeWsLqShlA86Dw" name="NewSource" incoming="_YvwroXJ9EeWsLqShlA86Dw" outgoing="_YvwroHJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_YvwroHJ9EeWsLqShlA86Dw" source="_Yvwrn3J9EeWsLqShlA86Dw" target="_YvwrnXJ9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_YvwroXJ9EeWsLqShlA86Dw" source="_YvwrnXJ9EeWsLqShlA86Dw" target="_Yvwrn3J9EeWsLqShlA86Dw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Namespace/ownedRule"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YvwronJ9EeWsLqShlA86Dw" origin="_YvwrhnJ9EeWsLqShlA86Dw" image="_YvwrnXJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_Yvwro3J9EeWsLqShlA86Dw" origin="_Yvwrh3J9EeWsLqShlA86Dw" image="_YvwrnnJ9EeWsLqShlA86Dw"/>
+    <mappings xmi:id="_YvwrpHJ9EeWsLqShlA86Dw" origin="_YvwriHJ9EeWsLqShlA86Dw" image="_Yvwrn3J9EeWsLqShlA86Dw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YvwrpXJ9EeWsLqShlA86Dw" name="mainUnit" subUnits="_YvwrgXJ9EeWsLqShlA86Dw">
+    <parameters xmi:id="_YvwrpnJ9EeWsLqShlA86Dw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//FinalState"/>
+    </parameters>
+    <parameters xmi:id="_Yvwrp3J9EeWsLqShlA86Dw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_YvwrqHJ9EeWsLqShlA86Dw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_YvwrqXJ9EeWsLqShlA86Dw" source="_YvwrpnJ9EeWsLqShlA86Dw" target="_YvwrgnJ9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_YvwrqnJ9EeWsLqShlA86Dw" source="_Yvwrp3J9EeWsLqShlA86Dw" target="_Yvwrg3J9EeWsLqShlA86Dw"/>
+    <parameterMappings xmi:id="_Yvwrq3J9EeWsLqShlA86Dw" source="_YvwrqHJ9EeWsLqShlA86Dw" target="_YvwrhHJ9EeWsLqShlA86Dw"/>
+  </units>
+</henshin:Module>
