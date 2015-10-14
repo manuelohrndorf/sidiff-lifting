@@ -559,8 +559,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 				return validateConstraint((Constraint)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.TRANSITION:
 				return validateTransition((Transition)value, diagnostics, context);
-			case MagicDrawStatechartsEffectivePackage.MODEL:
-				return validateModel((Model)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE:
 				return validateFinalState((FinalState)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.TRANSITION_KIND:
@@ -1393,15 +1391,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 */
 	public boolean validateTransition_state_is_external(Transition transition, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return transition.state_is_external(diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateModel(Model model, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(model, diagnostics, context);
 	}
 
 	/**

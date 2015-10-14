@@ -19,7 +19,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.FinalState;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectiveFactory;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.ProtocolStateMachine;
@@ -131,13 +130,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	private EClass transitionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass modelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1543,33 +1535,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getModel() {
-		return modelEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getModel_Viewpoint() {
-		return (EAttribute)modelEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getModel__IsMetamodel() {
-		return modelEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getFinalState() {
 		return finalStateEClass;
 	}
@@ -1831,10 +1796,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEOperation(transitionEClass, TRANSITION___STATE_IS_EXTERNAL__DIAGNOSTICCHAIN_MAP);
 		createEOperation(transitionEClass, TRANSITION___CONTAINING_STATE_MACHINE);
 		createEOperation(transitionEClass, TRANSITION___REDEFINITION_CONTEXT);
-
-		modelEClass = createEClass(MODEL);
-		createEAttribute(modelEClass, MODEL__VIEWPOINT);
-		createEOperation(modelEClass, MODEL___IS_METAMODEL);
 
 		finalStateEClass = createEClass(FINAL_STATE);
 		createEOperation(finalStateEClass, FINAL_STATE___NO_OUTGOING_TRANSITIONS__DIAGNOSTICCHAIN_MAP);
@@ -2496,11 +2457,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		initEOperation(getTransition__RedefinitionContext(), null, "redefinitionContext", 1, 1, IS_UNIQUE, !IS_ORDERED);
 
-		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getModel_Viewpoint(), theTypesPackage.getString(), "viewpoint", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-
-		initEOperation(getModel__IsMetamodel(), theTypesPackage.getBoolean(), "isMetamodel", 1, 1, IS_UNIQUE, !IS_ORDERED);
-
 		initEClass(finalStateEClass, FinalState.class, "FinalState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		op = initEOperation(getFinalState__No_outgoing_transitions__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "no_outgoing_transitions", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -2611,7 +2567,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getNamedElement_Namespace(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																																																																																																																																																																															
+		   });																																																																																																																																																																																																																																																																																												
 	}
 
 	/**
@@ -2844,7 +2800,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		   },
 		   new URI[] {
 			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																																					
+		   });																																		
 	}
 
 	/**
@@ -2864,7 +2820,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (stateEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																																											
+		   });																																																																																																																																																								
 	}
 
 	/**
@@ -2897,7 +2853,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getState__IsRedefinitionContextValid__State(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																								
+		   });																																																																																																																																					
 	}
 
 } //MagicDrawStatechartsEffectivePackageImpl

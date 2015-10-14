@@ -66,7 +66,6 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 			case MagicDrawStatechartsEffectivePackage.TRIGGER: return createTrigger();
 			case MagicDrawStatechartsEffectivePackage.CONSTRAINT: return createConstraint();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION: return createTransition();
-			case MagicDrawStatechartsEffectivePackage.MODEL: return createModel();
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE: return createFinalState();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -195,16 +194,6 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 	public Transition createTransition() {
 		TransitionImpl transition = new TransitionImpl();
 		return transition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Model createModel() {
-		ModelImpl model = new ModelImpl();
-		return model;
 	}
 
 	/**

@@ -165,10 +165,6 @@ Package MagicDrawStatechartsEffective <http://Magicdraw/Statecharts/Effective>
     Operation containingStateMachine() : StateMachine<<1..1>>
     Operation redefinitionContext() : void<<1..1>>
 
-  Class Model
-    Attribute viewpoint : String
-    Operation isMetamodel() : Boolean<<1..1>>
-
   Class FinalState -> State
     Operation no_outgoing_transitions(EDiagnosticChain, EMap) : EBoolean
     Operation cannot_reference_submachine(EDiagnosticChain, EMap) : EBoolean

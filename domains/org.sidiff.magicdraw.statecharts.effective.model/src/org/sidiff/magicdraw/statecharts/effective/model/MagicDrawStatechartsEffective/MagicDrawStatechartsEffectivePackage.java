@@ -3303,52 +3303,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int TRANSITION_OPERATION_COUNT = NAMESPACE_OPERATION_COUNT + 12;
 
 	/**
-	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ModelImpl <em>Model</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ModelImpl
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getModel()
-	 * @generated
-	 */
-	int MODEL = 13;
-
-	/**
-	 * The feature id for the '<em><b>Viewpoint</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL__VIEWPOINT = 0;
-
-	/**
-	 * The number of structural features of the '<em>Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL_FEATURE_COUNT = 1;
-
-	/**
-	 * The operation id for the '<em>Is Metamodel</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL___IS_METAMODEL = 0;
-
-	/**
-	 * The number of operations of the '<em>Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODEL_OPERATION_COUNT = 1;
-
-	/**
 	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.FinalStateImpl <em>Final State</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3356,7 +3310,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getFinalState()
 	 * @generated
 	 */
-	int FINAL_STATE = 14;
+	int FINAL_STATE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -3915,7 +3869,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getTransitionKind()
 	 * @generated
 	 */
-	int TRANSITION_KIND = 15;
+	int TRANSITION_KIND = 14;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.PseudostateKind <em>Pseudostate Kind</em>}' enum.
@@ -3925,7 +3879,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getPseudostateKind()
 	 * @generated
 	 */
-	int PSEUDOSTATE_KIND = 16;
+	int PSEUDOSTATE_KIND = 15;
 
 
 	/**
@@ -5430,37 +5384,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	EOperation getTransition__RedefinitionContext();
 
 	/**
-	 * Returns the meta object for class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Model</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model
-	 * @generated
-	 */
-	EClass getModel();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model#getViewpoint <em>Viewpoint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Viewpoint</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model#getViewpoint()
-	 * @see #getModel()
-	 * @generated
-	 */
-	EAttribute getModel_Viewpoint();
-
-	/**
-	 * Returns the meta object for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model#isMetamodel() <em>Is Metamodel</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Metamodel</em>' operation.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model#isMetamodel()
-	 * @generated
-	 */
-	EOperation getModel__IsMetamodel();
-
-	/**
 	 * Returns the meta object for class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.FinalState <em>Final State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6758,32 +6681,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EOperation TRANSITION___REDEFINITION_CONTEXT = eINSTANCE.getTransition__RedefinitionContext();
-
-		/**
-		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ModelImpl <em>Model</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ModelImpl
-		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getModel()
-		 * @generated
-		 */
-		EClass MODEL = eINSTANCE.getModel();
-
-		/**
-		 * The meta object literal for the '<em><b>Viewpoint</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MODEL__VIEWPOINT = eINSTANCE.getModel_Viewpoint();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Metamodel</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation MODEL___IS_METAMODEL = eINSTANCE.getModel__IsMetamodel();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.FinalStateImpl <em>Final State</em>}' class.

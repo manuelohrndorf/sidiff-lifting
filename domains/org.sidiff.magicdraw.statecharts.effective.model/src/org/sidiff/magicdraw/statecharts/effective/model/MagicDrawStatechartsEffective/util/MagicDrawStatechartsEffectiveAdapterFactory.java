@@ -117,10 +117,6 @@ public class MagicDrawStatechartsEffectiveAdapterFactory extends AdapterFactoryI
 				return createTransitionAdapter();
 			}
 			@Override
-			public Adapter caseModel(Model object) {
-				return createModelAdapter();
-			}
-			@Override
 			public Adapter caseFinalState(FinalState object) {
 				return createFinalStateAdapter();
 			}
@@ -323,20 +319,6 @@ public class MagicDrawStatechartsEffectiveAdapterFactory extends AdapterFactoryI
 	 * @generated
 	 */
 	public Adapter createTransitionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Model
-	 * @generated
-	 */
-	public Adapter createModelAdapter() {
 		return null;
 	}
 
