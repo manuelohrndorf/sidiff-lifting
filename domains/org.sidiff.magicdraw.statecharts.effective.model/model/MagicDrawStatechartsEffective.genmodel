@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.magicdraw.statecharts.effective.model/src"
+    modelPluginID="org.sidiff.magicdraw.statecharts.effective.model" modelName="MagicDrawStatechartsEffective"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="../../org.eclipse.uml2.types/model/Types.genmodel#//types"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>MagicDrawStatechartsEffective.ecore</foreignModel>
+  <genPackages prefix="MagicDrawStatechartsEffective" basePackage="org.sidiff.magicdraw.statecharts.effective.model"
+      disposableProviderFactory="true" ecorePackage="MagicDrawStatechartsEffective.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MagicDrawStatechartsEffective.ecore#//TransitionKind">
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//TransitionKind/internal"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//TransitionKind/local"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//TransitionKind/external"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MagicDrawStatechartsEffective.ecore#//PseudostateKind">
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/initial"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/deepHistory"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/shallowHistory"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/join"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/fork"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/junction"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/choice"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/entryPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/exitPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="MagicDrawStatechartsEffective.ecore#//PseudostateKind/terminate"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="MagicDrawStatechartsEffective.ecore#//Namespace">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Namespace/ownedRule"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Namespace/ownedMember"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Namespace/member"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Namespace/members_distinguishable">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Namespace/members_distinguishable/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Namespace/members_distinguishable/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Namespace/getNamesOfMember">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Namespace/getNamesOfMember/element"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Namespace/membersAreDistinguishable"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Namespace/getOwnedMembers"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MagicDrawStatechartsEffective.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//NamedElement/name"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//NamedElement/namespace"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//NamedElement/qualifiedName"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/has_qualified_name">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/has_qualified_name/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/has_qualified_name/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/has_no_qualified_name">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/has_no_qualified_name/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/has_no_qualified_name/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/visibility_needs_ownership">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/visibility_needs_ownership/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/visibility_needs_ownership/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/createDependency">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/createDependency/supplier"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/createUsage">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/createUsage/supplier"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/getLabel"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/getLabel.1">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/getLabel.1/localize"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/allNamespaces"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/isDistinguishableFrom">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/isDistinguishableFrom/n"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//NamedElement/isDistinguishableFrom/ns"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/getNamespace"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/getQualifiedName"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//NamedElement/separator"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MagicDrawStatechartsEffective.ecore#//Behavior">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//Behavior/isReentrant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Behavior/postcondition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Behavior/precondition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Behavior/redefinedBehavior"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Behavior/parameters_match">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/parameters_match/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/parameters_match/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Behavior/feature_of_context_classifier">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/feature_of_context_classifier/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/feature_of_context_classifier/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Behavior/must_realize">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/must_realize/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/must_realize/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Behavior/most_one_behaviour">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/most_one_behaviour/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Behavior/most_one_behaviour/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Behavior/getContext"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine">
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/entry_exit_do">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/entry_exit_do/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/entry_exit_do/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/protocol_transitions">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/protocol_transitions/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/protocol_transitions/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/deep_or_shallow_history">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/deep_or_shallow_history/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/deep_or_shallow_history/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/ports_connected">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/ports_connected/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ProtocolStateMachine/ports_connected/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//StateMachine">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//StateMachine/connectionPoint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//StateMachine/submachineState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//StateMachine/region"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//StateMachine/extendedStateMachine"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/method">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/method/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/method/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/classifier_context">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/classifier_context/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/classifier_context/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/context_classifier">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/context_classifier/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/context_classifier/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/connection_points">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/connection_points/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/connection_points/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/LCA">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/LCA/s1"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/LCA/s2"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/ancestor">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/ancestor/s1"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/ancestor/s2"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//StateMachine/isRedefinitionContextValid">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//StateMachine/isRedefinitionContextValid/redefined"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Pseudostate">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Pseudostate/state"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//Pseudostate/kind"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Pseudostate/stateMachine"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/junction_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/junction_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/junction_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/history_vertices">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/history_vertices/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/history_vertices/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_outgoing">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_outgoing/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_outgoing/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/outgoing_from_initial">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/outgoing_from_initial/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/outgoing_from_initial/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/fork_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/fork_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/fork_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/join_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/join_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/join_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/choice_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/choice_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/choice_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/initial_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/initial_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/initial_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_incoming">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_incoming/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Pseudostate/transitions_incoming/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MagicDrawStatechartsEffective.ecore#//Vertex">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Vertex/container"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Vertex/incoming"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Vertex/outgoing"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Vertex/containingStateMachine"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Vertex/getIncomings"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Vertex/getOutgoings"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Region">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Region/extendedRegion"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Region/state"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Region/stateMachine"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Region/transition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Region/subvertex"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/shallow_history_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/shallow_history_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/shallow_history_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/deep_history_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/deep_history_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/deep_history_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/initial_vertex">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/initial_vertex/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/initial_vertex/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/owned">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/owned/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/owned/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/belongsToPSM"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/containingStateMachine"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/isRedefinitionContextValid">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Region/isRedefinitionContextValid/redefined"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Region/redefinitionContext"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//State">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/connection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/connectionPoint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/deferrableTrigger"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/doActivity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/entry"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/exit"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//State/isComposite.1"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//State/isOrthogonal.1"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//State/isSimple.1"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//State/isSubmachineState.1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/redefinedState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/stateInvariant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/submachine"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//State/region"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/entry_or_exit">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/entry_or_exit/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/entry_or_exit/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/composite_states">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/composite_states/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/composite_states/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/destinations_or_sources_of_transitions">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/destinations_or_sources_of_transitions/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/destinations_or_sources_of_transitions/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/submachine_or_regions">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/submachine_or_regions/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/submachine_or_regions/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/submachine_states">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/submachine_states/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/submachine_states/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/isComposite"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/isOrthogonal"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/isRedefinitionContextValid">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//State/isRedefinitionContextValid/redefined"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/isSimple"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/isSubmachineState"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//State/redefinitionContext"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/entry"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/exit"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/state"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/entry_pseudostates">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/entry_pseudostates/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/entry_pseudostates/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/exit_pseudostates">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/exit_pseudostates/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//ConnectionPointReference/exit_pseudostates/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Trigger"/>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Constraint">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Constraint/context"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Constraint/not_apply_to_self">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/not_apply_to_self/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/not_apply_to_self/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Constraint/no_side_effects">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/no_side_effects/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/no_side_effects/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Constraint/boolean_value">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/boolean_value/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/boolean_value/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Constraint/value_specification_boolean">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/value_specification_boolean/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Constraint/value_specification_boolean/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Transition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/effect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/guard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//Transition/kind"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/redefinedTransition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/trigger"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference MagicDrawStatechartsEffective.ecore#//Transition/container"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/state_is_local">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_local/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_local/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_guards">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_guards/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_guards/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_state">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_state/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_state/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/initial_transition">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/initial_transition/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/initial_transition/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/outgoing_pseudostates">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/outgoing_pseudostates/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/outgoing_pseudostates/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/signatures_compatible">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/signatures_compatible/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/signatures_compatible/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/state_is_internal">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_internal/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_internal/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_guards">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_guards/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/join_segment_guards/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_state">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_state/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/fork_segment_state/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/state_is_external">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_external/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//Transition/state_is_external/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/containingStateMachine"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Transition/redefinitionContext"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MagicDrawStatechartsEffective.ecore#//Model/viewpoint"/>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//Model/isMetamodel"/>
+    </genClasses>
+    <genClasses ecoreClass="MagicDrawStatechartsEffective.ecore#//FinalState">
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/no_outgoing_transitions">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_outgoing_transitions/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_outgoing_transitions/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/cannot_reference_submachine">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/cannot_reference_submachine/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/cannot_reference_submachine/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/no_exit_behavior">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_exit_behavior/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_exit_behavior/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/no_entry_behavior">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_entry_behavior/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_entry_behavior/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/no_state_behavior">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_state_behavior/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_state_behavior/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="MagicDrawStatechartsEffective.ecore#//FinalState/no_regions">
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_regions/diagnostics"/>
+        <genParameters ecoreParameter="MagicDrawStatechartsEffective.ecore#//FinalState/no_regions/context"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
