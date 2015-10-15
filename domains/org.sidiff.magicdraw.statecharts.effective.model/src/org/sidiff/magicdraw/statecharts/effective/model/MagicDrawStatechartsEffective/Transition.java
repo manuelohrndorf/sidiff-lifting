@@ -3,9 +3,7 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective;
 
 import java.util.Map;
-
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,13 +17,10 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getEffect <em>Effect</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard <em>Guard</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getRedefinedTransition <em>Redefined Transition</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTarget <em>Target</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTrigger <em>Trigger</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
@@ -35,56 +30,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Transition extends Namespace {
-	/**
-	 * Returns the value of the '<em><b>Effect</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies an optional behavior to be performed when the transition fires.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Effect</em>' containment reference.
-	 * @see #setEffect(Behavior)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Effect()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	Behavior getEffect();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getEffect <em>Effect</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Effect</em>' containment reference.
-	 * @see #getEffect()
-	 * @generated
-	 */
-	void setEffect(Behavior value);
-
-	/**
-	 * Returns the value of the '<em><b>Guard</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * A guard is a constraint that provides a fine-grained control over the firing of the transition. The guard is evaluated when an event occurrence is dispatched by the state machine. If the guard is true at that time, the transition may be enabled, otherwise, it is disabled. Guards should be pure expressions without side effects. Guard expressions with side effects are ill formed.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Guard</em>' reference.
-	 * @see #setGuard(Constraint)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Guard()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	Constraint getGuard();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard <em>Guard</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Guard</em>' reference.
-	 * @see #getGuard()
-	 * @generated
-	 */
-	void setGuard(Constraint value);
-
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The default value is <code>"external"</code>.
@@ -188,21 +133,6 @@ public interface Transition extends Namespace {
 	 * @generated
 	 */
 	void setTarget(Vertex value);
-
-	/**
-	 * Returns the value of the '<em><b>Trigger</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the triggers that may fire the transition.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Trigger</em>' containment reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Trigger()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	EList<Trigger> getTrigger();
 
 	/**
 	 * Returns the value of the '<em><b>Container</b></em>' container reference.

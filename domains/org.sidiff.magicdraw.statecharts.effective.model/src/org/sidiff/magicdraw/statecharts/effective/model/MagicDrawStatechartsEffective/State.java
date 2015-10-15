@@ -22,16 +22,11 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getConnection <em>Connection</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getConnectionPoint <em>Connection Point</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDeferrableTrigger <em>Deferrable Trigger</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity <em>Do Activity</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEntry <em>Entry</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit <em>Exit</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsComposite <em>Is Composite</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsOrthogonal <em>Is Orthogonal</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsSimple <em>Is Simple</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsSubmachineState <em>Is Submachine State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRedefinedState <em>Redefined State</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant <em>State Invariant</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getSubmachine <em>Submachine</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRegion <em>Region</em>}</li>
  * </ul>
@@ -75,96 +70,6 @@ public interface State extends Namespace, Vertex {
 	 * @generated
 	 */
 	EList<Pseudostate> getConnectionPoint();
-
-	/**
-	 * Returns the value of the '<em><b>Deferrable Trigger</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * A list of triggers that are candidates to be retained by the state machine if they trigger no transitions out of the state (not consumed). A deferred trigger is retained until the state machine reaches a state configuration where it is no longer deferred.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Deferrable Trigger</em>' containment reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_DeferrableTrigger()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	EList<Trigger> getDeferrableTrigger();
-
-	/**
-	 * Returns the value of the '<em><b>Do Activity</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * An optional behavior that is executed while being in the state. The execution starts when this state is entered, and stops either by itself, or when the state is exited, whichever comes first.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Do Activity</em>' containment reference.
-	 * @see #setDoActivity(Behavior)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_DoActivity()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	Behavior getDoActivity();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity <em>Do Activity</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Do Activity</em>' containment reference.
-	 * @see #getDoActivity()
-	 * @generated
-	 */
-	void setDoActivity(Behavior value);
-
-	/**
-	 * Returns the value of the '<em><b>Entry</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * An optional behavior that is executed whenever this state is entered regardless of the transition taken to reach the state. If defined, entry actions are always executed to completion prior to any internal behavior or transitions performed within the state.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Entry</em>' containment reference.
-	 * @see #setEntry(Behavior)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_Entry()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	Behavior getEntry();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEntry <em>Entry</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Entry</em>' containment reference.
-	 * @see #getEntry()
-	 * @generated
-	 */
-	void setEntry(Behavior value);
-
-	/**
-	 * Returns the value of the '<em><b>Exit</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * An optional behavior that is executed whenever this state is exited regardless of which transition was taken out of the state. If defined, exit actions are always executed to completion only after all internal activities and transition actions have completed execution.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Exit</em>' containment reference.
-	 * @see #setExit(Behavior)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_Exit()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	Behavior getExit();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit <em>Exit</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Exit</em>' containment reference.
-	 * @see #getExit()
-	 * @generated
-	 */
-	void setExit(Behavior value);
 
 	/**
 	 * Returns the value of the '<em><b>Is Composite</b></em>' attribute.
@@ -250,31 +155,6 @@ public interface State extends Namespace, Vertex {
 	 * @generated
 	 */
 	void setRedefinedState(State value);
-
-	/**
-	 * Returns the value of the '<em><b>State Invariant</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies conditions that are always true when this state is the current state. In protocol state machines, state invariants are additional conditions to the preconditions of the outgoing transitions, and to the postcondition of the incoming transitions.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>State Invariant</em>' reference.
-	 * @see #setStateInvariant(Constraint)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_StateInvariant()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	Constraint getStateInvariant();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant <em>State Invariant</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>State Invariant</em>' reference.
-	 * @see #getStateInvariant()
-	 * @generated
-	 */
-	void setStateInvariant(Constraint value);
 
 	/**
 	 * Returns the value of the '<em><b>Submachine</b></em>' reference.

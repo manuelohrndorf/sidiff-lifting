@@ -72,44 +72,12 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	public static final int NAMED_ELEMENT__VISIBILITY_NEEDS_OWNERSHIP = 4;
 
 	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Parameters match' of 'Behavior'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int BEHAVIOR__PARAMETERS_MATCH = 5;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Feature of context classifier' of 'Behavior'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int BEHAVIOR__FEATURE_OF_CONTEXT_CLASSIFIER = 6;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Must realize' of 'Behavior'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int BEHAVIOR__MUST_REALIZE = 7;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Most one behaviour' of 'Behavior'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int BEHAVIOR__MOST_ONE_BEHAVIOUR = 8;
-
-	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Entry exit do' of 'Protocol State Machine'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PROTOCOL_STATE_MACHINE__ENTRY_EXIT_DO = 9;
+	public static final int PROTOCOL_STATE_MACHINE__ENTRY_EXIT_DO = 5;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Protocol transitions' of 'Protocol State Machine'.
@@ -117,7 +85,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PROTOCOL_STATE_MACHINE__PROTOCOL_TRANSITIONS = 10;
+	public static final int PROTOCOL_STATE_MACHINE__PROTOCOL_TRANSITIONS = 6;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Deep or shallow history' of 'Protocol State Machine'.
@@ -125,7 +93,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PROTOCOL_STATE_MACHINE__DEEP_OR_SHALLOW_HISTORY = 11;
+	public static final int PROTOCOL_STATE_MACHINE__DEEP_OR_SHALLOW_HISTORY = 7;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Ports connected' of 'Protocol State Machine'.
@@ -133,7 +101,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PROTOCOL_STATE_MACHINE__PORTS_CONNECTED = 12;
+	public static final int PROTOCOL_STATE_MACHINE__PORTS_CONNECTED = 8;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Method' of 'State Machine'.
@@ -141,7 +109,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE_MACHINE__METHOD = 13;
+	public static final int STATE_MACHINE__METHOD = 9;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Classifier context' of 'State Machine'.
@@ -149,7 +117,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE_MACHINE__CLASSIFIER_CONTEXT = 14;
+	public static final int STATE_MACHINE__CLASSIFIER_CONTEXT = 10;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Context classifier' of 'State Machine'.
@@ -157,7 +125,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE_MACHINE__CONTEXT_CLASSIFIER = 15;
+	public static final int STATE_MACHINE__CONTEXT_CLASSIFIER = 11;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Connection points' of 'State Machine'.
@@ -165,7 +133,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE_MACHINE__CONNECTION_POINTS = 16;
+	public static final int STATE_MACHINE__CONNECTION_POINTS = 12;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Junction vertex' of 'Pseudostate'.
@@ -173,7 +141,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__JUNCTION_VERTEX = 17;
+	public static final int PSEUDOSTATE__JUNCTION_VERTEX = 13;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'History vertices' of 'Pseudostate'.
@@ -181,7 +149,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__HISTORY_VERTICES = 18;
+	public static final int PSEUDOSTATE__HISTORY_VERTICES = 14;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Transitions outgoing' of 'Pseudostate'.
@@ -189,7 +157,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__TRANSITIONS_OUTGOING = 19;
+	public static final int PSEUDOSTATE__TRANSITIONS_OUTGOING = 15;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Outgoing from initial' of 'Pseudostate'.
@@ -197,7 +165,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__OUTGOING_FROM_INITIAL = 20;
+	public static final int PSEUDOSTATE__OUTGOING_FROM_INITIAL = 16;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Fork vertex' of 'Pseudostate'.
@@ -205,7 +173,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__FORK_VERTEX = 21;
+	public static final int PSEUDOSTATE__FORK_VERTEX = 17;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Join vertex' of 'Pseudostate'.
@@ -213,7 +181,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__JOIN_VERTEX = 22;
+	public static final int PSEUDOSTATE__JOIN_VERTEX = 18;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Choice vertex' of 'Pseudostate'.
@@ -221,7 +189,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__CHOICE_VERTEX = 23;
+	public static final int PSEUDOSTATE__CHOICE_VERTEX = 19;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Initial vertex' of 'Pseudostate'.
@@ -229,7 +197,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__INITIAL_VERTEX = 24;
+	public static final int PSEUDOSTATE__INITIAL_VERTEX = 20;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Transitions incoming' of 'Pseudostate'.
@@ -237,7 +205,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int PSEUDOSTATE__TRANSITIONS_INCOMING = 25;
+	public static final int PSEUDOSTATE__TRANSITIONS_INCOMING = 21;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Shallow history vertex' of 'Region'.
@@ -245,7 +213,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int REGION__SHALLOW_HISTORY_VERTEX = 26;
+	public static final int REGION__SHALLOW_HISTORY_VERTEX = 22;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Deep history vertex' of 'Region'.
@@ -253,7 +221,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int REGION__DEEP_HISTORY_VERTEX = 27;
+	public static final int REGION__DEEP_HISTORY_VERTEX = 23;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Initial vertex' of 'Region'.
@@ -261,7 +229,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int REGION__INITIAL_VERTEX = 28;
+	public static final int REGION__INITIAL_VERTEX = 24;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Owned' of 'Region'.
@@ -269,7 +237,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int REGION__OWNED = 29;
+	public static final int REGION__OWNED = 25;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Entry or exit' of 'State'.
@@ -277,7 +245,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE__ENTRY_OR_EXIT = 30;
+	public static final int STATE__ENTRY_OR_EXIT = 26;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Composite states' of 'State'.
@@ -285,7 +253,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE__COMPOSITE_STATES = 31;
+	public static final int STATE__COMPOSITE_STATES = 27;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Destinations or sources of transitions' of 'State'.
@@ -293,7 +261,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE__DESTINATIONS_OR_SOURCES_OF_TRANSITIONS = 32;
+	public static final int STATE__DESTINATIONS_OR_SOURCES_OF_TRANSITIONS = 28;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Submachine or regions' of 'State'.
@@ -301,7 +269,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE__SUBMACHINE_OR_REGIONS = 33;
+	public static final int STATE__SUBMACHINE_OR_REGIONS = 29;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Submachine states' of 'State'.
@@ -309,7 +277,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int STATE__SUBMACHINE_STATES = 34;
+	public static final int STATE__SUBMACHINE_STATES = 30;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Entry pseudostates' of 'Connection Point Reference'.
@@ -317,7 +285,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int CONNECTION_POINT_REFERENCE__ENTRY_PSEUDOSTATES = 35;
+	public static final int CONNECTION_POINT_REFERENCE__ENTRY_PSEUDOSTATES = 31;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Exit pseudostates' of 'Connection Point Reference'.
@@ -325,39 +293,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int CONNECTION_POINT_REFERENCE__EXIT_PSEUDOSTATES = 36;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Not apply to self' of 'Constraint'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int CONSTRAINT__NOT_APPLY_TO_SELF = 37;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No side effects' of 'Constraint'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int CONSTRAINT__NO_SIDE_EFFECTS = 38;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Boolean value' of 'Constraint'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int CONSTRAINT__BOOLEAN_VALUE = 39;
-
-	/**
-	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Value specification boolean' of 'Constraint'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final int CONSTRAINT__VALUE_SPECIFICATION_BOOLEAN = 40;
+	public static final int CONNECTION_POINT_REFERENCE__EXIT_PSEUDOSTATES = 32;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'State is local' of 'Transition'.
@@ -365,7 +301,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__STATE_IS_LOCAL = 41;
+	public static final int TRANSITION__STATE_IS_LOCAL = 33;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Fork segment guards' of 'Transition'.
@@ -373,7 +309,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__FORK_SEGMENT_GUARDS = 42;
+	public static final int TRANSITION__FORK_SEGMENT_GUARDS = 34;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Join segment state' of 'Transition'.
@@ -381,7 +317,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__JOIN_SEGMENT_STATE = 43;
+	public static final int TRANSITION__JOIN_SEGMENT_STATE = 35;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Initial transition' of 'Transition'.
@@ -389,7 +325,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__INITIAL_TRANSITION = 44;
+	public static final int TRANSITION__INITIAL_TRANSITION = 36;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Outgoing pseudostates' of 'Transition'.
@@ -397,7 +333,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__OUTGOING_PSEUDOSTATES = 45;
+	public static final int TRANSITION__OUTGOING_PSEUDOSTATES = 37;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Signatures compatible' of 'Transition'.
@@ -405,7 +341,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__SIGNATURES_COMPATIBLE = 46;
+	public static final int TRANSITION__SIGNATURES_COMPATIBLE = 38;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'State is internal' of 'Transition'.
@@ -413,7 +349,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__STATE_IS_INTERNAL = 47;
+	public static final int TRANSITION__STATE_IS_INTERNAL = 39;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Join segment guards' of 'Transition'.
@@ -421,7 +357,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__JOIN_SEGMENT_GUARDS = 48;
+	public static final int TRANSITION__JOIN_SEGMENT_GUARDS = 40;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Fork segment state' of 'Transition'.
@@ -429,7 +365,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__FORK_SEGMENT_STATE = 49;
+	public static final int TRANSITION__FORK_SEGMENT_STATE = 41;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'State is external' of 'Transition'.
@@ -437,7 +373,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int TRANSITION__STATE_IS_EXTERNAL = 50;
+	public static final int TRANSITION__STATE_IS_EXTERNAL = 42;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No outgoing transitions' of 'Final State'.
@@ -445,7 +381,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__NO_OUTGOING_TRANSITIONS = 51;
+	public static final int FINAL_STATE__NO_OUTGOING_TRANSITIONS = 43;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'Cannot reference submachine' of 'Final State'.
@@ -453,7 +389,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__CANNOT_REFERENCE_SUBMACHINE = 52;
+	public static final int FINAL_STATE__CANNOT_REFERENCE_SUBMACHINE = 44;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No exit behavior' of 'Final State'.
@@ -461,7 +397,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__NO_EXIT_BEHAVIOR = 53;
+	public static final int FINAL_STATE__NO_EXIT_BEHAVIOR = 45;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No entry behavior' of 'Final State'.
@@ -469,7 +405,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__NO_ENTRY_BEHAVIOR = 54;
+	public static final int FINAL_STATE__NO_ENTRY_BEHAVIOR = 46;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No state behavior' of 'Final State'.
@@ -477,7 +413,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__NO_STATE_BEHAVIOR = 55;
+	public static final int FINAL_STATE__NO_STATE_BEHAVIOR = 47;
 
 	/**
 	 * The {@link org.eclipse.emf.common.util.Diagnostic#getCode() code} for constraint 'No regions' of 'Final State'.
@@ -485,7 +421,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final int FINAL_STATE__NO_REGIONS = 56;
+	public static final int FINAL_STATE__NO_REGIONS = 48;
 
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants.
@@ -493,7 +429,7 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 56;
+	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 48;
 
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
@@ -537,8 +473,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 				return validateNamespace((Namespace)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT:
 				return validateNamedElement((NamedElement)value, diagnostics, context);
-			case MagicDrawStatechartsEffectivePackage.BEHAVIOR:
-				return validateBehavior((Behavior)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.PROTOCOL_STATE_MACHINE:
 				return validateProtocolStateMachine((ProtocolStateMachine)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE:
@@ -553,10 +487,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 				return validateState((State)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.CONNECTION_POINT_REFERENCE:
 				return validateConnectionPointReference((ConnectionPointReference)value, diagnostics, context);
-			case MagicDrawStatechartsEffectivePackage.TRIGGER:
-				return validateTrigger((Trigger)value, diagnostics, context);
-			case MagicDrawStatechartsEffectivePackage.CONSTRAINT:
-				return validateConstraint((Constraint)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.TRANSITION:
 				return validateTransition((Transition)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE:
@@ -658,68 +588,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateBehavior(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(behavior, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_parameters_match(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_feature_of_context_classifier(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_must_realize(behavior, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_most_one_behaviour(behavior, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * Validates the parameters_match constraint of '<em>Behavior</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateBehavior_parameters_match(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return behavior.parameters_match(diagnostics, context);
-	}
-
-	/**
-	 * Validates the feature_of_context_classifier constraint of '<em>Behavior</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateBehavior_feature_of_context_classifier(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return behavior.feature_of_context_classifier(diagnostics, context);
-	}
-
-	/**
-	 * Validates the must_realize constraint of '<em>Behavior</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateBehavior_must_realize(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return behavior.must_realize(diagnostics, context);
-	}
-
-	/**
-	 * Validates the most_one_behaviour constraint of '<em>Behavior</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateBehavior_most_one_behaviour(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return behavior.most_one_behaviour(diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public boolean validateProtocolStateMachine(ProtocolStateMachine protocolStateMachine, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		if (!validate_NoCircularContainment(protocolStateMachine, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(protocolStateMachine, diagnostics, context);
@@ -730,10 +598,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(protocolStateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(protocolStateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(protocolStateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_parameters_match(protocolStateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_feature_of_context_classifier(protocolStateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_must_realize(protocolStateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_most_one_behaviour(protocolStateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_method(protocolStateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_classifier_context(protocolStateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_context_classifier(protocolStateMachine, diagnostics, context);
@@ -800,10 +664,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_UniqueID(stateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(stateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(stateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_parameters_match(stateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_feature_of_context_classifier(stateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_must_realize(stateMachine, diagnostics, context);
-		if (result || diagnostics != null) result &= validateBehavior_most_one_behaviour(stateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_method(stateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_classifier_context(stateMachine, diagnostics, context);
 		if (result || diagnostics != null) result &= validateStateMachine_context_classifier(stateMachine, diagnostics, context);
@@ -1176,89 +1036,6 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 */
 	public boolean validateConnectionPointReference_exit_pseudostates(ConnectionPointReference connectionPointReference, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return connectionPointReference.exit_pseudostates(diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTrigger(Trigger trigger, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(trigger, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_has_qualified_name(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_has_no_qualified_name(trigger, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_visibility_needs_ownership(trigger, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateConstraint(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		if (!validate_NoCircularContainment(constraint, diagnostics, context)) return false;
-		boolean result = validate_EveryMultiplicityConforms(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validateConstraint_not_apply_to_self(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validateConstraint_no_side_effects(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validateConstraint_boolean_value(constraint, diagnostics, context);
-		if (result || diagnostics != null) result &= validateConstraint_value_specification_boolean(constraint, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * Validates the not_apply_to_self constraint of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateConstraint_not_apply_to_self(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return constraint.not_apply_to_self(diagnostics, context);
-	}
-
-	/**
-	 * Validates the no_side_effects constraint of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateConstraint_no_side_effects(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return constraint.no_side_effects(diagnostics, context);
-	}
-
-	/**
-	 * Validates the boolean_value constraint of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateConstraint_boolean_value(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return constraint.boolean_value(diagnostics, context);
-	}
-
-	/**
-	 * Validates the value_specification_boolean constraint of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateConstraint_value_specification_boolean(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return constraint.value_specification_boolean(diagnostics, context);
 	}
 
 	/**

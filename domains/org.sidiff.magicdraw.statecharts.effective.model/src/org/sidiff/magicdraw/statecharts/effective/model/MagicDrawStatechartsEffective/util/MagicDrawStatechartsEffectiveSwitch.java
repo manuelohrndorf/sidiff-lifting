@@ -77,24 +77,16 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case MagicDrawStatechartsEffectivePackage.BEHAVIOR: {
-				Behavior behavior = (Behavior)theEObject;
-				T result = caseBehavior(behavior);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case MagicDrawStatechartsEffectivePackage.PROTOCOL_STATE_MACHINE: {
 				ProtocolStateMachine protocolStateMachine = (ProtocolStateMachine)theEObject;
 				T result = caseProtocolStateMachine(protocolStateMachine);
 				if (result == null) result = caseStateMachine(protocolStateMachine);
-				if (result == null) result = caseBehavior(protocolStateMachine);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE: {
 				StateMachine stateMachine = (StateMachine)theEObject;
 				T result = caseStateMachine(stateMachine);
-				if (result == null) result = caseBehavior(stateMachine);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -135,19 +127,6 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 				T result = caseConnectionPointReference(connectionPointReference);
 				if (result == null) result = caseVertex(connectionPointReference);
 				if (result == null) result = caseNamedElement(connectionPointReference);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MagicDrawStatechartsEffectivePackage.TRIGGER: {
-				Trigger trigger = (Trigger)theEObject;
-				T result = caseTrigger(trigger);
-				if (result == null) result = caseNamedElement(trigger);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MagicDrawStatechartsEffectivePackage.CONSTRAINT: {
-				Constraint constraint = (Constraint)theEObject;
-				T result = caseConstraint(constraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -200,21 +179,6 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseNamedElement(NamedElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Behavior</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Behavior</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseBehavior(Behavior object) {
 		return null;
 	}
 
@@ -320,36 +284,6 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConnectionPointReference(ConnectionPointReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Trigger</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Trigger</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseTrigger(Trigger object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseConstraint(Constraint object) {
 		return null;
 	}
 

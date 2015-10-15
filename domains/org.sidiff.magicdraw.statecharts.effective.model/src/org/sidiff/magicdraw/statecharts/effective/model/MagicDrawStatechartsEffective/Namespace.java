@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedRule <em>Owned Rule</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember <em>Owned Member</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getMember <em>Member</em>}</li>
  * </ul>
@@ -30,23 +29,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Namespace extends NamedElement {
-	/**
-	 * Returns the value of the '<em><b>Owned Rule</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint}.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint#getContext <em>Context</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies a set of Constraints owned by this Namespace.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Owned Rule</em>' containment reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamespace_OwnedRule()
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint#getContext
-	 * @model opposite="context" containment="true" ordered="false"
-	 * @generated
-	 */
-	EList<Constraint> getOwnedRule();
-
 	/**
 	 * Returns the value of the '<em><b>Owned Member</b></em>' reference list.
 	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement}.

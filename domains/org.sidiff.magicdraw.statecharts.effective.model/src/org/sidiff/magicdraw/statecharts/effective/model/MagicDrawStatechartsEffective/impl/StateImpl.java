@@ -3,43 +3,30 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl;
 
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.Collection;
 import java.util.Map;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.ConnectionPointReference;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Pseudostate;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex;
-
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
 /**
@@ -54,16 +41,11 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getConnection <em>Connection</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getConnectionPoint <em>Connection Point</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getDeferrableTrigger <em>Deferrable Trigger</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getDoActivity <em>Do Activity</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getEntry <em>Entry</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getExit <em>Exit</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsComposite <em>Is Composite</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsOrthogonal <em>Is Orthogonal</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsSimple <em>Is Simple</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsSubmachineState <em>Is Submachine State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getRedefinedState <em>Redefined State</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getStateInvariant <em>State Invariant</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getSubmachine <em>Submachine</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getRegion <em>Region</em>}</li>
  * </ul>
@@ -91,46 +73,6 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * @ordered
 	 */
 	protected EList<Pseudostate> connectionPoint;
-
-	/**
-	 * The cached value of the '{@link #getDeferrableTrigger() <em>Deferrable Trigger</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDeferrableTrigger()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Trigger> deferrableTrigger;
-
-	/**
-	 * The cached value of the '{@link #getDoActivity() <em>Do Activity</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDoActivity()
-	 * @generated
-	 * @ordered
-	 */
-	protected Behavior doActivity;
-
-	/**
-	 * The cached value of the '{@link #getEntry() <em>Entry</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEntry()
-	 * @generated
-	 * @ordered
-	 */
-	protected Behavior entry;
-
-	/**
-	 * The cached value of the '{@link #getExit() <em>Exit</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExit()
-	 * @generated
-	 * @ordered
-	 */
-	protected Behavior exit;
 
 	/**
 	 * The default value of the '{@link #isIsComposite() <em>Is Composite</em>}' attribute.
@@ -181,16 +123,6 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * @ordered
 	 */
 	protected State redefinedState;
-
-	/**
-	 * The cached value of the '{@link #getStateInvariant() <em>State Invariant</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getStateInvariant()
-	 * @generated
-	 * @ordered
-	 */
-	protected Constraint stateInvariant;
 
 	/**
 	 * The cached value of the '{@link #getSubmachine() <em>Submachine</em>}' reference.
@@ -327,147 +259,6 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Trigger> getDeferrableTrigger() {
-		if (deferrableTrigger == null) {
-			deferrableTrigger = new EObjectContainmentEList<Trigger>(Trigger.class, this, MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER);
-		}
-		return deferrableTrigger;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior getDoActivity() {
-		return doActivity;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDoActivity(Behavior newDoActivity, NotificationChain msgs) {
-		Behavior oldDoActivity = doActivity;
-		doActivity = newDoActivity;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, oldDoActivity, newDoActivity);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDoActivity(Behavior newDoActivity) {
-		if (newDoActivity != doActivity) {
-			NotificationChain msgs = null;
-			if (doActivity != null)
-				msgs = ((InternalEObject)doActivity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, null, msgs);
-			if (newDoActivity != null)
-				msgs = ((InternalEObject)newDoActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, null, msgs);
-			msgs = basicSetDoActivity(newDoActivity, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, newDoActivity, newDoActivity));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior getEntry() {
-		return entry;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetEntry(Behavior newEntry, NotificationChain msgs) {
-		Behavior oldEntry = entry;
-		entry = newEntry;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__ENTRY, oldEntry, newEntry);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEntry(Behavior newEntry) {
-		if (newEntry != entry) {
-			NotificationChain msgs = null;
-			if (entry != null)
-				msgs = ((InternalEObject)entry).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__ENTRY, null, msgs);
-			if (newEntry != null)
-				msgs = ((InternalEObject)newEntry).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__ENTRY, null, msgs);
-			msgs = basicSetEntry(newEntry, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__ENTRY, newEntry, newEntry));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior getExit() {
-		return exit;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetExit(Behavior newExit, NotificationChain msgs) {
-		Behavior oldExit = exit;
-		exit = newExit;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__EXIT, oldExit, newExit);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExit(Behavior newExit) {
-		if (newExit != exit) {
-			NotificationChain msgs = null;
-			if (exit != null)
-				msgs = ((InternalEObject)exit).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__EXIT, null, msgs);
-			if (newExit != null)
-				msgs = ((InternalEObject)newExit).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__EXIT, null, msgs);
-			msgs = basicSetExit(newExit, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__EXIT, newExit, newExit));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public boolean isIsComposite() {
 		// TODO: implement this method to return the 'Is Composite' attribute
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -543,44 +334,6 @@ public class StateImpl extends NamespaceImpl implements State {
 		redefinedState = newRedefinedState;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE, oldRedefinedState, redefinedState));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Constraint getStateInvariant() {
-		if (stateInvariant != null && stateInvariant.eIsProxy()) {
-			InternalEObject oldStateInvariant = (InternalEObject)stateInvariant;
-			stateInvariant = (Constraint)eResolveProxy(oldStateInvariant);
-			if (stateInvariant != oldStateInvariant) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, oldStateInvariant, stateInvariant));
-			}
-		}
-		return stateInvariant;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Constraint basicGetStateInvariant() {
-		return stateInvariant;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setStateInvariant(Constraint newStateInvariant) {
-		Constraint oldStateInvariant = stateInvariant;
-		stateInvariant = newStateInvariant;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, oldStateInvariant, stateInvariant));
 	}
 
 	/**
@@ -920,14 +673,6 @@ public class StateImpl extends NamespaceImpl implements State {
 				return ((InternalEList<?>)getConnection()).basicRemove(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
 				return ((InternalEList<?>)getConnectionPoint()).basicRemove(otherEnd, msgs);
-			case MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER:
-				return ((InternalEList<?>)getDeferrableTrigger()).basicRemove(otherEnd, msgs);
-			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
-				return basicSetDoActivity(null, msgs);
-			case MagicDrawStatechartsEffectivePackage.STATE__ENTRY:
-				return basicSetEntry(null, msgs);
-			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
-				return basicSetExit(null, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				return basicSetSubmachine(null, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
@@ -968,14 +713,6 @@ public class StateImpl extends NamespaceImpl implements State {
 				return getConnection();
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
 				return getConnectionPoint();
-			case MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER:
-				return getDeferrableTrigger();
-			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
-				return getDoActivity();
-			case MagicDrawStatechartsEffectivePackage.STATE__ENTRY:
-				return getEntry();
-			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
-				return getExit();
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_COMPOSITE:
 				return isIsComposite();
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_ORTHOGONAL:
@@ -987,9 +724,6 @@ public class StateImpl extends NamespaceImpl implements State {
 			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
 				if (resolve) return getRedefinedState();
 				return basicGetRedefinedState();
-			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
-				if (resolve) return getStateInvariant();
-				return basicGetStateInvariant();
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				if (resolve) return getSubmachine();
 				return basicGetSubmachine();
@@ -1019,24 +753,8 @@ public class StateImpl extends NamespaceImpl implements State {
 				getConnectionPoint().clear();
 				getConnectionPoint().addAll((Collection<? extends Pseudostate>)newValue);
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER:
-				getDeferrableTrigger().clear();
-				getDeferrableTrigger().addAll((Collection<? extends Trigger>)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
-				setDoActivity((Behavior)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__ENTRY:
-				setEntry((Behavior)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
-				setExit((Behavior)newValue);
-				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
 				setRedefinedState((State)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
-				setStateInvariant((Constraint)newValue);
 				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				setSubmachine((StateMachine)newValue);
@@ -1066,23 +784,8 @@ public class StateImpl extends NamespaceImpl implements State {
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
 				getConnectionPoint().clear();
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER:
-				getDeferrableTrigger().clear();
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
-				setDoActivity((Behavior)null);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__ENTRY:
-				setEntry((Behavior)null);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
-				setExit((Behavior)null);
-				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
 				setRedefinedState((State)null);
-				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
-				setStateInvariant((Constraint)null);
 				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				setSubmachine((StateMachine)null);
@@ -1112,14 +815,6 @@ public class StateImpl extends NamespaceImpl implements State {
 				return connection != null && !connection.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
 				return connectionPoint != null && !connectionPoint.isEmpty();
-			case MagicDrawStatechartsEffectivePackage.STATE__DEFERRABLE_TRIGGER:
-				return deferrableTrigger != null && !deferrableTrigger.isEmpty();
-			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
-				return doActivity != null;
-			case MagicDrawStatechartsEffectivePackage.STATE__ENTRY:
-				return entry != null;
-			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
-				return exit != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_COMPOSITE:
 				return isIsComposite() != IS_COMPOSITE_EDEFAULT;
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_ORTHOGONAL:
@@ -1130,8 +825,6 @@ public class StateImpl extends NamespaceImpl implements State {
 				return isIsSubmachineState() != IS_SUBMACHINE_STATE_EDEFAULT;
 			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
 				return redefinedState != null;
-			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
-				return stateInvariant != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				return submachine != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:

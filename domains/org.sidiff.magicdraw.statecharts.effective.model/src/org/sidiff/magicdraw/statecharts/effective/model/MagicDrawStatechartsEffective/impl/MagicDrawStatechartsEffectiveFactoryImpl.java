@@ -63,8 +63,6 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 			case MagicDrawStatechartsEffectivePackage.REGION: return createRegion();
 			case MagicDrawStatechartsEffectivePackage.STATE: return createState();
 			case MagicDrawStatechartsEffectivePackage.CONNECTION_POINT_REFERENCE: return createConnectionPointReference();
-			case MagicDrawStatechartsEffectivePackage.TRIGGER: return createTrigger();
-			case MagicDrawStatechartsEffectivePackage.CONSTRAINT: return createConstraint();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION: return createTransition();
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE: return createFinalState();
 			default:
@@ -164,26 +162,6 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 	public ConnectionPointReference createConnectionPointReference() {
 		ConnectionPointReferenceImpl connectionPointReference = new ConnectionPointReferenceImpl();
 		return connectionPointReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Trigger createTrigger() {
-		TriggerImpl trigger = new TriggerImpl();
-		return trigger;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Constraint createConstraint() {
-		ConstraintImpl constraint = new ConstraintImpl();
-		return constraint;
 	}
 
 	/**

@@ -76,24 +76,6 @@ public interface MagicDrawStatechartsEffectiveFactory extends EFactory {
 	ConnectionPointReference createConnectionPointReference();
 
 	/**
-	 * Returns a new object of class '<em>Trigger</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Trigger</em>'.
-	 * @generated
-	 */
-	Trigger createTrigger();
-
-	/**
-	 * Returns a new object of class '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Constraint</em>'.
-	 * @generated
-	 */
-	Constraint createConstraint();
-
-	/**
 	 * Returns a new object of class '<em>Transition</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

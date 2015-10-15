@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -50,7 +51,7 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  *
  * @generated
  */
-public class StateMachineImpl extends BehaviorImpl implements StateMachine {
+public class StateMachineImpl extends MinimalEObjectImpl.Container implements StateMachine {
 	/**
 	 * The cached value of the '{@link #getConnectionPoint() <em>Connection Point</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

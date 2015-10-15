@@ -13,9 +13,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.uml2.types.TypesPackage;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.ConnectionPointReference;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.FinalState;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectiveFactory;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
@@ -29,7 +27,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
@@ -53,13 +50,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	private EClass namedElementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass behaviorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,20 +99,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	private EClass connectionPointReferenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass triggerEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass constraintEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -239,7 +215,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNamespace_OwnedRule() {
+	public EReference getNamespace_OwnedMember() {
 		return (EReference)namespaceEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -248,17 +224,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNamespace_OwnedMember() {
-		return (EReference)namespaceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getNamespace_Member() {
-		return (EReference)namespaceEClass.getEStructuralFeatures().get(2);
+		return (EReference)namespaceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -439,96 +406,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 */
 	public EOperation getNamedElement__Separator() {
 		return namedElementEClass.getEOperations().get(11);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getBehavior() {
-		return behaviorEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getBehavior_IsReentrant() {
-		return (EAttribute)behaviorEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getBehavior_Postcondition() {
-		return (EReference)behaviorEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getBehavior_Precondition() {
-		return (EReference)behaviorEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getBehavior_RedefinedBehavior() {
-		return (EReference)behaviorEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getBehavior__Parameters_match__DiagnosticChain_Map() {
-		return behaviorEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getBehavior__Feature_of_context_classifier__DiagnosticChain_Map() {
-		return behaviorEClass.getEOperations().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getBehavior__Must_realize__DiagnosticChain_Map() {
-		return behaviorEClass.getEOperations().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getBehavior__Most_one_behaviour__DiagnosticChain_Map() {
-		return behaviorEClass.getEOperations().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getBehavior__GetContext() {
-		return behaviorEClass.getEOperations().get(4);
 	}
 
 	/**
@@ -1022,44 +899,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getState_DeferrableTrigger() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getState_DoActivity() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getState_Entry() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getState_Exit() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getState_IsComposite() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1068,7 +909,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EAttribute getState_IsOrthogonal() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1077,7 +918,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EAttribute getState_IsSimple() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(8);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1086,7 +927,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EAttribute getState_IsSubmachineState() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1095,16 +936,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getState_RedefinedState() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getState_StateInvariant() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(11);
+		return (EReference)stateEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1113,7 +945,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getState_Submachine() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(12);
+		return (EReference)stateEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -1122,7 +954,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getState_Region() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(13);
+		return (EReference)stateEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1283,69 +1115,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTrigger() {
-		return triggerEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getConstraint() {
-		return constraintEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getConstraint_Context() {
-		return (EReference)constraintEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getConstraint__Not_apply_to_self__DiagnosticChain_Map() {
-		return constraintEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getConstraint__No_side_effects__DiagnosticChain_Map() {
-		return constraintEClass.getEOperations().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getConstraint__Boolean_value__DiagnosticChain_Map() {
-		return constraintEClass.getEOperations().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getConstraint__Value_specification_boolean__DiagnosticChain_Map() {
-		return constraintEClass.getEOperations().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTransition() {
 		return transitionEClass;
 	}
@@ -1355,26 +1124,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransition_Effect() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTransition_Guard() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getTransition_Kind() {
-		return (EAttribute)transitionEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1383,7 +1134,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getTransition_RedefinedTransition() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1392,7 +1143,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getTransition_Source() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(4);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1401,16 +1152,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getTransition_Target() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTransition_Trigger() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(6);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1419,7 +1161,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	public EReference getTransition_Container() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(7);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1640,7 +1382,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		// Create classes and their features
 		namespaceEClass = createEClass(NAMESPACE);
-		createEReference(namespaceEClass, NAMESPACE__OWNED_RULE);
 		createEReference(namespaceEClass, NAMESPACE__OWNED_MEMBER);
 		createEReference(namespaceEClass, NAMESPACE__MEMBER);
 		createEOperation(namespaceEClass, NAMESPACE___MEMBERS_DISTINGUISHABLE__DIAGNOSTICCHAIN_MAP);
@@ -1664,17 +1405,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEOperation(namedElementEClass, NAMED_ELEMENT___GET_NAMESPACE);
 		createEOperation(namedElementEClass, NAMED_ELEMENT___GET_QUALIFIED_NAME);
 		createEOperation(namedElementEClass, NAMED_ELEMENT___SEPARATOR);
-
-		behaviorEClass = createEClass(BEHAVIOR);
-		createEAttribute(behaviorEClass, BEHAVIOR__IS_REENTRANT);
-		createEReference(behaviorEClass, BEHAVIOR__POSTCONDITION);
-		createEReference(behaviorEClass, BEHAVIOR__PRECONDITION);
-		createEReference(behaviorEClass, BEHAVIOR__REDEFINED_BEHAVIOR);
-		createEOperation(behaviorEClass, BEHAVIOR___PARAMETERS_MATCH__DIAGNOSTICCHAIN_MAP);
-		createEOperation(behaviorEClass, BEHAVIOR___FEATURE_OF_CONTEXT_CLASSIFIER__DIAGNOSTICCHAIN_MAP);
-		createEOperation(behaviorEClass, BEHAVIOR___MUST_REALIZE__DIAGNOSTICCHAIN_MAP);
-		createEOperation(behaviorEClass, BEHAVIOR___MOST_ONE_BEHAVIOUR__DIAGNOSTICCHAIN_MAP);
-		createEOperation(behaviorEClass, BEHAVIOR___GET_CONTEXT);
 
 		protocolStateMachineEClass = createEClass(PROTOCOL_STATE_MACHINE);
 		createEOperation(protocolStateMachineEClass, PROTOCOL_STATE_MACHINE___ENTRY_EXIT_DO__DIAGNOSTICCHAIN_MAP);
@@ -1735,16 +1465,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		stateEClass = createEClass(STATE);
 		createEReference(stateEClass, STATE__CONNECTION);
 		createEReference(stateEClass, STATE__CONNECTION_POINT);
-		createEReference(stateEClass, STATE__DEFERRABLE_TRIGGER);
-		createEReference(stateEClass, STATE__DO_ACTIVITY);
-		createEReference(stateEClass, STATE__ENTRY);
-		createEReference(stateEClass, STATE__EXIT);
 		createEAttribute(stateEClass, STATE__IS_COMPOSITE);
 		createEAttribute(stateEClass, STATE__IS_ORTHOGONAL);
 		createEAttribute(stateEClass, STATE__IS_SIMPLE);
 		createEAttribute(stateEClass, STATE__IS_SUBMACHINE_STATE);
 		createEReference(stateEClass, STATE__REDEFINED_STATE);
-		createEReference(stateEClass, STATE__STATE_INVARIANT);
 		createEReference(stateEClass, STATE__SUBMACHINE);
 		createEReference(stateEClass, STATE__REGION);
 		createEOperation(stateEClass, STATE___ENTRY_OR_EXIT__DIAGNOSTICCHAIN_MAP);
@@ -1766,23 +1491,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEOperation(connectionPointReferenceEClass, CONNECTION_POINT_REFERENCE___ENTRY_PSEUDOSTATES__DIAGNOSTICCHAIN_MAP);
 		createEOperation(connectionPointReferenceEClass, CONNECTION_POINT_REFERENCE___EXIT_PSEUDOSTATES__DIAGNOSTICCHAIN_MAP);
 
-		triggerEClass = createEClass(TRIGGER);
-
-		constraintEClass = createEClass(CONSTRAINT);
-		createEReference(constraintEClass, CONSTRAINT__CONTEXT);
-		createEOperation(constraintEClass, CONSTRAINT___NOT_APPLY_TO_SELF__DIAGNOSTICCHAIN_MAP);
-		createEOperation(constraintEClass, CONSTRAINT___NO_SIDE_EFFECTS__DIAGNOSTICCHAIN_MAP);
-		createEOperation(constraintEClass, CONSTRAINT___BOOLEAN_VALUE__DIAGNOSTICCHAIN_MAP);
-		createEOperation(constraintEClass, CONSTRAINT___VALUE_SPECIFICATION_BOOLEAN__DIAGNOSTICCHAIN_MAP);
-
 		transitionEClass = createEClass(TRANSITION);
-		createEReference(transitionEClass, TRANSITION__EFFECT);
-		createEReference(transitionEClass, TRANSITION__GUARD);
 		createEAttribute(transitionEClass, TRANSITION__KIND);
 		createEReference(transitionEClass, TRANSITION__REDEFINED_TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
 		createEReference(transitionEClass, TRANSITION__TARGET);
-		createEReference(transitionEClass, TRANSITION__TRIGGER);
 		createEReference(transitionEClass, TRANSITION__CONTAINER);
 		createEOperation(transitionEClass, TRANSITION___STATE_IS_LOCAL__DIAGNOSTICCHAIN_MAP);
 		createEOperation(transitionEClass, TRANSITION___FORK_SEGMENT_GUARDS__DIAGNOSTICCHAIN_MAP);
@@ -1843,20 +1556,17 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		// Add supertypes to classes
 		namespaceEClass.getESuperTypes().add(this.getNamedElement());
 		protocolStateMachineEClass.getESuperTypes().add(this.getStateMachine());
-		stateMachineEClass.getESuperTypes().add(this.getBehavior());
 		pseudostateEClass.getESuperTypes().add(this.getVertex());
 		vertexEClass.getESuperTypes().add(this.getNamedElement());
 		regionEClass.getESuperTypes().add(this.getNamespace());
 		stateEClass.getESuperTypes().add(this.getNamespace());
 		stateEClass.getESuperTypes().add(this.getVertex());
 		connectionPointReferenceEClass.getESuperTypes().add(this.getVertex());
-		triggerEClass.getESuperTypes().add(this.getNamedElement());
 		transitionEClass.getESuperTypes().add(this.getNamespace());
 		finalStateEClass.getESuperTypes().add(this.getState());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(namespaceEClass, Namespace.class, "Namespace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNamespace_OwnedRule(), this.getConstraint(), this.getConstraint_Context(), "ownedRule", null, 0, -1, Namespace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getNamespace_OwnedMember(), this.getNamedElement(), this.getNamedElement_Namespace(), "ownedMember", null, 0, -1, Namespace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEReference(getNamespace_Member(), this.getNamedElement(), null, "member", null, 0, -1, Namespace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 
@@ -1930,50 +1640,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEOperation(getNamedElement__GetQualifiedName(), theTypesPackage.getString(), "getQualifiedName", 0, 1, IS_UNIQUE, !IS_ORDERED);
 
 		initEOperation(getNamedElement__Separator(), theTypesPackage.getString(), "separator", 1, 1, IS_UNIQUE, !IS_ORDERED);
-
-		initEClass(behaviorEClass, Behavior.class, "Behavior", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBehavior_IsReentrant(), theTypesPackage.getBoolean(), "isReentrant", "true", 0, 1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getBehavior_Postcondition(), this.getConstraint(), null, "postcondition", null, 0, -1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getBehavior_Precondition(), this.getConstraint(), null, "precondition", null, 0, -1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getBehavior_RedefinedBehavior(), this.getBehavior(), null, "redefinedBehavior", null, 0, -1, Behavior.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-
-		op = initEOperation(getBehavior__Parameters_match__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "parameters_match", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getBehavior__Feature_of_context_classifier__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "feature_of_context_classifier", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getBehavior__Must_realize__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "must_realize", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getBehavior__Most_one_behaviour__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "most_one_behaviour", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		initEOperation(getBehavior__GetContext(), null, "getContext", 0, 1, IS_UNIQUE, !IS_ORDERED);
 
 		initEClass(protocolStateMachineEClass, ProtocolStateMachine.class, "ProtocolStateMachine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2218,16 +1884,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getState_Connection(), this.getConnectionPointReference(), this.getConnectionPointReference_State(), "connection", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_ConnectionPoint(), this.getPseudostate(), this.getPseudostate_State(), "connectionPoint", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_DeferrableTrigger(), this.getTrigger(), null, "deferrableTrigger", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_DoActivity(), this.getBehavior(), null, "doActivity", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_Entry(), this.getBehavior(), null, "entry", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_Exit(), this.getBehavior(), null, "exit", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getState_IsComposite(), theTypesPackage.getBoolean(), "isComposite", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getState_IsOrthogonal(), theTypesPackage.getBoolean(), "isOrthogonal", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getState_IsSimple(), theTypesPackage.getBoolean(), "isSimple", "true", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getState_IsSubmachineState(), theTypesPackage.getBoolean(), "isSubmachineState", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_RedefinedState(), this.getState(), null, "redefinedState", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_StateInvariant(), this.getConstraint(), null, "stateInvariant", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_Submachine(), this.getStateMachine(), this.getStateMachine_SubmachineState(), "submachine", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_Region(), this.getRegion(), this.getRegion_State(), "region", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
@@ -2312,55 +1973,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		g1.getETypeArguments().add(g2);
 		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(triggerEClass, Trigger.class, "Trigger", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getConstraint_Context(), this.getNamespace(), this.getNamespace_OwnedRule(), "context", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-
-		op = initEOperation(getConstraint__Not_apply_to_self__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "not_apply_to_self", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getConstraint__No_side_effects__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "no_side_effects", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getConstraint__Boolean_value__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "boolean_value", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getConstraint__Value_specification_boolean__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "value_specification_boolean", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
-		g1 = createEGenericType(ecorePackage.getEMap());
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType(ecorePackage.getEJavaObject());
-		g1.getETypeArguments().add(g2);
-		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTransition_Effect(), this.getBehavior(), null, "effect", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getTransition_Guard(), this.getConstraint(), null, "guard", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getTransition_Kind(), this.getTransitionKind(), "kind", "external", 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTransition_RedefinedTransition(), this.getTransition(), null, "redefinedTransition", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTransition_Source(), this.getVertex(), null, "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTransition_Target(), this.getVertex(), null, "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getTransition_Trigger(), this.getTrigger(), null, "trigger", null, 0, -1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTransition_Container(), this.getRegion(), this.getRegion_Transition(), "container", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		op = initEOperation(getTransition__State_is_local__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "state_is_local", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -2535,10 +2152,10 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createResource(eNS_URI);
 
 		// Create annotations
-		// subsets
-		createSubsetsAnnotations();
 		// union
 		createUnionAnnotations();
+		// subsets
+		createSubsetsAnnotations();
 		// duplicates
 		createDuplicatesAnnotations();
 		// redefines
@@ -2552,7 +2169,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createUnionAnnotations() {
-		String source = "union";												
+		String source = "union";										
 		addAnnotation
 		  (getNamespace_OwnedMember(), 
 		   source, 
@@ -2567,7 +2184,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getNamedElement_Namespace(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																																																																																																																																																																												
+		   });																																																																																																																																																																																																																																							
 	}
 
 	/**
@@ -2577,15 +2194,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createSubsetsAnnotations() {
-		String source = "subsets";										
-		addAnnotation
-		  (getNamespace_OwnedRule(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });				
+		String source = "subsets";											
 		addAnnotation
 		  (getNamespace_OwnedMember(), 
 		   source, 
@@ -2598,28 +2207,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getNamedElement_Namespace(), 
 		   source, 
 		   new String[] {
-		   });																			
-		addAnnotation
-		  (getBehavior_Postcondition(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedRule")
-		   });			
-		addAnnotation
-		  (getBehavior_Precondition(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedRule")
-		   });			
-		addAnnotation
-		  (getBehavior_RedefinedBehavior(), 
-		   source, 
-		   new String[] {
-		   });																																		
+		   });																																			
 		addAnnotation
 		  (getStateMachine_ConnectionPoint(), 
 		   source, 
@@ -2712,39 +2300,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		   },
 		   new URI[] {
 			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });			
-		addAnnotation
-		  (getState_DeferrableTrigger(), 
-		   source, 
-		   new String[] {
-		   });			
-		addAnnotation
-		  (getState_DoActivity(), 
-		   source, 
-		   new String[] {
-		   });			
-		addAnnotation
-		  (getState_Entry(), 
-		   source, 
-		   new String[] {
-		   });			
-		addAnnotation
-		  (getState_Exit(), 
-		   source, 
-		   new String[] {
 		   });							
 		addAnnotation
 		  (getState_RedefinedState(), 
 		   source, 
 		   new String[] {
-		   });			
-		addAnnotation
-		  (getState_StateInvariant(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedRule")
 		   });				
 		addAnnotation
 		  (getState_Region(), 
@@ -2761,38 +2321,12 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		   },
 		   new URI[] {
 			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																	
-		addAnnotation
-		  (getConstraint_Context(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																																				
-		addAnnotation
-		  (getTransition_Effect(), 
-		   source, 
-		   new String[] {
-		   });			
-		addAnnotation
-		  (getTransition_Guard(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedRule")
-		   });				
+		   });																																					
 		addAnnotation
 		  (getTransition_RedefinedTransition(), 
 		   source, 
 		   new String[] {
 		   });					
-		addAnnotation
-		  (getTransition_Trigger(), 
-		   source, 
-		   new String[] {
-		   });			
 		addAnnotation
 		  (getTransition_Container(), 
 		   source, 
@@ -2810,7 +2344,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createDuplicatesAnnotations() {
-		String source = "duplicates";																																																																	
+		String source = "duplicates";																																										
 		addAnnotation
 		  (protocolStateMachineEClass, 
 		   source, 
@@ -2820,7 +2354,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (stateEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																																								
+		   });																																																																																																																								
 	}
 
 	/**
@@ -2830,7 +2364,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createRedefinesAnnotations() {
-		String source = "redefines";																																																																																														
+		String source = "redefines";																																																																							
 		addAnnotation
 		  (getStateMachine__IsRedefinitionContextValid__StateMachine(), 
 		   source, 
@@ -2840,9 +2374,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getStateMachine_ExtendedStateMachine(), 
 		   source, 
 		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Behavior/redefinedBehavior")
 		   });																																																											
 		addAnnotation
 		  (getRegion__IsRedefinitionContextValid__Region(), 
@@ -2853,7 +2384,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		  (getState__IsRedefinitionContextValid__State(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																																																					
+		   });																																																																																																					
 	}
 
 } //MagicDrawStatechartsEffectivePackageImpl

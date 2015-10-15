@@ -8,7 +8,6 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 Package MagicDrawStatechartsEffective <http://Magicdraw/Statecharts/Effective>
 
   Class Namespace -> NamedElement
-    Reference ownedRule : Constraint<<0..*>>
     Reference /ownedMember : NamedElement<<0..*>>
     Reference /member : NamedElement<<0..*>>
     Operation members_distinguishable(EDiagnosticChain, EMap) : EBoolean
@@ -33,24 +32,13 @@ Package MagicDrawStatechartsEffective <http://Magicdraw/Statecharts/Effective>
     Operation getQualifiedName() : String
     Operation separator() : String<<1..1>>
 
-  Class Behavior
-    Attribute isReentrant : Boolean
-    Reference postcondition : Constraint<<0..*>>
-    Reference precondition : Constraint<<0..*>>
-    Reference redefinedBehavior : Behavior<<0..*>>
-    Operation parameters_match(EDiagnosticChain, EMap) : EBoolean
-    Operation feature_of_context_classifier(EDiagnosticChain, EMap) : EBoolean
-    Operation must_realize(EDiagnosticChain, EMap) : EBoolean
-    Operation most_one_behaviour(EDiagnosticChain, EMap) : EBoolean
-    Operation getContext() : void
-
   Class ProtocolStateMachine -> StateMachine
     Operation entry_exit_do(EDiagnosticChain, EMap) : EBoolean
     Operation protocol_transitions(EDiagnosticChain, EMap) : EBoolean
     Operation deep_or_shallow_history(EDiagnosticChain, EMap) : EBoolean
     Operation ports_connected(EDiagnosticChain, EMap) : EBoolean
 
-  Class StateMachine -> Behavior
+  Class StateMachine
     Reference connectionPoint : Pseudostate<<0..*>>
     Reference submachineState : State<<0..*>>
     Reference region : Region<<1..*>>
@@ -103,16 +91,11 @@ Package MagicDrawStatechartsEffective <http://Magicdraw/Statecharts/Effective>
   Class State -> Namespace, Vertex
     Reference connection : ConnectionPointReference<<0..*>>
     Reference connectionPoint : Pseudostate<<0..*>>
-    Reference deferrableTrigger : Trigger<<0..*>>
-    Reference doActivity : Behavior
-    Reference entry : Behavior
-    Reference exit : Behavior
     Attribute /isComposite : Boolean<<1..1>>
     Attribute /isOrthogonal : Boolean<<1..1>>
     Attribute /isSimple : Boolean<<1..1>>
     Attribute /isSubmachineState : Boolean<<1..1>>
     Reference redefinedState : State
-    Reference stateInvariant : Constraint
     Reference submachine : StateMachine
     Reference region : Region<<0..*>>
     Operation entry_or_exit(EDiagnosticChain, EMap) : EBoolean
@@ -134,23 +117,11 @@ Package MagicDrawStatechartsEffective <http://Magicdraw/Statecharts/Effective>
     Operation entry_pseudostates(EDiagnosticChain, EMap) : EBoolean
     Operation exit_pseudostates(EDiagnosticChain, EMap) : EBoolean
 
-  Class Trigger -> NamedElement
-
-  Class Constraint
-    Reference context : Namespace
-    Operation not_apply_to_self(EDiagnosticChain, EMap) : EBoolean
-    Operation no_side_effects(EDiagnosticChain, EMap) : EBoolean
-    Operation boolean_value(EDiagnosticChain, EMap) : EBoolean
-    Operation value_specification_boolean(EDiagnosticChain, EMap) : EBoolean
-
   Class Transition -> Namespace
-    Reference effect : Behavior
-    Reference guard : Constraint
     Attribute kind : TransitionKind<<1..1>>
     Reference redefinedTransition : Transition
     Reference source : Vertex<<1..1>>
     Reference target : Vertex<<1..1>>
-    Reference trigger : Trigger<<0..*>>
     Reference container : Region<<1..1>>
     Operation state_is_local(EDiagnosticChain, EMap) : EBoolean
     Operation fork_segment_guards(EDiagnosticChain, EMap) : EBoolean

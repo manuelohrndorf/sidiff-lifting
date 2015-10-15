@@ -3,40 +3,25 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl;
 
 import java.lang.reflect.InvocationTargetException;
-
-import java.util.Collection;
 import java.util.Map;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind;
-import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex;
-
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
 /**
@@ -46,13 +31,10 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getEffect <em>Effect</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getGuard <em>Guard</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getRedefinedTransition <em>Redefined Transition</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getTrigger <em>Trigger</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TransitionImpl#getContainer <em>Container</em>}</li>
  * </ul>
  * </p>
@@ -60,26 +42,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * @generated
  */
 public class TransitionImpl extends NamespaceImpl implements Transition {
-	/**
-	 * The cached value of the '{@link #getEffect() <em>Effect</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEffect()
-	 * @generated
-	 * @ordered
-	 */
-	protected Behavior effect;
-
-	/**
-	 * The cached value of the '{@link #getGuard() <em>Guard</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuard()
-	 * @generated
-	 * @ordered
-	 */
-	protected Constraint guard;
-
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -131,16 +93,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	protected Vertex target;
 
 	/**
-	 * The cached value of the '{@link #getTrigger() <em>Trigger</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTrigger()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Trigger> trigger;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -157,87 +109,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	protected EClass eStaticClass() {
 		return MagicDrawStatechartsEffectivePackage.Literals.TRANSITION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Behavior getEffect() {
-		return effect;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetEffect(Behavior newEffect, NotificationChain msgs) {
-		Behavior oldEffect = effect;
-		effect = newEffect;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT, oldEffect, newEffect);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEffect(Behavior newEffect) {
-		if (newEffect != effect) {
-			NotificationChain msgs = null;
-			if (effect != null)
-				msgs = ((InternalEObject)effect).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT, null, msgs);
-			if (newEffect != null)
-				msgs = ((InternalEObject)newEffect).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT, null, msgs);
-			msgs = basicSetEffect(newEffect, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT, newEffect, newEffect));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Constraint getGuard() {
-		if (guard != null && guard.eIsProxy()) {
-			InternalEObject oldGuard = (InternalEObject)guard;
-			guard = (Constraint)eResolveProxy(oldGuard);
-			if (guard != oldGuard) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD, oldGuard, guard));
-			}
-		}
-		return guard;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Constraint basicGetGuard() {
-		return guard;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setGuard(Constraint newGuard) {
-		Constraint oldGuard = guard;
-		guard = newGuard;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD, oldGuard, guard));
 	}
 
 	/**
@@ -373,18 +244,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 		target = newTarget;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET, oldTarget, target));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Trigger> getTrigger() {
-		if (trigger == null) {
-			trigger = new EObjectContainmentEList<Trigger>(Trigger.class, this, MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER);
-		}
-		return trigger;
 	}
 
 	/**
@@ -724,10 +583,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT:
-				return basicSetEffect(null, msgs);
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER:
-				return ((InternalEList<?>)getTrigger()).basicRemove(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__CONTAINER:
 				return basicSetContainer(null, msgs);
 		}
@@ -756,11 +611,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT:
-				return getEffect();
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD:
-				if (resolve) return getGuard();
-				return basicGetGuard();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__KIND:
 				return getKind();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__REDEFINED_TRANSITION:
@@ -772,8 +622,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER:
-				return getTrigger();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__CONTAINER:
 				return getContainer();
 		}
@@ -789,12 +637,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT:
-				setEffect((Behavior)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD:
-				setGuard((Constraint)newValue);
-				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__KIND:
 				setKind((TransitionKind)newValue);
 				return;
@@ -806,10 +648,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET:
 				setTarget((Vertex)newValue);
-				return;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER:
-				getTrigger().clear();
-				getTrigger().addAll((Collection<? extends Trigger>)newValue);
 				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__CONTAINER:
 				setContainer((Region)newValue);
@@ -826,12 +664,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT:
-				setEffect((Behavior)null);
-				return;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD:
-				setGuard((Constraint)null);
-				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
@@ -843,9 +675,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET:
 				setTarget((Vertex)null);
-				return;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER:
-				getTrigger().clear();
 				return;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__CONTAINER:
 				setContainer((Region)null);
@@ -862,10 +691,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__EFFECT:
-				return effect != null;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__GUARD:
-				return guard != null;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__KIND:
 				return kind != KIND_EDEFAULT;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__REDEFINED_TRANSITION:
@@ -874,8 +699,6 @@ public class TransitionImpl extends NamespaceImpl implements Transition {
 				return source != null;
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET:
 				return target != null;
-			case MagicDrawStatechartsEffectivePackage.TRANSITION__TRIGGER:
-				return trigger != null && !trigger.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION__CONTAINER:
 				return getContainer() != null;
 		}
