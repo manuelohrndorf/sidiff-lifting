@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xejooHMOEeWZk_03qNPSVQ" name="MOVE_REF_COMBI_Region_FROM_State_(region)_TO_StateMachine_(region)" description="MOVEs Region from State(Reference:region) to StateMachine(Reference:region">
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xejooXMOEeWZk_03qNPSVQ" name="moveRegion_FROM_State_region_TO_StateMachine_StateMachine" description="Moves Region from State(Reference:region) toStateMachine(Reference:StateMachine)">
+    <parameters xmi:id="_xejoonMOEeWZk_03qNPSVQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_xejoo3MOEeWZk_03qNPSVQ" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_xejopHMOEeWZk_03qNPSVQ" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <lhs xmi:id="_xejopXMOEeWZk_03qNPSVQ" name="Lhs">
+      <nodes xmi:id="_xejopnMOEeWZk_03qNPSVQ" name="Selected" incoming="_xejoqXMOEeWZk_03qNPSVQ" outgoing="_xejoqnMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_xejop3MOEeWZk_03qNPSVQ" name="OldSource" incoming="_xejoqnMOEeWZk_03qNPSVQ" outgoing="_xejoqXMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_xejoqHMOEeWZk_03qNPSVQ" name="NewSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_xejoqXMOEeWZk_03qNPSVQ" source="_xejop3MOEeWZk_03qNPSVQ" target="_xejopnMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//State/region"/>
+      </edges>
+      <edges xmi:id="_xejoqnMOEeWZk_03qNPSVQ" source="_xejopnMOEeWZk_03qNPSVQ" target="_xejop3MOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/state"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_xejoq3MOEeWZk_03qNPSVQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_xejorHMOEeWZk_03qNPSVQ">
+          <conclusion xmi:id="_xejorXMOEeWZk_03qNPSVQ" name="ub0">
+            <nodes xmi:id="_xejornMOEeWZk_03qNPSVQ" outgoing="_xejosHMOEeWZk_03qNPSVQ">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+            </nodes>
+            <nodes xmi:id="_xejor3MOEeWZk_03qNPSVQ" incoming="_xejosHMOEeWZk_03qNPSVQ">
+              <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+            </nodes>
+            <edges xmi:id="_xejosHMOEeWZk_03qNPSVQ" source="_xejornMOEeWZk_03qNPSVQ" target="_xejor3MOEeWZk_03qNPSVQ">
+              <type href="http://Magicdraw/Statecharts/Effective#//Region/stateMachine"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_xejosXMOEeWZk_03qNPSVQ" origin="_xejopnMOEeWZk_03qNPSVQ" image="_xejornMOEeWZk_03qNPSVQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_xejosnMOEeWZk_03qNPSVQ" name="Rhs">
+      <nodes xmi:id="_xejos3MOEeWZk_03qNPSVQ" name="Selected" incoming="_xejotnMOEeWZk_03qNPSVQ" outgoing="_xejot3MOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <nodes xmi:id="_xejotHMOEeWZk_03qNPSVQ" name="OldSource">
+        <type href="http://Magicdraw/Statecharts/Effective#//State"/>
+      </nodes>
+      <nodes xmi:id="_xejotXMOEeWZk_03qNPSVQ" name="NewSource" incoming="_xejot3MOEeWZk_03qNPSVQ" outgoing="_xejotnMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_xejotnMOEeWZk_03qNPSVQ" source="_xejotXMOEeWZk_03qNPSVQ" target="_xejos3MOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_xejot3MOEeWZk_03qNPSVQ" source="_xejos3MOEeWZk_03qNPSVQ" target="_xejotXMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_xejouHMOEeWZk_03qNPSVQ" origin="_xejopnMOEeWZk_03qNPSVQ" image="_xejos3MOEeWZk_03qNPSVQ"/>
+    <mappings xmi:id="_xejouXMOEeWZk_03qNPSVQ" origin="_xejop3MOEeWZk_03qNPSVQ" image="_xejotHMOEeWZk_03qNPSVQ"/>
+    <mappings xmi:id="_xejounMOEeWZk_03qNPSVQ" origin="_xejoqHMOEeWZk_03qNPSVQ" image="_xejotXMOEeWZk_03qNPSVQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xejou3MOEeWZk_03qNPSVQ" name="mainUnit" subUnits="_xejooXMOEeWZk_03qNPSVQ">
+    <parameters xmi:id="_xejovHMOEeWZk_03qNPSVQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameters xmi:id="_xejovXMOEeWZk_03qNPSVQ" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//State"/>
+    </parameters>
+    <parameters xmi:id="_xejovnMOEeWZk_03qNPSVQ" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//StateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_xejov3MOEeWZk_03qNPSVQ" source="_xejovHMOEeWZk_03qNPSVQ" target="_xejoonMOEeWZk_03qNPSVQ"/>
+    <parameterMappings xmi:id="_xejowHMOEeWZk_03qNPSVQ" source="_xejovXMOEeWZk_03qNPSVQ" target="_xejoo3MOEeWZk_03qNPSVQ"/>
+    <parameterMappings xmi:id="_xejowXMOEeWZk_03qNPSVQ" source="_xejovnMOEeWZk_03qNPSVQ" target="_xejopHMOEeWZk_03qNPSVQ"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xfJegHMOEeWZk_03qNPSVQ" name="CREATE_ProtocolStateMachine" description="Creates one ProtocolStateMachine">
+  <annotations xmi:id="_xfJegXMOEeWZk_03qNPSVQ" key="INVERSE" value="DELETE_ProtocolStateMachine"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_xfJegnMOEeWZk_03qNPSVQ" name="createProtocolStateMachine" description="creates one ProtocolStateMachine">
+    <parameters xmi:id="_xfJeg3MOEeWZk_03qNPSVQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//ProtocolStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_xfJehHMOEeWZk_03qNPSVQ" name="Child">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <lhs xmi:id="_xfJehXMOEeWZk_03qNPSVQ" name="Lhs"/>
+    <rhs xmi:id="_xfJehnMOEeWZk_03qNPSVQ" name="Rhs">
+      <nodes xmi:id="_xfJeh3MOEeWZk_03qNPSVQ" name="New" incoming="_xfJeinMOEeWZk_03qNPSVQ" outgoing="_xfJeiXMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//ProtocolStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_xfJeiHMOEeWZk_03qNPSVQ" name="Child" incoming="_xfJeiXMOEeWZk_03qNPSVQ" outgoing="_xfJeinMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region"/>
+      </nodes>
+      <edges xmi:id="_xfJeiXMOEeWZk_03qNPSVQ" source="_xfJeh3MOEeWZk_03qNPSVQ" target="_xfJeiHMOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_xfJeinMOEeWZk_03qNPSVQ" source="_xfJeiHMOEeWZk_03qNPSVQ" target="_xfJeh3MOEeWZk_03qNPSVQ">
+        <type href="http://Magicdraw/Statecharts/Effective#//Region/stateMachine"/>
+      </edges>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xfJei3MOEeWZk_03qNPSVQ" name="mainUnit" subUnits="_xfJegnMOEeWZk_03qNPSVQ">
+    <parameters xmi:id="_xfJejHMOEeWZk_03qNPSVQ" name="New">
+      <annotations xmi:id="_xfJejXMOEeWZk_03qNPSVQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//ProtocolStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_xfJejnMOEeWZk_03qNPSVQ" name="Child">
+      <annotations xmi:id="_xfJej3MOEeWZk_03qNPSVQ" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_xfJekHMOEeWZk_03qNPSVQ" source="_xfJeg3MOEeWZk_03qNPSVQ" target="_xfJejHMOEeWZk_03qNPSVQ"/>
+    <parameterMappings xmi:id="_xfJekXMOEeWZk_03qNPSVQ" source="_xfJehHMOEeWZk_03qNPSVQ" target="_xfJejnMOEeWZk_03qNPSVQ"/>
+  </units>
+</henshin:Module>
