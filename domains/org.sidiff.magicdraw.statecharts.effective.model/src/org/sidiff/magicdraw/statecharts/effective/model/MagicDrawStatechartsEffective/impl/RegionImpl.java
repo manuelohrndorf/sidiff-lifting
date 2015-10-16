@@ -43,7 +43,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.RegionImpl#getExtendedRegion <em>Extended Region</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.RegionImpl#getState <em>State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.RegionImpl#getStateMachine <em>State Machine</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.RegionImpl#getTransition <em>Transition</em>}</li>
@@ -54,16 +53,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * @generated
  */
 public class RegionImpl extends NamespaceImpl implements Region {
-	/**
-	 * The cached value of the '{@link #getExtendedRegion() <em>Extended Region</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtendedRegion()
-	 * @generated
-	 * @ordered
-	 */
-	protected Region extendedRegion;
-
 	/**
 	 * The cached value of the '{@link #getTransition() <em>Transition</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -101,44 +90,6 @@ public class RegionImpl extends NamespaceImpl implements Region {
 	@Override
 	protected EClass eStaticClass() {
 		return MagicDrawStatechartsEffectivePackage.Literals.REGION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Region getExtendedRegion() {
-		if (extendedRegion != null && extendedRegion.eIsProxy()) {
-			InternalEObject oldExtendedRegion = (InternalEObject)extendedRegion;
-			extendedRegion = (Region)eResolveProxy(oldExtendedRegion);
-			if (extendedRegion != oldExtendedRegion) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION, oldExtendedRegion, extendedRegion));
-			}
-		}
-		return extendedRegion;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Region basicGetExtendedRegion() {
-		return extendedRegion;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExtendedRegion(Region newExtendedRegion) {
-		Region oldExtendedRegion = extendedRegion;
-		extendedRegion = newExtendedRegion;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION, oldExtendedRegion, extendedRegion));
 	}
 
 	/**
@@ -460,9 +411,6 @@ public class RegionImpl extends NamespaceImpl implements Region {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION:
-				if (resolve) return getExtendedRegion();
-				return basicGetExtendedRegion();
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE:
 				return getState();
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE_MACHINE:
@@ -484,9 +432,6 @@ public class RegionImpl extends NamespaceImpl implements Region {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION:
-				setExtendedRegion((Region)newValue);
-				return;
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE:
 				setState((State)newValue);
 				return;
@@ -513,9 +458,6 @@ public class RegionImpl extends NamespaceImpl implements Region {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION:
-				setExtendedRegion((Region)null);
-				return;
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE:
 				setState((State)null);
 				return;
@@ -540,8 +482,6 @@ public class RegionImpl extends NamespaceImpl implements Region {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.REGION__EXTENDED_REGION:
-				return extendedRegion != null;
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE:
 				return getState() != null;
 			case MagicDrawStatechartsEffectivePackage.REGION__STATE_MACHINE:

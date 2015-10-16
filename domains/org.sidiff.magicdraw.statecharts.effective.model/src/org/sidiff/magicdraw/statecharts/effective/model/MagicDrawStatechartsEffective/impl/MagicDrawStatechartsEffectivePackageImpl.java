@@ -2,7 +2,6 @@
  */
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -11,9 +10,14 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.eclipse.uml2.types.TypesPackage;
+
+import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.ConnectionPointReference;
+import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.FinalState;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectiveFactory;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
@@ -27,7 +31,9 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind;
+import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
 /**
@@ -113,6 +119,27 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	private EClass finalStateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass constraintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass behaviorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass triggerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -215,24 +242,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNamespace_OwnedMember() {
-		return (EReference)namespaceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNamespace_Member() {
-		return (EReference)namespaceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EOperation getNamespace__Members_distinguishable__DiagnosticChain_Map() {
 		return namespaceEClass.getEOperations().get(0);
 	}
@@ -287,17 +296,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNamedElement_Namespace() {
-		return (EReference)namedElementEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getNamedElement_QualifiedName() {
-		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -487,15 +487,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 */
 	public EReference getStateMachine_Region() {
 		return (EReference)stateMachineEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getStateMachine_ExtendedStateMachine() {
-		return (EReference)stateMachineEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -755,7 +746,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRegion_ExtendedRegion() {
+	public EReference getRegion_State() {
 		return (EReference)regionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -764,7 +755,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRegion_State() {
+	public EReference getRegion_StateMachine() {
 		return (EReference)regionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -773,7 +764,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRegion_StateMachine() {
+	public EReference getRegion_Transition() {
 		return (EReference)regionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -782,17 +773,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRegion_Transition() {
-		return (EReference)regionEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getRegion_Subvertex() {
-		return (EReference)regionEClass.getEStructuralFeatures().get(4);
+		return (EReference)regionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -935,7 +917,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getState_RedefinedState() {
+	public EReference getState_Submachine() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -944,7 +926,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getState_Submachine() {
+	public EReference getState_Region() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -953,8 +935,35 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getState_Region() {
+	public EReference getState_Enty() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_Exit() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_DoActivity() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getState_StateInvariant() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(11);
 	}
 
 	/**
@@ -1133,7 +1142,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransition_RedefinedTransition() {
+	public EReference getTransition_Source() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1142,7 +1151,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransition_Source() {
+	public EReference getTransition_Target() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1151,7 +1160,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransition_Target() {
+	public EReference getTransition_Container() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -1160,8 +1169,17 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransition_Container() {
+	public EReference getTransition_Trigger() {
 		return (EReference)transitionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTransition_Guard() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1340,6 +1358,33 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getConstraint() {
+		return constraintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBehavior() {
+		return behaviorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTrigger() {
+		return triggerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getTransitionKind() {
 		return transitionKindEEnum;
 	}
@@ -1382,8 +1427,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		// Create classes and their features
 		namespaceEClass = createEClass(NAMESPACE);
-		createEReference(namespaceEClass, NAMESPACE__OWNED_MEMBER);
-		createEReference(namespaceEClass, NAMESPACE__MEMBER);
 		createEOperation(namespaceEClass, NAMESPACE___MEMBERS_DISTINGUISHABLE__DIAGNOSTICCHAIN_MAP);
 		createEOperation(namespaceEClass, NAMESPACE___GET_NAMES_OF_MEMBER__NAMEDELEMENT);
 		createEOperation(namespaceEClass, NAMESPACE___MEMBERS_ARE_DISTINGUISHABLE);
@@ -1391,7 +1434,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
-		createEReference(namedElementEClass, NAMED_ELEMENT__NAMESPACE);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__QUALIFIED_NAME);
 		createEOperation(namedElementEClass, NAMED_ELEMENT___HAS_QUALIFIED_NAME__DIAGNOSTICCHAIN_MAP);
 		createEOperation(namedElementEClass, NAMED_ELEMENT___HAS_NO_QUALIFIED_NAME__DIAGNOSTICCHAIN_MAP);
@@ -1416,7 +1458,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEReference(stateMachineEClass, STATE_MACHINE__CONNECTION_POINT);
 		createEReference(stateMachineEClass, STATE_MACHINE__SUBMACHINE_STATE);
 		createEReference(stateMachineEClass, STATE_MACHINE__REGION);
-		createEReference(stateMachineEClass, STATE_MACHINE__EXTENDED_STATE_MACHINE);
 		createEOperation(stateMachineEClass, STATE_MACHINE___METHOD__DIAGNOSTICCHAIN_MAP);
 		createEOperation(stateMachineEClass, STATE_MACHINE___CLASSIFIER_CONTEXT__DIAGNOSTICCHAIN_MAP);
 		createEOperation(stateMachineEClass, STATE_MACHINE___CONTEXT_CLASSIFIER__DIAGNOSTICCHAIN_MAP);
@@ -1448,7 +1489,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEOperation(vertexEClass, VERTEX___GET_OUTGOINGS);
 
 		regionEClass = createEClass(REGION);
-		createEReference(regionEClass, REGION__EXTENDED_REGION);
 		createEReference(regionEClass, REGION__STATE);
 		createEReference(regionEClass, REGION__STATE_MACHINE);
 		createEReference(regionEClass, REGION__TRANSITION);
@@ -1469,9 +1509,12 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEAttribute(stateEClass, STATE__IS_ORTHOGONAL);
 		createEAttribute(stateEClass, STATE__IS_SIMPLE);
 		createEAttribute(stateEClass, STATE__IS_SUBMACHINE_STATE);
-		createEReference(stateEClass, STATE__REDEFINED_STATE);
 		createEReference(stateEClass, STATE__SUBMACHINE);
 		createEReference(stateEClass, STATE__REGION);
+		createEReference(stateEClass, STATE__ENTY);
+		createEReference(stateEClass, STATE__EXIT);
+		createEReference(stateEClass, STATE__DO_ACTIVITY);
+		createEReference(stateEClass, STATE__STATE_INVARIANT);
 		createEOperation(stateEClass, STATE___ENTRY_OR_EXIT__DIAGNOSTICCHAIN_MAP);
 		createEOperation(stateEClass, STATE___COMPOSITE_STATES__DIAGNOSTICCHAIN_MAP);
 		createEOperation(stateEClass, STATE___DESTINATIONS_OR_SOURCES_OF_TRANSITIONS__DIAGNOSTICCHAIN_MAP);
@@ -1493,10 +1536,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		transitionEClass = createEClass(TRANSITION);
 		createEAttribute(transitionEClass, TRANSITION__KIND);
-		createEReference(transitionEClass, TRANSITION__REDEFINED_TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
 		createEReference(transitionEClass, TRANSITION__TARGET);
 		createEReference(transitionEClass, TRANSITION__CONTAINER);
+		createEReference(transitionEClass, TRANSITION__TRIGGER);
+		createEReference(transitionEClass, TRANSITION__GUARD);
 		createEOperation(transitionEClass, TRANSITION___STATE_IS_LOCAL__DIAGNOSTICCHAIN_MAP);
 		createEOperation(transitionEClass, TRANSITION___FORK_SEGMENT_GUARDS__DIAGNOSTICCHAIN_MAP);
 		createEOperation(transitionEClass, TRANSITION___JOIN_SEGMENT_STATE__DIAGNOSTICCHAIN_MAP);
@@ -1517,6 +1561,12 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createEOperation(finalStateEClass, FINAL_STATE___NO_ENTRY_BEHAVIOR__DIAGNOSTICCHAIN_MAP);
 		createEOperation(finalStateEClass, FINAL_STATE___NO_STATE_BEHAVIOR__DIAGNOSTICCHAIN_MAP);
 		createEOperation(finalStateEClass, FINAL_STATE___NO_REGIONS__DIAGNOSTICCHAIN_MAP);
+
+		constraintEClass = createEClass(CONSTRAINT);
+
+		behaviorEClass = createEClass(BEHAVIOR);
+
+		triggerEClass = createEClass(TRIGGER);
 
 		// Create enums
 		transitionKindEEnum = createEEnum(TRANSITION_KIND);
@@ -1567,8 +1617,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(namespaceEClass, Namespace.class, "Namespace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNamespace_OwnedMember(), this.getNamedElement(), this.getNamedElement_Namespace(), "ownedMember", null, 0, -1, Namespace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEReference(getNamespace_Member(), this.getNamedElement(), null, "member", null, 0, -1, Namespace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 
 		EOperation op = initEOperation(getNamespace__Members_distinguishable__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "members_distinguishable", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1587,8 +1635,7 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEOperation(getNamespace__GetOwnedMembers(), this.getNamedElement(), "getOwnedMembers", 0, -1, IS_UNIQUE, !IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamedElement_Name(), theTypesPackage.getString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getNamedElement_Namespace(), this.getNamespace(), this.getNamespace_OwnedMember(), "namespace", null, 0, 1, NamedElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getNamedElement_QualifiedName(), theTypesPackage.getString(), "qualifiedName", null, 0, 1, NamedElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 
 		op = initEOperation(getNamedElement__Has_qualified_name__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "has_qualified_name", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1683,7 +1730,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEReference(getStateMachine_ConnectionPoint(), this.getPseudostate(), this.getPseudostate_StateMachine(), "connectionPoint", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getStateMachine_SubmachineState(), this.getState(), this.getState_Submachine(), "submachineState", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getStateMachine_Region(), this.getRegion(), this.getRegion_StateMachine(), "region", null, 1, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getStateMachine_ExtendedStateMachine(), this.getStateMachine(), null, "extendedStateMachine", null, 0, -1, StateMachine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		op = initEOperation(getStateMachine__Method__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "method", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1820,8 +1866,8 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		initEClass(vertexEClass, Vertex.class, "Vertex", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVertex_Container(), this.getRegion(), this.getRegion_Subvertex(), "container", null, 0, 1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getVertex_Incoming(), this.getTransition(), null, "incoming", null, 0, -1, Vertex.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEReference(getVertex_Outgoing(), this.getTransition(), null, "outgoing", null, 0, -1, Vertex.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
+		initEReference(getVertex_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getVertex_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEOperation(getVertex__ContainingStateMachine(), this.getStateMachine(), "containingStateMachine", 1, 1, IS_UNIQUE, !IS_ORDERED);
 
@@ -1830,7 +1876,6 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEOperation(getVertex__GetOutgoings(), this.getTransition(), "getOutgoings", 0, -1, IS_UNIQUE, !IS_ORDERED);
 
 		initEClass(regionEClass, Region.class, "Region", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRegion_ExtendedRegion(), this.getRegion(), null, "extendedRegion", null, 0, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getRegion_State(), this.getState(), this.getState_Region(), "state", null, 0, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getRegion_StateMachine(), this.getStateMachine(), this.getStateMachine_Region(), "stateMachine", null, 0, 1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getRegion_Transition(), this.getTransition(), this.getTransition_Container(), "transition", null, 0, -1, Region.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1884,13 +1929,16 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getState_Connection(), this.getConnectionPointReference(), this.getConnectionPointReference_State(), "connection", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_ConnectionPoint(), this.getPseudostate(), this.getPseudostate_State(), "connectionPoint", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getState_IsComposite(), theTypesPackage.getBoolean(), "isComposite", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getState_IsOrthogonal(), theTypesPackage.getBoolean(), "isOrthogonal", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getState_IsSimple(), theTypesPackage.getBoolean(), "isSimple", "true", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getState_IsSubmachineState(), theTypesPackage.getBoolean(), "isSubmachineState", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
-		initEReference(getState_RedefinedState(), this.getState(), null, "redefinedState", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getState_IsComposite(), ecorePackage.getEBoolean(), "isComposite", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getState_IsOrthogonal(), ecorePackage.getEBoolean(), "isOrthogonal", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getState_IsSimple(), ecorePackage.getEBoolean(), "isSimple", "true", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getState_IsSubmachineState(), ecorePackage.getEBoolean(), "isSubmachineState", "false", 1, 1, State.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_Submachine(), this.getStateMachine(), this.getStateMachine_SubmachineState(), "submachine", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getState_Region(), this.getRegion(), this.getRegion_State(), "region", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getState_Enty(), this.getBehavior(), null, "enty", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_Exit(), this.getBehavior(), null, "exit", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_DoActivity(), this.getBehavior(), null, "doActivity", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_StateInvariant(), this.getConstraint(), null, "stateInvariant", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getState__Entry_or_exit__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "entry_or_exit", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1975,10 +2023,11 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 
 		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTransition_Kind(), this.getTransitionKind(), "kind", "external", 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getTransition_RedefinedTransition(), this.getTransition(), null, "redefinedTransition", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getTransition_Source(), this.getVertex(), null, "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getTransition_Target(), this.getVertex(), null, "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getTransition_Source(), this.getVertex(), this.getVertex_Outgoing(), "source", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getTransition_Target(), this.getVertex(), this.getVertex_Incoming(), "target", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTransition_Container(), this.getRegion(), this.getRegion_Transition(), "container", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getTransition_Trigger(), this.getTrigger(), null, "trigger", null, 0, -1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_Guard(), this.getConstraint(), null, "guard", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getTransition__State_is_local__DiagnosticChain_Map(), ecorePackage.getEBoolean(), "state_is_local", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDiagnosticChain(), "diagnostics", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -2130,6 +2179,12 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		g1.getETypeArguments().add(g2);
 		addEParameter(op, g1, "context", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(behaviorEClass, Behavior.class, "Behavior", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(triggerEClass, Trigger.class, "Trigger", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		// Initialize enums and add enum literals
 		initEEnum(transitionKindEEnum, TransitionKind.class, "TransitionKind");
 		addEEnumLiteral(transitionKindEEnum, TransitionKind.INTERNAL);
@@ -2152,189 +2207,12 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 		createResource(eNS_URI);
 
 		// Create annotations
-		// union
-		createUnionAnnotations();
-		// subsets
-		createSubsetsAnnotations();
 		// duplicates
 		createDuplicatesAnnotations();
 		// redefines
 		createRedefinesAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>union</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createUnionAnnotations() {
-		String source = "union";										
-		addAnnotation
-		  (getNamespace_OwnedMember(), 
-		   source, 
-		   new String[] {
-		   });				
-		addAnnotation
-		  (getNamespace_Member(), 
-		   source, 
-		   new String[] {
-		   });																										
-		addAnnotation
-		  (getNamedElement_Namespace(), 
-		   source, 
-		   new String[] {
-		   });																																																																																																																																																																																																																																							
-	}
-
-	/**
-	 * Initializes the annotations for <b>subsets</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createSubsetsAnnotations() {
-		String source = "subsets";											
-		addAnnotation
-		  (getNamespace_OwnedMember(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/member")
-		   });																													
-		addAnnotation
-		  (getNamedElement_Namespace(), 
-		   source, 
-		   new String[] {
-		   });																																			
-		addAnnotation
-		  (getStateMachine_ConnectionPoint(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });				
-		addAnnotation
-		  (getStateMachine_Region(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });																																	
-		addAnnotation
-		  (getPseudostate_State(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });				
-		addAnnotation
-		  (getPseudostate_StateMachine(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });							
-		addAnnotation
-		  (getVertex_Container(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																							
-		addAnnotation
-		  (getRegion_ExtendedRegion(), 
-		   source, 
-		   new String[] {
-		   });			
-		addAnnotation
-		  (getRegion_State(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });			
-		addAnnotation
-		  (getRegion_StateMachine(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });			
-		addAnnotation
-		  (getRegion_Transition(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });			
-		addAnnotation
-		  (getRegion_Subvertex(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });																											
-		addAnnotation
-		  (getState_Connection(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });			
-		addAnnotation
-		  (getState_ConnectionPoint(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });							
-		addAnnotation
-		  (getState_RedefinedState(), 
-		   source, 
-		   new String[] {
-		   });				
-		addAnnotation
-		  (getState_Region(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//Namespace/ownedMember")
-		   });												
-		addAnnotation
-		  (getConnectionPointReference_State(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																																					
-		addAnnotation
-		  (getTransition_RedefinedTransition(), 
-		   source, 
-		   new String[] {
-		   });					
-		addAnnotation
-		  (getTransition_Container(), 
-		   source, 
-		   new String[] {
-		   },
-		   new URI[] {
-			 URI.createURI(eNS_URI).appendFragment("//NamedElement/namespace")
-		   });																																		
+		// subsets
+		createSubsetsAnnotations();
 	}
 
 	/**
@@ -2344,17 +2222,17 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createDuplicatesAnnotations() {
-		String source = "duplicates";																																										
+		String source = "duplicates";	
 		addAnnotation
 		  (protocolStateMachineEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																																																												
+		   });	
 		addAnnotation
 		  (stateEClass, 
 		   source, 
 		   new String[] {
-		   });																																																																																																																								
+		   });
 	}
 
 	/**
@@ -2364,27 +2242,102 @@ public class MagicDrawStatechartsEffectivePackageImpl extends EPackageImpl imple
 	 * @generated
 	 */
 	protected void createRedefinesAnnotations() {
-		String source = "redefines";																																																																							
+		String source = "redefines";	
 		addAnnotation
 		  (getStateMachine__IsRedefinitionContextValid__StateMachine(), 
 		   source, 
 		   new String[] {
-		   });								
-		addAnnotation
-		  (getStateMachine_ExtendedStateMachine(), 
-		   source, 
-		   new String[] {
-		   });																																																											
+		   });	
 		addAnnotation
 		  (getRegion__IsRedefinitionContextValid__Region(), 
 		   source, 
 		   new String[] {
-		   });																																	
+		   });	
 		addAnnotation
 		  (getState__IsRedefinitionContextValid__State(), 
 		   source, 
 		   new String[] {
-		   });																																																																																																					
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>subsets</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createSubsetsAnnotations() {
+		String source = "subsets";	
+		addAnnotation
+		  (getStateMachine_ConnectionPoint(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getStateMachine_Region(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getPseudostate_State(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getPseudostate_StateMachine(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getVertex_Container(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getRegion_State(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getRegion_StateMachine(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getRegion_Transition(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getRegion_Subvertex(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getState_Connection(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getState_ConnectionPoint(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getState_Region(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getConnectionPointReference_State(), 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (getTransition_Container(), 
+		   source, 
+		   new String[] {
+		   });
 	}
 
 } //MagicDrawStatechartsEffectivePackageImpl

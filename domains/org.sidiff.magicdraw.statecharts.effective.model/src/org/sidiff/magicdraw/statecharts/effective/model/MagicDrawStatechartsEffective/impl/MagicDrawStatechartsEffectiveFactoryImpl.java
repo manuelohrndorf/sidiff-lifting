@@ -65,6 +65,9 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 			case MagicDrawStatechartsEffectivePackage.CONNECTION_POINT_REFERENCE: return createConnectionPointReference();
 			case MagicDrawStatechartsEffectivePackage.TRANSITION: return createTransition();
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE: return createFinalState();
+			case MagicDrawStatechartsEffectivePackage.CONSTRAINT: return createConstraint();
+			case MagicDrawStatechartsEffectivePackage.BEHAVIOR: return createBehavior();
+			case MagicDrawStatechartsEffectivePackage.TRIGGER: return createTrigger();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -182,6 +185,36 @@ public class MagicDrawStatechartsEffectiveFactoryImpl extends EFactoryImpl imple
 	public FinalState createFinalState() {
 		FinalStateImpl finalState = new FinalStateImpl();
 		return finalState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Constraint createConstraint() {
+		ConstraintImpl constraint = new ConstraintImpl();
+		return constraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Behavior createBehavior() {
+		BehaviorImpl behavior = new BehaviorImpl();
+		return behavior;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Trigger createTrigger() {
+		TriggerImpl trigger = new TriggerImpl();
+		return trigger;
 	}
 
 	/**

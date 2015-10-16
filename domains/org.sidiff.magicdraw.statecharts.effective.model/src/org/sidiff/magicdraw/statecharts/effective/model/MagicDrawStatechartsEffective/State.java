@@ -26,9 +26,12 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsOrthogonal <em>Is Orthogonal</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsSimple <em>Is Simple</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#isIsSubmachineState <em>Is Submachine State</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRedefinedState <em>Redefined State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getSubmachine <em>Submachine</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRegion <em>Region</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEnty <em>Enty</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit <em>Exit</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity <em>Do Activity</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant <em>State Invariant</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,7 +84,7 @@ public interface State extends Namespace, Vertex {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Is Composite</em>' attribute.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_IsComposite()
-	 * @model default="false" dataType="org.eclipse.uml2.types.Boolean" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @model default="false" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
 	 * @generated
 	 */
 	boolean isIsComposite();
@@ -96,7 +99,7 @@ public interface State extends Namespace, Vertex {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Is Orthogonal</em>' attribute.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_IsOrthogonal()
-	 * @model default="false" dataType="org.eclipse.uml2.types.Boolean" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @model default="false" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
 	 * @generated
 	 */
 	boolean isIsOrthogonal();
@@ -111,7 +114,7 @@ public interface State extends Namespace, Vertex {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Is Simple</em>' attribute.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_IsSimple()
-	 * @model default="true" dataType="org.eclipse.uml2.types.Boolean" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @model default="true" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
 	 * @generated
 	 */
 	boolean isIsSimple();
@@ -126,35 +129,10 @@ public interface State extends Namespace, Vertex {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Is Submachine State</em>' attribute.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_IsSubmachineState()
-	 * @model default="false" dataType="org.eclipse.uml2.types.Boolean" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @model default="false" required="true" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
 	 * @generated
 	 */
 	boolean isIsSubmachineState();
-
-	/**
-	 * Returns the value of the '<em><b>Redefined State</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The state of which this state is a redefinition.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Redefined State</em>' reference.
-	 * @see #setRedefinedState(State)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_RedefinedState()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	State getRedefinedState();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRedefinedState <em>Redefined State</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Redefined State</em>' reference.
-	 * @see #getRedefinedState()
-	 * @generated
-	 */
-	void setRedefinedState(State value);
 
 	/**
 	 * Returns the value of the '<em><b>Submachine</b></em>' reference.
@@ -199,6 +177,110 @@ public interface State extends Namespace, Vertex {
 	 * @generated
 	 */
 	EList<Region> getRegion();
+
+	/**
+	 * Returns the value of the '<em><b>Enty</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Enty</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Enty</em>' containment reference.
+	 * @see #setEnty(Behavior)
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_Enty()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Behavior getEnty();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEnty <em>Enty</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Enty</em>' containment reference.
+	 * @see #getEnty()
+	 * @generated
+	 */
+	void setEnty(Behavior value);
+
+	/**
+	 * Returns the value of the '<em><b>Exit</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Exit</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Exit</em>' containment reference.
+	 * @see #setExit(Behavior)
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_Exit()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Behavior getExit();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit <em>Exit</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Exit</em>' containment reference.
+	 * @see #getExit()
+	 * @generated
+	 */
+	void setExit(Behavior value);
+
+	/**
+	 * Returns the value of the '<em><b>Do Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Do Activity</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Do Activity</em>' containment reference.
+	 * @see #setDoActivity(Behavior)
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_DoActivity()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Behavior getDoActivity();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity <em>Do Activity</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Do Activity</em>' containment reference.
+	 * @see #getDoActivity()
+	 * @generated
+	 */
+	void setDoActivity(Behavior value);
+
+	/**
+	 * Returns the value of the '<em><b>State Invariant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>State Invariant</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>State Invariant</em>' containment reference.
+	 * @see #setStateInvariant(Constraint)
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getState_StateInvariant()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Constraint getStateInvariant();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant <em>State Invariant</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>State Invariant</em>' containment reference.
+	 * @see #getStateInvariant()
+	 * @generated
+	 */
+	void setStateInvariant(Constraint value);
 
 	/**
 	 * <!-- begin-user-doc -->

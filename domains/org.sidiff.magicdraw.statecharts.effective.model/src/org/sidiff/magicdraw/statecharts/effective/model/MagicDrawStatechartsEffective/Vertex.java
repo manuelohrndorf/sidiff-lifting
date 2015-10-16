@@ -57,6 +57,7 @@ public interface Vertex extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Incoming</b></em>' reference list.
 	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -64,7 +65,8 @@ public interface Vertex extends NamedElement {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Incoming</em>' reference list.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getVertex_Incoming()
-	 * @model transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTarget
+	 * @model opposite="target" changeable="false" ordered="false"
 	 * @generated
 	 */
 	EList<Transition> getIncoming();
@@ -72,6 +74,7 @@ public interface Vertex extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Outgoing</b></em>' reference list.
 	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -79,7 +82,8 @@ public interface Vertex extends NamedElement {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Outgoing</em>' reference list.
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getVertex_Outgoing()
-	 * @model transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getSource
+	 * @model opposite="source" changeable="false" ordered="false"
 	 * @generated
 	 */
 	EList<Transition> getOutgoing();

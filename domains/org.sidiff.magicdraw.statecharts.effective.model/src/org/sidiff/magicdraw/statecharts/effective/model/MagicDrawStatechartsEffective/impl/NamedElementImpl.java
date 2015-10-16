@@ -14,11 +14,10 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
@@ -37,7 +36,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.NamedElementImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.NamedElementImpl#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.NamedElementImpl#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
  * </p>
@@ -147,28 +145,6 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	 */
 	public boolean isSetName() {
 		return nameESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Namespace getNamespace() {
-		Namespace namespace = basicGetNamespace();
-		return namespace != null && namespace.eIsProxy() ? (Namespace)eResolveProxy((InternalEObject)namespace) : namespace;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Namespace basicGetNamespace() {
-		// TODO: implement this method to return the 'Namespace' reference
-		// -> do not perform proxy resolution
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -328,6 +304,17 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Namespace getNamespace() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String separator() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -344,9 +331,6 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 		switch (featureID) {
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__NAME:
 				return getName();
-			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__NAMESPACE:
-				if (resolve) return getNamespace();
-				return basicGetNamespace();
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__QUALIFIED_NAME:
 				return getQualifiedName();
 		}
@@ -393,8 +377,6 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 		switch (featureID) {
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__NAME:
 				return isSetName();
-			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__NAMESPACE:
-				return basicGetNamespace() != null;
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT__QUALIFIED_NAME:
 				return QUALIFIED_NAME_EDEFAULT == null ? getQualifiedName() != null : !QUALIFIED_NAME_EDEFAULT.equals(getQualifiedName());
 		}
@@ -430,6 +412,8 @@ public abstract class NamedElementImpl extends MinimalEObjectImpl.Container impl
 				return allNamespaces();
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT___IS_DISTINGUISHABLE_FROM__NAMEDELEMENT_NAMESPACE:
 				return isDistinguishableFrom((NamedElement)arguments.get(0), (Namespace)arguments.get(1));
+			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT___GET_NAMESPACE:
+				return getNamespace();
 			case MagicDrawStatechartsEffectivePackage.NAMED_ELEMENT___SEPARATOR:
 				return separator();
 		}

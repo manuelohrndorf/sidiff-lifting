@@ -491,6 +491,12 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 				return validateTransition((Transition)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.FINAL_STATE:
 				return validateFinalState((FinalState)value, diagnostics, context);
+			case MagicDrawStatechartsEffectivePackage.CONSTRAINT:
+				return validateConstraint((Constraint)value, diagnostics, context);
+			case MagicDrawStatechartsEffectivePackage.BEHAVIOR:
+				return validateBehavior((Behavior)value, diagnostics, context);
+			case MagicDrawStatechartsEffectivePackage.TRIGGER:
+				return validateTrigger((Trigger)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.TRANSITION_KIND:
 				return validateTransitionKind((TransitionKind)value, diagnostics, context);
 			case MagicDrawStatechartsEffectivePackage.PSEUDOSTATE_KIND:
@@ -1261,6 +1267,33 @@ public class MagicDrawStatechartsEffectiveValidator extends EObjectValidator {
 	 */
 	public boolean validateFinalState_no_regions(FinalState finalState, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return finalState.no_regions(diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateConstraint(Constraint constraint, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(constraint, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateBehavior(Behavior behavior, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(behavior, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTrigger(Trigger trigger, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(trigger, diagnostics, context);
 	}
 
 	/**

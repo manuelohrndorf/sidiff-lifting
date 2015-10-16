@@ -3,17 +3,24 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl;
 
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Map;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.util.EObjectValidator;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
 /**
@@ -21,11 +28,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  * An implementation of the model object '<em><b>Namespace</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.NamespaceImpl#getOwnedMember <em>Owned Member</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.NamespaceImpl#getMember <em>Member</em>}</li>
- * </ul>
  * </p>
  *
  * @generated
@@ -48,32 +50,6 @@ public abstract class NamespaceImpl extends NamedElementImpl implements Namespac
 	@Override
 	protected EClass eStaticClass() {
 		return MagicDrawStatechartsEffectivePackage.Literals.NAMESPACE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<NamedElement> getOwnedMember() {
-		// TODO: implement this method to return the 'Owned Member' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<NamedElement> getMember() {
-		// TODO: implement this method to return the 'Member' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -132,38 +108,6 @@ public abstract class NamespaceImpl extends NamedElementImpl implements Namespac
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.NAMESPACE__OWNED_MEMBER:
-				return getOwnedMember();
-			case MagicDrawStatechartsEffectivePackage.NAMESPACE__MEMBER:
-				return getMember();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MagicDrawStatechartsEffectivePackage.NAMESPACE__OWNED_MEMBER:
-				return !getOwnedMember().isEmpty();
-			case MagicDrawStatechartsEffectivePackage.NAMESPACE__MEMBER:
-				return !getMember().isEmpty();
-		}
-		return super.eIsSet(featureID);
 	}
 
 	/**

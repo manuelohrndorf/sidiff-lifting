@@ -3,7 +3,9 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective;
 
 import java.util.Map;
+
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,10 +20,11 @@ import org.eclipse.emf.common.util.DiagnosticChain;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getKind <em>Kind</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getRedefinedTransition <em>Redefined Transition</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTarget <em>Target</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getContainer <em>Container</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTrigger <em>Trigger</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard <em>Guard</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,32 +63,8 @@ public interface Transition extends Namespace {
 	void setKind(TransitionKind value);
 
 	/**
-	 * Returns the value of the '<em><b>Redefined Transition</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The transition that is redefined by this transition.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Redefined Transition</em>' reference.
-	 * @see #setRedefinedTransition(Transition)
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_RedefinedTransition()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	Transition getRedefinedTransition();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getRedefinedTransition <em>Redefined Transition</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Redefined Transition</em>' reference.
-	 * @see #getRedefinedTransition()
-	 * @generated
-	 */
-	void setRedefinedTransition(Transition value);
-
-	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex#getOutgoing <em>Outgoing</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -94,7 +73,8 @@ public interface Transition extends Namespace {
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(Vertex)
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Source()
-	 * @model required="true" ordered="false"
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex#getOutgoing
+	 * @model opposite="outgoing" required="true" ordered="false"
 	 * @generated
 	 */
 	Vertex getSource();
@@ -111,6 +91,7 @@ public interface Transition extends Namespace {
 
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex#getIncoming <em>Incoming</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -119,7 +100,8 @@ public interface Transition extends Namespace {
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(Vertex)
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Target()
-	 * @model required="true" ordered="false"
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex#getIncoming
+	 * @model opposite="incoming" required="true" ordered="false"
 	 * @generated
 	 */
 	Vertex getTarget();
@@ -160,6 +142,48 @@ public interface Transition extends Namespace {
 	 * @generated
 	 */
 	void setContainer(Region value);
+
+	/**
+	 * Returns the value of the '<em><b>Trigger</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Trigger</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Trigger</em>' containment reference list.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Trigger()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Trigger> getTrigger();
+
+	/**
+	 * Returns the value of the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Guard</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Guard</em>' containment reference.
+	 * @see #setGuard(Constraint)
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getTransition_Guard()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Constraint getGuard();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard <em>Guard</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Guard</em>' containment reference.
+	 * @see #getGuard()
+	 * @generated
+	 */
+	void setGuard(Constraint value);
 
 	/**
 	 * <!-- begin-user-doc -->

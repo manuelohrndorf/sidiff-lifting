@@ -42,23 +42,6 @@
         <details key="suppressedVisibility" value="true"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMember" ordered="false"
-        upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
-        transient="true" derived="true" eOpposite="#//NamedElement/namespace">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A collection of NamedElements owned by the Namespace."/>
-      </eAnnotations>
-      <eAnnotations source="union"/>
-      <eAnnotations source="subsets" references="#//Namespace/member"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="member" ordered="false"
-        upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
-        transient="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A collection of NamedElements identifiable within the Namespace, either by being owned or by being introduced by importing or inheritance."/>
-      </eAnnotations>
-      <eAnnotations source="union"/>
-    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -185,20 +168,11 @@
         <details key="documentation" value="The query separator() gives the string that is used to separate names when constructing a qualified name.&#xA;result = '::'"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//String"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The name of the NamedElement."/>
       </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="namespace" ordered="false"
-        eType="#//Namespace" changeable="false" volatile="true" transient="true" derived="true"
-        eOpposite="#//Namespace/ownedMember">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Specifies the namespace that owns the NamedElement."/>
-      </eAnnotations>
-      <eAnnotations source="union"/>
-      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" ordered="false"
         eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//String"
@@ -418,7 +392,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The connection points defined for this state machine. They represent the interface of the state machine when used as part of submachine state."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="submachineState" ordered="false"
         upperBound="-1" eType="#//State" eOpposite="#//State/submachine">
@@ -431,14 +405,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The regions owned directly by the state machine."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedStateMachine" ordered="false"
-        upperBound="-1" eType="#//StateMachine">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The state machines of which this is an extension."/>
-      </eAnnotations>
-      <eAnnotations source="redefines"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pseudostate" eSuperTypes="#//Vertex">
@@ -621,7 +588,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The State that owns this pseudostate and in which it appears."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false" lowerBound="1"
         eType="#//PseudostateKind" defaultValueLiteral="initial">
@@ -634,7 +601,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The StateMachine in which this Pseudostate is defined. This only applies to Pseudostates of the kind entryPoint or exitPoint."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Vertex" abstract="true" eSuperTypes="#//NamedElement">
@@ -663,18 +630,16 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The region that contains this vertex."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" ordered="false"
-        upperBound="-1" eType="#//Transition" changeable="false" volatile="true" transient="true"
-        derived="true">
+        upperBound="-1" eType="#//Transition" changeable="false" eOpposite="#//Transition/target">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the transitions entering this vertex."/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" ordered="false"
-        upperBound="-1" eType="#//Transition" changeable="false" volatile="true" transient="true"
-        derived="true">
+        upperBound="-1" eType="#//Transition" changeable="false" eOpposite="#//Transition/source">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the transitions departing from this vertex."/>
       </eAnnotations>
@@ -783,40 +748,33 @@
         <details key="documentation" value="The redefinition context of a region is the nearest containing statemachine&#xA;result = let sm = containingStateMachine() in&#xA;if sm.context->isEmpty() or sm.general->notEmpty() then&#xA;sm&#xA;else&#xA;sm.context&#xA;endif"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedRegion" ordered="false"
-        eType="#//Region">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The region of which this region is an extension."/>
-      </eAnnotations>
-      <eAnnotations source="subsets"/>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="state" ordered="false"
         eType="#//State" eOpposite="#//State/region">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The State that owns the Region. If a Region is owned by a State, then it cannot also be owned by a StateMachine."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" ordered="false"
         eType="#//StateMachine" eOpposite="#//StateMachine/region">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The StateMachine that owns the Region. If a Region is owned by a StateMachine, then it cannot also be owned by a State."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transition" ordered="false"
         upperBound="-1" eType="#//Transition" containment="true" eOpposite="#//Transition/container">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The set of transitions owned by the region."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subvertex" ordered="false"
         upperBound="-1" eType="#//Vertex" containment="true" eOpposite="#//Vertex/container">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The set of vertices that are owned by this region."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Namespace #//Vertex">
@@ -965,17 +923,17 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The entry and exit connection points used in conjunction with this (submachine) state, i.e. as targets and sources, respectively, in the region with the submachine state. A connection point reference references the corresponding definition of a connection point pseudostate in the statemachine referenced by the submachinestate."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connectionPoint" ordered="false"
         upperBound="-1" eType="#//Pseudostate" containment="true" eOpposite="#//Pseudostate/state">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The entry and exit pseudostates of a composite state. These can only be entry or exit Pseudostates, and they must have different names. They can only be defined for composite states."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isComposite" ordered="false"
-        lowerBound="1" eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//Boolean"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" defaultValueLiteral="false"
         derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -983,7 +941,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOrthogonal" ordered="false"
-        lowerBound="1" eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//Boolean"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" defaultValueLiteral="false"
         derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -991,7 +949,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSimple" ordered="false"
-        lowerBound="1" eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//Boolean"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" defaultValueLiteral="true"
         derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -999,19 +957,12 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSubmachineState" ordered="false"
-        lowerBound="1" eType="ecore:EDataType ../../org.eclipse.uml2.types/model/Types.ecore#//Boolean"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" defaultValueLiteral="false"
         derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A state with isSubmachineState=true is said to be a submachine state. Such a state refers to a state machine (submachine)."/>
       </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedState" ordered="false"
-        eType="#//State">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The state of which this state is a redefinition."/>
-      </eAnnotations>
-      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="submachine" ordered="false"
         eType="#//StateMachine" eOpposite="#//StateMachine/submachineState">
@@ -1024,8 +975,16 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The regions owned directly by the state."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//Namespace/ownedMember"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enty" eType="#//Behavior"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="#//Behavior"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="doActivity" eType="#//Behavior"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateInvariant" eType="#//Constraint"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectionPointReference" eSuperTypes="#//Vertex">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -1086,7 +1045,7 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The State in which the connection point refreshens are defined."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Namespace">
@@ -1299,21 +1258,14 @@
         <details key="documentation" value="Indicates the precise type of the transition."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedTransition" ordered="false"
-        eType="#//Transition">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The transition that is redefined by this transition."/>
-      </eAnnotations>
-      <eAnnotations source="subsets"/>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" ordered="false"
-        lowerBound="1" eType="#//Vertex">
+        lowerBound="1" eType="#//Vertex" eOpposite="#//Vertex/outgoing">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Designates the originating vertex (state or pseudostate) of the transition."/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
-        lowerBound="1" eType="#//Vertex">
+        lowerBound="1" eType="#//Vertex" eOpposite="#//Vertex/incoming">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Designates the target vertex that is reached when the transition is taken."/>
       </eAnnotations>
@@ -1323,8 +1275,12 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Designates the region that owns this transition."/>
       </eAnnotations>
-      <eAnnotations source="subsets" references="#//NamedElement/namespace"/>
+      <eAnnotations source="subsets"/>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" upperBound="-1"
+        eType="#//Trigger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//Constraint"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TransitionKind">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -1520,4 +1476,7 @@
       </eParameters>
     </eOperations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Behavior"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trigger"/>
 </ecore:EPackage>

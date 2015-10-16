@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -45,7 +45,6 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateMachineImpl#getConnectionPoint <em>Connection Point</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateMachineImpl#getSubmachineState <em>Submachine State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateMachineImpl#getRegion <em>Region</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateMachineImpl#getExtendedStateMachine <em>Extended State Machine</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,16 +80,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 	 * @ordered
 	 */
 	protected EList<Region> region;
-
-	/**
-	 * The cached value of the '{@link #getExtendedStateMachine() <em>Extended State Machine</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtendedStateMachine()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<StateMachine> extendedStateMachine;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -145,18 +134,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 			region = new EObjectContainmentWithInverseEList<Region>(Region.class, this, MagicDrawStatechartsEffectivePackage.STATE_MACHINE__REGION, MagicDrawStatechartsEffectivePackage.REGION__STATE_MACHINE);
 		}
 		return region;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<StateMachine> getExtendedStateMachine() {
-		if (extendedStateMachine == null) {
-			extendedStateMachine = new EObjectResolvingEList<StateMachine>(StateMachine.class, this, MagicDrawStatechartsEffectivePackage.STATE_MACHINE__EXTENDED_STATE_MACHINE);
-		}
-		return extendedStateMachine;
 	}
 
 	/**
@@ -343,8 +320,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 				return getSubmachineState();
 			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__REGION:
 				return getRegion();
-			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__EXTENDED_STATE_MACHINE:
-				return getExtendedStateMachine();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -370,10 +345,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 				getRegion().clear();
 				getRegion().addAll((Collection<? extends Region>)newValue);
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__EXTENDED_STATE_MACHINE:
-				getExtendedStateMachine().clear();
-				getExtendedStateMachine().addAll((Collection<? extends StateMachine>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -395,9 +366,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__REGION:
 				getRegion().clear();
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__EXTENDED_STATE_MACHINE:
-				getExtendedStateMachine().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -416,8 +384,6 @@ public class StateMachineImpl extends MinimalEObjectImpl.Container implements St
 				return submachineState != null && !submachineState.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__REGION:
 				return region != null && !region.isEmpty();
-			case MagicDrawStatechartsEffectivePackage.STATE_MACHINE__EXTENDED_STATE_MACHINE:
-				return extendedStateMachine != null && !extendedStateMachine.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

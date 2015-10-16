@@ -78,22 +78,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int NAMED_ELEMENT__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMED_ELEMENT__NAMESPACE = 1;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT__QUALIFIED_NAME = 2;
+	int NAMED_ELEMENT__QUALIFIED_NAME = 1;
 
 	/**
 	 * The number of structural features of the '<em>Named Element</em>' class.
@@ -102,7 +93,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_FEATURE_COUNT = 3;
+	int NAMED_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The operation id for the '<em>Has qualified name</em>' operation.
@@ -241,15 +232,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int NAMESPACE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMESPACE__NAMESPACE = NAMED_ELEMENT__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -259,31 +241,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int NAMESPACE__QUALIFIED_NAME = NAMED_ELEMENT__QUALIFIED_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMESPACE__OWNED_MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMESPACE__MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Namespace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMESPACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int NAMESPACE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>Has qualified name</em>' operation.
@@ -476,22 +440,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int STATE_MACHINE__REGION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Extended State Machine</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_MACHINE__EXTENDED_STATE_MACHINE = 3;
-
-	/**
 	 * The number of structural features of the '<em>State Machine</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE_FEATURE_COUNT = 4;
+	int STATE_MACHINE_FEATURE_COUNT = 3;
 
 	/**
 	 * The operation id for the '<em>Method</em>' operation.
@@ -601,15 +556,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int PROTOCOL_STATE_MACHINE__REGION = STATE_MACHINE__REGION;
-
-	/**
-	 * The feature id for the '<em><b>Extended State Machine</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROTOCOL_STATE_MACHINE__EXTENDED_STATE_MACHINE = STATE_MACHINE__EXTENDED_STATE_MACHINE;
 
 	/**
 	 * The number of structural features of the '<em>Protocol State Machine</em>' class.
@@ -746,15 +692,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int VERTEX__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERTEX__NAMESPACE = NAMED_ELEMENT__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -963,15 +900,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int PSEUDOSTATE__NAME = VERTEX__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PSEUDOSTATE__NAMESPACE = VERTEX__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -1290,15 +1218,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int REGION__NAME = NAMESPACE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGION__NAMESPACE = NAMESPACE__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1308,40 +1227,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int REGION__QUALIFIED_NAME = NAMESPACE__QUALIFIED_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGION__OWNED_MEMBER = NAMESPACE__OWNED_MEMBER;
-
-	/**
-	 * The feature id for the '<em><b>Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGION__MEMBER = NAMESPACE__MEMBER;
-
-	/**
-	 * The feature id for the '<em><b>Extended Region</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REGION__EXTENDED_REGION = NAMESPACE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>State</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REGION__STATE = NAMESPACE_FEATURE_COUNT + 1;
+	int REGION__STATE = NAMESPACE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>State Machine</b></em>' container reference.
@@ -1350,7 +1242,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REGION__STATE_MACHINE = NAMESPACE_FEATURE_COUNT + 2;
+	int REGION__STATE_MACHINE = NAMESPACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Transition</b></em>' containment reference list.
@@ -1359,7 +1251,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REGION__TRANSITION = NAMESPACE_FEATURE_COUNT + 3;
+	int REGION__TRANSITION = NAMESPACE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Subvertex</b></em>' containment reference list.
@@ -1368,7 +1260,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REGION__SUBVERTEX = NAMESPACE_FEATURE_COUNT + 4;
+	int REGION__SUBVERTEX = NAMESPACE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Region</em>' class.
@@ -1377,7 +1269,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REGION_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 5;
+	int REGION_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 4;
 
 	/**
 	 * The operation id for the '<em>Has qualified name</em>' operation.
@@ -1624,15 +1516,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int STATE__NAME = NAMESPACE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE__NAMESPACE = NAMESPACE__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1640,24 +1523,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int STATE__QUALIFIED_NAME = NAMESPACE__QUALIFIED_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE__OWNED_MEMBER = NAMESPACE__OWNED_MEMBER;
-
-	/**
-	 * The feature id for the '<em><b>Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE__MEMBER = NAMESPACE__MEMBER;
 
 	/**
 	 * The feature id for the '<em><b>Container</b></em>' container reference.
@@ -1741,22 +1606,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int STATE__IS_SUBMACHINE_STATE = NAMESPACE_FEATURE_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Redefined State</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE__REDEFINED_STATE = NAMESPACE_FEATURE_COUNT + 9;
-
-	/**
 	 * The feature id for the '<em><b>Submachine</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__SUBMACHINE = NAMESPACE_FEATURE_COUNT + 10;
+	int STATE__SUBMACHINE = NAMESPACE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Region</b></em>' containment reference list.
@@ -1765,7 +1621,43 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__REGION = NAMESPACE_FEATURE_COUNT + 11;
+	int STATE__REGION = NAMESPACE_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Enty</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__ENTY = NAMESPACE_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Exit</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__EXIT = NAMESPACE_FEATURE_COUNT + 12;
+
+	/**
+	 * The feature id for the '<em><b>Do Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__DO_ACTIVITY = NAMESPACE_FEATURE_COUNT + 13;
+
+	/**
+	 * The feature id for the '<em><b>State Invariant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__STATE_INVARIANT = NAMESPACE_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of structural features of the '<em>State</em>' class.
@@ -1774,7 +1666,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 12;
+	int STATE_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 15;
 
 	/**
 	 * The operation id for the '<em>Has qualified name</em>' operation.
@@ -2075,15 +1967,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int CONNECTION_POINT_REFERENCE__NAME = VERTEX__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTION_POINT_REFERENCE__NAMESPACE = VERTEX__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2337,15 +2220,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int TRANSITION__NAME = NAMESPACE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__NAMESPACE = NAMESPACE__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2353,24 +2227,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int TRANSITION__QUALIFIED_NAME = NAMESPACE__QUALIFIED_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__OWNED_MEMBER = NAMESPACE__OWNED_MEMBER;
-
-	/**
-	 * The feature id for the '<em><b>Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__MEMBER = NAMESPACE__MEMBER;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' attribute.
@@ -2382,22 +2238,13 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int TRANSITION__KIND = NAMESPACE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Redefined Transition</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__REDEFINED_TRANSITION = NAMESPACE_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__SOURCE = NAMESPACE_FEATURE_COUNT + 2;
+	int TRANSITION__SOURCE = NAMESPACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -2406,7 +2253,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__TARGET = NAMESPACE_FEATURE_COUNT + 3;
+	int TRANSITION__TARGET = NAMESPACE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Container</b></em>' container reference.
@@ -2415,7 +2262,25 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__CONTAINER = NAMESPACE_FEATURE_COUNT + 4;
+	int TRANSITION__CONTAINER = NAMESPACE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Trigger</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__TRIGGER = NAMESPACE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Guard</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__GUARD = NAMESPACE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
@@ -2424,7 +2289,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 5;
+	int TRANSITION_FEATURE_COUNT = NAMESPACE_FEATURE_COUNT + 6;
 
 	/**
 	 * The operation id for the '<em>Has qualified name</em>' operation.
@@ -2707,15 +2572,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int FINAL_STATE__NAME = STATE__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FINAL_STATE__NAMESPACE = STATE__NAMESPACE;
-
-	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2723,24 +2579,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int FINAL_STATE__QUALIFIED_NAME = STATE__QUALIFIED_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FINAL_STATE__OWNED_MEMBER = STATE__OWNED_MEMBER;
-
-	/**
-	 * The feature id for the '<em><b>Member</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FINAL_STATE__MEMBER = STATE__MEMBER;
 
 	/**
 	 * The feature id for the '<em><b>Container</b></em>' container reference.
@@ -2824,15 +2662,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int FINAL_STATE__IS_SUBMACHINE_STATE = STATE__IS_SUBMACHINE_STATE;
 
 	/**
-	 * The feature id for the '<em><b>Redefined State</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FINAL_STATE__REDEFINED_STATE = STATE__REDEFINED_STATE;
-
-	/**
 	 * The feature id for the '<em><b>Submachine</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2849,6 +2678,42 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @ordered
 	 */
 	int FINAL_STATE__REGION = STATE__REGION;
+
+	/**
+	 * The feature id for the '<em><b>Enty</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FINAL_STATE__ENTY = STATE__ENTY;
+
+	/**
+	 * The feature id for the '<em><b>Exit</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FINAL_STATE__EXIT = STATE__EXIT;
+
+	/**
+	 * The feature id for the '<em><b>Do Activity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FINAL_STATE__DO_ACTIVITY = STATE__DO_ACTIVITY;
+
+	/**
+	 * The feature id for the '<em><b>State Invariant</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FINAL_STATE__STATE_INVARIANT = STATE__STATE_INVARIANT;
 
 	/**
 	 * The number of structural features of the '<em>Final State</em>' class.
@@ -3193,6 +3058,90 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	int FINAL_STATE_OPERATION_COUNT = STATE_OPERATION_COUNT + 6;
 
 	/**
+	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ConstraintImpl <em>Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ConstraintImpl
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getConstraint()
+	 * @generated
+	 */
+	int CONSTRAINT = 11;
+
+	/**
+	 * The number of structural features of the '<em>Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRAINT_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRAINT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.BehaviorImpl <em>Behavior</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.BehaviorImpl
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getBehavior()
+	 * @generated
+	 */
+	int BEHAVIOR = 12;
+
+	/**
+	 * The number of structural features of the '<em>Behavior</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Behavior</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TriggerImpl <em>Trigger</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TriggerImpl
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getTrigger()
+	 * @generated
+	 */
+	int TRIGGER = 13;
+
+	/**
+	 * The number of structural features of the '<em>Trigger</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRIGGER_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Trigger</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRIGGER_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind <em>Transition Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3200,7 +3149,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getTransitionKind()
 	 * @generated
 	 */
-	int TRANSITION_KIND = 11;
+	int TRANSITION_KIND = 14;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.PseudostateKind <em>Pseudostate Kind</em>}' enum.
@@ -3210,7 +3159,7 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getPseudostateKind()
 	 * @generated
 	 */
-	int PSEUDOSTATE_KIND = 12;
+	int PSEUDOSTATE_KIND = 15;
 
 
 	/**
@@ -3222,28 +3171,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNamespace();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember <em>Owned Member</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Owned Member</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember()
-	 * @see #getNamespace()
-	 * @generated
-	 */
-	EReference getNamespace_OwnedMember();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getMember <em>Member</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Member</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getMember()
-	 * @see #getNamespace()
-	 * @generated
-	 */
-	EReference getNamespace_Member();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#members_distinguishable(org.eclipse.emf.common.util.DiagnosticChain, java.util.Map) <em>Members distinguishable</em>}' operation.
@@ -3305,17 +3232,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNamedElement_Name();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getNamespace <em>Namespace</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Namespace</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getNamespace()
-	 * @see #getNamedElement()
-	 * @generated
-	 */
-	EReference getNamedElement_Namespace();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getQualifiedName <em>Qualified Name</em>}'.
@@ -3540,17 +3456,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStateMachine_Region();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getExtendedStateMachine <em>Extended State Machine</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Extended State Machine</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getExtendedStateMachine()
-	 * @see #getStateMachine()
-	 * @generated
-	 */
-	EReference getStateMachine_ExtendedStateMachine();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#method(org.eclipse.emf.common.util.DiagnosticChain, java.util.Map) <em>Method</em>}' operation.
@@ -3839,17 +3744,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	EClass getRegion();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region#getExtendedRegion <em>Extended Region</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Extended Region</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region#getExtendedRegion()
-	 * @see #getRegion()
-	 * @generated
-	 */
-	EReference getRegion_ExtendedRegion();
-
-	/**
 	 * Returns the meta object for the container reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region#getState <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4050,17 +3944,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	EAttribute getState_IsSubmachineState();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRedefinedState <em>Redefined State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Redefined State</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getRedefinedState()
-	 * @see #getState()
-	 * @generated
-	 */
-	EReference getState_RedefinedState();
-
-	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getSubmachine <em>Submachine</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4081,6 +3964,50 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getState_Region();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEnty <em>Enty</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Enty</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getEnty()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Enty();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit <em>Exit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Exit</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getExit()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_Exit();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity <em>Do Activity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Do Activity</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getDoActivity()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_DoActivity();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant <em>State Invariant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>State Invariant</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#getStateInvariant()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_StateInvariant();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.State#entry_or_exit(org.eclipse.emf.common.util.DiagnosticChain, java.util.Map) <em>Entry or exit</em>}' operation.
@@ -4277,17 +4204,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	EAttribute getTransition_Kind();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getRedefinedTransition <em>Redefined Transition</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Redefined Transition</em>'.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getRedefinedTransition()
-	 * @see #getTransition()
-	 * @generated
-	 */
-	EReference getTransition_RedefinedTransition();
-
-	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4319,6 +4235,28 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTransition_Container();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTrigger <em>Trigger</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Trigger</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getTrigger()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_Trigger();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard <em>Guard</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Guard</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#getGuard()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_Guard();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition#state_is_local(org.eclipse.emf.common.util.DiagnosticChain, java.util.Map) <em>State is local</em>}' operation.
@@ -4511,6 +4449,36 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 	EOperation getFinalState__No_regions__DiagnosticChain_Map();
 
 	/**
+	 * Returns the meta object for class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint <em>Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Constraint</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint
+	 * @generated
+	 */
+	EClass getConstraint();
+
+	/**
+	 * Returns the meta object for class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior <em>Behavior</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Behavior</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior
+	 * @generated
+	 */
+	EClass getBehavior();
+
+	/**
+	 * Returns the meta object for class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger <em>Trigger</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Trigger</em>'.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger
+	 * @generated
+	 */
+	EClass getTrigger();
+
+	/**
 	 * Returns the meta object for enum '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind <em>Transition Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4564,22 +4532,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		EClass NAMESPACE = eINSTANCE.getNamespace();
 
 		/**
-		 * The meta object literal for the '<em><b>Owned Member</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NAMESPACE__OWNED_MEMBER = eINSTANCE.getNamespace_OwnedMember();
-
-		/**
-		 * The meta object literal for the '<em><b>Member</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NAMESPACE__MEMBER = eINSTANCE.getNamespace_Member();
-
-		/**
 		 * The meta object literal for the '<em><b>Members distinguishable</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4628,14 +4580,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Namespace</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NAMED_ELEMENT__NAMESPACE = eINSTANCE.getNamedElement_Namespace();
 
 		/**
 		 * The meta object literal for the '<em><b>Qualified Name</b></em>' attribute feature.
@@ -4816,14 +4760,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE_MACHINE__REGION = eINSTANCE.getStateMachine_Region();
-
-		/**
-		 * The meta object literal for the '<em><b>Extended State Machine</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STATE_MACHINE__EXTENDED_STATE_MACHINE = eINSTANCE.getStateMachine_ExtendedStateMachine();
 
 		/**
 		 * The meta object literal for the '<em><b>Method</b></em>' operation.
@@ -5056,14 +4992,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		EClass REGION = eINSTANCE.getRegion();
 
 		/**
-		 * The meta object literal for the '<em><b>Extended Region</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REGION__EXTENDED_REGION = eINSTANCE.getRegion_ExtendedRegion();
-
-		/**
 		 * The meta object literal for the '<em><b>State</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5218,14 +5146,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		EAttribute STATE__IS_SUBMACHINE_STATE = eINSTANCE.getState_IsSubmachineState();
 
 		/**
-		 * The meta object literal for the '<em><b>Redefined State</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STATE__REDEFINED_STATE = eINSTANCE.getState_RedefinedState();
-
-		/**
 		 * The meta object literal for the '<em><b>Submachine</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5240,6 +5160,38 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE__REGION = eINSTANCE.getState_Region();
+
+		/**
+		 * The meta object literal for the '<em><b>Enty</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__ENTY = eINSTANCE.getState_Enty();
+
+		/**
+		 * The meta object literal for the '<em><b>Exit</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__EXIT = eINSTANCE.getState_Exit();
+
+		/**
+		 * The meta object literal for the '<em><b>Do Activity</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__DO_ACTIVITY = eINSTANCE.getState_DoActivity();
+
+		/**
+		 * The meta object literal for the '<em><b>State Invariant</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__STATE_INVARIANT = eINSTANCE.getState_StateInvariant();
 
 		/**
 		 * The meta object literal for the '<em><b>Entry or exit</b></em>' operation.
@@ -5398,14 +5350,6 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		EAttribute TRANSITION__KIND = eINSTANCE.getTransition_Kind();
 
 		/**
-		 * The meta object literal for the '<em><b>Redefined Transition</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSITION__REDEFINED_TRANSITION = eINSTANCE.getTransition_RedefinedTransition();
-
-		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5428,6 +5372,22 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRANSITION__CONTAINER = eINSTANCE.getTransition_Container();
+
+		/**
+		 * The meta object literal for the '<em><b>Trigger</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__TRIGGER = eINSTANCE.getTransition_Trigger();
+
+		/**
+		 * The meta object literal for the '<em><b>Guard</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__GUARD = eINSTANCE.getTransition_Guard();
 
 		/**
 		 * The meta object literal for the '<em><b>State is local</b></em>' operation.
@@ -5582,6 +5542,36 @@ public interface MagicDrawStatechartsEffectivePackage extends EPackage {
 		 * @generated
 		 */
 		EOperation FINAL_STATE___NO_REGIONS__DIAGNOSTICCHAIN_MAP = eINSTANCE.getFinalState__No_regions__DiagnosticChain_Map();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ConstraintImpl <em>Constraint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.ConstraintImpl
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getConstraint()
+		 * @generated
+		 */
+		EClass CONSTRAINT = eINSTANCE.getConstraint();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.BehaviorImpl <em>Behavior</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.BehaviorImpl
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getBehavior()
+		 * @generated
+		 */
+		EClass BEHAVIOR = eINSTANCE.getBehavior();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TriggerImpl <em>Trigger</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.TriggerImpl
+		 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.MagicDrawStatechartsEffectivePackageImpl#getTrigger()
+		 * @generated
+		 */
+		EClass TRIGGER = eINSTANCE.getTrigger();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.TransitionKind <em>Transition Kind</em>}' enum.

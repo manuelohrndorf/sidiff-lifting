@@ -16,51 +16,12 @@ import org.eclipse.emf.common.util.EList;
  * A namespace is an element in a model that contains a set of named elements that can be identified by name.
  * <!-- end-model-doc -->
  *
- * <p>
- * The following features are supported:
- * <ul>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember <em>Owned Member</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getMember <em>Member</em>}</li>
- * </ul>
- * </p>
  *
  * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamespace()
  * @model abstract="true"
  * @generated
  */
 public interface Namespace extends NamedElement {
-	/**
-	 * Returns the value of the '<em><b>Owned Member</b></em>' reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement}.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getNamespace <em>Namespace</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * A collection of NamedElements owned by the Namespace.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Owned Member</em>' reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamespace_OwnedMember()
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getNamespace
-	 * @model opposite="namespace" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
-	 * @generated
-	 */
-	EList<NamedElement> getOwnedMember();
-
-	/**
-	 * Returns the value of the '<em><b>Member</b></em>' reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * A collection of NamedElements identifiable within the Namespace, either by being owned or by being introduced by importing or inheritance.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Member</em>' reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamespace_Member()
-	 * @model transient="true" changeable="false" volatile="true" derived="true" ordered="false"
-	 * @generated
-	 */
-	EList<NamedElement> getMember();
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -4,8 +4,11 @@ package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEff
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.*;
 
 /**
@@ -107,6 +110,18 @@ public class MagicDrawStatechartsEffectiveAdapterFactory extends AdapterFactoryI
 			@Override
 			public Adapter caseFinalState(FinalState object) {
 				return createFinalStateAdapter();
+			}
+			@Override
+			public Adapter caseConstraint(Constraint object) {
+				return createConstraintAdapter();
+			}
+			@Override
+			public Adapter caseBehavior(Behavior object) {
+				return createBehaviorAdapter();
+			}
+			@Override
+			public Adapter caseTrigger(Trigger object) {
+				return createTriggerAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -279,6 +294,48 @@ public class MagicDrawStatechartsEffectiveAdapterFactory extends AdapterFactoryI
 	 * @generated
 	 */
 	public Adapter createFinalStateAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint <em>Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint
+	 * @generated
+	 */
+	public Adapter createConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior <em>Behavior</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior
+	 * @generated
+	 */
+	public Adapter createBehaviorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger <em>Trigger</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Trigger
+	 * @generated
+	 */
+	public Adapter createTriggerAdapter() {
 		return null;
 	}
 

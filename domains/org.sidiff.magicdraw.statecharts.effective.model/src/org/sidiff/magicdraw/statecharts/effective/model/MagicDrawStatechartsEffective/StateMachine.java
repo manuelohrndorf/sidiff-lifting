@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -23,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getConnectionPoint <em>Connection Point</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getSubmachineState <em>Submachine State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getRegion <em>Region</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine#getExtendedStateMachine <em>Extended State Machine</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,21 +82,6 @@ public interface StateMachine extends EObject {
 	 * @generated
 	 */
 	EList<Region> getRegion();
-
-	/**
-	 * Returns the value of the '<em><b>Extended State Machine</b></em>' reference list.
-	 * The list contents are of type {@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The state machines of which this is an extension.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Extended State Machine</em>' reference list.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getStateMachine_ExtendedStateMachine()
-	 * @model ordered="false"
-	 * @generated
-	 */
-	EList<StateMachine> getExtendedStateMachine();
 
 	/**
 	 * <!-- begin-user-doc -->

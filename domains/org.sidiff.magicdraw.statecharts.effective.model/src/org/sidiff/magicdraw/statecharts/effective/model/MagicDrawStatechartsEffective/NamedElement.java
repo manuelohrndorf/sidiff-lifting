@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.NamedElement#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
  * </p>
@@ -44,7 +44,7 @@ public interface NamedElement extends EObject {
 	 * @see #unsetName()
 	 * @see #setName(String)
 	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamedElement_Name()
-	 * @model unsettable="true" dataType="org.eclipse.uml2.types.String" ordered="false"
+	 * @model unsettable="true" ordered="false"
 	 * @generated
 	 */
 	String getName();
@@ -83,22 +83,6 @@ public interface NamedElement extends EObject {
 	 * @generated
 	 */
 	boolean isSetName();
-
-	/**
-	 * Returns the value of the '<em><b>Namespace</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember <em>Owned Member</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the namespace that owns the NamedElement.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Namespace</em>' reference.
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage#getNamedElement_Namespace()
-	 * @see org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Namespace#getOwnedMember
-	 * @model opposite="ownedMember" transient="true" changeable="false" volatile="true" derived="true" ordered="false"
-	 * @generated
-	 */
-	Namespace getNamespace();
 
 	/**
 	 * Returns the value of the '<em><b>Qualified Name</b></em>' attribute.

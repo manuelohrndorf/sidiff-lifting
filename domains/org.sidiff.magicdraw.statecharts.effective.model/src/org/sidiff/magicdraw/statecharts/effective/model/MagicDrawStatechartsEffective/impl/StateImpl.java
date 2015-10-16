@@ -3,23 +3,34 @@
 package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl;
 
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 import java.util.Map;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Behavior;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.ConnectionPointReference;
+import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Constraint;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.MagicDrawStatechartsEffectivePackage;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Pseudostate;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Region;
@@ -27,6 +38,7 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.StateMachine;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Transition;
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.Vertex;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.util.MagicDrawStatechartsEffectiveValidator;
 
 /**
@@ -45,15 +57,38 @@ import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffe
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsOrthogonal <em>Is Orthogonal</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsSimple <em>Is Simple</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#isIsSubmachineState <em>Is Submachine State</em>}</li>
- *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getRedefinedState <em>Redefined State</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getSubmachine <em>Submachine</em>}</li>
  *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getRegion <em>Region</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getEnty <em>Enty</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getExit <em>Exit</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getDoActivity <em>Do Activity</em>}</li>
+ *   <li>{@link org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.impl.StateImpl#getStateInvariant <em>State Invariant</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class StateImpl extends NamespaceImpl implements State {
+	/**
+	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIncoming()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Transition> incoming;
+
+	/**
+	 * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutgoing()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Transition> outgoing;
+
 	/**
 	 * The cached value of the '{@link #getConnection() <em>Connection</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -115,16 +150,6 @@ public class StateImpl extends NamespaceImpl implements State {
 	protected static final boolean IS_SUBMACHINE_STATE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #getRedefinedState() <em>Redefined State</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRedefinedState()
-	 * @generated
-	 * @ordered
-	 */
-	protected State redefinedState;
-
-	/**
 	 * The cached value of the '{@link #getSubmachine() <em>Submachine</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -143,6 +168,46 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * @ordered
 	 */
 	protected EList<Region> region;
+
+	/**
+	 * The cached value of the '{@link #getEnty() <em>Enty</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnty()
+	 * @generated
+	 * @ordered
+	 */
+	protected Behavior enty;
+
+	/**
+	 * The cached value of the '{@link #getExit() <em>Exit</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExit()
+	 * @generated
+	 * @ordered
+	 */
+	protected Behavior exit;
+
+	/**
+	 * The cached value of the '{@link #getDoActivity() <em>Do Activity</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDoActivity()
+	 * @generated
+	 * @ordered
+	 */
+	protected Behavior doActivity;
+
+	/**
+	 * The cached value of the '{@link #getStateInvariant() <em>State Invariant</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStateInvariant()
+	 * @generated
+	 * @ordered
+	 */
+	protected Constraint stateInvariant;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -210,11 +275,10 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * @generated
 	 */
 	public EList<Transition> getIncoming() {
-		// TODO: implement this method to return the 'Incoming' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		if (incoming == null) {
+			incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, MagicDrawStatechartsEffectivePackage.STATE__INCOMING, MagicDrawStatechartsEffectivePackage.TRANSITION__TARGET);
+		}
+		return incoming;
 	}
 
 	/**
@@ -223,11 +287,10 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * @generated
 	 */
 	public EList<Transition> getOutgoing() {
-		// TODO: implement this method to return the 'Outgoing' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		if (outgoing == null) {
+			outgoing = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, MagicDrawStatechartsEffectivePackage.STATE__OUTGOING, MagicDrawStatechartsEffectivePackage.TRANSITION__SOURCE);
+		}
+		return outgoing;
 	}
 
 	/**
@@ -303,44 +366,6 @@ public class StateImpl extends NamespaceImpl implements State {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public State getRedefinedState() {
-		if (redefinedState != null && redefinedState.eIsProxy()) {
-			InternalEObject oldRedefinedState = (InternalEObject)redefinedState;
-			redefinedState = (State)eResolveProxy(oldRedefinedState);
-			if (redefinedState != oldRedefinedState) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE, oldRedefinedState, redefinedState));
-			}
-		}
-		return redefinedState;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public State basicGetRedefinedState() {
-		return redefinedState;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRedefinedState(State newRedefinedState) {
-		State oldRedefinedState = redefinedState;
-		redefinedState = newRedefinedState;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE, oldRedefinedState, redefinedState));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public StateMachine getSubmachine() {
 		if (submachine != null && submachine.eIsProxy()) {
 			InternalEObject oldSubmachine = (InternalEObject)submachine;
@@ -406,6 +431,178 @@ public class StateImpl extends NamespaceImpl implements State {
 			region = new EObjectContainmentWithInverseEList<Region>(Region.class, this, MagicDrawStatechartsEffectivePackage.STATE__REGION, MagicDrawStatechartsEffectivePackage.REGION__STATE);
 		}
 		return region;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Behavior getEnty() {
+		return enty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEnty(Behavior newEnty, NotificationChain msgs) {
+		Behavior oldEnty = enty;
+		enty = newEnty;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__ENTY, oldEnty, newEnty);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnty(Behavior newEnty) {
+		if (newEnty != enty) {
+			NotificationChain msgs = null;
+			if (enty != null)
+				msgs = ((InternalEObject)enty).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__ENTY, null, msgs);
+			if (newEnty != null)
+				msgs = ((InternalEObject)newEnty).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__ENTY, null, msgs);
+			msgs = basicSetEnty(newEnty, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__ENTY, newEnty, newEnty));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Behavior getExit() {
+		return exit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetExit(Behavior newExit, NotificationChain msgs) {
+		Behavior oldExit = exit;
+		exit = newExit;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__EXIT, oldExit, newExit);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExit(Behavior newExit) {
+		if (newExit != exit) {
+			NotificationChain msgs = null;
+			if (exit != null)
+				msgs = ((InternalEObject)exit).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__EXIT, null, msgs);
+			if (newExit != null)
+				msgs = ((InternalEObject)newExit).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__EXIT, null, msgs);
+			msgs = basicSetExit(newExit, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__EXIT, newExit, newExit));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Behavior getDoActivity() {
+		return doActivity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDoActivity(Behavior newDoActivity, NotificationChain msgs) {
+		Behavior oldDoActivity = doActivity;
+		doActivity = newDoActivity;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, oldDoActivity, newDoActivity);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDoActivity(Behavior newDoActivity) {
+		if (newDoActivity != doActivity) {
+			NotificationChain msgs = null;
+			if (doActivity != null)
+				msgs = ((InternalEObject)doActivity).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, null, msgs);
+			if (newDoActivity != null)
+				msgs = ((InternalEObject)newDoActivity).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, null, msgs);
+			msgs = basicSetDoActivity(newDoActivity, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY, newDoActivity, newDoActivity));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Constraint getStateInvariant() {
+		return stateInvariant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStateInvariant(Constraint newStateInvariant, NotificationChain msgs) {
+		Constraint oldStateInvariant = stateInvariant;
+		stateInvariant = newStateInvariant;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, oldStateInvariant, newStateInvariant);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStateInvariant(Constraint newStateInvariant) {
+		if (newStateInvariant != stateInvariant) {
+			NotificationChain msgs = null;
+			if (stateInvariant != null)
+				msgs = ((InternalEObject)stateInvariant).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, null, msgs);
+			if (newStateInvariant != null)
+				msgs = ((InternalEObject)newStateInvariant).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, null, msgs);
+			msgs = basicSetStateInvariant(newStateInvariant, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT, newStateInvariant, newStateInvariant));
 	}
 
 	/**
@@ -645,6 +842,10 @@ public class StateImpl extends NamespaceImpl implements State {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetContainer((Region)otherEnd, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__INCOMING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__OUTGOING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getConnection()).basicAdd(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
@@ -669,6 +870,10 @@ public class StateImpl extends NamespaceImpl implements State {
 		switch (featureID) {
 			case MagicDrawStatechartsEffectivePackage.STATE__CONTAINER:
 				return basicSetContainer(null, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__INCOMING:
+				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__OUTGOING:
+				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION:
 				return ((InternalEList<?>)getConnection()).basicRemove(otherEnd, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
@@ -677,6 +882,14 @@ public class StateImpl extends NamespaceImpl implements State {
 				return basicSetSubmachine(null, msgs);
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
 				return ((InternalEList<?>)getRegion()).basicRemove(otherEnd, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__ENTY:
+				return basicSetEnty(null, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
+				return basicSetExit(null, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
+				return basicSetDoActivity(null, msgs);
+			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
+				return basicSetStateInvariant(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -721,14 +934,19 @@ public class StateImpl extends NamespaceImpl implements State {
 				return isIsSimple();
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_SUBMACHINE_STATE:
 				return isIsSubmachineState();
-			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
-				if (resolve) return getRedefinedState();
-				return basicGetRedefinedState();
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				if (resolve) return getSubmachine();
 				return basicGetSubmachine();
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
 				return getRegion();
+			case MagicDrawStatechartsEffectivePackage.STATE__ENTY:
+				return getEnty();
+			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
+				return getExit();
+			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
+				return getDoActivity();
+			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
+				return getStateInvariant();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -753,15 +971,24 @@ public class StateImpl extends NamespaceImpl implements State {
 				getConnectionPoint().clear();
 				getConnectionPoint().addAll((Collection<? extends Pseudostate>)newValue);
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
-				setRedefinedState((State)newValue);
-				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				setSubmachine((StateMachine)newValue);
 				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
 				getRegion().clear();
 				getRegion().addAll((Collection<? extends Region>)newValue);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__ENTY:
+				setEnty((Behavior)newValue);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
+				setExit((Behavior)newValue);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
+				setDoActivity((Behavior)newValue);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
+				setStateInvariant((Constraint)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -784,14 +1011,23 @@ public class StateImpl extends NamespaceImpl implements State {
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
 				getConnectionPoint().clear();
 				return;
-			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
-				setRedefinedState((State)null);
-				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				setSubmachine((StateMachine)null);
 				return;
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
 				getRegion().clear();
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__ENTY:
+				setEnty((Behavior)null);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
+				setExit((Behavior)null);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
+				setDoActivity((Behavior)null);
+				return;
+			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
+				setStateInvariant((Constraint)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -808,9 +1044,9 @@ public class StateImpl extends NamespaceImpl implements State {
 			case MagicDrawStatechartsEffectivePackage.STATE__CONTAINER:
 				return getContainer() != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__INCOMING:
-				return !getIncoming().isEmpty();
+				return incoming != null && !incoming.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.STATE__OUTGOING:
-				return !getOutgoing().isEmpty();
+				return outgoing != null && !outgoing.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION:
 				return connection != null && !connection.isEmpty();
 			case MagicDrawStatechartsEffectivePackage.STATE__CONNECTION_POINT:
@@ -823,12 +1059,18 @@ public class StateImpl extends NamespaceImpl implements State {
 				return isIsSimple() != IS_SIMPLE_EDEFAULT;
 			case MagicDrawStatechartsEffectivePackage.STATE__IS_SUBMACHINE_STATE:
 				return isIsSubmachineState() != IS_SUBMACHINE_STATE_EDEFAULT;
-			case MagicDrawStatechartsEffectivePackage.STATE__REDEFINED_STATE:
-				return redefinedState != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__SUBMACHINE:
 				return submachine != null;
 			case MagicDrawStatechartsEffectivePackage.STATE__REGION:
 				return region != null && !region.isEmpty();
+			case MagicDrawStatechartsEffectivePackage.STATE__ENTY:
+				return enty != null;
+			case MagicDrawStatechartsEffectivePackage.STATE__EXIT:
+				return exit != null;
+			case MagicDrawStatechartsEffectivePackage.STATE__DO_ACTIVITY:
+				return doActivity != null;
+			case MagicDrawStatechartsEffectivePackage.STATE__STATE_INVARIANT:
+				return stateInvariant != null;
 		}
 		return super.eIsSet(featureID);
 	}

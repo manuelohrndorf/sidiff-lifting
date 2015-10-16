@@ -4,7 +4,9 @@ package org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEff
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
 import org.sidiff.magicdraw.statecharts.effective.model.MagicDrawStatechartsEffective.*;
 
 /**
@@ -145,6 +147,24 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 				if (result == null) result = caseNamespace(finalState);
 				if (result == null) result = caseVertex(finalState);
 				if (result == null) result = caseNamedElement(finalState);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MagicDrawStatechartsEffectivePackage.CONSTRAINT: {
+				Constraint constraint = (Constraint)theEObject;
+				T result = caseConstraint(constraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MagicDrawStatechartsEffectivePackage.BEHAVIOR: {
+				Behavior behavior = (Behavior)theEObject;
+				T result = caseBehavior(behavior);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MagicDrawStatechartsEffectivePackage.TRIGGER: {
+				Trigger trigger = (Trigger)theEObject;
+				T result = caseTrigger(trigger);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -314,6 +334,51 @@ public class MagicDrawStatechartsEffectiveSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFinalState(FinalState object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConstraint(Constraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Behavior</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Behavior</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBehavior(Behavior object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Trigger</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Trigger</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTrigger(Trigger object) {
 		return null;
 	}
 
