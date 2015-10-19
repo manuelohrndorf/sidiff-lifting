@@ -57,6 +57,10 @@ public class OperationExecutionEntry extends ReportEntry {
 		return error;
 	}
 
+	public OperationInvocation getOperationInvocation() {
+		return operationInvocation;
+	}
+
 	public Map<ParameterBinding, Object> getInArgs() {
 		return inArgs;
 	}
