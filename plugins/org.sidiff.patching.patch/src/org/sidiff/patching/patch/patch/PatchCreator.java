@@ -153,6 +153,8 @@ public class PatchCreator {
 
 			symmetricDifference.setUriModelA(relativeResASavePath);
 			symmetricDifference.setUriModelB(relativeResBSavePath);
+			asymmetricDifference.setUriOriginModel(relativeResASavePath);
+			asymmetricDifference.setUriChangedModel(relativeResBSavePath);
 			patch.getSettings().put("matcher", settings.getMatcher().getName());
 		} else {
 			ISymbolicLinkHandler handler = settings.getSymbolicLinkHandler();
