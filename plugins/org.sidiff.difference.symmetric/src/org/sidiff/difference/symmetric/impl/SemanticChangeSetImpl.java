@@ -36,6 +36,7 @@ import org.silift.difference.symboliclink.util.SymboliclinkUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getChanges <em>Changes</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getName <em>Name</em>}</li>
@@ -54,7 +55,6 @@ import org.silift.difference.symboliclink.util.SymboliclinkUtil;
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getJoins <em>Joins</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl#getSplits <em>Splits</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -910,7 +910,7 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 		// Try to derive the EditRule via the available rulebases:
 		SymmetricDifference difference = (SymmetricDifference) this.eContainer();
 
-		//TODO cpietsch 19.06.2015: überarbeiten
+		//TODO cpietsch 19.06.2015: ï¿½berarbeiten
 		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getCorrespondences().get(0).getObjA());
 		return RuleBaseUtil.resolveEditRule(documentType, this.getEditRName());
 	}

@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.EditRuleMatch#getNodeOccurrencesA <em>Node Occurrences A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.EditRuleMatch#getNodeOccurrencesB <em>Node Occurrences B</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getEditRuleMatch()
  * @model

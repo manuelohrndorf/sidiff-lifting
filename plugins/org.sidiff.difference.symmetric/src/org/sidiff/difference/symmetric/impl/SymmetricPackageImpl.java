@@ -931,30 +931,39 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEObject(), "getCorrespondingObjectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "modelElement", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondenceOfModelA", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "modelAElement", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondenceOfModelB", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "modelBElement", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEFloat(), "reliability", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEFloat(), "getReliability", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondenceA", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondenceB", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEFloat(), "getReliability", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(addObjectEClass, AddObject.class, "AddObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAddObject_Obj(), ecorePackage.getEObject(), null, "obj", null, 0, 1, AddObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

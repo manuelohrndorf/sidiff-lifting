@@ -15,8 +15,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Change</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

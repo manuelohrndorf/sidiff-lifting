@@ -16,12 +16,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.AttributeValueChange#getObjA <em>Obj A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.AttributeValueChange#getObjB <em>Obj B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.AttributeValueChange#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getAttributeValueChange()
  * @model

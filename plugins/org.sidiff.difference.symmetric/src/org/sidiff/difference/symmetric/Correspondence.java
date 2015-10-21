@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.Correspondence#getObjA <em>Obj A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.Correspondence#getObjB <em>Obj B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.Correspondence#getReliability <em>Reliability</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getCorrespondence()
  * @model

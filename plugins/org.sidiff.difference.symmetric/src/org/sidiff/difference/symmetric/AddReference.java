@@ -16,12 +16,12 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.AddReference#getSrc <em>Src</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.AddReference#getTgt <em>Tgt</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.AddReference#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getAddReference()
  * @model

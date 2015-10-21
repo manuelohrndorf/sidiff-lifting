@@ -29,12 +29,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentSplitImpl#getScs <em>Scs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentSplitImpl#getSplitFrom <em>Split From</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentSplitImpl#getSplitInto <em>Split Into</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

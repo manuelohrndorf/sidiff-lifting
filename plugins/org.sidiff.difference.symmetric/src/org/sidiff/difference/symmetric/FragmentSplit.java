@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentSplit#getScs <em>Scs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentSplit#getSplitFrom <em>Split From</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentSplit#getSplitInto <em>Split Into</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getFragmentSplit()
  * @model

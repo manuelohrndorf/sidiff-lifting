@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getChanges <em>Changes</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getChangeSets <em>Change Sets</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.ecore.resource.Resource;
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getNotOverlappings <em>Not Overlappings</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getUnusedChangeSets <em>Unused Change Sets</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getSymmetricDifference()
  * @model
@@ -212,6 +212,30 @@ public interface SymmetricDifference extends EObject {
 	 * @generated
 	 */
 	EObject getCorrespondingObjectInB(EObject objectInA);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Correspondence getCorrespondence(EObject modelElement);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Correspondence getCorrespondenceOfModelA(EObject modelAElement);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Correspondence getCorrespondenceOfModelB(EObject modelBElement);
 
 	/**
 	 * <!-- begin-user-doc -->

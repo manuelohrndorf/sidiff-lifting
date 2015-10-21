@@ -20,11 +20,11 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.EString2EObjectSetMapImpl#getTypedValue <em>Value</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.EString2EObjectSetMapImpl#getTypedKey <em>Key</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

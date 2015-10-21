@@ -29,12 +29,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentJoinImpl#getScs <em>Scs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentJoinImpl#getJoinFrom <em>Join From</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.FragmentJoinImpl#getJoinInto <em>Join Into</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

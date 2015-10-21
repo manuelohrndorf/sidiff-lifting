@@ -21,12 +21,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl#getObjA <em>Obj A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl#getObjB <em>Obj B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

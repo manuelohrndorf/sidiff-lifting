@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentJoin#getScs <em>Scs</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentJoin#getJoinFrom <em>Join From</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.FragmentJoin#getJoinInto <em>Join Into</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getFragmentJoin()
  * @model

@@ -17,6 +17,7 @@ import org.sidiff.difference.rulebase.EditRule;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getChanges <em>Changes</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getName <em>Name</em>}</li>
@@ -35,7 +36,6 @@ import org.sidiff.difference.rulebase.EditRule;
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getJoins <em>Joins</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SemanticChangeSet#getSplits <em>Splits</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getSemanticChangeSet()
  * @model

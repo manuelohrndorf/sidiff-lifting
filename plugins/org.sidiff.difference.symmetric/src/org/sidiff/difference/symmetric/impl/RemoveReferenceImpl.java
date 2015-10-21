@@ -21,12 +21,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.RemoveReferenceImpl#getSrc <em>Src</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.RemoveReferenceImpl#getTgt <em>Tgt</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.RemoveReferenceImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
