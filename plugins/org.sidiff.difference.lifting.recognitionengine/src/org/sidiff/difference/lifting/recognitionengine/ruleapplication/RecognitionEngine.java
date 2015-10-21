@@ -44,8 +44,6 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
- * Implementation of CO-Detection Service Interface.
- * 
  * The recognition engine is used to execute the recognition rules on the
  * difference. The recognition rules will group the atomic changes to semantic
  * change sets. Note that there maybe overlapping semantic change sets.
