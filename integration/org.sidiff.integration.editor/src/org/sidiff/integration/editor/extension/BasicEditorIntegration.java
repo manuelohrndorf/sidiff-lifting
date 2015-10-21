@@ -2,6 +2,11 @@ package org.sidiff.integration.editor.extension;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -11,9 +16,8 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -27,10 +31,9 @@ import org.silift.common.util.emf.EMFStorage;
 
 public class BasicEditorIntegration extends AbstractEditorIntegration {
 
-	protected final String docType, modelFileExt, diagramFileExt;
+	protected String docType, modelFileExt, diagramFileExt;
 
-	public BasicEditorIntegration(String defaultEditorId,
-			String diagramEditorId, String docType, String modelFileExt,
+	public BasicEditorIntegration(String defaultEditorId, String diagramEditorId, String docType, String modelFileExt,
 			String diagramFileExt) {
 		super(defaultEditorId, diagramEditorId);
 		this.docType = docType;
@@ -45,8 +48,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected URI[] getDiagramFiles(URI modelFile) {
 		String ext = modelFile.fileExtension();
-		if (modelFileExt != null && diagramFileExt != null
-				&& modelFileExt.equals(ext)) {
+		if ((modelFileExt != null) && (diagramFileExt != null) && modelFileExt.equals(ext)) {
 			int index = modelFile.toString().lastIndexOf(ext);
 			String modelName = modelFile.toString().substring(0, index);
 			return new URI[] { URI.createURI(modelName + this.diagramFileExt) };
@@ -56,29 +58,26 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsModel(URI modelFile) {
-		return (modelFileExt != null && modelFile.fileExtension().toLowerCase()
-				.endsWith(modelFileExt));
+		return ((modelFileExt != null) && modelFile.fileExtension().toLowerCase().endsWith(modelFileExt));
 	}
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-		return (diagramFile != null && diagramFileExt != null && diagramFile
-				.fileExtension().toLowerCase().endsWith(diagramFileExt));
+		return ((diagramFile != null) && (diagramFileExt != null)
+				&& diagramFile.fileExtension().toLowerCase().endsWith(diagramFileExt));
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
-		if (modelURI == null || !isDefaultEditorPresent())
+		if ((modelURI == null) || !isDefaultEditorPresent()) {
 			return null;
+		}
 		try {
-			IWorkbenchPage page = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
-			IPath location = Path.fromOSString(EMFStorage.uriToFile(modelURI)
-					.getAbsolutePath());
-			IFile file = ResourcesPlugin.getWorkspace().getRoot()
-					.getFileForLocation(location);
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IPath location = Path.fromOSString(EMFStorage.uriToFile(modelURI).getAbsolutePath());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 			IEditorInput input;
-			if (file != null && file.exists()) {
+			if ((file != null) && file.exists()) {
 				input = new FileEditorInput(file);
 			} else {
 				input = new URIEditorInput(modelURI);
@@ -91,17 +90,15 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public IEditorPart openDiagram(URI diagramURI) {
-		if (diagramURI == null || !isDiagramEditorPresent())
+		if ((diagramURI == null) || !isDiagramEditorPresent()) {
 			return null;
+		}
 		try {
-			IWorkbenchPage page = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
-			IPath location = Path.fromOSString(EMFStorage.uriToFile(diagramURI)
-					.getAbsolutePath());
-			IFile file = ResourcesPlugin.getWorkspace().getRoot()
-					.getFileForLocation(location);
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IPath location = Path.fromOSString(EMFStorage.uriToFile(diagramURI).getAbsolutePath());
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 			IEditorInput input;
-			if (file != null && file.exists()) {
+			if ((file != null) && file.exists()) {
 				input = new FileEditorInput(file);
 			} else {
 				input = new URIEditorInput(diagramURI);
@@ -124,63 +121,78 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return (docType != null
-				&& docType.equals(EMFModelAccessEx
-						.getCharacteristicDocumentType(model)) && getMainDiagramFile(model
-					.getURI()) != null);
+		return ((docType != null) && docType.equals(EMFModelAccessEx.getCharacteristicDocumentType(model))
+				&& (getMainDiagramFile(model.getURI()) != null));
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
-		return (docType != null
-				&& docType.equals(EMFModelAccessEx
-						.getCharacteristicDocumentType(model)) && model
-				.getURI().fileExtension().equals(this.modelFileExt));
+		return ((docType != null) && docType.equals(EMFModelAccessEx.getCharacteristicDocumentType(model))
+				&& model.getURI().fileExtension().equals(this.modelFileExt));
 	}
 
 	@Override
-	public URI copyDiagram(URI modelFile, String savePath)
-			throws FileNotFoundException {
-		final String separator = System.getProperty("file.separator");
+	public URI copyDiagram(URI modelFile, String savePath) throws FileNotFoundException {
+		String separator = System.getProperty("file.separator");
 		try {
-			final URI[] diagramFiles = getDiagramFiles(modelFile);
-			final URI mainDiagramUri = getMainDiagramFile(modelFile);
-			if (diagramFiles == null || diagramFiles.length == 0
-					|| mainDiagramUri == null)
+			// This code assumes that mainDiagramUri is in diagramFiles:
+			URI[] diagramFiles = getDiagramFiles(modelFile);
+			URI mainDiagramUri = getMainDiagramFile(modelFile);
+
+			if ((diagramFiles == null) || (diagramFiles.length == 0) || (mainDiagramUri == null)) {
 				throw new RuntimeException("Model not supported");
-			//This code assumes that mainDiagramUri is in diagramFiles
-			ResourceSet set = new ResourceSetImpl();
+			}
+
+			// Load the diagram file:
+			List<Resource> diagramResources = new ArrayList<Resource>();
+
 			for (URI diagramFile : diagramFiles) {
-				final File testFile = new File(
-						EMFStorage.uriToPath(diagramFile));
-				if (!testFile.exists() || !testFile.isFile())
-					throw new FileNotFoundException(
-							"A diagram file was not found");
+				File testFile = new File(EMFStorage.uriToPath(diagramFile));
+				if (!testFile.exists() || !testFile.isFile()) {
+					throw new FileNotFoundException("A diagram file was not found");
+				}
+				
 				Resource resource = EMFStorage.eLoad(diagramFile).eResource();
-				set.getResources().add(resource);
+				diagramResources.add(resource);
 			}
-			EcoreUtil.resolveAll(set);
-			for(Resource resource : set.getResources()) {
-				if(resource.getURI().fileExtension().equals(modelFile.fileExtension())){
-					final URI modelFileURI = EMFStorage.pathToUri(savePath + separator + resource.getURI().lastSegment()); 
-					EMFStorage.eSaveAs(modelFileURI, resource.getContents().get(0), true);
-				}
+
+			// Save the diagram files:
+			for (Resource diagramResource : diagramResources) {
+				URI diagramFileURI = EMFStorage
+						.pathToUri(savePath + separator + diagramResource.getURI().lastSegment());
+
+				saveDiagram(diagramFileURI, diagramResource);
 			}
-			for (Resource resource : set.getResources()) {
-				if(!resource.getURI().fileExtension().equals(modelFile.fileExtension())){
-					final URI diagramSaveFile = EMFStorage.pathToUri(savePath
-							+ separator + resource.getURI().lastSegment());
-					EMFStorage.eSaveAs(diagramSaveFile,
-							resource.getContents().get(0), true);
-				}
-			}
-			return EMFStorage.pathToUri(savePath + separator
-					+ mainDiagramUri.lastSegment());
+
+			return EMFStorage.pathToUri(savePath + separator + mainDiagramUri.lastSegment());
 		} catch (Exception e) {
-			if (e instanceof FileNotFoundException)
+			if (e instanceof FileNotFoundException) {
 				throw (FileNotFoundException) e;
+			}
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 			throw new RuntimeException("Error copying diagram", e);
+		}
+	}
+
+	private static void saveDiagram(URI diagramURI, Resource daigramResource) {
+		daigramResource.setURI(diagramURI);
+
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+		options.put(XMIResource.OPTION_URI_HANDLER, new DeresolveToLastSegment());
+
+		try {
+			daigramResource.save(options);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static class DeresolveToLastSegment extends URIHandlerImpl {
+
+		@Override
+		public URI deresolve(URI uri) {
+			return URI.createURI(uri.lastSegment()).appendFragment(uri.fragment());
 		}
 	}
 
