@@ -3,6 +3,7 @@ package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Node;
@@ -12,6 +13,7 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
 public class RecognitionRuleFilterBlueprint {
 
 	private static final SymmetricPackage SYM = SymmetricPackage.eINSTANCE;
+	private static final EAttribute NAMED_ELEMENT_NAME = EcorePackage.eINSTANCE.getENamedElement_Name();
 
 	public Map<EClass, Integer> addObject = new HashMap<EClass, Integer>();
 	public Map<EClass, Integer> removeObject = new HashMap<EClass, Integer>();
@@ -26,9 +28,10 @@ public class RecognitionRuleFilterBlueprint {
 	private void addToBlueprint(Rule rr){
 		for (Node node : rr.getLhs().getNodes()) {
 
-			// AddObject
+			// AddObject:
 			if (node.getType() == SYM.getAddObject()) {
 				EClass type = node.getOutgoing(SYM.getAddObject_Obj()).get(0).getTarget().getType();
+				
 				if (addObject.containsKey(type)) {
 					addObject.put(type, addObject.get(type) + 1);
 				} else {
@@ -36,9 +39,10 @@ public class RecognitionRuleFilterBlueprint {
 				}
 			}
 
-			// RemoveObject
+			// RemoveObject:
 			else if (node.getType() == SYM.getRemoveObject()) {
 				EClass type = node.getOutgoing(SYM.getRemoveObject_Obj()).get(0).getTarget().getType();
+				
 				if (removeObject.containsKey(type)) {
 					removeObject.put(type, removeObject.get(type) + 1);
 				} else {
@@ -46,11 +50,11 @@ public class RecognitionRuleFilterBlueprint {
 				}
 			}
 
-			// AddReference
+			// AddReference:
 			else if (node.getType() == SYM.getAddReference()) {
 				Node n = node.getOutgoing(SYM.getAddReference_Type()).get(0).getTarget();
-				String type = n.getAttribute(EcorePackage.eINSTANCE.getENamedElement_Name()).getValue()
-						.replace('\"', ' ').trim();
+				String type = n.getAttribute(NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
+				
 				if (addReference.containsKey(type)) {
 					addReference.put(type, addReference.get(type) + 1);
 				} else {
@@ -58,11 +62,11 @@ public class RecognitionRuleFilterBlueprint {
 				}
 			}
 
-			// RemoveReference
+			// RemoveReference:
 			else if (node.getType() == SYM.getRemoveReference()) {
 				Node n = node.getOutgoing(SYM.getRemoveReference_Type()).get(0).getTarget();
-				String type = n.getAttribute(EcorePackage.eINSTANCE.getENamedElement_Name()).getValue()
-						.replace('\"', ' ').trim();
+				String type = n.getAttribute(NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
+				
 				if (removeReference.containsKey(type)) {
 					removeReference.put(type, removeReference.get(type) + 1);
 				} else {
@@ -70,11 +74,11 @@ public class RecognitionRuleFilterBlueprint {
 				}
 			}
 
-			// AttrValueChange
+			// AttributeValueChange:
 			else if (node.getType() == SYM.getAttributeValueChange()) {
 				Node n = node.getOutgoing(SYM.getAttributeValueChange_Type()).get(0).getTarget();
-				String type = n.getAttribute(EcorePackage.eINSTANCE.getENamedElement_Name()).getValue()
-						.replace('\"', ' ').trim();
+				String type = n.getAttribute(NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
+				
 				if (attrValueChange.containsKey(type)) {
 					attrValueChange.put(type, attrValueChange.get(type) + 1);
 				} else {

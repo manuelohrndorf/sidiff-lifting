@@ -158,8 +158,7 @@ public class RecognitionEngine {
 		RecognitionRuleFilter filter = new RecognitionRuleFilter();
 		filtered = filter.filter(idx, recognitionRules);
 
-		LogUtil.log(LogEvent.NOTICE, "Filtered " + filtered.size() + " of " + recognitionRules.size()
-				+ " recognitionRules");
+		LogUtil.log(LogEvent.NOTICE, "Filtered " + filtered.size() + " of " + recognitionRules.size() + " recognitionRules");
 
 		for (Unit unit : filtered) {
 			LogUtil.log(LogEvent.DEBUG, unit.getModule().getName());
@@ -322,9 +321,11 @@ public class RecognitionEngine {
 		Collection<List<RuleApplication>> rrApplicationsByRule = RecognitionRuleApplicationAnalysis
 				.partitionByEqualRule(recognizerRuleApplications);
 		Set<RuleApplication> toBeRemoved = new HashSet<RuleApplication>();
+		
 		for (List<RuleApplication> rrApplicationsRule : rrApplicationsByRule) {
 			Collection<List<RuleApplication>> partitionsByEqual = RecognitionRuleApplicationAnalysis
 					.partitionByEqualChanges(rrApplicationsRule);
+			
 			for (List<RuleApplication> equalApplications : partitionsByEqual) {
 				for (int i = 1; i < equalApplications.size(); i++) {
 					toBeRemoved.add(equalApplications.get(i));
@@ -411,11 +412,13 @@ public class RecognitionEngine {
 			if (settings.isSerializeEditRuleMatch()) {
 				EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
 				scs.setEditRuleMatch(editRuleMatch);
+				
 				for (Node editRuleNode : erMatch.getMatchedNodesA()) {
 					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 					occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
 					editRuleMatch.getNodeOccurrencesA().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
 				}
+				
 				for (Node editRuleNode : erMatch.getMatchedNodesB()) {
 					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 					occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
@@ -435,6 +438,7 @@ public class RecognitionEngine {
 	private SemanticChangeSet getSemanticChangeSet(RuleApplication recognitionRuleApp) {
 		Collection<EObject> values = recognitionRuleApp.getResultMatch().getNodeTargets();
 		List<SemanticChangeSet> createdChangeSets = new ArrayList<SemanticChangeSet>();
+		
 		for (EObject eObject : values) {
 			if (eObject instanceof SemanticChangeSet) {
 				createdChangeSets.add((SemanticChangeSet) eObject);
@@ -482,11 +486,11 @@ public class RecognitionEngine {
 	}
 
 	/**
-	 * Mapping: EditRule r -> Set of SemanticChangeSets representing an
-	 * invocation of r
+	 * Mapping: EditRule r -> Set of SemanticChangeSets representing an invocation of r
 	 */
 	public Map<EditRule, Set<SemanticChangeSet>> getEditRule2SCS() {
 		Map<EditRule, Set<SemanticChangeSet>> editRule2SCS = new HashMap<EditRule, Set<SemanticChangeSet>>();
+		
 		for (SemanticChangeSet scs : scs2erMatch.keySet()) {
 			EngineBasedEditRuleMatch editRuleMatch = scs2erMatch.get(scs);
 			EditRule er = editRuleMatch.getEditRule();

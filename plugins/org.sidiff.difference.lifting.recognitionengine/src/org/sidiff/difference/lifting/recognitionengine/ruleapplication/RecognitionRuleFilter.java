@@ -76,7 +76,7 @@ public class RecognitionRuleFilter {
 			}
 		}
 
-// Note: Filtering of RemoveObjects per type is not that easy due to polymorphism
+// FIXME: Note: Filtering of RemoveObjects per type is not that easy due to polymorphism
 //		// RemoveObject
 //		for (EClass type : blueprint.removeObject.keySet()) {
 //			Integer blueprintAmount = blueprint.removeObject.get(type);
