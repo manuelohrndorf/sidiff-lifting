@@ -99,9 +99,11 @@ import org.sidiff.difference.rulebase.provider.RulebaseItemProviderAdapterFactor
 import org.sidiff.difference.rulebase.ui.Activator;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnACCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnActive;
+import org.sidiff.difference.rulebase.ui.editor.columns.ColumnNameBasedClassification;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDependenyCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDescription;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnEditType;
+import org.sidiff.difference.rulebase.ui.editor.columns.ColumnInverseRule;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnParameterCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnPriority;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRecognitionType;
@@ -313,6 +315,8 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		new ColumnActive(this);		
 		new ColumnRulebaseItem(this);
 		new ColumnDescription(this);
+		new ColumnNameBasedClassification(this);
+		new ColumnInverseRule(this);
 		new ColumnEditType(this);
 		new ColumnRecognitionType(this);
 		new ColumnPriority(this);

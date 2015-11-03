@@ -23,12 +23,12 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <em><b>Potential Edge Dependency</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialEdgeDependencyImpl#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialEdgeDependencyImpl#getSourceEdge <em>Source Edge</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialEdgeDependencyImpl#getTargetEdge <em>Target Edge</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

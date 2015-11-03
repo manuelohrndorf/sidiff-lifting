@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.EMFUtil;
@@ -78,7 +79,7 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
-
+		addInverseEditRules(monitor);
 		return null;
 	}
 	
@@ -555,4 +556,37 @@ public class RuleBaseBuilder extends IncrementalProjectBuilder {
     	}
 
     }
+    
+    private void addInverseEditRules(IProgressMonitor monitor) {
+    	
+    	if (monitor.isCanceled()) {
+			throw new OperationCanceledException();
+		}
+		
+    	RuleBaseWrapper rbWrapper = getRuleBaseWrapper();
+    	
+		for (RuleBaseItem rule : rbWrapper.getRuleBase().getItems()) {
+			if(rule.getEditRule().getInverse() == null){
+				for (Annotation a : rule.getEditRule().getExecuteModule().getAnnotations()) {
+					if (a.getKey().equals("INVERSE")) {
+						String ruleName = a.getValue();
+						for (RuleBaseItem invRule : rbWrapper.getRuleBase().getItems()) {
+							if (invRule.getEditRule().getExecuteModule().getName().equals(ruleName)) {
+								rule.getEditRule().setInverse(invRule.getEditRule());
+//								invRule.getEditRule().setInverse(rule.getEditRule());
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		try {
+			rbWrapper.saveRuleBase();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
+    	
+    }
+ 
 }

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.RecognitionRule;
@@ -32,14 +33,16 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getExecuteMainUnit <em>Execute Main Unit</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getRecognitionRule <em>Recognition Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getRuleBaseItem <em>Rule Base Item</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#isUseDerivedFeatures <em>Use Derived Features</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getInverse <em>Inverse</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.EditRuleImpl#getClassification <em>Classification</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -83,6 +86,26 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * @ordered
 	 */
 	protected boolean useDerivedFeatures = USE_DERIVED_FEATURES_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getInverse() <em>Inverse</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInverse()
+	 * @generated
+	 * @ordered
+	 */
+	protected EditRule inverse;
+
+	/**
+	 * The cached value of the '{@link #getClassification() <em>Classification</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClassification()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Classification> classification;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -208,6 +231,56 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditRule getInverse() {
+		if (inverse != null && inverse.eIsProxy()) {
+			InternalEObject oldInverse = (InternalEObject)inverse;
+			inverse = (EditRule)eResolveProxy(oldInverse);
+			if (inverse != oldInverse) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.EDIT_RULE__INVERSE, oldInverse, inverse));
+			}
+		}
+		return inverse;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditRule basicGetInverse() {
+		return inverse;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInverse(EditRule newInverse) {
+		EditRule oldInverse = inverse;
+		inverse = newInverse;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.EDIT_RULE__INVERSE, oldInverse, inverse));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Classification> getClassification() {
+		if (classification == null) {
+			classification = new EObjectContainmentEList<Classification>(Classification.class, this, RulebasePackage.EDIT_RULE__CLASSIFICATION);
+		}
+		return classification;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public Module getExecuteModule() {
@@ -296,6 +369,8 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return basicSetRuleBaseItem(null, msgs);
 			case RulebasePackage.EDIT_RULE__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
+				return ((InternalEList<?>)getClassification()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -334,6 +409,11 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return getParameters();
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				return isUseDerivedFeatures();
+			case RulebasePackage.EDIT_RULE__INVERSE:
+				if (resolve) return getInverse();
+				return basicGetInverse();
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
+				return getClassification();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -363,6 +443,13 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				setUseDerivedFeatures((Boolean)newValue);
 				return;
+			case RulebasePackage.EDIT_RULE__INVERSE:
+				setInverse((EditRule)newValue);
+				return;
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
+				getClassification().clear();
+				getClassification().addAll((Collection<? extends Classification>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -390,6 +477,12 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				setUseDerivedFeatures(USE_DERIVED_FEATURES_EDEFAULT);
 				return;
+			case RulebasePackage.EDIT_RULE__INVERSE:
+				setInverse((EditRule)null);
+				return;
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
+				getClassification().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -412,6 +505,10 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return parameters != null && !parameters.isEmpty();
 			case RulebasePackage.EDIT_RULE__USE_DERIVED_FEATURES:
 				return useDerivedFeatures != USE_DERIVED_FEATURES_EDEFAULT;
+			case RulebasePackage.EDIT_RULE__INVERSE:
+				return inverse != null;
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
+				return classification != null && !classification.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

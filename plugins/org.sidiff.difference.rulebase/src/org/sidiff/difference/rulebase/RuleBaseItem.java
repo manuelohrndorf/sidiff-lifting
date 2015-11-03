@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getRecognitionRule <em>Recognition Rule</em>}</li>
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RuleBaseItem#isActive <em>Active</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getRuleBaseItem()
  * @model

@@ -15,12 +15,12 @@ import org.eclipse.emf.henshin.model.Edge;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialEdgeDependency#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialEdgeDependency#getSourceEdge <em>Source Edge</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialEdgeDependency#getTargetEdge <em>Target Edge</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getPotentialEdgeDependency()
  * @model

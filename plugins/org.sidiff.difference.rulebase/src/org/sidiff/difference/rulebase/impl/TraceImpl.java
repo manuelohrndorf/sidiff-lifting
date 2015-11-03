@@ -21,11 +21,11 @@ import org.sidiff.difference.rulebase.Trace;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.TraceImpl#getEditRuleTrace <em>Edit Rule Trace</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.TraceImpl#getRecognitionRuleTrace <em>Recognition Rule Trace</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

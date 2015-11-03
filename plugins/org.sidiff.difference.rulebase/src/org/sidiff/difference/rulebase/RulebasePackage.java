@@ -245,13 +245,31 @@ public interface RulebasePackage extends EPackage {
 	int EDIT_RULE__USE_DERIVED_FEATURES = 4;
 
 	/**
+	 * The feature id for the '<em><b>Inverse</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDIT_RULE__INVERSE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Classification</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDIT_RULE__CLASSIFICATION = 6;
+
+	/**
 	 * The number of structural features of the '<em>Edit Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDIT_RULE_FEATURE_COUNT = 5;
+	int EDIT_RULE_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl <em>Recognition Rule</em>}' class.
@@ -773,6 +791,43 @@ public interface RulebasePackage extends EPackage {
 	int PARAMETER_FEATURE_COUNT = 5;
 
 	/**
+	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.ClassificationImpl <em>Classification</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.difference.rulebase.impl.ClassificationImpl
+	 * @see org.sidiff.difference.rulebase.impl.RulebasePackageImpl#getClassification()
+	 * @generated
+	 */
+	int CLASSIFICATION = 10;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFICATION__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Classificator ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFICATION__CLASSIFICATOR_ID = 1;
+
+	/**
+	 * The number of structural features of the '<em>Classification</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFICATION_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -780,7 +835,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.difference.rulebase.impl.RulebasePackageImpl#getPotentialDependencyKind()
 	 * @generated
 	 */
-	int POTENTIAL_DEPENDENCY_KIND = 10;
+	int POTENTIAL_DEPENDENCY_KIND = 11;
 
 
 	/**
@@ -791,7 +846,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.difference.rulebase.impl.RulebasePackageImpl#getParameterDirection()
 	 * @generated
 	 */
-	int PARAMETER_DIRECTION = 11;
+	int PARAMETER_DIRECTION = 12;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.ParameterKind <em>Parameter Kind</em>}' enum.
@@ -801,7 +856,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.difference.rulebase.impl.RulebasePackageImpl#getParameterKind()
 	 * @generated
 	 */
-	int PARAMETER_KIND = 12;
+	int PARAMETER_KIND = 13;
 
 
 	/**
@@ -988,6 +1043,28 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEditRule_UseDerivedFeatures();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.difference.rulebase.EditRule#getInverse <em>Inverse</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Inverse</em>'.
+	 * @see org.sidiff.difference.rulebase.EditRule#getInverse()
+	 * @see #getEditRule()
+	 * @generated
+	 */
+	EReference getEditRule_Inverse();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.rulebase.EditRule#getClassification <em>Classification</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Classification</em>'.
+	 * @see org.sidiff.difference.rulebase.EditRule#getClassification()
+	 * @see #getEditRule()
+	 * @generated
+	 */
+	EReference getEditRule_Classification();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.RecognitionRule <em>Recognition Rule</em>}'.
@@ -1411,6 +1488,38 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getParameter_Multi();
 
 	/**
+	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.Classification <em>Classification</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Classification</em>'.
+	 * @see org.sidiff.difference.rulebase.Classification
+	 * @generated
+	 */
+	EClass getClassification();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.Classification#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.sidiff.difference.rulebase.Classification#getName()
+	 * @see #getClassification()
+	 * @generated
+	 */
+	EAttribute getClassification_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.difference.rulebase.Classification#getClassificatorID <em>Classificator ID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Classificator ID</em>'.
+	 * @see org.sidiff.difference.rulebase.Classification#getClassificatorID()
+	 * @see #getClassification()
+	 * @generated
+	 */
+	EAttribute getClassification_ClassificatorID();
+
+	/**
 	 * Returns the meta object for enum '{@link org.sidiff.difference.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1601,6 +1710,22 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EDIT_RULE__USE_DERIVED_FEATURES = eINSTANCE.getEditRule_UseDerivedFeatures();
+
+		/**
+		 * The meta object literal for the '<em><b>Inverse</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EDIT_RULE__INVERSE = eINSTANCE.getEditRule_Inverse();
+
+		/**
+		 * The meta object literal for the '<em><b>Classification</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EDIT_RULE__CLASSIFICATION = eINSTANCE.getEditRule_Classification();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl <em>Recognition Rule</em>}' class.
@@ -1929,6 +2054,32 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PARAMETER__MULTI = eINSTANCE.getParameter_Multi();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.ClassificationImpl <em>Classification</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.difference.rulebase.impl.ClassificationImpl
+		 * @see org.sidiff.difference.rulebase.impl.RulebasePackageImpl#getClassification()
+		 * @generated
+		 */
+		EClass CLASSIFICATION = eINSTANCE.getClassification();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASSIFICATION__NAME = eINSTANCE.getClassification_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Classificator ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLASSIFICATION__CLASSIFICATOR_ID = eINSTANCE.getClassification_ClassificatorID();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.

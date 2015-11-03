@@ -281,6 +281,29 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.rulebase.Classification} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ClassificationItemProvider classificationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.difference.rulebase.Classification}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createClassificationAdapter() {
+		if (classificationItemProvider == null) {
+			classificationItemProvider = new ClassificationItemProvider(this);
+		}
+
+		return classificationItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -388,6 +411,7 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 		if (potentialEdgeDependencyItemProvider != null) potentialEdgeDependencyItemProvider.dispose();
 		if (potentialAttributeDependencyItemProvider != null) potentialAttributeDependencyItemProvider.dispose();
 		if (parameterItemProvider != null) parameterItemProvider.dispose();
+		if (classificationItemProvider != null) classificationItemProvider.dispose();
 	}
 
 }

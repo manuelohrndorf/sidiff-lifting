@@ -25,6 +25,7 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialAttributeDependencyImpl#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialAttributeDependencyImpl#getSourceAttribute <em>Source Attribute</em>}</li>
@@ -32,7 +33,6 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialAttributeDependencyImpl#getSourceNode <em>Source Node</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialAttributeDependencyImpl#getTargetNode <em>Target Node</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

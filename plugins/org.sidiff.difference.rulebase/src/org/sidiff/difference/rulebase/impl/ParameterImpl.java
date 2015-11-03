@@ -23,6 +23,7 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.ParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.ParameterImpl#getDirection <em>Direction</em>}</li>
@@ -30,7 +31,6 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.difference.rulebase.impl.ParameterImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.ParameterImpl#isMulti <em>Multi</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

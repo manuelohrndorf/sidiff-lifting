@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
+import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.PotentialDependency;
 import org.sidiff.difference.rulebase.RecognitionRule;
@@ -29,6 +30,8 @@ import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
+import org.sidiff.editrule.classificator.IClassificator;
+import org.sidiff.editrule.classificator.util.*;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 
@@ -380,18 +383,7 @@ public class RuleBaseWrapper extends Observable {
 	 *            The new rulebase item.
 	 */
 	public void addItem(RuleBaseItem item) {
-		// Add item to rule base
-		rulebase.getItems().add(item);
-
-		// Add document type (if it is not already added).
-		addDocumentType(item.getEditRule());
-
-		// Find new potential dependencies in the rule base
-		ruleBasePotentialDependencyAnalyzer.findDependencies(item.getEditRule());
-	
-		// Extract formal parameters of the edit rule
-		ParameterExtractor paramExtractor = new ParameterExtractor(item.getEditRule());
-		paramExtractor.extractParameters();
+		addItem(rulebase.getItems().size(), item);
 	}
 
 	/**
@@ -415,6 +407,14 @@ public class RuleBaseWrapper extends Observable {
 		// Extract formal parameters of the edit rule
 		ParameterExtractor paramExtractor = new ParameterExtractor(item.getEditRule());
 		paramExtractor.extractParameters();
+
+		for (IClassificator c : ClassificatorUtil.getAvailableClassificators(item.getEditRule())) {
+			Classification a = RulebaseFactory.eINSTANCE.createClassification();
+			a.setName(c.createClassification(item.getEditRule()));
+			a.setClassificatorID(c.getClassificatorId());
+			rulebase.getItems().get(position).getEditRule().getClassification().add(a);
+		}
+		
 		
 		// Add notification adapter to Module
 		if (notifyChangedStarted) {

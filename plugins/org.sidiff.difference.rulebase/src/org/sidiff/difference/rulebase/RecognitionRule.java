@@ -17,12 +17,12 @@ import org.eclipse.emf.henshin.model.Rule;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionMainUnit <em>Recognition Main Unit</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRuleBaseItem <em>Rule Base Item</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getRecognitionRule()
  * @model

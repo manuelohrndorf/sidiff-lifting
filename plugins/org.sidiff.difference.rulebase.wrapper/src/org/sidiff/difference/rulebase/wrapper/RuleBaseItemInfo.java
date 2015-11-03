@@ -20,17 +20,18 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.editrule.analysis.EditRuleAnnotations;
 import org.silift.common.util.emf.EMFStorage;
 
 public class RuleBaseItemInfo {
-	
+
 	public static String getName(RuleBaseItem item) {
 		return item.getEditRule().getExecuteModule().getName();
 	}
-	
+
 	public static void setName(RuleBaseItem item, String name) {
 		if (!name.equals(getName(item))) {
 			item.getEditRule().getExecuteModule().setName(name);
@@ -40,54 +41,81 @@ public class RuleBaseItemInfo {
 	public static String getDescription(RuleBaseItem item) {
 		return item.getEditRule().getExecuteModule().getDescription();
 	}
-	
+
 	public static void setDescription(RuleBaseItem item, String name) {
 		if (!name.equals(getDescription(item))) {
 			item.getEditRule().getExecuteModule().setDescription(name);
 		}
 	}
 
+	public static String getClassificationName(RuleBaseItem item, int classificatorId) {
+		for (Classification c : item.getEditRule().getClassification()) {
+			if (c.getClassificatorID() == classificatorId)
+				return c.getName();
+		}
+		return "Not Classified";
+	}
+
+	public static void setClassificationName(RuleBaseItem item, String name, int classificatorId) {
+		for (Classification c : item.getEditRule().getClassification()) {
+			if (c.getClassificatorID() == classificatorId) {
+				c.setName(name);
+				break;
+			}
+		}
+	}
+	
+	public static String getInverseName(RuleBaseItem item) {
+		if (item.getEditRule().getInverse() != null)
+			return item.getEditRule().getInverse().getExecuteModule().getName();
+		else
+			return "";
+	}
+	
+	public static void setInverseName(RuleBaseItem item, String name) {
+		item.getEditRule().getInverse().getExecuteModule().setName(name);
+	}
+
 	public static String formatName(RuleBaseItem item) {
 
 		// Remove quotes:
 		String displayName = getName(item);
-		
+
 		// Remove underscore
 		displayName = displayName.replace('_', ' ');
 
 		// Remove camel-case
 		String regex = "([a-z])([A-Z]+)";
-        String replacement = "$1 $2";
-        displayName = displayName.replaceAll(regex, replacement);
-		
-        // Make first letters upper-case
-        displayName = capitalizeFirstLetter(displayName);
-        
-        // Translate special words:
-        displayName = translate(displayName);
-        
-        return displayName;
+		String replacement = "$1 $2";
+		displayName = displayName.replaceAll(regex, replacement);
+
+		// Make first letters upper-case
+		displayName = capitalizeFirstLetter(displayName);
+
+		// Translate special words:
+		displayName = translate(displayName);
+
+		return displayName;
 	}
 
 	private static String capitalizeFirstLetter(String input) {
 		StringBuilder result = new StringBuilder(input.length());
 		String[] words = input.split("\\s");
-		
+
 		for (int i = 0, l = words.length; i < l; ++i) {
 			if (i > 0) {
 				result.append(" ");
 			}
-			result.append(Character.toUpperCase(words[i].charAt(0)))
-					.append(words[i].substring(1));
+			result.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1));
 
 		}
 		return result.toString();
 	}
-	
+
 	private static String translate(String input) {
 		StringBuilder result = new StringBuilder(input.length());
 		String[] words = input.split("\\s");
-		
+
 		for (int i = 0, l = words.length; i < l; ++i) {
 			if (i > 0) {
 				result.append(" ");
@@ -97,8 +125,9 @@ public class RuleBaseItemInfo {
 		}
 		return result.toString();
 	}
-	
+
 	private static final Map<String, String> dict;
+
 	static {
 		dict = new HashMap<String, String>();
 		dict.put("SET", "Set");
@@ -125,34 +154,34 @@ public class RuleBaseItemInfo {
 	private static String dictionary(String input) {
 		// Translate:
 		String output = dict.get(input);
-		
+
 		if (output == null) {
 			return input;
 		} else {
 			return output;
 		}
 	}
-	
+
 	public static int getRefinementLevel(RuleBaseItem item) {
 		return Integer.valueOf(getSematicChangeSetRefinementLevel(item).getValue());
 	}
-	
+
 	public static int getNumberOfACs(RuleBaseItem item) {
-		if (getSematicChangeSetNumberOfACs(item) == null){
+		if (getSematicChangeSetNumberOfACs(item) == null) {
 			// Compatibility
 			return 0;
 		} else {
 			return Integer.valueOf(getSematicChangeSetNumberOfACs(item).getValue());
-		}		
+		}
 	}
-	
+
 	public static int getNumberOfParams(RuleBaseItem item) {
-		if (getSematicChangeSetNumberOfParams(item) == null){
+		if (getSematicChangeSetNumberOfParams(item) == null) {
 			// Compatibility
 			return 0;
 		} else {
 			return Integer.valueOf(getSematicChangeSetNumberOfParams(item).getValue());
-		}	
+		}
 	}
 
 	public static boolean isActiv(RuleBaseItem item) {
@@ -178,7 +207,7 @@ public class RuleBaseItemInfo {
 			// Return Recognition-Rule (default) value:
 			priority = Integer.valueOf(getSematicChangeSetPriority(item).getValue());
 		}
-		
+
 		return priority;
 	}
 
@@ -222,7 +251,7 @@ public class RuleBaseItemInfo {
 	 * @return the unit type.
 	 */
 	private static String getUnitType(Unit unit) {
-		
+
 		if (unit instanceof Rule) {
 			if (isKernelRule((Rule) unit)) {
 				return "Multi-Rule";
@@ -234,7 +263,7 @@ public class RuleBaseItemInfo {
 		else if (isAmalgamationUnit(unit)) {
 			return "Amalgamation Unit";
 		}
-		
+
 		else if (unit instanceof IndependentUnit) {
 			return "Independent";
 		}
@@ -246,7 +275,7 @@ public class RuleBaseItemInfo {
 		else if (unit instanceof LoopUnit) {
 			return "Loop";
 		}
-		
+
 		else if (unit instanceof IteratedUnit) {
 			return "Iterated";
 		}
@@ -260,12 +289,11 @@ public class RuleBaseItemInfo {
 		}
 		return null;
 	}
-	
+
 	private static Attribute getSematicChangeSetPriority(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE
-					.getSemanticChangeSet_Priority()) {
+			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_Priority()) {
 				return attribute;
 			}
 		}
@@ -276,39 +304,36 @@ public class RuleBaseItemInfo {
 	private static Attribute getSematicChangeSetRefinementLevel(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE
-					.getSemanticChangeSet_RefinementLevel()) {
+			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_RefinementLevel()) {
 				return attribute;
 			}
 		}
 
 		return null;
 	}
-	
+
 	private static Attribute getSematicChangeSetNumberOfACs(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE
-					.getSemanticChangeSet_NumberOfACs()) {
+			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_NumberOfACs()) {
 				return attribute;
 			}
 		}
 
 		return null;
 	}
-	
+
 	private static Attribute getSematicChangeSetNumberOfParams(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
-			if (attribute.getType() == SymmetricPackage.eINSTANCE
-					.getSemanticChangeSet_NumberOfParams()) {
+			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_NumberOfParams()) {
 				return attribute;
 			}
 		}
 
 		return null;
 	}
-	
+
 	private static Node getSematicChangeSet(RuleBaseItem item) {
 		Module recognitionModule = item.getRecognitionRule().getRecognitionModule();
 

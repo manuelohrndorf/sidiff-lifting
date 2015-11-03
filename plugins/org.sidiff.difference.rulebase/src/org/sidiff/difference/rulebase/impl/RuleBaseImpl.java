@@ -35,6 +35,7 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getItems <em>Items</em>}</li>
@@ -47,7 +48,6 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getEditRuleFolder <em>Edit Rule Folder</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseImpl#getRecognitionRuleFolder <em>Recognition Rule Folder</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

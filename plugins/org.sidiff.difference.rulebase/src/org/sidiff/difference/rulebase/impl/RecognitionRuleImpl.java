@@ -26,12 +26,12 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getRecognitionMainUnit <em>Recognition Main Unit</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getRuleBaseItem <em>Rule Base Item</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

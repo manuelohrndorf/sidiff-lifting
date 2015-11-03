@@ -27,14 +27,15 @@
     </genEnums>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/documentTypes"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/characteristicDocumentType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/items"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/editRules"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/recognitionRules"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialNodeDependencies"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialEdgeDependencies"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialAttributeDependencies"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/documentTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/editRuleFolder"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/recognitionRuleFolder"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//EditRule">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/executeMainUnit"/>
@@ -42,6 +43,8 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/ruleBaseItem"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//EditRule/useDerivedFeatures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/inverse"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/classification"/>
       <genOperations ecoreOperation="RuleBase.ecore#//EditRule/getExecuteModule"/>
       <genOperations ecoreOperation="RuleBase.ecore#//EditRule/getParameterByName">
         <genParameters ecoreParameter="RuleBase.ecore#//EditRule/getParameterByName/name"/>
@@ -58,17 +61,18 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//Trace/recognitionRuleTrace"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBaseItem">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBaseItem/active"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/editRule"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/recognitionRule"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/tracesB"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/tracesA"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/ruleBase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBaseItem/active"/>
     </genClasses>
     <genClasses image="false" ecoreClass="RuleBase.ecore#//PotentialDependency">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/kind"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/sourceRule"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/targetRule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/transient"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeDependency">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeDependency/ruleBase"/>
@@ -93,6 +97,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/kind"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//Parameter/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/multi"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//Classification">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Classification/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Classification/classificatorID"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

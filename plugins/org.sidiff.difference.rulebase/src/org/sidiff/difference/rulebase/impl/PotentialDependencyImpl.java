@@ -22,13 +22,13 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialDependencyImpl#isTransient <em>Transient</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

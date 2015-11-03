@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.difference.rulebase.*;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.PotentialAttributeDependency;
@@ -117,6 +118,10 @@ public class RulebaseAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseParameter(Parameter object) {
 				return createParameterAdapter();
+			}
+			@Override
+			public Adapter caseClassification(Classification object) {
+				return createClassificationAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -275,6 +280,20 @@ public class RulebaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createParameterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.rulebase.Classification <em>Classification</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.difference.rulebase.Classification
+	 * @generated
+	 */
+	public Adapter createClassificationAdapter() {
 		return null;
 	}
 

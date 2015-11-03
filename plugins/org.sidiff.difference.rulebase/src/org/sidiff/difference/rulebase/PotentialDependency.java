@@ -15,13 +15,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialDependency#isTransient <em>Transient</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getPotentialDependency()
  * @model abstract="true"

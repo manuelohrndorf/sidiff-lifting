@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.sidiff.difference.rulebase.*;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
@@ -80,6 +81,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 			case RulebasePackage.POTENTIAL_EDGE_DEPENDENCY: return createPotentialEdgeDependency();
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_DEPENDENCY: return createPotentialAttributeDependency();
 			case RulebasePackage.PARAMETER: return createParameter();
+			case RulebasePackage.CLASSIFICATION: return createClassification();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -211,6 +213,16 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Classification createClassification() {
+		ClassificationImpl classification = new ClassificationImpl();
+		return classification;
 	}
 
 	/**

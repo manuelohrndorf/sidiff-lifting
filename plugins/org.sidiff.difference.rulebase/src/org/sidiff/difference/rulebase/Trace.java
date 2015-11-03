@@ -16,11 +16,11 @@ import org.eclipse.emf.henshin.model.Node;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.Trace#getEditRuleTrace <em>Edit Rule Trace</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.Trace#getRecognitionRuleTrace <em>Recognition Rule Trace</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getTrace()
  * @model

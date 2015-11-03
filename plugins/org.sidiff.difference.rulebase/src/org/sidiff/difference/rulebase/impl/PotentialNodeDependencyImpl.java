@@ -24,12 +24,12 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialNodeDependencyImpl#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialNodeDependencyImpl#getSourceNode <em>Source Node</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.PotentialNodeDependencyImpl#getTargetNode <em>Target Node</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

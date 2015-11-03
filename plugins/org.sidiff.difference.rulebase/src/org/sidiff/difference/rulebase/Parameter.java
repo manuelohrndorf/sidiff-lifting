@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.Parameter#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.Parameter#getDirection <em>Direction</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.difference.rulebase.Parameter#getType <em>Type</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.Parameter#isMulti <em>Multi</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getParameter()
  * @model

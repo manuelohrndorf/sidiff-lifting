@@ -15,12 +15,12 @@ import org.eclipse.emf.henshin.model.Node;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialNodeDependency#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialNodeDependency#getSourceNode <em>Source Node</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.PotentialNodeDependency#getTargetNode <em>Target Node</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.rulebase.RulebasePackage#getPotentialNodeDependency()
  * @model

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.Parameter;
 import org.sidiff.difference.rulebase.ParameterDirection;
@@ -106,6 +107,13 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	private EClass parameterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass classificationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -334,6 +342,24 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 */
 	public EAttribute getEditRule_UseDerivedFeatures() {
 		return (EAttribute)editRuleEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEditRule_Inverse() {
+		return (EReference)editRuleEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getEditRule_Classification() {
+		return (EReference)editRuleEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -701,6 +727,33 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getClassification() {
+		return classificationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClassification_Name() {
+		return (EAttribute)classificationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClassification_ClassificatorID() {
+		return (EAttribute)classificationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getPotentialDependencyKind() {
 		return potentialDependencyKindEEnum;
 	}
@@ -769,6 +822,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(editRuleEClass, EDIT_RULE__RULE_BASE_ITEM);
 		createEReference(editRuleEClass, EDIT_RULE__PARAMETERS);
 		createEAttribute(editRuleEClass, EDIT_RULE__USE_DERIVED_FEATURES);
+		createEReference(editRuleEClass, EDIT_RULE__INVERSE);
+		createEReference(editRuleEClass, EDIT_RULE__CLASSIFICATION);
 
 		recognitionRuleEClass = createEClass(RECOGNITION_RULE);
 		createEReference(recognitionRuleEClass, RECOGNITION_RULE__RECOGNITION_MAIN_UNIT);
@@ -816,6 +871,10 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEAttribute(parameterEClass, PARAMETER__KIND);
 		createEReference(parameterEClass, PARAMETER__TYPE);
 		createEAttribute(parameterEClass, PARAMETER__MULTI);
+
+		classificationEClass = createEClass(CLASSIFICATION);
+		createEAttribute(classificationEClass, CLASSIFICATION__NAME);
+		createEAttribute(classificationEClass, CLASSIFICATION__CLASSIFICATOR_ID);
 
 		// Create enums
 		potentialDependencyKindEEnum = createEEnum(POTENTIAL_DEPENDENCY_KIND);
@@ -877,6 +936,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getEditRule_RuleBaseItem(), this.getRuleBaseItem(), this.getRuleBaseItem_EditRule(), "ruleBaseItem", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEditRule_UseDerivedFeatures(), ecorePackage.getEBoolean(), "useDerivedFeatures", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEditRule_Inverse(), this.getEditRule(), null, "inverse", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEditRule_Classification(), this.getClassification(), null, "classification", null, 0, -1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(editRuleEClass, theHenshinPackage.getModule(), "getExecuteModule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -931,6 +992,10 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEAttribute(getParameter_Kind(), this.getParameterKind(), "kind", null, 1, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParameter_Type(), ecorePackage.getEClassifier(), null, "type", null, 1, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getParameter_Multi(), ecorePackage.getEBoolean(), "multi", null, 1, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(classificationEClass, Classification.class, "Classification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getClassification_Name(), ecorePackage.getEString(), "name", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassification_ClassificatorID(), ecorePackage.getEInt(), "classificatorID", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(potentialDependencyKindEEnum, PotentialDependencyKind.class, "PotentialDependencyKind");

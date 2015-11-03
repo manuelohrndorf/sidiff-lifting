@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBase;
@@ -31,6 +32,7 @@ import org.sidiff.difference.rulebase.Trace;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getEditRule <em>Edit Rule</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getRecognitionRule <em>Recognition Rule</em>}</li>
@@ -39,7 +41,6 @@ import org.sidiff.difference.rulebase.Trace;
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#getRuleBase <em>Rule Base</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RuleBaseItemImpl#isActive <em>Active</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

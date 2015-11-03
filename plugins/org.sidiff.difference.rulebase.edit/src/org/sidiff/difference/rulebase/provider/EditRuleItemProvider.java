@@ -66,6 +66,7 @@ public class EditRuleItemProvider
 			addExecuteMainUnitPropertyDescriptor(object);
 			addRecognitionRulePropertyDescriptor(object);
 			addUseDerivedFeaturesPropertyDescriptor(object);
+			addInversePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -137,6 +138,28 @@ public class EditRuleItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Inverse feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addInversePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_EditRule_inverse_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_EditRule_inverse_feature", "_UI_EditRule_type"),
+				 RulebasePackage.Literals.EDIT_RULE__INVERSE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -149,6 +172,7 @@ public class EditRuleItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(RulebasePackage.Literals.EDIT_RULE__PARAMETERS);
+			childrenFeatures.add(RulebasePackage.Literals.EDIT_RULE__CLASSIFICATION);
 		}
 		return childrenFeatures;
 	}
@@ -204,6 +228,7 @@ public class EditRuleItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case RulebasePackage.EDIT_RULE__PARAMETERS:
+			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -225,6 +250,11 @@ public class EditRuleItemProvider
 			(createChildParameter
 				(RulebasePackage.Literals.EDIT_RULE__PARAMETERS,
 				 RulebaseFactory.eINSTANCE.createParameter()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(RulebasePackage.Literals.EDIT_RULE__CLASSIFICATION,
+				 RulebaseFactory.eINSTANCE.createClassification()));
 	}
 
 	/**
