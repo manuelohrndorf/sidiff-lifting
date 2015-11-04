@@ -163,8 +163,9 @@ public abstract class AbstractWizardPage extends WizardPage implements
 	 */
 	protected void validate() {
 		setErrorMessage(null);
+		setMessage("");;
 		setPageComplete(true);
-		for (int i = widgets.size()-1; i > 0 ; i--) {
+		for (int i = widgets.size()-1; i >= 0 ; i--) {
 			if (widgets.get(i) instanceof IWidgetValidation) {
 				validateWidget((IWidgetValidation) widgets.get(i));
 			}
