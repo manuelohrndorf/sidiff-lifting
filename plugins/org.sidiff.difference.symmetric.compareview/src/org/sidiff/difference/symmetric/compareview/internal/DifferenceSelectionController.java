@@ -144,23 +144,24 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	public void registerDecorator(IDecorator decorator, IDecoratorTarget decoratorTarget) {
 		View view = (View) decoratorTarget.getAdapter(View.class);
 
-		if (decoratorTargets.containsKey(view.getElement())) {
-			View parent = view;
-			boolean topMost = false;
-			if (!(parent instanceof Diagram)) {
-				while (!((parent = (View) parent.eContainer()) instanceof Diagram)) {
-					if (parent == decoratorTargets.get(view.getElement()).getAdapter(View.class)) {
-						topMost = true;
+		if(view.getElement() != null){
+			if (decoratorTargets.containsKey(view.getElement())) {
+				View parent = view;
+				boolean topMost = false;
+				if (!(parent instanceof Diagram)) {
+					while (!((parent = (View) parent.eContainer()) instanceof Diagram)) {
+						if (parent == decoratorTargets.get(view.getElement()).getAdapter(View.class)) {
+							topMost = true;
+						}
+					}
+					if (!topMost) {
+						decoratorTargets.put(view.getElement(), decoratorTarget);
 					}
 				}
-				if (!topMost) {
-					decoratorTargets.put(view.getElement(), decoratorTarget);
-				}
+			} else {
+				decoratorTargets.put(view.getElement(), decoratorTarget);
 			}
-		} else {
-			decoratorTargets.put(view.getElement(), decoratorTarget);
 		}
-
 		decorators.add(decorator);
 	}
 
