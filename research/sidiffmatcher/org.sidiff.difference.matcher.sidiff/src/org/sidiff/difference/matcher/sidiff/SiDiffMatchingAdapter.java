@@ -10,25 +10,22 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.annotation.IAnnotation;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.services.ServiceContext;
-import org.sidiff.common.services.ServiceHelper;
-import org.sidiff.core.annotation.AnnotationService;
-import org.sidiff.core.candidates.CandidatesTreeService;
-import org.sidiff.core.correspondences.CorrespondencesService;
-import org.sidiff.core.matching.IterativeMatchingService;
-import org.sidiff.core.matching.ProfilesMatchingService;
-import org.sidiff.core.matching.SignatureMatchingService;
-import org.sidiff.core.matching.XMIIDMatchingService;
-import org.sidiff.core.similarities.DefaultSimilaritiesService;
-import org.sidiff.core.similaritiescalculator.DefaultSimilaritiesCalculationService;
+import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.domain.DomainServiceUtil;
+import org.sidiff.domain.IDomain;
+import org.sidiff.matching.BaseMatcher;
+import org.sidiff.matching.IMatching;
+import org.sidiff.matching.MatchingUtil;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
@@ -36,12 +33,14 @@ public class SiDiffMatchingAdapter implements IMatcher {
 
 	public static final String KEY = "SiDiff";
 	
-	private IDifferenceProfileHandler profileHandler;
+	private IDifferenceProfileHandler profileHandler;	
 
 	@Override
 	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
 			boolean calculateReliability) {
 
+		
+		// Create Matching
 		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
 		matching.setUriModelA(modelA.getURI().toString());
 		matching.setUriModelB(modelB.getURI().toString());
@@ -54,51 +53,17 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	@Override
 	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
 			boolean calculateReliability) {
-		// TODO: TK (6.11.2012): Expliziter Start aller SiDiff Matching Bundles
-		// resultiert in
-		// Nebenläufigkeitsproblem. Daher bislang doch alle SiDiff Matching
-		// Bundles
-		// über die SiDiffShotgun beim Startup von Eclipse geladen.
-		// ===
-		// Be sure all SiDiff Matching Engine Bundles are active
-		// BundleHandler.getInstance().startBundles();
 
-		// Get document type of models
+		// First get the document type of models
+		String documentType = "";
 		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
-		String documentType = null;
 		if (getProfileHandler(docTypes)!=null && profileHandler.isProfiled(modelA)) {
 			documentType = profileHandler.getBaseType();
 		} else {
 			documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-		}
-
-		// Create service context
-		ServiceContext context = new ServiceContext();
-
-		context.putService(ServiceHelper.getService(Activator.context, AnnotationService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, CorrespondencesService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, CandidatesTreeService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
-				documentType, ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, DefaultSimilaritiesService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, IterativeMatchingService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, XMIIDMatchingService.class, documentType,
-				ServiceHelper.DEFAULT));
-		context.putService(ServiceHelper.getService(Activator.context, SignatureMatchingService.class, documentType,
-				ServiceHelper.DEFAULT));
-
-		// ad hoc stereotype matching?
-		if (profileHandler!=null && profileHandler.isProfiled(modelA)) {
-			context.putService(ServiceHelper.getService(Activator.context, ProfilesMatchingService.class, documentType,
-					ServiceHelper.DEFAULT));
-		}
-
-		// Used to compute reliability of matches
+		}		
+		
+		// Initialize the ReliabilityCalculator
 		IReliabilityCalculator reliabilityCalculator = null;
 		if (calculateReliability) {
 			IConfigurationElement[] configurationElements = Platform.getExtensionRegistry()
@@ -110,7 +75,8 @@ public class SiDiffMatchingAdapter implements IMatcher {
 							|| attribute.equals(IReliabilityCalculator.DEFAULT_DOCUMENT_TYPE)) {
 						reliabilityCalculator = (IReliabilityCalculator) configurationElement
 								.createExecutableExtension(IReliabilityCalculator.EXECUTEBALE);
-						reliabilityCalculator.setContext(context);
+						// TODO is reliabilityCalculator.setContext(context); still needed? (MR 4.11.2015)
+						// reliabilityCalculator.setContext(context);
 					}
 				}
 			} catch (CoreException e) {
@@ -124,34 +90,51 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			}
 		}
 
-		// Initialize Application
-		context.initialize(modelA, modelB);
-
-		// Annotate models
-		context.getService(AnnotationService.class).annotate(modelA);
-		context.getService(AnnotationService.class).annotate(modelB);
-
-		// Do Matching
+		// Initialize Domain Services
+		Set<IDomain> domainServices = DomainServiceUtil.getCapableDomainServices(documentType);
+		for(IDomain domainService: domainServices) {
+			// do specific actions on specific services
+			if(domainService instanceof IAnnotation) {
+				IAnnotation annotationService = (IAnnotation) domainService;
+				//TODO the following should better be done when instanciating the service (MR 4.11.2015)
+				annotationService.init(domainService.getDefaultAnnotationConfiguration());
+				annotationService.annotate(modelA);
+				annotationService.annotate(modelB);
+			}
+		}
+		
+		
+		// Notify ReliabilityCalculation of matching start
 		if (calculateReliability) {
 			reliabilityCalculator.startingMatch();
 		}
-		context.getService(XMIIDMatchingService.class).match();
-		context.getService(SignatureMatchingService.class).match();
-		context.getService(IterativeMatchingService.class).match();
-		if (EMFModelAccessEx.isProfiled(modelA)) {
-			context.getService(ProfilesMatchingService.class).match();
+		
+		// Start Matching now!
+		// e.i., call match() on all BaseMatcher Services [e.g. SimilarityBasedMatchingService]
+		// TODO the following is not working, yet. 
+		Set<IMatching> matchingServices = MatchingUtil.getAvailableMatchingServices();
+		for(IMatching matchingService: matchingServices) {			
+			if(matchingService instanceof BaseMatcher) {
+				BaseMatcher baseMatcher = (BaseMatcher) matchingService;
+				baseMatcher.init(modelA, modelB);
+				baseMatcher.match(modelA, modelB);
+			}					
 		}
+		
+		// Notify ReliabilityCalculation of matching end
 		if (calculateReliability) {
 			reliabilityCalculator.endingMatch();
 		}
-
-		// Convert correspondences to the SiLift representation of a matching
-		CorrespondencesService cs = context.getService(CorrespondencesService.class);
-
+		
+		// Iterate through correspondences and create SiLift representation of a matching accordingly		
+		ICorrespondences correspondenceService = CorrespondencesUtil.getAvailableCorrespondencesService("PairtableCorrespondenceService");
+		//TODO the following should better be done when instanciating the service (MR 4.11.2015)
+		correspondenceService.init(modelA, modelB);
+		
 		for (Iterator<EObject> it_a = modelA.getAllContents(); it_a.hasNext();) {
 			EObject elementA = it_a.next();
-			if (cs.hasCorrespondences(elementA)) {
-				EObject elementB = cs.getCorrespondences(elementA).iterator().next();
+			if (correspondenceService.hasCorrespondences(elementA)) {
+				EObject elementB = correspondenceService.getCorrespondences(elementA).iterator().next();
 				Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(elementA, elementB);
 				if (calculateReliability) {
 					c.setReliability(reliabilityCalculator.getReliability(c.getObjA(), c.getObjB()));
@@ -180,31 +163,42 @@ public class SiDiffMatchingAdapter implements IMatcher {
 
 		boolean canHandle = true;
 		
-		
-		
+		IDomain domainService = DomainServiceUtil.getCapableDomainService(modelA);	
 		
 		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
 		if(getProfileHandler(docTypes)!=null && getProfileHandler(docTypes).isProfiled(modelA) && getProfileHandler(docTypes).isProfiled(modelB)){
-			// Profile
-			String baseDocType = getProfileHandler(docTypes).getBaseType();
-
-			canHandle = ServiceHelper.getService(Activator.context,
-					AnnotationService.class, baseDocType) != null
-					&& ServiceHelper.getService(Activator.context,
-							DefaultSimilaritiesCalculationService.class,
-							baseDocType) != null
-					&& ServiceHelper.getService(Activator.context,
-							IterativeMatchingService.class, baseDocType) != null
-					&& ServiceHelper.getService(Activator.context,  ProfilesMatchingService.class, baseDocType)!=null;
+			// Profile			
+			boolean hasAnnotationService = 
+					(domainService.getDefaultAnnotationConfiguration()!=null);			
+			boolean hasDefaultSimilarityCalculationService = 
+					(domainService.getDefaultSimilarityConfiguration()!=null);
+			boolean hasDefaultMatchingCalculationService = 
+					(domainService.getDefaultMatchingConfiguration()!=null);			
+			// Uncomment this, as soon as profile matching migration ready (MR 4.11.2015)
+			//	boolean hasProfileMatchingService = 
+			//	(domainService.getProfileMatchingConfiguration()!=null);
+			
+			canHandle =  hasAnnotationService
+					  && hasDefaultSimilarityCalculationService
+					  && hasDefaultMatchingCalculationService;
+			//	  && hasProfileMatchingService; see above
+			
 		} else {
 			// No Profile or no handler found
 			for(String docType : docTypes){
 				if(canHandle){
-					canHandle = ServiceHelper.getService(Activator.context, AnnotationService.class, docType) != null
-					&& ServiceHelper.getService(Activator.context, DefaultSimilaritiesCalculationService.class,
-							docType) != null
-					&& ServiceHelper.getService(Activator.context, IterativeMatchingService.class,
-							docType) != null;
+					
+					boolean hasAnnotationService = 
+							(domainService.getDefaultAnnotationConfiguration()!=null);			
+					boolean hasDefaultMatchingCalculationService = 
+							(domainService.getDefaultMatchingConfiguration()!=null);
+					boolean hasDefaultSimilarityCalculationService = 
+							(domainService.getDefaultSimilarityConfiguration()!=null);
+					
+					canHandle =  hasAnnotationService
+							  && hasDefaultMatchingCalculationService
+							  && hasDefaultSimilarityCalculationService;					
+					
 				}
 			}
 		}
