@@ -164,7 +164,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			Object next = iterA.next();
 			if (next instanceof EObject) {
 				EObject elementA = (EObject) next;
-				if (!isCorresponding(elementA)) {
+				if (diff.getCorrespondingObjectInB(elementA) == null) {
 					if (!doProcess(elementA)) {
 						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
 						continue;
@@ -203,7 +203,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			Object next = iterB.next();
 			if (next instanceof EObject) {
 				EObject elementB = (EObject) next;
-				if (!isCorresponding(elementB)) {
+				if (diff.getCorrespondingObjectInA(elementB) == null) {
 					if (!doProcess(elementB)) {
 						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
 						continue;
@@ -444,10 +444,6 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	@Override
 	public String getName() {
 		return getClass().getName();
-	}
-
-	private boolean isCorresponding(EObject object) {
-		return diff.getCorrespondingObjectInA(object) != null || diff.getCorrespondingObjectInB(object) != null;
 	}
 
 	private boolean doProcess(EObject object) {
