@@ -1,5 +1,6 @@
 package org.sidiff.difference.technical;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,9 +22,12 @@ import org.silift.common.util.emf.Scope;
  * {@link EObjectLocation#RESOURCE_SET_INTERNAL}. In this sense, the ResourceSet
  * is adapted (additional information is provided).
  * 
- * Note that this adapter must only be used if the comparison mode is
- * {@link Scope#RESOURCE} or comparison mode is {@link Scope#RESOURCE_SET} and
- * the matcher cannot handle it.
+ * Note that this adapter only has to be used if
+ * <ul>
+ * <li>(a) the comparison mode is {@link Scope#RESOURCE},</li>
+ * <li>(b) the comparison mode is {@link Scope#RESOURCE_SET} AND the matcher
+ * cannot handle it.</li>
+ * </ul>
  * 
  * @author kehrer
  */
@@ -148,33 +152,48 @@ public class ResourceSetAdapter {
 	 */
 	private void addCorrespondenceA(EObject objA) {
 
+		assert (objA != null);
 		assert (objA.eResource() != null);
 
 		if (matching.getCorrespondingObjectInB(objA) == null) {
 			EObject objB = null;
 
-			// (1) First (and better) option: get corresponding resource and
-			// locate correspondence of objA within the corresponding resource
+			// (1) First (and better) option: (a) get corresponding resource and
+			// (b) locate corresponding object of objA within the corresponding
+			// resource
 			// (by URI fragement).
+			// step (a):
+			List<Resource> potentialResourcesB = new ArrayList<Resource>();
 			Resource resourceB = null;
 			for (Resource r : matching.getModelB().getResourceSet().getResources()) {
 				if (r == matching.getModelB()) {
 					continue;
 				}
 				if (r.getURI().equals(objA.eResource().getURI())) {
+					// perfect resource match
 					resourceB = r;
+					break;
+				}
+				if (r.getURI().lastSegment().equals(objA.eResource().getURI().lastSegment())) {
+					// potential resource match (only last segment, i.e. file
+					// name, matches)
+					potentialResourcesB.add(r);
 				}
 			}
+			if (resourceB == null && potentialResourcesB.size() == 1) {
+				// check if there is a potential resource match
+				resourceB = potentialResourcesB.get(0);
+			}
 
+			// step (b)
 			if (resourceB != null) {
 				objB = resourceB.getEObject(objA.eResource().getURIFragment(objA));
-				assert (objB != null) : "Object with URI " + objA.eResource().getURIFragment(objA)
-						+ "not found in corresponding resource " + resourceB.getURI()
-						+ "of model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
+				assert (objB != null) : "Object with URI " + objA.eResource().getURIFragment(objA) + "not found in corresponding resource "
+						+ resourceB.getURI() + "of model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
 			}
 
 			if (objB == null) {
-				// (2) Second option: Try to locate correspondence of objA
+				// (2) Second option: Try to locate corresponding object of objA
 				// within any resource of the ResourceSet of model B (by URI
 				// fragement).
 				List<EObject> objsB = new LinkedList<EObject>();
@@ -212,21 +231,44 @@ public class ResourceSetAdapter {
 	 */
 	private void addCorrespondenceB(EObject objB) {
 
+		assert (objB != null);
 		assert (objB.eResource() != null);
 
 		if (matching.getCorrespondingObjectInA(objB) == null) {
+			// (a) get corresponding resource and (b) locate corresponding
+			// object of objB within the corresponding resource (by URI
+			// fragement).
+
+			// step (a):
+			List<Resource> potentialResourcesA = new ArrayList<Resource>();
 			Resource resourceA = null;
 			for (Resource r : matching.getModelA().getResourceSet().getResources()) {
 				if (r == matching.getModelA()) {
 					continue;
 				}
 				if (r.getURI().equals(objB.eResource().getURI())) {
+					// perfect resource match
 					resourceA = r;
+					break;
+				}
+				if (r.getURI().lastSegment().equals(objB.eResource().getURI().lastSegment())) {
+					// potential resource match (only last segment, i.e. file
+					// name, matches)
+					potentialResourcesA.add(r);
 				}
 			}
+			if (resourceA == null && potentialResourcesA.size() == 1) {
+				// check if there is a potential resource match
+				resourceA = potentialResourcesA.get(0);
+			}
+
+			// TODO: As a less exact heuristics, we could also apply the second
+			// option from addCorrespondenceA here
 
 			assert (resourceA != null) : "Resource with URI '" + objB.eResource().getURI()
 					+ "' not found in ResourceSet A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
+
+			// step (b)
 			EObject objA = resourceA.getEObject(objB.eResource().getURIFragment(objB));
 			assert (objA != null);
 
