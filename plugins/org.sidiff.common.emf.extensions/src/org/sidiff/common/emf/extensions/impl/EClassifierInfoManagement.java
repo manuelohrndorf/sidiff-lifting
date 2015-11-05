@@ -639,6 +639,15 @@ public class EClassifierInfoManagement {
 		}
 		return set;
 	}
+	
+	/**
+	 * Returns the direct subtypes of an EClassifier
+	 * @param eClassifier
+	 * @return
+	 */
+	public Set<EClassifier> getSubTypes(EClassifier eClassifier){
+		return new HashSet<>(subTypeMap.get(eClassifier));
+	}
 
 	/**
 	 * This method returns all sub types mapped to an EClassifier.
