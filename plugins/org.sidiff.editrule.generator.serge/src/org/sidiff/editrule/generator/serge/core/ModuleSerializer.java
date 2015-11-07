@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl.PlatformSchemeAware;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -117,8 +118,11 @@ public class ModuleSerializer {
 
 		
 		// create option map for saving
-		Map<String, Boolean> options = new HashMap<String, Boolean>();
+		Map<Object, Object> options = new HashMap<Object, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, true);
+		
+		//This is needed for URIs which may be using platform:/*
+		options.put(XMIResource.OPTION_URI_HANDLER, new PlatformSchemeAware());
 
 		try {
 			LogUtil.log(LogEvent.NOTICE, "Save: " + resource.getURI());
