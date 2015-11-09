@@ -109,16 +109,29 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			reliabilityCalculator.startingMatch();
 		}
 		
-		// Start Matching now!
-		// e.i., call match() on all BaseMatcher Services [e.g. SimilarityBasedMatchingService]
-		// TODO the following is not working, yet. 
-		Set<IMatching> matchingServices = MatchingUtil.getAvailableMatchingServices();
-		for(IMatching matchingService: matchingServices) {			
-			if(matchingService instanceof BaseMatcher) {
-				BaseMatcher baseMatcher = (BaseMatcher) matchingService;
-				baseMatcher.init(modelA, modelB);
-				baseMatcher.match(modelA, modelB);
-			}					
+		// Start Matching now! Sequence: xmiid, signature, similarity
+		// TODO we should also use dynamic inremental matcher (MR 6.11.2015)
+		// TODO we should use getMatchingService() by enum literal, not error prone strings (MR 6.11.2015)
+		// TODO Can't init() be called by the domain service? getMatchingService() delivers an IMatcher, which
+		// dosnt provide an init()-method (is only available in sub class BaseMatcher). The needed call of init()
+		// is not obvious when using expected return type IMatcher (MR 6.11.2015)
+		BaseMatcher xmiIdMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("XMIIDMatchingService");
+		xmiIdMatchingService.init(modelA, modelB);
+		xmiIdMatchingService.match(modelA, modelB);
+		
+		BaseMatcher signatureBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("SignatureMatchingService");
+		signatureBasedMatchingService.init(modelA, modelB);
+		signatureBasedMatchingService.match(modelA, modelB);
+		
+		BaseMatcher similarityBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("SimilarityMatcher");
+		similarityBasedMatchingService.init(modelA, modelB);
+		similarityBasedMatchingService.match(modelA, modelB);
+		
+		// additional matcher for profiles
+		if(profileHandler.isProfiled(modelA)) {
+			BaseMatcher profileBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("ProfilesMatchingService");
+			profileBasedMatchingService.init(modelA, modelB);
+			profileBasedMatchingService.match(modelA, modelB);
 		}
 		
 		// Notify ReliabilityCalculation of matching end
