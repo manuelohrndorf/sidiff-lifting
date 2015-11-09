@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.annotation.IAnnotation;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.correspondences.CorrespondencesUtil;
@@ -24,8 +23,8 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.domain.DomainServiceUtil;
 import org.sidiff.domain.IDomain;
 import org.sidiff.matching.BaseMatcher;
-import org.sidiff.matching.IMatching;
 import org.sidiff.matching.MatchingUtil;
+import org.sidiff.matching.SimilarityBasedMatcher;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 
@@ -34,37 +33,43 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	public static final String KEY = "SiDiff";
 	
 	private IDifferenceProfileHandler profileHandler;	
-
-	@Override
-	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
-			boolean calculateReliability) {
-
+	
+	private IReliabilityCalculator reliabilityCalculator = null;
+	
+	private static boolean XMIID_Matching = false;
+	
+	private static boolean SIGNATURE_Matching = false;
+	
+	private static boolean SIMILARITY_Matching = true;
+	
+	private IDomain currentDomain = null;
+	
+	private String documentType = "";
+	//TODO: it would be better if IDomain keeps its characteristic documenttype (MR 9.11.2015)
+	
+	private void init(Resource modelA, boolean calculateReliability) {
 		
-		// Create Matching
-		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		matching.setUriModelA(modelA.getURI().toString());
-		matching.setUriModelB(modelB.getURI().toString());
-
-		addMatches(modelA, modelB, matching, scope, calculateReliability);
-
-		return matching;
-	}
-
-	@Override
-	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
-			boolean calculateReliability) {
-
-		// First get the document type of models
+		// Identify characteristic document type
 		String documentType = "";
 		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
 		if (getProfileHandler(docTypes)!=null && profileHandler.isProfiled(modelA)) {
 			documentType = profileHandler.getBaseType();
 		} else {
 			documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-		}		
+		}
 		
-		// Initialize the ReliabilityCalculator
-		IReliabilityCalculator reliabilityCalculator = null;
+		// Identify domain
+		Set<IDomain> domains = DomainServiceUtil.getCapableDomainServices(documentType);
+		//		if(domain==null) {
+		//			throw new NoDomainFoundException();
+		//		}
+		//TODO: use exception as soon as exception has been made available (MR: 9.11.2015)
+		//TODO: what if there are multiple fitting domain services?
+		
+		currentDomain = domains.iterator().next();
+		
+		
+		// Initialize ReliabilityCalculator
 		if (calculateReliability) {
 			IConfigurationElement[] configurationElements = Platform.getExtensionRegistry()
 					.getConfigurationElementsFor(IReliabilityCalculator.EXTENSION_POINT_ID);
@@ -90,19 +95,30 @@ public class SiDiffMatchingAdapter implements IMatcher {
 			}
 		}
 
-		// Initialize Domain Services
-		Set<IDomain> domainServices = DomainServiceUtil.getCapableDomainServices(documentType);
-		for(IDomain domainService: domainServices) {
-			// do specific actions on specific services
-			if(domainService instanceof IAnnotation) {
-				IAnnotation annotationService = (IAnnotation) domainService;
-				//TODO the following should better be done when instanciating the service (MR 4.11.2015)
-				annotationService.init(domainService.getDefaultAnnotationConfiguration());
-				annotationService.annotate(modelA);
-				annotationService.annotate(modelB);
-			}
-		}
+	}
+	
+	@Override
+	public SymmetricDifference createMatching(Resource modelA, Resource modelB, Scope scope,
+			boolean calculateReliability) {
+
+		// Init (identify Domain, init ReliabilityCalculator..)
+		init(modelA,calculateReliability);
 		
+		// Create Matching
+		SymmetricDifference matching = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		matching.setUriModelA(modelA.getURI().toString());
+		matching.setUriModelB(modelB.getURI().toString());
+
+		addMatches(modelA, modelB, matching, scope, calculateReliability);
+
+		return matching;
+	}
+
+	@Override
+	public void addMatches(Resource modelA, Resource modelB, SymmetricDifference matching, Scope scope,
+			boolean calculateReliability) {
+
+	
 		
 		// Notify ReliabilityCalculation of matching start
 		if (calculateReliability) {
@@ -112,24 +128,33 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		// Start Matching now! Sequence: xmiid, signature, similarity
 		// TODO we should also use dynamic inremental matcher (MR 6.11.2015)
 		// TODO we should use getMatchingService() by enum literal, not error prone strings (MR 6.11.2015)
-		// TODO Can't init() be called by the domain service? getMatchingService() delivers an IMatcher, which
-		// dosnt provide an init()-method (is only available in sub class BaseMatcher). The needed call of init()
+		// TODO Can'tthe following init()s be called by the domain service? getMatchingService() delivers an IMatcher, which
+		// doesnt provide an init()-method (is only available in sub class BaseMatcher). The needed call of init()
 		// is not obvious when using expected return type IMatcher (MR 6.11.2015)
-		BaseMatcher xmiIdMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("XMIIDMatchingService");
-		xmiIdMatchingService.init(modelA, modelB);
-		xmiIdMatchingService.match(modelA, modelB);
 		
-		BaseMatcher signatureBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("SignatureMatchingService");
-		signatureBasedMatchingService.init(modelA, modelB);
-		signatureBasedMatchingService.match(modelA, modelB);
+		if(XMIID_Matching) {	
+			BaseMatcher xmiIdMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("XMIIDMatching");
+			xmiIdMatchingService.init(modelA, modelB);
+			xmiIdMatchingService.match(modelA, modelB);
+		}
 		
-		BaseMatcher similarityBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("SimilarityMatcher");
-		similarityBasedMatchingService.init(modelA, modelB);
-		similarityBasedMatchingService.match(modelA, modelB);
+		if(SIGNATURE_Matching) {
+			BaseMatcher signatureBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("SignatureBasedMatcher");
+			signatureBasedMatchingService.init(modelA, modelB);
+			signatureBasedMatchingService.match(modelA, modelB);
+		}
+		
+		if(SIMILARITY_Matching) {
+			SimilarityBasedMatcher similarityBasedMatchingService = (SimilarityBasedMatcher) MatchingUtil.getMatchingService("SimilarityMatchingService");
+			similarityBasedMatchingService.configure(currentDomain.getDefaultMatchingConfiguration());
+			//TODO: cant this be done in init? One doesn't know there is configure()-Method necessary beforehand (MR: 9.11.2015)
+			similarityBasedMatchingService.init(modelA, modelB);
+			similarityBasedMatchingService.match(modelA, modelB);
+		}
 		
 		// additional matcher for profiles
 		if(profileHandler.isProfiled(modelA)) {
-			BaseMatcher profileBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("ProfilesMatchingService");
+			BaseMatcher profileBasedMatchingService = (BaseMatcher) MatchingUtil.getMatchingService("ProfilesMatching");
 			profileBasedMatchingService.init(modelA, modelB);
 			profileBasedMatchingService.match(modelA, modelB);
 		}
