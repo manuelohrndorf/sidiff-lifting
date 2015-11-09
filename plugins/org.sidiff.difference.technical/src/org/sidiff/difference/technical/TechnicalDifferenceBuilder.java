@@ -470,7 +470,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	
 	@Override
 	public boolean canHandle(String docType){
-		if(docType.equals(getDocumentType()))
+		if(getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE) || docType.equals(getDocumentType()))
 			return true;
 		else
 			return false;
