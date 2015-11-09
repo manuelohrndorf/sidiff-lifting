@@ -25,7 +25,7 @@ public class TechnicalDifferenceBuilderUtil {
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
 			try {
 				ITechnicalDifferenceBuilder tdbExtension = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
-				if (documentType.equals(tdbExtension.getDocumentType())) {
+				if (tdbExtension.canHandle(documentType)) {
 					tdbSet.add(tdbExtension);
 				}
 			} catch (Exception e) {
