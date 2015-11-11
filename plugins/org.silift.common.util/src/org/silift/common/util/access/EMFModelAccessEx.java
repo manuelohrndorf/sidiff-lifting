@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.tree.TreeVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.silift.common.util.emf.EMFStorage;
@@ -181,7 +183,7 @@ public class EMFModelAccessEx {
 	}
 
 	/**
-	 * For each of the root objects of the given modelResource, the retrieval of
+	 * For each of the model objects of the given modelResource, the retrieval of
 	 * the document type is simply delegated to the method
 	 * {@link EMFModelAccessEx#getDocumentType(EObject)}. The set of document
 	 * types which is obtained this way is finally returned.
@@ -197,13 +199,29 @@ public class EMFModelAccessEx {
 			resources.add(modelResource);
 		}
 
-		// Collect all document types of root objects
-		Set<String> documentTypes = new HashSet<String>();
+		// Collect all document types
+		final Set<String> documentTypes = new HashSet<String>();
 		for (Resource resource : resources) {
 			if(resource.getContents()!=null){
-				for (EObject root : resource.getContents()) {
-					documentTypes.add(getDocumentType(root));
-				}
+				EMFModelAccess.traverse(resource,new TreeVisitor() {
+
+					@Override
+					public boolean preExecute(EObject object) {
+						//Add document type
+						documentTypes.add(getDocumentType(object));		
+						
+						//Visit all Objects	
+						return true;
+					}
+
+					@Override
+					public void postExecute(EObject object) {
+						
+						//Nothing to do
+											
+					}
+				});		
+
 			}
 		}
 
