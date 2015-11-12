@@ -280,6 +280,15 @@ public class CorrespondenceImpl extends EObjectImpl implements Correspondence {
 		result.append(" (reliability: ");
 		result.append(reliability);
 		result.append(')');
+		
+		result.append(" (objA: ");
+		result.append(getObjA());
+		result.append(")");
+		
+		result.append(" (objB: ");
+		result.append(getObjB());
+		result.append(")");
+		
 		return result.toString();
 	}
 
