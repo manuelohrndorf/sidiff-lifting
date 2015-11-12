@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -75,9 +76,14 @@ public class PackageRegistryAdapter {
 	private Set<Correspondence> registryCorrespondences;
 
 	/**
-	 * REGISTRY objects imported into A and B
+	 * REGISTRY objects imported into A
 	 */
-	private Set<EObject> imports;
+	private Set<EObject> importsA = Collections.emptySet();
+	
+	/**
+	 * REGISTRY objects imported into B
+	 */
+	private Set<EObject> importsB = Collections.emptySet();
 
 	/**
 	 * Creates a package registry adapter which also takes care of the symmetric
@@ -138,7 +144,8 @@ public class PackageRegistryAdapter {
 			copy2Correspondence = null;
 		}
 		registryCorrespondences = new HashSet<Correspondence>();
-		imports = new HashSet<EObject>();
+		importsA = new HashSet<EObject>();
+		importsB = new HashSet<EObject>();
 
 		// Find models which are imported from PackageRegistry
 		Set<Resource> registryModels = new HashSet<Resource>();
@@ -170,8 +177,12 @@ public class PackageRegistryAdapter {
 		undoRegistryCorrespondences();
 	}
 
-	public Set<EObject> getImports() {
-		return imports;
+	public Set<EObject> getImportsModelA() {
+		return importsA;
+	}
+	
+	public Set<EObject> getImportsModelB() {
+		return importsB;
 	}
 
 	public Set<Correspondence> getCorrespondences() {
@@ -315,16 +326,17 @@ public class PackageRegistryAdapter {
 			if (!difference.getCorrespondences().contains(correspondence)) {
 				difference.addCorrespondence(correspondence);
 				registryCorrespondences.add(correspondence);
-				imports.add(correspondence.getObjA());
-				imports.add(correspondence.getObjB());
+				importsA.add(correspondence.getObjA());
+				importsB.add(correspondence.getObjB());
 			}
 		} else {
 			// orig <-> orig
-			if (!imports.contains(orig)) {
+			if (!importsA.contains(orig) || !importsB.contains(orig)) {
 				Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(orig, orig);
 				difference.addCorrespondence(c);
 				registryCorrespondences.add(c);
-				imports.add(orig);
+				importsA.add(orig);
+				importsB.add(orig);
 			}
 		}
 	}

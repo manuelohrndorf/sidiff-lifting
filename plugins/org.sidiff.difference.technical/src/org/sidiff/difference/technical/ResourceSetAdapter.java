@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,9 +55,14 @@ public class ResourceSetAdapter {
 	private Set<Correspondence> resourceSetCorrespondences;
 
 	/**
-	 * ResourceSet objects imported into A and B
+	 * ResourceSet objects imported into A
 	 */
-	private Set<EObject> imports;
+	private Set<EObject> importsA = Collections.emptySet();
+	
+	/**
+	 * ResourceSet objects imported into B
+	 */
+	private Set<EObject> importsB = Collections.emptySet();
 
 	/**
 	 * Constructor.
@@ -88,9 +94,10 @@ public class ResourceSetAdapter {
 	 */
 	public void init() {
 		resourceSetCorrespondences = new HashSet<Correspondence>();
-		imports = new HashSet<EObject>();
 
 		// A
+		importsA = new HashSet<EObject>();
+		
 		for (ExternalReference externalReference : resourceSetReferencesA) {
 			EObject obj = (EObject) externalReference.getTargetObject();
 			addCorrespondenceA(obj);
@@ -98,7 +105,10 @@ public class ResourceSetAdapter {
 				addCorrespondenceA(obj.eContainer());
 			}
 		}
+		
 		// B
+		importsB = new HashSet<EObject>();
+		
 		for (ExternalReference externalReference : resourceSetReferencesB) {
 			EObject obj = (EObject) externalReference.getTargetObject();
 			addCorrespondenceB(obj);
@@ -109,8 +119,8 @@ public class ResourceSetAdapter {
 
 		// Collect imports
 		for (Correspondence c : resourceSetCorrespondences) {
-			imports.add(c.getObjA());
-			imports.add(c.getObjB());
+			importsA.add(c.getObjA());
+			importsB.add(c.getObjB());
 		}
 	}
 
@@ -129,8 +139,12 @@ public class ResourceSetAdapter {
 		}
 	}
 
-	public Set<EObject> getImports() {
-		return imports;
+	public Set<EObject> getImportsModelA() {
+		return importsA;
+	}
+	
+	public Set<EObject> getImportsModelB() {
+		return importsB;
 	}
 
 	public Set<Correspondence> getCorrespondences() {

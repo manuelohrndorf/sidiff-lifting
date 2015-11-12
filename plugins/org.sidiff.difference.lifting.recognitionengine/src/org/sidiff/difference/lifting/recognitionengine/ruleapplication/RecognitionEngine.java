@@ -41,6 +41,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.ChangeIndex;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
+import org.sidiff.difference.technical.ModelImports;
 import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
@@ -105,7 +106,7 @@ public class RecognitionEngine {
 	 * @param settings
 	 *            The settings (scope, optimizations) of the Recognition-Engine.
 	 */
-	public RecognitionEngine(SymmetricDifference difference, Set<EObject> imports, LiftingSettings settings) {
+	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, LiftingSettings settings) {
 
 		this.difference = difference;
 		this.settings = settings;

@@ -24,6 +24,7 @@ import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.technical.ModelImports;
 import org.silift.common.util.emf.Scope;
 
 /**
@@ -43,7 +44,7 @@ public class LiftingGraphFactory {
 	/**
 	 * Imported objects that must be added to the Henshin graph
 	 */
-	private Set<EObject> imports;
+	private ModelImports imports;
 
 	/**
 	 * The scope (single resource or complete resource set).
@@ -77,7 +78,7 @@ public class LiftingGraphFactory {
 	 * @param imports
 	 *            Imported objects that must be added to the Henshin graph
 	 */
-	public LiftingGraphFactory(SymmetricDifference difference, Set<EObject> imports, Scope scope,
+	public LiftingGraphFactory(SymmetricDifference difference, ModelImports imports, Scope scope,
 			boolean buildGraphPerRule) {
 		super();
 		this.difference = difference;
@@ -272,7 +273,25 @@ public class LiftingGraphFactory {
 
 		// Add imports to graph
 		if (imports != null) {
-			for (EObject eObject : imports) {
+			
+			// A:
+			for (Iterator<EObject> iterator = imports.getIteratorImportsModelA(); iterator.hasNext();) {
+				EObject eObject = (EObject) iterator.next();
+				
+				if (rr != null) {
+					if (blueprint.modelTypes.contains(eObject.eClass())
+							|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
+						addEObjectToGraph(eObject, graph);
+					}
+				} else {
+					addEObjectToGraph(eObject, graph);
+				}
+			}
+			
+			// B:
+			for (Iterator<EObject> iterator = imports.getIteratorImportsModelB(); iterator.hasNext();) {
+				EObject eObject = (EObject) iterator.next();
+				
 				if (rr != null) {
 					if (blueprint.modelTypes.contains(eObject.eClass())
 							|| !Collections.disjoint(blueprint.modelTypes, eObject.eClass().getEAllSuperTypes())) {
@@ -426,7 +445,16 @@ public class LiftingGraphFactory {
 
 		// Add imports to graph
 		if (imports != null) {
-			for (EObject eObject : imports) {
+			
+			// A:
+			for (Iterator<EObject> iterator = imports.getIteratorImportsModelA(); iterator.hasNext();) {
+				EObject eObject = (EObject) iterator.next();
+				addEObjectToGraph(eObject, graph);
+			}
+			
+			// B:
+			for (Iterator<EObject> iterator = imports.getIteratorImportsModelB(); iterator.hasNext();) {
+				EObject eObject = (EObject) iterator.next();
 				addEObjectToGraph(eObject, graph);
 			}
 		}

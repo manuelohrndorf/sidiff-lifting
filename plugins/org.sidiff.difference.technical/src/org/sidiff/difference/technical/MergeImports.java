@@ -1,6 +1,5 @@
 package org.sidiff.difference.technical;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -35,10 +34,12 @@ public class MergeImports {
 
 	private ExternalReferenceContainer refsA;
 	private ExternalReferenceContainer refsB;
+	
 	private ResourceSetAdapter resourceSetAdapter;
 
 	private PackageRegistryAdapter registryAdapter;
-	private HashSet<EObject> imports;
+	
+	private ModelImports imports;
 
 	/**
 	 * 
@@ -118,36 +119,28 @@ public class MergeImports {
 		if (scope == Scope.RESOURCE) {
 			initResourceSetAdapter();
 		}
-
-		// Collect imports from registry and resource set
-		imports = new HashSet<EObject>();
-		imports.addAll(registryAdapter.getImports());
-		if (scope == Scope.RESOURCE) {
-			imports.addAll(resourceSetAdapter.getImports());
-		}
-
+		
+		// Create merge imports container:
+		imports = new ModelImports(registryAdapter, resourceSetAdapter);
+		
 		/*
 		 * Print report
 		 */
-		// Print merge list
-		if (imports.size() > 0) {
-			LogUtil.log(LogEvent.DEBUG, "\nMerge imports from Registry (Original <-> Copy):");
-			for (Correspondence c : registryAdapter.getCorrespondences()) {
-				LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
-				assert (imports.contains(c.getObjA()));
-				assert (imports.contains(c.getObjB()));
-			}
 
-			LogUtil.log(LogEvent.DEBUG, "\nAdditional ResourceSet objects (A <-> B):");
-			if (resourceSetAdapter != null) {
-				for (Correspondence c : resourceSetAdapter.getCorrespondences()) {
-					LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
-					assert (imports.contains(c.getObjA()));
-					assert (imports.contains(c.getObjB()));
-				}
+		LogUtil.log(LogEvent.DEBUG, "\nMerge imports from Registry (Original <-> Copy):");
+		for (Correspondence c : registryAdapter.getCorrespondences()) {
+			LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
+			assert (imports.containsImportsModelA(c.getObjA()));
+			assert (imports.containsImportsModelB(c.getObjB()));
+		}
+
+		LogUtil.log(LogEvent.DEBUG, "\nAdditional ResourceSet objects (A <-> B):");
+		if (resourceSetAdapter != null) {
+			for (Correspondence c : resourceSetAdapter.getCorrespondences()) {
+				LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
+				assert (imports.containsImportsModelA(c.getObjA()));
+				assert (imports.containsImportsModelB(c.getObjB()));
 			}
-		} else {
-			LogUtil.log(LogEvent.DEBUG, "\nNothing to do...\n");
 		}
 	}
 
@@ -164,12 +157,13 @@ public class MergeImports {
 
 		// delegate cleanup to adapters
 		registryAdapter.cleanup();
+		
 		if (scope == Scope.RESOURCE) {
 			resourceSetAdapter.cleanup();
 		}
 	}
 
-	public Set<EObject> getImports() {
+	public ModelImports getImports() {
 		return imports;
 	}
 
@@ -185,15 +179,15 @@ public class MergeImports {
 		if (asymmetricDifference == null) {
 			registryAdapter = new PackageRegistryAdapter(symmetricDifference, refsA, refsB, relink);
 		} else {
-			registryAdapter = new PackageRegistryAdapter(symmetricDifference, asymmetricDifference, refsA, refsB,
-					relink);
+			registryAdapter = new PackageRegistryAdapter(
+					symmetricDifference, asymmetricDifference, refsA, refsB, relink);
 		}
 		registryAdapter.init();
 	}
 
 	private void initResourceSetAdapter() {
-		resourceSetAdapter = new ResourceSetAdapter(symmetricDifference, refsA.getResourceSetReferences(),
-				refsB.getResourceSetReferences());
+		resourceSetAdapter = new ResourceSetAdapter(
+				symmetricDifference, refsA.getResourceSetReferences(), refsB.getResourceSetReferences());
 		resourceSetAdapter.init();
 	}
 

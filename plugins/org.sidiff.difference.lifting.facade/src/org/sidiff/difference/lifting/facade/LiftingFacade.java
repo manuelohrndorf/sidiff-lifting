@@ -10,7 +10,6 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.SubtreeAggregator;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
@@ -62,9 +61,6 @@ public class LiftingFacade extends PipelineUtils {
 
 		// Unmerge Imports
 		importMerger.unmerge();
-
-		// Cleanup
-		cleanup(symmetricDifference, importMerger.getImports());
 
 		report(symmetricDifference);
 
@@ -147,9 +143,6 @@ public class LiftingFacade extends PipelineUtils {
 		// e.printStackTrace();
 		// }
 		// }
-
-		// Cleanup
-		cleanup(symmetricDiff, importMerger.getImports());
 
 		report(symmetricDiff);
 

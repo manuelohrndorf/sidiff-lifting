@@ -181,11 +181,6 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		importMerger.unmerge();
 		StatisticsUtil.getInstance().stop("UnmergeImports");
 
-		// Cleanup
-		StatisticsUtil.getInstance().start("Cleanup");
-		cleanup(symmetricDiff, importMerger.getImports());
-		StatisticsUtil.getInstance().stop("Cleanup");
-
 		// Create new difference container
 		Difference fullDiff = new Difference(symmetricDiff, asymmetricDiff);
 
