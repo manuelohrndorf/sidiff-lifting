@@ -59,13 +59,13 @@ public class LiftingGraphProxy implements EGraph {
 //	private Map<EClass, List<EObject>> domainMapCache;
 	
 	public LiftingGraphProxy(Rule recognitionRule, RecognitionRuleBlueprint recognitionRuleBlueprint,
-			EGraph modelAGraph, EGraph modelBGraph, LiftingGraphDomainMap differenceDomainMap) {
+			EGraph modelAGraph, EGraph modelBGraph, LiftingGraphDomainMap liftingGraphDomainMap) {
 		super();
 		this.recognitionRule = recognitionRule;
 		this.recognitionRuleBlueprint = recognitionRuleBlueprint;
 		this.modelAGraph = modelAGraph;
 		this.modelBGraph = modelBGraph;
-		this.liftingGraphDomainMap = differenceDomainMap;
+		this.liftingGraphDomainMap = liftingGraphDomainMap;
 	}
 	
 	@Override

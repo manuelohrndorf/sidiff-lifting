@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -39,7 +38,6 @@ import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.difference.symmetric.util.ChangeIndex;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.silift.common.util.access.EMFModelAccessEx;
 
@@ -56,9 +54,14 @@ public class RecognitionEngine {
 	private LiftingSettings settings;
 
 	/**
-	 * The corresponding change index knowing the amount of low-level changes per type.
+	 * The corresponding difference index knowing the low-level changes per type.
 	 */
 	private LiftingGraphDomainMap liftingGraphDomainMap;
+	
+	/**
+	 * Factory that creates the Henshin graph for a corresponding recognition rule.
+	 */
+	private LiftingGraphFactory graphFactory;
 	
 	/**
 	 * The recognition rules with their corresponding change type blueprints.
@@ -110,6 +113,10 @@ public class RecognitionEngine {
 		this.difference = difference;
 		this.settings = settings;
 
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "-------------- INITIALIZE RECOGNITION ENGINE ---------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		
 		// Create a domain map:
 		this.liftingGraphDomainMap = new LiftingGraphDomainMap(difference);
 
@@ -117,7 +124,10 @@ public class RecognitionEngine {
 		recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
 		
 		for (IRuleBase rb : settings.getRuleBases()) {
-			recognitionRules.addAll(rb.getActiveRecognitionTransformationUnits());
+			for (Rule rr : rb.getActiveRecognitionTransformationUnits()) {
+				RecognitionRuleBlueprint blueprint = new RecognitionRuleBlueprint(rr);
+				recognitionRules.put(rr, blueprint);
+			}
 		}
 
 		// Initialize Rule Applications:
@@ -148,13 +158,9 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "----------------- FILTER RECOGNITION RULES -----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		LogUtil.log(LogEvent.NOTICE, "Building change index.");
-		ChangeIndex idx = new ChangeIndex(difference);
-		LogUtil.log(LogEvent.NOTICE, "Finished build change index.");
-
 		LogUtil.log(LogEvent.NOTICE, "Filter recognition rules.");
 		RecognitionRuleFilter filter = new RecognitionRuleFilter();
-		filtered = filter.filter(idx, recognitionRules);
+		filtered = filter.filter(liftingGraphDomainMap, recognitionRules);
 
 		LogUtil.log(LogEvent.NOTICE, "Filtered " + filtered.size() + " of " + recognitionRules.size() + " recognitionRules");
 
@@ -190,7 +196,7 @@ public class RecognitionEngine {
 		IRecognitionRuleSorter ruleSorter = settings.getRrSorter();
 		ruleSorter.setDifferenceAnalysis(analysis);
 
-		for (Rule recognitionRule : this.recognitionRules) {
+		for (Rule recognitionRule : recognitionRules.keySet()) {
 			if (!filtered.contains(recognitionRule)) {
 				// Sort kernel rule
 				ECollections.sort(recognitionRule.getLhs().getNodes(), ruleSorter);
@@ -215,9 +221,6 @@ public class RecognitionEngine {
 		} else {
 			executeSequential();
 		}
-		
-		// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
-		clearGraphs();
 
 		stopTimer(EXECUTION);
 
@@ -236,7 +239,7 @@ public class RecognitionEngine {
 
 		// Sequential recognizer:
 		Set<Rule> units = new HashSet<Rule>();
-		units.addAll(recognitionRules);
+		units.addAll(recognitionRules.keySet());
 		units.removeAll(filtered);
 
 		// Start Recognizer-Thread in "sequential mode":
@@ -264,7 +267,7 @@ public class RecognitionEngine {
 		Set<Rule> units = new HashSet<Rule>();
 
 		// Start recognizer threads
-		for (Rule transformationUnit : recognitionRules) {
+		for (Rule transformationUnit : recognitionRules.keySet()) {
 
 			// Filter rules
 			if (!filtered.contains(transformationUnit)) {
@@ -345,16 +348,6 @@ public class RecognitionEngine {
 	}
 
 	/**
-	 * Clients that want to apply rules on a difference should use this methods
-	 * to obtain the single instance of a graph factory.
-	 * 
-	 * @return Single instance of a graph factory
-	 */
-	public LiftingGraphFactory getGraphFactory() {
-		return this.graphFactory;
-	}
-
-	/**
 	 * Get "trace" back to recognition rule for given SemanticChangeSet scs
 	 * 
 	 * @param scs
@@ -375,9 +368,11 @@ public class RecognitionEngine {
 	}
 
 	/**
-	 * Removes recognitionRuleMatch and editRuleMatch for scs.
+	 * Removes a a recognition rule match and a edit rule match for a given
+	 * semantic change set.
 	 * 
 	 * @param scs
+	 *            The corresponding semantic change set.
 	 */
 	public void removeMatches(SemanticChangeSet scs) {
 		if (settings.isCalculateEditRuleMatch()) {
@@ -427,6 +422,18 @@ public class RecognitionEngine {
 	}
 
 	/**
+	 * The recognizer threads call this method to add the recognition rule
+	 * applications for all recognition rule matches that can be found. Thus,
+	 * method is synchronized!
+	 * 
+	 * @param rrApp
+	 *            All recognition rule applications of a recognizer thread.
+	 */
+	protected synchronized void addRecognitionRuleApplication(Collection<RuleApplication> rrApplications) {
+		recognizerRuleApplications.addAll(rrApplications);
+	}
+	
+	/**
 	 * Returns the SemanticChangeSet which has been created by ruleApp (via
 	 * co-match of RecognitionRule Matching)
 	 * 
@@ -450,40 +457,6 @@ public class RecognitionEngine {
 	}
 
 	/**
-	 * recognizerThreads call this method to add a recognition rule application
-	 * for every recognition rule match that can be found. Thus, method is
-	 * synchronized!
-	 * 
-	 * @param rrApp
-	 */
-	public synchronized void addRecognitionRuleApplication(RuleApplication rrApp) {
-		recognizerRuleApplications.add(rrApp);
-	}
-	
-	// FIXME: BEGIN_WORKAROUND: Remove ECrossReferenceAdapter
-	private List<EGraph> graphs = new ArrayList<EGraph>();
-	
-	public synchronized void addGraph(EGraph graph) {
-		graphs.add(graph);
-	}
-	
-	private void clearGraphs() {
-		
-		for (EGraph graph : graphs) {
-			graph.clear();
-		}
-	}
-	
-	// FIXME: END_WORKAROUND: Remove ECrossReferenceAdapter
-
-	/**
-	 * @return The difference this RecognitionEngine is working on
-	 */
-	public SymmetricDifference getDifference() {
-		return this.difference;
-	}
-
-	/**
 	 * Mapping: EditRule r -> Set of SemanticChangeSets representing an invocation of r
 	 */
 	public Map<EditRule, Set<SemanticChangeSet>> getEditRule2SCS() {
@@ -501,8 +474,31 @@ public class RecognitionEngine {
 		return editRule2SCS;
 	}
 	
+	/**
+	 * Clients that want to apply rules on a difference should use this methods
+	 * to obtain the single instance of a graph factory.
+	 * 
+	 * @return Single instance of a graph factory
+	 */
+	public LiftingGraphFactory getGraphFactory() {
+		return graphFactory;
+	}
+	
+	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {
+		return recognitionRules.get(rr);
+	}
+	
+	/**
+	 * @return The difference this RecognitionEngine is working on
+	 */
+	public SymmetricDifference getDifference() {
+		return difference;
+	}
+	
+	/**
+	 * @return The actual setting for this lifting engine.
+	 */
 	public LiftingSettings getLiftingSettings() {
 		return settings;
 	}
-
 }

@@ -42,6 +42,11 @@ public class RecognizerThread extends Thread {
 	private RecognitionEngine recognitionEngine;
 	
 	/**
+	 * Set of all rule applications created by the recognizer threads.
+	 */
+	private Set<RuleApplication> recognizerRuleApplications;
+	
+	/**
 	 * Initialize recognizer
 	 * 
 	 * @param recognitionRules
@@ -73,8 +78,8 @@ public class RecognizerThread extends Thread {
 				if (STATISTICS) startSplitTimer(CREATE_GRAPH, "" + rr.hashCode(), rr.getName());
 				
 				// Get working graph
-				// FIXME: Avoid synchronized call
-				EGraph graph = recognitionEngine.getGraphFactory().getEGraph(rr);
+				EGraph graph = recognitionEngine.getGraphFactory().createLiftingGraph(
+						rr, recognitionEngine.getRecognitionRuleBlueprint(rr));
 				
 				if (STATISTICS) stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
 
@@ -83,10 +88,6 @@ public class RecognizerThread extends Thread {
 				LogUtil.log(LogEvent.DEBUG, "Matching: " + rr.getModule().eResource() + "...");
 				
 				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
-				
-				if (rr.getName().equals("rr:deleteOppositeReference")) {
-					System.out.println("Hallo");
-				}
 				
 				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
 								
@@ -101,19 +102,18 @@ public class RecognizerThread extends Thread {
 					ruleApp.setCompleteMatch(match);
 					
 					numberOfMatches++;
-					
-					// FIXME: Avoid synchronized call by collecting the matches in the thread first.
-					recognitionEngine.addRecognitionRuleApplication(ruleApp);
+					recognizerRuleApplications.add(ruleApp);
 				}
 				
 				if (STATISTICS) stopSplitTimer(MATCH_RR, "" + rr.hashCode());
 				
-				// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
-				recognitionEngine.addGraph(graph);
-				
 				LogUtil.log(LogEvent.NOTICE, "Matches found: " + numberOfMatches);	
 			}
 		} finally {
+			
+			// Add matches to recognition engine:
+			recognitionEngine.addRecognitionRuleApplication(recognizerRuleApplications);
+			
 			// Shutdown:
 			engine.shutdown();
 			

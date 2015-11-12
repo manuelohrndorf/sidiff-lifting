@@ -120,13 +120,17 @@ public class RecognitionEngineStatistics {
 	
 	/**
 	 * The node count a full (unreduced) working graph.
+	 * 
+	 * @deprecated
 	 */
-	public static final String FULL_GRAPH_NODES = COMMON_PREFIX + "FullGraph:Nodes";
+	public static final String FULL_GRAPH_NODES = COMMON_PREFIX + "(deprecated) FullGraph:Nodes";
 	
 	/**
 	 * The edge count a full (unreduced) working graph.
+	 * 
+	 * @deprecated
 	 */
-	public static final String FULL_GRAPH_EDGES = COMMON_PREFIX + "FullGraph:Edges";
+	public static final String FULL_GRAPH_EDGES = COMMON_PREFIX + "(deprecated) FullGraph:Edges";
 	
 	/**
 	 * Count of Add-Objects in the difference.
@@ -771,19 +775,18 @@ public class RecognitionEngineStatistics {
 	 * 
 	 * @see RecognitionEngineStatistics#MEASURE_GRAPH_SIZE
 	 */
-	private static void analyseEGraphs(LiftingGraphFactory liftingGraphFactory, Collection<Rule> recognitionRules) {
+	private static void analyseEGraphs(LiftingGraphFactory liftingGraphFactory,  
+			Map<Rule, RecognitionRuleBlueprint> recognitionRules) {
+		
 		if (!MEASURE_GRAPH_SIZE) {
 			return;
 		}
 		
-		// Simulate graph building: Full working graph
 		analyseFullEGraph(liftingGraphFactory);
 		
 		// Simulate graph building: Dedicated working graph
-		if (liftingGraphFactory.isBuildGraphPerRule()) {
-			for (Rule recognitionRule : recognitionRules) {
-				analyseEGraph(liftingGraphFactory, recognitionRule);
-			}
+		for (Rule recognitionRule : recognitionRules.keySet()) {
+			analyseEGraph(liftingGraphFactory, recognitionRule, recognitionRules.get(recognitionRule));
 		}
 	}
 	
@@ -795,12 +798,14 @@ public class RecognitionEngineStatistics {
 	 * @param recognitionRule
 	 *            The corresponding Recognition-Rule.
 	 */
-	private static void analyseEGraph(LiftingGraphFactory liftingGraphFactory, Rule recognitionRule) {
+	private static void analyseEGraph(LiftingGraphFactory liftingGraphFactory, 
+			Rule recognitionRule, RecognitionRuleBlueprint blueprint) {
+		
 		if (!STATISTICS) {
 			return;
 		}
 		
-		EGraph graph = liftingGraphFactory.createEGraph(recognitionRule);
+		EGraph graph = liftingGraphFactory.createLiftingGraph(recognitionRule, blueprint);
 		
 		// Nodes:
 		noteMinMax(GRAPH_NODES, graph.size(), recognitionRule.getName());
@@ -819,18 +824,16 @@ public class RecognitionEngineStatistics {
 	 * 
 	 * @param liftingGraphFactory
 	 *            The factory that creates a Henshin graph.
+	 *            
+	 * @deprecated
 	 */
 	private static void analyseFullEGraph(LiftingGraphFactory liftingGraphFactory) {
 		if (!STATISTICS) {
 			return;
 		}
 		
-		EGraph fullGraph = liftingGraphFactory.createSingleEGraph();
-		
-		noteSize(FULL_GRAPH_NODES, getModelObjectCount(fullGraph.iterator()));
-		noteSize(FULL_GRAPH_EDGES, getModelReferenceCount(fullGraph.iterator()));
-		
-		fullGraph.clear();
+		noteSize(FULL_GRAPH_NODES, -1);
+		noteSize(FULL_GRAPH_EDGES, -1);
 	}
 	
 	/**
@@ -951,7 +954,7 @@ public class RecognitionEngineStatistics {
 	 */
 	protected static void finishStatistic(
 			SymmetricDifference difference, 
-			Collection<Rule> recognitionRules,
+			Map<Rule, RecognitionRuleBlueprint> recognitionRules,
 			Collection<Rule> filtered,
 			LiftingGraphFactory liftingGraphFactory) {
 		
@@ -963,7 +966,7 @@ public class RecognitionEngineStatistics {
 		
 		// Analyse difference and rule set:
 		analyseDifference(difference);
-		analyseRuleSet(recognitionRules, filtered);
+		analyseRuleSet(recognitionRules.keySet(), filtered);
 		analyseEGraphs(liftingGraphFactory, recognitionRules);
 		
 		// Save statistics:
