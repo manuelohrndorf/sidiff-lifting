@@ -5,11 +5,11 @@ import java.util.Set;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.silift.common.util.emf.Scope;
-import org.silift.modifieddetector.IModifiedDetector;
 
 public class PatchingSettings extends Settings {
 
