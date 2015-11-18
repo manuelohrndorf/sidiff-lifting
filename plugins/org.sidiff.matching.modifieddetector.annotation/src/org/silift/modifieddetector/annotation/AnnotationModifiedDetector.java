@@ -14,8 +14,8 @@ import org.sidiff.core.annotation.AnnotationService;
 import org.sidiff.core.annotation.impl.AnnotationServiceImpl;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.silift.common.util.emf.Scope;
-import org.silift.modifieddetector.IModifiedDetector;
 
 /**
  * Modified Detector which shall be used as base for document type specific detectors.
