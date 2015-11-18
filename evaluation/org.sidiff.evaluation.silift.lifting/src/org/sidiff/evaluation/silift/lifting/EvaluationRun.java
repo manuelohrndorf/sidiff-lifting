@@ -1,4 +1,4 @@
-package org.sidiff.difference.evaluation;
+package org.sidiff.evaluation.silift.lifting;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.evaluation.engine.AbstractEvaluationEngine;
-import org.sidiff.difference.evaluation.utils.EvaluationEngineUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.evaluation.silift.lifting.engine.AbstractEvaluationEngine;
+import org.sidiff.evaluation.silift.lifting.utils.EvaluationEngineUtil;
 
 /**
  * Main class to be executed (within a, at minimum, headless eclipse) for running an evaluation.

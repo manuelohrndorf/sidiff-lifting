@@ -1,14 +1,14 @@
-package org.sidiff.difference.evaluation.engine;
+package org.sidiff.evaluation.silift.lifting.engine;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.evaluation.AbstractTestCaseEntry;
-import org.sidiff.difference.evaluation.Evaluation;
-import org.sidiff.difference.evaluation.Header;
-import org.sidiff.difference.evaluation.TestCase;
+import org.sidiff.evaluation.silift.lifting.AbstractTestCaseEntry;
+import org.sidiff.evaluation.silift.lifting.Evaluation;
+import org.sidiff.evaluation.silift.lifting.Header;
+import org.sidiff.evaluation.silift.lifting.TestCase;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package org.sidiff.difference.evaluation.handlers;
+package org.sidiff.evaluation.silift.lifting.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -7,7 +7,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.difference.evaluation.EvaluationRun;
+import org.sidiff.evaluation.silift.lifting.EvaluationRun;
 
 /**
  * Handler to execute an evaluation run from an Eclipse context menu.

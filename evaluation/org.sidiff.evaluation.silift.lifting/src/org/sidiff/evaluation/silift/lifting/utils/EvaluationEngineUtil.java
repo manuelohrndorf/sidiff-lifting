@@ -1,8 +1,8 @@
-package org.sidiff.difference.evaluation.utils;
+package org.sidiff.evaluation.silift.lifting.utils;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.difference.evaluation.engine.AbstractEvaluationEngine;
+import org.sidiff.evaluation.silift.lifting.engine.AbstractEvaluationEngine;
 
 /**
  * 

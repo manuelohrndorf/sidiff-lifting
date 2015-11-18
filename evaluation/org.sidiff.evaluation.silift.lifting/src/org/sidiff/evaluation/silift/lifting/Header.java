@@ -1,4 +1,4 @@
-package org.sidiff.difference.evaluation;
+package org.sidiff.evaluation.silift.lifting;
 
 import java.util.ArrayList;
 import java.util.List;
