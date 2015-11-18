@@ -23,11 +23,11 @@ import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 import org.sidiff.patching.ui.wsupdate.widgets.MergeModelsWidget;
-import org.silift.patching.settings.PatchingSettings;
-import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListener {
 

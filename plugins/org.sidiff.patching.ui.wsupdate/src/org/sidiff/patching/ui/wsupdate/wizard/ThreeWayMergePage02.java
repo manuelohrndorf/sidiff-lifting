@@ -24,9 +24,9 @@ import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.sidiff.patching.ui.wsupdate.util.MergeModels;
-import org.silift.patching.settings.PatchingSettings;
 
 public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {
 
