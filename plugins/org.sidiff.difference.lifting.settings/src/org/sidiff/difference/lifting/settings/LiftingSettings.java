@@ -4,10 +4,10 @@ import java.util.Set;
 
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.matcher.IMatcher;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.Scope;
 

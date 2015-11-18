@@ -27,9 +27,9 @@ import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.IncrementalMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.IncrementalMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 import org.silift.common.util.emf.Scope;
 
 public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {

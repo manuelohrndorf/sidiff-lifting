@@ -15,8 +15,6 @@ import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorte
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.AddObject;
@@ -37,6 +35,8 @@ import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 import org.silift.common.util.emf.EMFStorage;
 
 /**

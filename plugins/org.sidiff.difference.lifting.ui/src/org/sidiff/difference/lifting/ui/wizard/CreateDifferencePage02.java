@@ -25,8 +25,8 @@ import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.matcher.IMatcher;
 
 public class CreateDifferencePage02 extends WizardPage implements IPageChangedListener {
 

@@ -34,11 +34,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.compareview.ide.proxy.SiLiftToEMFCompareConverter;
 import org.sidiff.difference.symmetric.provider.AdapterToolTipLabelProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
+import org.sidiff.matcher.IMatcher;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.exceptions.NoCorrespondencesException;
 

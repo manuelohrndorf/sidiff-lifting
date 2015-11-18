@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
+import org.sidiff.matcher.IMatcher;
 import org.silift.common.util.emf.Scope;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -60,7 +60,7 @@ public abstract class Settings {
 			try {
 				IMatcher matcherExtension = (IMatcher) configurationElement.createExecutableExtension("name");
 
-				if (matcherExtension.getName().equals("org.sidiff.difference.matcher.namedelement.NamedElementMatcher")) {
+				if (matcherExtension.getName().equals("org.sidiff.matcher.namedelement.NamedElementMatcher")) {
 					this.matcher = matcherExtension;
 				}
 			} catch (Exception e) {
