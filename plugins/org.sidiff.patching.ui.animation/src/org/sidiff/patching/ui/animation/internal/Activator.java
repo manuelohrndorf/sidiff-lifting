@@ -1,4 +1,4 @@
-package org.sidiff.difference.patch.animation.internal;
+package org.sidiff.patching.ui.animation.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

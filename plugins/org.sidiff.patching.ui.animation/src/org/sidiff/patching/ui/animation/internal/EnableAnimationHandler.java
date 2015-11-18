@@ -1,4 +1,4 @@
-package org.sidiff.difference.patch.animation.internal;
+package org.sidiff.patching.ui.animation.internal;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.Command;
@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.difference.patch.animation.GMFAnimation;
+import org.sidiff.patching.ui.animation.GMFAnimation;
 
 public class EnableAnimationHandler extends AbstractHandler {
 

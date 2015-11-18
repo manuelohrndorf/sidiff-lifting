@@ -1,4 +1,4 @@
-package org.sidiff.difference.patch.animation.internal;
+package org.sidiff.patching.ui.animation.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.sidiff.difference.patch.animation.GMFAnimation.EditorMatching;
+import org.sidiff.patching.ui.animation.GMFAnimation.EditorMatching;
 import org.silift.common.util.emf.EMFStorage;
 
 public class AnimationAdapter extends EContentAdapter {

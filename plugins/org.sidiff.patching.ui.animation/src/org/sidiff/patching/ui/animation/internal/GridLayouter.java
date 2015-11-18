@@ -1,4 +1,4 @@
-package org.sidiff.difference.patch.animation.internal;
+package org.sidiff.patching.ui.animation.internal;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionPoint;
