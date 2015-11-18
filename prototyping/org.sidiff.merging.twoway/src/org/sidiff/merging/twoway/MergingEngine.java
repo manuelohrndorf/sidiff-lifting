@@ -1,6 +1,7 @@
 package org.sidiff.merging.twoway;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
@@ -101,7 +102,7 @@ public class MergingEngine {
 			patchingSettings.setArgumentManager(new InteractiveArgumentManager(mergingSettings.getMatcher()));
 			patchingSettings.setInterruptHandler(new DialogPatchInterruptHandler());
 		}
-		patchingSettings.setTransformationEngine(TransformationEngineUtil.getFirstTransformationEngine(EMFModelAccessEx.getCharacteristicDocumentType(mergedModel)));
+		patchingSettings.setTransformationEngine(TransformationEngineUtil.getFirstTransformationEngine(EMFModelAccess.getCharacteristicDocumentType(mergedModel)));
 		patchingSettings.setValidationMode(ValidationMode.NO_VALIDATION);
 		
 		patchEngine = new PatchEngine(asymmetricDifference, mergedModel, patchingSettings);
