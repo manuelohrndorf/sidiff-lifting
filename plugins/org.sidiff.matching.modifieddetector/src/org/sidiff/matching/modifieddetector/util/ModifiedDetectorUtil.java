@@ -1,8 +1,8 @@
-package org.silift.modifieddetector.util;
+package org.sidiff.matching.modifieddetector.util;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.silift.modifieddetector.IModifiedDetector;
+import org.sidiff.matching.modifieddetector.IModifiedDetector;
 
 public class ModifiedDetectorUtil {
 

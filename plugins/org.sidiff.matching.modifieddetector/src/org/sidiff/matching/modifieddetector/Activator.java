@@ -1,4 +1,4 @@
-package org.silift.modifieddetector;
+package org.sidiff.matching.modifieddetector;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

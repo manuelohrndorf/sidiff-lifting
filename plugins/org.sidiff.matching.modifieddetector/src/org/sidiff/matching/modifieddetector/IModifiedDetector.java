@@ -1,4 +1,4 @@
-package org.silift.modifieddetector;
+package org.sidiff.matching.modifieddetector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -19,7 +19,7 @@ public interface IModifiedDetector {
 	/**
 	 * The shared extension point id.
 	 */
-	public static final String EXTENSION_POINT_ID = "org.silift.modifieddetector";	
+	public static final String EXTENSION_POINT_ID = "org.sidiff.matching.modifieddetector";	
 	
 	/**
 	 * The shared executable point
