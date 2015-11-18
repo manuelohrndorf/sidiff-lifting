@@ -1,4 +1,4 @@
-package org.sidiff.editrule.classificator.util;
+package org.sidiff.editrule.analysis.classification.util;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.editrule.classificator.IClassificator;
+import org.sidiff.editrule.analysis.classification.IClassificator;
 
 /**
  * Utility class to find appropriate classifiers for a edit rules.

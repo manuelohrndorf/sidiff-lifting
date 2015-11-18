@@ -1,4 +1,4 @@
-package org.sidiff.editrule.classificator;
+package org.sidiff.editrule.analysis.classification;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
