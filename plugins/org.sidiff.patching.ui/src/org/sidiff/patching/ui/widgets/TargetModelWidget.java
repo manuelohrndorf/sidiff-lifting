@@ -15,7 +15,6 @@ import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;

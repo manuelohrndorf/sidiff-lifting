@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.patch.patch.Patch;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;

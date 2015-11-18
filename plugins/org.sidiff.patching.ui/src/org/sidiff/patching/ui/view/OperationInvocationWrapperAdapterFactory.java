@@ -2,7 +2,6 @@ package org.sidiff.patching.ui.view;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 public class OperationInvocationWrapperAdapterFactory implements IAdapterFactory {
