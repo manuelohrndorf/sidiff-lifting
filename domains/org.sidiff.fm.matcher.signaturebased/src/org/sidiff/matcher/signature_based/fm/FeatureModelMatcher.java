@@ -5,7 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.sidiff.difference.matcher.SignatureBasedMatcher;
+import org.sidiff.matcher.SignatureBasedMatcher;
 
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.ExcludeConstraint;
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModel;

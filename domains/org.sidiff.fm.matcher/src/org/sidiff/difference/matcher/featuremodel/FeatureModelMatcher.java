@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.difference.matcher.BaseMatcher;
+import org.sidiff.matcher.BaseMatcher;
 
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.ExcludeConstraint;
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModel;
