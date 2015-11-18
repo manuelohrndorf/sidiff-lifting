@@ -13,10 +13,10 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.silift.common.util.emf.ExternalReferenceCalculator;
 import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.common.util.emf.Scope;
-import org.silift.modifieddetector.IModifiedDetector;
 import org.silift.patching.settings.PatchMode;
 
 /**
