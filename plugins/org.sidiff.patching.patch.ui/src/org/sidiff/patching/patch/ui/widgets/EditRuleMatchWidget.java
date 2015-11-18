@@ -1,4 +1,4 @@
-package org.silift.patching.patch.ui.widgets;
+package org.sidiff.patching.patch.ui.widgets;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

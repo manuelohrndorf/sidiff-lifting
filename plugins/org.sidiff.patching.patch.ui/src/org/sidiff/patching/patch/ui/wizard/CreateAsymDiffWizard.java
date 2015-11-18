@@ -31,11 +31,11 @@ import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.sidiff.patching.patch.ui.Activator;
 import org.silift.common.util.ui.UIUtil;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
-import org.silift.patching.patch.ui.Activator;
 
 public class CreateAsymDiffWizard extends Wizard {
 

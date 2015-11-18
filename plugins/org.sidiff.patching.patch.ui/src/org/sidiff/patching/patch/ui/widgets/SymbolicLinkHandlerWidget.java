@@ -1,4 +1,4 @@
-package org.silift.patching.patch.ui.widgets;
+package org.sidiff.patching.patch.ui.widgets;
 
 import java.util.Iterator;
 import java.util.Set;

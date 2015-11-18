@@ -1,4 +1,4 @@
-package org.silift.patching.patch.ui;
+package org.sidiff.patching.patch.ui;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;

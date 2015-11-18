@@ -30,8 +30,8 @@ import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineM
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.patch.patch.PatchCreator;
+import org.sidiff.patching.patch.ui.Activator;
 import org.silift.common.util.ui.UIUtil;
-import org.silift.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {
 

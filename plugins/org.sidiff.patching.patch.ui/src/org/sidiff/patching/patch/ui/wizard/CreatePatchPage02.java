@@ -24,7 +24,7 @@ import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.silift.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
+import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 
 public class CreatePatchPage02 extends WizardPage implements IPageChangedListener{
 

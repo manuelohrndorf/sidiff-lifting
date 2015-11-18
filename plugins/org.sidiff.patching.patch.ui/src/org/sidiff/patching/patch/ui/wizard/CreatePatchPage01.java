@@ -26,7 +26,7 @@ import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.silift.patching.patch.ui.widgets.EditRuleMatchWidget;
+import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends WizardPage implements IPageChangedListener {
 

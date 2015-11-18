@@ -1,4 +1,4 @@
-package org.silift.patching.patch.ui;
+package org.sidiff.patching.patch.ui;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;

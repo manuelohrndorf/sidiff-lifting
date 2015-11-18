@@ -1,4 +1,4 @@
-package org.silift.patching.patch.ui;
+package org.sidiff.patching.patch.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
