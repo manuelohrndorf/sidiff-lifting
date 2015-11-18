@@ -10,7 +10,7 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 	@Override
 	public void initAnnotator(AnnotationService annotator) {
 		
-		String ANN_CFG_NAME = "platform:/plugin/org.silift.ecore.modifieddetector/config/"
+		String ANN_CFG_NAME = "platform:/plugin/org.sidiff.ecore.modifieddetector/config/"
 				+ "org.sidiff.ecore.core.annotations.xml";
 		
 		LogUtil.log(LogEvent.DEBUG, "Config: " + ANN_CFG_NAME);
