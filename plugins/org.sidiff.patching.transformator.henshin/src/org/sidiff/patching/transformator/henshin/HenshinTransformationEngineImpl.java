@@ -28,9 +28,9 @@ import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.settings.ExecutionMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.settings.ExecutionMode;
 
 /**
  * Transformation Engine based on calling Henshin Transformator.
