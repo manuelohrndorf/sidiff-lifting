@@ -1,4 +1,4 @@
-package org.sidiff.matcher.id.emfcompare;
+package org.sidiff.matcher.emfcompare;
 
 import java.util.Collections;
 import java.util.Iterator;

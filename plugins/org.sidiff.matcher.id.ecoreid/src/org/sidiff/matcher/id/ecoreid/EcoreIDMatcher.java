@@ -1,4 +1,4 @@
-package org.sidiff.matcher.ecoreid;
+package org.sidiff.matcher.id.ecoreid;
 
 import java.util.Collections;
 import java.util.Map;
