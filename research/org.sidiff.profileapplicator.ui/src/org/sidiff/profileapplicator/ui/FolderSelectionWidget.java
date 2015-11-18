@@ -11,9 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetInformation;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetInformation;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
 
 public class FolderSelectionWidget implements IWidget, IWidgetValidation,
 		IWidgetInformation {

@@ -24,6 +24,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
@@ -39,7 +40,6 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * The recognition engine is used to execute the recognition rules on the
@@ -409,13 +409,13 @@ public class RecognitionEngine {
 				for (Node editRuleNode : erMatch.getMatchedNodesA()) {
 					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 					occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
-					editRuleMatch.getNodeOccurrencesA().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
+					editRuleMatch.getNodeOccurrencesA().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
 				}
 				
 				for (Node editRuleNode : erMatch.getMatchedNodesB()) {
 					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 					occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
-					editRuleMatch.getNodeOccurrencesB().put(EMFModelAccessEx.getURIFragment(editRuleNode), occurrences);
+					editRuleMatch.getNodeOccurrencesB().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
 				}
 			}
 		}

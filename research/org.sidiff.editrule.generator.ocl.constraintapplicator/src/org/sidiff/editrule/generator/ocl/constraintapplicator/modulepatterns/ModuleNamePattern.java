@@ -1,7 +1,6 @@
 package org.sidiff.editrule.generator.ocl.constraintapplicator.modulepatterns;
 
-import org.sidiff.editrule.generator.configuration.Configuration.OperationType;
-import org.sidiff.editrule.generator.configuration.GlobalConstants;
+import org.sidiff.editrule.generator.types.OperationType;
 
 public class ModuleNamePattern extends ModuleMatchPattern {
 

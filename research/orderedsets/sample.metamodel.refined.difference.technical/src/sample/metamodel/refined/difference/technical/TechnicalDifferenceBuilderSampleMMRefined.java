@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 import sample.mm.refined.samplemm.CList;
 import sample.mm.refined.samplemm.Item;
@@ -43,7 +43,7 @@ public class TechnicalDifferenceBuilderSampleMMRefined extends TechnicalDifferen
 
 	@Override
 	protected void checkDocumentType(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
+		String docType = EMFModelAccess.getCharacteristicDocumentType(model);
 		assert (docType == SamplemmPackage.eNS_URI) : "Wrong document type: Expected " + SamplemmPackage.eNS_URI + " but got " + docType;
 	}
 	

@@ -4,8 +4,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.matcher.BaseMatcher;
 
 import sample.mm.refined.samplemm.Item;
 import sample.mm.refined.samplemm.Item_Link;
@@ -94,8 +94,8 @@ public class SampleMMRefinedMatcher extends BaseMatcher {
 
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
-		String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
-		String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(modelB);
+		String docTypeA = EMFModelAccess.getCharacteristicDocumentType(modelA);
+		String docTypeB = EMFModelAccess.getCharacteristicDocumentType(modelB);
 
 		return docTypeA.equals(SamplemmPackage.eNS_URI) && docTypeB.equals(SamplemmPackage.eNS_URI);
 	}

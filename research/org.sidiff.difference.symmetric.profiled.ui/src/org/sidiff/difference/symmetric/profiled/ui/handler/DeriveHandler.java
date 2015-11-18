@@ -17,12 +17,12 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetricprofiled.ProfiledSymmetricDifference;
 import org.sidiff.difference.symmetricprofiled.impl.SymmetricProfiledFactoryImpl;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.ui.UIUtil;
 
 public class DeriveHandler extends AbstractHandler {
 

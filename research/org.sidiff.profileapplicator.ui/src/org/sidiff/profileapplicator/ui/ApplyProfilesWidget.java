@@ -1,6 +1,7 @@
 package org.sidiff.profileapplicator.ui;
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -13,10 +14,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.sidiff.common.ui.widgets.IWidgetInformation;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
-import org.silift.common.util.ui.widgets.IWidget;
-import org.silift.common.util.ui.widgets.IWidgetInformation;
-import org.silift.common.util.ui.widgets.IWidgetValidation;
 
 public class ApplyProfilesWidget implements IWidget, IWidgetValidation,
 		IWidgetInformation {
