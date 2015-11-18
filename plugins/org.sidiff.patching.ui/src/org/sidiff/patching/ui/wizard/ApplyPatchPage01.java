@@ -18,9 +18,9 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener{
 

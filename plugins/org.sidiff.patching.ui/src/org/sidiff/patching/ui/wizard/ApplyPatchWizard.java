@@ -36,6 +36,10 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.report.IPatchReportListener;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
@@ -50,10 +54,6 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.settings.ExecutionMode;
-import org.silift.patching.settings.PatchMode;
-import org.silift.patching.settings.PatchingSettings;
-import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 //TODO Migration: Test class
 

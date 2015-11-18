@@ -17,8 +17,8 @@ import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
-import org.silift.patching.settings.PatchingSettings;
 
 public class ReliabilityWidget implements IWidget, IWidgetSelection,
 		IWidgetInformation, ISettingsChangedListener {

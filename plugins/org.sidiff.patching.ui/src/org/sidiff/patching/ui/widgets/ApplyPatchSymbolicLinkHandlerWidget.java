@@ -15,9 +15,9 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.patch.patch.Patch;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
-import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetValidation{
 

@@ -22,10 +22,10 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.patch.patch.Patch;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
 import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
-import org.silift.patching.settings.PatchingSettings;
 
 public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener {
 
