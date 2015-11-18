@@ -17,11 +17,11 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.patch.animation.internal.AnimationAdapter;
 import org.sidiff.difference.patch.animation.internal.GridLayouter;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 import org.silift.common.util.emf.Scope;
 
 public class GMFAnimation {

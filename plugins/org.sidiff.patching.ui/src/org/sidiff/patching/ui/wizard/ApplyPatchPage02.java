@@ -20,7 +20,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
 import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;

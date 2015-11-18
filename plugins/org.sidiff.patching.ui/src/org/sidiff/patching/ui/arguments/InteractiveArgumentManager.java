@@ -15,7 +15,7 @@ import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;

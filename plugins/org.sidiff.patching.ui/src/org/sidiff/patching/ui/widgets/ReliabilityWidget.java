@@ -16,7 +16,7 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
-import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.patching.settings.PatchingSettings;
 

@@ -2,10 +2,10 @@ package org.sidiff.patching.arguments;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.matcher.IMatcher;
 import org.silift.common.util.emf.EMFResourceUtil;
 import org.silift.common.util.emf.EObjectLocation;
 
