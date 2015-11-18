@@ -12,7 +12,6 @@ import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.ide.ui.internal.EMFCompareIDEUIPlugin;
-import org.eclipse.emf.compare.rcp.ui.internal.EMFCompareConstants;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -31,7 +30,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -39,8 +40,6 @@ import org.sidiff.difference.symmetric.compareview.ide.proxy.SiLiftToEMFCompareC
 import org.sidiff.difference.symmetric.provider.AdapterToolTipLabelProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.matcher.IMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.exceptions.NoCorrespondencesException;
 
 public class SiLiftStructureViewer extends TreeViewer  {
 
@@ -152,7 +151,7 @@ public class SiLiftStructureViewer extends TreeViewer  {
 	}
 	
 	private static LiftingSettings buildSettings(Resource modelA, Resource modelB) {
-		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		IMatcher matcher = getMatcher(modelA, modelB);
 		
 		LiftingSettings settings = new LiftingSettings(documentType);
