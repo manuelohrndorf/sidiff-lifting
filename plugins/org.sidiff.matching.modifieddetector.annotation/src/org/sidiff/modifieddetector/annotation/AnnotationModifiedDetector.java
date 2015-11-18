@@ -1,4 +1,4 @@
-package org.silift.modifieddetector.annotation;
+package org.sidiff.modifieddetector.annotation;
 
 import java.util.HashMap;
 import java.util.Map;

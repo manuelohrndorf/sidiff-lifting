@@ -1,4 +1,4 @@
-package org.silift.modifieddetector.annotation;
+package org.sidiff.modifieddetector.annotation;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
