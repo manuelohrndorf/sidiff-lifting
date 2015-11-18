@@ -37,13 +37,13 @@ import org.sidiff.patching.report.OperationExecutionEntry;
 import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.report.ValidationEntry;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.validation.IValidationError;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.settings.ExecutionMode;
-import org.silift.patching.settings.PatchMode;
-import org.silift.patching.settings.PatchingSettings;
-import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 public class PatchEvaluationApplication implements IApplication {
 

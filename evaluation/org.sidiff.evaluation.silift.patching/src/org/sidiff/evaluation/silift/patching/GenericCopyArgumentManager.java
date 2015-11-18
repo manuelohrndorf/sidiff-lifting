@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.patching.settings.PatchMode;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.settings.PatchMode;
 
 public class GenericCopyArgumentManager extends AbstractBatchArgumentManager {
 
