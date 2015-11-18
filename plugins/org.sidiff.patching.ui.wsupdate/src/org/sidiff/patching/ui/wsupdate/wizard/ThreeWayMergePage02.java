@@ -1,4 +1,4 @@
-package org.silift.merging.ui.wizard;
+package org.sidiff.patching.ui.wsupdate.wizard;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
@@ -25,7 +25,7 @@ import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
-import org.silift.merging.ui.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 import org.silift.patching.settings.PatchingSettings;
 
 public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {

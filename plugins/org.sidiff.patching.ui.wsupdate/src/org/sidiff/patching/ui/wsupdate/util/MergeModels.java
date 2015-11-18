@@ -1,4 +1,4 @@
-package org.silift.merging.ui.util;
+package org.sidiff.patching.ui.wsupdate.util;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;

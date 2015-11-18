@@ -1,4 +1,4 @@
-package org.silift.merging.ui.wizard;
+package org.sidiff.patching.ui.wsupdate.wizard;
 
 import java.util.Set;
 
@@ -24,8 +24,8 @@ import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.silift.merging.ui.util.MergeModels;
-import org.silift.merging.ui.widgets.MergeModelsWidget;
+import org.sidiff.patching.ui.wsupdate.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.widgets.MergeModelsWidget;
 import org.silift.patching.settings.PatchingSettings;
 import org.silift.patching.settings.PatchingSettings.ValidationMode;
 

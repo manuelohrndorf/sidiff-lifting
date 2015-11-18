@@ -1,4 +1,4 @@
-package org.silift.merging.ui.widgets;
+package org.sidiff.patching.ui.wsupdate.widgets;
 
 
 import org.eclipse.core.resources.IFile;
@@ -17,7 +17,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
-import org.silift.merging.ui.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 
 public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

@@ -1,4 +1,4 @@
-package org.silift.merging.ui.handler;
+package org.sidiff.patching.ui.wsupdate.handler;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.patching.ui.wsupdate.wizard.ThreeWayMergeWizard;
 import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.merging.ui.wizard.ThreeWayMergeWizard;
 
 public class ThreeWayMergeHandler extends AbstractHandler {
 

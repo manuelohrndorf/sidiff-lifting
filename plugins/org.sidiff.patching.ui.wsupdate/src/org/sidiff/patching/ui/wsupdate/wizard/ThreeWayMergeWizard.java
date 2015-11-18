@@ -1,4 +1,4 @@
-package org.silift.merging.ui.wizard;
+package org.sidiff.patching.ui.wsupdate.wizard;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
@@ -52,11 +52,11 @@ import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
+import org.sidiff.patching.ui.wsupdate.Activator;
+import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 import org.silift.common.util.emf.Scope;
-import org.silift.merging.ui.Activator;
-import org.silift.merging.ui.util.MergeModels;
 import org.silift.modifieddetector.IModifiedDetector;
 import org.silift.modifieddetector.util.ModifiedDetectorUtil;
 import org.silift.patching.settings.ExecutionMode;
