@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.extensions.impl.EReferenceInfo;
+import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
 

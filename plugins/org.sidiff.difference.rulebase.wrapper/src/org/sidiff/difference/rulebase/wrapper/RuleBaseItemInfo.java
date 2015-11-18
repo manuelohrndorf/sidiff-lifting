@@ -1,5 +1,8 @@
 package org.sidiff.difference.rulebase.wrapper;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,5 +1,7 @@
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
+
 import java.util.Collection;
 import java.util.List;
 

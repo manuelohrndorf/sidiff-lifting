@@ -26,6 +26,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
@@ -60,7 +62,6 @@ public class ApplyPatchWizard extends Wizard {
 	private ApplyPatchPage01 applyPatchPage01;
 	private ApplyPatchPage02 applyPatchPage02;
 
-	private IFile file;
 	private Patch patch;
 	private String patchName;
 	private boolean validationState;
@@ -68,7 +69,6 @@ public class ApplyPatchWizard extends Wizard {
 
 	public ApplyPatchWizard(Patch patch, IFile file) {
 		this.setWindowTitle("Apply Patch Wizard");
-		this.file = file;
 		this.patch = patch;
 		this.patchName = file.getName();
 		this.settings = new PatchingSettings();
@@ -79,8 +79,6 @@ public class ApplyPatchWizard extends Wizard {
 		applyPatchPage01 = new ApplyPatchPage01("ApplyPatchPage",
 				"Apply Patch: " + patchName, getImageDescriptor("icon.png"),
 				settings);
-		applyPatchPage01.setFilterPath(file.getParent().getLocation()
-				.toString());
 
 		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage",
 				"Apply Patch: " + patchName, getImageDescriptor("icon.png"),
@@ -237,7 +235,7 @@ public class ApplyPatchWizard extends Wizard {
 
 					// Find transformation engine (no other available right now)
 					String documentType = null;
-					Set<String> documentTypes = EMFModelAccessEx
+					Set<String> documentTypes = EMFModelAccess
 							.getDocumentTypes(resourceResult.get(),
 									Scope.RESOURCE);
 					IDifferenceProfileHandler profileHandler = null;
@@ -254,9 +252,8 @@ public class ApplyPatchWizard extends Wizard {
 							&& profileHandler.isProfiled(resourceResult.get())) {
 						documentType = profileHandler.getBaseType();
 					} else {
-						documentType = EMFModelAccessEx
-								.getCharacteristicDocumentType(resourceResult
-										.get());
+						documentType = EMFModelAccess
+								.getCharacteristicDocumentType(resourceResult.get());
 					}
 					ITransformationEngine transformationEngine = TransformationEngineUtil
 							.getFirstTransformationEngine(documentType);
@@ -346,9 +343,7 @@ public class ApplyPatchWizard extends Wizard {
 							}
 						}
 					});
-					OperationExplorerView operationExplorerView = operationExplorerViewReference
-							.get();
-					ReportView reportView = reportViewReference.get();
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 					monitor.worked(20);
 
 					// ModelChangeHandler works independent; PatchView is

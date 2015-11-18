@@ -5,7 +5,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,6 +15,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;

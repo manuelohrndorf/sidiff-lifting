@@ -1,11 +1,26 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
 import static org.sidiff.editrule.analysis.EditRuleConditions.isPostcondition;
 import static org.sidiff.editrule.analysis.EditRuleConditions.isPrecondition;
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
 import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
 import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
+import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
+import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 
 import java.util.Collection;
 import java.util.HashMap;

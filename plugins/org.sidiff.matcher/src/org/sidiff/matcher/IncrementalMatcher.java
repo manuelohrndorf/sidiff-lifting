@@ -4,10 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Scope;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;

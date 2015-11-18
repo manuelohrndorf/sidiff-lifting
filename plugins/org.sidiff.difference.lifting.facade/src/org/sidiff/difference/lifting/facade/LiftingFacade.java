@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFValidate;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -191,7 +193,7 @@ public class LiftingFacade extends PipelineUtils {
 	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher)
 			throws InvalidModelException, NoCorrespondencesException {
 		// Create default settings
-		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);
 		defaultSettings.setMatcher(matcher);
 		LogUtil.log(LogEvent.NOTICE, defaultSettings.toString());

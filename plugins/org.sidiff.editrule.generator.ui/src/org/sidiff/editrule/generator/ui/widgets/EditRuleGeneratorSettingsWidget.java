@@ -1,7 +1,6 @@
 package org.sidiff.editrule.generator.ui.widgets;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,6 +13,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.sidiff.common.ui.util.EcoreSelectionDialogUtil;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetInformation;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 /**
@@ -21,7 +25,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
  * @author Simon Heimes
  *
  */
-public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation{
+public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation {
 	/**
 	 * Path to Configuration File
 	 */

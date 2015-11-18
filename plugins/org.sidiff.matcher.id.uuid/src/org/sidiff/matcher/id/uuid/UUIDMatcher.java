@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -77,7 +78,7 @@ public class UUIDMatcher extends BaseMatcher {
 
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

@@ -2,9 +2,8 @@ package org.sidiff.matcher;
 
 import java.util.Map;
 
-import javax.inject.Scope;
-
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 
 public interface IMatcher {

@@ -1,9 +1,8 @@
 package org.sidiff.matching.modifieddetector;
 
-import javax.xml.ws.handler.MessageContext.Scope;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.matcher.IMatcher;
 
 /**

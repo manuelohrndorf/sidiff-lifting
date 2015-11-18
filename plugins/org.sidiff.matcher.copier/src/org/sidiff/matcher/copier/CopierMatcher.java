@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.matcher.BaseMatcher;
 
 /**

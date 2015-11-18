@@ -364,9 +364,7 @@ public class ThreeWayMergeWizard extends Wizard {
 							}
 						}
 					});
-					OperationExplorerView operationExplorerView = operationExplorerViewReference
-							.get();
-					ReportView reportView = reportViewReference.get();
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 					monitor.worked(20);
 
 					// ModelChangeHandler works independent; PatchView is

@@ -3,7 +3,6 @@ package org.sidiff.patching.ui.wizard;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -14,6 +13,10 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
@@ -30,7 +33,6 @@ public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener
 	private ValidationModeWidget validationWidget;
 
 	private SelectionAdapter validationListener;
-	private String filterPath;
 	private PatchingSettings settings;
 
 	public ApplyPatchPage01(String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
@@ -159,10 +161,6 @@ public class ApplyPatchPage01 extends WizardPage implements IPageChangedListener
 
 	public ValidationModeWidget getValidationWidget(){
 		return validationWidget;
-	}
-	
-	public void setFilterPath(String filterPath){
-		this.filterPath = filterPath;
 	}
 
 	@Override

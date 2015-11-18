@@ -1,6 +1,28 @@
 
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
+import static org.sidiff.common.henshin.HenshinMultiRuleUtil.createMultiMapping;
+import static org.sidiff.common.henshin.HenshinMultiRuleUtil.recreateMultiRuleEmbedding;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.copyPreserveNodes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createParameter;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedNodeWithAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findUnitParamterMapping;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getCreationAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getDeletionAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSIntersectRHSNodes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSNodes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHStoRHSChangingAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedNodes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChangingAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
@@ -32,6 +54,7 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.view.AttributePair;
@@ -1251,7 +1274,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 	 *         <code>false</code> otherwise;
 	 */
 	private boolean isUnconsideredAttribute(Attribute attribute) {
-		if (EMFMetaAccessEx.isUnconsideredStructualFeature(attribute.getType())) {
+		if (EMFMetaAccess.isUnconsideredStructualFeature(attribute.getType())) {
 			LogUtil.log(LogEvent.WARNING, "");
 			LogUtil.log(LogEvent.WARNING, "WARNING: Unconsidered (not changeable, transient, derived) attribute in edit rule! Skip that!");
 			LogUtil.log(LogEvent.WARNING, "Edit rule: " + editRule.getName());

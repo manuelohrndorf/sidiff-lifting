@@ -1,5 +1,14 @@
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
+import static org.sidiff.common.henshin.HenshinConditionAnalysis.isACBoundaryNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.copyNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByImage;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EReference;

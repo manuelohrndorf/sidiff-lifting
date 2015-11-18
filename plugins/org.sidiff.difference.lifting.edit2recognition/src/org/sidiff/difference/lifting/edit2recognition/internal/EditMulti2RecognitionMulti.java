@@ -1,5 +1,17 @@
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
+import static org.sidiff.common.henshin.HenshinMultiRuleUtil.createMultiMapping;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.findMappingByOrigin;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getAttributeByType;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMappings;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHSMinusRHSEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHStoRHSChangingAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChangingAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMappings;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeMapped;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,4 +1,3 @@
-
 package org.sidiff.difference.lifting.edit2recognition.util;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
 

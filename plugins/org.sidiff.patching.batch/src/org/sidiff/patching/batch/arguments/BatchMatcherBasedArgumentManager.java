@@ -5,6 +5,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 
 public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgumentManager {
 
