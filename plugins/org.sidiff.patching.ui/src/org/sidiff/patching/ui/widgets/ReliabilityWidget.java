@@ -1,6 +1,5 @@
 package org.sidiff.patching.ui.widgets;
 
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -11,11 +10,15 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetInformation;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public class ReliabilityWidget implements IWidget, IWidgetSelection,
 		IWidgetInformation, ISettingsChangedListener {

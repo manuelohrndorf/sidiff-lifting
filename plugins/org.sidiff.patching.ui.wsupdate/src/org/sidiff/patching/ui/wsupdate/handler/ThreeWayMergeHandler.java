@@ -13,6 +13,8 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.patching.ui.wsupdate.wizard.ThreeWayMergeWizard;
 
 public class ThreeWayMergeHandler extends AbstractHandler {
@@ -36,9 +38,9 @@ public class ThreeWayMergeHandler extends AbstractHandler {
 						Resource resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
 						Resource resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
 						Resource resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
-						String docTypeMine = EMFModelAccessEx.getCharacteristicDocumentType(resourceMine);
-						String docTypeTheirs = EMFModelAccessEx.getCharacteristicDocumentType(resourceTheirs);
-						String docTypeBase = EMFModelAccessEx.getCharacteristicDocumentType(resourceBase);
+						String docTypeMine = EMFModelAccess.getCharacteristicDocumentType(resourceMine);
+						String docTypeTheirs = EMFModelAccess.getCharacteristicDocumentType(resourceTheirs);
+						String docTypeBase = EMFModelAccess.getCharacteristicDocumentType(resourceBase);
 						if(docTypeMine.equals(docTypeTheirs) && docTypeTheirs.equals(docTypeBase)){
 							
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -20,6 +21,8 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * An implementation of {@link IArgumentManager} that subclasses the
@@ -87,7 +90,7 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 		// Otherwise, we only check type compatibility
 		for (Iterator<EObject> it = resource.getAllContents(); it.hasNext();) {
 			EObject obj = it.next();
-			if (EMFMetaAccessEx.isAssignableTo(obj.eClass(), originObject.eClass())) {
+			if (EMFMetaAccess.isAssignableTo(obj.eClass(), originObject.eClass())) {
 				args.add(obj);
 			}
 		}

@@ -6,16 +6,20 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.settings.PatchingSettings;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
-public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetValidation{
+public class ApplyPatchSymbolicLinkHandlerWidget implements IWidget, IWidgetValidation {
 
 
 	private SortedMap<String, ISymbolicLinkHandler> symbolicLinkHandlers;

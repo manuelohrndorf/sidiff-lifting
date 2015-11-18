@@ -25,8 +25,42 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.ui.util.InputModels;
+import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
+import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.modifieddetector.IModifiedDetector;
+import org.sidiff.matching.modifieddetector.util.ModifiedDetectorUtil;
+import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.interrupt.IPatchInterruptHandler;
+import org.sidiff.patching.report.IPatchReportListener;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
+import org.sidiff.patching.ui.adapter.ModelAdapter;
+import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.animation.GMFAnimation;
+import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
+import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.perspective.SiLiftPerspective;
+import org.sidiff.patching.ui.view.OperationExplorerView;
+import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.ui.wsupdate.Activator;
 import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 
@@ -212,7 +246,7 @@ public class ThreeWayMergeWizard extends Wizard {
 					patchingSettings.setArgumentManager(argumentManager);
 					// Find transformation engine (no other available right now)
 					String documentType = null;
-					Set<String> documentTypes = EMFModelAccessEx
+					Set<String> documentTypes = EMFModelAccess
 							.getDocumentTypes(resourceResult.get(),
 									Scope.RESOURCE);
 					IDifferenceProfileHandler profileHandler = null;
@@ -229,7 +263,7 @@ public class ThreeWayMergeWizard extends Wizard {
 							&& profileHandler.isProfiled(resourceResult.get())) {
 						documentType = profileHandler.getBaseType();
 					} else {
-						documentType = EMFModelAccessEx
+						documentType = EMFModelAccess
 								.getCharacteristicDocumentType(resourceResult
 										.get());
 					}

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Scope;
-
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -19,6 +17,10 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.emf.access.Scope;
+import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 import org.sidiff.patching.ui.animation.internal.AnimationAdapter;
 import org.sidiff.patching.ui.animation.internal.GridLayouter;
 

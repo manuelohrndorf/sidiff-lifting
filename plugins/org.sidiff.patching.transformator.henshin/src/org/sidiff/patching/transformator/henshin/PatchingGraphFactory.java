@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.sidiff.common.emf.ExternalReferenceCalculator;
 import org.sidiff.common.emf.access.ExternalReference;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.patching.settings.ExecutionMode;
 
 /**

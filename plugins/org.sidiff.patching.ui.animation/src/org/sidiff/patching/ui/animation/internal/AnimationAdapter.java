@@ -14,6 +14,7 @@ import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.patching.ui.animation.GMFAnimation.EditorMatching;
 
 public class AnimationAdapter extends EContentAdapter {

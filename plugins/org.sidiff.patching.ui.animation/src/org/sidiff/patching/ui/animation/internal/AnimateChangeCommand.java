@@ -51,6 +51,8 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.symmetric.Correspondence;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.ui.animation.GMFAnimation.EditorMatching;
 
 public class AnimateChangeCommand extends AbstractTransactionalCommand {

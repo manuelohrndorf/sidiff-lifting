@@ -5,6 +5,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.difference.lifting.facade.LiftingFacade;
 
 public class MergeModels {
 	private IFile fileMine;
@@ -85,7 +87,7 @@ public class MergeModels {
 
 	public String getDocumentType() {
 		if (documentType == null) {
-			documentType = EMFModelAccessEx.getCharacteristicDocumentType(getResourceMine());
+			documentType = EMFModelAccess.getCharacteristicDocumentType(getResourceMine());
 		}
 
 		return documentType;

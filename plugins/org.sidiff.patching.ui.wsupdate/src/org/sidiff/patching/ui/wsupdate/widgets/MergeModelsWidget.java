@@ -2,7 +2,6 @@ package org.sidiff.patching.ui.wsupdate.widgets;
 
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,6 +11,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
+import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 
 public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
