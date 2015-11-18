@@ -1,4 +1,4 @@
-package org.sidiff.difference.matcher.sidiff;
+package org.sidiff.matcher.similarity.flooding;
 
 
 import org.eclipse.emf.ecore.EObject;

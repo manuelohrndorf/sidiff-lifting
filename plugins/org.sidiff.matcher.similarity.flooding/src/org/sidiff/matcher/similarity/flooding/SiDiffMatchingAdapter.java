@@ -1,4 +1,4 @@
-package org.sidiff.difference.matcher.sidiff;
+package org.sidiff.matcher.similarity.flooding;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -10,15 +10,23 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.matcher.BaseMatcher;
+import org.sidiff.domain.DomainServiceUtil;
+import org.sidiff.domain.IDomain;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.BaseMatcher;
+import org.sidiff.matching.MatchingUtil;
+import org.sidiff.matching.SimilarityBasedMatcher;
 
 public class SiDiffMatchingAdapter implements IMatcher {
 
@@ -43,11 +51,11 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		
 		// Identify characteristic document type
 		String documentType = "";
-		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
+		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE);
 		if (getProfileHandler(docTypes)!=null && profileHandler.isProfiled(modelA)) {
 			documentType = profileHandler.getBaseType();
 		} else {
-			documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+			documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		}
 		
 		// Identify domain
@@ -195,7 +203,7 @@ public class SiDiffMatchingAdapter implements IMatcher {
 		
 		IDomain domainService = DomainServiceUtil.getCapableDomainService(modelA);	
 		
-		Set<String> docTypes = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE);
+		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE);
 		if(getProfileHandler(docTypes)!=null && getProfileHandler(docTypes).isProfiled(modelA) && getProfileHandler(docTypes).isProfiled(modelB)){
 			// Profile			
 			boolean hasAnnotationService = 
@@ -240,7 +248,7 @@ public class SiDiffMatchingAdapter implements IMatcher {
 	@Override
 	public String getDocumentType() {
 		// generic (if configured properly)
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 	
 	@Override
