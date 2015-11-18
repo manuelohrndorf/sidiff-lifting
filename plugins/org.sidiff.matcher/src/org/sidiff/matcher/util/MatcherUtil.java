@@ -1,4 +1,4 @@
-package org.sidiff.difference.matcher.util;
+package org.sidiff.matcher.util;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.matcher.IMatcher;
+import org.sidiff.matcher.IMatcher;
 
 /**
  * Utility class to find appropriate matchers for a comparison.
