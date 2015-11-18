@@ -13,8 +13,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-import org.silift.common.util.emf.EMFStorage;
 
 
 public class DefaultEditorIntegration implements IEditorIntegration {

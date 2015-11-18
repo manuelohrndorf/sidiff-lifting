@@ -24,10 +24,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
 
 public class BasicEditorIntegration extends AbstractEditorIntegration {
 
@@ -121,13 +121,13 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return ((docType != null) && docType.equals(EMFModelAccessEx.getCharacteristicDocumentType(model))
+		return ((docType != null) && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
 				&& (getMainDiagramFile(model.getURI()) != null));
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
-		return ((docType != null) && docType.equals(EMFModelAccessEx.getCharacteristicDocumentType(model))
+		return ((docType != null) && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
 				&& model.getURI().fileExtension().equals(this.modelFileExt));
 	}
 

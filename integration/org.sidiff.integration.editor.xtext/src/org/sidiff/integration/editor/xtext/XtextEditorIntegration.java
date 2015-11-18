@@ -19,8 +19,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-import org.silift.common.util.emf.EMFStorage;
 
 public class XtextEditorIntegration implements IEditorIntegration {
 

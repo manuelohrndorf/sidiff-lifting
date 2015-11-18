@@ -26,11 +26,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.file.ZipUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.integration.editor.extension.AbstractEditorIntegration;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.file.ZipUtil;
 
 public class SiriusEditorIntegration extends AbstractEditorIntegration {
 
