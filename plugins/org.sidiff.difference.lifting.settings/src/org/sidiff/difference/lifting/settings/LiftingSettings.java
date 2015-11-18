@@ -2,9 +2,8 @@ package org.sidiff.difference.lifting.settings;
 
 import java.util.Set;
 
-import javax.inject.Scope;
-
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
