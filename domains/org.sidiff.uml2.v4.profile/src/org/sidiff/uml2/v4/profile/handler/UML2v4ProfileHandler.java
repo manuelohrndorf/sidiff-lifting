@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * An {@link IDifferenceProfileHandler} to handle profiled UML models
@@ -28,7 +28,7 @@ public class UML2v4ProfileHandler implements IDifferenceProfileHandler {
 
 	@Override
 	public boolean isProfiled(Resource resource) {
-		if(EMFModelAccessEx.getDocumentTypes(resource, Scope.RESOURCE).contains(baseType)){
+		if(EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE).contains(baseType)){
 			for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 				EObject eObject = iterator.next();
 				if(eObject instanceof ProfileApplication){
