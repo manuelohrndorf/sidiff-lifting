@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.matcher.SignatureBasedMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * @author cpietsch
@@ -41,7 +41,7 @@ public class SignatureBasedNamedElementMatcher extends SignatureBasedMatcher<Str
 
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

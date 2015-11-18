@@ -5,10 +5,10 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.matcher.IMatcher;
-import org.silift.common.util.emf.Scope;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public abstract class Settings {

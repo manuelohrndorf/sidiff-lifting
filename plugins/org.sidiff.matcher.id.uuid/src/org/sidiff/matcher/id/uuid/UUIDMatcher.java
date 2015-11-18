@@ -9,13 +9,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * XMI-IDs are used as matching criterion. Works only if the resources have XMI

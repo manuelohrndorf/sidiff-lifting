@@ -5,8 +5,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class MergeModels {
 	private IFile fileMine;

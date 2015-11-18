@@ -8,10 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.sidiff.common.collections.CollectionView;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.collections.CollectionView;
 
 /**
  * Some utility-functions for analyzing (lifted) model differences.

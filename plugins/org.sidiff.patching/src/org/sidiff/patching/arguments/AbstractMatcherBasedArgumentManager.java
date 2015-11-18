@@ -1,13 +1,13 @@
 package org.sidiff.patching.arguments;
 
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.EMFResourceUtil;
+import org.sidiff.common.emf.access.EObjectLocation;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.matcher.IMatcher;
-import org.silift.common.util.emf.EMFResourceUtil;
-import org.silift.common.util.emf.EObjectLocation;
 
 public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentManager {
 

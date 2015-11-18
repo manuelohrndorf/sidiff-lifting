@@ -1,8 +1,8 @@
 package org.sidiff.difference.technical;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.emf.Scope;
 
 /**
  * This interface belongs to the 'org.sidiff.difference.technical' extension

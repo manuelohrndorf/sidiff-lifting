@@ -6,11 +6,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.sidiff.common.emf.ExternalReferenceCalculator;
+import org.sidiff.common.emf.access.ExternalReference;
+import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.patching.settings.ExecutionMode;
-import org.silift.common.util.emf.ExternalReference;
-import org.silift.common.util.emf.ExternalReferenceCalculator;
-import org.silift.common.util.emf.ExternalReferenceContainer;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Factory that creates a Henshin graph which contains all objects (and only

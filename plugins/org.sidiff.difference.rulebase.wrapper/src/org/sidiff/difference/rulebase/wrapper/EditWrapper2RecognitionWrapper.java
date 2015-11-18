@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.lifting.edit2recognition.Edit2RecognitionTransformation;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
@@ -24,7 +25,6 @@ import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.difference.rulebase.Trace;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Transforms an edit rule rulebase wrapper into an recognition rule rulebase wrapper.

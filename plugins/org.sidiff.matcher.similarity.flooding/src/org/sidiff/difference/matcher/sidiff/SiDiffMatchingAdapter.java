@@ -10,25 +10,15 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.annotation.IAnnotation;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.correspondences.CorrespondencesUtil;
-import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.domain.DomainServiceUtil;
-import org.sidiff.domain.IDomain;
+import org.sidiff.matcher.BaseMatcher;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.BaseMatcher;
-import org.sidiff.matching.IMatching;
-import org.sidiff.matching.MatchingUtil;
-import org.sidiff.matching.SimilarityBasedMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 public class SiDiffMatchingAdapter implements IMatcher {
 

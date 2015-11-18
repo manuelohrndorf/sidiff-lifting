@@ -7,9 +7,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 public class InputModels {
 	private IFile fileA;
@@ -83,7 +83,7 @@ public class InputModels {
 
 	public String getCharacteristicDocumentType() {
 		if (documentType == null) {
-			documentType = EMFModelAccessEx.getCharacteristicDocumentType(getResourceA());
+			documentType = EMFModelAccess.getCharacteristicDocumentType(getResourceA());
 		}
 
 		return documentType;
@@ -91,7 +91,7 @@ public class InputModels {
 	
 	public Set<String> getDocumentTypes(){
 		if(documentTypes == null){
-			documentTypes = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+			documentTypes = EMFModelAccess.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
 		}
 		
 		return documentTypes;

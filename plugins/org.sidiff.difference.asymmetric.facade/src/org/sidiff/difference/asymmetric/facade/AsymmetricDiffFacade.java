@@ -7,7 +7,9 @@ import java.text.DecimalFormat;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFValidate;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
@@ -28,8 +30,6 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.matcher.IMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Convenient access to asymmetric difference calculation functions.
@@ -205,7 +205,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 	 */
 	public static Difference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher) throws InvalidModelException{
 		// Get default settings
-		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);
 		defaultSettings.setCalculateEditRuleMatch(true);
 		defaultSettings.setMatcher(matcher);

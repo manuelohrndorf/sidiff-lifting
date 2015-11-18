@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.access.EMFMetaAccess;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Matches two EObjects based on their EMF URI fragments, i.e. their "location"
@@ -226,7 +226,7 @@ public class URIFragmentMatcher extends BaseMatcher {
 
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

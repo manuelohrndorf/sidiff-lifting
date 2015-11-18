@@ -5,7 +5,6 @@
 package org.sidiff.difference.symmetric.validation;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;

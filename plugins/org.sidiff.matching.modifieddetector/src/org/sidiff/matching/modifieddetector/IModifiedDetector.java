@@ -1,9 +1,10 @@
 package org.sidiff.matching.modifieddetector;
 
+import javax.xml.ws.handler.MessageContext.Scope;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.matcher.IMatcher;
-import org.silift.common.util.emf.Scope;
+import org.sidiff.matcher.IMatcher;
 
 /**
  * This interface belongs to the 'org.silift.modifieddetector'

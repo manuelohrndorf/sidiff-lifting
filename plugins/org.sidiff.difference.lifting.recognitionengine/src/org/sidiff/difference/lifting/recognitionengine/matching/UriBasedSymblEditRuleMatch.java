@@ -8,9 +8,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.silift.difference.symboliclink.SymbolicLinkAttribute;
-import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.SymbolicLinkReference;
 
 /**
  * 

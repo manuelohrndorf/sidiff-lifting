@@ -20,9 +20,6 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
-import org.silift.common.util.access.EMFMetaAccessEx;
-import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * An implementation of {@link IArgumentManager} that subclasses the

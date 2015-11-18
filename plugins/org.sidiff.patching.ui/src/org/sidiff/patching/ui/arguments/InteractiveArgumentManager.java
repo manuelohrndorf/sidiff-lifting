@@ -21,7 +21,6 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
-import org.silift.common.util.access.EMFMetaAccessEx;
 
 /**
  * An implementation of {@link IArgumentManager} that subclasses the

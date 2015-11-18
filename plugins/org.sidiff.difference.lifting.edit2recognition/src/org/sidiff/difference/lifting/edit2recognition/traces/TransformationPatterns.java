@@ -1,10 +1,6 @@
 
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
-import static org.sidiff.common.henshin.HenshinConditionAnalysis.isNestedConditionNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHS;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSNode;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class EcoreIDMatcher extends BaseMatcher {
 
@@ -26,7 +26,7 @@ public class EcoreIDMatcher extends BaseMatcher {
 	public String getDocumentType() {
 		// can handle every documentType (maybe with bad results when only few
 		// id attributes are defined and correctly used)
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

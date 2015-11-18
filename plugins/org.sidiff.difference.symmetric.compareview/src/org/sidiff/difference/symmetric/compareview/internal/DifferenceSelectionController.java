@@ -49,6 +49,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.sidiff.common.emf.access.EMFMetaAccess;
+import org.sidiff.common.emf.access.HighlightableElement;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.AddObject;
@@ -64,7 +65,6 @@ import org.sidiff.difference.symmetric.compareview.ChangeType;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-import org.silift.common.HighlightableElement;
 
 @SuppressWarnings("restriction")
 public class DifferenceSelectionController implements ISelectionListener, INullSelectionListener {

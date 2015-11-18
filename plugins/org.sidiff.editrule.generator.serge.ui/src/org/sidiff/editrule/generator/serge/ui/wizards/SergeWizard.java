@@ -18,8 +18,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
-import org.sidiff.editrule.generator.serge.Serge;
-import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
 /**
  * This is a sample new wizard. Its role is to create a new file 

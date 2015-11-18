@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.sidiff.patching.settings.PatchMode;
-import org.silift.common.util.emf.Scope;
 
 /**
  * The argument manager is the central interface for the patch engine in order

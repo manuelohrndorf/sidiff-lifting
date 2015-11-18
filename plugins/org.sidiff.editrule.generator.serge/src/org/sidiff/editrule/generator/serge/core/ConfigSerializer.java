@@ -1,7 +1,6 @@
 package org.sidiff.editrule.generator.serge.core;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,11 +9,9 @@ import java.util.Date;
 
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.xml.XMLParser;
-import org.sidiff.common.xml.XMLWriter;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 public class ConfigSerializer {
 

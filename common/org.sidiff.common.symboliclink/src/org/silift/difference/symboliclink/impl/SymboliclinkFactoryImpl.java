@@ -5,12 +5,14 @@ package org.silift.difference.symboliclink.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.silift.difference.symboliclink.*;
+import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkAttribute;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
+import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymboliclinkFactory;
+import org.silift.difference.symboliclink.SymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,13 +1,7 @@
 package org.sidiff.editrule.generator;
 
-import java.io.IOException;
-
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
-import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
-import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
-import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 

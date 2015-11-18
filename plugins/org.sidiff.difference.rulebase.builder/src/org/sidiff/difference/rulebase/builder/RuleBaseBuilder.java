@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.RuleBaseItem;
@@ -40,7 +41,6 @@ import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
 import org.sidiff.editrule.consistency.validation.EditRuleValidation;
 import org.sidiff.editrule.consistency.validation.EditRuleValidator;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * This class represents a builder for an @link{EditRule} and outputs a corresponding

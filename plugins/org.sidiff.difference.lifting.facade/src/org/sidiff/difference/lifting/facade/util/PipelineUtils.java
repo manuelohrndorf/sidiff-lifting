@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
@@ -37,7 +38,6 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.util.MatcherUtil;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Utility functions which are made publicly available to any clients using the

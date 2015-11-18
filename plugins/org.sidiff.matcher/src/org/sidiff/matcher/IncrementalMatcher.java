@@ -4,13 +4,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Scope;
+
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Incremental matcher which must be initialized with a list of IMatchers. When
@@ -134,7 +135,7 @@ public class IncrementalMatcher implements IMatcher {
 	@Override
 	public String getDocumentType() {
 		// depends on the sub-matchers
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 	
 	public void setMatchers(List<IMatcher> matchers){

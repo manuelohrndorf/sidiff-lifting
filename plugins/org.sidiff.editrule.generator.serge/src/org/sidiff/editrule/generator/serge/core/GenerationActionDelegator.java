@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
 import org.sidiff.common.emf.extensions.impl.ContainmentCyclePathStep;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
@@ -44,7 +45,6 @@ import org.sidiff.editrule.generator.serge.generators.actions.UnsetAttributeGene
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetReferenceGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.VariantGenerator;
 import org.sidiff.editrule.generator.types.OperationType;
-import org.silift.common.util.access.EMFMetaAccessEx;
 
 public class GenerationActionDelegator {
 
@@ -489,7 +489,7 @@ public class GenerationActionDelegator {
 
 				// skip derived, not changeable and transient
 				// references
-				if (EMFMetaAccessEx.isUnconsideredStructualFeature(eRef)) {
+				if (EMFMetaAccess.isUnconsideredStructualFeature(eRef)) {
 					continue;
 				}
 
@@ -618,7 +618,7 @@ public class GenerationActionDelegator {
 			for (EAttribute ea : easToConsider) {
 				// don't consider derived, not changeable, and transient
 				// attributes
-				if (!EMFMetaAccessEx.isUnconsideredStructualFeature(ea)) {
+				if (!EMFMetaAccess.isUnconsideredStructualFeature(ea)) {
 
 					int lowerBound = ea.getLowerBound();
 					int upperBound = ea.getUpperBound();
@@ -715,7 +715,7 @@ public class GenerationActionDelegator {
 
 				// don't consider derived, not changeable, and transient
 				// references
-				if (!EMFMetaAccessEx.isUnconsideredStructualFeature(eRef)) {
+				if (!EMFMetaAccess.isUnconsideredStructualFeature(eRef)) {
 
 					// eRef == no containment reference
 					// *************************************************************/
@@ -930,7 +930,7 @@ public class GenerationActionDelegator {
 
 				// skip derived, not changeable and transient
 				// references
-				if (EMFMetaAccessEx.isUnconsideredStructualFeature(eRef)) {
+				if (EMFMetaAccess.isUnconsideredStructualFeature(eRef)) {
 					continue;
 				}
 

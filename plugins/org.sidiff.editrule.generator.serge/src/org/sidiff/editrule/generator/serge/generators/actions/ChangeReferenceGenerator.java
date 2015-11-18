@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
+import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
@@ -12,7 +13,6 @@ import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
 import org.sidiff.editrule.generator.types.OperationType;
-import org.silift.common.util.access.EMFMetaAccessEx;
 
 public class ChangeReferenceGenerator {
 
@@ -44,7 +44,7 @@ public class ChangeReferenceGenerator {
 	 */
 	public ChangeReferenceGenerator(EReference reference, EClass contextClass) {
 		assert((reference.getLowerBound() >=1) && (reference.getLowerBound() == reference.getUpperBound()));
-		assert(EMFMetaAccessEx.isAssignableTo(contextClass, (EClass) reference.eContainer()));
+		assert(EMFMetaAccess.isAssignableTo(contextClass, (EClass) reference.eContainer()));
 		
 		this.reference = reference;
 		this.contextClass = contextClass;

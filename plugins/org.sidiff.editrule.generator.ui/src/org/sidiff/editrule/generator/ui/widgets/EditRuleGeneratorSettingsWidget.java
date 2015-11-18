@@ -1,6 +1,7 @@
 package org.sidiff.editrule.generator.ui.widgets;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,12 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetInformation;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
-import org.silift.common.util.ui.EcoreSelectionDialogUtil;
 
 /**
  * Widget containing UI-Tools for generating CPEO Configurations.

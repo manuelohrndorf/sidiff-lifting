@@ -7,9 +7,9 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.emf.EMFStorage;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -70,7 +70,7 @@ public class SymbolicLinkHandlerUtil {
 			
 			String fileName = "LinksModel" + c + "." + SYMBOLIC_LINKS_EXT;
 			URI savePath = EMFStorage.pathToUri(path + fileName);
-			EMFStorage.eSaveAs(savePath, symbolicLinks);
+			org.sidiff.common.emf.modelstorage.EMFStorage.eSaveAs(savePath, symbolicLinks);
 			if(c == 'A'){
 				symmetricDifference.setUriModelA(path + fileName);
 			}else if(c == 'B'){

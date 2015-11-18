@@ -3,7 +3,7 @@ package org.silift.difference.symboliclink.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.silift.common.util.access.EMFModelAccessEx;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
@@ -22,7 +22,7 @@ public class SymboliclinkUtil {
 	 */
 	public static String resolveCharacteristicDocumentType(Resource model) {
 		
-		String characteristicDocumentType = EMFModelAccessEx.getCharacteristicDocumentType(model);
+		String characteristicDocumentType = EMFModelAccess.getDocumentType(model);
 		
 		// If the model is a symbolic link file, get the doc type information from the appropriate field:
 		if ((characteristicDocumentType != null) && (characteristicDocumentType.equals(SymboliclinkPackage.eNS_URI))) {

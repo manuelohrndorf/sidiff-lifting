@@ -4,10 +4,13 @@ package org.silift.difference.symboliclink.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.silift.difference.symboliclink.*;
+import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkAttribute;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
+import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->

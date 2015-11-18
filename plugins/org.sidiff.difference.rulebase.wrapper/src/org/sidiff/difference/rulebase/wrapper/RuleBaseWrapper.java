@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
@@ -30,10 +32,8 @@ import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.editrule.analysis.classification.IClassificator;
-import org.sidiff.editrule.analysis.classification.util.*;
+import org.sidiff.editrule.analysis.classification.util.ClassificatorUtil;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * Encapsulates a RuleBase instance and provides some convenience functions for the RuleBase management.
@@ -633,7 +633,7 @@ public class RuleBaseWrapper extends Observable {
 			documentTypes.add(pkg.getNsURI());
 		}
 		
-		return EMFModelAccessEx.getCharacteristicDocumentType(documentTypes);
+		return EMFModelAccess.getCharacteristicDocumentType(documentTypes);
 	}
 	
 	/**

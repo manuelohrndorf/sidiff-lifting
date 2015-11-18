@@ -2,14 +2,15 @@ package org.sidiff.difference.lifting.settings;
 
 import java.util.Set;
 
+import javax.inject.Scope;
+
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matcher.IMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 public class LiftingSettings extends Settings {
 
@@ -142,7 +143,7 @@ public class LiftingSettings extends Settings {
 		super();
 		
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE);
+		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
 	}
 
 	/**

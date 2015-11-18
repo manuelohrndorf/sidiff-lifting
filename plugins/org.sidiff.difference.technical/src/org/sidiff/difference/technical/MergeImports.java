@@ -5,14 +5,14 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.sidiff.common.emf.ExternalReferenceCalculator;
+import org.sidiff.common.emf.access.ExternalReferenceContainer;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.emf.ExternalReferenceCalculator;
-import org.silift.common.util.emf.ExternalReferenceContainer;
-import org.silift.common.util.emf.Scope;
 
 /**
  * The import merger is used to merge external references of model A and B into

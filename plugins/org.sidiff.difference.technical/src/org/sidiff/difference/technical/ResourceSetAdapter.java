@@ -9,14 +9,14 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EObjectLocation;
+import org.sidiff.common.emf.access.ExternalReference;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.emf.EObjectLocation;
-import org.silift.common.util.emf.ExternalReference;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Establishes missing correspondences between EObjects located at

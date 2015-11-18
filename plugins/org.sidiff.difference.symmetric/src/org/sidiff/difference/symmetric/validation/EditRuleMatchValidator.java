@@ -5,7 +5,6 @@
 package org.sidiff.difference.symmetric.validation;
 
 import org.eclipse.emf.common.util.EMap;
-
 import org.sidiff.difference.symmetric.EObjectSet;
 
 /**

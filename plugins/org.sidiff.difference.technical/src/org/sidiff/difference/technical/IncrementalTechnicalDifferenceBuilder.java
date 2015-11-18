@@ -3,11 +3,11 @@ package org.sidiff.difference.technical;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Incremental technical difference builder which must be initialized with a
@@ -80,7 +80,7 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 	@Override
 	public String getDocumentType() {
 		// depends on the sub td builders
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

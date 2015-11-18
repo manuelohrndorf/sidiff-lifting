@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.silift.common.util.access.EMFModelAccessEx;
+import org.sidiff.common.emf.access.EMFModelAccess;
 
 /**
  * Generic technical difference builder. <br/>
@@ -39,7 +39,7 @@ public class GenericTechnicalDifferenceBuilder extends TechnicalDifferenceBuilde
 
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

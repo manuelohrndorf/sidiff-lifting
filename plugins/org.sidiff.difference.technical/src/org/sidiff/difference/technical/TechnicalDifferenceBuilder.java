@@ -16,6 +16,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.sidiff.common.emf.EMFResourceUtil;
+import org.sidiff.common.emf.access.EMFMetaAccess;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.EObjectLocation;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.AddObject;
@@ -27,11 +32,6 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.access.EMFMetaAccessEx;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFResourceUtil;
-import org.silift.common.util.emf.EObjectLocation;
-import org.silift.common.util.emf.Scope;
 
 /**
  * Abstract base class for deriving a low-level difference (which is called
@@ -341,7 +341,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 			valueB = compareString;
 		}
 
-		if (EMFMetaAccessEx.isUnconsideredStructualFeature(attributeType)
+		if (EMFMetaAccess.isUnconsideredStructualFeature(attributeType)
 				|| (valueA != null && valueB != null && valueA.equals(valueB)) || (valueA == null && valueB == null)) {
 
 			// no value change
@@ -448,29 +448,29 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 
 	private boolean doProcess(EObject object) {
 		// generic td builders can process every eObject
-		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)){
+		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
 			return true;
 		}
 		
-		return EMFModelAccessEx.getDocumentType(object).equals(getDocumentType());
+		return EMFModelAccess.getDocumentType(object).equals(getDocumentType());
 	}
 
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
 		// generic td builders can handle every model
-		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)){
+		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
 			return true;
 		}
 		
-		Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA, Scope.RESOURCE_SET);
-		Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB, Scope.RESOURCE_SET);
+		Set<String> docTypesA = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
+		Set<String> docTypesB = EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET);
 
 		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
 	}
 	
 	@Override
 	public boolean canHandle(String docType){
-		if(getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE) || docType.equals(getDocumentType()))
+		if(getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE) || docType.equals(getDocumentType()))
 			return true;
 		else
 			return false;

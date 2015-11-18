@@ -3,14 +3,10 @@
 package org.silift.difference.namedelementsymboliclink.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkPackage;
-
 import org.silift.difference.symboliclink.impl.SymbolicLinkObjectImpl;
 
 /**

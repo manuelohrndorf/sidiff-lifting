@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
@@ -23,9 +25,6 @@ import org.sidiff.difference.lifting.ui.util.CorrespondenceDialog;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.exceptions.NoCorrespondencesException;
-import org.silift.common.util.ui.UIUtil;
 
 public class CreateDifferenceWizard extends Wizard {
 

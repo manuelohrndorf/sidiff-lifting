@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.silift.common.util.access.EMFModelAccessEx;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
@@ -110,7 +110,7 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 	 */
 	public String getFrom() {
 		return
-		EMFModelAccessEx.getCharacteristicDocumentType(getEObject().eResource());
+		EMFModelAccess.getDocumentType(getEObject().eResource());
 	}
 
 	/**

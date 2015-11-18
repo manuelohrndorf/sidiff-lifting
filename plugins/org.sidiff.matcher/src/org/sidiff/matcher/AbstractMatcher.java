@@ -4,13 +4,13 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 /**
  * An abstract implementation of the IMatcher interface.
@@ -87,22 +87,22 @@ public abstract class AbstractMatcher implements IMatcher {
 	@Override
 	public boolean canHandle(Resource modelA, Resource modelB) {
 		// generic matchers can handle every model
-		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)) {
+		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
 			return true;
 		}
 
 		if (isResourceSetCapable()) {
-			Set<String> docTypesA = EMFModelAccessEx.getDocumentTypes(modelA,
+			Set<String> docTypesA = EMFModelAccess.getDocumentTypes(modelA,
 					Scope.RESOURCE_SET);
-			Set<String> docTypesB = EMFModelAccessEx.getDocumentTypes(modelB,
+			Set<String> docTypesB = EMFModelAccess.getDocumentTypes(modelB,
 					Scope.RESOURCE_SET);
 
 			return docTypesA.contains(getDocumentType())
 					&& docTypesB.contains(getDocumentType());
 		} else {
-			String docTypeA = EMFModelAccessEx
+			String docTypeA = EMFModelAccess
 					.getCharacteristicDocumentType(modelA);
-			String docTypeB = EMFModelAccessEx
+			String docTypeB = EMFModelAccess
 					.getCharacteristicDocumentType(modelB);
 
 			return docTypeA.equals(getDocumentType())

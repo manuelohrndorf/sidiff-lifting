@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.access.HighlightableElement;
 import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -16,7 +17,6 @@ import org.sidiff.difference.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
-import org.silift.common.HighlightableElement;
 
 /**
  * Encapsulates an operation invocation and keeps further information about the

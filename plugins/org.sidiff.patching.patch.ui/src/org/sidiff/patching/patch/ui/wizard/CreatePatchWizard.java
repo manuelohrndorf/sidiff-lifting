@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
@@ -31,7 +32,6 @@ import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.patch.patch.PatchCreator;
 import org.sidiff.patching.patch.ui.Activator;
-import org.silift.common.util.ui.UIUtil;
 
 public class CreatePatchWizard extends Wizard {
 

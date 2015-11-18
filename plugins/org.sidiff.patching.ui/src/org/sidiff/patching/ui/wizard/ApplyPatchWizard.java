@@ -26,7 +26,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.sidiff.difference.patch.animation.GMFAnimation;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
@@ -45,15 +45,13 @@ import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.animation.GMFAnimation;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.arguments.InteractiveSymblArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.emf.Scope;
 
 //TODO Migration: Test class
 

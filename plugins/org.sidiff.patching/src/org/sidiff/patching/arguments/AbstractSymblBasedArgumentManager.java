@@ -3,9 +3,9 @@ package org.sidiff.patching.arguments;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.common.emf.ExternalReferenceCalculator;
+import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.silift.common.util.emf.ExternalReferenceCalculator;
-import org.silift.common.util.emf.ExternalReferenceContainer;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;

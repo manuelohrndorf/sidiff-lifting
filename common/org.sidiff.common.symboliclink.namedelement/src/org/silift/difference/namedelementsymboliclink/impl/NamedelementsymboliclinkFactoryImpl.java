@@ -5,12 +5,11 @@ package org.silift.difference.namedelementsymboliclink.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.silift.difference.namedelementsymboliclink.*;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
+import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
+import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->

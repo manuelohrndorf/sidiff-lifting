@@ -15,11 +15,11 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.ui.wizard.CreateDifferenceWizard;
 import org.sidiff.difference.lifting.ui.wizard.CreateLiftingWizard;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 public class LiftDifferenceHandler extends AbstractHandler {
 
@@ -56,14 +56,14 @@ public class LiftDifferenceHandler extends AbstractHandler {
 						IFile fileB = (IFile) selection.toArray()[1];
 						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
 						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-						//TODO Workaround: bisher keine einheitliche Regelung für Ressourcen mit mehreren Dokumenttypen
+						//TODO Workaround: bisher keine einheitliche Regelung fï¿½r Ressourcen mit mehreren Dokumenttypen
 						// Annahme: Sofern nicht alle Dokumenttypen der Profile gleich sind, sollte zumindest der eigentliche Dokumenttyp gleich sein.
 						boolean canHandle = false;
-						if(EMFModelAccessEx.isProfiled(resourceA) || EMFModelAccessEx.isProfiled(resourceB)){
-								canHandle = EMFModelAccessEx.getCharacteristicDocumentType(resourceA).equals(EMFModelAccessEx.getCharacteristicDocumentType(resourceB));
+						if(EMFModelAccess.isProfiled(resourceA) || EMFModelAccess.isProfiled(resourceB)){
+								canHandle = EMFModelAccess.getCharacteristicDocumentType(resourceA).equals(EMFModelAccess.getCharacteristicDocumentType(resourceB));
 						}else {
-							Set<String> docTypeA = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
-							Set<String> docTypeB = EMFModelAccessEx.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
+							Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+							Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
 							canHandle = docTypeA.equals(docTypeB);
 						}
 						if (canHandle){

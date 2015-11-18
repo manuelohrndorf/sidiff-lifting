@@ -4,11 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.henshin.ApplicationCondition;
-import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.rulebase.EditRule;
 
 public class MatchingHelper {

@@ -3,6 +3,7 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.menus.IWidget;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -14,18 +15,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.matcher.IMatcher;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.sidiff.patching.ui.wsupdate.util.MergeModels;
 
 public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {

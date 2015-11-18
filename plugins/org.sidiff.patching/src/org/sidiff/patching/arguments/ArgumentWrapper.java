@@ -2,7 +2,6 @@ package org.sidiff.patching.arguments;
 
 import org.sidiff.difference.asymmetric.ParameterBinding;
 
-
 /**
  * Base class of all argument wrappers.
  * 

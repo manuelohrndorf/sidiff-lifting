@@ -2,7 +2,7 @@ package org.sidiff.difference.matcher.sidiff;
 
 
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.common.services.ServiceContext;
+import org.omg.IOP.ServiceContext;
 
 public interface IReliabilityCalculator {
 	

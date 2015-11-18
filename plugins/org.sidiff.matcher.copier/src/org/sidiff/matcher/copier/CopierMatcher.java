@@ -5,7 +5,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.matcher.BaseMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 /**
  * Concrete matcher stub that checks whether one element has
@@ -54,7 +53,7 @@ public class CopierMatcher extends BaseMatcher {
 	@Override
 	public String getDocumentType() {
 		// can handle every documentType 
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

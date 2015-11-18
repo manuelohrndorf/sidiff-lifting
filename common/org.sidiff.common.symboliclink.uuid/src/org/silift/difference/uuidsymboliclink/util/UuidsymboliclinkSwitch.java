@@ -6,7 +6,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.uuidsymboliclink.*;
+import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
+import org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->

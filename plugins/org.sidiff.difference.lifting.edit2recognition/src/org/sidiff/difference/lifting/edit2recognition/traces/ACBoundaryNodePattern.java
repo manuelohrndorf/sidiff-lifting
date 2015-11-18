@@ -1,7 +1,5 @@
 package org.sidiff.difference.lifting.edit2recognition.traces;
 
-import static org.sidiff.common.henshin.HenshinConditionAnalysis.isNestedConditionNode;
-
 import org.eclipse.emf.henshin.model.Node;
 
 /**

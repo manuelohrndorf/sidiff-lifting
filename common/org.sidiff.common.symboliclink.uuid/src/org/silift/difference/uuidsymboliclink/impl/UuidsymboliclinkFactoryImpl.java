@@ -5,12 +5,11 @@ package org.silift.difference.uuidsymboliclink.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.silift.difference.uuidsymboliclink.*;
+import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
+import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
+import org.silift.difference.uuidsymboliclink.UuidsymboliclinkPackage;
 
 /**
  * <!-- begin-user-doc -->

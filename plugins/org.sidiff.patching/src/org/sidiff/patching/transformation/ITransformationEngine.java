@@ -3,13 +3,13 @@ package org.sidiff.patching.transformation;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 import org.sidiff.patching.settings.ExecutionMode;
-import org.silift.common.util.emf.Scope;
 
 public interface ITransformationEngine {
 

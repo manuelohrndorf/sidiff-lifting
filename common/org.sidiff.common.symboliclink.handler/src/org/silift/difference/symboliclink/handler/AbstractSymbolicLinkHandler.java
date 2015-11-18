@@ -13,6 +13,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.EMFResourceUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.EObjectLocation;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AttributeDependency;
 import org.sidiff.difference.asymmetric.Dependency;
@@ -35,16 +38,12 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFResourceUtil;
-import org.silift.common.util.emf.EObjectLocation;
 import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkAttribute;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkReference;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkFactory;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * Implements the {@link ISymbolicLinkHandler} using the template method pattern.
@@ -112,10 +111,10 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 		modelB = asymmetricDifference.getSymmetricDifference().getModelB();
 		
 		sls_modelA = SymboliclinkFactory.eINSTANCE.createSymbolicLinks();
-		sls_modelA.setDocType(EMFModelAccessEx.getCharacteristicDocumentType(modelA));
+		sls_modelA.setDocType(EMFModelAccess.getCharacteristicDocumentType(modelA));
 		
 		sls_modelB = SymboliclinkFactory.eINSTANCE.createSymbolicLinks();
-		sls_modelB.setDocType(EMFModelAccessEx.getCharacteristicDocumentType(modelB));
+		sls_modelB.setDocType(EMFModelAccess.getCharacteristicDocumentType(modelB));
 		
 		obj2symbl_A = new HashMap<EObject,SymbolicLinkObject>();
 		obj2symbl_B = new HashMap<EObject,SymbolicLinkObject>();

@@ -1,8 +1,5 @@
 package org.sidiff.difference.rulebase.wrapper;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,12 +16,12 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.rulebase.Classification;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.editrule.analysis.EditRuleAnnotations;
-import org.silift.common.util.emf.EMFStorage;
 
 public class RuleBaseItemInfo {
 

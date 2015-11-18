@@ -1,7 +1,5 @@
 package org.sidiff.editrule.generator.serge.configuration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;

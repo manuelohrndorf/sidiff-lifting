@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.project.templates;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,13 +20,11 @@ import org.eclipse.pde.ui.IFieldData;
 import org.eclipse.pde.ui.templates.OptionTemplateSection;
 import org.eclipse.pde.ui.templates.PluginReference;
 import org.osgi.framework.Bundle;
-import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.difference.rulebase.extension.AbstractProjectRuleBase;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
-import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {

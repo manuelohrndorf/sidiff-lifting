@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.markers.WorkbenchMarkerResolution;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.editrule.consistency.fixing.ERFixingEngine;
-import org.silift.common.util.emf.EMFStorage;
 
 /**
  * This class represents a fix for a occurred validation error

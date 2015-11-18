@@ -94,16 +94,17 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.difference.rulebase.ui.Activator;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnACCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnActive;
-import org.sidiff.difference.rulebase.ui.editor.columns.ColumnNameBasedClassification;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDependenyCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnDescription;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnEditType;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnInverseRule;
+import org.sidiff.difference.rulebase.ui.editor.columns.ColumnNameBasedClassification;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnParameterCount;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnPriority;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRecognitionType;
@@ -111,7 +112,6 @@ import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRefinementLevel;
 import org.sidiff.difference.rulebase.ui.editor.columns.ColumnRulebaseItem;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseItemInfo;
 import org.sidiff.difference.rulebase.wrapper.RuleBaseWrapper;
-import org.silift.common.util.emf.EMFStorage;
 
 public class RulebaseEditor
 

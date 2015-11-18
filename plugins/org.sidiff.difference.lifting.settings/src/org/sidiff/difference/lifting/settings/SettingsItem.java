@@ -2,10 +2,7 @@ package org.sidiff.difference.lifting.settings;
 
 import java.util.Set;
 
-import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.matcher.IMatcher;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
+import javax.inject.Scope;
 
 /**
  * Enumerations which are associated with a differencing setting.

@@ -13,6 +13,9 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.common.emf.access.ExternalManyReference;
+import org.sidiff.common.emf.access.ExternalReference;
+import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -27,9 +30,6 @@ import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.silift.common.util.emf.ExternalManyReference;
-import org.silift.common.util.emf.ExternalReference;
-import org.silift.common.util.emf.ExternalReferenceContainer;
 
 public class PackageRegistryAdapter {
 	/**

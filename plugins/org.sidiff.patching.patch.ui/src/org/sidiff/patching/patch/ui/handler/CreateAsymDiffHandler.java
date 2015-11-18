@@ -13,9 +13,9 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.patching.patch.ui.wizard.CreateAsymDiffWizard;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class CreateAsymDiffHandler extends AbstractHandler {
 
@@ -36,8 +36,8 @@ public class CreateAsymDiffHandler extends AbstractHandler {
 						IFile fileB = (IFile) selection.toArray()[1];
 						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
 						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-						String docTypeA = EMFModelAccessEx.getCharacteristicDocumentType(resourceA);
-						String docTypeB = EMFModelAccessEx.getCharacteristicDocumentType(resourceB);
+						String docTypeA = EMFModelAccess.getCharacteristicDocumentType(resourceA);
+						String docTypeB = EMFModelAccess.getCharacteristicDocumentType(resourceB);
 						if(docTypeA.equals(docTypeB)){
 
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI

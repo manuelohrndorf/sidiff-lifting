@@ -5,7 +5,6 @@ package org.silift.difference.namedelementsymboliclink;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.silift.difference.symboliclink.SymboliclinkPackage;
 
 /**

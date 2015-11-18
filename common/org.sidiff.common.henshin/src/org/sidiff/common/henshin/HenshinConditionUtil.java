@@ -4,7 +4,6 @@ import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.FormulaCombineOperator;
 
 public class HenshinConditionUtil {
 

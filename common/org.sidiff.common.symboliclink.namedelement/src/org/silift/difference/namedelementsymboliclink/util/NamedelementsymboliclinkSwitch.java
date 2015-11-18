@@ -5,7 +5,8 @@ package org.silift.difference.namedelementsymboliclink.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.silift.difference.namedelementsymboliclink.*;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
+import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkPackage;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**

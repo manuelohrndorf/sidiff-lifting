@@ -5,8 +5,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.matcher.SignatureBasedMatcher;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class SignatureBasedUUIDMatcher extends SignatureBasedMatcher<String> {
 
@@ -22,7 +22,7 @@ public class SignatureBasedUUIDMatcher extends SignatureBasedMatcher<String> {
 
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package org.sidiff.common.emf.extensions.impl;
 
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnumLiteral;
 
 /**
  * A Mask object can be created for an EClassifier. In some meta-models, EClassifiers  contain

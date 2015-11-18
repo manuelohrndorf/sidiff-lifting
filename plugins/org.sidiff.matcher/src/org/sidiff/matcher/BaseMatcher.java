@@ -1,10 +1,12 @@
 package org.sidiff.matcher;
 
+
+
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 
 /**
  * Search for corresponding objects from model A to model B. Clients may
@@ -77,11 +79,11 @@ public abstract class BaseMatcher extends AbstractMatcher {
 
 	private boolean doProcess(EObject object) {
 		// generic matchers can process every eObject
-		if (getDocumentType().equals(EMFModelAccessEx.GENERIC_DOCUMENT_TYPE)) {
+		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
 			return true;
 		}
 
-		return EMFModelAccessEx.getDocumentType(object).equals(getDocumentType());
+		return EMFModelAccess.getDocumentType(object).equals(getDocumentType());
 	}
 
 	/**

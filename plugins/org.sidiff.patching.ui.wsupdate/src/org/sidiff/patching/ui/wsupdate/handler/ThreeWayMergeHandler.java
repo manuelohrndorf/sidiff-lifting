@@ -13,9 +13,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.patching.ui.wsupdate.wizard.ThreeWayMergeWizard;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class ThreeWayMergeHandler extends AbstractHandler {
 

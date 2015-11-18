@@ -18,7 +18,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.wizard.ApplyPatchWizard;
-import org.silift.common.util.file.ZipUtil;
 
 public class PatchApplyHandler extends AbstractHandler {
 	public static final String ARCHIVE_URI_PREFIX = "archive:file:///";
