@@ -29,9 +29,9 @@ import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.difference.rulebase.RulebaseFactory;
+import org.sidiff.editrule.analysis.classification.IClassificator;
+import org.sidiff.editrule.analysis.classification.util.*;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
-import org.sidiff.editrule.classificator.IClassificator;
-import org.sidiff.editrule.classificator.util.*;
 import org.silift.common.util.access.EMFModelAccessEx;
 import org.silift.common.util.emf.EMFStorage;
 
