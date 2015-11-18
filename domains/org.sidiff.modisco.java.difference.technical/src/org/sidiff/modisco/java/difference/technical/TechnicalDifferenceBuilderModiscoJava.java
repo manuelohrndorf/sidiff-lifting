@@ -1,4 +1,4 @@
-package org.silift.modisco.java.difference.technical;
+package org.sidiff.modisco.java.difference.technical;
 
 import java.util.HashSet;
 import java.util.Set;
