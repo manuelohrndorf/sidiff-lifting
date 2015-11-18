@@ -1,4 +1,4 @@
-package org.silift.fm.difference.technical;
+package org.sidiff.fm.difference.technical;
 
 import java.util.HashSet;
 import java.util.Set;
