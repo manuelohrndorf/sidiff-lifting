@@ -3,17 +3,11 @@
 package org.sidiff.patching.patch.patch.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
-
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
-
 import org.sidiff.difference.asymmetric.provider.AsymmetricEditPlugin;
-
 import org.sidiff.difference.rulebase.provider.RuleBaseEditPlugin;
-
 import org.sidiff.difference.symmetric.provider.SymmetricEditPlugin;
 
 /**

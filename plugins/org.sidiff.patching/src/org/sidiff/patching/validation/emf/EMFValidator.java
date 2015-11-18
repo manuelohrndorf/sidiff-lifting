@@ -40,7 +40,7 @@ public class EMFValidator implements IValidator {
 			EObject object = iterator.next();
 			for (EReference referenceType : object.eClass().getEAllReferences()) {
 				if (referenceType.isMany()) {
-					Collection refObjs = (Collection) object.eGet(referenceType);
+					Collection<?> refObjs = (Collection<?>) object.eGet(referenceType);
 					if (referenceType.getLowerBound() > 0 && refObjs.size() < referenceType.getLowerBound()) {
 						ValidationError error = new ValidationError(null, "Lower bound violation for referenceType "
 								+ referenceType.getName() + ": " + refObjs.size() + " < "

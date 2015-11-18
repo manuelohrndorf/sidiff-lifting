@@ -7,12 +7,11 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.sidiff.patching.patch.patch.*;
+import org.sidiff.patching.patch.patch.Patch;
+import org.sidiff.patching.patch.patch.PatchFactory;
+import org.sidiff.patching.patch.patch.PatchPackage;
 
 /**
  * <!-- begin-user-doc -->

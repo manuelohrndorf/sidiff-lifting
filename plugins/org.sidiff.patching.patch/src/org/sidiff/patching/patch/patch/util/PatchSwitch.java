@@ -6,10 +6,9 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.sidiff.patching.patch.patch.*;
+import org.sidiff.patching.patch.patch.Patch;
+import org.sidiff.patching.patch.patch.PatchPackage;
 
 /**
  * <!-- begin-user-doc -->

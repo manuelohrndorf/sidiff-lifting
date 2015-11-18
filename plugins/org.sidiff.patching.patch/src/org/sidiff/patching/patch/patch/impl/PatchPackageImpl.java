@@ -2,19 +2,17 @@
  */
 package org.sidiff.patching.patch.patch.impl;
 
+import static org.sidiff.patching.patch.patch.PatchPackage.SETTING;
+
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
-
 import org.sidiff.difference.rulebase.RulebasePackage;
-
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.patch.patch.PatchFactory;
 import org.sidiff.patching.patch.patch.PatchPackage;

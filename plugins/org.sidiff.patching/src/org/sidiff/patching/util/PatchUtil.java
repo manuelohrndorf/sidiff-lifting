@@ -1,12 +1,8 @@
 package org.sidiff.patching.util;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,9 +11,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.silift.common.util.exceptions.FileAlreadyExistsException;
 import org.silift.common.util.file.ZipUtil;

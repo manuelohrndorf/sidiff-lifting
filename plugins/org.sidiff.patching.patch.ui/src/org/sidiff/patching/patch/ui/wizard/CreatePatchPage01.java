@@ -22,9 +22,9 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
+import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.silift.patching.patch.ui.widgets.EditRuleMatchWidget;
 
