@@ -1,4 +1,4 @@
-package org.silift.ecore.modifieddetector;
+package org.sidiff.ecore.modifieddetector;
 
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;

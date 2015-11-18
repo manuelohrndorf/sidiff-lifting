@@ -1,4 +1,4 @@
-package org.silift.ecore.modifieddetector;
+package org.sidiff.ecore.modifieddetector;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
