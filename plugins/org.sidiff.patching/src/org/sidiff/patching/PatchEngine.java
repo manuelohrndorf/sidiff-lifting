@@ -34,13 +34,13 @@ import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReportManager;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
-import org.silift.patching.settings.ExecutionMode;
-import org.silift.patching.settings.PatchMode;
-import org.silift.patching.settings.PatchingSettings;
-import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 /**
  * 

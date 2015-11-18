@@ -1,4 +1,4 @@
-package org.silift.patching.settings;
+package org.sidiff.patching.settings;
 
 import java.util.Set;
 

@@ -8,8 +8,8 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.settings.ExecutionMode;
 import org.silift.common.util.emf.Scope;
-import org.silift.patching.settings.ExecutionMode;
 
 public interface ITransformationEngine {
 
