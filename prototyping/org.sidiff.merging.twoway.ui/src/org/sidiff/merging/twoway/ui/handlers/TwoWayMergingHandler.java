@@ -15,10 +15,10 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.merging.twoway.ui.wizards.TwoWayMergeWizard;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
 
 public class TwoWayMergingHandler extends AbstractHandler {
 
@@ -39,8 +39,8 @@ public class TwoWayMergingHandler extends AbstractHandler {
 						IFile fileB = (IFile) selection.toArray()[1];
 						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
 						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
-						Set<String> docTypeA = EMFModelAccessEx.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
-						Set<String> docTypeB = EMFModelAccessEx.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
+						Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
+						Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
 						if (docTypeA.equals(docTypeB)){
 
 							// Create a new difference:

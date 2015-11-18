@@ -9,14 +9,13 @@ import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.patching.settings.ExecutionMode;
-import org.silift.patching.settings.PatchMode;
-import org.silift.patching.settings.PatchingSettings;
-import org.silift.patching.settings.PatchingSettings.ValidationMode;
 
 /**
  * 

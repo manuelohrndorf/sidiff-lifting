@@ -21,7 +21,6 @@ import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.difference.matcher.IMatcher;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
@@ -29,6 +28,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
+import org.sidiff.matcher.IMatcher;
 
 /**
  * 

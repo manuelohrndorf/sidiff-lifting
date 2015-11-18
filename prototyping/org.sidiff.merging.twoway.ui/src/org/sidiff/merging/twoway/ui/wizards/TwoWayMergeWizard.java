@@ -7,16 +7,16 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.merging.twoway.MergingEngine;
 import org.sidiff.merging.twoway.facade.TwoWayMergingFacade;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 import org.sidiff.merging.twoway.ui.pages.TwoWayMergeConfigurationPage;
 import org.sidiff.patching.PatchEngine;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.ExecutionMode;
 
 public class TwoWayMergeWizard extends Wizard {
 
@@ -48,7 +48,7 @@ public class TwoWayMergeWizard extends Wizard {
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				settings.setRuleBases(TwoWayMergingFacade.getAvailableAtomicRuleBases(inputModels.getCharacteristicDocumentType()));
-				Resource mergedResource = EMFModelAccessEx.copyResource(inputModels.getResourceA(), savePath, "merged"+inputModels.getResourceA().getURI().lastSegment()+ inputModels.getResourceB().getURI().lastSegment());
+				Resource mergedResource = EMFModelAccess.copyResource(inputModels.getResourceA(), savePath, "merged"+inputModels.getResourceA().getURI().lastSegment()+ inputModels.getResourceB().getURI().lastSegment());
 				
 				MergingEngine engine = new MergingEngine(inputModels.getResourceA(), inputModels.getResourceB(), mergedResource, settings);
 				try {
