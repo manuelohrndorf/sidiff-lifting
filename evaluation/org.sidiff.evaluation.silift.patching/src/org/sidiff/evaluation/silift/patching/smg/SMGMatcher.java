@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.matcher.BaseMatcher;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.symmetric.Correspondence;
-import org.silift.common.util.access.EMFModelAccessEx;
+import org.sidiff.matcher.BaseMatcher;
 
 public class SMGMatcher extends BaseMatcher {
 
@@ -42,7 +42,7 @@ public class SMGMatcher extends BaseMatcher {
 	
 	@Override
 	public String getDocumentType() {
-		return EMFModelAccessEx.GENERIC_DOCUMENT_TYPE;
+		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
 	}
 
 	@Override

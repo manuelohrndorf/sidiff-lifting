@@ -6,10 +6,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -18,8 +18,8 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.silift.common.util.access.EMFModelAccessEx;
-import org.silift.common.util.emf.Scope;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 
 public class ModelCompare {
 
@@ -57,7 +57,7 @@ public class ModelCompare {
 		}
 
 		// Get suitable matcher
-		String documentType = EMFModelAccessEx.getCharacteristicDocumentType(modelA);
+		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		// IMatcher matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", modelA,
 		// modelB);
 		IMatcher matcher = MatcherUtil.getMatcherByKey("URIFragmentMatcher", modelA, modelB);

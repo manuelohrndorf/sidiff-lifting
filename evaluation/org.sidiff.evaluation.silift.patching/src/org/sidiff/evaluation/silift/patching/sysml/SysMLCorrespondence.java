@@ -6,11 +6,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.evaluation.silift.patching.AbstractBatchArgumentManager;
 import org.sidiff.patching.settings.PatchMode;
-import org.silift.common.util.emf.Scope;
 
 public class SysMLCorrespondence extends AbstractBatchArgumentManager {
 

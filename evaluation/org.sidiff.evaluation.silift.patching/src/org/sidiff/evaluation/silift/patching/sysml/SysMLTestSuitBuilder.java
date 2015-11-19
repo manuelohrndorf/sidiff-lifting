@@ -13,18 +13,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.matcher.IMatcher;
-import org.sidiff.difference.matcher.util.MatcherUtil;
 import org.sidiff.evaluation.silift.patching.TestSuite;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.util.MatcherUtil;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class SysMLTestSuitBuilder {
 	private File modelFolder;
@@ -87,7 +87,7 @@ public class SysMLTestSuitBuilder {
 		}
 		
 		if (transformationEngine == null){	
-			String documentType = EMFModelAccessEx.getCharacteristicDocumentType(original);
+			String documentType = EMFModelAccess.getCharacteristicDocumentType(original);
 			transformationEngine = TransformationEngineUtil.getFirstTransformationEngine(documentType);
 			if (transformationEngine == null) {
 				LogUtil.log(LogEvent.ERROR, "No Transformation Engine found!");

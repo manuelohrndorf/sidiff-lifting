@@ -1,10 +1,10 @@
 package org.sidiff.evaluation.silift.patching;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.evaluation.silift.patching.ft.FtNormalizer;
 import org.sidiff.evaluation.silift.patching.sa.SaNormalizer;
 import org.sidiff.evaluation.silift.patching.sysml.SysMLNormalizer;
-import org.silift.common.util.access.EMFModelAccessEx;
 
 public class NormalizerFactory {
 
@@ -15,7 +15,7 @@ public class NormalizerFactory {
 	 * @return
 	 */
 	public static INormalizer createNormalizer(Resource model) {
-		String docType = EMFModelAccessEx.getCharacteristicDocumentType(model);
+		String docType = EMFModelAccess.getCharacteristicDocumentType(model);
 		
 		if (docType.equals("http://www.eclipse.org/emf/2002/Ecore")) {
 			return new EcoreNormalizer();

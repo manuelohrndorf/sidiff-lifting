@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -42,8 +44,6 @@ import org.sidiff.patching.settings.PatchMode;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.validation.IValidationError;
-import org.silift.common.util.emf.EMFStorage;
-import org.silift.common.util.emf.Scope;
 
 public class PatchEvaluationApplication implements IApplication {
 
