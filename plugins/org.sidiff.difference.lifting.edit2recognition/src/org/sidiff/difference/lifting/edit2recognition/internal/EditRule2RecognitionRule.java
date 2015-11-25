@@ -76,6 +76,7 @@ import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstan
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.editrule.analysis.EditRuleAnnotations;
 import org.sidiff.editrule.analysis.EditRuleTransientEffects;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 // TODO: Forbid/Prevent wrong correspondences if there are nodes with the same type!
 
@@ -476,13 +477,13 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		
 		// Create correspondence node:
 		NodePair correspondence = createPreservedNode(recognitionRule, "",
-				SymmetricPackage.eINSTANCE.getCorrespondence());
+				MatchingModelPackage.eINSTANCE.getCorrespondence());
 		
 		// Link correspondence node to model A and model B node:
 		createPreservedEdge(recognitionRule, correspondence, nodeA,
-				SymmetricPackage.eINSTANCE.getCorrespondence_ObjA());
+				MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedA());
 		createPreservedEdge(recognitionRule, correspondence, nodeB,
-				SymmetricPackage.eINSTANCE.getCorrespondence_ObjB());
+				MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedB());
 	}
 	
 	/**
@@ -667,13 +668,13 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 						
 						// Create correspondence node:
 						NodePair correspondence = createPreservedNode(recognitionRule, "",
-								SymmetricPackage.eINSTANCE.getCorrespondence());
+								MatchingModelPackage.eINSTANCE.getCorrespondence());
 						
 						// Link correspondence node to model A and model B node:
 						createPreservedEdge(recognitionRule, correspondence, aNode,
-								SymmetricPackage.eINSTANCE.getCorrespondence_ObjA());
+								MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedA());
 						createPreservedEdge(recognitionRule, correspondence, bNode,
-								SymmetricPackage.eINSTANCE.getCorrespondence_ObjB());
+								MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedB());
 						
 						// Fix the trace:
 						CorrespondencePattern oldPattern = patterns.getCorrespondecePattern(rhsNode);

@@ -11,8 +11,8 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.model.Correspondence;
 
 /**
  * The import merger is used to merge external references of model A and B into
@@ -129,17 +129,17 @@ public class MergeImports {
 
 		LogUtil.log(LogEvent.DEBUG, "\nMerge imports from Registry (Original <-> Copy):");
 		for (Correspondence c : registryAdapter.getCorrespondences()) {
-			LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
-			assert (imports.containsImportsModelA(c.getObjA()));
-			assert (imports.containsImportsModelB(c.getObjB()));
+			LogUtil.log(LogEvent.DEBUG, c.getMatchedA() + " <-> " + c.getMatchedB());
+			assert (imports.containsImportsModelA(c.getMatchedA()));
+			assert (imports.containsImportsModelB(c.getMatchedB()));
 		}
 
 		LogUtil.log(LogEvent.DEBUG, "\nAdditional ResourceSet objects (A <-> B):");
 		if (resourceSetAdapter != null) {
 			for (Correspondence c : resourceSetAdapter.getCorrespondences()) {
-				LogUtil.log(LogEvent.DEBUG, c.getObjA() + " <-> " + c.getObjB());
-				assert (imports.containsImportsModelA(c.getObjA()));
-				assert (imports.containsImportsModelB(c.getObjB()));
+				LogUtil.log(LogEvent.DEBUG, c.getMatchedA() + " <-> " + c.getMatchedB());
+				assert (imports.containsImportsModelA(c.getMatchedA()));
+				assert (imports.containsImportsModelB(c.getMatchedB()));
 			}
 		}
 	}

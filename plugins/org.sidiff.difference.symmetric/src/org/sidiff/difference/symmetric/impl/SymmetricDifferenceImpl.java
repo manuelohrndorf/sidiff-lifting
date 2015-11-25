@@ -13,21 +13,23 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.Matching;
 
 /**
  * <!-- begin-user-doc --> 
@@ -39,13 +41,13 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getChanges <em>Changes</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getChangeSets <em>Change Sets</em>}</li>
- *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getCorrespondences <em>Correspondences</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getModelA <em>Model A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getModelB <em>Model B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getUriModelA <em>Uri Model A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getUriModelB <em>Uri Model B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getNotOverlappings <em>Not Overlappings</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getUnusedChangeSets <em>Unused Change Sets</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.impl.SymmetricDifferenceImpl#getMatching <em>Matching</em>}</li>
  * </ul>
  *
  * @generated
@@ -85,16 +87,6 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	 * @ordered
 	 */
 	protected EList<SemanticChangeSet> changeSets;
-
-	/**
-	 * The cached value of the '{@link #getCorrespondences() <em>Correspondences</em>}' containment reference list.
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * @see #getCorrespondences()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Correspondence> correspondences;
 
 	/**
 	 * The default value of the '{@link #getModelA() <em>Model A</em>}' attribute.
@@ -177,6 +169,16 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	protected EList<SemanticChangeSet> unusedChangeSets;
 
 	/**
+	 * The cached value of the '{@link #getMatching() <em>Matching</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMatching()
+	 * @generated
+	 * @ordered
+	 */
+	protected Matching matching;
+
+	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * 
@@ -222,31 +224,6 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 		return changeSets;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * Do not modify the returned List of correspondences. Use
-	 * {@link #addCorrespondence(Correspondence)} and
-	 * {@link #removeCorrespondence(Correspondence)} instead.
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public EList<Correspondence> getCorrespondences() {
-		return intl_getCorrespondences();
-	}
-
-	/**
-	 * Lazy initialization of {@link #correspondences}.
-	 * 
-	 * @return
-	 */
-	private EList<Correspondence> intl_getCorrespondences() {
-		if (correspondences == null) {
-			correspondences = new EObjectContainmentEList<Correspondence>(Correspondence.class, this,
-					SymmetricPackage.SYMMETRIC_DIFFERENCE__CORRESPONDENCES);
-		}
-		return correspondences;
-	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -255,24 +232,8 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	 * @generated NOT
 	 */
 	public Resource getModelA() {
-		// FIXME: Sollte keine Assertion sein, da Information einen Mehrwert für
-		// Endbenutzer darstellt.
-		// Daher lieber eine Exception werfen, die dann von der UI gefangen und
-		// in ErrorDialog angezeigt wird.
-		assert (getCorrespondences().size() > 0) : "This is an empty difference.";
-
-		for (Correspondence c : getCorrespondences()) {
-			// TODO cpietsch, relative vs. absolute path
-			// if (c.getObjA().eResource() != null &&
-			// c.getObjA().eResource().getURI().toString().equals(getUriModelA())){
-			if (c.getObjA().eResource() != null
-					&& getUriModelA().endsWith(c.getObjA().eResource().getURI().lastSegment())) {
-				return c.getObjA().eResource();
-			}
-		}
-
-		assert (false) : "No Resource found for modelA";
-		return null;
+		
+		return getMatching().getEResourceA();
 	}
 
 	/**
@@ -282,20 +243,9 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	 * @generated NOT
 	 */
 	public Resource getModelB() {
-		assert (getCorrespondences().size() > 0) : "This is an empty difference.";
+		
+		return getMatching().getEResourceB();
 
-		for (Correspondence c : getCorrespondences()) {
-			// TODO cpietsch, relative vs. absolute path
-			// if (c.getObjB().eResource() != null &&
-			// c.getObjB().eResource().getURI().toString().equals(getUriModelB())){
-			if (c.getObjB().eResource() != null
-					&& getUriModelB().endsWith(c.getObjB().eResource().getURI().lastSegment())) {
-				return c.getObjB().eResource();
-			}
-		}
-
-		assert (false) : "No Resource found for modelB";
-		return null;
 	}
 
 	/**
@@ -367,6 +317,58 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Matching getMatching() {
+		return matching;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetMatching(Matching newMatching, NotificationChain msgs) {
+		Matching oldMatching = matching;
+		matching = newMatching;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING, oldMatching, newMatching);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setMatching(Matching newMatching) {
+		if (newMatching != matching) {
+			NotificationChain msgs = null;
+			if (matching != null)
+				msgs = ((InternalEObject)matching).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING, null, msgs);
+			if (newMatching != null)
+				msgs = ((InternalEObject)newMatching).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING, null, msgs);
+			msgs = basicSetMatching(newMatching, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING, newMatching, newMatching));
+
+		this.setUriModelA(matching.getUriA());
+		this.setUriModelB(matching.getUriB());
+
+		//Init indexed correspondences
+		for(Correspondence c : matching.getCorrespondences()){
+			this.correspondencesA.put(c.getMatchedA(), c);
+			this.correspondencesB.put(c.getMatchedB(), c);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -374,7 +376,7 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 		Correspondence correspondence = correspondencesB.get(objectInB);
 		
 		if (correspondence != null) {
-			return correspondence.getObjA();
+			return correspondence.getMatchedA();
 		} else {
 			return null;
 		}
@@ -390,137 +392,36 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 		Correspondence correspondence = correspondencesA.get(objectInA);
 		
 		if (correspondence != null) {
-			return correspondence.getObjB();
+			return correspondence.getMatchedB();
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * Returns the correspondence of the model A/B object or <code>null</code>.
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Correspondence getCorrespondence(EObject modelElement) {
-		Correspondence correspondenceModelA = correspondencesA.get(modelElement);
-		
-		if (correspondenceModelA == null) {
-			return correspondenceModelA;
-		} else {
-			return correspondencesB.get(modelElement);
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * Returns the correspondence of the model A object or <code>null</code>,
-	 * i.e. no correspondence or model B object.
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public Correspondence getCorrespondenceOfModelA(EObject modelAElement) {
-		return correspondencesA.get(modelAElement);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * Returns the correspondence of the model B object or <code>null</code>,
-	 * i.e. no correspondence or model A object).
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public Correspondence getCorrespondenceOfModelB(EObject modelBElement) {
-		return correspondencesB.get(modelBElement);
-	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void addCorrespondence(EObject objectA, EObject objectB) {
-		Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(objectA, objectB);
-		addCorrespondence(c);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void removeCorrespondence(Correspondence correspondence) {
-		intl_getCorrespondences().remove(correspondence);
-		correspondencesA.remove(correspondence.getObjA());
-		correspondencesB.remove(correspondence.getObjB());
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	public void addCorrespondence(Correspondence correspondence) {
-		intl_getCorrespondences().add(correspondence);
-		correspondencesA.put(correspondence.getObjA(), correspondence);
-		correspondencesB.put(correspondence.getObjB(), correspondence);
+		
+		this.getMatching().getCorrespondences().add(correspondence);
+		this.correspondencesA.put(correspondence.getMatchedA(), correspondence);
+		this.correspondencesB.put(correspondence.getMatchedB(), correspondence);
+
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
-	public void addCorrespondence(EObject objectA, EObject objectB, float reliability) {
-		Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(objectA, objectB);
-		c.setReliability(reliability);
-		addCorrespondence(c);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public float getReliability(EObject objectA, EObject objectB) {
-		if (objectA != null && objectB != null && getCorrespondingObjectInB(objectA) == objectB) {
-			return correspondencesA.get(objectA).getReliability();
-		} else {
-			return 0.0f;
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void removeCorrespondenceA(EObject objectInA) {
-		Correspondence c = correspondencesA.get(objectInA);
-		if (c != null) {
-			removeCorrespondence(c);
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public void removeCorrespondenceB(EObject objectInB) {
-		Correspondence c = correspondencesB.get(objectInB);
-		if (c != null) {
-			removeCorrespondence(c);
-		}
+	public void removeCorrespondence(Correspondence correspondence) {
+		
+		this.getMatching().getCorrespondences().remove(correspondence);
+		this.correspondencesA.remove(correspondence.getMatchedA());
+		this.correspondencesB.remove(correspondence.getMatchedB());
 	}
 
 	/**
@@ -535,10 +436,10 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				return ((InternalEList<?>)getChanges()).basicRemove(otherEnd, msgs);
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CHANGE_SETS:
 				return ((InternalEList<?>)getChangeSets()).basicRemove(otherEnd, msgs);
-			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CORRESPONDENCES:
-				return ((InternalEList<?>)getCorrespondences()).basicRemove(otherEnd, msgs);
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS:
 				return ((InternalEList<?>)getUnusedChangeSets()).basicRemove(otherEnd, msgs);
+			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING:
+				return basicSetMatching(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -555,8 +456,6 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				return getChanges();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CHANGE_SETS:
 				return getChangeSets();
-			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CORRESPONDENCES:
-				return getCorrespondences();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MODEL_A:
 				return getModelA();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MODEL_B:
@@ -569,6 +468,8 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				return getNotOverlappings();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS:
 				return getUnusedChangeSets();
+			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING:
+				return getMatching();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -604,6 +505,9 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				getUnusedChangeSets().clear();
 				getUnusedChangeSets().addAll((Collection<? extends SemanticChangeSet>)newValue);
 				return;
+			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING:
+				setMatching((Matching)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -634,6 +538,9 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS:
 				getUnusedChangeSets().clear();
 				return;
+			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING:
+				setMatching((Matching)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -650,8 +557,6 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				return changes != null && !changes.isEmpty();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CHANGE_SETS:
 				return changeSets != null && !changeSets.isEmpty();
-			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CORRESPONDENCES:
-				return correspondences != null && !correspondences.isEmpty();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MODEL_A:
 				return MODEL_A_EDEFAULT == null ? getModelA() != null : !MODEL_A_EDEFAULT.equals(getModelA());
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MODEL_B:
@@ -664,6 +569,8 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 				return notOverlappings != null && !notOverlappings.isEmpty();
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS:
 				return unusedChangeSets != null && !unusedChangeSets.isEmpty();
+			case SymmetricPackage.SYMMETRIC_DIFFERENCE__MATCHING:
+				return matching != null;
 		}
 		return super.eIsSet(featureID);
 	}

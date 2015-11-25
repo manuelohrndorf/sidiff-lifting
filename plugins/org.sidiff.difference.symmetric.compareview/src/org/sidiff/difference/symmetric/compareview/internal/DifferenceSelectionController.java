@@ -56,7 +56,6 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
@@ -65,6 +64,8 @@ import org.sidiff.difference.symmetric.compareview.ChangeType;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.Matching;
 
 @SuppressWarnings("restriction")
 public class DifferenceSelectionController implements ISelectionListener, INullSelectionListener {
@@ -199,8 +200,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 				} else if (_selection.getFirstElement() instanceof Correspondence) {
 					Correspondence corr = (Correspondence) _selection.getFirstElement();
 					
-					EObject eObjectA = corr.getObjA();
-					EObject eObjectB = corr.getObjB();
+					EObject eObjectA = corr.getMatchedA();
+					EObject eObjectB = corr.getMatchedB();
 					
 					selected.add(eObjectA);
 					selected.add(eObjectB);
@@ -208,8 +209,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 					correspondentElements.add(eObjectA);
 					correspondentElements.add(eObjectB);
 					
-					eObjecToResourceURI.put(eObjectA, ((SymmetricDifference) corr.eContainer()).getModelA().getURI());
-					eObjecToResourceURI.put(eObjectB, ((SymmetricDifference) corr.eContainer()).getModelB().getURI());
+					eObjecToResourceURI.put(eObjectA, ((Matching) corr.eContainer()).getEResourceA().getURI());
+					eObjecToResourceURI.put(eObjectB, ((Matching) corr.eContainer()).getEResourceB().getURI());
 				} else if (_selection.getFirstElement() instanceof OperationInvocation) {
 					OperationInvocation operationInvocation = (OperationInvocation) _selection.getFirstElement();
 					SemanticChangeSet semanticChangeSet = operationInvocation.getChangeSet();
@@ -467,10 +468,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 		
 			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectB)){
-				for(Correspondence c : diff.getCorrespondences()){
-					if(c.getObjB().equals(xtextmarker.getContextElement(eObjectB))){
-						contextElements.add(c.getObjA());
-						eObjecToResourceURI.put(c.getObjA(), diff.getModelA().getURI());
+				for(Correspondence c : diff.getMatching().getCorrespondences()){
+					if(c.getMatchedB().equals(xtextmarker.getContextElement(eObjectB))){
+						contextElements.add(c.getMatchedA());
+						eObjecToResourceURI.put(c.getMatchedA(), diff.getModelA().getURI());
 						break;
 					}
 				}
@@ -482,10 +483,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
 			
 			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectA)){
-				for(Correspondence c : diff.getCorrespondences()){
-					if(c.getObjA().equals(xtextmarker.getContextElement(eObjectA))){
-						contextElements.add(c.getObjB());
-						eObjecToResourceURI.put(c.getObjB(), diff.getModelB().getURI());
+				for(Correspondence c : diff.getMatching().getCorrespondences()){
+					if(c.getMatchedA().equals(xtextmarker.getContextElement(eObjectA))){
+						contextElements.add(c.getMatchedB());
+						eObjecToResourceURI.put(c.getMatchedB(), diff.getModelB().getURI());
 						break;
 					}
 				}

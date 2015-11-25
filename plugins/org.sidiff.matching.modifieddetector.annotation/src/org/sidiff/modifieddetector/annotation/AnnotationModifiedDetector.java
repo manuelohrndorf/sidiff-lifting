@@ -1,17 +1,22 @@
 package org.sidiff.modifieddetector.annotation;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.annotation.AnnotationUtil;
+import org.sidiff.annotation.IAnnotation;
+import org.sidiff.annotation.impl.AnnotationImpl;
 import org.sidiff.common.emf.EMFAdapter;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.modifieddetector.IModifiedDetector;
 
@@ -31,7 +36,7 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 	private Resource modelB;
 
 	// Data structures used by this class
-	private SymmetricDifference correspondenceMap;
+	private ICorrespondences correspondences;
 	private Map<EObject, Boolean> modifiedMap;
 
 	@Override
@@ -46,47 +51,53 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 	@Override
 	public void init(Resource modelA, Resource modelB,
 			IMatcher matcher,
-			Scope scope) {
-		
+			Scope scope) throws FileNotFoundException {
+
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "--------- Initializing Annotation Modified Detector --------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "Modified detector: " + getClass().getSimpleName());
 		LogUtil.log(LogEvent.NOTICE, "Scope: " + scope);
 		LogUtil.log(LogEvent.NOTICE, "Matcher: " + matcher.getName());
-		
-		
+
+
 		this.modelA = modelA;
 		this.modelB = modelB;
-		this.correspondenceMap = matcher.createMatching(modelA, modelB, scope, false);
+
+		// Create matching
+		matcher.startMatching(Arrays.asList(modelA,modelB), scope);
+
+		this.correspondences = matcher.getCorrespondencesService();
 		this.modifiedMap = new HashMap<EObject, Boolean>();
-		
+
 		LogUtil.log(LogEvent.DEBUG, "Initializing Annotator...");
-		
-		AnnotationService annotator = new AnnotationServiceImpl();
+
+		IAnnotation annotator = AnnotationUtil.getAnnotationServiceInstance();
 		initAnnotator(annotator);
-		    
+		//FIXME this shall be more generic, runtime issues!
+		AnnotationImpl annimpl = (AnnotationImpl) annotator;
+
 		LogUtil.log(LogEvent.DEBUG, "Removing Annotations...");
 		// If created in matching phase beforehand, remove Annotations
-		annotator.removeAnnotations(this.modelA);
-		annotator.removeAnnotations(this.modelB);
-		
+		annimpl.removeAnnotations(this.modelA);
+		annimpl.removeAnnotations(this.modelB);
+
 		LogUtil.log(LogEvent.DEBUG, "Annotating models...");
 
 		// Annotate both models
-		annotator.annotate(this.modelA);
-		annotator.annotate(this.modelB);
+		annimpl.annotate(this.modelA);
+		annimpl.annotate(this.modelB);
 
 		LogUtil.log(LogEvent.DEBUG, "Filling modified map...");
 		// Fill up the modified map
 		fillModifiedMap();
-		
+
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------- Initializing completed -----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		
+
 	}
-	
+
 
 	/**
 	 * Convenient method for creating a map between each Object contained in the
@@ -104,11 +115,11 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 				.getAllContentAsIterable(this.modelA)) {
 
 			// If corresponding object existent
-			if (correspondenceMap.getCorrespondingObjectInB(originObject) != null) {
+			if (correspondences.hasCorrespondences(originObject)) {
 				String hashValueOrigin = null;
 				String hashValueTarget = null;
 
-				EObject targetObject = correspondenceMap.getCorrespondingObjectInB(originObject);
+				EObject targetObject = correspondences.getCorrespondences(originObject).iterator().next();
 
 				// Get annotation value of origin model
 				AnnotateableElement aoOrigin = EMFAdapter.INSTANCE.adapt(
@@ -132,7 +143,7 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 						&& !(hashValueOrigin.equals(hashValueTarget))) {
 					modifiedMap.put(targetObject, true);
 					LogUtil.log(LogEvent.DEBUG, "Modified object found: " + targetObject);
-					
+
 				}
 
 				// Mark as not modified otherwise
@@ -145,12 +156,13 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 		}
 
 	}
-	
+
 	/**
 	 * Convenient method for initializing the annotation service
 	 * @param annotationService
+	 * @throws FileNotFoundException 
 	 */
-	public abstract void initAnnotator(AnnotationService annotationService);
+	public abstract void initAnnotator(IAnnotation annotationService) throws FileNotFoundException;
 
 
 }

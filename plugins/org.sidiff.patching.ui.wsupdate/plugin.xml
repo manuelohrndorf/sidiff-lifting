@@ -4,15 +4,15 @@
    <extension point="org.eclipse.ui.commands">
       <command
             categoryId="org.silift.patching.ui.category.silift"
-            id="org.silift.merging.ui.ThreeWayMergeCommand"
-            name="3-Way-Merge">
+            id="org.silift.merging.ui.WSUCommand"
+            name="Workspace Update">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.sidiff.patching.ui.wsupdate.handler.ThreeWayMergeHandler"
-            commandId="org.silift.merging.ui.ThreeWayMergeCommand">
+            class="org.sidiff.patching.ui.wsupdate.handler.WorkspaceUpdateHandler"
+            commandId="org.silift.merging.ui.WSUCommand">
          <activeWhen>
             <reference
                   definitionId="org.silift.merging.ui.definition.threeWayMerge">
@@ -24,13 +24,13 @@
   <menuContribution
         locationURI="popup:org.silift.menu?after=org.sidiff.patching.ui.separator">
      <command
-           commandId="org.silift.merging.ui.ThreeWayMergeCommand"
+           commandId="org.silift.merging.ui.WSUCommand"
            label="Workspace Update"
            style="push"
            tooltip="Update Workspace Version in Response to Repository Changes">
      </command>
      <separator
-           name="org.silift.merging.ui.separator"
+           name="org.silift.wsupdate.ui.separator"
            visible="true">
      </separator>
   </menuContribution>
@@ -38,7 +38,7 @@
  <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
-            id="org.silift.merging.ui.definition.threeWayMerge">
+            id="org.silift.wsupdate.ui.definition.wsu">
          <with
                variable="selection">
             <count

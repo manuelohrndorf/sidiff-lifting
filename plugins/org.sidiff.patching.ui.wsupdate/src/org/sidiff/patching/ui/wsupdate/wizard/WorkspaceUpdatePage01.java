@@ -26,25 +26,25 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.sidiff.patching.ui.wsupdate.util.MergeModels;
-import org.sidiff.patching.ui.wsupdate.widgets.MergeModelsWidget;
+import org.sidiff.patching.ui.wsupdate.util.WSUModels;
+import org.sidiff.patching.ui.wsupdate.widgets.WSUModelsWidget;
 
-public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListener {
+public class WorkspaceUpdatePage01 extends WizardPage implements IPageChangedListener {
 
 	private Composite container;
 
-	private MergeModelsWidget mergeModelsWidget;
+	private WSUModelsWidget mergeModelsWidget;
 	private ValidationModeWidget validationWidget;
 	private ScopeWidget scopeWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private SelectionAdapter validationListener;
-	private MergeModels mergeModels;
+	private WSUModels mergeModels;
 	private PatchingSettings settings;
 
 
-	public ThreeWayMergePage01(
-			MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
+	public WorkspaceUpdatePage01(
+			WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 
 		this.mergeModels = mergeModels;
@@ -114,7 +114,7 @@ public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListe
 	private void createWidgets() {
 
 		// Models:
-		mergeModelsWidget = new MergeModelsWidget(mergeModels);
+		mergeModelsWidget = new WSUModelsWidget(mergeModels);
 		mergeModelsWidget.setSettings(this.settings);
 		addWidget(container, mergeModelsWidget);
 		
@@ -168,11 +168,11 @@ public class ThreeWayMergePage01 extends WizardPage implements IPageChangedListe
 		}
 	}
 	
-	public MergeModelsWidget getMergeModelsWidget(){
+	public WSUModelsWidget getMergeModelsWidget(){
 		return mergeModelsWidget;
 	}
 	
-	public MergeModels getMergeModels(){
+	public WSUModels getMergeModels(){
 		return mergeModelsWidget.getMergeModels();
 	}
 	

@@ -12,11 +12,11 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;
@@ -110,10 +110,6 @@ public class SymmetricAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSemanticChangeSet(SemanticChangeSet object) {
 				return createSemanticChangeSetAdapter();
-			}
-			@Override
-			public Adapter caseCorrespondence(Correspondence object) {
-				return createCorrespondenceAdapter();
 			}
 			@Override
 			public Adapter caseAttributeValueChange(AttributeValueChange object) {
@@ -254,20 +250,6 @@ public class SymmetricAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSemanticChangeSetAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.difference.symmetric.Correspondence <em>Correspondence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.sidiff.difference.symmetric.Correspondence
-	 * @generated
-	 */
-	public Adapter createCorrespondenceAdapter() {
 		return null;
 	}
 

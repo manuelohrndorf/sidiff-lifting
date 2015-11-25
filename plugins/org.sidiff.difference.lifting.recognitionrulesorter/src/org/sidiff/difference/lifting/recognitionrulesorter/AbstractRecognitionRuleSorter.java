@@ -6,6 +6,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * Sorts a Henshin recognition rule to be optimized for matching on a technical
@@ -253,7 +254,7 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 	 *         <code>false</code> otherwise.
 	 */
 	protected boolean isCorrespondence(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getCorrespondence()) {
+		if (node.getType() == MatchingModelPackage.eINSTANCE.getCorrespondence()) {
 			return true;
 		}
 		return false;

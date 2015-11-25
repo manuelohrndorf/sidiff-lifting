@@ -30,49 +30,40 @@ public class XtextEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public EObject getHighlightableElement(EObject element) {
-		System.out.println(">>> getHighlightableElement " + element);
 
 		return null;
 	}
 
 	@Override
-	public boolean supportsModel(URI modelFile) {
-		System.out.println(">> supportsModel " + modelFile + " " + this);
-		
+	public boolean supportsModel(URI modelFile) {		
 		return getEditorID(modelFile) != null;
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
-		System.out.println(">>> supportsModel " + model);
-
 		return false;
 	}
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-		System.out.println(">>> supportsDiagram " + diagramFile);
 
 		return false;
 	}
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		System.out.println(">>> supportsDiagramming " + model);
 
 		return false;
 	}
 
 	@Override
 	public URI copyDiagram(URI modelURI, String savePath) throws FileNotFoundException {
-		System.out.println(">>> copyDiagram " + modelURI + " " + savePath);
 
 		return null;
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
-		System.out.println(">>> openModelInDefaultEditor " + modelURI + " " + this);
 
 		try {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -92,63 +83,54 @@ public class XtextEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public IEditorPart openDiagram(URI diagramFile) {
-		System.out.println(">>> openDiagram " + diagramFile);
 
 		return null;
 	}
 
 	@Override
 	public IEditorPart openDiagramForModel(URI modelFile) {
-		System.out.println(">>> openDiagramForModel " + modelFile);
 
 		return null;
 	}
 
 	@Override
 	public boolean supportsGMFAnimation(URI diagramFile) {
-		System.out.println(">>> supportsGMFAnimation " + diagramFile);
 
 		return false;
 	}
 
 	@Override
 	public String getDefaultEditorID() {
-		System.out.println(">>> getDefaultEditorID " + this);
 
 		return "*";
 	}
 
 	@Override
 	public String getDiagramEditorID() {
-		System.out.println(">>> getDiagramEditorID ");
 
 		return null;
 	}
 
 	@Override
 	public Boolean isDefaultEditorPresent() {
-		System.out.println(">>> isDefaultEditorPresent " + this);
 
 		return true;
 	}
 
 	@Override
 	public boolean isDiagramEditorPresent() {
-		System.out.println(">>> isDiagramEditorPresent ");
 
 		return false;
 	}
 
 	@Override
 	public EditingDomain getEditingDomain(IEditorPart editorPart) {
-		System.out.println(">>> getEditingDomain " + editorPart);
 
 		return null;
 	}
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
-		System.out.println(">>> getResource " + editorPart);
 
 		return null;
 	}

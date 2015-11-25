@@ -9,46 +9,16 @@
     <eOperations name="getCorrespondingObjectInB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
       <eParameters name="objectInA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </eOperations>
-    <eOperations name="getCorrespondence" eType="#//Correspondence">
-      <eParameters name="modelElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getCorrespondenceOfModelA" eType="#//Correspondence">
-      <eParameters name="modelAElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getCorrespondenceOfModelB" eType="#//Correspondence">
-      <eParameters name="modelBElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
     <eOperations name="addCorrespondence">
-      <eParameters name="correspondence" eType="#//Correspondence"/>
+      <eParameters name="correspondence" eType="ecore:EClass ../../org.sidiff.matching.model/model/MatchingModel.ecore#//Correspondence"/>
     </eOperations>
     <eOperations name="removeCorrespondence">
-      <eParameters name="correspondence" eType="#//Correspondence"/>
-    </eOperations>
-    <eOperations name="addCorrespondence">
-      <eParameters name="objectA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="objectB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="addCorrespondence">
-      <eParameters name="objectA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="objectB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    </eOperations>
-    <eOperations name="removeCorrespondenceA">
-      <eParameters name="objectInA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="removeCorrespondenceB">
-      <eParameters name="objectInB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getReliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat">
-      <eParameters name="objectA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      <eParameters name="objectB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="correspondence" eType="ecore:EClass ../../org.sidiff.matching.model/model/MatchingModel.ecore#//Correspondence"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changes" upperBound="-1"
         eType="#//Change" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="changeSets" upperBound="-1"
         eType="#//SemanticChangeSet" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondences" upperBound="-1"
-        eType="#//Correspondence" changeable="false" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
@@ -59,6 +29,9 @@
         eType="#//SemanticChangeSet"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unusedChangeSets" upperBound="-1"
         eType="#//SemanticChangeSet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="matching" lowerBound="1"
+        eType="ecore:EClass ../../org.sidiff.matching.model/model/MatchingModel.ecore#//Matching"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AddObject" eSuperTypes="#//Change">
     <eStructuralFeatures xsi:type="ecore:EReference" name="obj" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
@@ -104,12 +77,6 @@
         eType="#//FragmentJoin" containment="true" eOpposite="#//FragmentJoin/scs"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="splits" upperBound="-1"
         eType="#//FragmentSplit" containment="true" eOpposite="#//FragmentSplit/scs"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Correspondence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
-        defaultValueLiteral="-1.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeValueChange" eSuperTypes="#//Change">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>

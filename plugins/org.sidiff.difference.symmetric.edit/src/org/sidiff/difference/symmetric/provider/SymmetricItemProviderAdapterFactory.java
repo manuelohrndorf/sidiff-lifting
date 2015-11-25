@@ -209,29 +209,6 @@ public class SymmetricItemProviderAdapterFactory extends SymmetricAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetric.Correspondence} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CorrespondenceItemProvider correspondenceItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.sidiff.difference.symmetric.Correspondence}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCorrespondenceAdapter() {
-		if (correspondenceItemProvider == null) {
-			correspondenceItemProvider = new CorrespondenceItemProvider(this);
-		}
-
-		return correspondenceItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.sidiff.difference.symmetric.AttributeValueChange} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

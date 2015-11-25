@@ -17,12 +17,12 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
-import org.sidiff.patching.ui.wsupdate.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private Settings settings;
-	private MergeModels mergeModels;
+	private WSUModels mergeModels;
 	
 	private Composite container;
 	
@@ -38,7 +38,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	private Button modelBaseButton2;
 	private Button modelBaseButton3;
 
-	public MergeModelsWidget(MergeModels mergeModels) {
+	public WSUModelsWidget(WSUModels mergeModels) {
 		this.mergeModels = mergeModels;
 	}
 
@@ -221,7 +221,7 @@ public class MergeModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 		container.setLayoutData(layoutData);
 	}
 
-	public MergeModels getMergeModels(){
+	public WSUModels getMergeModels(){
 		if(validate()){
 			return this.mergeModels;
 		}

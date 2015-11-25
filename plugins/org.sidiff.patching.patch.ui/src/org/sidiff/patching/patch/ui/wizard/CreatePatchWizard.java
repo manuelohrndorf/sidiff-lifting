@@ -20,6 +20,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
@@ -155,7 +156,7 @@ public class CreatePatchWizard extends Wizard {
 		
 		try{
 			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-		} catch(InvalidModelException e){
+		} catch(InvalidModelException | NoCorrespondencesException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			

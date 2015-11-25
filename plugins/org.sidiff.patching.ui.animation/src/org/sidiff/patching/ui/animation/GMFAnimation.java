@@ -1,6 +1,7 @@
 package org.sidiff.patching.ui.animation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,9 +19,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.ui.animation.internal.AnimationAdapter;
 import org.sidiff.patching.ui.animation.internal.GridLayouter;
 
@@ -55,7 +58,7 @@ public class GMFAnimation {
 						if(createMatching){
 							IMatcher usedMatcher = null;
 							// Search registered matcher extension points
-							Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(changingResource, resource);
+							Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(changingResource, resource));
 							if(matcherSet.size() > 0){
 								for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 									IMatcher matcher = iterator.next();
@@ -69,14 +72,17 @@ public class GMFAnimation {
 									usedMatcher = matcherSet.iterator().next();
 								}
 								//Get one random matcher
-								SymmetricDifference matching = usedMatcher.createMatching(changingResource, resource, Scope.RESOURCE, false);
-								EcoreUtil.resolveAll(matching);
-								if(checkMatching(matching)){
-									editorMatchings.add(new EditorMatching(matching, diagramEditor));
+								usedMatcher.startMatching(Arrays.asList(changingResource, resource), Scope.RESOURCE);
+								MatchingModelCorrespondences correspondences = (MatchingModelCorrespondences) usedMatcher.getCorrespondencesService();
+								EcoreUtil.resolveAll(correspondences.getMatching());
+								SymmetricDifference difference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+								difference.setMatching(correspondences.getMatching());
+								if(checkMatching(difference)){
+									editorMatchings.add(new EditorMatching(difference,correspondences, diagramEditor));
 								}
 							}
 						} else {
-							editorMatchings.add(new EditorMatching(null, diagramEditor));
+							editorMatchings.add(new EditorMatching(null, null, diagramEditor));
 						}
 					}
 				}
@@ -108,11 +114,13 @@ public class GMFAnimation {
 	
 	public static class EditorMatching {
 		
-		public SymmetricDifference matching = null;
+		public SymmetricDifference difference = null;
 		public DiagramEditor editor = null;
+		public MatchingModelCorrespondences correspondences = null;
 		
-		public EditorMatching(SymmetricDifference matching, DiagramEditor editor){
-			this.matching = matching;
+		public EditorMatching(SymmetricDifference difference, MatchingModelCorrespondences correspondences, DiagramEditor editor){
+			this.difference = difference;
+			this.correspondences = correspondences;
 			this.editor = editor;
 		}
 		

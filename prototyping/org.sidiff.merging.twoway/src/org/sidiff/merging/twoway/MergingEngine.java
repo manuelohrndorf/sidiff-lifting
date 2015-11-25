@@ -3,6 +3,7 @@ package org.sidiff.merging.twoway;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.merging.twoway.facade.TwoWayMergingFacade;
@@ -65,8 +66,9 @@ public class MergingEngine {
 	/**
 	 * 
 	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException 
 	 */
-	public void init() throws InvalidModelException{
+	public void init() throws InvalidModelException, NoCorrespondencesException{
 		// intersection
 		asymDiff = TwoWayMergingFacade.liftMeUp(modelA, modelB, mergingSettings);
 	}

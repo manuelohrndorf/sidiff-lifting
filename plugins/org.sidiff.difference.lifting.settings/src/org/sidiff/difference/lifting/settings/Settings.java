@@ -3,12 +3,11 @@ package org.sidiff.difference.lifting.settings;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.MatcherUtil;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public abstract class Settings {
@@ -53,20 +52,10 @@ public abstract class Settings {
 	public Settings(String documentType) {
 		// Default: Use all available rulebases:
 		this.ruleBases = RuleBaseUtil.getAvailableRulebases(documentType);
-
+		
 		// Default: Use named element matcher
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
-				IMatcher.extensionPointID)) {
-			try {
-				IMatcher matcherExtension = (IMatcher) configurationElement.createExecutableExtension("name");
-
-				if (matcherExtension.getName().equals("org.sidiff.matcher.namedelement.NamedElementMatcher")) {
-					this.matcher = matcherExtension;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		//TODO
+		this.matcher = MatcherUtil.getMatcher("EcoreIDMatching");		
 	}
 
 	/**

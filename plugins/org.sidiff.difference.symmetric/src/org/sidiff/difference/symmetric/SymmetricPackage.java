@@ -88,22 +88,13 @@ public interface SymmetricPackage extends EPackage {
 	int SYMMETRIC_DIFFERENCE__CHANGE_SETS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Correspondences</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYMMETRIC_DIFFERENCE__CORRESPONDENCES = 2;
-
-	/**
 	 * The feature id for the '<em><b>Model A</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__MODEL_A = 3;
+	int SYMMETRIC_DIFFERENCE__MODEL_A = 2;
 
 	/**
 	 * The feature id for the '<em><b>Model B</b></em>' attribute.
@@ -112,7 +103,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__MODEL_B = 4;
+	int SYMMETRIC_DIFFERENCE__MODEL_B = 3;
 
 	/**
 	 * The feature id for the '<em><b>Uri Model A</b></em>' attribute.
@@ -121,7 +112,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__URI_MODEL_A = 5;
+	int SYMMETRIC_DIFFERENCE__URI_MODEL_A = 4;
 
 	/**
 	 * The feature id for the '<em><b>Uri Model B</b></em>' attribute.
@@ -130,7 +121,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__URI_MODEL_B = 6;
+	int SYMMETRIC_DIFFERENCE__URI_MODEL_B = 5;
 
 	/**
 	 * The feature id for the '<em><b>Not Overlappings</b></em>' reference list.
@@ -139,7 +130,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__NOT_OVERLAPPINGS = 7;
+	int SYMMETRIC_DIFFERENCE__NOT_OVERLAPPINGS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Unused Change Sets</b></em>' containment reference list.
@@ -148,7 +139,16 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS = 8;
+	int SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS = 7;
+
+	/**
+	 * The feature id for the '<em><b>Matching</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYMMETRIC_DIFFERENCE__MATCHING = 8;
 
 	/**
 	 * The number of structural features of the '<em>Difference</em>' class.
@@ -490,52 +490,6 @@ public interface SymmetricPackage extends EPackage {
 	int SEMANTIC_CHANGE_SET_FEATURE_COUNT = 16;
 
 	/**
-	 * The meta object id for the '{@link org.sidiff.difference.symmetric.impl.CorrespondenceImpl <em>Correspondence</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.sidiff.difference.symmetric.impl.CorrespondenceImpl
-	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getCorrespondence()
-	 * @generated
-	 */
-	int CORRESPONDENCE = 7;
-
-	/**
-	 * The feature id for the '<em><b>Obj A</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORRESPONDENCE__OBJ_A = 0;
-
-	/**
-	 * The feature id for the '<em><b>Obj B</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORRESPONDENCE__OBJ_B = 1;
-
-	/**
-	 * The feature id for the '<em><b>Reliability</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORRESPONDENCE__RELIABILITY = 2;
-
-	/**
-	 * The number of structural features of the '<em>Correspondence</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CORRESPONDENCE_FEATURE_COUNT = 3;
-
-	/**
 	 * The meta object id for the '{@link org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl <em>Attribute Value Change</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -543,7 +497,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getAttributeValueChange()
 	 * @generated
 	 */
-	int ATTRIBUTE_VALUE_CHANGE = 8;
+	int ATTRIBUTE_VALUE_CHANGE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Obj A</b></em>' reference.
@@ -590,7 +544,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getEString2EObjectSetMap()
 	 * @generated
 	 */
-	int ESTRING2_EOBJECT_SET_MAP = 9;
+	int ESTRING2_EOBJECT_SET_MAP = 8;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
@@ -627,7 +581,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getEditRuleMatch()
 	 * @generated
 	 */
-	int EDIT_RULE_MATCH = 10;
+	int EDIT_RULE_MATCH = 9;
 
 	/**
 	 * The feature id for the '<em><b>Node Occurrences A</b></em>' map.
@@ -664,7 +618,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getEObjectSet()
 	 * @generated
 	 */
-	int EOBJECT_SET = 11;
+	int EOBJECT_SET = 10;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' reference list.
@@ -693,7 +647,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentJoin()
 	 * @generated
 	 */
-	int FRAGMENT_JOIN = 12;
+	int FRAGMENT_JOIN = 11;
 
 	/**
 	 * The feature id for the '<em><b>Scs</b></em>' container reference.
@@ -739,7 +693,7 @@ public interface SymmetricPackage extends EPackage {
 	 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getFragmentSplit()
 	 * @generated
 	 */
-	int FRAGMENT_SPLIT = 13;
+	int FRAGMENT_SPLIT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Scs</b></em>' container reference.
@@ -811,17 +765,6 @@ public interface SymmetricPackage extends EPackage {
 	EReference getSymmetricDifference_ChangeSets();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.sidiff.difference.symmetric.SymmetricDifference#getCorrespondences <em>Correspondences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Correspondences</em>'.
-	 * @see org.sidiff.difference.symmetric.SymmetricDifference#getCorrespondences()
-	 * @see #getSymmetricDifference()
-	 * @generated
-	 */
-	EReference getSymmetricDifference_Correspondences();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetric.SymmetricDifference#getModelA <em>Model A</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -886,6 +829,17 @@ public interface SymmetricPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSymmetricDifference_UnusedChangeSets();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.symmetric.SymmetricDifference#getMatching <em>Matching</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Matching</em>'.
+	 * @see org.sidiff.difference.symmetric.SymmetricDifference#getMatching()
+	 * @see #getSymmetricDifference()
+	 * @generated
+	 */
+	EReference getSymmetricDifference_Matching();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.symmetric.AddObject <em>Add Object</em>}'.
@@ -1212,49 +1166,6 @@ public interface SymmetricPackage extends EPackage {
 	EAttribute getSemanticChangeSet_RecognitionRName();
 
 	/**
-	 * Returns the meta object for class '{@link org.sidiff.difference.symmetric.Correspondence <em>Correspondence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Correspondence</em>'.
-	 * @see org.sidiff.difference.symmetric.Correspondence
-	 * @generated
-	 */
-	EClass getCorrespondence();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetric.Correspondence#getObjA <em>Obj A</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Obj A</em>'.
-	 * @see org.sidiff.difference.symmetric.Correspondence#getObjA()
-	 * @see #getCorrespondence()
-	 * @generated
-	 */
-	EReference getCorrespondence_ObjA();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.difference.symmetric.Correspondence#getObjB <em>Obj B</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Obj B</em>'.
-	 * @see org.sidiff.difference.symmetric.Correspondence#getObjB()
-	 * @see #getCorrespondence()
-	 * @generated
-	 */
-	EReference getCorrespondence_ObjB();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.difference.symmetric.Correspondence#getReliability <em>Reliability</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Reliability</em>'.
-	 * @see org.sidiff.difference.symmetric.Correspondence#getReliability()
-	 * @see #getCorrespondence()
-	 * @generated
-	 */
-	EAttribute getCorrespondence_Reliability();
-
-	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.symmetric.AttributeValueChange <em>Attribute Value Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1520,14 +1431,6 @@ public interface SymmetricPackage extends EPackage {
 		EReference SYMMETRIC_DIFFERENCE__CHANGE_SETS = eINSTANCE.getSymmetricDifference_ChangeSets();
 
 		/**
-		 * The meta object literal for the '<em><b>Correspondences</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SYMMETRIC_DIFFERENCE__CORRESPONDENCES = eINSTANCE.getSymmetricDifference_Correspondences();
-
-		/**
 		 * The meta object literal for the '<em><b>Model A</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1574,6 +1477,14 @@ public interface SymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS = eINSTANCE.getSymmetricDifference_UnusedChangeSets();
+
+		/**
+		 * The meta object literal for the '<em><b>Matching</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYMMETRIC_DIFFERENCE__MATCHING = eINSTANCE.getSymmetricDifference_Matching();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.symmetric.impl.AddObjectImpl <em>Add Object</em>}' class.
@@ -1826,40 +1737,6 @@ public interface SymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SEMANTIC_CHANGE_SET__RECOGNITION_RNAME = eINSTANCE.getSemanticChangeSet_RecognitionRName();
-
-		/**
-		 * The meta object literal for the '{@link org.sidiff.difference.symmetric.impl.CorrespondenceImpl <em>Correspondence</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.sidiff.difference.symmetric.impl.CorrespondenceImpl
-		 * @see org.sidiff.difference.symmetric.impl.SymmetricPackageImpl#getCorrespondence()
-		 * @generated
-		 */
-		EClass CORRESPONDENCE = eINSTANCE.getCorrespondence();
-
-		/**
-		 * The meta object literal for the '<em><b>Obj A</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CORRESPONDENCE__OBJ_A = eINSTANCE.getCorrespondence_ObjA();
-
-		/**
-		 * The meta object literal for the '<em><b>Obj B</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CORRESPONDENCE__OBJ_B = eINSTANCE.getCorrespondence_ObjB();
-
-		/**
-		 * The meta object literal for the '<em><b>Reliability</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CORRESPONDENCE__RELIABILITY = eINSTANCE.getCorrespondence_Reliability();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl <em>Attribute Value Change</em>}' class.

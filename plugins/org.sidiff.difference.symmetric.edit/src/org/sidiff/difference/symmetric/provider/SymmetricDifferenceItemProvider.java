@@ -34,6 +34,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
+import org.sidiff.matching.model.MatchingModelFactory;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.SymmetricDifference} object.
@@ -75,6 +76,7 @@ public class SymmetricDifferenceItemProvider
 			addUriModelAPropertyDescriptor(object);
 			addUriModelBPropertyDescriptor(object);
 			addNotOverlappingsPropertyDescriptor(object);
+			addMatchingPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -190,6 +192,28 @@ public class SymmetricDifferenceItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Matching feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMatchingPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SymmetricDifference_matching_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SymmetricDifference_matching_feature", "_UI_SymmetricDifference_type"),
+				 SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__MATCHING,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -203,7 +227,6 @@ public class SymmetricDifferenceItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CHANGES);
 			childrenFeatures.add(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CHANGE_SETS);
-			childrenFeatures.add(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CORRESPONDENCES);
 			childrenFeatures.add(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS);
 		}
 		return childrenFeatures;
@@ -273,7 +296,6 @@ public class SymmetricDifferenceItemProvider
 				return;
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CHANGES:
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CHANGE_SETS:
-			case SymmetricPackage.SYMMETRIC_DIFFERENCE__CORRESPONDENCES:
 			case SymmetricPackage.SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -321,11 +343,6 @@ public class SymmetricDifferenceItemProvider
 			(createChildParameter
 				(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CHANGE_SETS,
 				 SymmetricFactory.eINSTANCE.createSemanticChangeSet()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CORRESPONDENCES,
-				 SymmetricFactory.eINSTANCE.createCorrespondence()));
 	}
 
 	/**
@@ -357,7 +374,7 @@ public class SymmetricDifferenceItemProvider
 			children.addAll(DifferenceAnalysisUtil.getRemainingChanges(difference));
 			children.addAll(getNonAggregatedChangeSets(difference));
 			
-			children.add(new CorrespondencesItemProvider(adapterFactory, difference));
+			children.add(difference.getMatching());
 
 // TODO: Should be only visible on demand
 //			if(difference.getUnusedChangeSets().size() != 0){

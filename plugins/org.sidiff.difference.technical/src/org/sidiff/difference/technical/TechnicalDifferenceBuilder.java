@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -27,11 +26,11 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.matching.model.Correspondence;
 
 /**
  * Abstract base class for deriving a low-level difference (which is called
@@ -85,10 +84,10 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	}
 
 	private void processCorrespondences() {
-		for (Iterator<Correspondence> iterator = diff.getCorrespondences().iterator(); iterator.hasNext();) {
+		for (Iterator<Correspondence> iterator = diff.getMatching().getCorrespondences().iterator(); iterator.hasNext();) {
 			Correspondence c = iterator.next();
-			EObject nodeA = c.getObjA();
-			EObject nodeB = c.getObjB();
+			EObject nodeA = c.getMatchedA();
+			EObject nodeB = c.getMatchedB();
 			EClass nodeType = nodeA.eClass();
 			assert (nodeB.eClass() == nodeType) : "Corresponding objects have different types..!?";
 
@@ -152,81 +151,59 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	}
 
 	private void processUnmatchedA() {
-		TreeIterator<?> iterA = null;
-		if (scope == Scope.RESOURCE) {
-			iterA = modelA.getAllContents();
-		}
-		if (scope == Scope.RESOURCE_SET) {
-			iterA = modelA.getResourceSet().getAllContents();
-		}
 
-		while (iterA.hasNext()) {
-			Object next = iterA.next();
-			if (next instanceof EObject) {
-				EObject elementA = (EObject) next;
-				if (diff.getCorrespondingObjectInB(elementA) == null) {
-					if (!doProcess(elementA)) {
-						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
-						continue;
-					}
-					if (unconsideredNodeTypes.contains(elementA.eClass())) {
-						LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementA);
-						continue;
-					}
+		for(EObject elementA : diff.getMatching().getUnmatchedA()){
+			if (!doProcess(elementA)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
+				continue;
+			}
+			if (unconsideredNodeTypes.contains(elementA.eClass())) {
+				LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementA);
+				continue;
+			}
 
-					// Special in A
-					LogUtil.log(LogEvent.DEBUG, "removeNode: " + getObjectName(elementA));
-					removeNode(elementA);
+			// Special in A
+			LogUtil.log(LogEvent.DEBUG, "removeNode: " + getObjectName(elementA));
+			removeNode(elementA);
 
-					// Outgoing edges
-					EClass nodeType = elementA.eClass();
-					for (EReference edgeType : nodeType.getEAllReferences()) {
-						Set<EObject> diffA = new HashSet<EObject>();
-						addReferencedObjects(edgeType, elementA, diffA);
-						deriveDiffA(edgeType, elementA, diffA);
-					}
-				}
+			// Outgoing edges
+			EClass nodeType = elementA.eClass();
+			for (EReference edgeType : nodeType.getEAllReferences()) {
+				Set<EObject> diffA = new HashSet<EObject>();
+				addReferencedObjects(edgeType, elementA, diffA);
+				deriveDiffA(edgeType, elementA, diffA);
 			}
 		}
+
+
 	}
 
 	private void processUnmatchedB() {
-		TreeIterator<?> iterB = null;
-		if (scope == Scope.RESOURCE) {
-			iterB = modelB.getAllContents();
-		}
-		if (scope == Scope.RESOURCE_SET) {
-			iterB = modelB.getResourceSet().getAllContents();
-		}
 
-		while (iterB.hasNext()) {
-			Object next = iterB.next();
-			if (next instanceof EObject) {
-				EObject elementB = (EObject) next;
-				if (diff.getCorrespondingObjectInA(elementB) == null) {
-					if (!doProcess(elementB)) {
-						LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
-						continue;
-					}
-					if (unconsideredNodeTypes.contains(elementB.eClass())) {
-						LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementB);
-						continue;
-					}
+		for(EObject elementB : diff.getMatching().getUnmatchedB()){
+			if (!doProcess(elementB)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
+				continue;
+			}
+			if (unconsideredNodeTypes.contains(elementB.eClass())) {
+				LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementB);
+				continue;
+			}
 
-					// Special in B
-					LogUtil.log(LogEvent.DEBUG, "addNode: " + getObjectName(elementB));
-					addNode(elementB);
+			// Special in B
+			LogUtil.log(LogEvent.DEBUG, "addNode: " + getObjectName(elementB));
+			addNode(elementB);
 
-					// Outgoing edges
-					EClass nodeType = elementB.eClass();
-					for (EReference edgeType : nodeType.getEAllReferences()) {
-						Set<EObject> diffB = new HashSet<EObject>();
-						addReferencedObjects(edgeType, elementB, diffB);
-						deriveDiffB(edgeType, elementB, diffB);
-					}
-				}
+			// Outgoing edges
+			EClass nodeType = elementB.eClass();
+			for (EReference edgeType : nodeType.getEAllReferences()) {
+				Set<EObject> diffB = new HashSet<EObject>();
+				addReferencedObjects(edgeType, elementB, diffB);
+				deriveDiffB(edgeType, elementB, diffB);
 			}
 		}
+
+
 	}
 
 	private void deriveDiffA(EReference edgeType, EObject nodeA, Set<EObject> diffA) {
@@ -239,7 +216,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 
 		for (EObject tgt : diffA) {
 			LogUtil.log(LogEvent.DEBUG, "delEdge: src: " + getObjectName(nodeA) + " target: " + getObjectName(tgt)
-					+ " type: " + edgeType.getName());
+			+ " type: " + edgeType.getName());
 			removeEdge(nodeA, tgt, edgeType);
 		}
 	}
@@ -254,7 +231,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 
 		for (EObject tgt : diffB) {
 			LogUtil.log(LogEvent.DEBUG, "addEdge: src: " + getObjectName(nodeB) + " target: " + getObjectName(tgt)
-					+ " type: " + edgeType.getName());
+			+ " type: " + edgeType.getName());
 			addEdge(nodeB, tgt, edgeType);
 		}
 	}
@@ -451,7 +428,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
 			return true;
 		}
-		
+
 		return EMFModelAccess.getDocumentType(object).equals(getDocumentType());
 	}
 
@@ -461,13 +438,13 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
 			return true;
 		}
-		
+
 		Set<String> docTypesA = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
 		Set<String> docTypesB = EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET);
 
 		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
 	}
-	
+
 	@Override
 	public boolean canHandle(String docType){
 		if(getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE) || docType.equals(getDocumentType()))

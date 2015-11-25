@@ -8,6 +8,7 @@ package org.sidiff.difference.symmetric.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.sidiff.matching.model.model.provider.MatchingModelEditPlugin;
 
 /**
  * This is the central singleton for the Symmetric edit plugin.
@@ -41,6 +42,7 @@ public final class SymmetricEditPlugin extends EMFPlugin {
 	public SymmetricEditPlugin() {
 		super
 		  (new ResourceLocator [] {
+		     MatchingModelEditPlugin.INSTANCE,
 		   });
 	}
 

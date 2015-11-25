@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
@@ -8,7 +9,6 @@ import java.util.TreeMap;
 
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.sidiff.common.ui.widgets.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -30,7 +31,7 @@ import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
 
 public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -210,8 +211,8 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		matchers = new TreeMap<String, IMatcher>();
 
 		// Search registered matcher extension points
-		Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(inputModels.getResourceA(),
-				inputModels.getResourceB());
+		Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(inputModels.getResourceA(),
+				inputModels.getResourceB()));
 
 		for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 			IMatcher matcher = iterator.next();

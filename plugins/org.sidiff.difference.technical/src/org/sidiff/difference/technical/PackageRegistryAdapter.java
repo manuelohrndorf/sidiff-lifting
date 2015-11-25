@@ -24,12 +24,12 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.MatchingModelFactory;
 
 public class PackageRegistryAdapter {
 	/**
@@ -228,8 +228,9 @@ public class PackageRegistryAdapter {
 			EObject mergeObjCopy = copier.get(mergeObjOriginal);
 
 			// Create new Correspondence
-			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(mergeObjOriginal,
-					mergeObjCopy);
+			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+			correspondence.setMatchedA(mergeObjOriginal);
+			correspondence.setMatchedB(mergeObjCopy);
 
 			// Save new Correspondence
 			original2Correspondence.put(mergeObjOriginal, correspondence);
@@ -321,20 +322,25 @@ public class PackageRegistryAdapter {
 			EObject copy = getCorrespondingCopy(orig);
 			Correspondence correspondence = original2Correspondence.get(orig);
 
-			assert (correspondence.getObjA() == orig && correspondence.getObjB() == copy);
+			assert (correspondence.getMatchedA() == orig && correspondence.getMatchedB() == copy);
 
-			if (!difference.getCorrespondences().contains(correspondence)) {
+			if (!difference.getMatching().getCorrespondences().contains(correspondence)) {
 				difference.addCorrespondence(correspondence);
 				registryCorrespondences.add(correspondence);
-				importsA.add(correspondence.getObjA());
-				importsB.add(correspondence.getObjB());
+				importsA.add(correspondence.getMatchedA());
+				importsB.add(correspondence.getMatchedB());
 			}
 		} else {
 			// orig <-> orig
 			if (!importsA.contains(orig) || !importsB.contains(orig)) {
-				Correspondence c = SymmetricFactory.eINSTANCE.createCorrespondence(orig, orig);
-				difference.addCorrespondence(c);
-				registryCorrespondences.add(c);
+				
+				// Create new Correspondence
+				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+				correspondence.setMatchedA(orig);
+				correspondence.setMatchedB(orig);
+				
+				difference.addCorrespondence(correspondence);
+				registryCorrespondences.add(correspondence);
 				importsA.add(orig);
 				importsB.add(orig);
 			}
@@ -395,12 +401,12 @@ public class PackageRegistryAdapter {
 				}
 
 				if (c_src != null) {
-					addReference.setSrc(c_src.getObjA());
-					LogUtil.log(LogEvent.DEBUG, "  src: " + c_src.getObjB() + " -> " + c_src.getObjA());
+					addReference.setSrc(c_src.getMatchedA());
+					LogUtil.log(LogEvent.DEBUG, "  src: " + c_src.getMatchedB() + " -> " + c_src.getMatchedA());
 				}
 				if (c_tgt != null) {
-					addReference.setTgt(c_tgt.getObjA());
-					LogUtil.log(LogEvent.DEBUG, "  tgt: " + c_tgt.getObjB() + " -> " + c_tgt.getObjA());
+					addReference.setTgt(c_tgt.getMatchedA());
+					LogUtil.log(LogEvent.DEBUG, "  tgt: " + c_tgt.getMatchedB() + " -> " + c_tgt.getMatchedA());
 				}
 			}
 		}
@@ -419,7 +425,7 @@ public class PackageRegistryAdapter {
 					for (EObject occurrence : occurrences.getElements()) {
 						Correspondence c = copy2Correspondence.get(occurrence);
 						if (c != null) {
-							replacements.put(occurrence, c.getObjA());
+							replacements.put(occurrence, c.getMatchedA());
 						}
 					}
 
@@ -442,8 +448,8 @@ public class PackageRegistryAdapter {
 							Correspondence c = copy2Correspondence.get(objParamBinding.getActualB());
 							if (c != null) {
 								LogUtil.log(LogEvent.DEBUG, objParamBinding.getFormalName());
-								objParamBinding.setActualB(c.getObjA());
-								LogUtil.log(LogEvent.DEBUG, "  " + c.getObjB() + " -> " + c.getObjA());
+								objParamBinding.setActualB(c.getMatchedA());
+								LogUtil.log(LogEvent.DEBUG, "  " + c.getMatchedB() + " -> " + c.getMatchedA());
 							}
 						}
 					}
@@ -462,7 +468,7 @@ public class PackageRegistryAdapter {
 
 		LogUtil.log(LogEvent.DEBUG, "\nRemove Registry Correspondences (original <-> copy):");
 		for (Correspondence c : registryCorrespondences) {
-			LogUtil.log(LogEvent.DEBUG, "  " + c.getObjA() + " <-> " + c.getObjB());
+			LogUtil.log(LogEvent.DEBUG, "  " + c.getMatchedA() + " <-> " + c.getMatchedB());
 			difference.removeCorrespondence(c);
 		}
 	}
@@ -475,7 +481,7 @@ public class PackageRegistryAdapter {
 	 */
 	private EObject getCorrespondingCopy(EObject original) {
 		assert (relink);
-		assert (original2Correspondence.get(original).getObjB() == copier.get(original));
+		assert (original2Correspondence.get(original).getMatchedB() == copier.get(original));
 
 		return copier.get(original);
 	}
@@ -489,6 +495,6 @@ public class PackageRegistryAdapter {
 	private EObject getCorrespondingOriginal(EObject copy) {
 		assert (relink);
 
-		return copy2Correspondence.get(copy).getObjA();
+		return copy2Correspondence.get(copy).getMatchedA();
 	}
 }

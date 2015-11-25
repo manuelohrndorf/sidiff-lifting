@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.facade;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -12,16 +13,20 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.model.Matching;
 
 /**
  * Convenient access to lifting functions.
@@ -45,6 +50,8 @@ public class LiftingFacade extends PipelineUtils {
 	 */
 	public static SymmetricDifference liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings) {
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
+		
+
 		// Merge Imports
 		MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
 		importMerger.merge();
@@ -95,15 +102,25 @@ public class LiftingFacade extends PipelineUtils {
 		}
 
 		// Create matching
-		IMatcher matcher = settings.getMatcher();
-		SymmetricDifference symmetricDiff = matcher.createMatching(modelA, modelB, settings.getScope(), false);
+		IMatcher matcher = settings.getMatcher();		
+		matcher.startMatching(Arrays.asList(modelA, modelB), settings.getScope());	
 
-		if (!(symmetricDiff.getCorrespondences().size() != 0)) {
+		// Get Matching
+		// In SiLift we assume support of @see{MatchingModelCorrespondences}
+		ICorrespondences correspondences = matcher.getCorrespondencesService();
+		Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
+	
+		if (!(matching.getCorrespondences().size() != 0)) {
 			throw new NoCorrespondencesException();
 		}
+		
+		//Contain Matching in Difference
+		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDiff.setMatching(matching);
+
 
 		// Merge Imports
-		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), true);
+		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), false);
 		importMerger.merge();
 
 		// Derive technical difference
@@ -159,7 +176,7 @@ public class LiftingFacade extends PipelineUtils {
 		int totalAtomicCount = symmetricDiff.getChanges().size();
 		int uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
 		int coveredCount = totalAtomicCount - uncoveredCount;
-		int correspondeceCount = symmetricDiff.getCorrespondences().size();
+		int correspondenceCount = symmetricDiff.getMatching().getCorrespondences().size();
 
 		DecimalFormat f = new DecimalFormat("#0.0");
 
@@ -169,7 +186,7 @@ public class LiftingFacade extends PipelineUtils {
 		LogUtil.log(LogEvent.NOTICE, "Finally covered atomic changes: " + coveredCount);
 		LogUtil.log(LogEvent.NOTICE,
 				"Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
-		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondeceCount);
+		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
 	}
 
 	/**
@@ -213,30 +230,42 @@ public class LiftingFacade extends PipelineUtils {
 	 * 
 	 * @return the (technical) symmetric difference derived from comparing
 	 *         modelA and modelB with matcher.
+	 * @throws NoCorrespondencesException 
 	 */
 	public static SymmetricDifference deriveTechnicalDifferences(Resource modelA, Resource modelB, Scope scope,
-			IMatcher matcher, ITechnicalDifferenceBuilder tdBuilder) {
+			IMatcher matcher, ITechnicalDifferenceBuilder tdBuilder) throws NoCorrespondencesException {
 
 		// Be sure proxy resolution is done
 		EcoreUtil.resolveAll(modelA.getResourceSet());
 		EcoreUtil.resolveAll(modelB.getResourceSet());
 
-		// do matching
-		SymmetricDifference difference = matcher.createMatching(modelA, modelB, scope, false);
-		difference.setUriModelA(modelA.getURI().toString());
-		difference.setUriModelB(modelB.getURI().toString());
+		// Create matching
+		matcher.startMatching(Arrays.asList(modelA, modelB), scope);	
+
+		// Get Matching
+		// In SiLift we assume support of @see{MatchingModelCorrespondences}
+		MatchingModelCorrespondences mmc = (MatchingModelCorrespondences) matcher.getCorrespondencesService();
+		Matching matching = mmc.getMatching();	
+
+		if (!(matching.getCorrespondences().size() != 0)) {
+			throw new NoCorrespondencesException();
+		}
+
+		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDiff.setMatching(matching);
+		
 
 		// Merge Imports
-		MergeImports importMerger = new MergeImports(difference, scope, false);
+		MergeImports importMerger = new MergeImports(symmetricDiff, scope, false);
 		importMerger.merge();
 
 		// Derive technical difference
-		tdBuilder.deriveTechDiff(difference, scope);
+		tdBuilder.deriveTechDiff(symmetricDiff, scope);
 
 		// Unmerge Imports
 		importMerger.unmerge();
 
-		return difference;
+		return symmetricDiff;
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.sidiff.merging.twoway.facade;
 import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.deriveAsymmetricDifference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.dependencies.real.DependencyAnalyzer;
@@ -26,9 +30,11 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.model.Matching;
 
 /**
  * 
@@ -44,8 +50,9 @@ public class TwoWayMergingFacade {
 	 * @param settings
 	 * @return
 	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException 
 	 */
-	public static Difference liftMeUp(Resource modelA, Resource modelB, TwoWayMergingSettings settings) throws InvalidModelException{
+	public static Difference liftMeUp(Resource modelA, Resource modelB, TwoWayMergingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
 		// Be sure proxy resolution is done
 		EcoreUtil.resolveAll(modelA.getResourceSet());
@@ -58,13 +65,24 @@ public class TwoWayMergingFacade {
 
 		// Create matching
 		IMatcher matcher = settings.getMatcher();
-		SymmetricDifference symmetricDiff = matcher.createMatching(modelA, modelB, settings.getScope(), false);
+		matcher.startMatching(Arrays.asList(modelA, modelB), settings.getScope());
+		
+		// Get Matching
+		// In SiLift we assume support of @see{MatchingModelCorrespondences}
+		ICorrespondences correspondences = matcher.getCorrespondencesService();
+		Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
+
+		if (!(matching.getCorrespondences().size() != 0)) {
+			throw new NoCorrespondencesException();
+		}
+
+		//Contain Matching in Difference
+		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDiff.setMatching(matching);
 
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDiff = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDiff.setSymmetricDifference(symmetricDiff);
-		asymmetricDiff.setUriOriginModel(symmetricDiff.getUriModelA());
-		asymmetricDiff.setUriChangedModel(symmetricDiff.getUriModelB());
 
 		// Merge Imports
 		MergeImports importMerger = new MergeImports(symmetricDiff, asymmetricDiff, settings.getScope(), true);
@@ -84,7 +102,7 @@ public class TwoWayMergingFacade {
 		symmetricDiff.getChanges().removeAll(changes);
 		
 		// Lift difference
-		assert (symmetricDiff.getCorrespondences().size() > 0) : "Empty difference!";
+		assert (matching.getCorrespondences().size() > 0) : "Empty Correspondence!";
 
 		// Filter out all rules with derived references
 

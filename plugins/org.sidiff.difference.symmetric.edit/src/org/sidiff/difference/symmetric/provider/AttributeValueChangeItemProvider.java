@@ -28,7 +28,7 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  * @generated
  */
 public class AttributeValueChangeItemProvider
-	extends ChangeItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+	extends ChangeItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

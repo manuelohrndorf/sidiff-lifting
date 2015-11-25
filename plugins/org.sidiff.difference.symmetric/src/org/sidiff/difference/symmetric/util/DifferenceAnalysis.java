@@ -60,7 +60,7 @@ public class DifferenceAnalysis {
 
 		// Count Changes and correspondences
 		countChanges();
-		correspondenceCount = difference.getCorrespondences().size();
+		correspondenceCount = difference.getMatching().getCorrespondences().size();
 	}
 
 	/**

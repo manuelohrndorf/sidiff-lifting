@@ -7,7 +7,6 @@ package org.sidiff.difference.symmetric.validation;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 
 /**
@@ -21,7 +20,6 @@ public interface SymmetricDifferenceValidator {
 
 	boolean validateChanges(EList<Change> value);
 	boolean validateChangeSets(EList<SemanticChangeSet> value);
-	boolean validateCorrespondences(EList<Correspondence> value);
 	boolean validateModelA(Resource value);
 	boolean validateModelB(Resource value);
 	boolean validateUriModelA(String value);

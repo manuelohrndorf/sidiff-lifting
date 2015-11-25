@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.merging.twoway.MergingEngine;
@@ -59,7 +60,7 @@ public class TwoWayMergeWizard extends Wizard {
 					}else{
 						EMFStorage.eSave(mergedResource.getContents().get(0));
 					}
-				} catch (InvalidModelException e) {
+				} catch (InvalidModelException | NoCorrespondencesException e) {
 					e.printStackTrace();
 					return Status.CANCEL_STATUS;				
 				}

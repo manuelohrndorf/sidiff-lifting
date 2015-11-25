@@ -11,6 +11,7 @@ import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecogniti
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * Transforms an edit-rule module into an recognition-rule module.
@@ -103,7 +104,8 @@ public class EditModule2RecognitionModule implements EditPattern2RecognitionPatt
 
 		// Organize recognition rule imports
 		recognitionModule.getImports().add(SymmetricPackage.eINSTANCE);
-		
+		recognitionModule.getImports().add(MatchingModelPackage.eINSTANCE);
+	
 		// Copy description
 		if (editModule.getDescription() != null) {
 			recognitionModule.setDescription(TransformationConstants.RECOGNITION_MODULE_DESCRIPTION_PREFIX + editModule.getDescription());

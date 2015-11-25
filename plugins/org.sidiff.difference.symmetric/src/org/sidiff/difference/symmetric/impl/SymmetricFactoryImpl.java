@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;
@@ -78,7 +78,6 @@ public class SymmetricFactoryImpl extends EFactoryImpl implements SymmetricFacto
 			case SymmetricPackage.ADD_REFERENCE: return createAddReference();
 			case SymmetricPackage.REMOVE_REFERENCE: return createRemoveReference();
 			case SymmetricPackage.SEMANTIC_CHANGE_SET: return createSemanticChangeSet();
-			case SymmetricPackage.CORRESPONDENCE: return createCorrespondence();
 			case SymmetricPackage.ATTRIBUTE_VALUE_CHANGE: return createAttributeValueChange();
 			case SymmetricPackage.ESTRING2_EOBJECT_SET_MAP: return (EObject)createEString2EObjectSetMap();
 			case SymmetricPackage.EDIT_RULE_MATCH: return createEditRuleMatch();
@@ -150,30 +149,7 @@ public class SymmetricFactoryImpl extends EFactoryImpl implements SymmetricFacto
 		return semanticChangeSet;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Correspondence createCorrespondence() {
-		CorrespondenceImpl correspondence = new CorrespondenceImpl();
-		return correspondence;
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Correspondence createCorrespondence(EObject objA, EObject objB) {
-		assert(objA.eClass() == objB.eClass()) : "Cannot create a correspondence between objects of different types!";
-		
-		CorrespondenceImpl correspondence = new CorrespondenceImpl();
-		correspondence.setObjA(objA);
-		correspondence.setObjB(objB);
-		
-		return correspondence;
-	}
 	
 	/**
 	 * <!-- begin-user-doc -->

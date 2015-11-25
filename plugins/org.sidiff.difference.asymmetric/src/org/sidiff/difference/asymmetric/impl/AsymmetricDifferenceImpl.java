@@ -343,6 +343,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		symmetricDifference = newSymmetricDifference;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE, oldSymmetricDifference, symmetricDifference));
+		
+		this.setUriOriginModel(newSymmetricDifference.getUriModelA());
+		this.setUriChangedModel(newSymmetricDifference.getUriModelB());
 	}
 
 	/**

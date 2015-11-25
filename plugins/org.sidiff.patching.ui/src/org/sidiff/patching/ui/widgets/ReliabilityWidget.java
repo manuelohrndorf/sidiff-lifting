@@ -17,6 +17,7 @@ import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.ReliabilityCapableMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -62,7 +63,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 		} else {
 			IMatcher matcher = settings.getMatcher();
 
-			if ((matcher != null) && matcher.canComputeReliability()) {
+			if ((matcher != null) && matcher instanceof ReliabilityCapableMatcher) {
 				scale.setEnabled(true);
 				spinner.setEnabled(true);
 				container.setEnabled(true);

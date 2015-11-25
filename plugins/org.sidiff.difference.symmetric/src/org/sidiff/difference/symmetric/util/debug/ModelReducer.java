@@ -10,10 +10,10 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.model.Correspondence;
 
 /**
  * Reduces a given symmetric difference to its relevant parts. All identical
@@ -33,15 +33,15 @@ public class ModelReducer {
 	}
 
 	public void reduce() {
-		List<Correspondence> allCorrespondences = new LinkedList<Correspondence>(diff.getCorrespondences());
+		List<Correspondence> allCorrespondences = new LinkedList<Correspondence>(diff.getMatching().getCorrespondences());
 
 		for (Correspondence c : allCorrespondences) {
-			if (!isInvolvedInChange(c.getObjA()) && !hasChildrenInvolvedInChange(c.getObjA()) && !isInvolvedInChange(c.getObjB())
-					&& !hasChildrenInvolvedInChange(c.getObjB())) {
-				System.out.println(">>> Delete: " + c.getObjA() + " <-> " + c.getObjB());
+			if (!isInvolvedInChange(c.getMatchedA()) && !hasChildrenInvolvedInChange(c.getMatchedA()) && !isInvolvedInChange(c.getMatchedB())
+					&& !hasChildrenInvolvedInChange(c.getMatchedB())) {
+				System.out.println(">>> Delete: " + c.getMatchedA() + " <-> " + c.getMatchedB());
 				EcoreUtil.delete(c);
-				EcoreUtil.delete(c.getObjA());
-				EcoreUtil.delete(c.getObjB());
+				EcoreUtil.delete(c.getMatchedA());
+				EcoreUtil.delete(c.getMatchedB());
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package org.sidiff.matching.modifieddetector;
 
+import java.io.FileNotFoundException;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
@@ -38,8 +40,9 @@ public interface IModifiedDetector {
 	 * @param modelB the modelB to use
 	 * @param matcher the matcher to use
 	 * @param scope the scope to use
+	 * @throws FileNotFoundException 
 	 */
-	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope);
+	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws FileNotFoundException;
 
 	/**
 	 * 

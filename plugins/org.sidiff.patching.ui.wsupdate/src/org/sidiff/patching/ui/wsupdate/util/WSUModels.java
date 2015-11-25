@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 
-public class MergeModels {
+public class WSUModels {
 	private IFile fileMine;
 	private IFile fileTheirs;
 	private IFile fileBase;
@@ -19,13 +19,13 @@ public class MergeModels {
 
 	private String documentType;
 
-	public MergeModels(IFile fileMine, IFile fileTheirs, IFile fileBase) {
+	public WSUModels(IFile fileMine, IFile fileTheirs, IFile fileBase) {
 		this.fileMine = fileMine;
 		this.fileTheirs = fileTheirs;
 		this.fileBase = fileBase;		
 	}
 
-	public MergeModels(Resource resourceMine, Resource resourceTheirs, Resource resourceBase) {
+	public WSUModels(Resource resourceMine, Resource resourceTheirs, Resource resourceBase) {
 		this.resourceMine = resourceMine;
 		this.resourceTheirs = resourceTheirs;
 		this.resourceBase = resourceBase;

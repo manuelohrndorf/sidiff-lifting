@@ -14,9 +14,9 @@ import org.sidiff.common.emf.access.ExternalReference;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.MatchingModelFactory;
 
 /**
  * Establishes missing correspondences between EObjects located at
@@ -37,7 +37,7 @@ public class ResourceSetAdapter {
 	/**
 	 * The matching to be adapted.
 	 */
-	private SymmetricDifference matching;
+	private SymmetricDifference difference;
 
 	/**
 	 * External references in A to RESOURCE_SET model objects.
@@ -82,7 +82,7 @@ public class ResourceSetAdapter {
 			List<ExternalReference> resourceSetReferencesB) {
 		super();
 
-		this.matching = matching;
+		this.difference = matching;
 		this.resourceSetReferencesA = resourceSetReferencesA;
 		this.resourceSetReferencesB = resourceSetReferencesB;
 	}
@@ -119,8 +119,8 @@ public class ResourceSetAdapter {
 
 		// Collect imports
 		for (Correspondence c : resourceSetCorrespondences) {
-			importsA.add(c.getObjA());
-			importsB.add(c.getObjB());
+			importsA.add(c.getMatchedA());
+			importsB.add(c.getMatchedB());
 		}
 	}
 
@@ -132,9 +132,9 @@ public class ResourceSetAdapter {
 	public void cleanup() {
 		LogUtil.log(LogEvent.DEBUG, "\nRemove ResourceSet Correspondences (A <-> B):");
 		for (Correspondence c : resourceSetCorrespondences) {
-			if (matching.getCorrespondences().contains(c)) {
-				matching.removeCorrespondence(c);
-				LogUtil.log(LogEvent.DEBUG, "  " + c.getObjA() + " <-> " + c.getObjB());
+			if (difference.getMatching().getCorrespondences().contains(c)) {
+				difference.removeCorrespondence(c);
+				LogUtil.log(LogEvent.DEBUG, "  " + c.getMatchedA() + " <-> " + c.getMatchedB());
 			}
 		}
 	}
@@ -169,7 +169,7 @@ public class ResourceSetAdapter {
 		assert (objA != null);
 		assert (objA.eResource() != null);
 
-		if (matching.getCorrespondingObjectInB(objA) == null) {
+		if (difference.getCorrespondingObjectInB(objA) == null) {
 			EObject objB = null;
 
 			// (1) First (and better) option: (a) get corresponding resource and
@@ -179,8 +179,8 @@ public class ResourceSetAdapter {
 			// step (a):
 			List<Resource> potentialResourcesB = new ArrayList<Resource>();
 			Resource resourceB = null;
-			for (Resource r : matching.getModelB().getResourceSet().getResources()) {
-				if (r == matching.getModelB()) {
+			for (Resource r : difference.getModelB().getResourceSet().getResources()) {
+				if (r == difference.getModelB()) {
 					continue;
 				}
 				if (r.getURI().equals(objA.eResource().getURI())) {
@@ -211,8 +211,8 @@ public class ResourceSetAdapter {
 				// within any resource of the ResourceSet of model B (by URI
 				// fragement).
 				List<EObject> objsB = new LinkedList<EObject>();
-				for (Resource r : matching.getModelB().getResourceSet().getResources()) {
-					if (r == matching.getModelB()) {
+				for (Resource r : difference.getModelB().getResourceSet().getResources()) {
+					if (r == difference.getModelB()) {
 						continue;
 					}
 					EObject o = r.getEObject(objA.eResource().getURIFragment(objA));
@@ -230,11 +230,13 @@ public class ResourceSetAdapter {
 			}
 
 			// Create new Correspondence
-			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(objA, objB);
-			matching.addCorrespondence(correspondence);
+			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+			correspondence.setMatchedA(objA);
+			correspondence.setMatchedB(objB);		
+			difference.addCorrespondence(correspondence);
 			resourceSetCorrespondences.add(correspondence);
 
-			assert (matching.getCorrespondingObjectInB(objA) != null);
+			assert (difference.getCorrespondingObjectInB(objA) != null);
 		}
 	}
 
@@ -248,7 +250,7 @@ public class ResourceSetAdapter {
 		assert (objB != null);
 		assert (objB.eResource() != null);
 
-		if (matching.getCorrespondingObjectInA(objB) == null) {
+		if (difference.getCorrespondingObjectInA(objB) == null) {
 			// (a) get corresponding resource and (b) locate corresponding
 			// object of objB within the corresponding resource (by URI
 			// fragement).
@@ -256,8 +258,8 @@ public class ResourceSetAdapter {
 			// step (a):
 			List<Resource> potentialResourcesA = new ArrayList<Resource>();
 			Resource resourceA = null;
-			for (Resource r : matching.getModelA().getResourceSet().getResources()) {
-				if (r == matching.getModelA()) {
+			for (Resource r : difference.getModelA().getResourceSet().getResources()) {
+				if (r == difference.getModelA()) {
 					continue;
 				}
 				if (r.getURI().equals(objB.eResource().getURI())) {
@@ -287,11 +289,14 @@ public class ResourceSetAdapter {
 			assert (objA != null);
 
 			// Create new Correspondence
-			Correspondence correspondence = SymmetricFactory.eINSTANCE.createCorrespondence(objA, objB);
-			matching.addCorrespondence(correspondence);
+			// Create new Correspondence
+			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+			correspondence.setMatchedA(objA);
+			correspondence.setMatchedB(objB);		
+			difference.addCorrespondence(correspondence);
 			resourceSetCorrespondences.add(correspondence);
 
-			assert (matching.getCorrespondingObjectInA(objB) != null);
+			assert (difference.getCorrespondingObjectInA(objB) != null);
 		}
 	}
 

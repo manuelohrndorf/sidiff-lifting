@@ -28,6 +28,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
@@ -62,15 +63,15 @@ import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.ui.wsupdate.Activator;
-import org.sidiff.patching.ui.wsupdate.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
 //TODO Migration: Test class
-public class ThreeWayMergeWizard extends Wizard {
+public class WorkspaceUpdateWizard extends Wizard {
 
-	private ThreeWayMergePage01 threeWayMergePage01;
-	private ThreeWayMergePage02 threeWayMergePage02;
+	private WorkspaceUpdatePage01 threeWayMergePage01;
+	private WorkspaceUpdatePage02 threeWayMergePage02;
 
-	private MergeModels mergeModels;
+	private WSUModels mergeModels;
 	private boolean validationState;
 	private PatchingSettings patchingSettings;
 	private LiftingSettings liftingSettings;
@@ -78,22 +79,22 @@ public class ThreeWayMergeWizard extends Wizard {
 	// Symmetric and asymmetric difference:
 	Difference fullDiff = null;
 
-	public ThreeWayMergeWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
+	public WorkspaceUpdateWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
 		this.setWindowTitle("Workspace Update Wizard");
 
-		this.mergeModels = new MergeModels(fileMine, fileTheirs, fileBase);
+		this.mergeModels = new WSUModels(fileMine, fileTheirs, fileBase);
 		this.patchingSettings = new PatchingSettings();
 		this.liftingSettings = new LiftingSettings();
 	}
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new ThreeWayMergePage01(mergeModels,
+		threeWayMergePage01 = new WorkspaceUpdatePage01(mergeModels,
 				"ThreeWayMergePage", "Workspace update",
 				getImageDescriptor("icon.png"), patchingSettings);
 		addPage(threeWayMergePage01);
 
-		threeWayMergePage02 = new ThreeWayMergePage02(mergeModels,
+		threeWayMergePage02 = new WorkspaceUpdatePage02(mergeModels,
 				"ThreeWayMergePage", "Workspace update",
 				getImageDescriptor("icon.png"), liftingSettings,
 				patchingSettings);
@@ -111,7 +112,7 @@ public class ThreeWayMergeWizard extends Wizard {
 		patchingSettings.setPatchMode(PatchMode.MERGING);
 
 		// Gather all information
-		final MergeModels configuredMergeModels = this.threeWayMergePage01
+		final WSUModels configuredMergeModels = this.threeWayMergePage01
 				.getMergeModelsWidget().getMergeModels();
 		final Scope scope = patchingSettings.getScope();
 		final ValidationMode validationMode = patchingSettings
@@ -416,6 +417,8 @@ public class ThreeWayMergeWizard extends Wizard {
 						.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
+		} catch (NoCorrespondencesException e) {
+			e.printStackTrace();
 		}
 
 		if (fullDiff != null) {

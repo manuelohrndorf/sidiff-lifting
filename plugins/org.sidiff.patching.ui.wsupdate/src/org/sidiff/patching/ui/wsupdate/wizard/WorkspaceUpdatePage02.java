@@ -26,9 +26,9 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
-import org.sidiff.patching.ui.wsupdate.util.MergeModels;
+import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListener {
+public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedListener {
 
 	private String DEFAULT_MESSAGE = "Workspace update";
 
@@ -41,12 +41,12 @@ public class ThreeWayMergePage02 extends WizardPage implements IPageChangedListe
 	private SelectionAdapter validationListener;
 	private SelectionAdapter informationListener;
 
-	private MergeModels mergeModels;
+	private WSUModels mergeModels;
 
 	private PatchingSettings patchingSettings;
 	private LiftingSettings liftingSettings;
 
-	public ThreeWayMergePage02(MergeModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
+	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
 			LiftingSettings liftingSettings, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 

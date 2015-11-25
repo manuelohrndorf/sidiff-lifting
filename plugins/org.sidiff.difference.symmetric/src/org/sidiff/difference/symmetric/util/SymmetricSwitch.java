@@ -11,11 +11,11 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;
@@ -126,12 +126,6 @@ public class SymmetricSwitch<T> extends Switch<T> {
 			case SymmetricPackage.SEMANTIC_CHANGE_SET: {
 				SemanticChangeSet semanticChangeSet = (SemanticChangeSet)theEObject;
 				T result = caseSemanticChangeSet(semanticChangeSet);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SymmetricPackage.CORRESPONDENCE: {
-				Correspondence correspondence = (Correspondence)theEObject;
-				T result = caseCorrespondence(correspondence);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -278,21 +272,6 @@ public class SymmetricSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSemanticChangeSet(SemanticChangeSet object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Correspondence</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Correspondence</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCorrespondence(Correspondence object) {
 		return null;
 	}
 

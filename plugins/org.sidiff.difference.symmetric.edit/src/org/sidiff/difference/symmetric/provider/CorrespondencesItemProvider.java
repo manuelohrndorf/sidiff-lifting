@@ -5,10 +5,13 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
-import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.MatchingModelFactory;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 public class CorrespondencesItemProvider extends TransientSymmetricDifferenceItemProvider{
 
@@ -35,7 +38,7 @@ public class CorrespondencesItemProvider extends TransientSymmetricDifferenceIte
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object){
 		if (childrenFeatures == null){
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CORRESPONDENCES);
+			childrenFeatures.add(MatchingModelPackage.Literals.MATCHING__CORRESPONDENCES);
 		}
 		return childrenFeatures;
 	}
@@ -47,7 +50,19 @@ public class CorrespondencesItemProvider extends TransientSymmetricDifferenceIte
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("correspondence.gif"));
+		Correspondence c = difference.getMatching().getCorrespondences().get(0);
+
+		EcoreItemProviderAdapterFactory factory = new
+				EcoreItemProviderAdapterFactory();
+		if(factory.isFactoryForType(IItemLabelProvider.class)){
+			IItemLabelProvider labelProvider = (IItemLabelProvider)
+					factory.adapt(c, IItemLabelProvider.class);
+			if(labelProvider != null){
+				return labelProvider.getImage(object);
+			}
+		}
+
+		return null;		
 	}
 	
 	
@@ -57,7 +72,7 @@ public class CorrespondencesItemProvider extends TransientSymmetricDifferenceIte
 	 */
 	@Override
 	public String getText(Object object){
-		return "Correspondences (" + difference.getCorrespondences().size() + ")";
+		return "Correspondences (" + difference.getMatching().getCorrespondences().size() + ")";
 	}
 	
 	
@@ -69,8 +84,8 @@ public class CorrespondencesItemProvider extends TransientSymmetricDifferenceIte
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object){
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-		newChildDescriptors.add (createChildParameter(SymmetricPackage.Literals.SYMMETRIC_DIFFERENCE__CORRESPONDENCES,
-			SymmetricFactory.eINSTANCE.createCorrespondence()));
+		newChildDescriptors.add (createChildParameter(MatchingModelPackage.Literals.MATCHING__CORRESPONDENCES,
+			MatchingModelFactory.eINSTANCE.createCorrespondence()));
 	}
 	
 	

@@ -21,11 +21,11 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ModelImports;
+import org.sidiff.matching.model.Correspondence;
 
 /**
  * Factory that creates a Henshin graph which contains all objects that are
@@ -178,7 +178,7 @@ public class LiftingGraphFactory {
 					continue;
 				}
 			}
-			for (Correspondence correspondence : difference.getCorrespondences()) {
+			for (Correspondence correspondence : difference.getMatching().getCorrespondences()) {
 				// TODO: we can also filter correspondences
 				graph.add(correspondence);
 			}

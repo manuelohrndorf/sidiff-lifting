@@ -18,10 +18,10 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.model.Correspondence;
 
 public class SiLiftToEMFCompareConverter {
 
@@ -54,7 +54,7 @@ public class SiLiftToEMFCompareConverter {
 
 	private void createMatchModel(SymmetricDifference siliftDiff) {
 		
-		for(Correspondence correspondence : siliftDiff.getCorrespondences()) {
+		for(Correspondence correspondence : siliftDiff.getMatching().getCorrespondences()) {
 			Match match = convertCorrespondence(correspondence);
 			SiLiftToEMFCompareProxy.replaceWithProxy(correspondence, match);
 		}
@@ -83,14 +83,14 @@ public class SiLiftToEMFCompareConverter {
 		// Correspondence -> Match: 
 		Match match = CompareFactory.eINSTANCE.createMatch();
 		
-		match.setRight(correspondence.getObjA());
-		match.setLeft(correspondence.getObjB());
+		match.setRight(correspondence.getMatchedA());
+		match.setLeft(correspondence.getMatchedB());
 		
 		matches.add(match);
 		
 		MatchTrace matchTrace = new MatchTrace(correspondence, match);
-		rightMatches.put(correspondence.getObjA(), matchTrace);
-		leftMatches.put(correspondence.getObjB(), matchTrace);
+		rightMatches.put(correspondence.getMatchedA(), matchTrace);
+		leftMatches.put(correspondence.getMatchedB(), matchTrace);
 		
 		return match;
 	}

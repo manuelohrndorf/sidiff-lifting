@@ -911,7 +911,7 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 		SymmetricDifference difference = (SymmetricDifference) this.eContainer();
 
 		//TODO cpietsch 19.06.2015: �berarbeiten
-		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getCorrespondences().get(0).getObjA());
+		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getMatching().getCorrespondences().get(0).getMatchedA());
 		return RuleBaseUtil.resolveEditRule(documentType, this.getEditRName());
 	}
 

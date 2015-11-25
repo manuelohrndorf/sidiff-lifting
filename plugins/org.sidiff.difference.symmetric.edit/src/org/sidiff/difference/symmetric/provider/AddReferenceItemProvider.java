@@ -30,7 +30,7 @@ import org.sidiff.difference.symmetric.provider.util.LabelUtil;
  * @generated
  */
 public class AddReferenceItemProvider
-	extends ChangeItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+	extends ChangeItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

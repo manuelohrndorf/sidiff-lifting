@@ -15,9 +15,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.patching.ui.wsupdate.wizard.ThreeWayMergeWizard;
+import org.sidiff.patching.ui.wsupdate.wizard.WorkspaceUpdateWizard;
 
-public class ThreeWayMergeHandler extends AbstractHandler {
+public class WorkspaceUpdateHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -44,7 +44,7 @@ public class ThreeWayMergeHandler extends AbstractHandler {
 						if(docTypeMine.equals(docTypeTheirs) && docTypeTheirs.equals(docTypeBase)){
 							
 							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-									.getShell(), new ThreeWayMergeWizard(fileMine, fileTheirs, fileBase));
+									.getShell(), new WorkspaceUpdateWizard(fileMine, fileTheirs, fileBase));
 						wizardDialog.open();
 
 						}else {

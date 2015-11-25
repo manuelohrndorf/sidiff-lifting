@@ -9,6 +9,8 @@ package org.sidiff.difference.symmetric;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.Matching;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,13 +23,13 @@ import org.eclipse.emf.ecore.resource.Resource;
  * <ul>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getChanges <em>Changes</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getChangeSets <em>Change Sets</em>}</li>
- *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getCorrespondences <em>Correspondences</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getModelA <em>Model A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getModelB <em>Model B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getUriModelA <em>Uri Model A</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getUriModelB <em>Uri Model B</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getNotOverlappings <em>Not Overlappings</em>}</li>
  *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getUnusedChangeSets <em>Unused Change Sets</em>}</li>
+ *   <li>{@link org.sidiff.difference.symmetric.SymmetricDifference#getMatching <em>Matching</em>}</li>
  * </ul>
  *
  * @see org.sidiff.difference.symmetric.SymmetricPackage#getSymmetricDifference()
@@ -66,22 +68,6 @@ public interface SymmetricDifference extends EObject {
 	 * @generated
 	 */
 	EList<SemanticChangeSet> getChangeSets();
-
-	/**
-	 * Returns the value of the '<em><b>Correspondences</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.difference.symmetric.Correspondence}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Correspondences</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Correspondences</em>' containment reference list.
-	 * @see org.sidiff.difference.symmetric.SymmetricPackage#getSymmetricDifference_Correspondences()
-	 * @model containment="true" changeable="false"
-	 * @generated
-	 */
-	EList<Correspondence> getCorrespondences();
 
 	/**
 	 * Returns the value of the '<em><b>Model A</b></em>' attribute.
@@ -198,6 +184,32 @@ public interface SymmetricDifference extends EObject {
 	EList<SemanticChangeSet> getUnusedChangeSets();
 
 	/**
+	 * Returns the value of the '<em><b>Matching</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Matching</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Matching</em>' containment reference.
+	 * @see #setMatching(Matching)
+	 * @see org.sidiff.difference.symmetric.SymmetricPackage#getSymmetricDifference_Matching()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	Matching getMatching();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.symmetric.SymmetricDifference#getMatching <em>Matching</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Matching</em>' containment reference.
+	 * @see #getMatching()
+	 * @generated
+	 */
+	void setMatching(Matching value);
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model
@@ -219,46 +231,6 @@ public interface SymmetricDifference extends EObject {
 	 * @model
 	 * @generated
 	 */
-	Correspondence getCorrespondence(EObject modelElement);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	Correspondence getCorrespondenceOfModelA(EObject modelAElement);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	Correspondence getCorrespondenceOfModelB(EObject modelBElement);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void addCorrespondence(EObject objectA, EObject objectB);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void removeCorrespondence(Correspondence correspondence);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
 	void addCorrespondence(Correspondence correspondence);
 
 	/**
@@ -267,30 +239,6 @@ public interface SymmetricDifference extends EObject {
 	 * @model
 	 * @generated
 	 */
-	void addCorrespondence(EObject objectA, EObject objectB, float reliability);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	float getReliability(EObject objectA, EObject objectB);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void removeCorrespondenceA(EObject objectInA);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void removeCorrespondenceB(EObject objectInB);
+	void removeCorrespondence(Correspondence correspondence);
 
 } // SymmetricDifference

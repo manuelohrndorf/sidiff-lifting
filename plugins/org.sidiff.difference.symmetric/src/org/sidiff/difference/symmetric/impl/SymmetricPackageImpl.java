@@ -18,7 +18,6 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;
@@ -29,6 +28,7 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -85,13 +85,6 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	private EClass semanticChangeSetEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass correspondenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -181,6 +174,9 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 
 		isInited = true;
 
+		// Initialize simple dependencies
+		MatchingModelPackage.eINSTANCE.eClass();
+
 		// Create package meta-data objects
 		theSymmetricPackage.createPackageContents();
 
@@ -228,17 +224,8 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSymmetricDifference_Correspondences() {
-		return (EReference)symmetricDifferenceEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getSymmetricDifference_ModelA() {
-		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -247,7 +234,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EAttribute getSymmetricDifference_ModelB() {
-		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -256,7 +243,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EAttribute getSymmetricDifference_UriModelA() {
-		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -265,7 +252,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EAttribute getSymmetricDifference_UriModelB() {
-		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)symmetricDifferenceEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -274,7 +261,7 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EReference getSymmetricDifference_NotOverlappings() {
-		return (EReference)symmetricDifferenceEClass.getEStructuralFeatures().get(7);
+		return (EReference)symmetricDifferenceEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -283,6 +270,15 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * @generated
 	 */
 	public EReference getSymmetricDifference_UnusedChangeSets() {
+		return (EReference)symmetricDifferenceEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSymmetricDifference_Matching() {
 		return (EReference)symmetricDifferenceEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -561,42 +557,6 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCorrespondence() {
-		return correspondenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCorrespondence_ObjA() {
-		return (EReference)correspondenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCorrespondence_ObjB() {
-		return (EReference)correspondenceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCorrespondence_Reliability() {
-		return (EAttribute)correspondenceEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getAttributeValueChange() {
 		return attributeValueChangeEClass;
 	}
@@ -803,13 +763,13 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		symmetricDifferenceEClass = createEClass(SYMMETRIC_DIFFERENCE);
 		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__CHANGES);
 		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__CHANGE_SETS);
-		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__CORRESPONDENCES);
 		createEAttribute(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__MODEL_A);
 		createEAttribute(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__MODEL_B);
 		createEAttribute(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__URI_MODEL_A);
 		createEAttribute(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__URI_MODEL_B);
 		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__NOT_OVERLAPPINGS);
 		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__UNUSED_CHANGE_SETS);
+		createEReference(symmetricDifferenceEClass, SYMMETRIC_DIFFERENCE__MATCHING);
 
 		addObjectEClass = createEClass(ADD_OBJECT);
 		createEReference(addObjectEClass, ADD_OBJECT__OBJ);
@@ -846,11 +806,6 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__EDIT_RULE_MATCH);
 		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__JOINS);
 		createEReference(semanticChangeSetEClass, SEMANTIC_CHANGE_SET__SPLITS);
-
-		correspondenceEClass = createEClass(CORRESPONDENCE);
-		createEReference(correspondenceEClass, CORRESPONDENCE__OBJ_A);
-		createEReference(correspondenceEClass, CORRESPONDENCE__OBJ_B);
-		createEAttribute(correspondenceEClass, CORRESPONDENCE__RELIABILITY);
 
 		attributeValueChangeEClass = createEClass(ATTRIBUTE_VALUE_CHANGE);
 		createEReference(attributeValueChangeEClass, ATTRIBUTE_VALUE_CHANGE__OBJ_A);
@@ -902,6 +857,9 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		MatchingModelPackage theMatchingModelPackage = (MatchingModelPackage)EPackage.Registry.INSTANCE.getEPackage(MatchingModelPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -917,13 +875,13 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		initEClass(symmetricDifferenceEClass, SymmetricDifference.class, "SymmetricDifference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSymmetricDifference_Changes(), this.getChange(), null, "changes", null, 0, -1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSymmetricDifference_ChangeSets(), this.getSemanticChangeSet(), null, "changeSets", null, 0, -1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSymmetricDifference_Correspondences(), this.getCorrespondence(), null, "correspondences", null, 0, -1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSymmetricDifference_ModelA(), ecorePackage.getEResource(), "modelA", null, 0, 1, SymmetricDifference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSymmetricDifference_ModelB(), ecorePackage.getEResource(), "modelB", null, 0, 1, SymmetricDifference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSymmetricDifference_UriModelA(), ecorePackage.getEString(), "uriModelA", null, 0, 1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSymmetricDifference_UriModelB(), ecorePackage.getEString(), "uriModelB", null, 0, 1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSymmetricDifference_NotOverlappings(), this.getSemanticChangeSet(), null, "notOverlappings", null, 0, -1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSymmetricDifference_UnusedChangeSets(), this.getSemanticChangeSet(), null, "unusedChangeSets", null, 0, -1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSymmetricDifference_Matching(), theMatchingModelPackage.getMatching(), null, "matching", null, 1, 1, SymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEObject(), "getCorrespondingObjectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -931,39 +889,11 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEObject(), "getCorrespondingObjectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "modelElement", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondenceOfModelA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "modelAElement", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, this.getCorrespondence(), "getCorrespondenceOfModelB", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "modelBElement", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theMatchingModelPackage.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEFloat(), "reliability", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondenceA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, null, "removeCorrespondenceB", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEFloat(), "getReliability", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectA", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "objectB", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theMatchingModelPackage.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(addObjectEClass, AddObject.class, "AddObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAddObject_Obj(), ecorePackage.getEObject(), null, "obj", null, 0, 1, AddObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1000,11 +930,6 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		initEReference(getSemanticChangeSet_EditRuleMatch(), this.getEditRuleMatch(), null, "editRuleMatch", null, 0, 1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSemanticChangeSet_Joins(), this.getFragmentJoin(), this.getFragmentJoin_Scs(), "joins", null, 0, -1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSemanticChangeSet_Splits(), this.getFragmentSplit(), this.getFragmentSplit_Scs(), "splits", null, 0, -1, SemanticChangeSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(correspondenceEClass, Correspondence.class, "Correspondence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCorrespondence_ObjA(), ecorePackage.getEObject(), null, "objA", null, 0, 1, Correspondence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCorrespondence_ObjB(), ecorePackage.getEObject(), null, "objB", null, 0, 1, Correspondence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCorrespondence_Reliability(), ecorePackage.getEFloat(), "reliability", "-1.0", 0, 1, Correspondence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeValueChangeEClass, AttributeValueChange.class, "AttributeValueChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeValueChange_ObjA(), ecorePackage.getEObject(), null, "objA", null, 0, 1, AttributeValueChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -29,8 +29,8 @@ import org.sidiff.difference.lifting.edit2recognition.traces.ACExtensionPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACReferencePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
-import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.editrule.analysis.EditRuleAnnotations;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * Transforms a single Negative-Application-Condition (NAC) or Positive-Application-Condition (PAC) formula.
@@ -313,15 +313,15 @@ public class EditCondition2RecognitionCondition {
 				rr_boundary_node = patterns.getTraceB(er_boundary_node);
 				
 				// Connect AC-Extension to model side B:
-				CorrespondenceToBoundaryEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjB();
-				CorrespondenceToExtensionEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjA();
+				CorrespondenceToBoundaryEdgeType = MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedB();
+				CorrespondenceToExtensionEdgeType =MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedA();
 			} else {
 				// Postcondition: Glue AC-Extension to model A:
 				rr_boundary_node = patterns.getTraceA(er_boundary_node);
 				
 				// Connect AC-Extension to model side A:
-				CorrespondenceToBoundaryEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjA();
-				CorrespondenceToExtensionEdgeType = SymmetricPackage.eINSTANCE.getCorrespondence_ObjB();
+				CorrespondenceToBoundaryEdgeType = MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedA();
+				CorrespondenceToExtensionEdgeType = MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedB();
 			}
 
 			assert (rr_boundary_node != null) : "Missing trace!";
@@ -337,7 +337,7 @@ public class EditCondition2RecognitionCondition {
 			
 			// NAC/PAC correspondence node:
 			Node rr_ac_correspondence = createNode(recognitionGraph,
-					SymmetricPackage.eINSTANCE.getCorrespondence());
+					MatchingModelPackage.eINSTANCE.getCorrespondence());
 			
 			// NAC/PAC Correspondence -> NAC/PAC Edge -> Boundary Node
 			createEdge(rr_ac_correspondence, rr_ac_boundary_node,

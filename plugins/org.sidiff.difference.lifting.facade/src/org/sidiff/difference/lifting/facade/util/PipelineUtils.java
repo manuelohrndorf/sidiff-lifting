@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.facade.util;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +23,6 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
@@ -30,14 +30,15 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.provider.AddObjectItemProvider;
 import org.sidiff.difference.symmetric.provider.AddReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.AttributeValueChangeItemProvider;
-import org.sidiff.difference.symmetric.provider.CorrespondenceItemProvider;
 import org.sidiff.difference.symmetric.provider.RemoveObjectItemProvider;
 import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
 
 /**
  * Utility functions which are made publicly available to any clients using the
@@ -165,7 +166,7 @@ public class PipelineUtils {
 	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
 	public static Set<IMatcher> getAvailableMatchers(Resource modelA, Resource modelB) {
-		return MatcherUtil.getAvailableMatchers(modelA, modelB);
+		return MatcherUtil.getAvailableMatchers(Arrays.asList(modelA,modelB));
 	}
 
 	/**
@@ -180,8 +181,8 @@ public class PipelineUtils {
 	 * @return The matcher with the key name; null otherwise.
 	 * @see IMatcher#getKey()
 	 */
-	public static IMatcher getMatcherByKey(String key, Resource modelA, Resource modelB) {
-		return MatcherUtil.getMatcherByKey(key, modelA, modelB);
+	public static IMatcher getMatcherByKey(String key) {
+		return MatcherUtil.getMatcher(key);
 	}
 
 	public static String extractCommonPath(String... paths) {
@@ -276,7 +277,7 @@ public class PipelineUtils {
 		// Sort Correspondences:
 		Comparator<Correspondence> correspondenceSorter = new Comparator<Correspondence>() {
 			SymmetricItemProviderAdapterFactory adapterFactory = new SymmetricItemProviderAdapterFactory();
-
+		
 			CorrespondenceItemProvider correspondenceItemProvider = new CorrespondenceItemProvider(adapterFactory);
 
 			@Override
@@ -288,7 +289,7 @@ public class PipelineUtils {
 			}
 		};
 
-		ECollections.sort(difference.getCorrespondences(), correspondenceSorter);
+		ECollections.sort(difference.getMatching().getCorrespondences(), correspondenceSorter);
 
 		// Sort changes:
 		Comparator<Change> changeSorter = new Comparator<Change>() {

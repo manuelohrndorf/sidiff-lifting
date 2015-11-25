@@ -3,16 +3,20 @@ package org.sidiff.difference.asymmetric.facade;
 import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.deriveAsymmetricDifference;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFValidate;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
+import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.dependencies.real.DependencyAnalyzer;
@@ -26,10 +30,12 @@ import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.model.Matching;
 
 /**
  * Convenient access to asymmetric difference calculation functions.
@@ -61,8 +67,9 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference, AsymmetricDiffSettings)
 	 * @see AsymmetricDiffFacade#liftMeUp(Resource, Resource, IMatcher)
 	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException 
 	 */
-	public static Difference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException{
+	public static Difference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
 		// Be sure proxy resolution is done
@@ -78,16 +85,27 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		StatisticsUtil.disable();
 
 		// Create matching
-		IMatcher matcher = settings.getMatcher();
+		IMatcher matcher = settings.getMatcher();		
 		StatisticsUtil.getInstance().start("Matching");
-		SymmetricDifference symmetricDiff = matcher.createMatching(modelA, modelB, settings.getScope(), false);
-		StatisticsUtil.getInstance().stop("Matching");
+		matcher.startMatching(Arrays.asList(modelA, modelB), settings.getScope());	
+		StatisticsUtil.getInstance().stop("Matching");		
+
+		// Get Matching
+		// In SiLift we assume support of @see{MatchingModelCorrespondences}
+		ICorrespondences correspondences = matcher.getCorrespondencesService();
+		Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
+
+		if (!(matching.getCorrespondences().size() != 0)) {
+			throw new NoCorrespondencesException();
+		}
+
+		//Contain Matching in Difference
+		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDiff.setMatching(matching);
 
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDiff = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDiff.setSymmetricDifference(symmetricDiff);
-		asymmetricDiff.setUriOriginModel(symmetricDiff.getUriModelA());
-		asymmetricDiff.setUriChangedModel(symmetricDiff.getUriModelB());
 
 		// Merge Imports
 		StatisticsUtil.getInstance().start("MergeImports");
@@ -102,7 +120,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		StatisticsUtil.getInstance().stop("TechnicalDifference");
 
 		// Lift difference
-		assert (symmetricDiff.getCorrespondences().size() > 0) : "Empty difference!";
+		assert (matching.getCorrespondences().size() > 0) : "Empty difference!";
 
 		// Start lifting
 		long lifting = System.currentTimeMillis();
@@ -138,7 +156,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		int totalAtomicCount = symmetricDiff.getChanges().size();
 		int uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
 		int coveredCount = totalAtomicCount - uncoveredCount;
-		int correspondeceCount = symmetricDiff.getCorrespondences().size();
+		int correspondenceCount = matching.getCorrespondences().size();
 
 		DecimalFormat f = new DecimalFormat("#0.0");
 
@@ -147,7 +165,7 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 		LogUtil.log(LogEvent.NOTICE, "Finally uncovered atomic changes: " + uncoveredCount);
 		LogUtil.log(LogEvent.NOTICE, "Finally covered atomic changes: " + coveredCount);
 		LogUtil.log(LogEvent.NOTICE, "Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
-		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondeceCount);
+		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
 		LogUtil.log(LogEvent.NOTICE, "Duration of Difference lifting in ms: " + (System.currentTimeMillis() - lifting));
 
 		// Derive Asymmetric-Difference from Symmetric-Difference
@@ -202,8 +220,9 @@ public class AsymmetricDiffFacade extends PipelineUtils {
 	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference, AsymmetricDiffSettings)
 	 * @see AsymmetricDiffFacade#liftMeUp(Resource, Resource, AsymmetricDiffSettings)
 	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException 
 	 */
-	public static Difference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher) throws InvalidModelException{
+	public static Difference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher) throws InvalidModelException, NoCorrespondencesException{
 		// Get default settings
 		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);

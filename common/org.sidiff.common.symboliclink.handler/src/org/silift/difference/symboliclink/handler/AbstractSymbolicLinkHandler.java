@@ -30,7 +30,6 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.RemoveObject;
@@ -38,6 +37,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.matching.model.Correspondence;
 import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkAttribute;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
@@ -344,13 +344,13 @@ public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandle
 		}
 		
 		// Correspondences
-		for(Correspondence c : symmetricDifference.getCorrespondences()){
+		for(Correspondence c : symmetricDifference.getMatching().getCorrespondences()){
 			
-			SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(obj2symbl_A, modelA, c.getObjA());
-			c.setObjA(sl_modelA);
+			SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(obj2symbl_A, modelA, c.getMatchedA());
+			c.setMatchedA(sl_modelA);
 			
-			SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(obj2symbl_B, modelB, c.getObjB());
-			c.setObjB(sl_modelB);	
+			SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(obj2symbl_B, modelB, c.getMatchedB());
+			c.setMatchedB(sl_modelB);	
 		}
 		
 		// edit rule matches

@@ -51,8 +51,6 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.symmetric.Correspondence;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.patching.ui.animation.GMFAnimation.EditorMatching;
 
 public class AnimateChangeCommand extends AbstractTransactionalCommand {
@@ -86,8 +84,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
 			EObject viewedObject = null;
 			
-			if(editorMatching.matching != null){
-				viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
+			if(editorMatching.difference != null){
+				viewedObject = editorMatching.correspondences.getCorrespondingElement(changedObject);
 				viewedObject.eUnset(feature);
 			} else {
 				viewedObject = changedObject;
@@ -113,11 +111,11 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 					+ "Feature: %s\n\t"
 					+ "New Value: %s\n\t", changedObject, feature, newValue));
 			
-			if(editorMatching.matching != null){
+			if(editorMatching.difference != null){
 				if(newValue instanceof EObject){
-					newValue = editorMatching.matching.getCorrespondingObjectInB((EObject) newValue);
+					newValue = editorMatching.correspondences.getCorrespondingElement((EObject) newValue);
 				}
-				viewedObject = editorMatching.matching.getCorrespondingObjectInB(changedObject);
+				viewedObject = editorMatching.correspondences.getCorrespondingElement(changedObject);
 				viewedObject.eSet(feature, newValue);
 			}
 			
@@ -160,9 +158,9 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 				+ "Changed Container: %s\n\t", removedObject, reference, referenceClass, changedContainer));
 
 		
-		if(editorMatching.matching != null){
-			viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
-			removedViewedObject = editorMatching.matching.getCorrespondingObjectInB(removedObject);
+		if(editorMatching.difference != null){
+			viewedContainer = editorMatching.correspondences.getCorrespondingElement(changedContainer);
+			removedViewedObject = editorMatching.correspondences.getCorrespondingElement(removedObject);
 		}
 		
 		if(reference.isContainment()){
@@ -254,18 +252,16 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			
 			EObject viewedContainer = changedContainer;
 			EObject addedViewedObject = addedObject;
-			if(editorMatching.matching != null){
-				viewedContainer = editorMatching.matching.getCorrespondingObjectInB(changedContainer);
-				addedViewedObject = editorMatching.matching.getCorrespondingObjectInB(addedObject);
+			if(editorMatching.difference != null){
+				viewedContainer = editorMatching.correspondences.getCorrespondingElement(changedContainer);
+				addedViewedObject = editorMatching.correspondences.getCorrespondingElement(addedObject);
 				// if there is no object corresponding object, this is a newly created object
 				if(addedViewedObject == null){
 					addedViewedObject = EcoreUtil.copy(addedObject);
 
 					if(reference.isContainment()){
-						Correspondence newCorrespondence = SymmetricFactory.eINSTANCE.createCorrespondence();
-						newCorrespondence.setObjA(addedObject);
-						newCorrespondence.setObjB(addedViewedObject);
-						editorMatching.matching.addCorrespondence(newCorrespondence);
+						editorMatching.correspondences.addCorrespondence(addedObject, addedViewedObject);
+
 					}
 				}
 				

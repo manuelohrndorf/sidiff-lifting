@@ -21,6 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
@@ -161,6 +162,17 @@ public class CreateAsymDiffWizard extends Wizard {
 			return false;
 		}
 		
+		catch (NoCorrespondencesException e) {
+			e.printStackTrace();
+
+			MessageDialog dialog = new MessageDialog(getShell(),
+					"Error", null, "No Correspondences found!", MessageDialog.ERROR,
+					new String[] { "OK" }, 0);
+			dialog.open();
+			return false;
+		}
+		
+		
 		return true;
 	}
 	
@@ -169,7 +181,7 @@ public class CreateAsymDiffWizard extends Wizard {
 		
 		try{
 			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-		} catch(InvalidModelException e){
+		} catch(InvalidModelException | NoCorrespondencesException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			
@@ -178,7 +190,7 @@ public class CreateAsymDiffWizard extends Wizard {
 				settings.setValidate(false);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
-		}
+		} 
 		
 		if (fullDiff != null) {
 			PipelineUtils.sortDifference(fullDiff.getSymmetric());

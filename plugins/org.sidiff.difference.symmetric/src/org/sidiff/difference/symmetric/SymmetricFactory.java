@@ -7,7 +7,6 @@
 package org.sidiff.difference.symmetric;
 
 import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,15 +80,6 @@ public interface SymmetricFactory extends EFactory {
 	SemanticChangeSet createSemanticChangeSet();
 
 	/**
-	 * Returns a new object of class '<em>Correspondence</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Correspondence</em>'.
-	 * @generated
-	 */
-	Correspondence createCorrespondence();
-
-	/**
 	 * Returns a new object of class '<em>Attribute Value Change</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -143,15 +133,6 @@ public interface SymmetricFactory extends EFactory {
 	 */
 	SymmetricPackage getSymmetricPackage();
 
-	/**
-	 * The consistent way to create correspondences.
-	 * 
-	 * @param elementA
-	 * @param elementB
-	 * @return
-	 * 
-	 * @generated NOT
-	 */
-	Correspondence createCorrespondence(EObject elementA, EObject elementB);
+	
 
 } //SymmetricFactory
