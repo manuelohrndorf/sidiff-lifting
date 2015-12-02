@@ -21,7 +21,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.matching.model.provider.util.LabelUtil;
+import org.sidiff.difference.symmetric.provider.util.LabelUtil;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AddObject} object.

@@ -36,7 +36,7 @@ import org.eclipse.swt.graphics.Point;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.matching.model.provider.util.LabelUtil;
+import org.sidiff.difference.symmetric.provider.util.LabelUtil;
 
 
 public class AdapterToolTipLabelProvider extends ColumnLabelProvider implements ILabelProvider, ITableLabelProvider, INotifyChangedListener
