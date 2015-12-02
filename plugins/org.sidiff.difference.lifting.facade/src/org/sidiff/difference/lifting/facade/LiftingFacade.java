@@ -118,7 +118,6 @@ public class LiftingFacade extends PipelineUtils {
 		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
 		symmetricDiff.setMatching(matching);
 
-
 		// Merge Imports
 		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), false);
 		importMerger.merge();
