@@ -119,7 +119,7 @@ public class LiftingFacade extends PipelineUtils {
 		symmetricDiff.setMatching(matching);
 
 		// Merge Imports
-		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), false);
+		MergeImports importMerger = new MergeImports(symmetricDiff, settings.getScope(), true);
 		importMerger.merge();
 
 		// Derive technical difference
@@ -255,7 +255,7 @@ public class LiftingFacade extends PipelineUtils {
 		
 
 		// Merge Imports
-		MergeImports importMerger = new MergeImports(symmetricDiff, scope, false);
+		MergeImports importMerger = new MergeImports(symmetricDiff, scope, true);
 		importMerger.merge();
 
 		// Derive technical difference
