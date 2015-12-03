@@ -452,7 +452,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			
 			// Create correspondence node if model node A and model node B exists.
 			if ((node_a != null) && (node_b != null)) {
-				createCorrespondence(node_a, node_b);
+				correspondence = createCorrespondence(node_a, node_b);
 			}
 			
 			// Save transformation pattern
@@ -470,7 +470,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 	 * @param nodeB
 	 *            Model B node.
 	 */
-	private void createCorrespondence(NodePair nodeA, NodePair nodeB) {
+	private NodePair createCorrespondence(NodePair nodeA, NodePair nodeB) {
 
 		// The (multi-)rule of the correspondence pattern:
 		Rule recognitionRule = nodeA.getLhsNode().getGraph().getRule();
@@ -484,6 +484,8 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 				MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedA());
 		createPreservedEdge(recognitionRule, correspondence, nodeB,
 				MatchingModelPackage.eINSTANCE.getCorrespondence_MatchedB());
+		
+		return correspondence;
 	}
 	
 	/**
