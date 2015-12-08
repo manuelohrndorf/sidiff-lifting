@@ -145,7 +145,10 @@ public class LiftingFacade extends PipelineUtils {
 
 		// Unmerge Imports
 		importMerger.unmerge();
-
+		
+		// Clear Running services
+		matcher.reset();
+		
 		// // Reduce to relevant parts of the difference
 		// TODO(TK 8.4.2014): Shall we introduce a global DEBUG flag?
 		// boolean debug = true;
