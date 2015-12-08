@@ -210,7 +210,7 @@ public abstract class Settings {
 		result.append(matcher != null ? "Matcher: " + matcher.getName() + "\n" : "");
 
 		if (ruleBases != null) {
-			result.append("Rulesbases: ");
+			result.append("Rulebases: ");
 
 			for (IRuleBase rb : ruleBases) {
 				result.append(rb.getName() + ", ");
