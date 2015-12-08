@@ -25,6 +25,7 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.configuration.IConfigurable;
 import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
@@ -88,7 +89,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-			gridData.heightHint = 70;
+			gridData.heightHint = matchers.keySet().size() * 16;
 			gridData.verticalSpan = 2;
 			list_matchers.setLayoutData(gridData);
 		}
@@ -97,7 +98,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		// Set selection:
 		if (list_matchers.getItems().length != 0) {
 			// Prefer Unique identifier matcher
-			int index = list_matchers.indexOf("UUID Matcher");
+			int index = list_matchers.indexOf("Ecore ID Matcher");
 
 			if (index != -1)
 				list_matchers.setSelection(index);
@@ -129,25 +130,37 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 					grid.marginHeight = 0;
 					config_container.setLayout(grid);
 				}
-				for(String option : getSelection().getConfigurationOptions().keySet()){
-					
-					final String key = option;
-					// use a checkbox for boolean values 
-					if(getSelection().getConfigurationOptions().get(option) instanceof Boolean){
-						final Button button = new Button(config_container, SWT.CHECK);
-						button.setText(option);
-						button.addSelectionListener(new SelectionAdapter() {
-							@Override
-							public void widgetSelected(SelectionEvent e) {
-								if(button.getSelection()){
-									getSelection().getConfigurationOptions().put(key, true);
-								}else{
-									getSelection().getConfigurationOptions().put(key, false);
+				//TODO DR 08.12.2015
+				/*
+				 * This shall be done in own widgets, one for @see{IConfigurable} similar to
+				 * this code and one for @see{IConfigurationCapable} which is responsible for selecting one
+				 * of the available configurations
+				 */
+				
+				if(getSelection() instanceof IConfigurable){
+					final IConfigurable configurableMatcher = (IConfigurable)getSelection();
+					for(String option : configurableMatcher.getConfigurationOptions().keySet()){
+						
+						final String key = option;
+						// use a checkbox for boolean values 
+						if(configurableMatcher.getConfigurationOptions().get(option) instanceof Boolean){
+							final Button button = new Button(config_container, SWT.CHECK);
+							button.setText(option);
+							button.addSelectionListener(new SelectionAdapter() {
+								@Override
+								public void widgetSelected(SelectionEvent e) {
+									if(button.getSelection()){
+										configurableMatcher.setConfigurationOption(key, true);
+									}else{
+										configurableMatcher.setConfigurationOption(key, false);
+									}
 								}
-							}
-						});
+							});
+						}
 					}
+					
 				}
+
 				container.getParent().layout();
 			}
 		});
