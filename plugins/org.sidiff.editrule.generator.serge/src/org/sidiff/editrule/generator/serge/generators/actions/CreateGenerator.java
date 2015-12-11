@@ -13,31 +13,33 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class CreateGenerator {
-	
+
 	/**
-	 * Incoming containment reference type (if available) 
+	 * Incoming containment reference type (if available)
 	 */
 	private EReference containmentReference;
-	
+
 	/**
-	 * Context EClassifier (Can be a sub type of the original type set in a reference).
+	 * Context EClassifier (Can be a sub type of the original type set in a
+	 * reference).
 	 */
 	private EClassifier contextClassifier;
-	
+
 	/**
 	 * The EClassifier to be created.
 	 */
 	private EClassifier child;
-	
+
 	/**
 	 * The EClassifierinfo of the child to be created.
 	 */
 	private EClassifierInfo childInfo;
-	
+
 	/**
 	 * Configuration access
 	 */
@@ -45,76 +47,81 @@ public class CreateGenerator {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param containmentReference
 	 * @param contextClassifier
 	 * @param childInfo
 	 */
 	public CreateGenerator(EReference containmentReference, EClassifier contextClassifier, EClassifierInfo childInfo) {
-		
+
 		this.containmentReference = containmentReference;
 		this.contextClassifier = contextClassifier;
 		this.childInfo = childInfo;
 		this.child = childInfo.getTheEClassifier();
 	}
-	
-	public Module generate() throws OperationTypeNotImplementedException{	
-		
+
+	public Module generate() throws OperationTypeNotImplementedException {
+
 		// Create different CREATE-Modules depending on whether or not a context
 		// for the object to create is null
 		// This can be if
-		//   (a) there is no container for this type in the meta-model
-		//   (b) the object to create is a stereotype
-		
+		// (a) there is no container for this type in the meta-model
+		// (b) the object to create is a stereotype
+
 		// common variables for both cases:
 		Module module = null;
 		Rule rule = null;
 		Node newNode = null;
-		
-		// check for available contextClassifier and produce modules accordingly	
-		if(contextClassifier!=null) {
-			
-			// Create Module				
+
+		// check for available contextClassifier and produce modules accordingly
+		if (contextClassifier != null) {
+
+			// Create Module
 			module = HenshinFactory.eINSTANCE.createModule();
-			String name = GlobalConstants.CREATE_prefix + child.getName()+ GlobalConstants.IN + contextClassifier.getName()+"_("+containmentReference.getName()+")";
-			LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
-			module.setDescription("Creates one "+child.getName()+" in " + contextClassifier.getName());
+			String name = GlobalConstants.CREATE_prefix + child.getName() + GlobalConstants.IN
+					+ contextClassifier.getName() + "_(" + containmentReference.getName() + ")";
+			LogUtil.log(LogEvent.NOTICE, "Generating " + name);
+			module.setDescription("Creates one " + child.getName() + " in " + contextClassifier.getName());
 			module.setName(name);
 
 			// Add imports for meta model
 			module.getImports().addAll(config.EPACKAGESSTACK);
 
 			// create rule
-			rule = ModuleInternalsApplicator.createBasicRule(module, containmentReference, child, contextClassifier, null, null, OperationType.CREATE);
+			rule = ModuleInternalsApplicator.createBasicRule(module, containmentReference, child, contextClassifier,
+					null, null, OperationType.CREATE);
 			newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
-			
-		}else{
-			
-			// Create Module				
+
+		} else {
+
+			// Create Module
 			module = HenshinFactory.eINSTANCE.createModule();
 			String name = GlobalConstants.CREATE_prefix + child.getName();
-			LogUtil.log(LogEvent.NOTICE, "Generating " + name);					
-			module.setDescription("Creates one "+child.getName());
+			LogUtil.log(LogEvent.NOTICE, "Generating " + name);
+			module.setDescription("Creates one " + child.getName());
 			module.setName(name);
 
 			// Add imports for meta model
 			module.getImports().addAll(config.EPACKAGESSTACK);
 
 			// create rule
-			rule = ModuleInternalsApplicator.createBasicRule(module, null, child, null, null, null, OperationType.CREATE);
-			newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);			
-			
+			rule = ModuleInternalsApplicator.createBasicRule(module, null, child, null, null, null,
+					OperationType.CREATE);
+			newNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
+
 		}
-				
 
 		// create mandatories if any
-		if(childInfo.hasMandatories()) {
+		if (childInfo.hasMandatories()) {
 
-			ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);			
-			ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE, config.REDUCETOSUPERTYPE_CREATEDELETE);
+			if (config.CREATE_MANDATORY_CHILDREN)
+				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE);
+			if (config.CREATE_MANDATORY_NEIGHBOURS)
+				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE);
 
 		}
-		
+
 		return module;
 	}
-	
+
 }

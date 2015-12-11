@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "org.sidiff.editrule.generator.serge.config.dtd" >
+
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML"
+			isProfile="false" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<MaskedClassifiers>
+			<Mask name="InitialPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="initial" />
+			<Mask name="ChoicePseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="choice" />
+			<Mask name="DeepHistoryPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="deepHistory" />
+			<Mask name="ShallowHistoryPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="shallowHistory" />
+			<Mask name="JoinPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="join" />
+			<Mask name="ForkPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="fork" />
+			<Mask name="JunctionPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="junction" />
+			<Mask name="EntryPointPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="entryPoint" />
+			<Mask name="ExitPointPseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="exitPoint" />
+			<Mask name="TerminatePseudostate" eClassifier="Pseudostate"
+				eAttribute="kind" eAttributeValue="terminate" />
+		</MaskedClassifiers>
+		<RootModelElement name="Model" canBeNested="true" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="true"
+			allowReferenceCombinations="true" />
+		<MOVE_UP enable="true" />
+		<MOVE_DOWN enable="true" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="true" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="true" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions
+			enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" />
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true" />
+			<DanglingNodeSettings defaultTypeInclusion="ifRequired">
+				<DanglingNodeSetting type="Interaction" include="always" />
+				<DanglingNodeSetting type="InteractionFragment" include="always" />
+				<DanglingNodeSetting type="ActionExecutionSpecification"
+					include="always" />
+				<DanglingNodeSetting type="BehaviorExecutionSpecification"
+					include="always" />
+				<DanglingNodeSetting type="CombinedFragment"
+					include="always" />
+				<DanglingNodeSetting type="ConsiderIgnoreFragment"
+					include="always" />
+				<DanglingNodeSetting type="Continuation"
+					include="always" />
+				<DanglingNodeSetting type="DurationConstraint"
+					include="always" />
+				<DanglingNodeSetting type="DurationObservation"
+					include="always" />
+				<DanglingNodeSetting type="Gate" include="always" />
+				<DanglingNodeSetting type="InteractionOperand"
+					include="always" />
+				<DanglingNodeSetting type="InteractionUse"
+					include="always" />
+				<DanglingNodeSetting type="Lifeline" include="always" />
+				<DanglingNodeSetting type="StateInvariant"
+					include="always" />
+				<DanglingNodeSetting type="TimeConstraint"
+					include="always" />
+				<DanglingNodeSetting type="TimeObservation"
+					include="always" />
+				<DanglingNodeSetting type="Message" include="always" />
+				<DanglingNodeSetting type="MessageOccurrenceSpecification"
+					include="always" />
+				<DanglingNodeSetting type="MessageEnd" include="always" />
+				<DanglingNodeSetting type="Event" include="always" />
+				<DanglingNodeSetting type="AnyReceiveEvent"
+					include="always" />
+				<DanglingNodeSetting type="CallEvent" include="always" />
+				<DanglingNodeSetting type="DestructionOccurrenceSpecification"
+					include="always" />
+				<DanglingNodeSetting type="SignalEvent" include="always" />
+				<DanglingNodeSetting type="Constraint" include="always" />
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings
+				defaultGenerationCase="ifRequired">
+				<GenerateModulesFor type="Interaction" case="always" />
+				<GenerateModulesFor type="InteractionFragment" case="always" />
+				<GenerateModulesFor type="ActionExecutionSpecification"
+					case="always" />
+				<GenerateModulesFor type="BehaviorExecutionSpecification"
+					case="always" />
+				<GenerateModulesFor type="CombinedFragment" case="always" />
+				<GenerateModulesFor type="ConsiderIgnoreFragment"
+					case="always" />
+				<GenerateModulesFor type="Continuation" case="always" />
+				<GenerateModulesFor type="DurationConstraint"
+					case="always" />
+				<GenerateModulesFor type="DurationObservation"
+					case="always" />
+				<GenerateModulesFor type="Gate" case="always" />
+				<GenerateModulesFor type="InteractionOperand"
+					case="always" />
+				<GenerateModulesFor type="InteractionUse" case="always" />
+				<GenerateModulesFor type="Lifeline" case="always" />
+				<GenerateModulesFor type="StateInvariant" case="always" />
+				<GenerateModulesFor type="TimeConstraint" case="always" />
+				<GenerateModulesFor type="TimeObservation" case="always" />
+				<GenerateModulesFor type="Message" case="always" />
+				<GenerateModulesFor type="MessageOccurrenceSpecification"
+					case="always" />
+				<GenerateModulesFor type="MessageEnd" case="always" />
+				<GenerateModulesFor type="Event" case="always" />
+				<GenerateModulesFor type="AnyReceiveEvent" case="always" />
+				<GenerateModulesFor type="CallEvent" case="always" />
+				<GenerateModulesFor type="DestructionOccurrenceSpecification"
+					case="always" />
+				<GenerateModulesFor type="SignalEvent" case="always" />
+				<GenerateModulesFor type="Constraint" case="always" />
+				<GenerateModulesFor type="ActionInputPin" case="never" />
+				<GenerateModulesFor type="ValuePin" case="never" />
+				<GenerateModulesFor type="InputPin" case="never" />
+				<GenerateModulesFor type="Pin" case="never" />
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

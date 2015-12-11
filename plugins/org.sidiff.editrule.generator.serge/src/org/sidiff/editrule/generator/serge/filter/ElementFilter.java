@@ -2,7 +2,9 @@ package org.sidiff.editrule.generator.serge.filter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -16,10 +18,11 @@ import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
+import org.sidiff.editrule.generator.serge.filter.ElementFilter.InclusionType;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**
- * This class is responsible for filtering out EClassifiers  in different
+ * This class is responsible for filtering out EClassifiers in different
  * scenarios. It also contains the blacklist and whitelist.
  * 
  * @author mrindt
@@ -27,20 +30,30 @@ import org.sidiff.editrule.generator.types.OperationType;
  */
 public class ElementFilter {
 
-	private static ArrayList<EClassifier> blackList;	
-	private static ArrayList<EClassifier> whiteList;
-	
-	private static Configuration c;
-	private static EClassifierInfoManagement ECM;
+	public static enum InclusionType {
+		NEVER, IF_REQUIRED, ALWAYS;
+	}
+
+	private final Map<EClassifier, InclusionType> danglingInclusionTypes = new HashMap<>();
+	private InclusionType defaultDanglingInclusionType;
+	private final Map<EClassifier, InclusionType> focusInclusionTypes = new HashMap<>();
+	private InclusionType defaultFocusInclusionType;
+	private final Set<EClassifier> requiredTypes = new HashSet<>();
+
+	// private static ArrayList<EClassifier> blackList;
+	// private static ArrayList<EClassifier> whiteList;
+
+	private Configuration c;
+	private EClassifierInfoManagement ECM;
 	private static ElementFilter instance = null;
-	
+
 	public static ElementFilter getInstance() {
-		if (instance==null) {
+		if (instance == null) {
 			instance = new ElementFilter();
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Constructor
 	 */
@@ -48,458 +61,528 @@ public class ElementFilter {
 		c = Configuration.getInstance();
 		ECM = EClassifierInfoManagement.getInstance();
 	}
-	
-	/** Public SETTER **************************************************************************/
-	
-	public void setBlackList(ArrayList<EClassifier> bList) {
-		blackList = bList;
-	}
 
-	public void setWhiteList(ArrayList<EClassifier> wList) {
-		whiteList = wList;
-	}
-	
-	/** Public GETTER **************************************************************************/
-	
-	public ArrayList<EClassifier> getBlackList() {
-		return blackList;
-	}
-
-	public ArrayList<EClassifier> getWhiteList() {
-		return whiteList;
-	}
-	
-	/**
-	 * This method delivers false if the given eClassifier should not recieve a transformation module
-	 * in which the eClassifier is considered as <b>focal point</b> (or module basis). For example the eClassifier "State" is
-	 * considered in focus for the generation of a "CREATE_State_In_Region" transformation module.
-	 * There can be various cases in which an eClassifier should be avoided as a focal point when running certain module generations.
-	 * @param eClassifier
-	 * @param opType
-	 * @return false or true
-	 * @throws OperationTypeNotImplementedException
-	 */
-	public Boolean isAllowedAsModuleBasis(EClassifier eClassifier, OperationType opType) throws OperationTypeNotImplementedException {
-		
-		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
-
-		boolean blackListed	= blackList.contains(eClassifier);
-		boolean whiteListed	= whiteList.contains(eClassifier);
-		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByStereotypes = isRequiredByWhitelistedStereotype(eClassifier);
-		boolean isElementOfRequiredMetamodels = isElementOfRequiredMetamodels(eClassifier);
-
-		
-		switch(opType) {
-		
-			case CREATE:
-				if (
-					(!(eClassifier instanceof EClass))
-					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-					|| c.PROFILE_APPLICATION_IN_USE
-					|| (!eInf.selfMayHaveTransformations())
-					|| (c.isAnUnnestableRoot(eClassifier))
-					|| (requiredByStereotypes && !c.isRoot(eClassifier))
-					|| (!whiteListed && !assumeAllOnWhitelist)
-					|| (blackListed && !requiredBySubtypes)
-					|| isElementOfRequiredMetamodels
-					)
-				return false;				
-				break;
-			
-			case ATTACH:
-				//TODO Check
-				if (
-					(!(eClassifier instanceof EClass))
-					|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-					|| !c.PROFILE_APPLICATION_IN_USE
-					|| (!whiteListed && !assumeAllOnWhitelist)
-					|| (blackListed && !requiredBySubtypes)
-					)
-				return false;				
-				break;
-				
-			case ADD:				
-				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes)&& (!c.isRoot(eClassifier)))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes) && (!c.isRoot(eClassifier))) 
-						|| isElementOfRequiredMetamodels
-						) {
-					return false;
-				}	
-				break;
-				
-			case CHANGE_REFERENCE:
-				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
-						|| isElementOfRequiredMetamodels
-						) {
-					return false;
-				}	
-				break;
-				
-			case CHANGE_LITERAL:
-				if (
-						( (!whiteListed && !assumeAllOnWhitelist && !requiredBySubtypes) && (!requiredByStereotypes))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
-						|| isElementOfRequiredMetamodels
-						) {
-					return false;
-				}	
-				break;
-				
-			case MOVE:
-				if (
-						(!(eClassifier instanceof EClass))
-						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-						|| (!eInf.selfMayHaveTransformations())
-						|| (c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))
-						|| (!whiteListed && !assumeAllOnWhitelist)
-						|| (blackListed && !requiredBySubtypes)
-						|| isElementOfRequiredMetamodels
-						)
-					return false;
-				break;
-				
-			case MOVE_REFERENCE_COMBINATION:
-					if (
-						(!(eClassifier instanceof EClass))
-						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-						|| (!eInf.selfMayHaveTransformations())
-						|| (c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))
-						|| (!whiteListed && !assumeAllOnWhitelist)
-						|| (blackListed && !requiredBySubtypes)
-						|| isElementOfRequiredMetamodels
-					)
-					return false;
-				break;
-				
-			case MOVE_UP:
-				if (
-						(!(eClassifier instanceof EClass))
-						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-						|| (!eInf.selfMayHaveTransformations())
-						|| (c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))
-						|| (!whiteListed && !assumeAllOnWhitelist)
-						|| (blackListed && !requiredBySubtypes)
-						|| isElementOfRequiredMetamodels
-					)
-					return false;
-				break;
-				
-			case MOVE_DOWN:
-				if (
-						(!(eClassifier instanceof EClass))
-						|| (eClassifier instanceof EClass && ((EClass)eClassifier).isAbstract())
-						|| (!eInf.selfMayHaveTransformations())
-						|| (c.isAnUnnestableRoot(eClassifier))
-						|| (requiredByStereotypes && !c.isRoot(eClassifier))
-						|| (!whiteListed && !assumeAllOnWhitelist)
-						|| (blackListed && !requiredBySubtypes)
-						|| isElementOfRequiredMetamodels
-					)
-					return false;
-				break;
-				
-			case SET_ATTRIBUTE:
-				if (
-						( (!whiteListed && !assumeAllOnWhitelist) && (!requiredByStereotypes))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes))
-						|| isElementOfRequiredMetamodels
-						) {
-					return false;
-				}			
-				break;
-				
-			case SET_REFERENCE:
-				if (
-						( (!whiteListed && !assumeAllOnWhitelist) && (!requiredByStereotypes))
-						|| ((blackListed && !requiredBySubtypes) &&(!requiredByStereotypes)) 
-						|| isElementOfRequiredMetamodels
-						) {
-					return false;
-				}	
-				break;
-			
-			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
-			case DETACH:
-				return true;
-			
-			case UNSET_ATTRIBUTE:
-				return true;
-				
-			case UNSET_REFERENCE:
-				return true;
-				
-			case DELETE:
-				return true;
-				
-			case REMOVE:
-				return true;
-
-			// -----unsupported ---------------------------/
-			default:
-				throw new OperationTypeNotImplementedException(opType);
+	public void setDanglingInclusionType(EClassifier type, InclusionType it) {
+		if (it != null) {
+			danglingInclusionTypes.put(type, it);
+		} else {
+			danglingInclusionTypes.remove(type);
 		}
-		
-
-		return true;
 	}
-	
-	/**
-	 *  This method delivers false if the given eClassifier should not be mentioned inside a transformation module
-	 * with focus on another eClassifier. The eClassifier here is NOT considered as focal point; i.e. it is merely
-	 * considered as a <b>dangling</b> element.  For example the eClassifier "Region" is
-	 * considered as a dangling element in the generation of a "CREATE_State_In_Region" transformation module.
-	 * There can be various cases in which an eClassifier should be avoided as dangling when running certain module generations.
-	 * @param eClassifier
-	 * @param opType
-	 * @param preferSupertypes
-	 * @return false or true
-	 * @throws OperationTypeNotImplementedException
-	 */
-	public Boolean isAllowedAsDangling(EClassifier eClassifier, OperationType opType, Boolean preferSupertypes) throws OperationTypeNotImplementedException {
 
-		boolean blackListed	= blackList.contains(eClassifier);
-		boolean whiteListed	= whiteList.contains(eClassifier);
-		boolean assumeAllOnWhitelist = whiteList.isEmpty();
-		boolean requiredBySubtypes = isRequiredByWhitelistedSubtypes(eClassifier);
-		boolean requiredByChildren = isRequiredByWhitelistedChildren(eClassifier);
-
-		// The two scenarios of hard cut-offs:
-		// 1. blacklisted and no inconsistency prevention enabled
-		// 2. whitelist is not empty, however the blacklist is. Addionally  no inconsistency prevention is enabled.
-		boolean hardCutOff = ((blackListed && !c.PREVENT_INCONSISTENCY_THROUGHSKIPPING)
-											  || (blackList.isEmpty() && !assumeAllOnWhitelist && !c.PREVENT_INCONSISTENCY_THROUGHSKIPPING));
-		
-		switch(opType) {
-		
-			case CREATE:
-				
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))
-						) {
-					return false;
-				}
-				break;
-				
-			case ATTACH:
-			
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !(requiredByChildren || requiredBySubtypes))
-						) {
-					return false;
-				}
-				break;
-				
-			case ADD:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-
-			case MOVE:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case MOVE_REFERENCE_COMBINATION:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case MOVE_UP:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case MOVE_DOWN:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case CHANGE_REFERENCE:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case SET_ATTRIBUTE:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-			case SET_REFERENCE:
-				if( hardCutOff
-						|| (!hardCutOff && (!whiteListed && !assumeAllOnWhitelist) && !requiredByChildren)
-						) {
-					return false;
-				}
-				break;
-				
-				
-			// ----- inverses (don't need to be denied/allowed explicitly) ---------------------------/
-			case DETACH:
-				return true;
-			
-			case UNSET_ATTRIBUTE:
-				return true;
-				
-			case UNSET_REFERENCE:
-				return true;
-				
-			case DELETE:
-				return true;
-				
-			case REMOVE:
-				return true;
-				
-			// -----unsupported ---------------------------/	
-			default:
-				throw new OperationTypeNotImplementedException(opType);
+	public void setFocusInclusionType(EClassifier type, InclusionType it) {
+		if (it != null) {
+			focusInclusionTypes.put(type, it);
+		} else {
+			focusInclusionTypes.remove(type);
 		}
-
-		return true;
 	}
-	
-	
-	/***** Convenience Methods  ************************************************************/
-		
+
+	public Map<EClassifier, InclusionType> getDanglingInclusionTypes() {
+		return danglingInclusionTypes;
+	}
+
+	public Map<EClassifier, InclusionType> getFocusInclusionTypes() {
+		return focusInclusionTypes;
+	}
+
+	public InclusionType getFocusInclusuionType(EClassifier type) {
+		InclusionType it = focusInclusionTypes.get(type);
+		if (it == null)
+			return getDefaultFocusInclusionType();
+		return it;
+	}
+
+	public InclusionType getDanglingInclusuionType(EClassifier type) {
+		InclusionType it = danglingInclusionTypes.get(type);
+		if (it == null)
+			return getDefaultDanglingInclusionType();
+		return it;
+	}
+
+	public InclusionType getDefaultDanglingInclusionType() {
+		return defaultDanglingInclusionType;
+	}
+
+	public void setDefaultDanglingInclusionType(InclusionType defaultDanglingInclusionType) {
+		this.defaultDanglingInclusionType = defaultDanglingInclusionType;
+	}
+
+	public InclusionType getDefaultFocusInclusionType() {
+		return defaultFocusInclusionType;
+	}
+
+	public void setDefaultFocusInclusionType(InclusionType defaultFocusInclusionType) {
+		this.defaultFocusInclusionType = defaultFocusInclusionType;
+	}
+
 	/**
-	 * Checks if EClassifier is required by white listed children.
-	 * @param eClassifier
-	 * @return
+	 * Adds types that are indirectly required by eClassifier to the
+	 * ElementFilter's required types list.
+	 * 
+	 * If a directly required type is abstract, all abstract and nearest
+	 * non-abstract subtypes of the type and types required by them are added to
+	 * the list
+	 * 
+	 * This method collects all explicitly allowed (InclusionType.ALWAYS) types
+	 * (dangling and focus) and uses them as the starting point to search for
+	 * required types.
+	 * 
+	 * The required list contains types with all InclusionTypes, including
+	 * ALWAYS and NEVER.
+	 * 
+	 * The meta model has to be analyzed before calling this method.
+	 *
 	 */
-	private Boolean isRequiredByWhitelistedChildren(EClassifier eClassifier) {
-		
-		boolean requiredByChildren = false;
-		
-		for(EClassifier whiteListedEClass: whiteList) {
-			for(Entry<EReference,List<EClassifier>> entry: ECM.getAllParentContexts(whiteListedEClass, false).entrySet()) {
-				EReference eRefChildToParent = entry.getKey().getEOpposite();
-				if(eRefChildToParent!=null) {
-					int lb = eRefChildToParent.getLowerBound();
-					int ub = eRefChildToParent.getUpperBound();
-					boolean notFixedAndRequired = (ub-lb>0) && lb>0;
+	public void collectRequiredTypes() {
+		requiredTypes.clear();
+		Set<EClassifier> baseClassifiers = new HashSet<>();
+		// Collect all ALWAYS included dangling types
+		for (EClassifier eC : danglingInclusionTypes.keySet()) {
+			if (InclusionType.ALWAYS.equals(getFocusInclusuionType(eC)))
+				baseClassifiers.add(eC);
+		}
+		// Collect all ALWAYS included focus types
+		for (EClassifier eC : focusInclusionTypes.keySet()) {
+			if (InclusionType.ALWAYS.equals(getFocusInclusuionType(eC)))
+				baseClassifiers.add(eC);
+		}
+		// Find required types
+		Set<EClassifier> needChecking = new HashSet<>();
+		for (EClassifier classifier : baseClassifiers) {
+			needChecking.addAll(collectRequiredTypes(classifier, requiredTypes));
+		}
+		// Find additionally required types
+		collectAdditionalRequiredTypes(requiredTypes, needChecking);
+	}
 
-					if(notFixedAndRequired) {					
+	/**
+	 * Handles types that could not be checked intermediately.
+	 * @param required Already required types (results will be added to this set)
+	 * @param check Types to check if they are required
+	 */
+	private void collectAdditionalRequiredTypes(Set<EClassifier> required, Set<EClassifier> check) {
+		//TODO [LM@28.11.15] Test this method
+		Set<EClassifier> lastRequired;
+		Set<EClassifier> lastCheck;
+		do {
+			lastRequired = new HashSet<>(required);
+			lastCheck = new HashSet<>(check);
+			for (EClassifier classifier : check) {
+				if (requiredTypes.contains(classifier)) {
+					check.addAll(collectRequiredTypes(classifier, required));
+				}
+			}
+		} while (!(lastCheck.equals(check) && lastRequired.equals(required)));
+	}
 
-						List<EClassifier> parentContexts = entry.getValue();
-						if(parentContexts.contains(eClassifier)) {
-							requiredByChildren = true;
-							break;
-						}						
-					}				
+	/**
+	 * {@link #collectRequiredTypes()}
+	 * 
+	 * @param eClassifier
+	 *            Classifier which will be the starting point for searching
+	 * @param result
+	 *            Already found required types. Results will be added to this
+	 *            set.
+	 * @return List of EClassifiers that need to be checked later because it can
+	 *         not be determined now, if they are required. This is mainly
+	 *         because of the used configuration. These types are handled by
+	 *         {@link #collectAdditionalRequiredTypes(Set, Set)} later.
+	 */
+	private Set<EClassifier> collectRequiredTypes(EClassifier eClassifier, Set<EClassifier> result) {
+		// TODO Do this based on while/blacklistes types
+		// TODO (Not here) Vererbung
+		// Set which holds all types that need to be checked later
+		Set<EClassifier> needChecking = new HashSet<>();
+		EClassifierInfo mcInfo = ECM.getEClassifierInfo(eClassifier);
+		Set<EClassifier> allMmandatoryChildren = new HashSet<>();
+		for (List<EClassifier> ecL : mcInfo.getMandatoryChildren().values()) {
+			allMmandatoryChildren.addAll(ecL);
+		}
+		for (EClassifier mc : allMmandatoryChildren) {
+			if (!result.contains(mc)) {
+				// Add required types of the new required type recursively
+				result.add(mc); // Must be done first to prevent infinite loops
+				needChecking.addAll(collectRequiredTypes(mc, result));
+			}
+		}
+		Set<EClassifier> allMmandatoryNeighbours = new HashSet<>();
+		for (List<EClassifier> ecL : mcInfo.getMandatoryNeighbours().values()) {
+			allMmandatoryNeighbours.addAll(ecL);
+		}
+		for (EClassifier mc : allMmandatoryNeighbours) {
+			if (!result.contains(mc)) {
+				// Add required types
+				result.add(mc); // Must be done first to prevent infinite loops
+				/*
+				 * If the user has specified in the configuration that modules
+				 * should be created for required types, this includes also
+				 * mandatory neighbours. THis is handled here. If we already
+				 * know taht the type is required we can handle it right here.
+				 * If not this has to be done later. In this case the type is
+				 * saved in the needsCHecking set.
+				 */
+				if (InclusionType.IF_REQUIRED.equals(getFocusInclusuionType(mc))) {
+					if (requiredTypes.contains(mc)) {
+						needChecking.addAll(collectRequiredTypes(mc, result));
+					} else {
+						needChecking.add(mc);
+					}
 				}
 			}
 		}
-		
-		return requiredByChildren;
-	}
-	
-	/**
-	 * Checks if an EClassifier is required because it provides features for its sub types
-	 * which are white listed.
-	 * @param eClassifier
-	 * @return
-	 */
-	private static Boolean isRequiredByWhitelistedSubtypes(EClassifier eClassifier) {
-
-		boolean isRequired = false;
-		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
-		Set<EClassifierInfo> subTypes = ECM.getAllSubTypes(eInfo);
-		
-		for(EClassifierInfo subTypeInfo: subTypes) {
-			EClassifier subtype = subTypeInfo.getTheEClassifier();
-			if(whiteList.contains(subtype)) {
-				isRequired = true;
-				break;
+		// Supertypes are also needed and may have required types
+		if (eClassifier instanceof EClass) {
+			//TODO !!!!!!!
+//			for (EClassifier supertype : ((EClass) eClassifier).getESuperTypes()) {
+//				if (!result.contains(supertype)) {
+//					//result.add(supertype);
+//					needChecking.addAll(collectRequiredTypes(supertype, result));
+//				}
+//			}
+		}
+		// If the child is abstract its subtypes are also required
+		// (recursively)
+		if ((eClassifier instanceof EClass) && ((EClass) eClassifier).isAbstract()) {
+			for (EClassifier subtype : ECM.getSubTypes(eClassifier)) {
+				if (!result.contains(subtype)) {
+					result.add(subtype);
+					needChecking.addAll(collectRequiredTypes(subtype, result));
+				}
 			}
 		}
-		
-		
-		return isRequired;
+		return needChecking;
 	}
-	
+
 	/**
-	 * Checks if an EClassifier is a profile meta-class of any white listed stereotype. 
+	 * Checks if an EClassifier is a profile meta-class of any as focus allowed
+	 * (direct or required) stereotype.
+	 * 
 	 * @param eClassifier
 	 * @return
 	 */
-	private static Boolean isRequiredByWhitelistedStereotype(EClassifier eClassifier) {
-		
-		if(c.PROFILE_APPLICATION_IN_USE) {			
+	private boolean hasRequiredOrAllowedStereotype_Focus(EClassifier eClassifier) {
+		if (c.MAINMODEL_IS_PROFILE) {
 			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
-			for(EClassifier stereotype: stereotypes) {
-				if(whiteList.contains(stereotype)) {
+			for (EClassifier stereotype : stereotypes) {
+				if (InclusionType.ALWAYS.equals(getFocusInclusuionType(stereotype))
+						|| (InclusionType.IF_REQUIRED.equals(getFocusInclusuionType(stereotype))
+								&& requiredTypes.contains(stereotype))) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	
+
 	/**
-	 * This method delivers a list with all names of EClassifiers contained in the given list.
+	 * This method delivers false if the given eClassifier should not recieve a
+	 * transformation module in which the eClassifier is considered as <b>focal
+	 * point</b> (or module basis). For example the eClassifier "State" is
+	 * considered in focus for the generation of a "CREATE_State_In_Region"
+	 * transformation module. There can be various cases in which an eClassifier
+	 * should be avoided as a focal point when running certain module
+	 * generations.
+	 * 
+	 * @param eClassifier
+	 * @param opType
+	 * @return false or true
+	 * @throws OperationTypeNotImplementedException
+	 */
+	public boolean isAllowedAsFocused(EClassifier eClassifier, OperationType opType)
+			throws OperationTypeNotImplementedException {
+
+		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
+		boolean requiredByStereotypes = hasRequiredOrAllowedStereotype_Focus(eClassifier);
+		boolean isElementOfRequiredMetamodels = isElementOfRequiredMetamodels(eClassifier);
+		// TODO [LM@22.11.2015] Check this considering stereotypes
+		boolean includeBySettings = (InclusionType.ALWAYS.equals(getFocusInclusionType(eClassifier))
+				|| (InclusionType.IF_REQUIRED.equals(getFocusInclusionType(eClassifier))
+						&& (requiredByStereotypes || requiredTypes.contains(eClassifier))));
+
+		switch (opType) {
+
+		case CREATE:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || c.MAINMODEL_IS_PROFILE
+					|| (!eInf.selfMayHaveTransformations()) || (c.isAnUnnestableRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier)) || !includeBySettings
+					|| isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case ATTACH:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || !c.MAINMODEL_IS_PROFILE
+					|| !includeBySettings || isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case ADD:
+
+			if ((!includeBySettings && !c.isRoot(eClassifier)) || isElementOfRequiredMetamodels) {
+				return false;
+			}
+			break;
+
+		case CHANGE_REFERENCE:
+			if (!includeBySettings || isElementOfRequiredMetamodels) {
+				return false;
+			}
+			break;
+
+		case CHANGE_LITERAL:
+			if (!includeBySettings || isElementOfRequiredMetamodels) {
+				return false;
+			}
+			break;
+
+		case MOVE:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract())
+					|| (!eInf.selfMayHaveTransformations()) || (c.isAnUnnestableRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier)) || !includeBySettings
+					|| isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case MOVE_REFERENCE_COMBINATION:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract())
+					|| (!eInf.selfMayHaveTransformations()) || (c.isAnUnnestableRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier)) || !includeBySettings
+					|| isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case MOVE_UP:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract())
+					|| (!eInf.selfMayHaveTransformations()) || (c.isAnUnnestableRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier)) || !includeBySettings
+					|| isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case MOVE_DOWN:
+			if ((!(eClassifier instanceof EClass))
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract())
+					|| (!eInf.selfMayHaveTransformations()) || (c.isAnUnnestableRoot(eClassifier))
+					|| (requiredByStereotypes && !c.isRoot(eClassifier)) || includeBySettings
+					|| isElementOfRequiredMetamodels)
+				return false;
+			break;
+
+		case SET_ATTRIBUTE:
+			if (!includeBySettings || isElementOfRequiredMetamodels) {
+				return false;
+			}
+			break;
+
+		case SET_REFERENCE:
+			if (!includeBySettings || isElementOfRequiredMetamodels) {
+				return false;
+			}
+			break;
+
+		// ----- inverses (don't need to be denied/allowed explicitly)
+		// ---------------------------/
+		case DETACH:
+			return true;
+
+		case UNSET_ATTRIBUTE:
+			return true;
+
+		case UNSET_REFERENCE:
+			return true;
+
+		case DELETE:
+			return true;
+
+		case REMOVE:
+			return true;
+
+		// -----unsupported ---------------------------/
+		default:
+			throw new OperationTypeNotImplementedException(opType);
+		}
+
+		return true;
+	}
+
+	public InclusionType getFocusInclusionType(EClassifier type) {
+		InclusionType ic = focusInclusionTypes.get(type);
+		if (ic == null) {
+			return getDefaultFocusInclusionType();
+		} else {
+			return ic;
+		}
+	}
+
+	public InclusionType getDanglingInclusionType(EClassifier type) {
+		InclusionType ic = danglingInclusionTypes.get(type);
+		if (ic == null) {
+			return getDefaultDanglingInclusionType();
+		} else {
+			return ic;
+		}
+	}
+
+	/**
+	 * This method delivers false if the given eClassifier should not be
+	 * mentioned inside a transformation module with focus on another
+	 * eClassifier. The eClassifier here is NOT considered as focal point; i.e.
+	 * it is merely considered as a <b>dangling</b> element. For example the
+	 * eClassifier "Region" is considered as a dangling element in the
+	 * generation of a "CREATE_State_In_Region" transformation module. There can
+	 * be various cases in which an eClassifier should be avoided as dangling
+	 * when running certain module generations.
+	 * 
+	 * @param eClassifier
+	 * @param opType
+	 * @return false or true
+	 * @throws OperationTypeNotImplementedException
+	 */
+	public boolean isAllowedAsDangling(EClassifier eClassifier, OperationType opType)
+			throws OperationTypeNotImplementedException {
+
+		boolean required = requiredTypes.contains(eClassifier);
+		boolean forbiddenAsDangling = InclusionType.NEVER.equals(getDanglingInclusionType(eClassifier));
+		boolean allowedAsDanglingIfRequired = InclusionType.IF_REQUIRED.equals(getDanglingInclusionType(eClassifier));
+
+		switch (opType) {
+
+		case CREATE:
+
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case ATTACH:
+
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case ADD:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case MOVE:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case MOVE_REFERENCE_COMBINATION:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case MOVE_UP:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case MOVE_DOWN:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case CHANGE_REFERENCE:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case SET_ATTRIBUTE:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		case SET_REFERENCE:
+			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+				return false;
+			}
+			break;
+
+		// ----- inverses (don't need to be denied/allowed explicitly)
+		// ---------------------------/
+		case DETACH:
+			return true;
+
+		case UNSET_ATTRIBUTE:
+			return true;
+
+		case UNSET_REFERENCE:
+			return true;
+
+		case DELETE:
+			return true;
+
+		case REMOVE:
+			return true;
+
+		// -----unsupported ---------------------------/
+		default:
+			throw new OperationTypeNotImplementedException(opType);
+		}
+
+		return true;
+	}
+
+	/*****
+	 * Convenience Methods
+	 ************************************************************/
+
+	/**
+	 * This method delivers a list with all names of EClassifiers contained in
+	 * the given list.
+	 * 
 	 * @param eClassifierList
-	 * @return
-	 * 		names of EClassifiers contained in the given list.
+	 * @return names of EClassifiers contained in the given list.
 	 */
 	protected static List<String> extractAllEClassifierNames(ArrayList<EClassifier> eClassifierList) {
 		List<String> list = new ArrayList<String>();
-		
-		for(EClassifier ec: eClassifierList) {
+
+		for (EClassifier ec : eClassifierList) {
 			list.add(ec.getName());
 		}
 		return list;
 	}
-	
+
 	/**
-	 * This method delivers all allowed parent context regarding a childEClassifer.
+	 * This method delivers all allowed parent context regarding a
+	 * childEClassifer.
+	 * 
 	 * @param childEClassifier
-	 * @param reduceToSupertype
+	 * @param reduceToSupertypeContext
 	 * @param operationType
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public HashMap<EReference, List<EClass>>getAllAllowedParentContexts(EClassifier childEClassifier,
-			Boolean reduceToSupertype, OperationType operationType) 
-			throws OperationTypeNotImplementedException {
-		
+	public HashMap<EReference, List<EClass>> getAllAllowedParentContexts(EClassifier childEClassifier,
+			boolean reduceToSupertypeContext, OperationType operationType) throws OperationTypeNotImplementedException {
+
 		HashMap<EReference, List<EClass>> allAllowedParents = new HashMap<EReference, List<EClass>>();
-		
-		// get possible eClassifier Masks for additional move generation of masked classifiers.
+
+		// get possible eClassifier Masks for additional move generation of
+		// masked classifiers.
 		List<Mask> eClassifierMasks = new ArrayList<Mask>();
 		eClassifierMasks.addAll(ECM.getEClassifierInfo(childEClassifier).getMasks());
 
-		// get all possible contexts (mandatory & optional) and the  according references
+		// get all possible contexts (mandatory & optional) and the according
+		// references
 		HashMap<EReference, List<EClassifier>> allParents = ECM.getAllParentContexts(childEClassifier,
-				reduceToSupertype);
+				reduceToSupertypeContext);
 
 		for (EReference eRef : allParents.keySet()) {
 
@@ -516,7 +599,7 @@ public class ElementFilter {
 					EClass parent = (EClass) eRef.eContainer();
 
 					// if parent is allowed, put it in allAllowedParent-List
-					if (isAllowedAsDangling(parent, operationType, reduceToSupertype)) {
+					if (isAllowedAsDangling(parent, operationType)) {
 						if (allAllowedParents.get(eRef) == null) {
 							List<EClass> newParentList = new ArrayList<EClass>();
 							newParentList.add(parent);
@@ -529,56 +612,42 @@ public class ElementFilter {
 					// all EReferences
 					ArrayList<EReference> allReferences = new ArrayList<EReference>();
 					allReferences.addAll(allAllowedParents.keySet());
-				}		
+				}
 			}
 		}
-		return allAllowedParents;		
+		return allAllowedParents;
 	}
-	
-	
-	
-//	/****** Meta Model Slicer TESTING **********************************************************************************/
-//	
-//	public void sliceMetaModel() {
-//		
-//		Stack<EPackage> ePackagesStack = c.EPACKAGESSTACK;
-//		EPackage metaModel = ePackagesStack.firstElement();
-//		
-//		MetaModelSlicer mms = new MetaModelSlicer();
-//		String newNS_URI = new String(metaModel.getNsURI());
-//		newNS_URI = newNS_URI.concat("_sliced");
-//		List<EPackage> ePackages = new ArrayList<EPackage>(ePackagesStack);
-//		List<String> whiteListAsStrings = extractAllEClassifierNames(whiteList);
-//		mms.slice(metaModel, ePackages, whiteListAsStrings, blackList,newNS_URI, newNS_URI);
-//	}
-	
-	
+
 	/**
-	 * Returns true if the given classifier is an element of the required meta models
-	 * (as opposed to an element of the main meta-model)
+	 * Returns true if the given classifier is an element of the required meta
+	 * models (as opposed to an element of the main meta-model)
 	 * 
 	 * @param eClassifier
 	 * @return
 	 */
 	private boolean isElementOfRequiredMetamodels(EClassifier eClassifier) {
-		
+
 		// access to config
 		Configuration config = Configuration.getInstance();
-		
+
 		// get only the required meta models
 		List<EPackage> requiredEPackages = new ArrayList<EPackage>();
 		requiredEPackages.addAll(config.EPACKAGESSTACK);
 		requiredEPackages.remove(config.METAMODEL);
-		
-		// is eClassifier contained in one of the required meta models?
-		for(EPackage requiredEPackage: requiredEPackages) {
-			 if(requiredEPackage.getEClassifiers().contains(eClassifier)) {
-				 return true;
-			 }
+		for (EPackage p : config.METAMODEL.getESubpackages()) {
+			// TODO Recursive?
+			requiredEPackages.remove(p);
 		}
-	
+
+		// is eClassifier contained in one of the required meta models?
+		for (EPackage requiredEPackage : requiredEPackages) {
+			if (requiredEPackage.getEClassifiers().contains(eClassifier)) {
+				return true;
+			}
+		}
+
 		return false;
-		
+
 	}
 
 }

@@ -24,14 +24,14 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class AttachGenerator {
 
 	private static Configuration c = Configuration.getInstance();
-	private static EClassifierInfoManagement ECM = EClassifierInfoManagement
-			.getInstance();
+	private static EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 
 	private final EClassifier eClassifier;
 
@@ -46,14 +46,11 @@ public class AttachGenerator {
 		if (!eInf.isStereotype())
 			return modules;
 		HashMap<EClassifier, Set<EReference>> combinations = getCombinations((EClass) eClassifier);
-		//TODO Wenn nur eine Metaclasse existiert einfachen Namen verwenden (+Option)
-		for (Map.Entry<EClassifier, Set<EReference>> c : combinations
-				.entrySet()) {
-			for (EReference s : c.getValue()){
-				boolean useSimpleName=AttachGenerator.c.USE_SIMPLE_NAMES_ATTACHDETACH && (c.getValue().size() == 1);
-				LogUtil.log(LogEvent.NOTICE, "Generating ATTACH: " 
-						+ GlobalConstants.ATTACH_prefix + eClassifier.getName() + (!useSimpleName ? "("
-						+ s.getName() + ")" : ""));
+		for (Map.Entry<EClassifier, Set<EReference>> c : combinations.entrySet()) {
+			for (EReference s : c.getValue()) {
+				boolean useSimpleName = AttachGenerator.c.USE_SIMPLE_NAMES_ATTACHDETACH && (c.getValue().size() == 1);
+				LogUtil.log(LogEvent.NOTICE, "Generating ATTACH: " + GlobalConstants.ATTACH_prefix
+						+ eClassifier.getName() + (!useSimpleName ? "(" + s.getName() + ")" : ""));
 				modules.add(generate((EClass) eClassifier, c.getKey(), s, useSimpleName));
 			}
 		}
@@ -61,14 +58,13 @@ public class AttachGenerator {
 		return modules;
 	}
 
-	private static Module generate(EClass stereotype, EClassifier metaclass,
-			EReference baseRef, boolean useSimpleName) throws OperationTypeNotImplementedException {
-		
-		
+	private static Module generate(EClass stereotype, EClassifier metaclass, EReference baseRef, boolean useSimpleName)
+			throws OperationTypeNotImplementedException {
+
 		// Create Module
 		Module module = HenshinFactory.eINSTANCE.createModule();
-		String name = GlobalConstants.ATTACH_prefix + stereotype.getName() + (!useSimpleName ? "("
-				+ baseRef.getName() + ")" : "");
+		String name = GlobalConstants.ATTACH_prefix + stereotype.getName()
+				+ (!useSimpleName ? "(" + baseRef.getName() + ")" : "");
 		module.setDescription("Attaches a " + stereotype.getName());
 		module.setName(name);
 
@@ -76,77 +72,63 @@ public class AttachGenerator {
 		module.getImports().addAll(c.EPACKAGESSTACK);
 
 		// Add new rule to Module
-		Rule rule = HenshinRuleAnalysisUtilEx.createRule(
-				"attach_" + stereotype.getName(),
+		Rule rule = HenshinRuleAnalysisUtilEx.createRule("attach_" + stereotype.getName(),
 				"attaches a " + stereotype.getName(), true, module);
 
 		// Add new eClass to RHS
-		String newName = ModuleInternalsApplicator.getFreeNodeName(
-				GlobalConstants.NEW, rule);
-		Node stereotypeNode = HenshinRuleAnalysisUtilEx.createCreateNode(
-				rule.getRhs(), newName, (EClass) stereotype);
+		String newName = ModuleInternalsApplicator.getFreeNodeName(GlobalConstants.NEW, rule);
+		Node stereotypeNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), newName, (EClass) stereotype);
 
 		// Add necessary attributes to the new eClass node
-		ModuleInternalsApplicator.createAttributes((EClass) stereotype,
-				stereotypeNode, rule);
+		ModuleInternalsApplicator.createAttributes((EClass) stereotype, stereotypeNode, rule);
 
 		// create mandatories if any
-		Node createNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule)
-				.get(0);
+		Node createNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 		EClassifierInfo childInfo = ECM.getEClassifierInfo(stereotype);
 		if (childInfo.hasMandatories()) {
-			ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo,
-					createNode, OperationType.ATTACH,
-					c.REDUCETOSUPERTYPE_ATTACHDETACH);
-			ModuleInternalsApplicator.createMandatoryNeighbours(rule,
-					childInfo, createNode, OperationType.ATTACH,
-					c.REDUCETOSUPERTYPE_ATTACHDETACH);
+			if (c.CREATE_MANDATORY_CHILDREN)
+				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, createNode, OperationType.ATTACH);
+			if (c.CREATE_MANDATORY_NEIGHBOURS)
+				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, createNode, OperationType.ATTACH);
 		}
 
 		// create <<preserve>> rules for metaclass
-		NodePair metaclassNodePair = HenshinRuleAnalysisUtilEx
-				.createPreservedNode(rule, GlobalConstants.SEL,
-						(EClass) metaclass);
-		HenshinRuleAnalysisUtilEx.createCreateEdge(stereotypeNode,
-				metaclassNodePair.getRhsNode(), baseRef);
+		NodePair metaclassNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL,
+				(EClass) metaclass);
+		HenshinRuleAnalysisUtilEx.createCreateEdge(stereotypeNode, metaclassNodePair.getRhsNode(), baseRef);
 		return module;
 	}
-	
+
 	/**
 	 * Finds all valid metaclasses and according names for the reference
 	 * 
 	 * @param stereotype
 	 * @return
 	 */
-	private HashMap<EClassifier, Set<EReference>> getCombinations(
-			EClass stereotype) {
+	private HashMap<EClassifier, Set<EReference>> getCombinations(EClass stereotype) {
 		HashMap<EClassifier, Set<EReference>> result = new HashMap<>();
-		List<EStructuralFeature> featureList = EMFMetaAccess
-				.getEStructuralFeaturesByRegEx(stereotype, "^(base)_\\w+", true);
+		List<EStructuralFeature> featureList = EMFMetaAccess.getEStructuralFeaturesByRegEx(stereotype, "^(base)_\\w+",
+				true);
 		for (EStructuralFeature extension : featureList) {
 			EClassifier metaClass = extension.getEType();
 			if (!result.containsKey(metaClass))
 				result.put(metaClass, new HashSet<EReference>());
 			result.get(metaClass).add((EReference) extension);
-/*
-			if (findSubtypes) {
-				for (EClassifier subtype : ECM.getAllSubTypes(metaClass)) {
-					getCombinations_MetaclassSubtypes(subtype,
-							(EReference) extension, result);
-				}
-			}
- */
+			/*
+			 * if (findSubtypes) { for (EClassifier subtype :
+			 * ECM.getAllSubTypes(metaClass)) {
+			 * getCombinations_MetaclassSubtypes(subtype, (EReference)
+			 * extension, result); } }
+			 */
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unused")
 	@Deprecated
-	private void getCombinations_MetaclassSubtypes(EClassifier eClassifier,
-			EReference extensionRef,
+	private void getCombinations_MetaclassSubtypes(EClassifier eClassifier, EReference extensionRef,
 			HashMap<EClassifier, Set<EReference>> result) {
-		if (eClassifier instanceof EClass
-				&& !((EClass) eClassifier).isAbstract()) {
+		if (eClassifier instanceof EClass && !((EClass) eClassifier).isAbstract()) {
 			if (!result.containsKey(eClassifier))
 				result.put(eClassifier, new HashSet<EReference>());
 			result.get(eClassifier).add(extensionRef);

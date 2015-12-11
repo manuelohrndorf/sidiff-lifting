@@ -247,112 +247,112 @@ public class ModuleSerializer {
 		
 		String expectedSubfolderName = "";
 		
-		if(config.CREATE_CREATES && (
+		if(config.isRuleCreationEnabled(OperationType.CREATE) && (
 				(module.getName().startsWith(GlobalConstants.CREATE_prefix)
-				|| module.getName().startsWith("create")))) {
+				|| module.getName().toLowerCase().startsWith("create")))) {
 			
 			expectedSubfolderName = "CREATE" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_DELETES && (
+		else if(config.isRuleCreationEnabled(OperationType.DELETE) && (
 				(module.getName().startsWith(GlobalConstants.DELETE_prefix)
-				|| module.getName().startsWith("delete")))) {
+				|| module.getName().toLowerCase().startsWith("delete")))) {
 			
 			expectedSubfolderName = "DELETE" + System.getProperty("file.separator");
 		}
-		else if(config.CREATE_ATTACHES &&
+		else if(config.isRuleCreationEnabled(OperationType.ATTACH) &&
 				(module.getName().startsWith(GlobalConstants.ATTACH_prefix)
-				|| module.getName().startsWith("attach"))) {
+				|| module.getName().toLowerCase().startsWith("attach"))) {
 			
 			expectedSubfolderName = "ATTACH" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_DETACHES &&
+		else if(config.isRuleCreationEnabled(OperationType.DETACH) &&
 				(module.getName().startsWith(GlobalConstants.DETACH_prefix)
-				|| module.getName().startsWith("detach"))) {
+				|| module.getName().toLowerCase().startsWith("detach"))) {
 			
 			expectedSubfolderName = "DETACH" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_MOVES && (
+		else if(config.isRuleCreationEnabled(OperationType.MOVE) && (
 				(module.getName().startsWith(GlobalConstants.MOVE_prefix)
-				|| module.getName().startsWith("move")))) {
+				|| module.getName().toLowerCase().startsWith("move")))) {
 
 			expectedSubfolderName = "MOVE" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_MOVE_REFERENCE_COMBINATIONS && (
+		else if(config.isRuleCreationEnabled(OperationType.MOVE_REFERENCE_COMBINATION) && (
 				(module.getName().startsWith(GlobalConstants.MOVE_REF_COMBI_prefix))
-				|| module.getName().startsWith("move"))) {
+				|| module.getName().toLowerCase().startsWith("move"))) {
 
 			expectedSubfolderName = "MOVE" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_MOVE_UPS && (
+		else if(config.isRuleCreationEnabled(OperationType.MOVE_UP) && (
 				(module.getName().startsWith(GlobalConstants.MOVE_UP_prefix))
-				|| module.getName().startsWith("move"))) {
+				|| module.getName().toLowerCase().startsWith("move"))) {
 
 			expectedSubfolderName = "MOVE" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_MOVE_DOWNS && (
+		else if(config.isRuleCreationEnabled(OperationType.MOVE_DOWN) && (
 				(module.getName().startsWith(GlobalConstants.MOVE_DOWN_prefix))
-				|| module.getName().startsWith("move"))) {
+				|| module.getName().toLowerCase().startsWith("move"))) {
 
 			expectedSubfolderName = "MOVE" + System.getProperty("file.separator");
 		}
-		else if(config.CREATE_SET_ATTRIBUTES &&
+		else if(config.isRuleCreationEnabled(OperationType.SET_ATTRIBUTE) &&
 				(module.getName().startsWith(GlobalConstants.SET_ATTRIBUTE_prefix)
-				|| module.getName().startsWith("set"))) {
+				|| module.getName().toLowerCase().startsWith("set"))) {
 			
 			expectedSubfolderName = "SET" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_SET_REFERENCES &&
+		else if(config.isRuleCreationEnabled(OperationType.SET_REFERENCE) &&
 				(module.getName().startsWith(GlobalConstants.SET_REFERENCE_prefix)
-				|| module.getName().startsWith("set"))) {
+				|| module.getName().toLowerCase().startsWith("set"))) {
 			
 			expectedSubfolderName = "SET" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_UNSET_ATTRIBUTES &&
+		else if(config.isRuleCreationEnabled(OperationType.UNSET_ATTRIBUTE) &&
 				(module.getName().startsWith(GlobalConstants.UNSET_ATTRIBUTE_prefix)
-				|| module.getName().startsWith("unset"))) {
+				|| module.getName().toLowerCase().startsWith("unset"))) {
 			
 			expectedSubfolderName = "UNSET" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_UNSET_REFERENCES &&
+		else if(config.isRuleCreationEnabled(OperationType.UNSET_REFERENCE) &&
 				(module.getName().startsWith(GlobalConstants.UNSET_REFERENCE_prefix)
-				|| module.getName().startsWith("unset"))) {
+				|| module.getName().toLowerCase().startsWith("unset"))) {
 			
 			expectedSubfolderName = "UNSET" + System.getProperty("file.separator");
 			
 		}		
-		else if(config.CREATE_CHANGE_LITERALS &&
+		else if(config.isRuleCreationEnabled(OperationType.CHANGE_LITERAL) &&
 				(module.getName().startsWith(GlobalConstants.CHANGE_LITERAL_prefix)
-				|| module.getName().startsWith("change"))) {
+				|| module.getName().toLowerCase().startsWith("change"))) {
 			
 			expectedSubfolderName = "CHANGE" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_CHANGE_REFERENCES &&
+		else if(config.isRuleCreationEnabled(OperationType.CHANGE_REFERENCE) &&
 				(module.getName().startsWith(GlobalConstants.CHANGE_REFERENCE_prefix)
-				|| module.getName().startsWith("change"))) {
+				|| module.getName().toLowerCase().startsWith("change"))) {
 			
 			expectedSubfolderName = "CHANGE" + System.getProperty("file.separator");
 			
 		}			
-		else if(config.CREATE_ADDS &&
+		else if(config.isRuleCreationEnabled(OperationType.ADD) &&
 				(module.getName().startsWith(GlobalConstants.ADD_prefix)
-				|| module.getName().startsWith("add"))) {
+				|| module.getName().toLowerCase().startsWith("add"))) {
 			
 			expectedSubfolderName = "ADD" + System.getProperty("file.separator");
 			
 		}
-		else if(config.CREATE_REMOVES &&
+		else if(config.isRuleCreationEnabled(OperationType.REMOVE) &&
 				(module.getName().startsWith(GlobalConstants.REMOVE_prefix)
-				|| module.getName().startsWith("remove"))) {
+				|| module.getName().toLowerCase().startsWith("remove"))) {
 			
 			expectedSubfolderName = "REMOVE" + System.getProperty("file.separator");
 			

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Config SYSTEM "org.sidiff.editrule.generator.serge.config.dtd" >
-
 <Config>
 	<MetaModel>
-		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML"
-			isProfile="false" />
+		<MainModel nsUri="http://www.eclipse.org/papyrus/MARTE/1"
+			isProfile="true" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
 		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
-		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
-		<RootModelElement name="Model" canBeNested="false" />
 	</MetaModel>
 
 	<Transformations>
 		<CREATE enable="true" />
 		<DELETE enable="true" />
+		<ATTACH enable="true" useSimpleNames="true" />
+		<DETACH enable="true"/>
 		<MOVE enable="true" allowReferenceSwitching="true"
 			allowReferenceCombinations="true" />
 		<MOVE_UP enable="true" />
@@ -31,13 +31,15 @@
 		<CreateMandatoryChildren enable="true" />
 		<CreateMandatoryNeighbours enable="true" />
 		<CreateMultiplicityPreconditions
-			enable="false" />
+			enable="true" />
 	</ConsistencyLevel>
 
 	<CompletnessLevel>
 		<AbstractReplacements>
 			<AbstractReplacement ruleType="CREATE_DELETE"
 				reduceDanglings="true" />
+			<AbstractReplacement ruleType="ATTACH_DETACH"
+				reduceDanglings="false" />
 			<AbstractReplacement ruleType="ADD_REMOVE"
 				reduceDanglings="true" />
 			<AbstractReplacement ruleType="MOVE"
@@ -58,6 +60,8 @@
 		<SupertypeReplacements>
 			<SupertypeReplacement ruleType="CREATE_DELETE"
 				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="ATTACH_DETACH"
+				reduceDanglings="false" reduceContext="false" />
 			<SupertypeReplacement ruleType="ADD_REMOVE"
 				reduceDanglings="true" reduceContext="true" />
 			<SupertypeReplacement ruleType="MOVE"
@@ -78,47 +82,15 @@
 
 		<ModuleInternalOptions>
 			<CreateOptionalAttributes enable="true" />
-			<DanglingNodeSettings defaultTypeInclusion="ifRequired">
-							<DanglingNodeSetting type="Abstraction" include="always" />
-				<DanglingNodeSetting type="Association" include="always" />
-				<DanglingNodeSetting type="Class" include="always" />
-				<DanglingNodeSetting type="Enumeration" include="always" />
-				<DanglingNodeSetting type="EnumerationLiteral"
-					include="always" />
-				<DanglingNodeSetting type="Generalization" include="always" />
-				<DanglingNodeSetting type="LiteralBoolean" include="always" />
-				<DanglingNodeSetting type="LiteralString" include="always" />
-				<DanglingNodeSetting type="Operation" include="always" />
-				<DanglingNodeSetting type="Package" include="always" />
-				<DanglingNodeSetting type="Parameter" include="always" />
-				<DanglingNodeSetting type="Port" include="always" />
-				<DanglingNodeSetting type="ProfileApplication"
-					include="always" />
-				<DanglingNodeSetting type="Property" include="always" />
-				<DanglingNodeSetting type="Type" include="always" />
+			<DanglingNodeSettings defaultTypeInclusion="always">
 			</DanglingNodeSettings>
 		</ModuleInternalOptions>
 
 		<ModuleSetOptions>
 			<ModuleGenerationSettings
 				defaultGenerationCase="ifRequired">
-				<GenerateModulesFor type="Abstraction" case="always" />
-				<GenerateModulesFor type="Association" case="always" />
-				<GenerateModulesFor type="Class" case="always" />
-				<GenerateModulesFor type="Enumeration" case="always" />
-				<GenerateModulesFor type="EnumerationLiteral"
-					case="always" />
-				<GenerateModulesFor type="Generalization" case="always" />
-				<GenerateModulesFor type="LiteralBoolean" case="always" />
-				<GenerateModulesFor type="LiteralString" case="always" />
-				<GenerateModulesFor type="Operation" case="always" />
-				<GenerateModulesFor type="Package" case="always" />
-				<GenerateModulesFor type="Parameter" case="always" />
-				<GenerateModulesFor type="Port" case="always" />
-				<GenerateModulesFor type="ProfileApplication"
-					case="always" />
-				<GenerateModulesFor type="Property" case="always" />
-				<GenerateModulesFor type="Type" case="always" />
+				<GenerateModulesFor type="RtUnit" case="always" />
+				<GenerateModulesFor type="PpUnit" case="always" />
 			</ModuleGenerationSettings>
 		</ModuleSetOptions>
 	</CompletnessLevel>

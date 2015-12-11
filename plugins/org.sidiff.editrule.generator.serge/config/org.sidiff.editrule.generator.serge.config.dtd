@@ -1,125 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT Config (	GeneralSettings,
-									MetaModelSettings,
-								 	ProfiledModelSettings?,
-								 	Transformations,
-									Root,
-								 	WhiteList,
-									BlackList)>
-<!ELEMENT GeneralSettings (	preventInconsistency,
-													multiplicityPreconditions,
-													reduceToSuperType,
-													disableVariantsWithSupertypeReplacement,
-													modelUsesProfileMechanism,
-													createAllAttributes)>
-<!ELEMENT MetaModelSettings (	 MainModel,
-														 RequiredModel*,
-														 Constraints?,
-														 MaskedClassifiers?)>
-<!ELEMENT ProfiledModelSettings (BaseModelRules)>
-<!ELEMENT BaseModelRules EMPTY>
+<!ELEMENT Config (MetaModel,
+					Transformations,
+					ConsistencyLevel,
+					CompletnessLevel)>
+					
+<!ELEMENT MetaModel (MainModel,
+						RequiredModel*,
+					 	MaskedClassifiers?,
+					 	RootModelElement?)>
+
 <!ELEMENT MainModel EMPTY>
+<!ATTLIST MainModel nsUri CDATA #REQUIRED
+					isProfile (true|false) #IMPLIED>
+
 <!ELEMENT RequiredModel EMPTY>
-<!ELEMENT Constraints (NameUniqueness*) >
-<!ELEMENT Mask EMPTY>
-<!ELEMENT MaskedClassifiers (Mask*) >
-<!ELEMENT NameUniqueness EMPTY>
-<!ELEMENT Transformations (	Creates,
-													Deletes,
-													Attaches,
-													Detaches,
-													Moves,
-													MoveUps,
-													MoveDowns,
-													SetAttributes,
-													UnsetAttributes,
-													SetReferences,
-													UnsetReferences,
-													Adds,
-													Removes,
-													ChangeLiterals,
-													ChangeReferences)>
-<!ELEMENT Root EMPTY>
-<!ELEMENT BlackList (EClassifier*)>
-<!ELEMENT WhiteList (EClassifier*)>
-
-<!ELEMENT preventInconsistency EMPTY>
-<!ELEMENT multiplicityPreconditions EMPTY>
-<!ELEMENT reduceToSuperType EMPTY>
-<!ELEMENT disableVariantsWithSupertypeReplacement EMPTY>
-<!ELEMENT createAllAttributes EMPTY>
-<!ELEMENT modelUsesProfileMechanism EMPTY>
-
-<!ELEMENT Creates EMPTY>
-<!ELEMENT Deletes EMPTY>
-<!ELEMENT Attaches EMPTY>
-<!ELEMENT Detaches EMPTY>
-<!ELEMENT Moves EMPTY>
-<!ELEMENT MoveDowns EMPTY>
-<!ELEMENT MoveUps EMPTY>
-<!ELEMENT SetAttributes EMPTY>
-<!ELEMENT UnsetAttributes EMPTY>
-<!ELEMENT SetReferences EMPTY>
-<!ELEMENT UnsetReferences EMPTY>
-<!ELEMENT Adds EMPTY>
-<!ELEMENT Removes EMPTY>
-<!ELEMENT ChangeLiterals EMPTY>
-<!ELEMENT ChangeReferences EMPTY>
-
-<!ELEMENT EClassifier EMPTY>
-<!ATTLIST MainModel nsUri CDATA #REQUIRED>
 <!ATTLIST RequiredModel nsUri CDATA #REQUIRED>
-<!ATTLIST BaseModelRules path CDATA #REQUIRED>
-<!ATTLIST NameUniqueness 
-					scope CDATA #REQUIRED
-					eClassifier CDATA #REQUIRED
-					eAttributeName CDATA #REQUIRED
-					eAttributeIsInherited  (true|false)  #REQUIRED
-					overrideInheritedConstraintsIfAny  (true|false)  #REQUIRED
-					applyOnSubTypes  (true|false)  #REQUIRED>
+
+<!ELEMENT MaskedClassifiers (Mask*) >	
+
+<!ELEMENT Mask EMPTY>
 <!ATTLIST Mask 	name CDATA #REQUIRED
 					eClassifier CDATA #REQUIRED
 					eAttribute CDATA #REQUIRED
-					eAttributeValue CDATA #REQUIRED>		
-<!ATTLIST Root name CDATA #REQUIRED>
-<!ATTLIST Root nested  (true|false)  #REQUIRED>
-<!ATTLIST EClassifier name  (true|false)  #REQUIRED>
-<!ATTLIST preventInconsistency value  (true|false)  #REQUIRED>
-<!ATTLIST multiplicityPreconditions
-					integrated  (true|false)  #REQUIRED
-					separately  (true|false)  #REQUIRED>
-<!ATTLIST disableVariantsWithSupertypeReplacement value  (true|false)  #REQUIRED>
-<!ATTLIST createAllAttributes value  (true|false)  #REQUIRED>
-<!ATTLIST modelUsesProfileMechanism value  (true|false)  #REQUIRED>
+					eAttributeValue CDATA #REQUIRED>
 
-<!ATTLIST reduceToSuperType
-					CREATE_DELETE  (true|false)  #REQUIRED
-					MOVE  (true|false)  #REQUIRED
-					MOVE_UP  (true|false)  #REQUIRED
-					MOVE_DOWN  (true|false)  #REQUIRED
-					SET_UNSET_ATTRIBUTE  (true|false)  #REQUIRED
-					SET_UNSET_REFERENCE  (true|false)  #REQUIRED							
-					ADD_REMOVE  (true|false)  #REQUIRED
-					CHANGE_REFERENCE  (true|false)  #REQUIRED
-					CHANGE_LITERAL  (true|false)  #REQUIRED
-					ATTACH_DETACH  (true|false)  #IMPLIED>
+<!ELEMENT RootModelElement EMPTY>  <!-- TODO Must be optional -->
+<!ATTLIST RootModelElement name CDATA #REQUIRED
+			canBeNested  (true|false)  #REQUIRED>
 
-<!ATTLIST Creates allow (true|false) #REQUIRED>
-<!ATTLIST Deletes allow  (true|false)  #REQUIRED>
-<!ATTLIST Attaches allow (true|false)  #REQUIRED>
-<!ATTLIST Detaches allow  (true|false)  #REQUIRED
-					useSimpleNames (true|false) #REQUIRED>
-<!ATTLIST Moves allow  (true|false)  #REQUIRED
+<!ELEMENT Transformations (CREATE?,
+							DELETE?,
+							ATTACH?,
+							DETACH?,
+							MOVE?,
+							MOVE_UP?,
+							MOVE_DOWN?,
+							SET_ATTRIBUTE?,
+							UNSET_ATTRIBUTE?,
+							SET_REFERENCE?,
+							UNSET_REFERENCE?,
+							ADD?,
+							REMOVE?,
+							CHANGE_LITERAL?,
+							CHANGE_REFERENCE?)>	
+
+<!ELEMENT CREATE EMPTY>
+<!ATTLIST CREATE enable (true|false) #REQUIRED>
+<!ELEMENT DELETE EMPTY>
+<!ATTLIST DELETE enable (true|false) #REQUIRED>
+<!ELEMENT ATTACH EMPTY>
+<!ATTLIST ATTACH enable (true|false) #REQUIRED
+					useSimpleNames (true|false)  #REQUIRED>
+<!ELEMENT DETACH EMPTY>
+<!ATTLIST DETACH enable (true|false) #REQUIRED>
+<!ELEMENT MOVE EMPTY>
+<!ATTLIST MOVE	enable (true|false) #REQUIRED
 					allowReferenceSwitching  (true|false)  #REQUIRED
 					allowReferenceCombinations  (true|false)  #REQUIRED>
-<!ATTLIST MoveUps allow  (true|false)  #REQUIRED>
-<!ATTLIST MoveDowns allow  (true|false)  #REQUIRED>
-<!ATTLIST SetAttributes allow  (true|false)  #REQUIRED>
-<!ATTLIST UnsetAttributes allow  (true|false)  #REQUIRED>
-<!ATTLIST SetReferences allow  (true|false)  #REQUIRED>
-<!ATTLIST UnsetReferences allow  (true|false)  #REQUIRED>
-<!ATTLIST Adds allow  (true|false)  #REQUIRED>
-<!ATTLIST Removes allow  (true|false)  #REQUIRED>
-<!ATTLIST ChangeReferences allow  (true|false)  #REQUIRED>
-<!ATTLIST ChangeLiterals allow  (true|false)  #REQUIRED
-				  allowLiteralSwitching  (true|false)  #REQUIRED>
+<!ELEMENT MOVE_DOWN EMPTY>
+<!ATTLIST MOVE_DOWN enable (true|false) #REQUIRED>
+<!ELEMENT MOVE_UP EMPTY>
+<!ATTLIST MOVE_UP enable (true|false) #REQUIRED>
+<!ELEMENT SET_ATTRIBUTE EMPTY>
+<!ATTLIST SET_ATTRIBUTE enable (true|false) #REQUIRED>
+<!ELEMENT UNSET_ATTRIBUTE EMPTY>
+<!ATTLIST UNSET_ATTRIBUTE enable (true|false) #REQUIRED>
+<!ELEMENT SET_REFERENCE EMPTY>
+<!ATTLIST SET_REFERENCE enable (true|false) #REQUIRED>
+<!ELEMENT UNSET_REFERENCE EMPTY>
+<!ATTLIST UNSET_REFERENCE enable (true|false) #REQUIRED>
+<!ELEMENT ADD EMPTY>
+<!ATTLIST ADD enable (true|false) #REQUIRED>
+<!ELEMENT REMOVE EMPTY>
+<!ATTLIST REMOVE enable (true|false) #REQUIRED>
+<!ATTLIST SET_REFERENCE enable (true|false) #REQUIRED>
+<!ELEMENT CHANGE_LITERAL EMPTY>
+<!ATTLIST CHANGE_LITERAL enable (true|false) #REQUIRED
+							allowLiteralSwitching  (true|false)  #REQUIRED>
+<!ELEMENT CHANGE_REFERENCE EMPTY>
+<!ATTLIST CHANGE_REFERENCE enable (true|false) #REQUIRED>
+
+<!ELEMENT ConsistencyLevel (CreateMandatoryChildren, CreateMandatoryNeighbours, CreateMultiplicityPreconditions)>		 	
+
+<!ELEMENT CreateMandatoryChildren EMPTY>
+<!ATTLIST CreateMandatoryChildren enable (true|false) #REQUIRED>
+
+<!ELEMENT CreateMandatoryNeighbours EMPTY>
+<!ATTLIST CreateMandatoryNeighbours enable (true|false) #REQUIRED>
+
+<!ELEMENT CreateMultiplicityPreconditions EMPTY>
+<!ATTLIST CreateMultiplicityPreconditions enable (true|false) #REQUIRED>
+																
+<!ELEMENT CompletnessLevel (AbstractReplacements, SupertypeReplacements, ModuleInternalOptions, ModuleSetOptions)>
+
+<!ELEMENT AbstractReplacements (AbstractReplacement*)>
+
+<!ELEMENT AbstractReplacement EMPTY>
+<!ATTLIST AbstractReplacement ruleType (CREATE_DELETE | MOVE | MOVE_UP | MOVE_DOWN | SET_UNSET_ATTRIBUTE | SET_UNSET_REFERENCE | ADD_REMOVE | CHANGE_REFERENCE | CHANGE_LITERAL | ATTACH_DETACH) #REQUIRED
+								reduceDanglings (true|false) #REQUIRED>
+
+<!ELEMENT SupertypeReplacements (SupertypeReplacement*)>
+
+<!ELEMENT SupertypeReplacement EMPTY>
+<!ATTLIST SupertypeReplacement ruleType (CREATE_DELETE | MOVE | MOVE_UP | MOVE_DOWN | SET_UNSET_ATTRIBUTE | SET_UNSET_REFERENCE | ADD_REMOVE | CHANGE_REFERENCE | CHANGE_LITERAL | ATTACH_DETACH) #REQUIRED
+								reduceDanglings (true|false) #REQUIRED
+								reduceContext (true|false) #REQUIRED>
+					
+<!ELEMENT ModuleInternalOptions (CreateOptionalAttributes, DanglingNodeSettings)>
+
+<!ELEMENT CreateOptionalAttributes EMPTY>
+<!ATTLIST CreateOptionalAttributes enable (true|false) #REQUIRED>
+
+<!ELEMENT DanglingNodeSettings (DanglingNodeSetting*)>
+<!ATTLIST DanglingNodeSettings defaultTypeInclusion (never|ifRequired|always) #REQUIRED>
+
+<!ELEMENT DanglingNodeSetting EMPTY>
+<!ATTLIST DanglingNodeSetting type CDATA #REQUIRED
+					include (never|ifRequired|always) #REQUIRED>
+
+
+<!ELEMENT ModuleSetOptions (ModuleGenerationSettings)>
+
+<!ELEMENT ModuleGenerationSettings (GenerateModulesFor*)>
+<!ATTLIST ModuleGenerationSettings defaultGenerationCase (never|ifRequired|always) #REQUIRED>
+
+<!ELEMENT GenerateModulesFor EMPTY>
+<!-- "always" means all types (including indirectly required, "ifRequired" means only explicit as "always" marked types and their indirectly required types -->
+<!ATTLIST GenerateModulesFor type CDATA #REQUIRED
+					case (never|ifRequired|always) #REQUIRED>
+					
+	

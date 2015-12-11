@@ -3,10 +3,10 @@
 
 <Config>
 	<MetaModel>
-		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML"
-			isProfile="false" />
-		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<MainModel nsUri="http://www.eclipse.org/papyrus/0.7.0/SysML" isProfile="false" />
 		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
 		<RootModelElement name="Model" canBeNested="false" />
 	</MetaModel>
 
@@ -79,46 +79,32 @@
 		<ModuleInternalOptions>
 			<CreateOptionalAttributes enable="true" />
 			<DanglingNodeSettings defaultTypeInclusion="ifRequired">
-							<DanglingNodeSetting type="Abstraction" include="always" />
-				<DanglingNodeSetting type="Association" include="always" />
-				<DanglingNodeSetting type="Class" include="always" />
-				<DanglingNodeSetting type="Enumeration" include="always" />
-				<DanglingNodeSetting type="EnumerationLiteral"
+				<DanglingNodeSetting type="Block" include="always" />
+				<DanglingNodeSetting type="FlowPort" include="always" />
+				<DanglingNodeSetting type="ConstraintProperty"
 					include="always" />
-				<DanglingNodeSetting type="Generalization" include="always" />
-				<DanglingNodeSetting type="LiteralBoolean" include="always" />
-				<DanglingNodeSetting type="LiteralString" include="always" />
-				<DanglingNodeSetting type="Operation" include="always" />
-				<DanglingNodeSetting type="Package" include="always" />
-				<DanglingNodeSetting type="Parameter" include="always" />
-				<DanglingNodeSetting type="Port" include="always" />
-				<DanglingNodeSetting type="ProfileApplication"
+				<DanglingNodeSetting type="ConstraintBlock"
 					include="always" />
-				<DanglingNodeSetting type="Property" include="always" />
-				<DanglingNodeSetting type="Type" include="always" />
+				<DanglingNodeSetting type="RequirementRelated"
+					include="always" />
+				<DanglingNodeSetting type="Requirement" include="always" />
+				<DanglingNodeSetting type="Satisfy" include="always" />
 			</DanglingNodeSettings>
 		</ModuleInternalOptions>
 
 		<ModuleSetOptions>
 			<ModuleGenerationSettings
 				defaultGenerationCase="ifRequired">
-				<GenerateModulesFor type="Abstraction" case="always" />
-				<GenerateModulesFor type="Association" case="always" />
-				<GenerateModulesFor type="Class" case="always" />
-				<GenerateModulesFor type="Enumeration" case="always" />
-				<GenerateModulesFor type="EnumerationLiteral"
+				<GenerateModulesFor type="Block" case="always" />
+				<GenerateModulesFor type="FlowPort" case="always" />
+				<GenerateModulesFor type="ConstraintProperty"
 					case="always" />
-				<GenerateModulesFor type="Generalization" case="always" />
-				<GenerateModulesFor type="LiteralBoolean" case="always" />
-				<GenerateModulesFor type="LiteralString" case="always" />
-				<GenerateModulesFor type="Operation" case="always" />
-				<GenerateModulesFor type="Package" case="always" />
-				<GenerateModulesFor type="Parameter" case="always" />
-				<GenerateModulesFor type="Port" case="always" />
-				<GenerateModulesFor type="ProfileApplication"
+				<GenerateModulesFor type="ConstraintBlock"
 					case="always" />
-				<GenerateModulesFor type="Property" case="always" />
-				<GenerateModulesFor type="Type" case="always" />
+				<GenerateModulesFor type="RequirementRelated"
+					case="always" />
+				<GenerateModulesFor type="Requirement" case="always" />
+				<GenerateModulesFor type="Satisfy" case="always" />
 			</ModuleGenerationSettings>
 		</ModuleSetOptions>
 	</CompletnessLevel>

@@ -1,5 +1,7 @@
 package org.sidiff.editrule.generator.serge.configuration;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
@@ -7,68 +9,59 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
+import org.sidiff.editrule.generator.types.OperationType;
 
 @SuppressWarnings("unused")
 public class Configuration {
+	
+	public static enum OperationTypeGroup{
+		SET_UNSET_ATTRIBUTE,
+		SET_UNSET_REFERENCE,
+		ADD_REMOVE,
+		CHANGE_REFERECE,
+		CHANGE_LITERAL,
+		MOVE,
+		MOVE_REFERENCE_COMBINATION,
+		MOVE_UP,
+		MOVE_DOWN,
+		CREATE_DELETE,
+		ATTACH_DETACH
+	}
+
 	
 	// Tool specific configurations
 	
 	public boolean ENABLE_DUPLICATE_FILTER = false;
 	public boolean ENABLE_EXECUTION_CHECK_FILTER = true;
-	public boolean ENABLE_NAME_MAPPER = true;
+	public boolean ENABLE_NAME_MAPPER = false;
 	public boolean ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION = false;
 	
 	// Meta-model dependend configurations
+	public final Set<OperationType> create = new HashSet<>();
 	
-	public boolean CREATE_CREATES;
-	public boolean CREATE_DELETES;
-	public boolean CREATE_ATTACHES;
-	public boolean CREATE_DETACHES;
-	public boolean CREATE_MOVES;
-	public boolean CREATE_MOVE_UPS;
-	public boolean CREATE_MOVE_DOWNS;
-	public boolean CREATE_MOVE_REFERENCE_COMBINATIONS;
-	public boolean CREATE_ADDS;
-	public boolean CREATE_REMOVES;
-	public boolean CREATE_SET_ATTRIBUTES;
-	public boolean CREATE_SET_REFERENCES;
-	public boolean CREATE_UNSET_ATTRIBUTES;
-	public boolean CREATE_UNSET_REFERENCES;
-	public boolean CREATE_CHANGE_REFERENCES;
-	public boolean CREATE_CHANGE_LITERALS;
-	
-	public boolean MULTIPLICITY_PRECONDITIONS_INTEGRATED;
-	public boolean MULTIPLICITY_PRECONDITIONS_SEPARATELY;
+	public boolean MULTIPLICITY_PRECONDITIONS;
+	public boolean CREATE_MANDATORY_CHILDREN;
+	public boolean CREATE_MANDATORY_NEIGHBOURS;
 	public boolean CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES;
-	public boolean PREVENT_INCONSISTENCY_THROUGHSKIPPING;
 	
-	public boolean REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES;
-	public boolean REDUCETOSUPERTYPE_SETUNSET_REFERENCES;
-	public boolean REDUCETOSUPERTYPE_ADDREMOVE;
-	public boolean REDUCETOSUPERTYPE_CHANGE_REFERENCE;
-	public boolean REDUCETOSUPERTYPE_CHANGE_LITERALS;
-	public boolean REDUCETOSUPERTYPE_MOVE;
-	public boolean REDUCETOSUPERTYPE_MOVE_REFERENCE_COMBINATION;
-	public boolean REDUCETOSUPERTYPE_MOVE_UP;
-	public boolean REDUCETOSUPERTYPE_MOVE_DOWN;
-	public boolean REDUCETOSUPERTYPE_CREATEDELETE;
-	public boolean REDUCETOSUPERTYPE_ATTACHDETACH;
+	public final Set<OperationTypeGroup> reduceAbstractDanglings = new HashSet<>();
+	public final Set<OperationTypeGroup> reduceSupertypeDanglings = new HashSet<>();
+	public final Set<OperationTypeGroup> reduceSupertypeContext = new HashSet<>();
 	
 	public boolean LITERALSWITCHING_CHANGE;
 	public boolean REFERENCESWITCHING_MOVE;	
 	public boolean REFERENCESWITCHING_MOVE_UP;
 	public boolean REFERENCESWITCHING_MOVE_DOWN;	
-	
 	public boolean USE_SIMPLE_NAMES_ATTACHDETACH;
 		
 	public EPackage METAMODEL;
 	
 	public String ROOTNAME;
-	public static EClassifier ROOT;
-	public static Boolean ROOTECLASSCANBENESTED;
+	public EClassifier ROOT;
+	public boolean ROOTECLASSCANBENESTED; //TODO Check if can be removed
 	
-	public Boolean PROFILE_APPLICATION_IN_USE;
-	public Boolean DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT;
+	public boolean MAINMODEL_IS_PROFILE;
 	
 	public Stack<EPackage> EPACKAGESSTACK = null;	
 	public static EClassifierInfoManagement ECM  = null;
@@ -83,6 +76,18 @@ public class Configuration {
 		return instance;
 	}	
 	
+	public boolean isRuleCreationEnabled(OperationType type){
+		return create.contains(type);
+	}
+	
+	
+	public boolean reduceToSupertypeDanglings(OperationTypeGroup type) {
+		return reduceSupertypeDanglings.contains(type);
+	}
+
+	public boolean reduceToSupertypeContext(OperationTypeGroup type) {
+		return reduceSupertypeDanglings.contains(type);
+	}
 	
 	/**
 	 * Checks whether an eClassifier is defined as root and if it
@@ -107,17 +112,6 @@ public class Configuration {
 		return ROOT==eClassifier;
 	}
 	
-	/**
-	 * Checks whether a configured root element is configured to be nested
-	 * (Example: The children of the root StateMachine can contain further sub-StateMachines)
-	 * @param eClassifier
-	 * @return
-	 */
-	@Deprecated
-	public static boolean rootCanBeNested(EClassifier eClassifier) {
-		return ROOTECLASSCANBENESTED;
-	}
-	
 	
 	/**
 	 * Checks if a given EReference is inherited
@@ -134,7 +128,11 @@ public class Configuration {
 		
 		return true;
 	}
-	
+
+	public boolean reduceToAbstractTypeDanglings(OperationTypeGroup opTypeGroup) {
+		return reduceAbstractDanglings.contains(opTypeGroup);
+	}
+
 //	/**
 //	 * Checks whether an EClassifier is implicitly required because it inherits its features
 //	 * to sub types which are white listed. Implicitly required EClassifiers are not required in CREATE/DELETES.

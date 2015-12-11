@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
@@ -28,6 +30,7 @@ import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
 import org.sidiff.editrule.generator.serge.core.AnnotationApplicator;
 import org.sidiff.editrule.generator.serge.core.ConfigSerializer;
 import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
+import org.sidiff.editrule.generator.serge.core.InternalAnnotationsRemover;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapper;
 import org.sidiff.editrule.generator.serge.core.InverseTracker;
@@ -44,73 +47,74 @@ import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.types.OperationType;
+import org.xml.sax.SAXException;
 
-
-/** Todo-List :
-* 
-* - make monitors cancel-able
-* - InverseMapping can't be saved anymore due to path setting changes, fix this.
-* - XML-Config should be cleaned up (so does the Configuration Parser)
-* - remove all the deprecated marks, old classes, old todos/fixmes
-*/
-public class Serge implements IEditRuleGenerator{
+/**
+ * Todo-List :
+ * 
+ * - make monitors cancel-able - InverseMapping can't be saved anymore due to
+ * path setting changes, fix this. - XML-Config should be cleaned up (so does
+ * the Configuration Parser) - remove all the deprecated marks, old classes, old
+ * todos/fixmes
+ */
+public class Serge implements IEditRuleGenerator {
 
 	/**
 	 * Plugin name. Necessary to access dtdmap and dtd files.
 	 */
 	public final static String PLUGIN_NAME = "org.sidiff.editrule.generator.serge";
-	
+
 	/**
 	 * The Generator Key defining which type of EditruleGenerator is used.
 	 */
 	public final static String GENERATOR_KEY = "serge";
-	
+
 	/**
 	 * The involved meta-models.
 	 */
 	private static Stack<EPackage> ePackagesStack = null;
-	
+
 	/**
 	 * The SERGe configuration (CPEO and meta-model specific configuration).
 	 */
 	private static Configuration config = null;
-	
+
 	/**
 	 * The settings object (i/o settings).
 	 */
 	private SergeSettings settings = null;
-	
+
 	@Override
 	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException {
-		
+
 		// Start monitor
 		monitor.beginTask("Initializing SERGe", 100);
-		
-		// First check if the given settings object really is a EditRuleGenerationSettings object
-		assert(settings instanceof EditRuleGenerationSettings): "Given Settings are not EditRuleGenerationSettings";
 
-		// Create more specific SergeSettings out of the general EditRuleGenerationSettings
-		this.settings = new SergeSettings(settings);		
-		
+		// First check if the given settings object really is a
+		// EditRuleGenerationSettings object
+		assert (settings instanceof EditRuleGenerationSettings) : "Given Settings are not EditRuleGenerationSettings";
+
+		// Create more specific SergeSettings out of the general
+		// EditRuleGenerationSettings
+		this.settings = new SergeSettings(settings);
+
 		// Load config's DTD
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(IOUtil.getInputStream(
-				"platform:/plugin/"+PLUGIN_NAME+"/config/Editrulesgeneratorconfig.dtdmap.xml")); 
-		
+		XMLResolver.getInstance().includeMapping(IOUtil
+				.getInputStream("platform:/plugin/" + PLUGIN_NAME + "/config/Editrulesgeneratorconfig.dtdmap.xml"));
+
 		// Create empty instance of the SergeConfiguration
 		config = Configuration.getInstance();
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 		ElementFilter.getInstance();
-		
+
 		// Case default config (if config path not set in settings).
-		if(settings.getConfigPath() == null) {	
+		if (settings.getConfigPath() == null) {
 			monitor.subTask("Setting up default configuration..");
-			this.settings.setConfigPath("platform:/plugin/"+PLUGIN_NAME+"/config/DefaultConfigTemplate.xml");
+			this.settings.setConfigPath("platform:/plugin/" + PLUGIN_NAME + "/config/DefaultConfigTemplate.xml");
 			ConfigurationParser parser = new ConfigurationParser();
 			try {
-				parser.setupDefaultConfig(
-						settings.getMetaModelNsUri(),
-						this.settings.getConfigPath());
+				parser.setupDefaultConfig(settings.getMetaModelNsUri(), this.settings.getConfigPath());
 				monitor.worked(20);
 			} catch (Exception e) {
 				monitor.done();
@@ -119,68 +123,62 @@ public class Serge implements IEditRuleGenerator{
 			}
 		}
 		// Case refined config.
-		else{
-			monitor.subTask("Loading configuration..");	
+		else {
+			monitor.subTask("Loading configuration..");
 			ConfigurationParser parser = new ConfigurationParser();
 			try {
 				parser.parse(this.settings.getConfigPath());
 				monitor.worked(20);
-			}
-			catch (SERGeConfigParserException 
-					| EPackageNotFoundException
-					| NoEncapsulatedTypeInformationException
-					| EAttributeNotFoundException
-					| EClassifierUnresolvableException e)
-			{
+			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
+					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
+					| SAXException | IOException e) {
 				monitor.done();
-				throw new EditRuleGenerationException(
-						"Error when parsing config file."
-								+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
-			}		
+				throw new EditRuleGenerationException("Error when parsing config file."
+						+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
+			}
 		}
-		
+
 		// Analyze meta model
 		monitor.subTask("Analyzing MetaModel");
-		ECM.gatherInformation(
-				config.PROFILE_APPLICATION_IN_USE,
-				config.EPACKAGESSTACK,
+		ECM.gatherInformation(config.MAINMODEL_IS_PROFILE, config.EPACKAGESSTACK,
 				config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
 		ePackagesStack = config.EPACKAGESSTACK;
+		ElementFilter.getInstance().collectRequiredTypes();//TODO Besserer Ort?
 		monitor.worked(80);
 
 		// Finish monitor
-		monitor.done();	
+		monitor.done();
 	}
 
-	
 	/**
 	 * Method to start the generation process.
-	 * @param monitor 
-	 * @throws OperationTypeNotImplementedException 
-	 * @throws IOException 
-	 * @throws EPackageNotFoundException 
+	 * 
+	 * @param monitor
+	 * @throws OperationTypeNotImplementedException
+	 * @throws IOException
+	 * @throws EPackageNotFoundException
 	 */
 	@Override
-	public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException{
+	public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException {
 
-		if((ePackagesStack == null) || (ePackagesStack.isEmpty())){
+		if ((ePackagesStack == null) || (ePackagesStack.isEmpty())) {
 			monitor.done();
-			throw new EditRuleGenerationException("EPackage could not be resolved.\n");			
+			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
 		}
-		
-		//Start monitor
-		monitor.beginTask("Generating CPEOs", 100);	
-		
+
+		// Start monitor
+		monitor.beginTask("Generating CPEOs", 100);
+
 		// visit all model elements and trigger rule generation
 		monitor.subTask("Visit MetaModel elements");
 		MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
-		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));				
+		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));
 		monitor.worked(50);
 
-		// Module filtering			
+		// Module filtering
 		Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
 
-		if (config.MULTIPLICITY_PRECONDITIONS_INTEGRATED){
+		if (config.MULTIPLICITY_PRECONDITIONS) {
 			monitor.subTask("Applying Constraints");
 			LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
 			ConstraintApplicator constraintApplicator = new ConstraintApplicator();
@@ -188,7 +186,7 @@ public class Serge implements IEditRuleGenerator{
 			monitor.worked(5);
 		}
 
-		if (config.ENABLE_EXECUTION_CHECK_FILTER){
+		if (config.ENABLE_EXECUTION_CHECK_FILTER) {
 			monitor.subTask("Filtering Executions");
 			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
 			ExecutableFilter executionFilter = new ExecutableFilter();
@@ -196,13 +194,15 @@ public class Serge implements IEditRuleGenerator{
 			monitor.worked(5);
 		}
 
-		if(config.ENABLE_DUPLICATE_FILTER) {
+		if (config.ENABLE_DUPLICATE_FILTER) {
 			monitor.subTask("Filtering Duplicates");
 			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
 			DuplicateFilter duplicateFilter = new DuplicateFilter();
 			duplicateFilter.filterIdenticalByName(allModules);
-			duplicateFilter.filterAddSet(allModules.get(OperationType.ADD), allModules.get(OperationType.SET_REFERENCE));
-			duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE), allModules.get(OperationType.UNSET_REFERENCE));
+			duplicateFilter.filterAddSet(allModules.get(OperationType.ADD),
+					allModules.get(OperationType.SET_REFERENCE));
+			duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE),
+					allModules.get(OperationType.UNSET_REFERENCE));
 			monitor.worked(5);
 
 		}
@@ -221,14 +221,14 @@ public class Serge implements IEditRuleGenerator{
 		mainUnitApplicator.applyOn(allModules);
 		monitor.worked(5);
 
-		// Serialization of logs/configs		
-		if(settings.isSaveLogs()) {
+		// Serialization of logs/configs
+		if (settings.isSaveLogs()) {
 			monitor.subTask("Logging Inverse Modules");
 			LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 			InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 			inverseModuleMapper.findAndMapInversePairs(allModules);
 			InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
-			inverseModuleSerializer.serialize(inverseModuleMapper);				
+			inverseModuleSerializer.serialize(inverseModuleMapper);
 			monitor.worked(3);
 
 			monitor.subTask("Saving Serge Configuration");
@@ -240,33 +240,32 @@ public class Serge implements IEditRuleGenerator{
 				monitor.done();
 				throw new EditRuleGenerationException("When saving config/log.\n" + e.getMessage());
 			}
-			monitor.worked(2);				
+			monitor.worked(2);
 		}
 
-
 		// delete contents of manual folder if wished so
-		if(settings.isDeleteManualTransformations()) {
+		if (settings.isDeleteManualTransformations()) {
 			monitor.subTask("Deleting Manual Transformations");
 			File manualFolder = new File(settings.getOutputFolderPath() + "manual");
-			if(manualFolder.exists()) {
-				for(File f: manualFolder.listFiles()) {
+			if (manualFolder.exists()) {
+				for (File f : manualFolder.listFiles()) {
 					f.delete();
 
-				}		
+				}
 			}
 			monitor.worked(5);
 		}
 
-		// Name Mapping and Serialization...			
+		// Name Mapping and Serialization...
 		Set<Module> moduleSet = new HashSet<Module>();
 		for (OperationType opType : allModules.keySet()) {
 			Set<Module> opSet = allModules.get(opType);
-			if(!opSet.isEmpty()) {
+			if (!opSet.isEmpty()) {
 				moduleSet.addAll(opSet);
 			}
 		}
 
-		if(config.ENABLE_NAME_MAPPER) {
+		if (config.ENABLE_NAME_MAPPER) {
 			monitor.subTask("Mapping Names");
 			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
 			NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
@@ -274,10 +273,17 @@ public class Serge implements IEditRuleGenerator{
 			monitor.worked(5);
 		}
 
-		//Generate Annotations
+		// Generate Annotations
 		AnnotationApplicator annotationApplicator = new AnnotationApplicator();
 		annotationApplicator.applyOn(allModules);
-		InverseTracker.INSTANCE.printInverses();
+		// InverseTracker.INSTANCE.printInverses();
+
+		// Remove internal Annotations
+		for (Set<Module> modules : allModules.values()) {
+			for (Module m : modules) {
+				InternalAnnotationsRemover.removeInternalAnnotations(m);
+			}
+		}
 
 		// Serialize modules
 		monitor.subTask("Saving Edit Rules");
@@ -288,21 +294,18 @@ public class Serge implements IEditRuleGenerator{
 		} catch (OperationTypeNotImplementedException e) {
 			monitor.done();
 			throw new EditRuleGenerationException(
-					"Error when serializing modules."
-							+ "There is an unsupported operation type.\n"+ e.getMessage());
+					"Error when serializing modules." + "There is an unsupported operation type.\n" + e.getMessage());
 		}
-		//finish
-		monitor.worked(10);			
-		LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");			
+		// finish
+		monitor.worked(10);
+		LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
 		monitor.done();
 	}
-
 
 	@Override
 	public String getName() {
 		return "SERGe (SiDiff EditRule Generator)";
 	}
-
 
 	@Override
 	public String getKey() {

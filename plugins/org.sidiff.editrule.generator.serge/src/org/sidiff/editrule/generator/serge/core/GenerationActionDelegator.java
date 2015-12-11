@@ -24,6 +24,7 @@ import org.sidiff.common.emf.extensions.impl.EcoreHelper;
 import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.sidiff.editrule.generator.serge.generators.actions.AddGenerator;
@@ -50,8 +51,7 @@ public class GenerationActionDelegator {
 
 	private static GenerationActionDelegator GAD = null;
 	private static Configuration c = Configuration.getInstance();
-	private static EClassifierInfoManagement ECM = EClassifierInfoManagement
-			.getInstance();
+	private static EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 	private static ElementFilter FILTER = ElementFilter.getInstance();
 
 	/**
@@ -76,32 +76,27 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate create modules for the given classifier.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_CREATE(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_CREATE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_CREATES) {
+		if (c.isRuleCreationEnabled(OperationType.CREATE)) {
 
-			if (FILTER
-					.isAllowedAsModuleBasis(eClassifier, OperationType.CREATE)) {
+			if (FILTER.isAllowedAsFocused(eClassifier, OperationType.CREATE)) {
 
 				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 
-				HashMap<EReference, List<EClassifier>> optionalParents = ECM
-						.getAllOptionalParentContext(eClassifier,
-								c.REDUCETOSUPERTYPE_CREATEDELETE);
+				HashMap<EReference, List<EClassifier>> optionalParents = ECM.getAllOptionalParentContext(eClassifier,
+						c.reduceToSupertypeContext(OperationTypeGroup.CREATE_DELETE));
 
 				// In case there are no parents (i.e., incoming eContainment
 				// references)
 				// and this eClassifier is no EEnum, we may create CPEOs
 				// to create the eClassifier instance without setting up a
 				// connected context
-				if (optionalParents.isEmpty()
-						&& !(eClassifier instanceof EEnum)) {
+				if (optionalParents.isEmpty() && !(eClassifier instanceof EEnum)) {
 
-					CreateGenerator generator = new CreateGenerator(null, null,
-							eInf);
+					CreateGenerator generator = new CreateGenerator(null, null, eInf);
 					Module resultModule = generator.generate();
 
 					modules.add(resultModule);
@@ -112,19 +107,15 @@ public class GenerationActionDelegator {
 				// setting up a context node to connect
 				else {
 
-					for (Entry<EReference, List<EClassifier>> pcEntry : optionalParents
-							.entrySet()) {
+					for (Entry<EReference, List<EClassifier>> pcEntry : optionalParents.entrySet()) {
 						List<EClassifier> contexts = pcEntry.getValue();
 						EReference eRef = pcEntry.getKey();
 
 						for (EClassifier context : contexts) {
 
-							if (FILTER.isAllowedAsDangling(context,
-									OperationType.CREATE,
-									c.REDUCETOSUPERTYPE_CREATEDELETE)) {
+							if (FILTER.isAllowedAsDangling(context, OperationType.CREATE)) {
 
-								CreateGenerator generator = new CreateGenerator(
-										eRef, context, eInf);
+								CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
 								Module resultModule = generator.generate();
 
 								modules.add(resultModule);
@@ -149,16 +140,14 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public Set<Module> generate_DELETE(Set<Module> createModulesSet)
-			throws ModuleForInverseCreationRequiredException,
-			OperationTypeNotImplementedException {
+			throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_DELETES) {
+		if (c.isRuleCreationEnabled(OperationType.DELETE)) {
 
-			if (!c.CREATE_CREATES)
-				throw new ModuleForInverseCreationRequiredException(
-						OperationType.DELETE);
+			if (!c.isRuleCreationEnabled(OperationType.CREATE))
+				throw new ModuleForInverseCreationRequiredException(OperationType.DELETE);
 
 			for (Module createModule : createModulesSet) {
 
@@ -174,12 +163,10 @@ public class GenerationActionDelegator {
 
 	}
 
-	public Set<Module> generate_ATTACH(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_ATTACH(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 		Set<Module> modules = new HashSet<Module>();
-		if (c.CREATE_ATTACHES) {
-			if (FILTER
-					.isAllowedAsModuleBasis(eClassifier, OperationType.ATTACH)) {
+		if (c.isRuleCreationEnabled(OperationType.ATTACH)) {
+			if (FILTER.isAllowedAsFocused(eClassifier, OperationType.ATTACH)) {
 				EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 				if (!eInf.isStereotype())
 					return modules;
@@ -193,13 +180,11 @@ public class GenerationActionDelegator {
 	public Set<Module> generate_DETACH(Set<Module> attachModuleSet)
 			throws OperationTypeNotImplementedException, ModuleForInverseCreationRequiredException {
 		Set<Module> modules = new HashSet<Module>();
-		if (c.CREATE_DETACHES) {
-			if (!c.CREATE_ATTACHES)
-				throw new ModuleForInverseCreationRequiredException(
-						OperationType.DETACH);
+		if (c.isRuleCreationEnabled(OperationType.DETACH)) {
+			if (!c.isRuleCreationEnabled(OperationType.ATTACH))
+				throw new ModuleForInverseCreationRequiredException(OperationType.DETACH);
 			for (Module attachModule : attachModuleSet) {
-				DetachGenerator detachGenerator = new DetachGenerator(
-						attachModule);
+				DetachGenerator detachGenerator = new DetachGenerator(attachModule);
 				modules.add(detachGenerator.generate());
 			}
 		}
@@ -218,29 +203,23 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_MOVE(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_MOVE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_MOVES
-				&& FILTER.isAllowedAsModuleBasis(eClassifier,
-						OperationType.MOVE)) {
+		if (c.isRuleCreationEnabled(OperationType.MOVE) && FILTER.isAllowedAsFocused(eClassifier, OperationType.MOVE)) {
 
 			// get possible eClassifier Masks for additional move generation of
 			// masked classifiers.
 			List<Mask> eClassifierMasks = new ArrayList<Mask>();
-			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier)
-					.getMasks());
+			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier).getMasks());
 
 			// get all possible contexts (mandatory & optional) and the
 			// according references
-			HashMap<EReference, List<EClass>> allAllowedParents = FILTER
-					.getAllAllowedParentContexts(eClassifier,
-							c.REDUCETOSUPERTYPE_MOVE, OperationType.MOVE);
+			HashMap<EReference, List<EClass>> allAllowedParents = FILTER.getAllAllowedParentContexts(eClassifier,
+					c.reduceToSupertypeContext(OperationTypeGroup.MOVE), OperationType.MOVE);
 
-			for (Entry<EReference, List<EClass>> entry : allAllowedParents
-					.entrySet()) {
+			for (Entry<EReference, List<EClass>> entry : allAllowedParents.entrySet()) {
 
 				EReference oldERefToOldParent = entry.getKey();
 				List<EClass> contexts_eRefA = entry.getValue();
@@ -250,17 +229,14 @@ public class GenerationActionDelegator {
 					for (EClass newParent : contexts_eRefA) {
 
 						// generate move (does not include masked eclassifiers)
-						MoveGenerator generator = new MoveGenerator(
-								eClassifier, oldERefToOldParent, oldParent,
+						MoveGenerator generator = new MoveGenerator(eClassifier, oldERefToOldParent, oldParent,
 								newParent);
 						modules.add(generator.generate());
 
 						// generate moves for masked eClassifiers, if any
 						for (Mask mask : eClassifierMasks) {
-							MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(
-									mask, oldERefToOldParent, oldParent,
-									newParent, oldERefToOldParent,
-									OperationType.MOVE);
+							MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(mask,
+									oldERefToOldParent, oldParent, newParent, oldERefToOldParent, OperationType.MOVE);
 							modules.add(generatorForMasks.generate());
 						}
 					}
@@ -282,36 +258,30 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_MOVE_UP(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_MOVE_UP(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
 
-		if (c.CREATE_MOVE_UPS
-				&& FILTER.isAllowedAsModuleBasis(eClassifier,
-						OperationType.MOVE_UP)) {
+		if (c.isRuleCreationEnabled(OperationType.MOVE_UP)
+				&& FILTER.isAllowedAsFocused(eClassifier, OperationType.MOVE_UP)) {
 
 			Set<ContainmentCycle> ccSet = eInfo.getContainmentCycles();
 			for (ContainmentCycle cc : ccSet) {
 				// *** on outer circle **********
 				if (!cc.isInnerCircle()) {
 
-					ContainmentCyclePathStep step = cc
-							.getBackwardPointingStep();
+					ContainmentCyclePathStep step = cc.getBackwardPointingStep();
 					EReference eRef = step.getTargetingReference();
 					EClassifier parent = (EClassifier) eRef.eContainer();
 
-					if (c.CREATE_MOVE_UPS
-							&& FILTER.isAllowedAsDangling(parent,
-									OperationType.MOVE_UP,
-									c.REDUCETOSUPERTYPE_MOVE_UP)) {
+					if (c.isRuleCreationEnabled(OperationType.MOVE_UP)
+							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_UP)) {
 
 						// TODO check every entry in path is allowed as
 						// dangling?
 
-						MoveUpGenerator generator = new MoveUpGenerator(
-								eClassifier, cc);
+						MoveUpGenerator generator = new MoveUpGenerator(eClassifier, cc);
 						modules.add(generator.generate());
 
 					}
@@ -333,36 +303,30 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_MOVE_DOWN(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 		EClassifierInfo eInfo = ECM.getEClassifierInfo(eClassifier);
 
-		if (c.CREATE_MOVE_DOWNS
-				&& FILTER.isAllowedAsModuleBasis(eClassifier,
-						OperationType.MOVE_DOWN)) {
+		if (c.isRuleCreationEnabled(OperationType.MOVE_DOWN)
+				&& FILTER.isAllowedAsFocused(eClassifier, OperationType.MOVE_DOWN)) {
 
 			Set<ContainmentCycle> ccSet = eInfo.getContainmentCycles();
 			for (ContainmentCycle cc : ccSet) {
 				// *** on outer circle **********
 				if (!cc.isInnerCircle()) {
 
-					ContainmentCyclePathStep step = cc
-							.getBackwardPointingStep();
+					ContainmentCyclePathStep step = cc.getBackwardPointingStep();
 					EReference eRef = (EReference) step.getTargetingReference();
 					EClassifier parent = (EClassifier) eRef.eContainer();
 
-					if (c.CREATE_MOVE_DOWNS
-							&& FILTER.isAllowedAsDangling(parent,
-									OperationType.MOVE_DOWN,
-									c.REDUCETOSUPERTYPE_MOVE_DOWN)) {
+					if (c.isRuleCreationEnabled(OperationType.MOVE_DOWN)
+							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_DOWN)) {
 
 						// TODO check every entry in path is allowed as
 						// dangling?
 
-						MoveDownGenerator generator = new MoveDownGenerator(
-								eClassifier, cc);
+						MoveDownGenerator generator = new MoveDownGenerator(eClassifier, cc);
 						modules.add(generator.generate());
 
 					}
@@ -388,31 +352,26 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_MOVE_REFERENCE_COMBINATION(
-			EClassifier eClassifier)
+	public Set<Module> generate_MOVE_REFERENCE_COMBINATION(EClassifier eClassifier)
 			throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_MOVE_REFERENCE_COMBINATIONS
-				&& FILTER.isAllowedAsModuleBasis(eClassifier,
-						OperationType.MOVE_REFERENCE_COMBINATION)) {
+		if (c.isRuleCreationEnabled(OperationType.MOVE_REFERENCE_COMBINATION)
+				&& FILTER.isAllowedAsFocused(eClassifier, OperationType.MOVE_REFERENCE_COMBINATION)) {
 
 			// get possible eClassifier Masks for additional move generation of
 			// masked classifiers.
 			List<Mask> eClassifierMasks = new ArrayList<Mask>();
-			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier)
-					.getMasks());
+			eClassifierMasks.addAll(ECM.getEClassifierInfo(eClassifier).getMasks());
 
 			// get all possible contexts (mandatory & optional) and the
 			// according references
-			HashMap<EReference, List<EClass>> allAllowedParents = FILTER
-					.getAllAllowedParentContexts(eClassifier,
-							c.REDUCETOSUPERTYPE_MOVE_REFERENCE_COMBINATION,
-							OperationType.MOVE_REFERENCE_COMBINATION);
+			HashMap<EReference, List<EClass>> allAllowedParents = FILTER.getAllAllowedParentContexts(eClassifier,
+					c.reduceToSupertypeContext(OperationTypeGroup.MOVE_REFERENCE_COMBINATION),
+					OperationType.MOVE_REFERENCE_COMBINATION);
 
-			for (Entry<EReference, List<EClass>> entry : allAllowedParents
-					.entrySet()) {
+			for (Entry<EReference, List<EClass>> entry : allAllowedParents.entrySet()) {
 
 				EReference oldERefToOldParent = entry.getKey();
 				List<EClass> contexts_eRefA = entry.getValue();
@@ -426,25 +385,19 @@ public class GenerationActionDelegator {
 					allOtherEReferences.remove(oldParent);
 
 					for (EReference newERefToNewParent : allOtherEReferences) {
-						for (EClass newParent : allAllowedParents
-								.get(newERefToNewParent)) {
+						for (EClass newParent : allAllowedParents.get(newERefToNewParent)) {
 
 							// generate move (does not include masked
 							// eclassifiers)
 							MoveReferenceCombinationGenerator generator = new MoveReferenceCombinationGenerator(
-									eClassifier, oldERefToOldParent, oldParent,
-									newParent, newERefToNewParent);
+									eClassifier, oldERefToOldParent, oldParent, newParent, newERefToNewParent);
 							modules.add(generator.generate());
 
 							// also generate all moves for masked eClassifiers,
 							// if any
 							for (Mask mask : eClassifierMasks) {
-								MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(
-										mask,
-										oldERefToOldParent,
-										oldParent,
-										newParent,
-										newERefToNewParent,
+								MoveMaskedElementGenerator generatorForMasks = new MoveMaskedElementGenerator(mask,
+										oldERefToOldParent, oldParent, newParent, newERefToNewParent,
 										OperationType.MOVE_REFERENCE_COMBINATION);
 								modules.add(generatorForMasks.generate());
 							}
@@ -473,14 +426,13 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate add modules for the given eclass.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_ADD(EClass contextClass)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_ADD(EClass contextClass) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_ADDS) {
+		if (c.isRuleCreationEnabled(OperationType.ADD)) {
 
-			if (!FILTER.isAllowedAsModuleBasis(contextClass, OperationType.ADD)) {
+			if (!FILTER.isAllowedAsFocused(contextClass, OperationType.ADD)) {
 				return modules;
 			}
 
@@ -499,8 +451,7 @@ public class GenerationActionDelegator {
 				}
 
 				// skip eRefs where it's EOpposite is a containment
-				if (eRef.getEOpposite() != null
-						&& eRef.getEOpposite().isContainment()) {
+				if (eRef.getEOpposite() != null && eRef.getEOpposite().isContainment()) {
 					continue;
 				}
 
@@ -514,13 +465,12 @@ public class GenerationActionDelegator {
 					continue;
 				}
 
-				if (!FILTER.isAllowedAsDangling(eRef.getEReferenceType(),
-						OperationType.ADD, c.REDUCETOSUPERTYPE_ADDREMOVE)) {
+				if (!FILTER.isAllowedAsDangling(eRef.getEReferenceType(), OperationType.ADD)) {
 					continue;
 				}
 
 				// Maybe skip when we reduce reference change to supertype
-				if (c.REDUCETOSUPERTYPE_ADDREMOVE
+				if (c.reduceToSupertypeDanglings(OperationTypeGroup.ADD_REMOVE)
 						&& EcoreHelper.isInheritedReference(eRef, contextClass)) {
 					continue;
 				}
@@ -545,16 +495,14 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public Set<Module> generate_REMOVE(Set<Module> addModules)
-			throws ModuleForInverseCreationRequiredException,
-			OperationTypeNotImplementedException {
+			throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_REMOVES) {
+		if (c.isRuleCreationEnabled(OperationType.REMOVE)) {
 
-			if (!c.CREATE_ADDS)
-				throw new ModuleForInverseCreationRequiredException(
-						OperationType.REMOVE);
+			if (!c.isRuleCreationEnabled(OperationType.ADD))
+				throw new ModuleForInverseCreationRequiredException(OperationType.REMOVE);
 
 			for (Module addModule : addModules) {
 
@@ -579,15 +527,13 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate set attribute modules for the given eClassifier.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_SET_ATTRIBUTE(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_SET_ATTRIBUTE(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_SET_ATTRIBUTES) {
+		if (c.isRuleCreationEnabled(OperationType.SET_ATTRIBUTE)) {
 
-			if (!FILTER.isAllowedAsModuleBasis(eClassifier,
-					OperationType.SET_ATTRIBUTE)) {
+			if (!FILTER.isAllowedAsFocused(eClassifier, OperationType.SET_ATTRIBUTE)) {
 				return modules;
 			}
 
@@ -595,7 +541,8 @@ public class GenerationActionDelegator {
 
 			// EAttributes which shall be considered
 			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
-			if (c.REDUCETOSUPERTYPE_SETUNSET_ATTRIBUTES) {
+			// TODO Check if reduceToSupertypeContext is right
+			if (c.reduceToSupertypeContext(OperationTypeGroup.SET_UNSET_ATTRIBUTE)) {
 				// all own eattributes
 				List<EAttribute> ownEAttributes = eClass.getEAttributes();
 				if (ownEAttributes != null) {
@@ -623,27 +570,27 @@ public class GenerationActionDelegator {
 					int lowerBound = ea.getLowerBound();
 					int upperBound = ea.getUpperBound();
 
-					/********** un-supported yet: isMany *************************************************************************************/
+					/**********
+					 * un-supported yet: isMany
+					 *************************************************************************************/
 					if ((lowerBound == 0) && (upperBound == -1)) {
 						// TODO multivalued eattribs
-						System.out.println("----------------ea:" + ea.getName()
-								+ " of " + ea.eContainer().eClass().getName()
-								+ "isMany: [" + lowerBound + "," + upperBound
-								+ "]--------------");
+						System.out.println(
+								"----------------ea:" + ea.getName() + " of " + ea.eContainer().eClass().getName()
+										+ "isMany: [" + lowerBound + "," + upperBound + "]--------------");
 					} else if ((lowerBound == 1) && (upperBound == -1)) {
 						// TODO multivalued eattribs
-						System.out.println("----------------ea:" + ea.getName()
-								+ " of " + ea.eContainer().eClass().getName()
-								+ "isMany: [" + lowerBound + "," + upperBound
-								+ "]--------------");
+						System.out.println(
+								"----------------ea:" + ea.getName() + " of " + ea.eContainer().eClass().getName()
+										+ "isMany: [" + lowerBound + "," + upperBound + "]--------------");
 					}
 
-					/********** SET / UNSET ATTRIBUTES *******************************************************************************/
-					else if (((lowerBound == 0) && (upperBound == 1))
-							|| ((lowerBound == 1) && (upperBound == 1))) {
+					/**********
+					 * SET / UNSET ATTRIBUTES
+					 *******************************************************************************/
+					else if (((lowerBound == 0) && (upperBound == 1)) || ((lowerBound == 1) && (upperBound == 1))) {
 
-						SetAttributeGenerator generator = new SetAttributeGenerator(
-								eClassifier, ea);
+						SetAttributeGenerator generator = new SetAttributeGenerator(eClassifier, ea);
 						Module module = generator.generate();
 						modules.add(module);
 					}
@@ -668,19 +615,16 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public Set<Module> generate_UNSET_ATTRIBUTE(Set<Module> setAttributeModules)
-			throws ModuleForInverseCreationRequiredException,
-			OperationTypeNotImplementedException {
+			throws ModuleForInverseCreationRequiredException, OperationTypeNotImplementedException {
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_UNSET_ATTRIBUTES) {
-			if (!c.CREATE_SET_ATTRIBUTES) {
-				throw new ModuleForInverseCreationRequiredException(
-						OperationType.UNSET_ATTRIBUTE);
+		if (c.isRuleCreationEnabled(OperationType.UNSET_ATTRIBUTE)) {
+			if (!c.isRuleCreationEnabled(OperationType.SET_ATTRIBUTE)) {
+				throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_ATTRIBUTE);
 			}
 
 			for (Module setAttributeModule : setAttributeModules) {
-				UnsetAttributeGenerator generator = new UnsetAttributeGenerator(
-						setAttributeModule);
+				UnsetAttributeGenerator generator = new UnsetAttributeGenerator(setAttributeModule);
 				Module resultModule = generator.generate();
 				modules.add(resultModule);
 			}
@@ -699,13 +643,12 @@ public class GenerationActionDelegator {
 	 * @return Set of disparate set reference modules for the given eClassifier.
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_SET_REFERENCE(EClass eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_SET_REFERENCE(EClass eClassifier) throws OperationTypeNotImplementedException {
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_SET_REFERENCES) {
+		if (c.isRuleCreationEnabled(OperationType.SET_REFERENCE)) {
 
-			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
+			if (!FILTER.isAllowedAsFocused(eClassifier, OperationType.ADD))
 				return modules;
 
 			EClass eClass = (EClass) eClassifier;
@@ -723,14 +666,11 @@ public class GenerationActionDelegator {
 						EReference eOpposite = eRef.getEOpposite();
 
 						// and skip eRefs where it's EOpposite is a containment
-						if ((eOpposite != null && !eOpposite.isContainment())
-								|| eOpposite == null) {
+						if ((eOpposite != null && !eOpposite.isContainment()) || eOpposite == null) {
 
 							EClassifier target = eRef.getEType();
 
-							if (!FILTER.isAllowedAsDangling(target,
-									OperationType.SET_REFERENCE,
-									c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES))
+							if (!FILTER.isAllowedAsDangling(target, OperationType.SET_REFERENCE))
 								continue;
 
 							int lower = eRef.getLowerBound();
@@ -743,20 +683,14 @@ public class GenerationActionDelegator {
 							// and if ref is either inherited and no
 							// reduction to super type is wished
 							// or ref is not inherited
-							if (!eRef.isContainment()
-									&& lower == 0
-									&& upper == 1
-									&& !(eRef.getEOpposite() != null && eRef
-											.getEOpposite().getUpperBound()
-											- eRef.getEOpposite()
-													.getLowerBound() > 1)
-									&& ((EcoreHelper.isInheritedReference(eRef,
-											eClassifier) && !c.REDUCETOSUPERTYPE_SETUNSET_REFERENCES) || !EcoreHelper
-											.isInheritedReference(eRef,
-													eClassifier))) {
+							if (!eRef.isContainment() && lower == 0 && upper == 1
+									&& !(eRef.getEOpposite() != null && eRef.getEOpposite().getUpperBound()
+											- eRef.getEOpposite().getLowerBound() > 1)
+									&& ((EcoreHelper.isInheritedReference(eRef, eClassifier)
+											&& !c.reduceToSupertypeDanglings(OperationTypeGroup.SET_UNSET_REFERENCE))
+											|| !EcoreHelper.isInheritedReference(eRef, eClassifier))) {
 
-								SetReferenceGenerator generator = new SetReferenceGenerator(
-										eRef, eClassifier, target);
+								SetReferenceGenerator generator = new SetReferenceGenerator(eRef, eClassifier, target);
 								modules.add(generator.generate());
 							}
 						}
@@ -781,21 +715,18 @@ public class GenerationActionDelegator {
 	 * @throws ModuleForInverseCreationRequiredException
 	 */
 	public Set<Module> generate_UNSET_REFERENCE(Set<Module> setReferenceModules)
-			throws OperationTypeNotImplementedException,
-			ModuleForInverseCreationRequiredException {
+			throws OperationTypeNotImplementedException, ModuleForInverseCreationRequiredException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_UNSET_REFERENCES) {
+		if (c.isRuleCreationEnabled(OperationType.UNSET_REFERENCE)) {
 
-			if (!c.CREATE_SET_REFERENCES)
-				throw new ModuleForInverseCreationRequiredException(
-						OperationType.UNSET_REFERENCE);
+			if (!c.isRuleCreationEnabled(OperationType.SET_REFERENCE))
+				throw new ModuleForInverseCreationRequiredException(OperationType.UNSET_REFERENCE);
 
 			for (Module setReferenceModule : setReferenceModules) {
 
-				UnsetReferenceGenerator generator = new UnsetReferenceGenerator(
-						setReferenceModule);
+				UnsetReferenceGenerator generator = new UnsetReferenceGenerator(setReferenceModule);
 				Module resultModule = generator.generate();
 
 				modules.add(resultModule);
@@ -817,21 +748,21 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_CHANGE_Literals(EClassifier eClassifier)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_CHANGE_Literals(EClassifier eClassifier) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_CHANGE_LITERALS) {
+		if (c.isRuleCreationEnabled(OperationType.CHANGE_LITERAL)) {
 
-			if (!FILTER.isAllowedAsModuleBasis(eClassifier, OperationType.ADD))
+			if (!FILTER.isAllowedAsFocused(eClassifier, OperationType.ADD))
 				return modules;
 
 			EClass eClass = (EClass) eClassifier;
 
 			// EAttributes which shall be considered
 			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
-			if (c.REDUCETOSUPERTYPE_CHANGE_LITERALS) {
+			// TODO Check if reduceToSupertypeContext is right
+			if (c.reduceToSupertypeContext(OperationTypeGroup.CHANGE_LITERAL)) {
 				// all own eattributes
 				List<EAttribute> ownEAttributes = eClass.getEAttributes();
 				if (ownEAttributes != null) {
@@ -859,8 +790,7 @@ public class GenerationActionDelegator {
 					int lowerBound = ea.getLowerBound();
 					int upperBound = ea.getUpperBound();
 
-					if ((lowerBound == 1) && (upperBound == 1)
-							&& (ea.getEType() instanceof EEnum)) {
+					if ((lowerBound == 1) && (upperBound == 1) && (ea.getEType() instanceof EEnum)) {
 
 						EEnum eenum = (EEnum) ea.getEType();
 
@@ -868,15 +798,11 @@ public class GenerationActionDelegator {
 						Map<EEnumLiteral, List<EEnumLiteral>> combinations = new HashMap<EEnumLiteral, List<EEnumLiteral>>();
 
 						for (EEnumLiteral literal : eenum.getELiterals()) {
-							combinations.put(
-									literal,
-									new ArrayList<EEnumLiteral>(eenum
-											.getELiterals()));
-						}// here combination with self is still included.
+							combinations.put(literal, new ArrayList<EEnumLiteral>(eenum.getELiterals()));
+						} // here combination with self is still included.
 
 						// build CHANGE modules for every combination:
-						for (Entry<EEnumLiteral, List<EEnumLiteral>> entry : combinations
-								.entrySet()) {
+						for (Entry<EEnumLiteral, List<EEnumLiteral>> entry : combinations.entrySet()) {
 							EEnumLiteral oldLiteral = entry.getKey();
 
 							// to remove combination with self, remove self from
@@ -886,9 +812,8 @@ public class GenerationActionDelegator {
 							// now create module for every literal combination
 							for (EEnumLiteral newLiteral : entry.getValue()) {
 
-								ChangeLiteralGenerator generator = new ChangeLiteralGenerator(
-										ea, oldLiteral, eClassifier,
-										oldLiteral, newLiteral);
+								ChangeLiteralGenerator generator = new ChangeLiteralGenerator(ea, oldLiteral,
+										eClassifier, oldLiteral, newLiteral);
 								modules.add(generator.generate());
 
 							}
@@ -913,15 +838,13 @@ public class GenerationActionDelegator {
 	 * @return
 	 * @throws OperationTypeNotImplementedException
 	 */
-	public Set<Module> generate_CHANGE_Reference(EClass contextClass)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> generate_CHANGE_Reference(EClass contextClass) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
 
-		if (c.CREATE_CHANGE_REFERENCES) {
+		if (c.isRuleCreationEnabled(OperationType.CHANGE_REFERENCE)) {
 
-			if (!FILTER.isAllowedAsModuleBasis(contextClass,
-					OperationType.CHANGE_REFERENCE)) {
+			if (!FILTER.isAllowedAsFocused(contextClass, OperationType.CHANGE_REFERENCE)) {
 				return modules;
 			}
 
@@ -940,8 +863,7 @@ public class GenerationActionDelegator {
 				}
 
 				// skip eRefs where it's EOpposite is a containment
-				if (eRef.getEOpposite() != null
-						&& eRef.getEOpposite().isContainment()) {
+				if (eRef.getEOpposite() != null && eRef.getEOpposite().isContainment()) {
 					continue;
 				}
 
@@ -951,21 +873,18 @@ public class GenerationActionDelegator {
 				}
 
 				// Filter, depends on configuration
-				if (!FILTER.isAllowedAsDangling(eRef.getEReferenceType(),
-						OperationType.CHANGE_REFERENCE,
-						c.REDUCETOSUPERTYPE_CHANGE_REFERENCE)) {
+				if (!FILTER.isAllowedAsDangling(eRef.getEReferenceType(), OperationType.CHANGE_REFERENCE)) {
 					continue;
 				}
 
 				// Maybe skip when we reduce reference change to supertype
-				if (c.REDUCETOSUPERTYPE_CHANGE_REFERENCE
+				if (c.reduceToSupertypeDanglings(OperationTypeGroup.CHANGE_REFERECE)
 						&& EcoreHelper.isInheritedReference(eRef, contextClass)) {
 					continue;
 				}
 
 				// Delegate to generator
-				ChangeReferenceGenerator generator = new ChangeReferenceGenerator(
-						eRef, contextClass);
+				ChangeReferenceGenerator generator = new ChangeReferenceGenerator(eRef, contextClass);
 				Module resultModule = generator.generate();
 				modules.add(resultModule);
 			}
@@ -977,19 +896,24 @@ public class GenerationActionDelegator {
 	/**
 	 * General variant-generation method, that finds all variants of each given
 	 * module. A variant either replaces the given module or it is added as an
-	 * additional module to the given set.</br></br> Variants will be created if
-	 * < < create > > nodes are abstract and need a concrete replacement. Each
-	 * possible replacement results in a new module variant. If more than one <
-	 * < create > > node is contained in the original rule or in any of the new
-	 * variants (that required adding further mandatory <<create>> nodes), the
-	 * cross product of all variants will be created...</br></br> Furthermore,
-	 * variants for the sub types will also be created if super type
-	 * replacements of contained node types is wished. This can also result in
-	 * cross products of different sub type combinations. There can also be
+	 * additional module to the given set.</br>
+	 * </br>
+	 * Variants will be created if < < create > > nodes are abstract and need a
+	 * concrete replacement. Each possible replacement results in a new module
+	 * variant. If more than one < < create > > node is contained in the
+	 * original rule or in any of the new variants (that required adding further
+	 * mandatory <<create>> nodes), the cross product of all variants will be
+	 * created...</br>
+	 * </br>
+	 * Furthermore, variants for the sub types will also be created if super
+	 * type replacements of contained node types is wished. This can also result
+	 * in cross products of different sub type combinations. There can also be
 	 * further replaces if one of the sub type is an abstract EClass again, and
-	 * so on. </br></br> Variants are necessary for the completeness and
-	 * correctness of module generation. For each setup the generation process
-	 * will be delegated to {@link VariantPostprocessor}
+	 * so on. </br>
+	 * </br>
+	 * Variants are necessary for the completeness and correctness of module
+	 * generation. For each setup the generation process will be delegated to
+	 * {@link VariantPostprocessor}
 	 * 
 	 * @param inputModules
 	 *            A Set of modules. For each module the replacables will be
@@ -999,18 +923,13 @@ public class GenerationActionDelegator {
 	 * @throws OperationTypeNotImplementedException
 	 * @throws ModuleViolatesConsistencyException
 	 */
-	public Set<Module> process_Replacables(Set<Module> inputModules,
-			OperationType opType, boolean reduceToSuperType)
-			throws OperationTypeNotImplementedException {
+	public Set<Module> process_Replacables(Set<Module> inputModules, OperationType opType,
+			OperationTypeGroup opTypeGroup) throws OperationTypeNotImplementedException {
 
 		Set<Module> modules = new HashSet<Module>();
-		if (!c.DISABLE_VARIANTS_BY_SUPERTYPE_REPLACEMENT) {
-
-			for (Module module : inputModules) {
-				VariantGenerator generator = new VariantGenerator(module,
-						opType, reduceToSuperType);
-				modules.addAll(generator.generate());
-			}
+		for (Module module : inputModules) {
+			VariantGenerator generator = new VariantGenerator(module, opType, opTypeGroup);
+			modules.addAll(generator.generate());
 		}
 		return modules;
 

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -250,11 +251,14 @@ public class ModuleInternalsApplicator {
 				String selectedName = getFreeNodeName(GlobalConstants.SEL, rule);
 				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, selectedName, (EClass) targetA);
 				Graph rhs = nodePair.getRhsNode().getGraph();
-	
+				nodePair.getLhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
+				nodePair.getRhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
+				
 				// Add new eClass to RHS
 				String newName = getFreeNodeName(GlobalConstants.NEW, rule);
 				Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
-	
+				newNode.getAnnotations().add(createAnnotation("SERGE_", "FOCUS"));
+				
 				// Add necessary attributes to the new eClass node
 				createAttributes((EClass) eClassifier, newNode, rule);
 	
@@ -296,6 +300,14 @@ public class ModuleInternalsApplicator {
 		return rule;
 	}
 	
+	private static Annotation createAnnotation(String name, String value) {
+		Annotation annotation = HenshinFactory.eINSTANCE
+				.createAnnotation();
+		annotation.setKey(name);
+		annotation.setValue(value);
+		return annotation;
+	}
+
 	/**
 	 * This recursive method creates mandatory children for a given EClassifier.
 	 * It will create mandatory children and mandatory neighbours of the child
@@ -315,18 +327,26 @@ public class ModuleInternalsApplicator {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public static void createMandatoryChildren(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
-			OperationType opType, boolean reduceToSuperType) throws OperationTypeNotImplementedException {
+			OperationType opType) throws OperationTypeNotImplementedException {
 
-		for (Entry<EReference, List<EClassifier>> childEntry : eClassifierInfo.getMandatoryChildren().entrySet()) {
-			EReference eRef = childEntry.getKey();
-
+		if (!Configuration.getInstance().CREATE_MANDATORY_CHILDREN) return;
+		
+		for (EReference eRef : eClassifierInfo.getMandatoryChildren().keySet()) {
 			EClassifier child = eRef.getEType();
-
-			if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType, reduceToSuperType))
+			assert (eRef.getLowerBound() > 0);
+			
+			if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType))
 				continue;
-
-			for (int i = 0; i < eRef.getLowerBound(); i++) {
-
+			
+			// Get existing node count
+			int exitising=0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)){
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)){
+					exitising++;
+				}
+			}
+			
+			for (int i = exitising; i < eRef.getLowerBound(); i++) {
 				Node newChildNode = null;
 				String name = getFreeNodeName(GlobalConstants.CHILD, rule);
 				// create node for mandatory child
@@ -339,10 +359,10 @@ public class ModuleInternalsApplicator {
 				if (EClassifierInfoManagement.getInstance().getEClassifierInfo(child).hasMandatories()) {
 					createMandatoryChildren(rule,
 							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-							opType, reduceToSuperType);
+							opType);
 					createMandatoryNeighbours(rule,
 							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-							opType, reduceToSuperType);
+							opType);
 				}
 
 			}
@@ -368,15 +388,25 @@ public class ModuleInternalsApplicator {
 	 * @throws OperationTypeNotImplementedException
 	 */
 	public static void createMandatoryNeighbours(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
-			OperationType opType, boolean reduceToSuperType) throws OperationTypeNotImplementedException {
+			OperationType opType) throws OperationTypeNotImplementedException {
 	
+		if (!Configuration.getInstance().CREATE_MANDATORY_NEIGHBOURS) return;
 		assert (HenshinRuleAnalysisUtilEx.isCreationNode(eClassifierNode));
 	
 		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours().entrySet()) {
 			EReference eRef = neighbourEntry.getKey();
-	
+			
+			assert (eRef.getLowerBound() > 0);
+			
+			EClass neighbour = eRef.getEReferenceType();
+			if (!ElementFilter.getInstance().isAllowedAsDangling(neighbour, opType)) {
+				// cut off
+				continue;
+			}
+			
 			// cancel if this reference is already available in the rule
 			// at its maximum (upperbound) regarding this eClassifierNode 
+			// TODO [LM@01.11.2015] Still needed?
 			EReference eOpposite = eRef.getEOpposite();
 			EList<Edge> incEOpposites = eClassifierNode.getIncoming(eOpposite);
 			if(!incEOpposites.isEmpty()) {
@@ -385,16 +415,17 @@ public class ModuleInternalsApplicator {
 					continue;	
 				}
 			}
-			
-			assert (eRef.getLowerBound() > 0);
-	
-			EClass neighbour = eRef.getEReferenceType();
-			if (!ElementFilter.getInstance().isAllowedAsDangling(neighbour, opType, reduceToSuperType)) {
-				// cut off
-				continue;
+		
+			// Get existing node count
+			int exitising=0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)){
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)){
+					exitising++;
+				}
 			}
-	
-			for (int i = 0; i < eRef.getLowerBound(); i++) {
+						
+			//Add new nodes
+			for (int i = exitising; i < eRef.getLowerBound(); i++) {
 	
 				// create <<preserved>> node for mandatory neighbour
 				String existingName = getFreeNodeName(GlobalConstants.EX, rule);

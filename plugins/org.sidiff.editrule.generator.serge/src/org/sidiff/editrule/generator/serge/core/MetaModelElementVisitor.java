@@ -12,6 +12,7 @@ import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**
@@ -67,7 +68,7 @@ public class MetaModelElementVisitor implements EClassVisitor{
 					allCreateModules.addAll(createModules);
 				}
 				
-				Set<Module> variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, Configuration.getInstance().REDUCETOSUPERTYPE_CREATEDELETE);
+				Set<Module> variantModules 	= GAD.process_Replacables(createModules, OperationType.CREATE, OperationTypeGroup.CREATE_DELETE);
 				if (!variantModules.isEmpty()){
 					allVariantModules.addAll(variantModules);
 				}

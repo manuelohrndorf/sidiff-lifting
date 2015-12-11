@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.TypeReplacer;
 import org.sidiff.editrule.generator.types.OperationType;
 
@@ -20,28 +21,25 @@ public class VariantGenerator {
 	 * The operation type of the original input model.
 	 */
 	private OperationType opType;
+	private OperationTypeGroup opTypeGroup;
 	
-	/**
-	 * Value that states if reduction to super type is wished.
-	 */
-	private boolean reduceToSuperType;
 	
 
 	/**
 	 * Constructor
 	 * @param originalModule
 	 */
-	public VariantGenerator(Module originalModule, OperationType opType, boolean reduceToSuperType) {
+	public VariantGenerator(Module originalModule, OperationType opType, OperationTypeGroup opTypeGroup) {
 		this.originalModule = originalModule;
 		this.opType = opType;
-		this.reduceToSuperType = reduceToSuperType;
+		this.opTypeGroup=opTypeGroup;
 	}
 
 	public Set<Module> generate() throws OperationTypeNotImplementedException{
 		
 		Set<Module> modules = new HashSet<Module>();
 			
-		TypeReplacer typeReplacer = new TypeReplacer(originalModule, opType, reduceToSuperType);
+		TypeReplacer typeReplacer = new TypeReplacer(originalModule, opType, opTypeGroup);
 		modules.addAll(typeReplacer.replace());
 		
 		return modules;
