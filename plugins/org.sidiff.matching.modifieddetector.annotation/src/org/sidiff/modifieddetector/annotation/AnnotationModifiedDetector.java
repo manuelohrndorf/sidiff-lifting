@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.annotation.AnnotationUtil;
 import org.sidiff.annotation.IAnnotation;
-import org.sidiff.annotation.impl.AnnotationImpl;
+import org.sidiff.annotation.impl.DefaultAnnotation;
 import org.sidiff.common.emf.EMFAdapter;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
@@ -73,9 +73,9 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 		LogUtil.log(LogEvent.DEBUG, "Initializing Annotator...");
 
 		IAnnotation annotator = AnnotationUtil.getAnnotationServiceInstance();
-		initAnnotator(annotator);
+		initAnnotator(annotator, modelA);
 		//FIXME this shall be more generic, runtime issues!
-		AnnotationImpl annimpl = (AnnotationImpl) annotator;
+		DefaultAnnotation annimpl = (DefaultAnnotation) annotator;
 
 		LogUtil.log(LogEvent.DEBUG, "Removing Annotations...");
 		// If created in matching phase beforehand, remove Annotations
@@ -162,7 +162,7 @@ public abstract class AnnotationModifiedDetector implements IModifiedDetector {
 	 * @param annotationService
 	 * @throws FileNotFoundException 
 	 */
-	public abstract void initAnnotator(IAnnotation annotationService) throws FileNotFoundException;
+	public abstract void initAnnotator(IAnnotation annotationService, Resource model) throws FileNotFoundException;
 
 
 }
