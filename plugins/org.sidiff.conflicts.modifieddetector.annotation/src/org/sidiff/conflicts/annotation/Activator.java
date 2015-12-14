@@ -1,4 +1,4 @@
-package org.sidiff.modifieddetector.annotation;
+package org.sidiff.conflicts.annotation;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

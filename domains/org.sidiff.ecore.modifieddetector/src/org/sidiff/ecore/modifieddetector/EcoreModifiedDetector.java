@@ -9,7 +9,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.configuration.IConfigurationCapable;
-import org.sidiff.modifieddetector.annotation.AnnotationModifiedDetector;
+import org.sidiff.conflicts.annotation.AnnotationModifiedDetector;
 
 public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 

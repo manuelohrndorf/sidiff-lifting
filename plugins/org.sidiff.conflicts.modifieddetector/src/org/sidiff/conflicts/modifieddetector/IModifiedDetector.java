@@ -1,4 +1,4 @@
-package org.sidiff.matching.modifieddetector;
+package org.sidiff.conflicts.modifieddetector;
 
 import java.io.FileNotFoundException;
 

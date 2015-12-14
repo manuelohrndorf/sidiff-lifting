@@ -1,8 +1,8 @@
-package org.sidiff.matching.modifieddetector.util;
+package org.sidiff.conflicts.modifieddetector.util;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.matching.modifieddetector.IModifiedDetector;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 
 public class ModifiedDetectorUtil {
 

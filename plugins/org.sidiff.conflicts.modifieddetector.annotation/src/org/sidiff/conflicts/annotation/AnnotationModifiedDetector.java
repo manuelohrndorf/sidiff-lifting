@@ -1,4 +1,4 @@
-package org.sidiff.modifieddetector.annotation;
+package org.sidiff.conflicts.annotation;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -16,9 +16,9 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.modifieddetector.IModifiedDetector;
 
 /**
  * Modified Detector which shall be used as base for document type specific detectors.
