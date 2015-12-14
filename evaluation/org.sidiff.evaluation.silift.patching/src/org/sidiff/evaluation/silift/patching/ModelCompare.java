@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.symmetric.AddObject;
@@ -19,7 +20,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
 
 public class ModelCompare {
 
@@ -60,14 +61,20 @@ public class ModelCompare {
 		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		// IMatcher matcher = MatcherUtil.getMatcherByKey("UUIDMatcher", modelA,
 		// modelB);
-		IMatcher matcher = MatcherUtil.getMatcherByKey("URIFragmentMatcher", modelA, modelB);
+		IMatcher matcher = MatcherUtil.getMatcher("URIFragmentMatcher");
 		// IMatcher matcher = MatcherUtil.getMatcherByKey("SiDiff", modelA,
 		// modelB);
 
 		// derive techical difference
 		ITechnicalDifferenceBuilder tdBuilder = PipelineUtils.getDefaultTechnicalDifferenceBuilder(documentType);
-		SymmetricDifference difference = LiftingFacade.deriveTechnicalDifferences(modelA, modelB,
-				Scope.RESOURCE, matcher, tdBuilder);
+		SymmetricDifference difference = null;
+		try {
+			difference = LiftingFacade.deriveTechnicalDifferences(modelA, modelB,
+					Scope.RESOURCE, matcher, tdBuilder);
+		} catch (NoCorrespondencesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// now, return the set of obtained low-level changes (should be empty)
 		return difference.getChanges();

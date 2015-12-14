@@ -17,14 +17,15 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.evaluation.silift.patching.TestSuite;
 import org.sidiff.evaluation.silift.patching.smg.SMGFileManager.TestFileGroup;
+import org.sidiff.matching.model.Correspondence;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -51,7 +52,13 @@ public class FileToModelConverter {
 			LiftingSettings liftingSettings = new LiftingSettings(documentType);			
 			liftingSettings.setCalculateEditRuleMatch(true);
 			liftingSettings.setMatcher(new SMGMatcher(getCorrespondences(resourceSet, testFileGroup.matching)));
-			Difference difference = AsymmetricDiffFacade.liftMeUp(original, modified, liftingSettings);
+			Difference difference = null;
+			try {
+				difference = AsymmetricDiffFacade.liftMeUp(original, modified, liftingSettings);
+			} catch (NoCorrespondencesException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			SMGPatchCorrespondence correspondence = new SMGPatchCorrespondence(difference.getAsymmetric().getOriginModel());
 			

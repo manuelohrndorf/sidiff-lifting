@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.ExternalReferenceCalculator;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -16,7 +17,6 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.sidiff.patching.settings.PatchMode;
 
 /**

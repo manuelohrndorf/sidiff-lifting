@@ -6,8 +6,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.matcher.BaseMatcher;
+import org.sidiff.matching.model.Correspondence;
 
 public class SMGMatcher extends BaseMatcher {
 

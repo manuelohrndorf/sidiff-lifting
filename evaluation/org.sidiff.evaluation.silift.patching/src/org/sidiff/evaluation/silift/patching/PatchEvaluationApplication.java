@@ -166,7 +166,7 @@ public class PatchEvaluationApplication implements IApplication {
 			LogUtil.log(LogEvent.NOTICE, "Applying patch");
 
 			// Some patch metrics
-			int cor = testSuite.getDifference().getSymmetric().getCorrespondences().size();
+			int cor = testSuite.getDifference().getSymmetric().getMatching().getCorrespondences().size();
 			int dif = testSuite.getDifference().getSymmetric().getChanges().size();
 			int op = testSuite.getAsymmetricDifference().getOperationInvocations().size();
 			int max = getLongestDependencyChain(testSuite.getAsymmetricDifference().getDepContainers());

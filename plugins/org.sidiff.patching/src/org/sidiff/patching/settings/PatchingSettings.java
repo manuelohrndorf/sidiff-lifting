@@ -3,10 +3,10 @@ package org.sidiff.patching.settings;
 import java.util.Set;
 
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.modifieddetector.IModifiedDetector;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;

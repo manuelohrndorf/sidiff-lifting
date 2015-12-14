@@ -20,7 +20,7 @@ import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.facade.util.Difference;
 import org.sidiff.evaluation.silift.patching.TestSuite;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -79,7 +79,7 @@ public class SysMLTestSuitBuilder {
 		if (matcher == null) {
 			String matcherKey = "UUIDMatcher";
 			//String matcherKey = "SiDiff";
-			matcher = MatcherUtil.getMatcherByKey(matcherKey, original, modified);
+			matcher = MatcherUtil.getMatcher(matcherKey);
 			if (matcher == null) {
 				LogUtil.log(LogEvent.ERROR, "Matcher " + matcherKey + " not found!");
 				return null;

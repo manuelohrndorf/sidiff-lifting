@@ -10,7 +10,7 @@ import org.sidiff.evaluation.silift.patching.AbstractBatchArgumentManager;
 import org.sidiff.evaluation.silift.patching.AbstractSuiteBuilder;
 import org.sidiff.evaluation.silift.patching.GenericCopyArgumentManager;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.util.MatcherUtil;
+import org.sidiff.matcher.MatcherUtil;
 
 public class FtTestSuiteBuilder extends AbstractSuiteBuilder {
 
@@ -25,7 +25,7 @@ public class FtTestSuiteBuilder extends AbstractSuiteBuilder {
 
 	@Override
 	protected IMatcher getMatcher(Resource original, Resource modified) {
-		IMatcher matcher = MatcherUtil.getMatcherByKey("FtMatcher", original, modified);
+		IMatcher matcher = MatcherUtil.getMatcher("FtMatcher");
 		if (matcher == null) {
 			LogUtil.log(LogEvent.ERROR, "FtMatcher not found!");
 		}
