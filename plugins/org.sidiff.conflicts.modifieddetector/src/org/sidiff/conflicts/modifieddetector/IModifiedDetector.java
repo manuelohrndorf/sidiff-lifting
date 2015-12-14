@@ -21,7 +21,7 @@ public interface IModifiedDetector {
 	/**
 	 * The shared extension point id.
 	 */
-	public static final String EXTENSION_POINT_ID = "org.sidiff.matching.modifieddetector";	
+	public static final String EXTENSION_POINT_ID = "org.sidiff.conflicts.modifieddetector";	
 	
 	/**
 	 * The shared executable point
