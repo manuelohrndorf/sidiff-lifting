@@ -1,6 +1,5 @@
 package org.sidiff.ecore.modifieddetector;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.eclipse.emf.ecore.resource.Resource;
