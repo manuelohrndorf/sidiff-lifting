@@ -24,11 +24,15 @@ public class InputModels {
 	public InputModels(IFile fileA, IFile fileB) {
 		this.fileA = fileA;
 		this.fileB = fileB;
+		this.resourceA = getResourceA();
+		this.resourceB = getResourceB();
 	}
 
 	public InputModels(Resource resourceA, Resource resourceB) {
 		this.resourceA = resourceA;
 		this.resourceB = resourceB;
+		this.fileA = getFileA();
+		this.fileB = getFileB();
 	}
 
 	public void swap() {
