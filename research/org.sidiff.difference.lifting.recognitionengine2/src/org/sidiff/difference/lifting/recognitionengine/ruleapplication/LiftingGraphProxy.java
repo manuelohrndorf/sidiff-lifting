@@ -14,8 +14,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * A graph view for a single recognition rule.
@@ -25,6 +26,9 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
 public class LiftingGraphProxy implements EGraph {
 
 	private static final SymmetricPackage SYMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
+	
+	private static final MatchingModelPackage MATCHING_PACKAGE = MatchingModelPackage.eINSTANCE;
+
 	
 	/**
 	 * The corresponding recognition rule.
@@ -85,12 +89,12 @@ public class LiftingGraphProxy implements EGraph {
 		} 
 		
 		// Correspondence:
-		else if (type == SYMMETRIC_PACKAGE.getCorrespondence()) { 
+		else if (type == MATCHING_PACKAGE.getCorrespondence()) { 
 			// TODO: We better optimize correspondences through cross-references!
 			List<EObject> domain = new ArrayList<EObject>(getDomainSize(type, strict));
 			
-			for (Correspondence correspondence : liftingGraphDomainMap.getDifference().getCorrespondences()) {
-				if (correspondence.getObjA().eClass() == type) {
+			for (Correspondence correspondence : liftingGraphDomainMap.getDifference().getMatching().getCorrespondences()) {
+				if (correspondence.getMatchedA().eClass() == type) {
 					domain.add(correspondence);
 				}
 			}
@@ -125,13 +129,13 @@ public class LiftingGraphProxy implements EGraph {
 		} 
 		
 		// Correspondence:
-		else if (type == SYMMETRIC_PACKAGE.getCorrespondence()) {
+		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
 			// NOTE: This is inconsistent with the optimized getDomain() but the
 			// size value is always bigger then the actual correspondence
 			// domain. Also the getDomain() method must always process all
 			// correspondences to create a typed list. So in the sense of
 			// optimization this value reflects the real work to do.
-			return liftingGraphDomainMap.getDifference().getCorrespondences().size();
+			return liftingGraphDomainMap.getDifference().getMatching().getCorrespondences().size();
 		}
 		
 		// Model:

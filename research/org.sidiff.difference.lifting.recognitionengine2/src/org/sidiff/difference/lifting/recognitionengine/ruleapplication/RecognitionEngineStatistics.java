@@ -28,6 +28,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * Recognition-Engine statistic output helper.
@@ -902,7 +903,9 @@ public class RecognitionEngineStatistics {
 		StatisticsUtil.getInstance().resetCounter(RR_CORRESPONDENCES);
 		
 		SymmetricPackage SYM = SymmetricPackage.eINSTANCE;
-		
+	
+		MatchingModelPackage MAT = MatchingModelPackage.eINSTANCE;
+
 		for (Rule rr : recognitionRules) {
 			if (!filtered.contains(rr)) {
 				for (Node node : rr.getLhs().getNodes()) {
@@ -933,7 +936,7 @@ public class RecognitionEngineStatistics {
 					}
 					
 					// Correspondence:
-					else if (node.getType() == SYM.getCorrespondence()) {
+					else if (node.getType() == MAT.getCorrespondence()) {
 						StatisticsUtil.getInstance().count(RR_CORRESPONDENCES);
 					}
 				}

@@ -18,11 +18,12 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.Correspondence;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * <ul>
@@ -40,6 +41,8 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
 public class LiftingGraphDomainMap {
 
 	private static final SymmetricPackage SYMMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
+	
+	private static final MatchingModelPackage MATCHING_PACKAGE = MatchingModelPackage.eINSTANCE;
 
 	private SymmetricDifference difference;
 
@@ -129,14 +132,22 @@ public class LiftingGraphDomainMap {
 	 * @return The correspondence of the model A/B object or <code>null</code>.
 	 */
 	public Correspondence getCorrespondence(EObject modelElement, EReference correspondenceReference) {
-		if (SYMMMETRIC_PACKAGE.getCorrespondence_ObjA() == correspondenceReference) {
-			return difference.getCorrespondenceOfModelA(modelElement);
+		if (MATCHING_PACKAGE.getCorrespondence_MatchedA() == correspondenceReference) {
+			for(Correspondence c : difference.getMatching().getCorrespondences()){
+				if(c.getMatchedA().equals(modelElement)){
+					return c;
+				}
+			}
 		}
-		
-		else if (SYMMMETRIC_PACKAGE.getCorrespondence_ObjB() == correspondenceReference) {
-			return difference.getCorrespondenceOfModelB(modelElement);
+
+		else if (MATCHING_PACKAGE.getCorrespondence_MatchedB() == correspondenceReference) {
+			for(Correspondence c : difference.getMatching().getCorrespondences()){
+				if(c.getMatchedB().equals(modelElement)){
+					return c;
+				}
+			}
 		}
-		
+
 		return null;
 	}
 
