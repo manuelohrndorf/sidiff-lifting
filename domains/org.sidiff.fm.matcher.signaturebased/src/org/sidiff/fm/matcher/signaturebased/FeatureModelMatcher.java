@@ -1,4 +1,4 @@
-package org.sidiff.matcher.signature_based.fm;
+package org.sidiff.fm.matcher.signaturebased;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
