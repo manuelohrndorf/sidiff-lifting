@@ -174,7 +174,8 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	@Override
 	public void dispose() {
 		super.dispose();
-		reportManager.removePatchReportListener(this);
+		if(reportManager!=null)
+			reportManager.removePatchReportListener(this);
 	}
 
 	// This will create the columns for the table
