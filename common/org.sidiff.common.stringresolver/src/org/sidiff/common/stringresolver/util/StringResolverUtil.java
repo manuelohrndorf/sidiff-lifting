@@ -23,15 +23,20 @@ public class StringResolverUtil {
 	public static IStringResolver getAvailableStringResolver(String documentType){
 		
 		IStringResolver stringResolver = null;
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IStringResolver.extensionPointID)) {
-			try {
-				IStringResolver stringResolverExtension = (IStringResolver) configurationElement.createExecutableExtension("string_resolver");
-				if (documentType.equals(stringResolverExtension.getDocType())) {
-					stringResolver = stringResolverExtension;
+
+		if (documentType != null) {
+			for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
+					.getConfigurationElementsFor(IStringResolver.extensionPointID)) {
+				try {
+					IStringResolver stringResolverExtension = (IStringResolver) configurationElement
+							.createExecutableExtension("string_resolver");
+					if (documentType.equals(stringResolverExtension.getDocType())) {
+						stringResolver = stringResolverExtension;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			}	
 		}
 		
 		if(stringResolver == null){
