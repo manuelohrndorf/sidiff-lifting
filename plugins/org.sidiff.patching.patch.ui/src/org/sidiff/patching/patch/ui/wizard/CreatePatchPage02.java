@@ -21,8 +21,8 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 
@@ -138,7 +138,7 @@ public class CreatePatchPage02 extends WizardPage implements IPageChangedListene
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);

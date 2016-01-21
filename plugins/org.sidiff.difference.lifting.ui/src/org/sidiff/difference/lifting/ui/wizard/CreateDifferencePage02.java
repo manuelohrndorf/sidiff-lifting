@@ -22,10 +22,10 @@ import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineM
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 
 public class CreateDifferencePage02 extends WizardPage implements IPageChangedListener {
@@ -130,7 +130,7 @@ public class CreateDifferencePage02 extends WizardPage implements IPageChangedLi
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
+		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);

@@ -21,8 +21,8 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
@@ -146,7 +146,7 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(
-				new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+				new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()).getResources(), true);
 		matcherWidget.setSettings(this.patchingSettings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);

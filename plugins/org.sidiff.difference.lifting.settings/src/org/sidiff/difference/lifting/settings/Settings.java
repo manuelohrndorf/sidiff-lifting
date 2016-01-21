@@ -1,26 +1,15 @@
 package org.sidiff.difference.lifting.settings;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
+import org.sidiff.difference.settings.settings.MatchingSettings;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public abstract class Settings {
-
-	/**
-	 * The {@link Scope} of the comparison. (Default: {@link Scope#RESOURCE}.
-	 */
-	private Scope scope = Scope.RESOURCE;
-
-	/**
-	 * The Matcher for calculating correspondences.
-	 */
-	private IMatcher matcher;
+public abstract class Settings extends MatchingSettings{
 
 	/**
 	 * The Symbolic Link Handler for calculating symbolic links.
@@ -32,10 +21,6 @@ public abstract class Settings {
 	 */
 	private Set<IRuleBase> ruleBases;
 
-	/**
-	 * All listeners of this Setting-Object.
-	 */
-	private ArrayList<ISettingsChangedListener> listeners = new ArrayList<ISettingsChangedListener>();
 
 	/**
 	 * Setup the comparison settings.
@@ -50,12 +35,8 @@ public abstract class Settings {
 	 *            The document type of the models.
 	 */
 	public Settings(String documentType) {
-		// Default: Use all available rulebases:
+		super(documentType);
 		this.ruleBases = RuleBaseUtil.getAvailableRulebases(documentType);
-		
-		// Default: Use named element matcher
-		//TODO
-		this.matcher = MatcherUtil.getMatcher("EcoreIDMatching");		
 	}
 
 	/**
@@ -69,50 +50,10 @@ public abstract class Settings {
 	 *            {@link Settings#setRuleBases(Set)}
 	 */
 	public Settings(Scope scope, IMatcher matcher, Set<IRuleBase> ruleBases) {
-		super();
-
-		this.matcher = matcher;
-		this.scope = scope;
+		super(scope, matcher);
 		this.ruleBases = ruleBases;
 	}
 
-	/**
-	 * @return The {@link Scope} of the comparison.
-	 */
-	public Scope getScope() {
-		return scope;
-	}
-
-	/**
-	 * Setup the new {@link Scope} of the comparison.
-	 * 
-	 * @param scope
-	 *            The new {@link Scope}.
-	 */
-	public void setScope(Scope scope) {
-		if (this.scope == null || !this.scope.equals(scope)) {
-			this.scope = scope;
-			this.notifyListeners(SettingsItem.SCOPE);
-		}
-	}
-
-	/**
-	 * @return The Matcher for model comparison.
-	 */
-	public IMatcher getMatcher() {
-		return matcher;
-	}
-
-	/**
-	 * @param matcher
-	 *            The Matcher for model comparison.
-	 */
-	public void setMatcher(IMatcher matcher) {
-		if (this.matcher == null || !this.matcher.getName().equals(matcher.getName())) {
-			this.matcher = matcher;
-			this.notifyListeners(SettingsItem.MATCHER);
-		}
-	}
 
 	/**
 	 * 
@@ -173,32 +114,6 @@ public abstract class Settings {
 		}
 	}
 
-	/**
-	 * Adds a new listener to this Settings-Object.
-	 * 
-	 * @param listener
-	 *            The listener.
-	 */
-	public void addSettingsChangedListener(ISettingsChangedListener listener) {
-		if (!this.listeners.contains(listener)) {
-			this.listeners.add(listener);
-		}
-	}
-
-	/**
-	 * Call this function every time when a setting was changed!
-	 * 
-	 * @param item
-	 *            The Enumeration associated with the changed setting.
-	 */
-	protected void notifyListeners(Enum<?> item) {
-		if (listeners != null) {
-			for (ISettingsChangedListener listener : listeners) {
-				listener.settingsChanged(item);
-			}
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -206,8 +121,8 @@ public abstract class Settings {
 	 */
 	public String toString() {
 		StringBuffer result = new StringBuffer();
-		result.append(scope != null ? "Scope: " + scope + "\n" : "");
-		result.append(matcher != null ? "Matcher: " + matcher.getName() + "\n" : "");
+		result.append(getScope() != null ? "Scope: " + getScope() + "\n" : "");
+		result.append(getMatcher() != null ? "Matcher: " + getMatcher().getName() + "\n" : "");
 
 		if (ruleBases != null) {
 			result.append("Rulebases: ");

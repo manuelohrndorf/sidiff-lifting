@@ -23,8 +23,8 @@ import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.lifting.ui.widgets.ScopeWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.ui.widgets.ScopeWidget;
 
 public class CreateDifferencePage01 extends WizardPage implements IPageChangedListener{
 

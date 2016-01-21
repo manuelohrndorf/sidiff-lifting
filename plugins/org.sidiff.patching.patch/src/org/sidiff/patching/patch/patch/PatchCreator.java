@@ -26,7 +26,6 @@ import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
-//TODO Migration: Test class
 public class PatchCreator {
 
 	public static final String FOLDER_EDIT_RULES = "EditRules";

@@ -3,6 +3,7 @@ package org.sidiff.patching.settings;
 import java.util.Set;
 
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.rulebase.extension.IRuleBase;

@@ -1,5 +1,7 @@
 package org.sidiff.difference.lifting.ui.util;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -99,5 +101,9 @@ public class InputModels {
 		}
 		
 		return documentTypes;
+	}
+	
+	public Collection<Resource> getResources(){
+		return Arrays.asList(getResourceA(),getResourceB());
 	}
 }

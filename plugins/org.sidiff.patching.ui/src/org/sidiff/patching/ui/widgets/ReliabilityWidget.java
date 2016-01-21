@@ -10,12 +10,15 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
+import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
+import org.sidiff.difference.settings.settings.MatchingSettings;
+import org.sidiff.difference.settings.settings.MatchingSettingsItem;
+import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.ReliabilityCapableMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
@@ -188,7 +191,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if (item.equals(SettingsItem.MATCHER)
+		if (item.equals(MatchingSettingsItem.MATCHER)
 				|| item.equals(SettingsItem.SYMBOLIC_LINK_HANDLER)) {
 			checkComputability();
 		}

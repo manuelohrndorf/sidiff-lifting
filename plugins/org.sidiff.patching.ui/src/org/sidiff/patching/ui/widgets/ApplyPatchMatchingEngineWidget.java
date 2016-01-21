@@ -12,12 +12,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.patching.patch.patch.Patch;
 
 public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
@@ -28,7 +28,7 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 
 
 	public ApplyPatchMatchingEngineWidget(InputModels inputModels, Patch patch) {
-		super(inputModels);
+		super(inputModels.getResources(), true);
 		this.patch = patch;
 		
 		//Connect scope widget:

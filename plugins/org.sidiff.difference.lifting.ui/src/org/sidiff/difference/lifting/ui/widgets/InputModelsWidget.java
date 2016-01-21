@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import org.eclipse.core.resources.IContainer;
+import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -16,7 +17,6 @@ import org.eclipse.swt.widgets.Label;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.ISettingsChangedListener;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.ui.Activator;

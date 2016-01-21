@@ -504,4 +504,5 @@ public class LiftingSettings extends Settings {
 		
 		return result.toString();
 	}
+
 }

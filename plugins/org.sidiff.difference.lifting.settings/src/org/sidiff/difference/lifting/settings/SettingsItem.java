@@ -8,17 +8,6 @@ import javax.inject.Scope;
  * Enumerations which are associated with a differencing setting.
  */
 public enum SettingsItem {
-	
-	/**
-	 * {@link Settings#setScope(Scope)}
-	 */
-	SCOPE, 
-	
-	/**
-	 * {@link Settings#setMatcher(IMatcher)}
-	 */
-	MATCHER, 
-	
 	/**
 	 * {@link Settings#setSymbolicLinkHandler(ISymbolicLinkHandler)}
 	 */
