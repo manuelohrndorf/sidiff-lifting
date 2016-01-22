@@ -11,8 +11,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -32,8 +30,10 @@ import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
+import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.xml.XMLParser;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.exceptions.NoEncapsulatedTypeInformationException;
 import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException;
@@ -45,7 +45,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class ConfigurationParser {
 
@@ -61,20 +60,25 @@ public class ConfigurationParser {
 
 	public void parse(String pathToConfig) throws SERGeConfigParserException, EPackageNotFoundException,
 			EClassifierUnresolvableException, NoEncapsulatedTypeInformationException, EAttributeNotFoundException,
-			ParserConfigurationException, SAXException, IOException {
-		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-		domFactory.setValidating(true);
-		DocumentBuilder builder = domFactory.newDocumentBuilder();
-		Document doc = builder.parse(new File(pathToConfig));
+			ParserConfigurationException, IOException {
+		
+		// create XML Document Object from file path
+		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
 		Element docElem = doc.getDocumentElement();
-
+		
 		c.EPACKAGESSTACK = new Stack<EPackage>();
 		org.w3c.dom.Node currentNode = doc.getElementsByTagName("Config").item(0);
+		
+		// start parsing
 		parseMetaModel(getChildNodesByName(currentNode, "MetaModel").get(0));
 		parseTransformations(getChildNodesByName(currentNode, "Transformations").get(0));
 		parseConsistencyLevel(getChildNodesByName(currentNode, "ConsistencyLevel").get(0));
+		
+		// analyze meta model
 		LogUtil.log(LogEvent.NOTICE, "Analyzing Meta-Model...");
 		gatherAllRequiredEPackages(c.METAMODEL);
+		
+		// continue parsing / resolving meta model specific parts
 		parseCompletenessLevel(getChildNodesByName(currentNode, "CompletnessLevel").get(0));
 		parseMaskedClassifiers(docElem.getElementsByTagName("MaskedClassifiers").item(0));
 	}
@@ -96,6 +100,7 @@ public class ConfigurationParser {
 	 */
 	private InclusionType determineInclusionTypeRecursivly(Map<EClassifier, InclusionType> map,
 			Set<EClassifier> allTypes, EClassifier eClassifier, InclusionType defaultType) {
+		
 		InclusionType inclusionType = map.get(eClassifier);
 		if (inclusionType == null) {
 			if (eClassifier instanceof EClass) {
@@ -132,6 +137,7 @@ public class ConfigurationParser {
 
 	private void parseMaskedClassifiers(org.w3c.dom.Node node)
 			throws EClassifierUnresolvableException, NoEncapsulatedTypeInformationException {
+		
 		if (node == null)
 			return;
 		NodeList currentChildNodes = node.getChildNodes();
@@ -163,19 +169,24 @@ public class ConfigurationParser {
 
 	private void parseCompletenessLevel(org.w3c.dom.Node node)
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
+		
 		parseAbstractReplacements(getChildNodesByName(node, "AbstractReplacements").get(0));
 		parseSupertypeReplacements(getChildNodesByName(node, "SupertypeReplacements").get(0));
 		parseModuleInternalOptions(getChildNodesByName(node, "ModuleInternalOptions").get(0));
 		parseModuleSetOptions(getChildNodesByName(node, "ModuleSetOptions").get(0));
+		
 	}
 
-	private void parseModuleSetOptions(org.w3c.dom.Node node)
+	private void parseModuleSetOptions(org.w3c.dom.Node node) 
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
+		
 		parseModuleGenerationSettings(getChildNodesByName(node, "ModuleGenerationSettings").get(0));
+		
 	}
 
 	private void parseModuleGenerationSettings(org.w3c.dom.Node node)
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
+		
 		/*
 		 * Default inclusion type
 		 */
@@ -198,9 +209,11 @@ public class ConfigurationParser {
 			determineInclusionTypeRecursivly(filter.getFocusInclusionTypes(), getAllEClassifiers(c.EPACKAGESSTACK),
 					eClassifier, defaultIt);
 		}
+		
 	}
 
 	private void parseAbstractReplacements(org.w3c.dom.Node node) throws SERGeConfigParserException {
+		
 		for (org.w3c.dom.Node n : getChildNodesByName(node, "AbstractReplacement")) {
 			for (OperationTypeGroup group : OperationTypeGroup.values()) {
 				if (getAttributeValue(n, "ruleType").equals(group.name())
@@ -209,9 +222,11 @@ public class ConfigurationParser {
 				}
 			}
 		}
+		
 	}
 
 	private void parseSupertypeReplacements(org.w3c.dom.Node node) throws SERGeConfigParserException {
+		
 		for (org.w3c.dom.Node n : getChildNodesByName(node, "SupertypeReplacement")) {
 			for (OperationTypeGroup group : OperationTypeGroup.values()) {
 				if (getAttributeValue(n, "ruleType").equals(group.name())) {
@@ -222,17 +237,21 @@ public class ConfigurationParser {
 				}
 			}
 		}
+		
 	}
 
 	private void parseModuleInternalOptions(org.w3c.dom.Node node)
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
+		
 		c.CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES = getAttributeValue(node, "CreateOptionalAttributes", "enable",
 				null);
 		parseDanglingNodeSettings(getChildNodesByName(node, "DanglingNodeSettings").get(0));
+		
 	}
 
 	private void parseDanglingNodeSettings(org.w3c.dom.Node node)
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
+		
 		InclusionType defaultIt = parseInclusionType(getAttributeValue(node, "defaultTypeInclusion"));
 		filter.setDefaultDanglingInclusionType(defaultIt);
 		/*
@@ -252,6 +271,7 @@ public class ConfigurationParser {
 			determineInclusionTypeRecursivly(filter.getDanglingInclusionTypes(), getAllEClassifiers(c.EPACKAGESSTACK),
 					eClassifier, defaultIt);
 		}
+		
 	}
 
 	private InclusionType parseInclusionType(String str) throws SERGeConfigParserException {
@@ -268,6 +288,8 @@ public class ConfigurationParser {
 
 	private void parseMetaModel(org.w3c.dom.Node node)
 			throws SERGeConfigParserException, EPackageNotFoundException, EClassifierUnresolvableException {
+		
+		// retrieve meta model info from xml
 		String nsUri = null;
 		if (metaModelForDefaultConfig == null) {
 			org.w3c.dom.Node mainModelNode = getChildNodesByName(node, "MainModel").get(0);
@@ -279,6 +301,7 @@ public class ConfigurationParser {
 			nsUri = metaModelForDefaultConfig;
 		}
 
+		// resolve meta model
 		EPackage metaModel = EPackage.Registry.INSTANCE.getEPackage(nsUri);
 		c.METAMODEL = metaModel;
 		c.EPACKAGESSTACK.add(metaModel);
@@ -289,7 +312,7 @@ public class ConfigurationParser {
 			e.printStackTrace();
 		}
 
-		// retrieve all other required meta models
+		// retrieve all other required meta models from config  (if any) and resolve them
 		List<org.w3c.dom.Node> requiredModelNodes = getChildNodesByName(node, "RequiredModel");
 		for (Node requiredNode : requiredModelNodes) {
 			String uri = getAttributeValue(requiredNode, "nsUri");
@@ -304,26 +327,30 @@ public class ConfigurationParser {
 
 		// Root
 		List<org.w3c.dom.Node> rootElementNodes = getChildNodesByName(node, "RootModelElement");
+		c.ROOT = null; //default if no values entered
+		c.ROOTECLASSCANBENESTED = false; //default if no values entered
 		if (!rootElementNodes.isEmpty()) {
 			org.w3c.dom.Node rootElementNode = rootElementNodes.get(0);
 			String rootName = getAttributeValue(rootElementNode, "name");
-			EClassifier root = resolveStringAsEClassifier(rootName, c.EPACKAGESSTACK);
-			c.ROOT = root;
-			c.ROOTECLASSCANBENESTED = getAttributeValue(rootElementNode, "canBeNested", (Boolean) null);
-		} else {
-			c.ROOT = null;
-			c.ROOTECLASSCANBENESTED = false;
+			if(rootName!="") {
+				EClassifier root = resolveStringAsEClassifier(rootName, c.EPACKAGESSTACK);
+				c.ROOT = root;
+				c.ROOTECLASSCANBENESTED = getAttributeValue(rootElementNode, "canBeNested", (Boolean) null);
+			}
 		}
 
 	}
 
 	private void parseConsistencyLevel(org.w3c.dom.Node node) throws SERGeConfigParserException {
+		
 		c.CREATE_MANDATORY_CHILDREN = getAttributeValue(node, "CreateMandatoryChildren", "enable", null);
 		c.CREATE_MANDATORY_NEIGHBOURS = getAttributeValue(node, "CreateMandatoryNeighbours", "enable", null);
 		c.MULTIPLICITY_PRECONDITIONS = getAttributeValue(node, "CreateMultiplicityPreconditions", "enable", null);
+		
 	}
 
 	private void parseTransformations(org.w3c.dom.Node node) throws SERGeConfigParserException {
+		
 		boolean create;
 		for (OperationType rt : OperationType.values()) {
 			create = getAttributeValue(node, rt.name(), "enable", false);
@@ -331,8 +358,7 @@ public class ConfigurationParser {
 				c.create.add(rt);
 		}
 		c.USE_SIMPLE_NAMES_ATTACHDETACH = getAttributeValue(node, OperationType.ATTACH.name(), "useSimpleNames", false);
-		c.REFERENCESWITCHING_MOVE = getAttributeValue(node, OperationType.MOVE.name(), "enableReferenceSwitching",
-				false);
+		c.REFERENCESWITCHING_MOVE = getAttributeValue(node, OperationType.MOVE.name(), "enableReferenceSwitching",false);
 		create = getAttributeValue(node, OperationType.MOVE.name(), "allowReferenceCombinations", false);
 		if (create)
 			c.create.add(OperationType.MOVE_REFERENCE_COMBINATION);
@@ -343,8 +369,10 @@ public class ConfigurationParser {
 		c.LITERALSWITCHING_CHANGE = getAttributeValue(node, OperationType.CHANGE_LITERAL.name(),
 				"allowLiteralSwitching", false);
 	}
+	
 
 	private String getAttributeValue(org.w3c.dom.Node node, String attributeName) throws SERGeConfigParserException {
+		
 		String value = getAttributeValue(attributeName, node);
 		if (value != null) {
 			return value;
@@ -352,10 +380,12 @@ public class ConfigurationParser {
 			throw new SERGeConfigParserException("Required attribute \"" + attributeName + "\" not found in element \""
 					+ node.getNodeName() + "\".");
 		}
+		
 	}
 
 	private boolean getAttributeValue(org.w3c.dom.Node node, String attributeName, Boolean defaultValue)
 			throws SERGeConfigParserException {
+		
 		String value = getAttributeValue(attributeName, node);
 		if (value != null) {
 			return "true".equals(value);
@@ -365,11 +395,13 @@ public class ConfigurationParser {
 						+ "\" not found in element \"" + node.getNodeName() + "\".");
 			return defaultValue;
 		}
+		
 	}
 
 	@SuppressWarnings("unused")
 	private String getAttributeValue(org.w3c.dom.Node node, String childElementName, String attributeName)
 			throws SERGeConfigParserException {
+		
 		List<org.w3c.dom.Node> children = getChildNodesByName(node, childElementName);
 		if (children.size() > 1)
 			throw new SERGeConfigParserException();
@@ -381,6 +413,7 @@ public class ConfigurationParser {
 
 	private boolean getAttributeValue(org.w3c.dom.Node node, String childElementName, String attributeName,
 			Boolean defaultValue) throws SERGeConfigParserException {
+		
 		List<org.w3c.dom.Node> children = getChildNodesByName(node, childElementName);
 		if (children.size() > 1)
 			throw new SERGeConfigParserException();
@@ -393,6 +426,7 @@ public class ConfigurationParser {
 	}
 
 	private String getAttributeValue(String attribName, org.w3c.dom.Node node) {
+		
 		NamedNodeMap attribs = node.getAttributes();
 		for (int i = 0; i < attribs.getLength(); i++) {
 			if (attribs.item(i).getNodeName().equals(attribName)) {
@@ -404,6 +438,7 @@ public class ConfigurationParser {
 	}
 
 	private List<org.w3c.dom.Node> getChildNodesByName(org.w3c.dom.Node node, String name) {
+		
 		List<org.w3c.dom.Node> nodes = new ArrayList<Node>();
 		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
 			org.w3c.dom.Node n = node.getChildNodes().item(i);
@@ -413,9 +448,17 @@ public class ConfigurationParser {
 		return nodes;
 	}
 
-	private static void gatherAllRequiredEPackages(EPackage metaModel) {
+	/**
+	 * Some meta models have references to other meta models.
+	 * Currently these other required meta models have to be specified on the
+	 * XML file also. This method reads in the required meta models and resolves them.
+	 * 
+	 * @param metaModel
+	 * @throws EPackageNotFoundException 
+	 */
+	private static void gatherAllRequiredEPackages(EPackage metaModel) throws EPackageNotFoundException {
 
-		// add all sub EPackages to epackages
+		// add all sub EPackages to list
 		List<EPackage> subPackages = new ArrayList<EPackage>();
 		for (EPackage ep : c.EPACKAGESSTACK) {
 			for (EPackage sub : ep.getESubpackages()) {
@@ -438,9 +481,10 @@ public class ConfigurationParser {
 					String completePath = convertEProxyURIToFilePath(targetedClassifier.toString(),
 							absolutPathOfMetaModel);
 
-					File ecoreFile = new File(completePath);
-
-					assert (ecoreFile != null) : "The Metamodel uses other ecore files that are not inside your workspace or enabled in the run configuration";
+					File ecoreFile = new File(completePath);				
+					if(!ecoreFile.exists()) {
+						throw new EPackageNotFoundException();
+					}
 
 					// load the referenced ecore file into the EPackage
 					// Registry.
@@ -470,15 +514,18 @@ public class ConfigurationParser {
 	}
 
 	private static Set<EClassifier> getAllEClassifiers(Stack<EPackage> ePackagesStack) {
+		
 		Set<EClassifier> allEClassifiers = new HashSet<EClassifier>();
 		for (EPackage ePackage : ePackagesStack) {
 			allEClassifiers.addAll(ePackage.getEClassifiers());
 		}
 		return allEClassifiers;
+		
 	}
 
 	private static EClassifier resolveStringAsEClassifier(String eClassifierName, Stack<EPackage> ePackagesStack)
 			throws EClassifierUnresolvableException {
+		
 		EClassifier resolvedEClassifier = null;
 
 		for (EPackage ePackage : ePackagesStack) {

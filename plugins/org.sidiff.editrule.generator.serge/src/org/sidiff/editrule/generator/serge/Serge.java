@@ -33,7 +33,6 @@ import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
 import org.sidiff.editrule.generator.serge.core.InternalAnnotationsRemover;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapper;
-import org.sidiff.editrule.generator.serge.core.InverseTracker;
 import org.sidiff.editrule.generator.serge.core.MainUnitApplicator;
 import org.sidiff.editrule.generator.serge.core.MetaModelElementVisitor;
 import org.sidiff.editrule.generator.serge.core.ModuleSerializer;
@@ -47,7 +46,6 @@ import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.types.OperationType;
-import org.xml.sax.SAXException;
 
 /**
  * Todo-List :
@@ -131,7 +129,7 @@ public class Serge implements IEditRuleGenerator {
 				monitor.worked(20);
 			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
 					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
-					| SAXException | IOException e) {
+					| IOException e) {
 				monitor.done();
 				throw new EditRuleGenerationException("Error when parsing config file."
 						+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
