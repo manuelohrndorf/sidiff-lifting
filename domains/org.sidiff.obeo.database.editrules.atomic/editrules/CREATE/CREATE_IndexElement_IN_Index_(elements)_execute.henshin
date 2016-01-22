@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Eq1DUMD6EeWVwuTbUpYJ6g" name="CREATE_IndexElement_IN_Index_(elements)" description="Creates one IndexElement in Index">
+  <annotations xmi:id="_Eq1DUcD6EeWVwuTbUpYJ6g" key="INVERSE" value="DELETE_IndexElement_IN_Index_(elements)"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Eq1DUsD6EeWVwuTbUpYJ6g" name="createIndexElement_IN_Index" description="creates one IndexElement in the context: Index">
+    <parameters xmi:id="_Eq1DU8D6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_Eq1DVMD6EeWVwuTbUpYJ6g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <lhs xmi:id="_Eq1DVcD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_Eq1DVsD6EeWVwuTbUpYJ6g" name="Selected">
+        <annotations xmi:id="_Eq1DV8D6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Eq1DWMD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Eq1DWcD6EeWVwuTbUpYJ6g" name="Selected" outgoing="_Eq1DXcD6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_Eq1DWsD6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+      <nodes xmi:id="_Eq1DW8D6EeWVwuTbUpYJ6g" name="New" incoming="_Eq1DXcD6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_Eq1DXMD6EeWVwuTbUpYJ6g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+      </nodes>
+      <edges xmi:id="_Eq1DXcD6EeWVwuTbUpYJ6g" source="_Eq1DWcD6EeWVwuTbUpYJ6g" target="_Eq1DW8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index/elements"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Eq1DXsD6EeWVwuTbUpYJ6g" origin="_Eq1DVsD6EeWVwuTbUpYJ6g" image="_Eq1DWcD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Eq1DX8D6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_Eq1DUsD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Eq1DYMD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <annotations xmi:id="_Eq1DYcD6EeWVwuTbUpYJ6g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_Eq1DYsD6EeWVwuTbUpYJ6g" name="New">
+      <annotations xmi:id="_Eq1DY8D6EeWVwuTbUpYJ6g" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_Eq1DZMD6EeWVwuTbUpYJ6g" source="_Eq1DYMD6EeWVwuTbUpYJ6g" target="_Eq1DU8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Eq1DZcD6EeWVwuTbUpYJ6g" source="_Eq1DVMD6EeWVwuTbUpYJ6g" target="_Eq1DYsD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErP6EMD6EeWVwuTbUpYJ6g" name="CREATE_Sequence_IN_TableContainer_(sequences)" description="Creates one Sequence in TableContainer">
+  <annotations xmi:id="_ErP6EcD6EeWVwuTbUpYJ6g" key="INVERSE" value="DELETE_Sequence_IN_TableContainer_(sequences)"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErP6EsD6EeWVwuTbUpYJ6g" name="createSequence_IN_TableContainer" description="creates one Sequence in the context: TableContainer">
+    <parameters xmi:id="_ErP6E8D6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <parameters xmi:id="_ErP6FMD6EeWVwuTbUpYJ6g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErP6FcD6EeWVwuTbUpYJ6g" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_ErP6FsD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_ErP6F8D6EeWVwuTbUpYJ6g" name="Selected">
+        <annotations xmi:id="_ErP6GMD6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ErP6GcD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_ErP6GsD6EeWVwuTbUpYJ6g" name="Selected" outgoing="_ErP6H8D6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_ErP6G8D6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+      <nodes xmi:id="_ErP6HMD6EeWVwuTbUpYJ6g" name="New" incoming="_ErP6H8D6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_ErP6HcD6EeWVwuTbUpYJ6g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+        <attributes xmi:id="_ErP6HsD6EeWVwuTbUpYJ6g" value="Name">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//NamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ErP6H8D6EeWVwuTbUpYJ6g" source="_ErP6GsD6EeWVwuTbUpYJ6g" target="_ErP6HMD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer/sequences"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ErP6IMD6EeWVwuTbUpYJ6g" origin="_ErP6F8D6EeWVwuTbUpYJ6g" image="_ErP6GsD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErP6IcD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErP6EsD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErP6IsD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <annotations xmi:id="_ErP6I8D6EeWVwuTbUpYJ6g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <parameters xmi:id="_ErP6JMD6EeWVwuTbUpYJ6g" name="New">
+      <annotations xmi:id="_ErP6JcD6EeWVwuTbUpYJ6g" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErP6JsD6EeWVwuTbUpYJ6g" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErP6J8D6EeWVwuTbUpYJ6g" source="_ErP6IsD6EeWVwuTbUpYJ6g" target="_ErP6E8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErP6KMD6EeWVwuTbUpYJ6g" source="_ErP6FMD6EeWVwuTbUpYJ6g" target="_ErP6JMD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErP6KcD6EeWVwuTbUpYJ6g" source="_ErP6JsD6EeWVwuTbUpYJ6g" target="_ErP6FcD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

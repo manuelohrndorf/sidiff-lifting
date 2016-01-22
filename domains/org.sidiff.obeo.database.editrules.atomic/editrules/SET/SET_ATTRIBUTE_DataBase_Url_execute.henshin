@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqivcMD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_DataBase_Url" description="Sets DataBase Url">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqivccD6EeWVwuTbUpYJ6g" name="setDataBaseUrl" description="Sets the EAttribute url">
+    <parameters xmi:id="_EqivcsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//DataBase"/>
+    </parameters>
+    <parameters xmi:id="_Eqivc8D6EeWVwuTbUpYJ6g" name="Url">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_EqivdMD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqivdcD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//DataBase"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_EqivdsD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Eqivd8D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//DataBase"/>
+        <attributes xmi:id="_EqiveMD6EeWVwuTbUpYJ6g" value="Url">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//DataBase/url"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_EqivecD6EeWVwuTbUpYJ6g" origin="_EqivdcD6EeWVwuTbUpYJ6g" image="_Eqivd8D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_EqivesD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqivccD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Eqive8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//DataBase"/>
+    </parameters>
+    <parameters xmi:id="_EqivfMD6EeWVwuTbUpYJ6g" name="Url">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_EqivfcD6EeWVwuTbUpYJ6g" source="_Eqive8D6EeWVwuTbUpYJ6g" target="_EqivcsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqivfsD6EeWVwuTbUpYJ6g" source="_EqivfMD6EeWVwuTbUpYJ6g" target="_Eqivc8D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

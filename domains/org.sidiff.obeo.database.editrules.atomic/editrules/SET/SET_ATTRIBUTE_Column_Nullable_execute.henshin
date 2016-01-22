@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Erhm4MD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_Column_Nullable" description="Sets Column Nullable">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Erhm4cD6EeWVwuTbUpYJ6g" name="setColumnNullable" description="Sets the EAttribute nullable">
+    <parameters xmi:id="_Erhm4sD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_Erhm48D6EeWVwuTbUpYJ6g" name="Nullable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_Erhm5MD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_Erhm5cD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Erhm5sD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Erhm58D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+        <attributes xmi:id="_Erhm6MD6EeWVwuTbUpYJ6g" value="Nullable">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/nullable"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Erhm6cD6EeWVwuTbUpYJ6g" origin="_Erhm5cD6EeWVwuTbUpYJ6g" image="_Erhm58D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Erhm6sD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_Erhm4cD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Erhm68D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_Erhm7MD6EeWVwuTbUpYJ6g" name="Nullable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_Erhm7cD6EeWVwuTbUpYJ6g" source="_Erhm68D6EeWVwuTbUpYJ6g" target="_Erhm4sD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Erhm7sD6EeWVwuTbUpYJ6g" source="_Erhm7MD6EeWVwuTbUpYJ6g" target="_Erhm48D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

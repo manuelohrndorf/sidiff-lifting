@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErApgMD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_Sequence_Start" description="Sets Sequence Start">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErApgcD6EeWVwuTbUpYJ6g" name="setSequenceStart" description="Sets the EAttribute start">
+    <parameters xmi:id="_ErApgsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErApg8D6EeWVwuTbUpYJ6g" name="Start">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <lhs xmi:id="_ErBQkMD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_ErBQkcD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ErBQksD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_ErBQk8D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+        <attributes xmi:id="_ErBQlMD6EeWVwuTbUpYJ6g" value="Start">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence/start"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ErBQlcD6EeWVwuTbUpYJ6g" origin="_ErBQkcD6EeWVwuTbUpYJ6g" image="_ErBQk8D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErBQlsD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErApgcD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErBQl8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErBQmMD6EeWVwuTbUpYJ6g" name="Start">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErBQmcD6EeWVwuTbUpYJ6g" source="_ErBQl8D6EeWVwuTbUpYJ6g" target="_ErApgsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErBQmsD6EeWVwuTbUpYJ6g" source="_ErBQmMD6EeWVwuTbUpYJ6g" target="_ErApg8D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

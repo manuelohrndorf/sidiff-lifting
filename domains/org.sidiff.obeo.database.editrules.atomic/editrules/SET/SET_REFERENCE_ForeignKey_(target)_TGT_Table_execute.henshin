@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqvjwMD6EeWVwuTbUpYJ6g" name="SET_REFERENCE_ForeignKey_(target)_TGT_Table" description="Sets ForeignKey's reference target the target Table">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqvjwcD6EeWVwuTbUpYJ6g" name="setForeignKey_target_TO_Table" description="SetForeignKeyReftargetToTable">
+    <parameters xmi:id="_EqvjwsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+    </parameters>
+    <parameters xmi:id="_Eqvjw8D6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
+    </parameters>
+    <lhs xmi:id="_EqvjxMD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqvjxcD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+      </nodes>
+      <nodes xmi:id="_EqvjxsD6EeWVwuTbUpYJ6g" name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_Eqvjx8D6EeWVwuTbUpYJ6g">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_EqvjyMD6EeWVwuTbUpYJ6g">
+          <conclusion xmi:id="_EqvjycD6EeWVwuTbUpYJ6g" name="ub0">
+            <nodes xmi:id="_EqvjysD6EeWVwuTbUpYJ6g" outgoing="_EqvjzMD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+            </nodes>
+            <nodes xmi:id="_Eqvjy8D6EeWVwuTbUpYJ6g" incoming="_EqvjzMD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
+            </nodes>
+            <edges xmi:id="_EqvjzMD6EeWVwuTbUpYJ6g" source="_EqvjysD6EeWVwuTbUpYJ6g" target="_Eqvjy8D6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey/target"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_EqvjzcD6EeWVwuTbUpYJ6g" origin="_EqvjxcD6EeWVwuTbUpYJ6g" image="_EqvjysD6EeWVwuTbUpYJ6g"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_EqvjzsD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Eqvjz8D6EeWVwuTbUpYJ6g" name="Selected" outgoing="_Eqvj0cD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+      </nodes>
+      <nodes xmi:id="_Eqvj0MD6EeWVwuTbUpYJ6g" name="NewTarget" incoming="_Eqvj0cD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
+      </nodes>
+      <edges xmi:id="_Eqvj0cD6EeWVwuTbUpYJ6g" source="_Eqvjz8D6EeWVwuTbUpYJ6g" target="_Eqvj0MD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Eqvj0sD6EeWVwuTbUpYJ6g" origin="_EqvjxcD6EeWVwuTbUpYJ6g" image="_Eqvjz8D6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_Eqvj08D6EeWVwuTbUpYJ6g" origin="_EqvjxsD6EeWVwuTbUpYJ6g" image="_Eqvj0MD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Eqvj1MD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqvjwcD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Eqvj1cD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+    </parameters>
+    <parameters xmi:id="_Eqvj1sD6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
+    </parameters>
+    <parameterMappings xmi:id="_Eqvj18D6EeWVwuTbUpYJ6g" source="_Eqvj1cD6EeWVwuTbUpYJ6g" target="_EqvjwsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Eqvj2MD6EeWVwuTbUpYJ6g" source="_Eqvj1sD6EeWVwuTbUpYJ6g" target="_Eqvjw8D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

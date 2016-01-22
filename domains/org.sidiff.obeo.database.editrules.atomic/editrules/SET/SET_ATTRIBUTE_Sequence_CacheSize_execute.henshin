@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErB3oMD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_Sequence_CacheSize" description="Sets Sequence CacheSize">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErB3ocD6EeWVwuTbUpYJ6g" name="setSequenceCacheSize" description="Sets the EAttribute cacheSize">
+    <parameters xmi:id="_ErB3osD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErB3o8D6EeWVwuTbUpYJ6g" name="CacheSize">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <lhs xmi:id="_ErB3pMD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_ErB3pcD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ErB3psD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_ErB3p8D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+        <attributes xmi:id="_ErB3qMD6EeWVwuTbUpYJ6g" value="CacheSize">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence/cacheSize"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ErB3qcD6EeWVwuTbUpYJ6g" origin="_ErB3pcD6EeWVwuTbUpYJ6g" image="_ErB3p8D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErB3qsD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErB3ocD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErB3q8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_ErB3rMD6EeWVwuTbUpYJ6g" name="CacheSize">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErB3rcD6EeWVwuTbUpYJ6g" source="_ErB3q8D6EeWVwuTbUpYJ6g" target="_ErB3osD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErB3rsD6EeWVwuTbUpYJ6g" source="_ErB3rMD6EeWVwuTbUpYJ6g" target="_ErB3o8D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

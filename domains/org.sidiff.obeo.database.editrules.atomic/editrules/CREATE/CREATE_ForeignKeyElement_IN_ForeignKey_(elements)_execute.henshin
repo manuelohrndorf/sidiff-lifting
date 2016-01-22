@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Eq8_IMD6EeWVwuTbUpYJ6g" name="CREATE_ForeignKeyElement_IN_ForeignKey_(elements)" description="Creates one ForeignKeyElement in ForeignKey">
+  <annotations xmi:id="_Eq8_IcD6EeWVwuTbUpYJ6g" key="INVERSE" value="DELETE_ForeignKeyElement_IN_ForeignKey_(elements)"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Eq8_IsD6EeWVwuTbUpYJ6g" name="createForeignKeyElement_IN_ForeignKey" description="creates one ForeignKeyElement in the context: ForeignKey">
+    <parameters xmi:id="_Eq8_I8D6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+    </parameters>
+    <parameters xmi:id="_Eq8_JMD6EeWVwuTbUpYJ6g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKeyElement"/>
+    </parameters>
+    <lhs xmi:id="_Eq8_JcD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_Eq8_JsD6EeWVwuTbUpYJ6g" name="Selected">
+        <annotations xmi:id="_Eq8_J8D6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Eq8_KMD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Eq8_KcD6EeWVwuTbUpYJ6g" name="Selected" outgoing="_Eq8_LcD6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_Eq8_KsD6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+      </nodes>
+      <nodes xmi:id="_Eq8_K8D6EeWVwuTbUpYJ6g" name="New" incoming="_Eq8_LcD6EeWVwuTbUpYJ6g">
+        <annotations xmi:id="_Eq8_LMD6EeWVwuTbUpYJ6g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKeyElement"/>
+      </nodes>
+      <edges xmi:id="_Eq8_LcD6EeWVwuTbUpYJ6g" source="_Eq8_KcD6EeWVwuTbUpYJ6g" target="_Eq8_K8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey/elements"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Eq8_LsD6EeWVwuTbUpYJ6g" origin="_Eq8_JsD6EeWVwuTbUpYJ6g" image="_Eq8_KcD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Eq8_L8D6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_Eq8_IsD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Eq8_MMD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <annotations xmi:id="_Eq8_McD6EeWVwuTbUpYJ6g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKey"/>
+    </parameters>
+    <parameters xmi:id="_Eq8_MsD6EeWVwuTbUpYJ6g" name="New">
+      <annotations xmi:id="_Eq8_M8D6EeWVwuTbUpYJ6g" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//ForeignKeyElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_Eq8_NMD6EeWVwuTbUpYJ6g" source="_Eq8_MMD6EeWVwuTbUpYJ6g" target="_Eq8_I8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Eq8_NcD6EeWVwuTbUpYJ6g" source="_Eq8_JMD6EeWVwuTbUpYJ6g" target="_Eq8_MsD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

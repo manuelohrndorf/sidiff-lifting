@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqSQwMD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_Constraint_Expression" description="Sets Constraint Expression">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqSQwcD6EeWVwuTbUpYJ6g" name="setConstraintExpression" description="Sets the EAttribute expression">
+    <parameters xmi:id="_EqSQwsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_EqSQw8D6EeWVwuTbUpYJ6g" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_EqSQxMD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqSQxcD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_EqSQxsD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_EqSQx8D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Constraint"/>
+        <attributes xmi:id="_EqSQyMD6EeWVwuTbUpYJ6g" value="Expression">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Constraint/expression"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_EqSQycD6EeWVwuTbUpYJ6g" origin="_EqSQxcD6EeWVwuTbUpYJ6g" image="_EqSQx8D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_EqSQysD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqSQwcD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_EqSQy8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_EqSQzMD6EeWVwuTbUpYJ6g" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_EqSQzcD6EeWVwuTbUpYJ6g" source="_EqSQy8D6EeWVwuTbUpYJ6g" target="_EqSQwsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqSQzsD6EeWVwuTbUpYJ6g" source="_EqSQzMD6EeWVwuTbUpYJ6g" target="_EqSQw8D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

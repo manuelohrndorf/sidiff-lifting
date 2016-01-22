@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqnA4MD6EeWVwuTbUpYJ6g" name="SET_ATTRIBUTE_Index_Cardinality" description="Sets Index Cardinality">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqnA4cD6EeWVwuTbUpYJ6g" name="setIndexCardinality" description="Sets the EAttribute cardinality">
+    <parameters xmi:id="_EqnA4sD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_EqnA48D6EeWVwuTbUpYJ6g" name="Cardinality">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_EqnA5MD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqnA5cD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_EqnA5sD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_EqnA58D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+        <attributes xmi:id="_EqnA6MD6EeWVwuTbUpYJ6g" value="Cardinality">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index/cardinality"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_EqnA6cD6EeWVwuTbUpYJ6g" origin="_EqnA5cD6EeWVwuTbUpYJ6g" image="_EqnA58D6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_EqnA6sD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqnA4cD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_EqnA68D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_EqnA7MD6EeWVwuTbUpYJ6g" name="Cardinality">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_EqnA7cD6EeWVwuTbUpYJ6g" source="_EqnA68D6EeWVwuTbUpYJ6g" target="_EqnA4sD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqnA7sD6EeWVwuTbUpYJ6g" source="_EqnA7MD6EeWVwuTbUpYJ6g" target="_EqnA48D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

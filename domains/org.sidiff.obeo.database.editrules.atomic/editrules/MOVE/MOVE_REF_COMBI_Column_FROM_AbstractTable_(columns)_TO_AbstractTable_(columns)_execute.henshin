@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErfKoMD6EeWVwuTbUpYJ6g" name="MOVE_REF_COMBI_Column_FROM_AbstractTable_(columns)_TO_AbstractTable_(columns)" description="MOVEs Column from AbstractTable(Reference:columns) to AbstractTable(Reference:columns">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErfKocD6EeWVwuTbUpYJ6g" name="moveColumn_FROM_AbstractTable_columns_TO_AbstractTable_AbstractTable" description="Moves Column from AbstractTable(Reference:columns) toAbstractTable(Reference:AbstractTable)">
+    <parameters xmi:id="_ErfKosD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_ErfKo8D6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <parameters xmi:id="_ErfKpMD6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <lhs xmi:id="_ErfKpcD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_ErfKpsD6EeWVwuTbUpYJ6g" name="Selected" incoming="_ErfKqcD6EeWVwuTbUpYJ6g" outgoing="_ErfKqsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_ErfKp8D6EeWVwuTbUpYJ6g" name="OldSource" incoming="_ErfKqsD6EeWVwuTbUpYJ6g" outgoing="_ErfKqcD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <nodes xmi:id="_ErfKqMD6EeWVwuTbUpYJ6g" name="NewSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <edges xmi:id="_ErfKqcD6EeWVwuTbUpYJ6g" source="_ErfKp8D6EeWVwuTbUpYJ6g" target="_ErfKpsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/columns"/>
+      </edges>
+      <edges xmi:id="_ErfKqsD6EeWVwuTbUpYJ6g" source="_ErfKpsD6EeWVwuTbUpYJ6g" target="_ErfKp8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/owner"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ErfKq8D6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_ErfKrMD6EeWVwuTbUpYJ6g" name="Selected" incoming="_ErfKr8D6EeWVwuTbUpYJ6g" outgoing="_ErfKsMD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_ErfKrcD6EeWVwuTbUpYJ6g" name="OldSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <nodes xmi:id="_ErfKrsD6EeWVwuTbUpYJ6g" name="NewSource" incoming="_ErfKsMD6EeWVwuTbUpYJ6g" outgoing="_ErfKr8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <edges xmi:id="_ErfKr8D6EeWVwuTbUpYJ6g" source="_ErfKrsD6EeWVwuTbUpYJ6g" target="_ErfKrMD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/columns"/>
+      </edges>
+      <edges xmi:id="_ErfKsMD6EeWVwuTbUpYJ6g" source="_ErfKrMD6EeWVwuTbUpYJ6g" target="_ErfKrsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/owner"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ErfKscD6EeWVwuTbUpYJ6g" origin="_ErfKpsD6EeWVwuTbUpYJ6g" image="_ErfKrMD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_ErfKssD6EeWVwuTbUpYJ6g" origin="_ErfKp8D6EeWVwuTbUpYJ6g" image="_ErfKrcD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_ErfKs8D6EeWVwuTbUpYJ6g" origin="_ErfKqMD6EeWVwuTbUpYJ6g" image="_ErfKrsD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErfKtMD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErfKocD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErfKtcD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_ErfKtsD6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <parameters xmi:id="_ErfKt8D6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErfKuMD6EeWVwuTbUpYJ6g" source="_ErfKtcD6EeWVwuTbUpYJ6g" target="_ErfKosD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErfKucD6EeWVwuTbUpYJ6g" source="_ErfKtsD6EeWVwuTbUpYJ6g" target="_ErfKo8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErfKusD6EeWVwuTbUpYJ6g" source="_ErfKt8D6EeWVwuTbUpYJ6g" target="_ErfKpMD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

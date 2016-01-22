@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Eq24gMD6EeWVwuTbUpYJ6g" name="MOVE_Sequence_FROM_TableContainer_(sequences)_TO_TableContainer_(sequences)" description="MOVEs Sequence from TableContainer(Reference:sequences) to TableContainer(Reference:sequences">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Eq24gcD6EeWVwuTbUpYJ6g" name="moveSequence_FROM_TableContainer_sequences_TO_TableContainer_TableContainer" description="Moves Sequence from TableContainer(Reference:sequences) toTableContainer(Reference:TableContainer)">
+    <parameters xmi:id="_Eq24gsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_Eq24g8D6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <parameters xmi:id="_Eq24hMD6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <lhs xmi:id="_Eq24hcD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_Eq24hsD6EeWVwuTbUpYJ6g" name="Selected" incoming="_Eq24icD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+      </nodes>
+      <nodes xmi:id="_Eq24h8D6EeWVwuTbUpYJ6g" name="OldSource" outgoing="_Eq24icD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+      <nodes xmi:id="_Eq24iMD6EeWVwuTbUpYJ6g" name="NewSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+      <edges xmi:id="_Eq24icD6EeWVwuTbUpYJ6g" source="_Eq24h8D6EeWVwuTbUpYJ6g" target="_Eq24hsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer/sequences"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Eq24isD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_Eq24i8D6EeWVwuTbUpYJ6g" name="Selected" incoming="_Eq24jsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+      </nodes>
+      <nodes xmi:id="_Eq24jMD6EeWVwuTbUpYJ6g" name="OldSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+      <nodes xmi:id="_Eq24jcD6EeWVwuTbUpYJ6g" name="NewSource" outgoing="_Eq24jsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+      </nodes>
+      <edges xmi:id="_Eq24jsD6EeWVwuTbUpYJ6g" source="_Eq24jcD6EeWVwuTbUpYJ6g" target="_Eq24i8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer/sequences"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Eq24j8D6EeWVwuTbUpYJ6g" origin="_Eq24hsD6EeWVwuTbUpYJ6g" image="_Eq24i8D6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_Eq24kMD6EeWVwuTbUpYJ6g" origin="_Eq24h8D6EeWVwuTbUpYJ6g" image="_Eq24jMD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_Eq24kcD6EeWVwuTbUpYJ6g" origin="_Eq24iMD6EeWVwuTbUpYJ6g" image="_Eq24jcD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Eq24ksD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_Eq24gcD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_Eq24k8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Sequence"/>
+    </parameters>
+    <parameters xmi:id="_Eq24lMD6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <parameters xmi:id="_Eq24lcD6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer"/>
+    </parameters>
+    <parameterMappings xmi:id="_Eq24lsD6EeWVwuTbUpYJ6g" source="_Eq24k8D6EeWVwuTbUpYJ6g" target="_Eq24gsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Eq24l8D6EeWVwuTbUpYJ6g" source="_Eq24lMD6EeWVwuTbUpYJ6g" target="_Eq24g8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_Eq24mMD6EeWVwuTbUpYJ6g" source="_Eq24lcD6EeWVwuTbUpYJ6g" target="_Eq24hMD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

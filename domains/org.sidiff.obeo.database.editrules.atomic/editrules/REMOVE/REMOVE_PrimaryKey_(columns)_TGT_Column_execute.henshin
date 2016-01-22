@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErqJwMD6EeWVwuTbUpYJ6g" name="REMOVE_PrimaryKey_(columns)_TGT_Column" description="Removes PrimaryKey's reference columns the target Column">
+  <annotations xmi:id="_ErqJwcD6EeWVwuTbUpYJ6g" key="INVERSE" value="ADD_PrimaryKey_(columns)_TGT_Column"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErqJwsD6EeWVwuTbUpYJ6g" name="removeFromPrimaryKey_columns_Column" description="Removes from PrimaryKey's reference columns the target Column">
+    <parameters xmi:id="_ErqJw8D6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+    </parameters>
+    <parameters xmi:id="_ErqJxMD6EeWVwuTbUpYJ6g" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <lhs xmi:id="_ErqJxcD6EeWVwuTbUpYJ6g" name="LHS">
+      <nodes xmi:id="_ErqJxsD6EeWVwuTbUpYJ6g" name="Selected" incoming="_ErqJycD6EeWVwuTbUpYJ6g" outgoing="_ErqJyMD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+      </nodes>
+      <nodes xmi:id="_ErqJx8D6EeWVwuTbUpYJ6g" name="OldTarget" incoming="_ErqJyMD6EeWVwuTbUpYJ6g" outgoing="_ErqJycD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <edges xmi:id="_ErqJyMD6EeWVwuTbUpYJ6g" source="_ErqJxsD6EeWVwuTbUpYJ6g" target="_ErqJx8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey/columns"/>
+      </edges>
+      <edges xmi:id="_ErqJycD6EeWVwuTbUpYJ6g" source="_ErqJx8D6EeWVwuTbUpYJ6g" target="_ErqJxsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/primaryKey"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ErqJysD6EeWVwuTbUpYJ6g" name="RHS">
+      <nodes xmi:id="_ErqJy8D6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+      </nodes>
+      <nodes xmi:id="_ErqJzMD6EeWVwuTbUpYJ6g" name="OldTarget">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_ErqJzcD6EeWVwuTbUpYJ6g" origin="_ErqJxsD6EeWVwuTbUpYJ6g" image="_ErqJy8D6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_ErqJzsD6EeWVwuTbUpYJ6g" origin="_ErqJx8D6EeWVwuTbUpYJ6g" image="_ErqJzMD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErqJz8D6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErqJwsD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErqJ0MD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <annotations xmi:id="_ErqJ0cD6EeWVwuTbUpYJ6g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+    </parameters>
+    <parameters xmi:id="_ErqJ0sD6EeWVwuTbUpYJ6g" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErqJ08D6EeWVwuTbUpYJ6g" source="_ErqJ0MD6EeWVwuTbUpYJ6g" target="_ErqJw8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErqJ1MD6EeWVwuTbUpYJ6g" source="_ErqJ0sD6EeWVwuTbUpYJ6g" target="_ErqJxMD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

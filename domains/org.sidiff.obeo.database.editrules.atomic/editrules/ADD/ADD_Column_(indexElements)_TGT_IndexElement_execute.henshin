@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErrX4MD6EeWVwuTbUpYJ6g" name="ADD_Column_(indexElements)_TGT_IndexElement" description="Adds to Column's reference indexElements the target IndexElement">
+  <annotations xmi:id="_ErrX4cD6EeWVwuTbUpYJ6g" key="INVERSE" value="REMOVE_Column_(indexElements)_TGT_IndexElement"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ErrX4sD6EeWVwuTbUpYJ6g" name="addToColumn_indexElements_IndexElement" description="Adds to Column's reference indexElements the target IndexElement">
+    <parameters xmi:id="_ErrX48D6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_ErrX5MD6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <lhs xmi:id="_ErrX5cD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_ErrX5sD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_ErrX58D6EeWVwuTbUpYJ6g" name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_ErrX6MD6EeWVwuTbUpYJ6g">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_ErrX6cD6EeWVwuTbUpYJ6g">
+          <conclusion xmi:id="_ErrX6sD6EeWVwuTbUpYJ6g" name="ub0">
+            <nodes xmi:id="_ErrX68D6EeWVwuTbUpYJ6g" outgoing="_ErrX7cD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+            </nodes>
+            <nodes xmi:id="_ErrX7MD6EeWVwuTbUpYJ6g" incoming="_ErrX7cD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+            </nodes>
+            <edges xmi:id="_ErrX7cD6EeWVwuTbUpYJ6g" source="_ErrX68D6EeWVwuTbUpYJ6g" target="_ErrX7MD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement/column"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_ErrX7sD6EeWVwuTbUpYJ6g" origin="_ErrX58D6EeWVwuTbUpYJ6g" image="_ErrX68D6EeWVwuTbUpYJ6g"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_ErrX78D6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_ErrX8MD6EeWVwuTbUpYJ6g" name="Selected" incoming="_ErrX88D6EeWVwuTbUpYJ6g" outgoing="_ErrX8sD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_ErrX8cD6EeWVwuTbUpYJ6g" name="NewTarget" incoming="_ErrX8sD6EeWVwuTbUpYJ6g" outgoing="_ErrX88D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+      </nodes>
+      <edges xmi:id="_ErrX8sD6EeWVwuTbUpYJ6g" source="_ErrX8MD6EeWVwuTbUpYJ6g" target="_ErrX8cD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/indexElements"/>
+      </edges>
+      <edges xmi:id="_ErrX88D6EeWVwuTbUpYJ6g" source="_ErrX8cD6EeWVwuTbUpYJ6g" target="_ErrX8MD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement/column"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ErrX9MD6EeWVwuTbUpYJ6g" origin="_ErrX5sD6EeWVwuTbUpYJ6g" image="_ErrX8MD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_ErrX9cD6EeWVwuTbUpYJ6g" origin="_ErrX58D6EeWVwuTbUpYJ6g" image="_ErrX8cD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErrX9sD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErrX4sD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_ErrX98D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <annotations xmi:id="_ErrX-MD6EeWVwuTbUpYJ6g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_ErrX-cD6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_ErrX-sD6EeWVwuTbUpYJ6g" source="_ErrX98D6EeWVwuTbUpYJ6g" target="_ErrX48D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_ErrX-8D6EeWVwuTbUpYJ6g" source="_ErrX-cD6EeWVwuTbUpYJ6g" target="_ErrX5MD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

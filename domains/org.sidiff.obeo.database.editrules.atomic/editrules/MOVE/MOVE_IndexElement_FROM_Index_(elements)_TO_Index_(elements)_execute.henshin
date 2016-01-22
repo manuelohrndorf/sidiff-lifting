@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqP0gMD6EeWVwuTbUpYJ6g" name="MOVE_IndexElement_FROM_Index_(elements)_TO_Index_(elements)" description="MOVEs IndexElement from Index(Reference:elements) to Index(Reference:elements">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqP0gcD6EeWVwuTbUpYJ6g" name="moveIndexElement_FROM_Index_elements_TO_Index_Index" description="Moves IndexElement from Index(Reference:elements) toIndex(Reference:Index)">
+    <parameters xmi:id="_EqP0gsD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <parameters xmi:id="_EqP0g8D6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_EqP0hMD6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <lhs xmi:id="_EqP0hcD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqP0hsD6EeWVwuTbUpYJ6g" name="Selected" incoming="_EqP0icD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+      </nodes>
+      <nodes xmi:id="_EqP0h8D6EeWVwuTbUpYJ6g" name="OldSource" outgoing="_EqP0icD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+      <nodes xmi:id="_EqP0iMD6EeWVwuTbUpYJ6g" name="NewSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+      <edges xmi:id="_EqP0icD6EeWVwuTbUpYJ6g" source="_EqP0h8D6EeWVwuTbUpYJ6g" target="_EqP0hsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index/elements"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_EqP0isD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_EqP0i8D6EeWVwuTbUpYJ6g" name="Selected" incoming="_EqP0jsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+      </nodes>
+      <nodes xmi:id="_EqP0jMD6EeWVwuTbUpYJ6g" name="OldSource">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+      <nodes xmi:id="_EqP0jcD6EeWVwuTbUpYJ6g" name="NewSource" outgoing="_EqP0jsD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+      </nodes>
+      <edges xmi:id="_EqP0jsD6EeWVwuTbUpYJ6g" source="_EqP0jcD6EeWVwuTbUpYJ6g" target="_EqP0i8D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Index/elements"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_EqP0j8D6EeWVwuTbUpYJ6g" origin="_EqP0hsD6EeWVwuTbUpYJ6g" image="_EqP0i8D6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_EqP0kMD6EeWVwuTbUpYJ6g" origin="_EqP0h8D6EeWVwuTbUpYJ6g" image="_EqP0jMD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_EqP0kcD6EeWVwuTbUpYJ6g" origin="_EqP0iMD6EeWVwuTbUpYJ6g" image="_EqP0jcD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_EqP0ksD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqP0gcD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_EqP0k8D6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//IndexElement"/>
+    </parameters>
+    <parameters xmi:id="_EqP0lMD6EeWVwuTbUpYJ6g" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameters xmi:id="_EqP0lcD6EeWVwuTbUpYJ6g" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Index"/>
+    </parameters>
+    <parameterMappings xmi:id="_EqP0lsD6EeWVwuTbUpYJ6g" source="_EqP0k8D6EeWVwuTbUpYJ6g" target="_EqP0gsD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqP0l8D6EeWVwuTbUpYJ6g" source="_EqP0lMD6EeWVwuTbUpYJ6g" target="_EqP0g8D6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqP0mMD6EeWVwuTbUpYJ6g" source="_EqP0lcD6EeWVwuTbUpYJ6g" target="_EqP0hMD6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>

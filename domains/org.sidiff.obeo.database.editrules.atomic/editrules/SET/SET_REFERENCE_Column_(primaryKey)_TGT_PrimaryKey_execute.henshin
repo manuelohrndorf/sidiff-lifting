@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_EqJt4MD6EeWVwuTbUpYJ6g" name="SET_REFERENCE_Column_(primaryKey)_TGT_PrimaryKey" description="Sets Column's reference primaryKey the target PrimaryKey">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_EqJt4cD6EeWVwuTbUpYJ6g" name="setColumn_primaryKey_TO_PrimaryKey" description="SetColumnRefprimaryKeyToPrimaryKey">
+    <parameters xmi:id="_EqJt4sD6EeWVwuTbUpYJ6g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_EqJt48D6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+    </parameters>
+    <lhs xmi:id="_EqJt5MD6EeWVwuTbUpYJ6g" name="Lhs">
+      <nodes xmi:id="_EqJt5cD6EeWVwuTbUpYJ6g" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_EqJt5sD6EeWVwuTbUpYJ6g" name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_EqJt58D6EeWVwuTbUpYJ6g">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_EqJt6MD6EeWVwuTbUpYJ6g">
+          <conclusion xmi:id="_EqJt6cD6EeWVwuTbUpYJ6g" name="ub0">
+            <nodes xmi:id="_EqJt6sD6EeWVwuTbUpYJ6g" outgoing="_EqJt7MD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+            </nodes>
+            <nodes xmi:id="_EqJt68D6EeWVwuTbUpYJ6g" incoming="_EqJt7MD6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+            </nodes>
+            <edges xmi:id="_EqJt7MD6EeWVwuTbUpYJ6g" source="_EqJt6sD6EeWVwuTbUpYJ6g" target="_EqJt68D6EeWVwuTbUpYJ6g">
+              <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/primaryKey"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_EqJt7cD6EeWVwuTbUpYJ6g" origin="_EqJt5cD6EeWVwuTbUpYJ6g" image="_EqJt6sD6EeWVwuTbUpYJ6g"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_EqJt7sD6EeWVwuTbUpYJ6g" name="Rhs">
+      <nodes xmi:id="_EqJt78D6EeWVwuTbUpYJ6g" name="Selected" incoming="_EqJt8sD6EeWVwuTbUpYJ6g" outgoing="_EqJt8cD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_EqJt8MD6EeWVwuTbUpYJ6g" name="NewTarget" incoming="_EqJt8cD6EeWVwuTbUpYJ6g" outgoing="_EqJt8sD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+      </nodes>
+      <edges xmi:id="_EqJt8cD6EeWVwuTbUpYJ6g" source="_EqJt78D6EeWVwuTbUpYJ6g" target="_EqJt8MD6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/primaryKey"/>
+      </edges>
+      <edges xmi:id="_EqJt8sD6EeWVwuTbUpYJ6g" source="_EqJt8MD6EeWVwuTbUpYJ6g" target="_EqJt78D6EeWVwuTbUpYJ6g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey/columns"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_EqJt88D6EeWVwuTbUpYJ6g" origin="_EqJt5cD6EeWVwuTbUpYJ6g" image="_EqJt78D6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_EqJt9MD6EeWVwuTbUpYJ6g" origin="_EqJt5sD6EeWVwuTbUpYJ6g" image="_EqJt8MD6EeWVwuTbUpYJ6g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_EqJt9cD6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_EqJt4cD6EeWVwuTbUpYJ6g">
+    <parameters xmi:id="_EqJt9sD6EeWVwuTbUpYJ6g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_EqJt98D6EeWVwuTbUpYJ6g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
+    </parameters>
+    <parameterMappings xmi:id="_EqJt-MD6EeWVwuTbUpYJ6g" source="_EqJt9sD6EeWVwuTbUpYJ6g" target="_EqJt4sD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_EqJt-cD6EeWVwuTbUpYJ6g" source="_EqJt98D6EeWVwuTbUpYJ6g" target="_EqJt48D6EeWVwuTbUpYJ6g"/>
+  </units>
+</henshin:Module>
