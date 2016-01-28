@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_N9o-MMWqEeWiA7BweZ9Q2g" name="DELETE_Column_IN_View_(columns)" description="Deletes one Column in View">
+  <annotations xmi:id="_N9o-McWqEeWiA7BweZ9Q2g" key="INVERSE" value="CREATE_Column_IN_View_(columns)"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_N9o-MsWqEeWiA7BweZ9Q2g" name="deleteColumn_IN_View" description="deletes one Column in the context: View">
+    <parameters xmi:id="_N9o-M8WqEeWiA7BweZ9Q2g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+    </parameters>
+    <parameters xmi:id="_N9o-NMWqEeWiA7BweZ9Q2g" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_N9o-NcWqEeWiA7BweZ9Q2g" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
+    </parameters>
+    <lhs xmi:id="_N9o-NsWqEeWiA7BweZ9Q2g" name="LHS">
+      <nodes xmi:id="_N9o-N8WqEeWiA7BweZ9Q2g" name="Selected" incoming="_N9o-PcWqEeWiA7BweZ9Q2g" outgoing="_N9o-PMWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N9o-OMWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+      </nodes>
+      <nodes xmi:id="_N9o-OcWqEeWiA7BweZ9Q2g" name="ToBeDeleted" incoming="_N9o-PMWqEeWiA7BweZ9Q2g" outgoing="_N9o-PcWqEeWiA7BweZ9Q2g _N9o-PsWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N9o-OsWqEeWiA7BweZ9Q2g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+      </nodes>
+      <nodes xmi:id="_N9o-O8WqEeWiA7BweZ9Q2g" name="Child" incoming="_N9o-PsWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
+      </nodes>
+      <edges xmi:id="_N9o-PMWqEeWiA7BweZ9Q2g" source="_N9o-N8WqEeWiA7BweZ9Q2g" target="_N9o-OcWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/columns"/>
+      </edges>
+      <edges xmi:id="_N9o-PcWqEeWiA7BweZ9Q2g" source="_N9o-OcWqEeWiA7BweZ9Q2g" target="_N9o-N8WqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/owner"/>
+      </edges>
+      <edges xmi:id="_N9o-PsWqEeWiA7BweZ9Q2g" source="_N9o-OcWqEeWiA7BweZ9Q2g" target="_N9o-O8WqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_N9o-P8WqEeWiA7BweZ9Q2g" name="RHS">
+      <nodes xmi:id="_N9o-QMWqEeWiA7BweZ9Q2g" name="Selected">
+        <annotations xmi:id="_N9o-QcWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_N9o-QsWqEeWiA7BweZ9Q2g" origin="_N9o-N8WqEeWiA7BweZ9Q2g" image="_N9o-QMWqEeWiA7BweZ9Q2g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_N9o-Q8WqEeWiA7BweZ9Q2g" name="mainUnit" subUnits="_N9o-MsWqEeWiA7BweZ9Q2g">
+    <parameters xmi:id="_N9o-RMWqEeWiA7BweZ9Q2g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+    </parameters>
+    <parameters xmi:id="_N9o-RcWqEeWiA7BweZ9Q2g" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_N9o-RsWqEeWiA7BweZ9Q2g" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
+    </parameters>
+    <parameterMappings xmi:id="_N9o-R8WqEeWiA7BweZ9Q2g" source="_N9o-RMWqEeWiA7BweZ9Q2g" target="_N9o-M8WqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N9o-SMWqEeWiA7BweZ9Q2g" source="_N9o-RcWqEeWiA7BweZ9Q2g" target="_N9o-NMWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N9o-ScWqEeWiA7BweZ9Q2g" source="_N9o-RsWqEeWiA7BweZ9Q2g" target="_N9o-NcWqEeWiA7BweZ9Q2g"/>
+  </units>
+</henshin:Module>

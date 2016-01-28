@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_N_LPQMWqEeWiA7BweZ9Q2g" name="CREATE_Column_IN_AbstractTable_(columns)_Variant10339965461030" description="Creates one Column in AbstractTable Variant10339965461030">
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_N_LPQcWqEeWiA7BweZ9Q2g" name="createColumn_IN_AbstractTable" description="creates one Column in the context: AbstractTable">
+    <parameters xmi:id="_N_LPQsWqEeWiA7BweZ9Q2g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <parameters xmi:id="_N_LPQ8WqEeWiA7BweZ9Q2g" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_N_LPRMWqEeWiA7BweZ9Q2g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_N_LPRcWqEeWiA7BweZ9Q2g" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_N_LPRsWqEeWiA7BweZ9Q2g" name="Nullable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_N_LPR8WqEeWiA7BweZ9Q2g" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <lhs xmi:id="_N_LPSMWqEeWiA7BweZ9Q2g" name="Lhs">
+      <nodes xmi:id="_N_LPScWqEeWiA7BweZ9Q2g" name="Selected">
+        <annotations xmi:id="_N_LPSsWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <nodes xmi:id="_N_LPS8WqEeWiA7BweZ9Q2g" name="Existing">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_N_LPTMWqEeWiA7BweZ9Q2g" name="Rhs">
+      <nodes xmi:id="_N_LPTcWqEeWiA7BweZ9Q2g" name="Selected" incoming="_N_LPVsWqEeWiA7BweZ9Q2g" outgoing="_N_LPVcWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N_LPTsWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+      </nodes>
+      <nodes xmi:id="_N_LPT8WqEeWiA7BweZ9Q2g" name="New" incoming="_N_LPVcWqEeWiA7BweZ9Q2g" outgoing="_N_LPVsWqEeWiA7BweZ9Q2g _N_LPV8WqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N_LPUMWqEeWiA7BweZ9Q2g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+        <attributes xmi:id="_N_LPUcWqEeWiA7BweZ9Q2g" value="Name">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_N_LPUsWqEeWiA7BweZ9Q2g" value="Nullable">
+          <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/nullable"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_N_LPU8WqEeWiA7BweZ9Q2g" name="Child" incoming="_N_LPV8WqEeWiA7BweZ9Q2g" outgoing="_N_LPWMWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <nodes xmi:id="_N_LPVMWqEeWiA7BweZ9Q2g" name="Existing" incoming="_N_LPWMWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <edges xmi:id="_N_LPVcWqEeWiA7BweZ9Q2g" source="_N_LPTcWqEeWiA7BweZ9Q2g" target="_N_LPT8WqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/columns"/>
+      </edges>
+      <edges xmi:id="_N_LPVsWqEeWiA7BweZ9Q2g" source="_N_LPT8WqEeWiA7BweZ9Q2g" target="_N_LPTcWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/owner"/>
+      </edges>
+      <edges xmi:id="_N_LPV8WqEeWiA7BweZ9Q2g" source="_N_LPT8WqEeWiA7BweZ9Q2g" target="_N_LPU8WqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/type"/>
+      </edges>
+      <edges xmi:id="_N_LPWMWqEeWiA7BweZ9Q2g" source="_N_LPU8WqEeWiA7BweZ9Q2g" target="_N_LPVMWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance/nativeType"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_N_LPWcWqEeWiA7BweZ9Q2g" origin="_N_LPScWqEeWiA7BweZ9Q2g" image="_N_LPTcWqEeWiA7BweZ9Q2g"/>
+    <mappings xmi:id="_N_LPWsWqEeWiA7BweZ9Q2g" origin="_N_LPS8WqEeWiA7BweZ9Q2g" image="_N_LPVMWqEeWiA7BweZ9Q2g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_N_LPW8WqEeWiA7BweZ9Q2g" name="mainUnit" subUnits="_N_LPQcWqEeWiA7BweZ9Q2g">
+    <parameters xmi:id="_N_LPXMWqEeWiA7BweZ9Q2g" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
+    </parameters>
+    <parameters xmi:id="_N_LPXcWqEeWiA7BweZ9Q2g" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_N_LPXsWqEeWiA7BweZ9Q2g" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
+    </parameters>
+    <parameters xmi:id="_N_LPX8WqEeWiA7BweZ9Q2g" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_N_LPYMWqEeWiA7BweZ9Q2g" name="Nullable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_N_LPYcWqEeWiA7BweZ9Q2g" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameterMappings xmi:id="_N_LPYsWqEeWiA7BweZ9Q2g" source="_N_LPXMWqEeWiA7BweZ9Q2g" target="_N_LPQsWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_LPY8WqEeWiA7BweZ9Q2g" source="_N_LPXcWqEeWiA7BweZ9Q2g" target="_N_LPQ8WqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_LPZMWqEeWiA7BweZ9Q2g" source="_N_LPRMWqEeWiA7BweZ9Q2g" target="_N_LPXsWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_LPZcWqEeWiA7BweZ9Q2g" source="_N_LPX8WqEeWiA7BweZ9Q2g" target="_N_LPRcWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_LPZsWqEeWiA7BweZ9Q2g" source="_N_LPYMWqEeWiA7BweZ9Q2g" target="_N_LPRsWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_LPZ8WqEeWiA7BweZ9Q2g" source="_N_LPR8WqEeWiA7BweZ9Q2g" target="_N_LPYcWqEeWiA7BweZ9Q2g"/>
+  </units>
+</henshin:Module>

@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ep-HsMD6EeWVwuTbUpYJ6g" name="MOVE_PrimaryKey_FROM_Table_(primaryKey)_TO_Table_(primaryKey)" description="MOVEs PrimaryKey from Table(Reference:primaryKey) to Table(Reference:primaryKey">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_N-GRMMWqEeWiA7BweZ9Q2g" name="MOVE_PrimaryKey_FROM_Table_(primaryKey)_TO_Table_(primaryKey)" description="MOVEs PrimaryKey from Table(Reference:primaryKey) to Table(Reference:primaryKey">
   <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Ep-HscD6EeWVwuTbUpYJ6g" name="movePrimaryKey_FROM_Table_primaryKey_TO_Table_Table" description="Moves PrimaryKey from Table(Reference:primaryKey) toTable(Reference:Table)">
-    <parameters xmi:id="_Ep-HssD6EeWVwuTbUpYJ6g" name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_N-GRMcWqEeWiA7BweZ9Q2g" name="movePrimaryKey_FROM_Table_primaryKey_TO_Table_Table" description="Moves PrimaryKey from Table(Reference:primaryKey) toTable(Reference:Table)">
+    <parameters xmi:id="_N-GRMsWqEeWiA7BweZ9Q2g" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
     </parameters>
-    <parameters xmi:id="_Ep-Hs8D6EeWVwuTbUpYJ6g" name="OldSource">
+    <parameters xmi:id="_N-GRM8WqEeWiA7BweZ9Q2g" name="OldSource">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
     </parameters>
-    <parameters xmi:id="_Ep-HtMD6EeWVwuTbUpYJ6g" name="NewSource">
+    <parameters xmi:id="_N-GRNMWqEeWiA7BweZ9Q2g" name="NewSource">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
     </parameters>
-    <lhs xmi:id="_Ep-HtcD6EeWVwuTbUpYJ6g" name="Lhs">
-      <nodes xmi:id="_Ep-HtsD6EeWVwuTbUpYJ6g" name="Selected" incoming="_Ep-HucD6EeWVwuTbUpYJ6g" outgoing="_Ep-HusD6EeWVwuTbUpYJ6g">
+    <lhs xmi:id="_N-GRNcWqEeWiA7BweZ9Q2g" name="Lhs">
+      <nodes xmi:id="_N-GRNsWqEeWiA7BweZ9Q2g" name="Selected" incoming="_N-GROcWqEeWiA7BweZ9Q2g" outgoing="_N-GROsWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
       </nodes>
-      <nodes xmi:id="_Ep-Ht8D6EeWVwuTbUpYJ6g" name="OldSource" incoming="_Ep-HusD6EeWVwuTbUpYJ6g" outgoing="_Ep-HucD6EeWVwuTbUpYJ6g">
+      <nodes xmi:id="_N-GRN8WqEeWiA7BweZ9Q2g" name="OldSource" incoming="_N-GROsWqEeWiA7BweZ9Q2g" outgoing="_N-GROcWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
       </nodes>
-      <nodes xmi:id="_Ep-HuMD6EeWVwuTbUpYJ6g" name="NewSource">
+      <nodes xmi:id="_N-GROMWqEeWiA7BweZ9Q2g" name="NewSource">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
       </nodes>
-      <edges xmi:id="_Ep-HucD6EeWVwuTbUpYJ6g" source="_Ep-Ht8D6EeWVwuTbUpYJ6g" target="_Ep-HtsD6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N-GROcWqEeWiA7BweZ9Q2g" source="_N-GRN8WqEeWiA7BweZ9Q2g" target="_N-GRNsWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table/primaryKey"/>
       </edges>
-      <edges xmi:id="_Ep-HusD6EeWVwuTbUpYJ6g" source="_Ep-HtsD6EeWVwuTbUpYJ6g" target="_Ep-Ht8D6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N-GROsWqEeWiA7BweZ9Q2g" source="_N-GRNsWqEeWiA7BweZ9Q2g" target="_N-GRN8WqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey/owner"/>
       </edges>
-      <formula xsi:type="henshin:Not" xmi:id="_Ep-Hu8D6EeWVwuTbUpYJ6g">
-        <child xsi:type="henshin:NestedCondition" xmi:id="_Ep-HvMD6EeWVwuTbUpYJ6g">
-          <conclusion xmi:id="_Ep-HvcD6EeWVwuTbUpYJ6g" name="ub0">
-            <nodes xmi:id="_Ep-HvsD6EeWVwuTbUpYJ6g" outgoing="_Ep-HwMD6EeWVwuTbUpYJ6g">
+      <formula xsi:type="henshin:Not" xmi:id="_N-GRO8WqEeWiA7BweZ9Q2g">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_N-GRPMWqEeWiA7BweZ9Q2g">
+          <conclusion xmi:id="_N-GRPcWqEeWiA7BweZ9Q2g" name="ub0">
+            <nodes xmi:id="_N-GRPsWqEeWiA7BweZ9Q2g" outgoing="_N-GRQMWqEeWiA7BweZ9Q2g">
               <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
             </nodes>
-            <nodes xmi:id="_Ep-Hv8D6EeWVwuTbUpYJ6g" incoming="_Ep-HwMD6EeWVwuTbUpYJ6g">
+            <nodes xmi:id="_N-GRP8WqEeWiA7BweZ9Q2g" incoming="_N-GRQMWqEeWiA7BweZ9Q2g">
               <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
             </nodes>
-            <edges xmi:id="_Ep-HwMD6EeWVwuTbUpYJ6g" source="_Ep-HvsD6EeWVwuTbUpYJ6g" target="_Ep-Hv8D6EeWVwuTbUpYJ6g">
+            <edges xmi:id="_N-GRQMWqEeWiA7BweZ9Q2g" source="_N-GRPsWqEeWiA7BweZ9Q2g" target="_N-GRP8WqEeWiA7BweZ9Q2g">
               <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table/primaryKey"/>
             </edges>
           </conclusion>
-          <mappings xmi:id="_Ep-HwcD6EeWVwuTbUpYJ6g" origin="_Ep-HuMD6EeWVwuTbUpYJ6g" image="_Ep-HvsD6EeWVwuTbUpYJ6g"/>
+          <mappings xmi:id="_N-GRQcWqEeWiA7BweZ9Q2g" origin="_N-GROMWqEeWiA7BweZ9Q2g" image="_N-GRPsWqEeWiA7BweZ9Q2g"/>
         </child>
       </formula>
     </lhs>
-    <rhs xmi:id="_Ep-HwsD6EeWVwuTbUpYJ6g" name="Rhs">
-      <nodes xmi:id="_Ep-Hw8D6EeWVwuTbUpYJ6g" name="Selected" incoming="_Ep-HxsD6EeWVwuTbUpYJ6g" outgoing="_Ep-Hx8D6EeWVwuTbUpYJ6g">
+    <rhs xmi:id="_N-GRQsWqEeWiA7BweZ9Q2g" name="Rhs">
+      <nodes xmi:id="_N-GRQ8WqEeWiA7BweZ9Q2g" name="Selected" incoming="_N-GRRsWqEeWiA7BweZ9Q2g" outgoing="_N-GRR8WqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
       </nodes>
-      <nodes xmi:id="_Ep-HxMD6EeWVwuTbUpYJ6g" name="OldSource">
+      <nodes xmi:id="_N-GRRMWqEeWiA7BweZ9Q2g" name="OldSource">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
       </nodes>
-      <nodes xmi:id="_Ep-HxcD6EeWVwuTbUpYJ6g" name="NewSource" incoming="_Ep-Hx8D6EeWVwuTbUpYJ6g" outgoing="_Ep-HxsD6EeWVwuTbUpYJ6g">
+      <nodes xmi:id="_N-GRRcWqEeWiA7BweZ9Q2g" name="NewSource" incoming="_N-GRR8WqEeWiA7BweZ9Q2g" outgoing="_N-GRRsWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
       </nodes>
-      <edges xmi:id="_Ep-HxsD6EeWVwuTbUpYJ6g" source="_Ep-HxcD6EeWVwuTbUpYJ6g" target="_Ep-Hw8D6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N-GRRsWqEeWiA7BweZ9Q2g" source="_N-GRRcWqEeWiA7BweZ9Q2g" target="_N-GRQ8WqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Table/primaryKey"/>
       </edges>
-      <edges xmi:id="_Ep-Hx8D6EeWVwuTbUpYJ6g" source="_Ep-Hw8D6EeWVwuTbUpYJ6g" target="_Ep-HxcD6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N-GRR8WqEeWiA7BweZ9Q2g" source="_N-GRQ8WqEeWiA7BweZ9Q2g" target="_N-GRRcWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey/owner"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_Ep-HyMD6EeWVwuTbUpYJ6g" origin="_Ep-HtsD6EeWVwuTbUpYJ6g" image="_Ep-Hw8D6EeWVwuTbUpYJ6g"/>
-    <mappings xmi:id="_Ep-HycD6EeWVwuTbUpYJ6g" origin="_Ep-Ht8D6EeWVwuTbUpYJ6g" image="_Ep-HxMD6EeWVwuTbUpYJ6g"/>
-    <mappings xmi:id="_Ep-HysD6EeWVwuTbUpYJ6g" origin="_Ep-HuMD6EeWVwuTbUpYJ6g" image="_Ep-HxcD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_N-GRSMWqEeWiA7BweZ9Q2g" origin="_N-GRNsWqEeWiA7BweZ9Q2g" image="_N-GRQ8WqEeWiA7BweZ9Q2g"/>
+    <mappings xmi:id="_N-GRScWqEeWiA7BweZ9Q2g" origin="_N-GRN8WqEeWiA7BweZ9Q2g" image="_N-GRRMWqEeWiA7BweZ9Q2g"/>
+    <mappings xmi:id="_N-GRSsWqEeWiA7BweZ9Q2g" origin="_N-GROMWqEeWiA7BweZ9Q2g" image="_N-GRRcWqEeWiA7BweZ9Q2g"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_Ep-Hy8D6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_Ep-HscD6EeWVwuTbUpYJ6g">
-    <parameters xmi:id="_Ep-HzMD6EeWVwuTbUpYJ6g" name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_N-GRS8WqEeWiA7BweZ9Q2g" name="mainUnit" subUnits="_N-GRMcWqEeWiA7BweZ9Q2g">
+    <parameters xmi:id="_N-GRTMWqEeWiA7BweZ9Q2g" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//PrimaryKey"/>
     </parameters>
-    <parameters xmi:id="_Ep-HzcD6EeWVwuTbUpYJ6g" name="OldSource">
+    <parameters xmi:id="_N-GRTcWqEeWiA7BweZ9Q2g" name="OldSource">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
     </parameters>
-    <parameters xmi:id="_Ep-HzsD6EeWVwuTbUpYJ6g" name="NewSource">
+    <parameters xmi:id="_N-GRTsWqEeWiA7BweZ9Q2g" name="NewSource">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Table"/>
     </parameters>
-    <parameterMappings xmi:id="_Ep-Hz8D6EeWVwuTbUpYJ6g" source="_Ep-HzMD6EeWVwuTbUpYJ6g" target="_Ep-HssD6EeWVwuTbUpYJ6g"/>
-    <parameterMappings xmi:id="_Ep-H0MD6EeWVwuTbUpYJ6g" source="_Ep-HzcD6EeWVwuTbUpYJ6g" target="_Ep-Hs8D6EeWVwuTbUpYJ6g"/>
-    <parameterMappings xmi:id="_Ep-H0cD6EeWVwuTbUpYJ6g" source="_Ep-HzsD6EeWVwuTbUpYJ6g" target="_Ep-HtMD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_N-GRT8WqEeWiA7BweZ9Q2g" source="_N-GRTMWqEeWiA7BweZ9Q2g" target="_N-GRMsWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N-GRUMWqEeWiA7BweZ9Q2g" source="_N-GRTcWqEeWiA7BweZ9Q2g" target="_N-GRM8WqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N-GRUcWqEeWiA7BweZ9Q2g" source="_N-GRTsWqEeWiA7BweZ9Q2g" target="_N-GRNMWqEeWiA7BweZ9Q2g"/>
   </units>
 </henshin:Module>

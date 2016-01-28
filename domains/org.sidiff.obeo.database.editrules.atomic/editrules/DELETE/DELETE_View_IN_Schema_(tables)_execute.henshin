@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_N9cJ4MWqEeWiA7BweZ9Q2g" name="DELETE_View_IN_Schema_(tables)" description="Deletes one View in Schema">
+  <annotations xmi:id="_N9cJ4cWqEeWiA7BweZ9Q2g" key="INVERSE" value="CREATE_View_IN_Schema_(tables)"/>
+  <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_N9cJ4sWqEeWiA7BweZ9Q2g" name="deleteView_IN_Schema" description="deletes one View in the context: Schema">
+    <parameters xmi:id="_N9cJ48WqEeWiA7BweZ9Q2g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Schema"/>
+    </parameters>
+    <parameters xmi:id="_N9cJ5MWqEeWiA7BweZ9Q2g" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+    </parameters>
+    <lhs xmi:id="_N9cJ5cWqEeWiA7BweZ9Q2g" name="LHS">
+      <nodes xmi:id="_N9cJ5sWqEeWiA7BweZ9Q2g" name="Selected" incoming="_N9cJ68WqEeWiA7BweZ9Q2g" outgoing="_N9cJ6sWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N9cJ58WqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Schema"/>
+      </nodes>
+      <nodes xmi:id="_N9cJ6MWqEeWiA7BweZ9Q2g" name="ToBeDeleted" incoming="_N9cJ6sWqEeWiA7BweZ9Q2g" outgoing="_N9cJ68WqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N9cJ6cWqEeWiA7BweZ9Q2g" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+      </nodes>
+      <edges xmi:id="_N9cJ6sWqEeWiA7BweZ9Q2g" source="_N9cJ5sWqEeWiA7BweZ9Q2g" target="_N9cJ6MWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//TableContainer/tables"/>
+      </edges>
+      <edges xmi:id="_N9cJ68WqEeWiA7BweZ9Q2g" source="_N9cJ6MWqEeWiA7BweZ9Q2g" target="_N9cJ5sWqEeWiA7BweZ9Q2g">
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/owner"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_N9cJ7MWqEeWiA7BweZ9Q2g" name="RHS">
+      <nodes xmi:id="_N9cJ7cWqEeWiA7BweZ9Q2g" name="Selected">
+        <annotations xmi:id="_N9cJ7sWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/database/1.0#//Schema"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_N9cJ78WqEeWiA7BweZ9Q2g" origin="_N9cJ5sWqEeWiA7BweZ9Q2g" image="_N9cJ7cWqEeWiA7BweZ9Q2g"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_N9cJ8MWqEeWiA7BweZ9Q2g" name="mainUnit" subUnits="_N9cJ4sWqEeWiA7BweZ9Q2g">
+    <parameters xmi:id="_N9cJ8cWqEeWiA7BweZ9Q2g" name="selectedEObject">
+      <annotations xmi:id="_N9cJ8sWqEeWiA7BweZ9Q2g" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Schema"/>
+    </parameters>
+    <parameters xmi:id="_N9cJ88WqEeWiA7BweZ9Q2g" name="ToBeDeleted">
+      <annotations xmi:id="_N9cJ9MWqEeWiA7BweZ9Q2g" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//View"/>
+    </parameters>
+    <parameterMappings xmi:id="_N9cJ9cWqEeWiA7BweZ9Q2g" source="_N9cJ8cWqEeWiA7BweZ9Q2g" target="_N9cJ48WqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N9cJ9sWqEeWiA7BweZ9Q2g" source="_N9cJ88WqEeWiA7BweZ9Q2g" target="_N9cJ5MWqEeWiA7BweZ9Q2g"/>
+  </units>
+</henshin:Module>

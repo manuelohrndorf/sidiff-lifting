@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.obeonetwork.org/dsl/database/1.0" isProfile="false" />
+		<RequiredModel nsUri="http://www.obeonetwork.org/dsl/typeslibrary/1.0" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="true" allowReferenceCombinations="true" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="false" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="false" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="true" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement ruleType="CREATE_DELETE" reduceDanglings="false" />
+			<AbstractReplacement ruleType="ADD_REMOVE" reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE" reduceDanglings="true" />
+			<!--
+			<AbstractReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" />
+			-->
+			<AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE" reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_REFERENCE"	reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_LITERAL" reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_REFERENCE" reduceDanglings="true" />
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement ruleType="CREATE_DELETE" reduceDanglings="false" reduceContext="true" />
+			<SupertypeReplacement ruleType="ADD_REMOVE" reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE" reduceDanglings="true" reduceContext="true" />
+			<!-- 
+			<SupertypeReplacement ruleType="MOVE_UP" reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_DOWN" reduceDanglings="true" reduceContext="true" />
+			 -->
+			<SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE" reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_REFERENCE" reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_LITERAL" reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_REFERENCE" reduceDanglings="true" reduceContext="true" />
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="false" />
+			<DanglingNodeSettings defaultTypeInclusion="always">
+			<!-- can be fine-tuned for each element type in detail here; see documentation -->
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings defaultGenerationCase="always">
+			<!-- can be fine-tuned for each element type in detail here;  see documentation -->
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ErOr8MD6EeWVwuTbUpYJ6g" name="DELETE_Column_IN_AbstractTable_(columns)" description="Deletes one Column in AbstractTable">
-  <annotations xmi:id="_ErOr8cD6EeWVwuTbUpYJ6g" key="INVERSE" value="CREATE_Column_IN_AbstractTable_(columns)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_N_BeQMWqEeWiA7BweZ9Q2g" name="DELETE_Column_IN_AbstractTable_(columns)" description="Deletes one Column in AbstractTable">
+  <annotations xmi:id="_N_BeQcWqEeWiA7BweZ9Q2g" key="INVERSE" value="CREATE_Column_IN_AbstractTable_(columns)"/>
   <imports href="http://www.obeonetwork.org/dsl/database/1.0#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_ErOr8sD6EeWVwuTbUpYJ6g" name="deleteColumn_IN_AbstractTable" description="deletes one Column in the context: AbstractTable">
-    <parameters xmi:id="_ErOr88D6EeWVwuTbUpYJ6g" name="Selected">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_N_BeQsWqEeWiA7BweZ9Q2g" name="deleteColumn_IN_AbstractTable" description="deletes one Column in the context: AbstractTable">
+    <parameters xmi:id="_N_BeQ8WqEeWiA7BweZ9Q2g" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
     </parameters>
-    <parameters xmi:id="_ErOr9MD6EeWVwuTbUpYJ6g" name="ToBeDeleted">
+    <parameters xmi:id="_N_BeRMWqEeWiA7BweZ9Q2g" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
     </parameters>
-    <parameters xmi:id="_ErOr9cD6EeWVwuTbUpYJ6g" name="Child">
+    <parameters xmi:id="_N_BeRcWqEeWiA7BweZ9Q2g" name="Child">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
     </parameters>
-    <lhs xmi:id="_ErOr9sD6EeWVwuTbUpYJ6g" name="LHS">
-      <nodes xmi:id="_ErOr98D6EeWVwuTbUpYJ6g" name="Selected" incoming="_ErOr_cD6EeWVwuTbUpYJ6g" outgoing="_ErOr_MD6EeWVwuTbUpYJ6g">
-        <annotations xmi:id="_ErOr-MD6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_N_BeRsWqEeWiA7BweZ9Q2g" name="LHS">
+      <nodes xmi:id="_N_BeR8WqEeWiA7BweZ9Q2g" name="Selected" incoming="_N_BeTcWqEeWiA7BweZ9Q2g" outgoing="_N_BeTMWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N_BeSMWqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
       </nodes>
-      <nodes xmi:id="_ErOr-cD6EeWVwuTbUpYJ6g" name="ToBeDeleted" incoming="_ErOr_MD6EeWVwuTbUpYJ6g" outgoing="_ErOr_cD6EeWVwuTbUpYJ6g _ErOr_sD6EeWVwuTbUpYJ6g">
-        <annotations xmi:id="_ErOr-sD6EeWVwuTbUpYJ6g" key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_N_BeScWqEeWiA7BweZ9Q2g" name="ToBeDeleted" incoming="_N_BeTMWqEeWiA7BweZ9Q2g" outgoing="_N_BeTcWqEeWiA7BweZ9Q2g _N_CFUMWqEeWiA7BweZ9Q2g">
+        <annotations xmi:id="_N_BeSsWqEeWiA7BweZ9Q2g" key="SERGE_" value="FOCUS"/>
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
       </nodes>
-      <nodes xmi:id="_ErOr-8D6EeWVwuTbUpYJ6g" name="Child" incoming="_ErOr_sD6EeWVwuTbUpYJ6g">
+      <nodes xmi:id="_N_BeS8WqEeWiA7BweZ9Q2g" name="Child" incoming="_N_CFUMWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
       </nodes>
-      <edges xmi:id="_ErOr_MD6EeWVwuTbUpYJ6g" source="_ErOr98D6EeWVwuTbUpYJ6g" target="_ErOr-cD6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N_BeTMWqEeWiA7BweZ9Q2g" source="_N_BeR8WqEeWiA7BweZ9Q2g" target="_N_BeScWqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable/columns"/>
       </edges>
-      <edges xmi:id="_ErOr_cD6EeWVwuTbUpYJ6g" source="_ErOr-cD6EeWVwuTbUpYJ6g" target="_ErOr98D6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N_BeTcWqEeWiA7BweZ9Q2g" source="_N_BeScWqEeWiA7BweZ9Q2g" target="_N_BeR8WqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/owner"/>
       </edges>
-      <edges xmi:id="_ErOr_sD6EeWVwuTbUpYJ6g" source="_ErOr-cD6EeWVwuTbUpYJ6g" target="_ErOr-8D6EeWVwuTbUpYJ6g">
+      <edges xmi:id="_N_CFUMWqEeWiA7BweZ9Q2g" source="_N_BeScWqEeWiA7BweZ9Q2g" target="_N_BeS8WqEeWiA7BweZ9Q2g">
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//Column/type"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_ErOr_8D6EeWVwuTbUpYJ6g" name="RHS">
-      <nodes xmi:id="_ErOsAMD6EeWVwuTbUpYJ6g" name="Selected">
-        <annotations xmi:id="_ErOsAcD6EeWVwuTbUpYJ6g" key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_N_CFUcWqEeWiA7BweZ9Q2g" name="RHS">
+      <nodes xmi:id="_N_CFUsWqEeWiA7BweZ9Q2g" name="Selected">
+        <annotations xmi:id="_N_CFU8WqEeWiA7BweZ9Q2g" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_ErOsAsD6EeWVwuTbUpYJ6g" origin="_ErOr98D6EeWVwuTbUpYJ6g" image="_ErOsAMD6EeWVwuTbUpYJ6g"/>
+    <mappings xmi:id="_N_CFVMWqEeWiA7BweZ9Q2g" origin="_N_BeR8WqEeWiA7BweZ9Q2g" image="_N_CFUsWqEeWiA7BweZ9Q2g"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_ErOsA8D6EeWVwuTbUpYJ6g" name="mainUnit" subUnits="_ErOr8sD6EeWVwuTbUpYJ6g">
-    <parameters xmi:id="_ErOsBMD6EeWVwuTbUpYJ6g" name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_N_CFVcWqEeWiA7BweZ9Q2g" name="mainUnit" subUnits="_N_BeQsWqEeWiA7BweZ9Q2g">
+    <parameters xmi:id="_N_CFVsWqEeWiA7BweZ9Q2g" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//AbstractTable"/>
     </parameters>
-    <parameters xmi:id="_ErOsBcD6EeWVwuTbUpYJ6g" name="ToBeDeleted">
+    <parameters xmi:id="_N_CFV8WqEeWiA7BweZ9Q2g" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/database/1.0#//Column"/>
     </parameters>
-    <parameters xmi:id="_ErOsBsD6EeWVwuTbUpYJ6g" name="Child">
+    <parameters xmi:id="_N_CFWMWqEeWiA7BweZ9Q2g" name="Child">
       <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//Type"/>
     </parameters>
-    <parameterMappings xmi:id="_ErOsB8D6EeWVwuTbUpYJ6g" source="_ErOsBMD6EeWVwuTbUpYJ6g" target="_ErOr88D6EeWVwuTbUpYJ6g"/>
-    <parameterMappings xmi:id="_ErOsCMD6EeWVwuTbUpYJ6g" source="_ErOsBcD6EeWVwuTbUpYJ6g" target="_ErOr9MD6EeWVwuTbUpYJ6g"/>
-    <parameterMappings xmi:id="_ErOsCcD6EeWVwuTbUpYJ6g" source="_ErOsBsD6EeWVwuTbUpYJ6g" target="_ErOr9cD6EeWVwuTbUpYJ6g"/>
+    <parameterMappings xmi:id="_N_CFWcWqEeWiA7BweZ9Q2g" source="_N_CFVsWqEeWiA7BweZ9Q2g" target="_N_BeQ8WqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_CFWsWqEeWiA7BweZ9Q2g" source="_N_CFV8WqEeWiA7BweZ9Q2g" target="_N_BeRMWqEeWiA7BweZ9Q2g"/>
+    <parameterMappings xmi:id="_N_CFW8WqEeWiA7BweZ9Q2g" source="_N_CFWMWqEeWiA7BweZ9Q2g" target="_N_BeRcWqEeWiA7BweZ9Q2g"/>
   </units>
 </henshin:Module>
