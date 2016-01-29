@@ -1,6 +1,5 @@
 package org.sidiff.editrule.generator.serge;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,7 +28,6 @@ import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
 import org.sidiff.editrule.generator.serge.core.AnnotationApplicator;
 import org.sidiff.editrule.generator.serge.core.ConfigSerializer;
-import org.sidiff.editrule.generator.serge.core.ConstraintApplicator;
 import org.sidiff.editrule.generator.serge.core.InternalAnnotationsRemover;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapSerializer;
 import org.sidiff.editrule.generator.serge.core.InverseModuleMapper;
@@ -51,9 +49,7 @@ import org.sidiff.editrule.generator.types.OperationType;
  * Todo-List :
  * 
  * - make monitors cancel-able - InverseMapping can't be saved anymore due to
- * path setting changes, fix this. - XML-Config should be cleaned up (so does
- * the Configuration Parser) - remove all the deprecated marks, old classes, old
- * todos/fixmes
+ * path setting changes, fix this. 
  */
 public class Serge implements IEditRuleGenerator {
 
@@ -164,26 +160,16 @@ public class Serge implements IEditRuleGenerator {
 			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
 		}
 
-		// Start monitor
+		// visit all model elements and trigger rule generation for each
 		monitor.beginTask("Generating CPEOs", 100);
-
-		// visit all model elements and trigger rule generation
 		monitor.subTask("Visit MetaModel elements");
 		MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
-		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));
-		monitor.worked(50);
-
-		// Module filtering
+		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));	
 		Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
+		monitor.worked(50);
+		
 
-		if (config.MULTIPLICITY_PRECONDITIONS) {
-			monitor.subTask("Applying Constraints");
-			LogUtil.log(LogEvent.NOTICE, "-- Constraint Applicator --");
-			ConstraintApplicator constraintApplicator = new ConstraintApplicator();
-			constraintApplicator.applyOn(allModules);
-			monitor.worked(5);
-		}
-
+		// Filter out unexecutable or consistency violating rules
 		if (config.ENABLE_EXECUTION_CHECK_FILTER) {
 			monitor.subTask("Filtering Executions");
 			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
@@ -192,6 +178,7 @@ public class Serge implements IEditRuleGenerator {
 			monitor.worked(5);
 		}
 
+		// Filter out duplicate rules
 		if (config.ENABLE_DUPLICATE_FILTER) {
 			monitor.subTask("Filtering Duplicates");
 			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
@@ -219,17 +206,15 @@ public class Serge implements IEditRuleGenerator {
 		mainUnitApplicator.applyOn(allModules);
 		monitor.worked(5);
 
-		// Serialization of logs/configs
-		if (settings.isSaveLogs()) {
-			monitor.subTask("Logging Inverse Modules");
+		// Inverse Module Mapping and Serialization of logs/configs
+		monitor.subTask("Logging Inverse Modules and saving Logs");
+		if (settings.isSaveLogs()) {			
 			LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 			InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 			inverseModuleMapper.findAndMapInversePairs(allModules);
 			InverseModuleMapSerializer inverseModuleSerializer = new InverseModuleMapSerializer(settings);
 			inverseModuleSerializer.serialize(inverseModuleMapper);
-			monitor.worked(3);
-
-			monitor.subTask("Saving Serge Configuration");
+			
 			LogUtil.log(LogEvent.NOTICE, "-- Serge Config Serializer --");
 			ConfigSerializer configSerializer = new ConfigSerializer(settings);
 			try {
@@ -238,50 +223,36 @@ public class Serge implements IEditRuleGenerator {
 				monitor.done();
 				throw new EditRuleGenerationException("When saving config/log.\n" + e.getMessage());
 			}
-			monitor.worked(2);
 		}
-
-		// delete contents of manual folder if wished so
-		if (settings.isDeleteManualTransformations()) {
-			monitor.subTask("Deleting Manual Transformations");
-			File manualFolder = new File(settings.getOutputFolderPath() + "manual");
-			if (manualFolder.exists()) {
-				for (File f : manualFolder.listFiles()) {
-					f.delete();
-
-				}
-			}
-			monitor.worked(5);
-		}
+		monitor.worked(5);
 
 		// Name Mapping and Serialization...
+		monitor.subTask("Change module names according to name map");
 		Set<Module> moduleSet = new HashSet<Module>();
 		for (OperationType opType : allModules.keySet()) {
 			Set<Module> opSet = allModules.get(opType);
 			if (!opSet.isEmpty()) {
 				moduleSet.addAll(opSet);
 			}
-		}
-
+		}	
 		if (config.ENABLE_NAME_MAPPER) {
-			monitor.subTask("Mapping Names");
 			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
 			NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
 			nameMapper.replaceNames();
-			monitor.worked(5);
 		}
+		monitor.worked(5);
 
 		// Generate Annotations
+		monitor.subTask("Generate Annotations");
 		AnnotationApplicator annotationApplicator = new AnnotationApplicator();
-		annotationApplicator.applyOn(allModules);
-		// InverseTracker.INSTANCE.printInverses();
-
+		annotationApplicator.applyOn(allModules);		
 		// Remove internal Annotations
 		for (Set<Module> modules : allModules.values()) {
 			for (Module m : modules) {
 				InternalAnnotationsRemover.removeInternalAnnotations(m);
 			}
 		}
+		monitor.worked(5);
 
 		// Serialize modules
 		monitor.subTask("Saving Edit Rules");
@@ -309,5 +280,4 @@ public class Serge implements IEditRuleGenerator {
 	public String getKey() {
 		return GENERATOR_KEY;
 	}
-
 }

@@ -3,9 +3,7 @@ package org.sidiff.editrule.generator.serge.core;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,8 +61,6 @@ public class ModuleSerializer {
 		
 	}
 	
-	
-
 	
 	/**
 	 * Serializes one module.
@@ -198,39 +194,37 @@ public class ModuleSerializer {
 	 */
 	public void serialize(Set<Module> allModules) throws OperationTypeNotImplementedException  {		
 		
-		// if deletion of previous runs is wished, do so
-		if(settings.isDeleteGeneratedTransformations()) {
-			String outputFolderPath = settings.getOutputFolderPath() + System.getProperty("file.separator") ;		
-
-			List<String> folderPaths = new ArrayList<String>();
-			folderPaths.add(outputFolderPath);
-
-			// add subfolder, which have to be checked on deletion of previous runs
-			if(settings.isUseSubfolders()) {
-				folderPaths.add(outputFolderPath+"CREATE");
-				folderPaths.add(outputFolderPath+"DELETE");
-				folderPaths.add(outputFolderPath+"ATTACH");
-				folderPaths.add(outputFolderPath+"DETACH");
-				folderPaths.add(outputFolderPath+"MOVE");
-				folderPaths.add(outputFolderPath+"SET");
-				folderPaths.add(outputFolderPath+"UNSET");
-				folderPaths.add(outputFolderPath+"CHANGE");
-				folderPaths.add(outputFolderPath+"ADD");
-				folderPaths.add(outputFolderPath+"REMOVE");
-			}
-
-			for(String folderPath: folderPaths) {
-				File folder = new File(folderPath);
-				if(folder.exists()) {
-					File[] henshinFiles = folder.listFiles(henshinFileNameFilter);
 		
-					for(File file : henshinFiles) {
-						file.delete();
-					}
+		// delete contents of manual folder if wished so
+		if (settings.isDeleteManualTransformations()) {
+			File manualFolder = new File(settings.getOutputFolderPath() + "manual");
+			if (manualFolder.exists()) {
+				for (File f : manualFolder.listFiles()) {
+					f.delete();
+
 				}
 			}
 		}
-	
+		
+		// delete contents of generated folder if wished so
+		if (settings.isDeleteGeneratedTransformations()) {
+			//in case of "generated"-folder
+			File generatedFolder = new File(settings.getOutputFolderPath() + "generated");
+			if (generatedFolder.exists()) {
+				for (File f : generatedFolder.listFiles()) {
+					f.delete();
+
+				}
+			}else {
+				//in case of no specific generated-folder
+				File editrulesFolder = new File(settings.getOutputFolderPath());
+				if(editrulesFolder.exists()) {
+					deleteGeneratedFilesRecursivly(editrulesFolder);				
+				}	
+			}
+		}
+		
+		// serialize each module
 		for (Module module : allModules) {
 				serialize(module);
 		}
@@ -362,5 +356,20 @@ public class ModuleSerializer {
 		}
 		return expectedSubfolderName;
 	}
+	
+	/**
+	 * This method helps to delete each henshin or henshinDiagram file in a folder and its sub folders
+	 * but only if the folder is not named "manual".
+	 * @param folder
+	 */
+	private void deleteGeneratedFilesRecursivly(File folder) {
+		for(File f: folder.listFiles()) {
+			if(f.isDirectory() && f.getName()!="manual") {
+				deleteGeneratedFilesRecursivly(f);
+			}else if (f.isFile() && (f.getName().endsWith("henshin") || f.getName().endsWith("henshinDiagram"))){
+				f.delete();
+			}
+		}
+	};
 	
 }

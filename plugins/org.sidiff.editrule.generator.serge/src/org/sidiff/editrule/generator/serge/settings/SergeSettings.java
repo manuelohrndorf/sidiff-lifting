@@ -5,8 +5,8 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
 
-
 public class SergeSettings extends EditRuleGenerationSettings{
+	
 	
 	public SergeSettings(EditRuleGenerationSettings generalSettings) {
 		
@@ -15,15 +15,30 @@ public class SergeSettings extends EditRuleGenerationSettings{
 			  generalSettings.getConfigPath(),
 			  generalSettings.isUseSubfolders()
 			  );
-
-		this.deleteManualTransformations = false;
-		this.deleteGeneratedTransformations = true;
-		this.overwriteGeneratedTransformations = true;
-		this.overwriteConfigInTargetFolder = false;
-		this.saveLogs = false;
-		this.deleteLogs = false;
 		
 	}
+	
+	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
+		
+		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),outputFolderPath,configPath,useSubfolders);
+
+	}
+	
+	public SergeSettings(String outputFolderPath, String configPath,
+			boolean useSubfolders, boolean deleteManualTransformations,
+			boolean deleteGeneratedTransformations,
+			boolean overwriteGeneratedTransformations,
+			boolean overwriteConfigInTargetFolder, boolean saveLogs,
+			boolean deleteLogs) {
+		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),outputFolderPath, configPath, useSubfolders);
+		this.deleteManualTransformations = deleteManualTransformations;
+		this.deleteGeneratedTransformations = deleteGeneratedTransformations;
+		this.overwriteGeneratedTransformations = overwriteGeneratedTransformations;
+		this.overwriteConfigInTargetFolder = overwriteConfigInTargetFolder;
+		this.saveLogs = saveLogs;
+		this.deleteLogs = deleteLogs;
+	}
+
 	/**
 	 * This enables/disables the deletion of any existing contents in "manual" folders
 	 */
@@ -54,31 +69,6 @@ public class SergeSettings extends EditRuleGenerationSettings{
 	 */
 	private boolean deleteLogs;	
 	
-	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
-		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),outputFolderPath,configPath,useSubfolders);
-		this.deleteManualTransformations = false;
-		this.deleteGeneratedTransformations = true;
-		this.overwriteGeneratedTransformations = true;
-		this.overwriteConfigInTargetFolder = false;
-		this.saveLogs = true;
-		this.deleteLogs = true;
-	}
-	
-	public SergeSettings(String outputFolderPath, String configPath,
-			boolean useSubfolders, boolean deleteManualTransformations,
-			boolean deleteGeneratedTransformations,
-			boolean overwriteGeneratedTransformations,
-			boolean overwriteConfigInTargetFolder, boolean saveLogs,
-			boolean deleteLogs) {
-		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),outputFolderPath, configPath, useSubfolders);
-		this.deleteManualTransformations = deleteManualTransformations;
-		this.deleteGeneratedTransformations = deleteGeneratedTransformations;
-		this.overwriteGeneratedTransformations = overwriteGeneratedTransformations;
-		this.overwriteConfigInTargetFolder = overwriteConfigInTargetFolder;
-		this.saveLogs = saveLogs;
-		this.deleteLogs = deleteLogs;
-	}
-
 	
 	public boolean isDeleteManualTransformations() {
 		return deleteManualTransformations;

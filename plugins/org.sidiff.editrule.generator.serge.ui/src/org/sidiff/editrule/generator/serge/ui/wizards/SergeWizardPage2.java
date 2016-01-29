@@ -30,7 +30,7 @@ public class SergeWizardPage2 extends WizardPage {
 	private SergeSettings settings;
 
 	/**
-	 * Constructor for SampleNewWizardPage.
+	 * Constructor for the second SergeWizardPage.
 	 * 
 	 * @param pageName
 	 */
@@ -46,6 +46,7 @@ public class SergeWizardPage2 extends WizardPage {
 	/**
 	 * @see IDialogPage#createControl(Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -56,57 +57,125 @@ public class SergeWizardPage2 extends WizardPage {
 		//dialogChanged();
 		setControl(container);	
 
-		
-		Group grpTransformationSettings = new Group(container, SWT.SHADOW_IN);
-		grpTransformationSettings.setLayout(new GridLayout(2, false));
+		// TransformationGroup
+		Group group_trafoSettings = new Group(container, SWT.SHADOW_IN);
+		group_trafoSettings.setLayout(new GridLayout(2, false));
 		GridData gd_grpTransformationSettings = new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1);
 		gd_grpTransformationSettings.widthHint = 424;
-		grpTransformationSettings.setLayoutData(gd_grpTransformationSettings);
-		grpTransformationSettings.setText("Transformation Settings");
-		
-		Button cbtnDeleteExisting = new Button(grpTransformationSettings, SWT.CHECK);
-		cbtnDeleteExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		cbtnDeleteExisting.setText("Delete existing, manually created transformations ");
-		cbtnDeleteExisting.setSelection(settings.isDeleteManualTransformations());
-		
-		Button btnDeleteExisting = new Button(grpTransformationSettings, SWT.RADIO);
-		btnDeleteExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		btnDeleteExisting.setText("Delete existing, generated transformations");
-		btnDeleteExisting.setSelection(settings.isDeleteGeneratedTransformations());
-		
-				Button btnKeepExisting = new Button(grpTransformationSettings, SWT.RADIO);
-				btnKeepExisting.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-				btnKeepExisting.setText("Keep existing, generated transformations");
-				btnKeepExisting.setSelection(!settings.isDeleteGeneratedTransformations());
-						
-						Composite composite = new Composite(grpTransformationSettings, SWT.NONE);
-						GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1);
-						gd_composite.widthHint = 31;
-						gd_composite.heightHint = 5;
-						composite.setLayoutData(gd_composite);
-				
-						Button cbtnOverwriteExisting = new Button(grpTransformationSettings, SWT.CHECK);
-						GridData gd_cbtnOverwriteExisting = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-						gd_cbtnOverwriteExisting.widthHint = 506;
-						cbtnOverwriteExisting.setLayoutData(gd_cbtnOverwriteExisting);
-						cbtnOverwriteExisting.setText("Overwrite existing, generated transformation");
-						cbtnOverwriteExisting.setSelection(settings.isOverwriteGeneratedTransformations());
+		group_trafoSettings.setLayoutData(gd_grpTransformationSettings);
+		group_trafoSettings.setText("Transformation Settings");
 
-		
-		Group grpConfigSerialization = new Group(container, SWT.SHADOW_IN);
-		grpConfigSerialization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		grpConfigSerialization.setText("Config Serialization");
-		grpConfigSerialization.setLayout(new GridLayout(1, false));
-		
-		Button cbtnOverwriteExistingConfig = new Button(grpConfigSerialization, SWT.CHECK);
-		cbtnOverwriteExistingConfig.addSelectionListener(new SelectionAdapter() {
+		// Checkbox delete manual transformations
+		Button checkbox_deleteManualTrafos = new Button(group_trafoSettings, SWT.CHECK);
+		checkbox_deleteManualTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		checkbox_deleteManualTrafos.setText("Delete existing, manually created transformations ");
+		checkbox_deleteManualTrafos.setSelection(settings.isDeleteManualTransformations());
+		checkbox_deleteManualTrafos.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
+				if(checkbox_deleteManualTrafos.getSelection()==false) {
+					settings.setOverwriteConfigInTargetFolder(false);
+				}else {
+					settings.setOverwriteConfigInTargetFolder(true);
+				}
+
 			}
 		});
-		cbtnOverwriteExistingConfig.setText("Overwrite existing config");
-		cbtnOverwriteExistingConfig.setSelection(settings.isOverwriteConfigInTargetFolder());		
 		
+		// Radiobutton delete existing transformations
+		Button radiobutton_deleteGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
+		radiobutton_deleteGeneratedTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		radiobutton_deleteGeneratedTrafos.setText("Delete existing, generated transformations");
+		radiobutton_deleteGeneratedTrafos.setSelection(settings.isDeleteGeneratedTransformations());
+		radiobutton_deleteGeneratedTrafos.addSelectionListener(new SelectionAdapter() {	
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				if(radiobutton_deleteGeneratedTrafos.getSelection()) {
+					settings.setDeleteGeneratedTransformations(true);
+				}else {
+					settings.setDeleteGeneratedTransformations(false);
+				}
+			
+			}
+		
+		});
+		
+		// Radiobutton keep existing, generated transformations
+		Button radiobutton_keepGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
+		radiobutton_keepGeneratedTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		radiobutton_keepGeneratedTrafos.setText("Keep existing, generated transformations");
+		radiobutton_keepGeneratedTrafos.setSelection(!settings.isDeleteGeneratedTransformations());
+		radiobutton_keepGeneratedTrafos.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				if(radiobutton_keepGeneratedTrafos.getSelection()) {
+					settings.setDeleteGeneratedTransformations(false);
+				}else {
+					settings.setDeleteGeneratedTransformations(true);
+				}
+				
+			}		
+			
+		});	
+		
+		
+		// composite layout
+		Composite composite = new Composite(group_trafoSettings, SWT.NONE);
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1);
+		gd_composite.widthHint = 31;
+		gd_composite.heightHint = 5;
+		composite.setLayoutData(gd_composite);
+
+		
+		// Checkbox overwrite existing transformations
+		Button checkbox_overwriteGeneratedTransfos = new Button(group_trafoSettings, SWT.CHECK);
+		GridData gd_cbtnOverwriteExisting = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_cbtnOverwriteExisting.widthHint = 506;
+		checkbox_overwriteGeneratedTransfos.setLayoutData(gd_cbtnOverwriteExisting);
+		checkbox_overwriteGeneratedTransfos.setText("Overwrite existing, generated transformation");
+		checkbox_overwriteGeneratedTransfos.setSelection(settings.isOverwriteGeneratedTransformations());
+		checkbox_overwriteGeneratedTransfos.addSelectionListener(new SelectionAdapter() {
+		
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(checkbox_overwriteGeneratedTransfos.getSelection()) {
+					settings.setOverwriteGeneratedTransformations(true);
+				}else {
+					settings.setOverwriteGeneratedTransformations(false);
+				}
+			}
+		
+		});
+
+		// Group Config Serialization
+		Group group_configSerialization = new Group(container, SWT.SHADOW_IN);
+		group_configSerialization.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		group_configSerialization.setText("Config Serialization");
+		group_configSerialization.setLayout(new GridLayout(1, false));
+
+		
+		// Checkbox overwrite config
+		Button checkbox_overwriteConfig = new Button(group_configSerialization, SWT.CHECK);
+		checkbox_overwriteConfig.setText("Overwrite existing config");
+		checkbox_overwriteConfig.setSelection(settings.isOverwriteConfigInTargetFolder());		
+		checkbox_overwriteConfig.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(checkbox_overwriteConfig.getSelection()) {
+					settings.setOverwriteConfigInTargetFolder(true);
+				}else {
+					settings.setOverwriteConfigInTargetFolder(false);
+				}
+
+			}
+		});
+
+		// Group Log Serialization
 		Group grpLogSerialization = new Group(container, SWT.SHADOW_IN);
 		grpLogSerialization.setLayout(new GridLayout(1, false));
 		GridData gd_grpLogSerialization = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
@@ -114,14 +183,40 @@ public class SergeWizardPage2 extends WizardPage {
 		grpLogSerialization.setLayoutData(gd_grpLogSerialization);
 		grpLogSerialization.setText("Log Serialization");
 		
-		Button cbtnSaveLog = new Button(grpLogSerialization, SWT.CHECK);
-		cbtnSaveLog.setText("Save logs");
-		cbtnSaveLog.setSelection(settings.isSaveLogs());		
-		
-				Button cbtnDeletePreviousTags = new Button(grpLogSerialization, SWT.CHECK);
-				cbtnDeletePreviousTags.setText("Delete previous logs");
-				cbtnDeletePreviousTags.setSelection(settings.isDeleteLogs());
 
+		// Checkbox save log serialization
+		Button checkbox_saveLogSerialization = new Button(grpLogSerialization, SWT.CHECK);
+		checkbox_saveLogSerialization.setText("Save logs");
+		checkbox_saveLogSerialization.setSelection(settings.isSaveLogs());
+		checkbox_saveLogSerialization.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(checkbox_saveLogSerialization.getSelection()) {
+					settings.setSaveLogs(true);
+				}else {
+					settings.setSaveLogs(false);
+				}
+			}
+			
+		});
+		
+		// Checkbox delete previous logs
+		Button checkbox_deleteLogs = new Button(grpLogSerialization, SWT.CHECK);
+		checkbox_deleteLogs.setText("Delete previous logs");
+		checkbox_deleteLogs.setSelection(settings.isDeleteLogs());
+		checkbox_deleteLogs.addSelectionListener(new SelectionAdapter() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(checkbox_deleteLogs.getSelection()) {
+					settings.setDeleteLogs(true);
+				}else {
+					settings.setDeleteLogs(false);
+				}
+			}
+			
+		});
 	}
 
 	/**
