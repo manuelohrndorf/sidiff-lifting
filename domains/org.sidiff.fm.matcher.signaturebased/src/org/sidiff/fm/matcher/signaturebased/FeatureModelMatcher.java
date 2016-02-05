@@ -5,6 +5,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.matcher.LocalSignatureMatcher;
 
+import de.imotep.featuremodel.variability.metamodel.FeatureModel.ExcludeConstraint;
+import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModel;
+import de.imotep.featuremodel.variability.metamodel.FeatureModel.RequireConstraint;
+
 public class FeatureModelMatcher extends LocalSignatureMatcher {
 
 	private static final String KEY = "FeatureModelMatcher";
@@ -26,7 +30,7 @@ public class FeatureModelMatcher extends LocalSignatureMatcher {
 	protected String getElementSignature(EObject element) {
 		// Check for @link{FeatureModel} element
 		if (element instanceof FeatureModel) {
-			return ((FeatureModel)element).getName());
+			return (((FeatureModel)element).getName());
 		}
 
 		// Check for @link{RequireConstraint} element
