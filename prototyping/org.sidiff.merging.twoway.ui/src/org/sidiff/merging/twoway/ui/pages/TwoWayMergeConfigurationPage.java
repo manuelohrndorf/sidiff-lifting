@@ -3,7 +3,7 @@ package org.sidiff.merging.twoway.ui.pages;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.lifting.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 
 /**
@@ -31,7 +31,7 @@ public class TwoWayMergeConfigurationPage extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 		
-		matchingWidget = new MatchingEngineWidget(inputModels);
+		matchingWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matchingWidget.setSettings(settings);
 		addWidget(container, matchingWidget);
 		
