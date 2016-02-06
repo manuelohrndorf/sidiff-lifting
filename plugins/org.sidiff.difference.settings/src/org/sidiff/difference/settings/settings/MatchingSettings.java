@@ -3,6 +3,7 @@ package org.sidiff.difference.settings.settings;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.settings.SiDiffSettings;
+import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
@@ -40,6 +41,7 @@ public class MatchingSettings extends SiDiffSettings {
 	public MatchingSettings(Scope scope, IMatcher matcher) {
 		super(scope);
 		this.matcher = matcher;
+		this.correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService("MatchingModelCorrespondences");
 	}
 
 
@@ -75,6 +77,9 @@ public class MatchingSettings extends SiDiffSettings {
 	public void setMatcher(IMatcher matcher) {
 		if (this.matcher == null || !this.matcher.getName().equals(matcher.getName())) {
 			this.matcher = matcher;
+			if(correspondencesService != null){
+				matcher.setCorrespondencesService(correspondencesService);
+			}
 			this.notifyListeners(MatchingSettingsItem.MATCHER);
 		}
 	}
@@ -86,6 +91,9 @@ public class MatchingSettings extends SiDiffSettings {
 
 	public void setCorrespondencesService(ICorrespondences correspondencesService) {
 		this.correspondencesService = correspondencesService;
+		if(matcher != null){
+			matcher.setCorrespondencesService(correspondencesService);
+		}
 		this.notifyListeners(MatchingSettingsItem.CORRESPONDENCE_SERVICE);
 	}
 
