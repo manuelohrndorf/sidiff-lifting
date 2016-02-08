@@ -1,106 +1,89 @@
 package org.sidiff.patching.settings;
 
-import java.util.Set;
-
+import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
-import org.sidiff.difference.lifting.settings.Settings;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public class PatchingSettings extends Settings {
+public class PatchingSettings extends DifferenceSettings {
 
-	private ValidationMode validationMode;
-	private int minReliability;
-	private ExecutionMode executionMode;
-	private PatchMode patchMode;
+	/**
+	 * 
+	 */
 	private IArgumentManager argumentManager;
+	
+	/**
+	 * 
+	 */
 	private IPatchInterruptHandler interruptHandler;
+	
+	/**
+	 * 
+	 */
 	private ITransformationEngine transformationEngine;
+	
+	/**
+	 * 
+	 */
 	private IModifiedDetector modifiedDetector;
+	
+	/**
+	 * 
+	 */
+	private ExecutionMode executionMode;
+	
+	/**
+	 * 
+	 */
+	private PatchMode patchMode;
+	
+	/**
+	 * 
+	 */
+	private int minReliability;
+	
+	/**
+	 * 
+	 */
+	private ValidationMode validationMode;
 
-	public PatchingSettings(ValidationMode validationMode, int minReliability, ExecutionMode executionMode,
-			PatchMode patchMode, IArgumentManager argumentManager, IPatchInterruptHandler interruptHandler,
-			ITransformationEngine transformationEngine, IModifiedDetector modifiedDetector) {
-
+	public PatchingSettings() {
 		super();
+	}
 
-		this.validationMode = validationMode;
-		this.minReliability = minReliability;
-		this.executionMode = executionMode;
-		this.patchMode = patchMode;
+	public PatchingSettings(Scope scope, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
+			IArgumentManager argumentManager, IPatchInterruptHandler interruptHandler,
+			ITransformationEngine transformationEngine, IModifiedDetector modifiedDetector, ExecutionMode executionMode,
+			PatchMode patchMode, int minReliability, ValidationMode validationMode) {
+		super(scope, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
 		this.argumentManager = argumentManager;
 		this.interruptHandler = interruptHandler;
 		this.transformationEngine = transformationEngine;
 		this.modifiedDetector = modifiedDetector;
-	}
-
-	public PatchingSettings(Scope scope, IMatcher matcher, Set<IRuleBase> ruleBases, ValidationMode validationMode,
-			int minReliability, ExecutionMode executionMode, PatchMode patchMode) {
-
-		super(scope, matcher, ruleBases);
-
-		this.validationMode = validationMode;
-		this.minReliability = minReliability;
 		this.executionMode = executionMode;
 		this.patchMode = patchMode;
+		this.minReliability = minReliability;
+		this.validationMode = validationMode;
 	}
 
-	public PatchingSettings() {
+	public String toString() {
+		String result = super.toString();
+		result += "Validation Mode: " + validationMode + "\n";
+		result += "Execution Mode: " + executionMode + "\n";
+		result += "Patch Mode: " + patchMode + "\n";
+		result += "minimum Reliability: " + (minReliability > -1 ? minReliability : "N/A") + "\n";
+		return result;
 	}
-
-	public ValidationMode getValidationMode() {
-		return validationMode;
-	}
-
-	public void setValidationMode(ValidationMode validationMode) {
-		if (this.validationMode == null || !this.validationMode.equals(validationMode)) {
-			this.validationMode = validationMode;
-			notifyListeners(PatchingSettingsItem.VALIDATION_MODE);
-		}
-	}
-
-	public int getMinReliability() {
-		return minReliability;
-	}
-
-	public void setMinReliability(int minReliability) {
-		if (this.minReliability != minReliability) {
-			this.minReliability = minReliability;
-			notifyListeners(PatchingSettingsItem.RELIABILITY);
-		}
-	}
-
-	public enum ValidationMode {
-		NO_VALIDATION, MODEL_VALIDATION, ITERATIVE_VALIDATION
-	}
-
-	public ExecutionMode getExecutionMode() {
-		return executionMode;
-	}
-
-	public void setExecutionMode(ExecutionMode executionMode) {
-		if (this.executionMode == null || !this.executionMode.equals(executionMode)) {
-			this.executionMode = executionMode;
-			notifyListeners(PatchingSettingsItem.EXEC_MODE);
-		}
-	}
-
-	public PatchMode getPatchMode() {
-		return patchMode;
-	}
-
-	public void setPatchMode(PatchMode patchMode) {
-		if (this.patchMode == null || !this.patchMode.equals(patchMode)) {
-			this.patchMode = patchMode;
-			notifyListeners(PatchingSettingsItem.PATCH_MODE);
-		}
-	}
-
+	
+	// ---------- Getter and Setter Methods----------
+	
 	public IArgumentManager getArgumentManager() {
 		return argumentManager;
 	}
@@ -145,13 +128,51 @@ public class PatchingSettings extends Settings {
 		}
 	}
 
-	public String toString() {
-		String result = super.toString();
-		result += "Validation Mode: " + validationMode + "\n";
-		result += "Execution Mode: " + executionMode + "\n";
-		result += "Patch Mode: " + patchMode + "\n";
-		result += "minimum Reliability: " + (minReliability > -1 ? minReliability : "N/A") + "\n";
-		return result;
+	public ExecutionMode getExecutionMode() {
+		return executionMode;
 	}
 
+	public void setExecutionMode(ExecutionMode executionMode) {
+		if (this.executionMode == null || !this.executionMode.equals(executionMode)) {
+			this.executionMode = executionMode;
+			notifyListeners(PatchingSettingsItem.EXEC_MODE);
+		}
+	}
+	
+	public PatchMode getPatchMode() {
+		return patchMode;
+	}
+
+	public void setPatchMode(PatchMode patchMode) {
+		if (this.patchMode == null || !this.patchMode.equals(patchMode)) {
+			this.patchMode = patchMode;
+			notifyListeners(PatchingSettingsItem.PATCH_MODE);
+		}
+	}
+	
+	public int getMinReliability() {
+		return minReliability;
+	}
+
+	public void setMinReliability(int minReliability) {
+		if (this.minReliability != minReliability) {
+			this.minReliability = minReliability;
+			notifyListeners(PatchingSettingsItem.RELIABILITY);
+		}
+	}
+	
+	public ValidationMode getValidationMode() {
+		return validationMode;
+	}
+
+	public void setValidationMode(ValidationMode validationMode) {
+		if (this.validationMode == null || !this.validationMode.equals(validationMode)) {
+			this.validationMode = validationMode;
+			notifyListeners(PatchingSettingsItem.VALIDATION_MODE);
+		}
+	}
+	
+	public enum ValidationMode {
+		NO_VALIDATION, MODEL_VALIDATION, ITERATIVE_VALIDATION
+	}
 }

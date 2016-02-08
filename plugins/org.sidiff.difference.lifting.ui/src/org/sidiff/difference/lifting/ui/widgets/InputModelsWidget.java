@@ -18,14 +18,14 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 
 public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	
-	private Settings settings;
+	private DifferenceSettings settings;
 	private InputModels inputModels;
 
 	private Composite container;
@@ -249,11 +249,11 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	public void settingsChanged(Enum<?> item) {
 	}
 
-	public Settings getSettings() {
+	public DifferenceSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(DifferenceSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

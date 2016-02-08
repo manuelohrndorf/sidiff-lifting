@@ -1,5 +1,6 @@
 package org.sidiff.difference.settings.settings;
 
+import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.settings.SiDiffSettings;
@@ -16,35 +17,82 @@ public class MatchingSettings extends SiDiffSettings {
 	 * The Matcher for calculating correspondences.
 	 */
 	private IMatcher matcher;
-	private ICandidates candidateService;
+	
+	/**
+	 * 
+	 */
+	private ICandidates candidatesService;
+	
+	/**
+	 * 
+	 */
 	private ICorrespondences correspondencesService;
+	
+	/**
+	 * 
+	 */
 	private ISimilarities similaritiesService;
+	
+	/**
+	 * 
+	 */
 	private ISimilaritiesCalculation similaritiesCalculationService;
 	
+	public MatchingSettings(){
+		super();
+	}
+	
+	/**
+	 * default {@link MatchingSettings}
+	 * @param documentType
+	 * 			the document type of the models which are compared
+	 */
 	public MatchingSettings(String documentType){
-		//TODO
-		this(Scope.RESOURCE_SET, MatcherUtil.getMatcher("EcoreIDMatching"));
-	}
-
-	public MatchingSettings() {
-		this(Scope.RESOURCE_SET, MatcherUtil.getMatcher("EcoreIDMatching"));
-	}
-
-	public MatchingSettings(IMatcher matcher) {
-		this(Scope.RESOURCE_SET, matcher);
-	}
-
-	public MatchingSettings(Scope scope) {
-		this(scope, MatcherUtil.getMatcher("EcoreIDMatching"));
-	}
-
-	public MatchingSettings(Scope scope, IMatcher matcher) {
-		super(scope);
-		this.matcher = matcher;
+		super(Scope.RESOURCE);
+		this.matcher = MatcherUtil.getMatcher("URIFragmentMatcher");
+		this.candidatesService = CandidatesUtil.getCandidatesServiceInstance();
 		this.correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService("MatchingModelCorrespondences");
 	}
+	
+	public MatchingSettings(Scope scope, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondencesService) {
+		super(scope);
+		this.matcher = matcher;
+		this.candidatesService = candidatesService;
+		this.correspondencesService = correspondencesService;
+		
+	}
+	
+	public MatchingSettings(Scope scope, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondencesService,
+			ISimilarities similaritiesService, ISimilaritiesCalculation similaritiesCalculationService) {
+		this(scope, matcher, candidatesService, correspondencesService);
+		this.similaritiesService = similaritiesService;
+		this.similaritiesCalculationService = similaritiesCalculationService;
+		
+	}
 
-
+	@Override
+	public boolean validateSettings() {
+		// TODO CPietsch (2016-02-07): Checks for similarity based matching settings
+		return super.validateSettings()
+				&& matcher != null
+				&& correspondencesService != null
+				&& getScope().equals(Scope.RESOURCE_SET)? matcher.isResourceSetCapable(): true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(getMatcher() != null ? "Matcher: " + getMatcher().getName() + "\n" : "");
+		
+		return result.toString();
+	}
+	
+	// ---------- Getter and Setter Methods----------
+	
 	/**
 	 * @return The Matcher for model comparison.
 	 */
@@ -52,24 +100,6 @@ public class MatchingSettings extends SiDiffSettings {
 		return matcher;
 	}
 	
-	
-
-	public ICandidates getCandidatesService() {
-		return candidateService;
-	}
-
-	public ICorrespondences getCorrespondencesService() {
-		return correspondencesService;
-	}
-
-	public ISimilarities getSimilaritiesService() {
-		return similaritiesService;
-	}
-
-	public ISimilaritiesCalculation getSimilaritiesCalculationService() {
-		return similaritiesCalculationService;
-	}
-
 	/**
 	 * @param matcher
 	 *            The Matcher for model comparison.
@@ -83,30 +113,83 @@ public class MatchingSettings extends SiDiffSettings {
 			this.notifyListeners(MatchingSettingsItem.MATCHER);
 		}
 	}
-
-	public void setCandidateService(ICandidates candidateService) {
-		this.candidateService = candidateService;
-		this.notifyListeners(MatchingSettingsItem.CANDITATE_SERVICE);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ICandidates getCandidatesService() {
+		return candidatesService;
 	}
-
-	public void setCorrespondencesService(ICorrespondences correspondencesService) {
-		this.correspondencesService = correspondencesService;
-		if(matcher != null){
-			matcher.setCorrespondencesService(correspondencesService);
+	
+	/**
+	 * 
+	 * @param candidateService
+	 */
+	public void setCandidatesService(ICandidates candidateService) {
+		if(this.candidatesService == null || !this.candidatesService.equals(candidateService)){
+			this.candidatesService = candidateService;
+			this.notifyListeners(MatchingSettingsItem.CANDITATE_SERVICE);
 		}
-		this.notifyListeners(MatchingSettingsItem.CORRESPONDENCE_SERVICE);
 	}
 
-	public void setSimilaritiesService(ISimilarities similarityService) {
-		this.similaritiesService = similarityService;
-		this.notifyListeners(MatchingSettingsItem.SIMILARTIY_SERVICE);
+	/**
+	 * 
+	 * @return
+	 */
+	public ICorrespondences getCorrespondencesService() {
+		return correspondencesService;
+	}
+	
+	/**
+	 * 
+	 * @param correspondencesService
+	 */
+	public void setCorrespondencesService(ICorrespondences correspondencesService) {
+		if(this.correspondencesService == null || !this.correspondencesService.equals(correspondencesService)){
+			this.correspondencesService = correspondencesService;
+			if(matcher != null){
+				matcher.setCorrespondencesService(correspondencesService);
+			}
+			this.notifyListeners(MatchingSettingsItem.CORRESPONDENCE_SERVICE);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ISimilarities getSimilaritiesService() {
+		return similaritiesService;
+	}
+	
+	/**
+	 * 
+	 * @param similaritesService
+	 */
+	public void setSimilaritiesService(ISimilarities similaritesService) {
+		if(this.similaritiesService == null || !this.similaritiesService.equals(similaritesService)){
+			this.similaritiesService = similaritesService;
+			this.notifyListeners(MatchingSettingsItem.SIMILARTIY_SERVICE);
+		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public ISimilaritiesCalculation getSimilaritiesCalculationService() {
+		return similaritiesCalculationService;
+	}
+	
+	/**
+	 * 
+	 * @param similaritiesCalculationService
+	 */
 	public void setSimilaritiesCalculationService(ISimilaritiesCalculation similaritiesCalculationService) {
-		this.similaritiesCalculationService = similaritiesCalculationService;
-		this.notifyListeners(MatchingSettingsItem.SIMILARITY_CALCULATION_SERVICE);
-	}
-	
-	
-	
+		if(this.similaritiesCalculationService == null || !this.similaritiesCalculationService.equals(similaritiesCalculationService)){
+			this.similaritiesCalculationService = similaritiesCalculationService;
+			this.notifyListeners(MatchingSettingsItem.SIMILARITY_CALCULATION_SERVICE);
+		}
+	}	
 }

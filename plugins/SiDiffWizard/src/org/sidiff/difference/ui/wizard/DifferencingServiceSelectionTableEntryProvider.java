@@ -138,7 +138,7 @@ public class DifferencingServiceSelectionTableEntryProvider extends AbstractTabl
 
 			@Override
 			protected void setSetting(ICandidates service) {
-				this.settings.setCandidateService(service);
+				this.settings.setCandidatesService(service);
 			}
 
 			@Override

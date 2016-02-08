@@ -107,4 +107,8 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 		return false;
 	}
 
+	@Override
+	public String getKey() {
+		return getClass().getName();
+	}
 }

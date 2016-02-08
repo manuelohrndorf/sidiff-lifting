@@ -36,14 +36,14 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.settings.LiftingSettingsItem;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 
 public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
-	private Settings settings;
+	private LiftingSettings settings;
 	private InputModels inputModels;
 
 	private Composite container;
@@ -325,11 +325,11 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		
 	}
 
-	public Settings getSettings() {
+	public LiftingSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

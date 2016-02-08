@@ -46,6 +46,5 @@ public class GenericTechnicalDifferenceBuilder extends TechnicalDifferenceBuilde
 	public String getName(){
 		return "Generic Technical Difference Builder";
 		
-	}
-	
+	}	
 }

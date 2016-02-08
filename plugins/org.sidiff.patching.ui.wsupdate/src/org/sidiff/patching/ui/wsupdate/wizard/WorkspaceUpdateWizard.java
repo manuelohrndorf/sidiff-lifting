@@ -83,15 +83,15 @@ public class WorkspaceUpdateWizard extends Wizard {
 		this.setWindowTitle("Workspace Update Wizard");
 
 		this.mergeModels = new WSUModels(fileMine, fileTheirs, fileBase);
+		this.liftingSettings = new LiftingSettings(mergeModels.getDocumentType());
 		this.patchingSettings = new PatchingSettings();
-		this.liftingSettings = new LiftingSettings();
 	}
 
 	@Override
 	public void addPages() {
 		threeWayMergePage01 = new WorkspaceUpdatePage01(mergeModels,
 				"ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), patchingSettings);
+				getImageDescriptor("icon.png"), liftingSettings,patchingSettings);
 		addPage(threeWayMergePage01);
 
 		threeWayMergePage02 = new WorkspaceUpdatePage02(mergeModels,
@@ -114,12 +114,12 @@ public class WorkspaceUpdateWizard extends Wizard {
 		// Gather all information
 		final WSUModels configuredMergeModels = this.threeWayMergePage01
 				.getMergeModelsWidget().getMergeModels();
-		final Scope scope = patchingSettings.getScope();
+		final Scope scope = liftingSettings.getScope();
 		final ValidationMode validationMode = patchingSettings
 				.getValidationMode();
 
 		final Integer reliability = patchingSettings.getMinReliability();
-		final IMatcher matcher = patchingSettings.getMatcher();
+		final IMatcher matcher = liftingSettings.getMatcher();
 
 		// First create a patch between BASE<->THEIRS
 		final InputModels inputModels = new InputModels(
@@ -394,9 +394,9 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 		// Init the lifting settings from the patching settings:
 		liftingSettings.setCalculateEditRuleMatch(true);
-		liftingSettings.setScope(patchingSettings.getScope());
-		liftingSettings.setMatcher(patchingSettings.getMatcher());
-		liftingSettings.setRuleBases(patchingSettings.getRuleBases());
+		liftingSettings.setScope(liftingSettings.getScope());
+		liftingSettings.setMatcher(liftingSettings.getMatcher());
+		liftingSettings.setRuleBases(liftingSettings.getRuleBases());
 		liftingSettings
 				.setValidate(patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false
 						: true);

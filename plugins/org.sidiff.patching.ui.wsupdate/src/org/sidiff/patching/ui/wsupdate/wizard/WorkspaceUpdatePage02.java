@@ -51,9 +51,8 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 		super(pageName, title, titleImage);
 
 		this.mergeModels = mergeModels;
-
-		this.patchingSettings = settings;
 		this.liftingSettings = liftingSettings;
+		this.patchingSettings = settings;
 		
 		// Listen for validation failures:
 		validationListener = new SelectionAdapter() {
@@ -147,7 +146,7 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(
 				new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()).getResources(), true);
-		matcherWidget.setSettings(this.patchingSettings);
+		matcherWidget.setSettings(this.liftingSettings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
 

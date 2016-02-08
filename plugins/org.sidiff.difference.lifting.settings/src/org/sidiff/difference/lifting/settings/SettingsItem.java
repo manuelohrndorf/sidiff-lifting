@@ -2,7 +2,9 @@ package org.sidiff.difference.lifting.settings;
 
 import java.util.Set;
 
-import javax.inject.Scope;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * Enumerations which are associated with a differencing setting.
@@ -27,6 +29,11 @@ public enum SettingsItem {
 	 * {@link Settings#setRuleBases(Set)}
 	 */
 	RULEBASES,
+	
+	/**
+	 * {@link Settings#setSortRecognitionRuleNodes(boolean)}
+	 */
+	SORT_RECOGNITIONRULE_NODES, 
 	
 	/**
 	 * {@link LiftingSettings#setRuleSetReduction(boolean)}

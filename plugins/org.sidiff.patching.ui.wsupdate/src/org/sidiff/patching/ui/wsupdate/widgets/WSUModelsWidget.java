@@ -16,12 +16,12 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
 public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
-	private Settings settings;
+	private DifferenceSettings settings;
 	private WSUModels mergeModels;
 	
 	private Composite container;
@@ -296,11 +296,11 @@ public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValida
 	public void settingsChanged(Enum<?> item) {
 	}
 
-	public Settings getSettings() {
+	public DifferenceSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(DifferenceSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

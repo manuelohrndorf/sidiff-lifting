@@ -25,6 +25,13 @@ public interface ITechnicalDifferenceBuilder {
 	 * @return the technical difference builder name.
 	 */
 	public String getName();
+	
+	/**
+	 * Returns the short name (used as a key) of the technical difference builder.
+	 * 
+	 * @return the technical difference builder short name (used as key).
+	 */
+	public String getKey();
 
 	/**
 	 * Derives the technical difference. A default implementation is given by

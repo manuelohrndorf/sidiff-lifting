@@ -19,6 +19,7 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
@@ -40,15 +41,17 @@ public class WorkspaceUpdatePage01 extends WizardPage implements IPageChangedLis
 
 	private SelectionAdapter validationListener;
 	private WSUModels mergeModels;
-	private PatchingSettings settings;
+	private LiftingSettings liftingSettings;
+	private PatchingSettings patchingSettings;
 
 
 	public WorkspaceUpdatePage01(
-			WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
+			WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage, LiftingSettings liftingSettings, PatchingSettings patchingSettings) {
 		super(pageName, title, titleImage);
 
 		this.mergeModels = mergeModels;
-		this.settings = settings;
+		this.liftingSettings = liftingSettings;
+		this.patchingSettings = patchingSettings;
 		// Listen for validation failures:
 		validationListener =
 				new SelectionAdapter() {
@@ -115,24 +118,24 @@ public class WorkspaceUpdatePage01 extends WizardPage implements IPageChangedLis
 
 		// Models:
 		mergeModelsWidget = new WSUModelsWidget(mergeModels);
-		mergeModelsWidget.setSettings(this.settings);
+		mergeModelsWidget.setSettings(this.liftingSettings);
 		addWidget(container, mergeModelsWidget);
 		
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
-		scopeWidget.setSettings(this.settings);
+		scopeWidget.setSettings(this.liftingSettings);
 		scopeWidget.setPageChangedListener(this);
 		addWidget(container, scopeWidget);
 		
 		// Validation mode:
 		validationWidget = new ValidationModeWidget();
-		validationWidget.setSettings(this.settings);
+		validationWidget.setSettings(this.patchingSettings);
 		addWidget(container, validationWidget);
 		
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget.setSettings(this.liftingSettings);
 		addWidget(container, rulebaseWidget);
 	}
 

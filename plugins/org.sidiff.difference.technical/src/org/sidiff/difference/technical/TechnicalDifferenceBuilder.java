@@ -419,7 +419,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	}
 
 	@Override
-	public String getName() {
+	public String getKey() {
 		return getClass().getName();
 	}
 

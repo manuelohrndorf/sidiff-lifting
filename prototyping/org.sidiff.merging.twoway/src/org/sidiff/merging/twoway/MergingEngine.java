@@ -95,7 +95,6 @@ public class MergingEngine {
 		patchingSettings.setExecutionMode(mergingSettings.getExecutionMode());
 		patchingSettings.setMatcher(mergingSettings.getMatcher());
 		patchingSettings.setPatchMode(PatchMode.MERGING);
-		patchingSettings.setRuleBases(mergingSettings.getRuleBases());
 		patchingSettings.setScope(mergingSettings.getScope());
 		if(mergingSettings.getExecutionMode().equals(ExecutionMode.BATCH)){
 			patchingSettings.setArgumentManager(new BatchMatcherBasedArgumentManager(mergingSettings.getMatcher()));

@@ -17,11 +17,11 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 
 public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	
-	private Settings settings;
+	private DifferenceSettings settings;
 	private Composite container;
 	private Button modelChooseButton;
 	private Text targetModelText;
@@ -131,11 +131,11 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 	public void settingsChanged(Enum<?> item) {
 	}
 
-	public Settings getSettings() {
+	public DifferenceSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(DifferenceSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

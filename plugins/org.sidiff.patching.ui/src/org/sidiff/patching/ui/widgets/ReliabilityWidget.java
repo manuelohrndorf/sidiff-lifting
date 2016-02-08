@@ -14,11 +14,11 @@ import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 import org.sidiff.difference.settings.settings.MatchingSettings;
 import org.sidiff.difference.settings.settings.MatchingSettingsItem;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.ReliabilityCapableMatcher;
 import org.sidiff.patching.settings.PatchingSettings;
@@ -29,7 +29,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 
 	private final int defaultReliability = 50;
 
-	private Settings settings;
+	private PatchingSettings settings;
 	private Composite container;
 	private Scale scale;
 	private Spinner spinner;
@@ -197,11 +197,11 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 		}
 	}
 
-	public Settings getSettings() {
+	public PatchingSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(PatchingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

@@ -14,13 +14,13 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.Settings;
+import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 
 public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
-	private Settings settings;
+	private PatchingSettings settings;
 	private ValidationMode validationMode = ValidationMode.NO_VALIDATION;
 
 	private Composite container;
@@ -156,11 +156,11 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 	public void settingsChanged(Enum<?> item) {
 	}
 
-	public Settings getSettings() {
+	public PatchingSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(PatchingSettings settings) {
 		this.settings = settings;
 	}
 }

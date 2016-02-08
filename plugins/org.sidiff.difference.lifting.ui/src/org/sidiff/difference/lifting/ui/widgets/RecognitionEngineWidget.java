@@ -18,7 +18,6 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.settings.Settings;
 import org.sidiff.difference.lifting.settings.SettingsItem;
 
 public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
@@ -31,7 +30,7 @@ public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidg
 	public boolean showSimpleLifting = true;
 	public boolean showPostProcessedLifting = true;
 
-	private Settings settings;
+	private LiftingSettings settings;
 	private Composite container;
 	private List list_recEngines;
 
@@ -193,11 +192,11 @@ public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidg
 		}
 	}
 
-	public Settings getSettings() {
+	public LiftingSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Settings settings) {
+	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

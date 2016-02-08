@@ -3,6 +3,7 @@ package org.sidiff.difference.technical.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -22,14 +23,9 @@ public class TechnicalDifferenceBuilderUtil {
 		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
 		
 		ITechnicalDifferenceBuilder genericTechnicalDifferenceBuilder = new GenericTechnicalDifferenceBuilder();
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
-			try {
-				ITechnicalDifferenceBuilder tdbExtension = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
-				if (tdbExtension.canHandle(documentType)) {
-					tdbSet.add(tdbExtension);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
+			if (techBuilder.canHandle(documentType)) {
+				tdbSet.add(techBuilder);
 			}
 		}
 		
@@ -69,25 +65,38 @@ public class TechnicalDifferenceBuilderUtil {
 		return tdBuilder;
 	}
 	
+	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder(){
+		return new GenericTechnicalDifferenceBuilder();
+	}
+	
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilderByName(String name){
+	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilder(String key){
+		
+		ITechnicalDifferenceBuilder tbExtension = null;
+		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
+			if (techBuilder.getKey().equals(key)) {
+				tbExtension = techBuilder;
+				break;
+			}
+		}
+		return tbExtension;
+	}
+	
+	private static Set<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
+		Set<ITechnicalDifferenceBuilder> availableTechBuilders = new HashSet<ITechnicalDifferenceBuilder>();
 		
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
 			try {
-				ITechnicalDifferenceBuilder tdbExtension = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
-				if (name.equals(tdbExtension.getName())) {
-					return tdbExtension;
-				}
-			} catch (Exception e) {
+				availableTechBuilders.add((ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder"));
+			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		return null;
+		return availableTechBuilders;
 	}
 
 }
