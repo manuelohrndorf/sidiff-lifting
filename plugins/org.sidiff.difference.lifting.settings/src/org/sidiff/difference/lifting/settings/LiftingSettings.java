@@ -161,7 +161,7 @@ public class LiftingSettings extends DifferenceSettings {
 	
 	@Override
 	public boolean validateSettings() {
-		// TODO CPietsch (2016-02-08
+		// TODO CPietsch (2016-02-08)
 		return super.validateSettings();
 	}
 

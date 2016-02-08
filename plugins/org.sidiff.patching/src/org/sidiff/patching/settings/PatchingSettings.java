@@ -73,6 +73,14 @@ public class PatchingSettings extends DifferenceSettings {
 		this.validationMode = validationMode;
 	}
 
+	
+	
+	@Override
+	public boolean validateSettings() {
+		// TODO CPietsch (2016-02-08)
+		return super.validateSettings();
+	}
+
 	public String toString() {
 		String result = super.toString();
 		result += "Validation Mode: " + validationMode + "\n";
