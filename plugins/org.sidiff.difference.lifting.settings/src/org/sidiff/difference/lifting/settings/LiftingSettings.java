@@ -159,6 +159,12 @@ public class LiftingSettings extends DifferenceSettings {
 		this.serializeEditRuleMatch = serializeEditRuleMatch;
 	}
 	
+	@Override
+	public boolean validateSettings() {
+		// TODO CPietsch (2016-02-08
+		return super.validateSettings();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
