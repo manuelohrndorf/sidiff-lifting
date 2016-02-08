@@ -59,4 +59,9 @@ public class TechnicalDifferenceBuilderSysML extends TechnicalDifferenceBuilder 
 	public String getDocumentType() {
 		return SysmlPackage.eNS_URI;
 	}
+
+	@Override
+	public String getName() {
+		return "Technical Difference Bulder for SysML";
+	}
 }

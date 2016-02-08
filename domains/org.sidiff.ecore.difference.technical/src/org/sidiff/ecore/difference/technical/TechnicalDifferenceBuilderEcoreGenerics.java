@@ -61,6 +61,6 @@ public class TechnicalDifferenceBuilderEcoreGenerics extends TechnicalDifference
 
 	@Override
 	public String getName() {
-		return "Ecore Technical Difference Builder (with Generics)";
+		return "Technical Difference Builder for Ecore (with Generics)";
 	}
 }

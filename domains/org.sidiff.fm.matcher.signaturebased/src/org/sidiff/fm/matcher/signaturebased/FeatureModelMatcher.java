@@ -11,20 +11,6 @@ import de.imotep.featuremodel.variability.metamodel.FeatureModel.RequireConstrai
 
 public class FeatureModelMatcher extends LocalSignatureMatcher {
 
-	private static final String KEY = "FeatureModelMatcher";
-
-	private static final String NAME = "Feature Model Matcher";
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
-	@Override
-	public String getKey() {
-		return KEY;
-	}
-
 
 	@Override
 	protected String getElementSignature(EObject element) {
@@ -65,9 +51,7 @@ public class FeatureModelMatcher extends LocalSignatureMatcher {
 	}
 
 	@Override
-	public String getServiceID() {
-		return KEY;
+	public String getName() {
+		return "Feature Model Matcher";
 	}
-
-
 }
