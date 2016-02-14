@@ -8,14 +8,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.AbstractTechnicalDifferenceBuilder;
 
 /**
  * Filters technical stuff but does not filter types related to Ecore Generics.
  * 
  * @author kehrer
  */
-public class TechnicalDifferenceBuilderEcoreGenerics extends TechnicalDifferenceBuilder {
+public class TechnicalDifferenceBuilderEcoreGenerics extends AbstractTechnicalDifferenceBuilder {
 
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {
