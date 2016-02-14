@@ -3,7 +3,7 @@ package org.sidiff.difference.settings.settings;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.settings.SiDiffSettings;
+import org.sidiff.common.settings.settings.BaseSettings;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.matcher.IMatcher;
@@ -11,7 +11,7 @@ import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
-public class MatchingSettings extends SiDiffSettings {
+public class MatchingSettings extends BaseSettings {
 
 	/**
 	 * The Matcher for calculating correspondences.
