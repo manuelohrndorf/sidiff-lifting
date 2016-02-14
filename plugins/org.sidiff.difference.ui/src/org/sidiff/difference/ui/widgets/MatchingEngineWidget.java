@@ -23,15 +23,13 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.settings.ISettingsChangedListener;
-import org.sidiff.common.settings.settings.SiDiffSettings;
-import org.sidiff.common.settings.settings.SiDiffSettingsItem;
+import org.sidiff.common.settings.settings.BaseSettingsItem;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.difference.settings.settings.MatchingSettings;
-import org.sidiff.difference.settings.settings.MatchingSettingsItem;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.MatcherUtil;
@@ -319,7 +317,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if (item.equals(SiDiffSettingsItem.SCOPE)) {
+		if (item.equals(BaseSettingsItem.SCOPE)) {
 			pageChangedListener.pageChanged(null);
 		}
 	}
