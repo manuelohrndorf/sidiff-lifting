@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.papyrus.sysml.SysmlPackage;
 import org.eclipse.uml2.uml.NamedElement;
-import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.AbstractTechnicalDifferenceBuilder;
 
-public class TechnicalDifferenceBuilderSysML extends TechnicalDifferenceBuilder {
+public class TechnicalDifferenceBuilderSysML extends AbstractTechnicalDifferenceBuilder {
 	
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {

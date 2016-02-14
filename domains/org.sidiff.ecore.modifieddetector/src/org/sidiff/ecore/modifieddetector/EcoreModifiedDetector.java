@@ -2,6 +2,7 @@ package org.sidiff.ecore.modifieddetector;
 
 import java.io.FileNotFoundException;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.annotation.IAnnotation;
 import org.sidiff.common.io.IOUtil;
@@ -27,6 +28,18 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 		
 	}
 
+	@Override
+	public String getName() {
+		return "Modified Detector for Ecore";
+	}
 
+	@Override
+	public String getDocumentType() {
+		return EcorePackage.eNS_URI;
+	}
 
+	@Override
+	public boolean canHandle(String docType) {
+		return docType.equals(getDocumentType());
+	}
 }
