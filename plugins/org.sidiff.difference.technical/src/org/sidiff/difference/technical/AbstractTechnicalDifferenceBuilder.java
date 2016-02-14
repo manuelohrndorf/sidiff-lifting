@@ -41,7 +41,7 @@ import org.sidiff.matching.model.Correspondence;
  * 
  * @author kehrer
  */
-public abstract class TechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
+public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
 
 	private Resource modelA;
 	private Resource modelB;
@@ -55,7 +55,7 @@ public abstract class TechnicalDifferenceBuilder implements ITechnicalDifference
 	private Set<EReference> unconsideredEdgeTypes;
 	private Set<EAttribute> unconsideredAttributeTypes;
 
-	protected TechnicalDifferenceBuilder() {
+	protected AbstractTechnicalDifferenceBuilder() {
 		unconsideredNodeTypes = getUnconsideredNodeTypes();
 		unconsideredEdgeTypes = getUnconsideredEdgeTypes();
 		unconsideredAttributeTypes = getUnconsideredAttributeTypes();

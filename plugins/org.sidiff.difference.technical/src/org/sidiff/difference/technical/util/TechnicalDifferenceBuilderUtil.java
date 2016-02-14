@@ -19,7 +19,7 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @param documentType
 	 * @return
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilder(String documentType){
+	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType){
 		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
 		
 		ITechnicalDifferenceBuilder genericTechnicalDifferenceBuilder = new GenericTechnicalDifferenceBuilder();
@@ -47,8 +47,8 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @return
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(String documentType){
-		Set<ITechnicalDifferenceBuilder> tdBuilders = TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilder(documentType);
-		assert (!tdBuilders.isEmpty()) : "No technical difference builder found for documentType " + documentType;
+		Set<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentType);
+		assert (!tdBuilders.isEmpty()) : "No technical difference builder found for document type " + documentType;
 		
 		ITechnicalDifferenceBuilder tdBuilder = null;
 		if (documentType.equals(EcorePackage.eINSTANCE.getNsURI())){
@@ -59,7 +59,7 @@ public class TechnicalDifferenceBuilderUtil {
 				}
 			}
 		} else {
-			tdBuilder = tdBuilders.iterator().next();
+			tdBuilder = getGenericTechnicalDifferenceBuilder();
 		}
 		
 		return tdBuilder;
@@ -75,7 +75,6 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @return
 	 */
 	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilder(String key){
-		
 		ITechnicalDifferenceBuilder tbExtension = null;
 		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
 			if (techBuilder.getKey().equals(key)) {

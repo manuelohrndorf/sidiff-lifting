@@ -72,7 +72,7 @@ public class PipelineUtils {
 	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
 	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType) {
-		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilder(documentType);
+		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType);
 	}
 	
 	/**

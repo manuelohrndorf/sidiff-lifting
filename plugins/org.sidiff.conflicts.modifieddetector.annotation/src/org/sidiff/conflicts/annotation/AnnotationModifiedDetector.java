@@ -16,7 +16,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
+import org.sidiff.conflicts.modifieddetector.AbstractModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.matcher.IMatcher;
 
@@ -25,7 +25,7 @@ import org.sidiff.matcher.IMatcher;
  * @author dreuling
  *
  */
-public abstract class AnnotationModifiedDetector implements IModifiedDetector {
+public abstract class AnnotationModifiedDetector extends AbstractModifiedDetector {
 
 	private final static String HASH_KEY = "HASH";	
 

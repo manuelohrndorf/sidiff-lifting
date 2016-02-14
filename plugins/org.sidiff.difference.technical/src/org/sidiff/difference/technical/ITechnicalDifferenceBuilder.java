@@ -35,7 +35,7 @@ public interface ITechnicalDifferenceBuilder {
 
 	/**
 	 * Derives the technical difference. A default implementation is given by
-	 * the abstract class {@link TechnicalDifferenceBuilder}
+	 * the abstract class {@link AbstractTechnicalDifferenceBuilder}
 	 * 
 	 * @param difference
 	 * @return {@link SymmetricDifference}

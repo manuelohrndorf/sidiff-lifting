@@ -61,7 +61,7 @@ public class LiftingPropertyTester extends PropertyTester {
 				IFile file = (IFile) receiver;
 				Resource resource = LiftingFacade.loadModel(file.getLocation().toOSString());
 				String documentType = EMFModelAccess.getCharacteristicDocumentType(resource);
-				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilder(documentType).size()>0)
+				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType).size()>0)
 					return true;				
 			}
 		}

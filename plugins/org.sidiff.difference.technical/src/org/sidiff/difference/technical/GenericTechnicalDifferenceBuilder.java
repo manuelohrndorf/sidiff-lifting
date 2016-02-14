@@ -15,7 +15,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
  * 
  * @author kehrer
  */
-public class GenericTechnicalDifferenceBuilder extends TechnicalDifferenceBuilder {
+public class GenericTechnicalDifferenceBuilder extends AbstractTechnicalDifferenceBuilder {
 
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {

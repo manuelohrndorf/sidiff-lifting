@@ -26,13 +26,21 @@ public interface IModifiedDetector {
 	/**
 	 * The shared executable point
 	 */
-	public static final String EXECUTABLE = "class";
-
-	/**
-	 * The shared document type point
-	 */
-	public static final String DOCUMENT_TYPE = "documentType";	
+	public static final String EXECUTABLE = "class";	
 	
+	/**
+	 * Returns the description name of the modified detector.
+	 * 
+	 * @return the modified detector name.
+	 */
+	public String getName();
+	
+	/**
+	 * Returns the short name (used as a key) of the modified detector.
+	 * 
+	 * @return the modified detector short name (used as key).
+	 */
+	public String getKey();
 	
 	/**
 	 * Initialize method: 
@@ -50,5 +58,20 @@ public interface IModifiedDetector {
 	 * @return whether the object has been modified
 	 */
 	public boolean isModified(EObject targetObject);
+	
+	/**
+	 * @return the document type the modified detector is primarily implemented
+	 *         for.
+	 */
+	public String getDocumentType();
+	
+	/**
+	 * Returns whether this modified detector can handle models of the given
+	 * documentType.
+	 * 
+	 * @param docType
+	 * @return
+	 */
+	public boolean canHandle(String docType);
 
 }
