@@ -9,8 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.sidiff.common.emf.access.ExternalManyReference;
@@ -56,6 +61,8 @@ public class PackageRegistryAdapter {
 	 * External references in B to REGISTRY model objects.
 	 */
 	private ExternalReferenceContainer registryReferencesB;
+	
+	private Map<ETypedElement, EGenericType> externalGenerics; 
 
 	/**
 	 * Whether registry objects shall be copied and relinked or not.
@@ -109,6 +116,7 @@ public class PackageRegistryAdapter {
 		this.registryReferencesA = registryReferencesA;
 		this.registryReferencesB = registryReferencesB;
 		this.relink = relink;
+		this.externalGenerics = new HashMap<ETypedElement, EGenericType>();
 	}
 
 	/**
@@ -275,6 +283,13 @@ public class PackageRegistryAdapter {
 				EObject copy = getCorrespondingCopy(original);
 				assert (copy != null);
 
+				if(extRef.getSourceObject() instanceof ETypedElement){
+					EStructuralFeature feature = extRef.getSourceObject().eClass().getEStructuralFeature("name");
+					if(feature != null && extRef.getEReference().eGet(feature).equals("eType")){
+						ETypedElement eTypedElement = (ETypedElement) extRef.getSourceObject();
+						externalGenerics.put(eTypedElement, eTypedElement.getEGenericType());
+					}
+				}
 				// Relink original to corresponding copy
 				extRef.getSourceObject().eSet(extRef.getEReference(), copy);
 			}
@@ -386,6 +401,16 @@ public class PackageRegistryAdapter {
 
 				// Relink copy to corresponding original
 				extRef.getSourceObject().eSet(extRef.getEReference(), original);
+				
+				if(extRef.getSourceObject() instanceof ETypedElement){
+					EStructuralFeature feature = extRef.getSourceObject().eClass().getEStructuralFeature("name");
+					if(feature != null && extRef.getEReference().eGet(feature).equals("eType")){
+						ETypedElement eTypedElement = (ETypedElement) extRef.getSourceObject();
+						eTypedElement.setEGenericType(null);
+						eTypedElement.setEGenericType(externalGenerics.get(eTypedElement));
+					}
+				}
+				
 				LogUtil.log(LogEvent.DEBUG, "  " + copy + " -> " + original);
 			}
 		}
