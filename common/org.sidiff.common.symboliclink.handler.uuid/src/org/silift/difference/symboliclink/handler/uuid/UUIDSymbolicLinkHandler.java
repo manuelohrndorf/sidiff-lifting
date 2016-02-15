@@ -1,7 +1,6 @@
 package org.silift.difference.symboliclink.handler.uuid;
 
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EGenericType;
@@ -10,10 +9,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
-import org.sidiff.model.symboliclink.SymbolicLinkObject;
-import org.sidiff.model.uuidsymboliclink.UUIDSymbolicLinkObject;
-import org.sidiff.model.uuidsymboliclink.UuidsymboliclinkFactory;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
+import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
+import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
 
 /**
  * An UUID-based symbolic-link-handler.
@@ -98,11 +97,5 @@ public class UUIDSymbolicLinkHandler extends AbstractSymbolicLinkHandler {
 	@Override
 	public String getKey(){
 		return KEY;
-	}
-
-	@Override
-	public boolean canHandle(Collection<Resource> models) {
-		// TODO Auto-generated method stub
-		return true;
 	}
 }

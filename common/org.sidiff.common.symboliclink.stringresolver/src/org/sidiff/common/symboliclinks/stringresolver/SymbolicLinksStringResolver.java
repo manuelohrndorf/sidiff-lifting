@@ -2,7 +2,7 @@ package org.sidiff.common.symboliclinks.stringresolver;
 
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.stringresolver.IStringResolver;
-import org.sidiff.model.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**
  * An {@link IStringResolver} for SymbolicLinks

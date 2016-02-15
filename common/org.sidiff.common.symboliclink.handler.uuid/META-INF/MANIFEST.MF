@@ -1,21 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: UUID Symbolic Link Resolver
 Bundle-SymbolicName: org.sidiff.common.symboliclink.handler.uuid;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
-Bundle-Vendor: %providerName
-Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.sidiff.common.symboliclink.handler;visibility:=reexport,
- org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
+Require-Bundle: org.sidiff.common.symboliclink.handler,
+ org.eclipse.emf.ecore,
  org.sidiff.common.emf,
  org.sidiff.difference.asymmetric,
+ org.sidiff.common.symboliclink,
  org.eclipse.emf.ecore.xmi,
- org.sidiff.difference.symmetric
-Bundle-ActivationPolicy: lazy
-Export-Package: org.silift.difference.symboliclink.handler.uuid,
- org.sidiff.model.uuidsymboliclink,
- org.sidiff.model.uuidsymboliclink.impl,
- org.sidiff.model.uuidsymboliclink.util
+ org.sidiff.difference.symmetric,
+ org.sidiff.common.symboliclink.uuid;bundle-version="0.1.0"
+Export-Package: org.silift.difference.symboliclink.handler.uuid

@@ -1,6 +1,5 @@
 package org.silift.difference.symboliclink.handler.namedelement;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.ENamedElement;
@@ -8,9 +7,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
-import org.sidiff.model.namedelementsymboliclink.NamedElementSymbolicLinkObject;
-import org.sidiff.model.namedelementsymboliclink.NamedelementsymboliclinkFactory;
-import org.sidiff.model.symboliclink.SymbolicLinkObject;
+import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
+import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
 
 /**
@@ -98,11 +97,5 @@ public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler
 	@Override
 	public String getKey(){
 		return KEY;
-	}
-
-	@Override
-	public boolean canHandle(Collection<Resource> models) {
-		// TODO Auto-generated method stub
-		return true;
 	}
 }
