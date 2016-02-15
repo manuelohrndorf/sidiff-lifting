@@ -22,6 +22,8 @@ import org.sidiff.difference.lifting.facade.LiftingFacade;
 import org.sidiff.difference.lifting.facade.util.PipelineUtils;
 import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.pages.AdvancedCompareSettingsPage;
+import org.sidiff.difference.lifting.ui.pages.BasicCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.util.CorrespondenceDialog;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
@@ -29,37 +31,58 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 
 public class CreateDifferenceWizard extends Wizard {
 
-	private CreateDifferencePage01 createDifferencePage01;
-	private CreateDifferencePage02 createDifferencePage02;
-
-	private InputModels inputModels;
-	private LiftingSettings settings;
-	private String diffSavePath;
-
 	/**
-	 * @param fileA
-	 * @param fileB
+	 * The {@link InputModels}
 	 */
+	private InputModels inputModels;
+	
+	/**
+	 * The {@link LiftingSettings}
+	 */
+	private LiftingSettings settings;
+	
+	/**
+	 * the save path of the {@link SymmetricDifference}
+	 */
+	private String diffSavePath;
+	
+	// ---------- UI Elements ----------
+	
+	/**
+	 * The {@link BasicCompareSettingsPage}
+	 */
+	private BasicCompareSettingsPage basicCompareSettingsPage;
+	
+	/**
+	 * The {@link AdvancedCompareSettingsPage}
+	 */
+	private AdvancedCompareSettingsPage advancedCompareSettingsPage;
+
+	// ---------- Constructor ----------
+	
 	public CreateDifferenceWizard(IFile fileA, IFile fileB) {
+		
 		this.setWindowTitle("New Symmetric Difference Wizard");
 
-		inputModels = new InputModels(fileA, fileB);
-		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
-		diffSavePath = fileA.getParent().getLocation().toOSString();
+		this.inputModels = new InputModels(fileA, fileB);
+		this.settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
+		this.diffSavePath = fileA.getParent().getLocation().toOSString();
 	}
 
+	// ---------- Wizard ----------
+	
 	@Override
 	public void addPages() {
-		createDifferencePage01 = new CreateDifferencePage01(inputModels, settings);
-		addPage(createDifferencePage01);
+		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page","Compare models with each other",inputModels, settings);
+		addPage(basicCompareSettingsPage);
 
-		createDifferencePage02 = new CreateDifferencePage02(inputModels, settings);
-		addPage(createDifferencePage02);
+		advancedCompareSettingsPage = new AdvancedCompareSettingsPage("Advanced Compare Settings Page", "Compare models with each other", inputModels, settings);
+		addPage(advancedCompareSettingsPage);
 	}
 
 	@Override
 	public boolean canFinish() {
-		return createDifferencePage01.isPageComplete() && createDifferencePage02.isPageComplete();
+		return basicCompareSettingsPage.isPageComplete() && advancedCompareSettingsPage.isPageComplete();
 	}
 
 	@Override
