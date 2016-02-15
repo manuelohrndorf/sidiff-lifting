@@ -29,10 +29,12 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -269,7 +271,7 @@ public class ApplyPatchWizard extends Wizard {
 					// Patch interrupt handler
 					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
 					settings.setInterruptHandler(patchInterruptHandler);
-
+					settings.setCorrespondencesService(CorrespondencesUtil.getDefaultCorrespondencesService());
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							patch.getAsymmetricDifference(),

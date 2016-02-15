@@ -96,7 +96,7 @@ public class TechnicalDifferenceBuilderUtil {
 	 * 
 	 * @return
 	 */
-	private static Set<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
+	public static Set<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
 		Set<ITechnicalDifferenceBuilder> availableTechBuilders = new HashSet<ITechnicalDifferenceBuilder>();
 		
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {

@@ -149,7 +149,7 @@ public class DifferencingServiceSelectionTableEntryProvider extends AbstractTabl
 		this.coEntry = new ServiceTableEntry<ICorrespondences, MatchingSettings>(this, "Correspondance Service", settings, MatchingSettingsItem.CORRESPONDENCE_SERVICE, true) {
 			@Override
 			protected Set<ICorrespondences> findAvailableServices() {
-				return CorrespondencesUtil.getAvailableCorrespondencesServices();
+				return CorrespondencesUtil.getAllAvailableCorrespondencesServices();
 			}
 
 			@Override

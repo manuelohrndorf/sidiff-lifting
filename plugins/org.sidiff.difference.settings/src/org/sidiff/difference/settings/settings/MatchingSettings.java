@@ -51,7 +51,7 @@ public class MatchingSettings extends BaseSettings {
 		super(Scope.RESOURCE);
 		this.matcher = MatcherUtil.getMatcher("URIFragmentMatcher");
 		this.candidatesService = CandidatesUtil.getCandidatesServiceInstance();
-		this.correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService("MatchingModelCorrespondences");
+		this.correspondencesService = CorrespondencesUtil.getDefaultCorrespondencesService();
 	}
 	
 	public MatchingSettings(Scope scope, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondencesService) {
