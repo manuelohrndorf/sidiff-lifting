@@ -1,18 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Symboliclink
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.sidiff.common.symboliclink.handler;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore,
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.core.runtime,
  org.sidiff.difference.asymmetric,
- org.sidiff.common.symboliclink,
  org.sidiff.difference.symmetric,
  org.sidiff.difference.rulebase,
  org.sidiff.common.emf,
  org.sidiff.common;bundle-version="1.0.0",
  org.sidiff.matching.model
+Bundle-ActivationPolicy: lazy
 Export-Package: org.silift.difference.symboliclink.handler,
  org.silift.difference.symboliclink.handler.exceptions,
- org.silift.difference.symboliclink.handler.util
+ org.silift.difference.symboliclink.handler.util,
+ org.sidiff.model.symboliclink,
+ org.sidiff.model.symboliclink.impl,
+ org.sidiff.model.symboliclink.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
