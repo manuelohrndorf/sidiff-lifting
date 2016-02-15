@@ -10,7 +10,7 @@ import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.AbstractDifferenceSymbolicLinkHandler;
 import org.silift.difference.uuidsymboliclink.UUIDSymbolicLinkObject;
 import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
 
@@ -20,7 +20,7 @@ import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
  * @author cpietsch
  *
  */
-public class UUIDSymbolicLinkHandler extends AbstractSymbolicLinkHandler {
+public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandler {
 
 	private static final String NAME = "UUID Symbolic Link Handler";
 	private static final String KEY = "UUIDSymbolicLinkHandler";

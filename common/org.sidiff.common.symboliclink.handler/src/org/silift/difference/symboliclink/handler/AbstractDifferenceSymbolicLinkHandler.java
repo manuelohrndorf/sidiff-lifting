@@ -57,7 +57,7 @@ import org.silift.difference.symboliclink.SymboliclinkFactory;
  * @author cpietsch
  *
  */
-public abstract class AbstractSymbolicLinkHandler implements ISymbolicLinkHandler {
+public abstract class AbstractDifferenceSymbolicLinkHandler implements ISymbolicLinkHandler {
 	
 	/**
 	 * {@link SymbolicLinks} of {@link #modelA}

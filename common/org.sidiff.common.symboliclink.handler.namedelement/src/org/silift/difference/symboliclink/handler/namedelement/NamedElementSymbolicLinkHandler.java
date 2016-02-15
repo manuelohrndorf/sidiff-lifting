@@ -10,7 +10,7 @@ import org.sidiff.common.emf.access.EObjectLocation;
 import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
 import org.silift.difference.namedelementsymboliclink.NamedelementsymboliclinkFactory;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
-import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.AbstractDifferenceSymbolicLinkHandler;
 
 /**
  * A name-based symbolic-link-handler using the qualified name of an object.
@@ -18,7 +18,7 @@ import org.silift.difference.symboliclink.handler.AbstractSymbolicLinkHandler;
  * @author cpietsch
  *
  */
-public class NamedElementSymbolicLinkHandler extends AbstractSymbolicLinkHandler {
+public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandler {
 
 	private static final String NAME = "Named Element Symbolic Link Handler";
 	private static final String KEY = "NamedElementSymbolicLinkHandler";
