@@ -38,12 +38,12 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.matching.model.Correspondence;
-import org.sidiff.model.symboliclink.ExternalSymbolicLinkObject;
-import org.sidiff.model.symboliclink.SymbolicLinkAttribute;
-import org.sidiff.model.symboliclink.SymbolicLinkObject;
-import org.sidiff.model.symboliclink.SymbolicLinkReference;
-import org.sidiff.model.symboliclink.SymbolicLinks;
-import org.sidiff.model.symboliclink.SymboliclinkFactory;
+import org.silift.difference.symboliclink.ExternalSymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkAttribute;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinkReference;
+import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymboliclinkFactory;
 
 /**
  * Implements the {@link ISymbolicLinkHandler} using the template method pattern.

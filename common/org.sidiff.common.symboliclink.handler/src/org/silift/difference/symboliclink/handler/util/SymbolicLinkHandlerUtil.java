@@ -7,11 +7,10 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.model.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
@@ -28,72 +27,24 @@ public class SymbolicLinkHandlerUtil {
 	public static final String SYMBOLIC_LINKS_EXT = "symbl";
 	
 	/**
-	 * Returns all available symbolic link handlers for the document type of the given models.
-	 * @param models
-	 * @return
-	 */
-	public static Set<ISymbolicLinkHandler> getAvailableSymbolicLinkHandlers(Collection<Resource> models) {
-		Set<ISymbolicLinkHandler> handlers = new HashSet<ISymbolicLinkHandler>();
-		
-		for(ISymbolicLinkHandler handler : getAllAvailableSymbolicLinkHandlers()){
-			if(handler.canHandle(models)){
-				handlers.add(handler);
-			}
-		}
-		
-		return handlers;
-	}
-	
-	/**
-	 * Returns the default symbolic link handler for the document type of the given models.
-	 * (not finished yet)
-	 * 
-	 * @param models
-	 * @return
-	 */
-	public static ISymbolicLinkHandler getDefaultSymbolicLinkHandler(Collection<Resource> models){
-		Set<ISymbolicLinkHandler> handlers = getAvailableSymbolicLinkHandlers(models);
-		
-		ISymbolicLinkHandler handler = null;
-		for(ISymbolicLinkHandler iSymbolicLinkHandler : handlers){
-			//TODO
-		}
-		
-		if(handler == null){
-			handler = getGenericSymbolicLinkHandler();
-		}
-		return handler;
-	}
-	
-	/**
-	 * Returns a generic symbolic link handler.
-	 * (not finished yet)
-	 * 
-	 * @return
-	 */
-	public static ISymbolicLinkHandler getGenericSymbolicLinkHandler(){
-		return null; //TODO new GenericSymbolicLinkHandler;
-	}
-	
-	/**
 	 * Gathers all available handlers which implements the {@link ISymbolicLinkHandler}
 	 * interface from the registry.
 	 * 
 	 * @return a set of {@link ISymbolicLinkHandler}
 	 */
-	private static Set<ISymbolicLinkHandler> getAllAvailableSymbolicLinkHandlers(){
-		Set<ISymbolicLinkHandler> handlers = new HashSet<ISymbolicLinkHandler>();
+	public static Set<ISymbolicLinkHandler> getAvailableSymbolicLinkHandlers() {
+		Set<ISymbolicLinkHandler> linkResolvers = new HashSet<ISymbolicLinkHandler>();
 
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
 				ISymbolicLinkHandler.extensionPointID)) {
 			try {
-				ISymbolicLinkHandler linkHandlerExtension = (ISymbolicLinkHandler) configurationElement.createExecutableExtension("symbolic_link_handler");
-				handlers.add(linkHandlerExtension);
+				ISymbolicLinkHandler linkResolverExtension = (ISymbolicLinkHandler) configurationElement.createExecutableExtension("symbolic_link_handler");
+				linkResolvers.add(linkResolverExtension);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return handlers;
+		return linkResolvers;
 	}
 	
 	/**

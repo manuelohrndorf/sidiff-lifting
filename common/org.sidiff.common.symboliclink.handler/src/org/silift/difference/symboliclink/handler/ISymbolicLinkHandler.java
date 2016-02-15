@@ -6,8 +6,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.model.symboliclink.SymbolicLinkObject;
-import org.sidiff.model.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymbolicLinkObject;
+import org.silift.difference.symboliclink.SymbolicLinks;
 
 /**
  * A SymbolicLinkHandler is responsible for calculating and resolving
@@ -68,13 +68,4 @@ public interface ISymbolicLinkHandler {
 	 * @return <code>true</code> if the symbolic-link-handler is able to compute reliabilities, otherwise <code>false</code>
 	 */
 	public boolean canComputeReliability();
-	
-	/**
-	 * Returns whether this symbolic link handler can handle the given models.
-	 * 
-	 * @param models
-	 * 
-	 * @return
-	 */
-	public boolean canHandle(Collection<Resource> models);
 }
