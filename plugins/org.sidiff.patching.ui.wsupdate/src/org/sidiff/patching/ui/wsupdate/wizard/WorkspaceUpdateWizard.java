@@ -284,7 +284,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 					patchingSettings.setInterruptHandler(patchInterruptHandler);
 					// Get modified detector
 					IModifiedDetector modifiedDetector = ModifiedDetectorUtil
-							.getDefaultAvailableModifiedDetector(documentType);
+							.getDefaultModifiedDetector(documentType);
 					patchingSettings.setModifiedDetector(modifiedDetector);
 					// Init detector if available
 					if (modifiedDetector != null) {

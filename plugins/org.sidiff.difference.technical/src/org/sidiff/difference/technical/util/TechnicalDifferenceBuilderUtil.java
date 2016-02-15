@@ -65,11 +65,17 @@ public class TechnicalDifferenceBuilderUtil {
 		return tdBuilder;
 	}
 	
+	/**
+	 * Returns a generic technical difference builder.
+	 * 
+	 * @return
+	 */
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder(){
 		return new GenericTechnicalDifferenceBuilder();
 	}
 	
 	/**
+	 * Returns the technical difference builder with the given key.
 	 * 
 	 * @param name
 	 * @return
@@ -85,6 +91,11 @@ public class TechnicalDifferenceBuilderUtil {
 		return tbExtension;
 	}
 	
+	/**
+	 * Get all technical difference builders from the extension registry.
+	 * 
+	 * @return
+	 */
 	private static Set<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
 		Set<ITechnicalDifferenceBuilder> availableTechBuilders = new HashSet<ITechnicalDifferenceBuilder>();
 		

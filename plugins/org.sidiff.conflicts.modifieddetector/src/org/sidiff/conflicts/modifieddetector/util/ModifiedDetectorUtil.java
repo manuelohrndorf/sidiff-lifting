@@ -9,6 +9,12 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 
 public class ModifiedDetectorUtil {
 
+	/**
+	 * Returns the available modified detectors for the given document type.
+	 * 
+	 * @param documentType
+	 * @return
+	 */
 	public static Set<IModifiedDetector> getAvailableModifiedDetectors(String documentType){
 		Set<IModifiedDetector> modifiedDetectors = new HashSet<IModifiedDetector>();
 		for(IModifiedDetector iModifiedDetector : getAllAvailableModifiedDetectors()){
@@ -19,7 +25,13 @@ public class ModifiedDetectorUtil {
 		return modifiedDetectors;
 	}
 	
-	public static IModifiedDetector getDefaultAvailableModifiedDetector(String documentType){
+	/**
+	 * Returns the default modified detector for the given document type.
+	 * 
+	 * @param documentType
+	 * @return
+	 */
+	public static IModifiedDetector getDefaultModifiedDetector(String documentType){
 		Set<IModifiedDetector> modifiedDetectors = getAvailableModifiedDetectors(documentType);
 		assert(!modifiedDetectors.isEmpty()) : "No modified detector found for document type " + documentType;
 		IModifiedDetector modifiedDetector = null;
@@ -33,10 +45,22 @@ public class ModifiedDetectorUtil {
 		return modifiedDetector;
 	}
 	
+	/**
+	 * Returns a generic modified detector.
+	 * (not finished yet)
+	 * 
+	 * @return
+	 */
 	public static IModifiedDetector getGenericModifiedDetector(){
 		return null; //TODO new GenericModifiedDetector;
 	}
 
+	/**
+	 * Returns the modified detector identified by the given key.
+	 * 
+	 * @param key
+	 * @return
+	 */
 	public static IModifiedDetector getModifiedDetector(String key){
 		IModifiedDetector modifiedDetector= null;
 		for(IModifiedDetector iModifiedDetector : getAllAvailableModifiedDetectors()){
@@ -48,6 +72,11 @@ public class ModifiedDetectorUtil {
 		return modifiedDetector;
 	}
 	
+	/**
+	 * Get all modified detectors from the extension registry.
+	 * 
+	 * @return
+	 */
 	private static Set<IModifiedDetector> getAllAvailableModifiedDetectors(){
 		Set<IModifiedDetector> availableModifiedDetectors = new HashSet<IModifiedDetector>();
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IModifiedDetector.EXTENSION_POINT_ID)) {
