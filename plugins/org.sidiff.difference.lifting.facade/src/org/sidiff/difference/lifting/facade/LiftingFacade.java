@@ -39,19 +39,69 @@ public class LiftingFacade extends PipelineUtils {
 	public static final String SYMMETRIC_DIFF_EXT = "symmetric";
 
 	/**
+	 * Derives the technical differences from a given matching.
+	 * 
+	 * @param difference
+	 *            the difference (consisting of correspondences only)
+	 * @param tdBuilder
+	 *            the technical difference builder that shall be used
+	 * 
+	 * @return the (technical) symmetric difference derived from comparing
+	 *         modelA and modelB with matcher.
+	 * @throws NoCorrespondencesException 
+	 */
+	public static SymmetricDifference deriveTechnicalDifferences(Resource modelA, Resource modelB, Scope scope,
+			IMatcher matcher, ITechnicalDifferenceBuilder tdBuilder) throws NoCorrespondencesException {
+
+		// Be sure proxy resolution is done
+		EcoreUtil.resolveAll(modelA.getResourceSet());
+		EcoreUtil.resolveAll(modelB.getResourceSet());
+
+		// Create matching
+		matcher.startMatching(Arrays.asList(modelA, modelB), scope);	
+
+		// Get Matching
+		// In SiLift we assume support of @see{MatchingModelCorrespondences}
+		MatchingModelCorrespondences mmc = (MatchingModelCorrespondences) matcher.getCorrespondencesService();
+		Matching matching = mmc.getMatching();	
+
+		if (!(matching.getCorrespondences().size() != 0)) {
+			throw new NoCorrespondencesException();
+		}
+
+		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDiff.setMatching(matching);
+		
+
+		// Merge Imports
+		MergeImports importMerger = new MergeImports(symmetricDiff, scope, true);
+		importMerger.merge();
+
+		// Derive technical difference
+		tdBuilder.deriveTechDiff(symmetricDiff, scope);
+
+		// Unmerge Imports
+		importMerger.unmerge();
+
+		return symmetricDiff;
+	}
+	
+	/**
 	 * Lifts a technical difference.
 	 * 
 	 * @param symmetricDifference
 	 *            The technical difference to lift.
 	 * @param settings
 	 *            Specifies the settings of the lifting algorithm.
+	 *            
 	 * @return A lifted symmetric difference.
+	 * 
 	 * @see LiftingFacade#liftMeUp(Resource, Resource, IMatcher)
 	 */
 	public static SymmetricDifference liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings) {
+		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
-
 		// Merge Imports
 		MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
 		importMerger.merge();
@@ -73,6 +123,37 @@ public class LiftingFacade extends PipelineUtils {
 
 		return symmetricDifference;
 	}
+	
+	/**
+	 * Creates a lifted symmetric difference between model A and model B using
+	 * default settings (see LiftingSettings).
+	 * 
+	 * @param modelA
+	 *            The earlier version of the model.
+	 * @param modelB
+	 *            The later version of the model.
+	 * @param matcher
+	 *            The matcher which calculates the correspondences between model
+	 *            A and modelB.
+	 * @return A lifted symmetric difference.
+	 * @see LiftingFacade#load(String)
+	 * @see LiftingFacade#getAvailableMatchers(String)
+	 * @see LiftingFacade#liftMeUp(Resource, Resource, LiftingSettings)
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 */
+	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher)
+			throws InvalidModelException, NoCorrespondencesException {
+		// Create default settings
+		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
+		LiftingSettings defaultSettings = new LiftingSettings(documentType);
+		defaultSettings.setMatcher(matcher);
+		LogUtil.log(LogEvent.NOTICE, defaultSettings.toString());
+		// Lift difference
+		SymmetricDifference symmetricDiff = liftMeUp(modelA, modelB, defaultSettings);
+
+		return symmetricDiff;
+	}
 
 	/**
 	 * Creates a lifted symmetric difference between model A and model B.
@@ -83,15 +164,20 @@ public class LiftingFacade extends PipelineUtils {
 	 *            The later version of the model.
 	 * @param settings
 	 *            Specifies the settings of the semantic lifting algorithm.
+	 *            
 	 * @return A lifted symmetric difference.
+	 * 
 	 * @see LiftingFacade#load(String)
 	 * @see LiftingFacade#liftMeUp(Resource, Resource, IMatcher)
+	 * 
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
 	 */
 	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings)
 			throws InvalidModelException, NoCorrespondencesException {
+		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
+		
 		// Be sure proxy resolution is done
 		EcoreUtil.resolveAll(modelA.getResourceSet());
 		EcoreUtil.resolveAll(modelB.getResourceSet());
@@ -189,85 +275,6 @@ public class LiftingFacade extends PipelineUtils {
 		LogUtil.log(LogEvent.NOTICE,
 				"Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
 		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
-	}
-
-	/**
-	 * Creates a lifted symmetric difference between model A and model B using
-	 * default settings (see LiftingSettings).
-	 * 
-	 * @param modelA
-	 *            The earlier version of the model.
-	 * @param modelB
-	 *            The later version of the model.
-	 * @param matcher
-	 *            The matcher which calculates the correspondences between model
-	 *            A and modelB.
-	 * @return A lifted symmetric difference.
-	 * @see LiftingFacade#load(String)
-	 * @see LiftingFacade#getAvailableMatchers(String)
-	 * @see LiftingFacade#liftMeUp(Resource, Resource, LiftingSettings)
-	 * @throws InvalidModelException
-	 * @throws NoCorrespondencesException
-	 */
-	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher)
-			throws InvalidModelException, NoCorrespondencesException {
-		// Create default settings
-		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
-		LiftingSettings defaultSettings = new LiftingSettings(documentType);
-		defaultSettings.setMatcher(matcher);
-		LogUtil.log(LogEvent.NOTICE, defaultSettings.toString());
-		// Lift difference
-		SymmetricDifference symmetricDiff = liftMeUp(modelA, modelB, defaultSettings);
-
-		return symmetricDiff;
-	}
-
-	/**
-	 * Derives the technical differences from a given matching.
-	 * 
-	 * @param difference
-	 *            the difference (consisting of correspondences only)
-	 * @param tdBuilder
-	 *            the technical difference builder that shall be used
-	 * 
-	 * @return the (technical) symmetric difference derived from comparing
-	 *         modelA and modelB with matcher.
-	 * @throws NoCorrespondencesException 
-	 */
-	public static SymmetricDifference deriveTechnicalDifferences(Resource modelA, Resource modelB, Scope scope,
-			IMatcher matcher, ITechnicalDifferenceBuilder tdBuilder) throws NoCorrespondencesException {
-
-		// Be sure proxy resolution is done
-		EcoreUtil.resolveAll(modelA.getResourceSet());
-		EcoreUtil.resolveAll(modelB.getResourceSet());
-
-		// Create matching
-		matcher.startMatching(Arrays.asList(modelA, modelB), scope);	
-
-		// Get Matching
-		// In SiLift we assume support of @see{MatchingModelCorrespondences}
-		MatchingModelCorrespondences mmc = (MatchingModelCorrespondences) matcher.getCorrespondencesService();
-		Matching matching = mmc.getMatching();	
-
-		if (!(matching.getCorrespondences().size() != 0)) {
-			throw new NoCorrespondencesException();
-		}
-
-		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		symmetricDiff.setMatching(matching);
-		
-
-		// Merge Imports
-		MergeImports importMerger = new MergeImports(symmetricDiff, scope, true);
-		importMerger.merge();
-
-		// Derive technical difference
-		tdBuilder.deriveTechDiff(symmetricDiff, scope);
-
-		// Unmerge Imports
-		importMerger.unmerge();
-
-		return symmetricDiff;
 	}
 
 	/**
