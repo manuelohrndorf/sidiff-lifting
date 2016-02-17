@@ -29,10 +29,10 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.configuration.IConfigurable;
-import org.sidiff.difference.settings.settings.MatchingSettings;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.MatcherUtil;
+import org.sidiff.matching.api.settings.MatchingSettings;
 
 public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

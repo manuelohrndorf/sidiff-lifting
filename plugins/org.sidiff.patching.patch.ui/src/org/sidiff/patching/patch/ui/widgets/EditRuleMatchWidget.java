@@ -11,7 +11,7 @@ import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 
 public class EditRuleMatchWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

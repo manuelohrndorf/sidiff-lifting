@@ -15,16 +15,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.pages.AdvancedCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.pages.BasicCompareSettingsPage;
-import org.sidiff.difference.lifting.ui.util.CorrespondenceDialog;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -121,7 +119,7 @@ public class CreateDifferenceWizard extends Wizard {
 		 * Serialize lifted symmetricDiff
 		 */
 
-		String fileName = LiftingFacade.generateDifferenceFileName(resourceA, resourceB, settings);
+		String fileName = PipelineUtils.generateDifferenceFileName(resourceA, resourceB, settings);
 		LiftingFacade.serializeDifference(symmetricDiff, diffSavePath, fileName);
 
 		/*
@@ -164,8 +162,6 @@ public class CreateDifferenceWizard extends Wizard {
 				settings.setValidate(false);
 				symmetricDiff = calculateDifference(resourceA, resourceB);
 			}
-		} catch (NoCorrespondencesException e) {
-			CorrespondenceDialog.openErrorDialog(Activator.PLUGIN_ID, e);			
 		}
 		
 		if (symmetricDiff != null) {

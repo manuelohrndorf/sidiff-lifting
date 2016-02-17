@@ -48,7 +48,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Node rrNode = iterator.next();
 			Set<EObject> diffObjects = recognitionRuleMatch.getNodeMapping().get(rrNode);
 
-			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getLiftingSettings().getRuleBases());
+			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getRuleBases());
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -58,7 +58,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getLiftingSettings().getRuleBases());			
+			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getRuleBases());			
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 

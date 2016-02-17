@@ -23,9 +23,9 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
+import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -122,7 +122,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		builders = new TreeMap<String, ITechnicalDifferenceBuilder>();
 
 		// Search registered matcher extension points
-		Set<ITechnicalDifferenceBuilder> builderSet = LiftingFacade
+		Set<ITechnicalDifferenceBuilder> builderSet = PipelineUtils
 				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentTypes());
 
 		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {
@@ -239,7 +239,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	public void settingsChanged(Enum<?> item) {
 	}
 
-	public DifferenceSettings getSettings() {
+	public LiftingSettings getSettings() {
 		return settings;
 	}
 

@@ -26,13 +26,13 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
@@ -54,8 +54,21 @@ public class RecognitionEngine {
 	/**
 	 * The Recognition-Engine setup.
 	 */
-	private LiftingSettings settings;
+	
+	private IRecognitionRuleSorter ruleSorter;
+	
+	private boolean useThreadPool;
 
+	private int numberOfThreads;
+	
+	private int rulesPerThread;
+	
+	private boolean calculateEditRuleMatch;
+	
+	private boolean serializeEditRuleMatch;
+	
+	private Set<IRuleBase> ruleBases;
+	
 	/**
 	 * Matching information:<br/>
 	 * semantic change set -> recognition rule match
@@ -96,28 +109,49 @@ public class RecognitionEngine {
 	/**
 	 * Initialize a new Recognition-Engine.
 	 * 
-	 * @param usedRulebases
-	 *            The list of Rulebases to use with the Recognition-Engine.
 	 * @param difference
 	 *            The difference to lift.
 	 * @param imports
 	 *            A set of model elements that are imported by model A/B. The
 	 *            list will be merged into the working graph.
-	 * @param settings
-	 *            The settings (scope, optimizations) of the Recognition-Engine.
+	 * @param scope
+	 * @param usedRulebases
+	 *            The list of Rulebases to use with the Recognition-Engine.
+	 * @param ruleSetReduction
+	 * @param buildGraphPerRule
+	 * @param ruleSorter
+	 * @param useThreadPool
+	 * @param numberOfThreads
+	 * @param rulesPerThread
+	 * @param calculateEditRuleMatch
+	 * @param serializeEditRuleMatch
 	 */
-	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, LiftingSettings settings) {
+	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, Scope scope, Set<IRuleBase> usedRulebases, boolean ruleSetReduction, boolean buildGraphPerRule, IRecognitionRuleSorter ruleSorter, boolean useThreadPool,
+			int numberOfThreads, int rulesPerThread, boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 
 		this.difference = difference;
-		this.settings = settings;
 
+		this.ruleSorter = ruleSorter;
+		
+		this.useThreadPool = useThreadPool;
+
+		this.numberOfThreads = numberOfThreads;
+		
+		this.rulesPerThread = rulesPerThread;
+		
+		this.calculateEditRuleMatch = calculateEditRuleMatch;
+		
+		this.serializeEditRuleMatch = serializeEditRuleMatch;;
+		
+		this.ruleBases = usedRulebases;
+		
 		// Create a graph factory:
-		this.graphFactory = new LiftingGraphFactory(difference, imports, settings.getScope(),
-				settings.isBuildGraphPerRule());
+		this.graphFactory = new LiftingGraphFactory(difference, imports, scope,
+				buildGraphPerRule);
 
 		// Get all recognition rules to be used:
 		recognitionRules = new HashSet<Rule>();
-		for (IRuleBase rb : settings.getRuleBases()) {
+		for (IRuleBase rb : usedRulebases) {
 			recognitionRules.addAll(rb.getActiveRecognitionTransformationUnits());
 		}
 
@@ -129,7 +163,7 @@ public class RecognitionEngine {
 		scs2erMatch = new HashMap<SemanticChangeSet, EngineBasedEditRuleMatch>();
 
 		// Optimize the Rulebase: Rule Set Reduction
-		if (settings.isRuleSetReduction()) {
+		if (ruleSetReduction) {
 			startTimer(RULE_SET_REDUCTION);
 			filterRecognitionRules();
 			stopTimer(RULE_SET_REDUCTION);
@@ -188,7 +222,6 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		IRecognitionRuleSorter ruleSorter = settings.getRrSorter();
 		ruleSorter.setDifferenceAnalysis(analysis);
 
 		for (Rule recognitionRule : this.recognitionRules) {
@@ -211,7 +244,7 @@ public class RecognitionEngine {
 		startTimer(EXECUTION);
 
 		// Start execution:
-		if (settings.isUseThreadPool()) {
+		if (useThreadPool) {
 			executeParallel();
 		} else {
 			executeSequential();
@@ -259,7 +292,7 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Create thread pool
-		ExecutorService executor = Executors.newFixedThreadPool(settings.getNumberOfThreads());
+		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
 		// List of units for each thread
 		Set<Rule> units = new HashSet<Rule>();
@@ -269,7 +302,7 @@ public class RecognitionEngine {
 
 			// Filter rules
 			if (!filtered.contains(transformationUnit)) {
-				if (units.size() == settings.getRulesPerThread()) {
+				if (units.size() == rulesPerThread) {
 					// Start new recognizer thread
 					RecognizerThread recognizerThread = new RecognizerThread(units, this);
 
@@ -381,7 +414,7 @@ public class RecognitionEngine {
 	 * @param scs
 	 */
 	public void removeMatches(SemanticChangeSet scs) {
-		if (settings.isCalculateEditRuleMatch()) {
+		if (calculateEditRuleMatch) {
 			scs2rrMatch.remove(scs);
 			scs2erMatch.remove(scs);
 	
@@ -396,7 +429,7 @@ public class RecognitionEngine {
 	 * @param recognitionruleApp
 	 */
 	private void addMatches(RuleApplication recognitionruleApp) {
-		if (settings.isCalculateEditRuleMatch()) {
+		if (calculateEditRuleMatch) {
 
 			SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
 
@@ -408,7 +441,7 @@ public class RecognitionEngine {
 			scs2erMatch.put(scs, erMatch);
 
 			// Add to difference (if EditRuleMatch serialization is required)
-			if (settings.isSerializeEditRuleMatch()) {
+			if (serializeEditRuleMatch) {
 				EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
 				scs.setEditRuleMatch(editRuleMatch);
 				
@@ -501,9 +534,8 @@ public class RecognitionEngine {
 
 		return editRule2SCS;
 	}
-	
-	public LiftingSettings getLiftingSettings() {
-		return settings;
-	}
 
+	public Set<IRuleBase> getRuleBases() {
+		return ruleBases;
+	}
 }

@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.patching.ui.wsupdate.wizard.WorkspaceUpdateWizard;
 
 public class WorkspaceUpdateHandler extends AbstractHandler {

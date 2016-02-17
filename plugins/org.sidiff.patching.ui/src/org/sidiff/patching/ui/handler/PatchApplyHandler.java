@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.wizard.ApplyPatchWizard;
 

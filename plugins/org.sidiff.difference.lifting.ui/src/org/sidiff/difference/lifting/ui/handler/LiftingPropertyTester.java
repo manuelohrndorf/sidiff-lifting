@@ -10,7 +10,7 @@ import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 

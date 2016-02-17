@@ -92,11 +92,6 @@ public class LiftingSettings extends DifferenceSettings {
 	private boolean detectSplitJoins = false;
 
 	/**
-	 * Validation of the input models. (Default: False)
-	 */
-	private boolean validate = false;
-
-	/**
 	 * Setup the lifting settings.
 	 */
 	public LiftingSettings() {

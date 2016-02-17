@@ -4,8 +4,8 @@ import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -58,11 +58,12 @@ public class PatchingSettings extends DifferenceSettings {
 		super();
 	}
 
-	public PatchingSettings(Scope scope, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
+	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
 			IArgumentManager argumentManager, IPatchInterruptHandler interruptHandler,
 			ITransformationEngine transformationEngine, IModifiedDetector modifiedDetector, ExecutionMode executionMode,
 			PatchMode patchMode, int minReliability, ValidationMode validationMode) {
-		super(scope, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
+		
+		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
 		this.argumentManager = argumentManager;
 		this.interruptHandler = interruptHandler;
 		this.transformationEngine = transformationEngine;

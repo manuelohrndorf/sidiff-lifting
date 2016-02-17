@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
+import org.sidiff.difference.lifting.api.LiftingFacade;
 
 public class WSUModels {
 	private IFile fileMine;

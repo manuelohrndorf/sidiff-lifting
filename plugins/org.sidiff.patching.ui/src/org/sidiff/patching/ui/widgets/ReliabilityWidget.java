@@ -14,13 +14,11 @@ import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
-import org.sidiff.difference.lifting.settings.SettingsItem;
-import org.sidiff.difference.settings.settings.MatchingSettings;
-import org.sidiff.difference.settings.settings.MatchingSettingsItem;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
+import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.ReliabilityCapableMatcher;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -192,7 +190,7 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if (item.equals(MatchingSettingsItem.MATCHER)
-				|| item.equals(SettingsItem.SYMBOLIC_LINK_HANDLER)) {
+				|| item.equals(DifferenceSettingsItem.SYMBOLIC_LINK_HANDLER)) {
 			checkComputability();
 		}
 	}

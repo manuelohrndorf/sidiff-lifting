@@ -1,4 +1,4 @@
-package org.sidiff.difference.asymmetric.facade.util;
+package org.sidiff.difference.asymmetric.api.util;
 
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;

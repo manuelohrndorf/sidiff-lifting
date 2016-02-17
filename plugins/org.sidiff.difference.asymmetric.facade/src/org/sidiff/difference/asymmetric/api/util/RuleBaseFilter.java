@@ -1,4 +1,4 @@
-package org.sidiff.difference.asymmetric.facade.util;
+package org.sidiff.difference.asymmetric.api.util;
 
 import java.util.ArrayList;
 import java.util.Set;

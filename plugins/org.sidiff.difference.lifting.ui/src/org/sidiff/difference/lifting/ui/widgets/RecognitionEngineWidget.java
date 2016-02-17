@@ -16,9 +16,9 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.settings.SettingsItem;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 
 public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -181,7 +181,7 @@ public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidg
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(SettingsItem.RULEBASES)){
+		if(item.equals(LiftingSettingsItem.RULEBASES)){
 			if(settings.getRuleBases().isEmpty()){
 				this.list_recEngines.select(0);
 				this.list_recEngines.setEnabled(false);

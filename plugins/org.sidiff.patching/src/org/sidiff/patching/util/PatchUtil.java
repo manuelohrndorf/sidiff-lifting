@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.exceptions.FileAlreadyExistsException;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 
 public class PatchUtil {
 

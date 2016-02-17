@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
-import org.sidiff.difference.settings.settings.MatchingSettings;
+import org.sidiff.matching.api.settings.MatchingSettings;
 
 public class CreateDifferenceWizard extends Wizard{
 

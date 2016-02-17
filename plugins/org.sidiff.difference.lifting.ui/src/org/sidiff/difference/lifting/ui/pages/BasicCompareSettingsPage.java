@@ -2,7 +2,7 @@ package org.sidiff.difference.lifting.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;

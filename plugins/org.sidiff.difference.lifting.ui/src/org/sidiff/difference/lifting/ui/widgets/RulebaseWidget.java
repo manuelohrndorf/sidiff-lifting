@@ -32,11 +32,10 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.settings.LiftingSettingsItem;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
@@ -231,7 +230,7 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 	private void getRulebasesEntries() {
 		// Search registered rulebase extension points
-		Set<IRuleBase> rulebaseInstances = LiftingFacade.getAvailableRulebases(
+		Set<IRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(
 				inputModels.getDocumentTypes());
 
 		// Create rulebase list for table viewer

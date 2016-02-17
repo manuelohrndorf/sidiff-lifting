@@ -16,8 +16,8 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.settings.settings.MatchingSettings;
-import org.sidiff.difference.settings.settings.MatchingSettingsItem;
+import org.sidiff.matching.api.settings.MatchingSettings;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
 public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	

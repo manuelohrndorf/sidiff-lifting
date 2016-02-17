@@ -17,15 +17,15 @@ import org.eclipse.swt.widgets.Label;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.DifferenceSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.util.InputModels;
+import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 
 public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	
-	private DifferenceSettings settings;
+	private LiftingSettings settings;
 	private InputModels inputModels;
 
 	private Composite container;
@@ -253,7 +253,7 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 		return settings;
 	}
 
-	public void setSettings(DifferenceSettings settings) {
+	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 	}

@@ -25,8 +25,6 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.configuration.IConfigurable;
-import org.sidiff.difference.settings.settings.MatchingSettings;
-import org.sidiff.difference.settings.settings.MatchingSettingsItem;
 import org.sidiff.difference.ui.widgets.table.ConfigurableTableEntryProvider;
 import org.sidiff.difference.ui.widgets.table.ConfigurationCapeableTableEntryProvider;
 import org.sidiff.difference.ui.widgets.table.DynamicTableEntryProviders;
@@ -34,6 +32,8 @@ import org.sidiff.difference.ui.widgets.table.PropertyTableWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.similarity.flooding.SimilarityFloodingMatcher;
+import org.sidiff.matching.api.settings.MatchingSettings;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
 public class CreateDifferencePage extends WizardPage implements IPageChangedListener {
 

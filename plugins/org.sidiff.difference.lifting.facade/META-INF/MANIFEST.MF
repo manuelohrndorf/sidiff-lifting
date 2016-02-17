@@ -1,26 +1,27 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Lifting Facade
-Bundle-SymbolicName: org.sidiff.difference.lifting.facade
+Bundle-SymbolicName: org.sidiff.difference.lifting.api
 Bundle-Version: 0.1.0.qualifier
-Require-Bundle: org.sidiff.common;bundle-version="1.0.0",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
+ org.sidiff.common;bundle-version="1.0.0",
  org.sidiff.common.emf;bundle-version="1.0.0";visibility:=reexport,
- org.sidiff.difference.lifting.settings;bundle-version="0.1.0";visibility:=reexport,
  org.sidiff.difference.symmetric;visibility:=reexport,
- org.sidiff.matcher,
- org.sidiff.difference.technical,
  org.sidiff.difference.rulebase,
  org.sidiff.difference.lifting.recognitionengine,
  org.sidiff.difference.lifting.postprocessing,
- org.sidiff.difference.symmetric.edit,
- org.eclipse.core.runtime;bundle-version="3.9.0",
  org.sidiff.difference.lifting.recognitionrulesorter,
- org.sidiff.correspondences;bundle-version="1.0.0",
- org.sidiff.correspondences.matchingmodel;bundle-version="1.0.0",
- org.sidiff.matching.model.edit,
- org.sidiff.difference.settings;bundle-version="1.0.0"
+ org.sidiff.difference.technical.api,
+ org.sidiff.common.settings;bundle-version="1.0.0",
+ org.sidiff.matching.api;bundle-version="1.0.0",
+ org.sidiff.matcher,
+ org.sidiff.candidates,
+ org.sidiff.correspondences,
+ org.sidiff.difference.technical,
+ org.sidiff.symboliclink.handler,
+ org.sidiff.difference.symmetric.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.sidiff.difference.lifting.facade,
- org.sidiff.difference.lifting.facade.util
+Export-Package: org.sidiff.difference.lifting.api,
+ org.sidiff.difference.lifting.api.settings,
+ org.sidiff.difference.lifting.api.util
 Bundle-Vendor: Software Engineering Group
-Import-Package: org.sidiff.difference.lifting.settings

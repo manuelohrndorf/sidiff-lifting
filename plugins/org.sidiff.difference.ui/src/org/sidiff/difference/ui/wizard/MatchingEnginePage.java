@@ -16,9 +16,9 @@ import org.sidiff.common.settings.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.difference.settings.settings.MatchingSettings;
 import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.ui.widgets.ScopeWidget;
+import org.sidiff.matching.api.settings.MatchingSettings;
 
 public class MatchingEnginePage extends WizardPage {
 

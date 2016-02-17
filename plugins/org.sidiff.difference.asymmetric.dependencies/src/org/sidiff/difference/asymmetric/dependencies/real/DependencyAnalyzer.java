@@ -72,12 +72,12 @@ public class DependencyAnalyzer {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Initialize RuleBase cross-over potential dependency analyzer
-		if (recognitionEngine.getLiftingSettings().getRuleBases().size() > 1) {
+		if (recognitionEngine.getRuleBases().size() > 1) {
 			
 			
 			
 			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(
-					recognitionEngine.getLiftingSettings().getRuleBases());
+					recognitionEngine.getRuleBases());
 		}
 
 		// Map edit rule types to occurring SCS.
@@ -194,7 +194,7 @@ public class DependencyAnalyzer {
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
 		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
-		for (IRuleBase rb : recognitionEngine.getLiftingSettings().getRuleBases()) {
+		for (IRuleBase rb : recognitionEngine.getRuleBases()) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
 

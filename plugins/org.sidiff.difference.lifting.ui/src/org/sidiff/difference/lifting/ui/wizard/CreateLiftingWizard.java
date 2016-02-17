@@ -15,9 +15,9 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 
@@ -35,7 +35,7 @@ public class CreateLiftingWizard extends Wizard{
 		this.setWindowTitle("Difference Lift Up Wizard");
 
 		this.differenceFile = differenceFile;
-		symmetricDiff = LiftingFacade.loadDifference(differenceFile.getLocation().toOSString());
+		symmetricDiff = LiftingFacade.loadSymmetricDifference(differenceFile.getLocation().toOSString());
 		diffSavePath = differenceFile.getParent().getLocation().toOSString() ;
 
 		inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
@@ -82,7 +82,7 @@ public class CreateLiftingWizard extends Wizard{
 		 */
 
 		LiftingFacade.serializeDifference(symmetricDiff, diffSavePath,
-		LiftingFacade.generateDifferenceFileName(symmetricDiff.eResource(), settings));
+		PipelineUtils.generateDifferenceFileName(symmetricDiff.eResource(), settings));
 
 		/*
 		 * Update workspace UI

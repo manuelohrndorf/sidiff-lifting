@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.patching.util.PatchUtil;
 
 public class PatchEditorLauncher implements IEditorLauncher {

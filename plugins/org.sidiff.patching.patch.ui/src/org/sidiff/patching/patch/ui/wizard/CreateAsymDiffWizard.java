@@ -25,12 +25,12 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.LiftingFacade;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.util.Difference;
+import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.patch.ui.Activator;
@@ -117,9 +117,9 @@ public class CreateAsymDiffWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Difference -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			Difference difference = AsymmetricDiffFacade.liftMeUp(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			Difference difference = AsymmetricDiffFacade.deriveAsymDiff(inputModels.getResourceA(), inputModels.getResourceB(), settings);
 			final String savePath = inputModels.getFileA().getLocation().toOSString().replace(inputModels.getFileA().getLocation().lastSegment(), "");
-			final String fileName = LiftingFacade.generateDifferenceFileName(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			final String fileName = PipelineUtils.generateDifferenceFileName(inputModels.getResourceA(), inputModels.getResourceB(), settings);
 			
 			
 			
@@ -162,15 +162,15 @@ public class CreateAsymDiffWizard extends Wizard {
 			return false;
 		}
 		
-		catch (NoCorrespondencesException e) {
-			e.printStackTrace();
-
-			MessageDialog dialog = new MessageDialog(getShell(),
-					"Error", null, "No Correspondences found!", MessageDialog.ERROR,
-					new String[] { "OK" }, 0);
-			dialog.open();
-			return false;
-		}
+//		catch (NoCorrespondencesException e) {
+//			e.printStackTrace();
+//
+//			MessageDialog dialog = new MessageDialog(getShell(),
+//					"Error", null, "No Correspondences found!", MessageDialog.ERROR,
+//					new String[] { "OK" }, 0);
+//			dialog.open();
+//			return false;
+//		}
 		
 		
 		return true;
@@ -180,8 +180,8 @@ public class CreateAsymDiffWizard extends Wizard {
 		Difference fullDiff = null;
 		
 		try{
-			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-		} catch(InvalidModelException | NoCorrespondencesException e){
+			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB, settings);
+		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			

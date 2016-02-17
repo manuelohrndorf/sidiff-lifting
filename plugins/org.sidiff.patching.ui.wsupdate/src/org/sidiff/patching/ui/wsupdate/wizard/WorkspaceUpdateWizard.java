@@ -28,15 +28,14 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.util.Difference;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
@@ -404,7 +403,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 				.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 
 		try {
-			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB,
+			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB,
 					liftingSettings);
 		} catch (InvalidModelException e) {
 			ValidateDialog validateDialog = new ValidateDialog();
@@ -417,8 +416,6 @@ public class WorkspaceUpdateWizard extends Wizard {
 						.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
-		} catch (NoCorrespondencesException e) {
-			e.printStackTrace();
 		}
 
 		if (fullDiff != null) {

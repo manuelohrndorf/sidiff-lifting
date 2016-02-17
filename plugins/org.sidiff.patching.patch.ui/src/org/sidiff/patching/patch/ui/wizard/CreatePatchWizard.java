@@ -24,11 +24,11 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.asymmetric.facade.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.lifting.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.util.Difference;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.patching.patch.patch.PatchCreator;
@@ -155,8 +155,8 @@ public class CreatePatchWizard extends Wizard {
 		Difference fullDiff = null;
 		
 		try{
-			fullDiff = AsymmetricDiffFacade.liftMeUp(resourceA, resourceB, settings);
-		} catch(InvalidModelException | NoCorrespondencesException e){
+			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB, settings);
+		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			
