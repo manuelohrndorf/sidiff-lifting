@@ -8,7 +8,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
-import org.sidiff.common.settings.settings.ISettingsChangedListener;
+import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.ui.widgets.table.AbstractTableEntryProvider;

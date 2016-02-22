@@ -1,7 +1,7 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
 import org.eclipse.core.resources.IContainer;
-import org.sidiff.common.settings.settings.ISettingsChangedListener;
+import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

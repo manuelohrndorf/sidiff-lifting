@@ -3,21 +3,12 @@ package org.sidiff.difference.lifting.api.settings;
 import java.util.Set;
 
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 
 /**
  * Enumerations which are associated with a differencing setting.
  */
 public enum LiftingSettingsItem {
-	/**
-	 * {@link Settings#setSymbolicLinkHandler(ISymbolicLinkHandler)}
-	 */
-	SYMBOLIC_LINK_HANDLER,
 	
-	/**
-	 * {@link Settings#setTechBuilder(ITechnicalDifferenceBuilder)}
-	 */
-	TECH_BUILDER,
 	
 	/**
 	 * {@link LiftingSettings#setRrSorter(IRecognitionRuleSorter)}

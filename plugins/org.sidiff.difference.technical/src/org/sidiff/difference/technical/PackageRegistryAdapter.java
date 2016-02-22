@@ -292,6 +292,14 @@ public class PackageRegistryAdapter {
 				}
 				// Relink original to corresponding copy
 				extRef.getSourceObject().eSet(extRef.getEReference(), copy);
+				for(Change change : difference.getChanges()){
+					if(change instanceof AddReference){
+						AddReference addReference = (AddReference)change;
+						if(addReference.getSrc().equals(extRef.getSourceObject()) && addReference.getTgt().equals(original)){
+							addReference.setTgt(copy);
+						}
+					}
+				}
 			}
 		}
 	}

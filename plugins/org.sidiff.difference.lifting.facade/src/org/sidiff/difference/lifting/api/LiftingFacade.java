@@ -4,6 +4,11 @@ import java.text.DecimalFormat;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -49,9 +54,10 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	public static SymmetricDifference liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings) {
 		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
-		EcoreUtil.resolveAll(symmetricDifference.getModelA());
-		EcoreUtil.resolveAll(symmetricDifference.getModelB());
 		
+		// get console
+		MessageConsoleStream mcStream = console.newMessageStream();
+		mcStream.println(settings.toString());
 		
 		if(importMerger == null){
 			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
@@ -157,7 +163,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------- FINISHED -------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
+		
 		int scsCount = symmetricDiff.getChangeSets().size();
 		int totalAtomicCount = symmetricDiff.getChanges().size();
 		int uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
