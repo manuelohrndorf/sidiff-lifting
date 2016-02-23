@@ -91,7 +91,7 @@ public abstract class DifferenceSettings extends MatchingSettings{
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuffer result = new StringBuffer();
 		result.append("Merge Imports: " + isEnabled_MergeImports() + "\n");
 		result.append(techBuilder != null ? "Technical-Difference-Builder: " + techBuilder.getName() + "\n" : "");
 		result.append("Use symbolic links: " + useSymbolicLinks() + "\n");

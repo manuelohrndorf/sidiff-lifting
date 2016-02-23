@@ -37,7 +37,12 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	
 	protected static RecognitionEngine recognitionEngine;
 
-
+	private static DecimalFormat f = new DecimalFormat("#0.0");
+	private static int scsCount = 0;
+	private static int totalAtomicCount = 0;
+	private static int uncoveredCount = 0;
+	private static int coveredCount = 0;
+	private static int correspondenceCount = 0;
 	
 	/**
 	 * Lifts a technical difference.
@@ -55,9 +60,8 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
-		// get console
 		MessageConsoleStream mcStream = console.newMessageStream();
-		mcStream.println(settings.toString());
+		mcStream.println("########## Lifting Engine ##########");
 		
 		if(importMerger == null){
 			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
@@ -66,17 +70,38 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		
 		if(settings.isEnabled_MergeImports()){
 			// Merge Imports
+			mcStream.println("------------------------------");
+			mcStream.print("Merge imports");
+			mcStream.println("------------------------------");
+			status(true);
 			importMerger.merge();
+			status(false);
+			mcStream.println("[finished]");
+			mcStream.println("------------------------------");			
 		}
 
 		// Start recognition engine
+		mcStream.println("------------------------------");
+		mcStream.print("Recognize change sets");
+		mcStream.println("------------------------------");
+		status(true);
 		recognitionEngine = new RecognitionEngine(symmetricDifference, importMerger.getImports(), settings.getScope(), settings.getRuleBases(), settings.isRuleSetReduction(), settings.isBuildGraphPerRule(), settings.getRrSorter(), settings.isUseThreadPool(), settings.getNumberOfThreads(), settings.getRulesPerThread(), settings.isCalculateEditRuleMatch(), settings.isSerializeEditRuleMatch());
 		recognitionEngine.execute();
+		status(false);
+		mcStream.println("[finished]");
+		mcStream.println("------------------------------");
 
 		// Postprocess
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
+			mcStream.println("------------------------------");
+			mcStream.print("Post processing");
+			mcStream.println("------------------------------");
+			status(true);
 			PostProcessor postProcessor = new PostProcessor(recognitionEngine);
 			postProcessor.postProcess();
+			status(false);
+			mcStream.println("[finished]");
+			mcStream.println("------------------------------");			
 		}
 		// Aggregate deleted subtrees
 		// TODO: How to deal with deleted subtrees..?
@@ -85,7 +110,14 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		// SubtreeAggregator.DELETE);
 		if(settings.isEnabled_MergeImports()){
 			// Unmerge Imports
+			mcStream.println("------------------------------");
+			mcStream.print("Unmerge imports");
+			mcStream.println("------------------------------");
+			status(true);
 			importMerger.unmerge();
+			status(false);
+			mcStream.println("[finished]");
+			mcStream.println("------------------------------");	
 		}
 
 		report(symmetricDifference);
@@ -103,6 +135,13 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		// }
 		// }
 
+		mcStream.println("Total semantic changes sets (|SCS|): " + scsCount);
+		mcStream.println("Total atomic changes (|D|): " + totalAtomicCount);
+		mcStream.println("Finally uncovered atomic changes: " + uncoveredCount);
+		mcStream.println("Finally covered atomic changes: " + coveredCount);
+		mcStream.println("Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
+		mcStream.println("Correspondences: " + correspondenceCount);
+		
 		return symmetricDifference;
 	}
 	
@@ -164,13 +203,13 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		LogUtil.log(LogEvent.NOTICE, "------------------------- FINISHED -------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		
-		int scsCount = symmetricDiff.getChangeSets().size();
-		int totalAtomicCount = symmetricDiff.getChanges().size();
-		int uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
-		int coveredCount = totalAtomicCount - uncoveredCount;
-		int correspondenceCount = symmetricDiff.getMatching().getCorrespondences().size();
+		scsCount = symmetricDiff.getChangeSets().size();
+		totalAtomicCount = symmetricDiff.getChanges().size();
+		uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
+		coveredCount = totalAtomicCount - uncoveredCount;
+		correspondenceCount = symmetricDiff.getMatching().getCorrespondences().size();
 
-		DecimalFormat f = new DecimalFormat("#0.0");
+		f = new DecimalFormat("#0.0");
 
 		LogUtil.log(LogEvent.NOTICE, "Total semantic changes sets (|SCS|): " + scsCount);
 		LogUtil.log(LogEvent.NOTICE, "Total atomic changes (|D|): " + totalAtomicCount);
