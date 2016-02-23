@@ -80,12 +80,12 @@ public class LiftingSettings extends DifferenceSettings {
 	/**
 	 * Whether to calculate the EditRuleMatch or not.
 	 */
-	private boolean calculateEditRuleMatch = false;
+	private boolean calculateEditRuleMatch = true;
 	
 	/**
 	 * Whether to serialize the EditRuleMatch or not.
 	 */
-	private boolean serializeEditRuleMatch = false;
+	private boolean serializeEditRuleMatch = true;
 	
 	/**
 	 * Whether to detect Split/Joins or not
