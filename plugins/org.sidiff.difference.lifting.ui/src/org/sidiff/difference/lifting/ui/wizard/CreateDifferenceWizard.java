@@ -153,7 +153,7 @@ public class CreateDifferenceWizard extends Wizard {
 		SymmetricDifference symmetricDiff = null;
 		
 		try{
-			LogUtil.setLogChannel("EclipseConsoleLogChannel");
+//			LogUtil.setLogChannel("EclipseConsoleLogChannel");
 			symmetricDiff = LiftingFacade.liftMeUp(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
