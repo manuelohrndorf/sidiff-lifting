@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
+    nsURI="http://www.sidiff.org/org.sidiff.javaast.model" nsPrefix="JavaModel">
+  <eAnnotations source="Genuine-SiDiff-Model"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JProject" eSuperTypes="#//JIdentifiableElement #//JNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" ordered="false"
+        upperBound="-1" eType="#//JPackage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simpleTypes" ordered="false"
+        upperBound="-1" eType="#//JType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JNamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JIdentifiableElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""
+        iD="true">
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compileable" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JPackage" eSuperTypes="#//JIdentifiableElement #//JNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subPackages" ordered="false"
+        upperBound="-1" eType="#//JPackage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classes" ordered="false"
+        upperBound="-1" eType="#//JClass" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" ordered="false"
+        upperBound="-1" eType="#//JInterface" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JClass" eSuperTypes="#//JClassifier #//JIdentifiableElement #//JDocumentableElement #//JTemplate #//JType #//JVisibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" ordered="false"
+        upperBound="-1" eType="#//JField" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAbstract" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" ordered="false"
+        upperBound="-1" eType="#//JMethod" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superClass" ordered="false"
+        lowerBound="1" eType="#//JClass" eOpposite="#//JClass/subClasses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subClasses" ordered="false"
+        upperBound="-1" eType="#//JClass" eOpposite="#//JClass/superClass">
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedInterfaces"
+        ordered="false" upperBound="-1" eType="#//JInterface" eOpposite="#//JInterface/implementingClasses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="staticInitializationBlock"
+        ordered="false" eType="#//JCodeBlock" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JVisibleElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibilityKind" ordered="false"
+        lowerBound="1" eType="#//JVisibilityKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JVisibilityKind">
+    <eLiterals name="public"/>
+    <eLiterals name="private" value="1"/>
+    <eLiterals name="protected" value="2"/>
+    <eLiterals name="package" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JType" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isExternal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JTemplate" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genericTypes" upperBound="-1"
+        eType="#//JGenericType" containment="true">
+      <eAnnotations source="AbsolutePosition"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JGenericType" eSuperTypes="#//JIdentifiableElement #//JNamedElement #//JType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JDocumentableElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="javaDoc" ordered="false"
+        eType="#//JavaDoc" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JavaDoc" eSuperTypes="#//JIdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JClassifier" abstract="true" eSuperTypes="#//JNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="innerClassifiers" ordered="false"
+        upperBound="-1" eType="#//JClassifier" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JField" eSuperTypes="#//JIdentifiableElement #//JDocumentableElement #//JNamedElement #//JTypedElement #//JVisibleElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStatic" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessedBy" ordered="false"
+        upperBound="-1" eType="#//JMethod" eOpposite="#//JMethod/accesses">
+      <eAnnotations source="INCOMING"/>
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTransient" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialization" ordered="false"
+        eType="#//JCodeBlock" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JTypedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" lowerBound="1"
+        eType="#//JType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JMethod" eSuperTypes="#//JIdentifiableElement #//JDocumentableElement #//JNamedElement #//JTemplate #//JTypedElement #//JVisibleElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAbstract" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStatic" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isConstructor" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSynchronized" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" ordered="false"
+        upperBound="-1" eType="#//JParameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calls" ordered="false"
+        upperBound="-1" eType="#//JMethod" eOpposite="#//JMethod/calledBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calledBy" ordered="false"
+        upperBound="-1" eType="#//JMethod" eOpposite="#//JMethod/calls">
+      <eAnnotations source="INCOMING"/>
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="raisedException" ordered="false"
+        eType="#//JClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false" lowerBound="1"
+        eType="#//JCodeBlock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accesses" ordered="false"
+        upperBound="-1" eType="#//JField" eOpposite="#//JField/accessedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JParameter" eSuperTypes="#//JIdentifiableElement #//JNamedElement #//JTypedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isFinal" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JCodeBlock" eSuperTypes="#//JAdressableFragment #//JIdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codeFragments" ordered="false"
+        upperBound="-1" eType="#//JCodeFragment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subBlocks" ordered="false"
+        upperBound="-1" eType="#//JCodeBlock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definedVariables" ordered="false"
+        upperBound="-1" eType="#//JLocalVariable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JAdressableFragment" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startByte" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="byteLength" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JCodeFragment" eSuperTypes="#//JAdressableFragment #//JIdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedTypes" ordered="false"
+        upperBound="-1" eType="#//JType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="calledMethods" ordered="false"
+        upperBound="-1" eType="#//JMethod"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="code" ordered="false" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedFields" ordered="false"
+        upperBound="-1" eType="#//JField"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedParameters" ordered="false"
+        upperBound="-1" eType="#//JParameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedLocalVariables" ordered="false"
+        upperBound="-1" eType="#//JLocalVariable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JLocalVariable" eSuperTypes="#//JIdentifiableElement #//JNamedElement #//JTypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JInterface" eSuperTypes="#//JClassifier #//JIdentifiableElement #//JDocumentableElement #//JTemplate #//JType #//JVisibleElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constants" ordered="false"
+        upperBound="-1" eType="#//JConstant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methodSignatures" ordered="false"
+        upperBound="-1" eType="#//JMethod" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="superInterfaces" ordered="false"
+        upperBound="-1" eType="#//JInterface" eOpposite="#//JInterface/subInterfaces"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subInterfaces" ordered="false"
+        upperBound="-1" eType="#//JInterface" eOpposite="#//JInterface/superInterfaces">
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementingClasses" ordered="false"
+        upperBound="-1" eType="#//JClass" eOpposite="#//JClass/implementedInterfaces">
+      <eAnnotations source="IGNOREDIFF"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JConstant" eSuperTypes="#//JField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JArrayType" eSuperTypes="#//JClass #//JTypedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrayDimensions" ordered="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JSimpleType" eSuperTypes="#//JIdentifiableElement #//JType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false" lowerBound="1"
+        eType="#//JSimpleTypeKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JSimpleTypeKind">
+    <eLiterals name="byte"/>
+    <eLiterals name="short" value="1"/>
+    <eLiterals name="char" value="2"/>
+    <eLiterals name="int" value="3"/>
+    <eLiterals name="long" value="4"/>
+    <eLiterals name="float" value="5"/>
+    <eLiterals name="double" value="6"/>
+    <eLiterals name="boolean" value="7"/>
+    <eLiterals name="void" value="8"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JTemplateWrapper" eSuperTypes="#//JIdentifiableElement #//JNamedElement #//JType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" ordered="false"
+        upperBound="-1" eType="#//JTemplateBinding" containment="true">
+      <eAnnotations source="AbsolutePosition"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JTemplateBinding" eSuperTypes="#//JIdentifiableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" lowerBound="1"
+        eType="#//JType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genericType" ordered="false"
+        lowerBound="1" eType="#//JGenericType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JStructuralCodeFragment" eSuperTypes="#//JCodeFragment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fragmentType" ordered="false"
+        lowerBound="1" eType="#//StructuralFragmentType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="codeBlocks" ordered="false"
+        upperBound="-1" eType="#//JCodeBlock" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="StructuralFragmentType">
+    <eLiterals name="if"/>
+    <eLiterals name="for" value="1"/>
+    <eLiterals name="foreach" value="2"/>
+    <eLiterals name="while" value="3"/>
+    <eLiterals name="do" value="4"/>
+    <eLiterals name="switch" value="5"/>
+    <eLiterals name="case" value="6"/>
+    <eLiterals name="finally" value="7"/>
+    <eLiterals name="try" value="8"/>
+    <eLiterals name="catch" value="9"/>
+    <eLiterals name="synchronized" value="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JEnumeration" eSuperTypes="#//JClass">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" ordered="false"
+        upperBound="-1" eType="#//JEnumerationLiteral" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JEnumerationLiteral" eSuperTypes="#//JIdentifiableElement #//JNamedElement"/>
+</ecore:EPackage>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.difference.model/gensrc"
+    modelPluginID="org.sidiff.difference.model" modelName="DifferenceModel" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>DifferenceModel.ecore</foreignModel>
+  <genPackages prefix="Differencemodel" disposableProviderFactory="true" ecorePackage="DifferenceModel.ecore#/">
+    <genClasses ecoreClass="DifferenceModel.ecore#//Difference">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//Difference/changes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//Difference/changeSets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//Difference/correspondences"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute DifferenceModel.ecore#//Difference/modelA"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute DifferenceModel.ecore#//Difference/modelB"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//AddObject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AddObject/obj"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//RemoveObject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//RemoveObject/obj"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//AddReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AddReference/src"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AddReference/tgt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AddReference/type"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//RemoveReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//RemoveReference/src"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//RemoveReference/tgt"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//RemoveReference/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="DifferenceModel.ecore#//Change"/>
+    <genClasses ecoreClass="DifferenceModel.ecore#//SemanticChangeSet">
+      <genFeatures notify="false" children="true" createChild="false" propertySortChoices="true"
+          ecoreFeature="ecore:EReference DifferenceModel.ecore#//SemanticChangeSet/changes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DifferenceModel.ecore#//SemanticChangeSet/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DifferenceModel.ecore#//SemanticChangeSet/priority"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DifferenceModel.ecore#//SemanticChangeSet/refinementLevel"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//Correspondence">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//Correspondence/objA"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//Correspondence/objB"/>
+    </genClasses>
+    <genClasses ecoreClass="DifferenceModel.ecore#//AttributeValueChange">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AttributeValueChange/objA"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AttributeValueChange/objB"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DifferenceModel.ecore#//AttributeValueChange/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

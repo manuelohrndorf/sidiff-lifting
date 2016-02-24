@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="differencemodel"
+    nsURI="http://differencemodel/1.0" nsPrefix="differencemodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Difference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changes" upperBound="-1"
+        eType="#//Change" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changeSets" upperBound="-1"
+        eType="#//SemanticChangeSet" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="correspondences" upperBound="-1"
+        eType="#//Correspondence" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//Dependency" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AddObject" eSuperTypes="#//Change">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obj" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RemoveObject" eSuperTypes="#//Change">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="obj" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AddReference" eSuperTypes="#//Change">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tgt" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RemoveReference" eSuperTypes="#//Change">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="src" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tgt" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Change" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SemanticChangeSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changes" upperBound="-1"
+        eType="#//Change"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refinementLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editRName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterSubstitutions"
+        upperBound="-1" eType="#//ParameterSubstitution" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recognitionRName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//Dependency" eOpposite="#//Dependency/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//Dependency" eOpposite="#//Dependency/target"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Correspondence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeValueChange" eSuperTypes="#//Change">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAttribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterSubstitution" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="formal" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectParameterSubstitution" eSuperTypes="#//ParameterSubstitution">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualA" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actualB" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueParameterSubstitution" eSuperTypes="#//ParameterSubstitution">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actual" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EJavaObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//DependencyKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//SemanticChangeSet" eOpposite="#//SemanticChangeSet/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//SemanticChangeSet" eOpposite="#//SemanticChangeSet/incoming"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DependencyKind">
+    <eLiterals name="UseDelete" value="0"/>
+    <eLiterals name="CreateUse" value="1"/>
+    <eLiterals name="DeleteForbid" value="2"/>
+    <eLiterals name="ForbidCreate" value="3"/>
+    <eLiterals name="ChangeUse" value="4"/>
+    <eLiterals name="UseChange" value="5"/>
+  </eClassifiers>
+</ecore:EPackage>

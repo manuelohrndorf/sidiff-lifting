@@ -1,0 +1,23 @@
+<project name="Transform model into code" default="generation" basedir=".">
+
+	<!-- Project name -->
+	<property name="projectName" value="org.sidiff.javaast.model" />
+
+	<!-- Model file without extension including relative path from project root -->
+	<property name="modelName" value="model/JavaModel" />
+
+	<!-- Target folder for code generation -->
+	<property name="codePath" value="gensrc/org/sidiff/javaast/"/>
+	
+	<!-- Optional, project specific xslt (might be "none") -->
+	<property name="localXslt" value="prepareEcore.xslt"/>
+	
+	<!-- Optional, project specific ant-file (might be "none") -->
+	<property name="localAnt" value="none"/>
+	
+	<target name="generation">
+		<!-- call code generation -->
+		<ant antfile="../SiDiffInternalTools/RSMTransformationen/code_generation.xml"/>
+	</target>
+
+</project>

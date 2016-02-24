@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE Preprocessing SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/core.annotations.dtd" >-->
+<Preprocessing>
+  <GlobalSettings 
+      operationPrefix="org.sidiff.core.annotators.metrics"
+      documentType="http://www.sidiff.org/org.sidiff.javaast.model"/>
+  <Annotations>
+    <Annotation nodeType="JProject,JPackage,JClass,JMethod">
+      <Postorder>
+        <SyntheticAttribute attributeName="LOC" description="Lines of code" operation="org.sidiff.javaast.model.metrics.LinesOfCodeCalculator" parameter=""/>
+      </Postorder>
+    </Annotation>
+    <Annotation nodeType="JProject">
+      <Preorder>
+        <SyntheticAttribute attributeName="TNOC" description="Total number of classes" operation="CountSubtreeNodesByType" parameter="JClass"/>
+        <SyntheticAttribute attributeName="TNOIF" description="Total number of interfaces" operation="CountSubtreeNodesByType" parameter="JInterface"/>
+        <SyntheticAttribute attributeName="NOP" description="Number of packages" operation="CountChildNodesTypes" parameter="JPackage"/>
+		<SyntheticAttribute attributeName="TNOP" description="Total number of packages" operation="CountSubtreeNodesByType" parameter="JPackage"/>      
+      </Preorder>
+    </Annotation>
+    <Annotation nodeType="JPackage">
+      <Preorder>
+        <SyntheticAttribute attributeName="NOC" description="Number of classes" operation="CountChildNodesTypes" parameter="JClass"/>
+        <SyntheticAttribute attributeName="NoClassesPUB" description="Number of classes with visibility public" operation="CountChildNodesByValue" parameter="JClass,visibilityKind,public"/>
+        <SyntheticAttribute attributeName="NoClassesPRO" description="Number of classes with visibility protected" operation="CountChildNodesByValue" parameter="JClass,visibilityKind,protected"/>
+        <SyntheticAttribute attributeName="NoClassesPAC" description="Number of classes with visibility package" operation="CountChildNodesByValue" parameter="JClass,visibilityKind,package"/>
+        <SyntheticAttribute attributeName="NoClassesPRI" description="Number of classes with visibility private" operation="CountChildNodesByValue" parameter="JClass,visibilityKind,private"/>
+        
+        <SyntheticAttribute attributeName="TNOC" description="Total number of classes" operation="CountSubtreeNodesByType" parameter="JClass"/>
+        <SyntheticAttribute attributeName="TNoClassesPUB" description="Total number of classes with visibility public" operation="CountSubtreeNodesByValue" parameter="JClass,visibilityKind,public"/>
+        <SyntheticAttribute attributeName="TNoClassesPRO" description="Total number of classes with visibility protected" operation="CountSubtreeNodesByValue" parameter="JClass,visibilityKind,protected"/>
+        <SyntheticAttribute attributeName="TNoClassesPAC" description="Total number of classes with visibility package" operation="CountSubtreeNodesByValue" parameter="JClass,visibilityKind,package"/>
+        <SyntheticAttribute attributeName="TNoClassesPRI" description="Total number of classes with visibility private" operation="CountSubtreeNodesByValue" parameter="JClass,visibilityKind,private"/>
+        
+        <SyntheticAttribute attributeName="NOP" description="Number of packages" operation="CountChildNodesTypes" parameter="JPackage"/>
+		<SyntheticAttribute attributeName="TNOP" description="Total number of packages" operation="CountSubtreeNodesByType" parameter="JPackage"/>      
+      
+      	<SyntheticAttribute attributeName="NOIF" description="Number of interfaces" operation="CountChildNodesTypes" parameter="JInterface"/>
+		<SyntheticAttribute attributeName="TNOIF" description="Total number of interfaces" operation="CountSubtreeNodesByType" parameter="JInterface"/>           	
+      </Preorder>
+    </Annotation>
+    <Annotation nodeType="JClass">
+      <Preorder>
+        <SyntheticAttribute attributeName="NOA" description="Number of attributes" operation="CountChildNodesTypes" parameter="JField"/>        
+        <SyntheticAttribute attributeName="NOAPUB" description="Number of attributes with visibility public in class" operation="CountChildNodesByValue" parameter="JField,visibilityKind,public"/>
+        <SyntheticAttribute attributeName="NOAPRO" description="Number of attributes with visibility protected in class" operation="CountChildNodesByValue" parameter="JField,visibilityKind,protected"/>
+        <SyntheticAttribute attributeName="NOAPAC" description="Number of attributes with visibility package in class" operation="CountChildNodesByValue" parameter="JField,visibilityKind,package"/>
+        <SyntheticAttribute attributeName="NOAPRI" description="number of attributes with visibility private in class" operation="CountChildNodesByValue" parameter="JField,visibilityKind,private"/>      
+      	<SyntheticAttribute attributeName="NCV" description="Number of class variables in class" operation="CountChildNodesByValue" parameter="JField,isStatic,true"/>
+        <SyntheticAttribute attributeName="NIV" description="Number of instance variables in class" operation="CountChildNodesByValue" parameter="JField,isStatic,false"/>
+        
+        <SyntheticAttribute attributeName="NoInheritedFields" description="Number of fields inherited in class" operation="org.sidiff.javaast.model.metrics.InheritedFieldsCalculator" parameter=""/>
+        
+        <SyntheticAttribute attributeName="NOM" description="Number of methods" operation="CountChildNodesTypes" parameter="JMethod"/>
+        <SyntheticAttribute attributeName="NOMPUB" description="Number of public methods" operation="CountChildNodesByValue" parameter="JMethod,visibilityKind,public"/>
+        <SyntheticAttribute attributeName="NOMPAC" description="Number of package-visible methods" operation="CountChildNodesByValue" parameter="JMethod,visibilityKind,package"/>
+        <SyntheticAttribute attributeName="NOMPRO" description="Number of protected methods" operation="CountChildNodesByValue" parameter="JMethod,visibilityKind,protected"/>
+        <SyntheticAttribute attributeName="NOMPRI" description="Number of private methods" operation="CountChildNodesByValue" parameter="JMethod,visibilityKind,private"/>
+      	<SyntheticAttribute attributeName="NoClassMethods" description="Number of static methods in class" operation="CountChildNodesByValue" parameter="JMethod,isStatic,true"/>
+        <SyntheticAttribute attributeName="NoInstanceMethods" description="Number of instance methods in class" operation="CountChildNodesByValue" parameter="JMethod,isStatic,false"/>
+      	<SyntheticAttribute attributeName="NoAbstractMethods" description="Number of abstract methods in class" operation="CountChildNodesByValue" parameter="JMethod,isAbstract,true"/>
+      	<SyntheticAttribute attributeName="NoNonAbstractMethods" description="Number of non-abstract methods in class" operation="CountChildNodesByValue" parameter="JMethod,isAbstract,false"/>
+      	<SyntheticAttribute attributeName="NoFinalMethods" description="Number of final methods in class" operation="CountChildNodesByValue" parameter="JMethod,isFinal,true"/>
+      	<SyntheticAttribute attributeName="NoNonFinalMethods" description="Number of non-final methods in class" operation="CountChildNodesByValue" parameter="JMethod,isFinal,false"/>
+      	
+        <SyntheticAttribute attributeName="NOMOI" description="Number of methods overloaded, inherited methods are considered" operation="org.sidiff.javaast.model.metrics.OverloadedMethodsCalculator" parameter="true"/>
+        <SyntheticAttribute attributeName="NOMOO" description="Number of methods overloaded, without considering inheritance" operation="org.sidiff.javaast.model.metrics.OverloadedMethodsCalculator" parameter="false"/>
+        <SyntheticAttribute attributeName="NoOverriddenMethods" description="Number of methods overridden in class" operation="org.sidiff.javaast.model.metrics.LinesOfCodeCalculator" parameter=""/>
+        <SyntheticAttribute attributeName="NoInheritedMethods" description="Number of methods inherited in class" operation="org.sidiff.javaast.model.metrics.InheritedMethodsCalculator" parameter=""/>
+      	
+      	<SyntheticAttribute attributeName="NoSubclasses" description="Number of subclasses" operation="CountReferences" parameter="subClasses"/>
+        <SyntheticAttribute attributeName="NoImplInterfaces" description="Number of interfaces implemented by class" operation="CountReferences" parameter="implementedInterfaces"/>      	
+      	<SyntheticAttribute attributeName="DIT" description="Depth in inheritance tree of this class" operation="org.sidiff.javaast.model.metrics.InheritanceTreeCalculator" parameter=""/>
+      	<SyntheticAttribute attributeName="CBO" description="Coupling between objects" operation="org.sidiff.javaast.model.metrics.CouplingBetweenObjectsCalculator" parameter=""/>      
+      	<SyntheticAttribute attributeName="WMC" description="Weighted methods per class (using cyclomatic complexity)" operation="org.sidiff.javaast.model.metrics.WightedMethodsPerClassCalculator" requires="CYCLO" parameter=""/>
+      </Preorder>
+    </Annotation> 
+    <Annotation nodeType="JMethod">
+    	<Preorder>    		
+    		<SyntheticAttribute attributeName="NOParams" description="Number of parameters" operation="CountChildNodesTypes" parameter="JParameter"/>        
+    		<SyntheticAttribute attributeName="CYCLO" description="Cyclomatic Complexity (McCabe) of method" operation="org.sidiff.javaast.model.metrics.McCabeCalculator" parameter=""/>    	
+    	</Preorder>
+    </Annotation>
+  
+  </Annotations>
+</Preprocessing>

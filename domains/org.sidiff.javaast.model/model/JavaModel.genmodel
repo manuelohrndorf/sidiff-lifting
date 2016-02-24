@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.javaast.model/gensrc"
+    modelPluginID="org.sidiff.javaast.model" modelName="JavaModel" importerID="org.eclipse.emf.importer.ecore"
+    bundleManifest="false" complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>JavaModel.ecore</foreignModel>
+  <genPackages prefix="JavaModel" basePackage="org.sidiff.javaast" disposableProviderFactory="true"
+      ecorePackage="JavaModel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="JavaModel.ecore#//JVisibilityKind">
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JVisibilityKind/public"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JVisibilityKind/private"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JVisibilityKind/protected"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JVisibilityKind/package"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="JavaModel.ecore#//JSimpleTypeKind">
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/byte"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/short"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/char"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/int"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/long"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/float"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/double"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/boolean"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//JSimpleTypeKind/void"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="JavaModel.ecore#//StructuralFragmentType">
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/if"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/for"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/foreach"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/while"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/do"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/switch"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/case"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/finally"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/try"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/catch"/>
+      <genEnumLiterals ecoreEnumLiteral="JavaModel.ecore#//StructuralFragmentType/synchronized"/>
+    </genEnums>
+    <genClasses ecoreClass="JavaModel.ecore#//JProject" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JProject/packages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JProject/simpleTypes"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JNamedElement" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JNamedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JNamedElement/qualifiedName"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JIdentifiableElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JIdentifiableElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JIdentifiableElement/compileable"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JPackage" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JPackage/subPackages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JPackage/classes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JPackage/interfaces"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JClass" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/fields"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JClass/isAbstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JClass/isFinal"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/methods"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/superClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/subClasses"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/implementedInterfaces"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClass/staticInitializationBlock"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JVisibleElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JVisibleElement/visibilityKind"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JType/isExternal"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JTemplate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JTemplate/genericTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JGenericType" labelFeature="#//model/JNamedElement/qualifiedName"/>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JDocumentableElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JDocumentableElement/javaDoc"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JavaDoc">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JavaDoc/text"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JClassifier">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JClassifier/innerClassifiers"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JField" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JField/isFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JField/isStatic"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JField/accessedBy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JField/isTransient"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JField/initialization"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JTypedElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JTypedElement/type"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JMethod" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JMethod/isAbstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JMethod/isFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JMethod/isStatic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JMethod/isConstructor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JMethod/isSynchronized"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/parameters"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/calls"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/calledBy"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/raisedException"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/body"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JMethod/accesses"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JParameter" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JParameter/isFinal"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JCodeBlock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeBlock/codeFragments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeBlock/subBlocks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeBlock/definedVariables"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JAdressableFragment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JAdressableFragment/startByte"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JAdressableFragment/byteLength"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JCodeFragment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeFragment/usedTypes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeFragment/calledMethods"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JCodeFragment/code"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeFragment/usedFields"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeFragment/usedParameters"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JCodeFragment/usedLocalVariables"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JLocalVariable"/>
+    <genClasses ecoreClass="JavaModel.ecore#//JInterface" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JInterface/constants"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JInterface/methodSignatures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JInterface/superInterfaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JInterface/subInterfaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JInterface/implementingClasses"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JConstant" labelFeature="#//model/JNamedElement/qualifiedName"/>
+    <genClasses ecoreClass="JavaModel.ecore#//JArrayType" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JArrayType/arrayDimensions"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="JavaModel.ecore#//JSimpleType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JSimpleType/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JSimpleType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JTemplateWrapper">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JTemplateWrapper/bindings"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JTemplateBinding">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JTemplateBinding/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JTemplateBinding/genericType"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JStructuralCodeFragment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute JavaModel.ecore#//JStructuralCodeFragment/fragmentType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JStructuralCodeFragment/codeBlocks"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JEnumeration" labelFeature="#//model/JNamedElement/qualifiedName">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference JavaModel.ecore#//JEnumeration/literals"/>
+    </genClasses>
+    <genClasses ecoreClass="JavaModel.ecore#//JEnumerationLiteral" labelFeature="#//model/JNamedElement/qualifiedName"/>
+  </genPackages>
+</genmodel:GenModel>

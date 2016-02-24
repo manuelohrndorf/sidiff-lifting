@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		<diagram type="http://www.sidiff.org/org.sidiff.javaast.model" create="medium" delete="medium" movehere="medium" moveaway="medium" change="medium" increase="medium" decrease="medium" insert="medium" remove="medium">
+			<nodetype name="JParameter" create="medium" delete="medium" movehere="medium" moveaway="medium">
+				<attribute name="name" change="trivial"/>
+				<attribute name="isFinal" change="medium"/>
+				<singlereference name="type" change="critical"/>
+			</nodetype>
+			<nodetype name="JMethod" create="trivial" delete="critical" movehere="medium" moveaway="critical">
+				<attribute name="name" change="medium"/>
+				<attribute name="isAbstract" change="critical"/>
+				<attribute name="isStatic" change="medium"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+				<singlereference name="type" change="critical"/> 
+			</nodetype>
+			<nodetype name="JCodeBlock" create="trivial" delete="trivial" movehere="trivial" moveaway="trivial">
+			</nodetype>
+			<nodetype name="JCodeFragment" create="medium" delete="medium" movehere="medium" moveaway="medium">
+				<attribute name="code" change="medium"/>
+			</nodetype>
+			<nodetype name="JStructuralCodeFragment" create="medium" delete="medium" movehere="medium" moveaway="medium">
+				<attribute name="code" change="medium"/>
+				<attribute name="fragmentType" change="medium"/>
+			</nodetype>
+			<nodetype name="JavaDoc" create="trivial" delete="medium" movehere="medium" moveaway="medium">
+				<attribute name="text" change="trivial"/>
+			</nodetype>
+			<nodetype name="JField" create="trivial" delete="critical" movehere="medium" moveaway="critical">
+				<attribute name="name" change="medium"/>
+				<attribute name="isFinal" change="medium"/>
+				<attribute name="isStatic" change="critical"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+				<singlereference name="type" change="critical"/>
+			</nodetype>
+			<nodetype name="JClass" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="medium"/>
+				<attribute name="isAbstract" change="critical"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+			</nodetype>
+			<nodetype name="JArrayType" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="medium"/>
+				<attribute name="isAbstract" change="critical"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+				<attribute name="arrayDimensions" change="medium"/>
+			</nodetype>
+			<nodetype name="JInterface" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="medium"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+			</nodetype>
+			<nodetype name="JConstant" create="trivial" delete="critical" movehere="medium" moveaway="critical">
+				<attribute name="name" change="medium"/>
+				<attribute name="isStatic" change="critical"/>
+				<orderedattribute name="visibilityKind" increase="trivial" decrease="critical" evaluator="VisibilityIncreaseEvaluator"/>
+				<singlereference name="type" change="critical"/>
+			</nodetype>
+			<nodetype name="JPackage" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="medium"/>
+			</nodetype>
+			<nodetype name="JEnumeration" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="critical"/>
+			</nodetype>
+			<nodetype name="JEnumerationLiteral" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="name" change="critical"/>
+			</nodetype>
+			<nodetype name="JSimpleType" create="medium" delete="critical" movehere="medium" moveaway="medium">
+				<attribute name="kind" change="trivial"/>
+			</nodetype>
+			<nodetype name="JProject" create="medium" delete="medium" movehere="medium" moveaway="medium">
+				<attribute name="name" change="trivial"/>
+			</nodetype>
+		</diagram>
