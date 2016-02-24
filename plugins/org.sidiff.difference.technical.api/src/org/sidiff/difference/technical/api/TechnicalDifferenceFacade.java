@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -37,8 +38,9 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	
 	public static SymmetricDifference deriveDifference(Matching matching, DifferenceSettings settings){
 		
-		MessageConsoleStream mcStream = console.newMessageStream();
-		mcStream.println("########## Difference Derivator ##########");
+		if(!settings.getClass().equals(DifferenceSettings.class)){
+			LogUtil.log(LogEvent.NOTICE, "Settings:\n" + settings);
+		}
 		
 		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
 
@@ -49,45 +51,30 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		
 		if(settings.isEnabled_MergeImports()){
 			// Merge Imports
-			mcStream.println("------------------------------");
-			mcStream.print("Merge imports");
-			mcStream.println("------------------------------");
-			status(true);
-			importMerger.merge();
-			status(false);
-			mcStream.println("[finished]");
-			mcStream.println("------------------------------");			
+			LogUtil.log(LogEvent.NOTICE, "Merge imports ...");
+			importMerger.merge();		
 		}
-		mcStream.println("------------------------------");
-		mcStream.print("Derive technical difference");
-		mcStream.println("------------------------------");
-		status(true);
+
+		LogUtil.log(LogEvent.NOTICE, "Derive technical difference ...");
+
 		// Derive technical difference
 		ITechnicalDifferenceBuilder tdBuilder = settings.getTechBuilder();
 		tdBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
-		status(false);
-		mcStream.println("[finished]");
-		mcStream.println("------------------------------");	
 		
 		if(settings.isEnabled_MergeImports()){
 			// Unmerge Imports
-			mcStream.println("------------------------------");
-			mcStream.print("Unmerge imports");
-			mcStream.println("------------------------------");
-			status(true);
+			LogUtil.log(LogEvent.NOTICE, "Unmerge imports ...");
 			importMerger.unmerge();
-			status(false);
-			mcStream.println("[finished]");
-			mcStream.println("------------------------------");	
 		}
 		
 		countChanges(symmetricDiff);
 		
-		mcStream.println("Add Object: " + addedObjects);
-		mcStream.println("Add Reference: " + addedReferences);
-		mcStream.println("Remove Object: " + removedObjects);
-		mcStream.println("Remove Reference: " + removedReferences);
-		mcStream.println("Attribute Value Change: " + attributeValueChanges);
+		LogUtil.log(LogEvent.NOTICE, "Add Object: " + addedObjects);
+		LogUtil.log(LogEvent.NOTICE, "Add Object: " + addedObjects);
+		LogUtil.log(LogEvent.NOTICE, "Add Reference: " + addedReferences);
+		LogUtil.log(LogEvent.NOTICE, "Remove Object: " + removedObjects);
+		LogUtil.log(LogEvent.NOTICE, "Remove Reference: " + removedReferences);
+		LogUtil.log(LogEvent.NOTICE, "Attribute Value Change: " + attributeValueChanges);
 		
 		return symmetricDiff;
 	}

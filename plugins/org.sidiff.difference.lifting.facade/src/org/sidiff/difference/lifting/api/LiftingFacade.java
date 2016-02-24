@@ -3,12 +3,6 @@ package org.sidiff.difference.lifting.api;
 import java.text.DecimalFormat;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -60,8 +54,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
-		MessageConsoleStream mcStream = console.newMessageStream();
-		mcStream.println("########## Lifting Engine ##########");
+
 		
 		if(importMerger == null){
 			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
@@ -70,38 +63,20 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		
 		if(settings.isEnabled_MergeImports()){
 			// Merge Imports
-			mcStream.println("------------------------------");
-			mcStream.print("Merge imports");
-			mcStream.println("------------------------------");
-			status(true);
-			importMerger.merge();
-			status(false);
-			mcStream.println("[finished]");
-			mcStream.println("------------------------------");			
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
+			importMerger.merge();	
 		}
 
 		// Start recognition engine
-		mcStream.println("------------------------------");
-		mcStream.print("Recognize change sets");
-		mcStream.println("------------------------------");
-		status(true);
+		LogUtil.log(LogEvent.NOTICE, "Recognize operations");
 		recognitionEngine = new RecognitionEngine(symmetricDifference, importMerger.getImports(), settings.getScope(), settings.getRuleBases(), settings.isRuleSetReduction(), settings.isBuildGraphPerRule(), settings.getRrSorter(), settings.isUseThreadPool(), settings.getNumberOfThreads(), settings.getRulesPerThread(), settings.isCalculateEditRuleMatch(), settings.isSerializeEditRuleMatch());
 		recognitionEngine.execute();
-		status(false);
-		mcStream.println("[finished]");
-		mcStream.println("------------------------------");
 
 		// Postprocess
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
-			mcStream.println("------------------------------");
-			mcStream.print("Post processing");
-			mcStream.println("------------------------------");
-			status(true);
+			LogUtil.log(LogEvent.NOTICE, "Post processing");
 			PostProcessor postProcessor = new PostProcessor(recognitionEngine);
-			postProcessor.postProcess();
-			status(false);
-			mcStream.println("[finished]");
-			mcStream.println("------------------------------");			
+			postProcessor.postProcess();	
 		}
 		// Aggregate deleted subtrees
 		// TODO: How to deal with deleted subtrees..?
@@ -110,14 +85,8 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		// SubtreeAggregator.DELETE);
 		if(settings.isEnabled_MergeImports()){
 			// Unmerge Imports
-			mcStream.println("------------------------------");
-			mcStream.print("Unmerge imports");
-			mcStream.println("------------------------------");
-			status(true);
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
 			importMerger.unmerge();
-			status(false);
-			mcStream.println("[finished]");
-			mcStream.println("------------------------------");	
 		}
 
 		report(symmetricDifference);
@@ -134,13 +103,12 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		// e.printStackTrace();
 		// }
 		// }
-
-		mcStream.println("Total semantic changes sets (|SCS|): " + scsCount);
-		mcStream.println("Total atomic changes (|D|): " + totalAtomicCount);
-		mcStream.println("Finally uncovered atomic changes: " + uncoveredCount);
-		mcStream.println("Finally covered atomic changes: " + coveredCount);
-		mcStream.println("Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
-		mcStream.println("Correspondences: " + correspondenceCount);
+		LogUtil.log(LogEvent.NOTICE, "Total semantic changes sets (|SCS|): " + scsCount);
+		LogUtil.log(LogEvent.NOTICE, "Total atomic changes (|D|): " + totalAtomicCount);
+		LogUtil.log(LogEvent.NOTICE, "Finally uncovered atomic changes: " + uncoveredCount);
+		LogUtil.log(LogEvent.NOTICE, "Finally covered atomic changes: " + coveredCount);
+		LogUtil.log(LogEvent.NOTICE, "Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
+		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
 		
 		return symmetricDifference;
 	}
@@ -190,7 +158,6 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);
 		defaultSettings.setMatcher(matcher);
-		LogUtil.log(LogEvent.NOTICE, defaultSettings.toString());
 		// Lift difference
 		SymmetricDifference symmetricDiff = liftMeUp(modelA, modelB, defaultSettings);
 
