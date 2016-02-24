@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.sidiff.difference.technical.AbstractTechnicalDifferenceBuilder;
 import org.sidiff.javaast.model.JavaModelPackage;
 
@@ -41,15 +40,24 @@ public class TechnicalDifferenceBuilderJavaAST extends AbstractTechnicalDifferen
 
 	@Override
 	protected Set<EReference> getUnconsideredEdgeTypes() {
+		Set<EReference> unconsideredEdges = new HashSet<EReference>();
+		
+		unconsideredEdges.add(JavaModelPackage.eINSTANCE.getJClass_SubClasses());
+		unconsideredEdges.add(JavaModelPackage.eINSTANCE.getJField_AccessedBy());
+		unconsideredEdges.add(JavaModelPackage.eINSTANCE.getJMethod_CalledBy());
+		unconsideredEdges.add(JavaModelPackage.eINSTANCE.getJInterface_SubInterfaces());
+		unconsideredEdges.add(JavaModelPackage.eINSTANCE.getJInterface_ImplementingClasses());
+		
 		return Collections.emptySet();
 	}
 
 	@Override
 	protected Set<EAttribute> getUnconsideredAttributeTypes() {
 		Set<EAttribute> unconsideredAttributeTypes = new HashSet<EAttribute>();
-		
+
 		unconsideredAttributeTypes.add(JavaModelPackage.eINSTANCE.getJIdentifiableElement_Id());
-		
+		unconsideredAttributeTypes.add(JavaModelPackage.eINSTANCE.getJAdressableFragment_StartByte());
+
 		return unconsideredAttributeTypes;
 	}
 
