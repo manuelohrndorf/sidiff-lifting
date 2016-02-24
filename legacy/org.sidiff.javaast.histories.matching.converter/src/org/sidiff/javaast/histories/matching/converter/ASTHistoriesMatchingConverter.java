@@ -62,14 +62,21 @@ public class ASTHistoriesMatchingConverter extends BaseMatcher{
 		Resource modelA = it.next();
 		Resource modelB = it.next();		
 		
+		String revisionPattern = "(\\D*)(\\d+)*";
+
 		//Get old diff fileName based on modelA and modelB filenames
 		String fileUriA = modelA.getURI().toString();
-		String fileNameA = fileUriA.substring(0, fileUriA.indexOf("."));
-		//TODO ...
+		String revisionA = fileUriA.replaceAll(revisionPattern, "$2");
 		
-		String fileName = "xxx";	
-		Resource rdiff = EMFStorage.eLoad(URI.createURI(fileName)).eResource();
-		assert rdiff!=null: "Difference not found at: " + fileName + ", aborting matching!";
+		String fileUriB = modelB.getURI().toString();
+		String revisionB = fileUriB.replaceAll(revisionPattern, "$2");
+		
+		String diffName = fileUriA.replaceFirst(revisionPattern, "$1-r" + revisionA + "-r" + revisionB);
+		diffName = diffName.replaceFirst(".jam.smf", "");
+	
+		
+		Resource rdiff = EMFStorage.eLoad(URI.createURI(diffName)).eResource();
+		assert rdiff!=null: "Difference not found at: " + diffName + ", aborting matching!";
 		
 		//Put all together for proxy resolution		
 		ResourceSet rs = new ResourceSetImpl();
