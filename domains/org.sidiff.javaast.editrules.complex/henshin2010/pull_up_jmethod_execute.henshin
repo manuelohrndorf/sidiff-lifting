@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_gnWQoJ9tEeG0bJH94ywKcA" name="pull_up_jmethod">
+  <rules xmi:id="_-lkn8KBqEeGtnbQAmj9ysg" name="Pull up JMethod">
+    <parameters xmi:id="_XRM-wKBsEeGtnbQAmj9ysg" name="selectedJMethod"/>
+    <lhs xmi:id="_-lkn8aBqEeGtnbQAmj9ysg" name="LHS">
+      <nodes xmi:id="_JGfpAKBrEeGtnbQAmj9ysg" name="sourceJClass" outgoing="_MDSxUKBrEeGtnbQAmj9ysg _N7bXoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JX47AKBrEeGtnbQAmj9ysg" name="targetJClass" incoming="_N7bXoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_LGiOIKBrEeGtnbQAmj9ysg" name="selectedJMethod" incoming="_MDSxUKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_MDSxUKBrEeGtnbQAmj9ysg" source="_JGfpAKBrEeGtnbQAmj9ysg" target="_LGiOIKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+      <edges xmi:id="_N7bXoKBrEeGtnbQAmj9ysg" source="_JGfpAKBrEeGtnbQAmj9ysg" target="_JX47AKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_-lkn8qBqEeGtnbQAmj9ysg" name="RHS">
+      <nodes xmi:id="_JGfpAaBrEeGtnbQAmj9ysg" name="sourceJClass" outgoing="_N7fCAKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JX5iEKBrEeGtnbQAmj9ysg" name="targetJClass" incoming="_N7fCAKBrEeGtnbQAmj9ysg" outgoing="_Mg8WoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_LGi1MKBrEeGtnbQAmj9ysg" incoming="_Mg8WoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_N7fCAKBrEeGtnbQAmj9ysg" source="_JGfpAaBrEeGtnbQAmj9ysg" target="_JX5iEKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_Mg8WoKBrEeGtnbQAmj9ysg" source="_JX5iEKBrEeGtnbQAmj9ysg" target="_LGi1MKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_JGgQEKBrEeGtnbQAmj9ysg" origin="_JGfpAKBrEeGtnbQAmj9ysg" image="_JGfpAaBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_JX5iEaBrEeGtnbQAmj9ysg" origin="_JX47AKBrEeGtnbQAmj9ysg" image="_JX5iEKBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_LGjcQKBrEeGtnbQAmj9ysg" origin="_LGiOIKBrEeGtnbQAmj9ysg" image="_LGi1MKBrEeGtnbQAmj9ysg"/>
+  </rules>
+  <rules xmi:id="_TD000KBrEeGtnbQAmj9ysg" name="Remove JMethods">
+    <parameters xmi:id="_Zb8YAKBsEeGtnbQAmj9ysg" name="selectedJMethod"/>
+    <parameters xmi:id="_X9eH0KZfEeGGn97lKSjvzA" name="jMethodName"/>
+    <lhs xmi:id="_TD000aBrEeGtnbQAmj9ysg" name="LHS">
+      <nodes xmi:id="_TD000qBrEeGtnbQAmj9ysg" name="sourceJClass" outgoing="_TD001aBrEeGtnbQAmj9ysg _TD001qBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_TD0006BrEeGtnbQAmj9ysg" name="targetJClass" incoming="_TD001qBrEeGtnbQAmj9ysg _t_WVgKZdEeGGn97lKSjvzA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_TD001KBrEeGtnbQAmj9ysg" name="selectedJMethod" incoming="_TD001aBrEeGtnbQAmj9ysg" outgoing="_b9UlEKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_NtshIKZfEeGGn97lKSjvzA" value="jMethodName">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YPY6wKBrEeGtnbQAmj9ysg" outgoing="_pJcoIKBrEeGtnbQAmj9ysg _t_WVgKZdEeGGn97lKSjvzA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_bBvtoKBrEeGtnbQAmj9ysg" incoming="_b9UlEKBrEeGtnbQAmj9ysg _n6xOgKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <nodes xmi:id="_msCKgKBrEeGtnbQAmj9ysg" incoming="_pJcoIKBrEeGtnbQAmj9ysg" outgoing="_n6xOgKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_SOsAEKZfEeGGn97lKSjvzA" value="jMethodName">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_TD001aBrEeGtnbQAmj9ysg" source="_TD000qBrEeGtnbQAmj9ysg" target="_TD001KBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+      <edges xmi:id="_TD001qBrEeGtnbQAmj9ysg" source="_TD000qBrEeGtnbQAmj9ysg" target="_TD0006BrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_b9UlEKBrEeGtnbQAmj9ysg" source="_TD001KBrEeGtnbQAmj9ysg" target="_bBvtoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_n6xOgKBrEeGtnbQAmj9ysg" source="_msCKgKBrEeGtnbQAmj9ysg" target="_bBvtoKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_pJcoIKBrEeGtnbQAmj9ysg" source="_YPY6wKBrEeGtnbQAmj9ysg" target="_msCKgKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+      <edges xmi:id="_t_WVgKZdEeGGn97lKSjvzA" source="_YPY6wKBrEeGtnbQAmj9ysg" target="_TD0006BrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_TD0016BrEeGtnbQAmj9ysg" name="RHS">
+      <nodes xmi:id="_TD002KBrEeGtnbQAmj9ysg" name="sourceJClass" outgoing="_TD0026BrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_TD002aBrEeGtnbQAmj9ysg" name="targetJClass" incoming="_TD0026BrEeGtnbQAmj9ysg _t_YxwKZdEeGGn97lKSjvzA" outgoing="_TD003KBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_TD002qBrEeGtnbQAmj9ysg" name="selectedJMethod" incoming="_TD003KBrEeGtnbQAmj9ysg" outgoing="_b9Y2gKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_NtwLgKZfEeGGn97lKSjvzA" value="jMethodName">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_YPav8KBrEeGtnbQAmj9ysg" outgoing="_t_YxwKZdEeGGn97lKSjvzA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_bBw7wKBrEeGtnbQAmj9ysg" incoming="_b9Y2gKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_TD0026BrEeGtnbQAmj9ysg" source="_TD002KBrEeGtnbQAmj9ysg" target="_TD002aBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_TD003KBrEeGtnbQAmj9ysg" source="_TD002aBrEeGtnbQAmj9ysg" target="_TD002qBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+      <edges xmi:id="_b9Y2gKBrEeGtnbQAmj9ysg" source="_TD002qBrEeGtnbQAmj9ysg" target="_bBw7wKBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_t_YxwKZdEeGGn97lKSjvzA" source="_YPav8KBrEeGtnbQAmj9ysg" target="_TD002aBrEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_TD003aBrEeGtnbQAmj9ysg" origin="_TD000qBrEeGtnbQAmj9ysg" image="_TD002KBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_TD003qBrEeGtnbQAmj9ysg" origin="_TD0006BrEeGtnbQAmj9ysg" image="_TD002aBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_TD0036BrEeGtnbQAmj9ysg" origin="_TD001KBrEeGtnbQAmj9ysg" image="_TD002qBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_YPb-EKBrEeGtnbQAmj9ysg" origin="_YPY6wKBrEeGtnbQAmj9ysg" image="_YPav8KBrEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_bByJ4KBrEeGtnbQAmj9ysg" origin="_bBvtoKBrEeGtnbQAmj9ysg" image="_bBw7wKBrEeGtnbQAmj9ysg"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:AmalgamationUnit" xmi:id="_cqhM0KBsEeGtnbQAmj9ysg" name="mainUnit" kernelRule="_-lkn8KBqEeGtnbQAmj9ysg" multiRules="_TD000KBrEeGtnbQAmj9ysg">
+    <parameters xmi:id="_U7J38KBtEeGtnbQAmj9ysg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_XAyHsKBtEeGtnbQAmj9ysg" source="_U7J38KBtEeGtnbQAmj9ysg" target="_XRM-wKBsEeGtnbQAmj9ysg"/>
+    <parameterMappings xmi:id="_bJ2O0KBtEeGtnbQAmj9ysg" source="_U7J38KBtEeGtnbQAmj9ysg" target="_Zb8YAKBsEeGtnbQAmj9ysg"/>
+    <lhsMappings xmi:id="_fbGeEKBsEeGtnbQAmj9ysg" origin="_JGfpAKBrEeGtnbQAmj9ysg" image="_TD000qBrEeGtnbQAmj9ysg"/>
+    <lhsMappings xmi:id="_331SsKBsEeGtnbQAmj9ysg" origin="_JX47AKBrEeGtnbQAmj9ysg" image="_TD0006BrEeGtnbQAmj9ysg"/>
+    <lhsMappings xmi:id="_OHGxQKBtEeGtnbQAmj9ysg" origin="_LGiOIKBrEeGtnbQAmj9ysg" image="_TD001KBrEeGtnbQAmj9ysg"/>
+    <rhsMappings xmi:id="_8QpGAKBsEeGtnbQAmj9ysg" origin="_JGfpAaBrEeGtnbQAmj9ysg" image="_TD002KBrEeGtnbQAmj9ysg"/>
+    <rhsMappings xmi:id="_LX-4kKBtEeGtnbQAmj9ysg" origin="_JX5iEKBrEeGtnbQAmj9ysg" image="_TD002aBrEeGtnbQAmj9ysg"/>
+    <rhsMappings xmi:id="_P5hxIKBtEeGtnbQAmj9ysg" origin="_LGi1MKBrEeGtnbQAmj9ysg" image="_TD002qBrEeGtnbQAmj9ysg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

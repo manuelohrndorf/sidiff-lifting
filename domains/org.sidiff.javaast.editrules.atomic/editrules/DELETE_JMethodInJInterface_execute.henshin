@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mjz78LBsEeGf79A94u_7qw" description="Deletes one JMethod in JInterface" name="DELETE_JMethodInJInterface">
+  <rules xmi:id="_mjz78bBsEeGf79A94u_7qw" description="deletes one JMethod in the context: JInterface" name="deleteJMethodInJInterface">
+    <parameters xmi:id="_mjz78rBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mjz787BsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <parameters xmi:id="_mjz79LBsEeGf79A94u_7qw" name="Existing"/>
+    <lhs xmi:id="_mjz79bBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mjz79rBsEeGf79A94u_7qw" name="Selected" outgoing="_mjz7-bBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_mjz797BsEeGf79A94u_7qw" name="toBeDeleted" incoming="_mjz7-bBsEeGf79A94u_7qw" outgoing="_mjz7-rBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_mjz7-LBsEeGf79A94u_7qw" name="Existing" incoming="_mjz7-rBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_mjz7-bBsEeGf79A94u_7qw" source="_mjz79rBsEeGf79A94u_7qw" target="_mjz797BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/methodSignatures"/>
+      </edges>
+      <edges xmi:id="_mjz7-rBsEeGf79A94u_7qw" source="_mjz797BsEeGf79A94u_7qw" target="_mjz7-LBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mjz7-7BsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mjz7_LBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_mjz7_bBsEeGf79A94u_7qw" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mjz7_rBsEeGf79A94u_7qw" origin="_mjz79rBsEeGf79A94u_7qw" image="_mjz7_LBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mjz7_7BsEeGf79A94u_7qw" origin="_mjz7-LBsEeGf79A94u_7qw" image="_mjz7_bBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mj0jALBsEeGf79A94u_7qw" description="Deletes one JMethod depending on available contexts in model instance" name="mainUnit" subUnits="_mjz78bBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mj0jAbBsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <parameters xmi:id="_mj0jArBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mj0jA7BsEeGf79A94u_7qw" name="Existing"/>
+    <parameterMappings xmi:id="_mj0jBLBsEeGf79A94u_7qw" source="_mj0jArBsEeGf79A94u_7qw" target="_mjz78rBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mj0jBbBsEeGf79A94u_7qw" source="_mj0jAbBsEeGf79A94u_7qw" target="_mjz787BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mj0jBrBsEeGf79A94u_7qw" source="_mj0jA7BsEeGf79A94u_7qw" target="_mjz79LBsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

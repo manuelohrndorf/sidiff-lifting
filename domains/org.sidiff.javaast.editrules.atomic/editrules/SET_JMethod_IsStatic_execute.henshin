@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mkZKwLBsEeGf79A94u_7qw" description="Sets JMethod IsStatic" name="SET_JMethod_IsStatic">
+  <rules xmi:id="_mkZKwbBsEeGf79A94u_7qw" description="Sets the EAttribute isStatic" name="setJMethodIsStatic">
+    <parameters xmi:id="_mkZKwrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mkZKw7BsEeGf79A94u_7qw" name="IsStatic"/>
+    <lhs xmi:id="_mkZKxLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mkZKxbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mkZKxrBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mkZKx7BsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_mkZx0LBsEeGf79A94u_7qw" value="IsStatic">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod/isStatic"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mkZx0bBsEeGf79A94u_7qw" origin="_mkZKxbBsEeGf79A94u_7qw" image="_mkZKx7BsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mkZx0rBsEeGf79A94u_7qw" name="mainUnit" subUnits="_mkZKwbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mkZx07BsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mkZx1LBsEeGf79A94u_7qw" name="IsStatic"/>
+    <parameterMappings xmi:id="_mkZx1bBsEeGf79A94u_7qw" source="_mkZx07BsEeGf79A94u_7qw" target="_mkZKwrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mkZx1rBsEeGf79A94u_7qw" source="_mkZx1LBsEeGf79A94u_7qw" target="_mkZKw7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

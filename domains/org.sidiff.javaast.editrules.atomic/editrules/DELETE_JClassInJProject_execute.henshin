@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_miK9MLBsEeGf79A94u_7qw" description="Deletes one JClass in JProject" name="DELETE_JClassInJProject">
+  <rules xmi:id="_miK9MbBsEeGf79A94u_7qw" description="deletes one JClass in the context: JProject" name="deleteJClassInJProject">
+    <parameters xmi:id="_miK9MrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_miK9M7BsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <lhs xmi:id="_miK9NLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_miK9NbBsEeGf79A94u_7qw" name="Selected" outgoing="_miK9N7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+      <nodes xmi:id="_miK9NrBsEeGf79A94u_7qw" name="toBeDeleted" incoming="_miK9N7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_miK9N7BsEeGf79A94u_7qw" source="_miK9NbBsEeGf79A94u_7qw" target="_miK9NrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject/simpleTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_miLkQLBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_miLkQbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_miLkQrBsEeGf79A94u_7qw" origin="_miK9NbBsEeGf79A94u_7qw" image="_miLkQbBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_miLkQ7BsEeGf79A94u_7qw" description="Deletes one JClass depending on available contexts in model instance" name="mainUnit" subUnits="_miK9MbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_miLkRLBsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <parameters xmi:id="_miLkRbBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameterMappings xmi:id="_miLkRrBsEeGf79A94u_7qw" source="_miLkRbBsEeGf79A94u_7qw" target="_miK9MrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_miLkR7BsEeGf79A94u_7qw" source="_miLkRLBsEeGf79A94u_7qw" target="_miK9M7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

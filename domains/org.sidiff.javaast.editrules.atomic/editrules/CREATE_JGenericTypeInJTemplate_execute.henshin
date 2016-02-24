@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mjEVELBsEeGf79A94u_7qw" description="Creates one JGenericType in JTemplate" name="CREATE_JGenericTypeInJTemplate">
+  <rules xmi:id="_mjEVEbBsEeGf79A94u_7qw" description="creates one JGenericType in the context: JTemplate" name="createJGenericTypeInJTemplate">
+    <parameters xmi:id="_mjEVErBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mjEVE7BsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mjEVFLBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mjEVFbBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mjEVFrBsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mjEVF7BsEeGf79A94u_7qw" name="IsExternal"/>
+    <lhs xmi:id="_mjEVGLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mjEVGbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mjEVGrBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mjEVG7BsEeGf79A94u_7qw" name="Selected" outgoing="_mjE8IrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate"/>
+      </nodes>
+      <nodes xmi:id="_mjEVHLBsEeGf79A94u_7qw" name="New" incoming="_mjE8IrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+        <attributes xmi:id="_mjEVHbBsEeGf79A94u_7qw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_mjEVHrBsEeGf79A94u_7qw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_mjE8ILBsEeGf79A94u_7qw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_mjE8IbBsEeGf79A94u_7qw" value="IsExternal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType/isExternal"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_mjE8IrBsEeGf79A94u_7qw" source="_mjEVG7BsEeGf79A94u_7qw" target="_mjEVHLBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate/genericTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mjE8I7BsEeGf79A94u_7qw" origin="_mjEVGbBsEeGf79A94u_7qw" image="_mjEVG7BsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mjE8JLBsEeGf79A94u_7qw" description="Creates one JGenericType depending on available contexts in model instance" name="mainUnit" subUnits="_mjEVEbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mjE8JbBsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mjE8JrBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mjE8J7BsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mjE8KLBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mjE8KbBsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mjE8KrBsEeGf79A94u_7qw" name="IsExternal"/>
+    <parameterMappings xmi:id="_mjE8K7BsEeGf79A94u_7qw" source="_mjE8JrBsEeGf79A94u_7qw" target="_mjEVErBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjE8LLBsEeGf79A94u_7qw" source="_mjEVE7BsEeGf79A94u_7qw" target="_mjE8JbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjE8LbBsEeGf79A94u_7qw" source="_mjE8J7BsEeGf79A94u_7qw" target="_mjEVFLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjE8LrBsEeGf79A94u_7qw" source="_mjE8KLBsEeGf79A94u_7qw" target="_mjEVFbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjE8L7BsEeGf79A94u_7qw" source="_mjE8KbBsEeGf79A94u_7qw" target="_mjEVFrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjE8MLBsEeGf79A94u_7qw" source="_mjE8KrBsEeGf79A94u_7qw" target="_mjEVF7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

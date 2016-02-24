@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_gnWQoJ9tEeG0bJH94ywKcA" name="move_jfield_to_neighbour">
+  <rules xmi:id="_jXAp8J9vEeGtnbQAmj9ysg" name="Move JField to neigbour">
+    <parameters xmi:id="_3CTTYJ9wEeGtnbQAmj9ysg" description="" name="sourceJClass"/>
+    <parameters xmi:id="_r0zUwKBjEeGtnbQAmj9ysg" name="targetJClass"/>
+    <lhs xmi:id="_jXAp8Z9vEeGtnbQAmj9ysg" name="LHS">
+      <nodes xmi:id="_vCc9YJ9vEeGtnbQAmj9ysg" name="sourceJClass" outgoing="_VlP-0KBiEeGtnbQAmj9ysg _AtsrsKBjEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_T6Ig0KBiEeGtnbQAmj9ysg" incoming="_VlP-0KBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <nodes xmi:id="_va7u0J9vEeGtnbQAmj9ysg" name="targetJClass" incoming="_AJ4M8KBjEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_-rPrwKBiEeGtnbQAmj9ysg" incoming="_AtsrsKBjEeGtnbQAmj9ysg" outgoing="_AJ4M8KBjEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <edges xmi:id="_VlP-0KBiEeGtnbQAmj9ysg" source="_vCc9YJ9vEeGtnbQAmj9ysg" target="_T6Ig0KBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+      <edges xmi:id="_AJ4M8KBjEeGtnbQAmj9ysg" source="_-rPrwKBiEeGtnbQAmj9ysg" target="_va7u0J9vEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_AtsrsKBjEeGtnbQAmj9ysg" source="_vCc9YJ9vEeGtnbQAmj9ysg" target="_-rPrwKBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_jXAp8p9vEeGtnbQAmj9ysg" name="RHS">
+      <nodes xmi:id="_vCdkcJ9vEeGtnbQAmj9ysg" outgoing="_Att50KBjEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_T6Ju8KBiEeGtnbQAmj9ysg" incoming="_WIvtcKBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <nodes xmi:id="_W8kXEKBiEeGtnbQAmj9ysg" incoming="_AJ6CIKBjEeGtnbQAmj9ysg" outgoing="_WIvtcKBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_-rPrwaBiEeGtnbQAmj9ysg" incoming="_Att50KBjEeGtnbQAmj9ysg" outgoing="_AJ6CIKBjEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <edges xmi:id="_WIvtcKBiEeGtnbQAmj9ysg" source="_W8kXEKBiEeGtnbQAmj9ysg" target="_T6Ju8KBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+      <edges xmi:id="_AJ6CIKBjEeGtnbQAmj9ysg" source="_-rPrwaBiEeGtnbQAmj9ysg" target="_W8kXEKBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_Att50KBjEeGtnbQAmj9ysg" source="_vCdkcJ9vEeGtnbQAmj9ysg" target="_-rPrwaBiEeGtnbQAmj9ysg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_vCdkcZ9vEeGtnbQAmj9ysg" origin="_vCc9YJ9vEeGtnbQAmj9ysg" image="_vCdkcJ9vEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_T6Ju8aBiEeGtnbQAmj9ysg" origin="_T6Ig0KBiEeGtnbQAmj9ysg" image="_T6Ju8KBiEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_W8k-IKBiEeGtnbQAmj9ysg" origin="_va7u0J9vEeGtnbQAmj9ysg" image="_W8kXEKBiEeGtnbQAmj9ysg"/>
+    <mappings xmi:id="_-rQS0KBiEeGtnbQAmj9ysg" origin="_-rPrwKBiEeGtnbQAmj9ysg" image="_-rPrwaBiEeGtnbQAmj9ysg"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_G9O7gJ9wEeGtnbQAmj9ysg" name="mainUnit" subUnits="_jXAp8J9vEeGtnbQAmj9ysg">
+    <parameters xmi:id="_GA84kKBkEeGtnbQAmj9ysg" description="" name="input_sourceJClass"/>
+    <parameters xmi:id="_LI30oKBkEeGtnbQAmj9ysg" name="input_targetJClass"/>
+    <parameterMappings xmi:id="_OXpdwKBkEeGtnbQAmj9ysg" source="_GA84kKBkEeGtnbQAmj9ysg" target="_3CTTYJ9wEeGtnbQAmj9ysg"/>
+    <parameterMappings xmi:id="_T-vpIKBkEeGtnbQAmj9ysg" source="_LI30oKBkEeGtnbQAmj9ysg" target="_r0zUwKBjEeGtnbQAmj9ysg"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

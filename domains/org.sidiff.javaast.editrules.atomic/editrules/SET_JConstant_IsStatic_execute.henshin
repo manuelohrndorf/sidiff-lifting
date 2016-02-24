@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mlW0ELBsEeGf79A94u_7qw" description="Sets JConstant IsStatic" name="SET_JConstant_IsStatic">
+  <rules xmi:id="_mlW0EbBsEeGf79A94u_7qw" description="Sets the EAttribute isStatic" name="setJConstantIsStatic">
+    <parameters xmi:id="_mlW0ErBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mlW0E7BsEeGf79A94u_7qw" name="IsStatic"/>
+    <lhs xmi:id="_mlW0FLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mlW0FbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mlW0FrBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mlW0F7BsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+        <attributes xmi:id="_mlW0GLBsEeGf79A94u_7qw" value="IsStatic">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isStatic"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mlW0GbBsEeGf79A94u_7qw" origin="_mlW0FbBsEeGf79A94u_7qw" image="_mlW0F7BsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mlW0GrBsEeGf79A94u_7qw" name="mainUnit" subUnits="_mlW0EbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mlW0G7BsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mlW0HLBsEeGf79A94u_7qw" name="IsStatic"/>
+    <parameterMappings xmi:id="_mlW0HbBsEeGf79A94u_7qw" source="_mlW0G7BsEeGf79A94u_7qw" target="_mlW0ErBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlW0HrBsEeGf79A94u_7qw" source="_mlW0HLBsEeGf79A94u_7qw" target="_mlW0E7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

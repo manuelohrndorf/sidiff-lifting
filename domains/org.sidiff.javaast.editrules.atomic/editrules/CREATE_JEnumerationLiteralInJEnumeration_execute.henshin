@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mmutELBsEeGf79A94u_7qw" description="Creates one JEnumerationLiteral in JEnumeration" name="CREATE_JEnumerationLiteralInJEnumeration">
+  <rules xmi:id="_mmutEbBsEeGf79A94u_7qw" description="creates one JEnumerationLiteral in the context: JEnumeration" name="createJEnumerationLiteralInJEnumeration">
+    <parameters xmi:id="_mmutErBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mmutE7BsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mmutFLBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mmutFbBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mmutFrBsEeGf79A94u_7qw" name="Name"/>
+    <lhs xmi:id="_mmutF7BsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mmutGLBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mmutGbBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mmutGrBsEeGf79A94u_7qw" name="Selected" outgoing="_mmutH7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+      </nodes>
+      <nodes xmi:id="_mmutG7BsEeGf79A94u_7qw" name="New" incoming="_mmutH7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumerationLiteral"/>
+        <attributes xmi:id="_mmutHLBsEeGf79A94u_7qw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_mmutHbBsEeGf79A94u_7qw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_mmutHrBsEeGf79A94u_7qw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_mmutH7BsEeGf79A94u_7qw" source="_mmutGrBsEeGf79A94u_7qw" target="_mmutG7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration/literals"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mmutILBsEeGf79A94u_7qw" origin="_mmutGLBsEeGf79A94u_7qw" image="_mmutGrBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mmutIbBsEeGf79A94u_7qw" description="Creates one JEnumerationLiteral depending on available contexts in model instance" name="mainUnit" subUnits="_mmutEbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mmutIrBsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mmutI7BsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mmutJLBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mmutJbBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mmutJrBsEeGf79A94u_7qw" name="Name"/>
+    <parameterMappings xmi:id="_mmutJ7BsEeGf79A94u_7qw" source="_mmutI7BsEeGf79A94u_7qw" target="_mmutErBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mmutKLBsEeGf79A94u_7qw" source="_mmutE7BsEeGf79A94u_7qw" target="_mmutIrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mmutKbBsEeGf79A94u_7qw" source="_mmutJLBsEeGf79A94u_7qw" target="_mmutFLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mmutKrBsEeGf79A94u_7qw" source="_mmutJbBsEeGf79A94u_7qw" target="_mmutFbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mmutK7BsEeGf79A94u_7qw" source="_mmutJrBsEeGf79A94u_7qw" target="_mmutFrBsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

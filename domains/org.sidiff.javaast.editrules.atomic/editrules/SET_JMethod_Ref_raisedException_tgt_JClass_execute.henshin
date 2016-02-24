@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mkFBsLBsEeGf79A94u_7qw" description="Sets JMethod's reference raisedException the target JClass" name="SET_JMethod_Ref_raisedException_tgt_JClass">
+  <rules xmi:id="_mkFBsbBsEeGf79A94u_7qw" description="SetJMethodRefraisedExceptionToJClass" name="setJMethodRefRaisedExceptionToJClass">
+    <parameters xmi:id="_mkFBsrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mkFBs7BsEeGf79A94u_7qw" name="NewTarget"/>
+    <lhs xmi:id="_mkFBtLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mkFBtbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_mkFBtrBsEeGf79A94u_7qw" name="NewTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mkFBt7BsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mkFBuLBsEeGf79A94u_7qw" name="Selected" outgoing="_mkFBurBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_mkFBubBsEeGf79A94u_7qw" name="NewTarget" incoming="_mkFBurBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_mkFBurBsEeGf79A94u_7qw" source="_mkFBuLBsEeGf79A94u_7qw" target="_mkFBubBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod/raisedException"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mkFBu7BsEeGf79A94u_7qw" origin="_mkFBtbBsEeGf79A94u_7qw" image="_mkFBuLBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mkFBvLBsEeGf79A94u_7qw" origin="_mkFBtrBsEeGf79A94u_7qw" image="_mkFBubBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mkFBvbBsEeGf79A94u_7qw" name="mainUnit" subUnits="_mkFBsbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mkFBvrBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mkFBv7BsEeGf79A94u_7qw" name="NewTarget"/>
+    <parameterMappings xmi:id="_mkFBwLBsEeGf79A94u_7qw" source="_mkFBvrBsEeGf79A94u_7qw" target="_mkFBsrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mkFBwbBsEeGf79A94u_7qw" source="_mkFBv7BsEeGf79A94u_7qw" target="_mkFBs7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

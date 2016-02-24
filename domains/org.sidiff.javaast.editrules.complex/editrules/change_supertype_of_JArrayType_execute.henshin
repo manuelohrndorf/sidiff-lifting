@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Xk9HkKo4EeGFda1ak6JiMA" description="CHANGEs JArrayType's reference superClass the target JClass" name="change_supertype_of_JArrayType">
+  <rules xmi:id="_Xk9Hkao4EeGFda1ak6JiMA" description="Change the EReference superClass" name="changeJArrayTypeRefSuperClassToJClass">
+    <parameters xmi:id="_Xk9Hkqo4EeGFda1ak6JiMA" name="Selected"/>
+    <parameters xmi:id="_Xk9Hk6o4EeGFda1ak6JiMA" name="OldTarget"/>
+    <parameters xmi:id="_Xk9HlKo4EeGFda1ak6JiMA" name="NewTarget"/>
+    <lhs xmi:id="_Xk9Hlao4EeGFda1ak6JiMA" name="LHS">
+      <nodes xmi:id="_Xk9Hlqo4EeGFda1ak6JiMA" name="Selected" incoming="_Xk9Hmqo4EeGFda1ak6JiMA" outgoing="_Xk9Hmao4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_Xk9Hl6o4EeGFda1ak6JiMA" name="OldTarget" incoming="_Xk9Hmao4EeGFda1ak6JiMA" outgoing="_Xk9Hmqo4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Xk9HmKo4EeGFda1ak6JiMA" name="NewTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_Xk9Hmao4EeGFda1ak6JiMA" source="_Xk9Hlqo4EeGFda1ak6JiMA" target="_Xk9Hl6o4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_Xk9Hmqo4EeGFda1ak6JiMA" source="_Xk9Hl6o4EeGFda1ak6JiMA" target="_Xk9Hlqo4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Xk9Hm6o4EeGFda1ak6JiMA" name="RHS">
+      <nodes xmi:id="_Xk9HnKo4EeGFda1ak6JiMA" name="Selected" incoming="_Xk9HoKo4EeGFda1ak6JiMA" outgoing="_Xk9Hn6o4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_Xk9Hnao4EeGFda1ak6JiMA" name="OldTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Xk9Hnqo4EeGFda1ak6JiMA" name="NewTarget" incoming="_Xk9Hn6o4EeGFda1ak6JiMA" outgoing="_Xk9HoKo4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_Xk9Hn6o4EeGFda1ak6JiMA" source="_Xk9HnKo4EeGFda1ak6JiMA" target="_Xk9Hnqo4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_Xk9HoKo4EeGFda1ak6JiMA" source="_Xk9Hnqo4EeGFda1ak6JiMA" target="_Xk9HnKo4EeGFda1ak6JiMA">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Xk9Hoao4EeGFda1ak6JiMA" origin="_Xk9Hlqo4EeGFda1ak6JiMA" image="_Xk9HnKo4EeGFda1ak6JiMA"/>
+    <mappings xmi:id="_Xk9Hoqo4EeGFda1ak6JiMA" origin="_Xk9Hl6o4EeGFda1ak6JiMA" image="_Xk9Hnao4EeGFda1ak6JiMA"/>
+    <mappings xmi:id="_Xk9Ho6o4EeGFda1ak6JiMA" origin="_Xk9HmKo4EeGFda1ak6JiMA" image="_Xk9Hnqo4EeGFda1ak6JiMA"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_Xk9HpKo4EeGFda1ak6JiMA" name="mainUnit" subUnits="_Xk9Hkao4EeGFda1ak6JiMA">
+    <parameters xmi:id="_Xk9Hpao4EeGFda1ak6JiMA" name="selectedEObject"/>
+    <parameters xmi:id="_Xk9Hpqo4EeGFda1ak6JiMA" name="OldTarget"/>
+    <parameters xmi:id="_Xk9Hp6o4EeGFda1ak6JiMA" name="NewTarget"/>
+    <parameterMappings xmi:id="_Xk9uoKo4EeGFda1ak6JiMA" source="_Xk9Hpao4EeGFda1ak6JiMA" target="_Xk9Hkqo4EeGFda1ak6JiMA"/>
+    <parameterMappings xmi:id="_Xk9uoao4EeGFda1ak6JiMA" source="_Xk9Hpqo4EeGFda1ak6JiMA" target="_Xk9Hk6o4EeGFda1ak6JiMA"/>
+    <parameterMappings xmi:id="_Xk9uoqo4EeGFda1ak6JiMA" source="_Xk9Hp6o4EeGFda1ak6JiMA" target="_Xk9HlKo4EeGFda1ak6JiMA"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

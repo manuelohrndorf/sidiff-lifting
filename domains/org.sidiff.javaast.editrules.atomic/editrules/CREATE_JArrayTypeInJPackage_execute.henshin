@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mljoYLBsEeGf79A94u_7qw" description="Creates one JArrayType in JPackage" name="CREATE_JArrayTypeInJPackage">
+  <rules xmi:id="_mljoYbBsEeGf79A94u_7qw" description="creates one JArrayType in the context: JPackage" name="createJArrayTypeInJPackage">
+    <parameters xmi:id="_mljoYrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mljoY7BsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mljoZLBsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mljoZbBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mljoZrBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mljoZ7BsEeGf79A94u_7qw" name="IsExternal"/>
+    <parameters xmi:id="_mljoaLBsEeGf79A94u_7qw" name="VisibilityKind"/>
+    <parameters xmi:id="_mljoabBsEeGf79A94u_7qw" name="IsAbstract"/>
+    <parameters xmi:id="_mljoarBsEeGf79A94u_7qw" name="IsFinal"/>
+    <parameters xmi:id="_mljoa7BsEeGf79A94u_7qw" name="ArrayDimensions"/>
+    <parameters xmi:id="_mljobLBsEeGf79A94u_7qw" name="Existing"/>
+    <lhs xmi:id="_mljobbBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mljobrBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mljob7BsEeGf79A94u_7qw" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mljocLBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mljocbBsEeGf79A94u_7qw" name="Selected" outgoing="_mljofLBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mljocrBsEeGf79A94u_7qw" name="New" incoming="_mljofLBsEeGf79A94u_7qw" outgoing="_mljofbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+        <attributes xmi:id="_mljoc7BsEeGf79A94u_7qw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_mljodLBsEeGf79A94u_7qw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_mljodbBsEeGf79A94u_7qw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_mljodrBsEeGf79A94u_7qw" value="IsExternal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType/isExternal"/>
+        </attributes>
+        <attributes xmi:id="_mljod7BsEeGf79A94u_7qw" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+        <attributes xmi:id="_mljoeLBsEeGf79A94u_7qw" value="IsAbstract">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_mljoebBsEeGf79A94u_7qw" value="IsFinal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/isFinal"/>
+        </attributes>
+        <attributes xmi:id="_mljoerBsEeGf79A94u_7qw" value="ArrayDimensions">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType/arrayDimensions"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mljoe7BsEeGf79A94u_7qw" name="Existing" incoming="_mljofbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_mljofLBsEeGf79A94u_7qw" source="_mljocbBsEeGf79A94u_7qw" target="_mljocrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/classes"/>
+      </edges>
+      <edges xmi:id="_mljofbBsEeGf79A94u_7qw" source="_mljocrBsEeGf79A94u_7qw" target="_mljoe7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mljofrBsEeGf79A94u_7qw" origin="_mljobrBsEeGf79A94u_7qw" image="_mljocbBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mljof7BsEeGf79A94u_7qw" origin="_mljob7BsEeGf79A94u_7qw" image="_mljoe7BsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mljogLBsEeGf79A94u_7qw" description="Creates one JArrayType depending on available contexts in model instance" name="mainUnit" subUnits="_mljoYbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mljogbBsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mljogrBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mljog7BsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mljohLBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mljohbBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mljohrBsEeGf79A94u_7qw" name="IsExternal"/>
+    <parameters xmi:id="_mljoh7BsEeGf79A94u_7qw" name="VisibilityKind"/>
+    <parameters xmi:id="_mljoiLBsEeGf79A94u_7qw" name="IsAbstract"/>
+    <parameters xmi:id="_mljoibBsEeGf79A94u_7qw" name="IsFinal"/>
+    <parameters xmi:id="_mljoirBsEeGf79A94u_7qw" name="ArrayDimensions"/>
+    <parameters xmi:id="_mljoi7BsEeGf79A94u_7qw" name="Existing"/>
+    <parameterMappings xmi:id="_mljojLBsEeGf79A94u_7qw" source="_mljogrBsEeGf79A94u_7qw" target="_mljoYrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljojbBsEeGf79A94u_7qw" source="_mljoY7BsEeGf79A94u_7qw" target="_mljogbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljojrBsEeGf79A94u_7qw" source="_mljog7BsEeGf79A94u_7qw" target="_mljoZLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljoj7BsEeGf79A94u_7qw" source="_mljohLBsEeGf79A94u_7qw" target="_mljoZbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljokLBsEeGf79A94u_7qw" source="_mljohbBsEeGf79A94u_7qw" target="_mljoZrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljokbBsEeGf79A94u_7qw" source="_mljohrBsEeGf79A94u_7qw" target="_mljoZ7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljokrBsEeGf79A94u_7qw" source="_mljoh7BsEeGf79A94u_7qw" target="_mljoaLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljok7BsEeGf79A94u_7qw" source="_mljoiLBsEeGf79A94u_7qw" target="_mljoabBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljolLBsEeGf79A94u_7qw" source="_mljoibBsEeGf79A94u_7qw" target="_mljoarBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljolbBsEeGf79A94u_7qw" source="_mljoirBsEeGf79A94u_7qw" target="_mljoa7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mljolrBsEeGf79A94u_7qw" source="_mljoi7BsEeGf79A94u_7qw" target="_mljobLBsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

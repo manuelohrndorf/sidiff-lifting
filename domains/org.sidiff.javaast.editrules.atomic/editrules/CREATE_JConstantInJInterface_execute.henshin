@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mlO4QLBsEeGf79A94u_7qw" description="Creates one JConstant in JInterface" name="CREATE_JConstantInJInterface">
+  <rules xmi:id="_mlO4QbBsEeGf79A94u_7qw" description="creates one JConstant in the context: JInterface" name="createJConstantInJInterface">
+    <parameters xmi:id="_mlO4QrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mlO4Q7BsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mlO4RLBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mlO4RbBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mlO4RrBsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mlO4R7BsEeGf79A94u_7qw" name="VisibilityKind"/>
+    <parameters xmi:id="_mlO4SLBsEeGf79A94u_7qw" name="IsFinal"/>
+    <parameters xmi:id="_mlO4SbBsEeGf79A94u_7qw" name="IsStatic"/>
+    <parameters xmi:id="_mlO4SrBsEeGf79A94u_7qw" name="IsTransient"/>
+    <parameters xmi:id="_mlO4S7BsEeGf79A94u_7qw" name="Existing"/>
+    <lhs xmi:id="_mlPfULBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mlPfUbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_mlPfUrBsEeGf79A94u_7qw" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mlPfU7BsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mlPfVLBsEeGf79A94u_7qw" name="Selected" outgoing="_mlPfXrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_mlPfVbBsEeGf79A94u_7qw" name="New" incoming="_mlPfXrBsEeGf79A94u_7qw" outgoing="_mlPfX7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+        <attributes xmi:id="_mlPfVrBsEeGf79A94u_7qw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_mlPfV7BsEeGf79A94u_7qw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_mlPfWLBsEeGf79A94u_7qw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_mlPfWbBsEeGf79A94u_7qw" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+        <attributes xmi:id="_mlPfWrBsEeGf79A94u_7qw" value="IsFinal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isFinal"/>
+        </attributes>
+        <attributes xmi:id="_mlPfW7BsEeGf79A94u_7qw" value="IsStatic">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isStatic"/>
+        </attributes>
+        <attributes xmi:id="_mlPfXLBsEeGf79A94u_7qw" value="IsTransient">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isTransient"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mlPfXbBsEeGf79A94u_7qw" name="Existing" incoming="_mlPfX7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_mlPfXrBsEeGf79A94u_7qw" source="_mlPfVLBsEeGf79A94u_7qw" target="_mlPfVbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/constants"/>
+      </edges>
+      <edges xmi:id="_mlPfX7BsEeGf79A94u_7qw" source="_mlPfVbBsEeGf79A94u_7qw" target="_mlPfXbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mlPfYLBsEeGf79A94u_7qw" origin="_mlPfUbBsEeGf79A94u_7qw" image="_mlPfVLBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mlPfYbBsEeGf79A94u_7qw" origin="_mlPfUrBsEeGf79A94u_7qw" image="_mlPfXbBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mlPfYrBsEeGf79A94u_7qw" description="Creates one JConstant depending on available contexts in model instance" name="mainUnit" subUnits="_mlO4QbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mlPfY7BsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mlPfZLBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mlPfZbBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mlPfZrBsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mlPfZ7BsEeGf79A94u_7qw" name="Name"/>
+    <parameters xmi:id="_mlPfaLBsEeGf79A94u_7qw" name="VisibilityKind"/>
+    <parameters xmi:id="_mlPfabBsEeGf79A94u_7qw" name="IsFinal"/>
+    <parameters xmi:id="_mlPfarBsEeGf79A94u_7qw" name="IsStatic"/>
+    <parameters xmi:id="_mlPfa7BsEeGf79A94u_7qw" name="IsTransient"/>
+    <parameters xmi:id="_mlPfbLBsEeGf79A94u_7qw" name="Existing"/>
+    <parameterMappings xmi:id="_mlPfbbBsEeGf79A94u_7qw" source="_mlPfZLBsEeGf79A94u_7qw" target="_mlO4QrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfbrBsEeGf79A94u_7qw" source="_mlO4Q7BsEeGf79A94u_7qw" target="_mlPfY7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfb7BsEeGf79A94u_7qw" source="_mlPfZbBsEeGf79A94u_7qw" target="_mlO4RLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfcLBsEeGf79A94u_7qw" source="_mlPfZrBsEeGf79A94u_7qw" target="_mlO4RbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfcbBsEeGf79A94u_7qw" source="_mlPfZ7BsEeGf79A94u_7qw" target="_mlO4RrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfcrBsEeGf79A94u_7qw" source="_mlPfaLBsEeGf79A94u_7qw" target="_mlO4R7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfc7BsEeGf79A94u_7qw" source="_mlPfabBsEeGf79A94u_7qw" target="_mlO4SLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfdLBsEeGf79A94u_7qw" source="_mlPfarBsEeGf79A94u_7qw" target="_mlO4SbBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfdbBsEeGf79A94u_7qw" source="_mlPfa7BsEeGf79A94u_7qw" target="_mlO4SrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mlPfdrBsEeGf79A94u_7qw" source="_mlPfbLBsEeGf79A94u_7qw" target="_mlO4S7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

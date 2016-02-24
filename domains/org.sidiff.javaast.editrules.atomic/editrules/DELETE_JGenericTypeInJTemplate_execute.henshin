@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mjGxULBsEeGf79A94u_7qw" description="Deletes one JGenericType in JTemplate" name="DELETE_JGenericTypeInJTemplate">
+  <rules xmi:id="_mjGxUbBsEeGf79A94u_7qw" description="deletes one JGenericType in the context: JTemplate" name="deleteJGenericTypeInJTemplate">
+    <parameters xmi:id="_mjGxUrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mjGxU7BsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <lhs xmi:id="_mjGxVLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mjGxVbBsEeGf79A94u_7qw" name="Selected" outgoing="_mjGxV7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate"/>
+      </nodes>
+      <nodes xmi:id="_mjGxVrBsEeGf79A94u_7qw" name="toBeDeleted" incoming="_mjGxV7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+      </nodes>
+      <edges xmi:id="_mjGxV7BsEeGf79A94u_7qw" source="_mjGxVbBsEeGf79A94u_7qw" target="_mjGxVrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate/genericTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mjGxWLBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mjGxWbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplate"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_mjGxWrBsEeGf79A94u_7qw" origin="_mjGxVbBsEeGf79A94u_7qw" image="_mjGxWbBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mjGxW7BsEeGf79A94u_7qw" description="Deletes one JGenericType depending on available contexts in model instance" name="mainUnit" subUnits="_mjGxUbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mjGxXLBsEeGf79A94u_7qw" name="toBeDeleted"/>
+    <parameters xmi:id="_mjHYYLBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameterMappings xmi:id="_mjHYYbBsEeGf79A94u_7qw" source="_mjHYYLBsEeGf79A94u_7qw" target="_mjGxUrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mjHYYrBsEeGf79A94u_7qw" source="_mjGxXLBsEeGf79A94u_7qw" target="_mjGxU7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

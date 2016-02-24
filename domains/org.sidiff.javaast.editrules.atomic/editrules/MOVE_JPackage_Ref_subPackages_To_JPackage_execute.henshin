@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mh7FkLBsEeGf79A94u_7qw" description="MOVEs JPackage with reference subPackages to JPackage" name="MOVE_JPackage_Ref_subPackages_To_JPackage">
+  <rules xmi:id="_mh7FkbBsEeGf79A94u_7qw" description="Moves one JPackage with reference subPackages to JPackage" name="moveJPackageRefSubPackagesToJPackage">
+    <parameters xmi:id="_mh7FkrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mh7Fk7BsEeGf79A94u_7qw" name="OldSource"/>
+    <parameters xmi:id="_mh7FlLBsEeGf79A94u_7qw" name="NewSource"/>
+    <lhs xmi:id="_mh7FlbBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mh7FlrBsEeGf79A94u_7qw" name="Selected" incoming="_mh7FmbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mh7Fl7BsEeGf79A94u_7qw" name="OldSource" outgoing="_mh7FmbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mh7FmLBsEeGf79A94u_7qw" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <edges xmi:id="_mh7FmbBsEeGf79A94u_7qw" source="_mh7Fl7BsEeGf79A94u_7qw" target="_mh7FlrBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mh7soLBsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mh7sobBsEeGf79A94u_7qw" name="Selected" incoming="_mh7spLBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mh7sorBsEeGf79A94u_7qw" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mh7so7BsEeGf79A94u_7qw" name="NewSource" outgoing="_mh7spLBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <edges xmi:id="_mh7spLBsEeGf79A94u_7qw" source="_mh7so7BsEeGf79A94u_7qw" target="_mh7sobBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mh7spbBsEeGf79A94u_7qw" origin="_mh7FlrBsEeGf79A94u_7qw" image="_mh7sobBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mh7sprBsEeGf79A94u_7qw" origin="_mh7Fl7BsEeGf79A94u_7qw" image="_mh7sorBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_mh7sp7BsEeGf79A94u_7qw" origin="_mh7FmLBsEeGf79A94u_7qw" image="_mh7so7BsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mh7sqLBsEeGf79A94u_7qw" name="mainUnit" subUnits="_mh7FkbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mh7sqbBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mh7sqrBsEeGf79A94u_7qw" name="OldSource"/>
+    <parameters xmi:id="_mh7sq7BsEeGf79A94u_7qw" name="NewSource"/>
+    <parameterMappings xmi:id="_mh7srLBsEeGf79A94u_7qw" source="_mh7sqbBsEeGf79A94u_7qw" target="_mh7FkrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mh7srbBsEeGf79A94u_7qw" source="_mh7sqrBsEeGf79A94u_7qw" target="_mh7Fk7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mh7srrBsEeGf79A94u_7qw" source="_mh7sq7BsEeGf79A94u_7qw" target="_mh7FlLBsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

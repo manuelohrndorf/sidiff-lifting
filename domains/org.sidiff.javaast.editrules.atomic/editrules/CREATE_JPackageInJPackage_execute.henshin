@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_mhyisLBsEeGf79A94u_7qw" description="Creates one JPackage in JPackage" name="CREATE_JPackageInJPackage">
+  <rules xmi:id="_mhyisbBsEeGf79A94u_7qw" description="creates one JPackage in the context: JPackage" name="createJPackageInJPackage">
+    <parameters xmi:id="_mhzJwLBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_mhzJwbBsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mhzJwrBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mhzJw7BsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mhzJxLBsEeGf79A94u_7qw" name="Name"/>
+    <lhs xmi:id="_mhzJxbBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_mhzJxrBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_mhzJx7BsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_mhzJyLBsEeGf79A94u_7qw" name="Selected" outgoing="_mhzJzbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_mhzJybBsEeGf79A94u_7qw" name="New" incoming="_mhzJzbBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+        <attributes xmi:id="_mhzJyrBsEeGf79A94u_7qw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_mhzJy7BsEeGf79A94u_7qw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_mhzJzLBsEeGf79A94u_7qw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_mhzJzbBsEeGf79A94u_7qw" source="_mhzJyLBsEeGf79A94u_7qw" target="_mhzJybBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mhzJzrBsEeGf79A94u_7qw" origin="_mhzJxrBsEeGf79A94u_7qw" image="_mhzJyLBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_mhzJz7BsEeGf79A94u_7qw" description="Creates one JPackage depending on available contexts in model instance" name="mainUnit" subUnits="_mhyisbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_mhzJ0LBsEeGf79A94u_7qw" name="New"/>
+    <parameters xmi:id="_mhzJ0bBsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_mhzJ0rBsEeGf79A94u_7qw" name="Id"/>
+    <parameters xmi:id="_mhzJ07BsEeGf79A94u_7qw" name="Compileable"/>
+    <parameters xmi:id="_mhzJ1LBsEeGf79A94u_7qw" name="Name"/>
+    <parameterMappings xmi:id="_mhzJ1bBsEeGf79A94u_7qw" source="_mhzJ0bBsEeGf79A94u_7qw" target="_mhzJwLBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mhzJ1rBsEeGf79A94u_7qw" source="_mhzJwbBsEeGf79A94u_7qw" target="_mhzJ0LBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mhzJ17BsEeGf79A94u_7qw" source="_mhzJ0rBsEeGf79A94u_7qw" target="_mhzJwrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mhzJ2LBsEeGf79A94u_7qw" source="_mhzJ07BsEeGf79A94u_7qw" target="_mhzJw7BsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_mhzJ2bBsEeGf79A94u_7qw" source="_mhzJ1LBsEeGf79A94u_7qw" target="_mhzJxLBsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

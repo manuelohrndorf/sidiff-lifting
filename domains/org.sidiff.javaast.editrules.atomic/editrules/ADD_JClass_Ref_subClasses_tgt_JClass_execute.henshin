@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_miqscLBsEeGf79A94u_7qw" description="Adds to JClass's reference subClasses the target JClass" name="ADD_JClass_Ref_subClasses_tgt_JClass">
+  <rules xmi:id="_miqscbBsEeGf79A94u_7qw" description="Adds to JClass's reference subClasses the target JClass" name="addToJClassRefSubClassesToJClass">
+    <parameters xmi:id="_miqscrBsEeGf79A94u_7qw" name="Selected"/>
+    <parameters xmi:id="_miqsc7BsEeGf79A94u_7qw" name="NewTarget"/>
+    <lhs xmi:id="_miqsdLBsEeGf79A94u_7qw" name="LHS">
+      <nodes xmi:id="_miqsdbBsEeGf79A94u_7qw" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_miqsdrBsEeGf79A94u_7qw" name="NewTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_miqsd7BsEeGf79A94u_7qw" name="RHS">
+      <nodes xmi:id="_miqseLBsEeGf79A94u_7qw" name="Selected" incoming="_miqse7BsEeGf79A94u_7qw" outgoing="_miqserBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_miqsebBsEeGf79A94u_7qw" name="NewTarget" incoming="_miqserBsEeGf79A94u_7qw" outgoing="_miqse7BsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_miqserBsEeGf79A94u_7qw" source="_miqseLBsEeGf79A94u_7qw" target="_miqsebBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_miqse7BsEeGf79A94u_7qw" source="_miqsebBsEeGf79A94u_7qw" target="_miqseLBsEeGf79A94u_7qw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_miqsfLBsEeGf79A94u_7qw" origin="_miqsdbBsEeGf79A94u_7qw" image="_miqseLBsEeGf79A94u_7qw"/>
+    <mappings xmi:id="_miqsfbBsEeGf79A94u_7qw" origin="_miqsdrBsEeGf79A94u_7qw" image="_miqsebBsEeGf79A94u_7qw"/>
+  </rules>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_miqsfrBsEeGf79A94u_7qw" name="mainUnit" subUnits="_miqscbBsEeGf79A94u_7qw">
+    <parameters xmi:id="_miqsf7BsEeGf79A94u_7qw" name="selectedEObject"/>
+    <parameters xmi:id="_miqsgLBsEeGf79A94u_7qw" name="NewTarget"/>
+    <parameterMappings xmi:id="_miqsgbBsEeGf79A94u_7qw" source="_miqsf7BsEeGf79A94u_7qw" target="_miqscrBsEeGf79A94u_7qw"/>
+    <parameterMappings xmi:id="_miqsgrBsEeGf79A94u_7qw" source="_miqsgLBsEeGf79A94u_7qw" target="_miqsc7BsEeGf79A94u_7qw"/>
+  </transformationUnits>
+</henshin:TransformationSystem>
