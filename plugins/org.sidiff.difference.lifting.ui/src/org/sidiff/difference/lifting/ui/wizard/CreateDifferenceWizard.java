@@ -16,6 +16,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -152,6 +153,7 @@ public class CreateDifferenceWizard extends Wizard {
 		SymmetricDifference symmetricDiff = null;
 		
 		try{
+			LogUtil.setLogChannel("EclipseConsoleLogChannel");
 			symmetricDiff = LiftingFacade.liftMeUp(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
