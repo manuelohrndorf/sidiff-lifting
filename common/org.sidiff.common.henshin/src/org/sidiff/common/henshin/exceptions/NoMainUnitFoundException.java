@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.edit2recognition.exceptions;
+package org.sidiff.common.henshin.exceptions;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.model.Module;
  * Exception is thrown while transforming an edit rule into a recognition rule. It indicates that
  * there is no unit named 'mainUnit'.
  */
-public class NoMainUnitFoundException extends EditToRecognitionException {
+public class NoMainUnitFoundException extends Exception {
 	
 	private static final long serialVersionUID = 1L;
 	

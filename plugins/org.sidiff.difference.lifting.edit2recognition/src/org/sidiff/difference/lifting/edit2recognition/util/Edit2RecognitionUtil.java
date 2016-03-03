@@ -11,7 +11,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
+import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 
 /**
  * Some convenience functions to handle edit- and recognition-rules. 

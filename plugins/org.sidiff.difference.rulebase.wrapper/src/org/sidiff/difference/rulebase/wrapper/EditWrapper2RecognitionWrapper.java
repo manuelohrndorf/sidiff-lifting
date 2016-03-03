@@ -8,9 +8,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.Edit2RecognitionTransformation;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
-import org.sidiff.difference.lifting.edit2recognition.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedApplicationConditionException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.UnsupportedUnitException;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
@@ -96,7 +96,11 @@ public class EditWrapper2RecognitionWrapper {
 	private void init(Module editRule) throws EditToRecognitionException {
 		
 		// Initialize transformation:
-		transformation = new Edit2RecognitionTransformation(editRule);
+		try {
+			transformation = new Edit2RecognitionTransformation(editRule);
+		} catch (NoMainUnitFoundException e) {
+			e.printStackTrace();
+		}
 		
 		// Initialize rulebase item:
 		item = createRuleBaseItem(editRule);
@@ -111,7 +115,13 @@ public class EditWrapper2RecognitionWrapper {
 
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();
-		editRule.setExecuteMainUnit(Edit2RecognitionUtil.findExecuteMainUnit(editModule));
+		
+		try {
+			editRule.setExecuteMainUnit(Edit2RecognitionUtil.findExecuteMainUnit(editModule));
+		} catch (NoMainUnitFoundException e) {
+			e.printStackTrace();
+		}
+		
 		editRule.setUseDerivedFeatures(HenshinModuleAnalysis.hasDerivedReferences(editModule));
 		
 		return editRule;
