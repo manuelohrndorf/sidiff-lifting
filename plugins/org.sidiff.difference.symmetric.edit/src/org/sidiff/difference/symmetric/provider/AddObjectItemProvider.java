@@ -13,15 +13,11 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.sidiff.common.emf.LabelPrinter;
 import org.sidiff.difference.symmetric.AddObject;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.difference.symmetric.provider.util.LabelUtil;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AddObject} object.
@@ -31,6 +27,17 @@ import org.sidiff.difference.symmetric.provider.util.LabelUtil;
  */
 public class AddObjectItemProvider
 	extends ChangeItemProvider {
+	
+	/**
+	 * @generated NOT
+	 */
+	private LabelPrinter labelPrinter;
+	
+	/**
+	 * @generated NOT
+	 */
+	private String baseString = getString("_UI_AddObject_type");
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -98,10 +105,15 @@ public class AddObjectItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
+		
 		if(object instanceof AddObject){
-			return String.format("%s: %s", getString("_UI_AddObject_type"), LabelUtil.getLabel(((AddObject) object).getObj()));
+			if (labelPrinter == null) {
+				labelPrinter = new LabelPrinter(((SymmetricDifference)((AddObject) object).eContainer()).getModelA());
+			}
+			
+			return String.format("%s: %s", baseString, labelPrinter.getLabel(((AddObject) object).getObj()));
 		}
-		return getString("_UI_AddObject_type");
+		return baseString;
 	}
 
 	/**

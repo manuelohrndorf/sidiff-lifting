@@ -34,7 +34,6 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
-import org.sidiff.matching.model.MatchingModelFactory;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.SymmetricDifference} object.

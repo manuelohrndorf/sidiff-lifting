@@ -41,28 +41,30 @@ public class EcoreStringResolver extends AbstractStringResolver {
 	@Override
 	public String resolve(EObject eObject) {
 		String res = eObject.toString();
-		if(eObject instanceof EAnnotation){
+		
+		if (eObject instanceof EAnnotation) {
 			EAnnotation eAnnotaion = (EAnnotation) eObject;
-			res = String.format("%s [%s]", eAnnotaion.getSource(),  eAnnotaion.eClass().getName());
-		}else if(eObject instanceof ENamedElement){
-			ENamedElement eNamedElement = (ENamedElement)eObject;
-			res = String.format("%s [%s]", eNamedElement.getName(),  eNamedElement.eClass().getName());
-			if(eObject instanceof EAttribute){
-				EAttribute eAttribute = (EAttribute)eObject;
-				if(eAttribute.isID()){
-					res += ": ID"; 
+			res = String.format("%s [%s]", eAnnotaion.getSource(), eAnnotaion.eClass().getName());
+		} else if (eObject instanceof ENamedElement) {
+			ENamedElement eNamedElement = (ENamedElement) eObject;
+			res = String.format("%s [%s]", eNamedElement.getName(), eNamedElement.eClass().getName());
+			if (eObject instanceof EAttribute) {
+				EAttribute eAttribute = (EAttribute) eObject;
+				if (eAttribute.isID()) {
+					res += ": ID";
 				}
 			}
-		}else{
+		} else {
 			String[] fragments = EcoreUtil.getURI(eObject).toString().split("\\.");
-			String indexFragment = fragments[fragments.length-1];
+			String indexFragment = fragments[fragments.length - 1];
 
-			if(indexFragment.matches("\\d+")){
-				res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(), fragments[fragments.length-1], eObject.eClass().getName());
+			if (indexFragment.matches("\\d+")) {
+				res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
+						fragments[fragments.length - 1], eObject.eClass().getName());
 			} else {
 				res = eObject.eClass().getName();
 			}
-		}		
+		}
 		return res;
 	}
 }

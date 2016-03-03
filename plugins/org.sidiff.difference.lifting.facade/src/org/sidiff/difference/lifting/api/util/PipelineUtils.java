@@ -3,20 +3,19 @@ package org.sidiff.difference.lifting.api.util;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.AddObject;
@@ -118,7 +117,7 @@ public class PipelineUtils {
 	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType) {
-		return RecognitionRuleSorterUtil.getAvailableRecognitionRuleSorters(documentType);
+		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentType);
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class PipelineUtils {
 	 * @return
 	 */
 	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(String documentType) {
-		return RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(documentType);
+		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentType);
 	}
 
 	/**
@@ -272,7 +271,7 @@ public class PipelineUtils {
 	 * @param difference
 	 *            The difference to sort.
 	 */
-	public static void sortDifference(SymmetricDifference difference) {
+	public static void sortDifference(final SymmetricDifference difference) {
 
 		// Sort Correspondences:
 		Comparator<Correspondence> correspondenceSorter = new Comparator<Correspondence>() {
@@ -280,12 +279,16 @@ public class PipelineUtils {
 		
 			CorrespondenceItemProvider correspondenceItemProvider = new CorrespondenceItemProvider(adapterFactory);
 
+			Map<Correspondence, String> texts = new HashMap<Correspondence, String>();
+			{
+				for (Correspondence c : difference.getMatching().getCorrespondences()) {
+					texts.put(c, correspondenceItemProvider.getText(c));
+				}
+			}
+			
 			@Override
 			public int compare(Correspondence o1, Correspondence o2) {
-				String s1 = correspondenceItemProvider.getText(o1);
-				String s2 = correspondenceItemProvider.getText(o2);
-
-				return s1.compareToIgnoreCase(s2);
+				return texts.get(o1).compareToIgnoreCase(texts.get(o2));
 			}
 		};
 
@@ -344,24 +347,6 @@ public class PipelineUtils {
 
 		for (SemanticChangeSet changeSet : difference.getUnusedChangeSets()) {
 			ECollections.sort(changeSet.getChanges(), changeSorter);
-		}
-	}
-
-	/**
-	 * private helper method for cleanup.
-	 * 
-	 * @param eObject
-	 */
-	@SuppressWarnings("unused")
-	// TODO[MO@2015-04-03]: Nothing to do... Remove this workaround!?
-	// (does not work for ECrossReferenceAdapters!?) 
-	private static void releaseAdapters(EObject eObject) {
-		if (eObject != null) {
-			EList<Adapter> adapters = eObject.eAdapters();
-
-			if ((adapters != null) && (!adapters.isEmpty())) {
-				adapters.clear();
-			}
 		}
 	}
 }

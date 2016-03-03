@@ -13,15 +13,11 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.sidiff.common.emf.LabelPrinter;
 import org.sidiff.difference.symmetric.AddReference;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.difference.symmetric.provider.util.LabelUtil;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AddReference} object.
@@ -31,6 +27,17 @@ import org.sidiff.difference.symmetric.provider.util.LabelUtil;
  */
 public class AddReferenceItemProvider
 	extends ChangeItemProvider {
+	
+	/**
+	 * @generated NOT
+	 */
+	private LabelPrinter labelPrinter;
+	
+	/**
+	 * @generated NOT
+	 */
+	private String baseString = getString("_UI_AddReference_type");
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -144,10 +151,15 @@ public class AddReferenceItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
+		
 		if(object instanceof AddReference){
-			return String.format("%s: %s (%s -> %s)", getString("_UI_AddReference_type"), LabelUtil.getLabel(((AddReference) object).getType()), LabelUtil.getLabel(((AddReference) object).getSrc()), LabelUtil.getLabel(((AddReference) object).getTgt()));
+			if (labelPrinter == null) {
+				labelPrinter = new LabelPrinter(((SymmetricDifference)((AddReference) object).eContainer()).getModelA());
+			}
+			
+			return String.format("%s: %s (%s -> %s)", getString("_UI_AddReference_type"), labelPrinter.getLabel(((AddReference) object).getType()), labelPrinter.getLabel(((AddReference) object).getSrc()), labelPrinter.getLabel(((AddReference) object).getTgt()));
 		}
-		return getString("_UI_AddReference_type");
+		return baseString;
 	}
 
 	/**
