@@ -33,6 +33,7 @@ import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditR
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
 import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
@@ -222,6 +223,7 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
+		// Domain-Size sorting:
 		ruleSorter.setDifferenceAnalysis(analysis);
 
 		for (Rule recognitionRule : this.recognitionRules) {
@@ -235,6 +237,9 @@ public class RecognitionEngine {
 				}
 			}
 		}
+		
+		// Structural sorting:
+		RecognitionRuleStructureSorting.sort(recognitionRules);
 	}
 
 	/**

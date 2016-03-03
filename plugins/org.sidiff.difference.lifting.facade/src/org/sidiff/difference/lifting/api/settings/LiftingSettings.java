@@ -7,7 +7,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -99,7 +99,7 @@ public class LiftingSettings extends DifferenceSettings {
 		super();
 		
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
 	}
 
 	/**
@@ -110,9 +110,9 @@ public class LiftingSettings extends DifferenceSettings {
 	public LiftingSettings(String documentType){
 		super(documentType);
 		this.ruleBases = RuleBaseUtil.getAvailableRulebases(documentType);
-		this.rrSorter = RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(documentType);
+		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentType);
 		if(rrSorter == null){
-			RecognitionRuleSorterUtil.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+			RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
 		}
 	}
 	

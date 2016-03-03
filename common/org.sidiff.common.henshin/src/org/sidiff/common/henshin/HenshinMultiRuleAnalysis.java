@@ -22,6 +22,33 @@ import org.eclipse.emf.henshin.model.Unit;
 public class HenshinMultiRuleAnalysis {
 	
 	/**
+	 * @param multiRule
+	 *            The multi-rule of the given node.
+	 * @param node
+	 *            The node to test.
+	 * @return <code>true</code> if the given node is an embedded kernel node
+	 *         which has adjacent multi-nodes; <code>false</code> otherwise.
+	 */
+	public static boolean isBoundaryNode(Rule multiRule, Node node) {
+		if (isEmbeddedNode(multiRule, node)) {
+			
+			for (Edge outgoing : node.getOutgoing()) {
+				if (!isEmbeddedNode(multiRule, outgoing.getTarget())) {
+					return true;
+				}
+			}
+			
+			for (Edge incoming : node.getIncoming()) {
+				if (!isEmbeddedNode(multiRule, incoming.getSource())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * @param rule
 	 *            The multi-rule.
 	 * @return All embedded/mapped nodes as a hash set.
@@ -30,6 +57,18 @@ public class HenshinMultiRuleAnalysis {
 	 */
 	public static Set<Node> getEmbeddedNodes(Rule rule) {
 		return HenshinRuleAnalysisUtilEx.getEmbeddedNodes(rule.getMultiMappings());
+	}
+	
+	/**
+	 * @param multiRule
+	 *            The multi-rule of the given node.
+	 * @param node
+	 *            The node to test.
+	 * @return <code>true</code> if the given node is an embedded node of the
+	 *         kernel rule; <code>false</code> otherwise.
+	 */
+	public static boolean isEmbeddedNode(Rule multiRule, Node node) {
+		return HenshinRuleAnalysisUtilEx.isNodeMapped(multiRule.getMultiMappings(), node);
 	}
 	
 	/**
