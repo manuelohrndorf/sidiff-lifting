@@ -231,6 +231,22 @@ public interface SymmetricDifference extends EObject {
 	 * @model
 	 * @generated
 	 */
+	Correspondence getCorrespondenceOfModelA(EObject objectInA);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Correspondence getCorrespondenceOfModelB(EObject objectInB);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	void addCorrespondence(Correspondence correspondence);
 
 	/**

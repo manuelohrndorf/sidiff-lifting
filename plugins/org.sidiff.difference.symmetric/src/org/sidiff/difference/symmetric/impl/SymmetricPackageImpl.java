@@ -889,6 +889,12 @@ public class SymmetricPackageImpl extends EPackageImpl implements SymmetricPacka
 		op = addEOperation(symmetricDifferenceEClass, ecorePackage.getEObject(), "getCorrespondingObjectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(symmetricDifferenceEClass, theMatchingModelPackage.getCorrespondence(), "getCorrespondenceOfModelA", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectInA", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(symmetricDifferenceEClass, theMatchingModelPackage.getCorrespondence(), "getCorrespondenceOfModelB", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "objectInB", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(symmetricDifferenceEClass, null, "addCorrespondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theMatchingModelPackage.getCorrespondence(), "correspondence", 0, 1, IS_UNIQUE, IS_ORDERED);
 
