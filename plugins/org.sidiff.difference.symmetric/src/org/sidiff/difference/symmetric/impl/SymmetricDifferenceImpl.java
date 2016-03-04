@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -52,6 +53,13 @@ import org.sidiff.matching.model.Matching;
  */
 public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDifference {
 
+	/**
+	 * Generates human readable strings for the changes 
+	 * 
+	 * @generated NOT
+	 */
+	private LabelPrinter labelPrinter;
+	
 	/**
 	 * Indexed access to correspondences: Model A -> Correspondence
 	 * 
@@ -230,7 +238,6 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	 * @generated NOT
 	 */
 	public Resource getModelA() {
-		
 		return getMatching().getEResourceA();
 	}
 
@@ -241,9 +248,7 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	 * @generated NOT
 	 */
 	public Resource getModelB() {
-		
 		return getMatching().getEResourceB();
-
 	}
 
 	/**
@@ -613,6 +618,21 @@ public class SymmetricDifferenceImpl extends EObjectImpl implements SymmetricDif
 	private void initCorrespondenceIndex() {
 		correspondencesA = new HashMap<EObject, Correspondence>();
 		correspondencesB = new HashMap<EObject, Correspondence>();
+	}
+	
+	/**
+	 * @return The label printer of this difference which generates human
+	 *         readable strings for the changes.
+	 *         
+	 * @generated NOT
+	 */
+	public LabelPrinter getLabelPrinter() {
+
+		if (labelPrinter == null) {
+			labelPrinter = new LabelPrinter(getModelA());
+		}
+
+		return labelPrinter;
 	}
 
 } // SymmetricDifferenceImpl

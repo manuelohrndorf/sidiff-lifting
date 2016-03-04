@@ -14,10 +14,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.sidiff.common.emf.LabelPrinter;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.RemoveObject;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.impl.RemoveObjectImpl;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.RemoveObject} object.
@@ -27,11 +27,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  */
 public class RemoveObjectItemProvider
 	extends ChangeItemProvider {
-	
-	/**
-	 * @generated NOT
-	 */
-	private LabelPrinter labelPrinter;
 	
 	/**
 	 * @generated NOT
@@ -106,11 +101,8 @@ public class RemoveObjectItemProvider
 	@Override
 	public String getText(Object object) {
 
-		if(object instanceof RemoveObject){
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((RemoveObject) object).eContainer()).getModelA());
-			}
-			
+		if(object instanceof RemoveObjectImpl){
+			LabelPrinter labelPrinter = ((RemoveObjectImpl) object).getLabelPrinter();
 			return String.format("%s: %s", baseString, labelPrinter.getLabel(((RemoveObject) object).getObj()));
 		}
 		

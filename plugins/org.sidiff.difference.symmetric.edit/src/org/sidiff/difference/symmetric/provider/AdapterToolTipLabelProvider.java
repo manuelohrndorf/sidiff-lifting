@@ -33,19 +33,14 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.sidiff.common.emf.LabelPrinter;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.impl.ChangeImpl;
 
 public class AdapterToolTipLabelProvider extends ColumnLabelProvider
 		implements ILabelProvider, ITableLabelProvider, INotifyChangedListener {
-	
-	/**
-	 * @generated NOT
-	 */
-	private LabelPrinter labelPrinter;
 	
 	/**
 	 * An extended version of the adapter factory label provider that also
@@ -693,29 +688,21 @@ public class AdapterToolTipLabelProvider extends ColumnLabelProvider
 		String text = null;
 		
 		if (element instanceof SemanticChangeSet) {
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((SemanticChangeSet) element).eContainer()).getModelA());
-			}
-			
 			text = ((SemanticChangeSet) element).getDescription();
-		} else if (element instanceof AddReference) {
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((AddReference) element).eContainer()).getModelA());
-			}
+		} else if (element instanceof ChangeImpl) {
+			LabelPrinter labelPrinter = ((ChangeImpl) element).getLabelPrinter();
 			
-			text = String.format("%s (%s -> %s)", labelPrinter.getLabel(((AddReference) element).getType()),
-					labelPrinter.getToolTipLabel(((AddReference) element).getSrc()),
-					labelPrinter.getToolTipLabel(((AddReference) element).getTgt()));
-		} else if (element instanceof RemoveReference) {
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((RemoveReference) element).eContainer()).getModelA());
+			if (element instanceof AddReference) {
+				text = String.format("%s (%s -> %s)", labelPrinter.getLabel(((AddReference) element).getType()),
+						labelPrinter.getToolTipLabel(((AddReference) element).getSrc()),
+						labelPrinter.getToolTipLabel(((AddReference) element).getTgt()));
+			} else if (element instanceof RemoveReference) {
+				text = String.format("%s (%s -> %s)", labelPrinter.getLabel(((RemoveReference) element).getType()),
+						labelPrinter.getToolTipLabel(((RemoveReference) element).getSrc()),
+						labelPrinter.getToolTipLabel(((RemoveReference) element).getTgt()));
 			}
-			
-			text = String.format("%s (%s -> %s)", labelPrinter.getLabel(((RemoveReference) element).getType()),
-					labelPrinter.getToolTipLabel(((RemoveReference) element).getSrc()),
-					labelPrinter.getToolTipLabel(((RemoveReference) element).getTgt()));
 		}
-
+			
 		return text;
 	}
 

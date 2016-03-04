@@ -14,10 +14,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.sidiff.common.emf.LabelPrinter;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.AddObject;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.impl.AddObjectImpl;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AddObject} object.
@@ -27,11 +27,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  */
 public class AddObjectItemProvider
 	extends ChangeItemProvider {
-	
-	/**
-	 * @generated NOT
-	 */
-	private LabelPrinter labelPrinter;
 	
 	/**
 	 * @generated NOT
@@ -106,11 +101,8 @@ public class AddObjectItemProvider
 	@Override
 	public String getText(Object object) {
 		
-		if(object instanceof AddObject){
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((AddObject) object).eContainer()).getModelA());
-			}
-			
+		if (object instanceof AddObjectImpl){
+			LabelPrinter labelPrinter = ((AddObjectImpl) object).getLabelPrinter();
 			return String.format("%s: %s", baseString, labelPrinter.getLabel(((AddObject) object).getObj()));
 		}
 		return baseString;
