@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kEUrsMvwEeWxt7h2NaLksg" name="MOVE_REF_COMBI_SimpleNamedType_FROM_ComplexNamedType_(types)_TO_ComplexNamedType_(types)" description="MOVEs SimpleNamedType from ComplexNamedType(Reference:types) to ComplexNamedType(Reference:types">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kEUrscvwEeWxt7h2NaLksg" name="moveSimpleNamedType_FROM_ComplexNamedType_types_TO_ComplexNamedType_ComplexNamedType" description="Moves SimpleNamedType from ComplexNamedType(Reference:types) toComplexNamedType(Reference:ComplexNamedType)">
+    <parameters xmi:id="_kEUrssvwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kEUrs8vwEeWxt7h2NaLksg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kEUrtMvwEeWxt7h2NaLksg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <lhs xmi:id="_kEUrtcvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kEUrtsvwEeWxt7h2NaLksg" name="Selected" incoming="_kEUrucvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kEUrt8vwEeWxt7h2NaLksg" name="OldSource" outgoing="_kEUrucvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kEUruMvwEeWxt7h2NaLksg" name="NewSource">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <edges xmi:id="_kEUrucvwEeWxt7h2NaLksg" source="_kEUrt8vwEeWxt7h2NaLksg" target="_kEUrtsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kEUrusvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kEUru8vwEeWxt7h2NaLksg" name="Selected" incoming="_kEUrvsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kEUrvMvwEeWxt7h2NaLksg" name="OldSource">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kEUrvcvwEeWxt7h2NaLksg" name="NewSource" outgoing="_kEUrvsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <edges xmi:id="_kEUrvsvwEeWxt7h2NaLksg" source="_kEUrvcvwEeWxt7h2NaLksg" target="_kEUru8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kEUrv8vwEeWxt7h2NaLksg" origin="_kEUrtsvwEeWxt7h2NaLksg" image="_kEUru8vwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kEUrwMvwEeWxt7h2NaLksg" origin="_kEUrt8vwEeWxt7h2NaLksg" image="_kEUrvMvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kEUrwcvwEeWxt7h2NaLksg" origin="_kEUruMvwEeWxt7h2NaLksg" image="_kEUrvcvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kEUrwsvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kEUrscvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kEUrw8vwEeWxt7h2NaLksg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kEUrxMvwEeWxt7h2NaLksg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kEUrxcvwEeWxt7h2NaLksg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kEUrxsvwEeWxt7h2NaLksg" source="_kEUrw8vwEeWxt7h2NaLksg" target="_kEUrssvwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kEUrx8vwEeWxt7h2NaLksg" source="_kEUrxMvwEeWxt7h2NaLksg" target="_kEUrs8vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kEUryMvwEeWxt7h2NaLksg" source="_kEUrxcvwEeWxt7h2NaLksg" target="_kEUrtMvwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kHrhsMvwEeWxt7h2NaLksg" name="CREATE_ComplexNamedType_IN_ComplexNamedType_(types)" description="Creates one ComplexNamedType in ComplexNamedType">
+  <annotations xmi:id="_kHrhscvwEeWxt7h2NaLksg" key="INVERSE" value="DELETE_ComplexNamedType_IN_ComplexNamedType_(types)"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kHrhssvwEeWxt7h2NaLksg" name="createComplexNamedType_IN_ComplexNamedType" description="creates one ComplexNamedType in the context: ComplexNamedType">
+    <parameters xmi:id="_kHrhs8vwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kHrhtMvwEeWxt7h2NaLksg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <lhs xmi:id="_kHrhtcvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kHrhtsvwEeWxt7h2NaLksg" name="Selected">
+        <annotations xmi:id="_kHrht8vwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kHrhuMvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kHrhucvwEeWxt7h2NaLksg" name="Selected" outgoing="_kHrhvcvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kHrhusvwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kHrhu8vwEeWxt7h2NaLksg" name="New" incoming="_kHrhvcvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kHrhvMvwEeWxt7h2NaLksg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <edges xmi:id="_kHrhvcvwEeWxt7h2NaLksg" source="_kHrhucvwEeWxt7h2NaLksg" target="_kHrhu8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kHrhvsvwEeWxt7h2NaLksg" origin="_kHrhtsvwEeWxt7h2NaLksg" image="_kHrhucvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kHrhv8vwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kHrhssvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kHrhwMvwEeWxt7h2NaLksg" name="selectedEObject">
+      <annotations xmi:id="_kHrhwcvwEeWxt7h2NaLksg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kHrhwsvwEeWxt7h2NaLksg" name="New">
+      <annotations xmi:id="_kHrhw8vwEeWxt7h2NaLksg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kHrhxMvwEeWxt7h2NaLksg" source="_kHrhwMvwEeWxt7h2NaLksg" target="_kHrhs8vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kHrhxcvwEeWxt7h2NaLksg" source="_kHrhtMvwEeWxt7h2NaLksg" target="_kHrhwsvwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>
