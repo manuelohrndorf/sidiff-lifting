@@ -5,7 +5,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
+import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.merging.twoway.facade.TwoWayMergingFacade;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 import org.sidiff.patching.PatchEngine;

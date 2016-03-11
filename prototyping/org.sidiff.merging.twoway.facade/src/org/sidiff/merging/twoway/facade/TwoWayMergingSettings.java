@@ -1,7 +1,7 @@
 package org.sidiff.merging.twoway.facade;
 
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.patching.settings.ExecutionMode;
 
 public class TwoWayMergingSettings extends LiftingSettings {
