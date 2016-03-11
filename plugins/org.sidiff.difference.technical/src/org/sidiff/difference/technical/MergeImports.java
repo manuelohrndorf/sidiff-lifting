@@ -163,6 +163,11 @@ public class MergeImports {
 		}
 	}
 
+	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
+		this.asymmetricDifference = asymmetricDifference;
+		registryAdapter.setAsymmetricDifference(asymmetricDifference);
+	}
+
 	public ModelImports getImports() {
 		return imports;
 	}

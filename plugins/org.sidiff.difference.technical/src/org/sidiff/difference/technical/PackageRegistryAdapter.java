@@ -197,6 +197,10 @@ public class PackageRegistryAdapter {
 		return registryCorrespondences;
 	}
 
+	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
+		this.asymmetricDifference = asymmetricDifference;
+	}
+
 	public ExternalReferenceContainer getRegistryReferencesA() {
 		return registryReferencesA;
 	}
@@ -302,6 +306,34 @@ public class PackageRegistryAdapter {
 				}
 			}
 		}
+//		
+//		// EditRuleMatches (occurrences B)
+//		for (SemanticChangeSet cs : difference.getChangeSets()) {
+//			EditRuleMatch erMatch = cs.getEditRuleMatch();
+//
+//			if (erMatch != null) {
+//				for (String nodeURI : erMatch.getNodeOccurrencesB().keySet()) {
+//
+//					// (1) Calculate replacements in occurrence set (to avoid
+//					// concurrent modification exception)
+//					EObjectSet occurrences = erMatch.getNodeOccurrencesB().get(
+//							nodeURI);
+//					Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
+//					for (EObject occurrence : occurrences.getElements()) {
+//						Correspondence c = original2Correspondence.get(occurrence);
+//						if (c != null) {
+//							replacements.put(occurrence, c.getMatchedB());
+//						}
+//					}
+//
+//					// (2) Do perform replacement
+//					for (EObject oldElement : replacements.keySet()) {
+//						EObject newElement = replacements.get(oldElement);
+//						occurrences.replaceElement(oldElement, newElement);
+//					}
+//				}
+//			}
+//		}
 	}
 
 	/**

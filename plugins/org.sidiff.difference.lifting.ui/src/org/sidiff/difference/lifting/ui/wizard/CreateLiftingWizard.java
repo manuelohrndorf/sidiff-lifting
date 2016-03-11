@@ -35,7 +35,7 @@ public class CreateLiftingWizard extends Wizard{
 		this.setWindowTitle("Difference Lift Up Wizard");
 
 		this.differenceFile = differenceFile;
-		symmetricDiff = LiftingFacade.loadSymmetricDifference(differenceFile.getLocation().toOSString());
+		symmetricDiff = LiftingFacade.loadLiftedDifference(differenceFile.getLocation().toOSString());
 		diffSavePath = differenceFile.getParent().getLocation().toOSString() ;
 
 		inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
@@ -74,14 +74,14 @@ public class CreateLiftingWizard extends Wizard{
 		 * Semantic Lifting
 		 */
 
-		symmetricDiff = LiftingFacade.liftMeUp(symmetricDiff, settings);
+		symmetricDiff = LiftingFacade.liftTechnicalDifference(symmetricDiff, settings);
 		PipelineUtils.sortDifference(symmetricDiff);
 
 		/*
 		 * Serialize lifted symmetricDiff
 		 */
 
-		LiftingFacade.serializeDifference(symmetricDiff, diffSavePath,
+		LiftingFacade.serializeLiftedDifference(symmetricDiff, diffSavePath,
 		PipelineUtils.generateDifferenceFileName(symmetricDiff.eResource(), settings));
 
 		/*

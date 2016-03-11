@@ -28,6 +28,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
@@ -403,7 +404,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 				.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 
 		try {
-			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB,
+			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB,
 					liftingSettings);
 		} catch (InvalidModelException e) {
 			ValidateDialog validateDialog = new ValidateDialog();
@@ -416,6 +417,9 @@ public class WorkspaceUpdateWizard extends Wizard {
 						.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
+		} catch (NoCorrespondencesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		if (fullDiff != null) {

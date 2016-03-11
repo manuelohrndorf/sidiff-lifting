@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
@@ -121,7 +122,7 @@ public class CreateDifferenceWizard extends Wizard {
 		 */
 
 		String fileName = PipelineUtils.generateDifferenceFileName(resourceA, resourceB, settings);
-		LiftingFacade.serializeDifference(symmetricDiff, diffSavePath, fileName);
+		LiftingFacade.serializeLiftedDifference(symmetricDiff, diffSavePath, fileName);
 
 		/*
 		 * Update workspace UI
@@ -154,7 +155,7 @@ public class CreateDifferenceWizard extends Wizard {
 		
 		try{
 //			LogUtil.setLogChannel("EclipseConsoleLogChannel");
-			symmetricDiff = LiftingFacade.liftMeUp(resourceA, resourceB, settings);
+			symmetricDiff = LiftingFacade.liftTechnicalDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
@@ -164,6 +165,9 @@ public class CreateDifferenceWizard extends Wizard {
 				settings.setValidate(false);
 				symmetricDiff = calculateDifference(resourceA, resourceB);
 			}
+		} catch (NoCorrespondencesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		if (symmetricDiff != null) {

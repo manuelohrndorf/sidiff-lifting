@@ -117,7 +117,7 @@ public class CreateAsymDiffWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Difference -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			Difference difference = AsymmetricDiffFacade.deriveAsymDiff(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			Difference difference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(inputModels.getResourceA(), inputModels.getResourceB(), settings);
 			final String savePath = inputModels.getFileA().getLocation().toOSString().replace(inputModels.getFileA().getLocation().lastSegment(), "");
 			final String fileName = PipelineUtils.generateDifferenceFileName(inputModels.getResourceA(), inputModels.getResourceB(), settings);
 			
@@ -130,7 +130,7 @@ public class CreateAsymDiffWizard extends Wizard {
 				SymbolicLinkHandlerUtil.serializeSymbolicLinks(symbolicLinksCollection, difference.getAsymmetric(), savePath);
 			}
 			
-			AsymmetricDiffFacade.serializeDifference(difference, savePath, fileName);
+			AsymmetricDiffFacade.serializeLiftedDifference(difference, savePath, fileName);
 			LogUtil.log(LogEvent.NOTICE, "done...");
 			
 			/*
@@ -160,6 +160,9 @@ public class CreateAsymDiffWizard extends Wizard {
 					new String[] { "OK" }, 0);
 			dialog.open();
 			return false;
+		} catch (NoCorrespondencesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 //		catch (NoCorrespondencesException e) {
@@ -180,7 +183,7 @@ public class CreateAsymDiffWizard extends Wizard {
 		Difference fullDiff = null;
 		
 		try{
-			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB, settings);
+			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
@@ -190,6 +193,9 @@ public class CreateAsymDiffWizard extends Wizard {
 				settings.setValidate(false);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
+		} catch (NoCorrespondencesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		
 		if (fullDiff != null) {

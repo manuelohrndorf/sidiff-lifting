@@ -18,6 +18,7 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.input.InputModels;
 
 /**
  * Convenient access to lifting functions.
@@ -29,6 +30,9 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 */
 	public static final String SYMMETRIC_DIFF_EXT = "symmetric";
 	
+	/**
+	 * The {@link RecognitionEngine}
+	 */
 	protected static RecognitionEngine recognitionEngine;
 
 	private static DecimalFormat f = new DecimalFormat("#0.0");
@@ -39,26 +43,23 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	private static int correspondenceCount = 0;
 	
 	/**
-	 * Lifts a technical difference.
+	 * Lifts a technical {@link SymmetricDifference}.
 	 * 
 	 * @param symmetricDifference
-	 *            The technical difference to lift.
+	 *            The technical difference to be lifted.
 	 * @param settings
 	 *            Specifies the settings of the lifting algorithm.
 	 *            
-	 * @return A lifted symmetric difference.
+	 * @return A lifted {@link SymmetricDifference}.
 	 * 
-	 * @see LiftingFacade#liftMeUp(Resource, Resource, IMatcher)
+	 * @see LiftingFacade#liftTechnicalDifference(Resource, Resource, IMatcher)
 	 */
-	public static SymmetricDifference liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings) {
+	public static SymmetricDifference liftTechnicalDifference(SymmetricDifference symmetricDifference, LiftingSettings settings) {
 		
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
-
-		
-		if(importMerger == null){
+		if(importMerger == null && settings.isEnabled_MergeImports()){
 			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
-			
 		}
 		
 		if(settings.isEnabled_MergeImports()){
@@ -67,28 +68,42 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 			importMerger.merge();	
 		}
 
+		liftMeUp(symmetricDifference, settings);
+		
+		if(settings.isEnabled_MergeImports()){
+			// Unmerge Imports
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			importMerger.unmerge();
+		}
+		
+		return symmetricDifference;
+	}
+	
+	protected static void liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings){
 		// Start recognition engine
 		LogUtil.log(LogEvent.NOTICE, "Recognize operations");
-		recognitionEngine = new RecognitionEngine(symmetricDifference, importMerger.getImports(), settings.getScope(), settings.getRuleBases(), settings.isRuleSetReduction(), settings.isBuildGraphPerRule(), settings.getRrSorter(), settings.isUseThreadPool(), settings.getNumberOfThreads(), settings.getRulesPerThread(), settings.isCalculateEditRuleMatch(), settings.isSerializeEditRuleMatch());
+		recognitionEngine = new RecognitionEngine(symmetricDifference,
+				importMerger.getImports(), settings.getScope(),
+				settings.getRuleBases(), settings.isRuleSetReduction(),
+				settings.isBuildGraphPerRule(), settings.getRrSorter(),
+				settings.isUseThreadPool(), settings.getNumberOfThreads(),
+				settings.getRulesPerThread(),
+				settings.isCalculateEditRuleMatch(),
+				settings.isSerializeEditRuleMatch());
 		recognitionEngine.execute();
 
 		// Postprocess
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
 			LogUtil.log(LogEvent.NOTICE, "Post processing");
 			PostProcessor postProcessor = new PostProcessor(recognitionEngine);
-			postProcessor.postProcess();	
+			postProcessor.postProcess();
 		}
 		// Aggregate deleted subtrees
 		// TODO: How to deal with deleted subtrees..?
 		// SubtreeAggregator aggregator = new SubtreeAggregator();
 		// aggregator.aggregate(symmetricDiff, SubtreeAggregator.CREATE,
 		// SubtreeAggregator.DELETE);
-		if(settings.isEnabled_MergeImports()){
-			// Unmerge Imports
-			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
-			importMerger.unmerge();
-		}
-
+		
 		report(symmetricDifference);
 		// // Reduce to relevant parts of the difference
 		// TODO(TK 8.4.2014): Shall we introduce a global DEBUG flag?
@@ -109,57 +124,84 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		LogUtil.log(LogEvent.NOTICE, "Finally covered atomic changes: " + coveredCount);
 		LogUtil.log(LogEvent.NOTICE, "Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
 		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
-		
-		return symmetricDifference;
 	}
 	
 	/**
-	 * Creates a lifted symmetric difference between model A and model B.
+	 * Computes a lifted {@link SymmetricDifference} between two models.
+	 * Although, a symmetric difference is usually undirected the underlying
+	 * difference model of SiLift implies a direction.
 	 * 
 	 * @param modelA
-	 *            The earlier version of the model.
+	 *            The origin model.
 	 * @param modelB
-	 *            The later version of the model.
+	 *            The modified model.
+	 * @param settings
+	 *            Specifies the settings of the semantic lifting algorithm.
+	 * 
+	 * @return A lifted {@link SymmetricDifference}.
+	 * 
+	 * @see TechnicalDifferenceFacade#deriveTechnicalDifference(Resource, Resource, org.sidiff.difference.technical.api.settings.DifferenceSettings)
+	 * @see LiftingFacade#liftTechnicalDifference(SymmetricDifference, LiftingSettings)
+	 * 
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException 
+	 */
+	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		return liftTechnicalDifference(deriveTechnicalDifference(modelA, modelB, settings), settings);
+	}
+	
+	/**
+	 * Computes a lifted {@link SymmetricDifference} between two models.
+	 * Although, a symmetric difference is usually undirected the underlying
+	 * difference model of SiLift implies a direction.
+	 * 
+	 * @param models
+	 *            The origin and modified model.
 	 * @param settings
 	 *            Specifies the settings of the semantic lifting algorithm.
 	 *            
-	 * @return A lifted symmetric difference.
+	 * @return A lifted {@link SymmetricDifference}.
 	 * 
-	 * @see LiftingFacade#load(String)
-	 * @see LiftingFacade#liftMeUp(Resource, Resource, IMatcher)
+	 * @see TechnicalDifferenceFacade#deriveTechnicalDifference(InputModels, org.sidiff.difference.technical.api.settings.DifferenceSettings)
+	 * @see LiftingFacade#liftTechnicalDifference(SymmetricDifference, LiftingSettings)
 	 * 
-	 * @throws InvalidModelException
-	 */
-	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException{
-		return liftMeUp(deriveDifference(modelA, modelB, settings), settings);
-	}
-	
-	/**
-	 * Creates a lifted symmetric difference between model A and model B using
-	 * default settings (see LiftingSettings).
-	 * 
-	 * @param modelA
-	 *            The earlier version of the model.
-	 * @param modelB
-	 *            The later version of the model.
-	 * @param matcher
-	 *            The matcher which calculates the correspondences between model
-	 *            A and modelB.
-	 * @return A lifted symmetric difference.
-	 * @see LiftingFacade#load(String)
-	 * @see LiftingFacade#getAvailableMatchers(String)
-	 * @see LiftingFacade#liftMeUp(Resource, Resource, LiftingSettings)
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
 	 */
-	public static SymmetricDifference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher)
+	public static SymmetricDifference liftTechnicDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		return liftTechnicalDifference(deriveTechnicalDifference(models, settings), settings);
+	}
+	
+	/**
+	 * Computes a lifted {@link SymmetricDifference} between two models using
+	 * default settings (see LiftingSettings).Although, a symmetric difference
+	 * is usually undirected the underlying difference model of SiLift implies a
+	 * direction.
+	 * 
+	 * @param modelA
+	 *            The origin model.
+	 * @param modelB
+	 *            The modified model.
+	 * @param matcher
+	 *            The {@link IMatcher} which calculates the correspondences
+	 *            between model A and modelB.
+	 *            
+	 * @return A lifted {@link SymmetricDifference}.
+	 * 
+	 * @see LiftingFacade#liftTechnicalDifference(Resource, Resource,
+	 *      LiftingSettings)
+	 *      
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 */
+	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, IMatcher matcher)
 			throws InvalidModelException, NoCorrespondencesException {
 		// Create default settings
 		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
 		LiftingSettings defaultSettings = new LiftingSettings(documentType);
 		defaultSettings.setMatcher(matcher);
 		// Lift difference
-		SymmetricDifference symmetricDiff = liftMeUp(modelA, modelB, defaultSettings);
+		SymmetricDifference symmetricDiff = liftTechnicalDifference(modelA, modelB, defaultSettings);
 
 		return symmetricDiff;
 	}
@@ -188,7 +230,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	}
 
 	/**
-	 * Serializes a difference.
+	 * Serializes a lifted {@link SymmetricDifference}.
 	 * 
 	 * @param symDiff
 	 *            The difference to serialize.
@@ -196,32 +238,28 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 *            The serialization path.
 	 * @param fileName
 	 *            The file name of the difference.
+	 *            
+	 * @see TechnicalDifferenceFacade#serializeTechnicalDifference(SymmetricDifference, String, String)
 	 */
-	public static void serializeDifference(SymmetricDifference symDiff, String path, String fileName) {
-		if (!(path.endsWith("/") || path.endsWith("\\"))) {
-			path = path + "/";
-		}
-
-		if (!(fileName.endsWith("." + LiftingFacade.SYMMETRIC_DIFF_EXT))) {
-			fileName = fileName + "." + LiftingFacade.SYMMETRIC_DIFF_EXT;
-		}
-
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(path + fileName), symDiff);
+	public static void serializeLiftedDifference(SymmetricDifference symDiff, String path, String fileName) {
+		TechnicalDifferenceFacade.serializeTechnicalDifference(symDiff, path, fileName);
 	}
 
 	/**
-	 * Load symmetric difference.
+	 * Loads a lifted {@link SymmetricDifference}.
 	 * 
 	 * @param path
 	 *            The path to the symmetric difference.
-	 * @return The loaded symmetric difference.
+	 * @return The loaded lifted {@link SymmetricDifference}.
+	 * 
+	 * @see TechnicalDifferenceFacade#loadTechnicalDifference(String)
 	 */
-	public static SymmetricDifference loadSymmetricDifference(String path) {
-		return (SymmetricDifference) EMFStorage.eLoad(EMFStorage.pathToUri(path));
+	public static SymmetricDifference loadLiftedDifference(String path) {
+		return loadTechnicalDifference(path);
 	}
 
 	/**
-	 * Load EMF resource.
+	 * Loads an EMF resource.
 	 * 
 	 * @param path
 	 *            The EMF-file path.

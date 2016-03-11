@@ -4,7 +4,10 @@ import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.der
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
@@ -16,6 +19,7 @@ import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.MergeImports;
+import org.sidiff.matching.input.InputModels;
 
 /**
  * Convenient access to asymmetric difference calculation functions.
@@ -32,8 +36,25 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 */
 	public static final String PATCH_EXTENSION = "slp";
 
-	
-	public static Difference deriveAsymDiff(SymmetricDifference symmetricDifference, LiftingSettings settings){
+	/**
+	 * Lifts a technical {@link SymmetricDifference} and derives an executable
+	 * {@link AsymmetricDifference}.
+	 * 
+	 * @param symmetricDifference
+	 *            The technical difference to be lifted.
+	 * @param settings
+	 *            Specifies the settings of the lifting algorithm.
+	 * 
+	 * @return A {@link Difference} containing both the lifted
+	 *         {@link SymmetricDifference} and executable
+	 *         {@link AsymmetricDifference}.
+	 */
+	public static Difference deriveLiftedAsymmetricDifference(SymmetricDifference symmetricDifference, LiftingSettings settings){
+		
+		// Create empty asymmetric difference
+		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE
+				.createAsymmetricDifference();
+		asymmetricDifference.setSymmetricDifference(symmetricDifference);
 		
 		if(importMerger == null){
 			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
@@ -41,30 +62,34 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		
 		if(settings.isEnabled_MergeImports()){
 			// Merge Imports
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
+			importMerger.setAsymmetricDifference(asymmetricDifference);
 			importMerger.merge();
 		}
 		
-		// Create empty asymmetric difference
-		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
-		asymmetricDifference.setSymmetricDifference(symmetricDifference);
+		liftMeUp(symmetricDifference, settings);
 		
 		// Derive Asymmetric-Difference from Symmetric-Difference
+		LogUtil.log(LogEvent.NOTICE, "Derive asymmetric difference");
 		deriveAsymmetricDifference(symmetricDifference, asymmetricDifference);
 		
 		// Retrieve dependencies of operation invocations
 		StatisticsUtil.getInstance().start("DependencyAnalysis");
+		LogUtil.log(LogEvent.NOTICE, "Analyze dependencies");
 		DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(recognitionEngine, asymmetricDifference);
 		dependencyAnalyzer.analyze();
 		StatisticsUtil.getInstance().stop("DependencyAnalysis");
 		
 		// Retrieve actual parameter values of operation invocations
 		StatisticsUtil.getInstance().start("ParameterRetriever");
+		LogUtil.log(LogEvent.NOTICE, "Retrieve parameter values");
 		ParameterRetriever paramRetriever = new ParameterRetriever(recognitionEngine, asymmetricDifference);
 		paramRetriever.retrieveParameters();
 		StatisticsUtil.getInstance().stop("ParameterRetriever");
 
 		// Map OUT-Parameters to respective IN-Parameters
 		StatisticsUtil.getInstance().start("ParameterMapping");
+		LogUtil.log(LogEvent.NOTICE, "Map parameter values");
 		ParameterMapper paramMapper = new ParameterMapper(asymmetricDifference);
 		paramMapper.mapParameters();
 		StatisticsUtil.getInstance().stop("ParameterMapping");
@@ -74,198 +99,56 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		
 		if(settings.isEnabled_MergeImports()){
 			// Unmerge Imports
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
 			importMerger.unmerge();
 		}
 		
 		return fullDiff;
 	}
 	
-	public static Difference deriveAsymDiff(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException{
-		SymmetricDifference symmetricDifference = liftMeUp(modelA, modelB, settings);
-		return deriveAsymDiff(symmetricDifference, settings);
+	/**
+	 * Computes an lifted executable {@link AsymmetricDifference} between two
+	 * models.
+	 * 
+	 * @param modelA
+	 *            The origin model.
+	 * @param modelB
+	 *            The modified model.
+	 * @param settings
+	 *            Specifies the settings of the semantic lifting algorithm.
+	 * 
+	 * @return A {@link Difference} containing both the lifted
+	 *         {@link SymmetricDifference} and executable
+	 *         {@link AsymmetricDifference}.
+	 * 
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 */
+	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
+		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
 	}
-//	/**
-//	 * Creates a lifted symmetric difference and an asymmetric difference between model A and model B.
-//	 *
-//	 * @param modelA
-//	 *            The earlier version of the model.
-//	 * @param modelB
-//	 *            The later version of the model.
-//	 * @param settings
-//	 *            Specifies the settings of the algorithm.
-//	 * @return A difference container with a lifted symmetric difference and an asymmetric difference.
-//	 * @see AsymmetricDiffFacade#load(String)
-//	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference)
-//	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference, AsymmetricDiffSettings)
-//	 * @see AsymmetricDiffFacade#liftMeUp(Resource, Resource, IMatcher)
-//	 * @throws InvalidModelException
-//	 * @throws NoCorrespondencesException 
-//	 */
-//	public static Difference liftMeUp(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-//		LogUtil.log(LogEvent.NOTICE, settings.toString());
-//		
-//		// Be sure proxy resolution is done
-//		EcoreUtil.resolveAll(modelA.getResourceSet());
-//		EcoreUtil.resolveAll(modelB.getResourceSet());
-//
-//		// Validate models
-//		if (settings.isValidate()){
-//			EMFValidate.validateObject(modelA.getContents().get(0), modelB.getContents().get(0));
-//		}
-//
-//		//Disabled by default
-//		StatisticsUtil.disable();
-//
-//		// Create matching
-//		IMatcher matcher = settings.getMatcher();		
-//		StatisticsUtil.getInstance().start("Matching");
-//		matcher.startMatching(Arrays.asList(modelA, modelB), settings.getScope());	
-//		StatisticsUtil.getInstance().stop("Matching");		
-//
-//		// Get Matching
-//		// In SiLift we assume support of @see{MatchingModelCorrespondences}
-//		ICorrespondences correspondences = matcher.getCorrespondencesService();
-//		Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
-//
-//		if (!(matching.getCorrespondences().size() != 0)) {
-//			throw new NoCorrespondencesException();
-//		}
-//
-//		//Contain Matching in Difference
-//		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-//		symmetricDiff.setMatching(matching);
-//
-//		// Create empty asymmetric difference
-//		AsymmetricDifference asymmetricDiff = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
-//		asymmetricDiff.setSymmetricDifference(symmetricDiff);
-//
-//		// Merge Imports
-//		StatisticsUtil.getInstance().start("MergeImports");
-//		MergeImports importMerger = new MergeImports(symmetricDiff, asymmetricDiff, settings.getScope(), true);
-//		importMerger.merge();
-//		StatisticsUtil.getInstance().stop("MergeImports");
-//
-//		// Derive technical difference
-//		ITechnicalDifferenceBuilder diffBuilder = settings.getTechBuilder();
-//		StatisticsUtil.getInstance().start("TechnicalDifference");
-//		diffBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
-//		StatisticsUtil.getInstance().stop("TechnicalDifference");
-//
-//		// Lift difference
-//		assert (matching.getCorrespondences().size() > 0) : "Empty difference!";
-//
-//		// Start lifting
-//		long lifting = System.currentTimeMillis();
-//
-//		// Filter out all rules with derived references
-//		StatisticsUtil.getInstance().start("FilterRRs");
-//		RuleBaseFilter filter = new RuleBaseFilter(settings.getRuleBases());
-//		filter.filterDerivedReferences();
-//		StatisticsUtil.getInstance().stop("FilterRRs");
-//
-//
-//		// Start recognition engine
-//		StatisticsUtil.getInstance().start("RecognitionEngine");
-//		RecognitionEngine engine = new RecognitionEngine(symmetricDiff, importMerger.getImports(), settings);
-//		engine.execute();
-//		StatisticsUtil.getInstance().stop("RecognitionEngine");
-//
-//		// Revert all filters
-//		filter.rollback();
-//
-//		// Postprocess
-//		StatisticsUtil.getInstance().start("PostProcessing");
-//		PostProcessor postProcessor = new PostProcessor(engine);
-//		postProcessor.postProcess();
-//		StatisticsUtil.getInstance().stop("PostProcessing");
-//
-//		// Print report
-//		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-//		LogUtil.log(LogEvent.NOTICE, "---------------------- FINISHED LIFTING --------------------");
-//		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-//
-//		int scsCount = symmetricDiff.getChangeSets().size();
-//		int totalAtomicCount = symmetricDiff.getChanges().size();
-//		int uncoveredCount = DifferenceAnalysisUtil.getRemainingChanges(symmetricDiff).size();
-//		int coveredCount = totalAtomicCount - uncoveredCount;
-//		int correspondenceCount = matching.getCorrespondences().size();
-//
-//		DecimalFormat f = new DecimalFormat("#0.0");
-//
-//		LogUtil.log(LogEvent.NOTICE, "Total semantic changes sets (|SCS|): " + scsCount);
-//		LogUtil.log(LogEvent.NOTICE, "Total atomic changes (|D|): " + totalAtomicCount);
-//		LogUtil.log(LogEvent.NOTICE, "Finally uncovered atomic changes: " + uncoveredCount);
-//		LogUtil.log(LogEvent.NOTICE, "Finally covered atomic changes: " + coveredCount);
-//		LogUtil.log(LogEvent.NOTICE, "Compression (|D|/|SCS|): " + f.format(((double) coveredCount / (double) scsCount)));
-//		LogUtil.log(LogEvent.NOTICE, "Correspondences: " + correspondenceCount);
-//		LogUtil.log(LogEvent.NOTICE, "Duration of Difference lifting in ms: " + (System.currentTimeMillis() - lifting));
-//
-//		// Derive Asymmetric-Difference from Symmetric-Difference
-//		deriveAsymmetricDifference(symmetricDiff, asymmetricDiff);
-//
-//		// Retrieve dependencies of operation invocations
-//		StatisticsUtil.getInstance().start("DependencyAnalysis");
-//		DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(engine, asymmetricDiff);
-//		dependencyAnalyzer.analyze();
-//		StatisticsUtil.getInstance().stop("DependencyAnalysis");
-//
-//		// Retrieve actual parameter values of operation invocations
-//		StatisticsUtil.getInstance().start("ParameterRetriever");
-//		ParameterRetriever paramRetriever = new ParameterRetriever(engine, asymmetricDiff);
-//		paramRetriever.retrieveParameters();
-//		StatisticsUtil.getInstance().stop("ParameterRetriever");
-//
-//
-//		// Map OUT-Parameters to respective IN-Parameters
-//		StatisticsUtil.getInstance().start("ParameterMapping");
-//		ParameterMapper paramMapper = new ParameterMapper(asymmetricDiff);
-//		paramMapper.mapParameters();
-//		StatisticsUtil.getInstance().stop("ParameterMapping");
-//
-//		/*
-//		 * FINISHED
-//		 */
-//
-//		// Unmerge Imports
-//		StatisticsUtil.getInstance().start("UnmergeImports");
-//		importMerger.unmerge();
-//		StatisticsUtil.getInstance().stop("UnmergeImports");
-//
-//		// Create new difference container
-//		Difference fullDiff = new Difference(symmetricDiff, asymmetricDiff);
-//
-//		return fullDiff;
-//	}
-//
-//	/**
-//	 * Creates a lifted symmetric difference and an asymmetric difference between model A and model B.
-//	 *
-//	 * @param modelA
-//	 *            The earlier version of the model.
-//	 * @param modelB
-//	 *            The later version of the model.
-//	 * @param matcher
-//	 *            The matcher which calculates the correspondences between model A and modelB.
-//	 * @return A difference container with a lifted symmetric difference and an asymmetric difference.
-//	 * @see AsymmetricDiffFacade#load(String)
-//	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference)
-//	 * @see AsymmetricDiffFacade#liftMeUp(SymmetricDifference, AsymmetricDiffSettings)
-//	 * @see AsymmetricDiffFacade#liftMeUp(Resource, Resource, AsymmetricDiffSettings)
-//	 * @throws InvalidModelException
-//	 * @throws NoCorrespondencesException 
-//	 */
-//	public static Difference liftMeUp(Resource modelA, Resource modelB, IMatcher matcher) throws InvalidModelException, NoCorrespondencesException{
-//		// Get default settings
-//		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
-//		LiftingSettings defaultSettings = new LiftingSettings(documentType);
-//		defaultSettings.setCalculateEditRuleMatch(true);
-//		defaultSettings.setMatcher(matcher);
-//
-//		// Calculate lifted difference
-//		Difference fullDiff = liftMeUp(modelA, modelB, defaultSettings);
-//
-//		return fullDiff;
-//	}
+	
+	/**
+	 * Computes an lifted executable {@link AsymmetricDifference} between two
+	 * models.
+	 * 
+	 * @param models
+	 *            The origin and modified model.
+	 * @param settings
+	 *            Specifies the settings of the semantic lifting algorithm.
+	 * 
+	 * @return A {@link Difference} containing both the lifted
+	 *         {@link SymmetricDifference} and executable
+	 *         {@link AsymmetricDifference}.
+	 * 
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 */
+	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		SymmetricDifference symmetricDifference = deriveTechnicalDifference(models, settings);
+		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
+	}
 
 	/**
 	 * Serializes a difference.
@@ -276,7 +159,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 *            The serialization path.
 	 * @param fileName The file name of the difference (without file extension).
 	 */
-	public static void serializeDifference(Difference diff, String path, String fileName) {
+	public static void serializeLiftedDifference(Difference diff, String path, String fileName) {
 		if (!(path.endsWith("/") || path.endsWith("\\"))) {
 			path = path + "/";
 		}
@@ -293,22 +176,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 *            The path to the asymmetric difference.
 	 * @return The loaded symmetric difference.
 	 */
-	public static AsymmetricDifference loadAsymmetricDiff(String path) {
+	public static AsymmetricDifference loadLiftedAsymmetricDifference(String path) {
 		return (AsymmetricDifference) EMFStorage.eLoad(EMFStorage.pathToUri(path));
-	}
-
-	/**
-	 * Load difference.
-	 *
-	 * @param path
-	 *            The path to the difference. (without file extension).
-	 * @return The loaded difference.
-	 */
-	public static Difference loadDifference(String path) {
-		SymmetricDifference symmetricDiff = (SymmetricDifference)loadSymmetricDifference(path + "." + LiftingFacade.SYMMETRIC_DIFF_EXT);
-		AsymmetricDifference asymmetricDiff = (AsymmetricDifference) loadAsymmetricDiff(path + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT);
-
-		Difference fullDiff = new Difference(symmetricDiff, asymmetricDiff);
-		return fullDiff;
 	}
 }

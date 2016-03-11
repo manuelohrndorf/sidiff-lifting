@@ -155,7 +155,7 @@ public class CreatePatchWizard extends Wizard {
 		Difference fullDiff = null;
 		
 		try{
-			fullDiff = AsymmetricDiffFacade.deriveAsymDiff(resourceA, resourceB, settings);
+			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
@@ -165,6 +165,9 @@ public class CreatePatchWizard extends Wizard {
 				settings.setValidate(false);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
+		} catch (NoCorrespondencesException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		if (fullDiff != null) {
