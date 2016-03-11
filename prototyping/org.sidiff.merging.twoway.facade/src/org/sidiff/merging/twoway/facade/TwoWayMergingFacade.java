@@ -17,12 +17,12 @@ import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
+import org.sidiff.difference.asymmetric.api.util.Difference;
+import org.sidiff.difference.asymmetric.api.util.RuleBaseFilter;
 import org.sidiff.difference.asymmetric.dependencies.real.DependencyAnalyzer;
-import org.sidiff.difference.asymmetric.facade.util.Difference;
-import org.sidiff.difference.asymmetric.facade.util.RuleBaseFilter;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterMapper;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
-import org.sidiff.difference.lifting.facade.util.PipelineUtils;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
@@ -109,9 +109,13 @@ public class TwoWayMergingFacade {
 		RuleBaseFilter filter = new RuleBaseFilter(settings.getRuleBases());
 		filter.filterDerivedReferences();
 
-
 		// Start recognition engine
-		RecognitionEngine engine = new RecognitionEngine(symmetricDiff, importMerger.getImports(), settings);
+		RecognitionEngine engine = new RecognitionEngine(symmetricDiff, importMerger.getImports(), 
+				settings.getScope(), settings.getRuleBases(), settings.isRuleSetReduction(),
+				settings.isBuildGraphPerRule(), settings.getRrSorter(), settings.isUseThreadPool(),
+				settings.getNumberOfThreads(), settings.getRulesPerThread(), settings.isCalculateEditRuleMatch(),
+				settings.isSerializeEditRuleMatch());
+				
 		engine.execute();
 
 		// Revert all filters

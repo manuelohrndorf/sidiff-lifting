@@ -14,10 +14,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.sidiff.common.emf.LabelPrinter;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.AddReference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.impl.AddReferenceImpl;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AddReference} object.
@@ -27,11 +27,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  */
 public class AddReferenceItemProvider
 	extends ChangeItemProvider {
-	
-	/**
-	 * @generated NOT
-	 */
-	private LabelPrinter labelPrinter;
 	
 	/**
 	 * @generated NOT
@@ -152,11 +147,8 @@ public class AddReferenceItemProvider
 	@Override
 	public String getText(Object object) {
 		
-		if(object instanceof AddReference){
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((AddReference) object).eContainer()).getModelA());
-			}
-			
+		if(object instanceof AddReferenceImpl){
+			LabelPrinter labelPrinter = ((AddReferenceImpl) object).getLabelPrinter();
 			return String.format("%s: %s (%s -> %s)", getString("_UI_AddReference_type"), labelPrinter.getLabel(((AddReference) object).getType()), labelPrinter.getLabel(((AddReference) object).getSrc()), labelPrinter.getLabel(((AddReference) object).getTgt()));
 		}
 		return baseString;

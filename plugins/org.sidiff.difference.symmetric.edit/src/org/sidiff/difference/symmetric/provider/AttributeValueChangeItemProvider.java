@@ -12,9 +12,12 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.AttributeValueChange} object.
@@ -24,6 +27,12 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  */
 public class AttributeValueChangeItemProvider
 	extends ChangeItemProvider {
+	
+	/**
+	 * @generated NOT
+	 */
+	private String baseString = getString("_UI_AttributeValueChange_type");
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -137,8 +146,26 @@ public class AttributeValueChangeItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		// TODO: return pretty printed text
-		return getString("_UI_AttributeValueChange_type");
+		
+		if (object instanceof AttributeValueChangeImpl) {
+			AttributeValueChangeImpl avc = (AttributeValueChangeImpl) object;
+			
+			LabelPrinter labelPrinter = avc.getLabelPrinter();
+			EObject elementA = avc.getObjA();
+			EObject elementB = avc.getObjB();
+			
+			Object valueA = elementA.eGet(avc.getType());
+			Object valueB = elementB.eGet(avc.getType());
+			
+			String type = avc.getType().getName();
+			
+			return baseString + ": " 
+					+ labelPrinter.getLabel(elementA) + ".[" + type + "] = " + valueA
+					+ " -> "
+					+ labelPrinter.getLabel(elementB) + ".[" + type + "] = " + valueB;
+		}
+		
+		return baseString;
 	}
 
 	/**

@@ -14,10 +14,10 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.sidiff.common.emf.LabelPrinter;
+import org.sidiff.common.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.RemoveReference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.impl.RemoveReferenceImpl;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.symmetric.RemoveReference} object.
@@ -27,11 +27,6 @@ import org.sidiff.difference.symmetric.SymmetricPackage;
  */
 public class RemoveReferenceItemProvider
 	extends ChangeItemProvider {
-	
-	/**
-	 * @generated NOT
-	 */
-	private LabelPrinter labelPrinter;
 	
 	/**
 	 * @generated NOT
@@ -152,11 +147,8 @@ public class RemoveReferenceItemProvider
 	@Override
 	public String getText(Object object) {
 		
-		if(object instanceof RemoveReference){
-			if (labelPrinter == null) {
-				labelPrinter = new LabelPrinter(((SymmetricDifference)((RemoveReference) object).eContainer()).getModelA());
-			}
-			
+		if(object instanceof RemoveReferenceImpl){
+			LabelPrinter labelPrinter = ((RemoveReferenceImpl) object).getLabelPrinter();
 			return String.format("%s: %s (%s -> %s)", baseString, labelPrinter.getLabel(((RemoveReference) object).getType()), labelPrinter.getLabel(((RemoveReference) object).getSrc()), labelPrinter.getLabel(((RemoveReference) object).getTgt()));
 		}
 		
