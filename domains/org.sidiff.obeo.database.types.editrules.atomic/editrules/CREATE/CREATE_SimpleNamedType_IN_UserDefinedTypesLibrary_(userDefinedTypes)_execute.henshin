@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kHoeYMvwEeWxt7h2NaLksg" name="CREATE_SimpleNamedType_IN_UserDefinedTypesLibrary_(userDefinedTypes)" description="Creates one SimpleNamedType in UserDefinedTypesLibrary">
+  <annotations xmi:id="_kHoeYcvwEeWxt7h2NaLksg" key="INVERSE" value="DELETE_SimpleNamedType_IN_UserDefinedTypesLibrary_(userDefinedTypes)"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kHoeYsvwEeWxt7h2NaLksg" name="createSimpleNamedType_IN_UserDefinedTypesLibrary" description="creates one SimpleNamedType in the context: UserDefinedTypesLibrary">
+    <parameters xmi:id="_kHoeY8vwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+    </parameters>
+    <parameters xmi:id="_kHoeZMvwEeWxt7h2NaLksg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters xmi:id="_kHoeZcvwEeWxt7h2NaLksg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <lhs xmi:id="_kHoeZsvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kHoeZ8vwEeWxt7h2NaLksg" name="Selected">
+        <annotations xmi:id="_kHoeaMvwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+      </nodes>
+      <nodes xmi:id="_kHoeacvwEeWxt7h2NaLksg" name="Existing">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kHoeasvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kHoea8vwEeWxt7h2NaLksg" name="Selected" outgoing="_kHoecMvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kHoebMvwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+      </nodes>
+      <nodes xmi:id="_kHoebcvwEeWxt7h2NaLksg" name="New" incoming="_kHoecMvwEeWxt7h2NaLksg" outgoing="_kHoeccvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kHoebsvwEeWxt7h2NaLksg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kHoeb8vwEeWxt7h2NaLksg" name="Existing" incoming="_kHoeccvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <edges xmi:id="_kHoecMvwEeWxt7h2NaLksg" source="_kHoea8vwEeWxt7h2NaLksg" target="_kHoebcvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary/userDefinedTypes"/>
+      </edges>
+      <edges xmi:id="_kHoeccvwEeWxt7h2NaLksg" source="_kHoebcvwEeWxt7h2NaLksg" target="_kHoeb8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kHoecsvwEeWxt7h2NaLksg" origin="_kHoeZ8vwEeWxt7h2NaLksg" image="_kHoea8vwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kHoec8vwEeWxt7h2NaLksg" origin="_kHoeacvwEeWxt7h2NaLksg" image="_kHoeb8vwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kHoedMvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kHoeYsvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kHoedcvwEeWxt7h2NaLksg" name="selectedEObject">
+      <annotations xmi:id="_kHoedsvwEeWxt7h2NaLksg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+    </parameters>
+    <parameters xmi:id="_kHoed8vwEeWxt7h2NaLksg" name="Existing">
+      <annotations xmi:id="_kHoeeMvwEeWxt7h2NaLksg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters xmi:id="_kHoeecvwEeWxt7h2NaLksg" name="New">
+      <annotations xmi:id="_kHoeesvwEeWxt7h2NaLksg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kHoee8vwEeWxt7h2NaLksg" source="_kHoedcvwEeWxt7h2NaLksg" target="_kHoeY8vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kHoefMvwEeWxt7h2NaLksg" source="_kHoed8vwEeWxt7h2NaLksg" target="_kHoeZMvwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kHoefcvwEeWxt7h2NaLksg" source="_kHoeZcvwEeWxt7h2NaLksg" target="_kHoeecvwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

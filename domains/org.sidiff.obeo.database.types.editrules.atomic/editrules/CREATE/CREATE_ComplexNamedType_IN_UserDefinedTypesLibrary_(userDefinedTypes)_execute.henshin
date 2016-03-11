@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kEV50MvwEeWxt7h2NaLksg" name="CREATE_ComplexNamedType_IN_UserDefinedTypesLibrary_(userDefinedTypes)" description="Creates one ComplexNamedType in UserDefinedTypesLibrary">
+  <annotations xmi:id="_kEV50cvwEeWxt7h2NaLksg" key="INVERSE" value="DELETE_ComplexNamedType_IN_UserDefinedTypesLibrary_(userDefinedTypes)"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kEV50svwEeWxt7h2NaLksg" name="createComplexNamedType_IN_UserDefinedTypesLibrary" description="creates one ComplexNamedType in the context: UserDefinedTypesLibrary">
+    <parameters xmi:id="_kEV508vwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+    </parameters>
+    <parameters xmi:id="_kEV51MvwEeWxt7h2NaLksg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <lhs xmi:id="_kEV51cvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kEV51svwEeWxt7h2NaLksg" name="Selected">
+        <annotations xmi:id="_kEV518vwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kEV52MvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kEV52cvwEeWxt7h2NaLksg" name="Selected" outgoing="_kEV53cvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kEV52svwEeWxt7h2NaLksg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+      </nodes>
+      <nodes xmi:id="_kEV528vwEeWxt7h2NaLksg" name="New" incoming="_kEV53cvwEeWxt7h2NaLksg">
+        <annotations xmi:id="_kEV53MvwEeWxt7h2NaLksg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <edges xmi:id="_kEV53cvwEeWxt7h2NaLksg" source="_kEV52cvwEeWxt7h2NaLksg" target="_kEV528vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary/userDefinedTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kEV53svwEeWxt7h2NaLksg" origin="_kEV51svwEeWxt7h2NaLksg" image="_kEV52cvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kEV538vwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kEV50svwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kEV54MvwEeWxt7h2NaLksg" name="selectedEObject">
+      <annotations xmi:id="_kEV54cvwEeWxt7h2NaLksg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypesLibrary"/>
+    </parameters>
+    <parameters xmi:id="_kEV54svwEeWxt7h2NaLksg" name="New">
+      <annotations xmi:id="_kEV548vwEeWxt7h2NaLksg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kEV55MvwEeWxt7h2NaLksg" source="_kEV54MvwEeWxt7h2NaLksg" target="_kEV508vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kEV55cvwEeWxt7h2NaLksg" source="_kEV51MvwEeWxt7h2NaLksg" target="_kEV54svwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

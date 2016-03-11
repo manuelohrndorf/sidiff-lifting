@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kEGCMMvwEeWxt7h2NaLksg" name="SET_REFERENCE_NativeType_(mapsTo)_TGT_NativeType" description="Sets NativeType's reference mapsTo the target NativeType">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kEGCMcvwEeWxt7h2NaLksg" name="setNativeType_mapsTo_TO_NativeType" description="SetNativeTypeRefmapsToToNativeType">
+    <parameters xmi:id="_kEGCMsvwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_kEGCM8vwEeWxt7h2NaLksg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <lhs xmi:id="_kEGCNMvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kEGCNcvwEeWxt7h2NaLksg" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_kEGCNsvwEeWxt7h2NaLksg" name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kEGCN8vwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kEGCOMvwEeWxt7h2NaLksg" name="Selected" outgoing="_kEGCOsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_kEGCOcvwEeWxt7h2NaLksg" name="NewTarget" incoming="_kEGCOsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <edges xmi:id="_kEGCOsvwEeWxt7h2NaLksg" source="_kEGCOMvwEeWxt7h2NaLksg" target="_kEGCOcvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType/mapsTo"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kEGCO8vwEeWxt7h2NaLksg" origin="_kEGCNcvwEeWxt7h2NaLksg" image="_kEGCOMvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kEGCPMvwEeWxt7h2NaLksg" origin="_kEGCNsvwEeWxt7h2NaLksg" image="_kEGCOcvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kEGCPcvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kEGCMcvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kEGCPsvwEeWxt7h2NaLksg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_kEGCP8vwEeWxt7h2NaLksg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kEGCQMvwEeWxt7h2NaLksg" source="_kEGCPsvwEeWxt7h2NaLksg" target="_kEGCMsvwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kEGCQcvwEeWxt7h2NaLksg" source="_kEGCP8vwEeWxt7h2NaLksg" target="_kEGCM8vwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

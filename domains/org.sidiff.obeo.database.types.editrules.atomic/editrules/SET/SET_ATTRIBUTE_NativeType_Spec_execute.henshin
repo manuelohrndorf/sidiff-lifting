@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kHpFcMvwEeWxt7h2NaLksg" name="SET_ATTRIBUTE_NativeType_Spec" description="Sets NativeType Spec">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kHpFccvwEeWxt7h2NaLksg" name="setNativeTypeSpec" description="Sets the EAttribute spec">
+    <parameters xmi:id="_kHpFcsvwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_kHpFc8vwEeWxt7h2NaLksg" name="Spec">
+      <type xsi:type="ecore:EEnum" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypeKind"/>
+    </parameters>
+    <lhs xmi:id="_kHpFdMvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kHpFdcvwEeWxt7h2NaLksg" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_kHpFdsvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kHpFd8vwEeWxt7h2NaLksg" name="Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+        <attributes xmi:id="_kHpFeMvwEeWxt7h2NaLksg" value="Spec">
+          <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType/spec"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_kHpFecvwEeWxt7h2NaLksg" origin="_kHpFdcvwEeWxt7h2NaLksg" image="_kHpFd8vwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kHpFesvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kHpFccvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kHpFe8vwEeWxt7h2NaLksg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_kHpFfMvwEeWxt7h2NaLksg" name="Spec">
+      <type xsi:type="ecore:EEnum" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypeKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_kHpFfcvwEeWxt7h2NaLksg" source="_kHpFe8vwEeWxt7h2NaLksg" target="_kHpFcsvwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kHpFfsvwEeWxt7h2NaLksg" source="_kHpFfMvwEeWxt7h2NaLksg" target="_kHpFc8vwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

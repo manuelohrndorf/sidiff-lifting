@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kcgiMMvwEeWxt7h2NaLksg" name="RR: CREATE_ComplexNamedType_IN_ComplexNamedType_(types)" description="Recognize: Creates one ComplexNamedType in ComplexNamedType">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kchJQMvwEeWxt7h2NaLksg" name="rr:createComplexNamedType_IN_ComplexNamedType" description="Recognize: creates one ComplexNamedType in the context: ComplexNamedType">
+    <parameters xmi:id="_kchJQcvwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_kchJQsvwEeWxt7h2NaLksg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <lhs xmi:id="_kchJQ8vwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kchJRMvwEeWxt7h2NaLksg" name="B.Selected" incoming="_kchJTMvwEeWxt7h2NaLksg" outgoing="_kchJT8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kchJRcvwEeWxt7h2NaLksg" name="" outgoing="_kchJS8vwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_kchJRsvwEeWxt7h2NaLksg" name="B.New" incoming="_kchJS8vwEeWxt7h2NaLksg _kchJTcvwEeWxt7h2NaLksg _kchJT8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kchJR8vwEeWxt7h2NaLksg" name="" outgoing="_kchJTMvwEeWxt7h2NaLksg _kchJTcvwEeWxt7h2NaLksg _kchJTsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kchJSMvwEeWxt7h2NaLksg" name="" incoming="_kchJTsvwEeWxt7h2NaLksg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_kchJScvwEeWxt7h2NaLksg" value="&quot;types&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kchJSsvwEeWxt7h2NaLksg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_kchJS8vwEeWxt7h2NaLksg" source="_kchJRcvwEeWxt7h2NaLksg" target="_kchJRsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_kchJTMvwEeWxt7h2NaLksg" source="_kchJR8vwEeWxt7h2NaLksg" target="_kchJRMvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kchJTcvwEeWxt7h2NaLksg" source="_kchJR8vwEeWxt7h2NaLksg" target="_kchJRsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kchJTsvwEeWxt7h2NaLksg" source="_kchJR8vwEeWxt7h2NaLksg" target="_kchJSMvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kchJT8vwEeWxt7h2NaLksg" source="_kchJRMvwEeWxt7h2NaLksg" target="_kchJRsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kchJUMvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kchJUcvwEeWxt7h2NaLksg" name="B.Selected" incoming="_kchJYcvwEeWxt7h2NaLksg" outgoing="_kchJZMvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kchJUsvwEeWxt7h2NaLksg" name="" incoming="_kchJZcvwEeWxt7h2NaLksg" outgoing="_kchJYMvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_kchJU8vwEeWxt7h2NaLksg" name="B.New" incoming="_kchJYMvwEeWxt7h2NaLksg _kchJYsvwEeWxt7h2NaLksg _kchJZMvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_kchJVMvwEeWxt7h2NaLksg" name="" incoming="_kchJZsvwEeWxt7h2NaLksg" outgoing="_kchJYcvwEeWxt7h2NaLksg _kchJYsvwEeWxt7h2NaLksg _kchJY8vwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_kchJVcvwEeWxt7h2NaLksg" name="" incoming="_kchJY8vwEeWxt7h2NaLksg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_kchJVsvwEeWxt7h2NaLksg" incoming="_kchJZ8vwEeWxt7h2NaLksg" outgoing="_kchJZcvwEeWxt7h2NaLksg _kchJZsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_kchJV8vwEeWxt7h2NaLksg" value="&quot;CREATE_ComplexNamedType_IN_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_kchJWMvwEeWxt7h2NaLksg" value="&quot;Creates one ComplexNamedType in ComplexNamedType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_kchJWcvwEeWxt7h2NaLksg" value="&quot;CREATE_ComplexNamedType_IN_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_kchJWsvwEeWxt7h2NaLksg" value="&quot;RR: CREATE_ComplexNamedType_IN_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_kchJW8vwEeWxt7h2NaLksg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_kchJXMvwEeWxt7h2NaLksg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_kchJXcvwEeWxt7h2NaLksg" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_kchJXsvwEeWxt7h2NaLksg" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kchJX8vwEeWxt7h2NaLksg" name="" outgoing="_kchJZ8vwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_kchJYMvwEeWxt7h2NaLksg" source="_kchJUsvwEeWxt7h2NaLksg" target="_kchJU8vwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_kchJYcvwEeWxt7h2NaLksg" source="_kchJVMvwEeWxt7h2NaLksg" target="_kchJUcvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_kchJYsvwEeWxt7h2NaLksg" source="_kchJVMvwEeWxt7h2NaLksg" target="_kchJU8vwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_kchJY8vwEeWxt7h2NaLksg" source="_kchJVMvwEeWxt7h2NaLksg" target="_kchJVcvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_kchJZMvwEeWxt7h2NaLksg" source="_kchJUcvwEeWxt7h2NaLksg" target="_kchJU8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+      <edges xmi:id="_kchJZcvwEeWxt7h2NaLksg" source="_kchJVsvwEeWxt7h2NaLksg" target="_kchJUsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_kchJZsvwEeWxt7h2NaLksg" source="_kchJVsvwEeWxt7h2NaLksg" target="_kchJVMvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_kchJZ8vwEeWxt7h2NaLksg" source="_kchJX8vwEeWxt7h2NaLksg" target="_kchJVsvwEeWxt7h2NaLksg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kchJaMvwEeWxt7h2NaLksg" origin="_kchJRMvwEeWxt7h2NaLksg" image="_kchJUcvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kchJacvwEeWxt7h2NaLksg" origin="_kchJRcvwEeWxt7h2NaLksg" image="_kchJUsvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kchJasvwEeWxt7h2NaLksg" origin="_kchJRsvwEeWxt7h2NaLksg" image="_kchJU8vwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kchJa8vwEeWxt7h2NaLksg" origin="_kchJR8vwEeWxt7h2NaLksg" image="_kchJVMvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kchJbMvwEeWxt7h2NaLksg" origin="_kchJSMvwEeWxt7h2NaLksg" image="_kchJVcvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kchJbcvwEeWxt7h2NaLksg" origin="_kchJSsvwEeWxt7h2NaLksg" image="_kchJX8vwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

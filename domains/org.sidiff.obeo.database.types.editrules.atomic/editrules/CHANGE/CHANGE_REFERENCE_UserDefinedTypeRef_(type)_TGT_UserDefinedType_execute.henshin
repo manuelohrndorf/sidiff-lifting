@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kG6ssMvwEeWxt7h2NaLksg" name="CHANGE_REFERENCE_UserDefinedTypeRef_(type)_TGT_UserDefinedType" description="CHANGEs UserDefinedTypeRef's reference type the target UserDefinedType">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kG6sscvwEeWxt7h2NaLksg" name="changeUserDefinedTypeRef_type_TO_UserDefinedType" description="Change the EReference type">
+    <parameters xmi:id="_kG6sssvwEeWxt7h2NaLksg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+    </parameters>
+    <parameters xmi:id="_kG6ss8vwEeWxt7h2NaLksg" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <parameters xmi:id="_kG6stMvwEeWxt7h2NaLksg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <lhs xmi:id="_kG6stcvwEeWxt7h2NaLksg" name="Lhs">
+      <nodes xmi:id="_kG6stsvwEeWxt7h2NaLksg" name="Selected" outgoing="_kG6sucvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+      </nodes>
+      <nodes xmi:id="_kG6st8vwEeWxt7h2NaLksg" name="OldTarget" incoming="_kG6sucvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+      <nodes xmi:id="_kG6suMvwEeWxt7h2NaLksg" name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+      <edges xmi:id="_kG6sucvwEeWxt7h2NaLksg" source="_kG6stsvwEeWxt7h2NaLksg" target="_kG6st8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kG6susvwEeWxt7h2NaLksg" name="Rhs">
+      <nodes xmi:id="_kG6su8vwEeWxt7h2NaLksg" name="Selected" outgoing="_kG6svsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+      </nodes>
+      <nodes xmi:id="_kG6svMvwEeWxt7h2NaLksg" name="OldTarget">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+      <nodes xmi:id="_kG6svcvwEeWxt7h2NaLksg" name="NewTarget" incoming="_kG6svsvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+      <edges xmi:id="_kG6svsvwEeWxt7h2NaLksg" source="_kG6su8vwEeWxt7h2NaLksg" target="_kG6svcvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kG6sv8vwEeWxt7h2NaLksg" origin="_kG6stsvwEeWxt7h2NaLksg" image="_kG6su8vwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kG6swMvwEeWxt7h2NaLksg" origin="_kG6st8vwEeWxt7h2NaLksg" image="_kG6svMvwEeWxt7h2NaLksg"/>
+    <mappings xmi:id="_kG6swcvwEeWxt7h2NaLksg" origin="_kG6suMvwEeWxt7h2NaLksg" image="_kG6svcvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kG6swsvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kG6sscvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kG6sw8vwEeWxt7h2NaLksg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+    </parameters>
+    <parameters xmi:id="_kG6sxMvwEeWxt7h2NaLksg" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <parameters xmi:id="_kG6sxcvwEeWxt7h2NaLksg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kG6sxsvwEeWxt7h2NaLksg" source="_kG6sw8vwEeWxt7h2NaLksg" target="_kG6sssvwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kG6sx8vwEeWxt7h2NaLksg" source="_kG6sxMvwEeWxt7h2NaLksg" target="_kG6ss8vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kG6syMvwEeWxt7h2NaLksg" source="_kG6sxcvwEeWxt7h2NaLksg" target="_kG6stMvwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>

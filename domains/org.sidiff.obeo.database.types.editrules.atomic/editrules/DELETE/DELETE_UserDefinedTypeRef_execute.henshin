@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_kEQaQMvwEeWxt7h2NaLksg" name="DELETE_UserDefinedTypeRef" description="Deletes one UserDefinedTypeRef">
+  <annotations xmi:id="_kEQaQcvwEeWxt7h2NaLksg" key="INVERSE" value="CREATE_UserDefinedTypeRef"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_kEQaQsvwEeWxt7h2NaLksg" name="deleteUserDefinedTypeRef" description="deletes one UserDefinedTypeRef">
+    <parameters xmi:id="_kEQaQ8vwEeWxt7h2NaLksg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+    </parameters>
+    <parameters xmi:id="_kEQaRMvwEeWxt7h2NaLksg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <lhs xmi:id="_kEQaRcvwEeWxt7h2NaLksg" name="LHS">
+      <nodes xmi:id="_kEQaRsvwEeWxt7h2NaLksg" name="ToBeDeleted" outgoing="_kEQaSMvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+      </nodes>
+      <nodes xmi:id="_kEQaR8vwEeWxt7h2NaLksg" name="Existing" incoming="_kEQaSMvwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+      <edges xmi:id="_kEQaSMvwEeWxt7h2NaLksg" source="_kEQaRsvwEeWxt7h2NaLksg" target="_kEQaR8vwEeWxt7h2NaLksg">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kEQaScvwEeWxt7h2NaLksg" name="RHS">
+      <nodes xmi:id="_kEQaSsvwEeWxt7h2NaLksg" name="Existing">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_kEQaS8vwEeWxt7h2NaLksg" origin="_kEQaR8vwEeWxt7h2NaLksg" image="_kEQaSsvwEeWxt7h2NaLksg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kEQaTMvwEeWxt7h2NaLksg" name="mainUnit" subUnits="_kEQaQsvwEeWxt7h2NaLksg">
+    <parameters xmi:id="_kEQaTcvwEeWxt7h2NaLksg" name="ToBeDeleted">
+      <annotations xmi:id="_kEQaTsvwEeWxt7h2NaLksg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedTypeRef"/>
+    </parameters>
+    <parameters xmi:id="_kEQaT8vwEeWxt7h2NaLksg" name="Existing">
+      <annotations xmi:id="_kEQaUMvwEeWxt7h2NaLksg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//UserDefinedType"/>
+    </parameters>
+    <parameterMappings xmi:id="_kEQaUcvwEeWxt7h2NaLksg" source="_kEQaTcvwEeWxt7h2NaLksg" target="_kEQaQ8vwEeWxt7h2NaLksg"/>
+    <parameterMappings xmi:id="_kEQaUsvwEeWxt7h2NaLksg" source="_kEQaT8vwEeWxt7h2NaLksg" target="_kEQaRMvwEeWxt7h2NaLksg"/>
+  </units>
+</henshin:Module>
