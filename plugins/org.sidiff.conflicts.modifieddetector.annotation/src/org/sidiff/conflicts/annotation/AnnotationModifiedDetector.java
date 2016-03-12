@@ -65,6 +65,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 		this.modelB = modelB;
 
 		// Create matching
+		matcher.reset();
 		matcher.startMatching(Arrays.asList(modelA,modelB), scope);
 
 		this.correspondences = matcher.getCorrespondencesService();
@@ -95,6 +96,8 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------- Initializing completed -----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		
+		matcher.reset();
 
 	}
 

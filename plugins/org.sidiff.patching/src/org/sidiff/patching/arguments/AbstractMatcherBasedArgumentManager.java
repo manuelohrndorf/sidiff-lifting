@@ -54,6 +54,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 		// Lazy calculate the matching
 		if (matchingOriginTarget == null){
 			
+			matcher.reset();
 			matcher.startMatching(Arrays.asList(getOriginModel(), getTargetModel()), getScope());	
 
 			// Get Matching
@@ -81,6 +82,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 		
 		if(matchingChangedTarget == null){
 			
+			matcher.reset();			
 			matcher.startMatching(Arrays.asList(getChangedModel(), getTargetModel()), getScope());	
 
 			// Get Matching
