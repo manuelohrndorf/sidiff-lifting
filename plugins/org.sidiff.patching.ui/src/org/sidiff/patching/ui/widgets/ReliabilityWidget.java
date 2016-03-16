@@ -16,8 +16,8 @@ import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.ReliabilityCapableMatcher;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
+import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -63,7 +63,8 @@ public class ReliabilityWidget implements IWidget, IWidgetSelection,
 		} else {
 			IMatcher matcher = settings.getMatcher();
 
-			if ((matcher != null) && matcher instanceof ReliabilityCapableMatcher) {
+			//FIXME this has to be checked correctly after migrating reliabilites
+			if ((matcher != null) && matcher instanceof Patch) {
 				scale.setEnabled(true);
 				spinner.setEnabled(true);
 				container.setEnabled(true);
