@@ -1,7 +1,6 @@
 package org.sidiff.difference.rulebase.wrapper;
 
 import java.io.File;
-import java.util.Observable;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -15,39 +14,11 @@ import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 
 /**
- * Encapsulates a RuleBase instance and provides some convenience functions for the RuleBase management.
+ * Convenience functions for the rulebase management.
  * 
  * @author Manuel Ohrndorf
  */
-public class RecognitionRuleBaseWrapper extends Observable {
-	
-	/**
-	 * The folder to store the Recognition-Rules.
-	 */
-	private URI recognitionRuleFolderURI;
-	
-	/**
-	 * The folder of the corresponding Edit-Rules. 
-	 */
-	private URI editRuleFolderURI;
-	
-	/**
-	 * The (Ecore model) rulebase root element. 
-	 */
-	private RuleBase rulebase;
-
-	/**
-	 * Initializes an existing rulebase.
-	 * 
-	 * @param rulebase
-	 *            The rulebase model.
-	 * @see RuleBaseWrapper#saveRuleBase()
-	 */
-	public RecognitionRuleBaseWrapper(RuleBase rulebase, URI editRuleFolderURI, URI recognitionRuleFolderURI) {
-		this.rulebase = rulebase;
-		this.recognitionRuleFolderURI = recognitionRuleFolderURI;
-		this.editRuleFolderURI = editRuleFolderURI;
-	}
+public class RecognitionRuleGeneratorUtil {
 
 	/**
 	 * Generates a new Recognition-Rule and adds it to the rulebase item.
@@ -57,7 +28,8 @@ public class RecognitionRuleBaseWrapper extends Observable {
 	 * @throws NoMainUnitFoundException 
 	 * @throws Edit2RecognitionException
 	 */
-	public void generateRecognitionRule(RuleBaseItem item) 
+	public static void generateRecognitionRule(RuleBaseItem item, 
+			URI editRuleFolderURI, URI recognitionRuleFolderURI) 
 			throws EditToRecognitionException, NoMainUnitFoundException {
 
 		EditWrapper2RecognitionWrapper generator = null;
@@ -67,7 +39,8 @@ public class RecognitionRuleBaseWrapper extends Observable {
 		generator.transform(item);
 		
 		// Save the recognition rule:
-		saveRecognitionModules(item.getEditRuleAttachment(RecognitionRule.class));
+		saveRecognitionModules(item.getEditRuleAttachment(RecognitionRule.class),
+				editRuleFolderURI, recognitionRuleFolderURI);
 	}
 	
 	/**
@@ -76,11 +49,12 @@ public class RecognitionRuleBaseWrapper extends Observable {
 	 * @param item
 	 *            The item which contains the recognition-rule.
 	 */
-	public void removeRecognitionRule(RuleBaseItem item) {
+	public static void removeRecognitionRule(RuleBaseItem item) {
 
 		// Remove recognition rule from file system
 		URI recognitionRuleURI = EcoreUtil.getURI(
-				item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit()).trimFragment();
+				item.getEditRuleAttachment(RecognitionRule.class)
+				.getRecognitionMainUnit()).trimFragment();
 		File recognitionRuleFile = EMFStorage.uriToFile(recognitionRuleURI);
 		recognitionRuleFile.delete();
 
@@ -94,11 +68,13 @@ public class RecognitionRuleBaseWrapper extends Observable {
 	/**
 	 * Searches an Recognition-Rule rulebase wrapper by its corresponding Henshin Recognition-Rule.
 	 * 
+	 * @param rulebase
+	 *            The rulebase to search.
 	 * @param recognitionModule
 	 *            The Henshin Recognition-Rule.
 	 * @return The corresponding Recognition-Rule rulebase wrapper.
 	 */
-	public RecognitionRule findRecognitionRule(Module recognitionModule) {
+	public static RecognitionRule findRecognitionRule(RuleBase rulebase, Module recognitionModule) {
 		for (RecognitionRule rr_rule : rulebase.getEditRuleAttachments(RecognitionRule.class)) {
 			if (recognitionModule == rr_rule.getRecognitionModule()) {
 				return rr_rule;
@@ -108,16 +84,10 @@ public class RecognitionRuleBaseWrapper extends Observable {
 	}
 	
 	/**
-	 * @return The target folder where the Recognition-Rules are stored.
-	 */
-	public URI getRecognitionRuleFolder() {
-		return recognitionRuleFolderURI;
-	}
-	
-	/**
 	 * Saves all (Henshin) Recognition-Rules.
 	 */
-	private void saveRecognitionModules(RecognitionRule rrRule) {
+	private static void saveRecognitionModules(RecognitionRule rrRule,
+			URI editRuleFolderURI, URI recognitionRuleFolderURI) {
 
 		if (rrRule.getRecognitionMainUnit().eResource() != null) {
 			// Existing recognition rule:
@@ -127,20 +97,18 @@ public class RecognitionRuleBaseWrapper extends Observable {
 			Edit2RecognitionUtil.saveRecognitionRule(
 					rrRule.getRecognitionModule(),
 					rrRule.getEditRule().getExecuteModule(),
-					getRecognitionRuleSaveURI(rrRule.getEditRule().getExecuteModule()));
+					getRecognitionRuleSaveURI(rrRule.getEditRule().getExecuteModule(), 
+							editRuleFolderURI, recognitionRuleFolderURI));
 		}
 	}
 
 	/**
-	 * Helper method to get corresponding output save URI for given EditRule. This is necessary if
-	 * there is some subfolder structure beneath the recognitionRuleFolder.
-	 * 
-	 * 
-	 * @param editModule
-	 *            The corresponding Edit-Rule.
-	 * @return The Recognition-Rule save path.
+	 * Helper method to get corresponding output save URI for given EditRule.
+	 * This is necessary if there is some subfolder structure beneath the
+	 * recognitionRuleFolder.
 	 */
-	private URI getRecognitionRuleSaveURI(Module editModule){
+	private static URI getRecognitionRuleSaveURI(Module editModule, 
+			URI editRuleFolderURI, URI recognitionRuleFolderURI){
 		
 		// Replace Edit-Rule with Recognition-Rule to keep folder structure:
 		String editRuleFolderString = editRuleFolderURI.lastSegment();

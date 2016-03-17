@@ -197,6 +197,10 @@ public class EditRuleItemUtil {
 	 */
 	public static String getUnitType(Unit unit) {
 
+		if (unit == null) {
+			return "null";
+		}
+		
 		if (unit instanceof Rule) {
 			if (isKernelRule((Rule) unit)) {
 				return "Multi-Rule";

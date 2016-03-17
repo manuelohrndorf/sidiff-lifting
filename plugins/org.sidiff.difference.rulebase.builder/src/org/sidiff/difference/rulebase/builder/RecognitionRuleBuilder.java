@@ -10,45 +10,26 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
-import org.sidiff.difference.rulebase.wrapper.RecognitionRuleBaseWrapper;
-import org.sidiff.editrule.rulebase.RuleBase;
+import org.sidiff.difference.rulebase.wrapper.RecognitionRuleGeneratorUtil;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.type.IEditRuleBase;
 
 public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
-
-	/**
-	 * The corresponding plug-in project.
-	 */
-	private IProject project;
-	
-	/**
-	 * Rulebase wrapper to manage the build process.
-	 */
-	private RecognitionRuleBaseWrapper rbWrapper;
 	
 	@Override
-	public void init(IProject project, RuleBase rulebase) {
-		this.project = project;
-		
-		// Initialize rulebase wrapper:
+	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {
+
+		// Get paths:
 		IFolder recognitionRuleFolderFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
-		URI recognitionRuleFolderURI = EMFStorage.fileToFileUri(recognitionRuleFolderFolder.getFullPath().toFile());
+		URI rrFolder = EMFStorage.fileToFileUri(recognitionRuleFolderFolder.getFullPath().toFile());
 		
 		IFolder editRuleFolder = project.getFolder(IEditRuleBase.EDIT_RULE_FOLDER);
-		URI editRuleFolderURI = EMFStorage.fileToFileUri(editRuleFolder.getFullPath().toFile());
-		
-		this.rbWrapper = new RecognitionRuleBaseWrapper(
-				rulebase, editRuleFolderURI, recognitionRuleFolderURI);
-	}
-	
-	@Override
-	public void buildAttachment(IProgressMonitor monitor, RuleBaseItem item) {
+		URI eoFolder = EMFStorage.fileToFileUri(editRuleFolder.getFullPath().toFile());
 		
 		// Build recognition rule:
 		try {
-			rbWrapper.generateRecognitionRule(item);
+			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, rrFolder, eoFolder);
 		} catch (EditToRecognitionException e1) {
 			e1.printStackTrace();
 		} catch (NoMainUnitFoundException e1) {
@@ -64,7 +45,7 @@ public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
 		
 	}
 	
-	public void createRecognitionRuleFolder(IProgressMonitor monitor) {
+	public void createRecognitionRuleFolder(IProgressMonitor monitor, IProject project) {
 		
 		// Check if build folder exists, create it otherwise
 		IFolder buildFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
@@ -85,10 +66,10 @@ public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
 	}
 
 	@Override
-	public void deleteAttachment(IProgressMonitor monitor, RuleBaseItem item) {
+	public void deleteAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {
 		
 		// Remove recognition rule (file and item):
-		rbWrapper.removeRecognitionRule(item);
+		RecognitionRuleGeneratorUtil.removeRecognitionRule(item);
 		
 		// Refresh build folder
 		try {
@@ -99,7 +80,7 @@ public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
 	}
 
 	@Override
-	public void cleanAttachments(IProgressMonitor monitor) {
+	public void cleanAttachments(IProgressMonitor monitor, IProject project) {
 		
 		// Delete all elements in Build Folder if already existent:
 		IFolder buildFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);

@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.editrule.rulebase.RuleBase;
 
 /**
  * Access registered attachment builder.
@@ -22,10 +20,10 @@ public class EditRuleAttachmentBuilderLibrary {
 	/**
 	 * @return All registered attachment builder.
 	 */
-	private static Set<EditRuleAttachmentBuilder> getAttachmentBuilders() {
+	public static Set<EditRuleAttachmentBuilder> getAttachmentBuilders() {
 		
 		// Collect all registered rulebases:
-		Set<EditRuleAttachmentBuilder>  attachmentBuilders = new HashSet<EditRuleAttachmentBuilder>();
+		Set<EditRuleAttachmentBuilder> attachmentBuilders = new HashSet<EditRuleAttachmentBuilder>();
 
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID_CORULE_BUILDER)) {
@@ -36,22 +34,6 @@ public class EditRuleAttachmentBuilderLibrary {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		
-		return attachmentBuilders;
-	}
-	
-	/**
-	 * @return All registered attachment builder.
-	 */
-	public static Set<EditRuleAttachmentBuilder> getAttachmentBuilders(IProject project, RuleBase rulebase) {
-		
-		// Collect all registered builders:
-		Set<EditRuleAttachmentBuilder>  attachmentBuilders = getAttachmentBuilders();
-		
-		// Initialize builders:
-		for (EditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
-			attachmentBuilder.init(project, rulebase);
 		}
 		
 		return attachmentBuilders;

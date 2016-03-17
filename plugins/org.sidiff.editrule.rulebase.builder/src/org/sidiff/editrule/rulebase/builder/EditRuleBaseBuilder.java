@@ -183,7 +183,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 		// Delete all co-rules
 		for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
-			attachmentBuilder.cleanAttachments(monitor);
+			attachmentBuilder.cleanAttachments(monitor, getProject());
 		}
 
 		// Delete RuleBase File and corresponding Wrapper
@@ -241,7 +241,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				
 				// Remove Co-Rules:
 				for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
-					attachmentBuilder.deleteAttachment(monitor, item);
+					attachmentBuilder.deleteAttachment(monitor, getProject(), item);
 				}
 			}
 		} catch (IOException e1) {
@@ -286,7 +286,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				
 				// Build attachments:
 				for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
-					attachmentBuilder.buildAttachment(monitor, item);
+					attachmentBuilder.buildAttachment(monitor, getProject(), item);
 				}
 			}
 		} catch (CoreException e) {
@@ -451,8 +451,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		// Create all attachment builder:
 		if (attachmentBuilder == null) {
-			attachmentBuilder = EditRuleAttachmentBuilderLibrary.getAttachmentBuilders(
-					getProject(), getEditRuleBaseWrapper().getRuleBase());
+			attachmentBuilder = EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
 		}
 		
 		return attachmentBuilder;
