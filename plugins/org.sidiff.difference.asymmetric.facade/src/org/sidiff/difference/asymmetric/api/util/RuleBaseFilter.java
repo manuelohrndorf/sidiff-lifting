@@ -3,15 +3,16 @@ package org.sidiff.difference.asymmetric.api.util;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.sidiff.difference.rulebase.RuleBaseItem;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.type.IEditRuleBase;
+import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
 
 public class RuleBaseFilter {
 	
-	private Set<IRuleBase> rulebases;
+	private Set<IEditRuleBase> rulebases;
 	private ArrayList <RuleBaseItem> changedItems = new ArrayList<RuleBaseItem>();
 	
-	public RuleBaseFilter(Set<IRuleBase> rulebases){
+	public RuleBaseFilter(Set<IEditRuleBase> rulebases){
 		this.rulebases = rulebases;
 	}
 	
@@ -19,7 +20,7 @@ public class RuleBaseFilter {
 	 * Disables all rules with derived references
 	 */
 	public void filterDerivedReferences(){
-		for(IRuleBase rb : rulebases){
+		for(IEditRuleBase rb : rulebases){
 			for(RuleBaseItem item : rb.getActiveRuleBaseItems()){
 				if(item.getEditRule().isUseDerivedFeatures())
 					item.setActive(false);

@@ -1,12 +1,23 @@
 package org.sidiff.difference.technical.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.sidiff.difference.symmetric.AddObject;
+import org.sidiff.difference.symmetric.AddReference;
+import org.sidiff.difference.symmetric.AttributeValueChange;
+import org.sidiff.difference.symmetric.Change;
+import org.sidiff.difference.symmetric.RemoveObject;
+import org.sidiff.difference.symmetric.RemoveReference;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 
@@ -109,4 +120,52 @@ public class TechnicalDifferenceBuilderUtil {
 		return availableTechBuilders;
 	}
 
+	/**
+	 * Just sorts the low-level changes for better readability in the difference
+	 * viewer. Of course, the order of the low-level changes has no semantics.
+	 * 
+	 * @param difference
+	 *            The difference which contains the low-level changes.
+	 */
+	public static void sortLowLevelChanges(SymmetricDifference difference) {
+		
+		// Note: In order to prevent the IllegalArgumentException "The 'no
+		// duplicates' constraint is violated" on the changes EList, we
+		// do sort on a copy of diff.getChanges().
+		List<Change> changes = new ArrayList<Change>(difference.getChanges());
+
+		Collections.sort(changes, new Comparator<Change>() {
+			@Override
+			public boolean equals(Object obj) {
+				return super.equals(obj);
+			}
+
+			public int compare(Change c1, Change c2) {
+				return changeToString(c1).compareTo(changeToString(c2));
+			}
+
+			private String changeToString(Change c) {
+				String res = c.eClass().getName();
+				if (c instanceof AddReference) {
+					res += ((AddReference) c).getType().getName();
+				}
+				if (c instanceof RemoveReference) {
+					res += ((RemoveReference) c).getType().getName();
+				}
+				if (c instanceof AddObject) {
+					res += ((AddObject) c).getObj().eClass().getName();
+				}
+				if (c instanceof RemoveObject) {
+					res += ((RemoveObject) c).getObj().eClass().getName();
+				}
+				if (c instanceof AttributeValueChange) {
+					res += ((AttributeValueChange) c).getType().getName();
+				}
+				return res;
+			}
+		});
+
+		difference.getChanges().clear();
+		difference.getChanges().addAll(changes);
+	}
 }

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <extension-point id="rulebase_extension" name="RuleBase" schema="schema/rulebase_extension.exsd"></extension-point>
 
+   
+   
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <package uri="http://www.sidiff.org/difference/rulebase/1.0" class="org.sidiff.difference.rulebase.RulebasePackage" genModel="model/RuleBase.genmodel"></package>
+      <!-- @generated RuleBase -->
+      <package
+            uri="http://www.sidiff.org/difference/rulebase/1.0"
+            class="org.sidiff.difference.rulebase.LiftingRulebasePackage"
+            genModel="model/RuleBase.genmodel"/>
    </extension>
-   
-   
+   <extension
+         point="org.sidiff.editrule.rulebase.type">
+      <type
+            factory="org.sidiff.difference.rulebase.type.LiftingRuleBaseFactory">
+      </type>
+   </extension>
+
 </plugin>

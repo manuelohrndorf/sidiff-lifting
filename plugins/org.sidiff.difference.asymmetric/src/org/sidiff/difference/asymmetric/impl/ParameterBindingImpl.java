@@ -15,8 +15,8 @@ import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.Parameter;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.Parameter;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.rulebase;
 
@@ -22,7 +18,7 @@ import org.eclipse.emf.henshin.model.Node;
  *   <li>{@link org.sidiff.difference.rulebase.Trace#getRecognitionRuleTrace <em>Recognition Rule Trace</em>}</li>
  * </ul>
  *
- * @see org.sidiff.difference.rulebase.RulebasePackage#getTrace()
+ * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getTrace()
  * @model
  * @generated
  */
@@ -37,7 +33,7 @@ public interface Trace extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Edit Rule Trace</em>' reference.
 	 * @see #setEditRuleTrace(Node)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getTrace_EditRuleTrace()
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getTrace_EditRuleTrace()
 	 * @model
 	 * @generated
 	 */
@@ -63,7 +59,7 @@ public interface Trace extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Recognition Rule Trace</em>' reference.
 	 * @see #setRecognitionRuleTrace(Node)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getTrace_RecognitionRuleTrace()
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getTrace_RecognitionRuleTrace()
 	 * @model
 	 * @generated
 	 */

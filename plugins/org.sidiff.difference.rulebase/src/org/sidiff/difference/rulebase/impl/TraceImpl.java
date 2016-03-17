@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.rulebase.impl;
 
@@ -12,7 +8,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.difference.rulebase.RulebasePackage;
+import org.sidiff.difference.rulebase.LiftingRulebasePackage;
 import org.sidiff.difference.rulebase.Trace;
 
 /**
@@ -66,7 +62,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return RulebasePackage.Literals.TRACE;
+		return LiftingRulebasePackage.Literals.TRACE;
 	}
 
 	/**
@@ -80,7 +76,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 			editRuleTrace = (Node)eResolveProxy(oldEditRuleTrace);
 			if (editRuleTrace != oldEditRuleTrace) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.TRACE__EDIT_RULE_TRACE, oldEditRuleTrace, editRuleTrace));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE, oldEditRuleTrace, editRuleTrace));
 			}
 		}
 		return editRuleTrace;
@@ -104,7 +100,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 		Node oldEditRuleTrace = editRuleTrace;
 		editRuleTrace = newEditRuleTrace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.TRACE__EDIT_RULE_TRACE, oldEditRuleTrace, editRuleTrace));
+			eNotify(new ENotificationImpl(this, Notification.SET, LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE, oldEditRuleTrace, editRuleTrace));
 	}
 
 	/**
@@ -118,7 +114,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 			recognitionRuleTrace = (Node)eResolveProxy(oldRecognitionRuleTrace);
 			if (recognitionRuleTrace != oldRecognitionRuleTrace) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.TRACE__RECOGNITION_RULE_TRACE, oldRecognitionRuleTrace, recognitionRuleTrace));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE, oldRecognitionRuleTrace, recognitionRuleTrace));
 			}
 		}
 		return recognitionRuleTrace;
@@ -142,7 +138,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 		Node oldRecognitionRuleTrace = recognitionRuleTrace;
 		recognitionRuleTrace = newRecognitionRuleTrace;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.TRACE__RECOGNITION_RULE_TRACE, oldRecognitionRuleTrace, recognitionRuleTrace));
+			eNotify(new ENotificationImpl(this, Notification.SET, LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE, oldRecognitionRuleTrace, recognitionRuleTrace));
 	}
 
 	/**
@@ -153,10 +149,10 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RulebasePackage.TRACE__EDIT_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE:
 				if (resolve) return getEditRuleTrace();
 				return basicGetEditRuleTrace();
-			case RulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
 				if (resolve) return getRecognitionRuleTrace();
 				return basicGetRecognitionRuleTrace();
 		}
@@ -171,10 +167,10 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RulebasePackage.TRACE__EDIT_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE:
 				setEditRuleTrace((Node)newValue);
 				return;
-			case RulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
 				setRecognitionRuleTrace((Node)newValue);
 				return;
 		}
@@ -189,10 +185,10 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.TRACE__EDIT_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE:
 				setEditRuleTrace((Node)null);
 				return;
-			case RulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
 				setRecognitionRuleTrace((Node)null);
 				return;
 		}
@@ -207,9 +203,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.TRACE__EDIT_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__EDIT_RULE_TRACE:
 				return editRuleTrace != null;
-			case RulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
+			case LiftingRulebasePackage.TRACE__RECOGNITION_RULE_TRACE:
 				return recognitionRuleTrace != null;
 		}
 		return super.eIsSet(featureID);

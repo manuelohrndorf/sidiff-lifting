@@ -2,129 +2,17 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rulebase" nsURI="http://www.sidiff.org/difference/rulebase/1.0"
     nsPrefix="rulebase">
-  <eClassifiers xsi:type="ecore:EClass" name="RuleBase">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
-        eType="#//RuleBaseItem" containment="true" eOpposite="#//RuleBaseItem/ruleBase"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="editRules" upperBound="-1"
-        eType="#//EditRule" changeable="false" volatile="true" transient="true" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionRules" upperBound="-1"
-        eType="#//RecognitionRule" changeable="false" volatile="true" transient="true"
-        derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialNodeDependencies"
-        upperBound="-1" eType="#//PotentialNodeDependency" containment="true" eOpposite="#//PotentialNodeDependency/ruleBase"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialEdgeDependencies"
-        upperBound="-1" eType="#//PotentialEdgeDependency" containment="true" eOpposite="#//PotentialEdgeDependency/ruleBase"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialAttributeDependencies"
-        upperBound="-1" eType="#//PotentialAttributeDependency" containment="true"
-        eOpposite="#//PotentialAttributeDependency/ruleBase"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentTypes" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editRuleFolder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recognitionRuleFolder"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EditRule">
-    <eOperations name="getExecuteModule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
-    <eOperations name="getParameterByName" eType="#//Parameter">
-      <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="executeMainUnit" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Unit"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionRule" eType="#//RecognitionRule"
-        volatile="true" transient="true" derived="true" eOpposite="#//RecognitionRule/editRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBaseItem" eType="#//RuleBaseItem"
-        eOpposite="#//RuleBaseItem/editRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
-        eType="#//Parameter" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useDerivedFeatures" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="inverse" eType="#//EditRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classification" upperBound="-1"
-        eType="#//Classification" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RecognitionRule">
+  <eClassifiers xsi:type="ecore:EClass" name="RecognitionRule" eSuperTypes="../../org.sidiff.editrule.rulebase/model/RuleBase.ecore#//EditRuleAttachment">
     <eOperations name="getRecognitionModule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionMainUnit" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="editRule" eType="#//EditRule"
-        volatile="true" transient="true" derived="true" eOpposite="#//EditRule/recognitionRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBaseItem" eType="#//RuleBaseItem"
-        eOpposite="#//RuleBaseItem/recognitionRule"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Trace">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="editRuleTrace" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionRuleTrace" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RuleBaseItem">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="editRule" eType="#//EditRule"
-        containment="true" eOpposite="#//EditRule/ruleBaseItem"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionRule" eType="#//RecognitionRule"
-        containment="true" eOpposite="#//RecognitionRule/ruleBaseItem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionMainUnit" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracesB" upperBound="-1"
         eType="#//Trace" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracesA" upperBound="-1"
         eType="#//Trace" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
-        eOpposite="#//RuleBase/items"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        volatile="true" transient="true" derived="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="PotentialDependencyKind">
-    <eLiterals name="UseDelete"/>
-    <eLiterals name="CreateUse" value="1"/>
-    <eLiterals name="ChangeUse" value="2"/>
-    <eLiterals name="UseChange" value="3"/>
-    <eLiterals name="ForbidCreate" value="5"/>
-    <eLiterals name="DeleteForbid" value="4"/>
-    <eLiterals name="ForbidChange" value="6"/>
-    <eLiterals name="ChangeForbid" value="7"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PotentialDependency" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//PotentialDependencyKind"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceRule" lowerBound="1"
-        eType="#//EditRule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" lowerBound="1"
-        eType="#//EditRule"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PotentialNodeDependency" eSuperTypes="#//PotentialDependency">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
-        eOpposite="#//RuleBase/potentialNodeDependencies"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PotentialEdgeDependency" eSuperTypes="#//PotentialDependency">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
-        eOpposite="#//RuleBase/potentialEdgeDependencies"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceEdge" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Edge"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetEdge" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Edge"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PotentialAttributeDependency" eSuperTypes="#//PotentialDependency">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
-        eOpposite="#//RuleBase/potentialAttributeDependencies"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceAttribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Attribute"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetAttribute" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Attribute"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"
-        changeable="false" volatile="true" transient="true" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="targetNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"
-        changeable="false" volatile="true" transient="true" derived="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
-        eType="#//ParameterDirection"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//ParameterKind"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="multi" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ParameterDirection">
-    <eLiterals name="IN"/>
-    <eLiterals name="OUT" value="1" literal="OUT"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ParameterKind">
-    <eLiterals name="OBJECT"/>
-    <eLiterals name="VALUE" value="1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Classification">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classificatorID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Trace">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="editRuleTrace" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionRuleTrace" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
   </eClassifiers>
 </ecore:EPackage>

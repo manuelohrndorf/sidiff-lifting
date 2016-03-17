@@ -2,28 +2,29 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="org.sidiff.difference.rulebase.ui.definition.rulebaseEditor">
-         <with
-               variable="activeEditorId">
-            <equals
-                  value="org.sidiff.difference.rulebase.ui.rulebaseEditor">
-            </equals>
-         </with>
-      </definition>
-   </extension>
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.sidiff.difference.rulebase.ui.editor.RulebaseEditor"
-            contributorClass="org.sidiff.difference.rulebase.ui.editor.RulebaseActionBarContributor"
-            default="false"
-            extensions="rulebase"
-            icon="icons/rulebase.gif"
-            id="org.sidiff.difference.rulebase.ui.rulebaseEditor"
-            name="Rulebase Editor">
-      </editor>
+         point="org.sidiff.editrule.rulebase.ui.column">
+      <column
+            class="org.sidiff.difference.rulebase.ui.editor.columns.impl.ColumnRecognitionType"
+            id="org.sidiff.difference.rulebase.ui.ColumnRecognitionType"></column>
+      <column
+            class="org.sidiff.difference.rulebase.ui.editor.columns.impl.ColumnPriority"
+            id="org.sidiff.difference.rulebase.ui.ColumnPriority"
+            insertAfter="org.sidiff.difference.rulebase.ui.ColumnRecognitionType">
+      </column>
+      <column
+            class="org.sidiff.difference.rulebase.ui.editor.columns.impl.ColumnRefinementLevel"
+            id="org.sidiff.difference.rulebase.ui.ColumnRefinementLevel"
+            insertAfter="org.sidiff.difference.rulebase.ui.ColumnPriority">
+      </column>
+      <column
+            class="org.sidiff.difference.rulebase.ui.editor.columns.impl.ColumnParameterCount"
+            id="org.sidiff.difference.rulebase.ui.ColumnParameterCount"
+            insertAfter="org.sidiff.difference.rulebase.ui.ColumnRefinementLevel">
+      </column>
+      <column
+            class="org.sidiff.difference.rulebase.ui.editor.columns.impl.ColumnACCount"
+            id="org.sidiff.difference.rulebase.ui.ColumnACCount">
+      </column>
    </extension>
 
 </plugin>

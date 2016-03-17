@@ -1,7 +1,7 @@
 package org.sidiff.editrule.analysis.classification;
 
 import org.sidiff.common.collections.Classifier;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class NameBasedClassificator implements IClassificator, Classifier<String,EditRule> {
 

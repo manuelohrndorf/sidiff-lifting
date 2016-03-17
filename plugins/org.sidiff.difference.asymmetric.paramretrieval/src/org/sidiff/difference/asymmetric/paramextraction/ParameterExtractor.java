@@ -8,8 +8,8 @@ import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.common.henshin.ParameterInfo.ParameterKind;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.RulebaseFactory;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * This class extracts the formal parameters from the executeMainUnit of an
@@ -54,28 +54,28 @@ public class ParameterExtractor {
 				// End Assertions
 
 				// Create Parameter and add to EditRule
-				org.sidiff.difference.rulebase.Parameter parameter = RulebaseFactory.eINSTANCE.createParameter();
+				org.sidiff.editrule.rulebase.Parameter parameter = RulebaseFactory.eINSTANCE.createParameter();
 				parameter.setName(formal.getName());
-				parameter.setKind(org.sidiff.difference.rulebase.ParameterKind.OBJECT);
+				parameter.setKind(org.sidiff.editrule.rulebase.ParameterKind.OBJECT);
 				parameter.setType(ParameterInfo.getRealType(formal));
 				if (direction.equals(ParameterDirection.IN)) {
-					parameter.setDirection(org.sidiff.difference.rulebase.ParameterDirection.IN);
+					parameter.setDirection(org.sidiff.editrule.rulebase.ParameterDirection.IN);
 				} else {
-					parameter.setDirection(org.sidiff.difference.rulebase.ParameterDirection.OUT);
+					parameter.setDirection(org.sidiff.editrule.rulebase.ParameterDirection.OUT);
 				}
 				editRule.getParameters().add(parameter);
 
 			} else {
 
-				org.sidiff.difference.rulebase.Parameter parameter = RulebaseFactory.eINSTANCE.createParameter();
+				org.sidiff.editrule.rulebase.Parameter parameter = RulebaseFactory.eINSTANCE.createParameter();
 				ParameterDirection direction = ParameterInfo.getParameterDirection(formal);
 				parameter.setName(formal.getName());
-				parameter.setKind(org.sidiff.difference.rulebase.ParameterKind.VALUE);
+				parameter.setKind(org.sidiff.editrule.rulebase.ParameterKind.VALUE);
 				parameter.setType(ParameterInfo.getRealType(formal));
 				if (direction.equals(ParameterDirection.IN)) {
-					parameter.setDirection(org.sidiff.difference.rulebase.ParameterDirection.IN);
+					parameter.setDirection(org.sidiff.editrule.rulebase.ParameterDirection.IN);
 				} else {
-					parameter.setDirection(org.sidiff.difference.rulebase.ParameterDirection.OUT);
+					parameter.setDirection(org.sidiff.editrule.rulebase.ParameterDirection.OUT);
 				}
 				editRule.getParameters().add(parameter);
 			}

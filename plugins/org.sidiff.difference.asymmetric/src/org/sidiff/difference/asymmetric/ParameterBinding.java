@@ -7,7 +7,7 @@
 package org.sidiff.difference.asymmetric;
 
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.difference.rulebase.Parameter;
+import org.sidiff.editrule.rulebase.Parameter;
 
 /**
  * <!-- begin-user-doc -->

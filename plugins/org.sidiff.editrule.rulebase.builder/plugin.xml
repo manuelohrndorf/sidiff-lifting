@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="attachment" name="Edit-Rule Attachment Builder" schema="schema/attachment.exsd"/>
+   <extension
+         id="rulebasebuilder"
+         name="Rulebase Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            callOnEmptyDelta="false"
+            hasNature="true"
+            isConfigurable="false"
+            supportsConfigurations="false">
+         <run
+               class="org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder">
+         </run>
+      </builder>
+   </extension>
+</plugin>

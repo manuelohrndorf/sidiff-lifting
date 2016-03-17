@@ -2,6 +2,7 @@ package org.sidiff.difference.lifting.api.settings;
 
 import java.util.Set;
 
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 
 /**

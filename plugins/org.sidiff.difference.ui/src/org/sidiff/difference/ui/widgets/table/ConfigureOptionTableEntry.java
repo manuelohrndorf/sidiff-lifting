@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Table;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.configuration.IConfigurable;
-import org.sidiff.difference.ui.widgets.table.ConfigureOptionTableEntry.ObjectType;
 
 /**
  * Object holding an Entry of a {@link MatcherConfigurationOptionsWidge}

@@ -120,8 +120,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.difference.asymmetric.provider.AsymmetricItemProviderAdapterFactory;
-import org.sidiff.difference.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
+import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.patching.patch.patch.provider.PatchItemProviderAdapterFactory;
 
 

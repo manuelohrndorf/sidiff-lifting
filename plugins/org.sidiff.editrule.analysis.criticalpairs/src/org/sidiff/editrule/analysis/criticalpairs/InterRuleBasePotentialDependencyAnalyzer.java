@@ -13,14 +13,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.PotentialAttributeDependency;
-import org.sidiff.difference.rulebase.PotentialDependency;
-import org.sidiff.difference.rulebase.PotentialEdgeDependency;
-import org.sidiff.difference.rulebase.PotentialNodeDependency;
-import org.sidiff.difference.rulebase.RuleBase;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDependency;
+import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
+import org.sidiff.editrule.rulebase.PotentialNodeDependency;
+import org.sidiff.editrule.rulebase.RuleBase;
+import org.sidiff.editrule.rulebase.type.IEditRuleBase;
 
 /**
  * Calculates the potential inter-dependencies between two or more rulebases. 
@@ -62,7 +62,8 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 *            <code>true</code> to calculate non transient potential dependencies; 
 	 *            <code>false</code> otherwise.
 	 */
-	public InterRuleBasePotentialDependencyAnalyzer(Collection<IRuleBase> rulebases,
+	public InterRuleBasePotentialDependencyAnalyzer(
+			Collection<? extends IEditRuleBase> rulebases,
 			boolean transientPDs, boolean nonTransientPDs) {
 		
 		super(transientPDs, nonTransientPDs);
@@ -71,7 +72,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		this.documentTypes = new HashSet<String>();
 		List<EditRule> editRules = new ArrayList<EditRule>();
 		
-		for (IRuleBase rb : rulebases) {
+		for (IEditRuleBase rb : rulebases) {
 			documentTypes.addAll(rb.getDocumentTypes());
 
 			// Consider active rules only:
@@ -102,7 +103,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * @see InterRuleBasePotentialDependencyAnalyzer
 	 *      #InterRuleBasePotentialDependencyAnalyzer(Collection, Set, boolean, boolean)
 	 */
-	public InterRuleBasePotentialDependencyAnalyzer(Collection<IRuleBase> rulebases) {
+	public InterRuleBasePotentialDependencyAnalyzer(Collection<? extends IEditRuleBase> rulebases) {
 		this(rulebases, false, true);
 	}
 	
