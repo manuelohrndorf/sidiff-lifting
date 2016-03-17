@@ -7,6 +7,7 @@
 package org.sidiff.difference.symmetric.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -19,8 +20,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.FragmentJoin;
@@ -28,6 +27,8 @@ import org.sidiff.difference.symmetric.FragmentSplit;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
 import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
@@ -912,7 +913,7 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 
 		//TODO cpietsch 19.06.2015: �berarbeiten
 		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getMatching().getCorrespondences().get(0).getMatchedA());
-		return RuleBaseUtil.resolveEditRule(documentType, this.getEditRName());
+		return RuleBaseProjectUtil.resolveEditRule(Collections.singleton(documentType), this.getEditRName());
 	}
 
 } //SemanticChangeSetImpl

@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sidiff.difference.rulebase.PotentialAttributeDependency;
-import org.sidiff.difference.rulebase.PotentialDependency;
-import org.sidiff.difference.rulebase.PotentialDependencyKind;
-import org.sidiff.difference.rulebase.PotentialEdgeDependency;
-import org.sidiff.difference.rulebase.PotentialNodeDependency;
+import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDependency;
+import org.sidiff.editrule.rulebase.PotentialDependencyKind;
+import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
+import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 
 /**
  * Simple container class that holds different kinds of potential dependencies.

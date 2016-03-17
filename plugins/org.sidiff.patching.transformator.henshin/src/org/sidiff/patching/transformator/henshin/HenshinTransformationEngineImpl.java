@@ -23,9 +23,9 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.Parameter;
-import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.Parameter;
+import org.sidiff.editrule.rulebase.ParameterDirection;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
@@ -76,6 +76,7 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	public void init(Resource targetResource, ExecutionMode executionMode, Scope scope) {
 		this.targetResource = targetResource;
 		this.executionMode = executionMode;
+		this.scope = scope;
 		
 		// Create graph
 		PatchingGraphFactory graphFactory = new PatchingGraphFactory(targetResource, executionMode, scope);
@@ -223,5 +224,12 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 			}
 		}
 	}
+	
+	public ExecutionMode getExecutionMode() {
+		return executionMode;
+	}
 
+	public Scope getScope() {
+		return scope;
+	}
 }

@@ -9,8 +9,8 @@ package org.sidiff.difference.asymmetric;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.difference.rulebase.RuleBase;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.editrule.rulebase.RuleBase;
 
 /**
  * <!-- begin-user-doc -->

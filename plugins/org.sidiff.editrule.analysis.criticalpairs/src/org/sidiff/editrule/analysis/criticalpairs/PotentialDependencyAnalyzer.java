@@ -1,5 +1,7 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
+import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
+import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
@@ -19,8 +21,6 @@ import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPre
 import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
 import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
 import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
-import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
-import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,13 +40,13 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
 import org.sidiff.common.henshin.view.NodePair;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.PotentialAttributeDependency;
-import org.sidiff.difference.rulebase.PotentialDependencyKind;
-import org.sidiff.difference.rulebase.PotentialEdgeDependency;
-import org.sidiff.difference.rulebase.PotentialNodeDependency;
-import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDependencyKind;
+import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
+import org.sidiff.editrule.rulebase.PotentialNodeDependency;
+import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * Calculates all potential dependencies between two rules. This algorithm isn't

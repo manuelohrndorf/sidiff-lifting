@@ -3,12 +3,8 @@ package org.sidiff.difference.ui.widgets.table;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.sidiff.configuration.IConfigurable;
 import org.sidiff.configuration.IConfigurationCapable;
-import org.w3c.dom.Document;
 
 /**
  * A ITableEntryProvider for IConfigurationCapables

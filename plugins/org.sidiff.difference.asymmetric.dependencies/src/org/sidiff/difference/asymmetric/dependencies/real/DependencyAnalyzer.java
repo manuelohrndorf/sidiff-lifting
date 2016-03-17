@@ -24,17 +24,17 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.PotentialAttributeDependency;
-import org.sidiff.difference.rulebase.PotentialDependency;
-import org.sidiff.difference.rulebase.PotentialDependencyKind;
-import org.sidiff.difference.rulebase.PotentialEdgeDependency;
-import org.sidiff.difference.rulebase.PotentialNodeDependency;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.editrule.analysis.criticalpairs.InterRuleBasePotentialDependencyAnalyzer;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDependency;
+import org.sidiff.editrule.rulebase.PotentialDependencyKind;
+import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
+import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 
 public class DependencyAnalyzer {
 
@@ -194,7 +194,7 @@ public class DependencyAnalyzer {
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
 		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
-		for (IRuleBase rb : recognitionEngine.getRuleBases()) {
+		for (ILiftingRuleBase rb : recognitionEngine.getRuleBases()) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
 
