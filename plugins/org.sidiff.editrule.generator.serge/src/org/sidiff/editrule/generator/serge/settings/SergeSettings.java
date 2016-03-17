@@ -21,6 +21,12 @@ public class SergeSettings extends EditRuleGenerationSettings{
 	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
 		
 		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),outputFolderPath,configPath,useSubfolders);
+		this.deleteManualTransformations = false;
+		this.deleteGeneratedTransformations = true;
+		this.overwriteGeneratedTransformations = true;
+		this.overwriteConfigInTargetFolder = true;
+		this.saveLogs = false;
+		this.deleteLogs = false;
 
 	}
 	
