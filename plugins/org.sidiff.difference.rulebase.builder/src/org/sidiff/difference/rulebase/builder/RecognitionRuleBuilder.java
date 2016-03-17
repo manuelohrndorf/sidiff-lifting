@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.edit2recognition.builder;
+package org.sidiff.difference.rulebase.builder;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
