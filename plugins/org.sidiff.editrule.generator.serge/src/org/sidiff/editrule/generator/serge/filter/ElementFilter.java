@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -18,12 +17,11 @@ import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
-import org.sidiff.editrule.generator.serge.filter.ElementFilter.InclusionType;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**
  * This class is responsible for filtering out EClassifiers in different
- * scenarios. It also contains the blacklist and whitelist.
+ * scenarios.
  * 
  * @author mrindt
  *
@@ -34,19 +32,56 @@ public class ElementFilter {
 		NEVER, IF_REQUIRED, ALWAYS;
 	}
 
+	/**
+	 * A map that stores the configured inclusion behavior for each classifier
+	 * in case it is a dangling element
+	 */
 	private final Map<EClassifier, InclusionType> danglingInclusionTypes = new HashMap<>();
+	
+	/**
+	 * A variable that stores the configured default inclusion behavior for dangling elements
+	 */
 	private InclusionType defaultDanglingInclusionType;
+	
+	/**
+	 * A map that stores the configured inclusion behavior for each classifier
+	 * in case it is a focal element
+	 */
 	private final Map<EClassifier, InclusionType> focusInclusionTypes = new HashMap<>();
+	
+	/**
+	 * A variable that stores the configured default inclusion behavior for focal elements
+	 */
 	private InclusionType defaultFocusInclusionType;
+	
+	/**
+	 * A set that holds all recursively required classifiers. A classifier is seen as required
+	 * if it is needed as mandatory element in the construction for modules of other classifiers
+	 * (inheritance hierarchy is included in the calculation) 
+	 * 
+	 */
 	private final Set<EClassifier> requiredTypes = new HashSet<>();
 
-	// private static ArrayList<EClassifier> blackList;
-	// private static ArrayList<EClassifier> whiteList;
 
+	/**
+	 * The configuration
+	 */
 	private Configuration c;
+	
+	/**
+	 * The EClassifierManagement
+	 */
 	private EClassifierInfoManagement ECM;
+	
+	/**
+	 * The ElementFilter
+	 */
 	private static ElementFilter instance = null;
 
+	/**
+	 * Singleton
+	 * @return ElementFilter
+	 */
 	public static ElementFilter getInstance() {
 		if (instance == null) {
 			instance = new ElementFilter();
@@ -62,6 +97,13 @@ public class ElementFilter {
 		ECM = EClassifierInfoManagement.getInstance();
 	}
 
+	/**
+	 * Method that configures the inclusion type behavior for a classifier
+	 * in case it is considered a dangling element
+	 * 
+	 * @param type
+	 * @param it
+	 */
 	public void setDanglingInclusionType(EClassifier type, InclusionType it) {
 		if (it != null) {
 			danglingInclusionTypes.put(type, it);
@@ -70,6 +112,12 @@ public class ElementFilter {
 		}
 	}
 
+	/**
+	 * Method that configures the inclusion type behavior for a classifier
+	 * in case it is considered a focal element
+	 * @param type
+	 * @param it
+	 */
 	public void setFocusInclusionType(EClassifier type, InclusionType it) {
 		if (it != null) {
 			focusInclusionTypes.put(type, it);
@@ -78,14 +126,30 @@ public class ElementFilter {
 		}
 	}
 
+	/**
+	 * Method that gets the inclusion type behavior for each classifier
+	 * in case it is considered a dangling element
+	 * @return
+	 */
 	public Map<EClassifier, InclusionType> getDanglingInclusionTypes() {
 		return danglingInclusionTypes;
 	}
 
+	/**
+	 * Method that gets the inclusion type behavior for each classifier
+	 * in case it is considered a focal element
+	 * @return
+	 */
 	public Map<EClassifier, InclusionType> getFocusInclusionTypes() {
 		return focusInclusionTypes;
 	}
 
+	/**
+	 * Method that gets the inclusion type behavior for a classifier
+	 * in case it is considered a focus element
+	 * @param type
+	 * @return
+	 */
 	public InclusionType getFocusInclusuionType(EClassifier type) {
 		InclusionType it = focusInclusionTypes.get(type);
 		if (it == null)
@@ -93,6 +157,12 @@ public class ElementFilter {
 		return it;
 	}
 
+	/**
+	 * Method that gets the inclusion type behavior for a classifier
+	 * in case it is considered a dangling element
+	 * @param type
+	 * @return
+	 */
 	public InclusionType getDanglingInclusuionType(EClassifier type) {
 		InclusionType it = danglingInclusionTypes.get(type);
 		if (it == null)
@@ -100,18 +170,33 @@ public class ElementFilter {
 		return it;
 	}
 
+	
+	/**
+	 * Method that gets the default inclusion type behavior for danglings 
+	 * @return InclusionType
+	 */
 	public InclusionType getDefaultDanglingInclusionType() {
 		return defaultDanglingInclusionType;
 	}
 
+	/**
+	 * Method that sets the default inclusion type behavior for danglings 
+	 */
 	public void setDefaultDanglingInclusionType(InclusionType defaultDanglingInclusionType) {
 		this.defaultDanglingInclusionType = defaultDanglingInclusionType;
 	}
 
+	/**
+	 * Method that gets the default inclusion type behavior for focal elements 
+	 * @return InclusionType
+	 */
 	public InclusionType getDefaultFocusInclusionType() {
 		return defaultFocusInclusionType;
 	}
 
+	/**
+	 * Method that sets the default inclusion type behavior for focal elements 
+	 */
 	public void setDefaultFocusInclusionType(InclusionType defaultFocusInclusionType) {
 		this.defaultFocusInclusionType = defaultFocusInclusionType;
 	}
@@ -448,68 +533,68 @@ public class ElementFilter {
 
 		boolean required = requiredTypes.contains(eClassifier);
 		boolean forbiddenAsDangling = InclusionType.NEVER.equals(getDanglingInclusionType(eClassifier));
-		boolean allowedAsDanglingIfRequired = InclusionType.IF_REQUIRED.equals(getDanglingInclusionType(eClassifier));
-
+		boolean configuredToBeAllowedAsDangling_on_IF_Required = InclusionType.IF_REQUIRED.equals(getDanglingInclusionType(eClassifier));
+		
 		switch (opType) {
 
 		case CREATE:
 
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case ATTACH:
 
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case ADD:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_REFERENCE_COMBINATION:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_UP:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_DOWN:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case CHANGE_REFERENCE:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case SET_ATTRIBUTE:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
 
 		case SET_REFERENCE:
-			if (forbiddenAsDangling || (allowedAsDanglingIfRequired && !required)) {
+			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
 				return false;
 			}
 			break;
