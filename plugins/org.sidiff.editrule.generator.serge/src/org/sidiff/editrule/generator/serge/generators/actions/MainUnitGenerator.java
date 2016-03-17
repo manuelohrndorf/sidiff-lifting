@@ -101,9 +101,11 @@ public class MainUnitGenerator {
 
 			for (Attribute attribute : rhsNode.getAttributes()) {
 				Parameter valueInParam = null;
-				valueInParam = rule.getParameter(attribute.getValue());
-				if (valueInParam != null) {
-					generateUnitParameter(valueInParam, ParameterDirection.IN);
+				if(HenshinRuleAnalysisUtilEx.isCreationAttribute(attribute)) {
+					valueInParam = rule.getParameter(attribute.getValue());
+					if (valueInParam != null) {
+						generateUnitParameter(valueInParam, ParameterDirection.IN);
+					}
 				}
 			}
 		}
