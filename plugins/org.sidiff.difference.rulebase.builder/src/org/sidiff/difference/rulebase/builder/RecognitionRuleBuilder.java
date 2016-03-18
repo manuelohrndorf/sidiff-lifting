@@ -29,7 +29,7 @@ public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
 		
 		// Build recognition rule:
 		try {
-			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, rrFolder, eoFolder);
+			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, eoFolder, rrFolder);
 		} catch (EditToRecognitionException e1) {
 			e1.printStackTrace();
 		} catch (NoMainUnitFoundException e1) {
