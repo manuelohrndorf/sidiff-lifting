@@ -16,22 +16,15 @@
       </definition>
    </extension>
    <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor"
-            contributorClass="org.sidiff.editrule.rulebase.ui.editor.RulebaseActionBarContributor"
-            default="false"
-            extensions="rulebase"
-            icon="icons/rulebase.gif"
-            id="org.sidiff.editrule.rulebase.ui.rulebaseEditor"
-            name="Rulebase Editor">
-      </editor>
-   </extension>
-   <extension
          point="org.sidiff.editrule.rulebase.ui.column">
       <column
+            id="HEAD"></column>
+      <column
+            id="APPEND"></column>
+      <column
             class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnActive"
-            id="org.sidiff.editrule.rulebase.ui.ColumnActive">
+            id="org.sidiff.editrule.rulebase.ui.ColumnActive"
+            insertAfter="HEAD">
       </column>
       <column
             class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnRulebaseItem"
@@ -67,5 +60,17 @@
             id="org.sidiff.editrule.rulebase.ui.ColumnInverseRule"
             insertAfter="org.sidiff.editrule.rulebase.ui.ColumnNameBasedClassification">
       </column>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor"
+            contributorClass="org.sidiff.editrule.rulebase.ui.editor.RulebaseActionBarContributor"
+            default="false"
+            extensions="rulebase"
+            icon="icons/rulebase.gif"
+            id="org.sidiff.editrule.rulebase.ui.rulebaseEditor"
+            name="Rulebase Editor">
+      </editor>
    </extension>
 </plugin>

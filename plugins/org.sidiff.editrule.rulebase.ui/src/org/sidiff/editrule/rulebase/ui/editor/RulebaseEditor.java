@@ -111,7 +111,7 @@ public class RulebaseEditor
 
 extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider {
 
-	public static final String ID = "org.sidiff.difference.rulebase.ui.rulebaseEditor";
+	public static final String ID = "org.sidiff.editrule.rulebase.ui.rulebaseEditor";
 
 	private Composite parent = null;
 	
