@@ -37,8 +37,9 @@ import org.sidiff.common.xml.XMLParser;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.exceptions.NoEncapsulatedTypeInformationException;
 import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException;
+import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration;
+import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
-import org.sidiff.editrule.generator.serge.filter.ElementFilter.InclusionType;
 import org.sidiff.editrule.generator.types.OperationType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,6 +53,7 @@ public class ConfigurationParser {
 	private static String metaModelForDefaultConfig = null;
 	private static EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
 	private static ElementFilter filter = ElementFilter.getInstance();
+	private static ClassifierInclusionConfiguration CIC = ClassifierInclusionConfiguration.getInstance();
 
 	public void setupDefaultConfig(String metaModelNsURI, String pathToDefaultConfigTemplate) throws Exception {
 		ConfigurationParser.metaModelForDefaultConfig = metaModelNsURI;
@@ -83,57 +85,6 @@ public class ConfigurationParser {
 		parseMaskedClassifiers(docElem.getElementsByTagName("MaskedClassifiers").item(0));
 	}
 
-	/**
-	 * Determines the inclusion type for a type using the type hierachy. The
-	 * result (and the results of the recursive calls) are stored in the map
-	 * 
-	 * @param map
-	 *            Map to read and store the pre-defined and determined inclusion
-	 *            types
-	 * @param alltypes
-	 *            Types to consider
-	 * @param eClassifier
-	 *            Classifier of which to determine the inclusion type
-	 * @param defaultType
-	 *            Default InclusionType
-	 * @return Determined InclusionType or null if default
-	 */
-	private InclusionType determineInclusionTypeRecursivly(Map<EClassifier, InclusionType> map,
-			Set<EClassifier> allTypes, EClassifier eClassifier, InclusionType defaultType) {
-		
-		InclusionType inclusionType = map.get(eClassifier);
-		if (inclusionType == null) {
-			if (eClassifier instanceof EClass) {
-				boolean hasAlways = false, hasNever = false, hasIfRequired = false;
-				for (EClass supertype : ((EClass) eClassifier).getESuperTypes()) {
-					if (allTypes.contains(supertype)) {
-						InclusionType superInclusionType = determineInclusionTypeRecursivly(map, allTypes, supertype,
-								defaultType);
-						hasAlways |= (InclusionType.ALWAYS.equals(superInclusionType));
-						hasNever |= (InclusionType.NEVER.equals(superInclusionType));
-						hasIfRequired |= (InclusionType.IF_REQUIRED.equals(superInclusionType));
-					}
-				}
-				if (hasAlways && hasNever) {
-					inclusionType = null;
-				} else if (hasAlways) {
-					inclusionType = InclusionType.ALWAYS;
-				} else if (hasNever) {
-					inclusionType = InclusionType.NEVER;
-				} else if (hasIfRequired) {
-					inclusionType = InclusionType.IF_REQUIRED;
-				} else {
-					inclusionType = null;
-				}
-			} else {
-				inclusionType = null;
-			}
-			if (inclusionType != null){
-				map.put(eClassifier, inclusionType);
-			}
-		}
-		return inclusionType;
-	}
 
 	private void parseMaskedClassifiers(org.w3c.dom.Node node)
 			throws EClassifierUnresolvableException, NoEncapsulatedTypeInformationException {
@@ -191,25 +142,16 @@ public class ConfigurationParser {
 		 * Default inclusion type
 		 */
 		InclusionType defaultIt = parseInclusionType(getAttributeValue(node, "defaultGenerationCase"));
-		filter.setDefaultFocusInclusionType(defaultIt);
+		CIC.setDefaultFocusInclusionType(defaultIt);
 		/*
 		 * Explicitly defined types
 		 */
 		for (org.w3c.dom.Node n : getChildNodesByName(node, "GenerateModulesFor")) {
 			String type = getAttributeValue(n, "type");
 			String it = getAttributeValue(n, "case");
-			filter.setFocusInclusionType(resolveStringAsEClassifier(type, c.EPACKAGESSTACK), parseInclusionType(it));
+			CIC.setFocusInclusionType(resolveStringAsEClassifier(type, c.EPACKAGESSTACK), parseInclusionType(it));
 		}
-		/*
-		 * Use the type hierarchy to determine InclusionType for non-explicitly
-		 * defined types WARNING: This does NOT mean that all types in the
-		 * package stack are now in the map!
-		 */
-		for (EClassifier eClassifier : getAllEClassifiers(c.EPACKAGESSTACK)) {
-			determineInclusionTypeRecursivly(filter.getFocusInclusionTypes(), getAllEClassifiers(c.EPACKAGESSTACK),
-					eClassifier, defaultIt);
-		}
-		
+
 	}
 
 	private void parseAbstractReplacements(org.w3c.dom.Node node) throws SERGeConfigParserException {
@@ -253,23 +195,14 @@ public class ConfigurationParser {
 			throws SERGeConfigParserException, EClassifierUnresolvableException {
 		
 		InclusionType defaultIt = parseInclusionType(getAttributeValue(node, "defaultTypeInclusion"));
-		filter.setDefaultDanglingInclusionType(defaultIt);
+		CIC.setDefaultDanglingInclusionType(defaultIt);
 		/*
 		 * Explicitly defined types
 		 */
 		for (org.w3c.dom.Node n : getChildNodesByName(node, "DanglingNodeSetting")) {
 			String type = getAttributeValue(n, "type");
 			String it = getAttributeValue(n, "include");
-			filter.setDanglingInclusionType(resolveStringAsEClassifier(type, c.EPACKAGESSTACK), parseInclusionType(it));
-		}
-		/*
-		 * Use the type hierarchy to determine InclusionType for non-explicitly
-		 * defined types WARNING: This does NOT mean that all types in the
-		 * package stack are now in the map!
-		 */
-		for (EClassifier eClassifier : getAllEClassifiers(c.EPACKAGESSTACK)) {
-			determineInclusionTypeRecursivly(filter.getDanglingInclusionTypes(), getAllEClassifiers(c.EPACKAGESSTACK),
-					eClassifier, defaultIt);
+			CIC.setDanglingInclusionType(resolveStringAsEClassifier(type, c.EPACKAGESSTACK), parseInclusionType(it));
 		}
 		
 	}

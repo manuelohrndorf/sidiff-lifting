@@ -393,7 +393,7 @@ public class EClassifierInfoManagement {
 			for(Entry<EReference,List<EClassifier>> entry: map.entrySet()) {
 				EReference eRef = entry.getKey();
 				entry.getValue().clear();
-				entry.getValue().add((EClassifier)eRef.getEContainingClass());	
+				entry.getValue().add(eRef.getEContainingClass());	
 			}
 		}
 		
@@ -434,13 +434,13 @@ public class EClassifierInfoManagement {
 			for(Entry<EReference,List<EClassifier>> entry: map.entrySet()) {
 				EReference eRef = entry.getKey();
 				entry.getValue().clear();
-				entry.getValue().add((EClassifier)eRef.getEContainingClass());	
+				entry.getValue().add(eRef.getEContainingClass());	
 			}
 		}
 		
 		return map;
-	}
-		
+	}	
+	
 	/**
 	 * This method checks if a given context EClassifier occurs somewhere else inside the given
 	 * HashMap as listed EClassifier.
@@ -591,6 +591,65 @@ public class EClassifierInfoManagement {
 		return map;
 		
 	}
+		
+	/**
+	 * This method returns direct mandatory children and includes their sub types.
+	 * It does not recursively return children of children.
+	 * @param eClassifier
+	 * @return
+	 */
+	public HashMap<EReference,List<EClassifier>> getAllMandatoryChildren(EClassifier eClassifier) {
+		
+		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
+		// add direct children
+		map.putAll(eClassInfo.getMandatoryChildren());
+		
+		// add indirect children
+		if(eClassifier instanceof EClass) {
+			EClass eClass = (EClass) eClassifier;
+			for(EClass superType: eClass.getESuperTypes()) {
+				EClassifierInfo infoOfSuperType = getEClassifierInfo(superType);
+
+				if(infoOfSuperType!=null) {
+					map.putAll(infoOfSuperType.getMandatoryChildren());
+				}			
+			}
+		}
+				
+		return map;
+		
+	}
+	
+	
+	/**
+	 * This method returns direct optional children and includes their sub types.
+	 * It does not recursively return children of children.
+	 * @param eClassifier
+	 * @return
+	 */
+	public HashMap<EReference,List<EClassifier>> getAllOptionalChildren(EClassifier eClassifier) {
+		
+		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
+		// add direct children
+		map.putAll(eClassInfo.getOptionalChildren());
+		
+		// add indirect children
+		if(eClassifier instanceof EClass) {
+			EClass eClass = (EClass) eClassifier;
+			for(EClass superType: eClass.getESuperTypes()) {
+				EClassifierInfo infoOfSuperType = getEClassifierInfo(superType);
+
+				if(infoOfSuperType!=null) {
+					map.putAll(infoOfSuperType.getOptionalChildren());
+				}			
+			}
+		}
+				
+		return map;
+		
+	}
 	
 	/**
 	 * This method returns direct mandatory and optional neighbours and includes their sub types.
@@ -624,7 +683,65 @@ public class EClassifierInfoManagement {
 	}
 	
 	/**
-	 * This method returns all sub types mapped inside an EClassifierInfo object
+	 * This method returns direct mandatory neighbours and includes their sub types.
+	 * It does not recursively return neighbours of neighbours.
+	 * @param eClassifier
+	 * @return
+	 */
+	public HashMap<EReference,List<EClassifier>> getAllMandatoryNeighbours(EClassifier eClassifier) {
+		
+		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
+		
+		// add direct neighbours
+		map.putAll(eClassInfo.getMandatoryNeighbours());
+		
+		// add indirect neighbours
+		if(eClassifier instanceof EClass) {
+			EClass eClass = (EClass) eClassifier;
+			for(EClassifier superType: eClass.getESuperTypes()) {
+				EClassifierInfo infoOfSuperType = getEClassifierInfo(superType);
+
+				if(infoOfSuperType!=null) {
+					map.putAll(infoOfSuperType.getMandatoryNeighbours());
+				}			
+			}
+		}	
+		return map;
+		
+	}
+	
+	/**
+	 * This method returns direct optional neighbours and includes their sub types.
+	 * It does not recursively return neighbours of neighbours.
+	 * @param eClassifier
+	 * @return
+	 */
+	public HashMap<EReference,List<EClassifier>> getAllOptionalNeighbours(EClassifier eClassifier) {
+		
+		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
+		
+		// add direct neighbours
+		map.putAll(eClassInfo.getOptionalNeighbours());
+		
+		// add indirect neighbours
+		if(eClassifier instanceof EClass) {
+			EClass eClass = (EClass) eClassifier;
+			for(EClassifier superType: eClass.getESuperTypes()) {
+				EClassifierInfo infoOfSuperType = getEClassifierInfo(superType);
+
+				if(infoOfSuperType!=null) {
+					map.putAll(infoOfSuperType.getOptionalNeighbours());
+				}			
+			}
+		}	
+		return map;
+		
+	}
+	
+	/**
+	 * This method returns all (recursive) sub types mapped inside an EClassifierInfo object
 	 * to an EClassifier.
 	 * @param eInfo
 	 * @return
@@ -650,7 +767,7 @@ public class EClassifierInfoManagement {
 	}
 
 	/**
-	 * This method returns all sub types mapped to an EClassifier.
+	 * This method returns all (recursive) sub types mapped to an EClassifier.
 	 * @param eInfo
 	 * @return
 	 */
@@ -672,14 +789,14 @@ public class EClassifierInfoManagement {
 	 * @param eClassifier
 	 * @return
 	 */
-	public Set<EClassifier> getAllSubTypesAsEClassifiersWithoutAbstracts(EClassifier eClassifier) {
+	public Set<EClassifier> getAllConcreteSubTypes(EClassifier eClassifier) {
 		Set<EClassifier> set = new HashSet<EClassifier>();
 		
 		for(EClassifier subType: subTypeMap.get(eClassifier)) {
 			if(subType instanceof EClassifier && !((EClass)subType).isAbstract()) {
 				set.add(subType);
 			}
-			set.addAll(getAllSubTypesAsEClassifiersWithoutAbstracts(subType));			
+			set.addAll(getAllConcreteSubTypes(subType));			
 		}
 		return set;
 	}

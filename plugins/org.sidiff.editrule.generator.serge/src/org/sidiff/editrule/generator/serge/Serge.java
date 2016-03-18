@@ -38,6 +38,7 @@ import org.sidiff.editrule.generator.serge.core.NameMapper;
 import org.sidiff.editrule.generator.serge.core.RuleParameterApplicator;
 import org.sidiff.editrule.generator.serge.exceptions.NoEncapsulatedTypeInformationException;
 import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException;
+import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration;
 import org.sidiff.editrule.generator.serge.filter.DuplicateFilter;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
@@ -137,9 +138,14 @@ public class Serge implements IEditRuleGenerator {
 		ECM.gatherInformation(config.MAINMODEL_IS_PROFILE, config.EPACKAGESSTACK,
 				config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
 		ePackagesStack = config.EPACKAGESSTACK;
-		ElementFilter.getInstance().collectRequiredTypes();//TODO Besserer Ort?
 		monitor.worked(80);
 
+		// Decide by user config and meta-model analysis
+		// (1) which elements may occur as dangling in a rule and
+		// (2) which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
+		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredDanglingClassifiers();
+		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredFocalClassifiers();
+		
 		// Finish monitor
 		monitor.done();
 	}

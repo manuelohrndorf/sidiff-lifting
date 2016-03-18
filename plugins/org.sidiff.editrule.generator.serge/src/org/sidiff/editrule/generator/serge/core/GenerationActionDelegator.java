@@ -113,7 +113,7 @@ public class GenerationActionDelegator {
 
 						for (EClassifier context : contexts) {
 
-							if (FILTER.isAllowedAsDangling(context, OperationType.CREATE)) {
+							if (FILTER.isAllowedAsParentContext(context)) {
 
 								CreateGenerator generator = new CreateGenerator(eRef, context, eInf);
 								Module resultModule = generator.generate();
@@ -276,7 +276,7 @@ public class GenerationActionDelegator {
 					EClassifier parent = (EClassifier) eRef.eContainer();
 
 					if (c.isRuleCreationEnabled(OperationType.MOVE_UP)
-							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_UP)) {
+							&& FILTER.isAllowedAsParentContext(parent)) {
 
 						// TODO check every entry in path is allowed as
 						// dangling?
@@ -317,11 +317,11 @@ public class GenerationActionDelegator {
 				if (!cc.isInnerCircle()) {
 
 					ContainmentCyclePathStep step = cc.getBackwardPointingStep();
-					EReference eRef = (EReference) step.getTargetingReference();
+					EReference eRef = step.getTargetingReference();
 					EClassifier parent = (EClassifier) eRef.eContainer();
 
 					if (c.isRuleCreationEnabled(OperationType.MOVE_DOWN)
-							&& FILTER.isAllowedAsDangling(parent, OperationType.MOVE_DOWN)) {
+							&& FILTER.isAllowedAsParentContext(parent)) {
 
 						// TODO check every entry in path is allowed as
 						// dangling?
@@ -651,7 +651,7 @@ public class GenerationActionDelegator {
 			if (!FILTER.isAllowedAsFocused(eClassifier, OperationType.ADD))
 				return modules;
 
-			EClass eClass = (EClass) eClassifier;
+			EClass eClass = eClassifier;
 
 			// EReferences and their EOpposites, if any
 			for (EReference eRef : eClass.getEAllReferences()) {
