@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.type.extension;
+package org.sidiff.editrule.rulebase.type.basic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 /**
  * Basic type specific rulebase wrapper implementation.
  */
-public abstract class AbstractRuleBase implements IRuleBase {
+public class BasicRuleBase implements IBasicRuleBase {
 
 	/**
 	 * The rulebase instance.
@@ -22,6 +22,11 @@ public abstract class AbstractRuleBase implements IRuleBase {
 	@Override
 	public void init(RuleBase rulebase) {
 		this.rulebase = rulebase;
+	}
+	
+	@Override
+	public String getName() {
+		return getRuleBase().getName();
 	}
 	
 	@Override

@@ -1,11 +1,13 @@
-package org.sidiff.editrule.rulebase.type.extension;
+package org.sidiff.editrule.rulebase.type;
+
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 
 /**
  * Creates a type specific rulebase wrapper instance.
  *
  * @param <R> The specific rulebase type.
  */
-public interface IRuleBaseFactory<R extends IRuleBase> {
+public interface IRuleBaseFactory<R extends IBasicRuleBase> {
 
 	/**
 	 * @return The specific rulebase wrapper type.

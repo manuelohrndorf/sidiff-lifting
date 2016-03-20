@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.type.extension;
+package org.sidiff.editrule.rulebase.type.basic;
 
 import java.util.Collection;
 import java.util.Set;
@@ -9,8 +9,13 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 /**
  * Minimal rulebase wrapper interface.
  */
-public interface IRuleBase {
+public interface IBasicRuleBase {
 
+	/**
+	 * The basic rulebase type.
+	 */
+	public static Class<IBasicRuleBase> TYPE = IBasicRuleBase.class;
+	
 	/**
 	 * @param rulebase
 	 *            A rulebase instance.

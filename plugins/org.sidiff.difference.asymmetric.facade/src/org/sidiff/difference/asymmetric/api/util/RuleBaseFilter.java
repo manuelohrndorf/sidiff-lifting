@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.type.IEditRuleBase;
-import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
+import org.sidiff.editrule.rulebase.type.editrule.IEditRuleBase;
 
 public class RuleBaseFilter {
 	

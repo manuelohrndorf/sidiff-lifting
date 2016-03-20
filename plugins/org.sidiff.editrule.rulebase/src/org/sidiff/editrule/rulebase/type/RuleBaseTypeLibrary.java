@@ -1,10 +1,11 @@
-package org.sidiff.editrule.rulebase.type.extension;
+package org.sidiff.editrule.rulebase.type;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 
 /**
  * Access registered rulebase types.
@@ -19,19 +20,19 @@ public class RuleBaseTypeLibrary {
 	/**
 	 * All registered rulebase types (e.g. edit-rule, recognition-rules, ...): Type-ID -> Class-Type
 	 */
-	private static Map<String, Class<? extends IRuleBase>> rulebaseTypeIDs;
+	private static Map<String, Class<? extends IBasicRuleBase>> rulebaseTypeIDs;
 	
 	/**
 	 * All registered rulebase types (e.g. edit-rule, recognition-rules, ...): Class-Type -> Factory
 	 */
-	private static Map<Class<? extends IRuleBase>, IRuleBaseFactory<?>> rulebaseTypes;
+	private static Map<Class<? extends IBasicRuleBase>, IRuleBaseFactory<?>> rulebaseTypes;
 	
 	/**
-	 * All registered rulebase types ((sub)class of {@link IRuleBase}).
+	 * All registered rulebase types ((sub)class of {@link IBasicRuleBase}).
 	 * 
 	 * @return Map: Rulebase-Type-ID -> Rulebase-Class-Type
 	 */
-	public static Map<String, Class<? extends IRuleBase>> getRulebaseTypeIDs() {
+	public static Map<String, Class<? extends IBasicRuleBase>> getRulebaseTypeIDs() {
 		
 		if (rulebaseTypeIDs == null) {
 			readRegisteredRulebaseTypes();
@@ -41,11 +42,11 @@ public class RuleBaseTypeLibrary {
 	}
 	
 	/**
-	 * All registered rulebase types ((sub)class of {@link IRuleBase}).
+	 * All registered rulebase types ((sub)class of {@link IBasicRuleBase}).
 	 * 
 	 * @return Map: Rulebase-Class-Type -> Rulebase-Wrapper-Factory 
 	 */
-	public static Map<Class<? extends IRuleBase>, IRuleBaseFactory<?>> getRulebaseTypes() {
+	public static Map<Class<? extends IBasicRuleBase>, IRuleBaseFactory<?>> getRulebaseTypes() {
 		
 		if (rulebaseTypes == null) {
 			readRegisteredRulebaseTypes();
@@ -60,7 +61,7 @@ public class RuleBaseTypeLibrary {
 	 * @return The corresponding rulebase factory or <code>null</code>.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <R extends IRuleBase> IRuleBaseFactory<R> getRulebaseType(Class<R> type) {
+	public static <R extends IBasicRuleBase> IRuleBaseFactory<R> getRulebaseType(Class<R> type) {
 		
 		if (getRulebaseTypes().containsKey(type)) {
 			return (IRuleBaseFactory<R>) getRulebaseTypes().get(type);
@@ -72,7 +73,7 @@ public class RuleBaseTypeLibrary {
 	private static void readRegisteredRulebaseTypes() {
 		
 		// Collect all registered rulebase types:
-		rulebaseTypes = new HashMap<Class<? extends IRuleBase>, IRuleBaseFactory<?>>();
+		rulebaseTypes = new HashMap<Class<? extends IBasicRuleBase>, IRuleBaseFactory<?>>();
 		
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID_RULEBASE_TYPE)) {

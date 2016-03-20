@@ -13,7 +13,7 @@ import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
-import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -180,7 +180,7 @@ public class LiftingSettings extends DifferenceSettings {
 		if (ruleBases != null) {
 			result.append("Rulebases: ");
 
-			for (IRuleBase rb : ruleBases) {
+			for (IBasicRuleBase rb : ruleBases) {
 				result.append(rb.getName() + ", ");
 			}
 			if (result.toString().endsWith(",")){

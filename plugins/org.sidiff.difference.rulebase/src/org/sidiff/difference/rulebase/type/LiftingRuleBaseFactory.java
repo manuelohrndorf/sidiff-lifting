@@ -1,6 +1,6 @@
 package org.sidiff.difference.rulebase.type;
 
-import org.sidiff.editrule.rulebase.type.extension.IRuleBaseFactory;
+import org.sidiff.editrule.rulebase.type.IRuleBaseFactory;
 
 public class LiftingRuleBaseFactory implements IRuleBaseFactory<ILiftingRuleBase> {
 

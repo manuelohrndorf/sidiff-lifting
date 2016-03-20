@@ -14,7 +14,7 @@ import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
 import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.editrule.rulebase.type.EditRuleBase;
+import org.sidiff.editrule.rulebase.type.editrule.EditRuleBase;
 
 /**
  * Basic implementation of @link {@link ILiftingRuleBase}.

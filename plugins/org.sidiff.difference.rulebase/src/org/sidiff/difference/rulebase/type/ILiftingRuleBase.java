@@ -8,7 +8,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
-import org.sidiff.editrule.rulebase.type.IEditRuleBase;
+import org.sidiff.editrule.rulebase.type.editrule.IEditRuleBase;
 
 /**
  * This interface belongs to the recognition-rule rulebase extension point. This

@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.type;
+package org.sidiff.editrule.rulebase.type.editrule;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,22 +10,17 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialDependency;
-import org.sidiff.editrule.rulebase.type.extension.AbstractRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.BasicRuleBase;
 
 /**
  * Basic implementation of {@link IEditRuleBase}.
  */
-public class EditRuleBase extends AbstractRuleBase implements IEditRuleBase {
+public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 	
 	/**
 	 * Mapping: src EditRule -> set of PotentialDependencies where EditRule is the source of
 	 */
 	private Map<EditRule, Set<PotentialDependency>> potDepIndex;
-	
-	@Override
-	public String getName() {
-		return getRuleBase().getName();
-	}
 	
 	@Override
 	public EditRule getEditRule(String name) {

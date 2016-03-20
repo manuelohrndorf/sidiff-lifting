@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 
 /**
  * Access registered rulebase projects.
@@ -13,29 +13,19 @@ import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
 public class RuleBaseProjectLibrary {
 
 	/**
-	 * The registration ID for a rulebase project.
-	 */
-	public static final String EXTENSION_POINT_ID_RULEBASE_PROJECT = "org.sidiff.editrule.rulebase.project";
-
-	/**
 	 * Cache of all actually registered rulebase projects (proxies for the EMF data models).
 	 */
 	private static Set<IRuleBaseProject> rulebases;
 	
 	/**
-	 * @param rulebaseType
-	 *            A specific or abstract rulebase type ((sub)class of
-	 *            {@link IRuleBase}).
-	 * @param documentTypes
-	 *            The document types of the rulebases.
-	 * @return All registered rulebases (EMF data models) of the given type.
+	 * @return All registered rulebases (EMF data models).
 	 */
-	public static <R extends IRuleBase> Set<R> getRuleBases(Class<R> rulebaseType) {
-		Set<R> rulebases = new HashSet<R>();
+	public static Set<? extends IBasicRuleBase> getRuleBases() {
+		Set<IBasicRuleBase> rulebases = new HashSet<IBasicRuleBase>();
 		
 		// Collect all rulebases of the given type:
-		for (IRuleBaseProject rbProject : getRuleBaseProjects()) {
-			R rulebase = rbProject.getRuleBase(rulebaseType);
+		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
+			IBasicRuleBase rulebase = rulebaseProject.getRuleBase(IBasicRuleBase.TYPE);
 			
 			if (rulebase != null) {
 				rulebases.add(rulebase);
@@ -47,17 +37,21 @@ public class RuleBaseProjectLibrary {
 	
 	/**
 	 * @param documentTypes
-	 *            The document (metamodel) type of the rulebase.
-	 * @return All registered rulebases for the given document type.
+	 *            The document types of the rulebases.
+	 * @param rulebaseType
+	 *            A specific or abstract rulebase type ((sub)class of {@link IBasicRuleBase}).
+	 * @return All registered rulebases (EMF data models) of the given type.
 	 */
-	public static <R extends IRuleBase> Set<R> getRuleBases(Set<String> documentTypes, Class<R> rulebaseType) {
+	public static <R extends IBasicRuleBase> Set<R> getRuleBases(Set<String> documentTypes, Class<R> rulebaseType) {
 		
 		// Collect all rulebases for a specific document type:
 		Set<R> rulebasesForDocType = new HashSet<R>();
 		
-		for (R editRulebase : RuleBaseProjectLibrary.getRuleBases(rulebaseType)) {
-			if (editRulebase.getDocumentTypes().containsAll(documentTypes)) {
-				rulebasesForDocType.add(editRulebase);
+		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects(documentTypes, rulebaseType)) {
+			R rulebase = rulebaseProject.getRuleBase(rulebaseType);
+
+			if (rulebase != null) {
+				rulebasesForDocType.add(rulebase);
 			}
 		}
 		
@@ -74,7 +68,7 @@ public class RuleBaseProjectLibrary {
 			rulebases = new HashSet<IRuleBaseProject>();
 			
 			for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
-					.getConfigurationElementsFor(EXTENSION_POINT_ID_RULEBASE_PROJECT)) {
+					.getConfigurationElementsFor(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT)) {
 				
 				try {
 					IRuleBaseProject rulebaseProject = (IRuleBaseProject) configurationElement
@@ -94,17 +88,19 @@ public class RuleBaseProjectLibrary {
 	 *            The document (metamodel) type of the rulebase.
 	 * @return All registered rulebase projects for the given document type.
 	 */
-	public static Set<IRuleBaseProject> getRuleBaseProjects(Set<String> documentTypes, Class<? extends IRuleBase> rulebaseType) {
+	public static <R extends IBasicRuleBase> Set<IRuleBaseProject> getRuleBaseProjects(Set<String> documentTypes, Class<R> rulebaseType) {
 		
 		// Collect all rulebases for a specific document type:
-		Set<IRuleBaseProject> rulebasesForDocType = new HashSet<IRuleBaseProject>();
+		Set<IRuleBaseProject> rulebases = new HashSet<IRuleBaseProject>();
 		
-		for (IRuleBaseProject rulebaseProject : RuleBaseProjectLibrary.getRuleBaseProjects()) {
-			if (rulebaseProject.getRuleBase(rulebaseType).getDocumentTypes().containsAll(documentTypes)) {
-				rulebasesForDocType.add(rulebaseProject);
+		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
+			if (rulebaseProject.getDocumentTypes().containsAll(documentTypes))  {
+				if (rulebaseProject.getRuleBaseTypes().contains(rulebaseType.getName())) {
+					rulebases.add(rulebaseProject);
+				}
 			}
 		}
 		
-		return rulebasesForDocType;
+		return rulebases;
 	}
 }

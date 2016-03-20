@@ -28,7 +28,6 @@ import org.sidiff.editrule.rulebase.project.ide.Activator;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
 import org.sidiff.editrule.rulebase.project.ide.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
-import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {
 
@@ -43,7 +42,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String getUsedExtensionPoint() {
-		return RuleBaseProjectLibrary.EXTENSION_POINT_ID_RULEBASE_PROJECT;
+		return IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT;
 	}
 
 	@Override
@@ -137,7 +136,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		try {
 			IPluginBase plugin = model.getPluginBase();
 			IPluginModelFactory factory = model.getPluginFactory();
-			IPluginExtension extension = createExtension(RuleBaseProjectLibrary.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
+			IPluginExtension extension = createExtension(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
 			IPluginElement element = factory.createElement(extension);
 			element.setName("rulebase");
 			// We only assume one attribute at this time ("rulebase")

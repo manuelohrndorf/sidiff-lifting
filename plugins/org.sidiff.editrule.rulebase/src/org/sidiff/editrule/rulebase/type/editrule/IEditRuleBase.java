@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.type;
+package org.sidiff.editrule.rulebase.type.editrule;
 
 import java.util.Collections;
 import java.util.Set;
@@ -6,14 +6,14 @@ import java.util.Set;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialDependency;
-import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 
 /**
  * This interface belongs to the edit-rule rulebase extension point. This
  * extension point is used to add new rulebases to the SiDiff framework. A
  * plug-in that adds this extension point has to implement this interface.
  */
-public interface IEditRuleBase extends IRuleBase {
+public interface IEditRuleBase extends IBasicRuleBase {
 
 	/**
 	 * Used folder structure for projects with nature @link{RuleBaseProjectNature}	

@@ -1,12 +1,12 @@
-package org.sidiff.editrule.rulebase.type;
+package org.sidiff.editrule.rulebase.type.editrule;
 
-import org.sidiff.editrule.rulebase.type.extension.IRuleBaseFactory;
+import org.sidiff.editrule.rulebase.type.IRuleBaseFactory;
 
 public class EditRuleBaseFactory implements IRuleBaseFactory<IEditRuleBase> {
 
 	@Override
 	public Class<IEditRuleBase> getRuleBaseType() {
-		return IEditRuleBase.class;
+		return IEditRuleBase.TYPE;
 	}
 
 	@Override

@@ -4,13 +4,18 @@ import java.util.Set;
 
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
-import org.sidiff.editrule.rulebase.type.extension.IRuleBase;
+import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
 
 /**
  * This interface accesses the information of a registered rulebase project.
  */
 public interface IRuleBaseProject {
 
+	/**
+	 * The registration ID for a rulebase project.
+	 */
+	public static final String EXTENSION_POINT_ID_RULEBASE_PROJECT = "org.sidiff.editrule.rulebase.project.runtime.extension";
+	
 	/**
 	 * The plug-in relative path to the rulebase file.
 	 */
@@ -34,14 +39,19 @@ public interface IRuleBaseProject {
 	/**
 	 * @return All contained rulebase types.
 	 */
-	public Set<Class<? extends IRuleBase>> getRuleBaseTypes();
+	public Set<String> getRuleBaseTypes();
+	
+	/**
+	 * @return All supported document types of this rulebase.
+	 */
+	public Set<String> getDocumentTypes();
 
 	/**
 	 * @param type
 	 *            A specific rulebase type.
 	 * @return The corresponding rulebase wrapper.
 	 */
-	public <R extends IRuleBase> R getRuleBase(Class<R> type);
+	public <R extends IBasicRuleBase> R getRuleBase(Class<R> type);
 
 	/**
 	 * @return The rulebase instance.
