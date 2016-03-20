@@ -48,8 +48,8 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.ParameterInfo;
 import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.common.henshin.view.NodePair;
-import org.sidiff.editrule.analysis.EditRuleAnnotations;
-import org.sidiff.editrule.analysis.EditRuleConditions;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.conditions.EditRuleConditions;
 
 /**
  * Checks the Edit-Rule constraints.

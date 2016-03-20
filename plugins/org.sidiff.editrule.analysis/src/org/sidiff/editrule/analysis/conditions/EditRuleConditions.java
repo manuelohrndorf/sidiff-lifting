@@ -1,4 +1,4 @@
-package org.sidiff.editrule.analysis;
+package org.sidiff.editrule.analysis.conditions;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getForbidEdges;
@@ -9,7 +9,8 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.editrule.analysis.EditRuleAnnotations.Condition;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations.Condition;
 
 /**
  * The pre-/postcondition interpretation of an edit-rule.

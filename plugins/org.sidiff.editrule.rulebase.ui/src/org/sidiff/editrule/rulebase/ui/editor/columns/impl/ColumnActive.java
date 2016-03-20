@@ -13,10 +13,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
-import org.sidiff.editrule.rulebase.wrapper.EditRuleBaseWrapper;
 
 public class ColumnActive implements IRuleBaseColumn {
 

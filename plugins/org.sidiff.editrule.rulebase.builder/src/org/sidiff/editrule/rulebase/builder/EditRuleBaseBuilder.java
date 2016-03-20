@@ -41,7 +41,6 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
-import org.sidiff.editrule.rulebase.wrapper.EditRuleBaseWrapper;
 
 /**
  * Builds a rulebase of edit-rules.

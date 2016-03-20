@@ -10,7 +10,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.editrule.analysis.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 

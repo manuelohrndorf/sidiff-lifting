@@ -101,11 +101,11 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.editrule.rulebase.ui.Activator;
 import org.sidiff.editrule.rulebase.ui.editor.columns.RuleBaseColumnLibrary;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
-import org.sidiff.editrule.rulebase.wrapper.EditRuleBaseWrapper;
 
 public class RulebaseEditor
 

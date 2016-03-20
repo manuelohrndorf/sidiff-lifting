@@ -1,4 +1,4 @@
-package org.sidiff.editrule.analysis;
+package org.sidiff.editrule.analysis.conditions;
 
 /**
  * Configuration of edit-rule specific features/interpretations.
