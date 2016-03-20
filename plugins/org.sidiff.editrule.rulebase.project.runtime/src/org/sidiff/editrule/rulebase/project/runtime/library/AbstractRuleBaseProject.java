@@ -40,7 +40,7 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	public RuleBase getRuleBaseData() {
 		
 		if (rulebase == null) {
-			rulebase = RuleBaseStorage.loadRuleBase(getRuleBasePath(), getRuleBasePluginID());
+			rulebase = RuleBaseStorage.loadRuleBasePlugin(getRuleBasePath(), getRuleBasePluginID());
 		}
 		
 		return rulebase;

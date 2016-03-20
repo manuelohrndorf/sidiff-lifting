@@ -28,6 +28,7 @@ import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
+import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
 /**
@@ -72,7 +73,7 @@ public class EditRuleBaseWrapper {
 		if (exists(rulebaseURI)) {
 			// Load existing rule base
 			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
-			rulebase = (RuleBase) EMFStorage.eLoad(rulebaseURI);
+			rulebase = RuleBaseStorage.loadRuleBaseResource(rulebaseURI);
 			
 			if (resolveRules) {
 				EcoreUtil.resolveAll(rulebase);

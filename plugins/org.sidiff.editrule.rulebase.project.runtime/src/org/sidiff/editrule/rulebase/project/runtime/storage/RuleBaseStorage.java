@@ -6,6 +6,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.rulebase.RuleBase;
@@ -35,6 +36,9 @@ public class RuleBaseStorage {
 		if (resourceSet == null) {
 			resourceSet = new ResourceSetImpl();
 			
+			// Do not report unknown rulebase attachments:
+			resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
+			
 			// Performance improvements:
 			resourceSet.setURIResourceMap(new HashMap<URI, Resource>());
 			
@@ -54,23 +58,17 @@ public class RuleBaseStorage {
 	public static void unloadRuleBases() {
 		resourceSet = null;
 	}
-
+	
 	/**
-	 * Loads an EMF XMI persistent saved rulebase.
+	 * Loads an EMF XMI persistent saved rulebase (without URI mapping).
 	 * 
-	 * @param pluginU
+	 * @param uri
 	 *            the URI of the rulbase XMI.
 	 * @return the rulebase instance.
 	 */
-	public static RuleBase loadRuleBase(String rulebasePath, String rulebasePluginID) {
+	public static RuleBase loadRuleBaseResource(URI rulebasePluginURI) {
 		
-		// Set URI mapping:
-		URI rulebasePluginIDURI = URI.createPlatformPluginURI(rulebasePluginID + "/", true);
-		URI rulebaseResourceIDURI = URI.createPlatformResourceURI(rulebasePluginID + "/", true);
-		getResourceSet().getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
-
 		// Load Rulebase:
-		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);
 		Resource rulebaseResource = getResourceSet().getResource(rulebasePluginURI, true);
 
 		if ((rulebaseResource == null) || (rulebaseResource.getContents().isEmpty())) {
@@ -80,5 +78,26 @@ public class RuleBaseStorage {
 
 		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
 		return rulebase;
+	}
+
+	/**
+	 * Loads an EMF XMI persistent saved rulebase from a runtime plug-in (with URI mapping).
+	 * 
+	 * @param rulebasePath
+	 *            the file path of the rulebase.
+	 * @param rulebasePluginID
+	 *            the plugin of the rulebase.
+	 * @return the rulebase instance.
+	 */
+	public static RuleBase loadRuleBasePlugin(String rulebasePath, String rulebasePluginID) {
+		
+		// Set URI mapping:
+		URI rulebasePluginIDURI = URI.createPlatformPluginURI(rulebasePluginID + "/", true);
+		URI rulebaseResourceIDURI = URI.createPlatformResourceURI(rulebasePluginID + "/", true);
+		getResourceSet().getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
+
+		// Load Rulebase:
+		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);
+		return loadRuleBaseResource(rulebasePluginURI);
 	}
 }
