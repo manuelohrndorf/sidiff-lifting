@@ -20,6 +20,7 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.ui.IEditorInput;
@@ -148,6 +149,9 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	public URI copyDiagram(URI modelFile, String savePath) throws FileNotFoundException {
 		String separator = System.getProperty("file.separator");
 		try {
+			
+			String modelFileName = modelFile.lastSegment();
+			
 			// This code assumes that mainDiagramUri is in diagramFiles:
 			URI[] diagramFiles = getDiagramFiles(modelFile);
 			URI mainDiagramUri = getMainDiagramFile(modelFile);
@@ -177,6 +181,12 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 			for (Resource diagramResource : diagramResources) {
 				URI diagramFileURI = EMFStorage
 						.pathToUri(savePath + separator + diagramResource.getURI().lastSegment());
+				EcoreUtil.resolveAll(diagramResource);
+				for(Resource r : diagramResource.getResourceSet().getResources()){
+					if(r.getURI().lastSegment().equals(modelFileName)){
+						r.setURI(EMFStorage.pathToUri(savePath + separator + modelFileName));
+					}
+				}
 				saveDiagram(diagramFileURI, diagramResource);
 			}
 			for (File file : diagramNonResources) {
