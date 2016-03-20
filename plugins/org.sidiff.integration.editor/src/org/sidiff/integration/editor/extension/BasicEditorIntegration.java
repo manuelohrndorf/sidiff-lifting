@@ -3,14 +3,18 @@ package org.sidiff.integration.editor.extension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -131,6 +135,15 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 				&& model.getURI().fileExtension().equals(this.modelFileExt));
 	}
 
+	/**
+	 * Determines if a file can be copied using a standard file copy instead of EMF
+	 * @param diagramFile File to check
+	 * @return <i>true</i> if file can be copied using standard file copy
+	 */
+	protected boolean allowFileCopy(URI diagramFile) {
+		return false;
+	}
+
 	@Override
 	public URI copyDiagram(URI modelFile, String savePath) throws FileNotFoundException {
 		String separator = System.getProperty("file.separator");
@@ -145,25 +158,40 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 			// Load the diagram file:
 			List<Resource> diagramResources = new ArrayList<Resource>();
-
+			List<File> diagramNonResources = new ArrayList<File>();
 			for (URI diagramFile : diagramFiles) {
-				File testFile = new File(EMFStorage.uriToPath(diagramFile));
-				if (!testFile.exists() || !testFile.isFile()) {
+				File file = new File(EMFStorage.uriToPath(diagramFile));
+				if (!file.exists() || !file.isFile()) {
 					throw new FileNotFoundException("A diagram file was not found");
 				}
-				
-				Resource resource = EMFStorage.eLoad(diagramFile).eResource();
-				diagramResources.add(resource);
+				Resource resource = tryLoad(diagramFile);
+				if (resource != null) {
+					diagramResources.add(resource);
+				} else if (allowFileCopy(diagramFile)) {
+					diagramNonResources.add(file);
+				} else {
+					throw new RuntimeException("Diagram cannot be loaded as resource");
+				}
 			}
-
 			// Save the diagram files:
 			for (Resource diagramResource : diagramResources) {
 				URI diagramFileURI = EMFStorage
 						.pathToUri(savePath + separator + diagramResource.getURI().lastSegment());
-
 				saveDiagram(diagramFileURI, diagramResource);
 			}
-
+			for (File file : diagramNonResources) {
+				File dest = new File(savePath + separator + file.getName());
+				Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				// Refresh views like project manager, so that the copied file
+				// is displayed
+				try {
+					IFile ifile = ResourcesPlugin.getWorkspace().getRoot()
+							.getFileForLocation(Path.fromOSString(dest.getAbsolutePath()));
+					ifile.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				} catch (Exception e) {
+					LogUtil.log(LogEvent.NOTICE, "Could not refresh file after file copy");
+				}
+			}
 			return EMFStorage.pathToUri(savePath + separator + mainDiagramUri.lastSegment());
 		} catch (Exception e) {
 			if (e instanceof FileNotFoundException) {
@@ -171,6 +199,15 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 			}
 			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 			throw new RuntimeException("Error copying diagram", e);
+		}
+	}
+
+	private static Resource tryLoad(URI uri) {
+		try {
+			return EMFStorage.eLoad(uri).eResource();
+		} catch (Exception e) {
+			LogUtil.log(LogEvent.NOTICE, "Could not load diagram as resource");
+			return null;
 		}
 	}
 
