@@ -7,9 +7,9 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
-import org.sidiff.editrule.rulebase.wrapper.EditRuleBaseWrapper;
 
 public class ColumnDependenyCount implements IRuleBaseColumn {
 

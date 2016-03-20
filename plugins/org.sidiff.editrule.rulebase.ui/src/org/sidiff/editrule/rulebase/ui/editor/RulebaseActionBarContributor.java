@@ -8,9 +8,7 @@ package org.sidiff.editrule.rulebase.ui.editor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -40,8 +38,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.sidiff.difference.rulebase.RecognitionRule;
-import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * This is the action bar contributor for the Rulebase model editor.
@@ -397,25 +393,7 @@ extends EditingDomainActionBarContributor implements ISelectionChangedListener {
 
 	@Override
 	protected DeleteAction createDeleteAction() {
-		return new DeleteAction(removeAllReferencesOnDelete()) {
-
-			@Override
-			public Command createCommand(Collection<?> selection) {
-				List<Object> temp = new ArrayList<Object>();
-				for (Object object : selection) {
-					if (object instanceof RecognitionRule) {
-						EditRule rule = ((RecognitionRule) object).getEditRule();
-						if (rule != null) {
-							temp.add(rule);
-						}
-					}
-				}
-
-				temp.addAll(selection);
-				return super.createCommand(temp);
-			}
-
-		};
+		return new DeleteAction(removeAllReferencesOnDelete());
 
 	}
 

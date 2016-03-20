@@ -1,5 +1,5 @@
 
-package org.sidiff.editrule.analysis;
+package org.sidiff.editrule.analysis.annotations;
 
 import java.util.Iterator;
 

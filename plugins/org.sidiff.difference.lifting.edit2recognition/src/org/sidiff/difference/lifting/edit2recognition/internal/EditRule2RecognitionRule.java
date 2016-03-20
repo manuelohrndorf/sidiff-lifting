@@ -23,11 +23,11 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSChanging
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
-import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isOptionalAttributeValueChange;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
+import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isOptionalAttributeValueChange;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,8 +74,8 @@ import org.sidiff.difference.lifting.edit2recognition.traces.RemoveReferencePatt
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.editrule.analysis.EditRuleAnnotations;
-import org.sidiff.editrule.analysis.EditRuleTransientEffects;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects;
 import org.sidiff.matching.model.MatchingModelPackage;
 
 // TODO: Forbid/Prevent wrong correspondences if there are nodes with the same type!

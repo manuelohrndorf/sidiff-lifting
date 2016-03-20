@@ -15,12 +15,12 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNod
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
-import static org.sidiff.editrule.analysis.EditRuleConditions.isPostcondition;
-import static org.sidiff.editrule.analysis.EditRuleConditions.isPrecondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
-import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
-import static org.sidiff.editrule.analysis.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditions.isPostcondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditions.isPrecondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
+import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
+import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
 
 import java.util.Collection;
 import java.util.HashMap;

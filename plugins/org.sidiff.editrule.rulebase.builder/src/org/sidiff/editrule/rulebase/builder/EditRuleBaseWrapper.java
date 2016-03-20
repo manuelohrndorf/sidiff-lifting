@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.wrapper;
+package org.sidiff.editrule.rulebase.builder;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +18,10 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
-import org.sidiff.difference.asymmetric.paramextraction.ParameterExtractor;
 import org.sidiff.editrule.analysis.classification.IClassificator;
 import org.sidiff.editrule.analysis.classification.util.ClassificatorUtil;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
+import org.sidiff.editrule.analysis.parameters.ParameterExtractor;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialDependency;
@@ -41,11 +41,6 @@ public class EditRuleBaseWrapper {
 	 * The path of the *.rulebase file. 
 	 */
 	private URI rulebaseURI;
-	
-//	/**
-//	 * The folder of the corresponding Edit-Rules. 
-//	 */
-//	private URI editRuleFolderURI;
 	
 	/**
 	 * The (Ecore model) rulebase root element. 

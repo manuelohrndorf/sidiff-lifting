@@ -1,4 +1,4 @@
-package org.sidiff.difference.asymmetric.paramextraction;
+package org.sidiff.editrule.analysis.parameters;
 
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;

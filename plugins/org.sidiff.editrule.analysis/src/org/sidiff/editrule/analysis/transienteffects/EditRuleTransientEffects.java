@@ -1,4 +1,4 @@
-package org.sidiff.editrule.analysis;
+package org.sidiff.editrule.analysis.transienteffects;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithChangingAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithCreationAttributes;
@@ -9,10 +9,10 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPres
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithPreservedEdges;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithoutAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeWithoutEdges;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
-import static org.sidiff.editrule.analysis.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedAttributePostCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedAttributePreCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
+import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Node;
