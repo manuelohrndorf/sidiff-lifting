@@ -356,7 +356,7 @@ public class ElementFilter {
 	
 	public boolean isAllowedAsParentContext(EClassifier eClassifier) {
 
-		boolean required = CIC.getRequiredDanglings().contains(eClassifier);
+		boolean required = CIC.getRequiredDanglingParentContexts().contains(eClassifier);
 		InclusionType userDefinedBehavior = getDanglingInclusionType(eClassifier);
 		InclusionType userDefinedDefaultInclusionBehavior = CIC.getDefaultDanglingInclusionType();
 		

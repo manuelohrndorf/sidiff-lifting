@@ -3,6 +3,7 @@ package org.sidiff.editrule.generator.serge.filter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
@@ -48,6 +49,13 @@ public class ClassifierInclusionConfiguration {
 	 */
 	private final Set<EClassifier> requiredDanglings = new HashSet<>();
 
+	
+	/**
+	 * A set that holds all required parent contexts that may occur as danglings in a rule.
+	 * 
+	 */
+	private final Set<EClassifier> requiredDanglingParentContexts = new HashSet<>();
+	
 	/**
 	 * A set that holds all required, recursive mandatory children and recursive mandatory neighbors
 	 * and parent contexts that may occur as focal element in a rule.
@@ -101,7 +109,7 @@ public class ClassifierInclusionConfiguration {
 	 * in case it is considered a dangling element
 	 * @return
 	 */
-	public Map<EClassifier, InclusionType> getDanglingInclusionTypes() {
+	public Map<EClassifier, InclusionType> getDanglingClassifierInclusionTypes() {
 		return danglingInclusionTypes;
 	}
 
@@ -110,9 +118,46 @@ public class ClassifierInclusionConfiguration {
 	 * in case it is considered a focal element
 	 * @return
 	 */
-	public Map<EClassifier, InclusionType> getFocusInclusionTypes() {
+	public Map<EClassifier, InclusionType> getFocusClassifierInclusionTypes() {
 		return focusInclusionTypes;
 	}
+	
+	/**
+	 * Method that gets a set of focal element EClassifiers by their
+	 * user defined inclusion type
+	 * @param it
+	 * @return
+	 */
+	public Set<EClassifier> getFocusClassifiersByInclusionType(InclusionType it) {
+		 Map<EClassifier, InclusionType> map = getFocusClassifierInclusionTypes();
+		 Set<EClassifier> result = new HashSet<EClassifier>();
+		 
+		for(Entry<EClassifier,InclusionType> entry: map.entrySet()) {
+			if(entry.getValue().equals(it)) {
+				result.add(entry.getKey());
+			}
+		}		
+		return result;
+	}
+	
+	/**
+	 * Method that gets a set of dangling element EClassifiers by their
+	 * user defined inclusion type
+	 * @param it
+	 * @return
+	 */
+	public Set<EClassifier> getDanglingClassifiersByInclusionType(InclusionType it) {
+		 Map<EClassifier, InclusionType> map = getDanglingClassifierInclusionTypes();
+		 Set<EClassifier> result = new HashSet<EClassifier>();
+		 
+		for(Entry<EClassifier,InclusionType> entry: map.entrySet()) {
+			if(entry.getValue().equals(it)) {
+				result.add(entry.getKey());
+			}
+		}		
+		return result;
+	}
+	
 
 	/**
 	 * Method that gets the inclusion type behavior for a classifier
@@ -173,10 +218,17 @@ public class ClassifierInclusionConfiguration {
 
 	/**
 	 * Method that returns all required, recursive mandatory children and direct mandatory neighbors
-	 * and parent contexts that may occur as danglings in a rule.
+	 * that may occur as danglings in a rule.
 	 */
 	public Set<EClassifier> getRequiredDanglings() {
 		return requiredDanglings;
+	}
+	
+	/**
+	 * Method that returns all required parent contexts that may occur as danglings in a rule.
+	 */
+	public Set<EClassifier> getRequiredDanglingParentContexts() {
+		return requiredDanglingParentContexts;
 	}
 	
 	/**
@@ -194,6 +246,16 @@ public class ClassifierInclusionConfiguration {
 	public void collectConfiguredAndRequiredDanglingClassifiers() {
 		requiredDanglings.addAll(MandatoryDanglingsCollector.collectConfiguredAndRequiredDanglingClassifiers());
 	}
+	
+	
+	/**
+	 * Method that collects all required EClassfiers that may occur as parent context rule dangling.
+	 * Whether they are required or not is decided by meta-model structure and user configuration
+	 */
+	public void collectConfiguredAndRequiredDanglingParentContextClassifiers() {
+		requiredDanglingParentContexts.addAll(MandatoryDanglingsCollector.collectConfiguredAndRequiredDanglingParentContextClassifiers());
+	}
+	
 	
 	/**
 	 * Method that collects all required, recursive mandatory children and recursive mandatory neighbors

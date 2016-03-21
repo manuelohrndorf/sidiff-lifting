@@ -141,9 +141,11 @@ public class Serge implements IEditRuleGenerator {
 		monitor.worked(80);
 
 		// Decide by user config and meta-model analysis
-		// (1) which elements may occur as dangling in a rule and
-		// (2) which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
+		// (1) which elements may occur as dangling child or neighbor in a rule and
+		// (1) which elements may occur as parent context in a rule and
+		// (3) which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredDanglingClassifiers();
+		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredDanglingParentContextClassifiers();
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredFocalClassifiers();
 		
 		// Finish monitor
