@@ -160,14 +160,12 @@ public class EditRuleBaseWrapper {
 	 *            The Henshin edit-rule.
 	 * 
 	 * @return A new rule base item.
-	 * @throws NoMainUnitFoundException 
 	 */
-	public RuleBaseItem addEditRule(Module editModule) throws NoMainUnitFoundException {
+	public RuleBaseItem createItem(EditRule editRule) {
 		
 		// Create rule base element
 		RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
-		item.setEditRule(createEditRule(editModule));
-		getRuleBase().getItems().add(item);
+		item.setEditRule(editRule);
 		
 		return item;
 	}
@@ -178,7 +176,7 @@ public class EditRuleBaseWrapper {
 	 * @return an edit rule wrapper.
 	 * @throws NoMainUnitFoundException 
 	 */
-	private EditRule createEditRule(Module editModule) throws NoMainUnitFoundException {
+	public EditRule createEditRule(Module editModule) throws NoMainUnitFoundException {
 
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();

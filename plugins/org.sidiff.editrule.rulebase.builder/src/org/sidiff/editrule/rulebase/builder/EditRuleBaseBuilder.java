@@ -281,11 +281,15 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				monitor.subTask("Building Edit-Rule " + editRule.getFullPath());
 
 				// Build edit-rule:
-				RuleBaseItem item = getEditRuleBaseWrapper().addEditRule(loadModule(editRule));
+				EditRuleBaseWrapper rulebaseWrapper = getEditRuleBaseWrapper();
+				EditRule editRuleWrapper = rulebaseWrapper.createEditRule(loadModule(editRule));
+				RuleBaseItem rulebaseItem = rulebaseWrapper.createItem(editRuleWrapper);
+				
+				rulebaseWrapper.addItem(rulebaseItem);
 				
 				// Build attachments:
 				for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
-					attachmentBuilder.buildAttachment(monitor, getProject(), item);
+					attachmentBuilder.buildAttachment(monitor, getProject(), rulebaseItem);
 				}
 			}
 		} catch (CoreException e) {
