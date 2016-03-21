@@ -13,9 +13,9 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
 import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
-import org.sidiff.editrule.rulebase.RuleBaseItem;
 
 /**
  * A specific subclass of {@link BasicEditRuleMatch} that creates an
@@ -237,7 +237,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Trace trace = iRuleBase.getTraceA(recognitionRuleNode);
 			
 			if (trace != null) {
-				setEditRule(((RuleBaseItem) trace.eContainer()).getEditRule());
+				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}
@@ -258,7 +258,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Trace trace = iRuleBase.getTraceB(recognitionRuleNode);
 			
 			if (trace != null) {
-				setEditRule(((RuleBaseItem) trace.eContainer()).getEditRule());
+				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}
