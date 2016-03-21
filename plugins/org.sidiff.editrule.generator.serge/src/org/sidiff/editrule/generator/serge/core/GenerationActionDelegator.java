@@ -422,6 +422,8 @@ public class GenerationActionDelegator {
 	 * can be controlled which exact sub type of the target class should be
 	 * used. For each setup the generation process will be delegated to
 	 * {@link AddGenerator}
+	 * The contextClass here represents the source-EClass from which the
+	 * new reference will point to an additional target EClass.
 	 * 
 	 * @param eClassifier
 	 * @return Set of disparate add modules for the given eclass.
@@ -786,24 +788,24 @@ public class GenerationActionDelegator {
 
 			// EAttributes which shall be considered
 			List<EAttribute> easToConsider = new ArrayList<EAttribute>();
-			// TODO Check if reduceToSupertypeContext is right
+			ClassifierInclusionConfiguration CIC = ClassifierInclusionConfiguration.getInstance();
 			if (c.reduceToSupertypeContext(OperationTypeGroup.CHANGE_LITERAL)) {
+				// if reduceToContext is enabled but the super type itself was not
+				// added by the user on the config to generate modules for
+				// then there will be lots of rules missing. Thus, the following
+				// workaround for missing super type config declarations adds only the
+				// own and inherited eattributes of missing super types to this list:
+				for(EAttribute ea: eClass.getEAllAttributes()) {
+					EClassifier container = (EClassifier) ea.eContainer();
+					if(!ea.eContainer().equals(eClass)
+							&& CIC.getFocusInclusionType(container)==null) {
+						easToConsider.add(ea);
+					}
+				}
 				// all own eattributes
-				List<EAttribute> ownEAttributes = eClass.getEAttributes();
-				if (ownEAttributes != null) {
-					easToConsider.addAll(ownEAttributes);
-				}
-
-				// also include all inherited EAttributes, for which SERGEe
-				// Constraints are defined
-				List<EAttribute> easOfConstraintsToConsider = ECM
-						.getAllInheritedEAttributesInvolvedInConstraints(eClassifier);
-				if (easOfConstraintsToConsider != null) {
-					easToConsider.addAll(easOfConstraintsToConsider);
-				}
-
+				easToConsider.addAll(eClass.getEAttributes());
 			} else {
-				// all inherited eattributes
+				// all own and inherited eattributes
 				easToConsider = eClass.getEAllAttributes();
 			}
 

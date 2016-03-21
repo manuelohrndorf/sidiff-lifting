@@ -133,7 +133,7 @@ public class ElementFilter {
 			break;
 
 		case ADD:
-
+			
 			if ((!includeBySettings && !config.isRoot(eClassifier)) || isElementOfRequiredMetamodels) {
 				return false;
 			}
