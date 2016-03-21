@@ -14,7 +14,8 @@ import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfigurati
 /**
  * This class is responsible for collecting all recursive mandatory children
  * and direct mandatory neighbors and direct mandatory parent contexts
- * for other classifiers. Subtype hierarchies are also considered.
+ * for other classifiers in reference to the user-specified configuration.
+ * Subtype hierarchies are also considered.
  * 
  * @author mrindt
  *
@@ -22,9 +23,10 @@ import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfigurati
 public abstract class MandatoryDanglingsCollector {
 	
 	/**
-	 * Collect only the mandatory children and neigbors of those classifiers recursively
+	 * Collect recursively only the mandatory children and neigbors of classifiers 
 	 * which the user has defined to generate modules for or as danglings.
-	 * @return
+	 * @return set of EClassifiers
+	 * 	
 	 */
 	public static Set<EClassifier> collectConfiguredAndRequiredDanglingClassifiers() {
 		
@@ -59,6 +61,12 @@ public abstract class MandatoryDanglingsCollector {
 		return result;
 	}
 
+	/**
+	 * Collect recursively only the dangling parent contexts of classifiers 
+	 * which the user has defined to generate modules for or as danglings.
+	 * @return set of EClassifiers
+	 * 	
+	 */
 	public static Set<EClassifier> collectConfiguredAndRequiredDanglingParentContextClassifiers() {
 		
 		Set<EClassifier> result = new HashSet<EClassifier>();
@@ -68,6 +76,13 @@ public abstract class MandatoryDanglingsCollector {
 		return result;
 	}
 	
+	/**
+	 * Collect recursively the mandatory children in for the user-defined Classifiers
+	 * for which modules should be generated. Subtypes are considered also.
+	 * 
+	 * @return set of EClassifiers
+	 * 	
+	 */
 	private static Set<EClassifier> recursivlyCollectMandatoryChildren(Set<EClassifier> alreadyfound) {		
 		
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
@@ -124,6 +139,13 @@ public abstract class MandatoryDanglingsCollector {
 		
 	}
 	
+	/**
+	 * Collect recursively the mandatory neighbors in for the user-defined Classifiers
+	 * for which modules should be generated. Subtypes are considered also.
+	 * 
+	 * @return set of EClassifiers
+	 * 	
+	 */
 	private static Set<EClassifier> collectAllDirectMandatoryNeighbors(Set<EClassifier> alreadyfound) {		
 
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
@@ -177,6 +199,15 @@ public abstract class MandatoryDanglingsCollector {
 		
 	}
 	
+	/**
+	 * Collect recursively the direct optional and mandatory parent contexts for
+	 * the user-defined Classifiers for which modules should be generated and
+	 * which are user-specified as danglings to be included.
+	 * Subtypes are considered also.
+	 * 
+	 * @return set of EClassifiers
+	 * 	
+	 */
 	private static Set<EClassifier> collectAllDirectParentContexts(Set<EClassifier> alreadyfound) {		
 
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
@@ -196,7 +227,7 @@ public abstract class MandatoryDanglingsCollector {
 		// handle sub types of parents...
 		for(EClassifier eClassifier: alreadyfound) {
 
-			//get mandatory parent contexts
+			//get parent contexts
 			for(List<EClassifier> parentContextsList: ECM.getAllParentContexts(eClassifier,false).values()) {
 				for(EClassifier parent: parentContextsList) {
 

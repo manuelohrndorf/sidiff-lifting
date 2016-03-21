@@ -8,6 +8,13 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
 
+/**
+ * This class provides methods which collect, set, and return
+ * Classifiers filtered by user-configuration details
+ * 
+ * @author mrindt
+ *
+ */
 public class ClassifierInclusionConfiguration {
 
 	
@@ -166,10 +173,7 @@ public class ClassifierInclusionConfiguration {
 	 * @return
 	 */
 	public InclusionType getFocusInclusionType(EClassifier type) {
-		InclusionType it = focusInclusionTypes.get(type);
-//		if (it == null)
-//			return getDefaultFocusInclusionType();
-		return it;
+		return focusInclusionTypes.get(type);
 	}
 
 	/**
@@ -179,10 +183,7 @@ public class ClassifierInclusionConfiguration {
 	 * @return
 	 */
 	public InclusionType getDanglingInclusionType(EClassifier type) {
-		InclusionType it = danglingInclusionTypes.get(type);
-//		if (it == null)
-//			return getDefaultDanglingInclusionType();
-		return it;
+		return danglingInclusionTypes.get(type);
 	}
 
 	
