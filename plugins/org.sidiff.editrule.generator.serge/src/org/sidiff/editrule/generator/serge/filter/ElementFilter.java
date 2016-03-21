@@ -134,7 +134,19 @@ public class ElementFilter {
 
 		case ADD:
 			
-			if ((!includeBySettings && !config.isRoot(eClassifier)) || isElementOfRequiredMetamodels) {
+			Set<EClassifier> userFocusedTypes = CIC.getFocusClassifiersByInclusionType(InclusionType.ALWAYS);
+			boolean isSuperTypeOfAFocussedType = false;
+			for(EClassifier focussed: userFocusedTypes) {
+				if(focussed instanceof EClass) {
+					EClass f = (EClass) focussed;
+					if(f.getEAllSuperTypes().contains(eClassifier)) {
+						isSuperTypeOfAFocussedType = true;
+						break;
+					}
+				}
+			}
+								
+			if ((!includeBySettings && !config.isRoot(eClassifier) && !isSuperTypeOfAFocussedType) || isElementOfRequiredMetamodels) {
 				return false;
 			}
 			break;
