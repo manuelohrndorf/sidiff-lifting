@@ -874,9 +874,33 @@ public class GenerationActionDelegator {
 			if (!FILTER.isAllowedAsFocused(contextClass, OperationType.CHANGE_REFERENCE)) {
 				return modules;
 			}
+			
+			List<EReference> eRefsToConsider = new ArrayList<EReference>();
+			
+			// Findout which EReferences should be considered
+			ClassifierInclusionConfiguration CIC = ClassifierInclusionConfiguration.getInstance();
+			if (c.reduceToSupertypeContext(OperationTypeGroup.CHANGE_REFERENCE)) {
+				// if reduceToContext is enabled but the super type itself was not
+				// added by the user on the config to generate modules for
+				// then there will be lots of rules missing. Thus, the following
+				// workaround for missing super type config declarations adds only the
+				// own and inherited EReferences of missing super types to this list:
+				for(EReference eRef: contextClass.getEAllReferences()) {
+					EClassifier container = (EClassifier) eRef.eContainer();
+					if(!eRef.eContainer().equals(contextClass)
+							&& CIC.getFocusInclusionType(container)==null) {
+						eRefsToConsider.add(eRef);
+					}
+				}
+				// all own EReferences
+				eRefsToConsider.addAll(contextClass.getEReferences());
+			} else {
+				// all own and inherited EReferences
+				eRefsToConsider = contextClass.getEAllReferences();
+			}
 
 			// EReferences and their EOpposites, if any
-			for (EReference eRef : contextClass.getEAllReferences()) {
+			for (EReference eRef : eRefsToConsider) {
 
 				// skip derived, not changeable and transient
 				// references
@@ -905,7 +929,7 @@ public class GenerationActionDelegator {
 				}
 
 				// Maybe skip when we reduce reference change to supertype
-				if (c.reduceToSupertypeDanglings(OperationTypeGroup.CHANGE_REFERECE)
+				if (c.reduceToSupertypeDanglings(OperationTypeGroup.CHANGE_REFERENCE)
 						&& EcoreHelper.isInheritedReference(eRef, contextClass)) {
 					continue;
 				}
