@@ -97,7 +97,7 @@ public class RuleBaseStorage {
 		getResourceSet().getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
 
 		// Load Rulebase:
-		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePath, true);
+		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePluginID + "/" + rulebasePath, true);
 		return loadRuleBaseResource(rulebasePluginURI);
 	}
 }
