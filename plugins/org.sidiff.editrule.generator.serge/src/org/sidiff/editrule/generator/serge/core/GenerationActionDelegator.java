@@ -557,7 +557,7 @@ public class GenerationActionDelegator {
 					}
 				}
 				// all own eattributes
-				easToConsider = eClass.getEAttributes();
+				easToConsider.addAll(eClass.getEAttributes());
 			} else {
 				// all own and inherited eattributes
 				easToConsider = eClass.getEAllAttributes();
@@ -671,7 +671,7 @@ public class GenerationActionDelegator {
 					}
 				}
 				// all own EReferences
-				eRefsToConsider = eClass.getEReferences();
+				eRefsToConsider.addAll(eClass.getEReferences());
 			} else {
 				// all own and inherited EReferences
 				eRefsToConsider = eClass.getEAllReferences();
