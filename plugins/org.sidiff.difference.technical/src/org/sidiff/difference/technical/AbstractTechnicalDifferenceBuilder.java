@@ -43,8 +43,6 @@ import org.sidiff.matching.model.Correspondence;
  */
 public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
 
-	private Resource modelA;
-	private Resource modelB;
 	private SymmetricDifference diff;
 	private Scope scope;
 
@@ -69,8 +67,6 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		LogUtil.log(LogEvent.NOTICE, "Difference builder: " + getClass().getSimpleName());
 		LogUtil.log(LogEvent.NOTICE, "Scope: " + scope);
 
-		this.modelA = difference.getModelA();
-		this.modelB = difference.getModelB();
 		this.diff = difference;
 		this.scope = scope;
 
