@@ -3,6 +3,7 @@ package org.sidiff.editrule.generator.serge.filter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -398,8 +399,6 @@ public class ElementFilter {
 	 * This method delivers all allowed parent context regarding a
 	 * childEClassifer.
 	 * 
-	 * TODO: this method should make use of the new isAllowedAsParentContext()-method
-	 * 
 	 * @param childEClassifier
 	 * @param reduceToSupertypeContext
 	 * @param operationType
@@ -421,6 +420,23 @@ public class ElementFilter {
 		HashMap<EReference, List<EClassifier>> allParents = ECM.getAllParentContexts(childEClassifier,
 				reduceToSupertypeContext);
 
+		HashMap<EReference, List<EClassifier>> allFilteredParents = new HashMap<EReference,List<EClassifier>>();
+		
+		// remove all the parents which have to be excluded by user configuration
+		for(Entry<EReference,List<EClassifier>> entry: allParents.entrySet()) {
+			List<EClassifier> parentList = new ArrayList<EClassifier>(entry.getValue());
+			
+			for(EClassifier parent: entry.getValue()) {
+				if(!isAllowedAsParentContext(parent)) {
+					parentList.remove(parent);
+				}
+			}			
+			if(!parentList.isEmpty()) {
+				allFilteredParents.put(entry.getKey(), parentList);
+			}
+		}
+		
+		
 		for (EReference eRef : allParents.keySet()) {
 
 			assert (eRef.isContainment()) : "eRef is no containment but should be";
