@@ -165,10 +165,10 @@ public class ClassifierInclusionConfiguration {
 	 * @param type
 	 * @return
 	 */
-	public InclusionType getFocusInclusuionType(EClassifier type) {
+	public InclusionType getFocusInclusionType(EClassifier type) {
 		InclusionType it = focusInclusionTypes.get(type);
-		if (it == null)
-			return getDefaultFocusInclusionType();
+//		if (it == null)
+//			return getDefaultFocusInclusionType();
 		return it;
 	}
 
@@ -178,10 +178,10 @@ public class ClassifierInclusionConfiguration {
 	 * @param type
 	 * @return
 	 */
-	public InclusionType getDanglingInclusuionType(EClassifier type) {
+	public InclusionType getDanglingInclusionType(EClassifier type) {
 		InclusionType it = danglingInclusionTypes.get(type);
-		if (it == null)
-			return getDefaultDanglingInclusionType();
+//		if (it == null)
+//			return getDefaultDanglingInclusionType();
 		return it;
 	}
 
@@ -264,5 +264,5 @@ public class ClassifierInclusionConfiguration {
 	public void collectConfiguredAndRequiredFocalClassifiers() {
 		requiredFocalElements.addAll(MandatoryFocalElementCollector.collectConfiguredAndRequiredFocalClassifiers());
 	}
-
+	
 }

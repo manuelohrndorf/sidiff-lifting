@@ -79,8 +79,8 @@ public class ElementFilter {
 		if (config.MAINMODEL_IS_PROFILE) {
 			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
 			for (EClassifier stereotype : stereotypes) {
-				if (InclusionType.ALWAYS.equals(CIC.getFocusInclusuionType(stereotype))
-						|| (InclusionType.IF_REQUIRED.equals(CIC.getFocusInclusuionType(stereotype))
+				if (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(stereotype))
+						|| (InclusionType.IF_REQUIRED.equals(CIC.getFocusInclusionType(stereotype))
 								&& CIC.getRequiredDanglings().contains(stereotype))) {
 					return true;
 				}
@@ -110,8 +110,8 @@ public class ElementFilter {
 		boolean requiredByStereotypes = hasRequiredOrAllowedStereotype_Focus(eClassifier);
 		boolean isElementOfRequiredMetamodels = isElementOfRequiredMetamodels(eClassifier);
 		// TODO [LM@22.11.2015] Check this considering stereotypes
-		boolean includeBySettings = (InclusionType.ALWAYS.equals(getFocusInclusionType(eClassifier))
-				|| (InclusionType.IF_REQUIRED.equals(getFocusInclusionType(eClassifier))
+		boolean includeBySettings = (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(eClassifier))
+				|| (InclusionType.IF_REQUIRED.equals(CIC.getFocusInclusionType(eClassifier))
 						&& (requiredByStereotypes || CIC.getRequiredDanglings().contains(eClassifier))));
 
 		switch (opType) {
@@ -224,24 +224,6 @@ public class ElementFilter {
 		return true;
 	}
 
-	public InclusionType getFocusInclusionType(EClassifier type) {
-		InclusionType ic = CIC.getFocusInclusuionType(type);
-		if (ic == null) {
-			return CIC.getDefaultFocusInclusionType();
-		} else {
-			return ic;
-		}
-	}
-
-	public InclusionType getDanglingInclusionType(EClassifier type) {
-		InclusionType ic = CIC.getDanglingInclusuionType(type);
-		if (ic == null) {
-			return CIC.getDefaultDanglingInclusionType();
-		} else {
-			return ic;
-		}
-	}
-
 	/**
 	 * This method delivers false if the given eClassifier should not be
 	 * mentioned inside a transformation module with focus on another
@@ -261,69 +243,69 @@ public class ElementFilter {
 			throws OperationTypeNotImplementedException {
 
 		boolean required = CIC.getRequiredDanglings().contains(eClassifier);
-		boolean forbiddenAsDangling = InclusionType.NEVER.equals(getDanglingInclusionType(eClassifier));
-		boolean configuredToBeAllowedAsDangling_on_IF_Required = InclusionType.IF_REQUIRED.equals(getDanglingInclusionType(eClassifier));
+		boolean is_NEVER = InclusionType.NEVER.equals(CIC.getDanglingInclusionType(eClassifier));
+		boolean is_If_REQUIRED = InclusionType.IF_REQUIRED.equals(CIC.getDanglingInclusionType(eClassifier));
 		
 		switch (opType) {
 
 		case CREATE:
 
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case ATTACH:
 
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case ADD:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_REFERENCE_COMBINATION:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_UP:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case MOVE_DOWN:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case CHANGE_REFERENCE:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case SET_ATTRIBUTE:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
 
 		case SET_REFERENCE:
-			if (forbiddenAsDangling || (configuredToBeAllowedAsDangling_on_IF_Required && !required)) {
+			if (is_NEVER || (is_If_REQUIRED && !required)) {
 				return false;
 			}
 			break;
@@ -358,7 +340,7 @@ public class ElementFilter {
 	public boolean isAllowedAsParentContext(EClassifier eClassifier) {
 
 		boolean required = CIC.getRequiredDanglingParentContexts().contains(eClassifier);
-		InclusionType userDefinedBehavior = getDanglingInclusionType(eClassifier);
+		InclusionType userDefinedBehavior = CIC.getDanglingInclusionType(eClassifier);
 		InclusionType userDefinedDefaultInclusionBehavior = CIC.getDefaultDanglingInclusionType();
 		
 		// user defined behavior

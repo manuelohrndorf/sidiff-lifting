@@ -33,13 +33,13 @@ public abstract class MandatoryDanglingsCollector {
 		
 		// Collect all ALWAYS included dangling types
 		for (EClassifier eC : CIC.getDanglingClassifierInclusionTypes().keySet()) {
-			if (InclusionType.ALWAYS.equals(CIC.getFocusInclusuionType(eC)))
+			if (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(eC)))
 				result.add(eC);
 		}
 		// Collect all ALWAYS included focus types
 		if(!CIC.getFocusClassifierInclusionTypes().isEmpty()) {
 			for (EClassifier eC : CIC.getFocusClassifierInclusionTypes().keySet()) {
-				if (InclusionType.ALWAYS.equals(CIC.getFocusInclusuionType(eC)))
+				if (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(eC)))
 					result.add(eC);
 			}
 		}else {
@@ -87,11 +87,11 @@ public abstract class MandatoryDanglingsCollector {
 					EClassifierInfo childInfo = ECM.getEClassifierInfo(child);
 					
 					// add child to resultSet if it is configured by user to be used
-					InclusionType own_ict = CIC.getDanglingInclusuionType(child);
+					InclusionType own_ict = CIC.getDanglingInclusionType(child);
 					InclusionType default_ict = CIC.getDefaultDanglingInclusionType();
 					if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& !own_ict.equals(InclusionType.NEVER)) {
+							&& (own_ict!=null && !own_ict.equals(InclusionType.NEVER))) {
 							
 							if(!resultSet.contains(child)) {
 								resultSet.add(child);
@@ -102,10 +102,10 @@ public abstract class MandatoryDanglingsCollector {
 					// find out if sub type of child is configured by user to be used
 					Set<EClassifier> childsSubTypes = ECM.getAllConcreteSubTypes(child);
 					for(EClassifier subTypeOfChild: childsSubTypes) {
-						InclusionType own_subtype_ict = CIC.getDanglingInclusuionType(subTypeOfChild);
+						InclusionType own_subtype_ict = CIC.getDanglingInclusionType(subTypeOfChild);
 						if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& !own_subtype_ict.equals(InclusionType.NEVER)) {
+							&& (own_ict!=null && !own_subtype_ict.equals(InclusionType.NEVER))) {
 							
 							if(!resultSet.contains(subTypeOfChild)) {
 								resultSet.add(subTypeOfChild);
@@ -142,11 +142,11 @@ public abstract class MandatoryDanglingsCollector {
 					EClassifierInfo neighborInfo = ECM.getEClassifierInfo(neighbor);
 					
 					// add neighbor to resultSet if it is configured by user to be used
-					InclusionType own_ict = CIC.getDanglingInclusuionType(neighbor);
+					InclusionType own_ict = CIC.getDanglingInclusionType(neighbor);
 					InclusionType default_ict = CIC.getDefaultDanglingInclusionType();
 					if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& !own_ict.equals(InclusionType.NEVER)) {
+							&& (own_ict!=null && !own_ict.equals(InclusionType.NEVER))) {
 							
 							if(!resultSet.contains(neighbor)) {
 								resultSet.add(neighbor);
@@ -157,10 +157,10 @@ public abstract class MandatoryDanglingsCollector {
 					// find out if sub type of neighbor is configured by user to be used
 					Set<EClassifier> neighborsSubTypes = ECM.getAllSubTypes(neighbor);
 					for(EClassifier subtypeOfNeighbor: neighborsSubTypes) {
-						InclusionType own_subtype_ict = CIC.getDanglingInclusuionType(subtypeOfNeighbor);
+						InclusionType own_subtype_ict = CIC.getDanglingInclusionType(subtypeOfNeighbor);
 						if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& !own_subtype_ict.equals(InclusionType.NEVER)) {
+							&& (own_ict!=null && !own_subtype_ict.equals(InclusionType.NEVER))) {
 							
 							if(!resultSet.contains(subtypeOfNeighbor)) {
 								resultSet.add(subtypeOfNeighbor);
@@ -201,11 +201,11 @@ public abstract class MandatoryDanglingsCollector {
 				for(EClassifier parent: parentContextsList) {
 
 					// add parent to resultSet if it is configured by user to be used
-					InclusionType own_ict = CIC.getDanglingInclusuionType(parent);
+					InclusionType own_ict = CIC.getDanglingInclusionType(parent);
 					InclusionType default_ict = CIC.getDefaultDanglingInclusionType();
 					if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& !own_ict.equals(InclusionType.NEVER)) {
+							&& (own_ict!=null && !own_ict.equals(InclusionType.NEVER))) {
 
 						if(!resultSet.contains(parent)) {
 							resultSet.add(parent);						
@@ -217,7 +217,7 @@ public abstract class MandatoryDanglingsCollector {
 					// find out if sub type of parent is configured by user to be used
 					Set<EClassifier> parentsSubtypes = ECM.getAllSubTypes(parent);
 					for(EClassifier subtypeOfParent: parentsSubtypes) {
-						InclusionType own_subtype_ict = CIC.getDanglingInclusuionType(subtypeOfParent);
+						InclusionType own_subtype_ict = CIC.getDanglingInclusionType(subtypeOfParent);
 						if( (default_ict.equals(InclusionType.ALWAYS))
 								&& 
 								(own_subtype_ict==null || !own_subtype_ict.equals(InclusionType.NEVER))) {
