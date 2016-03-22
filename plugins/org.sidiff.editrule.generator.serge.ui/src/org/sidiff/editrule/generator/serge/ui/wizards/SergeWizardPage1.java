@@ -113,6 +113,8 @@ public class SergeWizardPage1 extends WizardPage {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
+		
+		validate();
 	}
 
 	/**
