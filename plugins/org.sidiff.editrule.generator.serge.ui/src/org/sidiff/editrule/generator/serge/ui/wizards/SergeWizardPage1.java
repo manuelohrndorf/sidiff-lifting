@@ -11,17 +11,11 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 
@@ -33,7 +27,6 @@ import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 public class SergeWizardPage1 extends WizardPage {
 
 	private ISelection selection;
-	private Text txtSelectOutputFolder;
 	
 	private ModifyListener validationListener;
 	private SergeSettings settings;
@@ -64,16 +57,13 @@ public class SergeWizardPage1 extends WizardPage {
 			 */
 			setMessage("", NONE);
 		}
-		if (txtSelectOutputFolder.getText().length() == 0) {
-			setMessage("Output Folder Path is missing.", ERROR);
-			valid = false;
-		}
 		setPageComplete(valid);
 	}
 
 	/**
 	 * @see IDialogPage#createControl(Composite)
 	 */
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 //		layout.verticalSpacing = 9;
@@ -81,25 +71,8 @@ public class SergeWizardPage1 extends WizardPage {
 		//dialogChanged();
 		setControl(container);
 		setPageComplete(false);
-
 		
-		final DirectoryDialog eOutputFolderChooser = new DirectoryDialog(this.getShell());
 		container.setLayout(new GridLayout(1, false));
-		
-		Composite cOutput = new Composite(container, SWT.NONE);
-		cOutput.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		cOutput.setLayout(new GridLayout(1, false));
-		
-		
-		Group grpOutputPaths = new Group(cOutput, SWT.NONE);
-		grpOutputPaths.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		grpOutputPaths.setLayout(new GridLayout(1, false));
-		grpOutputPaths.setText("Output");
-		
-		Composite composite = new Composite(grpOutputPaths, SWT.NONE);
-		composite.setLayout(new GridLayout(3, false));
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				1, 1));
 		
 		Composite config = new Composite(container, SWT.SMOOTH);
 		config.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -107,26 +80,6 @@ public class SergeWizardPage1 extends WizardPage {
 		
 		configWidget = new EditRuleGeneratorSettingsWidget(settings);
 		configWidget.createControl(config);
-
-		Label lblSelectOutputFolder = new Label(composite, SWT.NONE);
-		lblSelectOutputFolder.setText("Select Output Folder");
-
-		txtSelectOutputFolder = new Text(composite, SWT.BORDER);
-		txtSelectOutputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-				true, false, 1, 1));
-
-		Button btnBrowseOutputFolder = new Button(composite, SWT.NONE);
-		btnBrowseOutputFolder.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setOutputFolderPath(eOutputFolderChooser.open());
-				txtSelectOutputFolder.setText(settings.getOutputFolderPath());
-				configWidget.setSettings(settings);
-			}
-		});
-		btnBrowseOutputFolder.setText("Browse");
-		
-	
 		
 		validationListener = new ModifyListener() {			
 			@Override
@@ -160,10 +113,6 @@ public class SergeWizardPage1 extends WizardPage {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
-		
-		txtSelectOutputFolder.addModifyListener(validationListener);
-		
-		setMessage("Output Folder Path is missing", ERROR);
 	}
 
 	/**

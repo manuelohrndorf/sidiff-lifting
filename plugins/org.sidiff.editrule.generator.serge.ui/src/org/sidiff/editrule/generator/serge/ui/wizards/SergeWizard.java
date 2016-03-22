@@ -49,7 +49,8 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 */
 	public SergeWizard(IFile configFile) {		
 
-		settings = new SergeSettings(null, configFile.getLocation().toOSString(), true);
+		String outputPath = configFile.getProject().getLocationURI().getSchemeSpecificPart() + System.getProperty("file.separator") + "editrules";
+		settings = new SergeSettings(outputPath, configFile.getLocation().toOSString(), true);
 		setNeedsProgressMonitor(true);
 	}
 	
@@ -57,6 +58,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 * Adding the page to the wizard.
 	 */
 
+	@Override
 	public void addPages() {
 		page = new SergeWizardPage1(selection,settings);
 		page2 = new SergeWizardPage2(selection,settings);
@@ -69,6 +71,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 * the wizard. We will create an operation and run it
 	 * using wizard as execution context.
 	 */
+	@Override
 	public boolean performFinish() {
 	
 		job = new Job("EditRuleGeneration") {
@@ -110,6 +113,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 * we can initialize from it.
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
