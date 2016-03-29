@@ -37,13 +37,13 @@ import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
@@ -122,10 +122,10 @@ public class WorkspaceUpdateWizard extends Wizard {
 		final IMatcher matcher = liftingSettings.getMatcher();
 
 		// First create a patch between BASE<->THEIRS
-		final InputModels inputModels = new InputModels(
-				mergeModels.getFileBase(), mergeModels.getFileTheirs());
-		final Resource resourceA = inputModels.getResourceA();
-		final Resource resourceB = inputModels.getResourceB();
+		final InputModels inputModels = new InputModels(new IFile[]
+				{mergeModels.getFileBase(), mergeModels.getFileTheirs()});
+		final Resource resourceA = inputModels.getResources().get(0);
+		final Resource resourceB = inputModels.getResources().get(1);
 
 		Job job = new Job("Merging Models") {
 			private EditingDomain editingDomain;

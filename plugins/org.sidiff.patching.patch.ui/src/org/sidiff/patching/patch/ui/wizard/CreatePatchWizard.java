@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
@@ -24,14 +23,10 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
-import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.api.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.util.InputModels;
-import org.sidiff.difference.lifting.ui.util.ValidateDialog;
-import org.sidiff.patching.patch.patch.PatchCreator;
+import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.PatchingFacade;
 import org.sidiff.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {
@@ -45,7 +40,7 @@ public class CreatePatchWizard extends Wizard {
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Patch Wizard");
 
-		inputModels = new InputModels(fileA, fileB);
+		inputModels = new InputModels(new IFile[]{fileA, fileB});
 		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
@@ -95,27 +90,26 @@ public class CreatePatchWizard extends Wizard {
 		 *  Start calculation:
 		 */
 		
-		Resource resourceA = inputModels.getResourceA();
-		Resource resourceB = inputModels.getResourceB();
-		Difference fullDiff = calculateDifference(resourceA, resourceB);
-		
-		if (fullDiff == null) {
-			return false;
-		}
+//		Resource resourceA = inputModels.getResourceA();
+//		Resource resourceB = inputModels.getResourceB();
+//		Difference fullDiff = calculateDifference(resourceA, resourceB);
+//		
+//		if (fullDiff == null) {
+//			return false;
+//		}
 		
 		/*
 		 * Create patch:
 		 */
 
 		try {
-			PatchCreator patchCreator = new PatchCreator(fullDiff.getAsymmetric(), settings);
 			
 			// Print report:
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
-			final String patchPath = patchCreator.serializePatch(inputModels.getFileA().getParent().getLocation().toOSString());
+			
+			PatchingFacade.createPatch(inputModels, settings, inputModels.getFiles().get(0).getParent().getLocation().toOSString(), null);
 
 			LogUtil.log(LogEvent.NOTICE, "done...");
 			
@@ -127,8 +121,8 @@ public class CreatePatchWizard extends Wizard {
 				@Override
 				public void run() {
 					try {
-						inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-						UIUtil.openEditor(patchPath);	
+						inputModels.getFiles().get(0).getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+						UIUtil.openEditor(PatchingFacade.getPatchPath());
 					} catch (CoreException e) {
 						e.printStackTrace();
 					} catch (OperationCanceledException e) {
@@ -146,35 +140,15 @@ public class CreatePatchWizard extends Wizard {
 					new String[] { "OK" }, 0);
 			dialog.open();
 			return false;
+		} catch (InvalidModelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoCorrespondencesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		return true;
-	}
-	
-	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
-		Difference fullDiff = null;
-		
-		try{
-			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB, settings);
-		} catch(InvalidModelException e){
-			ValidateDialog validateDialog = new ValidateDialog();
-			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-			
-			if (skipValidation) {
-				// Retry without validation:
-				settings.setValidate(false);
-				fullDiff = calculateDifference(resourceA, resourceB);
-			}
-		} catch (NoCorrespondencesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (fullDiff != null) {
-			PipelineUtils.sortDifference(fullDiff.getSymmetric());
-		}
-		
-		return fullDiff;
 	}
 
 	protected ImageDescriptor getImageDescriptor(String name) {

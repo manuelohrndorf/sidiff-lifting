@@ -2,6 +2,7 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
@@ -20,10 +21,10 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.ui.widgets.ScopeWidget;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
@@ -134,7 +135,7 @@ public class WorkspaceUpdatePage01 extends WizardPage implements IPageChangedLis
 		
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
+		rulebaseWidget = new RulebaseWidget(new InputModels(new IFile[]{mergeModels.getFileBase(), mergeModels.getFileTheirs()}));
 		rulebaseWidget.setSettings(this.liftingSettings);
 		addWidget(container, rulebaseWidget);
 	}

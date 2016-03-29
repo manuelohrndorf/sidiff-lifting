@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
@@ -19,11 +20,11 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
@@ -145,7 +146,7 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(
-				new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()).getResources(), true);
+				new InputModels(new IFile[]{mergeModels.getFileBase(), mergeModels.getFileTheirs()}).getResources(), true);
 		matcherWidget.setSettings(this.liftingSettings);
 		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
@@ -156,8 +157,8 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 		addWidget(algorithmsGroup, reliabilityWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(new InputModels(mergeModels.getFileBase(),
-				mergeModels.getFileTheirs()));
+		builderWidget = new DifferenceBuilderWidget(new InputModels(new IFile[]{mergeModels.getFileBase(),
+				mergeModels.getFileTheirs()}));
 		builderWidget.setSettings(this.liftingSettings);
 		// FIXME
 		// if (builderWidget.getDifferenceBuilders().size() > 1) {

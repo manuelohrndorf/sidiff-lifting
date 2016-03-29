@@ -37,8 +37,8 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEng
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.matching.input.InputModels;
 
 public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

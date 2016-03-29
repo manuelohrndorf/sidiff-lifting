@@ -19,8 +19,8 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.Activator;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.matching.input.InputModels;
 
 public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -46,11 +46,11 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	private String[] getFileNames() {
-		String resourceA_name = inputModels.getFileA().getName();
-		String resourceB_name = inputModels.getFileB().getName();
+		String resourceA_name = inputModels.getFiles().get(0).getName();
+		String resourceB_name = inputModels.getFiles().get(1).getName();
 
-		IContainer parentA = inputModels.getFileA().getParent();
-		IContainer parentB = inputModels.getFileB().getParent();
+		IContainer parentA = inputModels.getFiles().get(0).getParent();
+		IContainer parentB = inputModels.getFiles().get(1).getParent();
 
 		while (resourceA_name.equals(resourceB_name)) {
 			resourceA_name = parentA.getName() + "/" + resourceA_name;

@@ -24,7 +24,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.ui.util.InputModels;
+import org.sidiff.matching.input.InputModels;
 
 public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

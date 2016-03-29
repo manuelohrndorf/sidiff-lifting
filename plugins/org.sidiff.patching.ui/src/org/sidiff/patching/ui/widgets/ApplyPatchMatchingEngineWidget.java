@@ -16,8 +16,8 @@ import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.patch.Patch;
 
 public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {

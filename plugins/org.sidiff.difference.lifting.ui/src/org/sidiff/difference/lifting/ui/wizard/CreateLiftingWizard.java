@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -18,8 +19,8 @@ import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftingWizard extends Wizard{
 
@@ -38,7 +39,7 @@ public class CreateLiftingWizard extends Wizard{
 		symmetricDiff = LiftingFacade.loadLiftedDifference(differenceFile.getLocation().toOSString());
 		diffSavePath = differenceFile.getParent().getLocation().toOSString() ;
 
-		inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
+		inputModels = new InputModels(new Resource[]{symmetricDiff.getModelA(), symmetricDiff.getModelB()});
 		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 	}
 

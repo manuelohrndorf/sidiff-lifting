@@ -19,9 +19,9 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.Activator;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
+import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftingPage extends WizardPage {
 

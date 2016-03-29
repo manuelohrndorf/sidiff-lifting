@@ -27,12 +27,11 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
-import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.ui.Activator;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -49,7 +48,7 @@ public class CreateAsymDiffWizard extends Wizard {
 	public CreateAsymDiffWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Asymmetric Difference Wizard");
 
-		inputModels = new InputModels(fileA, fileB);
+		inputModels = new InputModels(new IFile[]{fileA, fileB});
 		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
@@ -99,8 +98,8 @@ public class CreateAsymDiffWizard extends Wizard {
 		 *  Start calculation:
 		 */
 		
-		Resource resourceA = inputModels.getResourceA();
-		Resource resourceB = inputModels.getResourceB();
+		Resource resourceA = inputModels.getResources().get(0);
+		Resource resourceB = inputModels.getResources().get(1);
 		Difference fullDiff = calculateDifference(resourceA, resourceB);
 		
 		if (fullDiff == null) {
@@ -117,9 +116,9 @@ public class CreateAsymDiffWizard extends Wizard {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Difference -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			Difference difference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(inputModels.getResourceA(), inputModels.getResourceB(), settings);
-			final String savePath = inputModels.getFileA().getLocation().toOSString().replace(inputModels.getFileA().getLocation().lastSegment(), "");
-			final String fileName = PipelineUtils.generateDifferenceFileName(inputModels.getResourceA(), inputModels.getResourceB(), settings);
+			Difference difference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(inputModels.getResources().get(0), inputModels.getResources().get(1), settings);
+			final String savePath = inputModels.getFiles().get(0).getLocation().toOSString().replace(inputModels.getFiles().get(0).getLocation().lastSegment(), "");
+			final String fileName = PipelineUtils.generateDifferenceFileName(inputModels.getResources().get(0), inputModels.getResources().get(1), settings);
 			
 			
 			
@@ -141,7 +140,7 @@ public class CreateAsymDiffWizard extends Wizard {
 				@Override
 				public void run() {
 					try {
-						inputModels.getFileA().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+						inputModels.getFiles().get(0).getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 						UIUtil.openEditor(savePath + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT);	
 					} catch (CoreException e) {
 						e.printStackTrace();

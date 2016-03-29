@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
@@ -19,8 +20,8 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
@@ -52,7 +53,7 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 		super(pageName, title, titleImage);
 		this.patch = patch;
 		this.difference = patch.getAsymmetricDifference();
-		this.inputModels = new InputModels(this.difference.getOriginModel(), this.difference.getChangedModel());
+		this.inputModels = new InputModels(new Resource[]{this.difference.getOriginModel(), this.difference.getChangedModel()});
 		this.settings = settings;
 		
 		if(patch.getSettings().get("symbolicLinkHandler")!=null){

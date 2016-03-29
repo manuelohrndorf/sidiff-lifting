@@ -25,9 +25,9 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.pages.AdvancedCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.pages.BasicCompareSettingsPage;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.matching.input.InputModels;
 
 public class CreateDifferenceWizard extends Wizard {
 
@@ -64,7 +64,7 @@ public class CreateDifferenceWizard extends Wizard {
 		
 		this.setWindowTitle("New Symmetric Difference Wizard");
 
-		this.inputModels = new InputModels(fileA, fileB);
+		this.inputModels = new InputModels(new IFile[]{fileA, fileB});
 		this.settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
 		this.diffSavePath = fileA.getParent().getLocation().toOSString();
 	}
@@ -109,8 +109,8 @@ public class CreateDifferenceWizard extends Wizard {
 		 * Semantic Lifting
 		 */
 
-		Resource resourceA = inputModels.getResourceA();
-		Resource resourceB = inputModels.getResourceB();
+		Resource resourceA = inputModels.getResources().get(0);
+		Resource resourceB = inputModels.getResources().get(1);
 		SymmetricDifference symmetricDiff = calculateDifference(resourceA, resourceB);
 
 		if (symmetricDiff == null) {
@@ -134,7 +134,7 @@ public class CreateDifferenceWizard extends Wizard {
 			@Override
 			public void run() {
 				try {
-					inputModels.getFileA().getProject()
+					inputModels.getFiles().get(0).getProject()
 							.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					UIUtil.openEditor(diffPath);
 				} catch (CoreException e) {
