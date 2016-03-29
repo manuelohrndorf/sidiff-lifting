@@ -10,24 +10,44 @@
 This extension point is used to add new matchers. A plugin that adds this extension point has to implement the IMatcher interface.
 }\label{exp:org.sidiff.matcher.extensionpoint}
 
+\class{org.sidiff.matcher}{MatcherUtil}{none}{
+Die Klasse \textit{MatcherUtil} stellt diverse Hilfsmethoden zur Verfügung, um auf die Erweiterungen des Extension Points \textit{org.sidiff.matcher.extensionpoint} zuzugreifen.
+}
+
 \plugin{org.sidiff.similarities}{org.sidiff.similarities.extensionpoint}{none}{TODO}
 
 \subsection{Difference Derivator}
 
-\plugin{org.sidiff.difference.technical}{org.sidiff.difference.technical.technical\_difference\_builder\_extension}{none}{
+\plugin{org.sidiff.difference.technical}{org"".sidiff"".difference"".technical"".technical""\_difference""\_builder""\_extension}{none}{
 This extension point is used to add a technical difference builder to the lifting engine. A plugin that adds this extension point has to implement the ITechnicalDifferenceBuilder interface. This interface offers the following information:
 \begin{itemize}
 \item The document type the technical difference builder was implemented for.
 \end{itemize}
 }\label{exp:org.sidiff.difference.technical.extensionpoint}
 
+\class{org.sidiff.difference.technical.util}{TechnicalDifferenceBuilderUtil}{none}{
+Die Klasse \textit{TechnicalDifferenceBuilderUtil} stellt diverse Hilfsmethoden zur Verfügung, um auf die Erweiterungen des Extension Points \textit{org"".sidiff"".difference"".technical"".technical""\_difference""\_builder""\_extension} zuzugreifen.
+}
+
 \subsection{Lifting Engine}
-\plugin{org.sidiff.difference.rulebase}{org.sidiff.difference.rulebase.rulebase\_extension}{org.eclipse.emf.ecore.generated\_package}{
+\plugin{org.sidiff.difference.rulebase}{org"".sidiff"".difference"".rulebase"".rulebase""\_extension}{org.eclipse.emf.ecore.generated\_package}{
 This extension point is used to add new rulebases to the recognition engine. A plugin that adds this extension point had to implement the IRuleBase interface. This interface offers the following information to the recognition engine:
 \begin{itemize}
 \item A description name of the rulebase.
 \item The document type the rulebase was generated for. In other words, the meta model the edit rules were implemented for.
 \item A list containing all rulebase recognition rules which will be applied by the recognition engine.
+\end{itemize}
+}
+
+\class{org.sidiff.difference.rulebase.util}{RuleBaseUtil}{none}{
+Die Klasse \textit{RuleBaseUtil} stellt diverse Hilfsmethoden zur Verfügung, um auf die Erweiterungen des Extension Points \textit{org"".sidiff"".difference.""rulebase"".rulebase""\_extension} zuzugreifen.
+}
+
+\plugin{org.sidiff.difference.lifting.recognitionrulesorter}{org"".sidiff"".difference"".lifting"".recognitionrulesorter"".recognition\_rule\_sorter\_extension}{none}{
+This extension point is used to add new recognition rule sorter. A recognition rule sorter sorts a Henshin recognition rule to be optimized for matching on a technical difference. A plugin that adds this extension point had to implement the IRecognitionRuleSorter interface. This interface offers the following information to the recognition engine:
+\begin{itemize}
+\item A description name of the sorter.
+\item The document type the sorter was implemented for.
 \end{itemize}
 }
 
