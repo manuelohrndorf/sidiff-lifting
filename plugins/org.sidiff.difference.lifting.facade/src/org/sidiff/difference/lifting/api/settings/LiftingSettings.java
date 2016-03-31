@@ -9,11 +9,11 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
-import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
-import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
+import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 

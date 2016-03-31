@@ -24,7 +24,7 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.ui.widgets.ScopeWidget;
 import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 

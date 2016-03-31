@@ -34,7 +34,7 @@ import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleM
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
-import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;

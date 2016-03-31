@@ -9,13 +9,13 @@ import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
-import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RecognitionRuleGeneratorUtil;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilder;
-import org.sidiff.editrule.rulebase.type.editrule.IEditRuleBase;
+import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
+import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
-public class RecognitionRuleBuilder implements EditRuleAttachmentBuilder {
+public class RecognitionRuleBuilder implements IEditRuleAttachmentBuilder {
 	
 	@Override
 	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {

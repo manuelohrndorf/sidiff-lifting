@@ -38,7 +38,7 @@ import org.sidiff.editrule.consistency.validation.EditRuleValidation;
 import org.sidiff.editrule.consistency.validation.EditRuleValidator;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilder;
+import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
@@ -64,7 +64,12 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * The edit-rule attachment builders of the rulebase project for which this builder is defined.
 	 */
-	private Set<EditRuleAttachmentBuilder> attachmentBuilder;
+	private Set<IEditRuleAttachmentBuilder> attachmentBuilder;
+	
+	/**
+	 * The class builders of the rulebase project for which this builder is defined.
+	 */
+	private EditRuleBaseClassBuilder classBuilder;
 
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
@@ -79,7 +84,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				incrementalBuild(delta, monitor);
 			}
 		}
+		
+		buildClass(monitor);
+		
 		addInverseEditRules(monitor);
+		
 		return null;
 	}
 
@@ -173,6 +182,20 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			editRuleChanged = false;
 		}
 	}
+	
+	private void buildClass(IProgressMonitor monitor) {
+		
+		if (classBuilder == null) {
+			classBuilder = new EditRuleBaseClassBuilder();
+		}
+		
+		String classFile = classBuilder.writeProjectClass(
+				jPackage, 
+				ruleBaseWrapper.getName(), 
+				ruleBaseWrapper.getRuleBase().getDocumentTypes(), 
+				attachmentTypes);
+		classBuilder.saveProjectClass(classFile, path);
+	}
 
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
@@ -181,18 +204,22 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
 
 		// Delete all co-rules
-		for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+		for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
 			attachmentBuilder.cleanAttachments(monitor, getProject());
 		}
 
-		// Delete RuleBase File and corresponding Wrapper
+		// Delete Rule Base Files:
 		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
+		
+		// TODO: Remove the class file!
 		
 		if (ruleBaseFile.exists()) {
 			ruleBaseFile.delete(true, monitor);
-			ruleBaseWrapper = null;
-			attachmentBuilder = null;
 		}
+		
+		ruleBaseWrapper = null;
+		attachmentBuilder = null;
+		classBuilder = null;
 	}
 
 	/**
@@ -239,7 +266,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				rbWrapper.saveRuleBase();
 				
 				// Remove Co-Rules:
-				for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+				for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
 					attachmentBuilder.deleteAttachment(monitor, getProject(), item);
 				}
 			}
@@ -288,7 +315,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				rulebaseWrapper.addItem(rulebaseItem);
 				
 				// Build attachments:
-				for (EditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+				for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
 					attachmentBuilder.buildAttachment(monitor, getProject(), rulebaseItem);
 				}
 			}
@@ -450,7 +477,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * @return The edit-rule attachment builder of this project.
 	 */
-	private Set<EditRuleAttachmentBuilder> getEditRuleAttachmentBuilder() {
+	private Set<IEditRuleAttachmentBuilder> getEditRuleAttachmentBuilder() {
 		
 		// Create all attachment builder:
 		if (attachmentBuilder == null) {

@@ -20,7 +20,7 @@ import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 import org.sidiff.editrule.rulebase.RuleBase;
-import org.sidiff.editrule.rulebase.type.editrule.IEditRuleBase;
+import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
 /**
  * Calculates the potential inter-dependencies between two or more rulebases. 

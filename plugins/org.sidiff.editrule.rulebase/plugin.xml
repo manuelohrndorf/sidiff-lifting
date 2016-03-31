@@ -5,8 +5,6 @@
 -->
 
 <plugin>
-
-   <extension-point id="type" name="Rule-Base Type" schema="schema/type.exsd"/>
    
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated RuleBase -->
@@ -16,14 +14,4 @@
             genModel="model/RuleBase.genmodel"/>
    </extension>
    
-   <extension
-         point="org.sidiff.editrule.rulebase.type">
-      <type
-            factory="org.sidiff.editrule.rulebase.type.editrule.EditRuleBaseFactory">
-      </type>
-      <type
-            factory="org.sidiff.editrule.rulebase.type.basic.BasicRuleBaseFactory">
-      </type>
-   </extension>
-
 </plugin>

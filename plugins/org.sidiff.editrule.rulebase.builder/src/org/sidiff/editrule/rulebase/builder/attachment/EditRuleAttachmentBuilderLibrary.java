@@ -15,21 +15,21 @@ public class EditRuleAttachmentBuilderLibrary {
 	/**
 	 * The registration ID for a attachment builder.
 	 */
-	public static final String EXTENSION_POINT_ID_CORULE_BUILDER = "org.sidiff.editrule.rulebase.builder.attachment";
+	public static final String EXTENSION_POINT_ID_ATTACHMENT_BUILDER = "org.sidiff.editrule.rulebase.builder.attachment";
 	
 	/**
 	 * @return All registered attachment builder.
 	 */
-	public static Set<EditRuleAttachmentBuilder> getAttachmentBuilders() {
+	public static Set<IEditRuleAttachmentBuilder> getAttachmentBuilders() {
 		
 		// Collect all registered rulebases:
-		Set<EditRuleAttachmentBuilder> attachmentBuilders = new HashSet<EditRuleAttachmentBuilder>();
+		Set<IEditRuleAttachmentBuilder> attachmentBuilders = new HashSet<IEditRuleAttachmentBuilder>();
 
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(EXTENSION_POINT_ID_CORULE_BUILDER)) {
+				.getConfigurationElementsFor(EXTENSION_POINT_ID_ATTACHMENT_BUILDER)) {
 
 			try {
-				EditRuleAttachmentBuilder coRuleBuilder = (EditRuleAttachmentBuilder) configurationElement.createExecutableExtension("class");
+				IEditRuleAttachmentBuilder coRuleBuilder = (IEditRuleAttachmentBuilder) configurationElement.createExecutableExtension("class");
 				attachmentBuilders.add(coRuleBuilder);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -46,7 +46,7 @@ public class EditRuleAttachmentBuilderLibrary {
 		String[] newFolders = null;
 		
 		// Collect new folders from attachment builders:
-		for (EditRuleAttachmentBuilder attachmentBuilder : getAttachmentBuilders()) {
+		for (IEditRuleAttachmentBuilder attachmentBuilder : getAttachmentBuilders()) {
 			String[] attachmentFolder = attachmentBuilder.getNewFiles();
 			newFolders = Arrays.copyOf(newFolders, newFolders.length + attachmentFolder.length);
 

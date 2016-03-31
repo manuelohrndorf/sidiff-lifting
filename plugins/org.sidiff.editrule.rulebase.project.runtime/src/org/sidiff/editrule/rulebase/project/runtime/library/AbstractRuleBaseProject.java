@@ -3,9 +3,9 @@ package org.sidiff.editrule.rulebase.project.runtime.library;
 import org.osgi.framework.FrameworkUtil;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
-import org.sidiff.editrule.rulebase.type.IRuleBaseFactory;
-import org.sidiff.editrule.rulebase.type.RuleBaseTypeLibrary;
-import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
+import org.sidiff.editrule.rulebase.view.IRuleBaseFactory;
+import org.sidiff.editrule.rulebase.view.RuleBaseViewLibrary;
+import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 
 /**
  * Basic rulebase project implementation.
@@ -21,21 +21,26 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	}
 	
 	@Override
-	public <R extends IBasicRuleBase> R getRuleBase(Class<R> type) {
-		R rulebaseWrapper = null;
+	public <R extends IBasicRuleBase> R getRuleBaseView(Class<R> view) {
+		R rulebaseView = null;
 		
-		if (getRuleBaseTypes().contains(type.getName())) {
-			IRuleBaseFactory<R> ruleBaseFactory = RuleBaseTypeLibrary.getRulebaseType(type);
+		if (supportsRuleBaseView(view)) {
+			IRuleBaseFactory<R> ruleBaseFactory = RuleBaseViewLibrary.getRulebaseViewFactory(view);
 			
 			if (ruleBaseFactory != null) {
-				rulebaseWrapper = (R) ruleBaseFactory.createRuleBase();
-				rulebaseWrapper.init(getRuleBaseData());
+				rulebaseView = (R) ruleBaseFactory.createRuleBase();
+				rulebaseView.init(getRuleBaseData());
 			}	
 		}
 		
-		return rulebaseWrapper;
+		return rulebaseView;
 	}
 	
+	@Override
+	public boolean supportsRuleBaseView(Class<? extends IBasicRuleBase> view) {
+		return RuleBaseViewLibrary.getSupportedViewTypes(getAttachmentTypes()).contains(view);
+	}
+
 	@Override
 	public RuleBase getRuleBaseData() {
 		

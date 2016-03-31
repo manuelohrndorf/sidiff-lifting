@@ -15,7 +15,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
-import org.sidiff.difference.rulebase.type.ILiftingRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 
 /**
  * A specific subclass of {@link BasicEditRuleMatch} that creates an

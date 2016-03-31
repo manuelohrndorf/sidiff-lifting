@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
-import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
+import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 
 /**
  * This interface accesses the information of a registered rulebase project.
@@ -22,11 +22,6 @@ public interface IRuleBaseProject {
 	public static final String RULEBASE_FILE = "sidiff" + "." + RuleBaseStorage.EXTENSION_RULEBASE;
 	
 	/**
-	 * The plug-in relative path to the rulebase meta file.
-	 */
-	public static final String RULEBASE_META_FILE = RULEBASE_FILE + ".mf";
-	
-	/**
 	 * The base folder which contains the edit-rules.
 	 */
 	public static final String EDIT_RULE_FOLDER = "editrules";
@@ -34,12 +29,12 @@ public interface IRuleBaseProject {
 	/**
 	 * @return A name which describes this rulebase.
 	 */
-	public String getRuleBaseName();
+	public String getName();
 
 	/**
-	 * @return All contained rulebase types.
+	 * @return All supported edit-rule attachments.
 	 */
-	public Set<String> getRuleBaseTypes();
+	public Set<String> getAttachmentTypes();
 	
 	/**
 	 * @return All supported document types of this rulebase.
@@ -48,11 +43,19 @@ public interface IRuleBaseProject {
 
 	/**
 	 * @param type
-	 *            A specific rulebase type.
-	 * @return The corresponding rulebase wrapper.
+	 *            A specific rulebase view.
+	 * @return The corresponding rulebase view.
 	 */
-	public <R extends IBasicRuleBase> R getRuleBase(Class<R> type);
+	public <R extends IBasicRuleBase> R getRuleBaseView(Class<R> viewType);
 
+	/**
+	 * @param type
+	 *            A specific rulebase view.
+	 * @return <code>true</code> if this rulebase supports the given view-type;
+	 *         <code>false</code> otherwise
+	 */
+	public boolean supportsRuleBaseView(Class<? extends IBasicRuleBase> viewType);
+	
 	/**
 	 * @return The rulebase instance.
 	 */

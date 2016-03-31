@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.editrule.rulebase.type.basic.IBasicRuleBase;
+import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 
 /**
  * Access registered rulebase projects.
@@ -23,9 +23,9 @@ public class RuleBaseProjectLibrary {
 	public static Set<? extends IBasicRuleBase> getRuleBases() {
 		Set<IBasicRuleBase> rulebases = new HashSet<IBasicRuleBase>();
 		
-		// Collect all rulebases of the given type:
+		// Collect all rulebases of the given view-type:
 		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
-			IBasicRuleBase rulebase = rulebaseProject.getRuleBase(IBasicRuleBase.TYPE);
+			IBasicRuleBase rulebase = rulebaseProject.getRuleBaseView(IBasicRuleBase.VIEW_TYPE);
 			
 			if (rulebase != null) {
 				rulebases.add(rulebase);
@@ -38,17 +38,17 @@ public class RuleBaseProjectLibrary {
 	/**
 	 * @param documentTypes
 	 *            The document types of the rulebases.
-	 * @param rulebaseType
+	 * @param viewType
 	 *            A specific or abstract rulebase type ((sub)class of {@link IBasicRuleBase}).
-	 * @return All registered rulebases (EMF data models) of the given type.
+	 * @return All registered rulebases (EMF data models) of the given view-type.
 	 */
-	public static <R extends IBasicRuleBase> Set<R> getRuleBases(Set<String> documentTypes, Class<R> rulebaseType) {
+	public static <R extends IBasicRuleBase> Set<R> getRuleBases(Set<String> documentTypes, Class<R> viewType) {
 		
 		// Collect all rulebases for a specific document type:
 		Set<R> rulebasesForDocType = new HashSet<R>();
 		
-		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects(documentTypes, rulebaseType)) {
-			R rulebase = rulebaseProject.getRuleBase(rulebaseType);
+		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects(documentTypes, viewType)) {
+			R rulebase = rulebaseProject.getRuleBaseView(viewType);
 
 			if (rulebase != null) {
 				rulebasesForDocType.add(rulebase);
@@ -88,14 +88,14 @@ public class RuleBaseProjectLibrary {
 	 *            The document (metamodel) type of the rulebase.
 	 * @return All registered rulebase projects for the given document type.
 	 */
-	public static <R extends IBasicRuleBase> Set<IRuleBaseProject> getRuleBaseProjects(Set<String> documentTypes, Class<R> rulebaseType) {
+	public static <R extends IBasicRuleBase> Set<IRuleBaseProject> getRuleBaseProjects(Set<String> documentTypes, Class<R> viewType) {
 		
 		// Collect all rulebases for a specific document type:
 		Set<IRuleBaseProject> rulebases = new HashSet<IRuleBaseProject>();
 		
 		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
 			if (rulebaseProject.getDocumentTypes().containsAll(documentTypes))  {
-				if (rulebaseProject.getRuleBaseTypes().contains(rulebaseType.getName())) {
+				if (rulebaseProject.supportsRuleBaseView(viewType)) {
 					rulebases.add(rulebaseProject);
 				}
 			}

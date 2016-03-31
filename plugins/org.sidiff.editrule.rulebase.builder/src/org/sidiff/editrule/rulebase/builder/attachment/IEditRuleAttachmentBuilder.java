@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.pde.ui.templates.ITemplateSection;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 
-public interface EditRuleAttachmentBuilder {
+public interface IEditRuleAttachmentBuilder {
 
 	/**
 	 * Builds a co-rules for a corresponding edit-rule.

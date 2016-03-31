@@ -82,7 +82,6 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		// build.properties:
 		String[] newFiles =  new String[] { 
 				IRuleBaseProject.EDIT_RULE_FOLDER + "/", 
-				IRuleBaseProject.RULEBASE_META_FILE + "/",
 				IRuleBaseProject.RULEBASE_FILE };
 		
 		// Collect new files from attachment builders:

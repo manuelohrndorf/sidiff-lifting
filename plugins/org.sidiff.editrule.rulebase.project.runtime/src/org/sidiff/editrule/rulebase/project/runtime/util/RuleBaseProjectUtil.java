@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
-import org.sidiff.editrule.rulebase.type.editrule.IEditRuleBase;
+import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
 /**
  * Access all registered rulebase projects.
