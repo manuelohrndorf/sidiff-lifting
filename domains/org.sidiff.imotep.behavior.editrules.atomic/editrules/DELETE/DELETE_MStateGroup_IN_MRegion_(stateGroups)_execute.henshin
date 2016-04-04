@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-7XgPo8EeW2Tbk1WXPjzA" name="DeleteStateGroup" description="Deletes one MStateGroup in MRegion">
+  <annotations xmi:id="_n-7Xgfo8EeW2Tbk1WXPjzA" key="INVERSE" value="CREATE_MStateGroup_IN_MRegion_(stateGroups)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-7Xgvo8EeW2Tbk1WXPjzA" name="deleteMStateGroup_IN_MRegion" description="deletes one MStateGroup in the context: MRegion">
+    <parameters xmi:id="_n-7Xg_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_n-7XhPo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+    </parameters>
+    <lhs xmi:id="_n-7Xhfo8EeW2Tbk1WXPjzA" name="LHS">
+      <nodes xmi:id="_n-7Xhvo8EeW2Tbk1WXPjzA" name="Selected" incoming="_n-7Xi_o8EeW2Tbk1WXPjzA" outgoing="_n-7Xivo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n-7Xh_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n-7XiPo8EeW2Tbk1WXPjzA" name="ToBeDeleted" incoming="_n-7Xivo8EeW2Tbk1WXPjzA" outgoing="_n-7Xi_o8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n-7Xifo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+      </nodes>
+      <edges xmi:id="_n-7Xivo8EeW2Tbk1WXPjzA" source="_n-7Xhvo8EeW2Tbk1WXPjzA" target="_n-7XiPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/stateGroups"/>
+      </edges>
+      <edges xmi:id="_n-7Xi_o8EeW2Tbk1WXPjzA" source="_n-7XiPo8EeW2Tbk1WXPjzA" target="_n-7Xhvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup/parentRegion"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_n-7XjPo8EeW2Tbk1WXPjzA" name="RHS">
+      <nodes xmi:id="_n-7Xjfo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n-7Xjvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n-7Xj_o8EeW2Tbk1WXPjzA" origin="_n-7Xhvo8EeW2Tbk1WXPjzA" image="_n-7Xjfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-7XkPo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-7Xgvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-7Xkfo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n-7Xkvo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_n-7Xk_o8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <annotations xmi:id="_n-7XlPo8EeW2Tbk1WXPjzA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-7Xlfo8EeW2Tbk1WXPjzA" source="_n-7Xkfo8EeW2Tbk1WXPjzA" target="_n-7Xg_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-7Xlvo8EeW2Tbk1WXPjzA" source="_n-7Xk_o8EeW2Tbk1WXPjzA" target="_n-7XhPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

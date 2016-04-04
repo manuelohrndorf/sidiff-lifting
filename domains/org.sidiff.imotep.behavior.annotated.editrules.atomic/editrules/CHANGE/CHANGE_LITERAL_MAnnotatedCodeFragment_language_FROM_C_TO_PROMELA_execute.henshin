@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4cOwEPo_EeWoPp3x_sMZPA" name="CHANGE_LITERAL_MAnnotatedCodeFragment_language_FROM_C_TO_PROMELA" description="Changes the attribute value of language_FROM_C_TO_PROMELA">
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4cOwEfo_EeWoPp3x_sMZPA" name="changeMAnnotatedCodeFragmentLanguage_FROM_C_TO_PROMELA" description="Changes the attribute value of language_FROM_C_TO_PROMELA">
+    <parameters xmi:id="_4cOwEvo_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_4cOwE_o_EeWoPp3x_sMZPA" name="&quot;C&quot;">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <parameters xmi:id="_4cOwFPo_EeWoPp3x_sMZPA" name="&quot;PROMELA&quot;">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <lhs xmi:id="_4cOwFfo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4cOwFvo_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+        <attributes xmi:id="_4cOwF_o_EeWoPp3x_sMZPA" value="&quot;C&quot;">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment/language"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4cOwGPo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4cOwGfo_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+        <attributes xmi:id="_4cOwGvo_EeWoPp3x_sMZPA" value="&quot;PROMELA&quot;">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment/language"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4cOwG_o_EeWoPp3x_sMZPA" origin="_4cOwFvo_EeWoPp3x_sMZPA" image="_4cOwGfo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4cOwHPo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4cOwEfo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4cOwHfo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_4cOwHvo_EeWoPp3x_sMZPA" name="&quot;C&quot;">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <parameterMappings xmi:id="_4cOwH_o_EeWoPp3x_sMZPA" source="_4cOwHfo_EeWoPp3x_sMZPA" target="_4cOwEvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4cOwIPo_EeWoPp3x_sMZPA" source="_4cOwHvo_EeWoPp3x_sMZPA" target="_4cOwE_o_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

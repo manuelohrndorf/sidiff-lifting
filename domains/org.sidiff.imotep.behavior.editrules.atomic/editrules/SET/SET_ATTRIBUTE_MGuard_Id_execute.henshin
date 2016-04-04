@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-AKcPo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MGuard_Id" description="Sets MGuard Id">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-AxgPo8EeW2Tbk1WXPjzA" name="setMGuardId" description="Sets the EAttribute id">
+    <parameters xmi:id="_n-Axgfo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n-Axgvo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_n-Axg_o8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-AxhPo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n-Axhfo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-Axhvo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+        <attributes xmi:id="_n-Axh_o8EeW2Tbk1WXPjzA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n-AxiPo8EeW2Tbk1WXPjzA" origin="_n-AxhPo8EeW2Tbk1WXPjzA" image="_n-Axhvo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-Axifo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-AxgPo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-Axivo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n-Axi_o8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-AxjPo8EeW2Tbk1WXPjzA" source="_n-Axivo8EeW2Tbk1WXPjzA" target="_n-Axgfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-Axjfo8EeW2Tbk1WXPjzA" source="_n-Axi_o8EeW2Tbk1WXPjzA" target="_n-Axgvo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

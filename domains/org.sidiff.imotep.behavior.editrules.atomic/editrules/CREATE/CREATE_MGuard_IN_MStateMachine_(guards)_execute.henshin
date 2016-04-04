@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oACx0Po8EeW2Tbk1WXPjzA" name="CreateGuard" description="Creates one MGuard in MStateMachine">
+  <annotations xmi:id="_oACx0fo8EeW2Tbk1WXPjzA" key="INVERSE" value="DELETE_MGuard_IN_MStateMachine_(guards)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oACx0vo8EeW2Tbk1WXPjzA" name="createMGuard_IN_MStateMachine" description="creates one MGuard in the context: MStateMachine">
+    <parameters xmi:id="_oACx0_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oACx1Po8EeW2Tbk1WXPjzA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_oACx1fo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oACx1vo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_oACx1_o8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oACx2Po8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_oADY4Po8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oADY4fo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oADY4vo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_oADY6Po8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oADY4_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_oADY5Po8EeW2Tbk1WXPjzA" name="New" incoming="_oADY6Po8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oADY5fo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+        <attributes xmi:id="_oADY5vo8EeW2Tbk1WXPjzA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_oADY5_o8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_oADY6Po8EeW2Tbk1WXPjzA" source="_oADY4vo8EeW2Tbk1WXPjzA" target="_oADY5Po8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/guards"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_oADY6fo8EeW2Tbk1WXPjzA" origin="_oACx2Po8EeW2Tbk1WXPjzA" image="_oADY4vo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oADY6vo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oACx0vo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oADY6_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_oADY7Po8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oADY7fo8EeW2Tbk1WXPjzA" name="New">
+      <annotations xmi:id="_oADY7vo8EeW2Tbk1WXPjzA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_oADY7_o8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oADY8Po8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_oADY8fo8EeW2Tbk1WXPjzA" source="_oADY6_o8EeW2Tbk1WXPjzA" target="_oACx0_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oADY8vo8EeW2Tbk1WXPjzA" source="_oACx1Po8EeW2Tbk1WXPjzA" target="_oADY7fo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oADY8_o8EeW2Tbk1WXPjzA" source="_oADY7_o8EeW2Tbk1WXPjzA" target="_oACx1fo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oADY9Po8EeW2Tbk1WXPjzA" source="_oADY8Po8EeW2Tbk1WXPjzA" target="_oACx1vo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

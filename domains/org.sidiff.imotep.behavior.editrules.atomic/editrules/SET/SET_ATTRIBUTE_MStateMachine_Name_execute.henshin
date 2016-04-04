@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oAyYsPo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MStateMachine_Name" description="Sets MStateMachine Name">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oAyYsfo8EeW2Tbk1WXPjzA" name="setMStateMachineName" description="Sets the EAttribute name">
+    <parameters xmi:id="_oAyYsvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oAyYs_o8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_oAyYtPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oAyYtfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oAyYtvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oAyYt_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+        <attributes xmi:id="_oAyYuPo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_oAyYufo8EeW2Tbk1WXPjzA" origin="_oAyYtfo8EeW2Tbk1WXPjzA" image="_oAyYt_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oAyYuvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oAyYsfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oAyYu_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oAyYvPo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_oAyYvfo8EeW2Tbk1WXPjzA" source="_oAyYu_o8EeW2Tbk1WXPjzA" target="_oAyYsvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAyYvvo8EeW2Tbk1WXPjzA" source="_oAyYvPo8EeW2Tbk1WXPjzA" target="_oAyYs_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

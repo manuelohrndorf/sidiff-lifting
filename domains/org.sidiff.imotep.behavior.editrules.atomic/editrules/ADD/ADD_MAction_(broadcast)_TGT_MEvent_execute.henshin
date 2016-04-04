@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oAEnAPo8EeW2Tbk1WXPjzA" name="ADD_MAction_(broadcast)_TGT_MEvent" description="Adds to MAction's reference broadcast the target MEvent">
+  <annotations xmi:id="_oAEnAfo8EeW2Tbk1WXPjzA" key="INVERSE" value="REMOVE_MAction_(broadcast)_TGT_MEvent"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oAEnAvo8EeW2Tbk1WXPjzA" name="addToMAction_broadcast_MEvent" description="Adds to MAction's reference broadcast the target MEvent">
+    <parameters xmi:id="_oAEnA_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_oAEnBPo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_oAEnBfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oAEnBvo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+      <nodes xmi:id="_oAEnB_o8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oAEnCPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oAEnCfo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_oAEnC_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+      <nodes xmi:id="_oAEnCvo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_oAEnC_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_oAEnC_o8EeW2Tbk1WXPjzA" source="_oAEnCfo8EeW2Tbk1WXPjzA" target="_oAEnCvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction/broadcast"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_oAEnDPo8EeW2Tbk1WXPjzA" origin="_oAEnBvo8EeW2Tbk1WXPjzA" image="_oAEnCfo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_oAEnDfo8EeW2Tbk1WXPjzA" origin="_oAEnB_o8EeW2Tbk1WXPjzA" image="_oAEnCvo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oAEnDvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oAEnAvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oAEnD_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_oAEnEPo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_oAEnEfo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_oAEnEvo8EeW2Tbk1WXPjzA" source="_oAEnD_o8EeW2Tbk1WXPjzA" target="_oAEnA_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAEnE_o8EeW2Tbk1WXPjzA" source="_oAEnEfo8EeW2Tbk1WXPjzA" target="_oAEnBPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oA2DEPo8EeW2Tbk1WXPjzA" name="AddExitAction" description="Adds to MState's reference onExitActions the target MAction">
+  <annotations xmi:id="_oA2DEfo8EeW2Tbk1WXPjzA" key="INVERSE" value="REMOVE_MState_(onExitActions)_TGT_MAction"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oA2DEvo8EeW2Tbk1WXPjzA" name="addToMState_onExitActions_MAction" description="Adds to MState's reference onExitActions the target MAction">
+    <parameters xmi:id="_oA2DE_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_oA2DFPo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <lhs xmi:id="_oA2DFfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oA2DFvo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_oA2DF_o8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oA2DGPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oA2DGfo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_oA2DG_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_oA2DGvo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_oA2DG_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+      <edges xmi:id="_oA2DG_o8EeW2Tbk1WXPjzA" source="_oA2DGfo8EeW2Tbk1WXPjzA" target="_oA2DGvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/onExitActions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_oA2DHPo8EeW2Tbk1WXPjzA" origin="_oA2DFvo8EeW2Tbk1WXPjzA" image="_oA2DGfo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_oA2DHfo8EeW2Tbk1WXPjzA" origin="_oA2DF_o8EeW2Tbk1WXPjzA" image="_oA2DGvo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oA2DHvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oA2DEvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oA2DH_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_oA2DIPo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_oA2DIfo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameterMappings xmi:id="_oA2DIvo8EeW2Tbk1WXPjzA" source="_oA2DH_o8EeW2Tbk1WXPjzA" target="_oA2DE_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oA2DI_o8EeW2Tbk1WXPjzA" source="_oA2DIfo8EeW2Tbk1WXPjzA" target="_oA2DFPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

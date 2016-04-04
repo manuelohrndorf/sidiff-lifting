@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4eTzsPo_EeWoPp3x_sMZPA" name="CreateErrorTransition" description="Creates one MAnnotatedTransition in MRegion">
+  <annotations xmi:id="_4eTzsfo_EeWoPp3x_sMZPA" key="INVERSE" value="DELETE_MAnnotatedTransition_IN_MRegion_(transitions)"/>
+  <imports href="../../../../plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4eTzsvo_EeWoPp3x_sMZPA" name="createMAnnotatedTransition_IN_MRegion" description="creates one MAnnotatedTransition in the context: MRegion" injectiveMatching="false">
+    <parameters xmi:id="_4eTzs_o_EeWoPp3x_sMZPA" name="Selected"/>
+    <parameters xmi:id="_4eTztPo_EeWoPp3x_sMZPA" name="Existing"/>
+    <parameters xmi:id="_4eTztfo_EeWoPp3x_sMZPA" name="Existing1"/>
+    <parameters xmi:id="_4eTztvo_EeWoPp3x_sMZPA" name="New"/>
+    <parameters xmi:id="_4eTzt_o_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4eTzuPo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4eTzufo_EeWoPp3x_sMZPA" name="Internal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_4eTzuvo_EeWoPp3x_sMZPA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_4eTzvPo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_4eTzvfo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4eTzvvo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4eTzv_o_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4eTzwPo_EeWoPp3x_sMZPA" name="Existing">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_4eTzwfo_EeWoPp3x_sMZPA" name="Existing1">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4eTzwvo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4eTzw_o_EeWoPp3x_sMZPA" name="Selected" incoming="_4eTz0Po_EeWoPp3x_sMZPA" outgoing="_4eTzz_o_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4eTzxPo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4eTzxfo_EeWoPp3x_sMZPA" name="New" incoming="_4eTzz_o_EeWoPp3x_sMZPA _4eTz0vo_EeWoPp3x_sMZPA _4eTz1Po_EeWoPp3x_sMZPA" outgoing="_4eTz0Po_EeWoPp3x_sMZPA _4eTz0fo_EeWoPp3x_sMZPA _4eTz0_o_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4eTzxvo_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="../../../../plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+        <attributes xmi:id="_4eTzx_o_EeWoPp3x_sMZPA" value="Id">
+          <type href="../../../../plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_4eTzyPo_EeWoPp3x_sMZPA" value="Name">
+          <type href="../../../../plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_4eTzyfo_EeWoPp3x_sMZPA" value="Internal">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/internal"/>
+        </attributes>
+        <attributes xmi:id="_4eTzyvo_EeWoPp3x_sMZPA" value="Priority">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/priority"/>
+        </attributes>
+        <attributes xmi:id="_4eTzy_o_EeWoPp3x_sMZPA" value="true">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/isErrorTransition"/>
+        </attributes>
+        <attributes xmi:id="_4eTzzPo_EeWoPp3x_sMZPA" value="Annotation">
+          <type href="../../../../plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity/annotation"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_4eTzzfo_EeWoPp3x_sMZPA" name="Existing" incoming="_4eTz0fo_EeWoPp3x_sMZPA" outgoing="_4eTz0vo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_4eTzzvo_EeWoPp3x_sMZPA" name="Existing1" incoming="_4eTz0_o_EeWoPp3x_sMZPA" outgoing="_4eTz1Po_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <edges xmi:id="_4eTzz_o_EeWoPp3x_sMZPA" source="_4eTzw_o_EeWoPp3x_sMZPA" target="_4eTzxfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/transitions"/>
+      </edges>
+      <edges xmi:id="_4eTz0Po_EeWoPp3x_sMZPA" source="_4eTzxfo_EeWoPp3x_sMZPA" target="_4eTzw_o_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/parentRegion"/>
+      </edges>
+      <edges xmi:id="_4eTz0fo_EeWoPp3x_sMZPA" source="_4eTzxfo_EeWoPp3x_sMZPA" target="_4eTzzfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/sourceState"/>
+      </edges>
+      <edges xmi:id="_4eTz0vo_EeWoPp3x_sMZPA" source="_4eTzzfo_EeWoPp3x_sMZPA" target="_4eTzxfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/outgoingTransitions"/>
+      </edges>
+      <edges xmi:id="_4eTz0_o_EeWoPp3x_sMZPA" source="_4eTzxfo_EeWoPp3x_sMZPA" target="_4eTzzvo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/targetState"/>
+      </edges>
+      <edges xmi:id="_4eTz1Po_EeWoPp3x_sMZPA" source="_4eTzzvo_EeWoPp3x_sMZPA" target="_4eTzxfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/incomingTransitions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4eTz1fo_EeWoPp3x_sMZPA" origin="_4eTzvvo_EeWoPp3x_sMZPA" image="_4eTzw_o_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4eTz1vo_EeWoPp3x_sMZPA" origin="_4eTzwPo_EeWoPp3x_sMZPA" image="_4eTzzfo_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4eTz1_o_EeWoPp3x_sMZPA" origin="_4eTzwfo_EeWoPp3x_sMZPA" image="_4eTzzvo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4eTz2Po_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4eTzsvo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4eTz2fo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4eTz2vo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_4eTz2_o_EeWoPp3x_sMZPA" name="Existing">
+      <annotations xmi:id="_4eTz3Po_EeWoPp3x_sMZPA" key="INVERSE" value="Existing"/>
+    </parameters>
+    <parameters xmi:id="_4eTz3fo_EeWoPp3x_sMZPA" name="Existing1">
+      <annotations xmi:id="_4eTz3vo_EeWoPp3x_sMZPA" key="INVERSE" value="Existing1"/>
+    </parameters>
+    <parameters xmi:id="_4eTz3_o_EeWoPp3x_sMZPA" name="New">
+      <annotations xmi:id="_4eTz4Po_EeWoPp3x_sMZPA" key="INVERSE" value="ToBeDeleted"/>
+    </parameters>
+    <parameters xmi:id="_4eTz4fo_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4eTz4vo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4eTz4_o_EeWoPp3x_sMZPA" name="Internal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_4eTz5Po_EeWoPp3x_sMZPA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_4eTz5vo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_4eTz5_o_EeWoPp3x_sMZPA" source="_4eTz2fo_EeWoPp3x_sMZPA" target="_4eTzs_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz6Po_EeWoPp3x_sMZPA" source="_4eTz2_o_EeWoPp3x_sMZPA" target="_4eTztPo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz6fo_EeWoPp3x_sMZPA" source="_4eTz3fo_EeWoPp3x_sMZPA" target="_4eTztfo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz6vo_EeWoPp3x_sMZPA" source="_4eTztvo_EeWoPp3x_sMZPA" target="_4eTz3_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz6_o_EeWoPp3x_sMZPA" source="_4eTz4fo_EeWoPp3x_sMZPA" target="_4eTzt_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz7Po_EeWoPp3x_sMZPA" source="_4eTz4vo_EeWoPp3x_sMZPA" target="_4eTzuPo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz7fo_EeWoPp3x_sMZPA" source="_4eTz4_o_EeWoPp3x_sMZPA" target="_4eTzufo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz7vo_EeWoPp3x_sMZPA" source="_4eTz5Po_EeWoPp3x_sMZPA" target="_4eTzuvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eTz8Po_EeWoPp3x_sMZPA" source="_4eTz5vo_EeWoPp3x_sMZPA" target="_4eTzvPo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

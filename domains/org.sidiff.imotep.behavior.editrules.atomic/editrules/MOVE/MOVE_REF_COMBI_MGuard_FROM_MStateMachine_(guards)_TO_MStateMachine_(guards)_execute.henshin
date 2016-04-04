@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-y0oPo8EeW2Tbk1WXPjzA" name="MOVE_REF_COMBI_MGuard_FROM_MStateMachine_(guards)_TO_MStateMachine_(guards)" description="MOVEs MGuard from MStateMachine(Reference:guards) to MStateMachine(Reference:guards">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-y0ofo8EeW2Tbk1WXPjzA" name="moveMGuard_FROM_MStateMachine_guards_TO_MStateMachine_MStateMachine" description="Moves MGuard from MStateMachine(Reference:guards) toMStateMachine(Reference:MStateMachine)">
+    <parameters xmi:id="_n-y0ovo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n-y0o_o8EeW2Tbk1WXPjzA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n-y0pPo8EeW2Tbk1WXPjzA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_n-y0pfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-y0pvo8EeW2Tbk1WXPjzA" name="Selected" incoming="_n-y0qfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_n-y0p_o8EeW2Tbk1WXPjzA" name="OldSource" outgoing="_n-y0qfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_n-y0qPo8EeW2Tbk1WXPjzA" name="NewSource">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_n-y0qfo8EeW2Tbk1WXPjzA" source="_n-y0p_o8EeW2Tbk1WXPjzA" target="_n-y0pvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/guards"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_n-y0qvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-y0q_o8EeW2Tbk1WXPjzA" name="Selected" incoming="_n-y0rvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_n-y0rPo8EeW2Tbk1WXPjzA" name="OldSource">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_n-y0rfo8EeW2Tbk1WXPjzA" name="NewSource" outgoing="_n-y0rvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_n-y0rvo8EeW2Tbk1WXPjzA" source="_n-y0rfo8EeW2Tbk1WXPjzA" target="_n-y0q_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/guards"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n-y0r_o8EeW2Tbk1WXPjzA" origin="_n-y0pvo8EeW2Tbk1WXPjzA" image="_n-y0q_o8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n-y0sPo8EeW2Tbk1WXPjzA" origin="_n-y0p_o8EeW2Tbk1WXPjzA" image="_n-y0rPo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n-y0sfo8EeW2Tbk1WXPjzA" origin="_n-y0qPo8EeW2Tbk1WXPjzA" image="_n-y0rfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-y0svo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-y0ofo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-y0s_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n-y0tPo8EeW2Tbk1WXPjzA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n-y0tfo8EeW2Tbk1WXPjzA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-y0tvo8EeW2Tbk1WXPjzA" source="_n-y0s_o8EeW2Tbk1WXPjzA" target="_n-y0ovo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-y0t_o8EeW2Tbk1WXPjzA" source="_n-y0tPo8EeW2Tbk1WXPjzA" target="_n-y0o_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-y0uPo8EeW2Tbk1WXPjzA" source="_n-y0tfo8EeW2Tbk1WXPjzA" target="_n-y0pPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4eGYUPo_EeWoPp3x_sMZPA" name="DELETE_MAnnotatedCodeFragment_IN_MAction_(expressions)" description="Deletes one MAnnotatedCodeFragment in MAction">
+  <annotations xmi:id="_4eGYUfo_EeWoPp3x_sMZPA" key="INVERSE" value="CREATE_MAnnotatedCodeFragment_IN_MAction_(expressions)"/>
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4eGYUvo_EeWoPp3x_sMZPA" name="deleteMAnnotatedCodeFragment_IN_MAction" description="deletes one MAnnotatedCodeFragment in the context: MAction">
+    <parameters xmi:id="_4eGYU_o_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_4eGYVPo_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedCodeFragment"/>
+    </parameters>
+    <lhs xmi:id="_4eGYVfo_EeWoPp3x_sMZPA" name="LHS">
+      <nodes xmi:id="_4eGYVvo_EeWoPp3x_sMZPA" name="Selected" outgoing="_4eGYWvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4eGYV_o_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+      <nodes xmi:id="_4eGYWPo_EeWoPp3x_sMZPA" name="ToBeDeleted" incoming="_4eGYWvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4eGYWfo_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedCodeFragment"/>
+      </nodes>
+      <edges xmi:id="_4eGYWvo_EeWoPp3x_sMZPA" source="_4eGYVvo_EeWoPp3x_sMZPA" target="_4eGYWPo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction/expressions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4eGYW_o_EeWoPp3x_sMZPA" name="RHS">
+      <nodes xmi:id="_4eGYXPo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4eGYXfo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4eGYXvo_EeWoPp3x_sMZPA" origin="_4eGYVvo_EeWoPp3x_sMZPA" image="_4eGYXPo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4eGYX_o_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4eGYUvo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4eGYYPo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4eGYYfo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_4eGYYvo_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <annotations xmi:id="_4eGYY_o_EeWoPp3x_sMZPA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedCodeFragment"/>
+    </parameters>
+    <parameterMappings xmi:id="_4eGYZPo_EeWoPp3x_sMZPA" source="_4eGYYPo_EeWoPp3x_sMZPA" target="_4eGYU_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eGYZfo_EeWoPp3x_sMZPA" source="_4eGYYvo_EeWoPp3x_sMZPA" target="_4eGYVPo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

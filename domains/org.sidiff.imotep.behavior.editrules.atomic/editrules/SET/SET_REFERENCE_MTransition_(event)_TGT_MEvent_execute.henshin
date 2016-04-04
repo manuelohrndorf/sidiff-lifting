@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oA9X0Po8EeW2Tbk1WXPjzA" name="SET_REFERENCE_MTransition_(event)_TGT_MEvent" description="Sets MTransition's reference event the target MEvent">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oA9X0fo8EeW2Tbk1WXPjzA" name="setMTransition_event_TO_MEvent" description="SetMTransitionRefeventToMEvent">
+    <parameters xmi:id="_oA9X0vo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_oA9X0_o8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_oA9X1Po8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oA9X1fo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_oA9X1vo8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oA9X1_o8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oA9X2Po8EeW2Tbk1WXPjzA" name="Selected" outgoing="_oA9X2vo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_oA9X2fo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_oA9X2vo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_oA9X2vo8EeW2Tbk1WXPjzA" source="_oA9X2Po8EeW2Tbk1WXPjzA" target="_oA9X2fo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/event"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_oA9X2_o8EeW2Tbk1WXPjzA" origin="_oA9X1fo8EeW2Tbk1WXPjzA" image="_oA9X2Po8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_oA9X3Po8EeW2Tbk1WXPjzA" origin="_oA9X1vo8EeW2Tbk1WXPjzA" image="_oA9X2fo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oA9X3fo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oA9X0fo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oA9X3vo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_oA9X3_o8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_oA9X4Po8EeW2Tbk1WXPjzA" source="_oA9X3vo8EeW2Tbk1WXPjzA" target="_oA9X0vo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oA9X4fo8EeW2Tbk1WXPjzA" source="_oA9X3_o8EeW2Tbk1WXPjzA" target="_oA9X0_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

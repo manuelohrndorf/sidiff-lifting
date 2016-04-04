@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4dJ9IPo_EeWoPp3x_sMZPA" name="CREATE_MAnnotatedHistoryState_IN_MRegion_(states)" description="Creates one MAnnotatedHistoryState in MRegion">
+  <annotations xmi:id="_4dJ9Ifo_EeWoPp3x_sMZPA" key="INVERSE" value="DELETE_MAnnotatedHistoryState_IN_MRegion_(states)"/>
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4dJ9Ivo_EeWoPp3x_sMZPA" name="createMAnnotatedHistoryState_IN_MRegion" description="creates one MAnnotatedHistoryState in the context: MRegion">
+    <parameters xmi:id="_4dJ9I_o_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9JPo_EeWoPp3x_sMZPA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9Jfo_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9Jvo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9J_o_EeWoPp3x_sMZPA" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9KPo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_4dJ9Kfo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4dJ9Kvo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4dJ9K_o_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4dJ9LPo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4dJ9Lfo_EeWoPp3x_sMZPA" name="Selected" incoming="_4dJ9Nvo_EeWoPp3x_sMZPA" outgoing="_4dJ9Nfo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4dJ9Lvo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4dJ9L_o_EeWoPp3x_sMZPA" name="New" incoming="_4dJ9Nfo_EeWoPp3x_sMZPA" outgoing="_4dJ9Nvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4dJ9MPo_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedHistoryState"/>
+        <attributes xmi:id="_4dJ9Mfo_EeWoPp3x_sMZPA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_4dJ9Mvo_EeWoPp3x_sMZPA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_4dJ9M_o_EeWoPp3x_sMZPA" value="Deep">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState/deep"/>
+        </attributes>
+        <attributes xmi:id="_4dJ9NPo_EeWoPp3x_sMZPA" value="Annotation">
+          <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity/annotation"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_4dJ9Nfo_EeWoPp3x_sMZPA" source="_4dJ9Lfo_EeWoPp3x_sMZPA" target="_4dJ9L_o_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/states"/>
+      </edges>
+      <edges xmi:id="_4dJ9Nvo_EeWoPp3x_sMZPA" source="_4dJ9L_o_EeWoPp3x_sMZPA" target="_4dJ9Lfo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/parentRegion"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4dJ9N_o_EeWoPp3x_sMZPA" origin="_4dJ9Kvo_EeWoPp3x_sMZPA" image="_4dJ9Lfo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4dJ9OPo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4dJ9Ivo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4dJ9Ofo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4dJ9Ovo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9O_o_EeWoPp3x_sMZPA" name="New">
+      <annotations xmi:id="_4dJ9PPo_EeWoPp3x_sMZPA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9Pfo_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9Pvo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9P_o_EeWoPp3x_sMZPA" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_4dJ9QPo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_4dJ9Qfo_EeWoPp3x_sMZPA" source="_4dJ9Ofo_EeWoPp3x_sMZPA" target="_4dJ9I_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dJ9Qvo_EeWoPp3x_sMZPA" source="_4dJ9JPo_EeWoPp3x_sMZPA" target="_4dJ9O_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dJ9Q_o_EeWoPp3x_sMZPA" source="_4dJ9Pfo_EeWoPp3x_sMZPA" target="_4dJ9Jfo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dJ9RPo_EeWoPp3x_sMZPA" source="_4dJ9Pvo_EeWoPp3x_sMZPA" target="_4dJ9Jvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dJ9Rfo_EeWoPp3x_sMZPA" source="_4dJ9P_o_EeWoPp3x_sMZPA" target="_4dJ9J_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dJ9Rvo_EeWoPp3x_sMZPA" source="_4dJ9QPo_EeWoPp3x_sMZPA" target="_4dJ9KPo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

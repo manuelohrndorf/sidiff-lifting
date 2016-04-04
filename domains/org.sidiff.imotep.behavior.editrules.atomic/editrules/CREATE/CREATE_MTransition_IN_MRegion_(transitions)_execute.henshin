@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n89BkPo8EeW2Tbk1WXPjzA" name="CreateTransition" description="Creates one MTransition in MRegion">
+  <annotations xmi:id="_n89Bkfo8EeW2Tbk1WXPjzA" key="INVERSE" value="DELETE_MTransition_IN_MRegion_(transitions)"/>
+  <imports href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n89Bkvo8EeW2Tbk1WXPjzA" name="createMTransition_IN_MRegion" description="creates one MTransition in the context: MRegion" injectiveMatching="false">
+    <parameters xmi:id="_n89Bk_o8EeW2Tbk1WXPjzA" name="Selected"/>
+    <parameters xmi:id="_n89BlPo8EeW2Tbk1WXPjzA" name="Existing"/>
+    <parameters xmi:id="_n89Blfo8EeW2Tbk1WXPjzA" name="Existing1"/>
+    <parameters xmi:id="_n89Blvo8EeW2Tbk1WXPjzA" name="New"/>
+    <parameters xmi:id="_n89ooPo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n89oofo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n89oovo8EeW2Tbk1WXPjzA" name="Internal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_n89oo_o8EeW2Tbk1WXPjzA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_n89opPo8EeW2Tbk1WXPjzA" name="IsErrorTransition">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_n89opfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n89opvo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n89op_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n89oqPo8EeW2Tbk1WXPjzA" name="Existing">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n89oqfo8EeW2Tbk1WXPjzA" name="Existing1">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n89oqvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n89oq_o8EeW2Tbk1WXPjzA" name="Selected" incoming="_n89ot_o8EeW2Tbk1WXPjzA" outgoing="_n89otvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n89orPo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n89orfo8EeW2Tbk1WXPjzA" name="New" incoming="_n89otvo8EeW2Tbk1WXPjzA _n89oufo8EeW2Tbk1WXPjzA _n89ou_o8EeW2Tbk1WXPjzA" outgoing="_n89ot_o8EeW2Tbk1WXPjzA _n89ouPo8EeW2Tbk1WXPjzA _n89ouvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n89orvo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+        <attributes xmi:id="_n89or_o8EeW2Tbk1WXPjzA" value="Id">
+          <type href="../../../../plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_n89osPo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="../../../../plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_n89osfo8EeW2Tbk1WXPjzA" value="Internal">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/internal"/>
+        </attributes>
+        <attributes xmi:id="_n89osvo8EeW2Tbk1WXPjzA" value="Priority">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/priority"/>
+        </attributes>
+        <attributes xmi:id="_n89os_o8EeW2Tbk1WXPjzA" value="IsErrorTransition">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/isErrorTransition"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_n89otPo8EeW2Tbk1WXPjzA" name="Existing" incoming="_n89ouPo8EeW2Tbk1WXPjzA" outgoing="_n89oufo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n89otfo8EeW2Tbk1WXPjzA" name="Existing1" incoming="_n89ouvo8EeW2Tbk1WXPjzA" outgoing="_n89ou_o8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <edges xmi:id="_n89otvo8EeW2Tbk1WXPjzA" source="_n89oq_o8EeW2Tbk1WXPjzA" target="_n89orfo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/transitions"/>
+      </edges>
+      <edges xmi:id="_n89ot_o8EeW2Tbk1WXPjzA" source="_n89orfo8EeW2Tbk1WXPjzA" target="_n89oq_o8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/parentRegion"/>
+      </edges>
+      <edges xmi:id="_n89ouPo8EeW2Tbk1WXPjzA" source="_n89orfo8EeW2Tbk1WXPjzA" target="_n89otPo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/targetState"/>
+      </edges>
+      <edges xmi:id="_n89oufo8EeW2Tbk1WXPjzA" source="_n89otPo8EeW2Tbk1WXPjzA" target="_n89orfo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/incomingTransitions"/>
+      </edges>
+      <edges xmi:id="_n89ouvo8EeW2Tbk1WXPjzA" source="_n89orfo8EeW2Tbk1WXPjzA" target="_n89otfo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/sourceState"/>
+      </edges>
+      <edges xmi:id="_n89ou_o8EeW2Tbk1WXPjzA" source="_n89otfo8EeW2Tbk1WXPjzA" target="_n89orfo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/outgoingTransitions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n89ovPo8EeW2Tbk1WXPjzA" origin="_n89opvo8EeW2Tbk1WXPjzA" image="_n89oq_o8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n89ovfo8EeW2Tbk1WXPjzA" origin="_n89oqPo8EeW2Tbk1WXPjzA" image="_n89otPo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n89ovvo8EeW2Tbk1WXPjzA" origin="_n89oqfo8EeW2Tbk1WXPjzA" image="_n89otfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n89ov_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n89Bkvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n89owPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n89owfo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_n89owvo8EeW2Tbk1WXPjzA" name="Existing">
+      <annotations xmi:id="_n89ow_o8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing"/>
+    </parameters>
+    <parameters xmi:id="_n89oxPo8EeW2Tbk1WXPjzA" name="Existing1">
+      <annotations xmi:id="_n89oxfo8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing1"/>
+    </parameters>
+    <parameters xmi:id="_n89oxvo8EeW2Tbk1WXPjzA" name="New">
+      <annotations xmi:id="_n89ox_o8EeW2Tbk1WXPjzA" key="INVERSE" value="ToBeDeleted"/>
+    </parameters>
+    <parameters xmi:id="_n89oyPo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n89oyfo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n89oyvo8EeW2Tbk1WXPjzA" name="Internal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_n89oy_o8EeW2Tbk1WXPjzA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="_n89ozPo8EeW2Tbk1WXPjzA" name="IsErrorTransition">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_n89ozfo8EeW2Tbk1WXPjzA" source="_n89owPo8EeW2Tbk1WXPjzA" target="_n89Bk_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89ozvo8EeW2Tbk1WXPjzA" source="_n89owvo8EeW2Tbk1WXPjzA" target="_n89BlPo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89oz_o8EeW2Tbk1WXPjzA" source="_n89oxPo8EeW2Tbk1WXPjzA" target="_n89Blfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o0Po8EeW2Tbk1WXPjzA" source="_n89Blvo8EeW2Tbk1WXPjzA" target="_n89oxvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o0fo8EeW2Tbk1WXPjzA" source="_n89oyPo8EeW2Tbk1WXPjzA" target="_n89ooPo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o0vo8EeW2Tbk1WXPjzA" source="_n89oyfo8EeW2Tbk1WXPjzA" target="_n89oofo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o0_o8EeW2Tbk1WXPjzA" source="_n89oyvo8EeW2Tbk1WXPjzA" target="_n89oovo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o1Po8EeW2Tbk1WXPjzA" source="_n89oy_o8EeW2Tbk1WXPjzA" target="_n89oo_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n89o1fo8EeW2Tbk1WXPjzA" source="_n89ozPo8EeW2Tbk1WXPjzA" target="_n89opPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

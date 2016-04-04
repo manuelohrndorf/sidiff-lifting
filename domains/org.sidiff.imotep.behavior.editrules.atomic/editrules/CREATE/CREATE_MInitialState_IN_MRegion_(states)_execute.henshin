@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-bBMPo8EeW2Tbk1WXPjzA" name="CREATE_MInitialState_IN_MRegion_(states)" description="Creates one MInitialState in MRegion">
+  <annotations xmi:id="_n-bBMfo8EeW2Tbk1WXPjzA" key="INVERSE" value="DELETE_MInitialState_IN_MRegion_(states)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-bBMvo8EeW2Tbk1WXPjzA" name="createMInitialState_IN_MRegion" description="creates one MInitialState in the context: MRegion">
+    <parameters xmi:id="_n-bBM_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_n-bBNPo8EeW2Tbk1WXPjzA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_n-bBNfo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n-bBNvo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n-bBN_o8EeW2Tbk1WXPjzA" name="Temporary">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_n-bBOPo8EeW2Tbk1WXPjzA" name="IsErrorState">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_n-bBOfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-bBOvo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n-bBO_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n-bBPPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-bBPfo8EeW2Tbk1WXPjzA" name="Selected" incoming="_n-bBRvo8EeW2Tbk1WXPjzA" outgoing="_n-bBRfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n-bBPvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n-bBP_o8EeW2Tbk1WXPjzA" name="New" incoming="_n-bBRfo8EeW2Tbk1WXPjzA" outgoing="_n-bBRvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n-bBQPo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+        <attributes xmi:id="_n-bBQfo8EeW2Tbk1WXPjzA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_n-bBQvo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_n-bBQ_o8EeW2Tbk1WXPjzA" value="Temporary">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/temporary"/>
+        </attributes>
+        <attributes xmi:id="_n-bBRPo8EeW2Tbk1WXPjzA" value="IsErrorState">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/isErrorState"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_n-bBRfo8EeW2Tbk1WXPjzA" source="_n-bBPfo8EeW2Tbk1WXPjzA" target="_n-bBP_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/states"/>
+      </edges>
+      <edges xmi:id="_n-bBRvo8EeW2Tbk1WXPjzA" source="_n-bBP_o8EeW2Tbk1WXPjzA" target="_n-bBPfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/parentRegion"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n-bBR_o8EeW2Tbk1WXPjzA" origin="_n-bBOvo8EeW2Tbk1WXPjzA" image="_n-bBPfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-bBSPo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-bBMvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-bBSfo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n-bBSvo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_n-bBS_o8EeW2Tbk1WXPjzA" name="New">
+      <annotations xmi:id="_n-bBTPo8EeW2Tbk1WXPjzA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_n-bBTfo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n-bBTvo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n-bBT_o8EeW2Tbk1WXPjzA" name="Temporary">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_n-bBUPo8EeW2Tbk1WXPjzA" name="IsErrorState">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-bBUfo8EeW2Tbk1WXPjzA" source="_n-bBSfo8EeW2Tbk1WXPjzA" target="_n-bBM_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-bBUvo8EeW2Tbk1WXPjzA" source="_n-bBNPo8EeW2Tbk1WXPjzA" target="_n-bBS_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-bBU_o8EeW2Tbk1WXPjzA" source="_n-bBTfo8EeW2Tbk1WXPjzA" target="_n-bBNfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-bBVPo8EeW2Tbk1WXPjzA" source="_n-bBTvo8EeW2Tbk1WXPjzA" target="_n-bBNvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-bBVfo8EeW2Tbk1WXPjzA" source="_n-bBT_o8EeW2Tbk1WXPjzA" target="_n-bBN_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-bBVvo8EeW2Tbk1WXPjzA" source="_n-bBUPo8EeW2Tbk1WXPjzA" target="_n-bBOPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

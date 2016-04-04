@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n80esPo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MCodeFragment_Language" description="Sets MCodeFragment Language">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n80esfo8EeW2Tbk1WXPjzA" name="setMCodeFragmentLanguage" description="Sets the EAttribute language">
+    <parameters xmi:id="_n80esvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_n80es_o8EeW2Tbk1WXPjzA" name="Language">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <lhs xmi:id="_n80etPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n80etfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n80etvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n80et_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+        <attributes xmi:id="_n80euPo8EeW2Tbk1WXPjzA" value="Language">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment/language"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n80eufo8EeW2Tbk1WXPjzA" origin="_n80etfo8EeW2Tbk1WXPjzA" image="_n80et_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n80euvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n80esfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n80eu_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_n80evPo8EeW2Tbk1WXPjzA" name="Language">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <parameterMappings xmi:id="_n80evfo8EeW2Tbk1WXPjzA" source="_n80eu_o8EeW2Tbk1WXPjzA" target="_n80esvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n80evvo8EeW2Tbk1WXPjzA" source="_n80evPo8EeW2Tbk1WXPjzA" target="_n80es_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

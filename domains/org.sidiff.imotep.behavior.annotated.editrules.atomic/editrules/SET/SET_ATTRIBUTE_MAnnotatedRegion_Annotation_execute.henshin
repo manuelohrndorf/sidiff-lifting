@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4eMe8Po_EeWoPp3x_sMZPA" name="SET_ATTRIBUTE_MAnnotatedRegion_Annotation" description="Sets MAnnotatedRegion Annotation">
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4eMe8fo_EeWoPp3x_sMZPA" name="setMAnnotatedRegionAnnotation" description="Sets the EAttribute annotation">
+    <parameters xmi:id="_4eMe8vo_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+    </parameters>
+    <parameters xmi:id="_4eMe8_o_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_4eMe9Po_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4eMe9fo_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4eMe9vo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4eMe9_o_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+        <attributes xmi:id="_4eMe-Po_EeWoPp3x_sMZPA" value="Annotation">
+          <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity/annotation"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4eMe-fo_EeWoPp3x_sMZPA" origin="_4eMe9fo_EeWoPp3x_sMZPA" image="_4eMe9_o_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4eMe-vo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4eMe8fo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4eMe-_o_EeWoPp3x_sMZPA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+    </parameters>
+    <parameters xmi:id="_4eMe_Po_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_4eMe_fo_EeWoPp3x_sMZPA" source="_4eMe-_o_EeWoPp3x_sMZPA" target="_4eMe8vo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4eMe_vo_EeWoPp3x_sMZPA" source="_4eMe_Po_EeWoPp3x_sMZPA" target="_4eMe8_o_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oAuuUPo8EeW2Tbk1WXPjzA" name="CREATE_MEvent_IN_MStateMachine_(events)" description="Creates one MEvent in MStateMachine">
+  <annotations xmi:id="_oAuuUfo8EeW2Tbk1WXPjzA" key="INVERSE" value="DELETE_MEvent_IN_MStateMachine_(events)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oAuuUvo8EeW2Tbk1WXPjzA" name="createMEvent_IN_MStateMachine" description="creates one MEvent in the context: MStateMachine">
+    <parameters xmi:id="_oAuuU_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oAuuVPo8EeW2Tbk1WXPjzA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <parameters xmi:id="_oAuuVfo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oAuuVvo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oAuuV_o8EeW2Tbk1WXPjzA" name="InternalEvent">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_oAuuWPo8EeW2Tbk1WXPjzA" name="OutputEvent">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_oAuuWfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oAuuWvo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_oAuuW_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oAuuXPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oAuuXfo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_oAuuZfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oAuuXvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_oAuuX_o8EeW2Tbk1WXPjzA" name="New" incoming="_oAuuZfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oAuuYPo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+        <attributes xmi:id="_oAuuYfo8EeW2Tbk1WXPjzA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_oAuuYvo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_oAuuY_o8EeW2Tbk1WXPjzA" value="InternalEvent">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent/internalEvent"/>
+        </attributes>
+        <attributes xmi:id="_oAuuZPo8EeW2Tbk1WXPjzA" value="OutputEvent">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent/outputEvent"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_oAuuZfo8EeW2Tbk1WXPjzA" source="_oAuuXfo8EeW2Tbk1WXPjzA" target="_oAuuX_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/events"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_oAuuZvo8EeW2Tbk1WXPjzA" origin="_oAuuWvo8EeW2Tbk1WXPjzA" image="_oAuuXfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oAuuZ_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oAuuUvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oAuuaPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_oAuuafo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_oAuuavo8EeW2Tbk1WXPjzA" name="New">
+      <annotations xmi:id="_oAuua_o8EeW2Tbk1WXPjzA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <parameters xmi:id="_oAuubPo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oAuubfo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_oAuubvo8EeW2Tbk1WXPjzA" name="InternalEvent">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_oAuub_o8EeW2Tbk1WXPjzA" name="OutputEvent">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_oAuucPo8EeW2Tbk1WXPjzA" source="_oAuuaPo8EeW2Tbk1WXPjzA" target="_oAuuU_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAuucfo8EeW2Tbk1WXPjzA" source="_oAuuVPo8EeW2Tbk1WXPjzA" target="_oAuuavo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAuucvo8EeW2Tbk1WXPjzA" source="_oAuubPo8EeW2Tbk1WXPjzA" target="_oAuuVfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAuuc_o8EeW2Tbk1WXPjzA" source="_oAuubfo8EeW2Tbk1WXPjzA" target="_oAuuVvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAuudPo8EeW2Tbk1WXPjzA" source="_oAuubvo8EeW2Tbk1WXPjzA" target="_oAuuV_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAuudfo8EeW2Tbk1WXPjzA" source="_oAuub_o8EeW2Tbk1WXPjzA" target="_oAuuWPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

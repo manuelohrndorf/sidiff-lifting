@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4esOMPo_EeWoPp3x_sMZPA" name="SET_ATTRIBUTE_MAnnotatedStateMachine_Position" description="Sets MAnnotatedStateMachine Position">
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4esOMfo_EeWoPp3x_sMZPA" name="setMAnnotatedStateMachinePosition" description="Sets the EAttribute position">
+    <parameters xmi:id="_4esOMvo_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_4esOM_o_EeWoPp3x_sMZPA" name="Position">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_4esONPo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4esONfo_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4esONvo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4esON_o_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedStateMachine"/>
+        <attributes xmi:id="_4esOOPo_EeWoPp3x_sMZPA" value="Position">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/position"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4esOOfo_EeWoPp3x_sMZPA" origin="_4esONfo_EeWoPp3x_sMZPA" image="_4esON_o_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4esOOvo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4esOMfo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4esOO_o_EeWoPp3x_sMZPA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_4esOPPo_EeWoPp3x_sMZPA" name="Position">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_4esOPfo_EeWoPp3x_sMZPA" source="_4esOO_o_EeWoPp3x_sMZPA" target="_4esOMvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4esOPvo_EeWoPp3x_sMZPA" source="_4esOPPo_EeWoPp3x_sMZPA" target="_4esOM_o_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

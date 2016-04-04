@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n8HUEPo8EeW2Tbk1WXPjzA" name="AddStateToStateGroup" description="Sets MAbstractState's reference stateGroup the target MStateGroup">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n8H7IPo8EeW2Tbk1WXPjzA" name="setMAbstractState_stateGroup_TO_MStateGroup" description="SetMAbstractStateRefstateGroupToMStateGroup">
+    <parameters xmi:id="_n8H7Ifo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+    </parameters>
+    <parameters xmi:id="_n8H7Ivo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+    </parameters>
+    <lhs xmi:id="_n8H7I_o8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n8H7JPo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n8H7Jfo8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n8H7Jvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n8H7J_o8EeW2Tbk1WXPjzA" name="Selected" incoming="_n8H7Kvo8EeW2Tbk1WXPjzA" outgoing="_n8H7Kfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n8H7KPo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_n8H7Kfo8EeW2Tbk1WXPjzA" outgoing="_n8H7Kvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+      </nodes>
+      <edges xmi:id="_n8H7Kfo8EeW2Tbk1WXPjzA" source="_n8H7J_o8EeW2Tbk1WXPjzA" target="_n8H7KPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/stateGroup"/>
+      </edges>
+      <edges xmi:id="_n8H7Kvo8EeW2Tbk1WXPjzA" source="_n8H7KPo8EeW2Tbk1WXPjzA" target="_n8H7J_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup/states"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n8H7K_o8EeW2Tbk1WXPjzA" origin="_n8H7JPo8EeW2Tbk1WXPjzA" image="_n8H7J_o8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n8H7LPo8EeW2Tbk1WXPjzA" origin="_n8H7Jfo8EeW2Tbk1WXPjzA" image="_n8H7KPo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n8H7Lfo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n8H7IPo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n8H7Lvo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+    </parameters>
+    <parameters xmi:id="_n8H7L_o8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateGroup"/>
+    </parameters>
+    <parameterMappings xmi:id="_n8H7MPo8EeW2Tbk1WXPjzA" source="_n8H7Lvo8EeW2Tbk1WXPjzA" target="_n8H7Ifo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n8H7Mfo8EeW2Tbk1WXPjzA" source="_n8H7L_o8EeW2Tbk1WXPjzA" target="_n8H7Ivo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

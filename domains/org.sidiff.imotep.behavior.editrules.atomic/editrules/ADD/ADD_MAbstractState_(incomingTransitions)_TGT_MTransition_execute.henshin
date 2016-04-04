@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-i9APo8EeW2Tbk1WXPjzA" name="ADD_MAbstractState_(incomingTransitions)_TGT_MTransition" description="Adds to MAbstractState's reference incomingTransitions the target MTransition">
+  <annotations xmi:id="_n-i9Afo8EeW2Tbk1WXPjzA" key="INVERSE" value="REMOVE_MAbstractState_(incomingTransitions)_TGT_MTransition"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-i9Avo8EeW2Tbk1WXPjzA" name="addToMAbstractState_incomingTransitions_MTransition" description="Adds to MAbstractState's reference incomingTransitions the target MTransition">
+    <parameters xmi:id="_n-i9A_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+    </parameters>
+    <parameters xmi:id="_n-i9BPo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <lhs xmi:id="_n-i9Bfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-i9Bvo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n-i9B_o8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n-i9CPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-i9Cfo8EeW2Tbk1WXPjzA" name="Selected" incoming="_n-i9DPo8EeW2Tbk1WXPjzA" outgoing="_n-i9C_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n-i9Cvo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_n-i9C_o8EeW2Tbk1WXPjzA" outgoing="_n-i9DPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <edges xmi:id="_n-i9C_o8EeW2Tbk1WXPjzA" source="_n-i9Cfo8EeW2Tbk1WXPjzA" target="_n-i9Cvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/incomingTransitions"/>
+      </edges>
+      <edges xmi:id="_n-i9DPo8EeW2Tbk1WXPjzA" source="_n-i9Cvo8EeW2Tbk1WXPjzA" target="_n-i9Cfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/targetState"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n-i9Dfo8EeW2Tbk1WXPjzA" origin="_n-i9Bvo8EeW2Tbk1WXPjzA" image="_n-i9Cfo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n-i9Dvo8EeW2Tbk1WXPjzA" origin="_n-i9B_o8EeW2Tbk1WXPjzA" image="_n-i9Cvo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-i9D_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-i9Avo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-i9EPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n-i9Efo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+    </parameters>
+    <parameters xmi:id="_n-i9Evo8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-i9E_o8EeW2Tbk1WXPjzA" source="_n-i9EPo8EeW2Tbk1WXPjzA" target="_n-i9A_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-i9FPo8EeW2Tbk1WXPjzA" source="_n-i9Evo8EeW2Tbk1WXPjzA" target="_n-i9BPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

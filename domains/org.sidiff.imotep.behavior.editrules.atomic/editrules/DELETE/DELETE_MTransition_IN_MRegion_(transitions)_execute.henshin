@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n8yCcPo8EeW2Tbk1WXPjzA" name="DeleteTransition" description="Deletes one MTransition in MRegion">
+  <annotations xmi:id="_n8yCcfo8EeW2Tbk1WXPjzA" key="INVERSE" value="CREATE_MTransition_IN_MRegion_(transitions)"/>
+  <imports href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n8yCcvo8EeW2Tbk1WXPjzA" name="deleteMTransition_IN_MRegion" description="deletes one MTransition in the context: MRegion" injectiveMatching="false">
+    <parameters xmi:id="_n8yCc_o8EeW2Tbk1WXPjzA" name="Selected"/>
+    <parameters xmi:id="_n8yCdPo8EeW2Tbk1WXPjzA" name="ToBeDeleted"/>
+    <parameters xmi:id="_n8yCdfo8EeW2Tbk1WXPjzA" name="Existing"/>
+    <parameters xmi:id="_n8yCdvo8EeW2Tbk1WXPjzA" name="Existing1"/>
+    <lhs xmi:id="_n8yCd_o8EeW2Tbk1WXPjzA" name="LHS">
+      <nodes xmi:id="_n8yCePo8EeW2Tbk1WXPjzA" name="Selected" incoming="_n8yCf_o8EeW2Tbk1WXPjzA" outgoing="_n8yCfvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n8yCefo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n8yCevo8EeW2Tbk1WXPjzA" name="ToBeDeleted" incoming="_n8yCfvo8EeW2Tbk1WXPjzA _n8yCgfo8EeW2Tbk1WXPjzA _n8yCg_o8EeW2Tbk1WXPjzA" outgoing="_n8yCf_o8EeW2Tbk1WXPjzA _n8yCgPo8EeW2Tbk1WXPjzA _n8yCgvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n8yCe_o8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_n8yCfPo8EeW2Tbk1WXPjzA" name="Existing" incoming="_n8yCgPo8EeW2Tbk1WXPjzA" outgoing="_n8yCgfo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n8yCffo8EeW2Tbk1WXPjzA" name="Existing1" incoming="_n8yCgvo8EeW2Tbk1WXPjzA" outgoing="_n8yCg_o8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <edges xmi:id="_n8yCfvo8EeW2Tbk1WXPjzA" source="_n8yCePo8EeW2Tbk1WXPjzA" target="_n8yCevo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/transitions"/>
+      </edges>
+      <edges xmi:id="_n8yCf_o8EeW2Tbk1WXPjzA" source="_n8yCevo8EeW2Tbk1WXPjzA" target="_n8yCePo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/parentRegion"/>
+      </edges>
+      <edges xmi:id="_n8yCgPo8EeW2Tbk1WXPjzA" source="_n8yCevo8EeW2Tbk1WXPjzA" target="_n8yCfPo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/targetState"/>
+      </edges>
+      <edges xmi:id="_n8yCgfo8EeW2Tbk1WXPjzA" source="_n8yCfPo8EeW2Tbk1WXPjzA" target="_n8yCevo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/incomingTransitions"/>
+      </edges>
+      <edges xmi:id="_n8yCgvo8EeW2Tbk1WXPjzA" source="_n8yCevo8EeW2Tbk1WXPjzA" target="_n8yCffo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/sourceState"/>
+      </edges>
+      <edges xmi:id="_n8yCg_o8EeW2Tbk1WXPjzA" source="_n8yCffo8EeW2Tbk1WXPjzA" target="_n8yCevo8EeW2Tbk1WXPjzA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/outgoingTransitions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_n8yChPo8EeW2Tbk1WXPjzA" name="RHS">
+      <nodes xmi:id="_n8yChfo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n8yChvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_n8yCh_o8EeW2Tbk1WXPjzA" name="Existing">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_n8yCiPo8EeW2Tbk1WXPjzA" name="Existing1">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n8yCifo8EeW2Tbk1WXPjzA" origin="_n8yCePo8EeW2Tbk1WXPjzA" image="_n8yChfo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n8yCivo8EeW2Tbk1WXPjzA" origin="_n8yCfPo8EeW2Tbk1WXPjzA" image="_n8yCh_o8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n8yCi_o8EeW2Tbk1WXPjzA" origin="_n8yCffo8EeW2Tbk1WXPjzA" image="_n8yCiPo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n8yCjPo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n8yCcvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n8yCjfo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n8yCjvo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_n8yCj_o8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <annotations xmi:id="_n8yCkPo8EeW2Tbk1WXPjzA" key="INVERSE" value="New"/>
+    </parameters>
+    <parameters xmi:id="_n8yCkfo8EeW2Tbk1WXPjzA" name="Existing">
+      <annotations xmi:id="_n8yCkvo8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing"/>
+    </parameters>
+    <parameters xmi:id="_n8yCk_o8EeW2Tbk1WXPjzA" name="Existing1">
+      <annotations xmi:id="_n8yClPo8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing1"/>
+    </parameters>
+    <parameterMappings xmi:id="_n8yClfo8EeW2Tbk1WXPjzA" source="_n8yCjfo8EeW2Tbk1WXPjzA" target="_n8yCc_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n8yClvo8EeW2Tbk1WXPjzA" source="_n8yCj_o8EeW2Tbk1WXPjzA" target="_n8yCdPo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n8yCl_o8EeW2Tbk1WXPjzA" source="_n8yCkfo8EeW2Tbk1WXPjzA" target="_n8yCdfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n8yCmPo8EeW2Tbk1WXPjzA" source="_n8yCk_o8EeW2Tbk1WXPjzA" target="_n8yCdvo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

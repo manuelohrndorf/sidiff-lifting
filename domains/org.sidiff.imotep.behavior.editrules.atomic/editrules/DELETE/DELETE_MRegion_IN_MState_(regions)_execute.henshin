@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oAKGkPo8EeW2Tbk1WXPjzA" name="DELETE_MRegion_IN_MState_(regions)" description="Deletes one MRegion in MState">
+  <annotations xmi:id="_oAKGkfo8EeW2Tbk1WXPjzA" key="INVERSE" value="CREATE_MRegion_IN_MState_(regions)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oAKGkvo8EeW2Tbk1WXPjzA" name="deleteMRegion_IN_MState" description="deletes one MRegion in the context: MState">
+    <parameters xmi:id="_oAKGk_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_oAKGlPo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_oAKGlfo8EeW2Tbk1WXPjzA" name="Existing">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_oAKGlvo8EeW2Tbk1WXPjzA" name="Existing1">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_oAKGl_o8EeW2Tbk1WXPjzA" name="LHS">
+      <nodes xmi:id="_oAKGmPo8EeW2Tbk1WXPjzA" name="Selected" incoming="_oAKGn_o8EeW2Tbk1WXPjzA" outgoing="_oAKGnvo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oAKGmfo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_oAKGmvo8EeW2Tbk1WXPjzA" name="ToBeDeleted" incoming="_oAKGnvo8EeW2Tbk1WXPjzA _oAKGovo8EeW2Tbk1WXPjzA" outgoing="_oAKGn_o8EeW2Tbk1WXPjzA _oAKGoPo8EeW2Tbk1WXPjzA _oAKGofo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_oAKGm_o8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_oAKGnPo8EeW2Tbk1WXPjzA" name="Existing" incoming="_oAKGoPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_oAKGnfo8EeW2Tbk1WXPjzA" name="Existing1" incoming="_oAKGofo8EeW2Tbk1WXPjzA" outgoing="_oAKGovo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_oAKGnvo8EeW2Tbk1WXPjzA" source="_oAKGmPo8EeW2Tbk1WXPjzA" target="_oAKGmvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/regions"/>
+      </edges>
+      <edges xmi:id="_oAKGn_o8EeW2Tbk1WXPjzA" source="_oAKGmvo8EeW2Tbk1WXPjzA" target="_oAKGmPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/parentState"/>
+      </edges>
+      <edges xmi:id="_oAKGoPo8EeW2Tbk1WXPjzA" source="_oAKGmvo8EeW2Tbk1WXPjzA" target="_oAKGnPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/initialState"/>
+      </edges>
+      <edges xmi:id="_oAKGofo8EeW2Tbk1WXPjzA" source="_oAKGmvo8EeW2Tbk1WXPjzA" target="_oAKGnfo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/parentStateMachine"/>
+      </edges>
+      <edges xmi:id="_oAKGovo8EeW2Tbk1WXPjzA" source="_oAKGnfo8EeW2Tbk1WXPjzA" target="_oAKGmvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/regions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_oAKGo_o8EeW2Tbk1WXPjzA" name="RHS">
+      <nodes xmi:id="_oAKGpPo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_oAKGpfo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_oAKGpvo8EeW2Tbk1WXPjzA" name="Existing">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+      </nodes>
+      <nodes xmi:id="_oAKGp_o8EeW2Tbk1WXPjzA" name="Existing1">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_oAKGqPo8EeW2Tbk1WXPjzA" origin="_oAKGmPo8EeW2Tbk1WXPjzA" image="_oAKGpPo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_oAKGqfo8EeW2Tbk1WXPjzA" origin="_oAKGnPo8EeW2Tbk1WXPjzA" image="_oAKGpvo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_oAKGqvo8EeW2Tbk1WXPjzA" origin="_oAKGnfo8EeW2Tbk1WXPjzA" image="_oAKGp_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oAKGq_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oAKGkvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oAKGrPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_oAKGrfo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_oAKGrvo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <annotations xmi:id="_oAKGr_o8EeW2Tbk1WXPjzA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_oAKGsPo8EeW2Tbk1WXPjzA" name="Existing">
+      <annotations xmi:id="_oAKGsfo8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MInitialState"/>
+    </parameters>
+    <parameters xmi:id="_oAKGsvo8EeW2Tbk1WXPjzA" name="Existing1">
+      <annotations xmi:id="_oAKGs_o8EeW2Tbk1WXPjzA" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_oAKGtPo8EeW2Tbk1WXPjzA" source="_oAKGrPo8EeW2Tbk1WXPjzA" target="_oAKGk_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAKGtfo8EeW2Tbk1WXPjzA" source="_oAKGrvo8EeW2Tbk1WXPjzA" target="_oAKGlPo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAKGtvo8EeW2Tbk1WXPjzA" source="_oAKGsPo8EeW2Tbk1WXPjzA" target="_oAKGlfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oAKGt_o8EeW2Tbk1WXPjzA" source="_oAKGsvo8EeW2Tbk1WXPjzA" target="_oAKGlvo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

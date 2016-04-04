@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n93AgPo8EeW2Tbk1WXPjzA" name="SetErrorState" description="Sets MState IsErrorState">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n93Agfo8EeW2Tbk1WXPjzA" name="setMStateIsErrorState" description="Sets the EAttribute isErrorState">
+    <parameters xmi:id="_n93Agvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_n93Ag_o8EeW2Tbk1WXPjzA" name="IsErrorState">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_n93nkPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n93nkfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n93nkvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n93nk_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+        <attributes xmi:id="_n93nlPo8EeW2Tbk1WXPjzA" value="IsErrorState">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/isErrorState"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n93nlfo8EeW2Tbk1WXPjzA" origin="_n93nkfo8EeW2Tbk1WXPjzA" image="_n93nk_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n93nlvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n93Agfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n93nl_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_n93nmPo8EeW2Tbk1WXPjzA" name="IsErrorState">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_n93nmfo8EeW2Tbk1WXPjzA" source="_n93nl_o8EeW2Tbk1WXPjzA" target="_n93Agvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n93nmvo8EeW2Tbk1WXPjzA" source="_n93nmPo8EeW2Tbk1WXPjzA" target="_n93Ag_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

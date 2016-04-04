@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n99HIPo8EeW2Tbk1WXPjzA" name="CREATE_MCodeFragment_IN_MGuard_(conditions)" description="Creates one MCodeFragment in MGuard">
+  <annotations xmi:id="_n99HIfo8EeW2Tbk1WXPjzA" key="INVERSE" value="DELETE_MCodeFragment_IN_MGuard_(conditions)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n99HIvo8EeW2Tbk1WXPjzA" name="createMCodeFragment_IN_MGuard" description="creates one MCodeFragment in the context: MGuard">
+    <parameters xmi:id="_n99HI_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n99HJPo8EeW2Tbk1WXPjzA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_n99HJfo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HJvo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HJ_o8EeW2Tbk1WXPjzA" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HKPo8EeW2Tbk1WXPjzA" name="Language">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <lhs xmi:id="_n99HKfo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n99HKvo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n99HK_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n99HLPo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n99HLfo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_n99HNfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n99HLvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+      <nodes xmi:id="_n99HL_o8EeW2Tbk1WXPjzA" name="New" incoming="_n99HNfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n99HMPo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+        <attributes xmi:id="_n99HMfo8EeW2Tbk1WXPjzA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_n99HMvo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_n99HM_o8EeW2Tbk1WXPjzA" value="Expression">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment/expression"/>
+        </attributes>
+        <attributes xmi:id="_n99HNPo8EeW2Tbk1WXPjzA" value="Language">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment/language"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_n99HNfo8EeW2Tbk1WXPjzA" source="_n99HLfo8EeW2Tbk1WXPjzA" target="_n99HL_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard/conditions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n99HNvo8EeW2Tbk1WXPjzA" origin="_n99HKvo8EeW2Tbk1WXPjzA" image="_n99HLfo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n99HN_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n99HIvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n99HOPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n99HOfo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameters xmi:id="_n99HOvo8EeW2Tbk1WXPjzA" name="New">
+      <annotations xmi:id="_n99HO_o8EeW2Tbk1WXPjzA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_n99HPPo8EeW2Tbk1WXPjzA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HPfo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HPvo8EeW2Tbk1WXPjzA" name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_n99HP_o8EeW2Tbk1WXPjzA" name="Language">
+      <type xsi:type="ecore:EEnum" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MELanguages"/>
+    </parameters>
+    <parameterMappings xmi:id="_n99HQPo8EeW2Tbk1WXPjzA" source="_n99HOPo8EeW2Tbk1WXPjzA" target="_n99HI_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n99HQfo8EeW2Tbk1WXPjzA" source="_n99HJPo8EeW2Tbk1WXPjzA" target="_n99HOvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n99HQvo8EeW2Tbk1WXPjzA" source="_n99HPPo8EeW2Tbk1WXPjzA" target="_n99HJfo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n99HQ_o8EeW2Tbk1WXPjzA" source="_n99HPfo8EeW2Tbk1WXPjzA" target="_n99HJvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n99HRPo8EeW2Tbk1WXPjzA" source="_n99HPvo8EeW2Tbk1WXPjzA" target="_n99HJ_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n99HRfo8EeW2Tbk1WXPjzA" source="_n99HP_o8EeW2Tbk1WXPjzA" target="_n99HKPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

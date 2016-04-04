@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n_szkPo8EeW2Tbk1WXPjzA" name="DeleteGuard" description="Deletes one MGuard in MStateMachine">
+  <annotations xmi:id="_n_taoPo8EeW2Tbk1WXPjzA" key="INVERSE" value="CREATE_MGuard_IN_MStateMachine_(guards)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n_taofo8EeW2Tbk1WXPjzA" name="deleteMGuard_IN_MStateMachine" description="deletes one MGuard in the context: MStateMachine">
+    <parameters xmi:id="_n_taovo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n_tao_o8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <lhs xmi:id="_n_tapPo8EeW2Tbk1WXPjzA" name="LHS">
+      <nodes xmi:id="_n_tapfo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_n_taqfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n_tapvo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_n_tap_o8EeW2Tbk1WXPjzA" name="ToBeDeleted" incoming="_n_taqfo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n_taqPo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+      <edges xmi:id="_n_taqfo8EeW2Tbk1WXPjzA" source="_n_tapfo8EeW2Tbk1WXPjzA" target="_n_tap_o8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/guards"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_n_taqvo8EeW2Tbk1WXPjzA" name="RHS">
+      <nodes xmi:id="_n_taq_o8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n_tarPo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n_tarfo8EeW2Tbk1WXPjzA" origin="_n_tapfo8EeW2Tbk1WXPjzA" image="_n_taq_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n_tarvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n_taofo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n_tar_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n_tasPo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n_tasfo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <annotations xmi:id="_n_tasvo8EeW2Tbk1WXPjzA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameterMappings xmi:id="_n_tas_o8EeW2Tbk1WXPjzA" source="_n_tar_o8EeW2Tbk1WXPjzA" target="_n_taovo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n_tatPo8EeW2Tbk1WXPjzA" source="_n_tasfo8EeW2Tbk1WXPjzA" target="_n_tao_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

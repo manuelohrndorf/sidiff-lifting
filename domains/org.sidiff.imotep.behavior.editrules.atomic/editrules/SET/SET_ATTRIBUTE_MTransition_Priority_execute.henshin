@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-ZMAPo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MTransition_Priority" description="Sets MTransition Priority">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-ZMAfo8EeW2Tbk1WXPjzA" name="setMTransitionPriority" description="Sets the EAttribute priority">
+    <parameters xmi:id="_n-ZMAvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n-ZMA_o8EeW2Tbk1WXPjzA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_n-ZMBPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-ZMBfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n-ZMBvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-ZMB_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+        <attributes xmi:id="_n-ZMCPo8EeW2Tbk1WXPjzA" value="Priority">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/priority"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n-ZMCfo8EeW2Tbk1WXPjzA" origin="_n-ZMBfo8EeW2Tbk1WXPjzA" image="_n-ZMB_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-ZMCvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-ZMAfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-ZMC_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n-ZMDPo8EeW2Tbk1WXPjzA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-ZMDfo8EeW2Tbk1WXPjzA" source="_n-ZMC_o8EeW2Tbk1WXPjzA" target="_n-ZMAvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-ZMDvo8EeW2Tbk1WXPjzA" source="_n-ZMDPo8EeW2Tbk1WXPjzA" target="_n-ZMA_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

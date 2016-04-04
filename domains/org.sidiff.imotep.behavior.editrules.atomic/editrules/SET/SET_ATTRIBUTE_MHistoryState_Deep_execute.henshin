@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oA34QPo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MHistoryState_Deep" description="Sets MHistoryState Deep">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oA34Qfo8EeW2Tbk1WXPjzA" name="setMHistoryStateDeep" description="Sets the EAttribute deep">
+    <parameters xmi:id="_oA34Qvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_oA34Q_o8EeW2Tbk1WXPjzA" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_oA34RPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oA34Rfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oA34Rvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oA34R_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState"/>
+        <attributes xmi:id="_oA34SPo8EeW2Tbk1WXPjzA" value="Deep">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState/deep"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_oA34Sfo8EeW2Tbk1WXPjzA" origin="_oA34Rfo8EeW2Tbk1WXPjzA" image="_oA34R_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oA34Svo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oA34Qfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oA34S_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MHistoryState"/>
+    </parameters>
+    <parameters xmi:id="_oA34TPo8EeW2Tbk1WXPjzA" name="Deep">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_oA34Tfo8EeW2Tbk1WXPjzA" source="_oA34S_o8EeW2Tbk1WXPjzA" target="_oA34Qvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oA34Tvo8EeW2Tbk1WXPjzA" source="_oA34TPo8EeW2Tbk1WXPjzA" target="_oA34Q_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

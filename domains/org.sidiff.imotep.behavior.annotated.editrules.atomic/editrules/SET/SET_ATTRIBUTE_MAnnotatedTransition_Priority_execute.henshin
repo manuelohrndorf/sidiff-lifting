@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4ddfIPo_EeWoPp3x_sMZPA" name="SetTransitionPriority" description="Sets MAnnotatedTransition Priority">
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4ddfIfo_EeWoPp3x_sMZPA" name="setMAnnotatedTransitionPriority" description="Sets the EAttribute priority">
+    <parameters xmi:id="_4ddfIvo_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+    </parameters>
+    <parameters xmi:id="_4ddfI_o_EeWoPp3x_sMZPA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="_4ddfJPo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4ddfJfo_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_4ddfJvo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4ddfJ_o_EeWoPp3x_sMZPA" name="Selected">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+        <attributes xmi:id="_4ddfKPo_EeWoPp3x_sMZPA" value="Priority">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/priority"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4ddfKfo_EeWoPp3x_sMZPA" origin="_4ddfJfo_EeWoPp3x_sMZPA" image="_4ddfJ_o_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4ddfKvo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4ddfIfo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4ddfK_o_EeWoPp3x_sMZPA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+    </parameters>
+    <parameters xmi:id="_4ddfLPo_EeWoPp3x_sMZPA" name="Priority">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="_4ddfLfo_EeWoPp3x_sMZPA" source="_4ddfK_o_EeWoPp3x_sMZPA" target="_4ddfIvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4ddfLvo_EeWoPp3x_sMZPA" source="_4ddfLPo_EeWoPp3x_sMZPA" target="_4ddfI_o_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

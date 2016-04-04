@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4dbp8Po_EeWoPp3x_sMZPA" name="DELETE_MAnnotatedTerminateState_IN_MRegion_(states)" description="Deletes one MAnnotatedTerminateState in MRegion">
+  <annotations xmi:id="_4dbp8fo_EeWoPp3x_sMZPA" key="INVERSE" value="CREATE_MAnnotatedTerminateState_IN_MRegion_(states)"/>
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4dbp8vo_EeWoPp3x_sMZPA" name="deleteMAnnotatedTerminateState_IN_MRegion" description="deletes one MAnnotatedTerminateState in the context: MRegion">
+    <parameters xmi:id="_4dbp8_o_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4dbp9Po_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTerminateState"/>
+    </parameters>
+    <lhs xmi:id="_4dbp9fo_EeWoPp3x_sMZPA" name="LHS">
+      <nodes xmi:id="_4dbp9vo_EeWoPp3x_sMZPA" name="Selected" incoming="_4dbp-_o_EeWoPp3x_sMZPA" outgoing="_4dbp-vo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4dbp9_o_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4dbp-Po_EeWoPp3x_sMZPA" name="ToBeDeleted" incoming="_4dbp-vo_EeWoPp3x_sMZPA" outgoing="_4dbp-_o_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4dbp-fo_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTerminateState"/>
+      </nodes>
+      <edges xmi:id="_4dbp-vo_EeWoPp3x_sMZPA" source="_4dbp9vo_EeWoPp3x_sMZPA" target="_4dbp-Po_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/states"/>
+      </edges>
+      <edges xmi:id="_4dbp-_o_EeWoPp3x_sMZPA" source="_4dbp-Po_EeWoPp3x_sMZPA" target="_4dbp9vo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/parentRegion"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4dbp_Po_EeWoPp3x_sMZPA" name="RHS">
+      <nodes xmi:id="_4dbp_fo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4dbp_vo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4dbp__o_EeWoPp3x_sMZPA" origin="_4dbp9vo_EeWoPp3x_sMZPA" image="_4dbp_fo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4dbqAPo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4dbp8vo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4dbqAfo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4dbqAvo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4dbqA_o_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <annotations xmi:id="_4dbqBPo_EeWoPp3x_sMZPA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTerminateState"/>
+    </parameters>
+    <parameterMappings xmi:id="_4dbqBfo_EeWoPp3x_sMZPA" source="_4dbqAfo_EeWoPp3x_sMZPA" target="_4dbp8_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dbqBvo_EeWoPp3x_sMZPA" source="_4dbqA_o_EeWoPp3x_sMZPA" target="_4dbp9Po_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

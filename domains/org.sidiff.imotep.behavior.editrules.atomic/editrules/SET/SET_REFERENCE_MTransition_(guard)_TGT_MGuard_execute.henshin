@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n-WIsPo8EeW2Tbk1WXPjzA" name="AddGuard" description="Sets MTransition's reference guard the target MGuard">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n-WIsfo8EeW2Tbk1WXPjzA" name="setMTransition_guard_TO_MGuard" description="SetMTransitionRefguardToMGuard">
+    <parameters xmi:id="_n-WIsvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n-WIs_o8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <lhs xmi:id="_n-WItPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n-WItfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_n-WItvo8EeW2Tbk1WXPjzA" name="NewTarget">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n-WIt_o8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n-WIuPo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_n-WIuvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+      <nodes xmi:id="_n-WIufo8EeW2Tbk1WXPjzA" name="NewTarget" incoming="_n-WIuvo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+      </nodes>
+      <edges xmi:id="_n-WIuvo8EeW2Tbk1WXPjzA" source="_n-WIuPo8EeW2Tbk1WXPjzA" target="_n-WIufo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/guard"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n-WIu_o8EeW2Tbk1WXPjzA" origin="_n-WItfo8EeW2Tbk1WXPjzA" image="_n-WIuPo8EeW2Tbk1WXPjzA"/>
+    <mappings xmi:id="_n-WIvPo8EeW2Tbk1WXPjzA" origin="_n-WItvo8EeW2Tbk1WXPjzA" image="_n-WIufo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n-WIvfo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n-WIsfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n-WIvvo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n-WIv_o8EeW2Tbk1WXPjzA" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MGuard"/>
+    </parameters>
+    <parameterMappings xmi:id="_n-WIwPo8EeW2Tbk1WXPjzA" source="_n-WIvvo8EeW2Tbk1WXPjzA" target="_n-WIsvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n-WIwfo8EeW2Tbk1WXPjzA" source="_n-WIv_o8EeW2Tbk1WXPjzA" target="_n-WIs_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

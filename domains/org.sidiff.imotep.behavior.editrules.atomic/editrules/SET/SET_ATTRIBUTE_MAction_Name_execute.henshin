@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_oBI-APo8EeW2Tbk1WXPjzA" name="SET_ATTRIBUTE_MAction_Name" description="Sets MAction Name">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_oBI-Afo8EeW2Tbk1WXPjzA" name="setMActionName" description="Sets the EAttribute name">
+    <parameters xmi:id="_oBI-Avo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_oBI-A_o8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_oBI-BPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_oBI-Bfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oBI-Bvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_oBI-B_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+        <attributes xmi:id="_oBI-CPo8EeW2Tbk1WXPjzA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_oBI-Cfo8EeW2Tbk1WXPjzA" origin="_oBI-Bfo8EeW2Tbk1WXPjzA" image="_oBI-B_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_oBI-Cvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_oBI-Afo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_oBI-C_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAction"/>
+    </parameters>
+    <parameters xmi:id="_oBI-DPo8EeW2Tbk1WXPjzA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_oBI-Dfo8EeW2Tbk1WXPjzA" source="_oBI-C_o8EeW2Tbk1WXPjzA" target="_oBI-Avo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_oBI-Dvo8EeW2Tbk1WXPjzA" source="_oBI-DPo8EeW2Tbk1WXPjzA" target="_oBI-A_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

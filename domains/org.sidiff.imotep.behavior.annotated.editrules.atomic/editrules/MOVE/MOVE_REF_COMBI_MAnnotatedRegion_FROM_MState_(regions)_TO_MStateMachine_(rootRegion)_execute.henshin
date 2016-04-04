@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4fUgUPo_EeWoPp3x_sMZPA" name="MOVE_REF_COMBI_MAnnotatedRegion_FROM_MState_(regions)_TO_MStateMachine_(rootRegion)" description="MOVEs MAnnotatedRegion from MState(Reference:regions) to MStateMachine(Reference:rootRegion">
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4fUgUfo_EeWoPp3x_sMZPA" name="moveMAnnotatedRegion_FROM_MState_regions_TO_MStateMachine_MStateMachine" description="Moves MAnnotatedRegion from MState(Reference:regions) toMStateMachine(Reference:MStateMachine)">
+    <parameters xmi:id="_4fUgUvo_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+    </parameters>
+    <parameters xmi:id="_4fUgU_o_EeWoPp3x_sMZPA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_4fUgVPo_EeWoPp3x_sMZPA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_4fUgVfo_EeWoPp3x_sMZPA" name="Lhs">
+      <nodes xmi:id="_4fUgVvo_EeWoPp3x_sMZPA" name="Selected" incoming="_4fUgWfo_EeWoPp3x_sMZPA" outgoing="_4fUgWvo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+      </nodes>
+      <nodes xmi:id="_4fUgV_o_EeWoPp3x_sMZPA" name="OldSource" incoming="_4fUgWvo_EeWoPp3x_sMZPA" outgoing="_4fUgWfo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_4fUgWPo_EeWoPp3x_sMZPA" name="NewSource">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_4fUgWfo_EeWoPp3x_sMZPA" source="_4fUgV_o_EeWoPp3x_sMZPA" target="_4fUgVvo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState/regions"/>
+      </edges>
+      <edges xmi:id="_4fUgWvo_EeWoPp3x_sMZPA" source="_4fUgVvo_EeWoPp3x_sMZPA" target="_4fUgV_o_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/parentState"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4fUgW_o_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4fUgXPo_EeWoPp3x_sMZPA" name="Selected" incoming="_4fUgX_o_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+      </nodes>
+      <nodes xmi:id="_4fUgXfo_EeWoPp3x_sMZPA" name="OldSource">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+      </nodes>
+      <nodes xmi:id="_4fUgXvo_EeWoPp3x_sMZPA" name="NewSource" outgoing="_4fUgX_o_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <edges xmi:id="_4fUgX_o_EeWoPp3x_sMZPA" source="_4fUgXvo_EeWoPp3x_sMZPA" target="_4fUgXPo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/rootRegion"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4fUgYPo_EeWoPp3x_sMZPA" origin="_4fUgVvo_EeWoPp3x_sMZPA" image="_4fUgXPo_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4fUgYfo_EeWoPp3x_sMZPA" origin="_4fUgV_o_EeWoPp3x_sMZPA" image="_4fUgXfo_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4fUgYvo_EeWoPp3x_sMZPA" origin="_4fUgWPo_EeWoPp3x_sMZPA" image="_4fUgXvo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4fUgY_o_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4fUgUfo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4fUgZPo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedRegion"/>
+    </parameters>
+    <parameters xmi:id="_4fUgZfo_EeWoPp3x_sMZPA" name="OldSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MState"/>
+    </parameters>
+    <parameters xmi:id="_4fUgZvo_EeWoPp3x_sMZPA" name="NewSource">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_4fUgZ_o_EeWoPp3x_sMZPA" source="_4fUgZPo_EeWoPp3x_sMZPA" target="_4fUgUvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4fUgaPo_EeWoPp3x_sMZPA" source="_4fUgZfo_EeWoPp3x_sMZPA" target="_4fUgU_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4fUgafo_EeWoPp3x_sMZPA" source="_4fUgZvo_EeWoPp3x_sMZPA" target="_4fUgVPo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

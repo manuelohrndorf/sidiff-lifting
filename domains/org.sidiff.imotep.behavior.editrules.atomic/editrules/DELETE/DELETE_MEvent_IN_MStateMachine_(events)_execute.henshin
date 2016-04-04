@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n9YfYPo8EeW2Tbk1WXPjzA" name="DELETE_MEvent_IN_MStateMachine_(events)" description="Deletes one MEvent in MStateMachine">
+  <annotations xmi:id="_n9YfYfo8EeW2Tbk1WXPjzA" key="INVERSE" value="CREATE_MEvent_IN_MStateMachine_(events)"/>
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n9YfYvo8EeW2Tbk1WXPjzA" name="deleteMEvent_IN_MStateMachine" description="deletes one MEvent in the context: MStateMachine">
+    <parameters xmi:id="_n9YfY_o8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n9YfZPo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <lhs xmi:id="_n9YfZfo8EeW2Tbk1WXPjzA" name="LHS">
+      <nodes xmi:id="_n9YfZvo8EeW2Tbk1WXPjzA" name="Selected" outgoing="_n9Yfavo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n9YfZ_o8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+      <nodes xmi:id="_n9YfaPo8EeW2Tbk1WXPjzA" name="ToBeDeleted" incoming="_n9Yfavo8EeW2Tbk1WXPjzA">
+        <annotations xmi:id="_n9Yfafo8EeW2Tbk1WXPjzA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+      </nodes>
+      <edges xmi:id="_n9Yfavo8EeW2Tbk1WXPjzA" source="_n9YfZvo8EeW2Tbk1WXPjzA" target="_n9YfaPo8EeW2Tbk1WXPjzA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine/events"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_n9Yfa_o8EeW2Tbk1WXPjzA" name="RHS">
+      <nodes xmi:id="_n9YfbPo8EeW2Tbk1WXPjzA" name="Selected">
+        <annotations xmi:id="_n9Yfbfo8EeW2Tbk1WXPjzA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n9Yfbvo8EeW2Tbk1WXPjzA" origin="_n9YfZvo8EeW2Tbk1WXPjzA" image="_n9YfbPo8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n9Yfb_o8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n9YfYvo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n9YfcPo8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <annotations xmi:id="_n9Yfcfo8EeW2Tbk1WXPjzA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MStateMachine"/>
+    </parameters>
+    <parameters xmi:id="_n9Yfcvo8EeW2Tbk1WXPjzA" name="ToBeDeleted">
+      <annotations xmi:id="_n9Yfc_o8EeW2Tbk1WXPjzA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_n9YfdPo8EeW2Tbk1WXPjzA" source="_n9YfcPo8EeW2Tbk1WXPjzA" target="_n9YfY_o8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n9Yfdfo8EeW2Tbk1WXPjzA" source="_n9Yfcvo8EeW2Tbk1WXPjzA" target="_n9YfZPo8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

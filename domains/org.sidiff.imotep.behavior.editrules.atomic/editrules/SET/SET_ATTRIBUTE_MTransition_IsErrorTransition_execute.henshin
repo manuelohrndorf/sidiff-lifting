@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_n_fYMPo8EeW2Tbk1WXPjzA" name="SetErrorTransition" description="Sets MTransition IsErrorTransition">
+  <imports href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_n_fYMfo8EeW2Tbk1WXPjzA" name="setMTransitionIsErrorTransition" description="Sets the EAttribute isErrorTransition">
+    <parameters xmi:id="_n_fYMvo8EeW2Tbk1WXPjzA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n_fYM_o8EeW2Tbk1WXPjzA" name="IsErrorTransition">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_n_fYNPo8EeW2Tbk1WXPjzA" name="Lhs">
+      <nodes xmi:id="_n_fYNfo8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_n_fYNvo8EeW2Tbk1WXPjzA" name="Rhs">
+      <nodes xmi:id="_n_fYN_o8EeW2Tbk1WXPjzA" name="Selected">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+        <attributes xmi:id="_n_fYOPo8EeW2Tbk1WXPjzA" value="IsErrorTransition">
+          <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/isErrorTransition"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_n_fYOfo8EeW2Tbk1WXPjzA" origin="_n_fYNfo8EeW2Tbk1WXPjzA" image="_n_fYN_o8EeW2Tbk1WXPjzA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_n_fYOvo8EeW2Tbk1WXPjzA" name="mainUnit" subUnits="_n_fYMfo8EeW2Tbk1WXPjzA">
+    <parameters xmi:id="_n_fYO_o8EeW2Tbk1WXPjzA" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition"/>
+    </parameters>
+    <parameters xmi:id="_n_fYPPo8EeW2Tbk1WXPjzA" name="IsErrorTransition">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_n_fYPfo8EeW2Tbk1WXPjzA" source="_n_fYO_o8EeW2Tbk1WXPjzA" target="_n_fYMvo8EeW2Tbk1WXPjzA"/>
+    <parameterMappings xmi:id="_n_fYPvo8EeW2Tbk1WXPjzA" source="_n_fYPPo8EeW2Tbk1WXPjzA" target="_n_fYM_o8EeW2Tbk1WXPjzA"/>
+  </units>
+</henshin:Module>

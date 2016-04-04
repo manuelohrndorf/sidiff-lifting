@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4cICYPo_EeWoPp3x_sMZPA" name="DeleteTransition" description="Deletes one MAnnotatedTransition in MRegion">
+  <annotations xmi:id="_4cICYfo_EeWoPp3x_sMZPA" key="INVERSE" value="CREATE_MAnnotatedTransition_IN_MRegion_(transitions)"/>
+  <imports href="../../../../plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4cICYvo_EeWoPp3x_sMZPA" name="deleteMAnnotatedTransition_IN_MRegion" description="deletes one MAnnotatedTransition in the context: MRegion" injectiveMatching="false">
+    <parameters xmi:id="_4cICY_o_EeWoPp3x_sMZPA" name="Selected"/>
+    <parameters xmi:id="_4cICZPo_EeWoPp3x_sMZPA" name="ToBeDeleted"/>
+    <parameters xmi:id="_4cICZfo_EeWoPp3x_sMZPA" name="Existing"/>
+    <parameters xmi:id="_4cICZvo_EeWoPp3x_sMZPA" name="Existing1"/>
+    <lhs xmi:id="_4cICZ_o_EeWoPp3x_sMZPA" name="LHS">
+      <nodes xmi:id="_4cICaPo_EeWoPp3x_sMZPA" name="Selected" incoming="_4cICb_o_EeWoPp3x_sMZPA" outgoing="_4cICbvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4cICafo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4cICavo_EeWoPp3x_sMZPA" name="ToBeDeleted" incoming="_4cICbvo_EeWoPp3x_sMZPA _4cICcfo_EeWoPp3x_sMZPA _4cICc_o_EeWoPp3x_sMZPA" outgoing="_4cICb_o_EeWoPp3x_sMZPA _4cICcPo_EeWoPp3x_sMZPA _4cICcvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4cICa_o_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="../../../../plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedTransition"/>
+        <attributes xmi:id="__Gf8wPpMEeW8LuIvIj38sw" value="false">
+          <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/isErrorTransition"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_4cICbPo_EeWoPp3x_sMZPA" name="Existing" incoming="_4cICcPo_EeWoPp3x_sMZPA" outgoing="_4cICcfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_4cICbfo_EeWoPp3x_sMZPA" name="Existing1" incoming="_4cICcvo_EeWoPp3x_sMZPA" outgoing="_4cICc_o_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <edges xmi:id="_4cICbvo_EeWoPp3x_sMZPA" source="_4cICaPo_EeWoPp3x_sMZPA" target="_4cICavo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/transitions"/>
+      </edges>
+      <edges xmi:id="_4cICb_o_EeWoPp3x_sMZPA" source="_4cICavo_EeWoPp3x_sMZPA" target="_4cICaPo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/parentRegion"/>
+      </edges>
+      <edges xmi:id="_4cICcPo_EeWoPp3x_sMZPA" source="_4cICavo_EeWoPp3x_sMZPA" target="_4cICbPo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/sourceState"/>
+      </edges>
+      <edges xmi:id="_4cICcfo_EeWoPp3x_sMZPA" source="_4cICbPo_EeWoPp3x_sMZPA" target="_4cICavo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/outgoingTransitions"/>
+      </edges>
+      <edges xmi:id="_4cICcvo_EeWoPp3x_sMZPA" source="_4cICavo_EeWoPp3x_sMZPA" target="_4cICbfo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MTransition/targetState"/>
+      </edges>
+      <edges xmi:id="_4cICc_o_EeWoPp3x_sMZPA" source="_4cICbfo_EeWoPp3x_sMZPA" target="_4cICavo_EeWoPp3x_sMZPA">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/incomingTransitions"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4cICdPo_EeWoPp3x_sMZPA" name="RHS">
+      <nodes xmi:id="_4cICdfo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4cICdvo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4cICd_o_EeWoPp3x_sMZPA" name="Existing">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+      <nodes xmi:id="_4cICePo_EeWoPp3x_sMZPA" name="Existing1">
+        <type href="../../../../plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4cICefo_EeWoPp3x_sMZPA" origin="_4cICaPo_EeWoPp3x_sMZPA" image="_4cICdfo_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4cICevo_EeWoPp3x_sMZPA" origin="_4cICbPo_EeWoPp3x_sMZPA" image="_4cICd_o_EeWoPp3x_sMZPA"/>
+    <mappings xmi:id="_4cICe_o_EeWoPp3x_sMZPA" origin="_4cICbfo_EeWoPp3x_sMZPA" image="_4cICePo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4cICfPo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4cICYvo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4cICffo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4cICfvo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_4cICf_o_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <annotations xmi:id="_4cICgPo_EeWoPp3x_sMZPA" key="INVERSE" value="New"/>
+    </parameters>
+    <parameters xmi:id="_4cICgfo_EeWoPp3x_sMZPA" name="Existing">
+      <annotations xmi:id="_4cICgvo_EeWoPp3x_sMZPA" key="INVERSE" value="Existing"/>
+    </parameters>
+    <parameters xmi:id="_4cICg_o_EeWoPp3x_sMZPA" name="Existing1">
+      <annotations xmi:id="_4cIChPo_EeWoPp3x_sMZPA" key="INVERSE" value="Existing1"/>
+    </parameters>
+    <parameterMappings xmi:id="_4cIChfo_EeWoPp3x_sMZPA" source="_4cICffo_EeWoPp3x_sMZPA" target="_4cICY_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4cIChvo_EeWoPp3x_sMZPA" source="_4cICf_o_EeWoPp3x_sMZPA" target="_4cICZPo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4cICh_o_EeWoPp3x_sMZPA" source="_4cICgfo_EeWoPp3x_sMZPA" target="_4cICZfo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4cICiPo_EeWoPp3x_sMZPA" source="_4cICg_o_EeWoPp3x_sMZPA" target="_4cICZvo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

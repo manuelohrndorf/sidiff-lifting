@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4dU8QPo_EeWoPp3x_sMZPA" name="CREATE_MAnnotatedEntity" description="Creates one MAnnotatedEntity">
+  <annotations xmi:id="_4dU8Qfo_EeWoPp3x_sMZPA" key="INVERSE" value="DELETE_MAnnotatedEntity"/>
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4dU8Qvo_EeWoPp3x_sMZPA" name="createMAnnotatedEntity" description="creates one MAnnotatedEntity">
+    <parameters xmi:id="_4dU8Q_o_EeWoPp3x_sMZPA" name="New">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity"/>
+    </parameters>
+    <parameters xmi:id="_4dU8RPo_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dU8Rfo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dU8Rvo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_4dU8R_o_EeWoPp3x_sMZPA" name="Lhs"/>
+    <rhs xmi:id="_4dU8SPo_EeWoPp3x_sMZPA" name="Rhs">
+      <nodes xmi:id="_4dU8Sfo_EeWoPp3x_sMZPA" name="New">
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity"/>
+        <attributes xmi:id="_4dU8Svo_EeWoPp3x_sMZPA" value="Id">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MEntity/id"/>
+        </attributes>
+        <attributes xmi:id="_4dU8S_o_EeWoPp3x_sMZPA" value="Name">
+          <type href="platform:/plugin/de.imotep.core.datamodel/model/Datamodel.ecore#//MNamedEntity/name"/>
+        </attributes>
+        <attributes xmi:id="_4dU8TPo_EeWoPp3x_sMZPA" value="Annotation">
+          <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity/annotation"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4dU8Tfo_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4dU8Qvo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4dU8Tvo_EeWoPp3x_sMZPA" name="New">
+      <annotations xmi:id="_4dU8T_o_EeWoPp3x_sMZPA" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedEntity"/>
+    </parameters>
+    <parameters xmi:id="_4dU8UPo_EeWoPp3x_sMZPA" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dU8Ufo_EeWoPp3x_sMZPA" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_4dU8Uvo_EeWoPp3x_sMZPA" name="Annotation">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_4dU8U_o_EeWoPp3x_sMZPA" source="_4dU8Q_o_EeWoPp3x_sMZPA" target="_4dU8Tvo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dU8VPo_EeWoPp3x_sMZPA" source="_4dU8UPo_EeWoPp3x_sMZPA" target="_4dU8RPo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dU8Vfo_EeWoPp3x_sMZPA" source="_4dU8Ufo_EeWoPp3x_sMZPA" target="_4dU8Rfo_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4dU8Vvo_EeWoPp3x_sMZPA" source="_4dU8Uvo_EeWoPp3x_sMZPA" target="_4dU8Rvo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>

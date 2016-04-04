@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4cywwPo_EeWoPp3x_sMZPA" name="DELETE_MAnnotatedInitialState_IN_MRegion_(states)" description="Deletes one MAnnotatedInitialState in MRegion">
+  <annotations xmi:id="_4cywwfo_EeWoPp3x_sMZPA" key="INVERSE" value="CREATE_MAnnotatedInitialState_IN_MRegion_(states)"/>
+  <imports href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4cywwvo_EeWoPp3x_sMZPA" name="deleteMAnnotatedInitialState_IN_MRegion" description="deletes one MAnnotatedInitialState in the context: MRegion">
+    <parameters xmi:id="_4cyww_o_EeWoPp3x_sMZPA" name="Selected">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4cywxPo_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedInitialState"/>
+    </parameters>
+    <lhs xmi:id="_4cywxfo_EeWoPp3x_sMZPA" name="LHS">
+      <nodes xmi:id="_4cywxvo_EeWoPp3x_sMZPA" name="Selected" incoming="_4cywy_o_EeWoPp3x_sMZPA" outgoing="_4cywyvo_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4cywx_o_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+      <nodes xmi:id="_4cywyPo_EeWoPp3x_sMZPA" name="ToBeDeleted" incoming="_4cywyvo_EeWoPp3x_sMZPA" outgoing="_4cywy_o_EeWoPp3x_sMZPA">
+        <annotations xmi:id="_4cywyfo_EeWoPp3x_sMZPA" key="SERGE_" value="FOCUS"/>
+        <type href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedInitialState"/>
+      </nodes>
+      <edges xmi:id="_4cywyvo_EeWoPp3x_sMZPA" source="_4cywxvo_EeWoPp3x_sMZPA" target="_4cywyPo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion/states"/>
+      </edges>
+      <edges xmi:id="_4cywy_o_EeWoPp3x_sMZPA" source="_4cywyPo_EeWoPp3x_sMZPA" target="_4cywxvo_EeWoPp3x_sMZPA">
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MAbstractState/parentRegion"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4cywzPo_EeWoPp3x_sMZPA" name="RHS">
+      <nodes xmi:id="_4cywzfo_EeWoPp3x_sMZPA" name="Selected">
+        <annotations xmi:id="_4cywzvo_EeWoPp3x_sMZPA" key="SERGE_" value="CONTEXT"/>
+        <type href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_4cywz_o_EeWoPp3x_sMZPA" origin="_4cywxvo_EeWoPp3x_sMZPA" image="_4cywzfo_EeWoPp3x_sMZPA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_4cyw0Po_EeWoPp3x_sMZPA" name="mainUnit" subUnits="_4cywwvo_EeWoPp3x_sMZPA">
+    <parameters xmi:id="_4cyw0fo_EeWoPp3x_sMZPA" name="selectedEObject">
+      <annotations xmi:id="_4cyw0vo_EeWoPp3x_sMZPA" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.core.behavior/model/Behavior.ecore#//MRegion"/>
+    </parameters>
+    <parameters xmi:id="_4cyw0_o_EeWoPp3x_sMZPA" name="ToBeDeleted">
+      <annotations xmi:id="_4cyw1Po_EeWoPp3x_sMZPA" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="platform:/plugin/de.imotep.variability.annotatedBehavior/model/AnnotatedBehavior.ecore#//MAnnotatedInitialState"/>
+    </parameters>
+    <parameterMappings xmi:id="_4cyw1fo_EeWoPp3x_sMZPA" source="_4cyw0fo_EeWoPp3x_sMZPA" target="_4cyww_o_EeWoPp3x_sMZPA"/>
+    <parameterMappings xmi:id="_4cyw1vo_EeWoPp3x_sMZPA" source="_4cyw0_o_EeWoPp3x_sMZPA" target="_4cywxPo_EeWoPp3x_sMZPA"/>
+  </units>
+</henshin:Module>
