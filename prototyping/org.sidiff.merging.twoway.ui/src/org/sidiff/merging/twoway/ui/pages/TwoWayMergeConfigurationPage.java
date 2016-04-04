@@ -1,9 +1,9 @@
 package org.sidiff.merging.twoway.ui.pages;
 
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.lifting.ui.util.InputModels;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
 
 /**

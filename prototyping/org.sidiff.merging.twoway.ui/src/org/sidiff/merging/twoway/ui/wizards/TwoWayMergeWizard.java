@@ -11,7 +11,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.difference.lifting.ui.util.InputModels;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.merging.twoway.MergingEngine;
 import org.sidiff.merging.twoway.facade.TwoWayMergingFacade;
 import org.sidiff.merging.twoway.facade.TwoWayMergingSettings;
@@ -30,7 +30,7 @@ public class TwoWayMergeWizard extends Wizard {
 	private String savePath;
 
 	public TwoWayMergeWizard(IFile fileA, IFile fileB){
-		inputModels = new InputModels(fileA, fileB);
+		inputModels = new InputModels(new IFile[]{fileA, fileB});
 		savePath = fileA.getLocation().toOSString().replace(fileA.getLocation().lastSegment(), "");
 		settings = new TwoWayMergingSettings(inputModels.getCharacteristicDocumentType());
 	}
@@ -49,9 +49,9 @@ public class TwoWayMergeWizard extends Wizard {
 			protected IStatus run(IProgressMonitor monitor) {
 				
 				settings.setRuleBases(TwoWayMergingFacade.getAvailableAtomicRuleBases(inputModels.getCharacteristicDocumentType()));
-				Resource mergedResource = EMFModelAccess.copyResource(inputModels.getResourceA(), savePath, "merged"+inputModels.getResourceA().getURI().lastSegment()+ inputModels.getResourceB().getURI().lastSegment());
+				Resource mergedResource = EMFModelAccess.copyResource(inputModels.getResources().get(0), savePath, "merged"+inputModels.getResources().get(0).getURI().lastSegment()+ inputModels.getResources().get(1).getURI().lastSegment());
 				
-				MergingEngine engine = new MergingEngine(inputModels.getResourceA(), inputModels.getResourceB(), mergedResource, settings);
+				MergingEngine engine = new MergingEngine(inputModels.getResources().get(0), inputModels.getResources().get(1), mergedResource, settings);
 				try {
 					engine.init();
 					PatchEngine interactiveMergeEngine = engine.merge();
