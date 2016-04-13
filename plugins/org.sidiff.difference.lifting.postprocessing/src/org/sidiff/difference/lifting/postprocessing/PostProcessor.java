@@ -155,6 +155,7 @@ public class PostProcessor {
 		for (Iterator<SemanticChangeSet> iterator = difference.getChangeSets().iterator(); iterator.hasNext();) {
 			SemanticChangeSet nextCS = iterator.next();
 			if (nextCS.getChanges().isEmpty()){
+				recognitionEngine.removeMatches(nextCS);
 				difference.getNotOverlappings().remove(nextCS);								
 				iterator.remove();
 			}
