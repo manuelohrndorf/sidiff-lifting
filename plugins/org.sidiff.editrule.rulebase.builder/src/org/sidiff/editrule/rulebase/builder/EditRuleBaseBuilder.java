@@ -85,16 +85,13 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			fullBuild(monitor);
 		} else {
 			IResourceDelta delta = getDelta(getProject());
+			
 			if (delta == null) {
 				fullBuild(monitor);
 			} else {
 				incrementalBuild(delta, monitor);
 			}
 		}
-		
-		buildClass(monitor);
-		
-		addInverseEditRules(monitor);
 		
 		return null;
 	}
@@ -146,8 +143,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		
+		// Update RuleBase accordingly
 		if (editRuleChanged) {
-			// Update RuleBase accordingly
 			buildRuleBase(monitor);
 			editRuleChanged = false;
 		}
@@ -183,14 +181,28 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			e.printStackTrace();
 		}
 
+		// Update RuleBase accordingly
 		if (editRuleChanged) {
-			// Update RuleBase accordingly
 			buildRuleBase(monitor);
+			addInverseEditRules(monitor);
+			buildClass(monitor);
+
 			editRuleChanged = false;
+			
+			// Refresh project:
+			try {
+				getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			} catch (CoreException e2) {
+				// nothing
+			}
 		}
 	}
 	
 	private void buildClass(IProgressMonitor monitor) {
+		
+		if (monitor.isCanceled()) {
+			throw new OperationCanceledException();
+		}
 		
 		if (classBuilder == null) {
 			classBuilder = new EditRuleBaseClassBuilder();
