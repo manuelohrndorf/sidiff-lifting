@@ -3,7 +3,6 @@ package org.sidiff.editrule.rulebase.builder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,8 +44,13 @@ public class EditRuleBaseClassBuilder {
 		Writer out = null;
 		
 		try {
+			if (!path.exists()) {
+				path.getParentFile().mkdirs();
+				path.createNewFile();
+			}
+			
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path)));
-		} catch (FileNotFoundException e1) {
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		

@@ -29,8 +29,9 @@ public class EditRuleAttachmentBuilderLibrary {
 				.getConfigurationElementsFor(EXTENSION_POINT_ID_ATTACHMENT_BUILDER)) {
 
 			try {
-				IEditRuleAttachmentBuilder coRuleBuilder = (IEditRuleAttachmentBuilder) configurationElement.createExecutableExtension("class");
-				attachmentBuilders.add(coRuleBuilder);
+				IEditRuleAttachmentBuilder attachmentBuilder = (IEditRuleAttachmentBuilder) configurationElement.createExecutableExtension("builder");
+				attachmentBuilder.init(configurationElement.getAttribute("attachmentID"));
+				attachmentBuilders.add(attachmentBuilder);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

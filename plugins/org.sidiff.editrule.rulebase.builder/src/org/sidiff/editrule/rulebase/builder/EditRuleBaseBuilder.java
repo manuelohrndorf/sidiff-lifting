@@ -1,8 +1,10 @@
 package org.sidiff.editrule.rulebase.builder;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,8 +40,8 @@ import org.sidiff.editrule.consistency.validation.EditRuleValidation;
 import org.sidiff.editrule.consistency.validation.EditRuleValidator;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
+import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 /**
@@ -50,6 +52,11 @@ import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	public static final String RULE_ATTRIBUTE = "rule";
+	
+	/**
+	 * The name of the java class file of the rule base project.
+	 */
+	public static final String CLASS_FILE =  "RuleBaseProject.java";
 
 	/**
 	 * The global boolean to decide if in the last change there has been some EditRule involved.
@@ -64,7 +71,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * The edit-rule attachment builders of the rulebase project for which this builder is defined.
 	 */
-	private Set<IEditRuleAttachmentBuilder> attachmentBuilder;
+	private Set<IEditRuleAttachmentBuilder> attachmentBuilders;
 	
 	/**
 	 * The class builders of the rulebase project for which this builder is defined.
@@ -189,12 +196,29 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			classBuilder = new EditRuleBaseClassBuilder();
 		}
 		
+		// Get attachment type IDs:
+		Set<String> attachmentTypes = new LinkedHashSet<String>();
+		
+		for (IEditRuleAttachmentBuilder attachmentBuilder: getEditRuleAttachmentBuilder()) {
+			attachmentTypes.add(attachmentBuilder.getID());
+		}
+		
+		// Write class file:
 		String classFile = classBuilder.writeProjectClass(
-				jPackage, 
+				getJavaPackage(), 
 				ruleBaseWrapper.getName(), 
-				ruleBaseWrapper.getRuleBase().getDocumentTypes(), 
+				new LinkedHashSet<String>(ruleBaseWrapper.getRuleBase().getDocumentTypes()), 
 				attachmentTypes);
-		classBuilder.saveProjectClass(classFile, path);
+		classBuilder.saveProjectClass(classFile, getClassFile());
+	}
+	
+	private String getJavaPackage() {
+		return getProject().getFullPath().toString().replaceAll("/", "");
+	}
+	
+	private File getClassFile() {
+		String packagePath = getProject().getRawLocation() + "/" + "src" + "/" + getJavaPackage().replaceAll("\\.", "/") + "/";
+		return new File(packagePath + CLASS_FILE);
 	}
 
 	@Override
@@ -211,14 +235,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		// Delete Rule Base Files:
 		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
 		
-		// TODO: Remove the class file!
-		
 		if (ruleBaseFile.exists()) {
 			ruleBaseFile.delete(true, monitor);
 		}
 		
+		// Remove the class file:
+		File classFile = getClassFile();
+		
+		if (classFile.exists()) {
+			classFile.delete();
+		}
+		
 		ruleBaseWrapper = null;
-		attachmentBuilder = null;
+		attachmentBuilders = null;
 		classBuilder = null;
 	}
 
@@ -480,11 +509,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	private Set<IEditRuleAttachmentBuilder> getEditRuleAttachmentBuilder() {
 		
 		// Create all attachment builder:
-		if (attachmentBuilder == null) {
-			attachmentBuilder = EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
+		if (attachmentBuilders == null) {
+			attachmentBuilders = EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
 		}
 		
-		return attachmentBuilder;
+		return attachmentBuilders;
 	}
 
 	/**

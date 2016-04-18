@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.sidiff.editrule.rulebase.project.ide" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.sidiff.editrule.rulebase.view" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.sidiff.editrule.rulebase.project.ide" id="attachment" name="Edit-Rule Attachment Builder"/>
+         <meta.schema plugin="org.sidiff.editrule.rulebase.view" id="type" name="Rule-Base View"/>
       </appinfo>
       <documentation>
-         
+         This extension point specifies a new rulebase view.
       </documentation>
    </annotation>
 
@@ -17,8 +17,9 @@
          </appinfo>
       </annotation>
       <complexType>
-         <choice>
-            <element ref="builder"/>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="view"/>
+            <element ref="requiredAttachment" minOccurs="0" maxOccurs="unbounded"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,22 +48,42 @@
       </complexType>
    </element>
 
-   <element name="builder">
+   <element name="view">
+      <annotation>
+         <documentation>
+            This extension point specifies a new rulebase view.
+         </documentation>
+      </annotation>
       <complexType>
-         <attribute name="attachmentID" type="string">
+         <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  Unique attachment builder ID.
+                  
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="builder" type="string">
+         <attribute name="factory" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder"/>
+                  <meta.attribute kind="java" basedOn=":org.sidiff.editrule.rulebase.extension.IRuleBaseFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="requiredAttachment">
+      <complexType>
+         <attribute name="attachment" type="string">
+            <annotation>
+               <documentation>
+                  Required attachment types.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="org.sidiff.editrule.rulebase.builder.attachment/builder/@attachmentID"/>
                </appinfo>
             </annotation>
          </attribute>

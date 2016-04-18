@@ -8,6 +8,19 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 public interface IEditRuleAttachmentBuilder {
 
 	/**
+	 * Initializes a new attachment builder.
+	 * 
+	 * @param id
+	 *            The unique ID of this attachment builder.
+	 */
+	public void init(String id);
+	
+	/**
+	 * @return The unique ID of this rule-base builder.
+	 */
+	public String getID();
+	
+	/**
 	 * Builds a co-rules for a corresponding edit-rule.
 	 * 
 	 * @param monitor

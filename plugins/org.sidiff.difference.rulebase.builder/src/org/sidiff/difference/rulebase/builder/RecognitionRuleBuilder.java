@@ -12,11 +12,11 @@ import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecogniti
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RecognitionRuleGeneratorUtil;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
+import org.sidiff.editrule.rulebase.builder.attachment.AbstractEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
-public class RecognitionRuleBuilder implements IEditRuleAttachmentBuilder {
-	
+public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
+
 	@Override
 	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {
 
