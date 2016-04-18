@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.sidiff.feature.lifting"
-      label="SiDiff Semantic Lifting"
+      id="org.sidiff.feature.lifting.rulebase"
+      label="SiDiff Rulebase Builder"
       version="1.0.0"
       provider-name="Software Engineering Group, University of Siegen"
-      plugin="org.sidiff.branding.core">
+      plugin="org.silift.tools.rulebase.branding">
 
-   <description url="http://pi.informatik.uni-siegen.de/projects/SiLift/">
-      All core bundles of the SiDiff Framework for semantic lifting of model differences.
+   <description url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/">
+      SiLift Rulebase Tool plugins, which enable the creation of
+edit rules and generation of corresponding recognition rule used
+in SiLift.
+Additionally the creation of new RuleBase Plug-In Projects including validation 
+and fixing of the created edit rules is supported.
    </description>
 
-   <copyright url="http://pi.informatik.uni-siegen.de/Projekte/SiLift">
-      Copyright (c) 2014 Software Engineering Group, University of
-Siegen. All rights reserved.
+   <copyright url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/">
+      Copyright (c) 2014 Software Engineering Group, University of Siegen. All rights reserved.
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -146,36 +149,58 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
       <update label="SiDiff UpdateSite" url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/updatesite"/>
    </url>
 
+   <requires>
+      <import feature="org.silift.core" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.diagram" version="0.9.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.edit" version="0.9.6" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.henshin.editor" version="0.9.6" match="greaterOrEqual"/>
+      <import feature="org.silift.henshin.extensions" version="0.1.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
-         id="org.sidiff.difference.lifting.recognitionengine"
+         id="org.sidiff.difference.rulebase.builder"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.difference.lifting.postprocessing"
+         id="org.sidiff.difference.rulebase.wrapper"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.difference.lifting.recognitionrulesorter"
+         id="org.sidiff.editrule.consistency.validation"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.difference.lifting.api"
+         id="org.sidiff.editrule.analysis.classification"
          download-size="0"
          install-size="0"
          version="1.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.difference.lifting.ui"
+         id="org.sidiff.editrule.analysis.criticalpairs"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.sidiff.editrule.consistency.fixing"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.sidiff.editrule.consistency.fixing.ide"
          download-size="0"
          install-size="0"
          version="1.0.0"
