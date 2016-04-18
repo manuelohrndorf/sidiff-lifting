@@ -18,8 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="view"/>
-            <element ref="requiredAttachment" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="view" minOccurs="1" maxOccurs="unbounded"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -55,6 +54,9 @@
          </documentation>
       </annotation>
       <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="requiredAttachment" minOccurs="1" maxOccurs="unbounded"/>
+         </choice>
          <attribute name="id" type="string">
             <annotation>
                <documentation>

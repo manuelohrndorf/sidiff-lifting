@@ -86,7 +86,7 @@ public class RuleBaseViewLibrary {
 				}
 				
 				// Attachments:
-				for (IConfigurationElement requiredAttachment : configurationElement.getChildren("attachments")) {
+				for (IConfigurationElement requiredAttachment : configurationElement.getChildren("requiredAttachment")) {
 					requiredAttachments.add(requiredAttachment.getAttribute("attachment"));
 				}
 				
