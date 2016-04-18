@@ -54,9 +54,14 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	public static final String RULE_ATTRIBUTE = "rule";
 	
 	/**
+	 * The name of the java class of the rule base project.
+	 */
+	public static final String RULE_BASE_CLASS =  "RuleBaseProject";
+	
+	/**
 	 * The name of the java class file of the rule base project.
 	 */
-	public static final String CLASS_FILE =  "RuleBaseProject.java";
+	public static final String RULE_BASE_CLASS_FILE = RULE_BASE_CLASS + ".java";
 
 	/**
 	 * The global boolean to decide if in the last change there has been some EditRule involved.
@@ -94,6 +99,24 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		return null;
+	}
+	
+	private void buildRuleBaseProject(IProgressMonitor monitor) {
+		
+		if (editRuleChanged) {
+			buildRuleBase(monitor);
+			addInverseEditRules(monitor);
+			buildRuleBaseClass(monitor);
+
+			editRuleChanged = false;
+			
+			// Refresh project:
+			try {
+				getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			} catch (CoreException e2) {
+				// nothing
+			}
+		}
 	}
 
 	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor) {
@@ -145,10 +168,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		// Update RuleBase accordingly
-		if (editRuleChanged) {
-			buildRuleBase(monitor);
-			editRuleChanged = false;
-		}
+		buildRuleBaseProject(monitor);
 	}
 
 	private void fullBuild(final IProgressMonitor monitor) {
@@ -182,23 +202,10 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 
 		// Update RuleBase accordingly
-		if (editRuleChanged) {
-			buildRuleBase(monitor);
-			addInverseEditRules(monitor);
-			buildClass(monitor);
-
-			editRuleChanged = false;
-			
-			// Refresh project:
-			try {
-				getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			} catch (CoreException e2) {
-				// nothing
-			}
-		}
+		buildRuleBaseProject(monitor);
 	}
 	
-	private void buildClass(IProgressMonitor monitor) {
+	private void buildRuleBaseClass(IProgressMonitor monitor) {
 		
 		if (monitor.isCanceled()) {
 			throw new OperationCanceledException();
@@ -217,20 +224,20 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		
 		// Write class file:
 		String classFile = classBuilder.writeProjectClass(
-				getJavaPackage(), 
+				getRuleBaseClassFileJavaPackage(), 
 				ruleBaseWrapper.getName(), 
 				new LinkedHashSet<String>(ruleBaseWrapper.getRuleBase().getDocumentTypes()), 
 				attachmentTypes);
-		classBuilder.saveProjectClass(classFile, getClassFile());
+		classBuilder.saveProjectClass(classFile, getRuleBaseClassFilePath());
 	}
 	
-	private String getJavaPackage() {
+	private String getRuleBaseClassFileJavaPackage() {
 		return getProject().getFullPath().toString().replaceAll("/", "");
 	}
 	
-	private File getClassFile() {
-		String packagePath = getProject().getRawLocation() + "/" + "src" + "/" + getJavaPackage().replaceAll("\\.", "/") + "/";
-		return new File(packagePath + CLASS_FILE);
+	private File getRuleBaseClassFilePath() {
+		String packagePath = getProject().getLocation() + "/" + "src" + "/" + getRuleBaseClassFileJavaPackage().replaceAll("\\.", "/") + "/";
+		return new File(packagePath + RULE_BASE_CLASS_FILE);
 	}
 
 	@Override
@@ -252,7 +259,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		// Remove the class file:
-		File classFile = getClassFile();
+		File classFile = getRuleBaseClassFilePath();
 		
 		if (classFile.exists()) {
 			classFile.delete();

@@ -17,6 +17,16 @@ public interface IRuleBaseProject {
 	public static final String EXTENSION_POINT_ID_RULEBASE_PROJECT = "org.sidiff.editrule.rulebase.project.runtime.extension";
 	
 	/**
+	 * The (XML) element which contains the rulebase path.  
+	 */
+	public static final String EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT = "project";
+	
+	/**
+	 * The (XML) attribute which contains the rulebase path.  
+	 */
+	public static final String EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT = "rulebase";
+	
+	/**
 	 * The plug-in relative path to the rulebase file.
 	 */
 	public static final String RULEBASE_FILE = "sidiff" + "." + RuleBaseStorage.EXTENSION_RULEBASE;

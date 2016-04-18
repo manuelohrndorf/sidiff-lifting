@@ -44,15 +44,16 @@ public class EditRuleAttachmentBuilderLibrary {
 	 * @return All attachment folders for the build settings.
 	 */
 	public static String[] getAttachmentNewFolders() {
-		String[] newFolders = null;
+		String[] newFolders = new String[0];
+		int newFolderSize = newFolders.length; 
 		
 		// Collect new folders from attachment builders:
 		for (IEditRuleAttachmentBuilder attachmentBuilder : getAttachmentBuilders()) {
 			String[] attachmentFolder = attachmentBuilder.getNewFiles();
-			newFolders = Arrays.copyOf(newFolders, newFolders.length + attachmentFolder.length);
+			newFolders = Arrays.copyOf(newFolders, newFolderSize + attachmentFolder.length);
 
 			for (int i = 0; i < attachmentFolder.length; i++) {
-				newFolders[newFolders.length + i] = attachmentFolder[i];
+				newFolders[newFolderSize + i] = attachmentFolder[i];
 			}
 		}
 		

@@ -72,7 +72,7 @@ public class RuleBaseProjectLibrary {
 				
 				try {
 					IRuleBaseProject rulebaseProject = (IRuleBaseProject) configurationElement
-							.createExecutableExtension("rulebase");
+							.createExecutableExtension(IRuleBaseProject.EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT);
 					rulebases.add(rulebaseProject);
 				} catch (Exception e) {
 					e.printStackTrace();

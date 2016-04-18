@@ -23,6 +23,7 @@ import org.eclipse.pde.ui.templates.PluginReference;
 import org.osgi.framework.Bundle;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.project.ide.Activator;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
@@ -83,22 +84,22 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		String[] newFiles =  new String[] { 
 				IRuleBaseProject.EDIT_RULE_FOLDER + "/", 
 				IRuleBaseProject.RULEBASE_FILE };
+		int newFileSize = newFiles.length;
 		
 		// Collect new files from attachment builders:
 		String[] attachmentFolder = EditRuleAttachmentBuilderLibrary.getAttachmentNewFolders();
-		newFiles = Arrays.copyOf(newFiles, newFiles.length + attachmentFolder.length);
+		newFiles = Arrays.copyOf(newFiles, newFileSize + attachmentFolder.length);
 
 		for (int i = 0; i < attachmentFolder.length; i++) {
-			newFiles[newFiles.length + i] = attachmentFolder[i];
+			newFiles[newFileSize + i] = attachmentFolder[i];
 		}
 		
 		return newFiles;
 	}
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
-		IPluginReference[] result = new IPluginReference[2];
-		result[0] = new PluginReference("org.sidiff.difference.rulebase", null, 0);
-		result[1] = new PluginReference("org.eclipse.emf.henshin.model", null, 0);
+		IPluginReference[] result = new IPluginReference[1];
+		result[0] = new PluginReference("org.sidiff.editrule.rulebase.project.runtime", null, 0);
 		return result;
 	}
 
@@ -137,9 +138,11 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			IPluginModelFactory factory = model.getPluginFactory();
 			IPluginExtension extension = createExtension(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
 			IPluginElement element = factory.createElement(extension);
-			element.setName("rulebase");
+			element.setName(IRuleBaseProject.EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT);
+			
 			// We only assume one attribute at this time ("rulebase")
-			element.setAttribute("rulebase", getStringOption(KEY_PACKAGE_NAME) + "." + "ProjectRuleBase");
+			element.setAttribute(IRuleBaseProject.EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT,
+					getStringOption(KEY_PACKAGE_NAME) + "." + EditRuleBaseBuilder.RULE_BASE_CLASS);
 			extension.add(element);
 			plugin.add(extension);
 		} catch (CoreException e) {
