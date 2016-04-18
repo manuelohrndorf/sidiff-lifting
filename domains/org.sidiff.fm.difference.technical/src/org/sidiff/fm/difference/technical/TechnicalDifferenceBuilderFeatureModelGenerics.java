@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.sidiff.difference.technical.TechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.AbstractTechnicalDifferenceBuilder;
 
 import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPackage;
 
@@ -18,7 +18,7 @@ import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPac
  * 
  * @author dreuling 
  */
-public class TechnicalDifferenceBuilderFeatureModelGenerics extends TechnicalDifferenceBuilder {
+public class TechnicalDifferenceBuilderFeatureModelGenerics extends AbstractTechnicalDifferenceBuilder {
 
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {
