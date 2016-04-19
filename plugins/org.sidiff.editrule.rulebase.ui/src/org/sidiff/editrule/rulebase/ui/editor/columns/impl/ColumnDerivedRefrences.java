@@ -14,12 +14,12 @@ public class ColumnDerivedRefrences implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn derivedRefColumn, TableColumnLayout layout) {
-		layout.setColumnData(derivedRefColumn.getColumn(), new ColumnPixelData(55));
+		layout.setColumnData(derivedRefColumn.getColumn(), new ColumnPixelData(100));
 		
-		derivedRefColumn.getColumn().setText("uses D.R.");
+		derivedRefColumn.getColumn().setText("Derived Features");
 		derivedRefColumn.getColumn().setResizable(false);
 		derivedRefColumn.getColumn().setAlignment(SWT.CENTER);
-		derivedRefColumn.getColumn().setToolTipText("Only for testing purposes");
+		derivedRefColumn.getColumn().setToolTipText("Uses derived features?");
 
 		// LabelProvider for versionColumn
 		derivedRefColumn.setLabelProvider(new CellLabelProvider() {

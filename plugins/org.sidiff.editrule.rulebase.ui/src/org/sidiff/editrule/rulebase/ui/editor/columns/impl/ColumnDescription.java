@@ -21,10 +21,10 @@ public class ColumnDescription implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn descriptionColumn, TableColumnLayout layout) {
-		layout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(50));
+		layout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(50, 200));
 		
 		descriptionColumn.getColumn().setText("Description");
-		descriptionColumn.getColumn().setToolTipText("Description of the Edit Rule");
+		descriptionColumn.getColumn().setToolTipText("Description of the edit rule");
 		
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
@@ -67,6 +67,7 @@ public class ColumnDescription implements IRuleBaseColumn {
 			protected void setValue(Object element, Object value) {
 				EditRuleItemUtil.setDescription((RuleBaseItem) element, (String) value);
 				ruleViewer.update(element, null);
+				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}
 
 		});

@@ -155,7 +155,9 @@ public class EditRuleItemUtil {
 	}
 	
 	public static void setInverseName(RuleBaseItem item, String name) {
-		item.getEditRule().getInverse().getExecuteModule().setName(name);
+		if (item.getEditRule().getInverse() != null) {
+			item.getEditRule().getInverse().getExecuteModule().setName(name);
+		}
 	}
 
 	public static boolean isActiv(RuleBaseItem item) {

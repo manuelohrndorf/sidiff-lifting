@@ -134,6 +134,14 @@ public class EditRuleBaseWrapper {
 			EMFStorage.eSaveAs(rulebaseURI, rulebase);
 		}
 	}
+	
+	/**
+	 * @param changedEditRule
+	 *            A changed edit rule which will be saved.
+	 */
+	public void addChangedEditRule(EditRule changedEditRule) {
+		changedEditRules.add(changedEditRule);
+	}
 
 	/**
 	 * Saves all (Henshin) changed Edit-Rules.

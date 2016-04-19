@@ -21,10 +21,10 @@ public class ColumnRulebaseItem implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn ruleColumn, TableColumnLayout layout) {
-		layout.setColumnData(ruleColumn.getColumn(), new ColumnWeightData(50));
+		layout.setColumnData(ruleColumn.getColumn(), new ColumnWeightData(50, 200));
 		
 		ruleColumn.getColumn().setText("Rule");
-		ruleColumn.getColumn().setToolTipText("Rules of the rule base");
+		ruleColumn.getColumn().setToolTipText("Name of the edit rule");
 		
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
@@ -70,6 +70,7 @@ public class ColumnRulebaseItem implements IRuleBaseColumn {
 			protected void setValue(Object element, Object value) {
 				EditRuleItemUtil.setName((RuleBaseItem) element, (String) value);
 				ruleViewer.update(element, null);
+				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}
 
 		});

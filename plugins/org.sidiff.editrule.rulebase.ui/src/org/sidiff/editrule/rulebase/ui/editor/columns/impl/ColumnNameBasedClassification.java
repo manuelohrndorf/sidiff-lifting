@@ -3,7 +3,7 @@ package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -21,10 +21,10 @@ public class ColumnNameBasedClassification implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn nameBasedClassificationColumn, TableColumnLayout layout) {
-		layout.setColumnData(nameBasedClassificationColumn.getColumn(), new ColumnWeightData(50));
+		layout.setColumnData(nameBasedClassificationColumn.getColumn(), new ColumnPixelData(150));
 		
-		nameBasedClassificationColumn.getColumn().setText("NameBasedClassification");
-		nameBasedClassificationColumn.getColumn().setToolTipText("Name based classification of the Edit Rule");
+		nameBasedClassificationColumn.getColumn().setText("Classification");
+		nameBasedClassificationColumn.getColumn().setToolTipText("Classification of the edit rule");
 		
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
@@ -67,6 +67,7 @@ public class ColumnNameBasedClassification implements IRuleBaseColumn {
 			protected void setValue(Object element, Object value) {
 				EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, 0);
 				ruleViewer.update(element, null);
+				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}
 
 		});

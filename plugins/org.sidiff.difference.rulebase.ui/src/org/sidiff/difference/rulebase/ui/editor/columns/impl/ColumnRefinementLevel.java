@@ -15,7 +15,7 @@ public class ColumnRefinementLevel implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn refinementLevelColumn, TableColumnLayout layout) {
-		layout.setColumnData(refinementLevelColumn.getColumn(), new ColumnPixelData(80));
+		layout.setColumnData(refinementLevelColumn.getColumn(), new ColumnPixelData(100));
 		
 		refinementLevelColumn.getColumn().setText("Refinement");
 		refinementLevelColumn.getColumn().setResizable(false);

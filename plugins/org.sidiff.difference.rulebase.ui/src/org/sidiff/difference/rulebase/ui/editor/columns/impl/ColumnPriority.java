@@ -19,7 +19,7 @@ public class ColumnPriority implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn priorityColumn, TableColumnLayout layout) {
-		layout.setColumnData(priorityColumn.getColumn(), new ColumnPixelData(55));
+		layout.setColumnData(priorityColumn.getColumn(), new ColumnPixelData(100));
 		
 		priorityColumn.getColumn().setText("Priority");
 		priorityColumn.getColumn().setResizable(false);
@@ -68,6 +68,7 @@ public class ColumnPriority implements IRuleBaseColumn {
 					if (newPriority != priority) {
 						RecognitionRuleItemUtil.setPriority((RuleBaseItem) element, newPriority);
 						ruleViewer.update(element, null);
+						editor.setDirty(((RuleBaseItem) element).getEditRule());
 					}
 				} catch (NumberFormatException e) {
 				}

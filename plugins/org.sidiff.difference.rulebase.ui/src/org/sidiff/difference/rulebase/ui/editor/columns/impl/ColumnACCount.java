@@ -15,9 +15,9 @@ public class ColumnACCount implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn numberOfACsColumn, TableColumnLayout layout) {
-		layout.setColumnData(numberOfACsColumn.getColumn(), new ColumnPixelData(80));
+		layout.setColumnData(numberOfACsColumn.getColumn(), new ColumnPixelData(100));
 		
-		numberOfACsColumn.getColumn().setText("Number of ACs");
+		numberOfACsColumn.getColumn().setText("ACs");
 		numberOfACsColumn.getColumn().setResizable(false);
 		numberOfACsColumn.getColumn().setAlignment(SWT.CENTER);
 		numberOfACsColumn.getColumn().setToolTipText("Number of application conditions in recognition rule");

@@ -100,6 +100,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
@@ -694,6 +695,11 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	@Override
 	public boolean isDirty() {
 		return dirty;
+	}
+	
+	public void setDirty(EditRule changedEditRule) {
+		rbManager.addChangedEditRule(changedEditRule);
+		setDirty();
 	}
 	
 	public void setDirty() {

@@ -3,7 +3,7 @@ package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -21,10 +21,10 @@ public class ColumnInverseRule implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn inverseRuleColumn, TableColumnLayout layout) {
-		layout.setColumnData(inverseRuleColumn.getColumn(), new ColumnWeightData(50));
+		layout.setColumnData(inverseRuleColumn.getColumn(), new ColumnPixelData(100));
 		
-		inverseRuleColumn.getColumn().setText("InverseRule");
-		inverseRuleColumn.getColumn().setToolTipText("Inverse Rule");
+		inverseRuleColumn.getColumn().setText("Inverse");
+		inverseRuleColumn.getColumn().setToolTipText("Inverse edit rule");
 		
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
@@ -70,6 +70,7 @@ public class ColumnInverseRule implements IRuleBaseColumn {
 			protected void setValue(Object element, Object value) {
 				EditRuleItemUtil.setInverseName((RuleBaseItem) element, (String) value);
 				ruleViewer.update(element, null);
+				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}
 
 		});

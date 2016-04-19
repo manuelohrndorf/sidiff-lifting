@@ -15,12 +15,12 @@ public class ColumnDependenyCount implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn potDepColumn, TableColumnLayout layout) {
-		layout.setColumnData(potDepColumn.getColumn(), new ColumnPixelData(55));
+		layout.setColumnData(potDepColumn.getColumn(), new ColumnPixelData(100));
 
-		potDepColumn.getColumn().setText("P.D.");
+		potDepColumn.getColumn().setText("Dependencies");
 		potDepColumn.getColumn().setResizable(false);
 		potDepColumn.getColumn().setAlignment(SWT.CENTER);
-		potDepColumn.getColumn().setToolTipText("Incoming source and target potential dependencies (related to this rulebase).");
+		potDepColumn.getColumn().setToolTipText("Incoming source and target potential dependencies (related to this rulebase)");
 
 		// LabelProvider for versionColumn
 		final EditRuleBaseWrapper rbManager = editor.getRulebaseWrapper();

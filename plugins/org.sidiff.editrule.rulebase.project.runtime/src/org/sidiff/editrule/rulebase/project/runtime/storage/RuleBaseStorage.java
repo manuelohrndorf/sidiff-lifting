@@ -25,38 +25,24 @@ public class RuleBaseStorage {
 	 * Edit rule file extension.
 	 */
 	public static final String EXTENSION_EDITRULES = "henshin";
-
-	/**
-	 * This resource set contains all loaded rulebases.
-	 */
-	private static ResourceSetImpl resourceSet;
 	
 	private static ResourceSetImpl getResourceSet() {
 		
-		if (resourceSet == null) {
-			resourceSet = new ResourceSetImpl();
-			
-			// Do not report unknown rulebase attachments:
-			resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
-			
-			// Performance improvements:
-			resourceSet.setURIResourceMap(new HashMap<URI, Resource>());
-			
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		    Map<String, Object> extensionToFactoryMap = reg.getExtensionToFactoryMap();
-		    
-		    extensionToFactoryMap.put(EXTENSION_EDITRULES, new XMIResourceFactoryImpl());
-		    extensionToFactoryMap.put(EXTENSION_RULEBASE, new XMIResourceFactoryImpl());
-		}
+		ResourceSetImpl resourceSet = new ResourceSetImpl();
+
+		// Do not report unknown rulebase attachments:
+		resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
+
+		// Performance improvements:
+		resourceSet.setURIResourceMap(new HashMap<URI, Resource>());
+
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> extensionToFactoryMap = reg.getExtensionToFactoryMap();
+
+		extensionToFactoryMap.put(EXTENSION_EDITRULES, new XMIResourceFactoryImpl());
+		extensionToFactoryMap.put(EXTENSION_RULEBASE, new XMIResourceFactoryImpl());
 		
 		return resourceSet;
-	}
-	
-	/**
-	 * Clears the resource set.
-	 */
-	public static void unloadRuleBases() {
-		resourceSet = null;
 	}
 	
 	/**

@@ -100,6 +100,7 @@ public class ColumnActive implements IRuleBaseColumn {
 				}
 
 				ruleViewer.update(element, null);
+				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}
 
 		});

@@ -15,9 +15,9 @@ public class ColumnParameterCount implements IRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn numberOfParamsColumn, TableColumnLayout layout) {
-		layout.setColumnData(numberOfParamsColumn.getColumn(), new ColumnPixelData(80));
+		layout.setColumnData(numberOfParamsColumn.getColumn(), new ColumnPixelData(100));
 		
-		numberOfParamsColumn.getColumn().setText("Number of Params");
+		numberOfParamsColumn.getColumn().setText("Parameters");
 		numberOfParamsColumn.getColumn().setResizable(false);
 		numberOfParamsColumn.getColumn().setAlignment(SWT.CENTER);
 		numberOfParamsColumn.getColumn().setToolTipText("Number of parameters recognition rule");
