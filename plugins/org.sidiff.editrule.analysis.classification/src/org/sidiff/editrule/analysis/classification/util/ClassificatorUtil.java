@@ -15,7 +15,6 @@ import org.sidiff.editrule.analysis.classification.IClassificator;
  */
 public class ClassificatorUtil {
 
-	// TODO: Matcher priorisieren und eine Liste statt Set zurueck liefern?
 	/**
 	 * Find all available classifiers matching the given document type.
 	 * 
@@ -42,16 +41,14 @@ public class ClassificatorUtil {
 	}
 
 	/**
-	 * Get matcher by its key name.
+	 * Get classifier by its key name.
 	 * 
 	 * @param key
-	 *            The key name of the matcher.
-	 * @param modelA
-	 *            Model A of the comparison
-	 * @param modelB
-	 *            Model B of the comparison
+	 *            The key name of the classifier.
+	 * @param rule
+	 * 				The rule to classify
 	 * 
-	 * @return The matcher with the key name; null otherwise.
+	 * @return The classifier with the key name; null otherwise.
 	 */
 	public static IClassificator getClassificatorByKey(String key, EditRule rule) {
 		for (IClassificator classificator : getAvailableClassificators(rule)) {

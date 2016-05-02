@@ -1,13 +1,14 @@
-package org.sidiff.editrule.analysis.classification;
+package org.sidiff.editrule.analysis.classification.namebased;
 
 import org.sidiff.common.collections.Classifier;
 import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.analysis.classification.IClassificator;
 
 public class NameBasedClassificator implements IClassificator, Classifier<String,EditRule> {
 
 	public static final int ID = 0;
 	public static final String NAME = "Name Based Classificator";
-	public static final String KEY = "Namesbased";
+	public static final String KEY = "Namebased";
 	
 	
 	public NameBasedClassificator() {
