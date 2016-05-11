@@ -16,12 +16,6 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.access.EMFMetaAccess;
-import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
-import org.sidiff.common.emf.extensions.impl.ContainmentCyclePathStep;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
-import org.sidiff.common.emf.extensions.impl.EcoreHelper;
-import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
@@ -46,6 +40,12 @@ import org.sidiff.editrule.generator.serge.generators.actions.SetReferenceGenera
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetAttributeGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetReferenceGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.VariantGenerator;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCycle;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCyclePathStep;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EcoreHelper;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class GenerationActionDelegator {

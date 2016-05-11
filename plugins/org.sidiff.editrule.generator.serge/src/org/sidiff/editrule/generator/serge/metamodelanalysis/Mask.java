@@ -1,4 +1,4 @@
-package org.sidiff.common.emf.extensions.impl;
+package org.sidiff.editrule.generator.serge.metamodelanalysis;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClassifier;

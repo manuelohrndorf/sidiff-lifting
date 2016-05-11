@@ -1,4 +1,4 @@
-package org.sidiff.common.emf.extensions.impl;
+package org.sidiff.editrule.generator.serge.metamodelanalysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.access.EMFMetaAccess;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo.ConstraintType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo.ConstraintType;
 
 /**
  * This singleton class can be used to gather and maintain additional collected

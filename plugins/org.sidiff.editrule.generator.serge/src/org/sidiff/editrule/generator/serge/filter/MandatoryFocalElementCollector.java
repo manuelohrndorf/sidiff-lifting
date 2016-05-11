@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 /**
  * This class collects the user defined classifiers for which dedicated rules
