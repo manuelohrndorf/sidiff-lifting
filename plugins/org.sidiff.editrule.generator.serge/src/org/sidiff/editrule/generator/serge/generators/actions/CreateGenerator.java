@@ -113,9 +113,9 @@ public class CreateGenerator {
 		// create mandatories if any
 		if (childInfo.hasMandatories()) {
 
-			if (config.CREATE_MANDATORY_CHILDREN)
+			if (config.create_mandatory_children)
 				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE);
-			if (config.CREATE_MANDATORY_NEIGHBOURS)
+			if (config.create_mandatory_neighbours)
 				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE);
 
 		}

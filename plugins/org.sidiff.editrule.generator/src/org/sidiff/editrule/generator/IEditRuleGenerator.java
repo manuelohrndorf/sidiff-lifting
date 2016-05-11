@@ -2,6 +2,7 @@ package org.sidiff.editrule.generator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
+import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 
@@ -33,8 +34,9 @@ public interface IEditRuleGenerator {
 	 * @param settings The settings to use for configuration
 	 * @param monitor ProgressMonitor to detect progress
 	 * @throws EditRuleGenerationException 
+	 * @throws WrongSettingsInstanceException 
 	 */
-	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException;
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException, WrongSettingsInstanceException;
 	
 	/**
 	 * Generate the EditRules. The configuration

@@ -47,7 +47,7 @@ public class AttachGenerator {
 		HashMap<EClassifier, Set<EReference>> combinations = getCombinations((EClass) eClassifier);
 		for (Map.Entry<EClassifier, Set<EReference>> c : combinations.entrySet()) {
 			for (EReference s : c.getValue()) {
-				boolean useSimpleName = AttachGenerator.c.USE_SIMPLE_NAMES_ATTACHDETACH && (c.getValue().size() == 1);
+				boolean useSimpleName = AttachGenerator.c.use_simple_names_for_attach_and_detach_operations && (c.getValue().size() == 1);
 				LogUtil.log(LogEvent.NOTICE, "Generating ATTACH: " + GlobalConstants.ATTACH_prefix
 						+ eClassifier.getName() + (!useSimpleName ? "(" + s.getName() + ")" : ""));
 				modules.add(generate((EClass) eClassifier, c.getKey(), s, useSimpleName));
@@ -85,9 +85,9 @@ public class AttachGenerator {
 		Node createNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 		EClassifierInfo childInfo = ECM.getEClassifierInfo(stereotype);
 		if (childInfo.hasMandatories()) {
-			if (c.CREATE_MANDATORY_CHILDREN)
+			if (c.create_mandatory_children)
 				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, createNode, OperationType.ATTACH);
-			if (c.CREATE_MANDATORY_NEIGHBOURS)
+			if (c.create_mandatory_neighbours)
 				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, createNode, OperationType.ATTACH);
 		}
 

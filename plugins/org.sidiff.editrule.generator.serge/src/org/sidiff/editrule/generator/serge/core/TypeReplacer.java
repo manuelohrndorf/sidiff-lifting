@@ -93,9 +93,9 @@ public class TypeReplacer {
 					// create mandatories that might me necessary after
 					// replacements
 					EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
-					if (c.CREATE_MANDATORY_CHILDREN)
+					if (c.create_mandatory_children)
 						ModuleInternalsApplicator.createMandatoryChildren(rule, replacementInfo, nodeInCopy, opType);
-					if (c.CREATE_MANDATORY_NEIGHBOURS)
+					if (c.create_mandatory_neighbours)
 						ModuleInternalsApplicator.createMandatoryNeighbours(rule, replacementInfo, nodeInCopy, opType);
 
 					// Set a new name for this variant module (e.g.

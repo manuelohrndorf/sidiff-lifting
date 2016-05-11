@@ -47,7 +47,7 @@ public abstract class MandatoryDanglingsCollector {
 		}else {
 			// Collect all Classifiers if only the default inclusion option is set to ALWAYS
 			if(CIC.getDefaultFocusInclusionType().equals(InclusionType.ALWAYS)) {
-				result.addAll(Configuration.getInstance().METAMODEL.getEClassifiers());
+				result.addAll(Configuration.getInstance().metaModel.getEClassifiers());
 			}
 		}
 		

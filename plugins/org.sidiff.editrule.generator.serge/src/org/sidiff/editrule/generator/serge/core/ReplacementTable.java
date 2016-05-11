@@ -66,10 +66,10 @@ public class ReplacementTable {
 		EClassifier initialNodeType = initialNode.getType();
 		Set<EClassifier> replacements = new HashSet<EClassifier>();
 		//Vorraussetzung f�r reduced-Pr�fung: Im ReplacementTableHeader sind nur Danglings enthalten.
-		if (!Configuration.getInstance().reduceToAbstractTypeDanglings(opTypeGroup)) {
+		if (!Configuration.getInstance().preferAbstractTypesOnDanglings(opTypeGroup)) {
 			replacements.addAll(ECM.getAllConcreteEClassifiersForAbstract(initialNodeType));
 		}
-		if (!Configuration.getInstance().reduceToSupertypeDanglings(opTypeGroup)) {
+		if (!Configuration.getInstance().preferSuperTypesOnDanglings(opTypeGroup)) {
 			replacements.addAll(ECM.getAllConcreteSubTypes(initialNodeType));
 		}
 
@@ -86,10 +86,10 @@ public class ReplacementTable {
 			EClassifier nextNodeType = nextNode.getType();
 			Set<EClassifier> nextReplacements = new HashSet<EClassifier>();
 			//(siehe oben)
-			if (!Configuration.getInstance().reduceToAbstractTypeDanglings(opTypeGroup)) {
+			if (!Configuration.getInstance().preferAbstractTypesOnDanglings(opTypeGroup)) {
 				nextReplacements.addAll(ECM.getAllConcreteEClassifiersForAbstract(nextNodeType));
 			}
-			if (!Configuration.getInstance().reduceToSupertypeDanglings(opTypeGroup)) {
+			if (!Configuration.getInstance().preferSuperTypesOnDanglings(opTypeGroup)) {
 				nextReplacements.addAll(ECM.getAllConcreteSubTypes(nextNodeType));
 			}
 
