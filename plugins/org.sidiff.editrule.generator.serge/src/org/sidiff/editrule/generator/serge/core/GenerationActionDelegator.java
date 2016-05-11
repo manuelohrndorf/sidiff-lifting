@@ -44,7 +44,7 @@ import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCycle;
 import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCyclePathStep;
 import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
 import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EcoreHelper;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EReferenceInfo;
 import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 
@@ -474,7 +474,7 @@ public class GenerationActionDelegator {
 
 				// Maybe skip when we reduce reference change to supertype
 				if (c.reduceToSupertypeDanglings(OperationTypeGroup.ADD_REMOVE)
-						&& EcoreHelper.isInheritedReference(eRef, contextClass)) {
+						&& EReferenceInfo.isInheritedReference(eRef, contextClass)) {
 					continue;
 				}
 
@@ -713,9 +713,9 @@ public class GenerationActionDelegator {
 							if (!eRef.isContainment() && lower == 0 && upper == 1
 									&& !(eRef.getEOpposite() != null && eRef.getEOpposite().getUpperBound()
 											- eRef.getEOpposite().getLowerBound() > 1)
-									&& ((EcoreHelper.isInheritedReference(eRef, eClassifier)
+									&& ((EReferenceInfo.isInheritedReference(eRef, eClassifier)
 											&& !c.reduceToSupertypeDanglings(OperationTypeGroup.SET_UNSET_REFERENCE))
-											|| !EcoreHelper.isInheritedReference(eRef, eClassifier))) {
+											|| !EReferenceInfo.isInheritedReference(eRef, eClassifier))) {
 
 								SetReferenceGenerator generator = new SetReferenceGenerator(eRef, eClassifier, target);
 								modules.add(generator.generate());
@@ -930,7 +930,7 @@ public class GenerationActionDelegator {
 
 				// Maybe skip when we reduce reference change to supertype
 				if (c.reduceToSupertypeDanglings(OperationTypeGroup.CHANGE_REFERENCE)
-						&& EcoreHelper.isInheritedReference(eRef, contextClass)) {
+						&& EReferenceInfo.isInheritedReference(eRef, contextClass)) {
 					continue;
 				}
 

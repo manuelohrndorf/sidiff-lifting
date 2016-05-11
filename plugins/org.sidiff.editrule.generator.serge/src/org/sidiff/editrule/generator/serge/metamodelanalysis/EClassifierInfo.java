@@ -11,46 +11,107 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * An instance of this class will hold additional information for a specific EClassifier
- * that is collected by the analysis of a meta-model with the {@link EClassiferInfoManagement}.
+ * An instance of this class will hold additional information a selected EClassifier.
+ * It is created during the meta-model analysis with the {@link EClassiferInfoManagement}.
  * These additional information (e.g. mandatory children, optional neighbors, stereotypes, 
- * attached constraints, etc.)
- * are made available by various public methods.
+ * attached constraints, etc.)are made available by various public methods.
  * 
  * @author mrindt
  *
  */
 public class EClassifierInfo {
-
-	public static enum ConstraintType {NAME_UNIQUENESS_LOCAL, NAME_UNIQUENESS_GLOBAL};
 	
+	/**
+	 * The EClassifier which is extended
+	 */
 	private EClassifier theEClassifier = null;
-		
-	private HashMap<EReference, List<EClassifier>> mandatoryChildren = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> mandatoryNeighbours = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> mandatoryParentContext = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> mandatoryNeighbourContext = new HashMap<EReference, List<EClassifier>>();
 	
-	private HashMap<EReference, List<EClassifier>> optionalChildren = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> optionalNeighbours = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> optionalParentContext = new HashMap<EReference, List<EClassifier>>();
-	private HashMap<EReference, List<EClassifier>> optionalNeighbourContext = new HashMap<EReference, List<EClassifier>>();
+	/**
+	 * The direct mandatory children and the respective containment EReference
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> mandatoryChildren = new HashMap<>();
 	
-	private ArrayList<EClassifier> stereotypes = new ArrayList<EClassifier>();
-	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<EClassifier>();
+	/**
+	 * The direct mandatory neighbours and the respective non-containment EReference
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> mandatoryNeighbours = new HashMap<>();
 	
-	private Set<ContainmentCycle> containmentCycles = new HashSet<ContainmentCycle>();
+	/**
+	 * The direct mandatory parent contexts and the respective containment EReference
+	 * (from mandatory parent context to child)
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> mandatoryParentContext = new HashMap<>();
 	
-	private List<Mask> masks = new ArrayList<Mask>(); 
-	private HashMap<ConstraintType,List<Object>> appliedConstraints = new HashMap<ConstraintType,List<Object>>();
+	/**
+	 * The direct mandatory neighbour contexts and the respective non-containment EReference
+	 * (from mandatory neighbour context to neighbour)
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> mandatoryNeighbourContext = new HashMap<>();
 	
-	public enum Map {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
-						OPTIONAL_CHILDREN,OPTIONAL_NEIGHBOURS, OPTIONAL_PARENT_CONTEXT,OPTIONAL_NEIGHBOUR_CONTEXT;
+	/**
+	 * The direct optional children and the respective containment EReference
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> optionalChildren = new HashMap<>();
+	
+	/**
+	 * The direct optional neighbours and the respective non-containment EReference
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> optionalNeighbours = new HashMap<>();
+	
+	/**
+	 * The direct optional parent contexts and the respective containment EReference
+	 * (from optional parent context to child)
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> optionalParentContext = new HashMap<>();
+	
+	/**
+	 * The direct optional neighbour contexts and the respective non-containment EReference
+	 * (from optional neighbour context to neighbour)
+	 * (direct = No super types considered here)
+	 */
+	private HashMap<EReference, List<EClassifier>> optionalNeighbourContext = new HashMap<>();
+	
+	/**
+	 * The list of steretypes attachable to this EClassifier
+	 */
+	private ArrayList<EClassifier> stereotypes = new ArrayList<>();
+	
+	/**
+	 * The list of meta-classes this EClassifier extends
+	 */
+	private ArrayList<EClassifier> extendedMetaClasses = new ArrayList<>();
+	
+	/**
+	 * The set of discovered containment cycles
+	 */
+	private Set<ContainmentCycle> containmentCycles = new HashSet<>();
+	
+	/**
+	 * The set of Masks {@link Mask}
+	 */
+	private List<Mask> masks = new ArrayList<>(); 
+	
+	/**
+	 * All relationships.
+	 */
+	public enum Relationships {	MANDATORY_CHILDREN, MANDATORY_NEIGHBOURS, MANDATORY_PARENT_CONTEXT,
+								OPTIONAL_CHILDREN,OPTIONAL_NEIGHBOURS, OPTIONAL_PARENT_CONTEXT,
+								OPTIONAL_NEIGHBOUR_CONTEXT;
 	}
 		
 	
-	/**	Constructor ************************************************************************/
-	
+	/**	
+	 * Constructor
+	 * 
+	 * @param eClassifier
+	 */
 	public EClassifierInfo(EClassifier eClassifier) {
 		this.theEClassifier = eClassifier;
 	}
@@ -90,9 +151,6 @@ public class EClassifierInfo {
 	public ArrayList<EClassifier> getExtendedMetaClasses() {
 		return extendedMetaClasses;
 	}
-	public HashMap<ConstraintType,List<Object>> getConstraintsAndFlags() {
-		return appliedConstraints;
-	}
 	public List<Mask> getMasks() {
 		return masks;
 	}
@@ -113,10 +171,6 @@ public class EClassifierInfo {
 			stereotypes.add(stereotype);
 		}
 	}
-	
-	public void addConstraint(ConstraintType ctype, List<Object> flags) {
-		appliedConstraints.put(ctype, flags);
-	}
 
 	public void addMask(Mask mask) {
 		if(!masks.contains(mask)) {
@@ -129,9 +183,17 @@ public class EClassifierInfo {
 	
 	/** Convenience methods ***************************************************************/
 	
+	/**
+	 * Returns all direct optional and mandatory children of the given EClassifier
+	 * 
+	 * @param childEClassifier
+	 * 
+	 * @return
+	 * 		A List of EClassifiers and their respective containment EReferences
+	 */
 	public HashMap<EReference, List<EClassifier>> getAllDirectChildren(EClassifier childEClassifier)  {
 		
-		HashMap<EReference, List<EClassifier>> allDirectChildren = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference, List<EClassifier>> allDirectChildren = new HashMap<>();
 		
 		// get all direct children (mandatory and optional)
 		allDirectChildren.putAll(getMandatoryChildren());
@@ -141,10 +203,18 @@ public class EClassifierInfo {
 		
 	}
 	
-	
+	/**
+	 * Returns a set of all EClassifiers which are types of EAttributes contained
+	 * by the given EClassifier
+	 * 
+	 * @param eClassifier
+	 * 
+	 * @return
+	 * 		Set of EClassifier
+	 */
 	public HashSet<EClassifier> getClassifiersOfAttributesForEClassifier(EClassifier eClassifier)
 	{
-		HashSet<EClassifier> attributeClassifiers = new HashSet<EClassifier>();
+		HashSet<EClassifier> attributeClassifiers = new HashSet<>();
 		
 		for (EAttribute eAttribute : eClassifier.eClass().getEAllAttributes())
 			attributeClassifiers.add(eAttribute.getEType());
@@ -152,9 +222,16 @@ public class EClassifierInfo {
 		return attributeClassifiers;
 	}
 	
+	/**
+	 * Returns a set of direct EClassifiers which are mandatory
+	 * children, neihghbours, parent contexts or neighbour contexts
+	 * 
+	 * @return
+	 * 		Set of EClassifiers
+	 */
 	public HashSet<EClassifier> getAllMandatoryClassifiers()
 	{
-		HashSet<EClassifier> mandatoryClassifiers = new HashSet<EClassifier>();
+		HashSet<EClassifier> mandatoryClassifiers = new HashSet<>();
 		
 		//Identify all mandatory children classifiers
 		for (EReference ref : getMandatoryChildren().keySet())
@@ -194,6 +271,13 @@ public class EClassifierInfo {
 		return mandatoryClassifiers;
 	}
 	
+	/**
+	 * Checks if the EClassifier may be a focal Element of a Transformation
+	 * (only considering by meta-model restrictions here).
+	 * 
+	 * @return
+	 * 		true | false
+	 */
 	public boolean selfMayHaveTransformations(){
 		if(!optionalParentContext.isEmpty() || !optionalNeighbourContext.isEmpty()
 				|| (mandatoryParentContext.isEmpty() && mandatoryNeighbourContext.isEmpty())) {
@@ -202,6 +286,12 @@ public class EClassifierInfo {
 		return false;
 	}
 	
+	/**
+	 * Returns whether or not this EClassifier has mandatory children or neighbors
+	 * 
+	 * @return
+	 * 		true | false
+	 */
 	public boolean hasMandatories() {
 		if(!mandatoryChildren.isEmpty() || !mandatoryNeighbours.isEmpty()) {
 			return true;
@@ -209,42 +299,45 @@ public class EClassifierInfo {
 		return false;
 	}
 	
+	/**
+	 * Returns whether or not this EClassifier has a user configured mask.
+	 * 
+	 * @return
+	 * 		true | false
+	 */
 	public boolean hasMasks() {
 		return !masks.isEmpty();
 	}
 	
+	/**
+	 * Returns whether or not this EClassifier is a stereotype
+	 * 
+	 * @return
+	 * 		true | false
+	 */
 	public boolean isStereotype() {
 		return stereotypes.isEmpty();
 	}
 	
+	/**
+	 * Returns whether or not this EClassifier is a meta-class for a stereotype
+	 * 
+	 * @return
+	 * 		true | false
+	 */
 	public boolean isExtendedMetaClass(){
 		return extendedMetaClasses.isEmpty();
 	}
 	
-	public boolean isConstrainedToLocalNameUniqueness() {
-		return !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_LOCAL)==null);
-	}
-	
-	public boolean isConstrainedToGlobalNameUniqueness() {
-		return !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_GLOBAL)==null);
-	}
-	
-	public boolean isOnlyConstrainedToGlobalNameUniqueness() {
-		if( (appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_LOCAL)==null) &&
-		   !(appliedConstraints.get(ConstraintType.NAME_UNIQUENESS_GLOBAL)==null)) {
-				return true;
-			}
-		return false;
-	}
-	
 	/**
 	 * This convenience method returns all mandatory parent contexts and all mandatory neighbour contexts.
+	 * 
 	 * @return
 	 * 			HashMap of EReferences (EReferences from context to EClassifier) and lists of EClassifier (contexts).
 	 */
 	public HashMap<EReference, List<EClassifier>> getMandatoryContexts() {
 		
-		HashMap<EReference, List<EClassifier>> mandatoryContexts = new  HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference, List<EClassifier>> mandatoryContexts = new  HashMap<>();
 		
 		mandatoryContexts.putAll(getMandatoryParentContext());
 		mandatoryContexts.putAll(getMandatoryNeighbourContext());

@@ -8,37 +8,65 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.access.EMFMetaAccess;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo.ConstraintType;
 
 /**
- * This singleton class can be used to gather and maintain additional collected
- * information for EClassifiers of a meta-model (e.g. mandatory children, sub types, stereotypes).
- * It will hold a list of {@link EClassifierInfo}s  and provide
- * convenience query methods on a meta-model.
+ * This class is responsible for the meta-model analysis. It offers methods to
+ * gather and maintain additional collected information for EClassifiers of a meta-model
+ * which are not easily accessible via the regular EMF API (e.g. mandatory children, sub types, stereotypes).
+ * This class uses singleton pattern.
  * 
  * @author mrindt
  *
  */
 public class EClassifierInfoManagement {
 
-	private HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<EClassifier, EClassifierInfo>();
-	private HashMap<EClassifier,Set<EClassifier>> abstractToConcreteEClassifierMap = new HashMap<EClassifier,Set<EClassifier>>();
-	private HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<EClassifier, List<EClassifier>>();
-	private Set<EClassifier> profileStereotypesSet = new HashSet<EClassifier>();
-	private Set<EClassifier> profileMetaclassSet = new HashSet<EClassifier>();
+	/**
+	 * The global storage of EClassifierInfos which are mapped onto the respective EClassifiers
+	 */
+	private HashMap<EClassifier,EClassifierInfo> eClassifierInfoMap = new HashMap<>();
+	
+	/**
+	 * The global storage of concrete EClassifiers which are mapped onto their abstract EClassifiers
+	 */
+	private HashMap<EClassifier,Set<EClassifier>> abstractToConcreteEClassifierMap = new HashMap<>();
+	
+	/**
+	 * The global storage of sub type EClassifiers which are mapped onto their super type EClassifiers
+	 */
+	private HashMap<EClassifier,List<EClassifier>> subTypeMap =  new HashMap<>();
+	
+	
+	/**
+	 * The global set of stereotype EClassifiers
+	 */
+	private Set<EClassifier> profileStereotypesSet = new HashSet<>();
+	
+	/**
+	 * The global set of meta class ("stereotyped") EClassifiers
+	 */
+	private Set<EClassifier> profileMetaclassSet = new HashSet<>();
+	
+	/**
+	 * The global EClassifierInfoManagement Instance
+	 */
 	private static EClassifierInfoManagement instance = null;
+	
+	/**
+	 * Flag to enable/disable stereotype mapping
+	 */
 	private Boolean stereotypeMapping = false;
 	
 	/**
 	 * Singleton.
-	 * @return EClassifierInfoManagement
+	 * 
+	 * @return 
+	 * 		EClassifierInfoManagement
 	 */
 	public static EClassifierInfoManagement getInstance() {
 		if (instance==null) {
@@ -48,14 +76,8 @@ public class EClassifierInfoManagement {
 	}
 	
 	/**
-	 * private Constructor.
-	 */
-	private EClassifierInfoManagement() {
-		
-	}
-	
-	/**
 	 * Main method to gather all relevant information from the metamodel.
+	 * 
 	 * @param enableStereotypeMapping
 	 * @param ePackagesStack
 	 */
@@ -74,32 +96,10 @@ public class EClassifierInfoManagement {
 		ContainmentCycleDetector ccDetector = new ContainmentCycleDetector(enableInnerContainmentCycleDetection);
 		ccDetector.detectContainmentCycles(ePackagesStack);
 	}
-	
-	@Deprecated
-	public static EClassifierInfoManagement getInstance(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
-		if (instance==null) {
-			instance = new EClassifierInfoManagement(enableStereotypeMapping,ePackagesStack);
-		}
-		return instance;
-	}
-	
-	
-	@Deprecated
-	private EClassifierInfoManagement(Boolean enableStereotypeMapping, Stack<EPackage> ePackagesStack) {
-		stereotypeMapping = enableStereotypeMapping;
-
-		//convert stack to array
-		EPackage[] ePackageArray = new EPackage[ePackagesStack.size()];
-		ePackagesStack.toArray(ePackageArray);
 		
-		// find subtype hierarchy & map abstract/concrete classifiers & gather all infos
-		gatherSubtypeHierarchy(ePackageArray);
-		mapConcreteEClassifiersToAbstractSuperTypes(ePackagesStack);
-		gatherAllEClassifierInfos(ePackagesStack);
-	}
-	
 	/**
 	 * Maps each sub type of each classifier to each super type.
+	 * 
 	 * @param ePackages
 	 */
 	private void gatherSubtypeHierarchy(EPackage[] ePackages) {
@@ -109,7 +109,7 @@ public class EClassifierInfoManagement {
 			for(EClassifier eClassifier: ePackage.getEClassifiers()) {
 				if(eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;
-					List<EClassifier> subtypes = new ArrayList<EClassifier>();
+					List<EClassifier> subtypes = new ArrayList<>();
 					// find all sub classes in all ePackages
 					subtypes.addAll(EMFMetaAccess.getAllSubclasses(eClass, ePackages));
 					// and map supertype with subtypes
@@ -123,6 +123,7 @@ public class EClassifierInfoManagement {
 
 	/**
 	 * Maps each concrete specialization to each general abstract EClassifier.
+	 * 
 	 * @param ePackagesStack
 	 */
 	public void mapConcreteEClassifiersToAbstractSuperTypes(Stack<EPackage> ePackagesStack) {
@@ -131,7 +132,7 @@ public class EClassifierInfoManagement {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;
 					if (eClass.isAbstract()) {				
-						Set<EClassifier> concreteEClasses = new HashSet<EClassifier>();
+						Set<EClassifier> concreteEClasses = new HashSet<>();
 						abstractToConcreteEClassifierMap.put(eClassifier, concreteEClasses);
 					}
 				}
@@ -161,7 +162,8 @@ public class EClassifierInfoManagement {
 	}
 	
 	/**
-	 * This collectins all EClassifierInfos for each EClasifier in the meta-model.
+	 * This collects all EClassifierInfos for each EClasifier in the meta-model.
+	 * 
 	 * @param ePackagesStack
 	 */
 	public void gatherAllEClassifierInfos(Stack<EPackage> ePackagesStack) {
@@ -306,12 +308,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method adds a set of several sub types of types contained in an existing sub type set
 	 * in to exactly that existing sub type set.
+	 * 
 	 * @param existingSet
+	 * 
 	 * @return
+	 * 		set of subtypes
 	 */
 	private Set<EClassifier> addSubtypes(Set<EClassifier> existingSet) {
 		if(existingSet==null) return null;
-		Set<EClassifier> newSet = new HashSet<EClassifier>();
+		Set<EClassifier> newSet = new HashSet<>();
 		
 		for(EClassifier exCl: existingSet) {
 			List<EClassifier> subtypes = subTypeMap.get(exCl);
@@ -325,8 +330,11 @@ public class EClassifierInfoManagement {
 
 	/**
 	 * Acess method to get an EClassifierInfo for an EClassifier.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		EClassifierInfo
 	 */
 	public EClassifierInfo getEClassifierInfo(EClassifier eClassifier) {
 		if(eClassifierInfoMap.get(eClassifier)==null) {
@@ -337,11 +345,14 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Returns all concrete specializations for an abstract EClassifer.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		ArrayList of EClassifiers
 	 */
 	public ArrayList<EClassifier> getAllConcreteEClassifiersForAbstract(EClassifier eClassifier) {
-		ArrayList<EClassifier> concreteEClasses = new ArrayList<EClassifier>();
+		ArrayList<EClassifier> concreteEClasses = new ArrayList<>();
 		for(EClassifier abstractEClassifier: abstractToConcreteEClassifierMap.keySet()) {
 			if(abstractEClassifier.equals(eClassifier)) {
 				for(EClassifier replacement :abstractToConcreteEClassifierMap.get(abstractEClassifier)) {
@@ -364,13 +375,17 @@ public class EClassifierInfoManagement {
 	 * It does not returns recursive parent contexts (e.g. parents of parents). One needs to provide information about
 	 * whether or not super types should be used instead of each and every sub type of it. If true, then the sub types
 	 * of an optional super type parent context will be discarded.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @param preferSuperTypes
+	 * 
 	 * @return
+	 * 		A list of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllOptionalParentContext(EClassifier eClassifier, Boolean preferSuperTypes) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		
 		// add direct optional parent contexts
 		map.putAll(getEClassifierInfo(eClassifier).getOptionalParentContext());
@@ -405,13 +420,17 @@ public class EClassifierInfoManagement {
 	 * It does not returns recursive parent contexts (e.g. parents of parents). One needs to provide information about
 	 * whether or not super types should be used instead of each and every sub type of it. If true, then the sub types
 	 * of a mandatory super type parent context will be discarded.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @param preferSuperTypes
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllMandatoryParentContext(EClassifier eClassifier, Boolean preferSuperTypes) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		
 		// add direct mandatory parent contexts
 		map.putAll(getEClassifierInfo(eClassifier).getMandatoryParentContext());
@@ -444,9 +463,13 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method checks if a given context EClassifier occurs somewhere else inside the given
 	 * HashMap as listed EClassifier.
+	 * 
 	 * @param context
+	 * 
 	 * @param map
+	 * 
 	 * @return
+	 * 		 true | false
 	 */
 	public boolean hasMultipleOccurences(EClassifier context, HashMap<EReference,List<EClassifier>> map) {
 		int count = 0;
@@ -468,12 +491,15 @@ public class EClassifierInfoManagement {
 	/**
 	 *  Returns direct optional neighbor contexts and also neighbor contexts resulting from sub types of found neighbor contexts.
 	 * It does not return recursive neighbor contexts (e.g. neighbor contexts of neighbor contexts).
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllOptionalNeighbourContext(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		// add direct optional neighbour contexts
 		map.putAll(getEClassifierInfo(eClassifier).getOptionalNeighbourContext());
 		
@@ -496,12 +522,15 @@ public class EClassifierInfoManagement {
 	/**
 	 *  Returns direct mandatory neighbor contexts and also neighbor contexts resulting from sub types of found neighbor contexts.
 	 * It does not return recursive neighbor contexts (e.g. neighbor contexts of neighbor contexts).
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllMandatoryNeighbourContext(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		// add direct mandatory neighbour contexts
 		map.putAll(getEClassifierInfo(eClassifier).getMandatoryNeighbourContext());
 		
@@ -526,12 +555,15 @@ public class EClassifierInfoManagement {
 	 * This method returns all optional and mandatory neighbor contexts inclusively their sub types.
 	 *  It does not return recursive neighbor contexts (e.g. neighbor context of neighbor context).
 	 *  This is a convenience method which wraps getAllMandatoryNeighbourContext() and getAllOptionalNeighbourContext().
+	 *  
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllNeighbourContexts(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		
 		map.putAll(getAllOptionalNeighbourContext(eClassifier));
 		map.putAll(getAllMandatoryNeighbourContext(eClassifier));
@@ -546,13 +578,17 @@ public class EClassifierInfoManagement {
 	 * whether or not super types should be used instead of each and every sub type of it. If true, then the sub types
 	 * of a mandatory/optional super type parent context will be discarded.
 	 * This is a convenience method which wraps getAllMandatoryParentContext() and getAllOptionalParentContext().
+	 * 
 	 * @param eClass
+	 * 
 	 * @param preferSuperTypes
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllParentContexts(EClassifier eClassifier, Boolean preferSuperTypes ) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		
 		map.putAll(getAllOptionalParentContext(eClassifier, preferSuperTypes));
 		map.putAll(getAllMandatoryParentContext(eClassifier, preferSuperTypes));
@@ -564,12 +600,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct mandatory and optional children and includes their sub types.
 	 * It does not recursively return children of children.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllChildren(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		// add direct children
 		map.putAll(eClassInfo.getOptionalChildren());
@@ -595,12 +634,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct mandatory children and includes their sub types.
 	 * It does not recursively return children of children.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllMandatoryChildren(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		// add direct children
 		map.putAll(eClassInfo.getMandatoryChildren());
@@ -625,12 +667,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct optional children and includes their sub types.
 	 * It does not recursively return children of children.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllOptionalChildren(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		// add direct children
 		map.putAll(eClassInfo.getOptionalChildren());
@@ -654,12 +699,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct mandatory and optional neighbours and includes their sub types.
 	 * It does not recursively return neighbours of neighbours.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllNeighbours(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		
 		// add direct neighbours
@@ -685,12 +733,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct mandatory neighbours and includes their sub types.
 	 * It does not recursively return neighbours of neighbours.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllMandatoryNeighbours(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		
 		// add direct neighbours
@@ -714,12 +765,15 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns direct optional neighbours and includes their sub types.
 	 * It does not recursively return neighbours of neighbours.
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A List of EClassifiers per EReference
 	 */
 	public HashMap<EReference,List<EClassifier>> getAllOptionalNeighbours(EClassifier eClassifier) {
 		
-		HashMap<EReference,List<EClassifier>> map = new HashMap<EReference, List<EClassifier>>();
+		HashMap<EReference,List<EClassifier>> map = new HashMap<>();
 		EClassifierInfo eClassInfo = getEClassifierInfo(eClassifier);
 		
 		// add direct neighbours
@@ -743,11 +797,14 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method returns all (recursive) sub types mapped inside an EClassifierInfo object
 	 * to an EClassifier.
+	 * 
 	 * @param eInfo
+	 * 
 	 * @return
+	 * 		A Set of EClassifierInfos
 	 */
 	public Set<EClassifierInfo> getAllSubTypes(EClassifierInfo eInfo) {
-		Set<EClassifierInfo> set = new HashSet<EClassifierInfo>();
+		Set<EClassifierInfo> set = new HashSet<>();
 		
 		for(EClassifier subType: subTypeMap.get(eInfo.getTheEClassifier())) {
 			EClassifierInfo subEInfo = getEClassifierInfo(subType);
@@ -759,8 +816,11 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Returns the direct subtypes of an EClassifier
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getSubTypes(EClassifier eClassifier){
 		return new HashSet<>(subTypeMap.get(eClassifier));
@@ -768,11 +828,14 @@ public class EClassifierInfoManagement {
 
 	/**
 	 * This method returns all (recursive) sub types mapped to an EClassifier.
+	 * 
 	 * @param eInfo
+	 * 
 	 * @return
+	 * 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getAllSubTypes(EClassifier eClassifier) {
-		Set<EClassifier> set = new HashSet<EClassifier>();
+		Set<EClassifier> set = new HashSet<>();
 		
 		for(EClassifier subType: subTypeMap.get(eClassifier)) {
 			set.add(subType);
@@ -787,10 +850,12 @@ public class EClassifierInfoManagement {
 	 * but its sub types will be.
 	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getAllConcreteSubTypes(EClassifier eClassifier) {
-		Set<EClassifier> set = new HashSet<EClassifier>();
+		Set<EClassifier> set = new HashSet<>();
 		
 		for(EClassifier subType: subTypeMap.get(eClassifier)) {
 			if(subType instanceof EClassifier && !((EClass)subType).isAbstract()) {
@@ -804,13 +869,16 @@ public class EClassifierInfoManagement {
 	/**
 	 * This method delivers all stereotypes that are extending the given eClassifier as meta-class
 	 * and also all stereotypes  that inherit from stereotypes which have this eClassifier as meta-class
-	 * (directly or over further inheritences).
+	 * (directly or over further inheritances).
+	 * 
 	 * @param eClassifier
+	 * 
 	 * @return
+	 * 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getAllStereotypes(EClassifier eClassifier) {
 		
-		Set<EClassifier> connectedStereotypes = new HashSet<EClassifier>();
+		Set<EClassifier> connectedStereotypes = new HashSet<>();
 		EClassifierInfo eInfo = getEClassifierInfo(eClassifier);
 		
 		// all directly connected stereotypes via 'extensions'
@@ -830,52 +898,10 @@ public class EClassifierInfoManagement {
 	}
 	
 	/**
-	 * Delivers all EAttributes that are involved in Constraints defined on the SERGe Config.
-	 * @param eClassifier
-	 * @return
-	 */
-	public List<EAttribute> getAllInheritedEAttributesInvolvedInConstraints(EClassifier eClassifier) {
-		List<EAttribute> additionalEAsToConsider = new ArrayList<EAttribute>();
-		
-		// look up constraints for supertypes of the given eclass
-		if(eClassifier instanceof EClass) {
-			EClass eClass = (EClass) eClassifier;
-			for(EClassifier superType: eClass.getEAllSuperTypes()) {
-				EClassifierInfo supInfo = getEClassifierInfo(superType);
-				Boolean applicationOnSubTypesSet = null;
-
-				// get all eattributes involved in GNU
-				if(supInfo!=null) {
-					if(supInfo.isConstrainedToGlobalNameUniqueness()) {
-						applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(0);
-						if(applicationOnSubTypesSet) {
-							EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_GLOBAL).get(1);
-							if(!additionalEAsToConsider.contains(additional)) {
-								additionalEAsToConsider.add(additional);
-							}
-						}
-					}
-					// get all eattributes involved in LNU
-					if(supInfo.isConstrainedToLocalNameUniqueness()) {
-						applicationOnSubTypesSet = (Boolean) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(0);
-						if(applicationOnSubTypesSet) {
-							EAttribute additional = (EAttribute) supInfo.getConstraintsAndFlags().get(ConstraintType.NAME_UNIQUENESS_LOCAL).get(1);
-							if(!additionalEAsToConsider.contains(additional)) {
-								additionalEAsToConsider.add(additional);
-							}
-						}
-					}
-				}
-			}
-		}	
-		
-		return additionalEAsToConsider;
-	}
-	
-	
-	/**
 	 * Returns all stereotypes contained in a profile.
+	 * 
 	 * @return
+	 * 	 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getAllProfileStereotypes() {	
 		return profileStereotypesSet;
@@ -883,7 +909,9 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Returns all meta-classes of stereotypes contained in a profile.
+	 * 
 	 * @return
+	 * 		A Set of EClassifiers
 	 */
 	public Set<EClassifier> getAllProfileMetaClasses() {
 		return profileMetaclassSet;
@@ -891,8 +919,11 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Checks if an EClassifier in an EClassInfo has any subordinated abstract, mandatory children.
+	 * 
 	 * @param eClassInfo
+	 * 
 	 * @return
+	 * 		true | false
 	 */
 	public boolean hasAbstractMandatoryChildren(EClassifierInfo eClassInfo) {
 		for(EClassifier child: eClassInfo.getMandatoryChildren().values().iterator().next()) {
@@ -905,8 +936,11 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Checks if an EClassifier in an EClassInfo has any subordinated abstract, mandatory neighbours.
+	 * 
 	 * @param eClassInfo
+	 * 
 	 * @return
+	 * 		true | false
 	 */
 	public boolean hasAbstractMandatoryNeighbours(EClassifierInfo eClassInfo) {
 		for(EClassifier neighbour: eClassInfo.getMandatoryNeighbours().values().iterator().next()) {
@@ -919,8 +953,11 @@ public class EClassifierInfoManagement {
 	
 	/**
 	 * Returns the EClassifier according to a given name.
+	 * 
 	 * @param name
+	 * 
 	 * @return
+	 * 		EClassifier
 	 */
 	public EClassifier getEClassifierByName(String name) {
 		for(EClassifier eClassifier:eClassifierInfoMap.keySet()) {
@@ -931,24 +968,6 @@ public class EClassifierInfoManagement {
 		return null;
 	}
 	
-	/**
-	 * Adds constraints, as defined on SERGe config, to an EClassifierInfo.
-	 * @param ctype
-	 * @param eClassifier
-	 * @param flags
-	 */
-	public void addConstraint(ConstraintType ctype, EClassifier eClassifier, List<Object> flags) {
-		EClassifierInfo eInfo = eClassifierInfoMap.get(eClassifier);
-		eInfo.addConstraint(ctype, flags);
-		 // if constraint shall be applied to inheriting classifiers
-		if((Boolean)flags.get(0) == true) {
-			for(EClassifierInfo subEInfo: getAllSubTypes(eInfo)) {
-				// add constraint to inheriting classifiers
-				subEInfo.addConstraint(ctype, flags);
-			}
-		}
-	}
-	
 	/**** private methods *********************************************************************************/
 
 	/**
@@ -956,13 +975,16 @@ public class EClassifierInfoManagement {
 	 * Only the direct target, which is defined in the meta-model, will be added to the set.
 	 * A mandatory child is an EClassifier that is targeted by a containment EReference with
 	 * lowerBound > 0.
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private static Set<EClassifier> findMandatoryChild(EReference eRef) {
 		if (eRef.isContainment() && eRef.getLowerBound() > 0) {
 			EClassifier mC = eRef.getEType();
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(mC);
 			return hs;
 		}
@@ -974,12 +996,15 @@ public class EClassifierInfoManagement {
 	 * Only the direct target, which is defined in the meta-model, will be added to the set.
 	 * An optional child is an EClassifier that is targeted by a containment EReference with
 	 * either (lowerUpperbound-lowerBound > 0) or (upperBound == *).
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private static Set<EClassifier> findOptionalChild(EReference eRef) {
 		if (eRef.isContainment() && (eRef.getUpperBound() - eRef.getLowerBound() > 0 || eRef.getUpperBound() == -1)) {
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(eRef.getEType());
 			return hs;
 		}
@@ -991,13 +1016,16 @@ public class EClassifierInfoManagement {
 	 * Only the direct target, which is defined in the meta-model, will be added to the set.
 	 * A mandatory neighbour is an EClassifier that is targeted by a non-containment EReference with
 	 * lowerBound > 0.
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findMandatoryNeighbour(EReference eRef) {
 
 		if (!eRef.isContainment() && eRef.getLowerBound() > 0) {
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(eRef.getEType());
 			return hs;
 			
@@ -1011,8 +1039,11 @@ public class EClassifierInfoManagement {
 	 * An optional neighbour is an EClassifier that is targeted by a non-containment EReference
 	 * with (upperBound-lowerBound > 0) or (upperBound == *) and it either has an EOpposite which is non-containment
 	 * or no EOpposite at all.
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findOptionalNeighbour(EReference eRef) {
 
@@ -1026,7 +1057,7 @@ public class EClassifierInfoManagement {
 				if(oN instanceof EClass && ((EClass)oN).isAbstract()) {
 					return abstractToConcreteEClassifierMap.get(oN);
 				}
-				HashSet<EClassifier> hs = new HashSet<EClassifier>();
+				HashSet<EClassifier> hs = new HashSet<>();
 				hs.add(oN);
 				return hs;
 			}
@@ -1037,7 +1068,7 @@ public class EClassifierInfoManagement {
 			if(oN instanceof EClass && ((EClass)oN).isAbstract()) {
 				return abstractToConcreteEClassifierMap.get(oN);
 			}
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(oN);
 			return hs;
 		}
@@ -1052,8 +1083,11 @@ public class EClassifierInfoManagement {
 	 * there is a containment EOpposite from a 'parent' back to the 'child'</i>. The following conditions must additionally apply:
 	 * The lowerBound of the EOpposite is > 0 and thus marks the child as mandatory.
 	 * Additionally, only the concrete sub types of abstract parent contexts will be added.
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findMandatoryParentContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
@@ -1065,7 +1099,7 @@ public class EClassifierInfoManagement {
 			if(mPC instanceof EClass && ((EClass)mPC).isAbstract()) {
 				return abstractToConcreteEClassifierMap.get(mPC);
 			}
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(mPC);
 			return hs;
 		}
@@ -1082,7 +1116,9 @@ public class EClassifierInfoManagement {
 	 * Additionally, only the concrete sub types of abstract parent contexts will be added.
 	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findOptionalParentContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
@@ -1094,7 +1130,7 @@ public class EClassifierInfoManagement {
 			if(oPC instanceof EClass && ((EClass)oPC).isAbstract()) {
 				return abstractToConcreteEClassifierMap.get(oPC);
 			}
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(oPC);
 			return hs;
 		}
@@ -1111,7 +1147,9 @@ public class EClassifierInfoManagement {
 	 * Additionally, only the concrete sub types of abstract neighbour contexts will be added.
 	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findOptionalNeighbourContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
@@ -1126,7 +1164,7 @@ public class EClassifierInfoManagement {
 			if (oNC instanceof EClass && ((EClass)oNC).isAbstract()) {
 				return abstractToConcreteEClassifierMap.get(oNC);
 			}
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(oNC);
 			return hs;
 		}	
@@ -1141,8 +1179,11 @@ public class EClassifierInfoManagement {
 	 * there is a non-containment EOpposite from a 'neighbour context' back to the 'neighbour'</i>. The following conditions must additionally apply:
 	 * The lowerBound of the EOpposite is > 0 and thus marks the neighbour as mandatory.
 	 * Additionally, only the concrete sub types of abstract neighbour contexts will be added.
+	 * 
 	 * @param eRef
+	 * 
 	 * @return
+	 *		Set of EClassifiers
 	 */
 	private Set<EClassifier> findMandatoryNeighbourContext(EReference eRef) {
 		EReference eOpposite = eRef.getEOpposite();
@@ -1152,19 +1193,28 @@ public class EClassifierInfoManagement {
 			if(mNC instanceof EClass && ((EClass)mNC).isAbstract()) {
 				return abstractToConcreteEClassifierMap.get(mNC);
 			}
-			HashSet<EClassifier> hs = new HashSet<EClassifier>();
+			HashSet<EClassifier> hs = new HashSet<>();
 			hs.add(mNC);
 			return hs;
 		}
 		return null;
 	}
 	
+	/**
+	 * Adds a mandatory parent context to a child
+	 * 
+	 * @param child
+	 * 
+	 * @param parent
+	 * 
+	 * @param parentRef
+	 */
 	private void add_MPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(child);
 
 		if(eClassInfo.getMandatoryParentContext().get(parentRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(parent);
 			eClassInfo.getMandatoryParentContext().put(parentRef, list);
 		}
@@ -1176,11 +1226,20 @@ public class EClassifierInfoManagement {
 
 	}
 	
+	/**
+	 * Adds an optional parent context to a child
+	 * 
+	 * @param child
+	 * 
+	 * @param parent
+	 * 
+	 * @param parentRef
+	 */
 	private void add_OPC_to_Child(EClassifier child, EClassifier parent, EReference parentRef) {
 		EClassifierInfo eClassInfo = getEClassifierInfo(child);
 		
 		if(eClassInfo.getOptionalParentContext().get(parentRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(parent);
 			eClassInfo.getOptionalParentContext().put(parentRef,list);
 		}
@@ -1191,13 +1250,21 @@ public class EClassifierInfoManagement {
 		}
 	}
 	
-	
+	/**
+	 * Adds an optional child to its parent
+	 * 
+	 * @param parent
+	 * 
+	 * @param child
+	 * 
+	 * @param eRef
+	 */
 	private void add_OC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
 		
 		EClassifierInfo parentInfo = getEClassifierInfo(parent);
 
 		if(parentInfo.getOptionalChildren().get(eRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(child);	
 			parentInfo.getOptionalChildren().put(eRef,list);
 
@@ -1209,13 +1276,21 @@ public class EClassifierInfoManagement {
 		
 	}
 	
-	
+	/**
+	 * Adds a mandatory child to its parent
+	 * 
+	 * @param parent
+	 * 
+	 * @param child
+	 * 
+	 * @param eRef
+	 */
 	private void add_MC_to_parent(EClassifier parent, EClassifier child, EReference eRef) {
 		
 		EClassifierInfo parentInfo = getEClassifierInfo(parent);
 
 		if(parentInfo.getMandatoryChildren().get(eRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(child);	
 			parentInfo.getMandatoryChildren().put(eRef,list);
 
@@ -1227,13 +1302,21 @@ public class EClassifierInfoManagement {
 		
 	}
 	
-	
+	/**
+	 * Adds an optional neighbour to its neighbour
+	 * 
+	 * @param fromNeighbourContext
+	 * 
+	 * @param toOptionalNeighbour
+	 * 
+	 * @param directedRef
+	 */
 	private void add_ON_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toOptionalNeighbour, EReference directedRef) {
 		
 		EClassifierInfo fromNeighbourInfo = getEClassifierInfo(fromNeighbourContext);
 
 		if(fromNeighbourInfo.getOptionalNeighbours().get(directedRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(toOptionalNeighbour);	
 			fromNeighbourInfo.getOptionalNeighbours().put(directedRef,list);
 
@@ -1245,13 +1328,21 @@ public class EClassifierInfoManagement {
 	
 	}
 	
-	
+	/**
+	 * Adds a mandatory neighbour to its neighbour
+	 * 
+	 * @param fromNeighbourContext
+	 * 
+	 * @param toMandatoryNeighbour
+	 * 
+	 * @param directedRef
+	 */
 	private void add_MN_to_Neighbour(EClassifier fromNeighbourContext, EClassifier toMandatoryNeighbour, EReference directedRef) {
 	
 		EClassifierInfo fromNeighbourInfo = getEClassifierInfo(fromNeighbourContext);
 
 		if(fromNeighbourInfo.getMandatoryNeighbours().get(directedRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(toMandatoryNeighbour);	
 			fromNeighbourInfo.getMandatoryNeighbours().put(directedRef,list);
 
@@ -1263,12 +1354,21 @@ public class EClassifierInfoManagement {
 	
 	}
 	
+	/**
+	 * Adds a mandatory neihbor context to a neighbour
+	 * 
+	 * @param toNeighbour
+	 * 
+	 * @param fromNeighbour
+	 * 
+	 * @param directedRef
+	 */
 	private void add_MNC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(toNeighbour);
 		
 		if(eClassInfo.getMandatoryNeighbourContext().get(directedRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(fromNeighbour);
 			eClassInfo.getMandatoryNeighbourContext().put(directedRef,list);	
 		}else{
@@ -1279,12 +1379,21 @@ public class EClassifierInfoManagement {
 		
 	}
 	
+	/**
+	 * Adds an optional neighbour context to its neighbour
+	 * 
+	 * @param toNeighbour
+	 * 
+	 * @param fromNeighbour
+	 * 
+	 * @param directedRef
+	 */
 	private void add_ONC_to_Neighbour(EClassifier toNeighbour, EClassifier fromNeighbour, EReference directedRef) {
 		
 		EClassifierInfo eClassInfo = getEClassifierInfo(toNeighbour);
 		
 		if(eClassInfo.getOptionalNeighbourContext().get(directedRef)==null) {
-			ArrayList<EClassifier> list = new ArrayList<EClassifier>();
+			ArrayList<EClassifier> list = new ArrayList<>();
 			list.add(fromNeighbour);
 			eClassInfo.getOptionalNeighbourContext().put(directedRef,list);	
 		}else{
@@ -1296,11 +1405,12 @@ public class EClassifierInfoManagement {
 	
 
 	/**
-	 * This method checks the current EClass(-ifier) in the EClassifierInfo for containing
+	 * This method checks the current EClassifier in the EClassifierInfo for containing
 	 * EStructuralFeatures that are typically used in profiled meta models.
 	 * Their names normally begin with "base_". If there are such so called "extensions"
 	 * the involved EClassifierInfos are filled with a mapping from meta class to stereotype
 	 * and vice versa.
+	 * 
 	 * @param eClassifierInfo
 	 */
 	private void findAndMapStereotypes(EClassifierInfo eClassifierInfo) {

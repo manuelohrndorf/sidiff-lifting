@@ -1,12 +1,12 @@
 package org.sidiff.editrule.generator.serge.metamodelanalysis;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 
 /**
  * This class provides convenience methods to query multiplicity invariants of
- * EReferences
- * @author mrindt,kehrer
- *
+ * EReferences and inheritance information
  */
 public class EReferenceInfo {
 
@@ -57,5 +57,21 @@ public class EReferenceInfo {
 	public static boolean isContainmentRelated(EReference reference) {
 		return (reference.isContainment())
 				|| (reference.getEOpposite() != null && reference.getEOpposite().isContainment());
+	}
+	
+	/**
+	 * Checks if a given EReference is inherited
+	 * @param the EReference
+	 * @param concerningEClassifier is the class to check on
+	 * @return true if inherited
+	 */
+	public static boolean isInheritedReference(EReference eRef, EClassifier concerningEClassifier) {
+		
+		if(concerningEClassifier instanceof EClass) {
+			EClass eClass = (EClass) concerningEClassifier;
+			return !eClass.getEReferences().contains(eRef);
+		}
+		
+		return true;
 	}
 }

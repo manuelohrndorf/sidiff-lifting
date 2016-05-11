@@ -5,26 +5,36 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 
 /**
- * A Mask object can be created for an EClassifier. In some meta-models, EClassifiers  contain
- * EAttributes which declare additional type information. However, EMF will only return
- * the EClassifier type if  getType()  is called allthough one might more specific
- * information about the type maintained inside the EAttribute.
- * <br/><br/>
- * Thus, this class can be used to create Masks for EClassifiers. A Mask contains the respective EClassifier,
- * the more specific type, the respective EAttribute and a name one would normaly expect the containing EClassifier
- * in its specific representation to have.
- * <br/><br/>
- * An example for the UML: a Mask for a 'Pseudostate' can be created for its EAttribute(-Value) 'kind=initial'. The Mask's
- * name would then be 'InitialPseudostate'.
+ * Some meta-models contain EClassifiers with encapsulated type information; i.e., the type of an instance of this
+ * EClassifier is not as significant as a contained EAttribute with an EEnumLiterals value representing the
+ * actual type of the EClassifier instance (e.g. UML PseudoStates).
+ * Since our editrules should be named as understandable for non expert users as possible, we want to allow the usage of
+ * artificial types (a.k.a. "Masks") representing the encapsulated types while masking the original type names.
  * 
- * @author mrindt
+ * An example Mask for the UML Pseudostate can be 'InitialPseudostate' masking a Pseudostate with its
+ * kind-EAttribute set to "initial".
  *
  */
 public class Mask {
 
+	/**
+	 * The name of the mask
+	 */
 	private String name;
+	
+	/**
+	 * The original classifier which should be masked
+	 */
 	private EClassifier eClassifier;
+	
+	/**
+	 * The EAttribut which contains the type information
+	 */
 	private EAttribute eAttribute;
+	
+	/**
+	 * The type value
+	 */
 	private EEnumLiteral eAttributeValue;
 	
 	public Mask(String name, EClassifier eClassifier, EAttribute eAttribute, EEnumLiteral eAttributeValue) {
@@ -37,6 +47,7 @@ public class Mask {
 	/**
 	 * Returns the name of a mask as set on the SERGe configuration file.
 	 * @return
+	 * 		  name
 	 */
 	public String getName() {
 		return name;
@@ -53,6 +64,7 @@ public class Mask {
 	/**
 	 * Returns the attribute that contains the type.
 	 * @return
+	 * 		 eAttribute
 	 */
 	public EAttribute getEAttributeContainingFakeType() {
 		return eAttribute;
@@ -61,6 +73,7 @@ public class Mask {
 	/**
 	 * Returns which type is actually meant.
 	 * @return
+	 * 		eenumliteral
 	 */
 	public EEnumLiteral getTypeExtension() {
 		return eAttributeValue;
