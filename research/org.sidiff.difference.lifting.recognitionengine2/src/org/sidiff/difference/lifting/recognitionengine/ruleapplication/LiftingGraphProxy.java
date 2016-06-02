@@ -28,7 +28,6 @@ public class LiftingGraphProxy implements EGraph {
 	private static final SymmetricPackage SYMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
 	
 	private static final MatchingModelPackage MATCHING_PACKAGE = MatchingModelPackage.eINSTANCE;
-
 	
 	/**
 	 * The corresponding recognition rule.

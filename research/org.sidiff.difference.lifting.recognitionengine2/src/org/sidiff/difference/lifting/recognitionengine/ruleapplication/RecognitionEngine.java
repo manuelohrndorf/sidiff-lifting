@@ -95,7 +95,7 @@ public class RecognitionEngine {
 	/**
 	 * Set of all rule applications created by the recognizer threads.
 	 */
-	private Set<RuleApplication> recognizerRuleApplications;
+	private Set<RuleApplication> recognizerRuleApplications = new HashSet<RuleApplication>();
 
 	/**
 	 * Matching information:<br/>
@@ -135,19 +135,12 @@ public class RecognitionEngine {
 			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 
 		this.difference = difference;
-
 		this.ruleSorter = ruleSorter;
-		
 		this.useThreadPool = useThreadPool;
-
 		this.numberOfThreads = numberOfThreads;
-		
 		this.rulesPerThread = rulesPerThread;
-		
 		this.calculateEditRuleMatch = calculateEditRuleMatch;
-		
 		this.serializeEditRuleMatch = serializeEditRuleMatch;;
-		
 		this.ruleBases = usedRulebases;
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
@@ -157,8 +150,11 @@ public class RecognitionEngine {
 		// Create a domain map:
 		this.liftingGraphDomainMap = new LiftingGraphDomainMap(difference);
 
+		// Create the graph factory:
+		this.graphFactory = new LiftingGraphFactory(liftingGraphDomainMap, imports, scope);
+		
 		// Get all recognition rules to be used:
-		recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
+		this.recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
 		
 		for (ILiftingRuleBase rb : usedRulebases) {
 			for (Rule rr : rb.getActiveRecognitonUnits()) {
