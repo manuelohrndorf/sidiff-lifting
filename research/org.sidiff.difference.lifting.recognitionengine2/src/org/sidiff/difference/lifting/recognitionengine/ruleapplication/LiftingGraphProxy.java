@@ -124,6 +124,7 @@ public class LiftingGraphProxy implements EGraph {
 			}
 			
 			// Meta-model type node:
+			// FIXME: Separate Attributes / References
 			if (type == EcorePackage.eINSTANCE.getEReference()) {
 				result.addAll(liftingGraphDomainMap.getTypeNodes());
 			}
@@ -160,8 +161,7 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// SymmetricDifference:
 		else if (type == SYMMETRIC_PACKAGE.getSymmetricDifference()) {
-			// TODO: Better solution!?
-			return 1;
+			return getDomain(type, strict).size();
 		}
 		
 		// Model:
@@ -224,6 +224,12 @@ public class LiftingGraphProxy implements EGraph {
 		this.recognitionRule = recognitionRule;
 	}
 	
+	@Override
+	public boolean add(EObject e) {
+		// NOTE: Ignore the adding of the Semantic-Change-Sets...
+		return true; 
+	}
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	
 	@Override
@@ -260,12 +266,6 @@ public class LiftingGraphProxy implements EGraph {
 	public <T> T[] toArray(T[] a) {
 		// Dynamically...
 		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean add(EObject e) {
-		// NOTE: Ignore the adding of the Semantic-Change-Sets...
-		return true; 
 	}
 
 	@Override
