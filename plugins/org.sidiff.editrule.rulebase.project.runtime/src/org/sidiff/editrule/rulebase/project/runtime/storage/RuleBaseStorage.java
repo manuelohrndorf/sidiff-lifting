@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.sidiff.common.logging.LogEvent;
@@ -26,7 +27,7 @@ public class RuleBaseStorage {
 	 */
 	public static final String EXTENSION_EDITRULES = "henshin";
 	
-	private static ResourceSetImpl getResourceSet() {
+	private static ResourceSet getResourceSet() {
 		
 		ResourceSetImpl resourceSet = new ResourceSetImpl();
 
@@ -53,17 +54,7 @@ public class RuleBaseStorage {
 	 * @return the rulebase instance.
 	 */
 	public static RuleBase loadRuleBaseResource(URI rulebasePluginURI) {
-		
-		// Load Rulebase:
-		Resource rulebaseResource = getResourceSet().getResource(rulebasePluginURI, true);
-
-		if ((rulebaseResource == null) || (rulebaseResource.getContents().isEmpty())) {
-			LogUtil.log(LogEvent.ERROR, "No Rule Base found for URI: " + rulebasePluginURI);
-			throw new RuntimeException("No Rule Base found for URI: " + rulebasePluginURI);
-		}
-
-		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
-		return rulebase;
+		return internalLoadRuleBaseResource(rulebasePluginURI, getResourceSet());
 	}
 
 	/**
@@ -80,10 +71,35 @@ public class RuleBaseStorage {
 		// Set URI mapping:
 		URI rulebasePluginIDURI = URI.createPlatformPluginURI(rulebasePluginID + "/", true);
 		URI rulebaseResourceIDURI = URI.createPlatformResourceURI(rulebasePluginID + "/", true);
-		getResourceSet().getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
+		
+		ResourceSet resourceSet = getResourceSet();
+		resourceSet.getURIConverter().getURIMap().put(rulebaseResourceIDURI, rulebasePluginIDURI);
 
 		// Load Rulebase:
 		URI rulebasePluginURI = URI.createPlatformPluginURI(rulebasePluginID + "/" + rulebasePath, true);
-		return loadRuleBaseResource(rulebasePluginURI);
+		return internalLoadRuleBaseResource(rulebasePluginURI, resourceSet);
+	}
+	
+	/**
+	 * Loads an EMF XMI persistent saved rulebase.
+	 * 
+	 * @param uri
+	 *            the URI of the rulbase XMI.
+	 * @param resourceSet
+	 *            the resource set to use.
+	 * @return the rulebase instance.
+	 */
+	private static RuleBase internalLoadRuleBaseResource(URI rulebasePluginURI, ResourceSet resourceSet) {
+		
+		// Load Rulebase:
+		Resource rulebaseResource = resourceSet.getResource(rulebasePluginURI, true);
+
+		if ((rulebaseResource == null) || (rulebaseResource.getContents().isEmpty())) {
+			LogUtil.log(LogEvent.ERROR, "No Rule Base found for URI: " + rulebasePluginURI);
+			throw new RuntimeException("No Rule Base found for URI: " + rulebasePluginURI);
+		}
+
+		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
+		return rulebase;
 	}
 }
