@@ -169,7 +169,12 @@ public class LiftingGraphProxy implements EGraph {
 			int domainASize = modelAGraph.getDomainSize(type, strict);
 			int domainBSize = modelBGraph.getDomainSize(type, strict);
 			
-			return domainASize + domainBSize;
+			// Meta-model type node:
+			if (type == EcorePackage.eINSTANCE.getEReference()) {
+				return domainASize + domainBSize + liftingGraphDomainMap.getTypeNodes().size();
+			} else {
+				return domainASize + domainBSize;
+			}
 		}
 	}
 	
