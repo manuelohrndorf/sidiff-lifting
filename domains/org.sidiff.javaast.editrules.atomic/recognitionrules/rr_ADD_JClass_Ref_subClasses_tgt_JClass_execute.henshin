@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_KopewCkHEeaV2eLf0HWZHw" name="RR: ADD_JClass_Ref_subClasses_tgt_JClass" description="Recognize: Adds to JClass's reference subClasses the target JClass">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_KopewSkHEeaV2eLf0HWZHw" name="rr:addToJClassRefSubClassesToJClass" description="Recognize: Adds to JClass's reference subClasses the target JClass">
+    <parameters xmi:id="_KopewikHEeaV2eLf0HWZHw" name="Selected"/>
+    <parameters xmi:id="_KopewykHEeaV2eLf0HWZHw" name="NewTarget"/>
+    <lhs xmi:id="_KopexCkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_KopexSkHEeaV2eLf0HWZHw" name="B.Selected" incoming="_KopezikHEeaV2eLf0HWZHw _Kope0ykHEeaV2eLf0HWZHw _Kope1SkHEeaV2eLf0HWZHw" outgoing="_Kope0SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_KopexikHEeaV2eLf0HWZHw" name="B.NewTarget" incoming="_KopezykHEeaV2eLf0HWZHw _Kope0SkHEeaV2eLf0HWZHw _Kope0ikHEeaV2eLf0HWZHw" outgoing="_Kope1SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_KopexykHEeaV2eLf0HWZHw" name="" outgoing="_KopezikHEeaV2eLf0HWZHw _KopezykHEeaV2eLf0HWZHw _Kope0CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_KopeyCkHEeaV2eLf0HWZHw" name="" incoming="_Kope0CkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_KopeySkHEeaV2eLf0HWZHw" value="&quot;subClasses&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KopeyikHEeaV2eLf0HWZHw" name="" outgoing="_Kope0ikHEeaV2eLf0HWZHw _Kope0ykHEeaV2eLf0HWZHw _Kope1CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_KopeyykHEeaV2eLf0HWZHw" name="" incoming="_Kope1CkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_KopezCkHEeaV2eLf0HWZHw" value="&quot;superClass&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KopezSkHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_KopezikHEeaV2eLf0HWZHw" source="_KopexykHEeaV2eLf0HWZHw" target="_KopexSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_KopezykHEeaV2eLf0HWZHw" source="_KopexykHEeaV2eLf0HWZHw" target="_KopexikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kope0CkHEeaV2eLf0HWZHw" source="_KopexykHEeaV2eLf0HWZHw" target="_KopeyCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kope0SkHEeaV2eLf0HWZHw" source="_KopexSkHEeaV2eLf0HWZHw" target="_KopexikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_Kope0ikHEeaV2eLf0HWZHw" source="_KopeyikHEeaV2eLf0HWZHw" target="_KopexikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Kope0ykHEeaV2eLf0HWZHw" source="_KopeyikHEeaV2eLf0HWZHw" target="_KopexSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kope1CkHEeaV2eLf0HWZHw" source="_KopeyikHEeaV2eLf0HWZHw" target="_KopeyykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kope1SkHEeaV2eLf0HWZHw" source="_KopexikHEeaV2eLf0HWZHw" target="_KopexSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Kope1ikHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_Kope1ykHEeaV2eLf0HWZHw" name="B.Selected" incoming="_Kope5ykHEeaV2eLf0HWZHw _Kope7CkHEeaV2eLf0HWZHw _Kope7ikHEeaV2eLf0HWZHw" outgoing="_Kope6ikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Kope2CkHEeaV2eLf0HWZHw" name="B.NewTarget" incoming="_Kope6CkHEeaV2eLf0HWZHw _Kope6ikHEeaV2eLf0HWZHw _Kope6ykHEeaV2eLf0HWZHw" outgoing="_Kope7ikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Kope2SkHEeaV2eLf0HWZHw" name="" incoming="_Kope7ykHEeaV2eLf0HWZHw" outgoing="_Kope5ykHEeaV2eLf0HWZHw _Kope6CkHEeaV2eLf0HWZHw _Kope6SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Kope2ikHEeaV2eLf0HWZHw" name="" incoming="_Kope6SkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Kope2ykHEeaV2eLf0HWZHw" name="" incoming="_Kope8CkHEeaV2eLf0HWZHw" outgoing="_Kope6ykHEeaV2eLf0HWZHw _Kope7CkHEeaV2eLf0HWZHw _Kope7SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Kope3CkHEeaV2eLf0HWZHw" name="" incoming="_Kope7SkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Kope3SkHEeaV2eLf0HWZHw" incoming="_Kope8SkHEeaV2eLf0HWZHw" outgoing="_Kope7ykHEeaV2eLf0HWZHw _Kope8CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Kope3ikHEeaV2eLf0HWZHw" value="&quot;ADD_JClass_Ref_subClasses_tgt_JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Kope3ykHEeaV2eLf0HWZHw" value="&quot;Adds to JClass's reference subClasses the target JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Kope4CkHEeaV2eLf0HWZHw" value="&quot;ADD_JClass_Ref_subClasses_tgt_JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Kope4SkHEeaV2eLf0HWZHw" value="&quot;RR: ADD_JClass_Ref_subClasses_tgt_JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Kope4ikHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Kope4ykHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Kope5CkHEeaV2eLf0HWZHw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Kope5SkHEeaV2eLf0HWZHw" value="16">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kope5ikHEeaV2eLf0HWZHw" name="" outgoing="_Kope8SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Kope5ykHEeaV2eLf0HWZHw" source="_Kope2SkHEeaV2eLf0HWZHw" target="_Kope1ykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Kope6CkHEeaV2eLf0HWZHw" source="_Kope2SkHEeaV2eLf0HWZHw" target="_Kope2CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kope6SkHEeaV2eLf0HWZHw" source="_Kope2SkHEeaV2eLf0HWZHw" target="_Kope2ikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kope6ikHEeaV2eLf0HWZHw" source="_Kope1ykHEeaV2eLf0HWZHw" target="_Kope2CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_Kope6ykHEeaV2eLf0HWZHw" source="_Kope2ykHEeaV2eLf0HWZHw" target="_Kope2CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Kope7CkHEeaV2eLf0HWZHw" source="_Kope2ykHEeaV2eLf0HWZHw" target="_Kope1ykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kope7SkHEeaV2eLf0HWZHw" source="_Kope2ykHEeaV2eLf0HWZHw" target="_Kope3CkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kope7ikHEeaV2eLf0HWZHw" source="_Kope2CkHEeaV2eLf0HWZHw" target="_Kope1ykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_Kope7ykHEeaV2eLf0HWZHw" source="_Kope3SkHEeaV2eLf0HWZHw" target="_Kope2SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kope8CkHEeaV2eLf0HWZHw" source="_Kope3SkHEeaV2eLf0HWZHw" target="_Kope2ykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kope8SkHEeaV2eLf0HWZHw" source="_Kope5ikHEeaV2eLf0HWZHw" target="_Kope3SkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Kope8ikHEeaV2eLf0HWZHw" origin="_KopexSkHEeaV2eLf0HWZHw" image="_Kope1ykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope8ykHEeaV2eLf0HWZHw" origin="_KopexikHEeaV2eLf0HWZHw" image="_Kope2CkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope9CkHEeaV2eLf0HWZHw" origin="_KopexykHEeaV2eLf0HWZHw" image="_Kope2SkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope9SkHEeaV2eLf0HWZHw" origin="_KopeyCkHEeaV2eLf0HWZHw" image="_Kope2ikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope9ikHEeaV2eLf0HWZHw" origin="_KopeyikHEeaV2eLf0HWZHw" image="_Kope2ykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope9ykHEeaV2eLf0HWZHw" origin="_KopeyykHEeaV2eLf0HWZHw" image="_Kope3CkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kope-CkHEeaV2eLf0HWZHw" origin="_KopezSkHEeaV2eLf0HWZHw" image="_Kope5ikHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

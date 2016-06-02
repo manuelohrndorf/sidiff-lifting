@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_JAEXYCkHEeaV2eLf0HWZHw" name="RR: change_supertype_of_JArrayType" description="Recognize: CHANGEs JArrayType's reference superClass the target JClass">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_JAEXYSkHEeaV2eLf0HWZHw" name="rr:changeJArrayTypeRefSuperClassToJClass" description="Recognize: Change the EReference superClass">
+    <parameters xmi:id="_JAEXYikHEeaV2eLf0HWZHw" name="Selected"/>
+    <parameters xmi:id="_JAEXYykHEeaV2eLf0HWZHw" name="OldTarget"/>
+    <parameters xmi:id="_JAEXZCkHEeaV2eLf0HWZHw" name="NewTarget"/>
+    <lhs xmi:id="_JAEXZSkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_JAEXZikHEeaV2eLf0HWZHw" name="B.Selected" incoming="_JAE-eSkHEeaV2eLf0HWZHw _JAE-gikHEeaV2eLf0HWZHw _JAE-hykHEeaV2eLf0HWZHw _JAE-iSkHEeaV2eLf0HWZHw" outgoing="_JAE-hSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_JAEXZykHEeaV2eLf0HWZHw" name="A.Selected" incoming="_JAE-eCkHEeaV2eLf0HWZHw _JAE-eikHEeaV2eLf0HWZHw _JAE-fykHEeaV2eLf0HWZHw _JAE-gSkHEeaV2eLf0HWZHw" outgoing="_JAE-fSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_JAEXaCkHEeaV2eLf0HWZHw" name="" outgoing="_JAE-eCkHEeaV2eLf0HWZHw _JAE-eSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_JAEXaSkHEeaV2eLf0HWZHw" name="A.OldTarget" incoming="_JAE-eykHEeaV2eLf0HWZHw _JAE-fSkHEeaV2eLf0HWZHw _JAE-fikHEeaV2eLf0HWZHw" outgoing="_JAE-gSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JAEXaikHEeaV2eLf0HWZHw" name="B.NewTarget" incoming="_JAE-gykHEeaV2eLf0HWZHw _JAE-hSkHEeaV2eLf0HWZHw _JAE-hikHEeaV2eLf0HWZHw" outgoing="_JAE-iSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JAEXaykHEeaV2eLf0HWZHw" name="" outgoing="_JAE-eikHEeaV2eLf0HWZHw _JAE-eykHEeaV2eLf0HWZHw _JAE-fCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-cCkHEeaV2eLf0HWZHw" name="" incoming="_JAE-fCkHEeaV2eLf0HWZHw _JAE-hCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_JAE-cSkHEeaV2eLf0HWZHw" value="&quot;superClass&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_JAE-cikHEeaV2eLf0HWZHw" name="" outgoing="_JAE-fikHEeaV2eLf0HWZHw _JAE-fykHEeaV2eLf0HWZHw _JAE-gCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-cykHEeaV2eLf0HWZHw" name="" incoming="_JAE-gCkHEeaV2eLf0HWZHw _JAE-iCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_JAE-dCkHEeaV2eLf0HWZHw" value="&quot;subClasses&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_JAE-dSkHEeaV2eLf0HWZHw" name="" outgoing="_JAE-gikHEeaV2eLf0HWZHw _JAE-gykHEeaV2eLf0HWZHw _JAE-hCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-dikHEeaV2eLf0HWZHw" name="" outgoing="_JAE-hikHEeaV2eLf0HWZHw _JAE-hykHEeaV2eLf0HWZHw _JAE-iCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-dykHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_JAE-eCkHEeaV2eLf0HWZHw" source="_JAEXaCkHEeaV2eLf0HWZHw" target="_JAEXZykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_JAE-eSkHEeaV2eLf0HWZHw" source="_JAEXaCkHEeaV2eLf0HWZHw" target="_JAEXZikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_JAE-eikHEeaV2eLf0HWZHw" source="_JAEXaykHEeaV2eLf0HWZHw" target="_JAEXZykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-eykHEeaV2eLf0HWZHw" source="_JAEXaykHEeaV2eLf0HWZHw" target="_JAEXaSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-fCkHEeaV2eLf0HWZHw" source="_JAEXaykHEeaV2eLf0HWZHw" target="_JAE-cCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-fSkHEeaV2eLf0HWZHw" source="_JAEXZykHEeaV2eLf0HWZHw" target="_JAEXaSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_JAE-fikHEeaV2eLf0HWZHw" source="_JAE-cikHEeaV2eLf0HWZHw" target="_JAEXaSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-fykHEeaV2eLf0HWZHw" source="_JAE-cikHEeaV2eLf0HWZHw" target="_JAEXZykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-gCkHEeaV2eLf0HWZHw" source="_JAE-cikHEeaV2eLf0HWZHw" target="_JAE-cykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-gSkHEeaV2eLf0HWZHw" source="_JAEXaSkHEeaV2eLf0HWZHw" target="_JAEXZykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_JAE-gikHEeaV2eLf0HWZHw" source="_JAE-dSkHEeaV2eLf0HWZHw" target="_JAEXZikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-gykHEeaV2eLf0HWZHw" source="_JAE-dSkHEeaV2eLf0HWZHw" target="_JAEXaikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-hCkHEeaV2eLf0HWZHw" source="_JAE-dSkHEeaV2eLf0HWZHw" target="_JAE-cCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-hSkHEeaV2eLf0HWZHw" source="_JAEXZikHEeaV2eLf0HWZHw" target="_JAEXaikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_JAE-hikHEeaV2eLf0HWZHw" source="_JAE-dikHEeaV2eLf0HWZHw" target="_JAEXaikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-hykHEeaV2eLf0HWZHw" source="_JAE-dikHEeaV2eLf0HWZHw" target="_JAEXZikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-iCkHEeaV2eLf0HWZHw" source="_JAE-dikHEeaV2eLf0HWZHw" target="_JAE-cykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-iSkHEeaV2eLf0HWZHw" source="_JAEXaikHEeaV2eLf0HWZHw" target="_JAEXZikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_JAE-iikHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_JAE-iykHEeaV2eLf0HWZHw" name="B.Selected" incoming="_JAE-oSkHEeaV2eLf0HWZHw _JAE-qikHEeaV2eLf0HWZHw _JAE-rykHEeaV2eLf0HWZHw _JAE-sSkHEeaV2eLf0HWZHw" outgoing="_JAE-rSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_JAE-jCkHEeaV2eLf0HWZHw" name="A.Selected" incoming="_JAE-oCkHEeaV2eLf0HWZHw _JAE-oikHEeaV2eLf0HWZHw _JAE-pykHEeaV2eLf0HWZHw _JAE-qSkHEeaV2eLf0HWZHw" outgoing="_JAE-pSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_JAE-jSkHEeaV2eLf0HWZHw" name="" outgoing="_JAE-oCkHEeaV2eLf0HWZHw _JAE-oSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_JAE-jikHEeaV2eLf0HWZHw" name="A.OldTarget" incoming="_JAE-oykHEeaV2eLf0HWZHw _JAE-pSkHEeaV2eLf0HWZHw _JAE-pikHEeaV2eLf0HWZHw" outgoing="_JAE-qSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JAE-jykHEeaV2eLf0HWZHw" name="B.NewTarget" incoming="_JAE-qykHEeaV2eLf0HWZHw _JAE-rSkHEeaV2eLf0HWZHw _JAE-rikHEeaV2eLf0HWZHw" outgoing="_JAE-sSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_JAE-kCkHEeaV2eLf0HWZHw" name="" incoming="_JAE-sikHEeaV2eLf0HWZHw" outgoing="_JAE-oikHEeaV2eLf0HWZHw _JAE-oykHEeaV2eLf0HWZHw _JAE-pCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-kSkHEeaV2eLf0HWZHw" name="" incoming="_JAE-pCkHEeaV2eLf0HWZHw _JAE-rCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-kikHEeaV2eLf0HWZHw" name="" incoming="_JAE-sykHEeaV2eLf0HWZHw" outgoing="_JAE-pikHEeaV2eLf0HWZHw _JAE-pykHEeaV2eLf0HWZHw _JAE-qCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-kykHEeaV2eLf0HWZHw" name="" incoming="_JAE-qCkHEeaV2eLf0HWZHw _JAE-sCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-lCkHEeaV2eLf0HWZHw" name="" incoming="_JAE-tCkHEeaV2eLf0HWZHw" outgoing="_JAE-qikHEeaV2eLf0HWZHw _JAE-qykHEeaV2eLf0HWZHw _JAE-rCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-lSkHEeaV2eLf0HWZHw" name="" incoming="_JAE-tSkHEeaV2eLf0HWZHw" outgoing="_JAE-rikHEeaV2eLf0HWZHw _JAE-rykHEeaV2eLf0HWZHw _JAE-sCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_JAE-likHEeaV2eLf0HWZHw" incoming="_JAE-tikHEeaV2eLf0HWZHw" outgoing="_JAE-sikHEeaV2eLf0HWZHw _JAE-sykHEeaV2eLf0HWZHw _JAE-tCkHEeaV2eLf0HWZHw _JAE-tSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_JAE-lykHEeaV2eLf0HWZHw" value="&quot;change_supertype_of_JArrayType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_JAE-mCkHEeaV2eLf0HWZHw" value="&quot;CHANGEs JArrayType's reference superClass the target JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_JAE-mSkHEeaV2eLf0HWZHw" value="&quot;change_supertype_of_JArrayType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_JAE-mikHEeaV2eLf0HWZHw" value="&quot;RR: change_supertype_of_JArrayType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_JAE-mykHEeaV2eLf0HWZHw" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_JAE-nCkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_JAE-nSkHEeaV2eLf0HWZHw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_JAE-nikHEeaV2eLf0HWZHw" value="26">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_JAE-nykHEeaV2eLf0HWZHw" name="" outgoing="_JAE-tikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_JAE-oCkHEeaV2eLf0HWZHw" source="_JAE-jSkHEeaV2eLf0HWZHw" target="_JAE-jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_JAE-oSkHEeaV2eLf0HWZHw" source="_JAE-jSkHEeaV2eLf0HWZHw" target="_JAE-iykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_JAE-oikHEeaV2eLf0HWZHw" source="_JAE-kCkHEeaV2eLf0HWZHw" target="_JAE-jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-oykHEeaV2eLf0HWZHw" source="_JAE-kCkHEeaV2eLf0HWZHw" target="_JAE-jikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-pCkHEeaV2eLf0HWZHw" source="_JAE-kCkHEeaV2eLf0HWZHw" target="_JAE-kSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-pSkHEeaV2eLf0HWZHw" source="_JAE-jCkHEeaV2eLf0HWZHw" target="_JAE-jikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_JAE-pikHEeaV2eLf0HWZHw" source="_JAE-kikHEeaV2eLf0HWZHw" target="_JAE-jikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-pykHEeaV2eLf0HWZHw" source="_JAE-kikHEeaV2eLf0HWZHw" target="_JAE-jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-qCkHEeaV2eLf0HWZHw" source="_JAE-kikHEeaV2eLf0HWZHw" target="_JAE-kykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-qSkHEeaV2eLf0HWZHw" source="_JAE-jikHEeaV2eLf0HWZHw" target="_JAE-jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_JAE-qikHEeaV2eLf0HWZHw" source="_JAE-lCkHEeaV2eLf0HWZHw" target="_JAE-iykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-qykHEeaV2eLf0HWZHw" source="_JAE-lCkHEeaV2eLf0HWZHw" target="_JAE-jykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-rCkHEeaV2eLf0HWZHw" source="_JAE-lCkHEeaV2eLf0HWZHw" target="_JAE-kSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-rSkHEeaV2eLf0HWZHw" source="_JAE-iykHEeaV2eLf0HWZHw" target="_JAE-jykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/superClass"/>
+      </edges>
+      <edges xmi:id="_JAE-rikHEeaV2eLf0HWZHw" source="_JAE-lSkHEeaV2eLf0HWZHw" target="_JAE-jykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_JAE-rykHEeaV2eLf0HWZHw" source="_JAE-lSkHEeaV2eLf0HWZHw" target="_JAE-iykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_JAE-sCkHEeaV2eLf0HWZHw" source="_JAE-lSkHEeaV2eLf0HWZHw" target="_JAE-kykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_JAE-sSkHEeaV2eLf0HWZHw" source="_JAE-jykHEeaV2eLf0HWZHw" target="_JAE-iykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/subClasses"/>
+      </edges>
+      <edges xmi:id="_JAE-sikHEeaV2eLf0HWZHw" source="_JAE-likHEeaV2eLf0HWZHw" target="_JAE-kCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_JAE-sykHEeaV2eLf0HWZHw" source="_JAE-likHEeaV2eLf0HWZHw" target="_JAE-kikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_JAE-tCkHEeaV2eLf0HWZHw" source="_JAE-likHEeaV2eLf0HWZHw" target="_JAE-lCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_JAE-tSkHEeaV2eLf0HWZHw" source="_JAE-likHEeaV2eLf0HWZHw" target="_JAE-lSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_JAE-tikHEeaV2eLf0HWZHw" source="_JAE-nykHEeaV2eLf0HWZHw" target="_JAE-likHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_JAE-tykHEeaV2eLf0HWZHw" origin="_JAEXZikHEeaV2eLf0HWZHw" image="_JAE-iykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-uCkHEeaV2eLf0HWZHw" origin="_JAEXZykHEeaV2eLf0HWZHw" image="_JAE-jCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-uSkHEeaV2eLf0HWZHw" origin="_JAEXaCkHEeaV2eLf0HWZHw" image="_JAE-jSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-uikHEeaV2eLf0HWZHw" origin="_JAEXaSkHEeaV2eLf0HWZHw" image="_JAE-jikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-uykHEeaV2eLf0HWZHw" origin="_JAEXaikHEeaV2eLf0HWZHw" image="_JAE-jykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-vCkHEeaV2eLf0HWZHw" origin="_JAEXaykHEeaV2eLf0HWZHw" image="_JAE-kCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-vSkHEeaV2eLf0HWZHw" origin="_JAE-cCkHEeaV2eLf0HWZHw" image="_JAE-kSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-vikHEeaV2eLf0HWZHw" origin="_JAE-cikHEeaV2eLf0HWZHw" image="_JAE-kikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-vykHEeaV2eLf0HWZHw" origin="_JAE-cykHEeaV2eLf0HWZHw" image="_JAE-kykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-wCkHEeaV2eLf0HWZHw" origin="_JAE-dSkHEeaV2eLf0HWZHw" image="_JAE-lCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-wSkHEeaV2eLf0HWZHw" origin="_JAE-dikHEeaV2eLf0HWZHw" image="_JAE-lSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_JAE-wikHEeaV2eLf0HWZHw" origin="_JAE-dykHEeaV2eLf0HWZHw" image="_JAE-nykHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

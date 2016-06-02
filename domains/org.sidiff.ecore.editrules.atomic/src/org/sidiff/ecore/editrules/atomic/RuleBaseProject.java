@@ -9,20 +9,22 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "Ecore Atomic";
+		return "Edit Rules ";
+	}
+	
+	@Override
+	public Set<String> getDocumentTypes() {
+		Set<String> types = new HashSet<String>();
+		types.add("http://www.eclipse.org/emf/2002/Ecore");
+
+		return types;
 	}
 	
 	@Override
 	public Set<String> getAttachmentTypes() {
 		Set<String> types = new HashSet<String>();
 		types.add("org.sidiff.difference.rulebase.RecognitionRule");
-		return types;
-	}
 
-	@Override
-	public Set<String> getDocumentTypes() {
-		Set<String> types = new HashSet<String>();
-		types.add("http://www.eclipse.org/emf/2002/Ecore");
 		return types;
 	}
 }

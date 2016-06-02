@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_KuWeICkHEeaV2eLf0HWZHw" name="RR: CREATE_JTemplateWrapperInJProject" description="Recognize: Creates one JTemplateWrapper in JProject">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_KuWeISkHEeaV2eLf0HWZHw" name="rr:createJTemplateWrapperInJProject" description="Recognize: creates one JTemplateWrapper in the context: JProject">
+    <parameters xmi:id="_KuWeIikHEeaV2eLf0HWZHw" name="Selected"/>
+    <parameters xmi:id="_KuWeIykHEeaV2eLf0HWZHw" name="New"/>
+    <parameters xmi:id="_KuWeJCkHEeaV2eLf0HWZHw" name="Id"/>
+    <parameters xmi:id="_KuWeJSkHEeaV2eLf0HWZHw" name="Compileable"/>
+    <parameters xmi:id="_KuWeJikHEeaV2eLf0HWZHw" name="Name"/>
+    <parameters xmi:id="_KuWeJykHEeaV2eLf0HWZHw" name="IsExternal"/>
+    <lhs xmi:id="_KuWeKCkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_KuWeKSkHEeaV2eLf0HWZHw" name="B.Selected" incoming="_KuWeNSkHEeaV2eLf0HWZHw" outgoing="_KuWeOCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+      <nodes xmi:id="_KuWeKikHEeaV2eLf0HWZHw" name="" outgoing="_KuWeNCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_KuWeKykHEeaV2eLf0HWZHw" name="B.New" incoming="_KuWeNCkHEeaV2eLf0HWZHw _KuWeNikHEeaV2eLf0HWZHw _KuWeOCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+        <attributes xmi:id="_KuWeLCkHEeaV2eLf0HWZHw" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_KuWeLSkHEeaV2eLf0HWZHw" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_KuWeLikHEeaV2eLf0HWZHw" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_KuWeLykHEeaV2eLf0HWZHw" value="IsExternal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType/isExternal"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KuWeMCkHEeaV2eLf0HWZHw" name="" outgoing="_KuWeNSkHEeaV2eLf0HWZHw _KuWeNikHEeaV2eLf0HWZHw _KuWeNykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_KuWeMSkHEeaV2eLf0HWZHw" name="" incoming="_KuWeNykHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_KuWeMikHEeaV2eLf0HWZHw" value="&quot;simpleTypes&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KuWeMykHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_KuWeNCkHEeaV2eLf0HWZHw" source="_KuWeKikHEeaV2eLf0HWZHw" target="_KuWeKykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_KuWeNSkHEeaV2eLf0HWZHw" source="_KuWeMCkHEeaV2eLf0HWZHw" target="_KuWeKSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_KuWeNikHEeaV2eLf0HWZHw" source="_KuWeMCkHEeaV2eLf0HWZHw" target="_KuWeKykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_KuWeNykHEeaV2eLf0HWZHw" source="_KuWeMCkHEeaV2eLf0HWZHw" target="_KuWeMSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_KuWeOCkHEeaV2eLf0HWZHw" source="_KuWeKSkHEeaV2eLf0HWZHw" target="_KuWeKykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject/simpleTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_KuWeOSkHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_KuWeOikHEeaV2eLf0HWZHw" name="B.Selected" incoming="_KuWeSikHEeaV2eLf0HWZHw" outgoing="_KuWeTSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+      <nodes xmi:id="_KuWeOykHEeaV2eLf0HWZHw" name="" incoming="_KuWeTikHEeaV2eLf0HWZHw" outgoing="_KuWeSSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_KuWePCkHEeaV2eLf0HWZHw" name="B.New" incoming="_KuWeSSkHEeaV2eLf0HWZHw _KuWeSykHEeaV2eLf0HWZHw _KuWeTSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+      </nodes>
+      <nodes xmi:id="_KuWePSkHEeaV2eLf0HWZHw" name="" incoming="_KuWeTykHEeaV2eLf0HWZHw" outgoing="_KuWeSikHEeaV2eLf0HWZHw _KuWeSykHEeaV2eLf0HWZHw _KuWeTCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_KuWePikHEeaV2eLf0HWZHw" name="" incoming="_KuWeTCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_KuWePykHEeaV2eLf0HWZHw" incoming="_KuWeUCkHEeaV2eLf0HWZHw" outgoing="_KuWeTikHEeaV2eLf0HWZHw _KuWeTykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_KuWeQCkHEeaV2eLf0HWZHw" value="&quot;CREATE_JTemplateWrapperInJProject&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_KuWeQSkHEeaV2eLf0HWZHw" value="&quot;Creates one JTemplateWrapper in JProject&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_KuWeQikHEeaV2eLf0HWZHw" value="&quot;CREATE_JTemplateWrapperInJProject&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_KuWeQykHEeaV2eLf0HWZHw" value="&quot;RR: CREATE_JTemplateWrapperInJProject&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_KuWeRCkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_KuWeRSkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_KuWeRikHEeaV2eLf0HWZHw" value="6">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_KuWeRykHEeaV2eLf0HWZHw" value="7">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KuWeSCkHEeaV2eLf0HWZHw" name="" outgoing="_KuWeUCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_KuWeSSkHEeaV2eLf0HWZHw" source="_KuWeOykHEeaV2eLf0HWZHw" target="_KuWePCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_KuWeSikHEeaV2eLf0HWZHw" source="_KuWePSkHEeaV2eLf0HWZHw" target="_KuWeOikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_KuWeSykHEeaV2eLf0HWZHw" source="_KuWePSkHEeaV2eLf0HWZHw" target="_KuWePCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_KuWeTCkHEeaV2eLf0HWZHw" source="_KuWePSkHEeaV2eLf0HWZHw" target="_KuWePikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_KuWeTSkHEeaV2eLf0HWZHw" source="_KuWeOikHEeaV2eLf0HWZHw" target="_KuWePCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject/simpleTypes"/>
+      </edges>
+      <edges xmi:id="_KuWeTikHEeaV2eLf0HWZHw" source="_KuWePykHEeaV2eLf0HWZHw" target="_KuWeOykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_KuWeTykHEeaV2eLf0HWZHw" source="_KuWePykHEeaV2eLf0HWZHw" target="_KuWePSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_KuWeUCkHEeaV2eLf0HWZHw" source="_KuWeSCkHEeaV2eLf0HWZHw" target="_KuWePykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_KuWeUSkHEeaV2eLf0HWZHw" origin="_KuWeKSkHEeaV2eLf0HWZHw" image="_KuWeOikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_KuWeUikHEeaV2eLf0HWZHw" origin="_KuWeKikHEeaV2eLf0HWZHw" image="_KuWeOykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_KuWeUykHEeaV2eLf0HWZHw" origin="_KuWeKykHEeaV2eLf0HWZHw" image="_KuWePCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_KuWeVCkHEeaV2eLf0HWZHw" origin="_KuWeMCkHEeaV2eLf0HWZHw" image="_KuWePSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_KuWeVSkHEeaV2eLf0HWZHw" origin="_KuWeMSkHEeaV2eLf0HWZHw" image="_KuWePikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_KuWeVikHEeaV2eLf0HWZHw" origin="_KuWeMykHEeaV2eLf0HWZHw" image="_KuWeSCkHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

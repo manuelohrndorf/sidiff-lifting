@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_lPGuECkJEeaCE8Nx4Zq_JQ" name="RR: ADD_ConstraintBlock(OpaqueBehavior)_(precondition)_TGT_Constraint" description="Recognize: Adds to OpaqueBehavior's reference precondition the target Constraint">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_lPGuESkJEeaCE8Nx4Zq_JQ" name="rr:addToOpaqueBehavior_precondition_Constraint" description="Recognize: Adds to OpaqueBehavior's reference precondition the target Constraint">
+    <parameters xmi:id="_lPGuEikJEeaCE8Nx4Zq_JQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_lPGuEykJEeaCE8Nx4Zq_JQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_lPGuFCkJEeaCE8Nx4Zq_JQ" name="Lhs">
+      <nodes xmi:id="_lPGuFSkJEeaCE8Nx4Zq_JQ" name="B.Selected" incoming="_lPGuHCkJEeaCE8Nx4Zq_JQ _lPGuHSkJEeaCE8Nx4Zq_JQ" outgoing="_lPGuICkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_lPGuFikJEeaCE8Nx4Zq_JQ" name="B.NewTarget" incoming="_lPGuHikJEeaCE8Nx4Zq_JQ _lPGuICkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_lPGuFykJEeaCE8Nx4Zq_JQ" name="B.null" outgoing="_lPGuHCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <nodes xmi:id="_lPGuGCkJEeaCE8Nx4Zq_JQ" name="" outgoing="_lPGuHSkJEeaCE8Nx4Zq_JQ _lPGuHikJEeaCE8Nx4Zq_JQ _lPGuHykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_lPGuGSkJEeaCE8Nx4Zq_JQ" name="" incoming="_lPGuHykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_lPGuGikJEeaCE8Nx4Zq_JQ" value="&quot;precondition&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_lPGuGykJEeaCE8Nx4Zq_JQ" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_lPGuHCkJEeaCE8Nx4Zq_JQ" source="_lPGuFykJEeaCE8Nx4Zq_JQ" target="_lPGuFSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+      <edges xmi:id="_lPGuHSkJEeaCE8Nx4Zq_JQ" source="_lPGuGCkJEeaCE8Nx4Zq_JQ" target="_lPGuFSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_lPGuHikJEeaCE8Nx4Zq_JQ" source="_lPGuGCkJEeaCE8Nx4Zq_JQ" target="_lPGuFikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_lPGuHykJEeaCE8Nx4Zq_JQ" source="_lPGuGCkJEeaCE8Nx4Zq_JQ" target="_lPGuGSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_lPGuICkJEeaCE8Nx4Zq_JQ" source="_lPGuFSkJEeaCE8Nx4Zq_JQ" target="_lPGuFikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/precondition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_lPGuISkJEeaCE8Nx4Zq_JQ" name="Rhs">
+      <nodes xmi:id="_lPGuIikJEeaCE8Nx4Zq_JQ" name="B.Selected" incoming="_lPGuMSkJEeaCE8Nx4Zq_JQ _lPGuMikJEeaCE8Nx4Zq_JQ" outgoing="_lPGuNSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <nodes xmi:id="_lPGuIykJEeaCE8Nx4Zq_JQ" name="B.NewTarget" incoming="_lPGuMykJEeaCE8Nx4Zq_JQ _lPGuNSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_lPGuJCkJEeaCE8Nx4Zq_JQ" name="B.null" outgoing="_lPGuMSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintBlock"/>
+      </nodes>
+      <nodes xmi:id="_lPGuJSkJEeaCE8Nx4Zq_JQ" name="" incoming="_lPGuNikJEeaCE8Nx4Zq_JQ" outgoing="_lPGuMikJEeaCE8Nx4Zq_JQ _lPGuMykJEeaCE8Nx4Zq_JQ _lPGuNCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_lPGuJikJEeaCE8Nx4Zq_JQ" name="" incoming="_lPGuNCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_lPGuJykJEeaCE8Nx4Zq_JQ" incoming="_lPGuNykJEeaCE8Nx4Zq_JQ" outgoing="_lPGuNikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_lPGuKCkJEeaCE8Nx4Zq_JQ" value="&quot;ADD_ConstraintBlock(OpaqueBehavior)_(precondition)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_lPGuKSkJEeaCE8Nx4Zq_JQ" value="&quot;Adds to OpaqueBehavior's reference precondition the target Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_lPGuKikJEeaCE8Nx4Zq_JQ" value="&quot;ADD_ConstraintBlock(OpaqueBehavior)_(precondition)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_lPGuKykJEeaCE8Nx4Zq_JQ" value="&quot;RR: ADD_ConstraintBlock(OpaqueBehavior)_(precondition)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_lPGuLCkJEeaCE8Nx4Zq_JQ" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_lPGuLSkJEeaCE8Nx4Zq_JQ" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_lPGuLikJEeaCE8Nx4Zq_JQ" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_lPGuLykJEeaCE8Nx4Zq_JQ" value="24">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_lPGuMCkJEeaCE8Nx4Zq_JQ" name="" outgoing="_lPGuNykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_lPGuMSkJEeaCE8Nx4Zq_JQ" source="_lPGuJCkJEeaCE8Nx4Zq_JQ" target="_lPGuIikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+      <edges xmi:id="_lPGuMikJEeaCE8Nx4Zq_JQ" source="_lPGuJSkJEeaCE8Nx4Zq_JQ" target="_lPGuIikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_lPGuMykJEeaCE8Nx4Zq_JQ" source="_lPGuJSkJEeaCE8Nx4Zq_JQ" target="_lPGuIykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_lPGuNCkJEeaCE8Nx4Zq_JQ" source="_lPGuJSkJEeaCE8Nx4Zq_JQ" target="_lPGuJikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_lPGuNSkJEeaCE8Nx4Zq_JQ" source="_lPGuIikJEeaCE8Nx4Zq_JQ" target="_lPGuIykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/precondition"/>
+      </edges>
+      <edges xmi:id="_lPGuNikJEeaCE8Nx4Zq_JQ" source="_lPGuJykJEeaCE8Nx4Zq_JQ" target="_lPGuJSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_lPGuNykJEeaCE8Nx4Zq_JQ" source="_lPGuMCkJEeaCE8Nx4Zq_JQ" target="_lPGuJykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_lPGuOCkJEeaCE8Nx4Zq_JQ" origin="_lPGuFSkJEeaCE8Nx4Zq_JQ" image="_lPGuIikJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_lPGuOSkJEeaCE8Nx4Zq_JQ" origin="_lPGuFikJEeaCE8Nx4Zq_JQ" image="_lPGuIykJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_lPGuOikJEeaCE8Nx4Zq_JQ" origin="_lPGuFykJEeaCE8Nx4Zq_JQ" image="_lPGuJCkJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_lPGuOykJEeaCE8Nx4Zq_JQ" origin="_lPGuGCkJEeaCE8Nx4Zq_JQ" image="_lPGuJSkJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_lPGuPCkJEeaCE8Nx4Zq_JQ" origin="_lPGuGSkJEeaCE8Nx4Zq_JQ" image="_lPGuJikJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_lPGuPSkJEeaCE8Nx4Zq_JQ" origin="_lPGuGykJEeaCE8Nx4Zq_JQ" image="_lPGuMCkJEeaCE8Nx4Zq_JQ"/>
+  </units>
+</henshin:Module>

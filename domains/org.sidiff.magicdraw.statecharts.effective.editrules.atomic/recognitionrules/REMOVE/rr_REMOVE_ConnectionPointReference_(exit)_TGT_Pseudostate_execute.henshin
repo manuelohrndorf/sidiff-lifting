@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Ht0FUCkHEeaV2eLf0HWZHw" name="RR: REMOVE_ConnectionPointReference_(exit)_TGT_Pseudostate" description="Recognize: Removes ConnectionPointReference's reference exit the target Pseudostate">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://Magicdraw/Statecharts/Effective#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Ht0FUSkHEeaV2eLf0HWZHw" name="rr:removeFromConnectionPointReference_exit_Pseudostate" description="Recognize: Removes from ConnectionPointReference's reference exit the target Pseudostate">
+    <parameters xmi:id="_Ht0FUikHEeaV2eLf0HWZHw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//ConnectionPointReference"/>
+    </parameters>
+    <parameters xmi:id="_Ht0FUykHEeaV2eLf0HWZHw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+    </parameters>
+    <lhs xmi:id="_Ht0FVCkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_Ht0FVSkHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Ht0FWykHEeaV2eLf0HWZHw" outgoing="_Ht0FXikHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//ConnectionPointReference"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FVikHEeaV2eLf0HWZHw" name="A.OldTarget" incoming="_Ht0FXCkHEeaV2eLf0HWZHw _Ht0FXikHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FVykHEeaV2eLf0HWZHw" name="" outgoing="_Ht0FWykHEeaV2eLf0HWZHw _Ht0FXCkHEeaV2eLf0HWZHw _Ht0FXSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FWCkHEeaV2eLf0HWZHw" name="" incoming="_Ht0FXSkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Ht0FWSkHEeaV2eLf0HWZHw" value="&quot;exit&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Ht0FWikHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Ht0FWykHEeaV2eLf0HWZHw" source="_Ht0FVykHEeaV2eLf0HWZHw" target="_Ht0FVSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Ht0FXCkHEeaV2eLf0HWZHw" source="_Ht0FVykHEeaV2eLf0HWZHw" target="_Ht0FVikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Ht0FXSkHEeaV2eLf0HWZHw" source="_Ht0FVykHEeaV2eLf0HWZHw" target="_Ht0FWCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Ht0FXikHEeaV2eLf0HWZHw" source="_Ht0FVSkHEeaV2eLf0HWZHw" target="_Ht0FVikHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//ConnectionPointReference/exit"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Ht0FXykHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_Ht0FYCkHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Ht0FbikHEeaV2eLf0HWZHw" outgoing="_Ht0FcSkHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//ConnectionPointReference"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FYSkHEeaV2eLf0HWZHw" name="A.OldTarget" incoming="_Ht0FbykHEeaV2eLf0HWZHw _Ht0FcSkHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FYikHEeaV2eLf0HWZHw" name="" incoming="_Ht0FcikHEeaV2eLf0HWZHw" outgoing="_Ht0FbikHEeaV2eLf0HWZHw _Ht0FbykHEeaV2eLf0HWZHw _Ht0FcCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FYykHEeaV2eLf0HWZHw" name="" incoming="_Ht0FcCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Ht0FZCkHEeaV2eLf0HWZHw" incoming="_Ht0FcykHEeaV2eLf0HWZHw" outgoing="_Ht0FcikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Ht0FZSkHEeaV2eLf0HWZHw" value="&quot;REMOVE_ConnectionPointReference_(exit)_TGT_Pseudostate&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FZikHEeaV2eLf0HWZHw" value="&quot;Removes ConnectionPointReference's reference exit the target Pseudostate&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FZykHEeaV2eLf0HWZHw" value="&quot;REMOVE_ConnectionPointReference_(exit)_TGT_Pseudostate&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FaCkHEeaV2eLf0HWZHw" value="&quot;RR: REMOVE_ConnectionPointReference_(exit)_TGT_Pseudostate&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FaSkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FaikHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FaykHEeaV2eLf0HWZHw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Ht0FbCkHEeaV2eLf0HWZHw" value="6">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Ht0FbSkHEeaV2eLf0HWZHw" name="" outgoing="_Ht0FcykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Ht0FbikHEeaV2eLf0HWZHw" source="_Ht0FYikHEeaV2eLf0HWZHw" target="_Ht0FYCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Ht0FbykHEeaV2eLf0HWZHw" source="_Ht0FYikHEeaV2eLf0HWZHw" target="_Ht0FYSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Ht0FcCkHEeaV2eLf0HWZHw" source="_Ht0FYikHEeaV2eLf0HWZHw" target="_Ht0FYykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Ht0FcSkHEeaV2eLf0HWZHw" source="_Ht0FYCkHEeaV2eLf0HWZHw" target="_Ht0FYSkHEeaV2eLf0HWZHw">
+        <type href="http://Magicdraw/Statecharts/Effective#//ConnectionPointReference/exit"/>
+      </edges>
+      <edges xmi:id="_Ht0FcikHEeaV2eLf0HWZHw" source="_Ht0FZCkHEeaV2eLf0HWZHw" target="_Ht0FYikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Ht0FcykHEeaV2eLf0HWZHw" source="_Ht0FbSkHEeaV2eLf0HWZHw" target="_Ht0FZCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Ht0FdCkHEeaV2eLf0HWZHw" origin="_Ht0FVSkHEeaV2eLf0HWZHw" image="_Ht0FYCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Ht0FdSkHEeaV2eLf0HWZHw" origin="_Ht0FVikHEeaV2eLf0HWZHw" image="_Ht0FYSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Ht0FdikHEeaV2eLf0HWZHw" origin="_Ht0FVykHEeaV2eLf0HWZHw" image="_Ht0FYikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Ht0FdykHEeaV2eLf0HWZHw" origin="_Ht0FWCkHEeaV2eLf0HWZHw" image="_Ht0FYykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Ht0FeCkHEeaV2eLf0HWZHw" origin="_Ht0FWikHEeaV2eLf0HWZHw" image="_Ht0FbSkHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

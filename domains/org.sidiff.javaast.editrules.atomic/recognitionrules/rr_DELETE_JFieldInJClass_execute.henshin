@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Kvu-MCkHEeaV2eLf0HWZHw" name="RR: DELETE_JFieldInJClass" description="Recognize: Deletes one JField in JClass">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Kvu-MSkHEeaV2eLf0HWZHw" name="rr:deleteJFieldInJClass" description="Recognize: deletes one JField in the context: JClass" injectiveMatching="false">
+    <parameters xmi:id="_Kvu-MikHEeaV2eLf0HWZHw" name="Selected"/>
+    <parameters xmi:id="_Kvu-MykHEeaV2eLf0HWZHw" name="toBeDeleted"/>
+    <parameters xmi:id="_Kvu-NCkHEeaV2eLf0HWZHw" name="Existing"/>
+    <lhs xmi:id="_Kvu-NSkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_Kvu-NikHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Kvu-QikHEeaV2eLf0HWZHw" outgoing="_Kvu-RSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-NykHEeaV2eLf0HWZHw" name="A.Existing" incoming="_Kvu-RykHEeaV2eLf0HWZHw _Kvu-SSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-OCkHEeaV2eLf0HWZHw" name="" outgoing="_Kvu-QSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-OSkHEeaV2eLf0HWZHw" name="A.toBeDeleted" incoming="_Kvu-QSkHEeaV2eLf0HWZHw _Kvu-QykHEeaV2eLf0HWZHw _Kvu-RSkHEeaV2eLf0HWZHw _Kvu-RikHEeaV2eLf0HWZHw" outgoing="_Kvu-SSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-OikHEeaV2eLf0HWZHw" name="" outgoing="_Kvu-QikHEeaV2eLf0HWZHw _Kvu-QykHEeaV2eLf0HWZHw _Kvu-RCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-OykHEeaV2eLf0HWZHw" name="" incoming="_Kvu-RCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Kvu-PCkHEeaV2eLf0HWZHw" value="&quot;fields&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kvu-PSkHEeaV2eLf0HWZHw" name="" outgoing="_Kvu-RikHEeaV2eLf0HWZHw _Kvu-RykHEeaV2eLf0HWZHw _Kvu-SCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-PikHEeaV2eLf0HWZHw" name="" incoming="_Kvu-SCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Kvu-PykHEeaV2eLf0HWZHw" value="&quot;type&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kvu-QCkHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Kvu-QSkHEeaV2eLf0HWZHw" source="_Kvu-OCkHEeaV2eLf0HWZHw" target="_Kvu-OSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_Kvu-QikHEeaV2eLf0HWZHw" source="_Kvu-OikHEeaV2eLf0HWZHw" target="_Kvu-NikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kvu-QykHEeaV2eLf0HWZHw" source="_Kvu-OikHEeaV2eLf0HWZHw" target="_Kvu-OSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kvu-RCkHEeaV2eLf0HWZHw" source="_Kvu-OikHEeaV2eLf0HWZHw" target="_Kvu-OykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kvu-RSkHEeaV2eLf0HWZHw" source="_Kvu-NikHEeaV2eLf0HWZHw" target="_Kvu-OSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+      <edges xmi:id="_Kvu-RikHEeaV2eLf0HWZHw" source="_Kvu-PSkHEeaV2eLf0HWZHw" target="_Kvu-OSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kvu-RykHEeaV2eLf0HWZHw" source="_Kvu-PSkHEeaV2eLf0HWZHw" target="_Kvu-NykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kvu-SCkHEeaV2eLf0HWZHw" source="_Kvu-PSkHEeaV2eLf0HWZHw" target="_Kvu-PikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kvu-SSkHEeaV2eLf0HWZHw" source="_Kvu-OSkHEeaV2eLf0HWZHw" target="_Kvu-NykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Kvu-SikHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_Kvu-SykHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Kvu-XikHEeaV2eLf0HWZHw" outgoing="_Kvu-YSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-TCkHEeaV2eLf0HWZHw" name="A.Existing" incoming="_Kvu-YykHEeaV2eLf0HWZHw _Kvu-ZSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-TSkHEeaV2eLf0HWZHw" name="" incoming="_Kvu-ZikHEeaV2eLf0HWZHw" outgoing="_Kvu-XSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-TikHEeaV2eLf0HWZHw" name="A.toBeDeleted" incoming="_Kvu-XSkHEeaV2eLf0HWZHw _Kvu-XykHEeaV2eLf0HWZHw _Kvu-YSkHEeaV2eLf0HWZHw _Kvu-YikHEeaV2eLf0HWZHw" outgoing="_Kvu-ZSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-TykHEeaV2eLf0HWZHw" name="" incoming="_Kvu-ZykHEeaV2eLf0HWZHw" outgoing="_Kvu-XikHEeaV2eLf0HWZHw _Kvu-XykHEeaV2eLf0HWZHw _Kvu-YCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-UCkHEeaV2eLf0HWZHw" name="" incoming="_Kvu-YCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-USkHEeaV2eLf0HWZHw" name="" incoming="_Kvu-aCkHEeaV2eLf0HWZHw" outgoing="_Kvu-YikHEeaV2eLf0HWZHw _Kvu-YykHEeaV2eLf0HWZHw _Kvu-ZCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-UikHEeaV2eLf0HWZHw" name="" incoming="_Kvu-ZCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Kvu-UykHEeaV2eLf0HWZHw" incoming="_Kvu-aSkHEeaV2eLf0HWZHw" outgoing="_Kvu-ZikHEeaV2eLf0HWZHw _Kvu-ZykHEeaV2eLf0HWZHw _Kvu-aCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Kvu-VCkHEeaV2eLf0HWZHw" value="&quot;DELETE_JFieldInJClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-VSkHEeaV2eLf0HWZHw" value="&quot;Deletes one JField in JClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-VikHEeaV2eLf0HWZHw" value="&quot;DELETE_JFieldInJClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-VykHEeaV2eLf0HWZHw" value="&quot;RR: DELETE_JFieldInJClass&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-WCkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-WSkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-WikHEeaV2eLf0HWZHw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Kvu-WykHEeaV2eLf0HWZHw" value="15">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kvu-XCkHEeaV2eLf0HWZHw" name="" outgoing="_Kvu-aSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Kvu-XSkHEeaV2eLf0HWZHw" source="_Kvu-TSkHEeaV2eLf0HWZHw" target="_Kvu-TikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_Kvu-XikHEeaV2eLf0HWZHw" source="_Kvu-TykHEeaV2eLf0HWZHw" target="_Kvu-SykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kvu-XykHEeaV2eLf0HWZHw" source="_Kvu-TykHEeaV2eLf0HWZHw" target="_Kvu-TikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kvu-YCkHEeaV2eLf0HWZHw" source="_Kvu-TykHEeaV2eLf0HWZHw" target="_Kvu-UCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kvu-YSkHEeaV2eLf0HWZHw" source="_Kvu-SykHEeaV2eLf0HWZHw" target="_Kvu-TikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+      <edges xmi:id="_Kvu-YikHEeaV2eLf0HWZHw" source="_Kvu-USkHEeaV2eLf0HWZHw" target="_Kvu-TikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kvu-YykHEeaV2eLf0HWZHw" source="_Kvu-USkHEeaV2eLf0HWZHw" target="_Kvu-TCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kvu-ZCkHEeaV2eLf0HWZHw" source="_Kvu-USkHEeaV2eLf0HWZHw" target="_Kvu-UikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kvu-ZSkHEeaV2eLf0HWZHw" source="_Kvu-TikHEeaV2eLf0HWZHw" target="_Kvu-TCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <edges xmi:id="_Kvu-ZikHEeaV2eLf0HWZHw" source="_Kvu-UykHEeaV2eLf0HWZHw" target="_Kvu-TSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kvu-ZykHEeaV2eLf0HWZHw" source="_Kvu-UykHEeaV2eLf0HWZHw" target="_Kvu-TykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kvu-aCkHEeaV2eLf0HWZHw" source="_Kvu-UykHEeaV2eLf0HWZHw" target="_Kvu-USkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kvu-aSkHEeaV2eLf0HWZHw" source="_Kvu-XCkHEeaV2eLf0HWZHw" target="_Kvu-UykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Kvu-aikHEeaV2eLf0HWZHw" origin="_Kvu-NikHEeaV2eLf0HWZHw" image="_Kvu-SykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-aykHEeaV2eLf0HWZHw" origin="_Kvu-NykHEeaV2eLf0HWZHw" image="_Kvu-TCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-bCkHEeaV2eLf0HWZHw" origin="_Kvu-OCkHEeaV2eLf0HWZHw" image="_Kvu-TSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-bSkHEeaV2eLf0HWZHw" origin="_Kvu-OSkHEeaV2eLf0HWZHw" image="_Kvu-TikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-bikHEeaV2eLf0HWZHw" origin="_Kvu-OikHEeaV2eLf0HWZHw" image="_Kvu-TykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-bykHEeaV2eLf0HWZHw" origin="_Kvu-OykHEeaV2eLf0HWZHw" image="_Kvu-UCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-cCkHEeaV2eLf0HWZHw" origin="_Kvu-PSkHEeaV2eLf0HWZHw" image="_Kvu-USkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-cSkHEeaV2eLf0HWZHw" origin="_Kvu-PikHEeaV2eLf0HWZHw" image="_Kvu-UikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kvu-cikHEeaV2eLf0HWZHw" origin="_Kvu-QCkHEeaV2eLf0HWZHw" image="_Kvu-XCkHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

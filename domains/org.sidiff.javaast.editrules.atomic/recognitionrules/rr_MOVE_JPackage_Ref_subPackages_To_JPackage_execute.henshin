@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Kzv7gCkHEeaV2eLf0HWZHw" name="RR: MOVE_JPackage_Ref_subPackages_To_JPackage" description="Recognize: MOVEs JPackage with reference subPackages to JPackage">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Kzv7gSkHEeaV2eLf0HWZHw" name="rr:moveJPackageRefSubPackagesToJPackage" description="Recognize: Moves one JPackage with reference subPackages to JPackage">
+    <parameters xmi:id="_Kzv7gikHEeaV2eLf0HWZHw" name="Selected"/>
+    <parameters xmi:id="_Kzv7gykHEeaV2eLf0HWZHw" name="OldSource"/>
+    <parameters xmi:id="_Kzv7hCkHEeaV2eLf0HWZHw" name="NewSource"/>
+    <lhs xmi:id="_Kzv7hSkHEeaV2eLf0HWZHw" name="Lhs">
+      <nodes xmi:id="_Kzv7hikHEeaV2eLf0HWZHw" name="B.Selected" incoming="_Kzv7kSkHEeaV2eLf0HWZHw _Kzv7lykHEeaV2eLf0HWZHw _Kzv7mSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7hykHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Kzv7kCkHEeaV2eLf0HWZHw _Kzv7kykHEeaV2eLf0HWZHw _Kzv7lSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7iCkHEeaV2eLf0HWZHw" name="" outgoing="_Kzv7kCkHEeaV2eLf0HWZHw _Kzv7kSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7iSkHEeaV2eLf0HWZHw" name="A.OldSource" incoming="_Kzv7kikHEeaV2eLf0HWZHw" outgoing="_Kzv7lSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7iikHEeaV2eLf0HWZHw" name="B.NewSource" incoming="_Kzv7likHEeaV2eLf0HWZHw" outgoing="_Kzv7mSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7iykHEeaV2eLf0HWZHw" name="" outgoing="_Kzv7kikHEeaV2eLf0HWZHw _Kzv7kykHEeaV2eLf0HWZHw _Kzv7lCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7jCkHEeaV2eLf0HWZHw" name="" incoming="_Kzv7lCkHEeaV2eLf0HWZHw _Kzv7mCkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Kzv7jSkHEeaV2eLf0HWZHw" value="&quot;subPackages&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kzv7jikHEeaV2eLf0HWZHw" name="" outgoing="_Kzv7likHEeaV2eLf0HWZHw _Kzv7lykHEeaV2eLf0HWZHw _Kzv7mCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7jykHEeaV2eLf0HWZHw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Kzv7kCkHEeaV2eLf0HWZHw" source="_Kzv7iCkHEeaV2eLf0HWZHw" target="_Kzv7hykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_Kzv7kSkHEeaV2eLf0HWZHw" source="_Kzv7iCkHEeaV2eLf0HWZHw" target="_Kzv7hikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_Kzv7kikHEeaV2eLf0HWZHw" source="_Kzv7iykHEeaV2eLf0HWZHw" target="_Kzv7iSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kzv7kykHEeaV2eLf0HWZHw" source="_Kzv7iykHEeaV2eLf0HWZHw" target="_Kzv7hykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kzv7lCkHEeaV2eLf0HWZHw" source="_Kzv7iykHEeaV2eLf0HWZHw" target="_Kzv7jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kzv7lSkHEeaV2eLf0HWZHw" source="_Kzv7iSkHEeaV2eLf0HWZHw" target="_Kzv7hykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+      <edges xmi:id="_Kzv7likHEeaV2eLf0HWZHw" source="_Kzv7jikHEeaV2eLf0HWZHw" target="_Kzv7iikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Kzv7lykHEeaV2eLf0HWZHw" source="_Kzv7jikHEeaV2eLf0HWZHw" target="_Kzv7hikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kzv7mCkHEeaV2eLf0HWZHw" source="_Kzv7jikHEeaV2eLf0HWZHw" target="_Kzv7jCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kzv7mSkHEeaV2eLf0HWZHw" source="_Kzv7iikHEeaV2eLf0HWZHw" target="_Kzv7hikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Kzv7mikHEeaV2eLf0HWZHw" name="Rhs">
+      <nodes xmi:id="_Kzv7mykHEeaV2eLf0HWZHw" name="B.Selected" incoming="_Kzv7rikHEeaV2eLf0HWZHw _Kzv7tCkHEeaV2eLf0HWZHw _Kzv7tikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7nCkHEeaV2eLf0HWZHw" name="A.Selected" incoming="_Kzv7rSkHEeaV2eLf0HWZHw _Kzv7sCkHEeaV2eLf0HWZHw _Kzv7sikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7nSkHEeaV2eLf0HWZHw" name="" outgoing="_Kzv7rSkHEeaV2eLf0HWZHw _Kzv7rikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7nikHEeaV2eLf0HWZHw" name="A.OldSource" incoming="_Kzv7rykHEeaV2eLf0HWZHw" outgoing="_Kzv7sikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7nykHEeaV2eLf0HWZHw" name="B.NewSource" incoming="_Kzv7sykHEeaV2eLf0HWZHw" outgoing="_Kzv7tikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7oCkHEeaV2eLf0HWZHw" name="" incoming="_Kzv7tykHEeaV2eLf0HWZHw" outgoing="_Kzv7rykHEeaV2eLf0HWZHw _Kzv7sCkHEeaV2eLf0HWZHw _Kzv7sSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7oSkHEeaV2eLf0HWZHw" name="" incoming="_Kzv7sSkHEeaV2eLf0HWZHw _Kzv7tSkHEeaV2eLf0HWZHw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7oikHEeaV2eLf0HWZHw" name="" incoming="_Kzv7uCkHEeaV2eLf0HWZHw" outgoing="_Kzv7sykHEeaV2eLf0HWZHw _Kzv7tCkHEeaV2eLf0HWZHw _Kzv7tSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Kzv7oykHEeaV2eLf0HWZHw" incoming="_Kzv7uSkHEeaV2eLf0HWZHw" outgoing="_Kzv7tykHEeaV2eLf0HWZHw _Kzv7uCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Kzv7pCkHEeaV2eLf0HWZHw" value="&quot;MOVE_JPackage_Ref_subPackages_To_JPackage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7pSkHEeaV2eLf0HWZHw" value="&quot;MOVEs JPackage with reference subPackages to JPackage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7pikHEeaV2eLf0HWZHw" value="&quot;MOVE_JPackage_Ref_subPackages_To_JPackage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7pykHEeaV2eLf0HWZHw" value="&quot;RR: MOVE_JPackage_Ref_subPackages_To_JPackage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7qCkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7qSkHEeaV2eLf0HWZHw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7qikHEeaV2eLf0HWZHw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Kzv7qykHEeaV2eLf0HWZHw" value="9">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Kzv7rCkHEeaV2eLf0HWZHw" name="" outgoing="_Kzv7uSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Kzv7rSkHEeaV2eLf0HWZHw" source="_Kzv7nSkHEeaV2eLf0HWZHw" target="_Kzv7nCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_Kzv7rikHEeaV2eLf0HWZHw" source="_Kzv7nSkHEeaV2eLf0HWZHw" target="_Kzv7mykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_Kzv7rykHEeaV2eLf0HWZHw" source="_Kzv7oCkHEeaV2eLf0HWZHw" target="_Kzv7nikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Kzv7sCkHEeaV2eLf0HWZHw" source="_Kzv7oCkHEeaV2eLf0HWZHw" target="_Kzv7nCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kzv7sSkHEeaV2eLf0HWZHw" source="_Kzv7oCkHEeaV2eLf0HWZHw" target="_Kzv7oSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Kzv7sikHEeaV2eLf0HWZHw" source="_Kzv7nikHEeaV2eLf0HWZHw" target="_Kzv7nCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+      <edges xmi:id="_Kzv7sykHEeaV2eLf0HWZHw" source="_Kzv7oikHEeaV2eLf0HWZHw" target="_Kzv7nykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Kzv7tCkHEeaV2eLf0HWZHw" source="_Kzv7oikHEeaV2eLf0HWZHw" target="_Kzv7mykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Kzv7tSkHEeaV2eLf0HWZHw" source="_Kzv7oikHEeaV2eLf0HWZHw" target="_Kzv7oSkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Kzv7tikHEeaV2eLf0HWZHw" source="_Kzv7nykHEeaV2eLf0HWZHw" target="_Kzv7mykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+      <edges xmi:id="_Kzv7tykHEeaV2eLf0HWZHw" source="_Kzv7oykHEeaV2eLf0HWZHw" target="_Kzv7oCkHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kzv7uCkHEeaV2eLf0HWZHw" source="_Kzv7oykHEeaV2eLf0HWZHw" target="_Kzv7oikHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Kzv7uSkHEeaV2eLf0HWZHw" source="_Kzv7rCkHEeaV2eLf0HWZHw" target="_Kzv7oykHEeaV2eLf0HWZHw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Kzv7uikHEeaV2eLf0HWZHw" origin="_Kzv7hikHEeaV2eLf0HWZHw" image="_Kzv7mykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7uykHEeaV2eLf0HWZHw" origin="_Kzv7hykHEeaV2eLf0HWZHw" image="_Kzv7nCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7vCkHEeaV2eLf0HWZHw" origin="_Kzv7iCkHEeaV2eLf0HWZHw" image="_Kzv7nSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7vSkHEeaV2eLf0HWZHw" origin="_Kzv7iSkHEeaV2eLf0HWZHw" image="_Kzv7nikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7vikHEeaV2eLf0HWZHw" origin="_Kzv7iikHEeaV2eLf0HWZHw" image="_Kzv7nykHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7vykHEeaV2eLf0HWZHw" origin="_Kzv7iykHEeaV2eLf0HWZHw" image="_Kzv7oCkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7wCkHEeaV2eLf0HWZHw" origin="_Kzv7jCkHEeaV2eLf0HWZHw" image="_Kzv7oSkHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7wSkHEeaV2eLf0HWZHw" origin="_Kzv7jikHEeaV2eLf0HWZHw" image="_Kzv7oikHEeaV2eLf0HWZHw"/>
+    <mappings xmi:id="_Kzv7wikHEeaV2eLf0HWZHw" origin="_Kzv7jykHEeaV2eLf0HWZHw" image="_Kzv7rCkHEeaV2eLf0HWZHw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ik5xoCkJEeaCE8Nx4Zq_JQ" name="RR: SET_ConstraintProperty(Property)_IsStatic" description="Recognize: Sets Property IsStatic">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ik5xoSkJEeaCE8Nx4Zq_JQ" name="rr:setPropertyIsStatic" description="Recognize: Sets the EAttribute isStatic">
+    <parameters xmi:id="_ik5xoikJEeaCE8Nx4Zq_JQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_ik5xoykJEeaCE8Nx4Zq_JQ" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_ik5xpCkJEeaCE8Nx4Zq_JQ" name="Lhs">
+      <nodes xmi:id="_ik5xpSkJEeaCE8Nx4Zq_JQ" name="B.Selected" incoming="_ik5xrikJEeaCE8Nx4Zq_JQ _ik5xsCkJEeaCE8Nx4Zq_JQ _ik5xsikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+        <attributes xmi:id="_ik5xpikJEeaCE8Nx4Zq_JQ" value="IsStatic">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ik5xpykJEeaCE8Nx4Zq_JQ" name="B.null" outgoing="_ik5xrikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <nodes xmi:id="_ik5xqCkJEeaCE8Nx4Zq_JQ" name="A.Selected" incoming="_ik5xrykJEeaCE8Nx4Zq_JQ _ik5xsSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_ik5xqSkJEeaCE8Nx4Zq_JQ" name="" outgoing="_ik5xrykJEeaCE8Nx4Zq_JQ _ik5xsCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_ik5xqikJEeaCE8Nx4Zq_JQ" name="" outgoing="_ik5xsSkJEeaCE8Nx4Zq_JQ _ik5xsikJEeaCE8Nx4Zq_JQ _ik5xsykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_ik5xqykJEeaCE8Nx4Zq_JQ" name="" incoming="_ik5xsykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_ik5xrCkJEeaCE8Nx4Zq_JQ" value="&quot;isStatic&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ik5xrSkJEeaCE8Nx4Zq_JQ" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_ik5xrikJEeaCE8Nx4Zq_JQ" source="_ik5xpykJEeaCE8Nx4Zq_JQ" target="_ik5xpSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+      <edges xmi:id="_ik5xrykJEeaCE8Nx4Zq_JQ" source="_ik5xqSkJEeaCE8Nx4Zq_JQ" target="_ik5xqCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_ik5xsCkJEeaCE8Nx4Zq_JQ" source="_ik5xqSkJEeaCE8Nx4Zq_JQ" target="_ik5xpSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_ik5xsSkJEeaCE8Nx4Zq_JQ" source="_ik5xqikJEeaCE8Nx4Zq_JQ" target="_ik5xqCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_ik5xsikJEeaCE8Nx4Zq_JQ" source="_ik5xqikJEeaCE8Nx4Zq_JQ" target="_ik5xpSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_ik5xsykJEeaCE8Nx4Zq_JQ" source="_ik5xqikJEeaCE8Nx4Zq_JQ" target="_ik5xqykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ik5xtCkJEeaCE8Nx4Zq_JQ" name="Rhs">
+      <nodes xmi:id="_ik5xtSkJEeaCE8Nx4Zq_JQ" name="B.Selected" incoming="_ik5xxSkJEeaCE8Nx4Zq_JQ _ik5xxykJEeaCE8Nx4Zq_JQ _ik5xySkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_ik5xtikJEeaCE8Nx4Zq_JQ" name="B.null" outgoing="_ik5xxSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty"/>
+      </nodes>
+      <nodes xmi:id="_ik5xtykJEeaCE8Nx4Zq_JQ" name="A.Selected" incoming="_ik5xxikJEeaCE8Nx4Zq_JQ _ik5xyCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_ik5xuCkJEeaCE8Nx4Zq_JQ" name="" outgoing="_ik5xxikJEeaCE8Nx4Zq_JQ _ik5xxykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_ik5xuSkJEeaCE8Nx4Zq_JQ" name="" incoming="_ik5xyykJEeaCE8Nx4Zq_JQ" outgoing="_ik5xyCkJEeaCE8Nx4Zq_JQ _ik5xySkJEeaCE8Nx4Zq_JQ _ik5xyikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_ik5xuikJEeaCE8Nx4Zq_JQ" name="" incoming="_ik5xyikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_ik5xuykJEeaCE8Nx4Zq_JQ" incoming="_ik5xzCkJEeaCE8Nx4Zq_JQ" outgoing="_ik5xyykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_ik5xvCkJEeaCE8Nx4Zq_JQ" value="&quot;SET_ConstraintProperty(Property)_IsStatic&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_ik5xvSkJEeaCE8Nx4Zq_JQ" value="&quot;Sets Property IsStatic&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_ik5xvikJEeaCE8Nx4Zq_JQ" value="&quot;SET_ConstraintProperty(Property)_IsStatic&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_ik5xvykJEeaCE8Nx4Zq_JQ" value="&quot;RR: SET_ConstraintProperty(Property)_IsStatic&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_ik5xwCkJEeaCE8Nx4Zq_JQ" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_ik5xwSkJEeaCE8Nx4Zq_JQ" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_ik5xwikJEeaCE8Nx4Zq_JQ" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_ik5xwykJEeaCE8Nx4Zq_JQ" value="13">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ik5xxCkJEeaCE8Nx4Zq_JQ" name="" outgoing="_ik5xzCkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_ik5xxSkJEeaCE8Nx4Zq_JQ" source="_ik5xtikJEeaCE8Nx4Zq_JQ" target="_ik5xtSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//constraints/ConstraintProperty/base_Property"/>
+      </edges>
+      <edges xmi:id="_ik5xxikJEeaCE8Nx4Zq_JQ" source="_ik5xuCkJEeaCE8Nx4Zq_JQ" target="_ik5xtykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_ik5xxykJEeaCE8Nx4Zq_JQ" source="_ik5xuCkJEeaCE8Nx4Zq_JQ" target="_ik5xtSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_ik5xyCkJEeaCE8Nx4Zq_JQ" source="_ik5xuSkJEeaCE8Nx4Zq_JQ" target="_ik5xtykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_ik5xySkJEeaCE8Nx4Zq_JQ" source="_ik5xuSkJEeaCE8Nx4Zq_JQ" target="_ik5xtSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_ik5xyikJEeaCE8Nx4Zq_JQ" source="_ik5xuSkJEeaCE8Nx4Zq_JQ" target="_ik5xuikJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+      <edges xmi:id="_ik5xyykJEeaCE8Nx4Zq_JQ" source="_ik5xuykJEeaCE8Nx4Zq_JQ" target="_ik5xuSkJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_ik5xzCkJEeaCE8Nx4Zq_JQ" source="_ik5xxCkJEeaCE8Nx4Zq_JQ" target="_ik5xuykJEeaCE8Nx4Zq_JQ">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ik5xzSkJEeaCE8Nx4Zq_JQ" origin="_ik5xpSkJEeaCE8Nx4Zq_JQ" image="_ik5xtSkJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5xzikJEeaCE8Nx4Zq_JQ" origin="_ik5xpykJEeaCE8Nx4Zq_JQ" image="_ik5xtikJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5xzykJEeaCE8Nx4Zq_JQ" origin="_ik5xqCkJEeaCE8Nx4Zq_JQ" image="_ik5xtykJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5x0CkJEeaCE8Nx4Zq_JQ" origin="_ik5xqSkJEeaCE8Nx4Zq_JQ" image="_ik5xuCkJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5x0SkJEeaCE8Nx4Zq_JQ" origin="_ik5xqikJEeaCE8Nx4Zq_JQ" image="_ik5xuSkJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5x0ikJEeaCE8Nx4Zq_JQ" origin="_ik5xqykJEeaCE8Nx4Zq_JQ" image="_ik5xuikJEeaCE8Nx4Zq_JQ"/>
+    <mappings xmi:id="_ik5x0ykJEeaCE8Nx4Zq_JQ" origin="_ik5xrSkJEeaCE8Nx4Zq_JQ" image="_ik5xxCkJEeaCE8Nx4Zq_JQ"/>
+  </units>
+</henshin:Module>
