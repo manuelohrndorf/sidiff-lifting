@@ -130,6 +130,7 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Correspondence:
 		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
+			// TODO: We better optimize correspondences through cross-references!
 			// NOTE: This is inconsistent with the optimized getDomain() but the
 			// size value is always bigger then the actual correspondence
 			// domain. Also the getDomain() method must always process all

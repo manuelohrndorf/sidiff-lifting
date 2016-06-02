@@ -9,7 +9,7 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class MatchingHelper {
 
