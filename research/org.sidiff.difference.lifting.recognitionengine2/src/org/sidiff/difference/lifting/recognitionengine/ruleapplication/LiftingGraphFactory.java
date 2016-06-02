@@ -64,6 +64,7 @@ public class LiftingGraphFactory {
 	 */
 	public LiftingGraphFactory(LiftingGraphDomainMap liftingGraphDomainMap, ModelImports imports, Scope scope) {
 		this.difference = liftingGraphDomainMap.getDifference();
+		this.liftingGraphDomainMap = liftingGraphDomainMap;
 		this.imports = imports;
 		this.scope = scope;
 		

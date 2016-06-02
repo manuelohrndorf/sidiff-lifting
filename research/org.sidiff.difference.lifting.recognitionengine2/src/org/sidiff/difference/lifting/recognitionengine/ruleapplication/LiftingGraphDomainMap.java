@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -54,6 +55,8 @@ public class LiftingGraphDomainMap {
 	private Index<EReference, Collection<RemoveReference>> removeReference;
 
 	private Index<EAttribute, Collection<AttributeValueChange>> attributeValueChange;
+	
+	private Set<EStructuralFeature> typeNodes;
 
 	/**
 	 * Creates a new {@link LiftingGraphDomainMap}.
@@ -70,7 +73,8 @@ public class LiftingGraphDomainMap {
 		addReference = new Index<EReference, Collection<AddReference>>();
 		removeReference = new Index<EReference, Collection<RemoveReference>>();
 		attributeValueChange = new Index<EAttribute, Collection<AttributeValueChange>>();
-
+		typeNodes = new HashSet<EStructuralFeature>();
+		
 		createChangeDomainMap(difference);
 	}
 	
@@ -133,16 +137,25 @@ public class LiftingGraphDomainMap {
 			else if (change instanceof AddReference) {
 				EReference type = ((AddReference) change).getType();
 				addReference.getModifiable(type).add((AddReference) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((AddReference) change).getType());
 			}
 
 			else if (change instanceof RemoveReference) {
 				EReference type = ((RemoveReference) change).getType();
 				removeReference.getModifiable(type).add((RemoveReference) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((RemoveReference) change).getType());
 			}
 
 			else if (change instanceof AttributeValueChange) {
 				EAttribute type = ((AttributeValueChange) change).getType();
 				attributeValueChange.getModifiable(type).add((AttributeValueChange) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((AddReference) change).getType());
 			}
 		}
 
@@ -389,6 +402,13 @@ public class LiftingGraphDomainMap {
 	 */
 	public int getAttributeValueChangeDomainSize(EAttribute type) {
 		return attributeValueChange.get(type).size();
+	}
+	
+	/**
+	 * @return All meta-model types used by the corresponding difference.
+	 */
+	public Set<EStructuralFeature> getTypeNodes() {
+		return typeNodes;
 	}
 
 	/**
