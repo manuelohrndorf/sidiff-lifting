@@ -265,7 +265,6 @@ public class LiftingGraphProxy implements EGraph {
 	@Override
 	public boolean add(EObject e) {
 		// NOTE: Ignore the adding of the Semantic-Change-Sets...
-		System.out.println(e);
 		return true; 
 	}
 
