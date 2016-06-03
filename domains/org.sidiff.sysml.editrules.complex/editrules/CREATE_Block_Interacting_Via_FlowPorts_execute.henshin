@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_trj8gAvwEeOAzpcr6Q4iHw" name="CREATE_Block_Interacting_Via_FlowPorts" description="CREATE_Block_Interacting_Via_FlowPorts">
+  <imports href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
+  <imports href="http://www.eclipse.org/papyrus/0.7.0/SysML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uFGd4AvwEeOAzpcr6Q4iHw" name="createBlockInteractingVia_FlowPorts" description="CREATE_Block_Interacting_Via_FlowPorts">
+    <parameters xmi:id="_czjmkBBvEeOZbdGe-E2RDg" name="Selected1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_czmC0BBvEeOZbdGe-E2RDg" name="Selected2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_yi6tAAvwEeOAzpcr6Q4iHw" name="NewClass">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_yi6tAQvwEeOAzpcr6Q4iHw" name="NewBlock">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameters xmi:id="_yi7UEAvwEeOAzpcr6Q4iHw" name="NewPort">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_yi7UEQvwEeOAzpcr6Q4iHw" name="NewFlowPort">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_Oqp-UAvyEeOAzpcr6Q4iHw" name="NewPort2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_OqqlYAvyEeOAzpcr6Q4iHw" name="NewFlowPort2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_N3lEkBBxEeOZbdGe-E2RDg" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSsBBxEeOZbdGe-E2RDg" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RK5dMBB2EeOEOox0yAJcgQ" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSshBxEeOZbdGe-E2RDg" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSsxBxEeOZbdGe-E2RDg" name="ClassName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_v_cMcBUsEeOKU8hi7sU4Cg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_N3mStBBxEeOZbdGe-E2RDg" name="IsEncapsulated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAG7oBUtEeOKU8hi7sU4Cg" name="Aggregation1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameters xmi:id="_lAG7oRUtEeOKU8hi7sU4Cg" name="IsBehaviour1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAG7ohUtEeOKU8hi7sU4Cg" name="IsDerived1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHisBUtEeOKU8hi7sU4Cg" name="IsDerivedUnion1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHisRUtEeOKU8hi7sU4Cg" name="IsID1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSuhBxEeOZbdGe-E2RDg" name="PortName1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_lAHishUtEeOKU8hi7sU4Cg" name="IsConjugated1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHisxUtEeOKU8hi7sU4Cg" name="IsLeaf1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHitBUtEeOKU8hi7sU4Cg" name="IsOrdered1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHitRUtEeOKU8hi7sU4Cg" name="IsReadOnly1" description="">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHithUtEeOKU8hi7sU4Cg" name="IsService1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHitxUtEeOKU8hi7sU4Cg" name="IsStatic1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiuBUtEeOKU8hi7sU4Cg" name="IsUnique1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiuRUtEeOKU8hi7sU4Cg" name="Visibility1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_N3mSvBBxEeOZbdGe-E2RDg" name="Aggregation2">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameters xmi:id="_N3mSvRBxEeOZbdGe-E2RDg" name="IsBehaviour2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSvhBxEeOZbdGe-E2RDg" name="IsDerived2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSvxBxEeOZbdGe-E2RDg" name="IsDerivedUnion2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSwBBxEeOZbdGe-E2RDg" name="IsID2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_N3mSwRBxEeOZbdGe-E2RDg" name="PortName2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_N3mSwhBxEeOZbdGe-E2RDg" name="IsConjugated2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiuhUtEeOKU8hi7sU4Cg" name="IsLeaf2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiuxUtEeOKU8hi7sU4Cg" name="IsOrdered2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHivBUtEeOKU8hi7sU4Cg" name="IsReadOnly2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHivRUtEeOKU8hi7sU4Cg" name="IsService2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHivhUtEeOKU8hi7sU4Cg" name="IsStatic2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHivxUtEeOKU8hi7sU4Cg" name="IsUnique2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiwBUtEeOKU8hi7sU4Cg" name="Visibility2">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_lAHiwRUtEeOKU8hi7sU4Cg" name="IsConjugated3">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_lAHiwhUtEeOKU8hi7sU4Cg" name="IsConjugated4">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_uFI6IAvwEeOAzpcr6Q4iHw" name="Lhs">
+      <nodes xmi:id="_7xlowAwAEeOAzpcr6Q4iHw" name="Selected2">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_ICGMQA_fEeOCtY0ZDeuxdQ" name="Selected1">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uFI6IQvwEeOAzpcr6Q4iHw" name="Rhs">
+      <nodes xmi:id="_2v5DwAvwEeOAzpcr6Q4iHw" name="NewClass" incoming="_IwI9IAvxEeOAzpcr6Q4iHw _BPLtIAvxEeOAzpcr6Q4iHw _J-x7YA_fEeOCtY0ZDeuxdQ _ldZUwBBwEeOZbdGe-E2RDg" outgoing="_3_KTQAvwEeOAzpcr6Q4iHw _kwytcBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+        <attributes xmi:id="_tz_BsBBvEeOZbdGe-E2RDg" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_wmWboBBvEeOZbdGe-E2RDg" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class/isActive"/>
+        </attributes>
+        <attributes xmi:id="_xxNsQBBvEeOZbdGe-E2RDg" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+        <attributes xmi:id="_zYz8MBBvEeOZbdGe-E2RDg" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_Fp3RsBBwEeOZbdGe-E2RDg" value="ClassName">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_5285kBUrEeOKU8hi7sU4Cg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_3gUbIAvwEeOAzpcr6Q4iHw" name="NewBlock" outgoing="_IwI9IAvxEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+        <attributes xmi:id="_5s_3EBBvEeOZbdGe-E2RDg" value="IsEncapsulated">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/isEncapsulated"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_13n3oAvzEeOQFrz9j0o5LQ" name="NewFlowPort" outgoing="_L_PWYAvxEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+        <attributes xmi:id="_13n3oQvzEeOQFrz9j0o5LQ" value="&quot;in&quot;">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/direction"/>
+        </attributes>
+        <attributes xmi:id="_B7DdoBBwEeOZbdGe-E2RDg" value="IsConjugated3">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/isConjugated"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_3_JsMAvwEeOAzpcr6Q4iHw" name="NewPort" incoming="_3_KTQAvwEeOAzpcr6Q4iHw _L_PWYAvxEeOAzpcr6Q4iHw" outgoing="_BPLtIAvxEeOAzpcr6Q4iHw _IqdtwAwDEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_R_cuUBBwEeOZbdGe-E2RDg" value="Aggregation1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/aggregation"/>
+        </attributes>
+        <attributes xmi:id="_Vg40wBBwEeOZbdGe-E2RDg" value="IsBehaviour1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isBehavior"/>
+        </attributes>
+        <attributes xmi:id="_X5GCQBBwEeOZbdGe-E2RDg" value="IsDerived1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isDerived"/>
+        </attributes>
+        <attributes xmi:id="_ZUfpQBBwEeOZbdGe-E2RDg" value="IsDerivedUnion1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isDerivedUnion"/>
+        </attributes>
+        <attributes xmi:id="_a6yRoBBwEeOZbdGe-E2RDg" value="IsID1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isID"/>
+        </attributes>
+        <attributes xmi:id="_d1CcQBBwEeOZbdGe-E2RDg" value="PortName1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_PXx9wBUsEeOKU8hi7sU4Cg" value="IsConjugated1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isConjugated"/>
+        </attributes>
+        <attributes xmi:id="_S0CpQBUsEeOKU8hi7sU4Cg" value="IsLeaf1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_UCh1oBUsEeOKU8hi7sU4Cg" value="IsOrdered1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/isOrdered"/>
+        </attributes>
+        <attributes xmi:id="_VFwNMBUsEeOKU8hi7sU4Cg" value="IsReadOnly1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuralFeature/isReadOnly"/>
+        </attributes>
+        <attributes xmi:id="_WNi7sBUsEeOKU8hi7sU4Cg" value="IsService1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isService"/>
+        </attributes>
+        <attributes xmi:id="_XUUWgBUsEeOKU8hi7sU4Cg" value="IsStatic1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+        <attributes xmi:id="_ZZM_YBUsEeOKU8hi7sU4Cg" value="IsUnique1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/isUnique"/>
+        </attributes>
+        <attributes xmi:id="_bC3r4BUsEeOKU8hi7sU4Cg" value="Visibility1">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_3booEAvzEeOQFrz9j0o5LQ" name="NewFlowPort2" outgoing="_jeILsBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+        <attributes xmi:id="_3booEQvzEeOQFrz9j0o5LQ" value="&quot;out&quot;">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/direction"/>
+        </attributes>
+        <attributes xmi:id="_DHNuwBBwEeOZbdGe-E2RDg" value="IsConjugated4">
+          <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/isConjugated"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_7xlowQwAEeOAzpcr6Q4iHw" name="Selected2" incoming="_IqdtwAwDEeOAzpcr6Q4iHw _yLSjsBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_ICM58A_fEeOCtY0ZDeuxdQ" name="Selected1" outgoing="_J-x7YA_fEeOCtY0ZDeuxdQ">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_iFLbwBBwEeOZbdGe-E2RDg" name="NewPort2" incoming="_jeILsBBwEeOZbdGe-E2RDg _kwytcBBwEeOZbdGe-E2RDg" outgoing="_ldZUwBBwEeOZbdGe-E2RDg _yLSjsBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+        <attributes xmi:id="_iFLbwRBwEeOZbdGe-E2RDg" value="Aggregation2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/aggregation"/>
+        </attributes>
+        <attributes xmi:id="_iFLbwhBwEeOZbdGe-E2RDg" value="IsBehaviour2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isBehavior"/>
+        </attributes>
+        <attributes xmi:id="_iFLbwxBwEeOZbdGe-E2RDg" value="IsDerived2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isDerived"/>
+        </attributes>
+        <attributes xmi:id="_iFLbxBBwEeOZbdGe-E2RDg" value="IsDerivedUnion2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isDerivedUnion"/>
+        </attributes>
+        <attributes xmi:id="_iFLbxRBwEeOZbdGe-E2RDg" value="IsID2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/isID"/>
+        </attributes>
+        <attributes xmi:id="_iFLbxhBwEeOZbdGe-E2RDg" value="PortName2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_cYieUBUsEeOKU8hi7sU4Cg" value="IsConjugated2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isConjugated"/>
+        </attributes>
+        <attributes xmi:id="_fpZLEBUsEeOKU8hi7sU4Cg" value="IsLeaf2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_gkwAEBUsEeOKU8hi7sU4Cg" value="IsOrdered2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/isOrdered"/>
+        </attributes>
+        <attributes xmi:id="_hwW3kBUsEeOKU8hi7sU4Cg" value="IsReadOnly2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuralFeature/isReadOnly"/>
+        </attributes>
+        <attributes xmi:id="_j1k3oBUsEeOKU8hi7sU4Cg" value="IsService2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Port/isService"/>
+        </attributes>
+        <attributes xmi:id="_lKjGgBUsEeOKU8hi7sU4Cg" value="IsStatic2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+        <attributes xmi:id="_mB3JABUsEeOKU8hi7sU4Cg" value="IsUnique2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//MultiplicityElement/isUnique"/>
+        </attributes>
+        <attributes xmi:id="_m8MqUBUsEeOKU8hi7sU4Cg" value="Visibility2">
+          <type href="http://www.eclipse.org/uml2/4.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_IwI9IAvxEeOAzpcr6Q4iHw" source="_3gUbIAvwEeOAzpcr6Q4iHw" target="_2v5DwAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block/base_Class"/>
+      </edges>
+      <edges xmi:id="_3_KTQAvwEeOAzpcr6Q4iHw" source="_2v5DwAvwEeOAzpcr6Q4iHw" target="_3_JsMAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredClassifier/ownedAttribute"/>
+      </edges>
+      <edges xmi:id="_L_PWYAvxEeOAzpcr6Q4iHw" source="_13n3oAvzEeOQFrz9j0o5LQ" target="_3_JsMAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+      <edges xmi:id="_BPLtIAvxEeOAzpcr6Q4iHw" source="_3_JsMAvwEeOAzpcr6Q4iHw" target="_2v5DwAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/class"/>
+      </edges>
+      <edges xmi:id="_IqdtwAwDEeOAzpcr6Q4iHw" source="_3_JsMAvwEeOAzpcr6Q4iHw" target="_7xlowQwAEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+      </edges>
+      <edges xmi:id="_J-x7YA_fEeOCtY0ZDeuxdQ" source="_ICM58A_fEeOCtY0ZDeuxdQ" target="_2v5DwAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_jeILsBBwEeOZbdGe-E2RDg" source="_3booEAvzEeOQFrz9j0o5LQ" target="_iFLbwBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort/base_Port"/>
+      </edges>
+      <edges xmi:id="_kwytcBBwEeOZbdGe-E2RDg" source="_2v5DwAvwEeOAzpcr6Q4iHw" target="_iFLbwBBwEeOZbdGe-E2RDg">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//StructuredClassifier/ownedAttribute"/>
+      </edges>
+      <edges xmi:id="_ldZUwBBwEeOZbdGe-E2RDg" source="_iFLbwBBwEeOZbdGe-E2RDg" target="_2v5DwAvwEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//Property/class"/>
+      </edges>
+      <edges xmi:id="_yLSjsBBwEeOZbdGe-E2RDg" source="_iFLbwBBwEeOZbdGe-E2RDg" target="_7xlowQwAEeOAzpcr6Q4iHw">
+        <type href="http://www.eclipse.org/uml2/4.0.0/UML#//TypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_7xlowgwAEeOAzpcr6Q4iHw" origin="_7xlowAwAEeOAzpcr6Q4iHw" image="_7xlowQwAEeOAzpcr6Q4iHw"/>
+    <mappings xmi:id="_ICM58Q_fEeOCtY0ZDeuxdQ" origin="_ICGMQA_fEeOCtY0ZDeuxdQ" image="_ICM58A_fEeOCtY0ZDeuxdQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_kGbY0AvxEeOAzpcr6Q4iHw" name="mainUnit" subUnits="_uFGd4AvwEeOAzpcr6Q4iHw">
+    <parameters xmi:id="_eHGSEBBvEeOZbdGe-E2RDg" name="Selected1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_eHGSERBvEeOZbdGe-E2RDg" name="Selected2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_llYqIAvxEeOAzpcr6Q4iHw" name="NewClass">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_llYqIQvxEeOAzpcr6Q4iHw" name="NewBlock">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//blocks/Block"/>
+    </parameters>
+    <parameters xmi:id="_llZRMAvxEeOAzpcr6Q4iHw" name="NewPort">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_llZRMQvxEeOAzpcr6Q4iHw" name="NewFlowPort">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_fo19wAvyEeOAzpcr6Q4iHw" name="NewPort2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_fo3y8AvyEeOAzpcr6Q4iHw" name="NewFlowPort2">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/papyrus/0.7.0/SysML#//portandflows/FlowPort"/>
+    </parameters>
+    <parameters xmi:id="_U71KcBBxEeOZbdGe-E2RDg" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KcRBxEeOZbdGe-E2RDg" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_SUEEsBB2EeOEOox0yAJcgQ" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KcxBxEeOZbdGe-E2RDg" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KdBBxEeOZbdGe-E2RDg" name="ClassName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_owLT8BUtEeOKU8hi7sU4Cg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_U71KdRBxEeOZbdGe-E2RDg" name="IsEncapsulated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owLT8RUtEeOKU8hi7sU4Cg" name="Aggregation1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameters xmi:id="_owLT8hUtEeOKU8hi7sU4Cg" name="IsBehaviour1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owLT8xUtEeOKU8hi7sU4Cg" name="IsDerived1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owL7ABUtEeOKU8hi7sU4Cg" name="IsDerivedUnion1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owL7ARUtEeOKU8hi7sU4Cg" name="IsID1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KexBxEeOZbdGe-E2RDg" name="PortName1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_owL7AhUtEeOKU8hi7sU4Cg" name="IsConjugated1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owL7AxUtEeOKU8hi7sU4Cg" name="IsLeaf1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owL7BBUtEeOKU8hi7sU4Cg" name="IsOrdered1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owL7BRUtEeOKU8hi7sU4Cg" name="IsReadOnly1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owMiEBUtEeOKU8hi7sU4Cg" name="IsService1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owMiERUtEeOKU8hi7sU4Cg" name="IsStatic1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owMiEhUtEeOKU8hi7sU4Cg" name="IsUnique1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owMiExUtEeOKU8hi7sU4Cg" name="Visibility1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_U71KfRBxEeOZbdGe-E2RDg" name="Aggregation2">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameters xmi:id="_U71KfhBxEeOZbdGe-E2RDg" name="IsBehaviour2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KfxBxEeOZbdGe-E2RDg" name="IsDerived2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KgBBxEeOZbdGe-E2RDg" name="IsDerivedUnion2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KgRBxEeOZbdGe-E2RDg" name="IsID2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_U71KghBxEeOZbdGe-E2RDg" name="PortName2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_U71KgxBxEeOZbdGe-E2RDg" name="IsConjugated2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owMiFBUtEeOKU8hi7sU4Cg" name="IsLeaf2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNJIBUtEeOKU8hi7sU4Cg" name="IsOrdered2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNJIRUtEeOKU8hi7sU4Cg" name="IsReadOnly2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNJIhUtEeOKU8hi7sU4Cg" name="IsService2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNJIxUtEeOKU8hi7sU4Cg" name="IsStatic2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNJJBUtEeOKU8hi7sU4Cg" name="IsUnique2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNwMBUtEeOKU8hi7sU4Cg" name="Visibility2">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/4.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_owNwMRUtEeOKU8hi7sU4Cg" name="IsConjugated3">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_owNwMhUtEeOKU8hi7sU4Cg" name="IsConjugated4">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/4.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_q57OsBUtEeOKU8hi7sU4Cg" source="_eHGSEBBvEeOZbdGe-E2RDg" target="_czjmkBBvEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q57OshUtEeOKU8hi7sU4Cg" source="_eHGSERBvEeOZbdGe-E2RDg" target="_czmC0BBvEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q571whUtEeOKU8hi7sU4Cg" source="_yi6tAAvwEeOAzpcr6Q4iHw" target="_llYqIAvxEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q571xBUtEeOKU8hi7sU4Cg" source="_yi6tAQvwEeOAzpcr6Q4iHw" target="_llYqIQvxEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q58c0RUtEeOKU8hi7sU4Cg" source="_yi7UEAvwEeOAzpcr6Q4iHw" target="_llZRMAvxEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q58c0xUtEeOKU8hi7sU4Cg" source="_yi7UEQvwEeOAzpcr6Q4iHw" target="_llZRMQvxEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q59D4BUtEeOKU8hi7sU4Cg" source="_Oqp-UAvyEeOAzpcr6Q4iHw" target="_fo19wAvyEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q59D4hUtEeOKU8hi7sU4Cg" source="_OqqlYAvyEeOAzpcr6Q4iHw" target="_fo3y8AvyEeOAzpcr6Q4iHw"/>
+    <parameterMappings xmi:id="_q59D4xUtEeOKU8hi7sU4Cg" source="_U71KcBBxEeOZbdGe-E2RDg" target="_N3lEkBBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59D5RUtEeOKU8hi7sU4Cg" source="_U71KcRBxEeOZbdGe-E2RDg" target="_N3mSsBBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59D5xUtEeOKU8hi7sU4Cg" source="_SUEEsBB2EeOEOox0yAJcgQ" target="_RK5dMBB2EeOEOox0yAJcgQ"/>
+    <parameterMappings xmi:id="_q59D6RUtEeOKU8hi7sU4Cg" source="_U71KcxBxEeOZbdGe-E2RDg" target="_N3mSshBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59D6xUtEeOKU8hi7sU4Cg" source="_U71KdBBxEeOZbdGe-E2RDg" target="_N3mSsxBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59D7RUtEeOKU8hi7sU4Cg" source="_owLT8BUtEeOKU8hi7sU4Cg" target="_v_cMcBUsEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59D7xUtEeOKU8hi7sU4Cg" source="_U71KdRBxEeOZbdGe-E2RDg" target="_N3mStBBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59D8RUtEeOKU8hi7sU4Cg" source="_owLT8RUtEeOKU8hi7sU4Cg" target="_lAG7oBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59D8xUtEeOKU8hi7sU4Cg" source="_owLT8hUtEeOKU8hi7sU4Cg" target="_lAG7oRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q8RUtEeOKU8hi7sU4Cg" source="_owLT8xUtEeOKU8hi7sU4Cg" target="_lAG7ohUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q8xUtEeOKU8hi7sU4Cg" source="_owL7ABUtEeOKU8hi7sU4Cg" target="_lAHisBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q9RUtEeOKU8hi7sU4Cg" source="_owL7ARUtEeOKU8hi7sU4Cg" target="_lAHisRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q9xUtEeOKU8hi7sU4Cg" source="_U71KexBxEeOZbdGe-E2RDg" target="_N3mSuhBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q59q-RUtEeOKU8hi7sU4Cg" source="_owL7AhUtEeOKU8hi7sU4Cg" target="_lAHishUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q-xUtEeOKU8hi7sU4Cg" source="_owL7AxUtEeOKU8hi7sU4Cg" target="_lAHisxUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q_RUtEeOKU8hi7sU4Cg" source="_owL7BBUtEeOKU8hi7sU4Cg" target="_lAHitBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59q_xUtEeOKU8hi7sU4Cg" source="_owL7BRUtEeOKU8hi7sU4Cg" target="_lAHitRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59rARUtEeOKU8hi7sU4Cg" source="_owMiEBUtEeOKU8hi7sU4Cg" target="_lAHithUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59rAxUtEeOKU8hi7sU4Cg" source="_owMiERUtEeOKU8hi7sU4Cg" target="_lAHitxUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q59rBRUtEeOKU8hi7sU4Cg" source="_owMiEhUtEeOKU8hi7sU4Cg" target="_lAHiuBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-SABUtEeOKU8hi7sU4Cg" source="_owMiExUtEeOKU8hi7sU4Cg" target="_lAHiuRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-SAhUtEeOKU8hi7sU4Cg" source="_U71KfRBxEeOZbdGe-E2RDg" target="_N3mSvBBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SBBUtEeOKU8hi7sU4Cg" source="_U71KfhBxEeOZbdGe-E2RDg" target="_N3mSvRBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SBhUtEeOKU8hi7sU4Cg" source="_U71KfxBxEeOZbdGe-E2RDg" target="_N3mSvhBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SCBUtEeOKU8hi7sU4Cg" source="_U71KgBBxEeOZbdGe-E2RDg" target="_N3mSvxBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SChUtEeOKU8hi7sU4Cg" source="_U71KgRBxEeOZbdGe-E2RDg" target="_N3mSwBBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SDBUtEeOKU8hi7sU4Cg" source="_U71KghBxEeOZbdGe-E2RDg" target="_N3mSwRBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SDhUtEeOKU8hi7sU4Cg" source="_U71KgxBxEeOZbdGe-E2RDg" target="_N3mSwhBxEeOZbdGe-E2RDg"/>
+    <parameterMappings xmi:id="_q5-SEBUtEeOKU8hi7sU4Cg" source="_owMiFBUtEeOKU8hi7sU4Cg" target="_lAHiuhUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5EBUtEeOKU8hi7sU4Cg" source="_owNJIBUtEeOKU8hi7sU4Cg" target="_lAHiuxUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5EhUtEeOKU8hi7sU4Cg" source="_owNJIRUtEeOKU8hi7sU4Cg" target="_lAHivBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5FBUtEeOKU8hi7sU4Cg" source="_owNJIhUtEeOKU8hi7sU4Cg" target="_lAHivRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5FhUtEeOKU8hi7sU4Cg" source="_owNJIxUtEeOKU8hi7sU4Cg" target="_lAHivhUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5GBUtEeOKU8hi7sU4Cg" source="_owNJJBUtEeOKU8hi7sU4Cg" target="_lAHivxUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5GhUtEeOKU8hi7sU4Cg" source="_owNwMBUtEeOKU8hi7sU4Cg" target="_lAHiwBUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5HBUtEeOKU8hi7sU4Cg" source="_owNwMRUtEeOKU8hi7sU4Cg" target="_lAHiwRUtEeOKU8hi7sU4Cg"/>
+    <parameterMappings xmi:id="_q5-5HhUtEeOKU8hi7sU4Cg" source="_owNwMhUtEeOKU8hi7sU4Cg" target="_lAHiwhUtEeOKU8hi7sU4Cg"/>
+  </units>
+</henshin:Module>
