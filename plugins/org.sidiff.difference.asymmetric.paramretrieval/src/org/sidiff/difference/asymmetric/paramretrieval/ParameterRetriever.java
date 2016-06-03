@@ -23,8 +23,8 @@ import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class ParameterRetriever {
 

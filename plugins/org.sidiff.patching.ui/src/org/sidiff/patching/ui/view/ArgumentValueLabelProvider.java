@@ -9,7 +9,7 @@ import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.editrule.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.operation.OperationInvocationStatus;

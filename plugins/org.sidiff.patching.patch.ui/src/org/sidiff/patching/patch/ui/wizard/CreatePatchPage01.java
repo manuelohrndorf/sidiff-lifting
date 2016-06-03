@@ -23,7 +23,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.ui.widgets.ScopeWidget;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
@@ -203,7 +203,7 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 		return scopeWidget;
 	}
 
-	public Set<IRuleBase> getSelectedRulebases() {
+	public Set<ILiftingRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
 	}
 

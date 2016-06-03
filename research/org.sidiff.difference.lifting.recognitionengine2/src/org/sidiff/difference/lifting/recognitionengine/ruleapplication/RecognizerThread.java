@@ -6,6 +6,7 @@ import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.Re
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startSplitTimer;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopSplitTimer;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class RecognizerThread extends Thread {
 	/**
 	 * Set of all rule applications created by the recognizer threads.
 	 */
-	private Set<RuleApplication> recognizerRuleApplications;
+	private Set<RuleApplication> recognizerRuleApplications = new HashSet<RuleApplication>();
 	
 	/**
 	 * Initialize recognizer

@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.patch.patch.PatchPackage;
 

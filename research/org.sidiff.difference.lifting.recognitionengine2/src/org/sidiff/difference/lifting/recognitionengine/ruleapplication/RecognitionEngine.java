@@ -25,21 +25,22 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.settings.LiftingSettings;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
+import org.sidiff.difference.technical.ModelImports;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * The recognition engine is used to execute the recognition rules on the
@@ -51,7 +52,20 @@ public class RecognitionEngine {
 	/**
 	 * The Recognition-Engine setup.
 	 */
-	private LiftingSettings settings;
+	
+	private IRecognitionRuleSorter ruleSorter;
+	
+	private boolean useThreadPool;
+
+	private int numberOfThreads;
+	
+	private int rulesPerThread;
+	
+	private boolean calculateEditRuleMatch;
+	
+	private boolean serializeEditRuleMatch;
+	
+	private Set<ILiftingRuleBase> ruleBases;
 
 	/**
 	 * The corresponding difference index knowing the low-level changes per type.
@@ -81,7 +95,7 @@ public class RecognitionEngine {
 	/**
 	 * Set of all rule applications created by the recognizer threads.
 	 */
-	private Set<RuleApplication> recognizerRuleApplications;
+	private Set<RuleApplication> recognizerRuleApplications = new HashSet<RuleApplication>();
 
 	/**
 	 * Matching information:<br/>
@@ -98,20 +112,36 @@ public class RecognitionEngine {
 	/**
 	 * Initialize a new Recognition-Engine.
 	 * 
-	 * @param usedRulebases
-	 *            The list of Rulebases to use with the Recognition-Engine.
 	 * @param difference
 	 *            The difference to lift.
 	 * @param imports
 	 *            A set of model elements that are imported by model A/B. The
 	 *            list will be merged into the working graph.
-	 * @param settings
-	 *            The settings (scope, optimizations) of the Recognition-Engine.
+	 * @param scope
+	 * @param usedRulebases
+	 *            The list of Rulebases to use with the Recognition-Engine.
+	 * @param ruleSetReduction
+	 * @param buildGraphPerRule
+	 * @param ruleSorter
+	 * @param useThreadPool
+	 * @param numberOfThreads
+	 * @param rulesPerThread
+	 * @param calculateEditRuleMatch
+	 * @param serializeEditRuleMatch
 	 */
-	public RecognitionEngine(SymmetricDifference difference, Set<EObject> imports, LiftingSettings settings) {
+	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, Scope scope,
+			Set<ILiftingRuleBase> usedRulebases, boolean ruleSetReduction, boolean buildGraphPerRule,
+			IRecognitionRuleSorter ruleSorter, boolean useThreadPool, int numberOfThreads, int rulesPerThread,
+			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 
 		this.difference = difference;
-		this.settings = settings;
+		this.ruleSorter = ruleSorter;
+		this.useThreadPool = useThreadPool;
+		this.numberOfThreads = numberOfThreads;
+		this.rulesPerThread = rulesPerThread;
+		this.calculateEditRuleMatch = calculateEditRuleMatch;
+		this.serializeEditRuleMatch = serializeEditRuleMatch;;
+		this.ruleBases = usedRulebases;
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "-------------- INITIALIZE RECOGNITION ENGINE ---------------");
@@ -120,11 +150,14 @@ public class RecognitionEngine {
 		// Create a domain map:
 		this.liftingGraphDomainMap = new LiftingGraphDomainMap(difference);
 
-		// Get all recognition rules to be used:
-		recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
+		// Create the graph factory:
+		this.graphFactory = new LiftingGraphFactory(liftingGraphDomainMap, imports, scope);
 		
-		for (IRuleBase rb : settings.getRuleBases()) {
-			for (Rule rr : rb.getActiveRecognitionTransformationUnits()) {
+		// Get all recognition rules to be used:
+		this.recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
+		
+		for (ILiftingRuleBase rb : usedRulebases) {
+			for (Rule rr : rb.getActiveRecognitonUnits()) {
 				RecognitionRuleBlueprint blueprint = new RecognitionRuleBlueprint(rr);
 				recognitionRules.put(rr, blueprint);
 			}
@@ -138,7 +171,7 @@ public class RecognitionEngine {
 		scs2erMatch = new HashMap<SemanticChangeSet, EngineBasedEditRuleMatch>();
 
 		// Optimize the Rulebase: Rule Set Reduction
-		if (settings.isRuleSetReduction()) {
+		if (ruleSetReduction) {
 			startTimer(RULE_SET_REDUCTION);
 			filterRecognitionRules();
 			stopTimer(RULE_SET_REDUCTION);
@@ -193,7 +226,6 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		IRecognitionRuleSorter ruleSorter = settings.getRrSorter();
 		ruleSorter.setDifferenceAnalysis(analysis);
 
 		for (Rule recognitionRule : recognitionRules.keySet()) {
@@ -216,7 +248,7 @@ public class RecognitionEngine {
 		startTimer(EXECUTION);
 
 		// Start execution:
-		if (settings.isUseThreadPool()) {
+		if (useThreadPool) {
 			executeParallel();
 		} else {
 			executeSequential();
@@ -261,7 +293,7 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Create thread pool
-		ExecutorService executor = Executors.newFixedThreadPool(settings.getNumberOfThreads());
+		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
 		// List of units for each thread
 		Set<Rule> units = new HashSet<Rule>();
@@ -271,7 +303,7 @@ public class RecognitionEngine {
 
 			// Filter rules
 			if (!filtered.contains(transformationUnit)) {
-				if (units.size() == settings.getRulesPerThread()) {
+				if (units.size() == rulesPerThread) {
 					// Start new recognizer thread
 					RecognizerThread recognizerThread = new RecognizerThread(units, this);
 
@@ -375,7 +407,7 @@ public class RecognitionEngine {
 	 *            The corresponding semantic change set.
 	 */
 	public void removeMatches(SemanticChangeSet scs) {
-		if (settings.isCalculateEditRuleMatch()) {
+		if (calculateEditRuleMatch) {
 			scs2rrMatch.remove(scs);
 			scs2erMatch.remove(scs);
 	
@@ -390,7 +422,7 @@ public class RecognitionEngine {
 	 * @param recognitionruleApp
 	 */
 	private void addMatches(RuleApplication recognitionruleApp) {
-		if (settings.isCalculateEditRuleMatch()) {
+		if (calculateEditRuleMatch) {
 
 			SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
 
@@ -402,7 +434,7 @@ public class RecognitionEngine {
 			scs2erMatch.put(scs, erMatch);
 
 			// Add to difference (if EditRuleMatch serialization is required)
-			if (settings.isSerializeEditRuleMatch()) {
+			if (serializeEditRuleMatch) {
 				EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
 				scs.setEditRuleMatch(editRuleMatch);
 				
@@ -495,10 +527,7 @@ public class RecognitionEngine {
 		return difference;
 	}
 	
-	/**
-	 * @return The actual setting for this lifting engine.
-	 */
-	public LiftingSettings getLiftingSettings() {
-		return settings;
+	public Set<ILiftingRuleBase> getRuleBases() {
+		return ruleBases;
 	}
 }

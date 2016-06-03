@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.editrule.rulebase/src" editDirectory="/org.sidiff.editrule.rulebase.edit/src"
+    editorDirectory="/org.sidiff.editrule.rulebase.editor/src" modelPluginID="org.sidiff.editrule.rulebase"
+    modelName="RuleBase" editPluginClass="org.sidiff.editrule.rulebase.provider.RuleBaseEditPlugin"
+    editorPluginClass="org.sidiff.editrule.rulebase.presentation.RuleBaseEditorPlugin"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
+  <foreignModel>RuleBase.ecore</foreignModel>
+  <genPackages prefix="Rulebase" basePackage="org.sidiff.editrule" disposableProviderFactory="true"
+      ecorePackage="RuleBase.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//PotentialDependencyKind">
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseDelete"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/CreateUse"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ChangeUse"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidCreate"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/DeleteForbid"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ChangeForbid"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//ParameterDirection">
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterDirection/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterDirection/OUT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//ParameterKind">
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterKind/OBJECT"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterKind/VALUE"/>
+    </genEnums>
+    <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/items"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/editRules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialNodeDependencies"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialEdgeDependencies"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialAttributeDependencies"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/documentTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//EditRule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/executeMainUnit"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/ruleBaseItem"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//EditRule/useDerivedFeatures"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/inverse"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/classification"/>
+      <genOperations ecoreOperation="RuleBase.ecore#//EditRule/getExecuteModule"/>
+      <genOperations ecoreOperation="RuleBase.ecore#//EditRule/getParameterByName">
+        <genParameters ecoreParameter="RuleBase.ecore#//EditRule/getParameterByName/name"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//RuleBaseItem">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/editRule"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/ruleBase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBaseItem/active"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBaseItem/editRuleAttachments"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="RuleBase.ecore#//PotentialDependency">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/kind"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/sourceRule"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/targetRule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/transient"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeDependency">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeDependency/ruleBase"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeDependency/sourceNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeDependency/targetNode"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//PotentialEdgeDependency">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeDependency/ruleBase"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeDependency/sourceEdge"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeDependency/targetEdge"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//PotentialAttributeDependency">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeDependency/ruleBase"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeDependency/sourceAttribute"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeDependency/targetAttribute"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeDependency/sourceNode"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeDependency/targetNode"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/direction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/kind"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//Parameter/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Parameter/multi"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//Classification">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Classification/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//Classification/classificatorID"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//EditRuleAttachment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRuleAttachment/ruleBaseItem"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRuleAttachment/editRule"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

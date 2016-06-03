@@ -1,6 +1,6 @@
 package org.sidiff.editrule.analysis.classification;
 
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public interface IClassificator {
 	

@@ -21,7 +21,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.editrule.rulebase.ParameterDirection;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.asymmetric.ObjectParameterBinding} object.

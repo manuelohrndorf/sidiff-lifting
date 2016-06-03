@@ -9,8 +9,8 @@ package org.sidiff.difference.asymmetric;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '

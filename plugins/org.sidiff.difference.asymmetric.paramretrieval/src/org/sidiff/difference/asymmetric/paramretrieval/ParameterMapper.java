@@ -15,8 +15,8 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.rulebase.Parameter;
-import org.sidiff.difference.rulebase.ParameterDirection;
+import org.sidiff.editrule.rulebase.Parameter;
+import org.sidiff.editrule.rulebase.ParameterDirection;
 
 /**
  * Analyzes a given asymmetric differences and maps out parameters that create

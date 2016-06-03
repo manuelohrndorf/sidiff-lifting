@@ -34,8 +34,7 @@ import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleM
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
@@ -44,6 +43,7 @@ import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.ChangeIndex;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.difference.technical.ModelImports;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * The recognition engine is used to execute the recognition rules on the
@@ -68,7 +68,7 @@ public class RecognitionEngine {
 	
 	private boolean serializeEditRuleMatch;
 	
-	private Set<IRuleBase> ruleBases;
+	private Set<ILiftingRuleBase> ruleBases;
 	
 	/**
 	 * Matching information:<br/>
@@ -127,7 +127,7 @@ public class RecognitionEngine {
 	 * @param calculateEditRuleMatch
 	 * @param serializeEditRuleMatch
 	 */
-	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, Scope scope, Set<IRuleBase> usedRulebases, boolean ruleSetReduction, boolean buildGraphPerRule, IRecognitionRuleSorter ruleSorter, boolean useThreadPool,
+	public RecognitionEngine(SymmetricDifference difference, ModelImports imports, Scope scope, Set<ILiftingRuleBase> usedRulebases, boolean ruleSetReduction, boolean buildGraphPerRule, IRecognitionRuleSorter ruleSorter, boolean useThreadPool,
 			int numberOfThreads, int rulesPerThread, boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 
 		this.difference = difference;
@@ -152,8 +152,8 @@ public class RecognitionEngine {
 
 		// Get all recognition rules to be used:
 		recognitionRules = new HashSet<Rule>();
-		for (IRuleBase rb : usedRulebases) {
-			recognitionRules.addAll(rb.getActiveRecognitionTransformationUnits());
+		for (ILiftingRuleBase rb : usedRulebases) {
+			recognitionRules.addAll(rb.getActiveRecognitonUnits());
 		}
 
 		// Initialize Rule Applications:
@@ -540,7 +540,7 @@ public class RecognitionEngine {
 		return editRule2SCS;
 	}
 
-	public Set<IRuleBase> getRuleBases() {
+	public Set<ILiftingRuleBase> getRuleBases() {
 		return ruleBases;
 	}
 }

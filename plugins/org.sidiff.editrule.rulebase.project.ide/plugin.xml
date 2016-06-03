@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension 
+         id="rulebasenature"
+         name="Rulebase Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.sidiff.editrule.rulebase.builder.rulebasebuilder">
+      </builder>
+   </extension>
+
+             <extension
+                   point="org.eclipse.ui.ide.projectNatureImages">
+                <image
+                      icon="icons/rulebase.gif"
+                      id="org.sidiff.editrule.rulebase.project.ide.icon"
+                      natureId="org.sidiff.editrule.rulebase.project.ide.rulebasenature">
+                </image>
+             </extension>
+             
+             <extension
+                   point="org.eclipse.pde.ui.pluginContent">
+                <wizard
+                      category="SiLift"
+                      class="org.sidiff.editrule.rulebase.project.ide.wizard.RulebaseProjectWizard"
+                      icon="icons/16x16_rulebase.gif"
+                      id="org.sidiff.editrule.rulebase.project.wizard.rbproject"
+                      java="true"
+                      name="Rulebase Plug-In Project"
+                      pureOSGi="false"
+                      rcp="false"
+                      requiresActivator="false"
+                      ui-content="false">
+                   <description>
+                      This wizard creates a RuleBase Plugin-Project for defining Edit-Rules
+which can be used in the SiLift environment.
+                   </description>
+                </wizard>
+             </extension>
+             
+             <extension
+                   point="org.eclipse.pde.ui.templates">
+                <template
+                      class="org.sidiff.editrule.rulebase.project.ide.templates.RuleBaseTemplateSection"
+                      contributingId="org.sidiff.editrule.rulebase.rulebase_extension"
+                      icon="icons/16x16_rulebase.gif"
+                      id="org.sidiff.editrule.rulebase.project.templates.rbproject"
+                      name="RuleBase Plug-In Project Template">
+                </template>
+             </extension>
+             
+             <extension
+                   point="org.eclipse.ui.newWizards">
+                <category
+                      id="org.sidiff.editrule.rulebase.project.silift.category"
+                      name="SiLift">
+                </category>
+                <wizard
+                      category="org.sidiff.editrule.rulebase.project.silift.category"
+                      class="org.sidiff.editrule.rulebase.project.ide.wizard.DirectRulebaseProjectWizard"
+                      icon="icons/16x16_rulebase.gif"
+                      id="org.sidiff.editrule.rulebase.project.rulebasewizard"
+                      name="RuleBase Plugin-Project"
+                      project="true">
+                   <description>
+                      This wizard creates a RuleBase Plugin-Project for defining Edit-Rules
+which can be used in the SiLift environment.
+                   </description>
+                </wizard>
+             </extension>
+
+</plugin>
