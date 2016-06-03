@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -32,7 +31,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
@@ -43,11 +41,12 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
+import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 
 /**
  * Builds a rulebase of edit-rules.
  * 
- * @author dreuling
+ * @author dreuling, mohrndorf
  */
 public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
@@ -68,59 +67,56 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private boolean editRuleChanged = false;
 	
-	/**
-	 * The rulebase manager of the rulebase project for which this builder is defined.
-	 */
-	private EditRuleBaseWrapper ruleBaseWrapper;
-
-	/**
-	 * The edit-rule attachment builders of the rulebase project for which this builder is defined.
-	 */
-	private Set<IEditRuleAttachmentBuilder> attachmentBuilders;
-	
-	/**
-	 * The class builders of the rulebase project for which this builder is defined.
-	 */
-	private EditRuleBaseClassBuilder classBuilder;
-
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 
+		// The rulebase manager of the rulebase project for which this builder is defined:
+		EditRuleBaseWrapper ruleBaseWrapper = createEditRuleBaseWrapper();
+	
+		// The edit-rule attachment builders of the rulebase project for which this builder is defined:
+		Set<IEditRuleAttachmentBuilder> attachmentBuilders = createEditRuleAttachmentBuilders();
+		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
-			fullBuild(monitor);
+			fullBuild(monitor, ruleBaseWrapper, attachmentBuilders);
 		} else {
 			IResourceDelta delta = getDelta(getProject());
 			
 			if (delta == null) {
-				fullBuild(monitor);
+				fullBuild(monitor, ruleBaseWrapper, attachmentBuilders);
 			} else {
-				incrementalBuild(delta, monitor);
+				incrementalBuild(delta, monitor, ruleBaseWrapper, attachmentBuilders);
 			}
 		}
 		
 		return null;
 	}
 	
-	private void buildRuleBaseProject(IProgressMonitor monitor) {
+	private void buildRuleBaseProject(IProgressMonitor monitor, 
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 		
 		if (editRuleChanged) {
-			buildRuleBase(monitor);
-			addInverseEditRules(monitor);
-			buildRuleBaseClass(monitor);
+			buildRuleBase(monitor, ruleBaseWrapper);
+			addInverseEditRules(monitor, ruleBaseWrapper);
+			buildRuleBaseClass(monitor, ruleBaseWrapper, attachmentBuilders);
 
 			editRuleChanged = false;
-			
-			// Refresh project:
-			try {
-				getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			} catch (CoreException e2) {
-				// nothing
-			}
+		}
+	}
+	
+	private void refreshProject() {
+		// Refresh project:
+		try {
+			getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException e2) {
+			// nothing
 		}
 	}
 
-	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor) {
+	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor, 
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 
+		// Initialize:
+		refreshProject();
 		editRuleChanged = false;
 		
 		// Iterate through resource and children of this resource
@@ -141,19 +137,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 						// If resource has been removed, try to delete old
 						// Co-Rules (= Built EditRule).
 						if (delta.getKind() == IResourceDelta.REMOVED) {
-							deleteEditRule(delta.getResource(), monitor);
+							deleteEditRule(delta.getResource(), monitor, ruleBaseWrapper, attachmentBuilders);
 						}
 
 						// If resource has been changed, try to delete old
 						// Co-Rules (= Built EditRule) and build the "new" version.
 						else if (delta.getKind() == IResourceDelta.CHANGED) {
-							deleteEditRule(delta.getResource(), monitor);
-							buildEditRule(delta.getResource(), monitor);
+							deleteEditRule(delta.getResource(), monitor, ruleBaseWrapper, attachmentBuilders);
+							buildEditRule(delta.getResource(), monitor, ruleBaseWrapper, attachmentBuilders);
 						}
 
 						// If resource has been added, just build the EditRule.
 						else if (delta.getKind() == IResourceDelta.ADDED) {
-							buildEditRule(delta.getResource(), monitor);
+							buildEditRule(delta.getResource(), monitor, ruleBaseWrapper, attachmentBuilders);
 						}
 
 					}
@@ -168,14 +164,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		// Update RuleBase accordingly
-		buildRuleBaseProject(monitor);
+		buildRuleBaseProject(monitor, ruleBaseWrapper, attachmentBuilders);
+		refreshProject();
 	}
 
-	private void fullBuild(final IProgressMonitor monitor) {
-
+	private void fullBuild(final IProgressMonitor monitor, 
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
+		
+		// Initialize:
+		refreshProject();
+		
 		// Clean up before, to be sure to "regenerate" rulebase
 		try {
-			clean(monitor);
+			internalClean(monitor, attachmentBuilders);
 		} catch (CoreException e1) {
 			e1.printStackTrace();
 		}
@@ -189,7 +190,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 					// Continue only if Resource is an EditRule
 					if (isEditRule(resource)) {
 						editRuleChanged = true;
-						buildEditRule(resource, monitor);
+						buildEditRule(resource, monitor, ruleBaseWrapper, attachmentBuilders);
 					}
 
 					// Visit children
@@ -202,23 +203,24 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 
 		// Update RuleBase accordingly
-		buildRuleBaseProject(monitor);
+		buildRuleBaseProject(monitor, ruleBaseWrapper, attachmentBuilders);
+		refreshProject();
 	}
 	
-	private void buildRuleBaseClass(IProgressMonitor monitor) {
+	private void buildRuleBaseClass(IProgressMonitor monitor, 
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 		
 		if (monitor.isCanceled()) {
 			throw new OperationCanceledException();
 		}
 		
-		if (classBuilder == null) {
-			classBuilder = new EditRuleBaseClassBuilder();
-		}
+		// The class builders of the rulebase project for which this builder is defined.
+		EditRuleBaseClassBuilder classBuilder = new EditRuleBaseClassBuilder();
 		
 		// Get attachment type IDs:
 		Set<String> attachmentTypes = new LinkedHashSet<String>();
 		
-		for (IEditRuleAttachmentBuilder attachmentBuilder: getEditRuleAttachmentBuilder()) {
+		for (IEditRuleAttachmentBuilder attachmentBuilder: attachmentBuilders) {
 			attachmentTypes.add(attachmentBuilder.getID());
 		}
 		
@@ -242,12 +244,17 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
+		internalClean(monitor, createEditRuleAttachmentBuilders());
+	}
+	
+	private void internalClean(IProgressMonitor monitor, 
+			Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
 
 		// Remove Markers
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
 
 		// Delete all co-rules
-		for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+		for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 			attachmentBuilder.cleanAttachments(monitor, getProject());
 		}
 
@@ -264,10 +271,6 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		if (classFile.exists()) {
 			classFile.delete();
 		}
-		
-		ruleBaseWrapper = null;
-		attachmentBuilders = null;
-		classBuilder = null;
 	}
 
 	/**
@@ -300,21 +303,21 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @param monitor
 	 *            IProgressMonitor to use
 	 */
-	private void deleteEditRule(IResource editRule, IProgressMonitor monitor) {
+	private void deleteEditRule(IResource editRule, IProgressMonitor monitor,
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 
 		try {
 			// Remove Edit-Rule from rulebase:
-			EditRuleBaseWrapper rbWrapper = getEditRuleBaseWrapper();
-			EditRule editRuleWrapper = rbWrapper.findEditRule(editRule.getLocation().toString());
+			EditRule editRuleWrapper = ruleBaseWrapper.findEditRule(editRule.getLocation().toString());
 
 			// Maybe invalid Edit-Rule that is not in the rulebase?
 			if (editRuleWrapper != null) {
 				RuleBaseItem item = editRuleWrapper.getRuleBaseItem();
-				rbWrapper.removeItem(item);
-				rbWrapper.saveRuleBase();
+				ruleBaseWrapper.removeItem(item);
+				ruleBaseWrapper.saveRuleBase();
 				
 				// Remove Co-Rules:
-				for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+				for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 					attachmentBuilder.deleteAttachment(monitor, getProject(), item);
 				}
 			}
@@ -331,39 +334,36 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @param monitor
 	 *            Used IProgressMonitor
 	 */
-	private void buildEditRule(IResource editRule, IProgressMonitor monitor) {
+	private void buildEditRule(IResource editRuleResource, IProgressMonitor monitor,
+			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 
 		// Abort if canceled
 		if (monitor.isCanceled()) {
 			throw new OperationCanceledException();
 		}
 
-		// Refresh EditRule
 		try {
-			editRule.refreshLocal(IResource.DEPTH_ZERO, null);
-		} catch (CoreException e1) {
-			e1.printStackTrace();
-		}
-
-		// Validate EditRule
-		validateEditRule(editRule, monitor);
-
-		try {
+			
+			// Load the edit-rule:
+			Module editRule = RuleBaseStorage.loadHenshinModule(editRuleResource);
+			
+			// Validate EditRule
+			validateEditRule(editRuleResource, editRule, monitor);
+			
 			// Build EditRule if no error occurred during validation
-			if (editRule.findMaxProblemSeverity(EValidator.MARKER, false,
+			if (editRuleResource.findMaxProblemSeverity(EValidator.MARKER, false,
 					IResource.DEPTH_ZERO) != IMarker.SEVERITY_ERROR) {
 
-				monitor.subTask("Building Edit-Rule " + editRule.getFullPath());
+				monitor.subTask("Building Edit-Rule " + editRuleResource.getFullPath());
 
 				// Build edit-rule:
-				EditRuleBaseWrapper rulebaseWrapper = getEditRuleBaseWrapper();
-				EditRule editRuleWrapper = rulebaseWrapper.createEditRule(loadModule(editRule));
-				RuleBaseItem rulebaseItem = rulebaseWrapper.createItem(editRuleWrapper);
+				EditRule editRuleWrapper = ruleBaseWrapper.createEditRule(editRule);
+				RuleBaseItem rulebaseItem = ruleBaseWrapper.createItem(editRuleWrapper);
 				
-				rulebaseWrapper.addItem(rulebaseItem);
+				ruleBaseWrapper.addItem(rulebaseItem);
 				
 				// Build attachments:
-				for (IEditRuleAttachmentBuilder attachmentBuilder : getEditRuleAttachmentBuilder()) {
+				for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 					attachmentBuilder.buildAttachment(monitor, getProject(), rulebaseItem);
 				}
 			}
@@ -391,13 +391,13 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * 
 	 * @see{EditRuleValidation
 	 */
-	private void validateEditRule(IResource editRule, IProgressMonitor monitor) {
+	private void validateEditRule(IResource editRuleResource, Module editRule, IProgressMonitor monitor) {
 
-		monitor.subTask("Validating Edit-Rule " + editRule.getFullPath());
+		monitor.subTask("Validating Edit-Rule " + editRuleResource.getFullPath());
 
 		// Validate Edit-Rule
 		List<EditRuleValidation> validations = new ArrayList<EditRuleValidation>();
-		validations = EditRuleValidator.calculateEditRuleValidations(loadModule(editRule));
+		validations = EditRuleValidator.calculateEditRuleValidations(editRule);
 
 		try {
 			// Create Markers according to validations
@@ -421,7 +421,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				URI platformResourceURI = EMFStorage.uriToPlatformUri(URI.createURI(elementURI));
 				String attribute = platformResourceURI.toString() + elementID;
 
-				IMarker marker = editRule.createMarker(EValidator.MARKER);
+				IMarker marker = editRuleResource.createMarker(EValidator.MARKER);
 				marker.setAttribute(IMarker.MESSAGE, validation.infoMessage);
 
 				int severity = IMarker.SEVERITY_ERROR;
@@ -491,33 +491,15 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 
 	/**
-	 * Helper method to load an module from given EditRule.
-	 * 
-	 * @param editRule
-	 *            EditRule to load the module from
-	 * @return The Henshin Module of the given EditRule
-	 */
-	private Module loadModule(IResource editRule) {
-		IPath editRulePath = editRule.getRawLocation();
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
-		Module editModule = resourceSet.getModule(editRulePath.toOSString());
-		return editModule;
-
-	}
-
-	/**
 	 * @return The rulebase manager of this project.
 	 */
-	private EditRuleBaseWrapper getEditRuleBaseWrapper() {
+	private EditRuleBaseWrapper createEditRuleBaseWrapper() {
 
-		// Create new RuleBase if not already existent
-		if (ruleBaseWrapper == null) {
-			IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
-			URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
-			
-			ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
-			ruleBaseWrapper.setName(getRuleBasePluginBundleName());
-		}
+		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
+		URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
+
+		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
+		ruleBaseWrapper.setName(getRuleBasePluginBundleName());
 
 		return ruleBaseWrapper;
 	}
@@ -525,14 +507,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * @return The edit-rule attachment builder of this project.
 	 */
-	private Set<IEditRuleAttachmentBuilder> getEditRuleAttachmentBuilder() {
-		
-		// Create all attachment builder:
-		if (attachmentBuilders == null) {
-			attachmentBuilders = EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
-		}
-		
-		return attachmentBuilders;
+	private Set<IEditRuleAttachmentBuilder> createEditRuleAttachmentBuilders() {
+		return EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
 	}
 
 	/**
@@ -566,8 +542,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			}
 
 			String manifest = contents.toString();
-			String pattern = ".*Bundle-Name:\\s*([(\\w|/[^\\S\\n]/)]*);?.*";
+			String pattern = "(?sm).*Bundle-Name:\\s*(\\p{Print}*)$.*";
 			Matcher matcher = Pattern.compile(pattern, Pattern.DOTALL).matcher(manifest);
+			
 			if (matcher.matches()) {
 				editRulePluginId = matcher.group(1);
 			}
@@ -582,7 +559,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @param monitor
 	 *            IProgressMonitor to use
 	 */
-	private void buildRuleBase(IProgressMonitor monitor) {
+	private void buildRuleBase(IProgressMonitor monitor, EditRuleBaseWrapper ruleBaseWrapper) {
 
 		// Abort if canceled
 		if (monitor.isCanceled()) {
@@ -593,7 +570,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 		monitor.subTask("Building RuleBase File " + rulebaseFile.getFullPath());
 		try {
-			getEditRuleBaseWrapper().saveRuleBase();
+			ruleBaseWrapper.saveRuleBase();
 
 			// Mark RuleBase as derived, if not already
 			if (!rulebaseFile.isDerived()) {
@@ -615,20 +592,14 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	}
 
-	private void addInverseEditRules(IProgressMonitor monitor) {
+	private void addInverseEditRules(IProgressMonitor monitor, EditRuleBaseWrapper ruleBaseWrapper) {
 
-		if (monitor.isCanceled()) {
-			throw new OperationCanceledException();
-		}
-
-		EditRuleBaseWrapper rbWrapper = getEditRuleBaseWrapper();
-
-		for (RuleBaseItem rule : rbWrapper.getRuleBase().getItems()) {
+		for (RuleBaseItem rule : ruleBaseWrapper.getRuleBase().getItems()) {
 			if (rule.getEditRule().getInverse() == null) {
 				for (Annotation a : rule.getEditRule().getExecuteModule().getAnnotations()) {
 					if (a.getKey().equals("INVERSE")) {
 						String ruleName = a.getValue();
-						for (RuleBaseItem invRule : rbWrapper.getRuleBase().getItems()) {
+						for (RuleBaseItem invRule : ruleBaseWrapper.getRuleBase().getItems()) {
 							if (invRule.getEditRule().getExecuteModule().getName().equals(ruleName)) {
 								rule.getEditRule().setInverse(invRule.getEditRule());
 								// invRule.getEditRule().setInverse(rule.getEditRule());
@@ -638,11 +609,10 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 					}
 				}
 			}
-		}
-		try {
-			rbWrapper.saveRuleBase();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+			
+			if (monitor.isCanceled()) {
+				throw new OperationCanceledException();
+			}
 		}
 	}
 }

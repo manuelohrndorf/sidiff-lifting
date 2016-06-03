@@ -35,14 +35,6 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 		} catch (NoMainUnitFoundException e1) {
 			e1.printStackTrace();
 		}
-		
-		// Refresh build folder
-		try {
-			project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public void createRecognitionRuleFolder(IProgressMonitor monitor, IProject project) {

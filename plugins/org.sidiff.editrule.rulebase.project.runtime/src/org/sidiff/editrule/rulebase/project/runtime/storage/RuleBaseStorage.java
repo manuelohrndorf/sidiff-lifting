@@ -1,13 +1,18 @@
 package org.sidiff.editrule.rulebase.project.runtime.storage;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.sidiff.common.emf.modelstorage.XMIIDResourceImpl;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.rulebase.RuleBase;
@@ -101,5 +106,62 @@ public class RuleBaseStorage {
 
 		RuleBase rulebase = (RuleBase) rulebaseResource.getContents().get(0);
 		return rulebase;
+	}
+	
+	/**
+	 * Saves a rule-base which is already contained in a resource.
+	 * 
+	 * @param rulebase
+	 *            the rulebase that will be saved.
+	 */
+	public static void saveRuleBase(RuleBase rulebase) {
+
+		Resource resource = rulebase.eResource();
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+		try {
+			resource.save(options);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Save the rule-base resource to given URI path.
+	 * 
+	 * @param path
+	 *            the save path.
+	 * @param root
+	 *            the rulebase that will be saved.
+	 */
+	public static void saveRuleBaseAs(URI uri, RuleBase rulebase) {
+
+		Resource resource = new XMIIDResourceImpl(uri);
+		resource.getContents().add(rulebase);
+
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+		try {
+			resource.save(options);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Helper method to load an Henshin module from given (workspace) resource.
+	 * 
+	 * @param resource
+	 *            The Henshin module to load.
+	 * @return The Henshin module (with platform resource URI) of the given resource.
+	 */
+	public static Module loadHenshinModule(IResource resource) {
+		URI editRuleProjectURI = URI.createPlatformResourceURI(resource.getFullPath().toString(), true);
+		
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		Module editModule = resourceSet.getModule(editRuleProjectURI, false);
+		return editModule;
 	}
 }

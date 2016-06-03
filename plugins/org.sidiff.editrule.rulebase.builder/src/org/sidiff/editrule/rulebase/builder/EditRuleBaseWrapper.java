@@ -129,9 +129,9 @@ public class EditRuleBaseWrapper {
 		saveEditModules();
 		
 		if (exists(rulebaseURI)) {
-			EMFStorage.eSave(rulebase);
+			RuleBaseStorage.saveRuleBase(rulebase);
 		}  else {
-			EMFStorage.eSaveAs(rulebaseURI, rulebase);
+			RuleBaseStorage.saveRuleBaseAs(rulebaseURI, rulebase);
 		}
 	}
 	
