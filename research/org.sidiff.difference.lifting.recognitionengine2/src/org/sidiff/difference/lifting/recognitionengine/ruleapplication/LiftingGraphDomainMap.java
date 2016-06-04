@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -44,17 +43,17 @@ public class LiftingGraphDomainMap {
 	
 	private SymmetricDifference difference;
 
-	private Map<EClass, Set<EClass>> subTypes;
+	private IndexSet<EClass, Set<EClass>> subTypes;
 
-	private Index<EClass, Collection<AddObject>> addObjects;
+	private IndexList<EClass, Collection<AddObject>> addObjects;
 
-	private Index<EClass, Collection<RemoveObject>> removeObjects;
+	private IndexList<EClass, Collection<RemoveObject>> removeObjects;
 
-	private Index<EReference, Collection<AddReference>> addReference;
+	private IndexList<EReference, Collection<AddReference>> addReference;
 
-	private Index<EReference, Collection<RemoveReference>> removeReference;
+	private IndexList<EReference, Collection<RemoveReference>> removeReference;
 
-	private Index<EAttribute, Collection<AttributeValueChange>> attributeValueChange;
+	private IndexList<EAttribute, Collection<AttributeValueChange>> attributeValueChange;
 	
 	private Set<EStructuralFeature> typeNodes;
 
@@ -67,18 +66,18 @@ public class LiftingGraphDomainMap {
 	public LiftingGraphDomainMap(SymmetricDifference difference) {
 		this.difference = difference;
 
-		subTypes = new Index<EClass, Set<EClass>>();
-		addObjects = new Index<EClass, Collection<AddObject>>();
-		removeObjects = new Index<EClass, Collection<RemoveObject>>();
-		addReference = new Index<EReference, Collection<AddReference>>();
-		removeReference = new Index<EReference, Collection<RemoveReference>>();
-		attributeValueChange = new Index<EAttribute, Collection<AttributeValueChange>>();
+		subTypes = new IndexSet<EClass, Set<EClass>>();
+		addObjects = new IndexList<EClass, Collection<AddObject>>();
+		removeObjects = new IndexList<EClass, Collection<RemoveObject>>();
+		addReference = new IndexList<EReference, Collection<AddReference>>();
+		removeReference = new IndexList<EReference, Collection<RemoveReference>>();
+		attributeValueChange = new IndexList<EAttribute, Collection<AttributeValueChange>>();
 		typeNodes = new HashSet<EStructuralFeature>();
 		
 		createChangeDomainMap(difference);
 	}
 	
-	private class Index<K, C extends Collection<?>> extends HashMap<K, C> {
+	private class IndexList<K, C extends Collection<?>> extends HashMap<K, C> {
 
 		private static final long serialVersionUID = 1L;
 
@@ -101,6 +100,37 @@ public class LiftingGraphDomainMap {
 			if (results == null) {
 				@SuppressWarnings("rawtypes")
 				C newIndex = (C) new ArrayList();
+				put(key, newIndex);
+				return newIndex;
+			} else {
+				return results;
+			}
+		}
+	}
+	
+	private class IndexSet<K, C extends Collection<?>> extends HashMap<K, C> {
+
+		private static final long serialVersionUID = 1L;
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public C get(Object key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				return (C) Collections.emptySet();
+			} else {
+				return results;
+			}
+		}
+		
+		@SuppressWarnings("unchecked")
+		public C getModifiable(K key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				@SuppressWarnings("rawtypes")
+				C newIndex = (C) new HashSet();
 				put(key, newIndex);
 				return newIndex;
 			} else {
@@ -418,7 +448,7 @@ public class LiftingGraphDomainMap {
 	 *            The super-type.
 	 * @return All sub-types of the given EClass.
 	 */
-	// TODO: Centralize -> Matching Helper!
+	// TODO: Centralize
 	private Set<EClass> getSubTypes(EClass type) {
 		return subTypes.get(type);
 	}
@@ -431,11 +461,11 @@ public class LiftingGraphDomainMap {
 	 *            The package containing the sub- and super-classes.
 	 * @return A map EClass -> Set of EClass sup-types.
 	 */
-	// TODO: Centralize -> Matching Helper!
-	protected Map<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
+	// TODO: Centralize
+	protected IndexSet<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
 
 		// Class (A) -> [Sub classes (X, Y, Z)]
-		Map<EClass, Set<EClass>> subTypes = new HashMap<EClass, Set<EClass>>();
+		IndexSet<EClass, Set<EClass>> subTypes = new IndexSet<EClass, Set<EClass>>();
 
 		// Iterate over all docType packages
 		for (EPackage ePackage : ePackages) {
@@ -449,19 +479,13 @@ public class LiftingGraphDomainMap {
 					EClass eSubClass = (EClass) obj;
 
 					if (subTypes.get(eSubClass) == null) {
-						subTypes.put(eSubClass, new HashSet<EClass>());
+						subTypes.put(eSubClass, null);
 					}
 
 					// Lookup the super types (X,Y,Z) of class (A) and add
 					// class (A) as sub type to the classes (X, Y, Z)
 					for (EClass eSuperClass : eSubClass.getEAllSuperTypes()) {
-						Set<EClass> allSubTypes = subTypes.get(eSuperClass);
-
-						if (allSubTypes == null) {
-							allSubTypes = new HashSet<EClass>();
-							subTypes.put(eSuperClass, allSubTypes);
-						}
-
+						Set<EClass> allSubTypes = subTypes.getModifiable(eSuperClass);
 						allSubTypes.add(eSubClass);
 					}
 				}
