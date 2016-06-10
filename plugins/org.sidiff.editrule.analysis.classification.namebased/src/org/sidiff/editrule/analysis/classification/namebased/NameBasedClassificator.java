@@ -1,8 +1,8 @@
 package org.sidiff.editrule.analysis.classification.namebased;
 
 import org.sidiff.common.collections.Classifier;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.editrule.analysis.classification.IClassificator;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class NameBasedClassificator implements IClassificator, Classifier<String,EditRule> {
 
