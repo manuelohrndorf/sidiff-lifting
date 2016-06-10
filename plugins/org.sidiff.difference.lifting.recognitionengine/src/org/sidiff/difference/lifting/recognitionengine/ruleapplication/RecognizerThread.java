@@ -84,9 +84,9 @@ public class RecognizerThread extends Thread {
 				
 				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
 				
-				if (rr.getName().equals("rr:deleteOppositeReference")) {
-					System.out.println("Hallo");
-				}
+//				if (rr.getName().equals("rr:deleteOppositeReference")) {
+//					System.out.println("Breakpoint");
+//				}
 				
 				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
 								

@@ -14,7 +14,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * Match of edit rules into the (symmetric) difference. Thus, the following

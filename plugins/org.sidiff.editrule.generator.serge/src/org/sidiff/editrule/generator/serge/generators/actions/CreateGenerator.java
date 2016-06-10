@@ -6,15 +6,14 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
-import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class CreateGenerator {
@@ -114,9 +113,9 @@ public class CreateGenerator {
 		// create mandatories if any
 		if (childInfo.hasMandatories()) {
 
-			if (config.CREATE_MANDATORY_CHILDREN)
+			if (config.create_mandatory_children)
 				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, newNode, OperationType.CREATE);
-			if (config.CREATE_MANDATORY_NEIGHBOURS)
+			if (config.create_mandatory_neighbours)
 				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, newNode, OperationType.CREATE);
 
 		}

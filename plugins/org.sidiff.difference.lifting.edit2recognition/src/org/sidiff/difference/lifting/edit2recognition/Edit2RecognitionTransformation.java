@@ -6,11 +6,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.internal.EditModule2RecognitionModule;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
-import org.sidiff.difference.lifting.edit2recognition.util.Edit2RecognitionUtil;
 import org.sidiff.difference.lifting.edit2recognition.util.ImplicitEdgeCompletion;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 
@@ -53,7 +53,7 @@ public class Edit2RecognitionTransformation implements EditPattern2RecognitionPa
 	public Edit2RecognitionTransformation(Module editModule) throws NoMainUnitFoundException {
 		
 		this.editModule = editModule;
-		this.editMainUnit = Edit2RecognitionUtil.findExecuteMainUnit(editModule);
+		this.editMainUnit = HenshinUnitAnalysis.findExecuteMainUnit(editModule);
 		
 		// Complex or atomic edit operation	
 		URI editRuleURI = EcoreUtil.getURI(editModule);
@@ -78,7 +78,7 @@ public class Edit2RecognitionTransformation implements EditPattern2RecognitionPa
 			throws NoMainUnitFoundException {
 		
 		this.editModule = editModule;
-		this.editMainUnit = Edit2RecognitionUtil.findExecuteMainUnit(editModule);
+		this.editMainUnit = HenshinUnitAnalysis.findExecuteMainUnit(editModule);
 		this.atomic = atomic;
 	}
 	

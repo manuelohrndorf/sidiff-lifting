@@ -8,10 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.common.henshin.INamingConventions;
-import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 
 /**
  * Some convenience functions to handle edit- and recognition-rules. 
@@ -19,33 +16,6 @@ import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
  * @author Manuel Ohrndorf
  */
 public class Edit2RecognitionUtil {
-	
-	/**
-	 * Searches the main unit of the edit rule.
-	 * 
-	 * @param editModule
-	 *            The edit rule to search.
-	 * @return The main unit of the edit rule.
-	 * 
-	 * @throws NoMainUnitFoundException
-	 * @throws NoUnitFoundException
-	 */
-	public static Unit findExecuteMainUnit(Module editModule) throws NoMainUnitFoundException {
-		
-		// Needed at least one transformation unit to perform generation
-		if (editModule.getUnits().isEmpty()) {
-			throw new NoMainUnitFoundException(editModule);
-		}
-		
-		// Search for unit with name mainUnit
-		Unit executeMainUnit = editModule.getUnit(INamingConventions.MAIN_UNIT);
-		
-		if (executeMainUnit == null) {
-			throw new NoMainUnitFoundException(editModule);
-		}
-		
-		return executeMainUnit;
-	}
 	
 	/**
 	 * Loads the given edit rule.

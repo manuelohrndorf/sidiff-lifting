@@ -7,10 +7,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.RuleBase;
-import org.sidiff.difference.rulebase.RuleBaseItem;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.RuleBase;
+import org.sidiff.editrule.rulebase.RuleBaseItem;
 
 /**
  * Calculates the potential intra-dependencies in a single rulebases. 

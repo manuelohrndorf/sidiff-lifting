@@ -12,9 +12,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 

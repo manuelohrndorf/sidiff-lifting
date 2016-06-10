@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.sidiff.difference.rulebase.EditRule;
 import org.sidiff.editrule.analysis.classification.IClassificator;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * Utility class to find appropriate classifiers for a edit rules.

@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
@@ -16,6 +15,7 @@ import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedExcep
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class MoveMaskedElementGenerator {

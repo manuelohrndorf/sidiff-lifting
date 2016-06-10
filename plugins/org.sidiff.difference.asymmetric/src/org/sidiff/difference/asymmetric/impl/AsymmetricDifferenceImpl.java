@@ -30,11 +30,11 @@ import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.Execution;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.RuleBase;
-import org.sidiff.difference.rulebase.RuleBaseItem;
-import org.sidiff.difference.rulebase.RulebaseFactory;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.RuleBase;
+import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * <!-- begin-user-doc -->

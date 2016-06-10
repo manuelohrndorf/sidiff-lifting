@@ -2,11 +2,11 @@ package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -22,8 +23,6 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.matching.model.Correspondence;
-import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * <ul>
@@ -42,21 +41,21 @@ public class LiftingGraphDomainMap {
 
 	private static final SymmetricPackage SYMMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
 	
-	private static final MatchingModelPackage MATCHING_PACKAGE = MatchingModelPackage.eINSTANCE;
-
 	private SymmetricDifference difference;
 
-	private Map<EClass, Set<EClass>> subTypes;
+	private IndexSet<EClass, Set<EClass>> subTypes;
 
-	private Map<EClass, Collection<AddObject>> addObjects;
+	private IndexList<EClass, Collection<AddObject>> addObjects;
 
-	private Map<EClass, Collection<RemoveObject>> removeObjects;
+	private IndexList<EClass, Collection<RemoveObject>> removeObjects;
 
-	private Map<EReference, Collection<AddReference>> addReference;
+	private IndexList<EReference, Collection<AddReference>> addReference;
 
-	private Map<EReference, Collection<RemoveReference>> removeReference;
+	private IndexList<EReference, Collection<RemoveReference>> removeReference;
 
-	private Map<EAttribute, Collection<AttributeValueChange>> attributeValueChange;
+	private IndexList<EAttribute, Collection<AttributeValueChange>> attributeValueChange;
+	
+	private Set<EStructuralFeature> typeNodes;
 
 	/**
 	 * Creates a new {@link LiftingGraphDomainMap}.
@@ -67,18 +66,81 @@ public class LiftingGraphDomainMap {
 	public LiftingGraphDomainMap(SymmetricDifference difference) {
 		this.difference = difference;
 
-		subTypes = new HashMap<EClass, Set<EClass>>();
-		addObjects = new HashMap<EClass, Collection<AddObject>>();
-		removeObjects = new HashMap<EClass, Collection<RemoveObject>>();
-		addReference = new HashMap<EReference, Collection<AddReference>>();
-		removeReference = new HashMap<EReference, Collection<RemoveReference>>();
-		attributeValueChange = new HashMap<EAttribute, Collection<AttributeValueChange>>();
-
+		subTypes = new IndexSet<EClass, Set<EClass>>();
+		addObjects = new IndexList<EClass, Collection<AddObject>>();
+		removeObjects = new IndexList<EClass, Collection<RemoveObject>>();
+		addReference = new IndexList<EReference, Collection<AddReference>>();
+		removeReference = new IndexList<EReference, Collection<RemoveReference>>();
+		attributeValueChange = new IndexList<EAttribute, Collection<AttributeValueChange>>();
+		typeNodes = new HashSet<EStructuralFeature>();
+		
 		createChangeDomainMap(difference);
+	}
+	
+	private class IndexList<K, C extends Collection<?>> extends HashMap<K, C> {
+
+		private static final long serialVersionUID = 1L;
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public C get(Object key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				return (C) Collections.emptyList();
+			} else {
+				return results;
+			}
+		}
+		
+		@SuppressWarnings("unchecked")
+		public C getModifiable(K key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				@SuppressWarnings("rawtypes")
+				C newIndex = (C) new ArrayList();
+				put(key, newIndex);
+				return newIndex;
+			} else {
+				return results;
+			}
+		}
+	}
+	
+	private class IndexSet<K, C extends Collection<?>> extends HashMap<K, C> {
+
+		private static final long serialVersionUID = 1L;
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public C get(Object key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				return (C) Collections.emptySet();
+			} else {
+				return results;
+			}
+		}
+		
+		@SuppressWarnings("unchecked")
+		public C getModifiable(K key) {
+			C results = super.get(key);
+			
+			if (results == null) {
+				@SuppressWarnings("rawtypes")
+				C newIndex = (C) new HashSet();
+				put(key, newIndex);
+				return newIndex;
+			} else {
+				return results;
+			}
+		}
 	}
 
 	/**
-	 * Creates the change index.
+	 * Creates the change domain map.
 	 * 
 	 * @param difference
 	 *            The difference containing the changes.
@@ -91,12 +153,12 @@ public class LiftingGraphDomainMap {
 
 			if (change instanceof AddObject) {
 				EClass type = ((AddObject) change).getObj().eClass();
-				internalGetAddObjectDomain(type).add((AddObject) change);
+				addObjects.getModifiable(type).add((AddObject) change);
 			}
 
 			else if (change instanceof RemoveObject) {
 				EClass type = ((RemoveObject) change).getObj().eClass();
-				internalGetRemoveObjectDomain(type).add((RemoveObject) change);
+				removeObjects.getModifiable(type).add((RemoveObject) change);
 
 				// RemoveObject pattern needs inheritance map:
 				packages.add(type.getEPackage());
@@ -104,53 +166,32 @@ public class LiftingGraphDomainMap {
 
 			else if (change instanceof AddReference) {
 				EReference type = ((AddReference) change).getType();
-				internalGetAddReferenceDomain(type).add((AddReference) change);
+				addReference.getModifiable(type).add((AddReference) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((AddReference) change).getType());
 			}
 
 			else if (change instanceof RemoveReference) {
 				EReference type = ((RemoveReference) change).getType();
-				internalGetRemoveReferenceDomain(type).add((RemoveReference) change);
+				removeReference.getModifiable(type).add((RemoveReference) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((RemoveReference) change).getType());
 			}
 
 			else if (change instanceof AttributeValueChange) {
 				EAttribute type = ((AttributeValueChange) change).getType();
-				internalGetAttributeValueChangeDomain(type).add((AttributeValueChange) change);
+				attributeValueChange.getModifiable(type).add((AttributeValueChange) change);
+				
+				// Record meta-model type nodes:
+				typeNodes.add(((AddReference) change).getType());
 			}
 		}
 
 		subTypes = getSubtypeIndex(packages);
 	}
 	
-	/**
-	 * @param modelElement
-	 *            The element of model A or model B.
-	 * @param correspondenceReference
-	 *            Model A:
-	 *            {@link SymmetricPackage.eINSTANCE.getCorrespondence_ObjA()} /
-	 *            Model B:
-	 *            {@link SymmetricPackage.eINSTANCE.getCorrespondence_Objb()}.
-	 * @return The correspondence of the model A/B object or <code>null</code>.
-	 */
-	public Correspondence getCorrespondence(EObject modelElement, EReference correspondenceReference) {
-		if (MATCHING_PACKAGE.getCorrespondence_MatchedA() == correspondenceReference) {
-			for(Correspondence c : difference.getMatching().getCorrespondences()){
-				if(c.getMatchedA().equals(modelElement)){
-					return c;
-				}
-			}
-		}
-
-		else if (MATCHING_PACKAGE.getCorrespondence_MatchedB() == correspondenceReference) {
-			for(Correspondence c : difference.getMatching().getCorrespondences()){
-				if(c.getMatchedB().equals(modelElement)){
-					return c;
-				}
-			}
-		}
-
-		return null;
-	}
-
 	/**
 	 * Get all candidates which are compatible with the given change type. This
 	 * returns a fresh and modifiable list.
@@ -160,7 +201,7 @@ public class LiftingGraphDomainMap {
 	 *            {@link RemoveObject}, {@link AddReference},
 	 *            {@link RemoveReference}, {@link AttributeValueChange})
 	 * @param changeDomainType
-	 *            The type of the changed objects ({@link EClass},
+	 *            The (meta) type of the changed objects ({@link EClass},
 	 *            {@link EReference}, {@link EAttribute}).
 	 * @return A set of candidates compatible with the change type.
 	 */
@@ -392,75 +433,12 @@ public class LiftingGraphDomainMap {
 	public int getAttributeValueChangeDomainSize(EAttribute type) {
 		return attributeValueChange.get(type).size();
 	}
-
+	
 	/**
-	 * Get the AddObject domain for a given type.
+	 * @return All meta-model types used by the corresponding difference.
 	 */
-	protected Collection<AddObject> internalGetAddObjectDomain(EClass type) {
-		Collection<AddObject> domain = addObjects.get(type);
-
-		if (domain == null) {
-			domain = new ArrayList<AddObject>();
-			addObjects.put(type, domain);
-		}
-
-		return domain;
-	}
-
-	/**
-	 * Get the RemoveObject domain for a given type.
-	 */
-	protected Collection<RemoveObject> internalGetRemoveObjectDomain(EClass type) {
-		Collection<RemoveObject> domain = removeObjects.get(type);
-
-		if (domain == null) {
-			domain = new ArrayList<RemoveObject>();
-			removeObjects.put(type, domain);
-		}
-
-		return domain;
-	}
-
-	/**
-	 * Get the RemoveReference domain for a given type.
-	 */
-	protected Collection<RemoveReference> internalGetRemoveReferenceDomain(EReference type) {
-		Collection<RemoveReference> domain = removeReference.get(type);
-
-		if (domain == null) {
-			domain = new ArrayList<RemoveReference>();
-			removeReference.put(type, domain);
-		}
-
-		return domain;
-	}
-
-	/**
-	 * Get the AddReference domain for a given type.
-	 */
-	protected Collection<AddReference> internalGetAddReferenceDomain(EReference type) {
-		Collection<AddReference> domain = addReference.get(type);
-
-		if (domain == null) {
-			domain = new ArrayList<AddReference>();
-			addReference.put(type, domain);
-		}
-
-		return domain;
-	}
-
-	/**
-	 * Get the AttributeValueChange domain for a given type.
-	 */
-	protected Collection<AttributeValueChange> internalGetAttributeValueChangeDomain(EAttribute type) {
-		Collection<AttributeValueChange> domain = attributeValueChange.get(type);
-
-		if (domain == null) {
-			domain = new ArrayList<AttributeValueChange>();
-			attributeValueChange.put(type, domain);
-		}
-
-		return domain;
+	public Set<EStructuralFeature> getTypeNodes() {
+		return typeNodes;
 	}
 
 	/**
@@ -470,6 +448,7 @@ public class LiftingGraphDomainMap {
 	 *            The super-type.
 	 * @return All sub-types of the given EClass.
 	 */
+	// TODO: Centralize
 	private Set<EClass> getSubTypes(EClass type) {
 		return subTypes.get(type);
 	}
@@ -482,10 +461,11 @@ public class LiftingGraphDomainMap {
 	 *            The package containing the sub- and super-classes.
 	 * @return A map EClass -> Set of EClass sup-types.
 	 */
-	protected Map<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
+	// TODO: Centralize
+	protected IndexSet<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
 
 		// Class (A) -> [Sub classes (X, Y, Z)]
-		Map<EClass, Set<EClass>> subTypes = new HashMap<EClass, Set<EClass>>();
+		IndexSet<EClass, Set<EClass>> subTypes = new IndexSet<EClass, Set<EClass>>();
 
 		// Iterate over all docType packages
 		for (EPackage ePackage : ePackages) {
@@ -499,19 +479,13 @@ public class LiftingGraphDomainMap {
 					EClass eSubClass = (EClass) obj;
 
 					if (subTypes.get(eSubClass) == null) {
-						subTypes.put(eSubClass, new HashSet<EClass>());
+						subTypes.put(eSubClass, null);
 					}
 
 					// Lookup the super types (X,Y,Z) of class (A) and add
 					// class (A) as sub type to the classes (X, Y, Z)
 					for (EClass eSuperClass : eSubClass.getEAllSuperTypes()) {
-						Set<EClass> allSubTypes = subTypes.get(eSuperClass);
-
-						if (allSubTypes == null) {
-							allSubTypes = new HashSet<EClass>();
-							subTypes.put(eSuperClass, allSubTypes);
-						}
-
+						Set<EClass> allSubTypes = subTypes.getModifiable(eSuperClass);
 						allSubTypes.add(eSubClass);
 					}
 				}

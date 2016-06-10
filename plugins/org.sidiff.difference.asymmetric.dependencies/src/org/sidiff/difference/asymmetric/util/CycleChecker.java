@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 
 /**

@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 /**
  * This class collects the user defined classifiers for which dedicated rules
@@ -40,7 +40,7 @@ public class MandatoryFocalElementCollector {
 		
 		// Collect all Classifiers if only the default inclusion option is set to ALWAYS
 		if(result.isEmpty() && CIC.getDefaultFocusInclusionType().equals(InclusionType.ALWAYS)) {
-			result.addAll(Configuration.getInstance().METAMODEL.getEClassifiers());
+			result.addAll(Configuration.getInstance().metaModel.getEClassifiers());
 		}
 		
 		return result;

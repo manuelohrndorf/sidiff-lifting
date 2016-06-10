@@ -11,8 +11,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.extensions.impl.ContainmentCycle;
-import org.sidiff.common.emf.extensions.impl.ContainmentCyclePathStep;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -20,6 +18,8 @@ import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedExcep
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCycle;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.ContainmentCyclePathStep;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class MoveUpGenerator {
@@ -54,7 +54,7 @@ public class MoveUpGenerator {
 	public Module generate() throws OperationTypeNotImplementedException {
 		
 		ContainmentCyclePathStep lastStep = cc.getBackwardPointingStep();
-		EReference eRef = (EReference) lastStep.getTargetingReference();
+		EReference eRef = lastStep.getTargetingReference();
 		EClassifier parent = (EClassifier) eRef.eContainer();		
 		
 		String name = GlobalConstants.MOVE_UP_prefix + eClassifier.getName()

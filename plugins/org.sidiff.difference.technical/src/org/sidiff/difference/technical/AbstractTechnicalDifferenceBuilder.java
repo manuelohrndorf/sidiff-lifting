@@ -1,12 +1,8 @@
 package org.sidiff.difference.technical;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -25,7 +21,6 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
-import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -73,8 +68,6 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		processUnmatchedA();
 		processUnmatchedB();
 		processCorrespondences();
-
-		sortLowLevelChanges();
 
 		return diff;
 	}
@@ -367,51 +360,6 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 				referencedObjects.add(obj);
 			}
 		}
-	}
-
-	/**
-	 * just sorts the low-level changes for better readability in the difference
-	 * viewer. Of course, the order of the low-level changes has no semantics. <br/>
-	 * Note: In order to prevent the IllegalArgumentException
-	 * "The 'no duplicates' constraint is violated" on the changes EList, we do
-	 * sort on a copy of diff.getChanges().
-	 */
-	private void sortLowLevelChanges() {
-		List<Change> changes = new ArrayList<Change>(diff.getChanges());
-
-		Collections.sort(changes, new Comparator<Change>() {
-			@Override
-			public boolean equals(Object obj) {
-				return super.equals(obj);
-			}
-
-			public int compare(Change c1, Change c2) {
-				return changeToString(c1).compareTo(changeToString(c2));
-			}
-
-			private String changeToString(Change c) {
-				String res = c.eClass().getName();
-				if (c instanceof AddReference) {
-					res += ((AddReference) c).getType().getName();
-				}
-				if (c instanceof RemoveReference) {
-					res += ((RemoveReference) c).getType().getName();
-				}
-				if (c instanceof AddObject) {
-					res += ((AddObject) c).getObj().eClass().getName();
-				}
-				if (c instanceof RemoveObject) {
-					res += ((RemoveObject) c).getObj().eClass().getName();
-				}
-				if (c instanceof AttributeValueChange) {
-					res += ((AttributeValueChange) c).getType().getName();
-				}
-				return res;
-			}
-		});
-
-		diff.getChanges().clear();
-		diff.getChanges().addAll(changes);
 	}
 
 	@Override

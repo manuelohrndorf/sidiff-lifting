@@ -37,7 +37,7 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEng
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.matching.input.InputModels;
 
 public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
@@ -230,13 +230,13 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 	private void getRulebasesEntries() {
 		// Search registered rulebase extension points
-		Set<IRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(
+		Set<ILiftingRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(
 				inputModels.getDocumentTypes());
 
 		// Create rulebase list for table viewer
 		rulebases = new LinkedList<RuleBaseEntry>();
 
-		for (IRuleBase rulebase : rulebaseInstances) {
+		for (ILiftingRuleBase rulebase : rulebaseInstances) {
 			rulebases.add(new RuleBaseEntry(rulebase, true));
 		}
 		
@@ -245,10 +245,10 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 	}
 
 	public class RuleBaseEntry implements Comparable<RuleBaseEntry>{
-		public IRuleBase rulebase;
+		public ILiftingRuleBase rulebase;
 		public Boolean activated;
 
-		public RuleBaseEntry(IRuleBase rulebase, Boolean activated) {
+		public RuleBaseEntry(ILiftingRuleBase rulebase, Boolean activated) {
 			super();
 			this.rulebase = rulebase;
 			this.activated = activated;
@@ -260,8 +260,9 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		}
 	}
 
-	public Set<IRuleBase> getSelection() {
-		Set<IRuleBase> selectedRuleBases = new HashSet<IRuleBase>();
+	public Set<ILiftingRuleBase> getSelection() {
+		Set<ILiftingRuleBase> selectedRuleBases = new HashSet<ILiftingRuleBase>();
+		
 		for (RuleBaseEntry entry : rulebases) {
 			if (entry.activated) {
 				selectedRuleBases.add(entry.rulebase);

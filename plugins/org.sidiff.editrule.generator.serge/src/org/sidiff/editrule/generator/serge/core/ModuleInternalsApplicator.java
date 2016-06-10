@@ -16,14 +16,14 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class ModuleInternalsApplicator {
@@ -329,7 +329,7 @@ public class ModuleInternalsApplicator {
 	public static void createMandatoryChildren(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
 			OperationType opType) throws OperationTypeNotImplementedException {
 
-		if (!Configuration.getInstance().CREATE_MANDATORY_CHILDREN) return;
+		if (!Configuration.getInstance().create_mandatory_children) return;
 		
 		for (EReference eRef : eClassifierInfo.getMandatoryChildren().keySet()) {
 			EClassifier child = eRef.getEType();
@@ -390,7 +390,7 @@ public class ModuleInternalsApplicator {
 	public static void createMandatoryNeighbours(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
 			OperationType opType) throws OperationTypeNotImplementedException {
 	
-		if (!Configuration.getInstance().CREATE_MANDATORY_NEIGHBOURS) return;
+		if (!Configuration.getInstance().create_mandatory_neighbours) return;
 		assert (HenshinRuleAnalysisUtilEx.isCreationNode(eClassifierNode));
 	
 		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours().entrySet()) {
@@ -497,7 +497,7 @@ public class ModuleInternalsApplicator {
 			if (!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
 				String eaName = getFreeAttributeName(ea.getName(), rule);
 
-				boolean createNotRequiredAndNotIDAttributes = Configuration.getInstance().CREATE_NOT_REQUIRED_AND_NOT_ID_ATTRIBUTES;
+				boolean createNotRequiredAndNotIDAttributes = Configuration.getInstance().create_not_required_and_not_id_attributes;
 				if (createNotRequiredAndNotIDAttributes || !createNotRequiredAndNotIDAttributes
 						&& (ea.isRequired() || ea.isID())) {
 					HenshinRuleAnalysisUtilEx.createCreateAttribute(inEClassNode, ea,

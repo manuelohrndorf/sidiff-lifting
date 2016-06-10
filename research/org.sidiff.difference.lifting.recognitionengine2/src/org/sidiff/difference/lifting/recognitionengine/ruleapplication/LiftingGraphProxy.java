@@ -4,6 +4,7 @@ import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.Re
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Rule;
@@ -28,7 +30,6 @@ public class LiftingGraphProxy implements EGraph {
 	private static final SymmetricPackage SYMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
 	
 	private static final MatchingModelPackage MATCHING_PACKAGE = MatchingModelPackage.eINSTANCE;
-
 	
 	/**
 	 * The corresponding recognition rule.
@@ -102,14 +103,33 @@ public class LiftingGraphProxy implements EGraph {
 			return domain;
 		}
 		
+		// SymmetricDifference:
+		else if (type == SYMMETRIC_PACKAGE.getSymmetricDifference()) {
+			return new ArrayList<EObject>(Collections.singletonList(liftingGraphDomainMap.getDifference()));
+		}
+		
 		// Model:
 		else {
 			// TODO: Can be optimized if the variable is known!
 			List<EObject> domainA = modelAGraph.getDomain(type, strict);
 			List<EObject> domainB = modelBGraph.getDomain(type, strict);
 			
-			domainA.addAll(domainB);
-			return domainA;
+			List<EObject> result;
+			
+			if (domainA.isEmpty()) {
+				result = domainB;
+			} else {
+				domainA.addAll(domainB);
+				result = domainA;
+			}
+			
+			// Meta-model type node:
+			// FIXME: Separate Attributes / References
+			if (type == EcorePackage.eINSTANCE.getEReference()) {
+				result.addAll(liftingGraphDomainMap.getTypeNodes());
+			}
+
+			return result;
 		}
 	}
 
@@ -130,6 +150,7 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Correspondence:
 		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
+			// TODO: We better optimize correspondences through cross-references!
 			// NOTE: This is inconsistent with the optimized getDomain() but the
 			// size value is always bigger then the actual correspondence
 			// domain. Also the getDomain() method must always process all
@@ -138,12 +159,22 @@ public class LiftingGraphProxy implements EGraph {
 			return liftingGraphDomainMap.getDifference().getMatching().getCorrespondences().size();
 		}
 		
+		// SymmetricDifference:
+		else if (type == SYMMETRIC_PACKAGE.getSymmetricDifference()) {
+			return getDomain(type, strict).size();
+		}
+		
 		// Model:
 		else {
 			int domainASize = modelAGraph.getDomainSize(type, strict);
 			int domainBSize = modelBGraph.getDomainSize(type, strict);
 			
-			return domainASize + domainBSize;
+			// Meta-model type node:
+			if (type == EcorePackage.eINSTANCE.getEReference()) {
+				return domainASize + domainBSize + liftingGraphDomainMap.getTypeNodes().size();
+			} else {
+				return domainASize + domainBSize;
+			}
 		}
 	}
 	
@@ -158,27 +189,27 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// AddObject:
 		if (changeType == SYMMETRIC_PACKAGE.getAddObject()) {
-			recognitionRuleBlueprint.addObject.keySet();
+			return recognitionRuleBlueprint.addObject.keySet();
 		}
 
 		// RemoveObject:
 		else if (changeType == SYMMETRIC_PACKAGE.getRemoveObject()) {
-			recognitionRuleBlueprint.removeObject.keySet();
+			return recognitionRuleBlueprint.removeObject.keySet();
 		}
 
 		// AddReference:
 		else if (changeType == SYMMETRIC_PACKAGE.getAddReference()) {
-			recognitionRuleBlueprint.addReference.keySet();
+			return recognitionRuleBlueprint.addReference.keySet();
 		}
 
 		// RemoveReference:
 		else if (changeType == SYMMETRIC_PACKAGE.getRemoveReference()) {
-			recognitionRuleBlueprint.removeReference.keySet();
+			return recognitionRuleBlueprint.removeReference.keySet();
 		}
 
 		// AttributeValueChange:
 		else if (changeType == SYMMETRIC_PACKAGE.getAttributeValueChange()) {
-			recognitionRuleBlueprint.attributeValueChange.keySet();
+			return recognitionRuleBlueprint.attributeValueChange.keySet();
 		}
 		
 		return null;
@@ -191,6 +222,12 @@ public class LiftingGraphProxy implements EGraph {
 	
 	public void setRecognitionRule(Rule recognitionRule) {
 		this.recognitionRule = recognitionRule;
+	}
+	
+	@Override
+	public boolean add(EObject e) {
+		// NOTE: Ignore the adding of the Semantic-Change-Sets...
+		return true; 
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -227,12 +264,6 @@ public class LiftingGraphProxy implements EGraph {
 
 	@Override
 	public <T> T[] toArray(T[] a) {
-		// Dynamically...
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean add(EObject e) {
 		// Dynamically...
 		throw new UnsupportedOperationException();
 	}

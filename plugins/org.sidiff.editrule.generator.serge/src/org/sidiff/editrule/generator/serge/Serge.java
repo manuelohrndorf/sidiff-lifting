@@ -15,7 +15,6 @@ import org.sidiff.common.emf.ecore.ECoreTraversal;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
 import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.logging.LogEvent;
@@ -24,6 +23,7 @@ import org.sidiff.common.xml.XMLResolver;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
+import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.ConfigurationParser;
 import org.sidiff.editrule.generator.serge.core.AnnotationApplicator;
@@ -42,16 +42,11 @@ import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfigurati
 import org.sidiff.editrule.generator.serge.filter.DuplicateFilter;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
 import org.sidiff.editrule.generator.serge.filter.ExecutableFilter;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.types.OperationType;
 
-/**
- * Todo-List :
- * 
- * - make monitors cancel-able - InverseMapping can't be saved anymore due to
- * path setting changes, fix this. 
- */
 public class Serge implements IEditRuleGenerator {
 
 	/**
@@ -67,12 +62,12 @@ public class Serge implements IEditRuleGenerator {
 	/**
 	 * The involved meta-models.
 	 */
-	private static Stack<EPackage> ePackagesStack = null;
+	private Stack<EPackage> ePackagesStack = null;
 
 	/**
 	 * The SERGe configuration (CPEO and meta-model specific configuration).
 	 */
-	private static Configuration config = null;
+	private Configuration config = null;
 
 	/**
 	 * The settings object (i/o settings).
@@ -80,72 +75,37 @@ public class Serge implements IEditRuleGenerator {
 	private SergeSettings settings = null;
 
 	@Override
-	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException {
+	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException, WrongSettingsInstanceException {
 
 		// Start monitor
 		monitor.beginTask("Initializing SERGe", 100);
-
-		// First check if the given settings object really is a
-		// EditRuleGenerationSettings object
-		assert (settings instanceof EditRuleGenerationSettings) : "Given Settings are not EditRuleGenerationSettings";
-
-		// Create more specific SergeSettings out of the general
-		// EditRuleGenerationSettings
-		this.settings = new SergeSettings(settings);
-
-		// Load config's DTD
-		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(IOUtil
-				.getInputStream("platform:/plugin/" + PLUGIN_NAME + "/config/Editrulesgeneratorconfig.dtdmap.xml"));
-
-		// Create empty instance of the SergeConfiguration
-		config = Configuration.getInstance();
+		
+		// Check for valid settings
+		validateSettings(settings, monitor);
+		
+		// Parse configuration
+		parseConfiguration(monitor);
+		
+		// Create Instance of global EClassifierInfoManagement
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
+		
+		// Create Instance of global ElementFilter
 		ElementFilter.getInstance();
-
-		// Case default config (if config path not set in settings).
-		if (settings.getConfigPath() == null) {
-			monitor.subTask("Setting up default configuration..");
-			this.settings.setConfigPath("platform:/plugin/" + PLUGIN_NAME + "/config/DefaultConfigTemplate.xml");
-			ConfigurationParser parser = new ConfigurationParser();
-			try {
-				parser.setupDefaultConfig(settings.getMetaModelNsUri(), this.settings.getConfigPath());
-				monitor.worked(20);
-			} catch (Exception e) {
-				monitor.done();
-				throw new EditRuleGenerationException(
-						"Error when loading selected meta model NsUri\n" + e.getMessage());
-			}
-		}
-		// Case refined config.
-		else {
-			monitor.subTask("Loading configuration..");
-			ConfigurationParser parser = new ConfigurationParser();
-			try {
-				parser.parse(this.settings.getConfigPath());
-				monitor.worked(20);
-			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
-					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
-					| IOException e) {
-				monitor.done();
-				throw new EditRuleGenerationException("Error when parsing config file."
-						+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
-			}
-		}
-
+		
 		// Analyze meta model
 		monitor.subTask("Analyzing MetaModel");
-		ECM.gatherInformation(config.MAINMODEL_IS_PROFILE, config.EPACKAGESSTACK,
-				config.ENABLE_INNER_CONTAINMENT_CYCLE_DETECTION);
-		ePackagesStack = config.EPACKAGESSTACK;
+		ECM.gatherInformation(	config.metaModel_is_profile,
+								config.EPACKAGESSTACK,
+								config.enable_inner_containment_cycle_detection);		
 		monitor.worked(80);
 
-		// Decide by user config and meta-model analysis
-		// (1) which elements may occur as dangling child or neighbor in a rule and
-		// (1) which elements may occur as parent context in a rule and
-		// (3) which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
+		// Effective/Sliced-Metamodel Derivation Phase:
+		// Decide by user config and meta-model analysis..
+		// (1) ..which elements may occur as dangling child or neighbor in a rule and
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredDanglingClassifiers();
+		// (2) ..which elements may occur as parent context in a rule and
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredDanglingParentContextClassifiers();
+		// (3) ..which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredFocalClassifiers();
 		
 		// Finish monitor
@@ -163,22 +123,19 @@ public class Serge implements IEditRuleGenerator {
 	@Override
 	public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException {
 
-		if ((ePackagesStack == null) || (ePackagesStack.isEmpty())) {
-			monitor.done();
-			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
-		}
-
-		// visit all model elements and trigger rule generation for each
+		// Visit all model elements and trigger rule generation for each
 		monitor.beginTask("Generating CPEOs", 100);
 		monitor.subTask("Visit MetaModel elements");
 		MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
-		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));	
+		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));
+		
+		// Store all generated modules in this map by OperationType
 		Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
 		monitor.worked(50);
 		
 
-		// Filter out unexecutable or consistency violating rules
-		if (config.ENABLE_EXECUTION_CHECK_FILTER) {
+		// Filter out not executable or consistency violating rules
+		if (config.enable_execution_check_filter) {
 			monitor.subTask("Filtering Executions");
 			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
 			ExecutableFilter executionFilter = new ExecutableFilter();
@@ -187,7 +144,7 @@ public class Serge implements IEditRuleGenerator {
 		}
 
 		// Filter out duplicate rules
-		if (config.ENABLE_DUPLICATE_FILTER) {
+		if (config.enable_duplicate_filter) {
 			monitor.subTask("Filtering Duplicates");
 			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
 			DuplicateFilter duplicateFilter = new DuplicateFilter();
@@ -243,9 +200,9 @@ public class Serge implements IEditRuleGenerator {
 				moduleSet.addAll(opSet);
 			}
 		}	
-		if (config.ENABLE_NAME_MAPPER) {
+		if (config.enable_name_mapper) {
 			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
-			NameMapper nameMapper = new NameMapper(Configuration.getInstance().METAMODEL, moduleSet);
+			NameMapper nameMapper = new NameMapper(Configuration.getInstance().metaModel, moduleSet);
 			nameMapper.replaceNames();
 		}
 		monitor.worked(5);
@@ -277,6 +234,84 @@ public class Serge implements IEditRuleGenerator {
 		monitor.worked(10);
 		LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
 		monitor.done();
+	}
+	
+	/**
+	 * Checks if the settings object is valid
+	 * 
+	 * @param settings
+	 * 
+	 * @param monitor
+	 * 
+	 * @throws WrongSettingsInstanceException
+	 * @throws EditRuleGenerationException
+	 */
+	private void validateSettings(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws WrongSettingsInstanceException, EditRuleGenerationException {
+	
+		// First check if the given settings object
+		if(!(settings instanceof EditRuleGenerationSettings)) {
+			throw new WrongSettingsInstanceException();
+		}
+
+		// Create more specific SergeSettings out of the general
+		// EditRuleGenerationSettings
+		this.settings = new SergeSettings(settings);
+
+	}
+	
+	/**
+	 * Validate and parse Configuration
+	 * 
+	 * @param monitor
+	 * 
+	 * @throws EditRuleGenerationException
+	 */
+	private void parseConfiguration(IProgressMonitor monitor) throws EditRuleGenerationException {
+
+		// Load config's DTD
+		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
+		XMLResolver.getInstance().includeMapping(IOUtil
+				.getInputStream("platform:/plugin/" + PLUGIN_NAME + "/config/Editrulesgeneratorconfig.dtdmap.xml"));
+
+		// Create empty instance of the SergeConfiguration
+		this.config = Configuration.getInstance();
+
+		// Use default config (if config path not set in settings).
+		if (settings.getConfigPath() == null) {
+			monitor.subTask("Setting up default configuration..");
+			this.settings.setConfigPath("platform:/plugin/" + PLUGIN_NAME + "/config/DefaultConfigTemplate.xml");
+			ConfigurationParser parser = new ConfigurationParser();
+			try {
+				parser.setupDefaultConfig(settings.getMetaModelNsUri(), this.settings.getConfigPath());
+				monitor.worked(20);
+			} catch (Exception e) {
+				monitor.done();
+				throw new EditRuleGenerationException(
+						"Error when loading selected meta model NsUri\n" + e.getMessage());
+			}
+		}
+		// .. or use refined config and parse it.
+		else {
+			monitor.subTask("Loading configuration..");
+			ConfigurationParser parser = new ConfigurationParser();
+			try {
+				parser.parse(this.settings.getConfigPath());
+				monitor.worked(20);
+			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
+					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
+					| IOException e) {
+				monitor.done();
+				throw new EditRuleGenerationException("Error when parsing config file."
+						+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
+			}
+		}
+		
+		// set the EPackage Stack
+		this.ePackagesStack = config.EPACKAGESSTACK;		
+		if ((ePackagesStack == null) || (ePackagesStack.isEmpty())) {
+			monitor.done();
+			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
+		}
 	}
 
 	@Override

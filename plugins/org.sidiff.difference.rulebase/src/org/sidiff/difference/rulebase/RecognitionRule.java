@@ -1,14 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.rulebase;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.editrule.rulebase.EditRuleAttachment;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,15 +17,15 @@ import org.eclipse.emf.henshin.model.Rule;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionMainUnit <em>Recognition Main Unit</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getEditRule <em>Edit Rule</em>}</li>
- *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRuleBaseItem <em>Rule Base Item</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getTracesB <em>Traces B</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getTracesA <em>Traces A</em>}</li>
  * </ul>
  *
- * @see org.sidiff.difference.rulebase.RulebasePackage#getRecognitionRule()
+ * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule()
  * @model
  * @generated
  */
-public interface RecognitionRule extends EObject {
+public interface RecognitionRule extends EditRuleAttachment {
 	/**
 	 * Returns the value of the '<em><b>Recognition Main Unit</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -39,8 +36,8 @@ public interface RecognitionRule extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Recognition Main Unit</em>' reference.
 	 * @see #setRecognitionMainUnit(Rule)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRecognitionRule_RecognitionMainUnit()
-	 * @model
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule_RecognitionMainUnit()
+	 * @model required="true"
 	 * @generated
 	 */
 	Rule getRecognitionMainUnit();
@@ -56,60 +53,36 @@ public interface RecognitionRule extends EObject {
 	void setRecognitionMainUnit(Rule value);
 
 	/**
-	 * Returns the value of the '<em><b>Edit Rule</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.rulebase.EditRule#getRecognitionRule <em>Recognition Rule</em>}'.
+	 * Returns the value of the '<em><b>Traces B</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.difference.rulebase.Trace}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Edit Rule</em>' reference isn't clear,
+	 * If the meaning of the '<em>Traces B</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edit Rule</em>' reference.
-	 * @see #setEditRule(EditRule)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRecognitionRule_EditRule()
-	 * @see org.sidiff.difference.rulebase.EditRule#getRecognitionRule
-	 * @model opposite="recognitionRule" transient="true" volatile="true" derived="true"
+	 * @return the value of the '<em>Traces B</em>' containment reference list.
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule_TracesB()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EditRule getEditRule();
+	EList<Trace> getTracesB();
 
 	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RecognitionRule#getEditRule <em>Edit Rule</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Edit Rule</em>' reference.
-	 * @see #getEditRule()
-	 * @generated
-	 */
-	void setEditRule(EditRule value);
-
-	/**
-	 * Returns the value of the '<em><b>Rule Base Item</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.difference.rulebase.RuleBaseItem#getRecognitionRule <em>Recognition Rule</em>}'.
+	 * Returns the value of the '<em><b>Traces A</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.difference.rulebase.Trace}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Rule Base Item</em>' container reference isn't clear,
+	 * If the meaning of the '<em>Traces A</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rule Base Item</em>' container reference.
-	 * @see #setRuleBaseItem(RuleBaseItem)
-	 * @see org.sidiff.difference.rulebase.RulebasePackage#getRecognitionRule_RuleBaseItem()
-	 * @see org.sidiff.difference.rulebase.RuleBaseItem#getRecognitionRule
-	 * @model opposite="recognitionRule" transient="false"
+	 * @return the value of the '<em>Traces A</em>' containment reference list.
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule_TracesA()
+	 * @model containment="true"
 	 * @generated
 	 */
-	RuleBaseItem getRuleBaseItem();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RecognitionRule#getRuleBaseItem <em>Rule Base Item</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rule Base Item</em>' container reference.
-	 * @see #getRuleBaseItem()
-	 * @generated
-	 */
-	void setRuleBaseItem(RuleBaseItem value);
+	EList<Trace> getTracesA();
 
 	/**
 	 * <!-- begin-user-doc -->

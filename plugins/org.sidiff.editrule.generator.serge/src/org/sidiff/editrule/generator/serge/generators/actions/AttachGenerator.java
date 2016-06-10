@@ -15,8 +15,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.access.EMFMetaAccess;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.common.logging.LogEvent;
@@ -24,8 +22,9 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.GlobalConstants;
-import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class AttachGenerator {
@@ -48,7 +47,7 @@ public class AttachGenerator {
 		HashMap<EClassifier, Set<EReference>> combinations = getCombinations((EClass) eClassifier);
 		for (Map.Entry<EClassifier, Set<EReference>> c : combinations.entrySet()) {
 			for (EReference s : c.getValue()) {
-				boolean useSimpleName = AttachGenerator.c.USE_SIMPLE_NAMES_ATTACHDETACH && (c.getValue().size() == 1);
+				boolean useSimpleName = AttachGenerator.c.use_simple_names_for_attach_and_detach_operations && (c.getValue().size() == 1);
 				LogUtil.log(LogEvent.NOTICE, "Generating ATTACH: " + GlobalConstants.ATTACH_prefix
 						+ eClassifier.getName() + (!useSimpleName ? "(" + s.getName() + ")" : ""));
 				modules.add(generate((EClass) eClassifier, c.getKey(), s, useSimpleName));
@@ -77,18 +76,18 @@ public class AttachGenerator {
 
 		// Add new eClass to RHS
 		String newName = ModuleInternalsApplicator.getFreeNodeName(GlobalConstants.NEW, rule);
-		Node stereotypeNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), newName, (EClass) stereotype);
+		Node stereotypeNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), newName, stereotype);
 
 		// Add necessary attributes to the new eClass node
-		ModuleInternalsApplicator.createAttributes((EClass) stereotype, stereotypeNode, rule);
+		ModuleInternalsApplicator.createAttributes(stereotype, stereotypeNode, rule);
 
 		// create mandatories if any
 		Node createNode = HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(rule).get(0);
 		EClassifierInfo childInfo = ECM.getEClassifierInfo(stereotype);
 		if (childInfo.hasMandatories()) {
-			if (c.CREATE_MANDATORY_CHILDREN)
+			if (c.create_mandatory_children)
 				ModuleInternalsApplicator.createMandatoryChildren(rule, childInfo, createNode, OperationType.ATTACH);
-			if (c.CREATE_MANDATORY_NEIGHBOURS)
+			if (c.create_mandatory_neighbours)
 				ModuleInternalsApplicator.createMandatoryNeighbours(rule, childInfo, createNode, OperationType.ATTACH);
 		}
 

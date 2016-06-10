@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 
 /**
@@ -47,7 +47,7 @@ public abstract class MandatoryDanglingsCollector {
 		}else {
 			// Collect all Classifiers if only the default inclusion option is set to ALWAYS
 			if(CIC.getDefaultFocusInclusionType().equals(InclusionType.ALWAYS)) {
-				result.addAll(Configuration.getInstance().METAMODEL.getEClassifiers());
+				result.addAll(Configuration.getInstance().metaModel.getEClassifiers());
 			}
 		}
 		

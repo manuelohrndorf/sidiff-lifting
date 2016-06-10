@@ -2,6 +2,7 @@ package org.sidiff.difference.lifting.api.util;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,8 +17,7 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.sidiff.difference.rulebase.util.RuleBaseUtil;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -34,6 +34,7 @@ import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.model.Correspondence;
@@ -138,8 +139,8 @@ public class PipelineUtils {
 	 *            The document type, i.e. the package namespace URI of a model.
 	 * @return All available rulebases matching the given document type.
 	 */
-	public static Set<IRuleBase> getAvailableRulebases(String documentType) {
-		return RuleBaseUtil.getAvailableRulebases(documentType);
+	public static Set<ILiftingRuleBase> getAvailableRulebases(String documentType) {
+		return RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
 	}
 
 	/**
@@ -150,8 +151,8 @@ public class PipelineUtils {
 	 *            model.
 	 * @return All available rulebases matching the given document types.
 	 */
-	public static Set<IRuleBase> getAvailableRulebases(Set<String> documentTypes) {
-		return RuleBaseUtil.getAvailableRulebases(documentTypes);
+	public static Set<ILiftingRuleBase> getAvailableRulebases(Set<String> documentTypes) {
+		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
 
 	/**

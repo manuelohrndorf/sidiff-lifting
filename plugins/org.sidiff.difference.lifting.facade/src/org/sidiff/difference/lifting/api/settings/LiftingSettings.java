@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.api.settings;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.sidiff.candidates.ICandidates;
@@ -8,10 +9,11 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
-import org.sidiff.difference.rulebase.util.RuleBaseUtil;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
+import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
@@ -20,7 +22,7 @@ public class LiftingSettings extends DifferenceSettings {
 	/**
 	 * List of active Rulebases.
 	 */
-	private Set<IRuleBase> ruleBases;
+	private Set<ILiftingRuleBase> ruleBases;
 	
 	/**
 	 * The Recognition Rule Sorter to use. (
@@ -109,7 +111,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public LiftingSettings(String documentType){
 		super(documentType);
-		this.ruleBases = RuleBaseUtil.getAvailableRulebases(documentType);
+		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
 		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentType);
 		if(rrSorter == null){
 			RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
@@ -128,7 +130,10 @@ public class LiftingSettings extends DifferenceSettings {
 	 * @param ruleBases
 	 * @param rrsorter
 	 */
-	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler, Set<IRuleBase> ruleBases, IRecognitionRuleSorter rrsorter) {
+	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
+			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
+			ISymbolicLinkHandler symbolicLinkHandler, Set<ILiftingRuleBase> ruleBases, IRecognitionRuleSorter rrsorter) {
+		
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
 		this.ruleBases = ruleBases;
 		this.rrSorter = rrsorter;
@@ -148,7 +153,11 @@ public class LiftingSettings extends DifferenceSettings {
 	 * @param calculateEditRuleMatch
 	 * @param serializeEditRuleMatch
 	 */
-	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler, Set<IRuleBase> ruleBases, IRecognitionRuleSorter rrsorter, boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
+	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
+			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
+			ISymbolicLinkHandler symbolicLinkHandler, Set<ILiftingRuleBase> ruleBases, IRecognitionRuleSorter rrsorter,
+			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
+		
 		this(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler, ruleBases, rrsorter);
 		this.calculateEditRuleMatch = calculateEditRuleMatch;
 		this.serializeEditRuleMatch = serializeEditRuleMatch;
@@ -171,7 +180,7 @@ public class LiftingSettings extends DifferenceSettings {
 		if (ruleBases != null) {
 			result.append("Rulebases: ");
 
-			for (IRuleBase rb : ruleBases) {
+			for (IBasicRuleBase rb : ruleBases) {
 				result.append(rb.getName() + ", ");
 			}
 			if (result.toString().endsWith(",")){
@@ -206,7 +215,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 * 
 	 * @return The list of all active Rulebases.
 	 */
-	public Set<IRuleBase> getRuleBases() {
+	public Set<ILiftingRuleBase> getRuleBases() {
 		return ruleBases;
 	}
 
@@ -216,7 +225,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 * @param ruleBases
 	 *            The list of all active Rulebases.
 	 */
-	public void setRuleBases(Set<IRuleBase> ruleBases) {
+	public void setRuleBases(Set<ILiftingRuleBase> ruleBases) {
 		if (this.ruleBases == null || this.ruleBases.size() != ruleBases.size()) {
 			this.ruleBases = ruleBases;
 			this.notifyListeners(LiftingSettingsItem.RULEBASES);

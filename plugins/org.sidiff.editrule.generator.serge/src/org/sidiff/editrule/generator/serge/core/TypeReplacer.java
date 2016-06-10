@@ -10,13 +10,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.NodeKindSelection;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class TypeReplacer {
@@ -93,9 +93,9 @@ public class TypeReplacer {
 					// create mandatories that might me necessary after
 					// replacements
 					EClassifierInfo replacementInfo = ECM.getEClassifierInfo(replacement);
-					if (c.CREATE_MANDATORY_CHILDREN)
+					if (c.create_mandatory_children)
 						ModuleInternalsApplicator.createMandatoryChildren(rule, replacementInfo, nodeInCopy, opType);
-					if (c.CREATE_MANDATORY_NEIGHBOURS)
+					if (c.create_mandatory_neighbours)
 						ModuleInternalsApplicator.createMandatoryNeighbours(rule, replacementInfo, nodeInCopy, opType);
 
 					// Set a new name for this variant module (e.g.

@@ -6,7 +6,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.rulebase.RulebasePackage;
+import org.sidiff.editrule.rulebase.RulebasePackage;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.patch.patch.PatchFactory;
 import org.sidiff.patching.patch.patch.PatchPackage;

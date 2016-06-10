@@ -31,7 +31,7 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.editrule.analysis.EditRuleConditions;
+import org.sidiff.editrule.analysis.conditions.EditRuleConditions;
 
 public class NacMatch {
 

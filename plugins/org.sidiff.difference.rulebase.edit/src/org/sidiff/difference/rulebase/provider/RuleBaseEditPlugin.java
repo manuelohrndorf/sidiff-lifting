@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.rulebase.provider;
 
@@ -43,6 +39,7 @@ public final class RuleBaseEditPlugin extends EMFPlugin {
 		super
 		  (new ResourceLocator [] {
 		     HenshinEditPlugin.INSTANCE,
+		     org.sidiff.editrule.rulebase.provider.RuleBaseEditPlugin.INSTANCE,
 		   });
 	}
 

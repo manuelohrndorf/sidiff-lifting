@@ -22,7 +22,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.ui.widgets.ScopeWidget;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;
@@ -195,7 +195,7 @@ public class WorkspaceUpdatePage01 extends WizardPage implements IPageChangedLis
 		return scopeWidget;
 	}
 
-	public Set<IRuleBase> getSelectedRulebases() {
+	public Set<ILiftingRuleBase> getSelectedRulebases() {
 		return rulebaseWidget.getSelection();
 	}
 

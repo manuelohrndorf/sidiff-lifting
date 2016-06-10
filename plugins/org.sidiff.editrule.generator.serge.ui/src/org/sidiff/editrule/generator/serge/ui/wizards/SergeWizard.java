@@ -18,6 +18,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
+import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
@@ -85,7 +86,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 				try {					
 					serge.init(settings, new SubProgressMonitor(monitor, 20));
 					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (EditRuleGenerationException e) {
+				} catch (EditRuleGenerationException | WrongSettingsInstanceException e) {
 					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
 					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
 							e.getMessage());

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="column" name="Rulebase Column" schema="schema/column.exsd"/>
+
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.editrule.rulebase.ui.definition.rulebaseEditor">
+         <with
+               variable="activeEditorId">
+            <equals
+                  value="org.sidiff.editrule.rulebase.ui.rulebaseEditor">
+            </equals>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.sidiff.editrule.rulebase.ui.column">
+      <column
+            id="HEAD"></column>
+      <column
+            id="APPEND"></column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnActive"
+            id="org.sidiff.editrule.rulebase.ui.ColumnActive"
+            insertAfter="HEAD">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnRulebaseItem"
+            id="org.sidiff.editrule.rulebase.ui.ColumnRulebaseItem"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnActive"></column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnDescription"
+            id="org.sidiff.editrule.rulebase.ui.ColumnDescription"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnRulebaseItem">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnEditType"
+            id="org.sidiff.editrule.rulebase.ui.ColumnEditType"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnDescription">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnDerivedRefrences"
+            id="org.sidiff.editrule.rulebase.ui.ColumnDerivedRefrences"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnEditType">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnDependenyCount"
+            id="org.sidiff.editrule.rulebase.ui.ColumnDependenyCount"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnDerivedRefrences">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnNameBasedClassification"
+            id="org.sidiff.editrule.rulebase.ui.ColumnNameBasedClassification"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnDependenyCount">
+      </column>
+      <column
+            class="org.sidiff.editrule.rulebase.ui.editor.columns.impl.ColumnInverseRule"
+            id="org.sidiff.editrule.rulebase.ui.ColumnInverseRule"
+            insertAfter="org.sidiff.editrule.rulebase.ui.ColumnNameBasedClassification">
+      </column>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor"
+            contributorClass="org.sidiff.editrule.rulebase.ui.editor.RulebaseActionBarContributor"
+            default="false"
+            extensions="rulebase"
+            icon="icons/rulebase.gif"
+            id="org.sidiff.editrule.rulebase.ui.rulebaseEditor"
+            name="Rulebase Editor">
+      </editor>
+   </extension>
+</plugin>

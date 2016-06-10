@@ -10,13 +10,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfo;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
-import org.sidiff.common.emf.extensions.impl.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**
@@ -76,7 +76,7 @@ public class ElementFilter {
 	 * @return
 	 */
 	private boolean hasRequiredOrAllowedStereotype_Focus(EClassifier eClassifier) {
-		if (config.MAINMODEL_IS_PROFILE) {
+		if (config.metaModel_is_profile) {
 			Set<EClassifier> stereotypes = ECM.getAllStereotypes(eClassifier);
 			for (EClassifier stereotype : stereotypes) {
 				if (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(stereotype))
@@ -122,7 +122,7 @@ public class ElementFilter {
 
 		case CREATE:
 			if ((!(eClassifier instanceof EClass))
-					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || config.MAINMODEL_IS_PROFILE
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || config.metaModel_is_profile
 					|| (!eInf.selfMayHaveTransformations()) || (config.isAnUnnestableRoot(eClassifier))
 					|| (requiredByStereotypes && !config.isRoot(eClassifier)) || !includeBySettings
 					|| isElementOfRequiredMetamodels)
@@ -131,7 +131,7 @@ public class ElementFilter {
 
 		case ATTACH:
 			if ((!(eClassifier instanceof EClass))
-					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || !config.MAINMODEL_IS_PROFILE
+					|| (eClassifier instanceof EClass && ((EClass) eClassifier).isAbstract()) || !config.metaModel_is_profile
 					|| !includeBySettings || isElementOfRequiredMetamodels)
 				return false;
 			break;
@@ -484,8 +484,8 @@ public class ElementFilter {
 		// get only the required meta models
 		List<EPackage> requiredEPackages = new ArrayList<EPackage>();
 		requiredEPackages.addAll(config.EPACKAGESSTACK);
-		requiredEPackages.remove(config.METAMODEL);
-		for (EPackage p : config.METAMODEL.getESubpackages()) {
+		requiredEPackages.remove(config.metaModel);
+		for (EPackage p : config.metaModel.getESubpackages()) {
 			// TODO Recursive?
 			requiredEPackages.remove(p);
 		}

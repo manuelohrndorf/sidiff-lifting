@@ -34,7 +34,6 @@ import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;

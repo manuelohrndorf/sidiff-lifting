@@ -27,11 +27,11 @@ import org.sidiff.difference.asymmetric.DependencyContainer;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
-import org.sidiff.difference.rulebase.EditRule;
-import org.sidiff.difference.rulebase.ParameterDirection;
-import org.sidiff.difference.rulebase.RuleBase;
-import org.sidiff.difference.rulebase.util.RuleBaseUtil;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.ParameterDirection;
+import org.sidiff.editrule.rulebase.RuleBase;
+import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
 import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
@@ -659,7 +659,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		// Try to derive the EditRule via the available rulebases:
 		AsymmetricDifference difference = (AsymmetricDifference) this.eContainer();
 		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
-		this.editRule = RuleBaseUtil.resolveEditRule(documentType, this.getEditRuleName());
+		this.editRule = RuleBaseProjectUtil.resolveEditRule(Collections.singleton(documentType), this.getEditRuleName());
 
 		return this.editRule;
 	}

@@ -7,11 +7,10 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.common.emf.extensions.impl.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
-import org.sidiff.editrule.generator.types.OperationType;
+import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 public class ReplacementTable {
 
@@ -67,10 +66,10 @@ public class ReplacementTable {
 		EClassifier initialNodeType = initialNode.getType();
 		Set<EClassifier> replacements = new HashSet<EClassifier>();
 		//Vorraussetzung f�r reduced-Pr�fung: Im ReplacementTableHeader sind nur Danglings enthalten.
-		if (!Configuration.getInstance().reduceToAbstractTypeDanglings(opTypeGroup)) {
+		if (!Configuration.getInstance().preferAbstractTypesOnDanglings(opTypeGroup)) {
 			replacements.addAll(ECM.getAllConcreteEClassifiersForAbstract(initialNodeType));
 		}
-		if (!Configuration.getInstance().reduceToSupertypeDanglings(opTypeGroup)) {
+		if (!Configuration.getInstance().preferSuperTypesOnDanglings(opTypeGroup)) {
 			replacements.addAll(ECM.getAllConcreteSubTypes(initialNodeType));
 		}
 
@@ -87,10 +86,10 @@ public class ReplacementTable {
 			EClassifier nextNodeType = nextNode.getType();
 			Set<EClassifier> nextReplacements = new HashSet<EClassifier>();
 			//(siehe oben)
-			if (!Configuration.getInstance().reduceToAbstractTypeDanglings(opTypeGroup)) {
+			if (!Configuration.getInstance().preferAbstractTypesOnDanglings(opTypeGroup)) {
 				nextReplacements.addAll(ECM.getAllConcreteEClassifiersForAbstract(nextNodeType));
 			}
-			if (!Configuration.getInstance().reduceToSupertypeDanglings(opTypeGroup)) {
+			if (!Configuration.getInstance().preferSuperTypesOnDanglings(opTypeGroup)) {
 				nextReplacements.addAll(ECM.getAllConcreteSubTypes(nextNodeType));
 			}
 

@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;

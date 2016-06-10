@@ -13,9 +13,9 @@ import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
-import org.sidiff.difference.rulebase.RuleBaseItem;
+import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
-import org.sidiff.difference.rulebase.extension.IRuleBase;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 
 /**
  * A specific subclass of {@link BasicEditRuleMatch} that creates an
@@ -48,7 +48,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Node rrNode = iterator.next();
 			Set<EObject> diffObjects = recognitionRuleMatch.getNodeMapping().get(rrNode);
 
-			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getLiftingSettings().getRuleBases());
+			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getRuleBases());
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -58,7 +58,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getLiftingSettings().getRuleBases());			
+			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getRuleBases());			
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -232,11 +232,12 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param usedRulebases
 	 * @return
 	 */
-	private Node getEditRuleNodeViaTraceA(Node recognitionRuleNode, Set<IRuleBase> usedRulebases) {
-		for (IRuleBase iRuleBase : usedRulebases) {
+	private Node getEditRuleNodeViaTraceA(Node recognitionRuleNode, Set<ILiftingRuleBase> usedRulebases) {
+		for (ILiftingRuleBase iRuleBase : usedRulebases) {
 			Trace trace = iRuleBase.getTraceA(recognitionRuleNode);
+			
 			if (trace != null) {
-				setEditRule(((RuleBaseItem) trace.eContainer()).getEditRule());
+				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}
@@ -252,11 +253,12 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param usedRulebases
 	 * @return
 	 */
-	private Node getEditRuleNodeViaTraceB(Node recognitionRuleNode, Set<IRuleBase> usedRulebases) {
-		for (IRuleBase iRuleBase : usedRulebases) {
+	private Node getEditRuleNodeViaTraceB(Node recognitionRuleNode, Set<ILiftingRuleBase> usedRulebases) {
+		for (ILiftingRuleBase iRuleBase : usedRulebases) {
 			Trace trace = iRuleBase.getTraceB(recognitionRuleNode);
+			
 			if (trace != null) {
-				setEditRule(((RuleBaseItem) trace.eContainer()).getEditRule());
+				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}

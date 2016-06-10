@@ -25,6 +25,7 @@ import org.sidiff.difference.rulebase.extension.IRuleBase;
 import org.sidiff.difference.rulebase.nature.RuleBaseProjectNature;
 import org.sidiff.difference.rulebase.project.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
+import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {
@@ -48,11 +49,13 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return "rbproject";
 	}
 
+	@Override
 	protected ResourceBundle getPluginResourceBundle() {
 		Bundle bundle = Platform.getBundle(Activator.getPluginId());
 		return Platform.getResourceBundle(bundle);
 	}
 
+	@Override
 	protected URL getInstallURL() {
 		return Activator.getDefault().getInstallURL();
 	}
@@ -70,6 +73,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		markPagesAdded();
 	}
 
+	@Override
 	public boolean isDependentOnParentWizard() {
 		return true;
 	}
@@ -83,6 +87,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 				AbstractProjectRuleBase.RULEBASE_FILE };
 	}
 
+	@Override
 	public IPluginReference[] getDependencies(String schemaVersion) {
 		IPluginReference[] result = new IPluginReference[2];
 		result[0] = new PluginReference("org.sidiff.difference.rulebase", null, 0);
@@ -90,6 +95,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return result;
 	}
 
+	@Override
 	protected void initializeFields(IFieldData data) {
 		// In a new project wizard, we don't know this yet - the
 		// model has not been created
@@ -97,6 +103,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		initializeOption(KEY_PACKAGE_NAME, getFormattedPackageName(id));
 	}
 
+	@Override
 	public void initializeFields(IPluginModelBase model) {
 		// In the new extension wizard, the model exists so
 		// we can initialize directly from it
@@ -166,6 +173,8 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 				settings.getGenerator().init(settings, monitor);
 				settings.getGenerator().generateEditRules(monitor);
 			} catch (EditRuleGenerationException e) {
+				e.printStackTrace();
+			} catch (WrongSettingsInstanceException e) {
 				e.printStackTrace();
 			}
 		}

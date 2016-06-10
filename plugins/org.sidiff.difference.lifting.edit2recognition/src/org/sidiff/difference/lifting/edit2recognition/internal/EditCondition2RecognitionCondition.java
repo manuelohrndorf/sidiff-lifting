@@ -29,7 +29,7 @@ import org.sidiff.difference.lifting.edit2recognition.traces.ACExtensionPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACObjectPattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.ACReferencePattern;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
-import org.sidiff.editrule.analysis.EditRuleAnnotations;
+import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
 import org.sidiff.matching.model.MatchingModelPackage;
 
 /**

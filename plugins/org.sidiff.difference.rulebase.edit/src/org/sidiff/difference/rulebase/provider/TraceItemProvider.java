@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.rulebase.provider;
 
@@ -21,7 +17,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.sidiff.difference.rulebase.RulebasePackage;
+import org.sidiff.difference.rulebase.LiftingRulebasePackage;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.rulebase.Trace} object.
@@ -29,7 +25,7 @@ import org.sidiff.difference.rulebase.RulebasePackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class TraceItemProvider
+public class TraceItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -77,7 +73,7 @@ public class TraceItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Trace_editRuleTrace_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Trace_editRuleTrace_feature", "_UI_Trace_type"),
-				 RulebasePackage.Literals.TRACE__EDIT_RULE_TRACE,
+				 LiftingRulebasePackage.Literals.TRACE__EDIT_RULE_TRACE,
 				 true,
 				 false,
 				 true,
@@ -99,7 +95,7 @@ public class TraceItemProvider
 				 getResourceLocator(),
 				 getString("_UI_Trace_recognitionRuleTrace_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Trace_recognitionRuleTrace_feature", "_UI_Trace_type"),
-				 RulebasePackage.Literals.TRACE__RECOGNITION_RULE_TRACE,
+				 LiftingRulebasePackage.Literals.TRACE__RECOGNITION_RULE_TRACE,
 				 true,
 				 false,
 				 true,
@@ -129,6 +125,7 @@ public class TraceItemProvider
 	public String getText(Object object) {
 		return getString("_UI_Trace_type");
 	}
+	
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
