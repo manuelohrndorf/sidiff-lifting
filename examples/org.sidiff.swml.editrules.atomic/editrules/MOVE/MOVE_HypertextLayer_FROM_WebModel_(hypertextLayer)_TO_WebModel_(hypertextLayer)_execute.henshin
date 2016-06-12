@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzKgACG_EeW9Z9d85a4DZw" name="MOVE_HypertextLayer_FROM_WebModel_(hypertextLayer)_TO_WebModel_(hypertextLayer)" description="MOVEs HypertextLayer from WebModel(Reference:hypertextLayer) to WebModel(Reference:hypertextLayer">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzKgASG_EeW9Z9d85a4DZw" name="moveHypertextLayer_FROM_WebModel_hypertextLayer_TO_WebModel_WebModel" description="Moves HypertextLayer from WebModel(Reference:hypertextLayer) toWebModel(Reference:WebModel)">
+    <parameters xmi:id="_qzKgAiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzKgAyG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qzKgBCG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <lhs xmi:id="_qzKgBSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzKgBiG_EeW9Z9d85a4DZw" name="Selected" incoming="_qzKgCSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzKgByG_EeW9Z9d85a4DZw" name="OldSource" outgoing="_qzKgCSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <nodes xmi:id="_qzKgCCG_EeW9Z9d85a4DZw" name="NewSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <edges xmi:id="_qzKgCSG_EeW9Z9d85a4DZw" source="_qzKgByG_EeW9Z9d85a4DZw" target="_qzKgBiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/hypertextLayer"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_qzKgCiG_EeW9Z9d85a4DZw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_qzKgCyG_EeW9Z9d85a4DZw">
+          <conclusion xmi:id="_qzKgDCG_EeW9Z9d85a4DZw" name="ub0">
+            <nodes xmi:id="_qzKgDSG_EeW9Z9d85a4DZw" outgoing="_qzKgDyG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+            </nodes>
+            <nodes xmi:id="_qzKgDiG_EeW9Z9d85a4DZw" incoming="_qzKgDyG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+            </nodes>
+            <edges xmi:id="_qzKgDyG_EeW9Z9d85a4DZw" source="_qzKgDSG_EeW9Z9d85a4DZw" target="_qzKgDiG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/hypertextLayer"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_qzKgECG_EeW9Z9d85a4DZw" origin="_qzKgCCG_EeW9Z9d85a4DZw" image="_qzKgDSG_EeW9Z9d85a4DZw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_qzKgESG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzKgEiG_EeW9Z9d85a4DZw" name="Selected" incoming="_qzKgFSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzKgEyG_EeW9Z9d85a4DZw" name="OldSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <nodes xmi:id="_qzKgFCG_EeW9Z9d85a4DZw" name="NewSource" outgoing="_qzKgFSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <edges xmi:id="_qzKgFSG_EeW9Z9d85a4DZw" source="_qzKgFCG_EeW9Z9d85a4DZw" target="_qzKgEiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/hypertextLayer"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzKgFiG_EeW9Z9d85a4DZw" origin="_qzKgBiG_EeW9Z9d85a4DZw" image="_qzKgEiG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzKgFyG_EeW9Z9d85a4DZw" origin="_qzKgByG_EeW9Z9d85a4DZw" image="_qzKgEyG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzKgGCG_EeW9Z9d85a4DZw" origin="_qzKgCCG_EeW9Z9d85a4DZw" image="_qzKgFCG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzKgGSG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzKgASG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzKgGiG_EeW9Z9d85a4DZw" name="selectedEObject"/>
+    <parameters xmi:id="_qzKgGyG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qzKgHCG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <parameterMappings xmi:id="_qzKgHSG_EeW9Z9d85a4DZw" source="_qzKgGiG_EeW9Z9d85a4DZw" target="_qzKgAiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzKgHiG_EeW9Z9d85a4DZw" source="_qzKgGyG_EeW9Z9d85a4DZw" target="_qzKgAyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzKgHyG_EeW9Z9d85a4DZw" source="_qzKgHCG_EeW9Z9d85a4DZw" target="_qzKgBCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

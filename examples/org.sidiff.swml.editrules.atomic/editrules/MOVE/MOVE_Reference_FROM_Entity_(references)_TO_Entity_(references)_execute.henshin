@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzHcwyG_EeW9Z9d85a4DZw" name="MOVE_Reference_FROM_Entity_(references)_TO_Entity_(references)" description="MOVEs Reference from Entity(Reference:references) to Entity(Reference:references">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzHcxCG_EeW9Z9d85a4DZw" name="moveReference_FROM_Entity_references_TO_Entity_Entity" description="Moves Reference from Entity(Reference:references) toEntity(Reference:Entity)">
+    <parameters xmi:id="_qzHcxSG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzHcxiG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qzHcxyG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <lhs xmi:id="_qzHcyCG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzHcySG_EeW9Z9d85a4DZw" name="Selected" incoming="_qzHczCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+      </nodes>
+      <nodes xmi:id="_qzHcyiG_EeW9Z9d85a4DZw" name="OldSource" outgoing="_qzHczCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_qzHcyyG_EeW9Z9d85a4DZw" name="NewSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <edges xmi:id="_qzHczCG_EeW9Z9d85a4DZw" source="_qzHcyiG_EeW9Z9d85a4DZw" target="_qzHcySG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/references"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qzHczSG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzHcziG_EeW9Z9d85a4DZw" name="Selected" incoming="_qzHc0SG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+      </nodes>
+      <nodes xmi:id="_qzHczyG_EeW9Z9d85a4DZw" name="OldSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_qzHc0CG_EeW9Z9d85a4DZw" name="NewSource" outgoing="_qzHc0SG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <edges xmi:id="_qzHc0SG_EeW9Z9d85a4DZw" source="_qzHc0CG_EeW9Z9d85a4DZw" target="_qzHcziG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/references"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzHc0iG_EeW9Z9d85a4DZw" origin="_qzHcySG_EeW9Z9d85a4DZw" image="_qzHcziG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzHc0yG_EeW9Z9d85a4DZw" origin="_qzHcyiG_EeW9Z9d85a4DZw" image="_qzHczyG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzHc1CG_EeW9Z9d85a4DZw" origin="_qzHcyyG_EeW9Z9d85a4DZw" image="_qzHc0CG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzHc1SG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzHcxCG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzHc1iG_EeW9Z9d85a4DZw" name="selectedEObject"/>
+    <parameters xmi:id="_qzHc1yG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qzHc2CG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <parameterMappings xmi:id="_qzHc2SG_EeW9Z9d85a4DZw" source="_qzHc1iG_EeW9Z9d85a4DZw" target="_qzHcxSG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzHc2iG_EeW9Z9d85a4DZw" source="_qzHc1yG_EeW9Z9d85a4DZw" target="_qzHcxiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzHc2yG_EeW9Z9d85a4DZw" source="_qzHc2CG_EeW9Z9d85a4DZw" target="_qzHcxyG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

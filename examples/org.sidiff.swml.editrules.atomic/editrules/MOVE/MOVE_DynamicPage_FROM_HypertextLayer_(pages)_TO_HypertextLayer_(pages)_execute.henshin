@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qyubICG_EeW9Z9d85a4DZw" name="MOVE_DynamicPage_FROM_HypertextLayer_(pages)_TO_HypertextLayer_(pages)" description="MOVEs DynamicPage from HypertextLayer(Reference:pages) to HypertextLayer(Reference:pages">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qyubISG_EeW9Z9d85a4DZw" name="moveDynamicPage_FROM_HypertextLayer_pages_TO_HypertextLayer_HypertextLayer" description="Moves DynamicPage from HypertextLayer(Reference:pages) toHypertextLayer(Reference:HypertextLayer)">
+    <parameters xmi:id="_qyubIiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qyubIyG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qyubJCG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <lhs xmi:id="_qyubJSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qyubJiG_EeW9Z9d85a4DZw" name="Selected" incoming="_qyubKSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_qyubJyG_EeW9Z9d85a4DZw" name="OldSource" outgoing="_qyubKSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qyubKCG_EeW9Z9d85a4DZw" name="NewSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <edges xmi:id="_qyubKSG_EeW9Z9d85a4DZw" source="_qyubJyG_EeW9Z9d85a4DZw" target="_qyubJiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qyubKiG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qyubKyG_EeW9Z9d85a4DZw" name="Selected" incoming="_qyubLiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_qyubLCG_EeW9Z9d85a4DZw" name="OldSource">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qyubLSG_EeW9Z9d85a4DZw" name="NewSource" outgoing="_qyubLiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <edges xmi:id="_qyubLiG_EeW9Z9d85a4DZw" source="_qyubLSG_EeW9Z9d85a4DZw" target="_qyubKyG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qyubLyG_EeW9Z9d85a4DZw" origin="_qyubJiG_EeW9Z9d85a4DZw" image="_qyubKyG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qyubMCG_EeW9Z9d85a4DZw" origin="_qyubJyG_EeW9Z9d85a4DZw" image="_qyubLCG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qyubMSG_EeW9Z9d85a4DZw" origin="_qyubKCG_EeW9Z9d85a4DZw" image="_qyubLSG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qyubMiG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qyubISG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qyubMyG_EeW9Z9d85a4DZw" name="selectedEObject"/>
+    <parameters xmi:id="_qyubNCG_EeW9Z9d85a4DZw" name="OldSource"/>
+    <parameters xmi:id="_qyubNSG_EeW9Z9d85a4DZw" name="NewSource"/>
+    <parameterMappings xmi:id="_qyubNiG_EeW9Z9d85a4DZw" source="_qyubMyG_EeW9Z9d85a4DZw" target="_qyubIiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qyubNyG_EeW9Z9d85a4DZw" source="_qyubNCG_EeW9Z9d85a4DZw" target="_qyubIyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qyubOCG_EeW9Z9d85a4DZw" source="_qyubNSG_EeW9Z9d85a4DZw" target="_qyubJCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

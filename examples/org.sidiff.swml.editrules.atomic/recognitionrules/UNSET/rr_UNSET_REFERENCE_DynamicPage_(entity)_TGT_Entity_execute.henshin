@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_4BbawC9CEeary6igavQCvA" name="RR: UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity" description="Recognize: Sets DynamicPage's reference entity the target Entity">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_4BbawS9CEeary6igavQCvA" name="rr:setDynamicPage_entity_TO_Entity" description="Recognize: SetDynamicPageRefentityToEntity">
+    <parameters xmi:id="_4Bbawi9CEeary6igavQCvA" name="Selected"/>
+    <parameters xmi:id="_4Bbawy9CEeary6igavQCvA" name="NewTarget"/>
+    <lhs xmi:id="_4BbaxC9CEeary6igavQCvA" name="Lhs">
+      <nodes xmi:id="_4BbaxS9CEeary6igavQCvA" name="A.Selected" incoming="_4Bbayy9CEeary6igavQCvA" outgoing="_4Bbazi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_4Bbaxi9CEeary6igavQCvA" name="A.NewTarget" incoming="_4BbazC9CEeary6igavQCvA _4Bbazi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_4Bbaxy9CEeary6igavQCvA" name="" outgoing="_4Bbayy9CEeary6igavQCvA _4BbazC9CEeary6igavQCvA _4BbazS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_4BbayC9CEeary6igavQCvA" name="" incoming="_4BbazS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_4BbayS9CEeary6igavQCvA" value="&quot;entity&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_4Bbayi9CEeary6igavQCvA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_4Bbayy9CEeary6igavQCvA" source="_4Bbaxy9CEeary6igavQCvA" target="_4BbaxS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_4BbazC9CEeary6igavQCvA" source="_4Bbaxy9CEeary6igavQCvA" target="_4Bbaxi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_4BbazS9CEeary6igavQCvA" source="_4Bbaxy9CEeary6igavQCvA" target="_4BbayC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_4Bbazi9CEeary6igavQCvA" source="_4BbaxS9CEeary6igavQCvA" target="_4Bbaxi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_4Bbazy9CEeary6igavQCvA" name="Rhs">
+      <nodes xmi:id="_4Bba0C9CEeary6igavQCvA" name="A.Selected" incoming="_4Bba3i9CEeary6igavQCvA" outgoing="_4Bba4S9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_4Bba0S9CEeary6igavQCvA" name="A.NewTarget" incoming="_4Bba3y9CEeary6igavQCvA _4Bba4S9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_4Bba0i9CEeary6igavQCvA" name="" incoming="_4Bba4i9CEeary6igavQCvA" outgoing="_4Bba3i9CEeary6igavQCvA _4Bba3y9CEeary6igavQCvA _4Bba4C9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_4Bba0y9CEeary6igavQCvA" name="" incoming="_4Bba4C9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_4Bba1C9CEeary6igavQCvA" incoming="_4Bba4y9CEeary6igavQCvA" outgoing="_4Bba4i9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_4Bba1S9CEeary6igavQCvA" value="&quot;UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_4Bba1i9CEeary6igavQCvA" value="&quot;Sets DynamicPage's reference entity the target Entity&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_4Bba1y9CEeary6igavQCvA" value="&quot;UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_4Bba2C9CEeary6igavQCvA" value="&quot;RR: UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_4Bba2S9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_4Bba2i9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_4Bba2y9CEeary6igavQCvA" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_4Bba3C9CEeary6igavQCvA" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_4Bba3S9CEeary6igavQCvA" name="" outgoing="_4Bba4y9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_4Bba3i9CEeary6igavQCvA" source="_4Bba0i9CEeary6igavQCvA" target="_4Bba0C9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_4Bba3y9CEeary6igavQCvA" source="_4Bba0i9CEeary6igavQCvA" target="_4Bba0S9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_4Bba4C9CEeary6igavQCvA" source="_4Bba0i9CEeary6igavQCvA" target="_4Bba0y9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_4Bba4S9CEeary6igavQCvA" source="_4Bba0C9CEeary6igavQCvA" target="_4Bba0S9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+      <edges xmi:id="_4Bba4i9CEeary6igavQCvA" source="_4Bba1C9CEeary6igavQCvA" target="_4Bba0i9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_4Bba4y9CEeary6igavQCvA" source="_4Bba3S9CEeary6igavQCvA" target="_4Bba1C9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_4Bba5C9CEeary6igavQCvA" origin="_4BbaxS9CEeary6igavQCvA" image="_4Bba0C9CEeary6igavQCvA"/>
+    <mappings xmi:id="_4Bba5S9CEeary6igavQCvA" origin="_4Bbaxi9CEeary6igavQCvA" image="_4Bba0S9CEeary6igavQCvA"/>
+    <mappings xmi:id="_4Bba5i9CEeary6igavQCvA" origin="_4Bbaxy9CEeary6igavQCvA" image="_4Bba0i9CEeary6igavQCvA"/>
+    <mappings xmi:id="_4Bba5y9CEeary6igavQCvA" origin="_4BbayC9CEeary6igavQCvA" image="_4Bba0y9CEeary6igavQCvA"/>
+    <mappings xmi:id="_4Bba6C9CEeary6igavQCvA" origin="_4Bbayi9CEeary6igavQCvA" image="_4Bba3S9CEeary6igavQCvA"/>
+  </units>
+</henshin:Module>

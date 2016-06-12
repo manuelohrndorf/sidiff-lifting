@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzMVMCG_EeW9Z9d85a4DZw" name="Create Referenced Entity" description="Creates one referenced Entity in DataLayer">
+  <annotations xmi:id="_qzMVMSG_EeW9Z9d85a4DZw" key="INVERSE" value="DELETE_Entity_IN_DataLayer_(entities)"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzMVMiG_EeW9Z9d85a4DZw" name="createReferencedEntity" description="creates one referenced Entity in the context: DataLayer">
+    <parameters xmi:id="_qzMVMyG_EeW9Z9d85a4DZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+    </parameters>
+    <parameters xmi:id="_0q2HICrQEeWcqb7k76x-4A" name="SelectedEntity">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+    </parameters>
+    <parameters xmi:id="_3InKECrQEeWcqb7k76x-4A" name="NewEntity">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+    </parameters>
+    <parameters xmi:id="_4e61sCrQEeWcqb7k76x-4A" name="EntityName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_6zbO8CrQEeWcqb7k76x-4A" name="NewReference">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+    </parameters>
+    <parameters xmi:id="_6zbO8SrQEeWcqb7k76x-4A" name="ReferenceName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_qzMVNiG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzMVNyG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_cfAOMCrQEeWcqb7k76x-4A" name="SelectedEntity">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qzMVOCG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzMVOSG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzMVPCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzMVOiG_EeW9Z9d85a4DZw" name="NewEntity" incoming="_qzMVPCG_EeW9Z9d85a4DZw _oEm_YCrQEeWcqb7k76x-4A">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+        <attributes xmi:id="_qzMVOyG_EeW9Z9d85a4DZw" value="EntityName">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_cfQs4CrQEeWcqb7k76x-4A" name="SelectedEntity" outgoing="_nOzYwCrQEeWcqb7k76x-4A">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_dXU9UCrQEeWcqb7k76x-4A" name="NewReference" incoming="_nOzYwCrQEeWcqb7k76x-4A" outgoing="_oEm_YCrQEeWcqb7k76x-4A">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+        <attributes xmi:id="_u6LwECrQEeWcqb7k76x-4A" value="ReferenceName">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_qzMVPCG_EeW9Z9d85a4DZw" source="_qzMVOSG_EeW9Z9d85a4DZw" target="_qzMVOiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer/entities"/>
+      </edges>
+      <edges xmi:id="_nOzYwCrQEeWcqb7k76x-4A" source="_cfQs4CrQEeWcqb7k76x-4A" target="_dXU9UCrQEeWcqb7k76x-4A">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/references"/>
+      </edges>
+      <edges xmi:id="_oEm_YCrQEeWcqb7k76x-4A" source="_dXU9UCrQEeWcqb7k76x-4A" target="_qzMVOiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzMVPSG_EeW9Z9d85a4DZw" origin="_qzMVNyG_EeW9Z9d85a4DZw" image="_qzMVOSG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_cfQs4SrQEeWcqb7k76x-4A" origin="_cfAOMCrQEeWcqb7k76x-4A" image="_cfQs4CrQEeWcqb7k76x-4A"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzMVPiG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzMVMiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzMVPyG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzMVQCG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+    </parameters>
+    <parameters xmi:id="_khqnoCrREeWcqb7k76x-4A" name="SelectedEntity">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+    </parameters>
+    <parameters xmi:id="_HQ9tsCrREeWcqb7k76x-4A" name="NewEntity">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+    </parameters>
+    <parameters xmi:id="_khqnoSrREeWcqb7k76x-4A" name="EntityName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_nK8XACrREeWcqb7k76x-4A" name="NewReference">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+    </parameters>
+    <parameters xmi:id="_nK8XASrREeWcqb7k76x-4A" name="ReferenceName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzMVRCG_EeW9Z9d85a4DZw" source="_qzMVPyG_EeW9Z9d85a4DZw" target="_qzMVMyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_3IbHYCrREeWcqb7k76x-4A" source="_khqnoCrREeWcqb7k76x-4A" target="_0q2HICrQEeWcqb7k76x-4A"/>
+    <parameterMappings xmi:id="_6KE6gCrREeWcqb7k76x-4A" source="_khqnoSrREeWcqb7k76x-4A" target="_4e61sCrQEeWcqb7k76x-4A"/>
+    <parameterMappings xmi:id="_8j21UCrREeWcqb7k76x-4A" source="_nK8XASrREeWcqb7k76x-4A" target="_6zbO8SrQEeWcqb7k76x-4A"/>
+    <parameterMappings xmi:id="_-T3aYCrREeWcqb7k76x-4A" source="_3InKECrQEeWcqb7k76x-4A" target="_HQ9tsCrREeWcqb7k76x-4A"/>
+    <parameterMappings xmi:id="__-yEECrREeWcqb7k76x-4A" source="_6zbO8CrQEeWcqb7k76x-4A" target="_nK8XACrREeWcqb7k76x-4A"/>
+  </units>
+</henshin:Module>

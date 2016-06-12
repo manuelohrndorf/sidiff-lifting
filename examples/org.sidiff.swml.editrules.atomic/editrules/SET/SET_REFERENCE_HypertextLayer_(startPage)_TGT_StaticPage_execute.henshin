@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzG1oCG_EeW9Z9d85a4DZw" name="SET_REFERENCE_HypertextLayer_(startPage)_TGT_StaticPage" description="Sets HypertextLayer's reference startPage the target StaticPage">
+  <annotations xmi:id="_qzG1oSG_EeW9Z9d85a4DZw" key="INVERSE" value="UNSET_REFERENCE_HypertextLayer_(startPage)_TGT_StaticPage"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzG1oiG_EeW9Z9d85a4DZw" name="setHypertextLayer_startPage_TO_StaticPage" description="SetHypertextLayerRefstartPageToStaticPage">
+    <parameters xmi:id="_qzG1oyG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzG1pCG_EeW9Z9d85a4DZw" name="NewTarget"/>
+    <lhs xmi:id="_qzG1pSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzG1piG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzG1pyG_EeW9Z9d85a4DZw" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//StaticPage"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_qzG1qCG_EeW9Z9d85a4DZw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_qzG1qSG_EeW9Z9d85a4DZw">
+          <conclusion xmi:id="_qzG1qiG_EeW9Z9d85a4DZw" name="ub0">
+            <nodes xmi:id="_qzG1qyG_EeW9Z9d85a4DZw" outgoing="_qzG1rSG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+            </nodes>
+            <nodes xmi:id="_qzG1rCG_EeW9Z9d85a4DZw" incoming="_qzG1rSG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//StaticPage"/>
+            </nodes>
+            <edges xmi:id="_qzG1rSG_EeW9Z9d85a4DZw" source="_qzG1qyG_EeW9Z9d85a4DZw" target="_qzG1rCG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/startPage"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_qzG1riG_EeW9Z9d85a4DZw" origin="_qzG1piG_EeW9Z9d85a4DZw" image="_qzG1qyG_EeW9Z9d85a4DZw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_qzG1ryG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzG1sCG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzG1siG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzG1sSG_EeW9Z9d85a4DZw" name="NewTarget" incoming="_qzG1siG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//StaticPage"/>
+      </nodes>
+      <edges xmi:id="_qzG1siG_EeW9Z9d85a4DZw" source="_qzG1sCG_EeW9Z9d85a4DZw" target="_qzG1sSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/startPage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzG1syG_EeW9Z9d85a4DZw" origin="_qzG1piG_EeW9Z9d85a4DZw" image="_qzG1sCG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzG1tCG_EeW9Z9d85a4DZw" origin="_qzG1pyG_EeW9Z9d85a4DZw" image="_qzG1sSG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzG1tSG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzG1oiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzG1tiG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzG1tyG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qzG1uCG_EeW9Z9d85a4DZw" name="NewTarget">
+      <annotations xmi:id="_qzG1uSG_EeW9Z9d85a4DZw" key="INVERSE" value="NewTarget"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzG1uiG_EeW9Z9d85a4DZw" source="_qzG1tiG_EeW9Z9d85a4DZw" target="_qzG1oyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzG1uyG_EeW9Z9d85a4DZw" source="_qzG1uCG_EeW9Z9d85a4DZw" target="_qzG1pCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

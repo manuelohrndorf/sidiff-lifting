@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzFngCG_EeW9Z9d85a4DZw" name="DELETE_IndexPage_IN_HypertextLayer_(pages)" description="Deletes one IndexPage in HypertextLayer">
+  <annotations xmi:id="_qzFngSG_EeW9Z9d85a4DZw" key="INVERSE" value="CREATE_IndexPage_IN_HypertextLayer_(pages)"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzFngiG_EeW9Z9d85a4DZw" name="deleteIndexPage_IN_HypertextLayer" description="deletes one IndexPage in the context: HypertextLayer">
+    <parameters xmi:id="_qzFngyG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzFnhCG_EeW9Z9d85a4DZw" name="ToBeDeleted"/>
+    <lhs xmi:id="_qzFnhSG_EeW9Z9d85a4DZw" name="LHS">
+      <nodes xmi:id="_qzFnhiG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzFniCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzFnhyG_EeW9Z9d85a4DZw" name="ToBeDeleted" incoming="_qzFniCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//IndexPage"/>
+      </nodes>
+      <edges xmi:id="_qzFniCG_EeW9Z9d85a4DZw" source="_qzFnhiG_EeW9Z9d85a4DZw" target="_qzFnhyG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qzFniSG_EeW9Z9d85a4DZw" name="RHS">
+      <nodes xmi:id="_qzFniiG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qzFniyG_EeW9Z9d85a4DZw" origin="_qzFnhiG_EeW9Z9d85a4DZw" image="_qzFniiG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzFnjCG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzFngiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzFnjSG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzFnjiG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qzFnjyG_EeW9Z9d85a4DZw" name="ToBeDeleted">
+      <annotations xmi:id="_qzFnkCG_EeW9Z9d85a4DZw" key="INVERSE" value="New"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzFnkSG_EeW9Z9d85a4DZw" source="_qzFnjSG_EeW9Z9d85a4DZw" target="_qzFngyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzFnkiG_EeW9Z9d85a4DZw" source="_qzFnjyG_EeW9Z9d85a4DZw" target="_qzFnhCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

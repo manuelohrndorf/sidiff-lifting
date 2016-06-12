@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_35PvIC9CEeary6igavQCvA" name="RR: DELETE_Page_IN_HypertextLayer_(pages)" description="Recognize: Deletes one Page in HypertextLayer">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_35PvIS9CEeary6igavQCvA" name="rr:deletePage_IN_HypertextLayer" description="Recognize: deletes one Page in the context: HypertextLayer">
+    <parameters xmi:id="_35PvIi9CEeary6igavQCvA" name="Selected"/>
+    <parameters xmi:id="_35PvIy9CEeary6igavQCvA" name="ToBeDeleted"/>
+    <lhs xmi:id="_35PvJC9CEeary6igavQCvA" name="Lhs">
+      <nodes xmi:id="_35PvJS9CEeary6igavQCvA" name="A.Selected" incoming="_35PvLS9CEeary6igavQCvA" outgoing="_35PvMC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_35PvJi9CEeary6igavQCvA" name="" outgoing="_35PvLC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_35PvJy9CEeary6igavQCvA" name="A.ToBeDeleted" incoming="_35PvLC9CEeary6igavQCvA _35PvLi9CEeary6igavQCvA _35PvMC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_35PvKC9CEeary6igavQCvA" name="" outgoing="_35PvLS9CEeary6igavQCvA _35PvLi9CEeary6igavQCvA _35PvLy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_35PvKS9CEeary6igavQCvA" name="" incoming="_35PvLy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_35PvKi9CEeary6igavQCvA" value="&quot;pages&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_35PvKy9CEeary6igavQCvA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_35PvLC9CEeary6igavQCvA" source="_35PvJi9CEeary6igavQCvA" target="_35PvJy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_35PvLS9CEeary6igavQCvA" source="_35PvKC9CEeary6igavQCvA" target="_35PvJS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_35PvLi9CEeary6igavQCvA" source="_35PvKC9CEeary6igavQCvA" target="_35PvJy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_35PvLy9CEeary6igavQCvA" source="_35PvKC9CEeary6igavQCvA" target="_35PvKS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_35PvMC9CEeary6igavQCvA" source="_35PvJS9CEeary6igavQCvA" target="_35PvJy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_35PvMS9CEeary6igavQCvA" name="Rhs">
+      <nodes xmi:id="_35PvMi9CEeary6igavQCvA" name="A.Selected" incoming="_35PvQi9CEeary6igavQCvA" outgoing="_35PvRS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_35PvMy9CEeary6igavQCvA" name="" incoming="_35PvRi9CEeary6igavQCvA" outgoing="_35PvQS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_35PvNC9CEeary6igavQCvA" name="A.ToBeDeleted" incoming="_35PvQS9CEeary6igavQCvA _35PvQy9CEeary6igavQCvA _35PvRS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_35PvNS9CEeary6igavQCvA" name="" incoming="_35PvRy9CEeary6igavQCvA" outgoing="_35PvQi9CEeary6igavQCvA _35PvQy9CEeary6igavQCvA _35PvRC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_35PvNi9CEeary6igavQCvA" name="" incoming="_35PvRC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_35PvNy9CEeary6igavQCvA" incoming="_35PvSC9CEeary6igavQCvA" outgoing="_35PvRi9CEeary6igavQCvA _35PvRy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_35PvOC9CEeary6igavQCvA" value="&quot;DELETE_Page_IN_HypertextLayer_(pages)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_35PvOS9CEeary6igavQCvA" value="&quot;Deletes one Page in HypertextLayer&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_35PvOi9CEeary6igavQCvA" value="&quot;DELETE_Page_IN_HypertextLayer_(pages)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_35PvOy9CEeary6igavQCvA" value="&quot;RR: DELETE_Page_IN_HypertextLayer_(pages)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_35PvPC9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_35PvPS9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_35PvPi9CEeary6igavQCvA" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_35PvPy9CEeary6igavQCvA" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_35PvQC9CEeary6igavQCvA" name="" outgoing="_35PvSC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_35PvQS9CEeary6igavQCvA" source="_35PvMy9CEeary6igavQCvA" target="_35PvNC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_35PvQi9CEeary6igavQCvA" source="_35PvNS9CEeary6igavQCvA" target="_35PvMi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_35PvQy9CEeary6igavQCvA" source="_35PvNS9CEeary6igavQCvA" target="_35PvNC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_35PvRC9CEeary6igavQCvA" source="_35PvNS9CEeary6igavQCvA" target="_35PvNi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_35PvRS9CEeary6igavQCvA" source="_35PvMi9CEeary6igavQCvA" target="_35PvNC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+      <edges xmi:id="_35PvRi9CEeary6igavQCvA" source="_35PvNy9CEeary6igavQCvA" target="_35PvMy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_35PvRy9CEeary6igavQCvA" source="_35PvNy9CEeary6igavQCvA" target="_35PvNS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_35PvSC9CEeary6igavQCvA" source="_35PvQC9CEeary6igavQCvA" target="_35PvNy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_35PvSS9CEeary6igavQCvA" origin="_35PvJS9CEeary6igavQCvA" image="_35PvMi9CEeary6igavQCvA"/>
+    <mappings xmi:id="_35PvSi9CEeary6igavQCvA" origin="_35PvJi9CEeary6igavQCvA" image="_35PvMy9CEeary6igavQCvA"/>
+    <mappings xmi:id="_35PvSy9CEeary6igavQCvA" origin="_35PvJy9CEeary6igavQCvA" image="_35PvNC9CEeary6igavQCvA"/>
+    <mappings xmi:id="_35PvTC9CEeary6igavQCvA" origin="_35PvKC9CEeary6igavQCvA" image="_35PvNS9CEeary6igavQCvA"/>
+    <mappings xmi:id="_35PvTS9CEeary6igavQCvA" origin="_35PvKS9CEeary6igavQCvA" image="_35PvNi9CEeary6igavQCvA"/>
+    <mappings xmi:id="_35PvTi9CEeary6igavQCvA" origin="_35PvKy9CEeary6igavQCvA" image="_35PvQC9CEeary6igavQCvA"/>
+  </units>
+</henshin:Module>

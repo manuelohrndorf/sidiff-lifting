@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzPYgCG_EeW9Z9d85a4DZw" name="SET_ATTRIBUTE_Page_Name" description="Sets Page Name">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzPYgSG_EeW9Z9d85a4DZw" name="setPageName" description="Sets the EAttribute name">
+    <parameters xmi:id="_qzPYgiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzPYgyG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_qzPYhCG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzPYhSG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qzPYhiG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzPYhyG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+        <attributes xmi:id="_qzPYiCG_EeW9Z9d85a4DZw" value="Name">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qzPYiSG_EeW9Z9d85a4DZw" origin="_qzPYhSG_EeW9Z9d85a4DZw" image="_qzPYhyG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzPYiiG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzPYgSG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzPYiyG_EeW9Z9d85a4DZw" name="selectedEObject"/>
+    <parameters xmi:id="_qzPYjCG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzPYjSG_EeW9Z9d85a4DZw" source="_qzPYiyG_EeW9Z9d85a4DZw" target="_qzPYgiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzPYjiG_EeW9Z9d85a4DZw" source="_qzPYjCG_EeW9Z9d85a4DZw" target="_qzPYgyG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

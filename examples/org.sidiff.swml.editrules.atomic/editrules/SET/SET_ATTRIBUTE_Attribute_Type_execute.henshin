@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzBWECG_EeW9Z9d85a4DZw" name="SET_ATTRIBUTE_Attribute_Type" description="Sets Attribute Type">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzBWESG_EeW9Z9d85a4DZw" name="setAttributeType" description="Sets the EAttribute type">
+    <parameters xmi:id="_qzBWEiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzBWEyG_EeW9Z9d85a4DZw" name="Type">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//SimpleType"/>
+    </parameters>
+    <lhs xmi:id="_qzBWFCG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzBWFSG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qzBWFiG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzBWFyG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute"/>
+        <attributes xmi:id="_qzBWGCG_EeW9Z9d85a4DZw" value="Type">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute/type"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qzBWGSG_EeW9Z9d85a4DZw" origin="_qzBWFSG_EeW9Z9d85a4DZw" image="_qzBWFyG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzBWGiG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzBWESG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzBWGyG_EeW9Z9d85a4DZw" name="selectedEObject"/>
+    <parameters xmi:id="_qzBWHCG_EeW9Z9d85a4DZw" name="Type">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//SimpleType"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzBWHSG_EeW9Z9d85a4DZw" source="_qzBWGyG_EeW9Z9d85a4DZw" target="_qzBWEiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzBWHiG_EeW9Z9d85a4DZw" source="_qzBWHCG_EeW9Z9d85a4DZw" target="_qzBWEyG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

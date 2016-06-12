@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_30NeIC9CEeary6igavQCvA" name="RR: CREATE_DataLayer_IN_WebModel_(dataLayer)" description="Recognize: Creates one DataLayer in WebModel">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_30NeIS9CEeary6igavQCvA" name="rr:createDataLayer_IN_WebModel" description="Recognize: creates one DataLayer in the context: WebModel">
+    <parameters xmi:id="_30NeIi9CEeary6igavQCvA" name="Selected"/>
+    <parameters xmi:id="_30NeIy9CEeary6igavQCvA" name="New"/>
+    <lhs xmi:id="_30NeJC9CEeary6igavQCvA" name="Lhs">
+      <nodes xmi:id="_30NeJS9CEeary6igavQCvA" name="B.Selected" incoming="_30NeLS9CEeary6igavQCvA" outgoing="_30NeMC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <nodes xmi:id="_30NeJi9CEeary6igavQCvA" name="" outgoing="_30NeLC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_30NeJy9CEeary6igavQCvA" name="B.New" incoming="_30NeLC9CEeary6igavQCvA _30NeLi9CEeary6igavQCvA _30NeMC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_30NeKC9CEeary6igavQCvA" name="" outgoing="_30NeLS9CEeary6igavQCvA _30NeLi9CEeary6igavQCvA _30NeLy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_30NeKS9CEeary6igavQCvA" name="" incoming="_30NeLy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_30NeKi9CEeary6igavQCvA" value="&quot;dataLayer&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_30NeKy9CEeary6igavQCvA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_30NeLC9CEeary6igavQCvA" source="_30NeJi9CEeary6igavQCvA" target="_30NeJy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_30NeLS9CEeary6igavQCvA" source="_30NeKC9CEeary6igavQCvA" target="_30NeJS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_30NeLi9CEeary6igavQCvA" source="_30NeKC9CEeary6igavQCvA" target="_30NeJy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_30NeLy9CEeary6igavQCvA" source="_30NeKC9CEeary6igavQCvA" target="_30NeKS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_30NeMC9CEeary6igavQCvA" source="_30NeJS9CEeary6igavQCvA" target="_30NeJy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/dataLayer"/>
+      </edges>
+      <formula xsi:type="henshin:Not" xmi:id="_30NeMS9CEeary6igavQCvA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_30NeMi9CEeary6igavQCvA">
+          <conclusion xmi:id="_30NeMy9CEeary6igavQCvA" name="ub0">
+            <nodes xmi:id="_30NeNC9CEeary6igavQCvA" incoming="_30NeNi9CEeary6igavQCvA">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+            </nodes>
+            <nodes xmi:id="_30NeNS9CEeary6igavQCvA" name="B.Selected" outgoing="_30NeNi9CEeary6igavQCvA">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+            </nodes>
+            <edges xmi:id="_30NeNi9CEeary6igavQCvA" source="_30NeNS9CEeary6igavQCvA" target="_30NeNC9CEeary6igavQCvA">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/dataLayer"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_30NeNy9CEeary6igavQCvA" origin="_30NeJS9CEeary6igavQCvA" image="_30NeNS9CEeary6igavQCvA"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_30NeOC9CEeary6igavQCvA" name="Rhs">
+      <nodes xmi:id="_30NeOS9CEeary6igavQCvA" name="B.Selected" incoming="_30NeSS9CEeary6igavQCvA" outgoing="_30NeTC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <nodes xmi:id="_30NeOi9CEeary6igavQCvA" name="" incoming="_30NeTS9CEeary6igavQCvA" outgoing="_30NeSC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_30NeOy9CEeary6igavQCvA" name="B.New" incoming="_30NeSC9CEeary6igavQCvA _30NeSi9CEeary6igavQCvA _30NeTC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_30NePC9CEeary6igavQCvA" name="" incoming="_30NeTi9CEeary6igavQCvA" outgoing="_30NeSS9CEeary6igavQCvA _30NeSi9CEeary6igavQCvA _30NeSy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_30NePS9CEeary6igavQCvA" name="" incoming="_30NeSy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_30NePi9CEeary6igavQCvA" incoming="_30NeTy9CEeary6igavQCvA" outgoing="_30NeTS9CEeary6igavQCvA _30NeTi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_30NePy9CEeary6igavQCvA" value="&quot;CREATE_DataLayer_IN_WebModel_(dataLayer)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_30NeQC9CEeary6igavQCvA" value="&quot;Creates one DataLayer in WebModel&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_30NeQS9CEeary6igavQCvA" value="&quot;CREATE_DataLayer_IN_WebModel_(dataLayer)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_30NeQi9CEeary6igavQCvA" value="&quot;RR: CREATE_DataLayer_IN_WebModel_(dataLayer)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_30NeQy9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_30NeRC9CEeary6igavQCvA" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_30NeRS9CEeary6igavQCvA" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_30NeRi9CEeary6igavQCvA" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_30NeRy9CEeary6igavQCvA" name="" outgoing="_30NeTy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_30NeSC9CEeary6igavQCvA" source="_30NeOi9CEeary6igavQCvA" target="_30NeOy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_30NeSS9CEeary6igavQCvA" source="_30NePC9CEeary6igavQCvA" target="_30NeOS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_30NeSi9CEeary6igavQCvA" source="_30NePC9CEeary6igavQCvA" target="_30NeOy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_30NeSy9CEeary6igavQCvA" source="_30NePC9CEeary6igavQCvA" target="_30NePS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_30NeTC9CEeary6igavQCvA" source="_30NeOS9CEeary6igavQCvA" target="_30NeOy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/dataLayer"/>
+      </edges>
+      <edges xmi:id="_30NeTS9CEeary6igavQCvA" source="_30NePi9CEeary6igavQCvA" target="_30NeOi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_30NeTi9CEeary6igavQCvA" source="_30NePi9CEeary6igavQCvA" target="_30NePC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_30NeTy9CEeary6igavQCvA" source="_30NeRy9CEeary6igavQCvA" target="_30NePi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_30NeUC9CEeary6igavQCvA" origin="_30NeJS9CEeary6igavQCvA" image="_30NeOS9CEeary6igavQCvA"/>
+    <mappings xmi:id="_30NeUS9CEeary6igavQCvA" origin="_30NeJi9CEeary6igavQCvA" image="_30NeOi9CEeary6igavQCvA"/>
+    <mappings xmi:id="_30NeUi9CEeary6igavQCvA" origin="_30NeJy9CEeary6igavQCvA" image="_30NeOy9CEeary6igavQCvA"/>
+    <mappings xmi:id="_30NeUy9CEeary6igavQCvA" origin="_30NeKC9CEeary6igavQCvA" image="_30NePC9CEeary6igavQCvA"/>
+    <mappings xmi:id="_30NeVC9CEeary6igavQCvA" origin="_30NeKS9CEeary6igavQCvA" image="_30NePS9CEeary6igavQCvA"/>
+    <mappings xmi:id="_30NeVS9CEeary6igavQCvA" origin="_30NeKy9CEeary6igavQCvA" image="_30NeRy9CEeary6igavQCvA"/>
+  </units>
+</henshin:Module>

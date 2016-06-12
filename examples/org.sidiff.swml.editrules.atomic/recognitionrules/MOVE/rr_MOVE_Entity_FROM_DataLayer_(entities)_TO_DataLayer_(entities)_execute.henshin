@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_38R1AC9CEeary6igavQCvA" name="RR: MOVE_Entity_FROM_DataLayer_(entities)_TO_DataLayer_(entities)" description="Recognize: MOVEs Entity from DataLayer(Reference:entities) to DataLayer(Reference:entities">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_38R1AS9CEeary6igavQCvA" name="rr:moveEntity_FROM_DataLayer_entities_TO_DataLayer_DataLayer" description="Recognize: Moves Entity from DataLayer(Reference:entities) toDataLayer(Reference:DataLayer)">
+    <parameters xmi:id="_38R1Ai9CEeary6igavQCvA" name="Selected"/>
+    <parameters xmi:id="_38R1Ay9CEeary6igavQCvA" name="OldSource"/>
+    <parameters xmi:id="_38R1BC9CEeary6igavQCvA" name="NewSource"/>
+    <lhs xmi:id="_38R1BS9CEeary6igavQCvA" name="Lhs">
+      <nodes xmi:id="_38R1Bi9CEeary6igavQCvA" name="B.Selected" incoming="_38R1ES9CEeary6igavQCvA _38R1Fy9CEeary6igavQCvA _38R1GS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_38R1By9CEeary6igavQCvA" name="A.Selected" incoming="_38R1EC9CEeary6igavQCvA _38R1Ey9CEeary6igavQCvA _38R1FS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_38R1CC9CEeary6igavQCvA" name="" outgoing="_38R1EC9CEeary6igavQCvA _38R1ES9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_38R1CS9CEeary6igavQCvA" name="A.OldSource" incoming="_38R1Ei9CEeary6igavQCvA" outgoing="_38R1FS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_38R1Ci9CEeary6igavQCvA" name="B.NewSource" incoming="_38R1Fi9CEeary6igavQCvA" outgoing="_38R1GS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_38R1Cy9CEeary6igavQCvA" name="" outgoing="_38R1Ei9CEeary6igavQCvA _38R1Ey9CEeary6igavQCvA _38R1FC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_38R1DC9CEeary6igavQCvA" name="" incoming="_38R1FC9CEeary6igavQCvA _38R1GC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_38R1DS9CEeary6igavQCvA" value="&quot;entities&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_38R1Di9CEeary6igavQCvA" name="" outgoing="_38R1Fi9CEeary6igavQCvA _38R1Fy9CEeary6igavQCvA _38R1GC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_38R1Dy9CEeary6igavQCvA" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_38R1EC9CEeary6igavQCvA" source="_38R1CC9CEeary6igavQCvA" target="_38R1By9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_38R1ES9CEeary6igavQCvA" source="_38R1CC9CEeary6igavQCvA" target="_38R1Bi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_38R1Ei9CEeary6igavQCvA" source="_38R1Cy9CEeary6igavQCvA" target="_38R1CS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_38R1Ey9CEeary6igavQCvA" source="_38R1Cy9CEeary6igavQCvA" target="_38R1By9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_38R1FC9CEeary6igavQCvA" source="_38R1Cy9CEeary6igavQCvA" target="_38R1DC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_38R1FS9CEeary6igavQCvA" source="_38R1CS9CEeary6igavQCvA" target="_38R1By9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer/entities"/>
+      </edges>
+      <edges xmi:id="_38R1Fi9CEeary6igavQCvA" source="_38R1Di9CEeary6igavQCvA" target="_38R1Ci9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_38R1Fy9CEeary6igavQCvA" source="_38R1Di9CEeary6igavQCvA" target="_38R1Bi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_38R1GC9CEeary6igavQCvA" source="_38R1Di9CEeary6igavQCvA" target="_38R1DC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_38R1GS9CEeary6igavQCvA" source="_38R1Ci9CEeary6igavQCvA" target="_38R1Bi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer/entities"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_38R1Gi9CEeary6igavQCvA" name="Rhs">
+      <nodes xmi:id="_38R1Gy9CEeary6igavQCvA" name="B.Selected" incoming="_38R1Li9CEeary6igavQCvA _38R1NC9CEeary6igavQCvA _38R1Ni9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_38R1HC9CEeary6igavQCvA" name="A.Selected" incoming="_38R1LS9CEeary6igavQCvA _38R1MC9CEeary6igavQCvA _38R1Mi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_38R1HS9CEeary6igavQCvA" name="" outgoing="_38R1LS9CEeary6igavQCvA _38R1Li9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_38R1Hi9CEeary6igavQCvA" name="A.OldSource" incoming="_38R1Ly9CEeary6igavQCvA" outgoing="_38R1Mi9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_38R1Hy9CEeary6igavQCvA" name="B.NewSource" incoming="_38R1My9CEeary6igavQCvA" outgoing="_38R1Ni9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <nodes xmi:id="_38R1IC9CEeary6igavQCvA" name="" incoming="_38R1Ny9CEeary6igavQCvA" outgoing="_38R1Ly9CEeary6igavQCvA _38R1MC9CEeary6igavQCvA _38R1MS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_38R1IS9CEeary6igavQCvA" name="" incoming="_38R1MS9CEeary6igavQCvA _38R1NS9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_38R1Ii9CEeary6igavQCvA" name="" incoming="_38R1OC9CEeary6igavQCvA" outgoing="_38R1My9CEeary6igavQCvA _38R1NC9CEeary6igavQCvA _38R1NS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_38R1Iy9CEeary6igavQCvA" incoming="_38R1OS9CEeary6igavQCvA" outgoing="_38R1Ny9CEeary6igavQCvA _38R1OC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_38R1JC9CEeary6igavQCvA" value="&quot;MOVE_Entity_FROM_DataLayer_(entities)_TO_DataLayer_(entities)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_38R1JS9CEeary6igavQCvA" value="&quot;MOVEs Entity from DataLayer(Reference:entities) to DataLayer(Reference:entities&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_38R1Ji9CEeary6igavQCvA" value="&quot;MOVE_Entity_FROM_DataLayer_(entities)_TO_DataLayer_(entities)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_38R1Jy9CEeary6igavQCvA" value="&quot;RR: MOVE_Entity_FROM_DataLayer_(entities)_TO_DataLayer_(entities)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_38R1KC9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_38R1KS9CEeary6igavQCvA" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_38R1Ki9CEeary6igavQCvA" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_38R1Ky9CEeary6igavQCvA" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_38R1LC9CEeary6igavQCvA" name="" outgoing="_38R1OS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_38R1LS9CEeary6igavQCvA" source="_38R1HS9CEeary6igavQCvA" target="_38R1HC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_38R1Li9CEeary6igavQCvA" source="_38R1HS9CEeary6igavQCvA" target="_38R1Gy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_38R1Ly9CEeary6igavQCvA" source="_38R1IC9CEeary6igavQCvA" target="_38R1Hi9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_38R1MC9CEeary6igavQCvA" source="_38R1IC9CEeary6igavQCvA" target="_38R1HC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_38R1MS9CEeary6igavQCvA" source="_38R1IC9CEeary6igavQCvA" target="_38R1IS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_38R1Mi9CEeary6igavQCvA" source="_38R1Hi9CEeary6igavQCvA" target="_38R1HC9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer/entities"/>
+      </edges>
+      <edges xmi:id="_38R1My9CEeary6igavQCvA" source="_38R1Ii9CEeary6igavQCvA" target="_38R1Hy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_38R1NC9CEeary6igavQCvA" source="_38R1Ii9CEeary6igavQCvA" target="_38R1Gy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_38R1NS9CEeary6igavQCvA" source="_38R1Ii9CEeary6igavQCvA" target="_38R1IS9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_38R1Ni9CEeary6igavQCvA" source="_38R1Hy9CEeary6igavQCvA" target="_38R1Gy9CEeary6igavQCvA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer/entities"/>
+      </edges>
+      <edges xmi:id="_38R1Ny9CEeary6igavQCvA" source="_38R1Iy9CEeary6igavQCvA" target="_38R1IC9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_38R1OC9CEeary6igavQCvA" source="_38R1Iy9CEeary6igavQCvA" target="_38R1Ii9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_38R1OS9CEeary6igavQCvA" source="_38R1LC9CEeary6igavQCvA" target="_38R1Iy9CEeary6igavQCvA">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_38R1Oi9CEeary6igavQCvA" origin="_38R1Bi9CEeary6igavQCvA" image="_38R1Gy9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1Oy9CEeary6igavQCvA" origin="_38R1By9CEeary6igavQCvA" image="_38R1HC9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1PC9CEeary6igavQCvA" origin="_38R1CC9CEeary6igavQCvA" image="_38R1HS9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1PS9CEeary6igavQCvA" origin="_38R1CS9CEeary6igavQCvA" image="_38R1Hi9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1Pi9CEeary6igavQCvA" origin="_38R1Ci9CEeary6igavQCvA" image="_38R1Hy9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1Py9CEeary6igavQCvA" origin="_38R1Cy9CEeary6igavQCvA" image="_38R1IC9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1QC9CEeary6igavQCvA" origin="_38R1DC9CEeary6igavQCvA" image="_38R1IS9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1QS9CEeary6igavQCvA" origin="_38R1Di9CEeary6igavQCvA" image="_38R1Ii9CEeary6igavQCvA"/>
+    <mappings xmi:id="_38R1Qi9CEeary6igavQCvA" origin="_38R1Dy9CEeary6igavQCvA" image="_38R1LC9CEeary6igavQCvA"/>
+  </units>
+</henshin:Module>
