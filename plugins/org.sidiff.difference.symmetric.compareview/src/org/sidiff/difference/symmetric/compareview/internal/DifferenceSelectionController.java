@@ -87,8 +87,12 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	private Set<TreeViewer> treeViewersWithDecorations = null;
 	private Map<EObject, URI> eObjecToResourceURI = new HashMap<EObject, URI>();
 	
+	private Map<EObject, EObject> correspondencesAB = new HashMap<EObject, EObject>();
+	private Map<EObject, EObject> correspondencesBA = new HashMap<EObject, EObject>();
+	
 	private XtextMarker xtextmarker = null;
 
+	private boolean highlightReferenceChanges = false;
 
 	private boolean highlightEnabled = false;
 	private ISelection lastSelection = null;
@@ -191,8 +195,17 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 				IStructuredSelection _selection = (IStructuredSelection) selection;
 				if (_selection.getFirstElement() instanceof SemanticChangeSet) {
 					SemanticChangeSet semanticChangeSet = (SemanticChangeSet) _selection.getFirstElement();
-
+					if(correspondencesAB.isEmpty() && correspondencesBA.isEmpty()){
+						for(Correspondence correspondence : ((SymmetricDifference)semanticChangeSet.eContainer()).getMatching().getCorrespondences()){
+							correspondencesAB.put(correspondence.getMatchedA(), correspondence.getMatchedB());
+							correspondencesBA.put(correspondence.getMatchedB(), correspondence.getMatchedA());
+						}
+					}
 					for (Change change : semanticChangeSet.getChanges()) {
+						highlightReferenceChanges = false;
+						if(semanticChangeSet.getChanges().size()==1 && (semanticChangeSet.getChanges().get(0) instanceof AddReference || semanticChangeSet.getChanges().get(0) instanceof RemoveReference)){
+							highlightReferenceChanges = true;
+						}
 						handleChange(change);
 					}
 				} else if (_selection.getFirstElement() instanceof Change) {
@@ -284,11 +297,12 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 
 				}			
 			}
+			markElements(contextElements, treeEditors, ChangeType.CONTEXT, "org.sidiff.compare.marker.context");
 			markElements(addedElements, treeEditors, ChangeType.ADD, "org.sidiff.compare.marker.add");
 			markElements(deletedElements, treeEditors, ChangeType.DELETE, "org.sidiff.compare.marker.delete");
 			markElements(changedElements, treeEditors, ChangeType.CHANGE, "org.sidiff.compare.marker.change");
 			markElements(correspondentElements, treeEditors, ChangeType.CORRESPONDENCE, "org.sidiff.compare.marker.correspondence");
-			markElements(contextElements, treeEditors, ChangeType.CONTEXT, "org.sidiff.compare.marker.context");
+			
 			
 		} else {
 			List<String> diagramEditors = new ArrayList<String>();
@@ -468,13 +482,11 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 		
 			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectB)){
-				for(Correspondence c : diff.getMatching().getCorrespondences()){
-					if(c.getMatchedB().equals(xtextmarker.getContextElement(eObjectB))){
-						contextElements.add(c.getMatchedA());
-						eObjecToResourceURI.put(c.getMatchedA(), diff.getModelA().getURI());
-						break;
-					}
-				}
+				EObject[] eObjects = xtextmarker.getContextElement(eObjectB, correspondencesBA);
+				contextElements.add(eObjects[0]);
+				eObjecToResourceURI.put(eObjects[0], diff.getModelB().getURI());
+				contextElements.add(eObjects[1]);	
+				eObjecToResourceURI.put(eObjects[1], diff.getModelA().getURI());
 			}
 		} else if (change instanceof RemoveObject) {
 			EObject eObjectA = ((RemoveObject) change).getObj();
@@ -483,13 +495,11 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
 			
 			if (xtextmarker != null && xtextmarker.isXtextObject(eObjectA)){
-				for(Correspondence c : diff.getMatching().getCorrespondences()){
-					if(c.getMatchedA().equals(xtextmarker.getContextElement(eObjectA))){
-						contextElements.add(c.getMatchedB());
-						eObjecToResourceURI.put(c.getMatchedB(), diff.getModelB().getURI());
-						break;
-					}
-				}
+				EObject[] eObjects = xtextmarker.getContextElement(eObjectA, correspondencesAB);
+				contextElements.add(eObjects[0]);
+				eObjecToResourceURI.put(eObjects[0], diff.getModelA().getURI());
+				contextElements.add(eObjects[1]);	
+				eObjecToResourceURI.put(eObjects[1], diff.getModelB().getURI());
 			}
 		} else if (change instanceof AttributeValueChange) {
 			EObject eObjectA = ((AttributeValueChange) change).getObjA();
@@ -503,26 +513,38 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else if (change instanceof AddReference) {
 			EObject eObjectA = ((AddReference) change).getSrc();
 			EObject eObjectB = ((AddReference) change).getTgt();
-			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB))) {
-				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
-				// since this usually leads to too many underlined lines of text in textual model representations.
-			} else {
+			if(!selected.contains(eObjectA) && !selected.contains(eObjectB)){
 				selected.add(eObjectA);
 				selected.add(eObjectB);
 				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
 				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
 			}
+			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB)) && highlightReferenceChanges) {
+				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
+				// since this usually leads to too many underlined lines of text in textual model representations.
+				EObject[] eObjects = xtextmarker.getContextElement(eObjectB, correspondencesBA);
+				contextElements.add(eObjects[0]);
+				eObjecToResourceURI.put(eObjects[0], diff.getModelB().getURI());
+				contextElements.add(eObjects[1]);	
+				eObjecToResourceURI.put(eObjects[1], diff.getModelA().getURI());
+			}
 		} else if (change instanceof RemoveReference) {
 			EObject eObjectA = ((RemoveReference) change).getSrc();
 			EObject eObjectB = ((RemoveReference) change).getTgt();
-			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB))) {
-				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
-				// since this usually leads to too many underlined lines of text in textual model representations.
-			} else {
+			if(!selected.contains(eObjectA) && !selected.contains(eObjectB)){
 				selected.add(eObjectA);
 				selected.add(eObjectB);
 				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
 				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
+			}
+			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB)) && highlightReferenceChanges) {
+				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
+				// since this usually leads to too many underlined lines of text in textual model representations.
+				EObject[] eObjects = xtextmarker.getContextElement(eObjectA, correspondencesAB);
+				changedElements.add(eObjects[0]);
+				eObjecToResourceURI.put(eObjects[0], diff.getModelA().getURI());
+				changedElements.add(eObjects[1]);	
+				eObjecToResourceURI.put(eObjects[1], diff.getModelB().getURI());
 			}
 		}
 	}
