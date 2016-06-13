@@ -1,4 +1,4 @@
-package org.sidiff.simplewebmodel.matcher;
+package org.sidiff.swml.matcher;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +43,7 @@ import org.sidiff.matcher.mode.MatcherMode;
  * 
  * @author kehrer
  */
-public class SimplewebmodelMatcher implements IMatcher {
+public class SWMLMatcher implements IMatcher {
 
 	public static final String KEY = "Simplewebmodel";
 
@@ -58,7 +58,7 @@ public class SimplewebmodelMatcher implements IMatcher {
 	/**
 	 * Initialize matcher and start matching.
 	 */
-	public SimplewebmodelMatcher() {
+	public SWMLMatcher() {
 		super();
 
 		// Load the ECL config file
