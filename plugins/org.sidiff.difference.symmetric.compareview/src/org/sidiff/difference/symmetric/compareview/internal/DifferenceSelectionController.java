@@ -513,16 +513,16 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else if (change instanceof AddReference) {
 			EObject eObjectA = ((AddReference) change).getSrc();
 			EObject eObjectB = ((AddReference) change).getTgt();
-			if(!selected.contains(eObjectA) && !selected.contains(eObjectB)){
-				selected.add(eObjectA);
-				selected.add(eObjectB);
-				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
-				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
-			}
+			selected.add(eObjectA);
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
+			eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
+			
 			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB)) && highlightReferenceChanges) {
 				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
 				// since this usually leads to too many underlined lines of text in textual model representations.
 				EObject[] eObjects = xtextmarker.getContextElement(eObjectB, correspondencesBA);
+				changedElements.add(eObjectA);
 				contextElements.add(eObjects[0]);
 				eObjecToResourceURI.put(eObjects[0], diff.getModelB().getURI());
 				contextElements.add(eObjects[1]);	
@@ -531,19 +531,20 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 		} else if (change instanceof RemoveReference) {
 			EObject eObjectA = ((RemoveReference) change).getSrc();
 			EObject eObjectB = ((RemoveReference) change).getTgt();
-			if(!selected.contains(eObjectA) && !selected.contains(eObjectB)){
-				selected.add(eObjectA);
-				selected.add(eObjectB);
-				eObjecToResourceURI.put(eObjectA, diff.getModelB().getURI());
-				eObjecToResourceURI.put(eObjectB, diff.getModelB().getURI());
-			}
+			selected.add(eObjectA);
+			selected.add(eObjectB);
+			eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
+			eObjecToResourceURI.put(eObjectB, diff.getModelA().getURI());
 			if (xtextmarker != null && (xtextmarker.isXtextObject(eObjectA) || xtextmarker.isXtextObject(eObjectB)) && highlightReferenceChanges) {
 				// In case of Xtext models, do not include Reference Changes into the highlighted change context 
 				// since this usually leads to too many underlined lines of text in textual model representations.
 				EObject[] eObjects = xtextmarker.getContextElement(eObjectA, correspondencesAB);
-				changedElements.add(eObjects[0]);
+				changedElements.add(eObjectA);
+				eObjecToResourceURI.put(eObjectA, diff.getModelA().getURI());
+				eObjecToResourceURI.put(eObjectB, diff.getModelA().getURI());
+				contextElements.add(eObjects[0]);
 				eObjecToResourceURI.put(eObjects[0], diff.getModelA().getURI());
-				changedElements.add(eObjects[1]);	
+				contextElements.add(eObjects[1]);	
 				eObjecToResourceURI.put(eObjects[1], diff.getModelB().getURI());
 			}
 		}

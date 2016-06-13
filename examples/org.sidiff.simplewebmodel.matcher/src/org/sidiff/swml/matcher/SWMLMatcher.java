@@ -64,7 +64,7 @@ public class SWMLMatcher implements IMatcher {
 		// Load the ECL config file
 		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
 		InputStream eclIs = IOUtil
-				.getInputStream("platform:/plugin/org.sidiff.simplewebmodel.matcher/config/Comparison.ecl");
+				.getInputStream("platform:/plugin/org.sidiff.swml.matcher/config/Comparison.ecl");
 		Scanner sc = new Scanner(eclIs, "UTF-8");
 		String eclString = sc.useDelimiter("\\A").next();
 		try {
