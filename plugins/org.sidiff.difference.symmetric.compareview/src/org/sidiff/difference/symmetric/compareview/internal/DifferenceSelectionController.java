@@ -410,12 +410,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 						}
 						String selectedObjectFragment = EcoreUtil.getURI(eObject).fragment();
 
-						boolean found = false;
 						for (Resource resource : resources) {
 							EObject result = resource.getEObject(selectedObjectFragment);
 
 							if (result != null) {
-								found = true;
 								decoratedTuple.eObjects.add(result);
 								decoratedTuple.editors.add(editor);
 							}
