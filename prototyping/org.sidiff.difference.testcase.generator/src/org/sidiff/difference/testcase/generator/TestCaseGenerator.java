@@ -67,19 +67,21 @@ public class TestCaseGenerator {
 	/**
 	 * Generates the origin model of the test scenario.
 	 * 
-	 * @param acs
-	 *            consider application conditions
+	 * @param pacs
+	 *            consider positive application conditions
+	 * @param nacs
+	 *            consider negative application conditions
 	 * @param multi
 	 *            consider multi rules
 	 * @return a {@link Collection} containing all generated model elements of
 	 *         the origin model
 	 */
-	public Collection<EObject> generateOriginModel(boolean acs, boolean multi) {
+	public Collection<EObject> generateOriginModel(boolean pacs, boolean nacs, boolean multi) {
 		node2eObject = new HashMap<Node, EObject>();
 		containments = new LinkedList<EObject>();
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
-				generateKernelRule(acs, multi, (Rule)unit, "lhs");
+				generateKernelRule(pacs, nacs, multi, (Rule)unit, "lhs");
 				
 			}
 		}
@@ -93,19 +95,21 @@ public class TestCaseGenerator {
 	/**
 	 * Generates the modified model of the test scenario.
 	 * 
-	 * @param acs
-	 *            consider application conditions
+	 * @param pacs
+	 *            consider positive application conditions
+	 * @param nacs
+	 *            consider negative application conditions
 	 * @param multi
 	 *            consider multi rules
 	 * @return a {@link Collection} containing all generated model elements of
 	 *         the modified model
 	 */
-	public Collection<EObject> generateModifiedModel(boolean acs, boolean multi) {
+	public Collection<EObject> generateModifiedModel(boolean pacs, boolean nacs, boolean multi) {
 		node2eObject = new HashMap<Node, EObject>();
 		containments = new LinkedList<EObject>();
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
-				generateKernelRule(acs, multi, (Rule)unit, "rhs");
+				generateKernelRule(pacs, nacs, multi, (Rule)unit, "rhs");
 			}
 		}
 		generateContainer(node2eObject);
@@ -117,33 +121,38 @@ public class TestCaseGenerator {
 
 	/**
 	 * 
-	 * @param acs
+	 * @param pacs
+	 * @param nacs
 	 * @param multi
 	 * @param rule
 	 * @param side
 	 */
-	private void generateKernelRule(boolean acs, boolean multi, Rule rule, String side){
+	private void generateKernelRule(boolean pacs, boolean nacs, boolean multi, Rule rule, String side){
 		Graph graph = (Graph)rule.eGet(rule.eClass().getEStructuralFeature(side));
 		generateNodes(graph.getNodes());
 		generateEdges(graph.getEdges());
 
-		if (acs) {
+		if (pacs) {
 			generateACs(graph.getPACs());
+		}
+		if (nacs) {
 			generateACs(graph.getNACs());
 		}
 		
 		if(multi){
-			generateMultiRules(acs, multi, rule.getMultiRules(), side);
+			generateMultiRules(pacs, nacs, multi, rule.getMultiRules(), side);
 		}
 	}
 	
 	/**
 	 * 
-	 * @param acs
+	 * @param pacs
+	 * @param nacs
+	 * @param multi
 	 * @param rules
 	 * @param side
 	 */
-	private void generateMultiRules(boolean acs, boolean multi, List<Rule> rules, String side) {
+	private void generateMultiRules(boolean pacs, boolean nacs, boolean multi, List<Rule> rules, String side) {
 
 		for (Rule rule : rules) {
 			List<Node> nestedNodes = new LinkedList<Node>();
@@ -169,13 +178,15 @@ public class TestCaseGenerator {
 
 			generateEdges(nestedEdges);
 			
-			if(acs){
+			if(pacs){
 				generateACs(graph.getPACs());
+			}
+			if(nacs){
 				generateACs(graph.getNACs());
 			}
 			
 			if(multi){
-				generateMultiRules(acs, multi, rule.getMultiRules(), side);
+				generateMultiRules(pacs, nacs, multi, rule.getMultiRules(), side);
 			}
 		}
 	}
@@ -302,5 +313,62 @@ public class TestCaseGenerator {
 		EcoreUtil.resolveAll(ePackage);
 		ePackage.eClass();
 		return ePackage.getEFactoryInstance();
+	}
+	
+	public boolean hasPACs(boolean checkMulti){
+		for(Unit unit : module.getUnits()){
+			if(unit instanceof Rule){
+				if(hasPACs((Rule)unit, checkMulti)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasPACs(Rule rule, boolean checkMulti){
+		boolean hasPACs = false;
+		if(checkMulti){
+			for(Rule nestedRule : rule.getMultiRules()){
+				hasPACs = hasPACs(nestedRule, checkMulti);
+			}
+		}
+		return  hasPACs || rule.getLhs().getPACs().size() > 0;
+	}
+	
+	public boolean hasNACs(boolean checkMulti){
+		for(Unit unit : module.getUnits()){
+			if(unit instanceof Rule){
+				if(hasNACs((Rule)unit, checkMulti)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasNACs(Rule rule, boolean checkMulti){
+		boolean hasNACs = false;
+		if(checkMulti){
+			for(Rule nestedRule : rule.getMultiRules()){
+				hasNACs = hasNACs(nestedRule, checkMulti);
+			}
+		}
+		return  hasNACs || rule.getLhs().getNACs().size() > 0;
+	}
+	
+	public boolean hasMultiRules(){
+		for(Unit unit : module.getUnits()){
+			if(unit instanceof Rule){
+				if(hasMultiRules((Rule)unit)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasMultiRules(Rule rule){
+		return rule.getMultiRules().size()>0;
 	}
 }

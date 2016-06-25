@@ -50,13 +50,44 @@ public class TestCaseEngineApplication implements IApplication{
 				System.out.println("Module: " + module.getName());
 				generator.init(module);
 		
-				Collection<EObject> modelA = generator.generateOriginModel(false, true);
-				Collection<EObject> modelA_ACs = generator.generateOriginModel(true, true);
-				Collection<EObject> modelB = generator.generateModifiedModel(false, true);	
-		
+				Collection<EObject> modelA = generator.generateOriginModel(false, false, false);
 				StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA" + file_extension, modelA);
-				StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_ACs" + file_extension, modelA_ACs);
+				if(generator.hasPACs(false)){
+					Collection<EObject> modelA_PACs = generator.generateOriginModel(true, false, false);
+					StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_pacs" + file_extension, modelA_PACs);
+				}
+				if(generator.hasNACs(false)){
+					Collection<EObject> modelA_NACs = generator.generateOriginModel(false, true, false);
+					StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_nacs" + file_extension, modelA_NACs);
+				}
+				if(generator.hasPACs(false) && generator.hasNACs(false)){
+					Collection<EObject> modelA_PACs_NACs = generator.generateOriginModel(true, true, false);
+					StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_pacs_nacs" + file_extension, modelA_PACs_NACs);
+				}
+				
+				if(generator.hasMultiRules()){
+					Collection<EObject> modelA_Multi = generator.generateOriginModel(false, false, true);
+					StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_multi" + file_extension, modelA_Multi);
+					if(generator.hasPACs(true)){
+						Collection<EObject> modelA_Multi_PACs = generator.generateOriginModel(true, false, true);
+						StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_multi_pacs" + file_extension, modelA_Multi_PACs);
+					}
+					if(generator.hasNACs(true)){
+						Collection<EObject> modelA_Multi_NACs = generator.generateOriginModel(false, true, true);
+						StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_multi_nacs" + file_extension, modelA_Multi_NACs);
+					}
+					if(generator.hasPACs(true)&&generator.hasNACs(true)){
+						Collection<EObject> modelA_Multi_PACs_NACs = generator.generateOriginModel(true, true, true);
+						StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelA_multi_pacs_nacs" + file_extension, modelA_Multi_PACs_NACs);
+					}
+				}
+				
+				Collection<EObject> modelB = generator.generateModifiedModel(false, false, false);
 				StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelB" + file_extension, modelB);
+				if(generator.hasMultiRules()){
+					Collection<EObject> modelB_Multi = generator.generateModifiedModel(false, false, true);
+					StorageUtil.serializeModel(url.getPath() + File.separator + "testcases" + File.separator + module.getName() + File.separator + "modelB_multi" + file_extension, modelB_Multi);
+				}
 		
 				System.out.println("-------------------------------------");
 			}
