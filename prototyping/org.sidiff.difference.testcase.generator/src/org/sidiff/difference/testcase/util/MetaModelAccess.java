@@ -17,7 +17,7 @@ public class MetaModelAccess {
 			for(EClassifier eClassifier : ePackage.getEClassifiers()){
 				if(eClassifier instanceof EClass){
 					EClass eClass = (EClass) eClassifier;
-					if(!eClass.isAbstract() && eClass.getESuperTypes().contains(superClass)){
+					if(!eClass.isAbstract() && eClass.getEAllSuperTypes().contains(superClass)){
 						return eClass;
 					}
 				}

@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -21,7 +20,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.testcase.util.MetaModelAccess;
 
 /**
@@ -30,16 +28,16 @@ import org.sidiff.difference.testcase.util.MetaModelAccess;
  *
  */
 public class TestCaseGenerator {
+	
+	/**
+	 * The {@link Rule}
+	 */
+	private Rule rule;
 
 	/**
-	 * The {@link Module}
+	 * 
 	 */
-	private Module module;
-
-	/**
-	 * The {@link EFactory} for the respective document type
-	 */
-	private EFactory eFactory;
+	private Map<String, EFactory> eFactories;
 	
 	/**
 	 * 
@@ -51,17 +49,14 @@ public class TestCaseGenerator {
 	 */
 	private List<EObject> containments;
 	
-
 	/**
-	 * Initializes the {@link TestCaseGenerator} and resolves the respective
-	 * {@link EFactory} for the document type referenced by the {@link Module}.
 	 * 
-	 * @param module
-	 *            the module for which a test case is generated
+	 * @param rule
 	 */
-	public void init(Module module) {
-		this.module = module;
-		this.eFactory = resolveEFactory(module);
+	public void init(Rule rule){
+		this.rule = rule;
+		this.eFactories = new HashMap<String, EFactory>(); 
+		this.resolveEFactories(rule);
 	}
 
 	/**
@@ -79,12 +74,9 @@ public class TestCaseGenerator {
 	public Collection<EObject> generateOriginModel(boolean pacs, boolean nacs, boolean multi) {
 		node2eObject = new HashMap<Node, EObject>();
 		containments = new LinkedList<EObject>();
-		for (Unit unit : module.getUnits()) {
-			if (unit instanceof Rule) {
-				generateKernelRule(pacs, nacs, multi, (Rule)unit, "lhs");
-				
-			}
-		}
+	
+		generateKernelRule(pacs, nacs, multi, rule, "lhs");
+			
 		generateContainer(node2eObject);
 
 		node2eObject.values().removeAll(containments);
@@ -107,11 +99,9 @@ public class TestCaseGenerator {
 	public Collection<EObject> generateModifiedModel(boolean pacs, boolean nacs, boolean multi) {
 		node2eObject = new HashMap<Node, EObject>();
 		containments = new LinkedList<EObject>();
-		for (Unit unit : module.getUnits()) {
-			if (unit instanceof Rule) {
-				generateKernelRule(pacs, nacs, multi, (Rule)unit, "rhs");
-			}
-		}
+	
+		generateKernelRule(pacs, nacs, multi, rule, "rhs");
+		
 		generateContainer(node2eObject);
 		
 		node2eObject.values().removeAll(containments);
@@ -199,6 +189,7 @@ public class TestCaseGenerator {
 
 		for (Node node : nodes) {
 			EClass eClass = MetaModelAccess.getFirstConcreteSubClass(node.getType());
+			EFactory eFactory = eFactories.get(eClass.getEPackage().getNsURI());
 			EObject eObject = eFactory.create(eClass);
 			if (eObject.eClass().getEStructuralFeature("name") != null) {
 				String name = node.getName() != null && !node.getName().isEmpty() ? node.getName()
@@ -219,13 +210,15 @@ public class TestCaseGenerator {
 
 		for (Attribute attribute : node.getAttributes()) {
 			EAttribute eAttribute = attribute.getType();
-			EObject eObject = node2eObject.get(node);
-			if (attribute.getValue() != null) {
-				Class<?> clazz = eAttribute.getEType().getInstanceClass();
-				try {
-					eObject.eSet(eAttribute, clazz.cast(attribute.getValue()));
-				} catch (ClassCastException e) {
-					System.out.println(e);
+			if(eAttribute.isChangeable()){
+				EObject eObject = node2eObject.get(node);
+				if (attribute.getValue() != null) {
+					Class<?> clazz = eAttribute.getEType().getInstanceClass();
+					try {
+						eObject.eSet(eAttribute, clazz.cast(attribute.getValue()));
+					} catch (ClassCastException e) {
+						System.out.println(e);
+					}
 				}
 			}
 		}
@@ -299,7 +292,9 @@ public class TestCaseGenerator {
 	 */
 	private void generateContainer(Map<Node, EObject> node2eObjects) {
 		for (EObject eObject : node2eObjects.values()) {
-			eObject.eClass().eContainer();
+			if(eObject.eContainer() == null){
+				//TODO find common container element
+			}
 		}
 	}
 
@@ -308,21 +303,19 @@ public class TestCaseGenerator {
 	 * @param module
 	 * @return
 	 */
-	private EFactory resolveEFactory(Module module) {
-		EPackage ePackage = module.getImports().get(0);
-		EcoreUtil.resolveAll(ePackage);
-		ePackage.eClass();
-		return ePackage.getEFactoryInstance();
+	private void resolveEFactories(Rule rule) {
+		Module module = (Module) rule.eContainer();
+		for(EPackage ePackage : module.getImports()){
+			eFactories.put(ePackage.getNsURI(), ePackage.getEFactoryInstance());
+		}
 	}
 	
 	public boolean hasPACs(boolean checkMulti){
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof Rule){
-				if(hasPACs((Rule)unit, checkMulti)){
-					return true;
-				}
-			}
+		
+		if(hasPACs(rule, checkMulti)){
+			return true;
 		}
+		
 		return false;
 	}
 	
@@ -337,13 +330,11 @@ public class TestCaseGenerator {
 	}
 	
 	public boolean hasNACs(boolean checkMulti){
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof Rule){
-				if(hasNACs((Rule)unit, checkMulti)){
-					return true;
-				}
-			}
+
+		if(hasNACs(rule, checkMulti)){
+			return true;
 		}
+		
 		return false;
 	}
 	
@@ -358,17 +349,6 @@ public class TestCaseGenerator {
 	}
 	
 	public boolean hasMultiRules(){
-		for(Unit unit : module.getUnits()){
-			if(unit instanceof Rule){
-				if(hasMultiRules((Rule)unit)){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	private boolean hasMultiRules(Rule rule){
 		return rule.getMultiRules().size()>0;
 	}
 }
