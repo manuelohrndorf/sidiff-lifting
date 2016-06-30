@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.coevolution.example.swml.crossreferences.hypertextlayer/src"
+    modelPluginID="org.sidiff.coevolution.example.swml.crossreferences.hypertextlayer"
+    modelName="HypertextLayer" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../org.sidiff.coevolution.example.swml.crossreferences.datalayer/model/DataLayer.genmodel#//datalayer"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>HypertextLayer.ecore</foreignModel>
+  <genPackages prefix="Hypertextlayer" basePackage="org.sidiff.coevolution.example.swml.crossreferences"
+      disposableProviderFactory="true" ecorePackage="HypertextLayer.ecore#/">
+    <genClasses ecoreClass="HypertextLayer.ecore#//HypertextLayer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HypertextLayer.ecore#//HypertextLayer/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//HypertextLayer/pages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//HypertextLayer/startPage"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//HypertextLayer/dataLayer"/>
+    </genClasses>
+    <genClasses ecoreClass="HypertextLayer.ecore#//Page">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute HypertextLayer.ecore#//Page/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//Page/links"/>
+    </genClasses>
+    <genClasses ecoreClass="HypertextLayer.ecore#//DynamicPage">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//DynamicPage/shows"/>
+    </genClasses>
+    <genClasses ecoreClass="HypertextLayer.ecore#//StaticPage"/>
+    <genClasses ecoreClass="HypertextLayer.ecore#//IndexPage"/>
+    <genClasses ecoreClass="HypertextLayer.ecore#//DataPage"/>
+    <genClasses ecoreClass="HypertextLayer.ecore#//Link">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference HypertextLayer.ecore#//Link/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.coevolution.example.swml.crossreferences.datalayer/src"
+    modelPluginID="org.sidiff.coevolution.example.swml.crossreferences.datalayer"
+    modelName="DataLayer" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>DataLayer.ecore</foreignModel>
+  <genPackages prefix="Datalayer" basePackage="org.sidiff.coevolution.example.swml.crossreferences"
+      disposableProviderFactory="true" ecorePackage="DataLayer.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DataLayer.ecore#//SimpleType">
+      <genEnumLiterals ecoreEnumLiteral="DataLayer.ecore#//SimpleType/BOOLEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="DataLayer.ecore#//SimpleType/EMAIL"/>
+      <genEnumLiterals ecoreEnumLiteral="DataLayer.ecore#//SimpleType/FLOAT"/>
+      <genEnumLiterals ecoreEnumLiteral="DataLayer.ecore#//SimpleType/INTEGER"/>
+      <genEnumLiterals ecoreEnumLiteral="DataLayer.ecore#//SimpleType/STRING"/>
+    </genEnums>
+    <genClasses ecoreClass="DataLayer.ecore#//DataLayer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DataLayer.ecore#//DataLayer/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DataLayer.ecore#//DataLayer/entities"/>
+    </genClasses>
+    <genClasses ecoreClass="DataLayer.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DataLayer.ecore#//Entity/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DataLayer.ecore#//Entity/references"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DataLayer.ecore#//Entity/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="DataLayer.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DataLayer.ecore#//Reference/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DataLayer.ecore#//Reference/type"/>
+    </genClasses>
+    <genClasses ecoreClass="DataLayer.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DataLayer.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DataLayer.ecore#//Attribute/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

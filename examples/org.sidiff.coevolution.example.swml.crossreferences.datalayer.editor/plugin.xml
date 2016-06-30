@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated DataLayer -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.sidiff.coevolution.example.swml.crossreferences.datalayer.presentation.DatalayerModelWizardID"
+            name="%_UI_DatalayerModelWizard_label"
+            class="org.sidiff.coevolution.example.swml.crossreferences.datalayer.presentation.DatalayerModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/DatalayerModelFile.gif">
+         <description>%_UI_DatalayerModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated DataLayer -->
+      <editor
+            id="org.sidiff.coevolution.example.swml.crossreferences.datalayer.presentation.DatalayerEditorID"
+            name="%_UI_DatalayerEditor_label"
+            icon="icons/full/obj16/DatalayerModelFile.gif"
+            extensions="datalayer"
+            class="org.sidiff.coevolution.example.swml.crossreferences.datalayer.presentation.DatalayerEditor"
+            contributorClass="org.sidiff.coevolution.example.swml.crossreferences.datalayer.presentation.DatalayerActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
