@@ -181,7 +181,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			try {
 				settings.getGenerator().init(settings, monitor);
 				settings.getGenerator().generateEditRules(monitor);
-			} catch (EditRuleGenerationException | WrongSettingsInstanceException e) {
+			} catch (EditRuleGenerationException e) {
+				e.printStackTrace();
+			} catch (WrongSettingsInstanceException e){
 				e.printStackTrace();
 			}
 		}

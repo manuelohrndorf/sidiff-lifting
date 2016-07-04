@@ -719,7 +719,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
 		// Get workspace URI:
-		URI resourceURI = EditUIUtil.getURI(getEditorInput());
+		final URI resourceURI = EditUIUtil.getURI(getEditorInput());
 		
 		// Rulebase wrapper:
 		rbManager = new EditRuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), false);

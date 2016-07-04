@@ -8,9 +8,9 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
 
-public class ColumnDerivedRefrences implements IRuleBaseColumn {
+public class ColumnDerivedRefrences extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn derivedRefColumn, TableColumnLayout layout) {

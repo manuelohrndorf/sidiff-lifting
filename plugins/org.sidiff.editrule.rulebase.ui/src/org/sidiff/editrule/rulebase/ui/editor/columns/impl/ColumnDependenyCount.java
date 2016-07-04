@@ -9,9 +9,9 @@ import org.eclipse.swt.SWT;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
 
-public class ColumnDependenyCount implements IRuleBaseColumn {
+public class ColumnDependenyCount extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn potDepColumn, TableColumnLayout layout) {

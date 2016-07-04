@@ -248,7 +248,7 @@ public class OperationInvocationWrapper implements HighlightableElement {
 	}
 
 	public ArrayList<String> getChangedArguments() {
-		ArrayList<String> arguments = new ArrayList<>();		
+		ArrayList<String> arguments = new ArrayList<String>();		
 		for (ArgumentWrapper argumentWrapper : allActualArguments) {
 			ParameterBinding binding = argumentWrapper.getParameterBinding();
 			if (binding.getFormalParameter().getDirection() == ParameterDirection.IN) {				

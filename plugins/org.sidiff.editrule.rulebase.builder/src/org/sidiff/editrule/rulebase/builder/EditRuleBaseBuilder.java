@@ -113,7 +113,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 
 	private void incrementalBuild(IResourceDelta delta, final IProgressMonitor monitor, 
-			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
+			final EditRuleBaseWrapper ruleBaseWrapper, final Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 
 		// Initialize:
 		refreshProject();
@@ -169,7 +169,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 
 	private void fullBuild(final IProgressMonitor monitor, 
-			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
+			final EditRuleBaseWrapper ruleBaseWrapper, final Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 		
 		// Initialize:
 		refreshProject();
