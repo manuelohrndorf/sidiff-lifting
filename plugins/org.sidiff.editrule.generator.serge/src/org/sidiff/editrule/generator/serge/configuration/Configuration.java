@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.types.OperationType;
 
 @SuppressWarnings("unused")

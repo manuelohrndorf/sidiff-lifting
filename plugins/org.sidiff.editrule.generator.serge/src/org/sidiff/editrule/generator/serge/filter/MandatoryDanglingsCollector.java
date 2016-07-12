@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfo;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 
 /**
