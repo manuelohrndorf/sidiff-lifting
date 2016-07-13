@@ -64,7 +64,8 @@ public class LiftDifferenceHandler extends AbstractHandler {
 						}else {
 							Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
 							Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
-							canHandle = docTypeA.equals(docTypeB);
+							docTypeA.retainAll(docTypeB);
+							canHandle = docTypeA.size() > 0;
 						}
 						if (canHandle){
 
