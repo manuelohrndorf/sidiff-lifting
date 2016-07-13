@@ -7,9 +7,9 @@ import java.util.Stack;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfo;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 /**
  * IMPORTANT: This class is tested for CREATE-Rules only!

@@ -10,13 +10,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfo;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.NodeKindSelection;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class TypeReplacer {
