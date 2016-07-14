@@ -10,10 +10,10 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.emf.metamodel.analysis.EReferenceInfo;
 import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.NodePair;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EReferenceInfo;
 
 /**
  * Utility class that can check if a given rule is executable in

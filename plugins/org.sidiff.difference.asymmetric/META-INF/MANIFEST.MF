@@ -1,22 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SiDiff Asymmetric Difference
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.sidiff.difference.asymmetric;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Software Engineering Group, University of Siegen
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.sidiff.difference.asymmetric,
  org.sidiff.difference.asymmetric.impl,
  org.sidiff.difference.asymmetric.util
-Require-Bundle: org.eclipse.emf.henshin.model;bundle-version="0.9.8";visibility:=reexport,
- org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.sidiff.difference.symmetric;visibility:=reexport,
- org.sidiff.difference.rulebase,
+Require-Bundle: org.eclipse.core.runtime,
+ org.sidiff.common.emf;visibility:=reexport,
  org.sidiff.difference.lifting.edit2recognition,
- org.sidiff.symboliclink,
- org.sidiff.common.emf,
+ org.sidiff.difference.symmetric;visibility:=reexport,
  org.sidiff.editrule.rulebase.project.runtime
 Bundle-ActivationPolicy: lazy

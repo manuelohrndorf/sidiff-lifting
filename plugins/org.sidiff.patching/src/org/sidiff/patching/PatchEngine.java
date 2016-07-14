@@ -195,7 +195,13 @@ public class PatchEngine {
 					
 					
 					
-				} catch (ParameterMissingException | OperationNotExecutableException e) {
+				} catch (ParameterMissingException  e) {
+					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
+					
+					applicationResult.success = false;
+					applicationResult.inArgs = inArgs;					
+					applicationResult.error = e;
+				} catch (OperationNotExecutableException e){
 					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
 					
 					applicationResult.success = false;

@@ -66,7 +66,7 @@ public class SergeWizardPage2 extends WizardPage {
 		group_trafoSettings.setText("Transformation Settings");
 
 		// Checkbox delete manual transformations
-		Button checkbox_deleteManualTrafos = new Button(group_trafoSettings, SWT.CHECK);
+		final Button checkbox_deleteManualTrafos = new Button(group_trafoSettings, SWT.CHECK);
 		checkbox_deleteManualTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		checkbox_deleteManualTrafos.setText("Delete existing, manually created transformations ");
 		checkbox_deleteManualTrafos.setSelection(settings.isDeleteManualTransformations());
@@ -84,7 +84,7 @@ public class SergeWizardPage2 extends WizardPage {
 		});
 		
 		// Radiobutton delete existing transformations
-		Button radiobutton_deleteGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
+		final Button radiobutton_deleteGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
 		radiobutton_deleteGeneratedTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		radiobutton_deleteGeneratedTrafos.setText("Delete existing, generated transformations");
 		radiobutton_deleteGeneratedTrafos.setSelection(settings.isDeleteGeneratedTransformations());
@@ -103,7 +103,7 @@ public class SergeWizardPage2 extends WizardPage {
 		});
 		
 		// Radiobutton keep existing, generated transformations
-		Button radiobutton_keepGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
+		final Button radiobutton_keepGeneratedTrafos = new Button(group_trafoSettings, SWT.RADIO);
 		radiobutton_keepGeneratedTrafos.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		radiobutton_keepGeneratedTrafos.setText("Keep existing, generated transformations");
 		radiobutton_keepGeneratedTrafos.setSelection(!settings.isDeleteGeneratedTransformations());
@@ -132,7 +132,7 @@ public class SergeWizardPage2 extends WizardPage {
 
 		
 		// Checkbox overwrite existing transformations
-		Button checkbox_overwriteGeneratedTransfos = new Button(group_trafoSettings, SWT.CHECK);
+		final Button checkbox_overwriteGeneratedTransfos = new Button(group_trafoSettings, SWT.CHECK);
 		GridData gd_cbtnOverwriteExisting = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_cbtnOverwriteExisting.widthHint = 506;
 		checkbox_overwriteGeneratedTransfos.setLayoutData(gd_cbtnOverwriteExisting);
@@ -159,7 +159,7 @@ public class SergeWizardPage2 extends WizardPage {
 
 		
 		// Checkbox overwrite config
-		Button checkbox_overwriteConfig = new Button(group_configSerialization, SWT.CHECK);
+		final Button checkbox_overwriteConfig = new Button(group_configSerialization, SWT.CHECK);
 		checkbox_overwriteConfig.setText("Overwrite existing config");
 		checkbox_overwriteConfig.setSelection(settings.isOverwriteConfigInTargetFolder());		
 		checkbox_overwriteConfig.addSelectionListener(new SelectionAdapter() {
@@ -185,7 +185,7 @@ public class SergeWizardPage2 extends WizardPage {
 		
 
 		// Checkbox save log serialization
-		Button checkbox_saveLogSerialization = new Button(grpLogSerialization, SWT.CHECK);
+		final Button checkbox_saveLogSerialization = new Button(grpLogSerialization, SWT.CHECK);
 		checkbox_saveLogSerialization.setText("Save logs");
 		checkbox_saveLogSerialization.setSelection(settings.isSaveLogs());
 		checkbox_saveLogSerialization.addSelectionListener(new SelectionAdapter() {
@@ -202,7 +202,7 @@ public class SergeWizardPage2 extends WizardPage {
 		});
 		
 		// Checkbox delete previous logs
-		Button checkbox_deleteLogs = new Button(grpLogSerialization, SWT.CHECK);
+		final Button checkbox_deleteLogs = new Button(grpLogSerialization, SWT.CHECK);
 		checkbox_deleteLogs.setText("Delete previous logs");
 		checkbox_deleteLogs.setSelection(settings.isDeleteLogs());
 		checkbox_deleteLogs.addSelectionListener(new SelectionAdapter() {

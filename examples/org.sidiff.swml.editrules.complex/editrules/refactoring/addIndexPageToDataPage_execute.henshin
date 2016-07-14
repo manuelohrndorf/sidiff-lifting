@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_j0e3sCA-EeOZpvWoQUwWyA" name="Add Index Page to Data Page" description="Creates for an existing Data Page a new Index Page that references the same entity, as well as a link from the Index Page to the Data Page">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mSdWACA-EeOZpvWoQUwWyA" name="addIndexPageToDataPage">
+    <parameters xmi:id="_orr3MCA-EeOZpvWoQUwWyA" name="selectedEObject"/>
+    <parameters xmi:id="_tl_awCBOEeO3wOIqiz8sdQ" name="entityname"/>
+    <parameters xmi:id="_OdsVACU9EeWA_JsNG1WtgQ" name="New_IndexPage"/>
+    <parameters xmi:id="_Od0Q0CU9EeWA_JsNG1WtgQ" name="New_Link"/>
+    <lhs xmi:id="_mVCI4CA-EeOZpvWoQUwWyA" name="Lhs">
+      <nodes xmi:id="_tn22QCA-EeOZpvWoQUwWyA" incoming="_1VNjgCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+        <attributes xmi:id="_PLGwMCBPEeO3wOIqiz8sdQ" value="entityname">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wkHzECA-EeOZpvWoQUwWyA" name="selectedEObject" outgoing="_1VNjgCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataPage"/>
+      </nodes>
+      <nodes xmi:id="_xtX6ICA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <edges xmi:id="_1VNjgCA-EeOZpvWoQUwWyA" source="_wkHzECA-EeOZpvWoQUwWyA" target="_tn22QCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mVCv8CA-EeOZpvWoQUwWyA" name="Rhs">
+      <nodes xmi:id="_tn4EYCA-EeOZpvWoQUwWyA" incoming="_1VNjgSA-EeOZpvWoQUwWyA _FPRMcCA_EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+        <attributes xmi:id="_PLH-UCBPEeO3wOIqiz8sdQ" value="entityname">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_wkHzESA-EeOZpvWoQUwWyA" name="selectedEObject" incoming="_BtuYUCA_EeOZpvWoQUwWyA" outgoing="_1VNjgSA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataPage"/>
+      </nodes>
+      <nodes xmi:id="_xtX6ISA-EeOZpvWoQUwWyA" outgoing="_4lm9QSA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_4llIECA-EeOZpvWoQUwWyA" name="New_IndexPage" incoming="_4lm9QSA-EeOZpvWoQUwWyA" outgoing="_5tCfYyA-EeOZpvWoQUwWyA _FPRMcCA_EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//IndexPage"/>
+        <attributes xmi:id="_OQd3cCBQEeO3wOIqiz8sdQ" value="entityname + &quot;Index&quot;">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_5tCfYCA-EeOZpvWoQUwWyA" name="New_Link" incoming="_5tCfYyA-EeOZpvWoQUwWyA" outgoing="_BtuYUCA_EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+      </nodes>
+      <edges xmi:id="_1VNjgSA-EeOZpvWoQUwWyA" source="_wkHzESA-EeOZpvWoQUwWyA" target="_tn4EYCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+      <edges xmi:id="_4lm9QSA-EeOZpvWoQUwWyA" source="_xtX6ISA-EeOZpvWoQUwWyA" target="_4llIECA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+      <edges xmi:id="_5tCfYyA-EeOZpvWoQUwWyA" source="_4llIECA-EeOZpvWoQUwWyA" target="_5tCfYCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+      </edges>
+      <edges xmi:id="_BtuYUCA_EeOZpvWoQUwWyA" source="_5tCfYCA-EeOZpvWoQUwWyA" target="_wkHzESA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+      </edges>
+      <edges xmi:id="_FPRMcCA_EeOZpvWoQUwWyA" source="_4llIECA-EeOZpvWoQUwWyA" target="_tn4EYCA-EeOZpvWoQUwWyA">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_tn5SgCA-EeOZpvWoQUwWyA" origin="_tn22QCA-EeOZpvWoQUwWyA" image="_tn4EYCA-EeOZpvWoQUwWyA"/>
+    <mappings xmi:id="_wkHzEiA-EeOZpvWoQUwWyA" origin="_wkHzECA-EeOZpvWoQUwWyA" image="_wkHzESA-EeOZpvWoQUwWyA"/>
+    <mappings xmi:id="_xtX6IiA-EeOZpvWoQUwWyA" origin="_xtX6ICA-EeOZpvWoQUwWyA" image="_xtX6ISA-EeOZpvWoQUwWyA"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MCcGYCLREeOfpZD8gweVMg" name="mainUnit" subUnits="_mSdWACA-EeOZpvWoQUwWyA">
+    <parameters xmi:id="_Y7_ywCLREeOfpZD8gweVMg" name="selectedEObject"/>
+    <parameters xmi:id="_OdsVASU9EeWA_JsNG1WtgQ" name="New_IndexPage"/>
+    <parameters xmi:id="_Od0Q0SU9EeWA_JsNG1WtgQ" name="New_Link"/>
+    <parameterMappings xmi:id="_gHmd0CLREeOfpZD8gweVMg" source="_Y7_ywCLREeOfpZD8gweVMg" target="_orr3MCA-EeOZpvWoQUwWyA"/>
+    <parameterMappings xmi:id="_OdsVAiU9EeWA_JsNG1WtgQ" source="_OdsVACU9EeWA_JsNG1WtgQ" target="_OdsVASU9EeWA_JsNG1WtgQ"/>
+    <parameterMappings xmi:id="_Od0Q0iU9EeWA_JsNG1WtgQ" source="_Od0Q0CU9EeWA_JsNG1WtgQ" target="_Od0Q0SU9EeWA_JsNG1WtgQ"/>
+  </units>
+</henshin:Module>

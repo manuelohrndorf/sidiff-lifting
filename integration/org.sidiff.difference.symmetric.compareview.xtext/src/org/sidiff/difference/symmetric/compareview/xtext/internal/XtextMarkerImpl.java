@@ -1,8 +1,12 @@
 package org.sidiff.difference.symmetric.compareview.xtext.internal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IMarker;
@@ -13,12 +17,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.xtext.nodemodel.ILeafNode;
 import org.eclipse.xtext.nodemodel.INode;
+import org.eclipse.xtext.nodemodel.impl.CompositeNode;
+import org.eclipse.xtext.nodemodel.impl.LeafNode;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.sidiff.difference.symmetric.compareview.ChangeType;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
+
+import com.google.common.collect.Iterators;
 
 public class XtextMarkerImpl implements XtextMarker {
 	
@@ -66,10 +75,10 @@ public class XtextMarkerImpl implements XtextMarker {
 				
 				marker.setAttribute(IMarker.LINE_NUMBER, textNode.getStartLine());
 				
-				if(!type.equals(ChangeType.CONTEXT)){
+//				if(!type.equals(ChangeType.CONTEXT)){
 					marker.setAttribute(IMarker.CHAR_START, textNode.getOffset());
 					marker.setAttribute(IMarker.CHAR_END, textNode.getOffset()+ textNode.getLength());
-				}
+//				}
 				
 
 				textMarker.add(marker);
@@ -132,15 +141,16 @@ public class XtextMarkerImpl implements XtextMarker {
 	}
 
 	@Override
-	public EObject getContextElement(EObject eObject) {
+	public EObject[] getContextElement(EObject eObject, Map<EObject, EObject>correspondences) {
 		INode textNode = adapt(INode.class, eObject);
 		//FIXME 
-		INode sibling = null;//textNode.getPreviousSibling();
-		if(sibling != null){
-			return sibling.getSemanticElement();
-		}else{
-			INode parent = textNode.getParent();
-			return parent.getSemanticElement();
+		INode parent = textNode.getParent();
+		
+		while(correspondences.get(parent.getSemanticElement())==null){
+			parent = parent.getParent();
 		}
+		
+		return new EObject[] {parent.getSemanticElement(), correspondences.get(parent.getSemanticElement())};
+		
 	}
 }

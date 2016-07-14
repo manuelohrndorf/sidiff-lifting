@@ -1,5 +1,6 @@
 package org.sidiff.difference.symmetric.compareview;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -10,7 +11,7 @@ public interface XtextMarker {
 	
 	public boolean isXtextObject(EObject eObject);
 
-	public EObject getContextElement(EObject eObject);
+	public EObject[] getContextElement(EObject eObject, Map<EObject, EObject>correspondences);
 	
 	public void mark(EObject textEObject, IEditorPart editor, ChangeType type, String markerID);
 	

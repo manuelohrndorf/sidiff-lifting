@@ -7,10 +7,10 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
-public class ColumnEditType implements IRuleBaseColumn {
+public class ColumnEditType extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn editUnitTypeColumn, TableColumnLayout layout) {

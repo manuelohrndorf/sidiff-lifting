@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzGOkCG_EeW9Z9d85a4DZw" name="SET_REFERENCE_Link_(target)_TGT_Page" description="Sets Link's reference target the target Page">
+  <annotations xmi:id="_qzGOkSG_EeW9Z9d85a4DZw" key="INVERSE" value="UNSET_REFERENCE_Link_(target)_TGT_Page"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzGOkiG_EeW9Z9d85a4DZw" name="setLink_target_TO_Page" description="SetLinkReftargetToPage">
+    <parameters xmi:id="_qzGOkyG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzGOlCG_EeW9Z9d85a4DZw" name="NewTarget"/>
+    <lhs xmi:id="_qzGOlSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzGOliG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+      </nodes>
+      <nodes xmi:id="_qzGOlyG_EeW9Z9d85a4DZw" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_qzGOmCG_EeW9Z9d85a4DZw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_qzGOmSG_EeW9Z9d85a4DZw">
+          <conclusion xmi:id="_qzGOmiG_EeW9Z9d85a4DZw" name="ub0">
+            <nodes xmi:id="_qzGOmyG_EeW9Z9d85a4DZw" outgoing="_qzGOnSG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+            </nodes>
+            <nodes xmi:id="_qzGOnCG_EeW9Z9d85a4DZw" incoming="_qzGOnSG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+            </nodes>
+            <edges xmi:id="_qzGOnSG_EeW9Z9d85a4DZw" source="_qzGOmyG_EeW9Z9d85a4DZw" target="_qzGOnCG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_qzGOniG_EeW9Z9d85a4DZw" origin="_qzGOliG_EeW9Z9d85a4DZw" image="_qzGOmyG_EeW9Z9d85a4DZw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_qzGOnyG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzGOoCG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzGOoiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+      </nodes>
+      <nodes xmi:id="_qzGOoSG_EeW9Z9d85a4DZw" name="NewTarget" incoming="_qzGOoiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <edges xmi:id="_qzGOoiG_EeW9Z9d85a4DZw" source="_qzGOoCG_EeW9Z9d85a4DZw" target="_qzGOoSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzGOoyG_EeW9Z9d85a4DZw" origin="_qzGOliG_EeW9Z9d85a4DZw" image="_qzGOoCG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qzGOpCG_EeW9Z9d85a4DZw" origin="_qzGOlyG_EeW9Z9d85a4DZw" image="_qzGOoSG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzGOpSG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzGOkiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzGOpiG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzGOpyG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qzGOqCG_EeW9Z9d85a4DZw" name="NewTarget">
+      <annotations xmi:id="_qzGOqSG_EeW9Z9d85a4DZw" key="INVERSE" value="NewTarget"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzGOqiG_EeW9Z9d85a4DZw" source="_qzGOpiG_EeW9Z9d85a4DZw" target="_qzGOkyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzGOqyG_EeW9Z9d85a4DZw" source="_qzGOqCG_EeW9Z9d85a4DZw" target="_qzGOlCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

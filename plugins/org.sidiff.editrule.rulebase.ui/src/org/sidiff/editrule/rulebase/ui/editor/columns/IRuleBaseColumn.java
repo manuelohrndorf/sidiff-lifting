@@ -22,7 +22,5 @@ public interface IRuleBaseColumn {
 	/**
 	 * @return {@link SWT#NONE}, {@link SWT#LEFT}, {@link SWT#CENTER} , {@link SWT#RIGHT}
 	 */
-	default public int getStyle() {
-		return SWT.NONE;
-	}
+	public int getStyle();
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qy6oYCG_EeW9Z9d85a4DZw" name="UNSET_REFERENCE_Reference_(type)_TGT_Entity" description="Sets Reference's reference type the target Entity">
+  <annotations xmi:id="_qy6oYSG_EeW9Z9d85a4DZw" key="INVERSE" value="SET_REFERENCE_Reference_(type)_TGT_Entity"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qy6oYiG_EeW9Z9d85a4DZw" name="unsetReference_type_TO_Entity" description="SetReferenceReftypeToEntity">
+    <parameters xmi:id="_qy6oYyG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qy6oZCG_EeW9Z9d85a4DZw" name="NewTarget"/>
+    <lhs xmi:id="_qy6oZSG_EeW9Z9d85a4DZw" name="LHS">
+      <nodes xmi:id="_qy6oZiG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qy6oaCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+      </nodes>
+      <nodes xmi:id="_qy6oZyG_EeW9Z9d85a4DZw" name="NewTarget" incoming="_qy6oaCG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <edges xmi:id="_qy6oaCG_EeW9Z9d85a4DZw" source="_qy6oZiG_EeW9Z9d85a4DZw" target="_qy6oZyG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qy6oaSG_EeW9Z9d85a4DZw" name="RHS">
+      <nodes xmi:id="_qy6oaiG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Reference"/>
+      </nodes>
+      <nodes xmi:id="_qy6oayG_EeW9Z9d85a4DZw" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qy6obCG_EeW9Z9d85a4DZw" origin="_qy6oZiG_EeW9Z9d85a4DZw" image="_qy6oaiG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qy6obSG_EeW9Z9d85a4DZw" origin="_qy6oZyG_EeW9Z9d85a4DZw" image="_qy6oayG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qy6obiG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qy6oYiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qy6obyG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qy6ocCG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qy6ocSG_EeW9Z9d85a4DZw" name="NewTarget">
+      <annotations xmi:id="_qy6ociG_EeW9Z9d85a4DZw" key="INVERSE" value="NewTarget"/>
+    </parameters>
+    <parameterMappings xmi:id="_qy6ocyG_EeW9Z9d85a4DZw" source="_qy6obyG_EeW9Z9d85a4DZw" target="_qy6oYyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qy6odCG_EeW9Z9d85a4DZw" source="_qy6ocSG_EeW9Z9d85a4DZw" target="_qy6oZCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

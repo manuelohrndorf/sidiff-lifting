@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzAvACG_EeW9Z9d85a4DZw" name="CREATE_DataLayer_IN_WebModel_(dataLayer)" description="Creates one DataLayer in WebModel">
+  <annotations xmi:id="_qzAvASG_EeW9Z9d85a4DZw" key="INVERSE" value="DELETE_DataLayer_IN_WebModel_(dataLayer)"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzAvAiG_EeW9Z9d85a4DZw" name="createDataLayer_IN_WebModel" description="creates one DataLayer in the context: WebModel">
+    <parameters xmi:id="_qzAvAyG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzAvBCG_EeW9Z9d85a4DZw" name="New"/>
+    <lhs xmi:id="_qzAvBSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzAvBiG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_qzAvByG_EeW9Z9d85a4DZw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_qzAvCCG_EeW9Z9d85a4DZw">
+          <conclusion xmi:id="_qzAvCSG_EeW9Z9d85a4DZw" name="ub0">
+            <nodes xmi:id="_qzAvCiG_EeW9Z9d85a4DZw" outgoing="_qzAvDCG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+            </nodes>
+            <nodes xmi:id="_qzAvCyG_EeW9Z9d85a4DZw" incoming="_qzAvDCG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+            </nodes>
+            <edges xmi:id="_qzAvDCG_EeW9Z9d85a4DZw" source="_qzAvCiG_EeW9Z9d85a4DZw" target="_qzAvCyG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/dataLayer"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_qzAvDSG_EeW9Z9d85a4DZw" origin="_qzAvBiG_EeW9Z9d85a4DZw" image="_qzAvCiG_EeW9Z9d85a4DZw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_qzAvDiG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzAvDyG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzAvESG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel"/>
+      </nodes>
+      <nodes xmi:id="_qzAvECG_EeW9Z9d85a4DZw" name="New" incoming="_qzAvESG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DataLayer"/>
+      </nodes>
+      <edges xmi:id="_qzAvESG_EeW9Z9d85a4DZw" source="_qzAvDyG_EeW9Z9d85a4DZw" target="_qzAvECG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//WebModel/dataLayer"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzAvEiG_EeW9Z9d85a4DZw" origin="_qzAvBiG_EeW9Z9d85a4DZw" image="_qzAvDyG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzAvEyG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzAvAiG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzAvFCG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzAvFSG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qzAvFiG_EeW9Z9d85a4DZw" name="New">
+      <annotations xmi:id="_qzAvFyG_EeW9Z9d85a4DZw" key="INVERSE" value="ToBeDeleted"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzAvGCG_EeW9Z9d85a4DZw" source="_qzAvFCG_EeW9Z9d85a4DZw" target="_qzAvAyG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzAvGSG_EeW9Z9d85a4DZw" source="_qzAvBCG_EeW9Z9d85a4DZw" target="_qzAvFiG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

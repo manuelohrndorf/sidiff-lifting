@@ -15,10 +15,10 @@ import org.eclipse.swt.graphics.Image;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
-public class ColumnActive implements IRuleBaseColumn {
+public class ColumnActive extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn activeColumn, TableColumnLayout layout) {

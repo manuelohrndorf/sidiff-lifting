@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qy_g4CG_EeW9Z9d85a4DZw" name="SET_REFERENCE_DynamicPage_(entity)_TGT_Entity" description="Sets DynamicPage's reference entity the target Entity">
+  <annotations xmi:id="_qy_g4SG_EeW9Z9d85a4DZw" key="INVERSE" value="UNSET_REFERENCE_DynamicPage_(entity)_TGT_Entity"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qy_g4iG_EeW9Z9d85a4DZw" name="setDynamicPage_entity_TO_Entity" description="SetDynamicPageRefentityToEntity">
+    <parameters xmi:id="_qy_g4yG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qy_g5CG_EeW9Z9d85a4DZw" name="NewTarget"/>
+    <lhs xmi:id="_qy_g5SG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qy_g5iG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_qy_g5yG_EeW9Z9d85a4DZw" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_qy_g6CG_EeW9Z9d85a4DZw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_qy_g6SG_EeW9Z9d85a4DZw">
+          <conclusion xmi:id="_qy_g6iG_EeW9Z9d85a4DZw" name="ub0">
+            <nodes xmi:id="_qy_g6yG_EeW9Z9d85a4DZw" outgoing="_qy_g7SG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+            </nodes>
+            <nodes xmi:id="_qy_g7CG_EeW9Z9d85a4DZw" incoming="_qy_g7SG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+            </nodes>
+            <edges xmi:id="_qy_g7SG_EeW9Z9d85a4DZw" source="_qy_g6yG_EeW9Z9d85a4DZw" target="_qy_g7CG_EeW9Z9d85a4DZw">
+              <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_qy_g7iG_EeW9Z9d85a4DZw" origin="_qy_g5iG_EeW9Z9d85a4DZw" image="_qy_g6yG_EeW9Z9d85a4DZw"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_qy_g7yG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qy_g8CG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qy_g8iG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage"/>
+      </nodes>
+      <nodes xmi:id="_qy_g8SG_EeW9Z9d85a4DZw" name="NewTarget" incoming="_qy_g8iG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <edges xmi:id="_qy_g8iG_EeW9Z9d85a4DZw" source="_qy_g8CG_EeW9Z9d85a4DZw" target="_qy_g8SG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//DynamicPage/entity"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qy_g8yG_EeW9Z9d85a4DZw" origin="_qy_g5iG_EeW9Z9d85a4DZw" image="_qy_g8CG_EeW9Z9d85a4DZw"/>
+    <mappings xmi:id="_qy_g9CG_EeW9Z9d85a4DZw" origin="_qy_g5yG_EeW9Z9d85a4DZw" image="_qy_g8SG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qy_g9SG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qy_g4iG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qy_g9iG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qy_g9yG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qy_g-CG_EeW9Z9d85a4DZw" name="NewTarget">
+      <annotations xmi:id="_qy_g-SG_EeW9Z9d85a4DZw" key="INVERSE" value="NewTarget"/>
+    </parameters>
+    <parameterMappings xmi:id="_qy_g-iG_EeW9Z9d85a4DZw" source="_qy_g9iG_EeW9Z9d85a4DZw" target="_qy_g4yG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qy_g-yG_EeW9Z9d85a4DZw" source="_qy_g-CG_EeW9Z9d85a4DZw" target="_qy_g5CG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

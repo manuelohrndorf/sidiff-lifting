@@ -10,13 +10,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfo;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
+import org.sidiff.common.emf.metamodel.analysis.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfo;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 
 /**

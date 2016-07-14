@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qyi0_yG_EeW9Z9d85a4DZw" name="Create Attribute" description="Creates one Attribute in Entity">
+  <annotations xmi:id="_qyi1ACG_EeW9Z9d85a4DZw" key="INVERSE" value="DELETE_Attribute_IN_Entity_(attributes)"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qyi1ASG_EeW9Z9d85a4DZw" name="createAttribute_IN_Entity" description="creates one Attribute in the context: Entity">
+    <parameters xmi:id="_qyi1AiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qyi1AyG_EeW9Z9d85a4DZw" name="New"/>
+    <parameters xmi:id="_qyi1BCG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_qyi1BSG_EeW9Z9d85a4DZw" name="Type">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//SimpleType"/>
+    </parameters>
+    <lhs xmi:id="_qyi1BiG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qyi1ByG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qyi1CCG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qyi1CSG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qyi1DSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity"/>
+      </nodes>
+      <nodes xmi:id="_qyi1CiG_EeW9Z9d85a4DZw" name="New" incoming="_qyi1DSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute"/>
+        <attributes xmi:id="_qyi1CyG_EeW9Z9d85a4DZw" value="Name">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute/name"/>
+        </attributes>
+        <attributes xmi:id="_qyi1DCG_EeW9Z9d85a4DZw" value="Type">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Attribute/type"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_qyi1DSG_EeW9Z9d85a4DZw" source="_qyi1CSG_EeW9Z9d85a4DZw" target="_qyi1CiG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Entity/attributes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qyi1DiG_EeW9Z9d85a4DZw" origin="_qyi1ByG_EeW9Z9d85a4DZw" image="_qyi1CSG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qyi1DyG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qyi1ASG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qyi1ECG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qyi1ESG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qyi1EiG_EeW9Z9d85a4DZw" name="New">
+      <annotations xmi:id="_qyi1EyG_EeW9Z9d85a4DZw" key="INVERSE" value="ToBeDeleted"/>
+    </parameters>
+    <parameters xmi:id="_qyi1FCG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_qyi1FSG_EeW9Z9d85a4DZw" name="Type">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//SimpleType"/>
+    </parameters>
+    <parameterMappings xmi:id="_qyi1FiG_EeW9Z9d85a4DZw" source="_qyi1ECG_EeW9Z9d85a4DZw" target="_qyi1AiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qyi1FyG_EeW9Z9d85a4DZw" source="_qyi1AyG_EeW9Z9d85a4DZw" target="_qyi1EiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qyi1GCG_EeW9Z9d85a4DZw" source="_qyi1FCG_EeW9Z9d85a4DZw" target="_qyi1BCG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qyi1GSG_EeW9Z9d85a4DZw" source="_qyi1FSG_EeW9Z9d85a4DZw" target="_qyi1BSG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

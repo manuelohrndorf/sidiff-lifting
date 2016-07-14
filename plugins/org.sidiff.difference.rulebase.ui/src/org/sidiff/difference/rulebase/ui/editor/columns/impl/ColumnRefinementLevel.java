@@ -9,9 +9,9 @@ import org.eclipse.swt.SWT;
 import org.sidiff.difference.rulebase.util.RecognitionRuleItemUtil;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
-import org.sidiff.editrule.rulebase.ui.editor.columns.IRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
 
-public class ColumnRefinementLevel implements IRuleBaseColumn {
+public class ColumnRefinementLevel extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn refinementLevelColumn, TableColumnLayout layout) {

@@ -81,12 +81,16 @@ public class SergeWizard extends Wizard implements INewWizard {
 			protected IStatus run(IProgressMonitor monitor) {
 				IWorkbenchWindow currentWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 				monitor.beginTask("Generating Edit Rules", 100);		
-				
+
 				Serge serge = new Serge();
 				try {					
 					serge.init(settings, new SubProgressMonitor(monitor, 20));
 					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (EditRuleGenerationException | WrongSettingsInstanceException e) {
+				} catch (EditRuleGenerationException e) {
+					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
+					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
+							e.getMessage());
+				} catch (WrongSettingsInstanceException e){
 					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
 					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
 							e.getMessage());

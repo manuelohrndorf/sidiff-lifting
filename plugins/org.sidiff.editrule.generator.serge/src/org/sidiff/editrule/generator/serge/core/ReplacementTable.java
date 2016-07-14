@@ -7,10 +7,10 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
 
 public class ReplacementTable {
 

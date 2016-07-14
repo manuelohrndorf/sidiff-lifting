@@ -1,21 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SiDiff Difference UI
+Bundle-Name: SiDiff Difference - UI
 Bundle-SymbolicName: org.sidiff.difference.ui;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sidiff.difference.ui.Activator
 Bundle-Vendor: Software Engineering Group, University of Siegen
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.sidiff.difference.ui.widgets
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui.workbench,
  org.eclipse.jface,
- org.sidiff.common.ui,
- org.sidiff.matching.api,
+ org.eclipse.ui.workbench,
+ org.sidiff.common.ui;visibility:=reexport,
  org.sidiff.matcher,
- org.sidiff.configuration,
- org.sidiff.common.emf,
- org.sidiff.common.settings,
- org.sidiff.service;bundle-version="1.0.0"
-Import-Package: org.eclipse.emf.ecore.resource
+ org.sidiff.matching.api

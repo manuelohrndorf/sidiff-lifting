@@ -1,24 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SiDiff Patching API
-Bundle-SymbolicName: org.sidiff.patching.api
-Bundle-Version: 1.0.0
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.sidiff.difference.asymmetric,
- org.sidiff.patching.patch,
- org.sidiff.difference.lifting.api,
- org.sidiff.difference.asymmetric.api,
- org.eclipse.emf.ecore,
- org.sidiff.matching.api,
- org.sidiff.difference.technical.api;bundle-version="1.0.0",
- org.sidiff.common.ui,
+Bundle-Name: SiDiff Patching - API
+Bundle-SymbolicName: org.sidiff.patching.api;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.sidiff.difference.asymmetric.api;visibility:=reexport,
  org.sidiff.patching,
- org.sidiff.conflicts.modifieddetector,
- org.sidiff.matcher,
- org.sidiff.candidates,
- org.sidiff.correspondences,
- org.sidiff.difference.technical,
- org.sidiff.symboliclink.handler,
- org.sidiff.common.settings;bundle-version="1.0.0"
+ org.sidiff.patching.patch,
+ org.sidiff.symboliclink.handler
 Export-Package: org.sidiff.patching.api
 Bundle-Vendor: Software Engineering Group, University of Siegen

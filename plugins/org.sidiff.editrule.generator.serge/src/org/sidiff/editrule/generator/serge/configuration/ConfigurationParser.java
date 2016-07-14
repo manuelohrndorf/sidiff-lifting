@@ -25,6 +25,8 @@ import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
 import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
+import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
+import org.sidiff.common.emf.metamodel.analysis.Mask;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
@@ -36,8 +38,6 @@ import org.sidiff.editrule.generator.serge.exceptions.SERGeConfigParserException
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.EClassifierInfoManagement;
-import org.sidiff.editrule.generator.serge.metamodelanalysis.Mask;
 import org.sidiff.editrule.generator.types.OperationType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

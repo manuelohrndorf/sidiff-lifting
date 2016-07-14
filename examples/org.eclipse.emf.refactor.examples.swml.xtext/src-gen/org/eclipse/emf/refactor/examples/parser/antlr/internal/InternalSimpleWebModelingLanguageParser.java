@@ -1,4 +1,4 @@
-package org.eclipse.emf.refactor.examples.parser.antlr.internal; 
+package org.eclipse.emf.refactor.examples.parser.antlr.internal;
 
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
@@ -24,34 +24,34 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'webmodel'", "'{'", "'}'", "'data {'", "'entity'", "'att'", "':'", "'ref'", "'hypertext {'", "'start page is'", "'static page'", "'link to page'", "'index page'", "'shows entity'", "'data page'", "'Boolean'", "'Email'", "'Float'", "'Integer'", "'String'"
     };
-    public static final int RULE_ID=4;
-    public static final int T__29=29;
-    public static final int T__28=28;
-    public static final int T__27=27;
-    public static final int T__26=26;
-    public static final int T__25=25;
-    public static final int T__24=24;
-    public static final int T__23=23;
-    public static final int T__22=22;
-    public static final int RULE_ANY_OTHER=10;
-    public static final int T__21=21;
-    public static final int T__20=20;
-    public static final int RULE_SL_COMMENT=8;
-    public static final int EOF=-1;
-    public static final int RULE_ML_COMMENT=7;
-    public static final int T__30=30;
-    public static final int T__19=19;
     public static final int RULE_STRING=6;
-    public static final int T__16=16;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T__19=19;
     public static final int T__15=15;
-    public static final int T__18=18;
+    public static final int T__16=16;
     public static final int T__17=17;
-    public static final int T__12=12;
+    public static final int T__18=18;
     public static final int T__11=11;
-    public static final int T__14=14;
+    public static final int T__12=12;
     public static final int T__13=13;
-    public static final int RULE_INT=5;
+    public static final int T__14=14;
+    public static final int EOF=-1;
+    public static final int T__30=30;
+    public static final int RULE_ID=4;
     public static final int RULE_WS=9;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__26=26;
+    public static final int T__27=27;
+    public static final int T__28=28;
+    public static final int RULE_INT=5;
+    public static final int T__29=29;
+    public static final int T__22=22;
+    public static final int RULE_ML_COMMENT=7;
+    public static final int T__23=23;
+    public static final int T__24=24;
+    public static final int T__25=25;
+    public static final int T__20=20;
+    public static final int T__21=21;
 
     // delegates
     // delegators
@@ -67,23 +67,23 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         
 
     public String[] getTokenNames() { return InternalSimpleWebModelingLanguageParser.tokenNames; }
-    public String getGrammarFileName() { return "../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g"; }
+    public String getGrammarFileName() { return "InternalSimpleWebModelingLanguage.g"; }
 
 
 
      	private SimpleWebModelingLanguageGrammarAccess grammarAccess;
-     	
+
         public InternalSimpleWebModelingLanguageParser(TokenStream input, SimpleWebModelingLanguageGrammarAccess grammarAccess) {
             this(input);
             this.grammarAccess = grammarAccess;
             registerRules(grammarAccess.getGrammar());
         }
-        
+
         @Override
         protected String getFirstRuleName() {
-        	return "WebModel";	
+        	return "WebModel";
        	}
-       	
+
        	@Override
        	protected SimpleWebModelingLanguageGrammarAccess getGrammarAccess() {
        		return grammarAccess;
@@ -91,8 +91,9 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
 
+
     // $ANTLR start "entryRuleWebModel"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:68:1: entryRuleWebModel returns [EObject current=null] : iv_ruleWebModel= ruleWebModel EOF ;
+    // InternalSimpleWebModelingLanguage.g:65:1: entryRuleWebModel returns [EObject current=null] : iv_ruleWebModel= ruleWebModel EOF ;
     public final EObject entryRuleWebModel() throws RecognitionException {
         EObject current = null;
 
@@ -100,26 +101,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:69:2: (iv_ruleWebModel= ruleWebModel EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:70:2: iv_ruleWebModel= ruleWebModel EOF
+            // InternalSimpleWebModelingLanguage.g:65:49: (iv_ruleWebModel= ruleWebModel EOF )
+            // InternalSimpleWebModelingLanguage.g:66:2: iv_ruleWebModel= ruleWebModel EOF
             {
              newCompositeNode(grammarAccess.getWebModelRule()); 
-            pushFollow(FOLLOW_ruleWebModel_in_entryRuleWebModel75);
+            pushFollow(FOLLOW_1);
             iv_ruleWebModel=ruleWebModel();
 
             state._fsp--;
 
              current =iv_ruleWebModel; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleWebModel85); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -128,7 +129,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleWebModel"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:77:1: ruleWebModel returns [EObject current=null] : (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:72:1: ruleWebModel returns [EObject current=null] : (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' ) ;
     public final EObject ruleWebModel() throws RecognitionException {
         EObject current = null;
 
@@ -141,128 +142,131 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_hypertextLayer_4_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:80:28: ( (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:81:1: (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' )
+            // InternalSimpleWebModelingLanguage.g:78:2: ( (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:79:2: (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:81:1: (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:81:3: otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}'
+            // InternalSimpleWebModelingLanguage.g:79:2: (otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}' )
+            // InternalSimpleWebModelingLanguage.g:80:3: otherlv_0= 'webmodel' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_dataLayer_3_0= ruleDataLayer ) ) ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) ) otherlv_5= '}'
             {
-            otherlv_0=(Token)match(input,11,FOLLOW_11_in_ruleWebModel122); 
+            otherlv_0=(Token)match(input,11,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getWebModelAccess().getWebmodelKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:85:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:86:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:86:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:87:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleWebModel139); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getWebModelAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getWebModelAccess().getWebmodelKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:84:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:85:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:85:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:86:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_4); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getWebModelRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getWebModelAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getWebModelRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            otherlv_2=(Token)match(input,12,FOLLOW_12_in_ruleWebModel156); 
+            otherlv_2=(Token)match(input,12,FOLLOW_5); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getWebModelAccess().getLeftCurlyBracketKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:107:1: ( (lv_dataLayer_3_0= ruleDataLayer ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:108:1: (lv_dataLayer_3_0= ruleDataLayer )
+            			newLeafNode(otherlv_2, grammarAccess.getWebModelAccess().getLeftCurlyBracketKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:106:3: ( (lv_dataLayer_3_0= ruleDataLayer ) )
+            // InternalSimpleWebModelingLanguage.g:107:4: (lv_dataLayer_3_0= ruleDataLayer )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:108:1: (lv_dataLayer_3_0= ruleDataLayer )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:109:3: lv_dataLayer_3_0= ruleDataLayer
+            // InternalSimpleWebModelingLanguage.g:107:4: (lv_dataLayer_3_0= ruleDataLayer )
+            // InternalSimpleWebModelingLanguage.g:108:5: lv_dataLayer_3_0= ruleDataLayer
             {
-             
-            	        newCompositeNode(grammarAccess.getWebModelAccess().getDataLayerDataLayerParserRuleCall_3_0()); 
-            	    
-            pushFollow(FOLLOW_ruleDataLayer_in_ruleWebModel177);
+
+            					newCompositeNode(grammarAccess.getWebModelAccess().getDataLayerDataLayerParserRuleCall_3_0());
+            				
+            pushFollow(FOLLOW_6);
             lv_dataLayer_3_0=ruleDataLayer();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getWebModelRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"dataLayer",
-                    		lv_dataLayer_3_0, 
-                    		"DataLayer");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getWebModelRule());
+            					}
+            					set(
+            						current,
+            						"dataLayer",
+            						lv_dataLayer_3_0,
+            						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.DataLayer");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:125:2: ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:126:1: (lv_hypertextLayer_4_0= ruleHypertextLayer )
+            // InternalSimpleWebModelingLanguage.g:125:3: ( (lv_hypertextLayer_4_0= ruleHypertextLayer ) )
+            // InternalSimpleWebModelingLanguage.g:126:4: (lv_hypertextLayer_4_0= ruleHypertextLayer )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:126:1: (lv_hypertextLayer_4_0= ruleHypertextLayer )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:127:3: lv_hypertextLayer_4_0= ruleHypertextLayer
+            // InternalSimpleWebModelingLanguage.g:126:4: (lv_hypertextLayer_4_0= ruleHypertextLayer )
+            // InternalSimpleWebModelingLanguage.g:127:5: lv_hypertextLayer_4_0= ruleHypertextLayer
             {
-             
-            	        newCompositeNode(grammarAccess.getWebModelAccess().getHypertextLayerHypertextLayerParserRuleCall_4_0()); 
-            	    
-            pushFollow(FOLLOW_ruleHypertextLayer_in_ruleWebModel198);
+
+            					newCompositeNode(grammarAccess.getWebModelAccess().getHypertextLayerHypertextLayerParserRuleCall_4_0());
+            				
+            pushFollow(FOLLOW_7);
             lv_hypertextLayer_4_0=ruleHypertextLayer();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getWebModelRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"hypertextLayer",
-                    		lv_hypertextLayer_4_0, 
-                    		"HypertextLayer");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getWebModelRule());
+            					}
+            					set(
+            						current,
+            						"hypertextLayer",
+            						lv_hypertextLayer_4_0,
+            						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.HypertextLayer");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
 
             }
 
-            otherlv_5=(Token)match(input,13,FOLLOW_13_in_ruleWebModel210); 
+            otherlv_5=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_5, grammarAccess.getWebModelAccess().getRightCurlyBracketKeyword_5());
-                
+            			newLeafNode(otherlv_5, grammarAccess.getWebModelAccess().getRightCurlyBracketKeyword_5());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -271,7 +275,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleDataLayer"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:155:1: entryRuleDataLayer returns [EObject current=null] : iv_ruleDataLayer= ruleDataLayer EOF ;
+    // InternalSimpleWebModelingLanguage.g:152:1: entryRuleDataLayer returns [EObject current=null] : iv_ruleDataLayer= ruleDataLayer EOF ;
     public final EObject entryRuleDataLayer() throws RecognitionException {
         EObject current = null;
 
@@ -279,26 +283,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:156:2: (iv_ruleDataLayer= ruleDataLayer EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:157:2: iv_ruleDataLayer= ruleDataLayer EOF
+            // InternalSimpleWebModelingLanguage.g:152:50: (iv_ruleDataLayer= ruleDataLayer EOF )
+            // InternalSimpleWebModelingLanguage.g:153:2: iv_ruleDataLayer= ruleDataLayer EOF
             {
              newCompositeNode(grammarAccess.getDataLayerRule()); 
-            pushFollow(FOLLOW_ruleDataLayer_in_entryRuleDataLayer246);
+            pushFollow(FOLLOW_1);
             iv_ruleDataLayer=ruleDataLayer();
 
             state._fsp--;
 
              current =iv_ruleDataLayer; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleDataLayer256); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -307,7 +311,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleDataLayer"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:164:1: ruleDataLayer returns [EObject current=null] : (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:159:1: ruleDataLayer returns [EObject current=null] : (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' ) ;
     public final EObject ruleDataLayer() throws RecognitionException {
         EObject current = null;
 
@@ -316,31 +320,32 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_entities_2_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:167:28: ( (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:168:1: (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' )
+            // InternalSimpleWebModelingLanguage.g:165:2: ( (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:166:2: (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:168:1: (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:168:3: otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}'
+            // InternalSimpleWebModelingLanguage.g:166:2: (otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}' )
+            // InternalSimpleWebModelingLanguage.g:167:3: otherlv_0= 'data {' () ( (lv_entities_2_0= ruleEntity ) )* otherlv_3= '}'
             {
-            otherlv_0=(Token)match(input,14,FOLLOW_14_in_ruleDataLayer293); 
+            otherlv_0=(Token)match(input,14,FOLLOW_8); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getDataLayerAccess().getDataKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:172:1: ()
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:173:5: 
+            			newLeafNode(otherlv_0, grammarAccess.getDataLayerAccess().getDataKeyword_0());
+            		
+            // InternalSimpleWebModelingLanguage.g:171:3: ()
+            // InternalSimpleWebModelingLanguage.g:172:4: 
             {
 
-                    current = forceCreateModelElement(
-                        grammarAccess.getDataLayerAccess().getDataLayerAction_1(),
-                        current);
-                
+            				current = forceCreateModelElement(
+            					grammarAccess.getDataLayerAccess().getDataLayerAction_1(),
+            					current);
+            			
 
             }
 
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:178:2: ( (lv_entities_2_0= ruleEntity ) )*
+            // InternalSimpleWebModelingLanguage.g:178:3: ( (lv_entities_2_0= ruleEntity ) )*
             loop1:
             do {
                 int alt1=2;
@@ -353,30 +358,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt1) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:179:1: (lv_entities_2_0= ruleEntity )
+            	    // InternalSimpleWebModelingLanguage.g:179:4: (lv_entities_2_0= ruleEntity )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:179:1: (lv_entities_2_0= ruleEntity )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:180:3: lv_entities_2_0= ruleEntity
+            	    // InternalSimpleWebModelingLanguage.g:179:4: (lv_entities_2_0= ruleEntity )
+            	    // InternalSimpleWebModelingLanguage.g:180:5: lv_entities_2_0= ruleEntity
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getDataLayerAccess().getEntitiesEntityParserRuleCall_2_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleEntity_in_ruleDataLayer323);
+
+            	    					newCompositeNode(grammarAccess.getDataLayerAccess().getEntitiesEntityParserRuleCall_2_0());
+            	    				
+            	    pushFollow(FOLLOW_8);
             	    lv_entities_2_0=ruleEntity();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getDataLayerRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"entities",
-            	            		lv_entities_2_0, 
-            	            		"Entity");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getDataLayerRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"entities",
+            	    						lv_entities_2_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Entity");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -389,23 +394,25 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            otherlv_3=(Token)match(input,13,FOLLOW_13_in_ruleDataLayer336); 
+            otherlv_3=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_3, grammarAccess.getDataLayerAccess().getRightCurlyBracketKeyword_3());
-                
+            			newLeafNode(otherlv_3, grammarAccess.getDataLayerAccess().getRightCurlyBracketKeyword_3());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -414,7 +421,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleEntity"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:208:1: entryRuleEntity returns [EObject current=null] : iv_ruleEntity= ruleEntity EOF ;
+    // InternalSimpleWebModelingLanguage.g:205:1: entryRuleEntity returns [EObject current=null] : iv_ruleEntity= ruleEntity EOF ;
     public final EObject entryRuleEntity() throws RecognitionException {
         EObject current = null;
 
@@ -422,26 +429,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:209:2: (iv_ruleEntity= ruleEntity EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:210:2: iv_ruleEntity= ruleEntity EOF
+            // InternalSimpleWebModelingLanguage.g:205:47: (iv_ruleEntity= ruleEntity EOF )
+            // InternalSimpleWebModelingLanguage.g:206:2: iv_ruleEntity= ruleEntity EOF
             {
              newCompositeNode(grammarAccess.getEntityRule()); 
-            pushFollow(FOLLOW_ruleEntity_in_entryRuleEntity372);
+            pushFollow(FOLLOW_1);
             iv_ruleEntity=ruleEntity();
 
             state._fsp--;
 
              current =iv_ruleEntity; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleEntity382); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -450,7 +457,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleEntity"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:217:1: ruleEntity returns [EObject current=null] : (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:212:1: ruleEntity returns [EObject current=null] : (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' ) ;
     public final EObject ruleEntity() throws RecognitionException {
         EObject current = null;
 
@@ -463,50 +470,51 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_references_4_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:220:28: ( (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:221:1: (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' )
+            // InternalSimpleWebModelingLanguage.g:218:2: ( (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:219:2: (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:221:1: (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:221:3: otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}'
+            // InternalSimpleWebModelingLanguage.g:219:2: (otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}' )
+            // InternalSimpleWebModelingLanguage.g:220:3: otherlv_0= 'entity' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_attributes_3_0= ruleAttribute ) )* ( (lv_references_4_0= ruleReference ) )* otherlv_5= '}'
             {
-            otherlv_0=(Token)match(input,15,FOLLOW_15_in_ruleEntity419); 
+            otherlv_0=(Token)match(input,15,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getEntityAccess().getEntityKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:225:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:226:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:226:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:227:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleEntity436); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getEntityAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getEntityAccess().getEntityKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:224:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:225:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:225:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:226:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_4); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getEntityRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getEntityAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getEntityRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            otherlv_2=(Token)match(input,12,FOLLOW_12_in_ruleEntity453); 
+            otherlv_2=(Token)match(input,12,FOLLOW_9); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getEntityAccess().getLeftCurlyBracketKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:247:1: ( (lv_attributes_3_0= ruleAttribute ) )*
+            			newLeafNode(otherlv_2, grammarAccess.getEntityAccess().getLeftCurlyBracketKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:246:3: ( (lv_attributes_3_0= ruleAttribute ) )*
             loop2:
             do {
                 int alt2=2;
@@ -519,30 +527,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt2) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:248:1: (lv_attributes_3_0= ruleAttribute )
+            	    // InternalSimpleWebModelingLanguage.g:247:4: (lv_attributes_3_0= ruleAttribute )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:248:1: (lv_attributes_3_0= ruleAttribute )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:249:3: lv_attributes_3_0= ruleAttribute
+            	    // InternalSimpleWebModelingLanguage.g:247:4: (lv_attributes_3_0= ruleAttribute )
+            	    // InternalSimpleWebModelingLanguage.g:248:5: lv_attributes_3_0= ruleAttribute
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getEntityAccess().getAttributesAttributeParserRuleCall_3_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleAttribute_in_ruleEntity474);
+
+            	    					newCompositeNode(grammarAccess.getEntityAccess().getAttributesAttributeParserRuleCall_3_0());
+            	    				
+            	    pushFollow(FOLLOW_9);
             	    lv_attributes_3_0=ruleAttribute();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getEntityRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"attributes",
-            	            		lv_attributes_3_0, 
-            	            		"Attribute");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getEntityRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"attributes",
+            	    						lv_attributes_3_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Attribute");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -555,7 +563,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:265:3: ( (lv_references_4_0= ruleReference ) )*
+            // InternalSimpleWebModelingLanguage.g:265:3: ( (lv_references_4_0= ruleReference ) )*
             loop3:
             do {
                 int alt3=2;
@@ -568,30 +576,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt3) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:266:1: (lv_references_4_0= ruleReference )
+            	    // InternalSimpleWebModelingLanguage.g:266:4: (lv_references_4_0= ruleReference )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:266:1: (lv_references_4_0= ruleReference )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:267:3: lv_references_4_0= ruleReference
+            	    // InternalSimpleWebModelingLanguage.g:266:4: (lv_references_4_0= ruleReference )
+            	    // InternalSimpleWebModelingLanguage.g:267:5: lv_references_4_0= ruleReference
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getEntityAccess().getReferencesReferenceParserRuleCall_4_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleReference_in_ruleEntity496);
+
+            	    					newCompositeNode(grammarAccess.getEntityAccess().getReferencesReferenceParserRuleCall_4_0());
+            	    				
+            	    pushFollow(FOLLOW_10);
             	    lv_references_4_0=ruleReference();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getEntityRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"references",
-            	            		lv_references_4_0, 
-            	            		"Reference");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getEntityRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"references",
+            	    						lv_references_4_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Reference");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -604,23 +612,25 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            otherlv_5=(Token)match(input,13,FOLLOW_13_in_ruleEntity509); 
+            otherlv_5=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_5, grammarAccess.getEntityAccess().getRightCurlyBracketKeyword_5());
-                
+            			newLeafNode(otherlv_5, grammarAccess.getEntityAccess().getRightCurlyBracketKeyword_5());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -629,7 +639,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleAttribute"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:295:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
+    // InternalSimpleWebModelingLanguage.g:292:1: entryRuleAttribute returns [EObject current=null] : iv_ruleAttribute= ruleAttribute EOF ;
     public final EObject entryRuleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -637,26 +647,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:296:2: (iv_ruleAttribute= ruleAttribute EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:297:2: iv_ruleAttribute= ruleAttribute EOF
+            // InternalSimpleWebModelingLanguage.g:292:50: (iv_ruleAttribute= ruleAttribute EOF )
+            // InternalSimpleWebModelingLanguage.g:293:2: iv_ruleAttribute= ruleAttribute EOF
             {
              newCompositeNode(grammarAccess.getAttributeRule()); 
-            pushFollow(FOLLOW_ruleAttribute_in_entryRuleAttribute545);
+            pushFollow(FOLLOW_1);
             iv_ruleAttribute=ruleAttribute();
 
             state._fsp--;
 
              current =iv_ruleAttribute; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleAttribute555); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -665,7 +675,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleAttribute"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:304:1: ruleAttribute returns [EObject current=null] : (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) ) ;
+    // InternalSimpleWebModelingLanguage.g:299:1: ruleAttribute returns [EObject current=null] : (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) ) ;
     public final EObject ruleAttribute() throws RecognitionException {
         EObject current = null;
 
@@ -675,74 +685,75 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         Enumerator lv_type_3_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:307:28: ( (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:308:1: (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) )
+            // InternalSimpleWebModelingLanguage.g:305:2: ( (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) ) )
+            // InternalSimpleWebModelingLanguage.g:306:2: (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:308:1: (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:308:3: otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) )
+            // InternalSimpleWebModelingLanguage.g:306:2: (otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) ) )
+            // InternalSimpleWebModelingLanguage.g:307:3: otherlv_0= 'att' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (lv_type_3_0= ruleSimpleType ) )
             {
-            otherlv_0=(Token)match(input,16,FOLLOW_16_in_ruleAttribute592); 
+            otherlv_0=(Token)match(input,16,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getAttributeAccess().getAttKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:312:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:313:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:313:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:314:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleAttribute609); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getAttributeAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getAttributeAccess().getAttKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:311:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:312:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:312:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:313:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_11); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getAttributeRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getAttributeAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getAttributeRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleAttribute626); 
+            otherlv_2=(Token)match(input,17,FOLLOW_12); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getColonKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:334:1: ( (lv_type_3_0= ruleSimpleType ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:335:1: (lv_type_3_0= ruleSimpleType )
+            			newLeafNode(otherlv_2, grammarAccess.getAttributeAccess().getColonKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:333:3: ( (lv_type_3_0= ruleSimpleType ) )
+            // InternalSimpleWebModelingLanguage.g:334:4: (lv_type_3_0= ruleSimpleType )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:335:1: (lv_type_3_0= ruleSimpleType )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:336:3: lv_type_3_0= ruleSimpleType
+            // InternalSimpleWebModelingLanguage.g:334:4: (lv_type_3_0= ruleSimpleType )
+            // InternalSimpleWebModelingLanguage.g:335:5: lv_type_3_0= ruleSimpleType
             {
-             
-            	        newCompositeNode(grammarAccess.getAttributeAccess().getTypeSimpleTypeEnumRuleCall_3_0()); 
-            	    
-            pushFollow(FOLLOW_ruleSimpleType_in_ruleAttribute647);
+
+            					newCompositeNode(grammarAccess.getAttributeAccess().getTypeSimpleTypeEnumRuleCall_3_0());
+            				
+            pushFollow(FOLLOW_2);
             lv_type_3_0=ruleSimpleType();
 
             state._fsp--;
 
 
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getAttributeRule());
-            	        }
-                   		set(
-                   			current, 
-                   			"type",
-                    		lv_type_3_0, 
-                    		"SimpleType");
-            	        afterParserOrEnumRuleCall();
-            	    
+            					if (current==null) {
+            						current = createModelElementForParent(grammarAccess.getAttributeRule());
+            					}
+            					set(
+            						current,
+            						"type",
+            						lv_type_3_0,
+            						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.SimpleType");
+            					afterParserOrEnumRuleCall();
+            				
 
             }
 
@@ -755,13 +766,15 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -770,7 +783,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleReference"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:360:1: entryRuleReference returns [EObject current=null] : iv_ruleReference= ruleReference EOF ;
+    // InternalSimpleWebModelingLanguage.g:356:1: entryRuleReference returns [EObject current=null] : iv_ruleReference= ruleReference EOF ;
     public final EObject entryRuleReference() throws RecognitionException {
         EObject current = null;
 
@@ -778,26 +791,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:361:2: (iv_ruleReference= ruleReference EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:362:2: iv_ruleReference= ruleReference EOF
+            // InternalSimpleWebModelingLanguage.g:356:50: (iv_ruleReference= ruleReference EOF )
+            // InternalSimpleWebModelingLanguage.g:357:2: iv_ruleReference= ruleReference EOF
             {
              newCompositeNode(grammarAccess.getReferenceRule()); 
-            pushFollow(FOLLOW_ruleReference_in_entryRuleReference683);
+            pushFollow(FOLLOW_1);
             iv_ruleReference=ruleReference();
 
             state._fsp--;
 
              current =iv_ruleReference; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleReference693); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -806,7 +819,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleReference"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:369:1: ruleReference returns [EObject current=null] : (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) ) ;
+    // InternalSimpleWebModelingLanguage.g:363:1: ruleReference returns [EObject current=null] : (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) ) ;
     public final EObject ruleReference() throws RecognitionException {
         EObject current = null;
 
@@ -815,67 +828,65 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         Token otherlv_2=null;
         Token otherlv_3=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:372:28: ( (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:373:1: (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) )
+            // InternalSimpleWebModelingLanguage.g:369:2: ( (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) ) )
+            // InternalSimpleWebModelingLanguage.g:370:2: (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:373:1: (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:373:3: otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:370:2: (otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) )
+            // InternalSimpleWebModelingLanguage.g:371:3: otherlv_0= 'ref' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) )
             {
-            otherlv_0=(Token)match(input,18,FOLLOW_18_in_ruleReference730); 
+            otherlv_0=(Token)match(input,18,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getReferenceAccess().getRefKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:377:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:378:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:378:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:379:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleReference747); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getReferenceAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getReferenceAccess().getRefKeyword_0());
             		
-
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getReferenceRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
-
-            }
-
-
-            }
-
-            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleReference764); 
-
-                	newLeafNode(otherlv_2, grammarAccess.getReferenceAccess().getColonKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:399:1: ( (otherlv_3= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:400:1: (otherlv_3= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:375:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:376:4: (lv_name_1_0= RULE_ID )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:400:1: (otherlv_3= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:401:3: otherlv_3= RULE_ID
+            // InternalSimpleWebModelingLanguage.g:376:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:377:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_11); 
+
+            					newLeafNode(lv_name_1_0, grammarAccess.getReferenceAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getReferenceRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
+
+            }
+
+
+            }
+
+            otherlv_2=(Token)match(input,17,FOLLOW_3); 
+
+            			newLeafNode(otherlv_2, grammarAccess.getReferenceAccess().getColonKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:397:3: ( (otherlv_3= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:398:4: (otherlv_3= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:398:4: (otherlv_3= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:399:5: otherlv_3= RULE_ID
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getReferenceRule());
-            	        }
-                    
-            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleReference784); 
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getReferenceRule());
+            					}
+            				
+            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-            		newLeafNode(otherlv_3, grammarAccess.getReferenceAccess().getTypeEntityCrossReference_3_0()); 
-            	
-
-            }
-
+            					newLeafNode(otherlv_3, grammarAccess.getReferenceAccess().getTypeEntityCrossReference_3_0());
+            				
 
             }
 
@@ -885,13 +896,18 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            }
+
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -900,7 +916,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleHypertextLayer"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:420:1: entryRuleHypertextLayer returns [EObject current=null] : iv_ruleHypertextLayer= ruleHypertextLayer EOF ;
+    // InternalSimpleWebModelingLanguage.g:414:1: entryRuleHypertextLayer returns [EObject current=null] : iv_ruleHypertextLayer= ruleHypertextLayer EOF ;
     public final EObject entryRuleHypertextLayer() throws RecognitionException {
         EObject current = null;
 
@@ -908,26 +924,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:421:2: (iv_ruleHypertextLayer= ruleHypertextLayer EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:422:2: iv_ruleHypertextLayer= ruleHypertextLayer EOF
+            // InternalSimpleWebModelingLanguage.g:414:55: (iv_ruleHypertextLayer= ruleHypertextLayer EOF )
+            // InternalSimpleWebModelingLanguage.g:415:2: iv_ruleHypertextLayer= ruleHypertextLayer EOF
             {
              newCompositeNode(grammarAccess.getHypertextLayerRule()); 
-            pushFollow(FOLLOW_ruleHypertextLayer_in_entryRuleHypertextLayer820);
+            pushFollow(FOLLOW_1);
             iv_ruleHypertextLayer=ruleHypertextLayer();
 
             state._fsp--;
 
              current =iv_ruleHypertextLayer; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleHypertextLayer830); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -936,7 +952,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleHypertextLayer"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:429:1: ruleHypertextLayer returns [EObject current=null] : (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:421:1: ruleHypertextLayer returns [EObject current=null] : (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' ) ;
     public final EObject ruleHypertextLayer() throws RecognitionException {
         EObject current = null;
 
@@ -947,20 +963,21 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_pages_1_0 = null;
 
 
-         enterRule(); 
-            
-        try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:432:28: ( (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:433:1: (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:433:1: (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:433:3: otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}'
-            {
-            otherlv_0=(Token)match(input,19,FOLLOW_19_in_ruleHypertextLayer867); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getHypertextLayerAccess().getHypertextKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:437:1: ( (lv_pages_1_0= rulePage ) )+
+        	enterRule();
+
+        try {
+            // InternalSimpleWebModelingLanguage.g:427:2: ( (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:428:2: (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' )
+            {
+            // InternalSimpleWebModelingLanguage.g:428:2: (otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}' )
+            // InternalSimpleWebModelingLanguage.g:429:3: otherlv_0= 'hypertext {' ( (lv_pages_1_0= rulePage ) )+ otherlv_2= 'start page is' ( (otherlv_3= RULE_ID ) ) otherlv_4= '}'
+            {
+            otherlv_0=(Token)match(input,19,FOLLOW_13); 
+
+            			newLeafNode(otherlv_0, grammarAccess.getHypertextLayerAccess().getHypertextKeyword_0());
+            		
+            // InternalSimpleWebModelingLanguage.g:433:3: ( (lv_pages_1_0= rulePage ) )+
             int cnt4=0;
             loop4:
             do {
@@ -974,30 +991,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt4) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:438:1: (lv_pages_1_0= rulePage )
+            	    // InternalSimpleWebModelingLanguage.g:434:4: (lv_pages_1_0= rulePage )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:438:1: (lv_pages_1_0= rulePage )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:439:3: lv_pages_1_0= rulePage
+            	    // InternalSimpleWebModelingLanguage.g:434:4: (lv_pages_1_0= rulePage )
+            	    // InternalSimpleWebModelingLanguage.g:435:5: lv_pages_1_0= rulePage
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getHypertextLayerAccess().getPagesPageParserRuleCall_1_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_rulePage_in_ruleHypertextLayer888);
+
+            	    					newCompositeNode(grammarAccess.getHypertextLayerAccess().getPagesPageParserRuleCall_1_0());
+            	    				
+            	    pushFollow(FOLLOW_14);
             	    lv_pages_1_0=rulePage();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getHypertextLayerRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"pages",
-            	            		lv_pages_1_0, 
-            	            		"Page");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getHypertextLayerRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"pages",
+            	    						lv_pages_1_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Page");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -1014,48 +1031,50 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 cnt4++;
             } while (true);
 
-            otherlv_2=(Token)match(input,20,FOLLOW_20_in_ruleHypertextLayer901); 
+            otherlv_2=(Token)match(input,20,FOLLOW_3); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getHypertextLayerAccess().getStartPageIsKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:459:1: ( (otherlv_3= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:460:1: (otherlv_3= RULE_ID )
+            			newLeafNode(otherlv_2, grammarAccess.getHypertextLayerAccess().getStartPageIsKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:456:3: ( (otherlv_3= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:457:4: (otherlv_3= RULE_ID )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:460:1: (otherlv_3= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:461:3: otherlv_3= RULE_ID
+            // InternalSimpleWebModelingLanguage.g:457:4: (otherlv_3= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:458:5: otherlv_3= RULE_ID
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getHypertextLayerRule());
-            	        }
-                    
-            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleHypertextLayer921); 
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getHypertextLayerRule());
+            					}
+            				
+            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_7); 
 
-            		newLeafNode(otherlv_3, grammarAccess.getHypertextLayerAccess().getStartPageStaticPageCrossReference_3_0()); 
-            	
-
-            }
-
-
-            }
-
-            otherlv_4=(Token)match(input,13,FOLLOW_13_in_ruleHypertextLayer933); 
-
-                	newLeafNode(otherlv_4, grammarAccess.getHypertextLayerAccess().getRightCurlyBracketKeyword_4());
-                
+            					newLeafNode(otherlv_3, grammarAccess.getHypertextLayerAccess().getStartPageStaticPageCrossReference_3_0());
+            				
 
             }
 
 
             }
 
-             leaveRule(); 
+            otherlv_4=(Token)match(input,13,FOLLOW_2); 
+
+            			newLeafNode(otherlv_4, grammarAccess.getHypertextLayerAccess().getRightCurlyBracketKeyword_4());
+            		
+
+            }
+
+
+            }
+
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1064,7 +1083,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRulePage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:484:1: entryRulePage returns [EObject current=null] : iv_rulePage= rulePage EOF ;
+    // InternalSimpleWebModelingLanguage.g:477:1: entryRulePage returns [EObject current=null] : iv_rulePage= rulePage EOF ;
     public final EObject entryRulePage() throws RecognitionException {
         EObject current = null;
 
@@ -1072,26 +1091,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:485:2: (iv_rulePage= rulePage EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:486:2: iv_rulePage= rulePage EOF
+            // InternalSimpleWebModelingLanguage.g:477:45: (iv_rulePage= rulePage EOF )
+            // InternalSimpleWebModelingLanguage.g:478:2: iv_rulePage= rulePage EOF
             {
              newCompositeNode(grammarAccess.getPageRule()); 
-            pushFollow(FOLLOW_rulePage_in_entryRulePage969);
+            pushFollow(FOLLOW_1);
             iv_rulePage=rulePage();
 
             state._fsp--;
 
              current =iv_rulePage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRulePage979); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1100,7 +1119,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "rulePage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:493:1: rulePage returns [EObject current=null] : (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage ) ;
+    // InternalSimpleWebModelingLanguage.g:484:1: rulePage returns [EObject current=null] : (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage ) ;
     public final EObject rulePage() throws RecognitionException {
         EObject current = null;
 
@@ -1109,13 +1128,14 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject this_DynamicPage_1 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:496:28: ( (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:497:1: (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage )
+            // InternalSimpleWebModelingLanguage.g:490:2: ( (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage ) )
+            // InternalSimpleWebModelingLanguage.g:491:2: (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:497:1: (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage )
+            // InternalSimpleWebModelingLanguage.g:491:2: (this_StaticPage_0= ruleStaticPage | this_DynamicPage_1= ruleDynamicPage )
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -1133,38 +1153,38 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
             }
             switch (alt5) {
                 case 1 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:498:5: this_StaticPage_0= ruleStaticPage
+                    // InternalSimpleWebModelingLanguage.g:492:3: this_StaticPage_0= ruleStaticPage
                     {
-                     
-                            newCompositeNode(grammarAccess.getPageAccess().getStaticPageParserRuleCall_0()); 
-                        
-                    pushFollow(FOLLOW_ruleStaticPage_in_rulePage1026);
+
+                    			newCompositeNode(grammarAccess.getPageAccess().getStaticPageParserRuleCall_0());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_StaticPage_0=ruleStaticPage();
 
                     state._fsp--;
 
-                     
-                            current = this_StaticPage_0; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_StaticPage_0;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:508:5: this_DynamicPage_1= ruleDynamicPage
+                    // InternalSimpleWebModelingLanguage.g:501:3: this_DynamicPage_1= ruleDynamicPage
                     {
-                     
-                            newCompositeNode(grammarAccess.getPageAccess().getDynamicPageParserRuleCall_1()); 
-                        
-                    pushFollow(FOLLOW_ruleDynamicPage_in_rulePage1053);
+
+                    			newCompositeNode(grammarAccess.getPageAccess().getDynamicPageParserRuleCall_1());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_DynamicPage_1=ruleDynamicPage();
 
                     state._fsp--;
 
-                     
-                            current = this_DynamicPage_1; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_DynamicPage_1;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
@@ -1174,13 +1194,15 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1189,7 +1211,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleStaticPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:524:1: entryRuleStaticPage returns [EObject current=null] : iv_ruleStaticPage= ruleStaticPage EOF ;
+    // InternalSimpleWebModelingLanguage.g:513:1: entryRuleStaticPage returns [EObject current=null] : iv_ruleStaticPage= ruleStaticPage EOF ;
     public final EObject entryRuleStaticPage() throws RecognitionException {
         EObject current = null;
 
@@ -1197,26 +1219,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:525:2: (iv_ruleStaticPage= ruleStaticPage EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:526:2: iv_ruleStaticPage= ruleStaticPage EOF
+            // InternalSimpleWebModelingLanguage.g:513:51: (iv_ruleStaticPage= ruleStaticPage EOF )
+            // InternalSimpleWebModelingLanguage.g:514:2: iv_ruleStaticPage= ruleStaticPage EOF
             {
              newCompositeNode(grammarAccess.getStaticPageRule()); 
-            pushFollow(FOLLOW_ruleStaticPage_in_entryRuleStaticPage1088);
+            pushFollow(FOLLOW_1);
             iv_ruleStaticPage=ruleStaticPage();
 
             state._fsp--;
 
              current =iv_ruleStaticPage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleStaticPage1098); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1225,7 +1247,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleStaticPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:533:1: ruleStaticPage returns [EObject current=null] : (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:520:1: ruleStaticPage returns [EObject current=null] : (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' ) ;
     public final EObject ruleStaticPage() throws RecognitionException {
         EObject current = null;
 
@@ -1236,50 +1258,51 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_links_3_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:536:28: ( (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:537:1: (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' )
+            // InternalSimpleWebModelingLanguage.g:526:2: ( (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:527:2: (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:537:1: (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:537:3: otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}'
+            // InternalSimpleWebModelingLanguage.g:527:2: (otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}' )
+            // InternalSimpleWebModelingLanguage.g:528:3: otherlv_0= 'static page' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( (lv_links_3_0= ruleLink ) )* otherlv_4= '}'
             {
-            otherlv_0=(Token)match(input,21,FOLLOW_21_in_ruleStaticPage1135); 
+            otherlv_0=(Token)match(input,21,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getStaticPageAccess().getStaticPageKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:541:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:542:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:542:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:543:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleStaticPage1152); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getStaticPageAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getStaticPageAccess().getStaticPageKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:532:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:533:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:533:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:534:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_4); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getStaticPageRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getStaticPageAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getStaticPageRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            otherlv_2=(Token)match(input,12,FOLLOW_12_in_ruleStaticPage1169); 
+            otherlv_2=(Token)match(input,12,FOLLOW_15); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getStaticPageAccess().getLeftCurlyBracketKeyword_2());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:563:1: ( (lv_links_3_0= ruleLink ) )*
+            			newLeafNode(otherlv_2, grammarAccess.getStaticPageAccess().getLeftCurlyBracketKeyword_2());
+            		
+            // InternalSimpleWebModelingLanguage.g:554:3: ( (lv_links_3_0= ruleLink ) )*
             loop6:
             do {
                 int alt6=2;
@@ -1292,30 +1315,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt6) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:564:1: (lv_links_3_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:555:4: (lv_links_3_0= ruleLink )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:564:1: (lv_links_3_0= ruleLink )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:565:3: lv_links_3_0= ruleLink
+            	    // InternalSimpleWebModelingLanguage.g:555:4: (lv_links_3_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:556:5: lv_links_3_0= ruleLink
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getStaticPageAccess().getLinksLinkParserRuleCall_3_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleLink_in_ruleStaticPage1190);
+
+            	    					newCompositeNode(grammarAccess.getStaticPageAccess().getLinksLinkParserRuleCall_3_0());
+            	    				
+            	    pushFollow(FOLLOW_15);
             	    lv_links_3_0=ruleLink();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getStaticPageRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"links",
-            	            		lv_links_3_0, 
-            	            		"Link");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getStaticPageRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"links",
+            	    						lv_links_3_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Link");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -1328,23 +1351,25 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            otherlv_4=(Token)match(input,13,FOLLOW_13_in_ruleStaticPage1203); 
+            otherlv_4=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_4, grammarAccess.getStaticPageAccess().getRightCurlyBracketKeyword_4());
-                
+            			newLeafNode(otherlv_4, grammarAccess.getStaticPageAccess().getRightCurlyBracketKeyword_4());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1353,7 +1378,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleLink"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:593:1: entryRuleLink returns [EObject current=null] : iv_ruleLink= ruleLink EOF ;
+    // InternalSimpleWebModelingLanguage.g:581:1: entryRuleLink returns [EObject current=null] : iv_ruleLink= ruleLink EOF ;
     public final EObject entryRuleLink() throws RecognitionException {
         EObject current = null;
 
@@ -1361,26 +1386,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:594:2: (iv_ruleLink= ruleLink EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:595:2: iv_ruleLink= ruleLink EOF
+            // InternalSimpleWebModelingLanguage.g:581:45: (iv_ruleLink= ruleLink EOF )
+            // InternalSimpleWebModelingLanguage.g:582:2: iv_ruleLink= ruleLink EOF
             {
              newCompositeNode(grammarAccess.getLinkRule()); 
-            pushFollow(FOLLOW_ruleLink_in_entryRuleLink1239);
+            pushFollow(FOLLOW_1);
             iv_ruleLink=ruleLink();
 
             state._fsp--;
 
              current =iv_ruleLink; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLink1249); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1389,41 +1414,42 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleLink"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:602:1: ruleLink returns [EObject current=null] : (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) ) ;
+    // InternalSimpleWebModelingLanguage.g:588:1: ruleLink returns [EObject current=null] : (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) ) ;
     public final EObject ruleLink() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
         Token otherlv_1=null;
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:605:28: ( (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:606:1: (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) )
+            // InternalSimpleWebModelingLanguage.g:594:2: ( (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) ) )
+            // InternalSimpleWebModelingLanguage.g:595:2: (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:606:1: (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:606:3: otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:595:2: (otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) ) )
+            // InternalSimpleWebModelingLanguage.g:596:3: otherlv_0= 'link to page' ( (otherlv_1= RULE_ID ) )
             {
-            otherlv_0=(Token)match(input,22,FOLLOW_22_in_ruleLink1286); 
+            otherlv_0=(Token)match(input,22,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getLinkAccess().getLinkToPageKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:610:1: ( (otherlv_1= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:611:1: (otherlv_1= RULE_ID )
+            			newLeafNode(otherlv_0, grammarAccess.getLinkAccess().getLinkToPageKeyword_0());
+            		
+            // InternalSimpleWebModelingLanguage.g:600:3: ( (otherlv_1= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:601:4: (otherlv_1= RULE_ID )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:611:1: (otherlv_1= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:612:3: otherlv_1= RULE_ID
+            // InternalSimpleWebModelingLanguage.g:601:4: (otherlv_1= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:602:5: otherlv_1= RULE_ID
             {
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getLinkRule());
-            	        }
-                    
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLink1306); 
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getLinkRule());
+            					}
+            				
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-            		newLeafNode(otherlv_1, grammarAccess.getLinkAccess().getTargetPageCrossReference_1_0()); 
-            	
+            					newLeafNode(otherlv_1, grammarAccess.getLinkAccess().getTargetPageCrossReference_1_0());
+            				
 
             }
 
@@ -1436,13 +1462,15 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1451,7 +1479,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleDynamicPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:631:1: entryRuleDynamicPage returns [EObject current=null] : iv_ruleDynamicPage= ruleDynamicPage EOF ;
+    // InternalSimpleWebModelingLanguage.g:617:1: entryRuleDynamicPage returns [EObject current=null] : iv_ruleDynamicPage= ruleDynamicPage EOF ;
     public final EObject entryRuleDynamicPage() throws RecognitionException {
         EObject current = null;
 
@@ -1459,26 +1487,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:632:2: (iv_ruleDynamicPage= ruleDynamicPage EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:633:2: iv_ruleDynamicPage= ruleDynamicPage EOF
+            // InternalSimpleWebModelingLanguage.g:617:52: (iv_ruleDynamicPage= ruleDynamicPage EOF )
+            // InternalSimpleWebModelingLanguage.g:618:2: iv_ruleDynamicPage= ruleDynamicPage EOF
             {
              newCompositeNode(grammarAccess.getDynamicPageRule()); 
-            pushFollow(FOLLOW_ruleDynamicPage_in_entryRuleDynamicPage1342);
+            pushFollow(FOLLOW_1);
             iv_ruleDynamicPage=ruleDynamicPage();
 
             state._fsp--;
 
              current =iv_ruleDynamicPage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleDynamicPage1352); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1487,7 +1515,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleDynamicPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:640:1: ruleDynamicPage returns [EObject current=null] : (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage ) ;
+    // InternalSimpleWebModelingLanguage.g:624:1: ruleDynamicPage returns [EObject current=null] : (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage ) ;
     public final EObject ruleDynamicPage() throws RecognitionException {
         EObject current = null;
 
@@ -1496,13 +1524,14 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject this_DataPage_1 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:643:28: ( (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:644:1: (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage )
+            // InternalSimpleWebModelingLanguage.g:630:2: ( (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage ) )
+            // InternalSimpleWebModelingLanguage.g:631:2: (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:644:1: (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage )
+            // InternalSimpleWebModelingLanguage.g:631:2: (this_IndexPage_0= ruleIndexPage | this_DataPage_1= ruleDataPage )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1520,38 +1549,38 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
             }
             switch (alt7) {
                 case 1 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:645:5: this_IndexPage_0= ruleIndexPage
+                    // InternalSimpleWebModelingLanguage.g:632:3: this_IndexPage_0= ruleIndexPage
                     {
-                     
-                            newCompositeNode(grammarAccess.getDynamicPageAccess().getIndexPageParserRuleCall_0()); 
-                        
-                    pushFollow(FOLLOW_ruleIndexPage_in_ruleDynamicPage1399);
+
+                    			newCompositeNode(grammarAccess.getDynamicPageAccess().getIndexPageParserRuleCall_0());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_IndexPage_0=ruleIndexPage();
 
                     state._fsp--;
 
-                     
-                            current = this_IndexPage_0; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_IndexPage_0;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:655:5: this_DataPage_1= ruleDataPage
+                    // InternalSimpleWebModelingLanguage.g:641:3: this_DataPage_1= ruleDataPage
                     {
-                     
-                            newCompositeNode(grammarAccess.getDynamicPageAccess().getDataPageParserRuleCall_1()); 
-                        
-                    pushFollow(FOLLOW_ruleDataPage_in_ruleDynamicPage1426);
+
+                    			newCompositeNode(grammarAccess.getDynamicPageAccess().getDataPageParserRuleCall_1());
+                    		
+                    pushFollow(FOLLOW_2);
                     this_DataPage_1=ruleDataPage();
 
                     state._fsp--;
 
-                     
-                            current = this_DataPage_1; 
-                            afterParserOrEnumRuleCall();
-                        
+
+                    			current = this_DataPage_1;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
@@ -1561,13 +1590,15 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1576,7 +1607,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleIndexPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:671:1: entryRuleIndexPage returns [EObject current=null] : iv_ruleIndexPage= ruleIndexPage EOF ;
+    // InternalSimpleWebModelingLanguage.g:653:1: entryRuleIndexPage returns [EObject current=null] : iv_ruleIndexPage= ruleIndexPage EOF ;
     public final EObject entryRuleIndexPage() throws RecognitionException {
         EObject current = null;
 
@@ -1584,26 +1615,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:672:2: (iv_ruleIndexPage= ruleIndexPage EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:673:2: iv_ruleIndexPage= ruleIndexPage EOF
+            // InternalSimpleWebModelingLanguage.g:653:50: (iv_ruleIndexPage= ruleIndexPage EOF )
+            // InternalSimpleWebModelingLanguage.g:654:2: iv_ruleIndexPage= ruleIndexPage EOF
             {
              newCompositeNode(grammarAccess.getIndexPageRule()); 
-            pushFollow(FOLLOW_ruleIndexPage_in_entryRuleIndexPage1461);
+            pushFollow(FOLLOW_1);
             iv_ruleIndexPage=ruleIndexPage();
 
             state._fsp--;
 
              current =iv_ruleIndexPage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleIndexPage1471); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1612,7 +1643,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleIndexPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:680:1: ruleIndexPage returns [EObject current=null] : (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:660:1: ruleIndexPage returns [EObject current=null] : (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) ;
     public final EObject ruleIndexPage() throws RecognitionException {
         EObject current = null;
 
@@ -1625,46 +1656,47 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_links_5_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:683:28: ( (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:684:1: (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
+            // InternalSimpleWebModelingLanguage.g:666:2: ( (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:667:2: (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:684:1: (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:684:3: otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}'
+            // InternalSimpleWebModelingLanguage.g:667:2: (otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
+            // InternalSimpleWebModelingLanguage.g:668:3: otherlv_0= 'index page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}'
             {
-            otherlv_0=(Token)match(input,23,FOLLOW_23_in_ruleIndexPage1508); 
+            otherlv_0=(Token)match(input,23,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getIndexPageAccess().getIndexPageKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:688:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:689:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:689:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:690:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleIndexPage1525); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getIndexPageAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getIndexPageAccess().getIndexPageKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:672:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:673:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:673:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:674:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_16); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getIndexPageRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getIndexPageAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getIndexPageRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:706:2: (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )?
+            // InternalSimpleWebModelingLanguage.g:690:3: (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1673,27 +1705,27 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
             }
             switch (alt8) {
                 case 1 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:706:4: otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) )
+                    // InternalSimpleWebModelingLanguage.g:691:4: otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) )
                     {
-                    otherlv_2=(Token)match(input,24,FOLLOW_24_in_ruleIndexPage1543); 
+                    otherlv_2=(Token)match(input,24,FOLLOW_3); 
 
-                        	newLeafNode(otherlv_2, grammarAccess.getIndexPageAccess().getShowsEntityKeyword_2_0());
-                        
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:710:1: ( (otherlv_3= RULE_ID ) )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:711:1: (otherlv_3= RULE_ID )
+                    				newLeafNode(otherlv_2, grammarAccess.getIndexPageAccess().getShowsEntityKeyword_2_0());
+                    			
+                    // InternalSimpleWebModelingLanguage.g:695:4: ( (otherlv_3= RULE_ID ) )
+                    // InternalSimpleWebModelingLanguage.g:696:5: (otherlv_3= RULE_ID )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:711:1: (otherlv_3= RULE_ID )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:712:3: otherlv_3= RULE_ID
+                    // InternalSimpleWebModelingLanguage.g:696:5: (otherlv_3= RULE_ID )
+                    // InternalSimpleWebModelingLanguage.g:697:6: otherlv_3= RULE_ID
                     {
 
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getIndexPageRule());
-                    	        }
-                            
-                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleIndexPage1563); 
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getIndexPageRule());
+                    						}
+                    					
+                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_4); 
 
-                    		newLeafNode(otherlv_3, grammarAccess.getIndexPageAccess().getEntityEntityCrossReference_2_1_0()); 
-                    	
+                    						newLeafNode(otherlv_3, grammarAccess.getIndexPageAccess().getEntityEntityCrossReference_2_1_0());
+                    					
 
                     }
 
@@ -1706,11 +1738,11 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-            otherlv_4=(Token)match(input,12,FOLLOW_12_in_ruleIndexPage1577); 
+            otherlv_4=(Token)match(input,12,FOLLOW_15); 
 
-                	newLeafNode(otherlv_4, grammarAccess.getIndexPageAccess().getLeftCurlyBracketKeyword_3());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:727:1: ( (lv_links_5_0= ruleLink ) )*
+            			newLeafNode(otherlv_4, grammarAccess.getIndexPageAccess().getLeftCurlyBracketKeyword_3());
+            		
+            // InternalSimpleWebModelingLanguage.g:713:3: ( (lv_links_5_0= ruleLink ) )*
             loop9:
             do {
                 int alt9=2;
@@ -1723,30 +1755,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt9) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:728:1: (lv_links_5_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:714:4: (lv_links_5_0= ruleLink )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:728:1: (lv_links_5_0= ruleLink )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:729:3: lv_links_5_0= ruleLink
+            	    // InternalSimpleWebModelingLanguage.g:714:4: (lv_links_5_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:715:5: lv_links_5_0= ruleLink
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getIndexPageAccess().getLinksLinkParserRuleCall_4_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleLink_in_ruleIndexPage1598);
+
+            	    					newCompositeNode(grammarAccess.getIndexPageAccess().getLinksLinkParserRuleCall_4_0());
+            	    				
+            	    pushFollow(FOLLOW_15);
             	    lv_links_5_0=ruleLink();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getIndexPageRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"links",
-            	            		lv_links_5_0, 
-            	            		"Link");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getIndexPageRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"links",
+            	    						lv_links_5_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Link");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -1759,23 +1791,25 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            otherlv_6=(Token)match(input,13,FOLLOW_13_in_ruleIndexPage1611); 
+            otherlv_6=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_6, grammarAccess.getIndexPageAccess().getRightCurlyBracketKeyword_5());
-                
+            			newLeafNode(otherlv_6, grammarAccess.getIndexPageAccess().getRightCurlyBracketKeyword_5());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1784,7 +1818,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "entryRuleDataPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:757:1: entryRuleDataPage returns [EObject current=null] : iv_ruleDataPage= ruleDataPage EOF ;
+    // InternalSimpleWebModelingLanguage.g:740:1: entryRuleDataPage returns [EObject current=null] : iv_ruleDataPage= ruleDataPage EOF ;
     public final EObject entryRuleDataPage() throws RecognitionException {
         EObject current = null;
 
@@ -1792,26 +1826,26 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:758:2: (iv_ruleDataPage= ruleDataPage EOF )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:759:2: iv_ruleDataPage= ruleDataPage EOF
+            // InternalSimpleWebModelingLanguage.g:740:49: (iv_ruleDataPage= ruleDataPage EOF )
+            // InternalSimpleWebModelingLanguage.g:741:2: iv_ruleDataPage= ruleDataPage EOF
             {
              newCompositeNode(grammarAccess.getDataPageRule()); 
-            pushFollow(FOLLOW_ruleDataPage_in_entryRuleDataPage1647);
+            pushFollow(FOLLOW_1);
             iv_ruleDataPage=ruleDataPage();
 
             state._fsp--;
 
              current =iv_ruleDataPage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleDataPage1657); 
+            match(input,EOF,FOLLOW_2); 
 
             }
 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1820,7 +1854,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleDataPage"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:766:1: ruleDataPage returns [EObject current=null] : (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) ;
+    // InternalSimpleWebModelingLanguage.g:747:1: ruleDataPage returns [EObject current=null] : (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) ;
     public final EObject ruleDataPage() throws RecognitionException {
         EObject current = null;
 
@@ -1833,46 +1867,47 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         EObject lv_links_5_0 = null;
 
 
-         enterRule(); 
-            
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:769:28: ( (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:770:1: (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
+            // InternalSimpleWebModelingLanguage.g:753:2: ( (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' ) )
+            // InternalSimpleWebModelingLanguage.g:754:2: (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:770:1: (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:770:3: otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}'
+            // InternalSimpleWebModelingLanguage.g:754:2: (otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}' )
+            // InternalSimpleWebModelingLanguage.g:755:3: otherlv_0= 'data page' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )? otherlv_4= '{' ( (lv_links_5_0= ruleLink ) )* otherlv_6= '}'
             {
-            otherlv_0=(Token)match(input,25,FOLLOW_25_in_ruleDataPage1694); 
+            otherlv_0=(Token)match(input,25,FOLLOW_3); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getDataPageAccess().getDataPageKeyword_0());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:774:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:775:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:775:1: (lv_name_1_0= RULE_ID )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:776:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleDataPage1711); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getDataPageAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(otherlv_0, grammarAccess.getDataPageAccess().getDataPageKeyword_0());
             		
+            // InternalSimpleWebModelingLanguage.g:759:3: ( (lv_name_1_0= RULE_ID ) )
+            // InternalSimpleWebModelingLanguage.g:760:4: (lv_name_1_0= RULE_ID )
+            {
+            // InternalSimpleWebModelingLanguage.g:760:4: (lv_name_1_0= RULE_ID )
+            // InternalSimpleWebModelingLanguage.g:761:5: lv_name_1_0= RULE_ID
+            {
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_16); 
 
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getDataPageRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_1_0, 
-                    		"ID");
-            	    
+            					newLeafNode(lv_name_1_0, grammarAccess.getDataPageAccess().getNameIDTerminalRuleCall_1_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getDataPageRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_1_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
 
             }
 
 
             }
 
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:792:2: (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )?
+            // InternalSimpleWebModelingLanguage.g:777:3: (otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) ) )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1881,27 +1916,27 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
             }
             switch (alt10) {
                 case 1 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:792:4: otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) )
+                    // InternalSimpleWebModelingLanguage.g:778:4: otherlv_2= 'shows entity' ( (otherlv_3= RULE_ID ) )
                     {
-                    otherlv_2=(Token)match(input,24,FOLLOW_24_in_ruleDataPage1729); 
+                    otherlv_2=(Token)match(input,24,FOLLOW_3); 
 
-                        	newLeafNode(otherlv_2, grammarAccess.getDataPageAccess().getShowsEntityKeyword_2_0());
-                        
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:796:1: ( (otherlv_3= RULE_ID ) )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:797:1: (otherlv_3= RULE_ID )
+                    				newLeafNode(otherlv_2, grammarAccess.getDataPageAccess().getShowsEntityKeyword_2_0());
+                    			
+                    // InternalSimpleWebModelingLanguage.g:782:4: ( (otherlv_3= RULE_ID ) )
+                    // InternalSimpleWebModelingLanguage.g:783:5: (otherlv_3= RULE_ID )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:797:1: (otherlv_3= RULE_ID )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:798:3: otherlv_3= RULE_ID
+                    // InternalSimpleWebModelingLanguage.g:783:5: (otherlv_3= RULE_ID )
+                    // InternalSimpleWebModelingLanguage.g:784:6: otherlv_3= RULE_ID
                     {
 
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getDataPageRule());
-                    	        }
-                            
-                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleDataPage1749); 
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getDataPageRule());
+                    						}
+                    					
+                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_4); 
 
-                    		newLeafNode(otherlv_3, grammarAccess.getDataPageAccess().getEntityEntityCrossReference_2_1_0()); 
-                    	
+                    						newLeafNode(otherlv_3, grammarAccess.getDataPageAccess().getEntityEntityCrossReference_2_1_0());
+                    					
 
                     }
 
@@ -1914,11 +1949,11 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-            otherlv_4=(Token)match(input,12,FOLLOW_12_in_ruleDataPage1763); 
+            otherlv_4=(Token)match(input,12,FOLLOW_15); 
 
-                	newLeafNode(otherlv_4, grammarAccess.getDataPageAccess().getLeftCurlyBracketKeyword_3());
-                
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:813:1: ( (lv_links_5_0= ruleLink ) )*
+            			newLeafNode(otherlv_4, grammarAccess.getDataPageAccess().getLeftCurlyBracketKeyword_3());
+            		
+            // InternalSimpleWebModelingLanguage.g:800:3: ( (lv_links_5_0= ruleLink ) )*
             loop11:
             do {
                 int alt11=2;
@@ -1931,30 +1966,30 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
                 switch (alt11) {
             	case 1 :
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:814:1: (lv_links_5_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:801:4: (lv_links_5_0= ruleLink )
             	    {
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:814:1: (lv_links_5_0= ruleLink )
-            	    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:815:3: lv_links_5_0= ruleLink
+            	    // InternalSimpleWebModelingLanguage.g:801:4: (lv_links_5_0= ruleLink )
+            	    // InternalSimpleWebModelingLanguage.g:802:5: lv_links_5_0= ruleLink
             	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getDataPageAccess().getLinksLinkParserRuleCall_4_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleLink_in_ruleDataPage1784);
+
+            	    					newCompositeNode(grammarAccess.getDataPageAccess().getLinksLinkParserRuleCall_4_0());
+            	    				
+            	    pushFollow(FOLLOW_15);
             	    lv_links_5_0=ruleLink();
 
             	    state._fsp--;
 
 
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getDataPageRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"links",
-            	            		lv_links_5_0, 
-            	            		"Link");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
+            	    					if (current==null) {
+            	    						current = createModelElementForParent(grammarAccess.getDataPageRule());
+            	    					}
+            	    					add(
+            	    						current,
+            	    						"links",
+            	    						lv_links_5_0,
+            	    						"org.eclipse.emf.refactor.examples.SimpleWebModelingLanguage.Link");
+            	    					afterParserOrEnumRuleCall();
+            	    				
 
             	    }
 
@@ -1967,23 +2002,25 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                 }
             } while (true);
 
-            otherlv_6=(Token)match(input,13,FOLLOW_13_in_ruleDataPage1797); 
+            otherlv_6=(Token)match(input,13,FOLLOW_2); 
 
-                	newLeafNode(otherlv_6, grammarAccess.getDataPageAccess().getRightCurlyBracketKeyword_5());
-                
+            			newLeafNode(otherlv_6, grammarAccess.getDataPageAccess().getRightCurlyBracketKeyword_5());
+            		
+
+            }
+
 
             }
 
 
-            }
+            	leaveRule();
 
-             leaveRule(); 
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -1992,7 +2029,7 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
 
     // $ANTLR start "ruleSimpleType"
-    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:843:1: ruleSimpleType returns [Enumerator current=null] : ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) ) ;
+    // InternalSimpleWebModelingLanguage.g:827:1: ruleSimpleType returns [Enumerator current=null] : ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) ) ;
     public final Enumerator ruleSimpleType() throws RecognitionException {
         Enumerator current = null;
 
@@ -2002,12 +2039,14 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
         Token enumLiteral_3=null;
         Token enumLiteral_4=null;
 
-         enterRule(); 
+
+        	enterRule();
+
         try {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:845:28: ( ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) ) )
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:846:1: ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) )
+            // InternalSimpleWebModelingLanguage.g:833:2: ( ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) ) )
+            // InternalSimpleWebModelingLanguage.g:834:2: ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) )
             {
-            // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:846:1: ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) )
+            // InternalSimpleWebModelingLanguage.g:834:2: ( (enumLiteral_0= 'Boolean' ) | (enumLiteral_1= 'Email' ) | (enumLiteral_2= 'Float' ) | (enumLiteral_3= 'Integer' ) | (enumLiteral_4= 'String' ) )
             int alt12=5;
             switch ( input.LA(1) ) {
             case 26:
@@ -2044,16 +2083,16 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             switch (alt12) {
                 case 1 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:846:2: (enumLiteral_0= 'Boolean' )
+                    // InternalSimpleWebModelingLanguage.g:835:3: (enumLiteral_0= 'Boolean' )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:846:2: (enumLiteral_0= 'Boolean' )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:846:4: enumLiteral_0= 'Boolean'
+                    // InternalSimpleWebModelingLanguage.g:835:3: (enumLiteral_0= 'Boolean' )
+                    // InternalSimpleWebModelingLanguage.g:836:4: enumLiteral_0= 'Boolean'
                     {
-                    enumLiteral_0=(Token)match(input,26,FOLLOW_26_in_ruleSimpleType1847); 
+                    enumLiteral_0=(Token)match(input,26,FOLLOW_2); 
 
-                            current = grammarAccess.getSimpleTypeAccess().getBooleanEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_0, grammarAccess.getSimpleTypeAccess().getBooleanEnumLiteralDeclaration_0()); 
-                        
+                    				current = grammarAccess.getSimpleTypeAccess().getBooleanEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_0, grammarAccess.getSimpleTypeAccess().getBooleanEnumLiteralDeclaration_0());
+                    			
 
                     }
 
@@ -2061,16 +2100,16 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                     }
                     break;
                 case 2 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:852:6: (enumLiteral_1= 'Email' )
+                    // InternalSimpleWebModelingLanguage.g:843:3: (enumLiteral_1= 'Email' )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:852:6: (enumLiteral_1= 'Email' )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:852:8: enumLiteral_1= 'Email'
+                    // InternalSimpleWebModelingLanguage.g:843:3: (enumLiteral_1= 'Email' )
+                    // InternalSimpleWebModelingLanguage.g:844:4: enumLiteral_1= 'Email'
                     {
-                    enumLiteral_1=(Token)match(input,27,FOLLOW_27_in_ruleSimpleType1864); 
+                    enumLiteral_1=(Token)match(input,27,FOLLOW_2); 
 
-                            current = grammarAccess.getSimpleTypeAccess().getEmailEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_1, grammarAccess.getSimpleTypeAccess().getEmailEnumLiteralDeclaration_1()); 
-                        
+                    				current = grammarAccess.getSimpleTypeAccess().getEmailEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_1, grammarAccess.getSimpleTypeAccess().getEmailEnumLiteralDeclaration_1());
+                    			
 
                     }
 
@@ -2078,16 +2117,16 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                     }
                     break;
                 case 3 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:858:6: (enumLiteral_2= 'Float' )
+                    // InternalSimpleWebModelingLanguage.g:851:3: (enumLiteral_2= 'Float' )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:858:6: (enumLiteral_2= 'Float' )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:858:8: enumLiteral_2= 'Float'
+                    // InternalSimpleWebModelingLanguage.g:851:3: (enumLiteral_2= 'Float' )
+                    // InternalSimpleWebModelingLanguage.g:852:4: enumLiteral_2= 'Float'
                     {
-                    enumLiteral_2=(Token)match(input,28,FOLLOW_28_in_ruleSimpleType1881); 
+                    enumLiteral_2=(Token)match(input,28,FOLLOW_2); 
 
-                            current = grammarAccess.getSimpleTypeAccess().getFloatEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_2, grammarAccess.getSimpleTypeAccess().getFloatEnumLiteralDeclaration_2()); 
-                        
+                    				current = grammarAccess.getSimpleTypeAccess().getFloatEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_2, grammarAccess.getSimpleTypeAccess().getFloatEnumLiteralDeclaration_2());
+                    			
 
                     }
 
@@ -2095,16 +2134,16 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                     }
                     break;
                 case 4 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:864:6: (enumLiteral_3= 'Integer' )
+                    // InternalSimpleWebModelingLanguage.g:859:3: (enumLiteral_3= 'Integer' )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:864:6: (enumLiteral_3= 'Integer' )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:864:8: enumLiteral_3= 'Integer'
+                    // InternalSimpleWebModelingLanguage.g:859:3: (enumLiteral_3= 'Integer' )
+                    // InternalSimpleWebModelingLanguage.g:860:4: enumLiteral_3= 'Integer'
                     {
-                    enumLiteral_3=(Token)match(input,29,FOLLOW_29_in_ruleSimpleType1898); 
+                    enumLiteral_3=(Token)match(input,29,FOLLOW_2); 
 
-                            current = grammarAccess.getSimpleTypeAccess().getIntegerEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_3, grammarAccess.getSimpleTypeAccess().getIntegerEnumLiteralDeclaration_3()); 
-                        
+                    				current = grammarAccess.getSimpleTypeAccess().getIntegerEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_3, grammarAccess.getSimpleTypeAccess().getIntegerEnumLiteralDeclaration_3());
+                    			
 
                     }
 
@@ -2112,16 +2151,16 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
                     }
                     break;
                 case 5 :
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:870:6: (enumLiteral_4= 'String' )
+                    // InternalSimpleWebModelingLanguage.g:867:3: (enumLiteral_4= 'String' )
                     {
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:870:6: (enumLiteral_4= 'String' )
-                    // ../org.eclipse.emf.refactor.examples.swml.xtext/src-gen/org/eclipse/emf/refactor/examples/parser/antlr/internal/InternalSimpleWebModelingLanguage.g:870:8: enumLiteral_4= 'String'
+                    // InternalSimpleWebModelingLanguage.g:867:3: (enumLiteral_4= 'String' )
+                    // InternalSimpleWebModelingLanguage.g:868:4: enumLiteral_4= 'String'
                     {
-                    enumLiteral_4=(Token)match(input,30,FOLLOW_30_in_ruleSimpleType1915); 
+                    enumLiteral_4=(Token)match(input,30,FOLLOW_2); 
 
-                            current = grammarAccess.getSimpleTypeAccess().getStringEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
-                            newLeafNode(enumLiteral_4, grammarAccess.getSimpleTypeAccess().getStringEnumLiteralDeclaration_4()); 
-                        
+                    				current = grammarAccess.getSimpleTypeAccess().getStringEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+                    				newLeafNode(enumLiteral_4, grammarAccess.getSimpleTypeAccess().getStringEnumLiteralDeclaration_4());
+                    			
 
                     }
 
@@ -2134,13 +2173,15 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
             }
 
-             leaveRule(); 
+
+            	leaveRule();
+
         }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
+
+            catch (RecognitionException re) {
+                recover(input,re);
                 appendSkippedTokens();
-            } 
+            }
         finally {
         }
         return current;
@@ -2152,87 +2193,21 @@ public class InternalSimpleWebModelingLanguageParser extends AbstractInternalAnt
 
  
 
-    public static final BitSet FOLLOW_ruleWebModel_in_entryRuleWebModel75 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleWebModel85 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_11_in_ruleWebModel122 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleWebModel139 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleWebModel156 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_ruleDataLayer_in_ruleWebModel177 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_ruleHypertextLayer_in_ruleWebModel198 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_ruleWebModel210 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleDataLayer_in_entryRuleDataLayer246 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleDataLayer256 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_14_in_ruleDataLayer293 = new BitSet(new long[]{0x000000000000A000L});
-    public static final BitSet FOLLOW_ruleEntity_in_ruleDataLayer323 = new BitSet(new long[]{0x000000000000A000L});
-    public static final BitSet FOLLOW_13_in_ruleDataLayer336 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleEntity_in_entryRuleEntity372 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleEntity382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_15_in_ruleEntity419 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleEntity436 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleEntity453 = new BitSet(new long[]{0x0000000000052000L});
-    public static final BitSet FOLLOW_ruleAttribute_in_ruleEntity474 = new BitSet(new long[]{0x0000000000052000L});
-    public static final BitSet FOLLOW_ruleReference_in_ruleEntity496 = new BitSet(new long[]{0x0000000000042000L});
-    public static final BitSet FOLLOW_13_in_ruleEntity509 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleAttribute_in_entryRuleAttribute545 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleAttribute555 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_ruleAttribute592 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleAttribute609 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleAttribute626 = new BitSet(new long[]{0x000000007C000000L});
-    public static final BitSet FOLLOW_ruleSimpleType_in_ruleAttribute647 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleReference_in_entryRuleReference683 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleReference693 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_18_in_ruleReference730 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleReference747 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleReference764 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleReference784 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleHypertextLayer_in_entryRuleHypertextLayer820 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleHypertextLayer830 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_19_in_ruleHypertextLayer867 = new BitSet(new long[]{0x0000000002A00000L});
-    public static final BitSet FOLLOW_rulePage_in_ruleHypertextLayer888 = new BitSet(new long[]{0x0000000002B00000L});
-    public static final BitSet FOLLOW_20_in_ruleHypertextLayer901 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleHypertextLayer921 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_ruleHypertextLayer933 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePage_in_entryRulePage969 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRulePage979 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleStaticPage_in_rulePage1026 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleDynamicPage_in_rulePage1053 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleStaticPage_in_entryRuleStaticPage1088 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleStaticPage1098 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_21_in_ruleStaticPage1135 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleStaticPage1152 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleStaticPage1169 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_ruleLink_in_ruleStaticPage1190 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_13_in_ruleStaticPage1203 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleLink_in_entryRuleLink1239 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLink1249 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_22_in_ruleLink1286 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleLink1306 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleDynamicPage_in_entryRuleDynamicPage1342 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleDynamicPage1352 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleIndexPage_in_ruleDynamicPage1399 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleDataPage_in_ruleDynamicPage1426 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleIndexPage_in_entryRuleIndexPage1461 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleIndexPage1471 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_23_in_ruleIndexPage1508 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleIndexPage1525 = new BitSet(new long[]{0x0000000001001000L});
-    public static final BitSet FOLLOW_24_in_ruleIndexPage1543 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleIndexPage1563 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleIndexPage1577 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_ruleLink_in_ruleIndexPage1598 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_13_in_ruleIndexPage1611 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleDataPage_in_entryRuleDataPage1647 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleDataPage1657 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_25_in_ruleDataPage1694 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleDataPage1711 = new BitSet(new long[]{0x0000000001001000L});
-    public static final BitSet FOLLOW_24_in_ruleDataPage1729 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleDataPage1749 = new BitSet(new long[]{0x0000000000001000L});
-    public static final BitSet FOLLOW_12_in_ruleDataPage1763 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_ruleLink_in_ruleDataPage1784 = new BitSet(new long[]{0x0000000000402000L});
-    public static final BitSet FOLLOW_13_in_ruleDataPage1797 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_26_in_ruleSimpleType1847 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_27_in_ruleSimpleType1864 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_28_in_ruleSimpleType1881 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_29_in_ruleSimpleType1898 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_30_in_ruleSimpleType1915 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_1 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_2 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_3 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_4 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_5 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_6 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x000000000000A000L});
+    public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000052000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000042000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x000000007C000000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000002A00000L});
+    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000002B00000L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000000402000L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000001001000L});
 
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qzJ5AyG_EeW9Z9d85a4DZw" name="CREATE_IndexPage_IN_HypertextLayer_(pages)" description="Creates one IndexPage in HypertextLayer">
+  <annotations xmi:id="_qzJ5BCG_EeW9Z9d85a4DZw" key="INVERSE" value="DELETE_IndexPage_IN_HypertextLayer_(pages)"/>
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qzJ5BSG_EeW9Z9d85a4DZw" name="createIndexPage_IN_HypertextLayer" description="creates one IndexPage in the context: HypertextLayer">
+    <parameters xmi:id="_qzJ5BiG_EeW9Z9d85a4DZw" name="Selected"/>
+    <parameters xmi:id="_qzJ5ByG_EeW9Z9d85a4DZw" name="New"/>
+    <parameters xmi:id="_qzJ5CCG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_qzJ5CSG_EeW9Z9d85a4DZw" name="Lhs">
+      <nodes xmi:id="_qzJ5CiG_EeW9Z9d85a4DZw" name="Selected">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qzJ5CyG_EeW9Z9d85a4DZw" name="Rhs">
+      <nodes xmi:id="_qzJ5DCG_EeW9Z9d85a4DZw" name="Selected" outgoing="_qzJ5DyG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer"/>
+      </nodes>
+      <nodes xmi:id="_qzJ5DSG_EeW9Z9d85a4DZw" name="New" incoming="_qzJ5DyG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//IndexPage"/>
+        <attributes xmi:id="_qzJ5DiG_EeW9Z9d85a4DZw" value="Name">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_qzJ5DyG_EeW9Z9d85a4DZw" source="_qzJ5DCG_EeW9Z9d85a4DZw" target="_qzJ5DSG_EeW9Z9d85a4DZw">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//HypertextLayer/pages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_qzJ5ECG_EeW9Z9d85a4DZw" origin="_qzJ5CiG_EeW9Z9d85a4DZw" image="_qzJ5DCG_EeW9Z9d85a4DZw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qzJ5ESG_EeW9Z9d85a4DZw" name="mainUnit" subUnits="_qzJ5BSG_EeW9Z9d85a4DZw">
+    <parameters xmi:id="_qzJ5EiG_EeW9Z9d85a4DZw" name="selectedEObject">
+      <annotations xmi:id="_qzJ5EyG_EeW9Z9d85a4DZw" key="INVERSE" value="selectedEObject"/>
+    </parameters>
+    <parameters xmi:id="_qzJ5FCG_EeW9Z9d85a4DZw" name="New">
+      <annotations xmi:id="_qzJ5FSG_EeW9Z9d85a4DZw" key="INVERSE" value="ToBeDeleted"/>
+    </parameters>
+    <parameters xmi:id="_qzJ5FiG_EeW9Z9d85a4DZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_qzJ5FyG_EeW9Z9d85a4DZw" source="_qzJ5EiG_EeW9Z9d85a4DZw" target="_qzJ5BiG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzJ5GCG_EeW9Z9d85a4DZw" source="_qzJ5ByG_EeW9Z9d85a4DZw" target="_qzJ5FCG_EeW9Z9d85a4DZw"/>
+    <parameterMappings xmi:id="_qzJ5GSG_EeW9Z9d85a4DZw" source="_qzJ5FiG_EeW9Z9d85a4DZw" target="_qzJ5CCG_EeW9Z9d85a4DZw"/>
+  </units>
+</henshin:Module>

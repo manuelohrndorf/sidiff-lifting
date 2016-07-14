@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_j0e3sCA-EeOZpvWoQUwWyA" name="Remove Multiple Links From Page" description="Removes redundant links to the same page">
+  <imports href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_mSdWACA-EeOZpvWoQUwWyA" name="removeMultipleLinksFromPage">
+    <parameters xmi:id="_orr3MCA-EeOZpvWoQUwWyA" name="selectedEObject"/>
+    <lhs xmi:id="_mVCI4CA-EeOZpvWoQUwWyA" name="Lhs">
+      <nodes xmi:id="_DHc0MCOIEeOfpZD8gweVMg" incoming="_ObpsUCOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_EoTi8COIEeOfpZD8gweVMg" name="selectedEObject" outgoing="_N0e-oCOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_KhgyACOIEeOfpZD8gweVMg" incoming="_N0e-oCOIEeOfpZD8gweVMg" outgoing="_ObpsUCOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+      </nodes>
+      <edges xmi:id="_N0e-oCOIEeOfpZD8gweVMg" source="_EoTi8COIEeOfpZD8gweVMg" target="_KhgyACOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+      </edges>
+      <edges xmi:id="_ObpsUCOIEeOfpZD8gweVMg" source="_KhgyACOIEeOfpZD8gweVMg" target="_DHc0MCOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mVCv8CA-EeOZpvWoQUwWyA" name="Rhs">
+      <nodes xmi:id="_DHc0MSOIEeOfpZD8gweVMg" incoming="_ObpsUSOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_EoUKACOIEeOfpZD8gweVMg" name="selectedEObject" outgoing="_N0e-oSOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+      </nodes>
+      <nodes xmi:id="_KhgyASOIEeOfpZD8gweVMg" incoming="_N0e-oSOIEeOfpZD8gweVMg" outgoing="_ObpsUSOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+      </nodes>
+      <edges xmi:id="_N0e-oSOIEeOfpZD8gweVMg" source="_EoUKACOIEeOfpZD8gweVMg" target="_KhgyASOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+      </edges>
+      <edges xmi:id="_ObpsUSOIEeOfpZD8gweVMg" source="_KhgyASOIEeOfpZD8gweVMg" target="_DHc0MSOIEeOfpZD8gweVMg">
+        <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_DHdbQCOIEeOfpZD8gweVMg" origin="_DHc0MCOIEeOfpZD8gweVMg" image="_DHc0MSOIEeOfpZD8gweVMg"/>
+    <mappings xmi:id="_EoUKASOIEeOfpZD8gweVMg" origin="_EoTi8COIEeOfpZD8gweVMg" image="_EoUKACOIEeOfpZD8gweVMg"/>
+    <mappings xmi:id="_KhgyAiOIEeOfpZD8gweVMg" origin="_KhgyACOIEeOfpZD8gweVMg" image="_KhgyASOIEeOfpZD8gweVMg"/>
+    <multiRules xmi:id="_bDFt8COIEeOfpZD8gweVMg">
+      <parameters xmi:id="_fyig8CU9EeWA_JsNG1WtgQ" name="selectedEObject"/>
+      <lhs xmi:id="_bDGVACOIEeOfpZD8gweVMg" name="Lhs">
+        <nodes xmi:id="_bDHjIyOIEeOfpZD8gweVMg" incoming="_bDIKMCOIEeOfpZD8gweVMg _XxKDICOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+        </nodes>
+        <nodes xmi:id="_bDHjJSOIEeOfpZD8gweVMg" incoming="_bDJYUCOIEeOfpZD8gweVMg" outgoing="_bDIKMCOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+        </nodes>
+        <nodes xmi:id="_UdtVYCOIEeOfpZD8gweVMg" incoming="_XFVe8COIEeOfpZD8gweVMg" outgoing="_XxKDICOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+        </nodes>
+        <nodes xmi:id="_bDIxRCOIEeOfpZD8gweVMg" name="selectedEObject" outgoing="_bDJYUCOIEeOfpZD8gweVMg _XFVe8COIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+        </nodes>
+        <edges xmi:id="_bDIKMCOIEeOfpZD8gweVMg" source="_bDHjJSOIEeOfpZD8gweVMg" target="_bDHjIyOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+        </edges>
+        <edges xmi:id="_bDJYUCOIEeOfpZD8gweVMg" source="_bDIxRCOIEeOfpZD8gweVMg" target="_bDHjJSOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+        </edges>
+        <edges xmi:id="_XFVe8COIEeOfpZD8gweVMg" source="_bDIxRCOIEeOfpZD8gweVMg" target="_UdtVYCOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+        </edges>
+        <edges xmi:id="_XxKDICOIEeOfpZD8gweVMg" source="_UdtVYCOIEeOfpZD8gweVMg" target="_bDHjIyOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+        </edges>
+      </lhs>
+      <rhs xmi:id="_bDGVASOIEeOfpZD8gweVMg" name="Rhs">
+        <nodes xmi:id="_bDG8ECOIEeOfpZD8gweVMg" incoming="_bDG8FCOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+        </nodes>
+        <nodes xmi:id="_bDG8EiOIEeOfpZD8gweVMg" incoming="_bDIxQiOIEeOfpZD8gweVMg" outgoing="_bDG8FCOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link"/>
+        </nodes>
+        <nodes xmi:id="_bDIxQCOIEeOfpZD8gweVMg" name="selectedEObject" outgoing="_bDIxQiOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page"/>
+        </nodes>
+        <edges xmi:id="_bDG8FCOIEeOfpZD8gweVMg" source="_bDG8EiOIEeOfpZD8gweVMg" target="_bDG8ECOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Link/target"/>
+        </edges>
+        <edges xmi:id="_bDIxQiOIEeOfpZD8gweVMg" source="_bDIxQCOIEeOfpZD8gweVMg" target="_bDG8EiOIEeOfpZD8gweVMg">
+          <type href="http://www.eclipse.org/emf/refactor/examples/SimpleWebModelingLanguage#//Page/links"/>
+        </edges>
+      </rhs>
+      <mappings xmi:id="_bDIKNCOIEeOfpZD8gweVMg" origin="_bDHjIyOIEeOfpZD8gweVMg" image="_bDG8ECOIEeOfpZD8gweVMg"/>
+      <mappings xmi:id="_bDJYUiOIEeOfpZD8gweVMg" origin="_bDIxRCOIEeOfpZD8gweVMg" image="_bDIxQCOIEeOfpZD8gweVMg"/>
+      <mappings xmi:id="_bDJYUyOIEeOfpZD8gweVMg" origin="_bDHjJSOIEeOfpZD8gweVMg" image="_bDG8EiOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDG8ESOIEeOfpZD8gweVMg" origin="_DHc0MSOIEeOfpZD8gweVMg" image="_bDG8ECOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDG8EyOIEeOfpZD8gweVMg" origin="_KhgyASOIEeOfpZD8gweVMg" image="_bDG8EiOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDHjJCOIEeOfpZD8gweVMg" origin="_DHc0MCOIEeOfpZD8gweVMg" image="_bDHjIyOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDHjJiOIEeOfpZD8gweVMg" origin="_KhgyACOIEeOfpZD8gweVMg" image="_bDHjJSOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDIxQSOIEeOfpZD8gweVMg" origin="_EoUKACOIEeOfpZD8gweVMg" image="_bDIxQCOIEeOfpZD8gweVMg"/>
+      <multiMappings xmi:id="_bDIxRSOIEeOfpZD8gweVMg" origin="_EoTi8COIEeOfpZD8gweVMg" image="_bDIxRCOIEeOfpZD8gweVMg"/>
+    </multiRules>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_MCcGYCLREeOfpZD8gweVMg" name="mainUnit" subUnits="_mSdWACA-EeOZpvWoQUwWyA">
+    <parameters xmi:id="_Y7_ywCLREeOfpZD8gweVMg" name="selectedEObject"/>
+    <parameterMappings xmi:id="_gHmd0CLREeOfpZD8gweVMg" source="_Y7_ywCLREeOfpZD8gweVMg" target="_orr3MCA-EeOZpvWoQUwWyA"/>
+  </units>
+</henshin:Module>

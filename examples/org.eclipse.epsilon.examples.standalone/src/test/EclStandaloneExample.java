@@ -89,7 +89,7 @@ public class EclStandaloneExample {
 		properties.put(EmfModel.PROPERTY_MODEL_URI, getFile(model).toURI().toString());
 		properties.put(EmfModel.PROPERTY_READONLOAD, readOnLoad + "");
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
-		emfModel.load(properties, null);
+		emfModel.load(properties);
 		return emfModel;
 	}
 
