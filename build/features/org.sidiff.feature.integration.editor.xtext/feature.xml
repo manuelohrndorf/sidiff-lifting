@@ -2,9 +2,9 @@
 <feature
       id="org.sidiff.feature.integration.editor.xtext"
       label="Xtext Editor Integration"
-      version="1.0.0"
+      version="1.0.0.qualifier"
       provider-name="Software Engineering Group, University of Siegen"
-      plugin="org.silift.integration.editor.xtext.branding">
+      plugin="org.sidiff.branding.core">
 
    <description url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/">
       This plugin enables support for Xtext Editors.
@@ -142,13 +142,12 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </license>
 
    <url>
-      <update label="SiDiff" url="http://www.sidiff.org"/>
+      <update label="SiLift UpdateSite" url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/updateSite"/>
    </url>
 
    <requires>
-      <import feature="org.silift.core" version="0.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecoretools"/>
+      <import feature="org.sidiff.feature.differencing" version="1.0.0.qualifier"/>
+      <import feature="org.eclipse.xtext.sdk" version="2.10.0.v201605250459"/>
    </requires>
 
    <plugin
@@ -164,11 +163,5 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
          install-size="0"
          version="1.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.sidiff.branding.integration.editor.xtext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
 </feature>
