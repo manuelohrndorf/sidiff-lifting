@@ -303,6 +303,10 @@ public class RecognitionEngine {
 
 			// Filter rules
 			if (!filtered.contains(transformationUnit)) {
+				if (transformationUnit.getName().contains("extract")) {
+					System.out.println("RecognitionEngine.executeParallel()");
+				}
+				
 				if (units.size() == rulesPerThread) {
 					// Start new recognizer thread
 					RecognizerThread recognizerThread = new RecognizerThread(units, this);

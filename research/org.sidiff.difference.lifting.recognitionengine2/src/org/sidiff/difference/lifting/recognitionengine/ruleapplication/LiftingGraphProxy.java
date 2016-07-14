@@ -71,6 +71,9 @@ public class LiftingGraphProxy implements EGraph {
 		this.modelAGraph = modelAGraph;
 		this.modelBGraph = modelBGraph;
 		this.liftingGraphDomainMap = liftingGraphDomainMap;
+		
+		// Add multi-rules to the blueprint:
+		recognitionRuleBlueprint.appendMultiRules();
 	}
 	
 	@Override
