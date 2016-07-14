@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
@@ -665,7 +666,35 @@ public class HenshinRuleAnalysisUtilEx {
 		assert (false) : "No lhs node found";
 		return null;
 	}
-	
+
+	/**
+	 * @param rule
+	 *            The rule from which the changes will be collected.
+	 * @return All changes (<< delete >> / << create >> nodes / edges) of the
+	 *         given rule.
+	 */
+	public static List<GraphElement> getChanges(Rule rule) {
+		List<GraphElement> changes = new ArrayList<GraphElement>();
+
+		for (Node deleteNode : getLHSMinusRHSNodes(rule)) {
+			changes.add(deleteNode);
+		}
+
+		for (Edge deleteEdge : getLHSMinusRHSEdges(rule)) {
+			changes.add(deleteEdge);
+		}
+
+		for (Node createNode : getRHSMinusLHSNodes(rule)) {
+			changes.add(createNode);
+		}
+
+		for (Edge createEdge : getRHSMinusLHSEdges(rule)) {
+			changes.add(createEdge);
+		}
+
+		return changes;
+	}
+
 	/**
 	 * Returns all << delete >> edges of a rule.
 	 * 

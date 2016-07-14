@@ -1,6 +1,6 @@
 package org.sidiff.difference.lifting.edit2recognition;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -151,7 +151,7 @@ public class Edit2RecognitionTransformation implements EditPattern2RecognitionPa
 	}
 
 	@Override
-	public Collection<TransformationPatterns> getPatterns() {
+	public Map<Unit, TransformationPatterns> getPatterns() {
 		return transformation.getPatterns();
 	}
 }

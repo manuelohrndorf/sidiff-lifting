@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -374,6 +375,28 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 				return editRuleAttachments != null && !editRuleAttachments.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Shrinks the contained lists to the minimal size.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void shrink() {
+		
+		// Compress attachment list:
+		if (editRuleAttachments instanceof BasicEList) {
+			((BasicEList<?>) editRuleAttachments).shrink();
+		}
+		
+		// Compress edit-rule:
+		if (getEditRule().getClassification() instanceof BasicEList) {
+			((BasicEList<?>) getEditRule().getClassification()).shrink();
+		}
+		if (getEditRule().getParameters() instanceof BasicEList) {
+			((BasicEList<?>) getEditRule().getParameters()).shrink();
+		}
 	}
 
 } //RuleBaseItemImpl

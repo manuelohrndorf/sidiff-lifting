@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
@@ -38,6 +39,19 @@ public class RecognitionRuleUtil {
 				|| (node.getType() == SYMMETRIC_PACKAGE.getRemoveReference())
 				|| (node.getType() == SYMMETRIC_PACKAGE.getAttributeValueChange())) {
 			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean isTypeNode(Node node) {
+		
+		for (Edge outgoing : node.getOutgoing()) {
+			if ( (outgoing.getType() == SYMMETRIC_PACKAGE.getAddReference_Type())
+					|| (outgoing.getType() == SYMMETRIC_PACKAGE.getRemoveReference_Type())
+					|| (outgoing.getType() == SYMMETRIC_PACKAGE.getAttributeValueChange_Type())) {
+				return true;
+			}
 		}
 		
 		return false;

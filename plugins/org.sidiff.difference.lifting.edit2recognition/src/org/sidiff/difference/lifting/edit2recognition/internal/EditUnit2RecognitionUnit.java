@@ -2,8 +2,8 @@ package org.sidiff.difference.lifting.edit2recognition.internal;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
@@ -192,7 +192,7 @@ public class EditUnit2RecognitionUnit implements EditPattern2RecognitionPattern 
 	}
 
 	@Override
-	public Collection<TransformationPatterns> getPatterns() {
+	public Map<Unit, TransformationPatterns> getPatterns() {
 		return transformation.getPatterns();
 	}
 }

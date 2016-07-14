@@ -30,7 +30,7 @@ import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfigur
 import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isOptionalAttributeValueChange;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1383,9 +1383,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 	}
 	
 	@Override
-	public Collection<TransformationPatterns> getPatterns() {
-		List<TransformationPatterns> patternList = new ArrayList<TransformationPatterns>(1);
-		patternList.add(patterns);
-		return patternList;
+	public Map<Unit, TransformationPatterns> getPatterns() {
+		return Collections.singletonMap((Unit) editRule, patterns);
 	}
 }
