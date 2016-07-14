@@ -93,7 +93,8 @@ public class LiftingGraphProxy implements EGraph {
 		} 
 		
 		// Correspondence:
-		else if (type == MATCHING_PACKAGE.getCorrespondence()) { 
+		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
+			// TODO: Record correspondence types in blueprint and create correspondence type map!?
 			// TODO: Can be optimized if the variable is known!
 			// TODO: We better optimize correspondences through cross-references!
 			return new ArrayList<EObject>(liftingGraphDomainMap.getDifference().getMatching().getCorrespondences());
