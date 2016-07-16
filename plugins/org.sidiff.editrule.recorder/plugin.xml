@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates an edit-rule based on a model difference."
+            id="org.sidiff.editrule.recorder.createeditrule"
+            name="Create Example based Edit-Rule">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+         <handler
+            class="org.sidiff.editrule.recorder.CreateEditRuleHandler"
+            commandId="org.sidiff.editrule.recorder.createeditrule">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.difference.lifting.ui.definition.difference">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.silift.menu?after=header">
+         <command
+               commandId="org.sidiff.editrule.recorder.createeditrule"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>
