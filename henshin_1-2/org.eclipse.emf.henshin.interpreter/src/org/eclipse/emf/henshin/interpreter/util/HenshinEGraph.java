@@ -87,8 +87,8 @@ public class HenshinEGraph extends EGraphImpl implements Adapter {
 				EClass nodeType = node.getType();
 				EFactory factory = nodeType.getEPackage().getEFactoryInstance();
 				eObject = factory.create(nodeType);
-				add(eObject);
 				addSynchronizedPair(node, eObject);
+				add(eObject);
 			}
 			
 			for (Attribute attr : node.getAttributes()) {
