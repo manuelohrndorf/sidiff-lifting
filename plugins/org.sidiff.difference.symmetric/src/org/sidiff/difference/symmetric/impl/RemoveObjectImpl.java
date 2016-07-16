@@ -153,5 +153,10 @@ public class RemoveObjectImpl extends ChangeImpl implements RemoveObject {
 		}
 		return super.eIsSet(featureID);
 	}
-
+	
+	@Override
+	public String toString() {
+		return super.toString() + " (type: " + obj.eClass().getName() + ")";
+	}
+	
 } //RemoveObjectImpl

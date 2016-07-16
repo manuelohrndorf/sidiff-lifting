@@ -274,5 +274,11 @@ public class AttributeValueChangeImpl extends ChangeImpl implements AttributeVal
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	
+	@Override
+	public String toString() {
+		return super.toString() + " (type: " + type.getName() + ")";
+	}
 
 } //AttributeValueChangeImpl
