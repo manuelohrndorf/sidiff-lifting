@@ -376,6 +376,25 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return newNode;
 	}
+	
+	/**
+	 * Creates a << create >> node.
+	 * 
+	 * @param name
+	 *            the name of the new node.
+	 * @param type
+	 *            the type of the new node.
+	 * @param rule
+	 *            the rule under which the node should be created.
+	 * @return the new node.
+	 */
+	public static Node createCreateNode(String name, EClass type, Rule rule) {
+
+		Node newNode = HenshinFactory.eINSTANCE.createNode(rule.getRhs(), type, name);
+		newNode.setName(name); // only required because of a bug in factory method createNode: name will not be set.
+
+		return newNode;
+	}
 
 	/**
 	 * Creates a << create >> edge between nodes and automatically for its
@@ -2452,8 +2471,12 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding LHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getLHS(Node rhsNode) {
-		return HenshinRuleAnalysisUtilEx.getRemoteNode(
-				rhsNode.getGraph().getRule().getMappings(), rhsNode);
+		if (rhsNode.getGraph().isLhs()) {
+			return rhsNode;
+		} else {
+			return HenshinRuleAnalysisUtilEx.getRemoteNode(
+					rhsNode.getGraph().getRule().getMappings(), rhsNode);
+		}
 	}
 	
 	/**
@@ -2464,8 +2487,12 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding RHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getRHS(Node lhsNode) {
-		return HenshinRuleAnalysisUtilEx.getRemoteNode(
-				lhsNode.getGraph().getRule().getMappings(), lhsNode);
+		if (lhsNode.getGraph().isRhs()) {
+			return lhsNode;
+		} else {
+			return HenshinRuleAnalysisUtilEx.getRemoteNode(
+					lhsNode.getGraph().getRule().getMappings(), lhsNode);
+		}
 	}
 	
 	/**
