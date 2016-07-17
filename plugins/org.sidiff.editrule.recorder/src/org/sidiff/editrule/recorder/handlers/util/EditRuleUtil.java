@@ -94,16 +94,20 @@ public class EditRuleUtil {
 		Parameter mainUnitInputParameter = HenshinFactory.eINSTANCE.createParameter(name);
 		Parameter editRuleParameter = HenshinFactory.eINSTANCE.createParameter(name);
 		
+		if (mainRule != null) {
+			if (mainRule.getParameter(name) == null) {
+				mainRule.getParameters().add(editRuleParameter);
+			} else {
+				editRuleParameter = mainRule.getParameter(name);
+			}
+		}
+		
 		ParameterMapping mainUnitInputParameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
 		mainUnitInputParameterMapping.setSource(mainUnitInputParameter);
 		mainUnitInputParameterMapping.setTarget(editRuleParameter);
-		
+
 		mainUnit.getParameters().add(mainUnitInputParameter);
 		mainUnit.getParameterMappings().add(mainUnitInputParameterMapping);
-		
-		if (mainRule != null) {
-			mainRule.getParameters().add(editRuleParameter);
-		}
 	}
 	
 	public static void renameIdentifier(GraphElement element, String newIdentifier) {

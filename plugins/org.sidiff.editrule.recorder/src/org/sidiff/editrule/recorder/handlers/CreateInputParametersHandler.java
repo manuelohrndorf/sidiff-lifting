@@ -1,22 +1,26 @@
 package org.sidiff.editrule.recorder.handlers;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getPreservedNodes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRules;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
 import org.sidiff.editrule.recorder.handlers.util.UIUtil;
@@ -36,30 +40,40 @@ public class CreateInputParametersHandler extends AbstractHandler {
 			
 			// Create dialog:
 			ElementListSelectionDialog selectDialog = new ElementListSelectionDialog(
-					Display.getDefault().getActiveShell(), new LabelProvider() {
-						@Override
-						public String getText(Object element) {
-
-							if (element instanceof NodePair) {
-								return ((NodePair) element).getLhsNode().getName() + " : "
-										+ ((NodePair) element).getLhsNode().getType().getName();
-							}
-
-							return super.getText(element);
-						}
-					});
+					Display.getDefault().getActiveShell(), new LabelProvider());
 			selectDialog.setTitle("Create Input-Parameters");
 			selectDialog.setHelpAvailable(false);
 			selectDialog.setMultipleSelection(true);
 			
-			// Collect preserve nodes:
-			List<NodePair> preserveNodes = new ArrayList<>();
+			// Collect possible parameters:
+			List<GraphElement> graphElements = new ArrayList<>();
+			Set<String> identifiers = new HashSet<>();
+			
+			for (Parameter inputParameters : EditRuleUtil.getMainUnit(editRule).getParameters()) {
+				identifiers.add(inputParameters.getName());
+			}
 			
 			getRules(editRule).forEach(rule -> {
-				preserveNodes.addAll(getPreservedNodes(rule));
+				
+				// LHS nodes:
+				rule.getLhs().getNodes().forEach(lhsNode -> {
+					if (!identifiers.contains(getIdentifier(lhsNode))) {
+						graphElements.add(lhsNode);
+					}
+				});
+				
+				// Attributes:
+				rule.eAllContents().forEachRemaining((element -> {
+					if (element instanceof Attribute) {
+						if (!identifiers.contains(getIdentifier(element))) {
+							graphElements.add((GraphElement) element);
+							identifiers.add(getIdentifier(element));
+						}
+					}
+				}));
 			});
 			
-			selectDialog.setElements(preserveNodes.toArray());
+			selectDialog.setElements(graphElements.toArray());
 			
 			// Open dialog:
 			selectDialog.open();
@@ -67,8 +81,8 @@ public class CreateInputParametersHandler extends AbstractHandler {
 			// Create Input-Parameter:
 			if (selectDialog.getResult() != null) {
 				for(Object selection : selectDialog.getResult()) {
-					if (selection instanceof NodePair) {
-						EditRuleUtil.createInputParameter(editRule, ((NodePair) selection).getLhsNode().getName());
+					if (selection instanceof GraphElement) {
+						EditRuleUtil.createInputParameter(editRule, getIdentifier(selection));
 					}
 				}
 				
@@ -81,6 +95,22 @@ public class CreateInputParametersHandler extends AbstractHandler {
 				
 				UIUtil.showMessage("Edit-Rule saved:\n\n" + EcoreUtil.getURI(editRule).toPlatformString(true));
 			}
+		}
+		
+		return null;
+	}
+	
+	private String getIdentifier(Object element) {
+		if (element instanceof GraphElement) {
+			String identifier = null;
+			
+			if (element instanceof Node) {
+				identifier = ((Node) element).getName();
+			} else if (element instanceof Attribute) {
+				identifier = ((Attribute) element).getValue();
+			}
+			
+			return identifier;
 		}
 		
 		return null;
