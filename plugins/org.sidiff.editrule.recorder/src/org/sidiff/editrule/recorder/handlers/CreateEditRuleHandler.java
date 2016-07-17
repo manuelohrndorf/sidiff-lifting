@@ -1,7 +1,11 @@
-package org.sidiff.editrule.recorder;
+package org.sidiff.editrule.recorder.handlers;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createDeleteEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createDeleteNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHS;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -15,15 +19,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -32,11 +34,6 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.symmetric.AddObject;
@@ -45,55 +42,52 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
+import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 import org.sidiff.matching.model.Correspondence;
 
+/**
+ * Transforms a symmetric difference into an edit-rule.
+ * 
+ * @author Manuel Ohrndorf
+ */
 public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 
 	private static final String UNKNOWN_NAMES = "#";
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		SymmetricDifference difference = EMFHandlerUtil.getSelection(event, SymmetricDifference.class);
+		
+		if (difference != null) {
+			Module module = createEditRule(difference);
 
-		if (selection instanceof IStructuredSelection) {
-			Object selected = ((IStructuredSelection) selection).getFirstElement();
-			
-			if ((selected != null) && (selected instanceof IResource)) {
-				ResourceSet rss = new ResourceSetImpl();
-				URI diffURI = getURI((IResource) selected);
-				Resource diffRes = rss.getResource(diffURI, true);
+			if (module != null) {
+				module.getImports().addAll(EditRuleUtil.getImports(module));
 				
-				if ((diffRes != null) && !diffRes.getContents().isEmpty() 
-						&& (diffRes.getContents().get(0) instanceof SymmetricDifference)) {
-					
-					SymmetricDifference diff = (SymmetricDifference) diffRes.getContents().get(0);
-					Module module = createEditRule(diff);
-					
-					if (module != null) {
-						URI eoURI = diffURI.trimSegments(1)
-								.appendSegment(module.getName() + "_execute")
-								.appendFileExtension("henshin");
-						Resource eoRes = rss.createResource(eoURI);
-						eoRes.getContents().add(module);
-						
-						try {
-							eoRes.save(Collections.emptyMap());
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						
-						showMessage("Edit-Rule saved:\n\n" + eoURI.toPlatformString(true));
-						return null;
-					} else {
-						showError("Could not transform this difference to an edit-rule.");
-					}
+				URI eoURI = EcoreUtil.getURI(difference).trimSegments(1)
+						.appendSegment(module.getName() + "_execute")
+						.appendFileExtension("henshin");
+				Resource eoRes = difference.eResource().getResourceSet().createResource(eoURI);
+				eoRes.getContents().add(module);
+
+				try {
+					eoRes.save(Collections.emptyMap());
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+
+				UIUtil.showMessage("Edit-Rule saved:\n\n" + eoURI.toPlatformString(true));
+				return null;
+			} else {
+				UIUtil.showError("Could not transform this difference to an edit-rule.");
+				return null;
 			}
+		} else {
+			UIUtil.showError("The selected resource does not contain a model difference.");
+			return null;
 		}
-		
-		showError("The selected resource does not contain a model difference.");
-		
-		return null;
 	}
 	
 	@SuppressWarnings({ "unchecked" })
@@ -205,7 +199,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 			
 			NodePair srcNode = new NodePair(srcNodeA, srcNodeB);
 			
-			for (EStructuralFeature feature : modelB.eClass().getEStructuralFeatures()) {
+			for (EStructuralFeature feature : modelB.eClass().getEAllStructuralFeatures()) {
 				if (feature instanceof EReference) {
 					Collection<EObject> targets = Collections.emptyList();
 					Object value = modelB.eGet(feature);
@@ -315,28 +309,5 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 		
 		return false;
-	}
-	
-	private static URI getURI(IResource workbenchResource) {
-
-		String projectName = workbenchResource.getProject().getName();
-		String filePath = workbenchResource.getProjectRelativePath().toOSString();
-		String platformPath = projectName + "/" + filePath;
-
-		return URI.createPlatformResourceURI(platformPath, true);
-	}
-	
-	private static void showMessage(String message) {
-		MessageDialog.openInformation(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart().getTitle(),
-				message);
-	}
-	
-	private static void showError(String message) {
-		MessageDialog.openError(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart().getTitle(),
-				message);
 	}
 }

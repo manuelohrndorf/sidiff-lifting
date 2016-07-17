@@ -6,32 +6,284 @@
       <command
             categoryId="org.sidiff.difference.ui.category.silift"
             description="Creates an edit-rule based on a model difference."
-            id="org.sidiff.editrule.recorder.createeditrule"
+            id="org.sidiff.editrule.recorder.command.createeditrule"
             name="Create Example based Edit-Rule">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Makes all preserve and delete nodes as abstract as possible."
+            id="org.sidiff.editrule.recorder.command.makeabstract"
+            name="Make Edit-Rule Abstract">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Cleans up the henshin rule meta-model imports."
+            id="org.sidiff.editrule.recorder.command.cleanupimports"
+            name="Clean Up Meta-Model Imports">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Cleans up unused Henshin rule parameters."
+            id="org.sidiff.editrule.recorder.command.cleanupparameters"
+            name="Clean Up Edit-Rule Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates input-parameters for a henshin rule."
+            id="org.sidiff.editrule.recorder.command.createinputparameters"
+            name="Create Edit-Rule Input-Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates a parameter for each attribute variable."
+            id="org.sidiff.editrule.recorder.command.createattributeparameters"
+            name="Attribute Variables/Values To Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Renames node names and attribute variables."
+            id="org.sidiff.editrule.recorder.command.renameidentifier"
+            name="Rename Edit-Rule Identifiers">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description=" Renames an edit-rule: file, module, rule, diagram"
+            id="org.sidiff.editrule.recorder.command.renamerule"
+            name="Rename Edit-Rule">
       </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
          <handler
-            class="org.sidiff.editrule.recorder.CreateEditRuleHandler"
-            commandId="org.sidiff.editrule.recorder.createeditrule">
+            class="org.sidiff.editrule.recorder.handlers.CreateEditRuleHandler"
+            commandId="org.sidiff.editrule.recorder.command.createeditrule">
          <activeWhen>
             <reference
                   definitionId="org.sidiff.difference.lifting.ui.definition.difference">
             </reference>
          </activeWhen>
       </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.MakeRuleAbstractHandler"
+               commandId="org.sidiff.editrule.recorder.command.makeabstract">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.CleanUpImportsHandler"
+               commandId="org.sidiff.editrule.recorder.command.cleanupimports">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.CleanUpParametersHandler"
+               commandId="org.sidiff.editrule.recorder.command.cleanupparameters">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.CreateInputParametersHandler"
+               commandId="org.sidiff.editrule.recorder.command.createinputparameters">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.CreateAttributeParametersHandler"
+               commandId="org.sidiff.editrule.recorder.command.createattributeparameters">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.RenameEditRuleIdentifiersHandler"
+               commandId="org.sidiff.editrule.recorder.command.renameidentifier">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.RenameEditRuleHandler"
+               commandId="org.sidiff.editrule.recorder.command.renamerule">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="popup:org.silift.menu?after=header">
-         <command
-               commandId="org.sidiff.editrule.recorder.createeditrule"
-               style="push">
-         </command>
+         <separator
+               name="org.sidiff.editrule.recorder.separatorTop"
+               visible="true">
+         </separator>
+         <menu
+               label="Edit-Rules">
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.createeditrule"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.makeabstract"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.cleanupimports"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.cleanupparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.createinputparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.createattributeparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.renameidentifier"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.renamerule"
+                  style="push">
+            </command>
+         </menu>
+         <separator
+               name="org.sidiff.editrule.recorder.separatorBottom"
+               visible="true">
+         </separator>
       </menuContribution>
    </extension>
-
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.emf.henshin.fileextension">
+         <adapt type="org.eclipse.core.resources.IResource">
+            <or>
+                <test property="org.eclipse.core.resources.extension"
+                      value="henshin">
+                </test>
+            </or>
+         </adapt>
+      </definition>
+   </extension>
 </plugin>
