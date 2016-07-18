@@ -83,7 +83,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 		this.setWindowTitle("Workspace Update Wizard");
 
 		this.mergeModels = new WSUModels(fileMine, fileTheirs, fileBase);
-		this.liftingSettings = new LiftingSettings(mergeModels.getDocumentType());
+		this.liftingSettings = new LiftingSettings(mergeModels.getDocumentTypes());
 		this.patchingSettings = new PatchingSettings();
 	}
 

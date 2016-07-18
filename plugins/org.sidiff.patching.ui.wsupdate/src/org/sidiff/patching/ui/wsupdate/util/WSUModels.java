@@ -1,5 +1,9 @@
 package org.sidiff.patching.ui.wsupdate.util;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -17,7 +21,7 @@ public class WSUModels {
 	private Resource resourceTheirs;
 	private Resource resourceBase;
 
-	private String documentType;
+	private Set<String> documentTypes;
 
 	public WSUModels(IFile fileMine, IFile fileTheirs, IFile fileBase) {
 		this.fileMine = fileMine;
@@ -85,12 +89,16 @@ public class WSUModels {
 		return resourceBase;
 	}
 
-	public String getDocumentType() {
-		if (documentType == null) {
-			documentType = EMFModelAccess.getCharacteristicDocumentType(getResourceMine());
+	public Set<String> getDocumentTypes() {
+		if (documentTypes == null) {
+			List<Resource> resources = new ArrayList<Resource>();
+			resources.add(getResourceMine());
+			resources.add(getResourceTheirs());
+			resources.add(getResourceBase());
+			documentTypes = EMFModelAccess.getDocumentTypes(resources);
 		}
 
-		return documentType;
+		return documentTypes;
 	}
 
 	public void setModelMine(IFile fileMine) {
