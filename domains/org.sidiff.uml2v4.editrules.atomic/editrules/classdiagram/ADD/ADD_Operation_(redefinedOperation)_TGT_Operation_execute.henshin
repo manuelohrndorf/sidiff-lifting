@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AuxZIE2yEeabIJmk86SN2w" name="ADD_Operation_(redefinedOperation)_TGT_Operation" description="Adds to Operation's reference redefinedOperation the target Operation">
+  <annotations xmi:id="_AuxZIU2yEeabIJmk86SN2w" key="INVERSE" value="REMOVE_Operation_(redefinedOperation)_TGT_Operation"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AuxZIk2yEeabIJmk86SN2w" name="addToOperation_redefinedOperation_Operation" description="Adds to Operation's reference redefinedOperation the target Operation">
+    <parameters xmi:id="_AuxZI02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AuxZJE2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <lhs xmi:id="_AuxZJU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AuxZJk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_AuxZJ02yEeabIJmk86SN2w" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AuxZKE2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AuxZKU2yEeabIJmk86SN2w" name="Selected" outgoing="_AuxZK02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_AuxZKk2yEeabIJmk86SN2w" name="NewTarget" incoming="_AuxZK02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <edges xmi:id="_AuxZK02yEeabIJmk86SN2w" source="_AuxZKU2yEeabIJmk86SN2w" target="_AuxZKk2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/redefinedOperation"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AuxZLE2yEeabIJmk86SN2w" origin="_AuxZJk2yEeabIJmk86SN2w" image="_AuxZKU2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AuxZLU2yEeabIJmk86SN2w" origin="_AuxZJ02yEeabIJmk86SN2w" image="_AuxZKk2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AuxZLk2yEeabIJmk86SN2w" name="mainUnit" subUnits="_AuxZIk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AuxZL02yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AuxZME2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AuxZMU2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameterMappings xmi:id="_AuxZMk2yEeabIJmk86SN2w" source="_AuxZL02yEeabIJmk86SN2w" target="_AuxZI02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AuxZM02yEeabIJmk86SN2w" source="_AuxZMU2yEeabIJmk86SN2w" target="_AuxZJE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

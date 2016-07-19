@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_As4iwE2yEeabIJmk86SN2w" name="UNSET_ATTRIBUTE_Abstraction_Visibility" description="Sets Abstraction Visibility">
+  <annotations xmi:id="_As4iwU2yEeabIJmk86SN2w" key="INVERSE" value="SET_ATTRIBUTE_Abstraction_Visibility"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_As4iwk2yEeabIJmk86SN2w" name="setAbstractionVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_As4iw02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_As4ixE2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_As4ixU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_As4ixk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+        <attributes xmi:id="_As4ix02yEeabIJmk86SN2w" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_As4iyE2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_As4iyU2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_As4iyk2yEeabIJmk86SN2w" origin="_As4ixk2yEeabIJmk86SN2w" image="_As4iyU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_As4iy02yEeabIJmk86SN2w" name="mainUnit" subUnits="_As4iwk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_As4izE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_As4izU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_As4izk2yEeabIJmk86SN2w" name="Visibility">
+      <annotations xmi:id="_As4iz02yEeabIJmk86SN2w" key="INVERSE" value="Visibility"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_As4i0E2yEeabIJmk86SN2w" source="_As4izE2yEeabIJmk86SN2w" target="_As4iw02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_As4i0U2yEeabIJmk86SN2w" source="_As4izk2yEeabIJmk86SN2w" target="_As4ixE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

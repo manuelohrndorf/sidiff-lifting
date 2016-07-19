@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AzFRYE2yEeabIJmk86SN2w" name="CREATE_Class_IN_Package_(packagedElement)" description="Creates one Class in Package">
+  <annotations xmi:id="_AzFRYU2yEeabIJmk86SN2w" key="INVERSE" value="DELETE_Class_IN_Package_(packagedElement)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AzFRYk2yEeabIJmk86SN2w" name="createClass_IN_Package" description="creates one Class in the context: Package">
+    <parameters xmi:id="_AzFRY02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_AzFRZE2yEeabIJmk86SN2w" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_AzFRZU2yEeabIJmk86SN2w" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_AzFRZk2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_AzFRZ02yEeabIJmk86SN2w" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRaE2yEeabIJmk86SN2w" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRaU2yEeabIJmk86SN2w" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRak2yEeabIJmk86SN2w" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_AzFRa02yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AzFRbE2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_AzFRbU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AzFRbk2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AzFRb02yEeabIJmk86SN2w" name="Selected" outgoing="_AzFReU2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AzFRcE2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_AzFRcU2yEeabIJmk86SN2w" name="New" incoming="_AzFReU2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AzFRck2yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        <attributes xmi:id="_AzFRc02yEeabIJmk86SN2w" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_AzFRdE2yEeabIJmk86SN2w" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_AzFRdU2yEeabIJmk86SN2w" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_AzFRdk2yEeabIJmk86SN2w" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_AzFRd02yEeabIJmk86SN2w" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+        <attributes xmi:id="_AzFReE2yEeabIJmk86SN2w" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_AzFReU2yEeabIJmk86SN2w" source="_AzFRb02yEeabIJmk86SN2w" target="_AzFRcU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AzFRek2yEeabIJmk86SN2w" origin="_AzFRbE2yEeabIJmk86SN2w" image="_AzFRb02yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AzFRe02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AzFRYk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AzFRfE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AzFRfU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_AzFRfk2yEeabIJmk86SN2w" name="New">
+      <annotations xmi:id="_AzFRf02yEeabIJmk86SN2w" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_AzFRgE2yEeabIJmk86SN2w" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_AzFRgU2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_AzFRgk2yEeabIJmk86SN2w" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRg02yEeabIJmk86SN2w" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRhE2yEeabIJmk86SN2w" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_AzFRhU2yEeabIJmk86SN2w" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_AzFRhk2yEeabIJmk86SN2w" source="_AzFRfE2yEeabIJmk86SN2w" target="_AzFRY02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRh02yEeabIJmk86SN2w" source="_AzFRZE2yEeabIJmk86SN2w" target="_AzFRfk2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRiE2yEeabIJmk86SN2w" source="_AzFRgE2yEeabIJmk86SN2w" target="_AzFRZU2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRiU2yEeabIJmk86SN2w" source="_AzFRgU2yEeabIJmk86SN2w" target="_AzFRZk2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRik2yEeabIJmk86SN2w" source="_AzFRgk2yEeabIJmk86SN2w" target="_AzFRZ02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRi02yEeabIJmk86SN2w" source="_AzFRg02yEeabIJmk86SN2w" target="_AzFRaE2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRjE2yEeabIJmk86SN2w" source="_AzFRhE2yEeabIJmk86SN2w" target="_AzFRaU2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AzFRjU2yEeabIJmk86SN2w" source="_AzFRhU2yEeabIJmk86SN2w" target="_AzFRak2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AuTfEE2yEeabIJmk86SN2w" name="UNSET_ATTRIBUTE_Parameter_Direction" description="Sets Parameter Direction">
+  <annotations xmi:id="_AuTfEU2yEeabIJmk86SN2w" key="INVERSE" value="SET_ATTRIBUTE_Parameter_Direction"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AuTfEk2yEeabIJmk86SN2w" name="setParameterDirection" description="Sets the EAttribute direction">
+    <parameters xmi:id="_AuTfE02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_AuTfFE2yEeabIJmk86SN2w" name="Direction">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterDirectionKind"/>
+    </parameters>
+    <lhs xmi:id="_AuTfFU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AuTfFk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+        <attributes xmi:id="_AuTfF02yEeabIJmk86SN2w" value="Direction">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter/direction"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AuTfGE2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AuTfGU2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AuTfGk2yEeabIJmk86SN2w" origin="_AuTfFk2yEeabIJmk86SN2w" image="_AuTfGU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AuTfG02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AuTfEk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AuTfHE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AuTfHU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_AuTfHk2yEeabIJmk86SN2w" name="Direction">
+      <annotations xmi:id="_AuTfH02yEeabIJmk86SN2w" key="INVERSE" value="Direction"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterDirectionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_AuTfIE2yEeabIJmk86SN2w" source="_AuTfHE2yEeabIJmk86SN2w" target="_AuTfE02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AuTfIU2yEeabIJmk86SN2w" source="_AuTfHk2yEeabIJmk86SN2w" target="_AuTfFE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

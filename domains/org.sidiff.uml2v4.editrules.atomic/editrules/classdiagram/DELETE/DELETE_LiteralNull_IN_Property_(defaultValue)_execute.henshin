@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AybxIE2yEeabIJmk86SN2w" name="DELETE_LiteralNull_IN_Property_(defaultValue)" description="Deletes one LiteralNull in Property">
+  <annotations xmi:id="_AybxIU2yEeabIJmk86SN2w" key="INVERSE" value="CREATE_LiteralNull_IN_Property_(defaultValue)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AybxIk2yEeabIJmk86SN2w" name="deleteLiteralNull_IN_Property" description="deletes one LiteralNull in the context: Property">
+    <parameters xmi:id="_AybxI02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AybxJE2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralNull"/>
+    </parameters>
+    <lhs xmi:id="_AybxJU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AybxJk2yEeabIJmk86SN2w" name="Selected" outgoing="_AybxKk2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AybxJ02yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_AybxKE2yEeabIJmk86SN2w" name="ToBeDeleted" incoming="_AybxKk2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AybxKU2yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralNull"/>
+      </nodes>
+      <edges xmi:id="_AybxKk2yEeabIJmk86SN2w" source="_AybxJk2yEeabIJmk86SN2w" target="_AybxKE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/defaultValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_AybxK02yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AybxLE2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_AybxLU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AybxLk2yEeabIJmk86SN2w" origin="_AybxJk2yEeabIJmk86SN2w" image="_AybxLE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AybxL02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AybxIk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AybxME2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AybxMU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AybxMk2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <annotations xmi:id="_AybxM02yEeabIJmk86SN2w" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralNull"/>
+    </parameters>
+    <parameterMappings xmi:id="_AybxNE2yEeabIJmk86SN2w" source="_AybxME2yEeabIJmk86SN2w" target="_AybxI02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AybxNU2yEeabIJmk86SN2w" source="_AybxMk2yEeabIJmk86SN2w" target="_AybxJE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

@@ -30,22 +30,13 @@ public abstract class DifferenceSettings extends MatchingSettings{
 	 * The Symbolic Link Handler for calculating symbolic links.
 	 */
 	private ISymbolicLinkHandler symbolicLinkHandler;
-	
-	/**
-	 * Setup the comparison settings.
-	 */
-	public DifferenceSettings() {
-		super();
-	}
-	
 
+	
 	/**
 	 * default {@link DifferenceSettings}
-	 * @param documentType
-	 * 			the document type of the models which are compared
 	 */
-	public DifferenceSettings(String documentType){
-		super(documentType);
+	public DifferenceSettings(){
+		super();
 		techBuilder = TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
 	}
 	
@@ -90,6 +81,7 @@ public abstract class DifferenceSettings extends MatchingSettings{
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 		result.append("Merge Imports: " + isEnabled_MergeImports() + "\n");

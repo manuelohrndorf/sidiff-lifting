@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Au9mck2yEeabIJmk86SN2w" name="DELETE_ProfileApplication_IN_Package_(profileApplication)" description="Deletes one ProfileApplication in Package">
+  <annotations xmi:id="_Au9mc02yEeabIJmk86SN2w" key="INVERSE" value="CREATE_ProfileApplication_IN_Package_(profileApplication)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Au9mdE2yEeabIJmk86SN2w" name="deleteProfileApplication_IN_Package" description="deletes one ProfileApplication in the context: Package">
+    <parameters xmi:id="_Au9mdU2yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_Au9mdk2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+    </parameters>
+    <parameters xmi:id="_Au9md02yEeabIJmk86SN2w" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+    </parameters>
+    <lhs xmi:id="_Au9meE2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_Au9meU2yEeabIJmk86SN2w" name="Selected" incoming="_Au9mf02yEeabIJmk86SN2w" outgoing="_Au9mfk2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Au9mek2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_Au9me02yEeabIJmk86SN2w" name="ToBeDeleted" incoming="_Au9mfk2yEeabIJmk86SN2w" outgoing="_Au9mf02yEeabIJmk86SN2w _Au9mgE2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Au9mfE2yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+      </nodes>
+      <nodes xmi:id="_Au9mfU2yEeabIJmk86SN2w" name="Existing" incoming="_Au9mgE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+      </nodes>
+      <edges xmi:id="_Au9mfk2yEeabIJmk86SN2w" source="_Au9meU2yEeabIJmk86SN2w" target="_Au9me02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/profileApplication"/>
+      </edges>
+      <edges xmi:id="_Au9mf02yEeabIJmk86SN2w" source="_Au9me02yEeabIJmk86SN2w" target="_Au9meU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication/applyingPackage"/>
+      </edges>
+      <edges xmi:id="_Au9mgE2yEeabIJmk86SN2w" source="_Au9me02yEeabIJmk86SN2w" target="_Au9mfU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication/appliedProfile"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Au9mgU2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_Au9mgk2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_Au9mg02yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_Au9mhE2yEeabIJmk86SN2w" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Au-NcE2yEeabIJmk86SN2w" origin="_Au9meU2yEeabIJmk86SN2w" image="_Au9mgk2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_Au-NcU2yEeabIJmk86SN2w" origin="_Au9mfU2yEeabIJmk86SN2w" image="_Au9mhE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Au-Nck2yEeabIJmk86SN2w" name="mainUnit" subUnits="_Au9mdE2yEeabIJmk86SN2w">
+    <parameters xmi:id="_Au-Nc02yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_Au-NdE2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_Au-NdU2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <annotations xmi:id="_Au-Ndk2yEeabIJmk86SN2w" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+    </parameters>
+    <parameters xmi:id="_Au-Nd02yEeabIJmk86SN2w" name="Existing">
+      <annotations xmi:id="_Au-NeE2yEeabIJmk86SN2w" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+    </parameters>
+    <parameterMappings xmi:id="_Au-NeU2yEeabIJmk86SN2w" source="_Au-Nc02yEeabIJmk86SN2w" target="_Au9mdU2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Au-Nek2yEeabIJmk86SN2w" source="_Au-NdU2yEeabIJmk86SN2w" target="_Au9mdk2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Au-Ne02yEeabIJmk86SN2w" source="_Au-Nd02yEeabIJmk86SN2w" target="_Au9md02yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

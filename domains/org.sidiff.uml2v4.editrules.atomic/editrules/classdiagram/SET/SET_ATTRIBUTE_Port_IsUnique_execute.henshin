@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AszDME2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Port_IsUnique" description="Sets Port IsUnique">
+  <annotations xmi:id="_AszDMU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Port_IsUnique"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AszDMk2yEeabIJmk86SN2w" name="setPortIsUnique" description="Sets the EAttribute isUnique">
+    <parameters xmi:id="_AszDM02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AszDNE2yEeabIJmk86SN2w" name="IsUnique">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_AszDNU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AszDNk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AszDN02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AszDOE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+        <attributes xmi:id="_AszDOU2yEeabIJmk86SN2w" value="IsUnique">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement/isUnique"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AszDOk2yEeabIJmk86SN2w" origin="_AszDNk2yEeabIJmk86SN2w" image="_AszDOE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AszDO02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AszDMk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AszDPE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AszDPU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AszDPk2yEeabIJmk86SN2w" name="IsUnique">
+      <annotations xmi:id="_AszDP02yEeabIJmk86SN2w" key="INVERSE" value="IsUnique"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_AszDQE2yEeabIJmk86SN2w" source="_AszDPE2yEeabIJmk86SN2w" target="_AszDM02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AszDQU2yEeabIJmk86SN2w" source="_AszDPk2yEeabIJmk86SN2w" target="_AszDNE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

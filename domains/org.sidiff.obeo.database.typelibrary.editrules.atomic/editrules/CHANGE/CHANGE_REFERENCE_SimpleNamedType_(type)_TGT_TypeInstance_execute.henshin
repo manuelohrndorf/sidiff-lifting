@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CHANGE_REFERENCE_SimpleNamedType_(type)_TGT_TypeInstance" description="CHANGEs SimpleNamedType's reference type the target TypeInstance">
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" name="changeSimpleNamedType_type_TO_TypeInstance" description="Change the EReference type">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <parameters name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+      </nodes>
+      <nodes name="OldTarget" incoming="//@units.0/@lhs/@edges.0">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <nodes name="NewTarget">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType/type"/>
+      </edges>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+      </nodes>
+      <nodes name="OldTarget">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.2">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType/type"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.2"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//SimpleNamedType"/>
+    </parameters>
+    <parameters name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+  </units>
+</henshin:Module>

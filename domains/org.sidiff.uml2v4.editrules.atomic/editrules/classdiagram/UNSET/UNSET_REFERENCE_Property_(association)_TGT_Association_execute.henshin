@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AspSME2yEeabIJmk86SN2w" name="UNSET_REFERENCE_Property_(association)_TGT_Association" description="Sets Property's reference association the target Association">
+  <annotations xmi:id="_AspSMU2yEeabIJmk86SN2w" key="INVERSE" value="SET_REFERENCE_Property_(association)_TGT_Association"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AspSMk2yEeabIJmk86SN2w" name="setProperty_association_TO_Association" description="SetPropertyRefassociationToAssociation">
+    <parameters xmi:id="_AspSM02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AspSNE2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <lhs xmi:id="_AspSNU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AspSNk2yEeabIJmk86SN2w" name="Selected" incoming="_AspSOU2yEeabIJmk86SN2w" outgoing="_AspSOE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_AspSN02yEeabIJmk86SN2w" name="NewTarget" incoming="_AspSOE2yEeabIJmk86SN2w" outgoing="_AspSOU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+      <edges xmi:id="_AspSOE2yEeabIJmk86SN2w" source="_AspSNk2yEeabIJmk86SN2w" target="_AspSN02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/association"/>
+      </edges>
+      <edges xmi:id="_AspSOU2yEeabIJmk86SN2w" source="_AspSN02yEeabIJmk86SN2w" target="_AspSNk2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/memberEnd"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_AspSOk2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AspSO02yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_AspSPE2yEeabIJmk86SN2w" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AspSPU2yEeabIJmk86SN2w" origin="_AspSNk2yEeabIJmk86SN2w" image="_AspSO02yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AspSPk2yEeabIJmk86SN2w" origin="_AspSN02yEeabIJmk86SN2w" image="_AspSPE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AspSP02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AspSMk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AspSQE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AspSQU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AspSQk2yEeabIJmk86SN2w" name="NewTarget">
+      <annotations xmi:id="_AspSQ02yEeabIJmk86SN2w" key="INVERSE" value="NewTarget"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameterMappings xmi:id="_AspSRE2yEeabIJmk86SN2w" source="_AspSQE2yEeabIJmk86SN2w" target="_AspSM02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AspSRU2yEeabIJmk86SN2w" source="_AspSQk2yEeabIJmk86SN2w" target="_AspSNE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

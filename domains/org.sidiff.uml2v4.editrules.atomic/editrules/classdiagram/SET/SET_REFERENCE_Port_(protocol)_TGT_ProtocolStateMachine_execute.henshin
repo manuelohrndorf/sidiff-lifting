@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AyFL0E2yEeabIJmk86SN2w" name="SET_REFERENCE_Port_(protocol)_TGT_ProtocolStateMachine" description="Sets Port's reference protocol the target ProtocolStateMachine">
+  <annotations xmi:id="_AyFL0U2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_REFERENCE_Port_(protocol)_TGT_ProtocolStateMachine"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AyFL0k2yEeabIJmk86SN2w" name="setPort_protocol_TO_ProtocolStateMachine" description="SetPortRefprotocolToProtocolStateMachine">
+    <parameters xmi:id="_AyFL002yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AyFL1E2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProtocolStateMachine"/>
+    </parameters>
+    <lhs xmi:id="_AyFL1U2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AyFL1k2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_AyFL102yEeabIJmk86SN2w" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProtocolStateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AyFL2E2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AyFL2U2yEeabIJmk86SN2w" name="Selected" outgoing="_AyFL202yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_AyFL2k2yEeabIJmk86SN2w" name="NewTarget" incoming="_AyFL202yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProtocolStateMachine"/>
+      </nodes>
+      <edges xmi:id="_AyFL202yEeabIJmk86SN2w" source="_AyFL2U2yEeabIJmk86SN2w" target="_AyFL2k2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port/protocol"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AyFL3E2yEeabIJmk86SN2w" origin="_AyFL1k2yEeabIJmk86SN2w" image="_AyFL2U2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AyFL3U2yEeabIJmk86SN2w" origin="_AyFL102yEeabIJmk86SN2w" image="_AyFL2k2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AyFL3k2yEeabIJmk86SN2w" name="mainUnit" subUnits="_AyFL0k2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AyFL302yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AyFL4E2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AyFL4U2yEeabIJmk86SN2w" name="NewTarget">
+      <annotations xmi:id="_AyFL4k2yEeabIJmk86SN2w" key="INVERSE" value="NewTarget"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProtocolStateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_AyFL402yEeabIJmk86SN2w" source="_AyFL302yEeabIJmk86SN2w" target="_AyFL002yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AyFL5E2yEeabIJmk86SN2w" source="_AyFL4U2yEeabIJmk86SN2w" target="_AyFL1E2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

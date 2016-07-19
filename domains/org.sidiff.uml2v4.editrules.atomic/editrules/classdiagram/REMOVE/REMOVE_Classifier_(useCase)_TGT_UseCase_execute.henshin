@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AydmUE2yEeabIJmk86SN2w" name="REMOVE_Classifier_(useCase)_TGT_UseCase" description="Removes Classifier's reference useCase the target UseCase">
+  <annotations xmi:id="_AydmUU2yEeabIJmk86SN2w" key="INVERSE" value="ADD_Classifier_(useCase)_TGT_UseCase"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AydmUk2yEeabIJmk86SN2w" name="removeFromClassifier_useCase_UseCase" description="Removes from Classifier's reference useCase the target UseCase">
+    <parameters xmi:id="_AydmU02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_AydmVE2yEeabIJmk86SN2w" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
+    </parameters>
+    <lhs xmi:id="_AydmVU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AydmVk2yEeabIJmk86SN2w" name="Selected" incoming="_AydmWU2yEeabIJmk86SN2w" outgoing="_AydmWE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_AydmV02yEeabIJmk86SN2w" name="OldTarget" incoming="_AydmWE2yEeabIJmk86SN2w" outgoing="_AydmWU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
+      </nodes>
+      <edges xmi:id="_AydmWE2yEeabIJmk86SN2w" source="_AydmVk2yEeabIJmk86SN2w" target="_AydmV02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/useCase"/>
+      </edges>
+      <edges xmi:id="_AydmWU2yEeabIJmk86SN2w" source="_AydmV02yEeabIJmk86SN2w" target="_AydmVk2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase/subject"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_AydmWk2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AydmW02yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_AydmXE2yEeabIJmk86SN2w" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AydmXU2yEeabIJmk86SN2w" origin="_AydmVk2yEeabIJmk86SN2w" image="_AydmW02yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AydmXk2yEeabIJmk86SN2w" origin="_AydmV02yEeabIJmk86SN2w" image="_AydmXE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AydmX02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AydmUk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AydmYE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AydmYU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_AydmYk2yEeabIJmk86SN2w" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
+    </parameters>
+    <parameterMappings xmi:id="_AydmY02yEeabIJmk86SN2w" source="_AydmYE2yEeabIJmk86SN2w" target="_AydmU02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AydmZE2yEeabIJmk86SN2w" source="_AydmYk2yEeabIJmk86SN2w" target="_AydmVE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

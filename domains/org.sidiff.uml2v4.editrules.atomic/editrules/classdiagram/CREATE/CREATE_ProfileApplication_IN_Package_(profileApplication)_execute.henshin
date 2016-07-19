@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AsKxEE2yEeabIJmk86SN2w" name="CREATE_ProfileApplication_IN_Package_(profileApplication)" description="Creates one ProfileApplication in Package">
+  <annotations xmi:id="_AsKxEU2yEeabIJmk86SN2w" key="INVERSE" value="DELETE_ProfileApplication_IN_Package_(profileApplication)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AsKxEk2yEeabIJmk86SN2w" name="createProfileApplication_IN_Package" description="creates one ProfileApplication in the context: Package">
+    <parameters xmi:id="_AsKxE02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_AsKxFE2yEeabIJmk86SN2w" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+    </parameters>
+    <parameters xmi:id="_AsKxFU2yEeabIJmk86SN2w" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+    </parameters>
+    <parameters xmi:id="_AsKxFk2yEeabIJmk86SN2w" name="IsStrict">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_AsKxF02yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AsKxGE2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_AsKxGU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_AsKxGk2yEeabIJmk86SN2w" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AsKxG02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AsKxHE2yEeabIJmk86SN2w" name="Selected" incoming="_AsKxI02yEeabIJmk86SN2w" outgoing="_AsKxIk2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AsKxHU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_AsKxHk2yEeabIJmk86SN2w" name="New" incoming="_AsKxIk2yEeabIJmk86SN2w" outgoing="_AsKxI02yEeabIJmk86SN2w _AsKxJE2yEeabIJmk86SN2w">
+        <annotations xmi:id="_AsKxH02yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+        <attributes xmi:id="_AsKxIE2yEeabIJmk86SN2w" value="IsStrict">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication/isStrict"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_AsKxIU2yEeabIJmk86SN2w" name="Existing" incoming="_AsKxJE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+      </nodes>
+      <edges xmi:id="_AsKxIk2yEeabIJmk86SN2w" source="_AsKxHE2yEeabIJmk86SN2w" target="_AsKxHk2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/profileApplication"/>
+      </edges>
+      <edges xmi:id="_AsKxI02yEeabIJmk86SN2w" source="_AsKxHk2yEeabIJmk86SN2w" target="_AsKxHE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication/applyingPackage"/>
+      </edges>
+      <edges xmi:id="_AsKxJE2yEeabIJmk86SN2w" source="_AsKxHk2yEeabIJmk86SN2w" target="_AsKxIU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication/appliedProfile"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AsKxJU2yEeabIJmk86SN2w" origin="_AsKxGE2yEeabIJmk86SN2w" image="_AsKxHE2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AsKxJk2yEeabIJmk86SN2w" origin="_AsKxGk2yEeabIJmk86SN2w" image="_AsKxIU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AsKxJ02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AsKxEk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AsKxKE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AsKxKU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_AsKxKk2yEeabIJmk86SN2w" name="Existing">
+      <annotations xmi:id="_AsKxK02yEeabIJmk86SN2w" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Profile"/>
+    </parameters>
+    <parameters xmi:id="_AsKxLE2yEeabIJmk86SN2w" name="New">
+      <annotations xmi:id="_AsKxLU2yEeabIJmk86SN2w" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ProfileApplication"/>
+    </parameters>
+    <parameters xmi:id="_AsKxLk2yEeabIJmk86SN2w" name="IsStrict">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_AsKxL02yEeabIJmk86SN2w" source="_AsKxKE2yEeabIJmk86SN2w" target="_AsKxE02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AsKxME2yEeabIJmk86SN2w" source="_AsKxKk2yEeabIJmk86SN2w" target="_AsKxFE2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AsKxMU2yEeabIJmk86SN2w" source="_AsKxFU2yEeabIJmk86SN2w" target="_AsKxLE2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AsKxMk2yEeabIJmk86SN2w" source="_AsKxLk2yEeabIJmk86SN2w" target="_AsKxFk2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

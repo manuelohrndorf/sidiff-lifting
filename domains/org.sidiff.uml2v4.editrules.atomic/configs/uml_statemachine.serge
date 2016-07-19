@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+
+<Config>
+     <MetaModel>
+         <MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML"
+             isProfile="false" />
+         <RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+         <RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+         <MaskedClassifiers>
+             <Mask name="InitialPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="initial" />
+             <Mask name="ChoicePseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="choice" />
+             <Mask name="DeepHistoryPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="deepHistory" />
+             <Mask name="ShallowHistoryPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="shallowHistory" />
+             <Mask name="JoinPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="join" />
+             <Mask name="ForkPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="fork" />
+             <Mask name="JunctionPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="junction" />
+             <Mask name="EntryPointPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="entryPoint" />
+             <Mask name="ExitPointPseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="exitPoint" />
+             <Mask name="TerminatePseudostate" eClassifier="Pseudostate"
+                 eAttribute="kind" eAttributeValue="terminate" />
+         </MaskedClassifiers>
+         <RootModelElement name="Model" canBeNested="false" />
+     </MetaModel>
+
+     <Transformations>
+         <CREATE enable="true" />
+         <DELETE enable="true" />
+         <MOVE enable="true" allowReferenceSwitching="true"
+             allowReferenceCombinations="false" />
+         <MOVE_UP enable="false" />
+         <MOVE_DOWN enable="false" />
+         <SET_ATTRIBUTE enable="true" />
+         <UNSET_ATTRIBUTE enable="true" />
+         <SET_REFERENCE enable="true" />
+         <UNSET_REFERENCE enable="true" />
+         <ADD enable="true" />
+         <REMOVE enable="true" />
+         <CHANGE_LITERAL enable="true" allowLiteralSwitching="false" />
+         <CHANGE_REFERENCE enable="true" />
+     </Transformations>
+
+     <ConsistencyLevel>
+         <CreateMandatoryChildren enable="true" />
+         <CreateMandatoryNeighbours enable="true" />
+         <CreateMultiplicityPreconditions
+             enable="true" />
+     </ConsistencyLevel>
+
+     <CompletnessLevel>
+         <AbstractReplacements>
+             <AbstractReplacement ruleType="CREATE_DELETE"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="ADD_REMOVE"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="MOVE"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="MOVE_UP"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="MOVE_DOWN"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="SET_UNSET_REFERENCE"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="CHANGE_LITERAL"
+                 reduceDanglings="true" />
+             <AbstractReplacement ruleType="CHANGE_REFERENCE"
+                 reduceDanglings="true" />
+         </AbstractReplacements>
+         <SupertypeReplacements>
+             <SupertypeReplacement ruleType="CREATE_DELETE"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="ADD_REMOVE"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="MOVE"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="MOVE_UP"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="MOVE_DOWN"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="SET_UNSET_REFERENCE"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="CHANGE_LITERAL"
+                 reduceDanglings="true" reduceContext="true" />
+             <SupertypeReplacement ruleType="CHANGE_REFERENCE"
+                 reduceDanglings="true" reduceContext="true" />
+         </SupertypeReplacements>
+
+         <ModuleInternalOptions>
+             <CreateOptionalAttributes enable="false" />
+             <DanglingNodeSettings defaultTypeInclusion="ifRequired">
+              <DanglingNodeSetting type="InteractionFragment" include="always" />
+              <DanglingNodeSetting type="Interaction" include="always" />
+              <DanglingNodeSetting type="Event" include="ifRequired" />
+			  <DanglingNodeSetting type="AnyReceiveEvent" include="always" />
+			  <DanglingNodeSetting type="SignalEvent" include="always" />
+			  <DanglingNodeSetting type="CallEvent" include="always" />
+			  <DanglingNodeSetting type="ChangeEvent" include="always" />
+			  <DanglingNodeSetting type="TimeEvent" include="always" />
+			  <DanglingNodeSetting type="Comment" include="always" />
+			  <DanglingNodeSetting type="Constraint" include="always" />
+			  <DanglingNodeSetting type="FinalState" include="always" />
+			  <DanglingNodeSetting type="Model" include="always" />
+			  <DanglingNodeSetting type="OpaqueBehavior" include="always" />
+			  <DanglingNodeSetting type="Behavior" include="always" />
+			  <DanglingNodeSetting type="OpaqueExpression" include="always" />
+			  <DanglingNodeSetting type="Property" include="always" />
+			  <DanglingNodeSetting type="Pseudostate" include="always" />
+			  <DanglingNodeSetting type="PseudostateKind" include="always" />
+			  <DanglingNodeSetting type="Region" include="always" />
+			  <DanglingNodeSetting type="State" include="always" />
+			  <DanglingNodeSetting type="StateMachine" include="always" />
+			  <DanglingNodeSetting type="ProtocolStateMachine" include="always" />
+			  <DanglingNodeSetting type="Transition" include="always" />
+			  <DanglingNodeSetting type="TransitionKind" include="always" />
+			  <DanglingNodeSetting type="Trigger" include="always" />
+			  <DanglingNodeSetting type="ConnectionPointReference" include="always" />
+			  <DanglingNodeSetting type="Vertex" include="always" />
+			  <DanglingNodeSetting type="NamedElement" include="always" />
+			  <DanglingNodeSetting type="Namespace" include="always" />
+			  <!-- Observation is a target of StateMachine -->
+			  <DanglingNodeSetting type="DurationObservation" include="always" />
+			  <DanglingNodeSetting type="TimeObservation" include="always" />
+			  <!-- Signal is a target of SignalEvent -->
+			  <DanglingNodeSetting type="Signal" include="always" />
+			  <!-- Port is a target of Trigger -->
+			  <DanglingNodeSetting type="Port" include="always" />
+			  <!-- Operation is a target of CallEvent -->
+			  <DanglingNodeSetting type="Operation" include="always" />
+			  <!-- Interface is a target of ? -->
+			  <DanglingNodeSetting type="Interface" include="always" />
+			  <!-- possible ValueSpecifications sub types (e.g. as targets of ChangeEvent of a Trigger) -->
+			  <DanglingNodeSetting type="Expression" include="always" />
+			  <DanglingNodeSetting type="OpaqueExpression" include="always" />
+			  <DanglingNodeSetting type="StringExpression" include="always" />
+			  <DanglingNodeSetting type="InstanceValue" include="always" />
+			  <DanglingNodeSetting type="TimeExpression" include="always" />
+			  <DanglingNodeSetting type="Interval" include="always" />
+			  <DanglingNodeSetting type="Duration" include="always" />
+			  <DanglingNodeSetting type="DurationInterval" include="always" />
+			  <DanglingNodeSetting type="TimeInterval" include="always" />
+			  <DanglingNodeSetting type="LiteralSpecification" include="always" />
+			  <DanglingNodeSetting type="LiteralBoolean" include="always" />
+			  <DanglingNodeSetting type="LiteralInteger" include="always" />
+			  <DanglingNodeSetting type="LiteralNull" include="always" />
+			  <DanglingNodeSetting type="LiteralReal" include="always" />
+			  <DanglingNodeSetting type="LiteralString" include="always" />
+		  	  <DanglingNodeSetting type="LiteralUnlimitedNatural" include="always" />		             
+             </DanglingNodeSettings>
+         </ModuleInternalOptions>
+
+         <ModuleSetOptions>
+             <ModuleGenerationSettings
+                 defaultGenerationCase="never">
+					<GenerateModulesFor type="Event" case="always" />
+					<GenerateModulesFor type="AnyReceiveEvent" case="always" />
+					<GenerateModulesFor type="SignalEvent" case="always" />
+					<GenerateModulesFor type="CallEvent" case="always" />
+					<GenerateModulesFor type="ChangeEvent" case="always" />
+					<GenerateModulesFor type="TimeEvent" case="always" />
+					<GenerateModulesFor type="Comment" case="always" />
+					<GenerateModulesFor type="Constraint" case="always" />
+					<GenerateModulesFor type="FinalState" case="always" />
+					<GenerateModulesFor type="Model" case="always" />
+					<GenerateModulesFor type="OpaqueBehavior" case="always" />
+					<GenerateModulesFor type="Behavior" case="always" />
+					<GenerateModulesFor type="OpaqueExpression" case="always" />
+					<GenerateModulesFor type="Property" case="always" />
+					<GenerateModulesFor type="Pseudostate" case="always" />
+					<GenerateModulesFor type="PseudostateKind" case="always" />
+					<GenerateModulesFor type="Region" case="always" />
+					<GenerateModulesFor type="State" case="always" />
+					<GenerateModulesFor type="StateMachine" case="always" />
+					<GenerateModulesFor type="ProtocolStateMachine" case="always" />
+					<GenerateModulesFor type="Transition" case="always" />
+					<GenerateModulesFor type="TransitionKind" case="always" />
+					<GenerateModulesFor type="Trigger" case="always" />
+					<GenerateModulesFor type="ConnectionPointReference" case="always" />
+					<GenerateModulesFor type="Vertex" case="always" />
+					<GenerateModulesFor type="NamedElement" case="always" />
+					<GenerateModulesFor type="Namespace" case="always" />
+					<!-- Observation is a target of StateMachine -->
+					<GenerateModulesFor type="DurationObservation" case="ifRequired" />
+					<GenerateModulesFor type="TimeObservation" case="ifRequired" />
+					<!-- Signal is a target of SignalEvent -->
+					<GenerateModulesFor type="Signal" case="ifRequired" />
+					<!-- Port is a target of Trigger -->
+					<GenerateModulesFor type="Port" case="ifRequired" />
+					<!-- Operation is a target of CallEvent -->
+					<GenerateModulesFor type="Operation" case="ifRequired" />
+					<!-- Interface is a target of ? -->
+					<GenerateModulesFor type="Interface" case="ifRequired" />
+					<!-- possible ValueSpecifications sub types (e.g. as targets of ChangeEvent of a Trigger) -->
+					<GenerateModulesFor type="Expression" case="ifRequired" />
+					<GenerateModulesFor type="OpaqueExpression" case="ifRequired" />
+					<GenerateModulesFor type="StringExpression" case="ifRequired" />
+					<GenerateModulesFor type="InstanceValue" case="ifRequired" />
+					<GenerateModulesFor type="TimeExpression" case="ifRequired" />
+					<GenerateModulesFor type="Interval" case="ifRequired" />
+					<GenerateModulesFor type="Duration" case="ifRequired" />
+					<GenerateModulesFor type="DurationInterval" case="ifRequired" />
+					<GenerateModulesFor type="TimeInterval" case="ifRequired" />
+					<GenerateModulesFor type="LiteralSpecification" case="ifRequired" />
+					<GenerateModulesFor type="LiteralBoolean" case="ifRequired" />
+					<GenerateModulesFor type="LiteralInteger" case="ifRequired" />
+					<GenerateModulesFor type="LiteralNull" case="ifRequired" />
+					<GenerateModulesFor type="LiteralReal" case="ifRequired" />
+					<GenerateModulesFor type="LiteralString" case="ifRequired" />
+					<GenerateModulesFor type="LiteralUnlimitedNatural" case="ifRequired" />					
+             </ModuleGenerationSettings>
+         </ModuleSetOptions>
+     </CompletnessLevel>
+</Config>

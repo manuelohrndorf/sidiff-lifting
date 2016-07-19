@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AxpG8E2yEeabIJmk86SN2w" name="ADD_Dependency_(supplier)_TGT_NamedElement" description="Adds to Dependency's reference supplier the target NamedElement">
+  <annotations xmi:id="_AxpG8U2yEeabIJmk86SN2w" key="INVERSE" value="REMOVE_Dependency_(supplier)_TGT_NamedElement"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AxpG8k2yEeabIJmk86SN2w" name="addToDependency_supplier_NamedElement" description="Adds to Dependency's reference supplier the target NamedElement">
+    <parameters xmi:id="_AxpG802yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+    </parameters>
+    <parameters xmi:id="_AxpG9E2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+    </parameters>
+    <lhs xmi:id="_AxpG9U2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AxpG9k2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+      </nodes>
+      <nodes xmi:id="_AxpG902yEeabIJmk86SN2w" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AxpG-E2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AxpG-U2yEeabIJmk86SN2w" name="Selected" outgoing="_AxpG-02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+      </nodes>
+      <nodes xmi:id="_AxpG-k2yEeabIJmk86SN2w" name="NewTarget" incoming="_AxpG-02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+      </nodes>
+      <edges xmi:id="_AxpG-02yEeabIJmk86SN2w" source="_AxpG-U2yEeabIJmk86SN2w" target="_AxpG-k2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency/supplier"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AxpG_E2yEeabIJmk86SN2w" origin="_AxpG9k2yEeabIJmk86SN2w" image="_AxpG-U2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AxpG_U2yEeabIJmk86SN2w" origin="_AxpG902yEeabIJmk86SN2w" image="_AxpG-k2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AxpG_k2yEeabIJmk86SN2w" name="mainUnit" subUnits="_AxpG8k2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AxpG_02yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AxpHAE2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+    </parameters>
+    <parameters xmi:id="_AxpHAU2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_AxpHAk2yEeabIJmk86SN2w" source="_AxpG_02yEeabIJmk86SN2w" target="_AxpG802yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AxpHA02yEeabIJmk86SN2w" source="_AxpHAU2yEeabIJmk86SN2w" target="_AxpG9E2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>
