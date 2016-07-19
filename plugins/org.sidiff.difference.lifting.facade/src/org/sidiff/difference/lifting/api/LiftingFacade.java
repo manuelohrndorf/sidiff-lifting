@@ -1,6 +1,8 @@
 package org.sidiff.difference.lifting.api;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
@@ -197,8 +199,8 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, IMatcher matcher)
 			throws InvalidModelException, NoCorrespondencesException {
 		// Create default settings
-		String documentType = EMFModelAccess.getCharacteristicDocumentType(modelA);
-		LiftingSettings defaultSettings = new LiftingSettings(documentType);
+		Set<String> documentTypes = EMFModelAccess.getDocumentTypes(Arrays.asList(modelA,modelB));
+		LiftingSettings defaultSettings = new LiftingSettings(documentTypes);
 		defaultSettings.setMatcher(matcher);
 		// Lift difference
 		SymmetricDifference symmetricDiff = liftTechnicalDifference(modelA, modelB, defaultSettings);

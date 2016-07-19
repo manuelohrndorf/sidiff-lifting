@@ -90,15 +90,20 @@ public class RuleBaseProjectLibrary {
 	 */
 	public static <R extends IBasicRuleBase> Set<IRuleBaseProject> getRuleBaseProjects(Set<String> documentTypes, Class<R> viewType) {
 		
-		// Collect all rulebases for a specific document type:
+		// Collect all rulebases for all document types in the input resources:
 		Set<IRuleBaseProject> rulebases = new HashSet<IRuleBaseProject>();
 		
 		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
-			if (rulebaseProject.getDocumentTypes().containsAll(documentTypes))  {
-				if (rulebaseProject.supportsRuleBaseView(viewType)) {
+			
+			for(String docTypeInResources: documentTypes) {
+				
+				if(rulebaseProject.getDocumentTypes().contains(docTypeInResources)
+						&& rulebaseProject.supportsRuleBaseView(viewType)) {
 					rulebases.add(rulebaseProject);
 				}
+				
 			}
+			
 		}
 		
 		return rulebases;

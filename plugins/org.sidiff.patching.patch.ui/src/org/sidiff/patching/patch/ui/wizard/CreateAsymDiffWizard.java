@@ -49,7 +49,7 @@ public class CreateAsymDiffWizard extends Wizard {
 		this.setWindowTitle("New Asymmetric Difference Wizard");
 
 		inputModels = new InputModels(new IFile[]{fileA, fileB});
-		settings = new LiftingSettings(inputModels.getCharacteristicDocumentType());
+		settings = new LiftingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
 	}

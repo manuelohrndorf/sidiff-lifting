@@ -1,6 +1,6 @@
 package org.sidiff.difference.lifting.api.settings;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.sidiff.candidates.ICandidates;
@@ -101,20 +101,25 @@ public class LiftingSettings extends DifferenceSettings {
 		super();
 		
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+		Set<String> genericDocumentTypes = new HashSet<String>();
+		genericDocumentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+		
+		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(genericDocumentTypes);
 	}
 
 	/**
 	 * default {@link LiftingSettings}
-	 * @param documentType
-	 * 			the document type of the models which are compared
+	 * @param Set of documentTypes
+	 * 			the document types of the models which are compared
 	 */
-	public LiftingSettings(String documentType){
-		super(documentType);
-		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
-		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentType);
+	public LiftingSettings(Set<String> documentTypes){
+		super();
+		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
 		if(rrSorter == null){
-			RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+			Set<String> genericDocumentTypes = new HashSet<String>();
+			documentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);			
+			RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(genericDocumentTypes);
 		}
 	}
 	
@@ -174,6 +179,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 * 
 	 * @see org.sidiff.difference.lifting.settings.Settings#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer(super.toString());
 
