@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Fg-bYEzXEeavRfz4FpzSZw" name="RR: MOVE_ComplexNamedType_FROM_ComplexNamedType_(types)_TO_ComplexNamedType_(types)" description="Recognize: MOVEs ComplexNamedType from ComplexNamedType(Reference:types) to ComplexNamedType(Reference:types">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Fg-bYUzXEeavRfz4FpzSZw" name="rr:moveComplexNamedType_FROM_ComplexNamedType_types_TO_ComplexNamedType_ComplexNamedType" description="Recognize: Moves ComplexNamedType from ComplexNamedType(Reference:types) toComplexNamedType(Reference:ComplexNamedType)">
+    <parameters xmi:id="_Fg-bYkzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_Fg-bY0zXEeavRfz4FpzSZw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <parameters xmi:id="_Fg-bZEzXEeavRfz4FpzSZw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+    </parameters>
+    <lhs xmi:id="_Fg-bZUzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_Fg-bZkzXEeavRfz4FpzSZw" name="B.Selected" incoming="_Fg-bcUzXEeavRfz4FpzSZw _Fg-bd0zXEeavRfz4FpzSZw _Fg-beUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bZ0zXEeavRfz4FpzSZw" name="A.Selected" incoming="_Fg-bcEzXEeavRfz4FpzSZw _Fg-bc0zXEeavRfz4FpzSZw _Fg-bdUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-baEzXEeavRfz4FpzSZw" name="" outgoing="_Fg-bcEzXEeavRfz4FpzSZw _Fg-bcUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_Fg-baUzXEeavRfz4FpzSZw" name="A.OldSource" incoming="_Fg-bckzXEeavRfz4FpzSZw" outgoing="_Fg-bdUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bakzXEeavRfz4FpzSZw" name="B.NewSource" incoming="_Fg-bdkzXEeavRfz4FpzSZw" outgoing="_Fg-beUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-ba0zXEeavRfz4FpzSZw" name="" outgoing="_Fg-bckzXEeavRfz4FpzSZw _Fg-bc0zXEeavRfz4FpzSZw _Fg-bdEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bbEzXEeavRfz4FpzSZw" name="" incoming="_Fg-bdEzXEeavRfz4FpzSZw _Fg-beEzXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Fg-bbUzXEeavRfz4FpzSZw" value="&quot;types&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Fg-bbkzXEeavRfz4FpzSZw" name="" outgoing="_Fg-bdkzXEeavRfz4FpzSZw _Fg-bd0zXEeavRfz4FpzSZw _Fg-beEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bb0zXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Fg-bcEzXEeavRfz4FpzSZw" source="_Fg-baEzXEeavRfz4FpzSZw" target="_Fg-bZ0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_Fg-bcUzXEeavRfz4FpzSZw" source="_Fg-baEzXEeavRfz4FpzSZw" target="_Fg-bZkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_Fg-bckzXEeavRfz4FpzSZw" source="_Fg-ba0zXEeavRfz4FpzSZw" target="_Fg-baUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Fg-bc0zXEeavRfz4FpzSZw" source="_Fg-ba0zXEeavRfz4FpzSZw" target="_Fg-bZ0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Fg-bdEzXEeavRfz4FpzSZw" source="_Fg-ba0zXEeavRfz4FpzSZw" target="_Fg-bbEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Fg-bdUzXEeavRfz4FpzSZw" source="_Fg-baUzXEeavRfz4FpzSZw" target="_Fg-bZ0zXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+      <edges xmi:id="_Fg-bdkzXEeavRfz4FpzSZw" source="_Fg-bbkzXEeavRfz4FpzSZw" target="_Fg-bakzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Fg-bd0zXEeavRfz4FpzSZw" source="_Fg-bbkzXEeavRfz4FpzSZw" target="_Fg-bZkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Fg-beEzXEeavRfz4FpzSZw" source="_Fg-bbkzXEeavRfz4FpzSZw" target="_Fg-bbEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Fg-beUzXEeavRfz4FpzSZw" source="_Fg-bakzXEeavRfz4FpzSZw" target="_Fg-bZkzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Fg-bekzXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_Fg-be0zXEeavRfz4FpzSZw" name="B.Selected" incoming="_Fg-bjkzXEeavRfz4FpzSZw _Fg-blEzXEeavRfz4FpzSZw _Fg-blkzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bfEzXEeavRfz4FpzSZw" name="A.Selected" incoming="_Fg-bjUzXEeavRfz4FpzSZw _Fg-bkEzXEeavRfz4FpzSZw _Fg-bkkzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bfUzXEeavRfz4FpzSZw" name="" outgoing="_Fg-bjUzXEeavRfz4FpzSZw _Fg-bjkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bfkzXEeavRfz4FpzSZw" name="A.OldSource" incoming="_Fg-bj0zXEeavRfz4FpzSZw" outgoing="_Fg-bkkzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bf0zXEeavRfz4FpzSZw" name="B.NewSource" incoming="_Fg-bk0zXEeavRfz4FpzSZw" outgoing="_Fg-blkzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bgEzXEeavRfz4FpzSZw" name="" incoming="_Fg-bl0zXEeavRfz4FpzSZw" outgoing="_Fg-bj0zXEeavRfz4FpzSZw _Fg-bkEzXEeavRfz4FpzSZw _Fg-bkUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bgUzXEeavRfz4FpzSZw" name="" incoming="_Fg-bkUzXEeavRfz4FpzSZw _Fg-blUzXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bgkzXEeavRfz4FpzSZw" name="" incoming="_Fg-bmEzXEeavRfz4FpzSZw" outgoing="_Fg-bk0zXEeavRfz4FpzSZw _Fg-blEzXEeavRfz4FpzSZw _Fg-blUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Fg-bg0zXEeavRfz4FpzSZw" incoming="_Fg-bmUzXEeavRfz4FpzSZw" outgoing="_Fg-bl0zXEeavRfz4FpzSZw _Fg-bmEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Fg-bhEzXEeavRfz4FpzSZw" value="&quot;MOVE_ComplexNamedType_FROM_ComplexNamedType_(types)_TO_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Fg-bhUzXEeavRfz4FpzSZw" value="&quot;MOVEs ComplexNamedType from ComplexNamedType(Reference:types) to ComplexNamedType(Reference:types&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Fg-bhkzXEeavRfz4FpzSZw" value="&quot;MOVE_ComplexNamedType_FROM_ComplexNamedType_(types)_TO_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Fg-bh0zXEeavRfz4FpzSZw" value="&quot;RR: MOVE_ComplexNamedType_FROM_ComplexNamedType_(types)_TO_ComplexNamedType_(types)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Fg-biEzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Fg-biUzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Fg-bikzXEeavRfz4FpzSZw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Fg-bi0zXEeavRfz4FpzSZw" value="6">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Fg-bjEzXEeavRfz4FpzSZw" name="" outgoing="_Fg-bmUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Fg-bjUzXEeavRfz4FpzSZw" source="_Fg-bfUzXEeavRfz4FpzSZw" target="_Fg-bfEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_Fg-bjkzXEeavRfz4FpzSZw" source="_Fg-bfUzXEeavRfz4FpzSZw" target="_Fg-be0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_Fg-bj0zXEeavRfz4FpzSZw" source="_Fg-bgEzXEeavRfz4FpzSZw" target="_Fg-bfkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Fg-bkEzXEeavRfz4FpzSZw" source="_Fg-bgEzXEeavRfz4FpzSZw" target="_Fg-bfEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Fg-bkUzXEeavRfz4FpzSZw" source="_Fg-bgEzXEeavRfz4FpzSZw" target="_Fg-bgUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_Fg-bkkzXEeavRfz4FpzSZw" source="_Fg-bfkzXEeavRfz4FpzSZw" target="_Fg-bfEzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+      <edges xmi:id="_Fg-bk0zXEeavRfz4FpzSZw" source="_Fg-bgkzXEeavRfz4FpzSZw" target="_Fg-bf0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Fg-blEzXEeavRfz4FpzSZw" source="_Fg-bgkzXEeavRfz4FpzSZw" target="_Fg-be0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Fg-blUzXEeavRfz4FpzSZw" source="_Fg-bgkzXEeavRfz4FpzSZw" target="_Fg-bgUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Fg-blkzXEeavRfz4FpzSZw" source="_Fg-bf0zXEeavRfz4FpzSZw" target="_Fg-be0zXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//ComplexNamedType/types"/>
+      </edges>
+      <edges xmi:id="_Fg-bl0zXEeavRfz4FpzSZw" source="_Fg-bg0zXEeavRfz4FpzSZw" target="_Fg-bgEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Fg-bmEzXEeavRfz4FpzSZw" source="_Fg-bg0zXEeavRfz4FpzSZw" target="_Fg-bgkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Fg-bmUzXEeavRfz4FpzSZw" source="_Fg-bjEzXEeavRfz4FpzSZw" target="_Fg-bg0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Fg-bmkzXEeavRfz4FpzSZw" origin="_Fg-bZkzXEeavRfz4FpzSZw" image="_Fg-be0zXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bm0zXEeavRfz4FpzSZw" origin="_Fg-bZ0zXEeavRfz4FpzSZw" image="_Fg-bfEzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bnEzXEeavRfz4FpzSZw" origin="_Fg-baEzXEeavRfz4FpzSZw" image="_Fg-bfUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bnUzXEeavRfz4FpzSZw" origin="_Fg-baUzXEeavRfz4FpzSZw" image="_Fg-bfkzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bnkzXEeavRfz4FpzSZw" origin="_Fg-bakzXEeavRfz4FpzSZw" image="_Fg-bf0zXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bn0zXEeavRfz4FpzSZw" origin="_Fg-ba0zXEeavRfz4FpzSZw" image="_Fg-bgEzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-boEzXEeavRfz4FpzSZw" origin="_Fg-bbEzXEeavRfz4FpzSZw" image="_Fg-bgUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-boUzXEeavRfz4FpzSZw" origin="_Fg-bbkzXEeavRfz4FpzSZw" image="_Fg-bgkzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fg-bokzXEeavRfz4FpzSZw" origin="_Fg-bb0zXEeavRfz4FpzSZw" image="_Fg-bjEzXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>

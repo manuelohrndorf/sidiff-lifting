@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Fi1ckEzXEeavRfz4FpzSZw" name="RR: UNSET_ATTRIBUTE_NativeType_Name" description="Recognize: Sets NativeType Name">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Fi1ckUzXEeavRfz4FpzSZw" name="rr:setNativeTypeName" description="Recognize: Sets the EAttribute name">
+    <parameters xmi:id="_Fi1ckkzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_Fi1ck0zXEeavRfz4FpzSZw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_Fi1clEzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_Fi1clUzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+        <attributes xmi:id="_Fi1clkzXEeavRfz4FpzSZw" value="Name">
+          <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Fi1cl0zXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Fi1cmEzXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_Fi1cmUzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_Fi1cmkzXEeavRfz4FpzSZw" incoming="_Fi1cpEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Fi1cm0zXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_NativeType_Name&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Fi1cnEzXEeavRfz4FpzSZw" value="&quot;Sets NativeType Name&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Fi1cnUzXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_NativeType_Name&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Fi1cnkzXEeavRfz4FpzSZw" value="&quot;RR: UNSET_ATTRIBUTE_NativeType_Name&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Fi1cn0zXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Fi1coEzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Fi1coUzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Fi1cokzXEeavRfz4FpzSZw" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Fi1co0zXEeavRfz4FpzSZw" name="" outgoing="_Fi1cpEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Fi1cpEzXEeavRfz4FpzSZw" source="_Fi1co0zXEeavRfz4FpzSZw" target="_Fi1cmkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Fi1cpUzXEeavRfz4FpzSZw" origin="_Fi1clUzXEeavRfz4FpzSZw" image="_Fi1cmUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fi1cpkzXEeavRfz4FpzSZw" origin="_Fi1cl0zXEeavRfz4FpzSZw" image="_Fi1co0zXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>

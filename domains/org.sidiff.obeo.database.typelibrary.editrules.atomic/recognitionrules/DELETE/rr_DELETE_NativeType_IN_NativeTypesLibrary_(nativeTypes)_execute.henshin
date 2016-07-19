@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FgrgcEzXEeavRfz4FpzSZw" name="RR: DELETE_NativeType_IN_NativeTypesLibrary_(nativeTypes)" description="Recognize: Deletes one NativeType in NativeTypesLibrary">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FgrgcUzXEeavRfz4FpzSZw" name="rr:deleteNativeType_IN_NativeTypesLibrary" description="Recognize: deletes one NativeType in the context: NativeTypesLibrary">
+    <parameters xmi:id="_FgrgckzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypesLibrary"/>
+    </parameters>
+    <parameters xmi:id="_Fgrgc0zXEeavRfz4FpzSZw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <lhs xmi:id="_FgrgdEzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_FgrgdUzXEeavRfz4FpzSZw" name="A.Selected" incoming="_FgrgfUzXEeavRfz4FpzSZw" outgoing="_FgrggEzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypesLibrary"/>
+      </nodes>
+      <nodes xmi:id="_FgrgdkzXEeavRfz4FpzSZw" name="" outgoing="_FgrgfEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_Fgrgd0zXEeavRfz4FpzSZw" name="A.ToBeDeleted" incoming="_FgrgfEzXEeavRfz4FpzSZw _FgrgfkzXEeavRfz4FpzSZw _FgrggEzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FgrgeEzXEeavRfz4FpzSZw" name="" outgoing="_FgrgfUzXEeavRfz4FpzSZw _FgrgfkzXEeavRfz4FpzSZw _Fgrgf0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_FgrgeUzXEeavRfz4FpzSZw" name="" incoming="_Fgrgf0zXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_FgrgekzXEeavRfz4FpzSZw" value="&quot;nativeTypes&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Fgrge0zXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FgrgfEzXEeavRfz4FpzSZw" source="_FgrgdkzXEeavRfz4FpzSZw" target="_Fgrgd0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_FgrgfUzXEeavRfz4FpzSZw" source="_FgrgeEzXEeavRfz4FpzSZw" target="_FgrgdUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_FgrgfkzXEeavRfz4FpzSZw" source="_FgrgeEzXEeavRfz4FpzSZw" target="_Fgrgd0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Fgrgf0zXEeavRfz4FpzSZw" source="_FgrgeEzXEeavRfz4FpzSZw" target="_FgrgeUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_FgrggEzXEeavRfz4FpzSZw" source="_FgrgdUzXEeavRfz4FpzSZw" target="_Fgrgd0zXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypesLibrary/nativeTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_FgrggUzXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_FgrggkzXEeavRfz4FpzSZw" name="A.Selected" incoming="_FgrgkkzXEeavRfz4FpzSZw" outgoing="_FgrglUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypesLibrary"/>
+      </nodes>
+      <nodes xmi:id="_Fgrgg0zXEeavRfz4FpzSZw" name="" incoming="_FgrglkzXEeavRfz4FpzSZw" outgoing="_FgrgkUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_FgrghEzXEeavRfz4FpzSZw" name="A.ToBeDeleted" incoming="_FgrgkUzXEeavRfz4FpzSZw _Fgrgk0zXEeavRfz4FpzSZw _FgrglUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FgrghUzXEeavRfz4FpzSZw" name="" incoming="_Fgrgl0zXEeavRfz4FpzSZw" outgoing="_FgrgkkzXEeavRfz4FpzSZw _Fgrgk0zXEeavRfz4FpzSZw _FgrglEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_FgrghkzXEeavRfz4FpzSZw" name="" incoming="_FgrglEzXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Fgrgh0zXEeavRfz4FpzSZw" incoming="_FgrgmEzXEeavRfz4FpzSZw" outgoing="_FgrglkzXEeavRfz4FpzSZw _Fgrgl0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_FgrgiEzXEeavRfz4FpzSZw" value="&quot;DELETE_NativeType_IN_NativeTypesLibrary_(nativeTypes)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_FgrgiUzXEeavRfz4FpzSZw" value="&quot;Deletes one NativeType in NativeTypesLibrary&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_FgrgikzXEeavRfz4FpzSZw" value="&quot;DELETE_NativeType_IN_NativeTypesLibrary_(nativeTypes)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Fgrgi0zXEeavRfz4FpzSZw" value="&quot;RR: DELETE_NativeType_IN_NativeTypesLibrary_(nativeTypes)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_FgrgjEzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_FgrgjUzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_FgrgjkzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Fgrgj0zXEeavRfz4FpzSZw" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FgrgkEzXEeavRfz4FpzSZw" name="" outgoing="_FgrgmEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FgrgkUzXEeavRfz4FpzSZw" source="_Fgrgg0zXEeavRfz4FpzSZw" target="_FgrghEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_FgrgkkzXEeavRfz4FpzSZw" source="_FgrghUzXEeavRfz4FpzSZw" target="_FgrggkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_Fgrgk0zXEeavRfz4FpzSZw" source="_FgrghUzXEeavRfz4FpzSZw" target="_FgrghEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_FgrglEzXEeavRfz4FpzSZw" source="_FgrghUzXEeavRfz4FpzSZw" target="_FgrghkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_FgrglUzXEeavRfz4FpzSZw" source="_FgrggkzXEeavRfz4FpzSZw" target="_FgrghEzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeTypesLibrary/nativeTypes"/>
+      </edges>
+      <edges xmi:id="_FgrglkzXEeavRfz4FpzSZw" source="_Fgrgh0zXEeavRfz4FpzSZw" target="_Fgrgg0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Fgrgl0zXEeavRfz4FpzSZw" source="_Fgrgh0zXEeavRfz4FpzSZw" target="_FgrghUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_FgrgmEzXEeavRfz4FpzSZw" source="_FgrgkEzXEeavRfz4FpzSZw" target="_Fgrgh0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FgrgmUzXEeavRfz4FpzSZw" origin="_FgrgdUzXEeavRfz4FpzSZw" image="_FgrggkzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FgrgmkzXEeavRfz4FpzSZw" origin="_FgrgdkzXEeavRfz4FpzSZw" image="_Fgrgg0zXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_Fgrgm0zXEeavRfz4FpzSZw" origin="_Fgrgd0zXEeavRfz4FpzSZw" image="_FgrghEzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FgrgnEzXEeavRfz4FpzSZw" origin="_FgrgeEzXEeavRfz4FpzSZw" image="_FgrghUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FgrgnUzXEeavRfz4FpzSZw" origin="_FgrgeUzXEeavRfz4FpzSZw" image="_FgrghkzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FgrgnkzXEeavRfz4FpzSZw" origin="_Fgrge0zXEeavRfz4FpzSZw" image="_FgrgkEzXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>

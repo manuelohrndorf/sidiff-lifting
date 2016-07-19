@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FjIXgEzXEeavRfz4FpzSZw" name="RR: UNSET_ATTRIBUTE_TypeInstance_Length" description="Recognize: Sets TypeInstance Length">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FjIXgUzXEeavRfz4FpzSZw" name="rr:setTypeInstanceLength" description="Recognize: Sets the EAttribute length">
+    <parameters xmi:id="_FjIXgkzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters xmi:id="_FjIXg0zXEeavRfz4FpzSZw" name="Length">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <lhs xmi:id="_FjIXhEzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_FjIXhUzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+        <attributes xmi:id="_FjIXhkzXEeavRfz4FpzSZw" value="Length">
+          <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance/length"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FjIXh0zXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_FjIXiEzXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_FjIXiUzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <nodes xmi:id="_FjIXikzXEeavRfz4FpzSZw" incoming="_FjIXlEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_FjIXi0zXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_TypeInstance_Length&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_FjIXjEzXEeavRfz4FpzSZw" value="&quot;Sets TypeInstance Length&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_FjIXjUzXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_TypeInstance_Length&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_FjIXjkzXEeavRfz4FpzSZw" value="&quot;RR: UNSET_ATTRIBUTE_TypeInstance_Length&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_FjIXj0zXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_FjIXkEzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_FjIXkUzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_FjIXkkzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FjIXk0zXEeavRfz4FpzSZw" name="" outgoing="_FjIXlEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FjIXlEzXEeavRfz4FpzSZw" source="_FjIXk0zXEeavRfz4FpzSZw" target="_FjIXikzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FjIXlUzXEeavRfz4FpzSZw" origin="_FjIXhUzXEeavRfz4FpzSZw" image="_FjIXiUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FjIXlkzXEeavRfz4FpzSZw" origin="_FjIXh0zXEeavRfz4FpzSZw" image="_FjIXk0zXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>

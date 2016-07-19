@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FjLa0EzXEeavRfz4FpzSZw" name="RR: UNSET_ATTRIBUTE_TypeInstance_Precision" description="Recognize: Sets TypeInstance Precision">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FjLa0UzXEeavRfz4FpzSZw" name="rr:setTypeInstancePrecision" description="Recognize: Sets the EAttribute precision">
+    <parameters xmi:id="_FjLa0kzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+    </parameters>
+    <parameters xmi:id="_FjLa00zXEeavRfz4FpzSZw" name="Precision">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </parameters>
+    <lhs xmi:id="_FjLa1EzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_FjLa1UzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+        <attributes xmi:id="_FjLa1kzXEeavRfz4FpzSZw" value="Precision">
+          <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance/precision"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FjLa10zXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_FjLa2EzXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_FjLa2UzXEeavRfz4FpzSZw" name="B.Selected">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//TypeInstance"/>
+      </nodes>
+      <nodes xmi:id="_FjLa2kzXEeavRfz4FpzSZw" incoming="_FjLa5EzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_FjLa20zXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_TypeInstance_Precision&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_FjLa3EzXEeavRfz4FpzSZw" value="&quot;Sets TypeInstance Precision&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_FjLa3UzXEeavRfz4FpzSZw" value="&quot;UNSET_ATTRIBUTE_TypeInstance_Precision&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_FjLa3kzXEeavRfz4FpzSZw" value="&quot;RR: UNSET_ATTRIBUTE_TypeInstance_Precision&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_FjLa30zXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_FjLa4EzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_FjLa4UzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_FjLa4kzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FjLa40zXEeavRfz4FpzSZw" name="" outgoing="_FjLa5EzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FjLa5EzXEeavRfz4FpzSZw" source="_FjLa40zXEeavRfz4FpzSZw" target="_FjLa2kzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FjLa5UzXEeavRfz4FpzSZw" origin="_FjLa1UzXEeavRfz4FpzSZw" image="_FjLa2UzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FjLa5kzXEeavRfz4FpzSZw" origin="_FjLa10zXEeavRfz4FpzSZw" image="_FjLa40zXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>

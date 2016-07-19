@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FivV8EzXEeavRfz4FpzSZw" name="RR: SET_REFERENCE_NativeType_(mapsTo)_TGT_NativeType" description="Recognize: Sets NativeType's reference mapsTo the target NativeType">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FivV8UzXEeavRfz4FpzSZw" name="rr:setNativeType_mapsTo_TO_NativeType" description="Recognize: SetNativeTypeRefmapsToToNativeType">
+    <parameters xmi:id="_FivV8kzXEeavRfz4FpzSZw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <parameters xmi:id="_FivV80zXEeavRfz4FpzSZw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+    </parameters>
+    <lhs xmi:id="_FivV9EzXEeavRfz4FpzSZw" name="Lhs">
+      <nodes xmi:id="_FivV9UzXEeavRfz4FpzSZw" name="B.Selected" incoming="_FivV-0zXEeavRfz4FpzSZw" outgoing="_FivV_kzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FivV9kzXEeavRfz4FpzSZw" name="B.NewTarget" incoming="_FivV_EzXEeavRfz4FpzSZw _FivV_kzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FivV90zXEeavRfz4FpzSZw" name="" outgoing="_FivV-0zXEeavRfz4FpzSZw _FivV_EzXEeavRfz4FpzSZw _FivV_UzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_FivV-EzXEeavRfz4FpzSZw" name="" incoming="_FivV_UzXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_FivV-UzXEeavRfz4FpzSZw" value="&quot;mapsTo&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FivV-kzXEeavRfz4FpzSZw" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FivV-0zXEeavRfz4FpzSZw" source="_FivV90zXEeavRfz4FpzSZw" target="_FivV9UzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_FivV_EzXEeavRfz4FpzSZw" source="_FivV90zXEeavRfz4FpzSZw" target="_FivV9kzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_FivV_UzXEeavRfz4FpzSZw" source="_FivV90zXEeavRfz4FpzSZw" target="_FivV-EzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_FivV_kzXEeavRfz4FpzSZw" source="_FivV9UzXEeavRfz4FpzSZw" target="_FivV9kzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType/mapsTo"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_FivV_0zXEeavRfz4FpzSZw" name="Rhs">
+      <nodes xmi:id="_FivWAEzXEeavRfz4FpzSZw" name="B.Selected" incoming="_FivWDkzXEeavRfz4FpzSZw" outgoing="_FivWEUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FivWAUzXEeavRfz4FpzSZw" name="B.NewTarget" incoming="_FivWD0zXEeavRfz4FpzSZw _FivWEUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType"/>
+      </nodes>
+      <nodes xmi:id="_FivWAkzXEeavRfz4FpzSZw" name="" incoming="_FivWEkzXEeavRfz4FpzSZw" outgoing="_FivWDkzXEeavRfz4FpzSZw _FivWD0zXEeavRfz4FpzSZw _FivWEEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_FivWA0zXEeavRfz4FpzSZw" name="" incoming="_FivWEEzXEeavRfz4FpzSZw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_FivWBEzXEeavRfz4FpzSZw" incoming="_FivWE0zXEeavRfz4FpzSZw" outgoing="_FivWEkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_FivWBUzXEeavRfz4FpzSZw" value="&quot;SET_REFERENCE_NativeType_(mapsTo)_TGT_NativeType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_FivWBkzXEeavRfz4FpzSZw" value="&quot;Sets NativeType's reference mapsTo the target NativeType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_FivWB0zXEeavRfz4FpzSZw" value="&quot;SET_REFERENCE_NativeType_(mapsTo)_TGT_NativeType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_FivWCEzXEeavRfz4FpzSZw" value="&quot;RR: SET_REFERENCE_NativeType_(mapsTo)_TGT_NativeType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_FivWCUzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_FivWCkzXEeavRfz4FpzSZw" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_FivWC0zXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_FivWDEzXEeavRfz4FpzSZw" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FivWDUzXEeavRfz4FpzSZw" name="" outgoing="_FivWE0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FivWDkzXEeavRfz4FpzSZw" source="_FivWAkzXEeavRfz4FpzSZw" target="_FivWAEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_FivWD0zXEeavRfz4FpzSZw" source="_FivWAkzXEeavRfz4FpzSZw" target="_FivWAUzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_FivWEEzXEeavRfz4FpzSZw" source="_FivWAkzXEeavRfz4FpzSZw" target="_FivWA0zXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_FivWEUzXEeavRfz4FpzSZw" source="_FivWAEzXEeavRfz4FpzSZw" target="_FivWAUzXEeavRfz4FpzSZw">
+        <type href="http://www.obeonetwork.org/dsl/typeslibrary/1.0#//NativeType/mapsTo"/>
+      </edges>
+      <edges xmi:id="_FivWEkzXEeavRfz4FpzSZw" source="_FivWBEzXEeavRfz4FpzSZw" target="_FivWAkzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_FivWE0zXEeavRfz4FpzSZw" source="_FivWDUzXEeavRfz4FpzSZw" target="_FivWBEzXEeavRfz4FpzSZw">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FivWFEzXEeavRfz4FpzSZw" origin="_FivV9UzXEeavRfz4FpzSZw" image="_FivWAEzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FivWFUzXEeavRfz4FpzSZw" origin="_FivV9kzXEeavRfz4FpzSZw" image="_FivWAUzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FivWFkzXEeavRfz4FpzSZw" origin="_FivV90zXEeavRfz4FpzSZw" image="_FivWAkzXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FivWF0zXEeavRfz4FpzSZw" origin="_FivV-EzXEeavRfz4FpzSZw" image="_FivWA0zXEeavRfz4FpzSZw"/>
+    <mappings xmi:id="_FivWGEzXEeavRfz4FpzSZw" origin="_FivV-kzXEeavRfz4FpzSZw" image="_FivWDUzXEeavRfz4FpzSZw"/>
+  </units>
+</henshin:Module>
