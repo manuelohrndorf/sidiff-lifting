@@ -20,6 +20,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.RestrictedEGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 
 public class DomainSlot {
@@ -151,6 +152,18 @@ public class DomainSlot {
 			// If temporaryDomain is not null, there are BinaryConstraints restricting this slot's domain.
 			if (temporaryDomain != null) {
 				domain = new ArrayList<EObject>(temporaryDomain);
+				
+				// RestrictedEGraphImpl: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+				// FIXME: We should check if this isn't an general Henshin bug because otherwise 
+				// Henshin could return matches with nodes outside of the working graph!
+				if (graph instanceof RestrictedEGraphImpl) {
+					List<EObject> restrictedDomain = ((RestrictedEGraphImpl) graph).getDomain(
+							variable.typeConstraint.type, 
+							variable.typeConstraint.strictTyping,
+							variable);
+					domain.retainAll(restrictedDomain);
+				}
+				// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			}
 			
 			// Set the domain:
