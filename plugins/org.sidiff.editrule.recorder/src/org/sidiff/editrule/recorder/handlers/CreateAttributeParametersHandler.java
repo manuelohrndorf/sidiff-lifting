@@ -12,10 +12,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
-import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
 import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 
 /**
@@ -30,20 +28,22 @@ public class CreateAttributeParametersHandler extends AbstractHandler {
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			List<Parameter> attributeParameters = new ArrayList<>();
+			List<Attribute> attributes = new ArrayList<>();
 			
 			editRule.eAllContents().forEachRemaining(element -> {
 				if (element instanceof Attribute) {
-					attributeParameters.add(HenshinFactory.eINSTANCE.createParameter(
-							((Attribute) element).getValue()));
+					 // Ignore attributes with constants!
+					if (!((Attribute) element).getValue().contains("\"")) {
+						attributes.add((Attribute) element);
+					}
 				}
 			});
 			
-			Rule mainRule = EditRuleUtil.getMainRule(editRule);
-			
-			for (Parameter attributeParameter : attributeParameters) {
-				if (mainRule.getParameter(attributeParameter.getName()) == null) {
-					mainRule.getParameters().add(attributeParameter);
+			for (Attribute attribute : attributes) {
+				Rule rule = attribute.getNode().getGraph().getRule();
+				
+				if (rule.getParameter(attribute.getValue()) == null) {
+					rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter(attribute.getValue()));
 				}
 			}
 			
