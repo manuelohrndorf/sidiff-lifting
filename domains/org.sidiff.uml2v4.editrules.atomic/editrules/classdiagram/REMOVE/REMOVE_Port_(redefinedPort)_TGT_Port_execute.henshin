@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AwkI4E2yEeabIJmk86SN2w" name="REMOVE_Port_(redefinedPort)_TGT_Port" description="Removes Port's reference redefinedPort the target Port">
+  <annotations xmi:id="_AwkI4U2yEeabIJmk86SN2w" key="INVERSE" value="ADD_Port_(redefinedPort)_TGT_Port"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AwkI4k2yEeabIJmk86SN2w" name="removeFromPort_redefinedPort_Port" description="Removes from Port's reference redefinedPort the target Port">
+    <parameters xmi:id="_AwkI402yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AwkI5E2yEeabIJmk86SN2w" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_AwkI5U2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AwkI5k2yEeabIJmk86SN2w" name="Selected" outgoing="_AwkI6E2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_AwkI502yEeabIJmk86SN2w" name="OldTarget" incoming="_AwkI6E2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <edges xmi:id="_AwkI6E2yEeabIJmk86SN2w" source="_AwkI5k2yEeabIJmk86SN2w" target="_AwkI502yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port/redefinedPort"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_AwkI6U2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AwkI6k2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <nodes xmi:id="_AwkI602yEeabIJmk86SN2w" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AwkI7E2yEeabIJmk86SN2w" origin="_AwkI5k2yEeabIJmk86SN2w" image="_AwkI6k2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AwkI7U2yEeabIJmk86SN2w" origin="_AwkI502yEeabIJmk86SN2w" image="_AwkI602yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AwkI7k2yEeabIJmk86SN2w" name="mainUnit" subUnits="_AwkI4k2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AwkI702yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AwkI8E2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AwkI8U2yEeabIJmk86SN2w" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_AwkI8k2yEeabIJmk86SN2w" source="_AwkI702yEeabIJmk86SN2w" target="_AwkI402yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AwkI802yEeabIJmk86SN2w" source="_AwkI8U2yEeabIJmk86SN2w" target="_AwkI5E2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

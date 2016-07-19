@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AtJogE2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Port_IsService" description="Sets Port IsService">
+  <annotations xmi:id="_AtJogU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Port_IsService"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AtJogk2yEeabIJmk86SN2w" name="setPortIsService" description="Sets the EAttribute isService">
+    <parameters xmi:id="_AtJog02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AtJohE2yEeabIJmk86SN2w" name="IsService">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_AtJohU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AtJohk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AtJoh02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AtJoiE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+        <attributes xmi:id="_AtJoiU2yEeabIJmk86SN2w" value="IsService">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port/isService"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AtJoik2yEeabIJmk86SN2w" origin="_AtJohk2yEeabIJmk86SN2w" image="_AtJoiE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AtJoi02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AtJogk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AtJojE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AtJojU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AtJojk2yEeabIJmk86SN2w" name="IsService">
+      <annotations xmi:id="_AtJoj02yEeabIJmk86SN2w" key="INVERSE" value="IsService"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_AtJokE2yEeabIJmk86SN2w" source="_AtJojE2yEeabIJmk86SN2w" target="_AtJog02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AtJokU2yEeabIJmk86SN2w" source="_AtJojk2yEeabIJmk86SN2w" target="_AtJohE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

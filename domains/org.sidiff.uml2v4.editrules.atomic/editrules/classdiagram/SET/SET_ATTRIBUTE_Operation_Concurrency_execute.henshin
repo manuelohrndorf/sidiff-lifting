@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AwXUkE2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Operation_Concurrency" description="Sets Operation Concurrency">
+  <annotations xmi:id="_AwXUkU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Operation_Concurrency"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AwXUkk2yEeabIJmk86SN2w" name="setOperationConcurrency" description="Sets the EAttribute concurrency">
+    <parameters xmi:id="_AwXUk02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AwXUlE2yEeabIJmk86SN2w" name="Concurrency">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <lhs xmi:id="_AwXUlU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AwXUlk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AwXUl02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AwXUmE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+        <attributes xmi:id="_AwXUmU2yEeabIJmk86SN2w" value="Concurrency">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AwXUmk2yEeabIJmk86SN2w" origin="_AwXUlk2yEeabIJmk86SN2w" image="_AwXUmE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AwXUm02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AwXUkk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AwXUnE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AwXUnU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AwXUnk2yEeabIJmk86SN2w" name="Concurrency">
+      <annotations xmi:id="_AwXUn02yEeabIJmk86SN2w" key="INVERSE" value="Concurrency"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_AwXUoE2yEeabIJmk86SN2w" source="_AwXUnE2yEeabIJmk86SN2w" target="_AwXUk02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AwXUoU2yEeabIJmk86SN2w" source="_AwXUnk2yEeabIJmk86SN2w" target="_AwXUlE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

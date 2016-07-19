@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AxdgwE2yEeabIJmk86SN2w" name="ADD_Operation_(precondition)_TGT_Constraint" description="Adds to Operation's reference precondition the target Constraint">
+  <annotations xmi:id="_AxdgwU2yEeabIJmk86SN2w" key="INVERSE" value="REMOVE_Operation_(precondition)_TGT_Constraint"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Axdgwk2yEeabIJmk86SN2w" name="addToOperation_precondition_Constraint" description="Adds to Operation's reference precondition the target Constraint">
+    <parameters xmi:id="_Axdgw02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AxdgxE2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_AxdgxU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_Axdgxk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_Axdgx02yEeabIJmk86SN2w" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AxdgyE2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AxdgyU2yEeabIJmk86SN2w" name="Selected" outgoing="_Axdgy02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_Axdgyk2yEeabIJmk86SN2w" name="NewTarget" incoming="_Axdgy02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_Axdgy02yEeabIJmk86SN2w" source="_AxdgyU2yEeabIJmk86SN2w" target="_Axdgyk2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/precondition"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_AxdgzE2yEeabIJmk86SN2w" origin="_Axdgxk2yEeabIJmk86SN2w" image="_AxdgyU2yEeabIJmk86SN2w"/>
+    <mappings xmi:id="_AxdgzU2yEeabIJmk86SN2w" origin="_Axdgx02yEeabIJmk86SN2w" image="_Axdgyk2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Axdgzk2yEeabIJmk86SN2w" name="mainUnit" subUnits="_Axdgwk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_Axdgz02yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_Axdg0E2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_Axdg0U2yEeabIJmk86SN2w" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_Axdg0k2yEeabIJmk86SN2w" source="_Axdgz02yEeabIJmk86SN2w" target="_Axdgw02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Axdg002yEeabIJmk86SN2w" source="_Axdg0U2yEeabIJmk86SN2w" target="_AxdgxE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

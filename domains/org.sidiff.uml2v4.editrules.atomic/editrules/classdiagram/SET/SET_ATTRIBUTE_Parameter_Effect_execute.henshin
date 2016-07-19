@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_As2GgE2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Parameter_Effect" description="Sets Parameter Effect">
+  <annotations xmi:id="_As2GgU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Parameter_Effect"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_As2Ggk2yEeabIJmk86SN2w" name="setParameterEffect" description="Sets the EAttribute effect">
+    <parameters xmi:id="_As2Gg02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_As2GhE2yEeabIJmk86SN2w" name="Effect">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterEffectKind"/>
+    </parameters>
+    <lhs xmi:id="_As2GhU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_As2Ghk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_As2Gh02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_As2GiE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+        <attributes xmi:id="_As2GiU2yEeabIJmk86SN2w" value="Effect">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter/effect"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_As2Gik2yEeabIJmk86SN2w" origin="_As2Ghk2yEeabIJmk86SN2w" image="_As2GiE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_As2Gi02yEeabIJmk86SN2w" name="mainUnit" subUnits="_As2Ggk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_As2GjE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_As2GjU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_As2Gjk2yEeabIJmk86SN2w" name="Effect">
+      <annotations xmi:id="_As2Gj02yEeabIJmk86SN2w" key="INVERSE" value="Effect"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterEffectKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_As2GkE2yEeabIJmk86SN2w" source="_As2GjE2yEeabIJmk86SN2w" target="_As2Gg02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_As2GkU2yEeabIJmk86SN2w" source="_As2Gjk2yEeabIJmk86SN2w" target="_As2GhE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AtPIEE2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Port_IsReadOnly" description="Sets Port IsReadOnly">
+  <annotations xmi:id="_AtPIEU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Port_IsReadOnly"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AtPIEk2yEeabIJmk86SN2w" name="setPortIsReadOnly" description="Sets the EAttribute isReadOnly">
+    <parameters xmi:id="_AtPIE02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AtPIFE2yEeabIJmk86SN2w" name="IsReadOnly">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_AtPIFU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AtPIFk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AtPIF02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AtPIGE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+        <attributes xmi:id="_AtPIGU2yEeabIJmk86SN2w" value="IsReadOnly">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuralFeature/isReadOnly"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AtPIGk2yEeabIJmk86SN2w" origin="_AtPIFk2yEeabIJmk86SN2w" image="_AtPIGE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AtPIG02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AtPIEk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AtPIHE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AtPIHU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameters xmi:id="_AtPIHk2yEeabIJmk86SN2w" name="IsReadOnly">
+      <annotations xmi:id="_AtPIH02yEeabIJmk86SN2w" key="INVERSE" value="IsReadOnly"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_AtPIIE2yEeabIJmk86SN2w" source="_AtPIHE2yEeabIJmk86SN2w" target="_AtPIE02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AtPIIU2yEeabIJmk86SN2w" source="_AtPIHk2yEeabIJmk86SN2w" target="_AtPIFE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>
