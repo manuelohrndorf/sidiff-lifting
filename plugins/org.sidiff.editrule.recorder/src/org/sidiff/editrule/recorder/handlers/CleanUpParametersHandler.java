@@ -1,5 +1,7 @@
 package org.sidiff.editrule.recorder.handlers;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
+
 import java.io.IOException;
 import java.security.KeyStore.Entry.Attribute;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.sidiff.editrule.consistency.fixing.EditRuleFixer;
 import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
 import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 
@@ -96,5 +99,13 @@ public class CleanUpParametersHandler extends AbstractHandler {
 			EcoreUtil.remove(mappings);
 		}
 		
+		// Create output-parameters:
+		editRule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Node) {
+				if (isCreationNode((Node) element)) {
+					EditRuleFixer.fix_mappedAllCreateNodes(editRule, (Node) element);
+				}
+			}
+		});
 	}
 }
