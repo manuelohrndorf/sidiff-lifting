@@ -32,7 +32,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	/**
 	 * Mappings from a restricted node/variable to all its instances.
 	 */
-	protected final Map<Variable, Collection<? extends EObject>> restrictedDomainMap;
+	protected final Map<Node, Collection<? extends EObject>> restrictedDomainMap;
 
 	/**
 	 * We need the rule-info to translate between nodes and variables.
@@ -53,7 +53,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	 */
 	public RestrictedEGraphImpl(EGraph baseGraph, EngineImpl engine, Rule rule) {
 		this.baseGraph = baseGraph;
-		this.restrictedDomainMap = new LinkedHashMap<Variable, Collection<? extends EObject>>();
+		this.restrictedDomainMap = new LinkedHashMap<Node, Collection<? extends EObject>>();
 		this.ruleInfo = engine.getRuleInfo(rule);
 	}
 	
@@ -65,7 +65,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	 *            The restricted node domain.
 	 */
 	public void setDomainRestriction(Node node, Collection<? extends EObject> domain) {
-		restrictedDomainMap.put(nodeToVariable(node), domain);
+		restrictedDomainMap.put(node, domain);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	 *            The restricted node domain.
 	 */
 	public void setDomainRestriction(Node node, EObject domain) {
-		restrictedDomainMap.put(nodeToVariable(node), Collections.singletonList(domain));
+		restrictedDomainMap.put(node, Collections.singletonList(domain));
 	}
 
 	/**
