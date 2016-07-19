@@ -2471,12 +2471,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding LHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getLHS(Node rhsNode) {
-		if (rhsNode.getGraph().isLhs()) {
-			return rhsNode;
-		} else {
-			return HenshinRuleAnalysisUtilEx.getRemoteNode(
-					rhsNode.getGraph().getRule().getMappings(), rhsNode);
+		if (rhsNode != null) {
+			if (rhsNode.getGraph().isLhs()) {
+				return rhsNode;
+			} else {
+				return getRemoteNode(rhsNode.getGraph().getRule().getMappings(), rhsNode);
+			}
 		}
+		return null;
 	}
 	
 	/**
@@ -2487,12 +2489,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding RHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getRHS(Node lhsNode) {
-		if (lhsNode.getGraph().isRhs()) {
-			return lhsNode;
-		} else {
-			return HenshinRuleAnalysisUtilEx.getRemoteNode(
-					lhsNode.getGraph().getRule().getMappings(), lhsNode);
+		if (lhsNode != null) {
+			if (lhsNode.getGraph().isRhs()) {
+				return lhsNode;
+			} else {
+				return getRemoteNode(lhsNode.getGraph().getRule().getMappings(), lhsNode);
+			}
 		}
+		return null;
 	}
 	
 	/**
