@@ -27,10 +27,7 @@ public class GridLayouter {
 	private int y_pos;
 	private int iteration;
 	
-	private DiagramEditor diagramEditor;
-	
 	public void setup(DiagramEditor diagramEditor){
-		this.diagramEditor = diagramEditor;
 		Diagram diagram = diagramEditor.getDiagram();
 		
 		box = new Rectangle(0, 0, 0, 0);

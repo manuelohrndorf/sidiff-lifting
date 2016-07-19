@@ -129,7 +129,7 @@ public class SergeWizardPage1 extends WizardPage {
 				return;
 			Object obj = ssel.getFirstElement();
 			if (obj instanceof IResource) {
-				IContainer container;
+				IContainer container = null;
 				if (obj instanceof IContainer)
 					container = (IContainer) obj;
 				else
@@ -146,6 +146,7 @@ public class SergeWizardPage1 extends WizardPage {
 	 * Ensures that both text fields are set.
 	 */
 
+	@SuppressWarnings("unused")
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(getContainerName()));
 		String fileName = getFileName();

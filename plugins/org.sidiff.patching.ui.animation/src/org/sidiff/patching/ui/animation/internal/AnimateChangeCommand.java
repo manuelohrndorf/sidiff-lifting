@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -30,7 +29,6 @@ import org.eclipse.gmf.runtime.diagram.core.services.ViewService;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewRefactorHelper;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest;
@@ -323,6 +321,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void printElementTypes(IElementType[] elementTypes){
 		for(IElementType type : elementTypes){
 			if(type instanceof IHintedType){
@@ -333,7 +332,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private Collection<View> getChildViews(View containerView) {
 		List<View> childViews = new ArrayList<View>(containerView.getPersistedChildren());
 		List<View> temp = new ArrayList<View>();
@@ -353,7 +352,6 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 				true, 
 				PreferencesHint.USE_DEFAULTS)){
 			EditPart editPart = (EditPart) editorMatching.editor.getDiagramGraphicalViewer().getEditPartRegistry().get(containerView);
-			EditPolicy createEditPolicy = editPart.getEditPolicy(EditPolicyRoles.CREATION_ROLE);
 			ViewDescriptor viewDescriptor =  new ViewDescriptor(adapter, Node.class, semanticHint, true, PreferencesHint.USE_DEFAULTS);
 			CreateViewRequest request = new CreateViewRequest(RequestConstants.REQ_CREATE, viewDescriptor);
 			if(editPart.understandsRequest(request)){
@@ -517,7 +515,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
  			this.elementType = elementType;
  		}
  		
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public Object getAdapter(Class adapter) {
 			if (adapter.isInstance(elementType)) {

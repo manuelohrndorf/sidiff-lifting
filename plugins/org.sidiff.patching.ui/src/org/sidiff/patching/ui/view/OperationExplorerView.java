@@ -469,6 +469,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		return getSite().getId();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IPropertySheetPage.class)

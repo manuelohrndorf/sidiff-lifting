@@ -2,8 +2,6 @@
  */
 package org.sidiff.patching.patch.patch.impl;
 
-import static org.sidiff.patching.patch.patch.PatchPackage.SETTING;
-
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;

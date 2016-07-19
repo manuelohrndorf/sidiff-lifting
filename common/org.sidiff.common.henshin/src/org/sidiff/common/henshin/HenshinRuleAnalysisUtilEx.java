@@ -1457,7 +1457,9 @@ public class HenshinRuleAnalysisUtilEx {
 					case ALL:
 						nodeList.addAll(r.getLhs().getNodes());
 						nodeList.addAll(r.getRhs().getNodes());
-						break;		
+						break;
+				default:
+					break;		
 				}
 			}
 		}

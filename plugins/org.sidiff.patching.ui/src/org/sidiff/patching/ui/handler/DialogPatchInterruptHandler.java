@@ -18,15 +18,12 @@ public class DialogPatchInterruptHandler implements IPatchInterruptHandler {
 			OperationInvocation operationInvocation,
 			Collection<IValidationError> validationErrors) {
 		
-			String title = null;
 			String[] options = null;
 			
 			if(revertedOperation){
-				title = "Reverting Operation: Validation Error";
 				options = new String[] {"Ignore", "Reapply Operation"};
 			}
 			else{
-				title = "Applying Operation: Validation Error";
 				options = new String[] {"Ignore", "Revert Operation"};
 			}
 		
