@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
@@ -71,6 +70,10 @@ public class LiftingGraphProxy implements EGraph {
 		this.modelAGraph = modelAGraph;
 		this.modelBGraph = modelBGraph;
 		this.liftingGraphDomainMap = liftingGraphDomainMap;
+		
+		// Add multi-rules to the blueprint:
+		// TODO: Copy the blueprint for multi-rules!?
+		recognitionRuleBlueprint.appendMultiRules();
 	}
 	
 	@Override
@@ -90,17 +93,11 @@ public class LiftingGraphProxy implements EGraph {
 		} 
 		
 		// Correspondence:
-		else if (type == MATCHING_PACKAGE.getCorrespondence()) { 
+		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
+			// TODO: Record correspondence types in blueprint and create correspondence type map!?
+			// TODO: Can be optimized if the variable is known!
 			// TODO: We better optimize correspondences through cross-references!
-			List<EObject> domain = new ArrayList<EObject>(getDomainSize(type, strict));
-			
-			for (Correspondence correspondence : liftingGraphDomainMap.getDifference().getMatching().getCorrespondences()) {
-				if (correspondence.getMatchedA().eClass() == type) {
-					domain.add(correspondence);
-				}
-			}
-			
-			return domain;
+			return new ArrayList<EObject>(liftingGraphDomainMap.getDifference().getMatching().getCorrespondences());
 		}
 		
 		// SymmetricDifference:

@@ -63,7 +63,7 @@ public class EditWrapper2RecognitionWrapper {
 		transformation.transform();
 
 		// Save traces from edit rule to recognition rule:
-		for (TransformationPatterns patterns : transformation.getPatterns()) {
+		for (TransformationPatterns patterns : transformation.getPatterns().values()) {
 			transformPatternsToTraces(patterns);
 		}
 		

@@ -111,25 +111,25 @@ public class PipelineUtils {
 	 * Find all available recognition rule sorter matching the given document
 	 * type.
 	 * 
-	 * @param documentType
-	 *            The document type, i.e. the package namespace URI of a model.
+	 * @param documentTypes
+	 *            The document types, i.e. the package namespace URIs of a model.
 	 * @return All available recognition rule sorter matching the given document
 	 *         type.
 	 * @see LiftingFacade#getDocumentType(Resource)
 	 */
-	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType) {
-		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentType);
+	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes) {
+		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentTypes);
 	}
 
 	/**
 	 * 
 	 * Returns the default recognition rule sorter for the given documentType: <br/>
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(String documentType) {
-		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentType);
+	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
+		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
 	}
 
 	/**

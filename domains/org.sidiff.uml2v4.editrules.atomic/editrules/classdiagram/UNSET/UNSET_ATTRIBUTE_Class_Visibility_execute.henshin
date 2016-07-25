@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_As9bQE2yEeabIJmk86SN2w" name="UNSET_ATTRIBUTE_Class_Visibility" description="Sets Class Visibility">
+  <annotations xmi:id="_As9bQU2yEeabIJmk86SN2w" key="INVERSE" value="SET_ATTRIBUTE_Class_Visibility"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_As9bQk2yEeabIJmk86SN2w" name="setClassVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_As9bQ02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_As9bRE2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_As9bRU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_As9bRk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        <attributes xmi:id="_As9bR02yEeabIJmk86SN2w" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_As9bSE2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_As9bSU2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_As9bSk2yEeabIJmk86SN2w" origin="_As9bRk2yEeabIJmk86SN2w" image="_As9bSU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_As9bS02yEeabIJmk86SN2w" name="mainUnit" subUnits="_As9bQk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_As9bTE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_As9bTU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_As9bTk2yEeabIJmk86SN2w" name="Visibility">
+      <annotations xmi:id="_As9bT02yEeabIJmk86SN2w" key="INVERSE" value="Visibility"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_As9bUE2yEeabIJmk86SN2w" source="_As9bTE2yEeabIJmk86SN2w" target="_As9bQ02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_As9bUU2yEeabIJmk86SN2w" source="_As9bTk2yEeabIJmk86SN2w" target="_As9bRE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

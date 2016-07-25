@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AuAkIE2yEeabIJmk86SN2w" name="UNSET_ATTRIBUTE_Property_Aggregation" description="Sets Property Aggregation">
+  <annotations xmi:id="_AuAkIU2yEeabIJmk86SN2w" key="INVERSE" value="SET_ATTRIBUTE_Property_Aggregation"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AuAkIk2yEeabIJmk86SN2w" name="setPropertyAggregation" description="Sets the EAttribute aggregation">
+    <parameters xmi:id="_AuAkI02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AuAkJE2yEeabIJmk86SN2w" name="Aggregation">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <lhs xmi:id="_AuAkJU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_AuAkJk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+        <attributes xmi:id="_AuAkJ02yEeabIJmk86SN2w" value="Aggregation">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/aggregation"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AuAkKE2yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_AuAkKU2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AuAkKk2yEeabIJmk86SN2w" origin="_AuAkJk2yEeabIJmk86SN2w" image="_AuAkKU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AuAkK02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AuAkIk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AuAkLE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AuAkLU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_AuAkLk2yEeabIJmk86SN2w" name="Aggregation">
+      <annotations xmi:id="_AuAkL02yEeabIJmk86SN2w" key="INVERSE" value="Aggregation"/>
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_AuAkME2yEeabIJmk86SN2w" source="_AuAkLE2yEeabIJmk86SN2w" target="_AuAkI02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AuAkMU2yEeabIJmk86SN2w" source="_AuAkLk2yEeabIJmk86SN2w" target="_AuAkJE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

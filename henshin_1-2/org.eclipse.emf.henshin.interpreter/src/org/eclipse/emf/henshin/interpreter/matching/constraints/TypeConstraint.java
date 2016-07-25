@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.PartitionedEGraph;
+import org.eclipse.emf.henshin.interpreter.impl.RestrictedEGraphImpl;
 
 /**
  * This constraint checks whether an node has a specific value.
@@ -126,7 +127,13 @@ public class TypeConstraint implements UnaryConstraint {
 			if (partition!=NO_PARTITION) {
 				slot.domain = ((PartitionedEGraph) graph).getDomain(type, strictTyping, partition);
 			} else {
-				slot.domain = graph.getDomain(type, strictTyping);
+				// RestrictedEGraphImpl: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+				if (graph instanceof RestrictedEGraphImpl) {
+					slot.domain = ((RestrictedEGraphImpl) graph).getDomain(type, strictTyping, slot.owner);
+				} else {
+					slot.domain = graph.getDomain(type, strictTyping);
+				}
+				// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			}
 			return !slot.domain.isEmpty();
 		}
@@ -161,7 +168,13 @@ public class TypeConstraint implements UnaryConstraint {
 			if (partition != NO_PARTITION) {
 				return ((PartitionedEGraph) graph).getDomainSize(type, strictTyping, partition) > 0;
 			} else {
-				return graph.getDomainSize(type, strictTyping) > 0;
+				// RestrictedEGraphImpl: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+				if (graph instanceof RestrictedEGraphImpl) {
+					return((RestrictedEGraphImpl) graph).getDomainSize(type, strictTyping, slot.owner) > 0;
+				} else {
+					return graph.getDomainSize(type, strictTyping) > 0;
+				}
+				// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			}
 		}
 	}

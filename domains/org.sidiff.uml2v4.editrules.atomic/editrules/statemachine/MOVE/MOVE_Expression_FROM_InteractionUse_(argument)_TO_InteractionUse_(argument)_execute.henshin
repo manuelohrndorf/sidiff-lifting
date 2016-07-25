@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="MOVE_Expression_FROM_InteractionUse_(argument)_TO_InteractionUse_(argument)" description="MOVEs Expression from InteractionUse(Reference:argument) to InteractionUse(Reference:argument">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" name="moveExpression_FROM_InteractionUse_argument_TO_InteractionUse_InteractionUse" description="Moves Expression from InteractionUse(Reference:argument) toInteractionUse(Reference:InteractionUse)">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
+      </nodes>
+      <nodes name="OldSource" outgoing="//@units.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <nodes name="NewSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse/argument"/>
+      </edges>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
+      </nodes>
+      <nodes name="OldSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <nodes name="NewSource" outgoing="//@units.0/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.2" target="//@units.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse/argument"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.2"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
+    </parameters>
+    <parameters name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+  </units>
+</henshin:Module>

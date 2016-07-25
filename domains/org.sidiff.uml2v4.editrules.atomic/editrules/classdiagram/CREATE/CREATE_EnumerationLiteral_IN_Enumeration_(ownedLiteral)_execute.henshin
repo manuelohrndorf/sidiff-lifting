@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Aud3IE2yEeabIJmk86SN2w" name="CREATE_EnumerationLiteral_IN_Enumeration_(ownedLiteral)" description="Creates one EnumerationLiteral in Enumeration">
+  <annotations xmi:id="_Aud3IU2yEeabIJmk86SN2w" key="INVERSE" value="DELETE_EnumerationLiteral_IN_Enumeration_(ownedLiteral)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Aud3Ik2yEeabIJmk86SN2w" name="createEnumerationLiteral_IN_Enumeration" description="creates one EnumerationLiteral in the context: Enumeration">
+    <parameters xmi:id="_Aud3I02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_Aud3JE2yEeabIJmk86SN2w" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameters xmi:id="_Aud3JU2yEeabIJmk86SN2w" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_Aud3Jk2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_Aud3J02yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_Aud3KE2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_Aud3KU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Aud3Kk2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_Aud3K02yEeabIJmk86SN2w" name="Selected" incoming="_Aud3Mk2yEeabIJmk86SN2w" outgoing="_Aud3MU2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Aud3LE2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_Aud3LU2yEeabIJmk86SN2w" name="New" incoming="_Aud3MU2yEeabIJmk86SN2w" outgoing="_Aud3Mk2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Aud3Lk2yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+        <attributes xmi:id="_Aud3L02yEeabIJmk86SN2w" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_Aud3ME2yEeabIJmk86SN2w" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_Aud3MU2yEeabIJmk86SN2w" source="_Aud3K02yEeabIJmk86SN2w" target="_Aud3LU2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration/ownedLiteral"/>
+      </edges>
+      <edges xmi:id="_Aud3Mk2yEeabIJmk86SN2w" source="_Aud3LU2yEeabIJmk86SN2w" target="_Aud3K02yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral/enumeration"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Aud3M02yEeabIJmk86SN2w" origin="_Aud3KE2yEeabIJmk86SN2w" image="_Aud3K02yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Aud3NE2yEeabIJmk86SN2w" name="mainUnit" subUnits="_Aud3Ik2yEeabIJmk86SN2w">
+    <parameters xmi:id="_Aud3NU2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_Aud3Nk2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_Aud3N02yEeabIJmk86SN2w" name="New">
+      <annotations xmi:id="_Aud3OE2yEeabIJmk86SN2w" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameters xmi:id="_Aud3OU2yEeabIJmk86SN2w" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_Aud3Ok2yEeabIJmk86SN2w" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_Aud3O02yEeabIJmk86SN2w" source="_Aud3NU2yEeabIJmk86SN2w" target="_Aud3I02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Aud3PE2yEeabIJmk86SN2w" source="_Aud3JE2yEeabIJmk86SN2w" target="_Aud3N02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Aud3PU2yEeabIJmk86SN2w" source="_Aud3OU2yEeabIJmk86SN2w" target="_Aud3JU2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Aud3Pk2yEeabIJmk86SN2w" source="_Aud3Ok2yEeabIJmk86SN2w" target="_Aud3Jk2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

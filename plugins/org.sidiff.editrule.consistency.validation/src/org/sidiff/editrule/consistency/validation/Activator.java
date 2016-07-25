@@ -5,6 +5,8 @@ import org.osgi.framework.BundleContext;
 
 public class Activator implements BundleActivator {
 
+	public static final String ID = "org.sidiff.editrule.consistency.validation";
+	
 	private static BundleContext context;
 
 	static BundleContext getContext() {

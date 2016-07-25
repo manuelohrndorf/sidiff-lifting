@@ -1,7 +1,8 @@
 package org.sidiff.difference.lifting.edit2recognition;
 
-import java.util.Collection;
+import java.util.Map;
 
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
 
 /**
@@ -12,7 +13,7 @@ import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatte
 public interface EditPattern2RecognitionPattern {
 
 	/**
-	 * @return All transformation (trace) patterns of the unit transformation.
+	 * @return All transformation (trace) patterns of the unit transformation (edit-rule -> traces).
 	 */
-	public Collection<TransformationPatterns> getPatterns();
+	public Map<Unit, TransformationPatterns> getPatterns();
 }

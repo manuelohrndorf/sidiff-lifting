@@ -153,5 +153,11 @@ public class AddObjectImpl extends ChangeImpl implements AddObject {
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	
+	@Override
+	public String toString() {
+		return super.toString() + " (type: " + obj.eClass().getName() + ")";
+	}
 
 } //AddObjectImpl

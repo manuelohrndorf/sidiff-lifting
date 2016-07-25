@@ -12,8 +12,6 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRHSMinusLHS
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isNodeMapped;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -706,13 +704,13 @@ public class EditMulti2RecognitionMulti implements EditPattern2RecognitionPatter
 	}
 
 	@Override
-	public Collection<TransformationPatterns> getPatterns() {
+	public Map<Unit, TransformationPatterns> getPatterns() {
 
 		// Collect the traces for kernel rule and all multi rules:
-		List<TransformationPatterns> patterns = new ArrayList<TransformationPatterns>();
+		Map<Unit, TransformationPatterns> patterns = new HashMap<Unit, TransformationPatterns>();
 		
 		for (EditPattern2RecognitionPattern transformation : transformations) {
-			patterns.addAll(transformation.getPatterns());
+			patterns.putAll(transformation.getPatterns());
 		}
 		
 		return patterns;

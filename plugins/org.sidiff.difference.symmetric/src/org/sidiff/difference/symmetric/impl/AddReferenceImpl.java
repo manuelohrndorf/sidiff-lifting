@@ -274,5 +274,10 @@ public class AddReferenceImpl extends ChangeImpl implements AddReference {
 		}
 		return super.eIsSet(featureID);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + " (type: " + type.getName() + ")";
+	}
 
 } //AddReferenceImpl

@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
@@ -375,6 +376,25 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return newNode;
 	}
+	
+	/**
+	 * Creates a << create >> node.
+	 * 
+	 * @param name
+	 *            the name of the new node.
+	 * @param type
+	 *            the type of the new node.
+	 * @param rule
+	 *            the rule under which the node should be created.
+	 * @return the new node.
+	 */
+	public static Node createCreateNode(String name, EClass type, Rule rule) {
+
+		Node newNode = HenshinFactory.eINSTANCE.createNode(rule.getRhs(), type, name);
+		newNode.setName(name); // only required because of a bug in factory method createNode: name will not be set.
+
+		return newNode;
+	}
 
 	/**
 	 * Creates a << create >> edge between nodes and automatically for its
@@ -665,7 +685,35 @@ public class HenshinRuleAnalysisUtilEx {
 		assert (false) : "No lhs node found";
 		return null;
 	}
-	
+
+	/**
+	 * @param rule
+	 *            The rule from which the changes will be collected.
+	 * @return All changes (<< delete >> / << create >> nodes / edges) of the
+	 *         given rule.
+	 */
+	public static List<GraphElement> getChanges(Rule rule) {
+		List<GraphElement> changes = new ArrayList<GraphElement>();
+
+		for (Node deleteNode : getLHSMinusRHSNodes(rule)) {
+			changes.add(deleteNode);
+		}
+
+		for (Edge deleteEdge : getLHSMinusRHSEdges(rule)) {
+			changes.add(deleteEdge);
+		}
+
+		for (Node createNode : getRHSMinusLHSNodes(rule)) {
+			changes.add(createNode);
+		}
+
+		for (Edge createEdge : getRHSMinusLHSEdges(rule)) {
+			changes.add(createEdge);
+		}
+
+		return changes;
+	}
+
 	/**
 	 * Returns all << delete >> edges of a rule.
 	 * 
@@ -2425,8 +2473,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding LHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getLHS(Node rhsNode) {
-		return HenshinRuleAnalysisUtilEx.getRemoteNode(
-				rhsNode.getGraph().getRule().getMappings(), rhsNode);
+		if (rhsNode != null) {
+			if (rhsNode.getGraph().isLhs()) {
+				return rhsNode;
+			} else {
+				return getRemoteNode(rhsNode.getGraph().getRule().getMappings(), rhsNode);
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -2437,8 +2491,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The corresponding RHS node or <code>null</code> if no node was found.
 	 */
 	public static Node getRHS(Node lhsNode) {
-		return HenshinRuleAnalysisUtilEx.getRemoteNode(
-				lhsNode.getGraph().getRule().getMappings(), lhsNode);
+		if (lhsNode != null) {
+			if (lhsNode.getGraph().isRhs()) {
+				return lhsNode;
+			} else {
+				return getRemoteNode(lhsNode.getGraph().getRule().getMappings(), lhsNode);
+			}
+		}
+		return null;
 	}
 	
 	/**

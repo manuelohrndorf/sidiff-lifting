@@ -134,5 +134,12 @@ public interface RuleBaseItem extends EObject {
 	 * @generated
 	 */
 	EList<EditRuleAttachment> getEditRuleAttachments();
-
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Shrinks the contained lists to the minimal size.
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void shrink();
 } // RuleBaseItem

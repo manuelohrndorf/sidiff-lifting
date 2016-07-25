@@ -388,6 +388,28 @@ public class HenshinMultiRuleAnalysis {
 	}
 	
 	/**
+	 * Collects all nodes which are not mapped to the kernel-rule.
+	 * 
+	 * @param multiRuleGraph
+	 *            The multi-rule graph to process.
+	 * @return All (real) multi-rule nodes.
+	 */
+	public static List<Node> getMultiRuleNodes(Graph multiRuleGraph) {
+		
+		List<Node> multiNodes = new ArrayList<Node>();
+		Rule multiRule = multiRuleGraph.getRule();
+		
+		for (Node lhsNode : multiRuleGraph.getNodes()) {
+			if (findMappingByImage(multiRule.getMultiMappings(), lhsNode) == null) {
+				// Node is not mapped => Node is a multi-rule node:
+				multiNodes.add(lhsNode);
+			}
+		}
+		
+		return multiNodes;
+	}
+	
+	/**
 	 * Collects all edges which are not mapped to the kernel-rule.
 	 * 
 	 * @param multiRule

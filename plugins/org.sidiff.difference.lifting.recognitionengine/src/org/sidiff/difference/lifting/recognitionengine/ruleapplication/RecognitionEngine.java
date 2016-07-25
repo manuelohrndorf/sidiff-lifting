@@ -392,6 +392,13 @@ public class RecognitionEngine {
 	public LiftingGraphFactory getGraphFactory() {
 		return this.graphFactory;
 	}
+	
+	/**
+	 * @return All applied (recognition) rule applications.
+	 */
+	public Set<RuleApplication> getRecognitionRuleApplications() {
+		return recognizerRuleApplications;
+	}
 
 	/**
 	 * Get "trace" back to recognition rule for given SemanticChangeSet scs

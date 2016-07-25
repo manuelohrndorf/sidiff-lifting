@@ -1,6 +1,6 @@
 package org.sidiff.difference.lifting.edit2recognition.internal;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -147,7 +147,7 @@ public class EditModule2RecognitionModule implements EditPattern2RecognitionPatt
 	}
 
 	@Override
-	public Collection<TransformationPatterns> getPatterns() {
+	public Map<Unit, TransformationPatterns> getPatterns() {
 		return transformation.getPatterns();
 	}
 }

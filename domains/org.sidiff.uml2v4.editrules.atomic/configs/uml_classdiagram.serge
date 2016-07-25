@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.eclipse.org/uml2/4.0.0/UML"
+			isProfile="false" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/4.0.0/Types" />
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<RootModelElement name="Model" canBeNested="false" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="true"
+			allowReferenceCombinations="false" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="true" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="false" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions
+			enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" />
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true" />
+			<DanglingNodeSettings defaultTypeInclusion="ifRequired">
+				<DanglingNodeSetting type="Abstraction" include="always" />
+				<DanglingNodeSetting type="Association" include="always" />
+				<DanglingNodeSetting type="Class" include="always" />
+				<DanglingNodeSetting type="Classifier" include="always" />
+				<DanglingNodeSetting type="StructuredClassifier" include="always" />
+				<DanglingNodeSetting type="MultiplicityElement" include="always" />
+				<DanglingNodeSetting type="Enumeration" include="always" />
+				<DanglingNodeSetting type="EnumerationLiteral"
+					include="always" />
+				<DanglingNodeSetting type="Generalization" include="always" />
+				<DanglingNodeSetting type="LiteralBoolean" include="always" />
+				<DanglingNodeSetting type="LiteralString" include="always" />
+				<DanglingNodeSetting type="LiteralInteger" include="always" />
+				<DanglingNodeSetting type="LiteralString" include="always" />				
+				<DanglingNodeSetting type="LiteralReal" include="always" />
+				<DanglingNodeSetting type="LiteralNull" include="always" />				
+				<DanglingNodeSetting type="LiteralUnlimitedNatural" include="always" />	
+				<DanglingNodeSetting type="Operation" include="always" />
+				<DanglingNodeSetting type="Package" include="always" />
+				<DanglingNodeSetting type="Parameter" include="always" />
+				<DanglingNodeSetting type="Port" include="always" />
+				<DanglingNodeSetting type="ProfileApplication"
+					include="always" />
+				<DanglingNodeSetting type="Property" include="always" />
+				<DanglingNodeSetting type="Type" include="always" />
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings
+				defaultGenerationCase="ifRequired">
+				<GenerateModulesFor type="Abstraction" case="always" />
+				<GenerateModulesFor type="Association" case="always" />
+				<GenerateModulesFor type="Class" case="always" />
+				<DanglingNodeSetting type="MultiplicityElement" include="always" />
+				<GenerateModulesFor type="Enumeration" case="always" />
+				<GenerateModulesFor type="EnumerationLiteral"
+					case="always" />
+				<GenerateModulesFor type="Generalization" case="always" />
+				<GenerateModulesFor type="LiteralBoolean" case="always" />
+				<GenerateModulesFor type="LiteralString" case="always" />
+				<GenerateModulesFor type="LiteralInteger" case="always" />
+				<GenerateModulesFor type="LiteralString" case="always" />				
+				<GenerateModulesFor type="LiteralReal" case="always" />
+				<GenerateModulesFor type="LiteralNull" case="always" />				
+				<GenerateModulesFor type="LiteralUnlimitedNatural" case="always" />		
+				<GenerateModulesFor type="Operation" case="always" />
+				<GenerateModulesFor type="Package" case="always" />
+				<GenerateModulesFor type="Parameter" case="always" />
+				<GenerateModulesFor type="Port" case="always" />
+				<GenerateModulesFor type="ProfileApplication"
+					case="always" />
+				<GenerateModulesFor type="Property" case="always" />
+				<GenerateModulesFor type="Type" case="always" />
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

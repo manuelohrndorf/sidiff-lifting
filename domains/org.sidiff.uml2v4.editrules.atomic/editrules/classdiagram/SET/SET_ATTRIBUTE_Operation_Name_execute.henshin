@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_AwDykE2yEeabIJmk86SN2w" name="SET_ATTRIBUTE_Operation_Name" description="Sets Operation Name">
+  <annotations xmi:id="_AwDykU2yEeabIJmk86SN2w" key="INVERSE" value="UNSET_ATTRIBUTE_Operation_Name"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_AwDykk2yEeabIJmk86SN2w" name="setOperationName" description="Sets the EAttribute name">
+    <parameters xmi:id="_AwDyk02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AwDylE2yEeabIJmk86SN2w" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_AwDylU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_AwDylk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_AwDyl02yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_AwDymE2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+        <attributes xmi:id="_AwDymU2yEeabIJmk86SN2w" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_AwDymk2yEeabIJmk86SN2w" origin="_AwDylk2yEeabIJmk86SN2w" image="_AwDymE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_AwDym02yEeabIJmk86SN2w" name="mainUnit" subUnits="_AwDykk2yEeabIJmk86SN2w">
+    <parameters xmi:id="_AwDynE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_AwDynU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_AwDynk2yEeabIJmk86SN2w" name="Name">
+      <annotations xmi:id="_AwDyn02yEeabIJmk86SN2w" key="INVERSE" value="Name"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_AwDyoE2yEeabIJmk86SN2w" source="_AwDynE2yEeabIJmk86SN2w" target="_AwDyk02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_AwDyoU2yEeabIJmk86SN2w" source="_AwDynk2yEeabIJmk86SN2w" target="_AwDylE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

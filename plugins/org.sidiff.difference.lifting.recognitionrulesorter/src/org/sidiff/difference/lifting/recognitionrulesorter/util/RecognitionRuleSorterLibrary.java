@@ -12,21 +12,24 @@ public class RecognitionRuleSorterLibrary {
 
 	/**
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(String documentType){
+	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes){
 		Set<IRecognitionRuleSorter> rrSorters = new HashSet<IRecognitionRuleSorter>();
 		
 		IRecognitionRuleSorter generalRecognitionRuleSorter = new GenericRecognitionRuleSorter();
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IRecognitionRuleSorter.extensionPointID)) {
-			try {
-				IRecognitionRuleSorter rrsExtension = (IRecognitionRuleSorter) configurationElement.createExecutableExtension("recognition_rule_sorter");
-				if (documentType.equals(rrsExtension.getDocumentType())) {
-					rrSorters.add(rrsExtension);
+		
+		if(documentTypes.size()==1) {
+			for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IRecognitionRuleSorter.extensionPointID)) {
+				try {
+					IRecognitionRuleSorter rrsExtension = (IRecognitionRuleSorter) configurationElement.createExecutableExtension("recognition_rule_sorter");
+					if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())) {
+						rrSorters.add(rrsExtension);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		
@@ -39,12 +42,12 @@ public class RecognitionRuleSorterLibrary {
 	
 	/**
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(String documentType){
-		Set<IRecognitionRuleSorter> rrSorters = RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentType);
-		assert (!rrSorters.isEmpty()) : "No recognition rule sorter found for documentType " + documentType;
+	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes){
+		Set<IRecognitionRuleSorter> rrSorters = RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentTypes);
+		assert (!rrSorters.isEmpty()) : "No recognition rule sorter found for documentTypes " + documentTypes;
 		
 		IRecognitionRuleSorter rrSorter = null;
 		if(rrSorters.size() > 1){

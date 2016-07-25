@@ -88,6 +88,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			}
 		}
 		
+		// Run the garbage collector: 
+		System.gc();
+		
 		return null;
 	}
 	
@@ -366,6 +369,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 					attachmentBuilder.buildAttachment(monitor, getProject(), rulebaseItem);
 				}
+				
+				// Compress item:
+				rulebaseItem.shrink();
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();

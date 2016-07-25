@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Av4zcE2yEeabIJmk86SN2w" name="DELETE_LiteralString_IN_MultiplicityElement_(upperValue)" description="Deletes one LiteralString in MultiplicityElement">
+  <annotations xmi:id="_Av4zcU2yEeabIJmk86SN2w" key="INVERSE" value="CREATE_LiteralString_IN_MultiplicityElement_(upperValue)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Av4zck2yEeabIJmk86SN2w" name="deleteLiteralString_IN_MultiplicityElement" description="deletes one LiteralString in the context: MultiplicityElement">
+    <parameters xmi:id="_Av4zc02yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+    </parameters>
+    <parameters xmi:id="_Av4zdE2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <lhs xmi:id="_Av4zdU2yEeabIJmk86SN2w" name="LHS">
+      <nodes xmi:id="_Av4zdk2yEeabIJmk86SN2w" name="Selected" outgoing="_Av4zek2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Av4zd02yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+      <nodes xmi:id="_Av4zeE2yEeabIJmk86SN2w" name="ToBeDeleted" incoming="_Av4zek2yEeabIJmk86SN2w">
+        <annotations xmi:id="_Av4zeU2yEeabIJmk86SN2w" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+      </nodes>
+      <edges xmi:id="_Av4zek2yEeabIJmk86SN2w" source="_Av4zdk2yEeabIJmk86SN2w" target="_Av4zeE2yEeabIJmk86SN2w">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement/upperValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Av4ze02yEeabIJmk86SN2w" name="RHS">
+      <nodes xmi:id="_Av4zfE2yEeabIJmk86SN2w" name="Selected">
+        <annotations xmi:id="_Av4zfU2yEeabIJmk86SN2w" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Av4zfk2yEeabIJmk86SN2w" origin="_Av4zdk2yEeabIJmk86SN2w" image="_Av4zfE2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Av4zf02yEeabIJmk86SN2w" name="mainUnit" subUnits="_Av4zck2yEeabIJmk86SN2w">
+    <parameters xmi:id="_Av4zgE2yEeabIJmk86SN2w" name="selectedEObject">
+      <annotations xmi:id="_Av4zgU2yEeabIJmk86SN2w" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+    </parameters>
+    <parameters xmi:id="_Av4zgk2yEeabIJmk86SN2w" name="ToBeDeleted">
+      <annotations xmi:id="_Av4zg02yEeabIJmk86SN2w" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameterMappings xmi:id="_Av4zhE2yEeabIJmk86SN2w" source="_Av4zgE2yEeabIJmk86SN2w" target="_Av4zc02yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Av4zhU2yEeabIJmk86SN2w" source="_Av4zgk2yEeabIJmk86SN2w" target="_Av4zdE2yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>

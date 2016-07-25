@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,12 +9,15 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 public class RecognitionRuleBlueprint {
 	
 	private static final SymmetricPackage SYMMETRIC_PACKAGE = SymmetricPackage.eINSTANCE;
 
+	public Rule recognitionRule;
+	
 	public Map<EClass, Integer> addObject = new HashMap<EClass, Integer>();
 	public Map<EClass, Integer> removeObject = new HashMap<EClass, Integer>();
 	public Map<EReference, Integer> addReference = new HashMap<EReference, Integer>();
@@ -21,11 +25,20 @@ public class RecognitionRuleBlueprint {
 	public Map<EAttribute, Integer> attributeValueChange = new HashMap<EAttribute, Integer>();
 	
 	public RecognitionRuleBlueprint(Rule rr) {
-		addToBlueprint(rr);
+		addToBlueprint(rr.getLhs().getNodes());
+		this.recognitionRule = rr; 
 	}
 	
-	private void addToBlueprint(Rule rr){
-		for (Node node : rr.getLhs().getNodes()) {
+	public void appendMultiRules() {
+		for (Rule rrMulti : recognitionRule.getMultiRules()) {
+			if (rrMulti instanceof Rule) {
+				addToBlueprint(HenshinMultiRuleAnalysis.getMultiRuleNodes(rrMulti.getLhs()));
+			}
+		}
+	}
+	
+	private void addToBlueprint(Collection<Node> rrNodes){
+		for (Node node : rrNodes) {
 
 			// AddObject:
 			if (node.getType() == SYMMETRIC_PACKAGE.getAddObject()) {

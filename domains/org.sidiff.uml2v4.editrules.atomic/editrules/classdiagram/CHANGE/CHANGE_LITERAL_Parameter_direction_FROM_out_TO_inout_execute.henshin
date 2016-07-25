@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Au1DgE2yEeabIJmk86SN2w" name="CHANGE_LITERAL_Parameter_direction_FROM_out_TO_inout" description="Changes the attribute value of direction_FROM_out_TO_inout">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Au1DgU2yEeabIJmk86SN2w" name="changeParameterDirection_FROM_Out_TO_inout" description="Changes the attribute value of direction_FROM_out_TO_inout">
+    <parameters xmi:id="_Au1Dgk2yEeabIJmk86SN2w" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_Au1Dg02yEeabIJmk86SN2w" name="&quot;out&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterDirectionKind"/>
+    </parameters>
+    <parameters xmi:id="_Au1DhE2yEeabIJmk86SN2w" name="&quot;inout&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterDirectionKind"/>
+    </parameters>
+    <lhs xmi:id="_Au1DhU2yEeabIJmk86SN2w" name="Lhs">
+      <nodes xmi:id="_Au1Dhk2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+        <attributes xmi:id="_Au1Dh02yEeabIJmk86SN2w" value="&quot;out&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter/direction"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Au1DiE2yEeabIJmk86SN2w" name="Rhs">
+      <nodes xmi:id="_Au1DiU2yEeabIJmk86SN2w" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+        <attributes xmi:id="_Au1Dik2yEeabIJmk86SN2w" value="&quot;inout&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter/direction"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Au1Di02yEeabIJmk86SN2w" origin="_Au1Dhk2yEeabIJmk86SN2w" image="_Au1DiU2yEeabIJmk86SN2w"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Au1DjE2yEeabIJmk86SN2w" name="mainUnit" subUnits="_Au1DgU2yEeabIJmk86SN2w">
+    <parameters xmi:id="_Au1DjU2yEeabIJmk86SN2w" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_Au1Djk2yEeabIJmk86SN2w" name="&quot;out&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterDirectionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_Au1Dj02yEeabIJmk86SN2w" source="_Au1DjU2yEeabIJmk86SN2w" target="_Au1Dgk2yEeabIJmk86SN2w"/>
+    <parameterMappings xmi:id="_Au1DkE2yEeabIJmk86SN2w" source="_Au1Djk2yEeabIJmk86SN2w" target="_Au1Dg02yEeabIJmk86SN2w"/>
+  </units>
+</henshin:Module>
