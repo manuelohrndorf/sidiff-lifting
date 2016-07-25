@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "Ecore Complex";
+		return "SiDiff Domain - Complex Edit Rules (Evolutionary, Refactorings) for Ecore";
 	}
 	
 	@Override
