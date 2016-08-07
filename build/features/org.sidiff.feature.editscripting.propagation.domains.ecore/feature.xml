@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.sidiff.feature.differencing.domains.ecore"
-      label="SiDiff Differencing - Ecore Domain"
+      id="org.sidiff.feature.editscripting.propagation.domains.ecore"
+      label="SiDiff Change Propagation - Ecore Domain"
       version="1.0.0.qualifier"
       provider-name="Software Engineering Group, University of Siegen"
       plugin="org.sidiff.branding.core">
 
    <description url="http://pi.informatik.uni-siegen.de/projects/SiLift">
-      Ecore domain plug-ins, which enable advanced differencing support for *.ecore models.
+      Ecore domain plug-ins, which enable merging support for *.ecore models.
    </description>
 
    <copyright url="http://pi.informatik.uni-siegen.de/projects/SiLift">
@@ -147,18 +147,11 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </url>
 
    <requires>
-      <import feature="org.sidiff.feature.differencing" version="1.0.0.qualifier" match="greaterOrEqual"/>
+      <import feature="org.sidiff.feature.editscripting.propagation" version="1.0.0.qualifier" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.sidiff.ecore.difference.technical"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.sidiff.ecore.stringresolver"
+         id="org.sidiff.ecore.modifieddetector"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

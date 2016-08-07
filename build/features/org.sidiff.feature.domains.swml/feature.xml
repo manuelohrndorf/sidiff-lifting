@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.sidiff.feature.lifting.domains.swml"
-      label="SiDiff Lifting SWML Domain"
+      label="SiDiff Lifting - SWML Domain"
       version="1.0.0.qualifier"
       provider-name="Software Engineering Group, University of Siegen"
       plugin="org.sidiff.branding.core">
 
    <description url="http://pi.informatik.uni-siegen.de/Projekte/SiLift/">
-      SiLift Ecore domain plugins, which enable
-support for *.ecore models.
+      SWML domain plug-ins, which enable lifting support for textual *.swml models.
    </description>
 
    <copyright url="http://pi.informatik.uni-siegen.de/Projekte/SiLift">
@@ -147,44 +146,21 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </url>
 
    <requires>
-      <import feature="org.silift.core" version="0.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.ecore" version="2.8.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.sirius"/>
+      <import feature="org.sidiff.feature.differencing.domains.swml" version="1.0.0.qualifier" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.sidiff.simplewebmodel.difference.technical"
+         id="org.sidiff.swml.editrules.atomic"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.simplewebmodel.editrules.atomic"
+         id="org.sidiff.swml.editrules.complex"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.sidiff.simplewebmodel.editrules.complex"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.sidiff.simplewebmodel.matcher"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.sidiff.simplewebmodel.stringresolver"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
 </feature>
