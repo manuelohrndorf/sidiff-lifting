@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "Simple Web Model Language Atomic";
+		return "SiDiff Domain - Atomic Edit Rules for SWML";
 	}
 	
 	@Override
