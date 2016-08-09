@@ -1,6 +1,7 @@
 package org.silift.difference.symboliclink.handler;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -352,6 +353,24 @@ public abstract class AbstractDifferenceSymbolicLinkHandler implements ISymbolic
 			SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(obj2symbl_B, modelB, c.getMatchedB());
 			c.setMatchedB(sl_modelB);	
 		}
+		
+		// Unmatched Elements
+		List<EObject> unmatchedA = new ArrayList<EObject>();
+		for(EObject eObjA : symmetricDifference.getMatching().getUnmatchedA()){
+			SymbolicLinkObject sl_modelA = generateSymbolicLinkObject(obj2symbl_A, modelA, eObjA);
+			unmatchedA.add(sl_modelA);
+		}
+		symmetricDifference.getMatching().getUnmatchedA().clear();
+		symmetricDifference.getMatching().getUnmatchedA().addAll(unmatchedA);
+		
+		
+		List<EObject> unmatchedB = new ArrayList<EObject>();
+		for(EObject eObjB : symmetricDifference.getMatching().getUnmatchedB()){
+			SymbolicLinkObject sl_modelB = generateSymbolicLinkObject(obj2symbl_A, modelA, eObjB);
+			unmatchedA.add(sl_modelB);
+		}
+		symmetricDifference.getMatching().getUnmatchedB().clear();
+		symmetricDifference.getMatching().getUnmatchedB().addAll(unmatchedB);
 		
 		// edit rule matches
 		for(SemanticChangeSet scs : symmetricDifference.getChangeSets()){

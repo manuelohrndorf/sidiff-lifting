@@ -26,13 +26,16 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 	@Override
 	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
 
+		NamedElementSymbolicLinkObject link = null;
 		String name = deriveQualifiedName(eObject);
 		
-		NamedElementSymbolicLinkObject link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
-		
-		link.setQualifiedName(name);
-		
-		link.setReliability(1.f);
+		if(name != null){
+			link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
+			
+			link.setQualifiedName(name);
+			
+			link.setReliability(1.f);
+		}
 		
 		return link;
 	}
@@ -66,13 +69,13 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 	 */
 	private String deriveQualifiedName(EObject eObject){
 		
-		String featureName = "";
+		String featureName = null;
 		
 		if(eObject instanceof ENamedElement){
 			
 			featureName = eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString();
 			
-			assert (featureName != ""): eObject + "has no name";
+			assert (featureName != ""): eObject + "isn't set";
 			
 			while (eObject.eContainer() != null){
 			
@@ -80,6 +83,8 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 				featureName = eObject.eGet(eObject.eClass().getEStructuralFeature("name")) + "." + featureName;
 			}
 		}
+		
+		assert (featureName != null): eObject +"("+eObject.eClass().getName()+")" + "has no name";
 		
 		return featureName;
 	}

@@ -1,7 +1,5 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
-import javax.swing.JFrame;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -32,6 +30,7 @@ import org.sidiff.editrule.generator.serge.settings.SergeSettings;
  * as a template) is registered for the same extension, it will
  * be able to open it.
  */
+@SuppressWarnings("deprecation")
 public class SergeWizard extends Wizard implements INewWizard {
 	private SergeWizardPage1 page;
 	
@@ -40,7 +39,6 @@ public class SergeWizard extends Wizard implements INewWizard {
 	private ISelection selection;
 	
 	private SergeSettings settings;
-	private JFrame frame;
 	private Job job;
 	
 	private Boolean cancelable = false;

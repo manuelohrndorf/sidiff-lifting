@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SiDiff Compare View
+Bundle-Name: SiDiff Difference - Compare View
 Bundle-SymbolicName: org.sidiff.difference.symmetric.compareview;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sidiff.difference.symmetric.compareview.internal.Activator
@@ -11,12 +11,11 @@ Require-Bundle: org.eclipse.core.expressions,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.workbench,
- org.sidiff.difference.asymmetric,
- org.sidiff.common.emf,
- org.sidiff.common.ui,
- org.sidiff.integration.editor
-Bundle-ActivationPolicy: lazy
+ org.sidiff.difference.asymmetric;visibility:=reexport,
+ org.sidiff.common.ui;visibility:=reexport,
+ org.sidiff.integration.editor;visibility:=reexport
 Bundle-Vendor: Software Engineering Group, University of Siegen
 Export-Package: org.sidiff.difference.symmetric.compareview,
  org.sidiff.difference.symmetric.compareview.internal,
  org.sidiff.difference.symmetric.compareview.widgets
+Bundle-ActivationPolicy: lazy

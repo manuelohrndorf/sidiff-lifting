@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -41,9 +38,6 @@ public class GMFAnimation {
 		
 		List<EditorMatching> editorMatchings = new ArrayList<EditorMatching>();
 
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		String[] segments = changingResource.getURI().deresolve(URI.createURI(root.getLocationURI().toString())).toString().split("/", 2);
-		URI uri = URI.createPlatformResourceURI(segments[1], true);
 		for(IEditorReference editorReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()){
 			IEditorPart editor = editorReference.getEditor(false);
 			if(editor instanceof DiagramEditor){

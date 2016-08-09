@@ -4,11 +4,11 @@ Bundle-Name: SiDiff Technical Difference - API
 Bundle-SymbolicName: org.sidiff.difference.technical.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.sidiff.difference.technical,
- org.sidiff.difference.symmetric,
- org.sidiff.matcher,
+Require-Bundle: org.sidiff.difference.technical;visibility:=reexport,
  org.sidiff.matching.api;visibility:=reexport,
- org.sidiff.symboliclink.handler
+ org.sidiff.symboliclink.handler;visibility:=reexport,
+ org.sidiff.difference.symmetric.edit;visibility:=reexport
 Export-Package: org.sidiff.difference.technical.api,
- org.sidiff.difference.technical.api.settings
+ org.sidiff.difference.technical.api.settings,
+ org.sidiff.difference.technical.api.util
 Bundle-Vendor: Software Engineering Group, University of Siegen

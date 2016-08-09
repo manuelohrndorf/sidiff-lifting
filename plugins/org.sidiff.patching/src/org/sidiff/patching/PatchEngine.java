@@ -469,9 +469,22 @@ public class PatchEngine {
 		for (ParameterBinding binding : parameterBindings) {
 			if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
 				// We can be sure that binding is an object parameter binding
-				ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
-				EObject outTargetObject = (EObject) resultMap.get(objectBinding);
-				argumentManager.addArgumentResolution(objectBinding, outTargetObject);
+				// FIXME cpietsch 01.08.2016: There might be an error
+				// during patch generation because the multi parameter binding
+				// for output parameters is empty
+				if(binding instanceof ObjectParameterBinding){
+					ObjectParameterBinding objectBinding = (ObjectParameterBinding) binding;
+					EObject outTargetObject = (EObject) resultMap.get(objectBinding);
+					argumentManager.addArgumentResolution(objectBinding, outTargetObject);
+				}else if(binding instanceof MultiParameterBinding){
+					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
+					for(ParameterBinding parameterBinding : multiBinding.getParameterBindings()){
+						assert parameterBinding instanceof ObjectParameterBinding: "ObjectParameterBinding expected!";
+						ObjectParameterBinding objectBinding = (ObjectParameterBinding) parameterBinding;
+						EObject outTargetObject = (EObject) resultMap.get(objectBinding);
+						argumentManager.addArgumentResolution(objectBinding, outTargetObject);
+					}
+				}
 				
 			}
 		}

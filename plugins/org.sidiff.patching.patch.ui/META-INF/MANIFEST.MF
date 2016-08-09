@@ -2,7 +2,6 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SiDiff Patching - Patch UI
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Software Engineering Group, University of Siegen
 Bundle-SymbolicName: org.sidiff.patching.patch.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
@@ -10,9 +9,8 @@ Bundle-Activator: org.sidiff.patching.patch.ui.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.common.ui,
- org.sidiff.difference.lifting.ui,
- org.sidiff.difference.rulebase.view,
+ org.sidiff.difference.lifting.ui;visibility:=reexport,
  org.sidiff.patching,
  org.sidiff.patching.api,
- org.sidiff.patching.patch,
- org.sidiff.symboliclink.handler
+ org.sidiff.patching.patch
+Bundle-ActivationPolicy: lazy

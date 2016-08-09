@@ -15,12 +15,14 @@ public class GridLayoutProvider extends AbstractProvider implements ILayoutNodeP
 		return false;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Runnable layoutLayoutNodes(List layoutNodes, boolean offsetFromBoundingBox, IAdaptable layoutHint) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canLayoutNodes(List layoutNodes, boolean shouldOffsetFromBoundingBox, IAdaptable layoutHint) {
 		// TODO Auto-generated method stub

@@ -245,6 +245,7 @@ public class SergeWizardPage2 extends WizardPage {
 	 * Ensures that both text fields are set.
 	 */
 
+	@SuppressWarnings("unused")
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot()
 				.findMember(new Path(getContainerName()));

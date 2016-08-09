@@ -9,7 +9,7 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public abstract class DifferenceSettings extends MatchingSettings{
+public class DifferenceSettings extends MatchingSettings{
 
 	/**
 	 * Enables/disables the internal mergeImports function

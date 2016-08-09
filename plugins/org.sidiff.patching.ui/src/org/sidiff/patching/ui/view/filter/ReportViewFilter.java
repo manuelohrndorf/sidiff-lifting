@@ -15,8 +15,8 @@ public class ReportViewFilter extends ViewerFilter {
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (element instanceof OperationExecutionEntry) {
-			OperationExecutionEntry entry = (OperationExecutionEntry) element;
-			//return entry.getKind() != kind;
+//			OperationExecutionEntry entry = (OperationExecutionEntry) element;
+//			return entry.getKind() != kind;
 			return true;
 		}
 		return true;

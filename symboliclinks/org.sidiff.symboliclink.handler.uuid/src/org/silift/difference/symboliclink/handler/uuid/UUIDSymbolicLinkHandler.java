@@ -27,19 +27,22 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 
 	@Override
 	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
-	
+		
+		UUIDSymbolicLinkObject link = null;
 		String uuid = deriveUUID(eObject);
 		
-		UUIDSymbolicLinkObject link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
-		
-		try{
-			link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
-		}catch (NullPointerException e){
-			System.out.println("INFO: " + eObject + " has no name");
+		if(uuid != null){
+			link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
+			
+			try{
+				link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
+			}catch (NullPointerException e){
+				System.out.println("INFO: " + eObject + " has no name");
+			}
+			link.setUuid(uuid);
+			
+			link.setReliability(1.f);
 		}
-		link.setUuid(uuid);
-		
-		link.setReliability(1.f);
 		
 		return link;
 		
@@ -79,7 +82,7 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 		
 		String uuid = EMFUtil.getXmiId(eObject);
 		
-		assert (eObject instanceof EGenericType || uuid != null): eObject + "has no uuid";
+		assert (!(eObject instanceof EGenericType) || uuid != null): eObject +"("+eObject.eClass().getName()+")" + "has no uuid";
 		
 		return uuid;
 	}

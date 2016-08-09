@@ -21,7 +21,7 @@ public interface ISymbolicLinkHandler {
 	/**
 	 * The shared extension point id.
 	 */
-	public static final String extensionPointID = "org.sidiff.common.symboliclink.handler.symbolic_link_handler_extension";
+	public static final String extensionPointID = "org.sidiff.symboliclink.handler.symbolic_link_handler_extension";
 
 	/**
 	 * Returns the name of the symbolic-link-handler.
