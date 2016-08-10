@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 
 /**
@@ -54,6 +56,21 @@ public class DanglingConstraint implements Constraint {
 		
 		// Compute the actual number of incoming edges:
 		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
+		
+		// ===== FIXME: Begin Workaround ============================
+		//Ignore incoming references from implicitly created Ecore Generics
+		for (Iterator<Setting> iterator = settings.iterator(); iterator.hasNext();) {
+			Setting setting = iterator.next();
+			if (setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_EClassifier())   		||
+				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ERawType())  			||
+				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ETypeParameter())     				
+			   ) 
+			{
+				iterator.remove();
+			}	
+		}
+		// ===== FIXME: End Workaround ==============================
+		
 		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
 		Integer expectedCount;
 

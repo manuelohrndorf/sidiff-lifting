@@ -99,7 +99,7 @@ public class Path {
 			Node source = nodes.get(i);
 			Edge edge = edges.get(i);
 			Node realSource = edge.getSource();
-			while (realSource.getGraph()!=source.getGraph()) {
+			while (realSource != null && realSource.getGraph()!=source.getGraph()) { //bug fix: realSource != null && 
 				NestedCondition nested = (NestedCondition) realSource.getGraph().eContainer();
 				realSource = nested.getMappings().getOrigin(realSource);
 			}

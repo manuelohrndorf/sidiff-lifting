@@ -1,0 +1,73 @@
+ .../emf/henshin/interpreter/impl/ChangeImpl.java        |  2 +-
+ .../matching/constraints/DanglingConstraint.java        | 17 +++++++++++++++++
+ .../eclipse/emf/henshin/model/staticanalysis/Path.java  |  2 +-
+ 3 files changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/ChangeImpl.java b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/ChangeImpl.java
+index c1315e9..6e56a65 100644
+--- a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/ChangeImpl.java
++++ b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/ChangeImpl.java
+@@ -130,7 +130,7 @@ public abstract class ChangeImpl implements Change {
+ 		@Override
+ 		public void applyAndReverse() {
+ 			// Need to initialize?
+-			if (!initialized) {
++			if (!initialized && attribute != null) { //bug fix: && attribute != null
+ 				oldValue = object.eGet(attribute);
+ 				if ((oldValue==null && newValue==null) ||
+ 					(oldValue!=null && oldValue.equals(newValue))) {
+diff --git a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+index 09336db..c08778b 100644
+--- a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
++++ b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.interpreter.matching.constraints;
+ 
+ import java.util.Collection;
+ import java.util.HashMap;
++import java.util.Iterator;
+ import java.util.List;
+ import java.util.Map;
+ 
+@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
+ import org.eclipse.emf.ecore.EReference;
+ import org.eclipse.emf.ecore.EStructuralFeature;
+ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
++import org.eclipse.emf.ecore.EcorePackage;
+ import org.eclipse.emf.henshin.interpreter.EGraph;
+ 
+ /**
+@@ -54,6 +56,21 @@ public class DanglingConstraint implements Constraint {
+ 		
+ 		// Compute the actual number of incoming edges:
+ 		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
++		
++		// ===== FIXME: Begin Workaround ============================
++		//Ignore incoming references from implicitly created Ecore Generics
++		for (Iterator<Setting> iterator = settings.iterator(); iterator.hasNext();) {
++			Setting setting = iterator.next();
++			if (setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_EClassifier())   		||
++				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ERawType())  			||
++				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ETypeParameter())     				
++			   ) 
++			{
++				iterator.remove();
++			}	
++		}
++		// ===== FIXME: End Workaround ==============================
++		
+ 		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
+ 		Integer expectedCount;
+ 
+diff --git a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.model/src/org/eclipse/emf/henshin/model/staticanalysis/Path.java b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.model/src/org/eclipse/emf/henshin/model/staticanalysis/Path.java
+index c294768..bbd17e1 100644
+--- a/henshin/1.4.0/plugins/org.eclipse.emf.henshin.model/src/org/eclipse/emf/henshin/model/staticanalysis/Path.java
++++ b/henshin/1.4.0/plugins/org.eclipse.emf.henshin.model/src/org/eclipse/emf/henshin/model/staticanalysis/Path.java
+@@ -99,7 +99,7 @@ public class Path {
+ 			Node source = nodes.get(i);
+ 			Edge edge = edges.get(i);
+ 			Node realSource = edge.getSource();
+-			while (realSource.getGraph()!=source.getGraph()) {
++			while (realSource != null && realSource.getGraph()!=source.getGraph()) { //bug fix: realSource != null && 
+ 				NestedCondition nested = (NestedCondition) realSource.getGraph().eContainer();
+ 				realSource = nested.getMappings().getOrigin(realSource);
+ 			}
