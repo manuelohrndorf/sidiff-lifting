@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:id="model" name="model_vb" nsURI="http://model_vb/1.0" nsPrefix="model_vb">
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Ticket" name="Ticket">
+    <eOperations xmi:id="Ticket.getInfo" name="getTInfo"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Ticket.event" name="event" lowerBound="1" eType="#//Event"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Ticket.office" name="office" eType="#//Office"
+        eOpposite="#//Office/ticket"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Ticket.onlineStore" name="onlineStore" eType="#//OnlineStore"
+        eOpposite="#//OnlineStore/ticket"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Ticket.customer" name="customer" eType="#//Customer"
+        eOpposite="#//Customer/ticket"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Event" name="Event"/>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Concert" name="Concert" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="artist" name="artist" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Exhibition" name="Exhibition" eSuperTypes="#//Event"/>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Customer" name="Customer" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Customer.ticket" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/customer"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Office" name="Office">
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="Office.ticket" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/office"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="OnlineStore" name="OnlineStore">
+    <eStructuralFeatures xsi:type="ecore:EReference" xmi:id="OnlineStore.ticket" name="ticket" upperBound="-1"
+        eType="#//Ticket" eOpposite="#//Ticket/onlineStore"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="Person" name="Person">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" xmi:id="Person.name" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" xmi:id="SoccerMatch" name="SoccerMatch" eSuperTypes="#//Event"/>
+</ecore:EPackage>
