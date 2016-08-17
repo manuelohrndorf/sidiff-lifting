@@ -3,7 +3,6 @@ package org.sidiff.editrule.recorder.handlers;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
 
 import java.io.IOException;
-import java.security.KeyStore.Entry.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -59,7 +59,7 @@ public class CleanUpParametersHandler extends AbstractHandler {
 			}
 			
 			else if (element instanceof Attribute) {
-				names.add(((Attribute) element).getName());
+				names.add(((Attribute) element).getValue());
 			}
 		});
 		
