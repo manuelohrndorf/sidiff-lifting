@@ -1,0 +1,163 @@
+/**
+ */
+package org.sidiff.slicing.configuration;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Slicing Configuration</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getName <em>Name</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentType <em>Document Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
+ * </ul>
+ *
+ * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration()
+ * @model
+ * @generated
+ */
+public interface SlicingConfiguration extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Name()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Description</em>' attribute.
+	 * @see #setDescription(String)
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Description()
+	 * @model
+	 * @generated
+	 */
+	String getDescription();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDescription <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Description</em>' attribute.
+	 * @see #getDescription()
+	 * @generated
+	 */
+	void setDescription(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Document Type</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Document Type</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Document Type</em>' attribute list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_DocumentType()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getDocumentType();
+
+	/**
+	 * Returns the value of the '<em><b>Imports</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EPackage}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Imports</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Imports</em>' reference list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Imports()
+	 * @model transient="true" volatile="true" derived="true"
+	 * @generated
+	 */
+	EList<EPackage> getImports();
+
+	/**
+	 * Returns the value of the '<em><b>Slicing Mode</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.sidiff.slicing.configuration.SlicingMode}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Slicing Mode</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Slicing Mode</em>' attribute.
+	 * @see org.sidiff.slicing.configuration.SlicingMode
+	 * @see #setSlicingMode(SlicingMode)
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_SlicingMode()
+	 * @model required="true"
+	 * @generated
+	 */
+	SlicingMode getSlicingMode();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Slicing Mode</em>' attribute.
+	 * @see org.sidiff.slicing.configuration.SlicingMode
+	 * @see #getSlicingMode()
+	 * @generated
+	 */
+	void setSlicingMode(SlicingMode value);
+
+	/**
+	 * Returns the value of the '<em><b>Sliced EClasses</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.slicing.configuration.SlicedEClass}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.slicing.configuration.SlicedEClass#getSlicingConfiguration <em>Slicing Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sliced EClasses</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sliced EClasses</em>' containment reference list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_SlicedEClasses()
+	 * @see org.sidiff.slicing.configuration.SlicedEClass#getSlicingConfiguration
+	 * @model opposite="slicingConfiguration" containment="true"
+	 * @generated
+	 */
+	EList<SlicedEClass> getSlicedEClasses();
+
+} // SlicingConfiguration
