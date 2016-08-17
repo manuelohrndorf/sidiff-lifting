@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.sidiff.slicing.configuration.ConfigurationPackage;
@@ -35,7 +36,7 @@ import org.sidiff.slicing.configuration.SlicingMode;
  * <ul>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getDocumentType <em>Document Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getDocumentTypes <em>Document Types</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicingMode <em>Slicing Mode</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicedEClasses <em>Sliced EClasses</em>}</li>
@@ -85,14 +86,14 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDocumentType() <em>Document Type</em>}' attribute list.
+	 * The cached value of the '{@link #getDocumentTypes() <em>Document Types</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDocumentType()
+	 * @see #getDocumentTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> documentType;
+	protected EList<String> documentTypes;
 
 	/**
 	 * The default value of the '{@link #getSlicingMode() <em>Slicing Mode</em>}' attribute.
@@ -190,24 +191,30 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<String> getDocumentType() {
-		if (documentType == null) {
-			documentType = new EDataTypeUniqueEList<String>(String.class, this, ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE);
+	public EList<String> getDocumentTypes() {
+		if (documentTypes == null) {
+			documentTypes = new EDataTypeUniqueEList<String>(String.class, this, ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES);
 		}
-		return documentType;
+		return documentTypes;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<EPackage> getImports() {
-		// TODO: implement this method to return the 'Imports' reference list
-		// Ensure that you remove @generated or mark it @generated NOT
-		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
-		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.EcoreEList should be used.
-		throw new UnsupportedOperationException();
+		EList<EPackage> imports = new EObjectResolvingEList<EPackage>(EPackage.class, this, ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS);
+		
+		for(String nsURI : documentTypes){
+			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(nsURI);
+			if(ePackage != null){
+				imports.add(ePackage);
+				this.eResource().getResourceSet().getPackageRegistry().put(nsURI, ePackage);
+			}
+		}
+		
+		return imports;
 	}
 
 	/**
@@ -284,8 +291,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return getName();
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 				return getDescription();
-			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE:
-				return getDocumentType();
+			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
+				return getDocumentTypes();
 			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
 				return getImports();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
@@ -311,13 +318,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE:
-				getDocumentType().clear();
-				getDocumentType().addAll((Collection<? extends String>)newValue);
-				return;
-			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
-				getImports().clear();
-				getImports().addAll((Collection<? extends EPackage>)newValue);
+			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
+				getDocumentTypes().clear();
+				getDocumentTypes().addAll((Collection<? extends String>)newValue);
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode((SlicingMode)newValue);
@@ -344,11 +347,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE:
-				getDocumentType().clear();
-				return;
-			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
-				getImports().clear();
+			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
+				getDocumentTypes().clear();
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode(SLICING_MODE_EDEFAULT);
@@ -372,8 +372,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE:
-				return documentType != null && !documentType.isEmpty();
+			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
+				return documentTypes != null && !documentTypes.isEmpty();
 			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
 				return !getImports().isEmpty();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
@@ -398,8 +398,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 		result.append(name);
 		result.append(", description: ");
 		result.append(description);
-		result.append(", documentType: ");
-		result.append(documentType);
+		result.append(", documentTypes: ");
+		result.append(documentTypes);
 		result.append(", slicingMode: ");
 		result.append(slicingMode);
 		result.append(')');

@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EPackage;
  * <ul>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDescription <em>Description</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentType <em>Document Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentTypes <em>Document Types</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
@@ -82,20 +82,20 @@ public interface SlicingConfiguration extends EObject {
 	void setDescription(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Document Type</b></em>' attribute list.
+	 * Returns the value of the '<em><b>Document Types</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Document Type</em>' attribute list isn't clear,
+	 * If the meaning of the '<em>Document Types</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Document Type</em>' attribute list.
-	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_DocumentType()
+	 * @return the value of the '<em>Document Types</em>' attribute list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_DocumentTypes()
 	 * @model
 	 * @generated
 	 */
-	EList<String> getDocumentType();
+	EList<String> getDocumentTypes();
 
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' reference list.
@@ -108,7 +108,7 @@ public interface SlicingConfiguration extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Imports</em>' reference list.
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Imports()
-	 * @model transient="true" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<EPackage> getImports();

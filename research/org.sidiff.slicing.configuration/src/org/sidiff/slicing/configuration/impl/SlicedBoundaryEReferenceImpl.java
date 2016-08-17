@@ -160,24 +160,10 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EClass basicGetSrcType() {
-		// TODO: implement this method to return the 'Src Type' reference
-		// -> do not perform proxy resolution
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSrcType(EClass newSrcType) {
-		// TODO: implement this method to set the 'Src Type' reference
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return type.getEContainingClass();
 	}
 
 	/**
@@ -193,24 +179,14 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EClass basicGetTgtType() {
-		// TODO: implement this method to return the 'Tgt Type' reference
-		// -> do not perform proxy resolution
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTgtType(EClass newTgtType) {
-		// TODO: implement this method to set the 'Tgt Type' reference
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		EClass eClass = null;
+		if(type.getEType() instanceof EClass){
+			eClass = (EClass)type.getEType();
+		}
+		return eClass;
 	}
 
 	/**
@@ -342,12 +318,6 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TARGET:
 				setTarget((SlicedEClass)newValue);
 				return;
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__SRC_TYPE:
-				setSrcType((EClass)newValue);
-				return;
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TGT_TYPE:
-				setTgtType((EClass)newValue);
-				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TYPE:
 				setType((EReference)newValue);
 				return;
@@ -368,12 +338,6 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TARGET:
 				setTarget((SlicedEClass)null);
-				return;
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__SRC_TYPE:
-				setSrcType((EClass)null);
-				return;
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TGT_TYPE:
-				setTgtType((EClass)null);
 				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TYPE:
 				setType((EReference)null);

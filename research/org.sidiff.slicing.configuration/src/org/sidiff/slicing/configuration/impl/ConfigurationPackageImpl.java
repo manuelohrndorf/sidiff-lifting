@@ -149,7 +149,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSlicingConfiguration_DocumentType() {
+	public EAttribute getSlicingConfiguration_DocumentTypes() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -328,7 +328,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		slicingConfigurationEClass = createEClass(SLICING_CONFIGURATION);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__NAME);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__DESCRIPTION);
-		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__DOCUMENT_TYPE);
+		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__DOCUMENT_TYPES);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__IMPORTS);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICING_MODE);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICED_ECLASSES);
@@ -387,8 +387,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		initEClass(slicingConfigurationEClass, SlicingConfiguration.class, "SlicingConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSlicingConfiguration_Name(), ecorePackage.getEString(), "name", null, 1, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSlicingConfiguration_Description(), ecorePackage.getEString(), "description", null, 0, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSlicingConfiguration_DocumentType(), ecorePackage.getEString(), "documentType", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicingConfiguration_Imports(), theEcorePackage.getEPackage(), null, "imports", null, 0, -1, SlicingConfiguration.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSlicingConfiguration_DocumentTypes(), ecorePackage.getEString(), "documentTypes", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicingConfiguration_Imports(), theEcorePackage.getEPackage(), null, "imports", null, 0, -1, SlicingConfiguration.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSlicingConfiguration_SlicingMode(), this.getSlicingMode(), "slicingMode", null, 1, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicingConfiguration_SlicedEClasses(), this.getSlicedEClass(), this.getSlicedEClass_SlicingConfiguration(), "slicedEClasses", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -402,8 +402,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		initEClass(slicedBoundaryEReferenceEClass, SlicedBoundaryEReference.class, "SlicedBoundaryEReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSlicedBoundaryEReference_Source(), this.getSlicedEClass(), this.getSlicedEClass_Outgoings(), "source", null, 0, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicedBoundaryEReference_Target(), this.getSlicedEClass(), this.getSlicedEClass_Incomings(), "target", null, 0, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_SrcType(), theEcorePackage.getEClass(), null, "srcType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_TgtType(), theEcorePackage.getEClass(), null, "tgtType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicedBoundaryEReference_SrcType(), theEcorePackage.getEClass(), null, "srcType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicedBoundaryEReference_TgtType(), theEcorePackage.getEClass(), null, "tgtType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicedBoundaryEReference_Type(), theEcorePackage.getEReference(), null, "type", null, 1, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

@@ -92,22 +92,11 @@ public interface SlicedBoundaryEReference extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Src Type</em>' reference.
-	 * @see #setSrcType(EClass)
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedBoundaryEReference_SrcType()
-	 * @model required="true" transient="true" volatile="true" derived="true"
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	EClass getSrcType();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSrcType <em>Src Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Src Type</em>' reference.
-	 * @see #getSrcType()
-	 * @generated
-	 */
-	void setSrcType(EClass value);
 
 	/**
 	 * Returns the value of the '<em><b>Tgt Type</b></em>' reference.
@@ -118,22 +107,11 @@ public interface SlicedBoundaryEReference extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Tgt Type</em>' reference.
-	 * @see #setTgtType(EClass)
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedBoundaryEReference_TgtType()
-	 * @model required="true" transient="true" volatile="true" derived="true"
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	EClass getTgtType();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTgtType <em>Tgt Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Tgt Type</em>' reference.
-	 * @see #getTgtType()
-	 * @generated
-	 */
-	void setTgtType(EClass value);
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.

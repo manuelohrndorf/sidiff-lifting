@@ -86,13 +86,13 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICING_CONFIGURATION__DESCRIPTION = 1;
 
 	/**
-	 * The feature id for the '<em><b>Document Type</b></em>' attribute list.
+	 * The feature id for the '<em><b>Document Types</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION__DOCUMENT_TYPE = 2;
+	int SLICING_CONFIGURATION__DOCUMENT_TYPES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Imports</b></em>' reference list.
@@ -329,15 +329,15 @@ public interface ConfigurationPackage extends EPackage {
 	EAttribute getSlicingConfiguration_Description();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentType <em>Document Type</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentTypes <em>Document Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Document Type</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentType()
+	 * @return the meta object for the attribute list '<em>Document Types</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentTypes()
 	 * @see #getSlicingConfiguration()
 	 * @generated
 	 */
-	EAttribute getSlicingConfiguration_DocumentType();
+	EAttribute getSlicingConfiguration_DocumentTypes();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getImports <em>Imports</em>}'.
@@ -562,12 +562,12 @@ public interface ConfigurationPackage extends EPackage {
 		EAttribute SLICING_CONFIGURATION__DESCRIPTION = eINSTANCE.getSlicingConfiguration_Description();
 
 		/**
-		 * The meta object literal for the '<em><b>Document Type</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Document Types</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SLICING_CONFIGURATION__DOCUMENT_TYPE = eINSTANCE.getSlicingConfiguration_DocumentType();
+		EAttribute SLICING_CONFIGURATION__DOCUMENT_TYPES = eINSTANCE.getSlicingConfiguration_DocumentTypes();
 
 		/**
 		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.

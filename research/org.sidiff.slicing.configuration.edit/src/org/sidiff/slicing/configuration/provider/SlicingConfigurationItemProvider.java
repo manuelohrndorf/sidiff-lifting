@@ -65,7 +65,7 @@ public class SlicingConfigurationItemProvider
 
 			addNamePropertyDescriptor(object);
 			addDescriptionPropertyDescriptor(object);
-			addDocumentTypePropertyDescriptor(object);
+			addDocumentTypesPropertyDescriptor(object);
 			addImportsPropertyDescriptor(object);
 			addSlicingModePropertyDescriptor(object);
 			addSlicedEClassesPropertyDescriptor(object);
@@ -118,19 +118,19 @@ public class SlicingConfigurationItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Document Type feature.
+	 * This adds a property descriptor for the Document Types feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addDocumentTypePropertyDescriptor(Object object) {
+	protected void addDocumentTypesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_SlicingConfiguration_documentType_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_documentType_feature", "_UI_SlicingConfiguration_type"),
-				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__DOCUMENT_TYPE,
+				 getString("_UI_SlicingConfiguration_documentTypes_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_documentTypes_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__DOCUMENT_TYPES,
 				 true,
 				 false,
 				 false,
@@ -275,7 +275,7 @@ public class SlicingConfigurationItemProvider
 		switch (notification.getFeatureID(SlicingConfiguration.class)) {
 			case ConfigurationPackage.SLICING_CONFIGURATION__NAME:
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
-			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPE:
+			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
