@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="configuration" nsURI="http://www.sidiff.org/slicing/configuration/1.0"
+    nsPrefix="configuration">
+  <eClassifiers xsi:type="ecore:EClass" name="SlicingConfiguration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentType" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slicingMode" lowerBound="1"
+        eType="#//SlicingMode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="slicedEClasses" upperBound="-1"
+        eType="#//SlicedEClass" containment="true" eOpposite="#//SlicedEClass/slicingConfiguration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SlicingMode">
+    <eLiterals name="OPTIMISTIC"/>
+    <eLiterals name="PESSIMISTIC" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SlicedEClass">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundary" lowerBound="1"
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="slicingConfiguration" lowerBound="1"
+        eType="#//SlicingConfiguration" eOpposite="#//SlicingConfiguration/slicedEClasses"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"
+        eType="#//SlicedBoundaryEReference" containment="true" eOpposite="#//SlicedBoundaryEReference/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomings" upperBound="-1"
+        eType="#//SlicedBoundaryEReference" containment="true" eOpposite="#//SlicedBoundaryEReference/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SlicedBoundaryEReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//SlicedEClass"
+        eOpposite="#//SlicedEClass/outgoings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//SlicedEClass"
+        eOpposite="#//SlicedEClass/incomings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="srcType" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tgtType" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
+        volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EReference"/>
+  </eClassifiers>
+</ecore:EPackage>
