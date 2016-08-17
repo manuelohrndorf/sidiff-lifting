@@ -153,7 +153,7 @@ public class SlicingConfigurationItemProvider
 				 getString("_UI_SlicingConfiguration_imports_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_imports_feature", "_UI_SlicingConfiguration_type"),
 				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__IMPORTS,
-				 true,
+				 false,
 				 false,
 				 true,
 				 null,

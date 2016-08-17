@@ -108,7 +108,7 @@ public interface SlicingConfiguration extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Imports</em>' reference list.
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Imports()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" volatile="true" derived="true"
 	 * @generated
 	 */
 	EList<EPackage> getImports();

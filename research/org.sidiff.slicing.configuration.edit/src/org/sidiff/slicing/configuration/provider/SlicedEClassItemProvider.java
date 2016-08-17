@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicedEClass;
+import org.sidiff.slicing.configuration.provider.descriptor.SlicedEClassTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicedEClass} object.
@@ -164,11 +165,11 @@ public class SlicedEClassItemProvider
 	 * This adds a property descriptor for the Type feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new SlicedEClassTypePropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_SlicedEClass_type_feature"),

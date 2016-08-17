@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.sidiff.slicing.configuration.ConfigurationPackage;
+import org.sidiff.slicing.configuration.provider.descriptor.SlicedBoundaryEReferenceTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicedBoundaryEReference} object.
@@ -124,7 +125,7 @@ public class SlicedBoundaryEReferenceItemProvider
 				 getString("_UI_SlicedBoundaryEReference_srcType_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedBoundaryEReference_srcType_feature", "_UI_SlicedBoundaryEReference_type"),
 				 ConfigurationPackage.Literals.SLICED_BOUNDARY_EREFERENCE__SRC_TYPE,
-				 true,
+				 false,
 				 false,
 				 true,
 				 null,
@@ -146,7 +147,7 @@ public class SlicedBoundaryEReferenceItemProvider
 				 getString("_UI_SlicedBoundaryEReference_tgtType_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedBoundaryEReference_tgtType_feature", "_UI_SlicedBoundaryEReference_type"),
 				 ConfigurationPackage.Literals.SLICED_BOUNDARY_EREFERENCE__TGT_TYPE,
-				 true,
+				 false,
 				 false,
 				 true,
 				 null,
@@ -158,11 +159,11 @@ public class SlicedBoundaryEReferenceItemProvider
 	 * This adds a property descriptor for the Type feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new SlicedBoundaryEReferenceTypePropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_SlicedBoundaryEReference_type_feature"),

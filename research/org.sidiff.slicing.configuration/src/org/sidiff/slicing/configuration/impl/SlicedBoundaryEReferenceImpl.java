@@ -171,6 +171,17 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public void setSrcType(EClass newSrcType) {
+		// TODO: implement this method to set the 'Src Type' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTgtType() {
 		EClass tgtType = basicGetTgtType();
 		return tgtType != null && tgtType.eIsProxy() ? (EClass)eResolveProxy((InternalEObject)tgtType) : tgtType;
@@ -187,6 +198,17 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 			eClass = (EClass)type.getEType();
 		}
 		return eClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTgtType(EClass newTgtType) {
+		// TODO: implement this method to set the 'Tgt Type' reference
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -318,6 +340,12 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TARGET:
 				setTarget((SlicedEClass)newValue);
 				return;
+			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__SRC_TYPE:
+				setSrcType((EClass)newValue);
+				return;
+			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TGT_TYPE:
+				setTgtType((EClass)newValue);
+				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TYPE:
 				setType((EReference)newValue);
 				return;
@@ -338,6 +366,12 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TARGET:
 				setTarget((SlicedEClass)null);
+				return;
+			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__SRC_TYPE:
+				setSrcType((EClass)null);
+				return;
+			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TGT_TYPE:
+				setTgtType((EClass)null);
 				return;
 			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TYPE:
 				setType((EReference)null);

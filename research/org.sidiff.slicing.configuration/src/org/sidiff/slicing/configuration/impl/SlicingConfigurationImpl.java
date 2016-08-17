@@ -322,6 +322,10 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				getDocumentTypes().clear();
 				getDocumentTypes().addAll((Collection<? extends String>)newValue);
 				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
+				getImports().clear();
+				getImports().addAll((Collection<? extends EPackage>)newValue);
+				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode((SlicingMode)newValue);
 				return;
@@ -349,6 +353,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
 				getDocumentTypes().clear();
+				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS:
+				getImports().clear();
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode(SLICING_MODE_EDEFAULT);
