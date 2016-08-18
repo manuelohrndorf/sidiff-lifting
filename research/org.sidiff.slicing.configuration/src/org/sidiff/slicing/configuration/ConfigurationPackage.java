@@ -39,7 +39,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.sidiff.org/slicing/configuration/1.0";
+	String eNS_URI = "http://www.sidiff.org/slicing/configuration/0.1";
 
 	/**
 	 * The package namespace name.
