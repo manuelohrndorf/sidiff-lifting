@@ -115,6 +115,7 @@ public interface SlicingConfiguration extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Slicing Mode</b></em>' attribute.
+	 * The default value is <code>"OPTIMISTIC"</code>.
 	 * The literals are from the enumeration {@link org.sidiff.slicing.configuration.SlicingMode}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -126,7 +127,7 @@ public interface SlicingConfiguration extends EObject {
 	 * @see org.sidiff.slicing.configuration.SlicingMode
 	 * @see #setSlicingMode(SlicingMode)
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_SlicingMode()
-	 * @model required="true"
+	 * @model default="OPTIMISTIC" required="true"
 	 * @generated
 	 */
 	SlicingMode getSlicingMode();

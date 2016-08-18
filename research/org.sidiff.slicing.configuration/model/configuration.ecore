@@ -11,7 +11,7 @@
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"
         volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="slicingMode" lowerBound="1"
-        eType="#//SlicingMode"/>
+        eType="#//SlicingMode" defaultValueLiteral="OPTIMISTIC"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="slicedEClasses" upperBound="-1"
         eType="#//SlicedEClass" containment="true" eOpposite="#//SlicedEClass/slicingConfiguration"/>
   </eClassifiers>
@@ -21,7 +21,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SlicedEClass">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundary" lowerBound="1"
-        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+        eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+        defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="slicingConfiguration" lowerBound="1"
         eType="#//SlicingConfiguration" eOpposite="#//SlicingConfiguration/slicedEClasses"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoings" upperBound="-1"

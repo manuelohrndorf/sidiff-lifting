@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface SlicedEClass extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Boundary</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Boundary</em>' attribute isn't clear,
@@ -39,7 +40,7 @@ public interface SlicedEClass extends EObject {
 	 * @return the value of the '<em>Boundary</em>' attribute.
 	 * @see #setBoundary(boolean)
 	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass_Boundary()
-	 * @model required="true"
+	 * @model default="true" required="true"
 	 * @generated
 	 */
 	boolean isBoundary();

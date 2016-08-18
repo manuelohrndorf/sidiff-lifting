@@ -50,7 +50,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean BOUNDARY_EDEFAULT = false;
+	protected static final boolean BOUNDARY_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isBoundary() <em>Boundary</em>}' attribute.
