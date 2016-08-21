@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.silift.example.newwizard_loadexample;
+package org.silift.examples.wizard;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;

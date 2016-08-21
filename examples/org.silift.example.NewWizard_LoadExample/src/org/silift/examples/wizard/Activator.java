@@ -1,4 +1,4 @@
-package org.silift.example.newwizard_loadexample;
+package org.silift.examples.wizard;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

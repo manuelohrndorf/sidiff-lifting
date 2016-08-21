@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.silift.example.newwizard_loadexample;
+package org.silift.examples.wizard;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -72,22 +73,33 @@ public class Wizard_LoadExample extends Wizard implements INewWizard {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IProjectDescription newProjectDescription = workspace.newProjectDescription(projectName);
 		IProject newProject = workspace.getRoot().getProject(projectName);
-		newProject.create(newProjectDescription, null);
-		newProject.open(null);
+		try {
+			newProject.create(newProjectDescription, null);
+			newProject.open(null);
+			
+			ZipFile zipFile = new ZipFile(workspace.getRoot().getLocation() + "/" + projectName + ".zip");
+			IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
+			    public String queryOverwrite(String file) { return ALL; }
+			};
+//			//ZipLeveledStructureProvider provider = new ZipLeveledStructureProvider(zipFile);
+//			List<Object> fileSystemObjects = new ArrayList<Object>();
+//			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+//			while (entries.hasMoreElements()) {
+//			    fileSystemObjects.add((Object)entries.nextElement());
+//			}
+//			ImportOperation importOperation = new ImportOperation(newProject.getFullPath(), new ZipEntry(projectName), provider, overwriteQuery, fileSystemObjects);
+//			importOperation.setCreateContainerStructure(false);
+//			importOperation.run(new NullProgressMonitor());
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
-		ZipFile zipFile = new ZipFile(workspace.getRoot().getLocation() + "/" + projectName + ".zip");
-		IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
-		    public String queryOverwrite(String file) { return ALL; }
-		};
-//		//ZipLeveledStructureProvider provider = new ZipLeveledStructureProvider(zipFile);
-//		List<Object> fileSystemObjects = new ArrayList<Object>();
-//		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-//		while (entries.hasMoreElements()) {
-//		    fileSystemObjects.add((Object)entries.nextElement());
-//		}
-//		ImportOperation importOperation = new ImportOperation(newProject.getFullPath(), new ZipEntry(projectName), provider, overwriteQuery, fileSystemObjects);
-//		importOperation.setCreateContainerStructure(false);
-//		importOperation.run(new NullProgressMonitor());
+
 	}
 
 	/**
