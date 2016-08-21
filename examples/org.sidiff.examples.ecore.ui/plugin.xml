@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.sidiff.examples.ecore.ui.category"
+            name="SiLift"
+            parentCategory="org.eclipse.ui.Examples">
+      </category>
+      <wizard
+            category="org.eclipse.ui.Examples/org.sidiff.examples.ecore.ui.category"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            id="org.sidiff.examples.ecore.ui.ecore"
+            name="ecore"
+            project="true">
+         <description>
+            Load the ecore example project
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.emf.common.ui.examples">
+      <example
+            id="org.sidiff.examples.ecore.ui.project.ecore"
+            wizardID="org.sidiff.examples.ecore.ui.ecore">
+         <projectDescriptor
+               contentURI="zips/ecore.zip"
+               description="Load an example ecore project  "
+               name="org.sidiff.examples.ecore">
+         </projectDescriptor>
+         <fileToOpen
+               editorID="org.eclipse.jdt.ui.CompilationUnitEditor"
+               location="org.sidiff.examples.ecore/org.sidiff.examples.ecore/readMe.txt">
+         </fileToOpen>
+      </example>
+   </extension>
+
+</plugin>
