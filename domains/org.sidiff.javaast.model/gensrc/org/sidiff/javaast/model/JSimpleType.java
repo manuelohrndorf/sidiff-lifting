@@ -14,11 +14,11 @@ package org.sidiff.javaast.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JSimpleType#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JSimpleType#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJSimpleType()
  * @model

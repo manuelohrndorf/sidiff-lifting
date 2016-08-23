@@ -33,13 +33,13 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JTemplateWrapperImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JTemplateWrapperImpl#getQualifiedName <em>Qualified Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JTemplateWrapperImpl#isIsExternal <em>Is External</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JTemplateWrapperImpl#getBindings <em>Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -139,7 +139,7 @@ public class JTemplateWrapperImpl extends JIdentifiableElementImpl implements JT
   /**
 	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
   public void setName(String newName)
   {

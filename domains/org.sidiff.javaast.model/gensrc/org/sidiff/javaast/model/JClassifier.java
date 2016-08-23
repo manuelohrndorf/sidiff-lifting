@@ -15,10 +15,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JClassifier#getInnerClassifiers <em>Inner Classifiers</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJClassifier()
  * @model abstract="true"

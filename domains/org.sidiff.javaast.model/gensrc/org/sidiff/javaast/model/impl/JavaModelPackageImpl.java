@@ -1590,7 +1590,7 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 		initEAttribute(getJClass_IsAbstract(), ecorePackage.getEBoolean(), "isAbstract", null, 1, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getJClass_IsFinal(), ecorePackage.getEBoolean(), "isFinal", null, 1, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJClass_Methods(), this.getJMethod(), null, "methods", null, 0, -1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getJClass_SuperClass(), this.getJClass(), this.getJClass_SubClasses(), "superClass", null, 1, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getJClass_SuperClass(), this.getJClass(), this.getJClass_SubClasses(), "superClass", null, 0, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJClass_SubClasses(), this.getJClass(), this.getJClass_SuperClass(), "subClasses", null, 0, -1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJClass_ImplementedInterfaces(), this.getJInterface(), this.getJInterface_ImplementingClasses(), "implementedInterfaces", null, 0, -1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJClass_StaticInitializationBlock(), this.getJCodeBlock(), null, "staticInitializationBlock", null, 0, 1, JClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1635,7 +1635,7 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 		initEReference(getJMethod_Calls(), this.getJMethod(), this.getJMethod_CalledBy(), "calls", null, 0, -1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJMethod_CalledBy(), this.getJMethod(), this.getJMethod_Calls(), "calledBy", null, 0, -1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJMethod_RaisedException(), this.getJClass(), null, "raisedException", null, 0, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getJMethod_Body(), this.getJCodeBlock(), null, "body", null, 1, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getJMethod_Body(), this.getJCodeBlock(), null, "body", null, 0, 1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getJMethod_Accesses(), this.getJField(), this.getJField_AccessedBy(), "accesses", null, 0, -1, JMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(jParameterEClass, JParameter.class, "JParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1745,12 +1745,12 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 	 */
   protected void createGenuineSiDiffModelAnnotations()
   {
-		String source = "Genuine-SiDiff-Model";		
+		String source = "Genuine-SiDiff-Model";	
 		addAnnotation
 		  (this, 
 		   source, 
 		   new String[] {
-		   });											
+		   });
 	}
 
   /**
@@ -1761,42 +1761,42 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 	 */
   protected void createIGNOREDIFFAnnotations()
   {
-		String source = "IGNOREDIFF";			
+		String source = "IGNOREDIFF";	
 		addAnnotation
 		  (getJIdentifiableElement_Id(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getJClass_SubClasses(), 
 		   source, 
 		   new String[] {
-		   });				
+		   });	
 		addAnnotation
 		  (getJField_AccessedBy(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getJMethod_CalledBy(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getJAdressableFragment_StartByte(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getJInterface_SubInterfaces(), 
 		   source, 
 		   new String[] {
-		   });		
+		   });	
 		addAnnotation
 		  (getJInterface_ImplementingClasses(), 
 		   source, 
 		   new String[] {
-		   });	
+		   });
 	}
 
   /**
@@ -1807,12 +1807,12 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 	 */
   protected void createAbsolutePositionAnnotations()
   {
-		String source = "AbsolutePosition";					
+		String source = "AbsolutePosition";	
 		addAnnotation
 		  (getJTemplate_GenericTypes(), 
 		   source, 
 		   new String[] {
-		   });									
+		   });	
 		addAnnotation
 		  (getJTemplateWrapper_Bindings(), 
 		   source, 
@@ -1828,17 +1828,17 @@ public class JavaModelPackageImpl extends EPackageImpl implements JavaModelPacka
 	 */
   protected void createINCOMINGAnnotations()
   {
-		String source = "INCOMING";						
+		String source = "INCOMING";	
 		addAnnotation
 		  (getJField_AccessedBy(), 
 		   source, 
 		   new String[] {
-		   });			
+		   });	
 		addAnnotation
 		  (getJMethod_CalledBy(), 
 		   source, 
 		   new String[] {
-		   });					
+		   });
 	}
 
 } //JavaModelPackageImpl

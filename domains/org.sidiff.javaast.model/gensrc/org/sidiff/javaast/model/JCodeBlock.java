@@ -15,12 +15,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JCodeBlock#getCodeFragments <em>Code Fragments</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JCodeBlock#getSubBlocks <em>Sub Blocks</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JCodeBlock#getDefinedVariables <em>Defined Variables</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJCodeBlock()
  * @model

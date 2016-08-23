@@ -30,10 +30,10 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JTemplateImpl#getGenericTypes <em>Generic Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

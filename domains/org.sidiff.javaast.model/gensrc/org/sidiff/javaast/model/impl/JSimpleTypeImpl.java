@@ -23,12 +23,12 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JSimpleTypeImpl#isIsExternal <em>Is External</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JSimpleTypeImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JSimpleTypeImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

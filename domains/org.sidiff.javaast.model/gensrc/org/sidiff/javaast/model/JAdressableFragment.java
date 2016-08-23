@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JAdressableFragment#getStartByte <em>Start Byte</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JAdressableFragment#getByteLength <em>Byte Length</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJAdressableFragment()
  * @model abstract="true"

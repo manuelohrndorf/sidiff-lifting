@@ -34,7 +34,7 @@ public class JavaModelFactoryImpl extends EFactoryImpl implements JavaModelFacto
   public static JavaModelFactory init()
   {
 		try {
-			JavaModelFactory theJavaModelFactory = (JavaModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.sidiff.org/org.sidiff.javaast.model"); 
+			JavaModelFactory theJavaModelFactory = (JavaModelFactory)EPackage.Registry.INSTANCE.getEFactory(JavaModelPackage.eNS_URI);
 			if (theJavaModelFactory != null) {
 				return theJavaModelFactory;
 			}

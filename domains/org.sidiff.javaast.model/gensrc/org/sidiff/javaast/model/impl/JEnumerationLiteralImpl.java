@@ -22,11 +22,11 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JEnumerationLiteralImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JEnumerationLiteralImpl#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -109,7 +109,7 @@ public class JEnumerationLiteralImpl extends JIdentifiableElementImpl implements
   /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getQualifiedName() {
 		if ((eContainer() != null) && (eContainer() instanceof JNamedElement)){

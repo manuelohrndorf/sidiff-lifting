@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JMethod#isIsAbstract <em>Is Abstract</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JMethod#isIsFinal <em>Is Final</em>}</li>
@@ -28,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.sidiff.javaast.model.JMethod#getBody <em>Body</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JMethod#getAccesses <em>Accesses</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJMethod()
  * @model
@@ -255,7 +255,7 @@ public interface JMethod extends JIdentifiableElement, JDocumentableElement, JNa
 	 * @return the value of the '<em>Body</em>' containment reference.
 	 * @see #setBody(JCodeBlock)
 	 * @see org.sidiff.javaast.model.JavaModelPackage#getJMethod_Body()
-	 * @model containment="true" required="true" ordered="false"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
   JCodeBlock getBody();

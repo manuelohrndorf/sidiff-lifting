@@ -39,6 +39,7 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JFieldImpl#getJavaDoc <em>Java Doc</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JFieldImpl#getName <em>Name</em>}</li>
@@ -51,7 +52,6 @@ import org.sidiff.javaast.model.JavaModelPackage;
  *   <li>{@link org.sidiff.javaast.model.impl.JFieldImpl#isIsTransient <em>Is Transient</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JFieldImpl#getInitialization <em>Initialization</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -300,7 +300,7 @@ public class JFieldImpl extends JIdentifiableElementImpl implements JField
   /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getQualifiedName() {
 		if ((eContainer() != null) && (eContainer() instanceof JNamedElement)){

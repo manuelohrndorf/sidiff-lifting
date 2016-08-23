@@ -25,13 +25,13 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JParameterImpl#getQualifiedName <em>Qualified Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JParameterImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JParameterImpl#isIsFinal <em>Is Final</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

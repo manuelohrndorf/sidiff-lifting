@@ -14,10 +14,10 @@ package org.sidiff.javaast.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JParameter#isIsFinal <em>Is Final</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJParameter()
  * @model

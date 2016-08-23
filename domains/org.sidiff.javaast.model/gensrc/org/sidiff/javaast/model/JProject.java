@@ -15,11 +15,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JProject#getPackages <em>Packages</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JProject#getSimpleTypes <em>Simple Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJProject()
  * @model

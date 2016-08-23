@@ -43,6 +43,7 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JClassImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JClassImpl#isCompileable <em>Compileable</em>}</li>
@@ -59,7 +60,6 @@ import org.sidiff.javaast.model.JavaModelPackage;
  *   <li>{@link org.sidiff.javaast.model.impl.JClassImpl#getImplementedInterfaces <em>Implemented Interfaces</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JClassImpl#getStaticInitializationBlock <em>Static Initialization Block</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

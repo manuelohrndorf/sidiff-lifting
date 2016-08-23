@@ -33,13 +33,13 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JProjectImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JProjectImpl#getQualifiedName <em>Qualified Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JProjectImpl#getPackages <em>Packages</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JProjectImpl#getSimpleTypes <em>Simple Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -142,7 +142,7 @@ public class JProjectImpl extends JIdentifiableElementImpl implements JProject
   /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getQualifiedName() {
 		if ((eContainer() != null) && (eContainer() instanceof JNamedElement)){

@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JCodeFragment#getUsedTypes <em>Used Types</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JCodeFragment#getCalledMethods <em>Called Methods</em>}</li>
@@ -23,7 +24,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.sidiff.javaast.model.JCodeFragment#getUsedParameters <em>Used Parameters</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JCodeFragment#getUsedLocalVariables <em>Used Local Variables</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJCodeFragment()
  * @model

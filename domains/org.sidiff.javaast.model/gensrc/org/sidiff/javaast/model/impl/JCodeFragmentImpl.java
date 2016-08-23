@@ -33,6 +33,7 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JCodeFragmentImpl#getId <em>Id</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JCodeFragmentImpl#isCompileable <em>Compileable</em>}</li>
@@ -43,7 +44,6 @@ import org.sidiff.javaast.model.JavaModelPackage;
  *   <li>{@link org.sidiff.javaast.model.impl.JCodeFragmentImpl#getUsedParameters <em>Used Parameters</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JCodeFragmentImpl#getUsedLocalVariables <em>Used Local Variables</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -15,12 +15,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JPackage#getSubPackages <em>Sub Packages</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JPackage#getClasses <em>Classes</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JPackage#getInterfaces <em>Interfaces</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJPackage()
  * @model
