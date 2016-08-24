@@ -163,7 +163,11 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 	 * @generated NOT
 	 */
 	public EClass basicGetSrcType() {
-		return type.getEContainingClass();
+		EClass eClass = null;
+		if(type != null){
+			eClass = type.getEContainingClass();
+		}
+		return eClass;
 	}
 
 	/**
@@ -194,7 +198,7 @@ public class SlicedBoundaryEReferenceImpl extends MinimalEObjectImpl.Container i
 	 */
 	public EClass basicGetTgtType() {
 		EClass eClass = null;
-		if(type.getEType() instanceof EClass){
+		if(type != null && type.getEType() instanceof EClass){
 			eClass = (EClass)type.getEType();
 		}
 		return eClass;

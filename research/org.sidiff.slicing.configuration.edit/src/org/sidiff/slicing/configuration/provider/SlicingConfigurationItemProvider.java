@@ -8,11 +8,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,7 +20,6 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
@@ -69,6 +65,7 @@ public class SlicingConfigurationItemProvider
 			addImportsPropertyDescriptor(object);
 			addSlicingModePropertyDescriptor(object);
 			addSlicedEClassesPropertyDescriptor(object);
+			addOppositeSlicedEClassTypePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -206,6 +203,28 @@ public class SlicingConfigurationItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Opposite Sliced EClass Type feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOppositeSlicedEClassTypePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicingConfiguration_oppositeSlicedEClassType_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_oppositeSlicedEClassType_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -250,14 +269,17 @@ public class SlicingConfigurationItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((SlicingConfiguration)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_SlicingConfiguration_type") :
-			getString("_UI_SlicingConfiguration_type") + " " + label;
+		SlicingConfiguration slicingConfiguration = (SlicingConfiguration)object;
+		String label = getString("_UI_SlicingConfiguration_type");
+		if(slicingConfiguration.getName() != null && slicingConfiguration.getName().length() > 0){
+			label += ": " + slicingConfiguration.getName();
+		}
+		label += " [slicing mode: " + slicingConfiguration.getSlicingMode().getName() + "]";
+		return label;
 	}
 	
 
@@ -277,6 +299,7 @@ public class SlicingConfigurationItemProvider
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
+			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:

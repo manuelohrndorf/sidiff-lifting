@@ -122,13 +122,22 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICING_CONFIGURATION__SLICED_ECLASSES = 5;
 
 	/**
+	 * The feature id for the '<em><b>Opposite Sliced EClass Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = 6;
+
+	/**
 	 * The number of structural features of the '<em>Slicing Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION_FEATURE_COUNT = 6;
+	int SLICING_CONFIGURATION_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Slicing Configuration</em>' class.
@@ -373,6 +382,17 @@ public interface ConfigurationPackage extends EPackage {
 	EReference getSlicingConfiguration_SlicedEClasses();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Opposite Sliced EClass Type</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType()
+	 * @see #getSlicingConfiguration()
+	 * @generated
+	 */
+	EAttribute getSlicingConfiguration_OppositeSlicedEClassType();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.SlicedEClass <em>Sliced EClass</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -592,6 +612,14 @@ public interface ConfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SLICING_CONFIGURATION__SLICED_ECLASSES = eINSTANCE.getSlicingConfiguration_SlicedEClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>Opposite Sliced EClass Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = eINSTANCE.getSlicingConfiguration_OppositeSlicedEClassType();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl <em>Sliced EClass</em>}' class.

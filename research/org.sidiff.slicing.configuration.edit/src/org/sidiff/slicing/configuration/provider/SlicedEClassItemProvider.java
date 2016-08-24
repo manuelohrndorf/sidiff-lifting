@@ -229,12 +229,17 @@ public class SlicedEClassItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		SlicedEClass slicedEClass = (SlicedEClass)object;
-		return getString("_UI_SlicedEClass_type") + " " + slicedEClass.isBoundary();
+		String label = getString("_UI_SlicedEClass_type");
+		if(slicedEClass.getType() != null){
+			label += ": " + slicedEClass.getType().getName();
+		}
+		label += " [boundary: " + slicedEClass.isBoundary() + "]";
+		return label;
 	}
 	
 
@@ -251,6 +256,7 @@ public class SlicedEClassItemProvider
 
 		switch (notification.getFeatureID(SlicedEClass.class)) {
 			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
+			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:

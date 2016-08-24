@@ -3,7 +3,8 @@
 package org.sidiff.slicing.configuration.impl;
 
 import java.util.Collection;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -40,6 +41,7 @@ import org.sidiff.slicing.configuration.SlicingMode;
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicingMode <em>Slicing Mode</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicedEClasses <em>Sliced EClasses</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -124,6 +126,11 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * @ordered
 	 */
 	protected EList<SlicedEClass> slicedEClasses;
+	
+	/**
+	 * @generated NOT
+	 */
+	protected Map<EClass, SlicedEClass> oppositeSlicedEClassType = new HashMap<EClass, SlicedEClass>();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -253,6 +260,22 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Map<EClass, SlicedEClass> getOppositeSlicedEClassType() {
+		oppositeSlicedEClassType.clear();
+		for (SlicedEClass slicedEClass : slicedEClasses) {
+			if (slicedEClass.getType() != null) {
+				oppositeSlicedEClassType.put(slicedEClass.getType(), slicedEClass);
+			}
+		}
+		
+		return oppositeSlicedEClassType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -299,6 +322,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return getSlicingMode();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				return getSlicedEClasses();
+			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
+				return getOppositeSlicedEClassType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -387,6 +412,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return slicingMode != SLICING_MODE_EDEFAULT;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				return slicedEClasses != null && !slicedEClasses.isEmpty();
+			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
+				return getOppositeSlicedEClassType() != null;
 		}
 		return super.eIsSet(featureID);
 	}

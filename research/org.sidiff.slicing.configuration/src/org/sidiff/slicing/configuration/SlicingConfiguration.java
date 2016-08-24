@@ -2,8 +2,8 @@
  */
 package org.sidiff.slicing.configuration;
 
+import java.util.Map;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  * </ul>
  *
  * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration()
@@ -160,5 +161,20 @@ public interface SlicingConfiguration extends EObject {
 	 * @generated
 	 */
 	EList<SlicedEClass> getSlicedEClasses();
+
+	/**
+	 * Returns the value of the '<em><b>Opposite Sliced EClass Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Opposite Sliced EClass Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Opposite Sliced EClass Type</em>' attribute.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_OppositeSlicedEClassType()
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	Map<?, ?> getOppositeSlicedEClassType();
 
 } // SlicingConfiguration

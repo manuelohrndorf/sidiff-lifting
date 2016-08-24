@@ -14,6 +14,13 @@
         eType="#//SlicingMode" defaultValueLiteral="OPTIMISTIC"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="slicedEClasses" upperBound="-1"
         eType="#//SlicedEClass" containment="true" eOpposite="#//SlicedEClass/slicingConfiguration"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oppositeSlicedEClassType"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments/>
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SlicingMode">
     <eLiterals name="OPTIMISTIC"/>

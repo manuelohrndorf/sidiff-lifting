@@ -20,7 +20,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
+import org.sidiff.slicing.configuration.SlicedBoundaryEReference;
 import org.sidiff.slicing.configuration.provider.descriptor.SlicedBoundaryEReferenceTypePropertyDescriptor;
 
 /**
@@ -192,11 +194,22 @@ public class SlicedBoundaryEReferenceItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_SlicedBoundaryEReference_type");
+		SlicedBoundaryEReference slicedBoundaryEReference = (SlicedBoundaryEReference) object;
+		String direction = "";
+		if(slicedBoundaryEReference.getSource() != null){
+			direction += "Outgoing ";
+		}else if(slicedBoundaryEReference.getTarget() != null){
+			direction += "Incoming ";
+		}
+		String label = direction + getString("_UI_SlicedBoundaryEReference_type");
+		if(slicedBoundaryEReference.getType() != null){
+			label += ": " + slicedBoundaryEReference.getType().getEContainingClass().getName() + "." + slicedBoundaryEReference.getType().getName() + " [containment: " + slicedBoundaryEReference.getType().isContainment() + "]";
+		}
+		return label;
 	}
 	
 
@@ -210,6 +223,12 @@ public class SlicedBoundaryEReferenceItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(SlicedBoundaryEReference.class)) {
+			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TYPE:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
