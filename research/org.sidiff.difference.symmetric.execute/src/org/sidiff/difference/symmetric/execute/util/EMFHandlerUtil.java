@@ -16,13 +16,15 @@ public class EMFHandlerUtil {
 		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
 
 		if (currentSelection instanceof IStructuredSelection) {
-			Object selected = ((IStructuredSelection) currentSelection).toArray()[indexOfselection];
-			
-			if ((selected != null) && (selected instanceof IResource)) {
-				ResourceSet rss = new ResourceSetImpl();
-				URI uri = getURI((IResource) selected);
-				return rss.getResource(uri, true);
-			}	
+			if (((IStructuredSelection) currentSelection).toArray().length > indexOfselection) {
+				Object selected = ((IStructuredSelection) currentSelection).toArray()[indexOfselection];
+				
+				if ((selected != null) && (selected instanceof IResource)) {
+					ResourceSet rss = new ResourceSetImpl();
+					URI uri = getURI((IResource) selected);
+					return rss.getResource(uri, true);
+				}	
+			}
 		}
 
 		return null;

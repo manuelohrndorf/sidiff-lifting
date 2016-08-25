@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.ui.progress.UIJob;
 import org.sidiff.difference.symmetric.execute.DifferenceExecutor;
 import org.sidiff.difference.symmetric.execute.util.EMFHandlerUtil;
+import org.sidiff.difference.symmetric.execute.util.SiLiftUtil.DifferenceCalculationException;
+import org.sidiff.difference.symmetric.execute.util.UIUtil;
 
 public class DifferenceExecutorHandler extends AbstractHandler {
 
@@ -26,14 +28,25 @@ public class DifferenceExecutorHandler extends AbstractHandler {
 				Resource modelB = EMFHandlerUtil.getSelection(event, 1);
 				
 				if ((modelA != null) && (modelB != null)) {
-					DifferenceExecutor differenceExecutor = new DifferenceExecutor(modelA, modelB);
-					differenceExecutor.run();
-					differenceExecutor.save();
+					DifferenceExecutor differenceExecutor;
 					
-					return Status.OK_STATUS;
+					try {
+						differenceExecutor = new DifferenceExecutor(modelA, modelB);
+						differenceExecutor.run();
+						differenceExecutor.save();
+						
+						UIUtil.showMessage("Model Saved: \n\n" + modelA.getURI());
+						
+						return Status.OK_STATUS;
+					} catch (DifferenceCalculationException e) {
+						UIUtil.showMessage(e.getMessage());
+						e.printStackTrace();
+					}
 				} else {
-					return Status.CANCEL_STATUS;
+					UIUtil.showMessage("Please select 2 model resources!");
 				}
+				
+				return Status.CANCEL_STATUS;
 			}
 		});
 
