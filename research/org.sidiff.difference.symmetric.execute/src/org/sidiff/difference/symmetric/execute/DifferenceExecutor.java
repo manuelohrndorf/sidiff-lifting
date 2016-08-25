@@ -83,6 +83,7 @@ public class DifferenceExecutor implements Runnable {
 	 */
 	public DifferenceExecutor(Resource modelA, Resource modelB, IMatcher matcher) {
 		DifferenceSettings settings = new DifferenceSettings();
+		settings.setMergeImports(false);
 		settings.setMatcher(matcher);
 
 		try {
@@ -189,15 +190,17 @@ public class DifferenceExecutor implements Runnable {
 					// TODO: Support reference ordering!
 					// ((List) srcB.eGet(typeB)).indexOf(tgtB);
 					
-					// FIXME[WORKAROUND]: Wrong containment references on e.g. EDataType/EGenericType!?
+					// FIXedME[WORKAROUND]: Wrong containment references on e.g. EDataType/EGenericType!?
+					//
+					// => disabled merge imports
 					//
 					// e.g.: /org.sidiff.difference.ecore.testmodels/examples/extractClass
 					// getCorrespondingObjectInA(tgtB) => null
 					// getCorrespondingObjectInA((EObject) srcB.eGet(typeB)) => tgtA
 					//
-					if (!typeB.isMany() && (tgtA == null)) {
-						tgtA = getCorrespondingObjectInA((EObject) srcB.eGet(typeB));
-					}
+//					if (!typeB.isMany() && (tgtA == null)) {
+//						tgtA = getCorrespondingObjectInA((EObject) srcB.eGet(typeB));
+//					}
 					
 					if (typeB.isMany()) {
 						List referencesA = (List) srcA.eGet(typeB);
