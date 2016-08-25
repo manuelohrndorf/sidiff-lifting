@@ -44,7 +44,7 @@ public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler
 					else if (isPreservedNode(node)) {
 						Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 						Set<EClass> requieredTypes = getRequiredTypes(node);
-						getRequiredTypes(node).addAll(getRequiredTypes(remoteNode));
+						requieredTypes.addAll(getRequiredTypes(remoteNode));
 						
 						EClass mostAnstractType = selectMostSpecificType(requieredTypes);
 						
