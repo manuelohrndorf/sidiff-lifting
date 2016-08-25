@@ -1,4 +1,4 @@
-package org.sidiff.difference.symmetric.execute.util;
+package org.sidiff.difference.symmetric.java.util;
 
 import java.io.IOException;
 import java.util.Collections;

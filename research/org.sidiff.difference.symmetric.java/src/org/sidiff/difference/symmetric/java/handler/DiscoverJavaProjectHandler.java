@@ -1,4 +1,4 @@
-package org.sidiff.difference.symmetric.execute.handler;
+package org.sidiff.difference.symmetric.java.handler;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -15,10 +15,10 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.progress.UIJob;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.execute.util.JavaDiscoverer;
 import org.sidiff.difference.symmetric.execute.util.SiLiftUtil;
-import org.sidiff.difference.symmetric.execute.util.UIUtil;
 import org.sidiff.difference.symmetric.execute.util.SiLiftUtil.DifferenceCalculationException;
+import org.sidiff.difference.symmetric.execute.util.UIUtil;
+import org.sidiff.difference.symmetric.java.util.JavaDiscoverer;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matcher.adapter.emfcompare.EMFCompareMatcherAdapter;
 
